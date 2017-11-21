@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/app_real_name"
+        android:textColor="@color/text_color_primary"
+        android:textSize="80sp"
+        android:fontFamily="@font/lobster"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/next"
+        app:srcCompat="@drawable/vd_navigate_next"
+        android:tint="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:layout_margin="24dp"
+        app:backgroundTint="@color/colorAccent"
+        android:layout_gravity="bottom|end"/>
+
+</FrameLayout>

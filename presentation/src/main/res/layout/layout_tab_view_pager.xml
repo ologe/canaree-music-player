@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/background">
+
+    <View
+        android:id="@+id/statusBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="@dimen/toolbar_elevation"/>
+
+    <View
+        android:id="@+id/toolbarBackground"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/toolbar"/>
+
+    <TextView
+        android:id="@+id/header"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/toolbar"
+        android:layout_marginStart="32dp"
+
+        android:elevation="@dimen/toolbar_elevation"
+        android:text="@string/header"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_primary"
+        android:paddingTop="4dp"
+        android:gravity="center" />
+
+    <ImageButton
+        android:id="@+id/settings"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="@dimen/toolbar"
+
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:elevation="@dimen/toolbar_elevation"
+        android:tint="@color/button_primary_tint"
+        android:src="@drawable/vd_more"/>
+
+    <ImageButton
+        android:id="@+id/search"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintEnd_toStartOf="@+id/settings"
+        android:layout_width="@dimen/tab"
+        android:layout_height="@dimen/toolbar"
+
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="@color/button_primary_tint"
+        android:src="@drawable/vd_search" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/tab"
+
+        android:elevation="@dimen/toolbar_elevation"
+        app:tabSelectedTextColor="@color/tab_layout_selected"
+        app:tabTextColor="@color/tab_layout_unselected"
+        app:tabIndicatorColor="@color/tab_layout_selected"
+        app:tabMode="scrollable"
+        app:tabGravity="center"
+        android:overScrollMode="never"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+</android.support.constraint.ConstraintLayout>

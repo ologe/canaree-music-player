@@ -1,0 +1,90 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+        resConfigs "en", "xxxhdpi"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding.enabled = true
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // modules
+    implementation project(':domain')
+    implementation project(':shared')
+
+    // kotlin
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
+
+    // data binding
+    kapt 'com.android.databinding:compiler:3.0.0'
+
+    // google architecture components
+    implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
+    implementation "android.arch.lifecycle:reactivestreams:$rootProject.micro_architecture"
+    implementation "android.arch.lifecycle:common-java8:$rootProject.micro_architecture"
+
+    // support
+    implementation "com.android.support:support-v4:$rootProject.support_library"
+    implementation "com.android.support:appcompat-v7:$rootProject.support_library"
+    implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
+    implementation "com.android.support:design:$rootProject.support_library"
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
+
+    // di
+    implementation "com.google.dagger:dagger:$rootProject.dagger"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
+    implementation "com.google.dagger:dagger-android:$rootProject.dagger"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
+    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rx_permission"
+
+    // other
+    implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
+    implementation "com.github.bumptech.glide:glide:$rootProject.glide"
+    kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}

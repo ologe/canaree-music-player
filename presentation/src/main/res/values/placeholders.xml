@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="placeholder_image_tint">@android:color/white</color>
+    <color name="placeholder_background">#222326</color>
+
+    <dimen name="placeholder_player_padding">12dp</dimen>
+    <dimen name="placeholder_song_padding">8dp</dimen>
+    <dimen name="placeholder_folder_padding">15dp</dimen>
+    <dimen name="placeholder_playlist_padding">15dp</dimen>
+    <dimen name="placeholder_album_padding">15dp</dimen>
+    <dimen name="placeholder_artist_padding">15dp</dimen>
+    <dimen name="placeholder_genre_padding">15dp</dimen>
+
+</resources>

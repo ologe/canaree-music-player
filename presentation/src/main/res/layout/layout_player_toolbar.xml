@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab"
+        tools:background="@color/background">
+
+        <TextView
+            android:id="@+id/nowPlaying"
+            android:textSize="28sp"
+            android:text="@string/player_now_playing"
+            android:textStyle="bold"
+            android:layout_marginStart="48dp"
+            android:textColor="@color/now_playing"
+            tools:textColor="@color/text_color_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/toolbarMore"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/vd_more"
+            android:tint="@color/button_primary_tint"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+
+    </FrameLayout>
+
+</layout>

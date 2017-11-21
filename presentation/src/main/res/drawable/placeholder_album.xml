@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/placeholder_gradient"/>
+
+    <item android:drawable="@drawable/vd_album"
+        android:top="@dimen/placeholder_album_padding"
+        android:bottom="@dimen/placeholder_album_padding"
+        android:left="@dimen/placeholder_album_padding"
+        android:right="@dimen/placeholder_album_padding"/>
+
+</layer-list>

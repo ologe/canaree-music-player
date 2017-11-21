@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        tools:background="@color/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container">
+
+        <include
+            android:id="@+id/playerToolbar"
+            layout="@layout/layout_player_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/status_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/tab" />
+
+        <!-- cover -->
+        <ImageView
+            android:id="@+id/cover"
+            app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="26dp"
+            android:src="@drawable/placeholder_bird_singing"
+            android:clickable="true"
+            android:focusable="true"
+            android:stateListAnimator="@animator/elevate_on_activated" />
+
+        <!-- prev -->
+        <View
+            android:id="@+id/fakePrevious"
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="64dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="20dp"/>
+
+        <!-- next -->
+        <View
+            android:id="@+id/fakeNext"
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="64dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="20dp"/>
+
+        <!-- bookmark -->
+        <TextView
+            android:id="@+id/bookmark"
+            tools:text="0:00"
+            android:text="0:00"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/player_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintEnd_toStartOf="@+id/duration"
+            android:layout_marginStart="32dp"
+            android:translationY="-30dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:fontFamily="@font/product_sans"/>
+
+        <!-- duration -->
+        <TextView
+            android:id="@+id/duration"
+            tools:text=" / 2:57"
+            android:text=" / 2:57"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/player_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:translationY="-30dp"
+            android:layout_marginEnd="32dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:fontFamily="@font/product_sans"/>
+
+        <!-- seekbar -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingBottom="@dimen/player_seekBar_bottom_padding"
+            android:paddingTop="12dp"
+            android:paddingStart="36dp"
+            android:paddingEnd="36dp"
+            android:progressTint="@color/progress_bar_tint"
+            android:thumbTint="@color/progress_bar_tint"
+            android:progressBackgroundTint="@color/progress_bar_secondary_tint"
+            tools:progress="40"
+            android:clickable="true"
+            android:focusable="true" />
+
+
+        <!-- shuffle -->
+        <ImageButton
+            android:id="@+id/shuffle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@null"
+            android:src="@drawable/vd_shuffle"
+            tools:tint="@color/item_selected"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/repeat"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:elevation="2dp"/>
+
+        <!-- repeat -->
+        <ImageButton
+            android:id="@+id/repeat"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@null"
+            android:src="@drawable/vd_repeat"
+            tools:src="@drawable/vd_repeat"
+            tools:tint="@color/button_secondary_tint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintStart_toEndOf="@+id/shuffle"
+            android:elevation="2dp"/>
+
+        <LinearLayout
+            android:id="@+id/titleWrapper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/arrowUp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- title -->
+            <TextView
+                android:id="@+id/title"
+                tools:text="@tools:sample/lorem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_title"
+                android:textColor="@color/text_color_primary"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="4dp"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:fontFamily="@font/product_sans" />
+
+            <!-- artist -->
+            <TextView
+                android:id="@+id/artist"
+                tools:text="@tools:sample/lorem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_artist"
+                android:textColor="@color/text_color_secondary"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="4dp"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:fontFamily="@font/product_sans"/>
+
+            <!-- album -->
+            <TextView
+                android:id="@+id/album"
+                tools:text="@tools:sample/lorem/random"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_secondary"
+                android:textSize="@dimen/player_album"
+                android:layout_marginStart="28dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginBottom="4dp"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:fontFamily="@font/product_sans"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/explicit"
+            app:layout_constraintBottom_toTopOf="@+id/arrowUp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="16dp"
+            style="@style/ExplicitView" />
+
+        <TextView
+            android:id="@+id/remix"
+            app:layout_constraintBottom_toTopOf="@+id/arrowUp"
+            app:layout_constraintEnd_toStartOf="@+id/explicit"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/RemixView"
+            app:layout_goneMarginEnd="16dp"/>
+
+        <ImageView
+            android:id="@+id/arrowUp"
+            android:src="@drawable/vd_arrow_up"
+            android:tint="@color/button_secondary_tint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
