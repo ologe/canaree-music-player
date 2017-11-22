@@ -9,8 +9,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import dagger.Lazy
-import dev.olog.music_service.ActivityClass
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.music_service.utils.ImageUtils
 import dev.olog.music_service.utils.TextUtils
 import dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED

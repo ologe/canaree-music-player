@@ -1,4 +1,4 @@
-package dev.olog.music_service
+package dev.olog.music_service.interfaces
 
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.PlaybackParameters

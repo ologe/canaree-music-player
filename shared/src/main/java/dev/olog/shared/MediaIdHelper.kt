@@ -42,5 +42,41 @@ object MediaIdHelper {
         return createCategoryValue(MEDIA_ID_BY_GENRE, value.toString())
     }
 
+    fun extractCategory(mediaId: String) : String{
+        when (mediaId){
+            MEDIA_ID_BY_FOLDER,
+            MEDIA_ID_BY_PLAYLIST,
+            MEDIA_ID_BY_ALL,
+            MEDIA_ID_BY_ALBUM,
+            MEDIA_ID_BY_ARTIST,
+            MEDIA_ID_BY_GENRE -> return mediaId
+        }
+        val indexOfCategory = mediaId.indexOf(CATEGORY_SEPARATOR)
+        if (indexOfCategory == -1){
+            throw IllegalArgumentException("invalid media id " + mediaId)
+        }
+        return mediaId.substring(0, indexOfCategory)
+    }
+
+    fun extractCategoryValue(mediaId: String): String {
+        val indexOfCategory = mediaId.indexOf(CATEGORY_SEPARATOR)
+        if (indexOfCategory == -1){
+            throw IllegalArgumentException("invalid media id " + mediaId)
+        }
+        val indexOfLeaf = mediaId.indexOf(LEAF_SEPARATOR)
+        if (indexOfLeaf == -1) {
+            return mediaId.substring(indexOfCategory)
+        } else{
+            return mediaId.substring(indexOfCategory, indexOfLeaf)
+        }
+    }
+
+    fun extractLeaf(mediaId: String) : String {
+        val indexOfSongId = mediaId.indexOf(LEAF_SEPARATOR)
+        if (indexOfSongId == -1){
+            throw IllegalArgumentException("invalid media id " + mediaId)
+        }
+        return mediaId.substring(indexOfSongId)
+    }
 
 }

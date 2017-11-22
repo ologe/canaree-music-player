@@ -4,6 +4,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.utils.isNougat
 import dev.olog.music_service.utils.isOreo
 

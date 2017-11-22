@@ -25,3 +25,7 @@ fun Song.toMediaEntity() : MediaEntity {
             this.isExplicit
     )
 }
+
+fun MediaEntity.toPlayerMediaEntity(positionInQueue: PositionInQueue) : PlayerMediaEntity {
+    return PlayerMediaEntity(this, positionInQueue)
+}

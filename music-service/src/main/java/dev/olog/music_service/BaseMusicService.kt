@@ -9,6 +9,7 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
+import dev.olog.music_service.interfaces.ServiceLifecycleController
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
         LifecycleOwner,

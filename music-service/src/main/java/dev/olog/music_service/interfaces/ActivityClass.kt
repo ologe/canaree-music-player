@@ -1,4 +1,4 @@
-package dev.olog.music_service
+package dev.olog.music_service.interfaces
 
 interface ActivityClass {
 

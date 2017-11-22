@@ -22,6 +22,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
 import dev.olog.music_service.di.ServiceLifecycle
+import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
+import dev.olog.music_service.interfaces.Player
+import dev.olog.music_service.interfaces.ServiceLifecycleController
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.utils.dispatchEvent
 import dev.olog.shared.ApplicationContext
@@ -40,7 +43,7 @@ class PlayerImpl @Inject constructor(
 ) : Player,
         DefaultLifecycleObserver,
         AudioManager.OnAudioFocusChangeListener,
-        ExoPlayerListenerWrapper{
+        ExoPlayerListenerWrapper {
 
     companion object {
         private val VOLUME_DUCK = .2f

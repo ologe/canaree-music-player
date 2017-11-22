@@ -17,9 +17,10 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.util.Pair
 import dagger.Lazy
-import dev.olog.music_service.ActivityClass
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.interfaces.ActivityClass
+import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.utils.ImageUtils
 import javax.inject.Inject

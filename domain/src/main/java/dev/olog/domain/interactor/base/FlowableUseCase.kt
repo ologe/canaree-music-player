@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor
+package dev.olog.domain.interactor.base
 
 import dev.olog.domain.executor.Schedulers
 import io.reactivex.Flowable

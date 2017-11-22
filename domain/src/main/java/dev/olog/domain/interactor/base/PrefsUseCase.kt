@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor
+package dev.olog.domain.interactor.base
 
 abstract class PrefsUseCase<Result> {
 

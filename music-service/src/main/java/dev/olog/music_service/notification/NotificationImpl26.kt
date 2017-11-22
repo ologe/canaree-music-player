@@ -8,9 +8,9 @@ import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
-import dev.olog.music_service.ActivityClass
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.interfaces.ActivityClass
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)

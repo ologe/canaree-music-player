@@ -13,7 +13,11 @@ import android.support.v4.media.session.MediaSessionCompat
 import dagger.Module
 import dagger.Provides
 import dev.olog.music_service.MusicService
-import dev.olog.music_service.ServiceLifecycleController
+import dev.olog.music_service.PlayerImpl
+import dev.olog.music_service.QueueImpl
+import dev.olog.music_service.interfaces.Player
+import dev.olog.music_service.interfaces.Queue
+import dev.olog.music_service.interfaces.ServiceLifecycleController
 
 @Module
 class MusicServiceModule(
@@ -70,6 +74,19 @@ class MusicServiceModule(
     @Provides
     internal fun provideMediaController(mediaSession: MediaSessionCompat): MediaControllerCompat {
         return mediaSession.controller
+    }
+
+
+    @Provides
+    @PerService
+    internal fun provideQueue(queue: QueueImpl): Queue {
+        return queue
+    }
+
+    @Provides
+    @PerService
+    internal fun providePlayer(player: PlayerImpl): Player {
+        return player
     }
 
 }

@@ -12,8 +12,8 @@ import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import dagger.Lazy
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
+import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.music_service.notification.INotification
 import dev.olog.music_service.utils.dispatchEvent
 import dev.olog.shared.unsubscribe
 import io.reactivex.Single
@@ -31,7 +31,7 @@ class MusicNotificationManager @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         private val notificationManager: Lazy<NotificationManager>,
         private val audioManager: Lazy<AudioManager>,
-        private val notification: dev.olog.music_service.notification.INotification
+        private val notification: INotification
 
 ) : DefaultLifecycleObserver {
 

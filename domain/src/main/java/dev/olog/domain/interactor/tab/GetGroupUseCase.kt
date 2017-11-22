@@ -2,7 +2,7 @@ package dev.olog.domain.interactor.tab
 
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.BaseGateway
-import dev.olog.domain.interactor.FlowableUseCase
+import dev.olog.domain.interactor.base.FlowableUseCase
 import io.reactivex.Flowable
 
 abstract class GetGroupUseCase<T>(

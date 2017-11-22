@@ -7,6 +7,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
+import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 

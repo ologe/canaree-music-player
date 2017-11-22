@@ -1,4 +1,4 @@
-package dev.olog.music_service.notification
+package dev.olog.music_service.interfaces
 
 import android.app.Notification
 import android.support.v4.media.session.PlaybackStateCompat
