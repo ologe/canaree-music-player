@@ -1,0 +1,55 @@
+package dev.olog.presentation.fragment_player
+
+import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import dev.olog.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.model.toDisplayableItem
+import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.subscribe
+import io.reactivex.rxkotlin.toFlowable
+import kotlinx.android.synthetic.main.fragment_player.view.*
+import kotlinx.android.synthetic.main.layout_playing_queue.view.*
+import javax.inject.Inject
+
+class PlayerFragment : BaseFragment() {
+
+    @Inject lateinit var useCase : GetAllSongsUseCase
+    private val adapter by lazy { PlayingQueueAdapter(lifecycle) }
+
+    private lateinit var innerPanel: SlidingUpPanelLayout
+    private lateinit var layoutManager: LinearLayoutManager
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        useCase.execute()
+                .flatMapSingle { it.toFlowable().map { it.toDisplayableItem() }.toList() }
+                .asLiveData()
+                .subscribe(this, adapter::updateDataSet)
+    }
+
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        super.onViewBound(view, savedInstanceState)
+        layoutManager = LinearLayoutManager(context)
+        view.list.layoutManager = layoutManager
+        view.list.adapter = adapter
+        innerPanel = view.innerPanel
+        innerPanel.setScrollableView(view.list)
+    }
+
+    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_player, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val slidingPanel = activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
+        slidingPanel.setScrollableView(innerPanel)
+    }
+
+}

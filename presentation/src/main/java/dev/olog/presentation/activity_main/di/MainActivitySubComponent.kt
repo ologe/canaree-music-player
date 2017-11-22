@@ -4,6 +4,7 @@ import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.fragment_player.di.PlayerFragmentInjector
 import dev.olog.presentation.fragment_tab.di.TabFragmentInjector
 import dev.olog.presentation.navigation.NavigatorModule
 
@@ -12,7 +13,8 @@ import dev.olog.presentation.navigation.NavigatorModule
         NavigatorModule::class,
 
         // fragments
-        TabFragmentInjector::class
+        TabFragmentInjector::class,
+        PlayerFragmentInjector::class
 ))
 @PerActivity
 interface MainActivitySubComponent :AndroidInjector<MainActivity> {
