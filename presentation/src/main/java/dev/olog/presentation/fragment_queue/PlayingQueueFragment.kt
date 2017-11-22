@@ -2,7 +2,6 @@ package dev.olog.presentation.fragment_queue
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ class PlayingQueueFragment : BaseFragment() {
     @Inject lateinit var useCase : GetAllSongsUseCase
     private val adapter by lazy { PlayingQueueAdapter(lifecycle) }
 
-    private lateinit var list: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,13 +35,6 @@ class PlayingQueueFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(context)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
-//        list = view.list
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        val slidingPanel = activity!!.findViewById<SlidingUpPanelLayout>(R.id.innerPanel)
-//        slidingPanel.setScrollableView(list)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

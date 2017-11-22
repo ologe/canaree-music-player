@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">music-service</string>
+
+    <string name="channel_id_notification">Media playback</string>
+    <string name="channel_id_notification_description">Media playback controls</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package dev.olog.domain.gateway
+package dev.olog.domain.gateway.prefs
 
 interface AppPreferencesGateway {
 

@@ -24,6 +24,23 @@
 
         <activity android:name="dev.olog.presentation.activity_main.MainActivity"/>
 
+        <service android:name="dev.olog.music_service.MusicService">
+
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- to support 2:1 screens -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
 
     </application>
 

@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
-import dev.olog.domain.gateway.AppPreferencesGateway
+import dev.olog.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.shared.ApplicationContext
 import javax.inject.Singleton
 

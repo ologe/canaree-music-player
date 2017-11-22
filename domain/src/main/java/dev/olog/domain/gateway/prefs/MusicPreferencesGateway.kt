@@ -1,0 +1,20 @@
+package dev.olog.domain.gateway.prefs
+
+import io.reactivex.Flowable
+
+interface MusicPreferencesGateway {
+
+    fun getBookmark(): Long
+    fun setBookmark(bookmark: Long)
+
+    fun getCurrentSongId(): Long
+    fun setCurrentSongId(songId: Long)
+    fun observeCurrentSongId(): Flowable<Long>
+
+    fun getRepeatMode(): Int
+    fun setRepeatMode(repeatMode: Int)
+
+    fun getShuffleMode(): Int
+    fun setShuffleMode(shuffleMode: Int)
+
+}

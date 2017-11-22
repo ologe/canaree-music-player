@@ -3,7 +3,7 @@ package dev.olog.data.preferences
 import android.content.SharedPreferences
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.data.utils.edit
-import dev.olog.domain.gateway.AppPreferencesGateway
+import dev.olog.domain.gateway.prefs.AppPreferencesGateway
 import javax.inject.Inject
 import javax.inject.Singleton
 
