@@ -4,8 +4,8 @@
     <string name="player_now_playing">Now Playing</string>
     <dimen name="player_now_playing">18sp</dimen>
     <dimen name="player_repeat">18sp</dimen>
-    <dimen name="player_title">23sp</dimen>
-    <dimen name="player_artist">16sp</dimen>
+    <dimen name="player_title_size">23sp</dimen>
+    <dimen name="player_artist_size">16sp</dimen>
     <dimen name="player_album">15sp</dimen>
     <dimen name="player_bookmark">16sp</dimen>
     <dimen name="player_seekBar_bottom_padding">36dp</dimen>
