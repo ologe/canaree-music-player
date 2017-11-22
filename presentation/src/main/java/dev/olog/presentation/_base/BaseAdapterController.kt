@@ -53,7 +53,7 @@ class BaseAdapterController(
                     it.toSingle()
                 }
             }
-            .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) }
+            .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) } // todo do better comparator
             .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it))) }
             .observeOn(AndroidSchedulers.mainThread())
 

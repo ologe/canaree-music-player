@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -38,14 +37,13 @@ class PlayingQueueFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(context)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
-        list = view.list
+//        list = view.list
     }
 
     override fun onResume() {
         super.onResume()
-        val slidingPanel = activity!!.findViewById<SlidingUpPanelLayout>(R.id.innerPanel)
-        slidingPanel.setScrollableView(list)
-        val innerPanel = slidingPanel.findViewById<SlidingUpPanelLayout>(R.id.innerPanel)
+//        val slidingPanel = activity!!.findViewById<SlidingUpPanelLayout>(R.id.innerPanel)
+//        slidingPanel.setScrollableView(list)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

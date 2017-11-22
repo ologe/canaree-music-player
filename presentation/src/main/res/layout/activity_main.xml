@@ -23,14 +23,14 @@
         android:layout_height="match_parent"
         android:id="@+id/innerPanel"
         android:gravity="bottom"
-        sothree:umanoShadowHeight="0dp"
-        sothree:umanoPanelHeight="130dp"
+        sothree:umanoShadowHeight="@dimen/inner_panel_shadow"
+        sothree:umanoPanelHeight="@dimen/inner_panel_height"
         sothree:umanoDragView="@+id/drag_area"
         sothree:umanoInitialState="collapsed"
         sothree:umanoFadeColor="@android:color/transparent">
 
         <FrameLayout
-            android:id="@+id/first"
+            android:id="@+id/playerLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -44,7 +44,7 @@
         </FrameLayout>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/second"
+            android:id="@+id/playingQueueLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -70,10 +70,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/vd_repeat"
                 android:background="@android:color/transparent"
                 android:layout_width="0dp"
-                android:layout_height="130dp"
+                android:layout_height="@dimen/inner_panel_height"
                 android:clickable="true"
                 android:focusable="true" />
 

@@ -11,7 +11,7 @@ class PlayerFragment : BaseFragment() {
 
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.layout_player, container, false)
+        return inflater.inflate(R.layout.fragment_player, container, false)
     }
 
 

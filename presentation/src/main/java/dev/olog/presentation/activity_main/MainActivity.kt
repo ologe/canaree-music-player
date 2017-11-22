@@ -24,22 +24,30 @@ class MainActivity: BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        innerPanel.addPanelSlideListener(object : SlidingUpPanelLayout.PanelSlideListener {
-            override fun onPanelSlide(panel: View?, slideOffset: Float) {
-                println(first.bottom)
-                println(second.top)
-                first.translationY = - Math.abs(second.top - first.bottom).toFloat()
-            }
+        innerPanel.addPanelSlideListener(innerPanelSlideListener)
+    }
 
-            override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-                slidingPanel.isTouchEnabled = (newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    innerPanel.setDragView(R.id.second)
-                } else {
-                    innerPanel.setDragView(R.id.drag_area)
-                }
+    override fun onPause() {
+        super.onPause()
+        innerPanel.removePanelSlideListener(innerPanelSlideListener)
+    }
+
+    private val innerPanelSlideListener = object : SlidingUpPanelLayout.PanelSlideListener {
+
+        override fun onPanelSlide(panel: View?, slideOffset: Float) {
+            // translate player layout on inner sliding panel translation
+            playerLayout.translationY = - Math.abs(playingQueueLayout.top - playerLayout.bottom).toFloat()
+        }
+
+        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+            // disable outer panel touch if inner is expanded
+            slidingPanel.isTouchEnabled = (newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
+            if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                innerPanel.setDragView(R.id.playingQueueLayout)
+            } else {
+                innerPanel.setDragView(R.id.drag_area)
             }
-        })
+        }
     }
 
 }
