@@ -67,6 +67,7 @@ dependencies {
     // google architecture components
     implementation "android.arch.lifecycle:runtime:1.0.3"
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
+    implementation "android.arch.lifecycle:common-java8:$rootProject.micro_architecture"
 
     // support
     implementation "com.android.support:support-v4:$rootProject.support_library"
@@ -88,6 +89,11 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
+
+    // other
+    implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

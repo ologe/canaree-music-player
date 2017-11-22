@@ -14,10 +14,11 @@ import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.music_service.utils.ImageUtils
 import dev.olog.music_service.utils.TextUtils
 import dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED
+import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
 @PerService
-open class NotificationImpl24(
+open class NotificationImpl24 @Inject constructor(
         service: Service,
         activityClass: ActivityClass,
         token: MediaSessionCompat.Token,

@@ -7,6 +7,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.shared.ApplicationContext
 import javax.inject.Singleton
 
@@ -15,7 +16,13 @@ class PreferenceModule{
 
     @Provides
     @Singleton
-    fun provideAppPreferences(dataStore: AppPreferenceImpl): AppPreferencesGateway {
+    fun provideAppPreferences(dataStore: AppPreferencesImpl): AppPreferencesGateway {
+        return dataStore
+    }
+
+    @Provides
+    @Singleton
+    fun provideMusicPreferences(dataStore: MusicPreferencesImpl): MusicPreferencesGateway {
         return dataStore
     }
 

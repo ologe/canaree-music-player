@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AppPreferenceImpl @Inject constructor(
+class AppPreferencesImpl @Inject constructor(
         private val preferences: SharedPreferences,
         private val rxPreferences: RxSharedPreferences
 ) : AppPreferencesGateway {

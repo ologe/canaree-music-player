@@ -1,12 +1,12 @@
 package dev.olog.music_service.interfaces
 
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.PlaybackParameters
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Timeline
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 
-interface ExoPlayerListenerWrapper : ExoPlayer.EventListener {
+interface ExoPlayerListenerWrapper : Player.EventListener {
 
     override fun onRepeatModeChanged(repeatMode: Int) {}
 

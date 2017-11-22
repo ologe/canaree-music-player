@@ -10,7 +10,7 @@
 
         <TextView
             android:id="@+id/nowPlaying"
-            android:textSize="28sp"
+            android:textSize="@dimen/player_now_playing_size"
             android:text="@string/player_now_playing"
             android:textStyle="bold"
             android:layout_marginStart="48dp"

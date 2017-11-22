@@ -5,7 +5,7 @@ import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.model.PositionInQueue
 import io.reactivex.Single
 
-internal interface Queue {
+interface Queue {
 
     fun getCurrentPositionInQueue(): PositionInQueue
 
@@ -30,5 +30,7 @@ internal interface Queue {
     fun sort()
 
     fun shuffle()
+
+
 
 }

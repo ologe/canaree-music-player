@@ -8,11 +8,19 @@
     android:layout_height="match_parent"
     android:id="@+id/container">
 
+    <View
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/statusBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/status_bar_secondary"/>
+
     <include
         android:id="@+id/playerToolbar"
         layout="@layout/layout_player_toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/status_bar"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
@@ -24,8 +32,9 @@
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
+        app:layout_constraintDimensionRatio="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_marginStart="26dp"
         android:layout_marginEnd="26dp"
@@ -101,7 +110,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingBottom="@dimen/player_seekBar_bottom_padding"
-        android:paddingTop="12dp"
+        android:paddingTop="@dimen/player_seekBar_top_padding"
         android:paddingStart="36dp"
         android:paddingEnd="36dp"
         android:progressTint="@color/progress_bar_tint"

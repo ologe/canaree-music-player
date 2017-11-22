@@ -1,10 +1,12 @@
 package dev.olog.data
 
+import android.arch.persistence.room.Room
 import android.content.Context
 import com.squareup.sqlbrite2.BriteContentResolver
 import com.squareup.sqlbrite2.SqlBrite
 import dagger.Module
 import dagger.Provides
+import dev.olog.data.db.AppDatabase
 import dev.olog.shared.ApplicationContext
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Singleton
@@ -22,6 +24,13 @@ class RepositoryHelperModule {
                                     sqlBrite: SqlBrite) : BriteContentResolver {
 
         return sqlBrite.wrapContentProvider(context.contentResolver, Schedulers.io())
+    }
+
+    @Provides
+    @Singleton
+    fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "db")
+                .build()
     }
 
 }

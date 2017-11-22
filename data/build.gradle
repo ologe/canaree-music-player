@@ -45,6 +45,11 @@ dependencies {
     // kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
+    // room
+    implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture"
+    kapt "android.arch.persistence.room:compiler:$rootProject.micro_architecture"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture"
+
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "com.squareup.sqlbrite2:sqlbrite:$rootProject.sql_brite"

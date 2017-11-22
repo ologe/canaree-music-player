@@ -1,13 +1,13 @@
 package dev.olog.domain.interactor.service
 
-import dev.olog.domain.executor.Schedulers
+import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class UpdatePlayingQueueUseCase @Inject constructor(
-        schedulers: Schedulers,
+        schedulers: IoScheduler,
         private val gateway: PlayingQueueGateway
 
 ) : CompletableUseCaseWithParam<List<Long>>(schedulers) {

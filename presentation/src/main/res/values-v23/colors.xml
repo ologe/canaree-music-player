@@ -2,5 +2,6 @@
 <resources>
 
     <color name="status_bar">#f0f0f0</color>
+    <color name="status_bar_secondary">@color/background</color>
 
 </resources>

@@ -33,5 +33,8 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun provideGenreRepository(repository: GenreRepository): GenreGateway
 
+    @Binds
+    @Singleton
+    abstract fun providePlayingQueueRepository(repository: PlayingQueueRepository): PlayingQueueGateway
 
 }

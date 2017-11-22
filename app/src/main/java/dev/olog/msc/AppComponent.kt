@@ -26,7 +26,8 @@ import javax.inject.Singleton
         MainActivityInjector::class,
 
         // music service
-        MusicServiceInjector::class
+        MusicServiceInjector::class,
+        MusicServiceBinderModule::class
 ))
 @Singleton
 interface AppComponent: AndroidInjector<App> {
