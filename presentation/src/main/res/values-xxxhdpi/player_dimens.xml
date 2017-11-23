@@ -5,7 +5,7 @@
     <dimen name="player_title_size">23sp</dimen>
     <dimen name="player_artist_size">16sp</dimen>
     <dimen name="player_bookmark">16sp</dimen>
-    <dimen name="player_seekBar_bottom_padding">36dp</dimen>
+    <dimen name="player_seekBar_bottom_padding">30dp</dimen>
     <dimen name="player_seekBar_top_padding">12dp</dimen>
 
 </resources>

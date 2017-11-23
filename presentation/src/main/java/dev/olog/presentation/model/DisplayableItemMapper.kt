@@ -2,6 +2,8 @@ package dev.olog.presentation.model
 
 import dev.olog.domain.entity.*
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.FOLDER
+import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.PLAYLIST
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
 
@@ -24,6 +26,22 @@ fun Playlist.toDisplayableItem(): DisplayableItem{
 fun Song.toDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_song,
+            MediaIdHelper.songId(id),
+            title,
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            image,
+            true,
+            isRemix,
+            isExplicit
+    )
+}
+
+fun Song.toDetailDisplayableItem(source: Int): DisplayableItem{
+    val viewType = if (source == FOLDER || source == PLAYLIST){
+        R.layout.item_detail_song_with_image
+    } else R.layout.item_detail_song_no_image
+    return DisplayableItem(
+            viewType,
             MediaIdHelper.songId(id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",

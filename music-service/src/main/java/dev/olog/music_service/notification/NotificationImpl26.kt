@@ -36,7 +36,7 @@ class NotificationImpl26 @Inject constructor(
         val name = service.getString(R.string.channel_id_notification)
         val description = service.getString(R.string.channel_id_notification_description)
 
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(CHANNEL_ID, name, importance)
         channel.description = description
         channel.setShowBadge(false)

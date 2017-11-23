@@ -3,6 +3,7 @@ package dev.olog.presentation.activity_main.di
 import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,11 @@ class MainActivityModule(
     @Provides
     internal fun provideFragmentManager(): FragmentManager {
         return activity.supportFragmentManager
+    }
+
+    @Provides
+    internal fun provideActivity(): AppCompatActivity {
+        return activity
     }
 
     @Provides

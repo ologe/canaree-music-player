@@ -1,4 +1,4 @@
-package dev.olog.data.mapper
+package dev.olog.domain.mapper
 
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist

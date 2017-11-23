@@ -1,10 +1,10 @@
 package dev.olog.data.repository
 
-import dev.olog.data.mapper.toFolder
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.mapper.toFolder
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import java.io.File

@@ -3,6 +3,7 @@ package dev.olog.presentation
 import android.databinding.BindingAdapter
 import android.net.Uri
 import android.widget.ImageView
+import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.images.CoverUtils
 
@@ -46,6 +47,27 @@ object BindingsAdapter {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(OVERRIDE_MID)
                 .error(CoverUtils.getGradient(context = context, position = position, source = source))
+                .into(view)
+    }
+
+    @BindingAdapter("imageBigAlbum", "source", "position")
+    @JvmStatic
+    fun loadBigAlbumImage(view: ImageView, image: String?, source: Int, position: Int) {
+        if (image == null) {
+            return
+        }
+
+        val context = view.context
+
+        GlideApp.with(context).clear(view)
+
+        GlideApp.with(context)
+                .load(Uri.parse(image))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(OVERRIDE_BIG)
+                .priority(Priority.IMMEDIATE)
+                .error(CoverUtils.getGradient(context, position, source))
                 .into(view)
     }
 

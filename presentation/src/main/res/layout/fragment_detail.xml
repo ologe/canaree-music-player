@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:elevation="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/background">
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="@dimen/toolbar_elevation"/>
+
+    <FrameLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar"
+        android:background="@color/toolbar"
+        android:elevation="@dimen/toolbar_elevation">
+
+        <!--close -->
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/vd_back_arrow"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"/>
+
+        <!--<dev.olog.msc.CustomTextView-->
+            <!--android:id="@+id/filterText"-->
+            <!--android:hint="@string/search_fragment_hint"-->
+            <!--android:layout_marginStart="48dp"-->
+            <!--android:layout_marginEnd="96dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:maxLines="1"-->
+            <!--android:maxLength="20"-->
+            <!--android:paddingEnd="8dp"-->
+            <!--android:paddingStart="8dp"-->
+            <!--tools:drawableEnd="@drawable/vd_clear"-->
+            <!--android:visibility="gone"-->
+            <!--tools:visibility="visible"-->
+            <!--android:backgroundTint="@color/dark_grey"/>-->
+
+        <TextView
+            android:id="@+id/header"
+            tools:text="...Like Clockwork "
+            android:textColor="@color/text_color_primary"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="96dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="invisible"
+            android:alpha="0"/>
+
+        <ImageButton
+            android:id="@+id/search"
+            android:src="@drawable/vd_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="end"
+            android:layout_marginEnd="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+
+        <ImageButton
+            android:id="@+id/sort"
+            android:src="@drawable/vd_more"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_tab_song"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:padding="8dp" />
+
+</LinearLayout>

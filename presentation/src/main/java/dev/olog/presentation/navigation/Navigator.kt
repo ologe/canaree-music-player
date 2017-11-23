@@ -1,9 +1,9 @@
 package dev.olog.presentation.navigation
 
-import android.app.Activity
-
 interface Navigator {
 
-    fun toMainActivity(activity: Activity)
+    fun toMainActivity()
+
+    fun toDetailActivity(mediaId: String)
 
 }

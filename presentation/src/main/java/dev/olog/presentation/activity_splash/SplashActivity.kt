@@ -31,7 +31,7 @@ class SplashActivity : BaseActivity() {
             setContentView(R.layout.activity_splash)
             subscribeToStorageRequest()
         } else {
-            navigator.toMainActivity(this)
+            navigator.toMainActivity()
         }
     }
 
@@ -44,7 +44,7 @@ class SplashActivity : BaseActivity() {
         RxView.clicks(root)
                 .flatMap { rxPermission.requestStoragePemission() }
                 .asLiveData()
-                .subscribe(this, { navigator.toMainActivity(this) })
+                .subscribe(this, { navigator.toMainActivity() })
     }
 
 }

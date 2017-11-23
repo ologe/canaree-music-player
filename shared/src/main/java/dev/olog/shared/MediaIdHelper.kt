@@ -53,7 +53,7 @@ object MediaIdHelper {
         }
         val indexOfCategory = mediaId.indexOf(CATEGORY_SEPARATOR)
         if (indexOfCategory == -1){
-            throw IllegalArgumentException("invalid media id " + mediaId)
+            throw IllegalArgumentException("invalid media id $mediaId")
         }
         return mediaId.substring(0, indexOfCategory)
     }
@@ -61,7 +61,7 @@ object MediaIdHelper {
     fun extractCategoryValue(mediaId: String): String {
         val indexOfCategory = mediaId.indexOf(CATEGORY_SEPARATOR)
         if (indexOfCategory == -1){
-            throw IllegalArgumentException("invalid media id " + mediaId)
+            throw IllegalArgumentException("invalid media id $mediaId")
         }
         val indexOfLeaf = mediaId.indexOf(LEAF_SEPARATOR)
         if (indexOfLeaf == -1) {
@@ -74,9 +74,22 @@ object MediaIdHelper {
     fun extractLeaf(mediaId: String) : String {
         val indexOfSongId = mediaId.indexOf(LEAF_SEPARATOR)
         if (indexOfSongId == -1){
-            throw IllegalArgumentException("invalid media id " + mediaId)
+            throw IllegalArgumentException("invalid media id $mediaId")
         }
         return mediaId.substring(indexOfSongId)
+    }
+
+    fun mapCategoryToSource(mediaId: String): Int {
+        val category = extractCategory(mediaId)
+        when (category) {
+            MediaIdHelper.MEDIA_ID_BY_FOLDER -> return 0
+            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> return 1
+            MediaIdHelper.MEDIA_ID_BY_ALL -> return 2
+            MediaIdHelper.MEDIA_ID_BY_ALBUM -> return 3
+            MediaIdHelper.MEDIA_ID_BY_ARTIST -> return 4
+            MediaIdHelper.MEDIA_ID_BY_GENRE -> return 5
+        }
+        throw IllegalArgumentException("invalid media id $mediaId")
     }
 
 }

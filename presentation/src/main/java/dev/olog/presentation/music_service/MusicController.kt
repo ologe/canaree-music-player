@@ -46,6 +46,10 @@ class MusicController @Inject constructor(
         getTransportControls()?.seekTo(pos)
     }
 
+    fun playFromMediaId(mediaId: String) {
+        getTransportControls()?.playFromMediaId(mediaId, null)
+    }
+
     private fun getTransportControls(): MediaControllerCompat.TransportControls? {
         return mediaControllerProvider.getSupportMediaController()?.transportControls
     }

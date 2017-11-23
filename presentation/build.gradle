@@ -77,6 +77,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
+    implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rx_binding"
     implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rx_permission"
 
     // other

@@ -1,11 +1,11 @@
 package dev.olog.data.repository
 
 import dev.olog.data.DataConstants
-import dev.olog.data.mapper.toAlbum
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.mapper.toAlbum
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable

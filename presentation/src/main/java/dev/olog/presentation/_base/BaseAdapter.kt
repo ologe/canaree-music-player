@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.Header
 
 abstract class BaseAdapter(
         lifecycle: Lifecycle
@@ -47,5 +48,11 @@ abstract class BaseAdapter(
     override fun getItemViewType(position: Int): Int = dataController[position].type
 
     internal fun afterDataChanged() {}
+
+    internal fun getDataSet(): List<DisplayableItem> = dataController.dataSet
+
+    open fun provideStaticHeaders() : List<Header> = listOf()
+
+    fun onDataChanged() = dataController.onDataChanged
 
 }

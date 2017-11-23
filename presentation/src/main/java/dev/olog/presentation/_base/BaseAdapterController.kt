@@ -6,6 +6,8 @@ import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation.Diff
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.model.Header
+import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.shared.cleanThenAdd
 import dev.olog.shared.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,9 +27,15 @@ class BaseAdapterController(
     private val publisher = PublishProcessor.create<List<DisplayableItem>>()
 
     private val originalList = mutableListOf<DisplayableItem>()
-    private val dataSet = mutableListOf<DisplayableItem>()
+    val dataSet = mutableListOf<DisplayableItem>()
+
+    private val staticHeaders = adapter.provideStaticHeaders()
 
     private var filter = ""
+
+    init {
+        dataSet.addAll(createActualHeaders())
+    }
 
     operator fun get(position: Int): DisplayableItem = dataSet[position]
 
@@ -38,27 +46,34 @@ class BaseAdapterController(
         publisher.onNext(originalList.toList())
     }
 
-    private val onDataChanged = publisher
+    val onDataChanged = publisher
             .toSerialized()
             .observeOn(Schedulers.computation())
             .onBackpressureLatest()
             .debounce(50, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
-            .flatMapSingle {
-                if (filter.length >= 2){
-                    it.toFlowable()
-                            .filter { containsLowerCase(it, filter) }
-                            .toList()
-                } else {
-                    it.toSingle()
-                }
-            }
-            .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) } // todo do better comparator
-            .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it))) }
-            .observeOn(AndroidSchedulers.mainThread())
+            .replay(1)
+            .refCount()
 
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = onDataChanged
+                .map {
+                    val result = it.toMutableList()
+                    result.addAll(createActualHeaders())
+                    result.toList()
+                }
+                .flatMapSingle {
+                    if (filter.length >= 2){
+                        it.toFlowable()
+                                .filter { containsLowerCase(it, filter) }
+                                .toList()
+                    } else {
+                        it.toSingle()
+                    }
+                }
+                .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) } // todo do better comparator
+                .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it))) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ (newData, callback) ->
                     val wasEmpty = this.dataSet.isEmpty()
 
@@ -85,6 +100,12 @@ class BaseAdapterController(
         val subtitle = item.subtitle
         return title.toLowerCase().contains(pattern) ||
                 (subtitle?.toLowerCase()?.contains(pattern) ?: false)
+    }
+
+    private fun createActualHeaders(): List<DisplayableItem> {
+        return staticHeaders.mapIndexed { index: Int, header: Header ->
+            header.toDisplayableItem(index)
+        }
     }
 
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        tools:listitem="@layout/item_detail_album"
+        android:orientation="horizontal"
+        tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingBottom="24dp"
+        android:paddingTop="2dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"/>
+
+</layout>

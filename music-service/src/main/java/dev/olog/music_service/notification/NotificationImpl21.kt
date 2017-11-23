@@ -15,7 +15,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.util.Pair
 import dagger.Lazy
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
@@ -54,7 +53,7 @@ open class NotificationImpl21 @Inject constructor(
                 .setContentIntent(buildContentIntent())
                 .setDeleteIntent(buildPendingIntent(PlaybackStateCompat.ACTION_STOP))
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
@@ -129,9 +128,13 @@ open class NotificationImpl21 @Inject constructor(
         return NotificationCompat.Builder(service)
     }
 
-    override fun update(state: Int): Pair<android.app.Notification, Int> {
+    override fun update(): android.app.Notification {
         val notification = builder.build()
         notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
-        return Pair.create(notification, state)
+        return notification
+    }
+
+    override fun cancel() {
+        notificationManager.get().cancel(INotification.NOTIFICATION_ID)
     }
 }

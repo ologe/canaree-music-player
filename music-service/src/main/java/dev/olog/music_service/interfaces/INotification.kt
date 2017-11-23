@@ -2,7 +2,6 @@ package dev.olog.music_service.interfaces
 
 import android.app.Notification
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Pair
 import dev.olog.music_service.model.MediaEntity
 
 interface INotification {
@@ -15,6 +14,8 @@ interface INotification {
     fun updateState(playbackState: PlaybackStateCompat)
     fun updateMetadata(mediaEntity: MediaEntity)
 
-    fun update(state: Int): Pair<Notification, Int>
+    fun update(): Notification
+    fun cancel()
+
 
 }

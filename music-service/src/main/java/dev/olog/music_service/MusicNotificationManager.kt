@@ -1,7 +1,6 @@
 package dev.olog.music_service
 
 import android.app.Notification
-import android.app.NotificationManager
 import android.app.Service
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
@@ -29,15 +28,14 @@ import javax.inject.Inject
 class MusicNotificationManager @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
-        private val notificationManager: Lazy<NotificationManager>,
         private val audioManager: Lazy<AudioManager>,
         private val notification: INotification
 
 ) : DefaultLifecycleObserver {
 
     companion object {
-        private val METADATA_DEBOUNCE = 250
-        private val NOTIFICATION_DEBOUNCE = 150
+        private val METADATA_DEBOUNCE = 250L
+        private val NOTIFICATION_DEBOUNCE = 150L
 
         private val SECONDS_TO_DESTROY = 30
     }
@@ -55,7 +53,7 @@ class MusicNotificationManager @Inject constructor(
 
         val metadataObservable = metadataPublisher
                 .observeOn(Schedulers.computation())
-                .debounce(METADATA_DEBOUNCE.toLong(), TimeUnit.MILLISECONDS)
+                .debounce(METADATA_DEBOUNCE, TimeUnit.MILLISECONDS)
 
         val playbackStateObservable = statePublisher
                 .observeOn(Schedulers.computation())
@@ -69,8 +67,8 @@ class MusicNotificationManager @Inject constructor(
                 metadataObservable,
                 playbackStateObservable
         ) { metadata, playbackState -> update(playbackState, metadata) }
-                .debounce(NOTIFICATION_DEBOUNCE.toLong(), TimeUnit.MILLISECONDS)
-                .map { notification.update(it) }
+                .debounce(NOTIFICATION_DEBOUNCE, TimeUnit.MILLISECONDS)
+                .map { notification.update().to(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ pair ->
                     val state = pair.second
@@ -104,7 +102,7 @@ class MusicNotificationManager @Inject constructor(
         }
 
         service.stopForeground(true)
-        notificationManager.get().cancel(INotification.NOTIFICATION_ID)
+        notification.cancel()
 
         isForeground = false
     }
