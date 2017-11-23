@@ -9,6 +9,7 @@ import dagger.Provides
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.music_service.MediaControllerProvider
 
 @Module
 class MainActivityModule(
@@ -32,5 +33,8 @@ class MainActivityModule(
 
     @Provides
     internal fun provideFragmentActivity() : FragmentActivity = activity
+
+    @Provides
+    internal fun provideMusicControllerProvider(): MediaControllerProvider = activity
 
 }

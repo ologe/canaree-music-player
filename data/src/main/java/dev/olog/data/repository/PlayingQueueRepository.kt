@@ -5,6 +5,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.SongGateway
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class PlayingQueueRepository @Inject constructor(
         return Completable.fromCallable { playingQueueDao.insert(list) }
     }
 
-
-
+    override fun observeMiniQueue(): Flowable<List<Song>> {
+        return Flowable.just(listOf()) // todo
+    }
 }

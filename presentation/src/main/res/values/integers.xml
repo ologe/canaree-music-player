@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="play">250</integer>
+
+    <integer name="slide_transition">300</integer>
+
+    <integer name="very_high_duration">36000000</integer>
+
+</resources>

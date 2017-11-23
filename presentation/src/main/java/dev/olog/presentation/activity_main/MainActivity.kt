@@ -3,24 +3,35 @@ package dev.olog.presentation.activity_main
 import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat
 import android.view.View
+import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
+import dev.olog.presentation.music_service.MediaControllerProvider
 import dev.olog.presentation.music_service.MusicServiceBinder
+import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.presentation.utils.subscribe
+import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
-class MainActivity: BaseActivity() {
+class MainActivity: BaseActivity(), MediaControllerProvider {
 
     @Inject lateinit var adapter: TabViewPagerAdapter
 
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
 
+    lateinit var title: TextView
+    lateinit var artist: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        title = findViewById(R.id.title)
+        artist = findViewById(R.id.artist)
 
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
@@ -28,10 +39,22 @@ class MainActivity: BaseActivity() {
 
         musicServiceBinder.getMediaControllerLiveData()
                 .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
+
+        Observables.combineLatest(
+                RxSlidingUpPanel.panelStateEvents(slidingPanel).map { it.newState() == SlidingUpPanelLayout.PanelState.EXPANDED },
+                RxSlidingUpPanel.panelStateEvents(innerPanel).map { it.newState() == SlidingUpPanelLayout.PanelState.COLLAPSED },
+                { outerIsExpanded, innerIsCollapsed -> outerIsExpanded && innerIsCollapsed }
+        ).distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, {
+                    title.isSelected = it
+                    artist.isSelected = it
+                })
     }
 
     override fun onResume() {
         super.onResume()
+        slidingPanel
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
     }
 
@@ -63,4 +86,7 @@ class MainActivity: BaseActivity() {
         }
     }
 
+    override fun getSupportMediaController(): MediaControllerCompat? {
+        return MediaControllerCompat.getMediaController(this)
+    }
 }

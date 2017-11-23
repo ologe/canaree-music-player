@@ -5,7 +5,9 @@ import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RxMusicServiceConnectionCallback @Inject constructor() {
 
     private val connectionCallback = ConnectionCallback()

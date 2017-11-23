@@ -7,7 +7,9 @@ import android.support.v4.media.session.PlaybackStateCompat
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RxMusicServiceControllerCallback @Inject constructor() {
 
     private val listener = Listener()

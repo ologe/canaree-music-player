@@ -27,7 +27,7 @@
         android:layout_height="@dimen/tab" />
 
     <!-- cover -->
-    <ImageView
+    <dev.olog.presentation.widgets.SwipeableImageView
         android:id="@+id/cover"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,6 @@
     <TextView
         android:id="@+id/bookmark"
         tools:text="0:00"
-        android:text="0:00"
         android:textColor="@color/text_color_primary"
         android:textSize="@dimen/player_bookmark"
         android:layout_width="wrap_content"
@@ -88,7 +87,6 @@
     <TextView
         android:id="@+id/duration"
         tools:text=" / 2:57"
-        android:text=" / 2:57"
         android:textColor="@color/text_color_primary"
         android:textSize="@dimen/player_bookmark"
         android:layout_width="wrap_content"
@@ -102,13 +100,14 @@
         android:fontFamily="@font/product_sans"/>
 
     <!-- seekbar -->
-    <SeekBar
+    <dev.olog.presentation.widgets.RxSeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/cover"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:max="@integer/very_high_duration"
         android:paddingBottom="@dimen/player_seekBar_bottom_padding"
         android:paddingTop="@dimen/player_seekBar_top_padding"
         android:paddingStart="36dp"
