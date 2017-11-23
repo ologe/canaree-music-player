@@ -112,7 +112,7 @@ open class NotificationImpl21 @Inject constructor(
         builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image))
                 .setContentTitle(title)
                 .setContentText(artist)
-                .setSubText(title)
+                .setSubText(album)
     }
 
     private fun buildContentIntent(): PendingIntent {
