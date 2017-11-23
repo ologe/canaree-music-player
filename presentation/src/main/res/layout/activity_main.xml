@@ -38,8 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:name="dev.olog.presentation.fragment_player.PlayerFragment"
-                android:tag="@string/player_fragment_tag"
-                tools:layout="@layout/fragment_player" />
+                android:tag="@string/player_fragment_tag" />
+
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sliding_panel_peek"
+                android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
+                android:tag="@string/mini_player_fragment_tag" />
 
         </FrameLayout>
 

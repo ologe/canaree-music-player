@@ -5,7 +5,9 @@ import android.support.annotation.CallSuper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.android.support.DaggerFragment
+import dev.olog.presentation.HasSlidingPanel
 
 abstract class BaseFragment : DaggerFragment() {
 
@@ -22,4 +24,9 @@ abstract class BaseFragment : DaggerFragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View
+
+    fun getSlidingPanel(): SlidingUpPanelLayout? {
+        return (activity as HasSlidingPanel).getSlidingPanel()
+    }
+
 }

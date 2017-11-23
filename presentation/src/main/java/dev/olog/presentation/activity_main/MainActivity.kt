@@ -5,6 +5,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.view.View
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.music_service.MediaControllerProvider
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
-class MainActivity: BaseActivity(), MediaControllerProvider {
+class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     @Inject lateinit var adapter: TabViewPagerAdapter
 
@@ -88,5 +89,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider {
 
     override fun getSupportMediaController(): MediaControllerCompat? {
         return MediaControllerCompat.getMediaController(this)
+    }
+
+    override fun getSlidingPanel(): SlidingUpPanelLayout? {
+        return slidingPanel
     }
 }

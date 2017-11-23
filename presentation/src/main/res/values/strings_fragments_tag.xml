@@ -3,5 +3,6 @@
 
     <string name="player_fragment_tag">PlayerFragment</string>
     <string name="player_queue_fragment_tag">PlayerQueueFragment</string>
+    <string name="mini_player_fragment_tag">MiniPlayerFragment</string>
 
 </resources>
