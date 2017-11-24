@@ -1,20 +1,15 @@
 package dev.olog.presentation.fragment_detail
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.removeLightStatusBar
-import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.presentation.utils.withArguments
+import dev.olog.presentation.utils.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import org.jetbrains.anko.dip
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment() {
@@ -34,18 +29,14 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var viewModel: DetailFragmentViewModel
     @Inject lateinit var adapter: DetailAdapter
 
+    private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
+
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        viewModel.siblingsObservable
-//                .asLiveData()
-//                .subscribe(this, horizontalAdapter::updateDataSet)
-
-//        viewModel.songListLiveData
-//                .subscribe(this, adapter::updateDataSet)
-
+        // todo if top if dark then
         activity!!.window.removeLightStatusBar()
     }
 
@@ -62,26 +53,30 @@ class DetailFragment : BaseFragment() {
         RxRecyclerView.scrollEvents(view.list)
                 .map { layoutManager.findFirstVisibleItemPosition() >= 1 }
                 .distinctUntilChanged()
-                .subscribe { lightStatusBar ->
+                .asLiveData()
+                .subscribe(this, { lightStatusBar ->
                     val window = activity!!.window
                     if (lightStatusBar){
                         window.setLightStatusBar()
                     } else {
                         window.removeLightStatusBar()
                     }
-                }
-        val padding = context!!.dip(8)
-        view.list.addItemDecoration(object : RecyclerView.ItemDecoration(){
+                })
+    }
 
-            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-                if (parent.getChildAdapterPosition(view) > 0){
-                    outRect.left = padding
-                    outRect.right = padding
-                } else {
-                    super.getItemOffsets(outRect, view, parent, state)
-                }
-            }
-        })
+    override fun onResume() {
+        super.onResume()
+        view!!.list.addItemDecoration(marginDecorator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view!!.list.removeItemDecoration(marginDecorator)
+    }
+
+    override fun onDestroyView() {
+        activity!!.window.setLightStatusBar()
+        super.onDestroyView()
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =

@@ -30,7 +30,7 @@
             android:textStyle="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="32dp"
+            android:layout_marginStart="32dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"/>
 
