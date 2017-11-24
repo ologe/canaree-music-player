@@ -10,50 +10,50 @@
     android:focusable="true"
     android:background="@color/background">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/status_bar"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="@dimen/toolbar_elevation"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/status_bar"-->
+        <!--android:background="@color/colorPrimaryDark"-->
+        <!--android:elevation="@dimen/toolbar_elevation"/>-->
 
-    <FrameLayout
-        android:id="@+id/headerContainer"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar"
-        android:background="@color/toolbar"
-        android:elevation="@dimen/toolbar_elevation">
+    <!--<FrameLayout-->
+        <!--android:id="@+id/headerContainer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/toolbar"-->
+        <!--android:background="@color/toolbar"-->
+        <!--android:elevation="@dimen/toolbar_elevation">-->
 
-        <!--close -->
-        <ImageButton
-            android:id="@+id/close"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/vd_back_arrow"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/button_primary_tint"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"/>
+        <!--&lt;!&ndash;close &ndash;&gt;-->
+        <!--<ImageButton-->
+            <!--android:id="@+id/close"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/vd_back_arrow"-->
+            <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+            <!--android:tint="@color/button_primary_tint"-->
+            <!--android:clickable="true"-->
+            <!--android:focusable="true"-->
+            <!--android:paddingStart="12dp"-->
+            <!--android:paddingEnd="12dp"/>-->
 
-        <TextView
-            android:id="@+id/header"
-            tools:text="...Like Clockwork "
-            android:textColor="@color/text_color_primary"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:visibility="invisible"
-            android:alpha="0"/>
+        <!--<TextView-->
+            <!--android:id="@+id/header"-->
+            <!--tools:text="...Like Clockwork "-->
+            <!--android:textColor="@color/text_color_primary"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textSize="18sp"-->
+            <!--android:ellipsize="end"-->
+            <!--android:maxLines="1"-->
+            <!--android:layout_marginStart="48dp"-->
+            <!--android:layout_marginEnd="48dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--tools:visibility="invisible"-->
+            <!--android:alpha="0"/>-->
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"

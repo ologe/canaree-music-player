@@ -4,6 +4,8 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,6 +21,8 @@ class DetailAdapter @Inject constructor(
 ) :RecyclerView.Adapter<DataBoundViewHolder<*>>(), DefaultLifecycleObserver {
 
     private val allData = DetailData()
+    val innerAdapter = DetailHorizontalAdapter(allData.songs)
+    val recycled = RecyclerView.RecycledViewPool()
 
     init {
         lifecycle.addObserver(this)
@@ -27,7 +31,22 @@ class DetailAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
-        return DataBoundViewHolder(binding)
+        val viewHolder = DataBoundViewHolder(binding)
+        initViewHolderListeners(viewHolder, viewType)
+        return viewHolder
+    }
+
+    private fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
+        if (viewType == R.layout.item_horizontal_list) {
+            val list = viewHolder.itemView as RecyclerView
+            list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
+                    5, GridLayoutManager.HORIZONTAL, false)
+            list.adapter = innerAdapter
+            list.recycledViewPool = recycled
+
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(list)
+        }
     }
 
     override fun getItemCount(): Int = allData.getSize()

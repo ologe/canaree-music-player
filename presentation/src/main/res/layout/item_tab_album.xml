@@ -20,8 +20,8 @@
         tools:layout_width="150dp"
         tools:background="@color/background">
 
-        <ImageView
-            android:id="@+id/cover"
+        <android.support.v7.widget.CardView
+            android:id="@+id/coverLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
 
@@ -29,19 +29,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="0dp">
 
-            app:imageAlbum="@{item.getImage}"
-            app:source="@{source}"
-            app:position="@{position}"
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-            tools:src="@drawable/placeholder_folder"/>
+                app:imageAlbum="@{item.getImage}"
+                app:source="@{source}"
+                app:position="@{position}"
+
+                tools:src="@drawable/placeholder_folder"/>
+
+        </android.support.v7.widget.CardView>
+
+
 
         <TextView
             android:id="@+id/firstText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            app:layout_constraintTop_toBottomOf="@+id/cover"
+            app:layout_constraintTop_toBottomOf="@+id/coverLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/secondText"
