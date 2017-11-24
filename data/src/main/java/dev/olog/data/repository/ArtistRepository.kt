@@ -40,7 +40,7 @@ class ArtistRepository @Inject constructor(
     override fun observeSongListByParam(param: Long): Flowable<List<Song>> {
         return songGateway.getAll()
                 .flatMapSingle { it.toFlowable()
-                        .filter { it.albumId == param }
+                        .filter { it.artistId == param }
                         .toList()
                 }
     }

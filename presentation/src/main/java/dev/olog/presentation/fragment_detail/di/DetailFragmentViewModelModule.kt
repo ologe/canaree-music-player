@@ -31,10 +31,11 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_FOLDER)
-    internal fun provideFolderData(useCase: GetFolderSiblingsUseCase)
+    internal fun provideFolderData(mediaId: String,
+                                   useCase: GetFolderSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle {
+        return useCase.execute(mediaId).flatMapSingle {
             it.toFlowable().map { it.toDetailDisplayableItem() }.toList()
         }
     }
@@ -42,10 +43,11 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_PLAYLIST)
-    internal fun providePlaylistData(useCase: GetPlaylistSiblingsUseCase)
+    internal fun providePlaylistData(mediaId: String,
+                                     useCase: GetPlaylistSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle {
+        return useCase.execute(mediaId).flatMapSingle {
             it.toFlowable().map { it.toDetailDisplayableItem() }.toList()
         }
     }
@@ -77,10 +79,11 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_GENRE)
-    internal fun provideGenreData(useCase: GetGenreSiblingsUseCase)
+    internal fun provideGenreData(mediaId: String,
+                                  useCase: GetGenreSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle {
+        return useCase.execute(mediaId).flatMapSingle {
             it.toFlowable().map { it.toDetailDisplayableItem() }.toList()
         }
     }

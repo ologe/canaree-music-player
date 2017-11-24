@@ -32,7 +32,7 @@ class FolderRepository @Inject constructor(
     override fun observeSongListByParam(param: String): Flowable<List<Song>> {
         return songGateway.getAll()
                 .flatMapSingle { it.toFlowable()
-                        .filter { it.path == param }
+                        .filter { it.path.substring(0, it.path.lastIndexOf(File.separator)) == param }
                         .toList()
                 }
     }

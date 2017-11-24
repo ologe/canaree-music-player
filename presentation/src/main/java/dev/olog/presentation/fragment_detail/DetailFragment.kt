@@ -1,5 +1,6 @@
 package dev.olog.presentation.fragment_detail
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
@@ -32,6 +33,11 @@ class DetailFragment : BaseFragment() {
 
     private lateinit var layoutManager: GridLayoutManager
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        postponeEnterTransition()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -40,7 +46,10 @@ class DetailFragment : BaseFragment() {
 
         viewModel.itemLiveData.subscribe(this, adapter::onItemChanged)
 
-        viewModel.songsLiveData.subscribe(this, adapter::onSongListChanged)
+        viewModel.songsLiveData.subscribe(this, {
+            adapter.onSongListChanged(it)
+            startPostponedEnterTransition()
+        })
 
         viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
     }
