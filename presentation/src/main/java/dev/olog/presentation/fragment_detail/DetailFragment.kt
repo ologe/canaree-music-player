@@ -27,7 +27,7 @@ class DetailFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
 //    @Inject lateinit var horizontalAdapter: DetailHorizontalAdapter
-    @Inject lateinit var adapter: CoolDetailAdapter
+    @Inject lateinit var adapter: DetailAdapter
 
     private lateinit var layoutManager: GridLayoutManager
 
@@ -43,21 +43,16 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = GridLayoutManager(context!!, 2)
+        layoutManager = GridLayoutManager(context!!, 2, GridLayoutManager.VERTICAL, false)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
             override fun getSpanSize(position: Int): Int {
-                return if (adapter.getItem(position).type == R.layout.item_tab_album){
-                    1
-                } else 2
+                return if (adapter.getItem(position).type == R.layout.item_detail_album) 1 else 2
             }
         }
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
-        view.list.setHasFixedSize(true)
-
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_detail, container, false)
-    }
+    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(R.layout.fragment_detail, container, false)
 }

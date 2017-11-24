@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
         <variable name="position" type="int"/>
         <variable name="source" type="int"/>
@@ -12,54 +13,68 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:id="@+id/container">
+        android:layout_margin="8dp"
 
-        <ImageView
-            android:id="@+id/cover"
+        tools:layout_width="150dp"
+        tools:background="@color/background">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/coverLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1"
-            android:layout_margin="2dp"
-            android:elevation="5dp"
-            app:imageBigAlbum="@{item.image}"
-            app:source="@{source}"
-            app:position="@{position}"
-            tools:src="#1f86ef" />
+            app:cardElevation="0dp"
+            app:cardCornerRadius="4dp">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/scrim"-->
-            <!--app:layout_constraintTop_toTopOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--app:layout_constraintDimensionRatio="1"-->
-            <!--android:layout_margin="2dp"-->
-            <!--android:elevation="5dp" />-->
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                app:imageAlbum="@{item.getImage}"
+                app:source="@{source}"
+                app:position="@{position}"
+
+                tools:src="@drawable/placeholder_folder"/>
+
+        </android.support.v7.widget.CardView>
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/firstText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/secondText"
+
+            style="@style/Album.MainText"
             android:text="@{item.title}"
-            tools:text="...Like Clockwork"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            android:padding="16dp"
-            android:textAlignment="center"
-            app:layout_constraintTop_toTopOf="parent"
+
+            tools:text="@tools:sample/lorem"/>
+
+        <TextView
+            android:id="@+id/secondText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@+id/firstText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:elevation="5dp"/>
+
+            style="@style/Album.SecondaryText"
+            android:text="@{item.subtitle}"
+            android:visibility="@{item.subtitle != null ? View.VISIBLE : View.GONE}"
+
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 

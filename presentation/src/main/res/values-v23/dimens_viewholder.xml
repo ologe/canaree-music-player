@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- item tab song -->
+    <dimen name="item_song_container">70dp</dimen>
+    <dimen name="item_song_title">15sp</dimen>
+    <dimen name="item_song_artist">12sp</dimen>
+
+    <!--item detail album-->
+    <dimen name="item_detail_album_first_text">10sp</dimen>
+    <dimen name="item_detail_album_second_text">9sp</dimen>
+
+</resources>

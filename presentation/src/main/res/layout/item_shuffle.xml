@@ -9,7 +9,7 @@
         <TextView
             android:text="Shuffle All"
             android:textAllCaps="true"
-            android:drawableStart="@drawable/vd_shuffle_colored"
+            android:drawableStart="@drawable/vd_shuffle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"

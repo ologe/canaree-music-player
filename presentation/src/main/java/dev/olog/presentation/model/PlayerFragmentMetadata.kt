@@ -19,10 +19,10 @@ data class PlayerFragmentMetadata (
 
 fun MediaMetadataCompat.toPlayerMetadata(): PlayerFragmentMetadata{
     return PlayerFragmentMetadata(
-            getString(MediaMetadataCompat.METADATA_KEY_TITLE),
-            getString(MediaMetadataCompat.METADATA_KEY_ALBUM) +
+            this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
+            this.getString(MediaMetadataCompat.METADATA_KEY_ALBUM) +
                     TextUtils.MIDDLE_DOT_SPACED +
-                    getString(MediaMetadataCompat.METADATA_KEY_TITLE),
+                    this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
             false,
             false
     )

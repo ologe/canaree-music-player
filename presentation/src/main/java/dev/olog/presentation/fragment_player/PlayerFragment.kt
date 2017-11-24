@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
-import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.CoverModel
@@ -33,8 +32,8 @@ class PlayerFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        title = activity!!.findViewById(R.id.title)
-        artist = activity!!.findViewById(R.id.artist)
+        title = activity!!.findViewById<ViewGroup>(R.id.playingQueueLayout).findViewById(R.id.title)
+        artist = activity!!.findViewById<ViewGroup>(R.id.playingQueueLayout).findViewById(R.id.artist)
 
         viewModel.onMetadataChangedLiveData
                 .subscribe(this, this::setMetadata)

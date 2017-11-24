@@ -10,38 +10,37 @@ class DetailData {
     }
 
     private val mostPlayedData: List<DisplayableItem> = mutableListOf(
-            DisplayableItem(R.layout.item_detail_alb, "media", ""),
-            DisplayableItem(R.layout.item_shuffle, "media", ""),
-            DisplayableItem(R.layout.a_prova, "media", "Most Played"),
-            DisplayableItem(R.layout.item_detail_song, "media", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media1", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media2", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media3", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media4", "title", "artist")
+//            DisplayableItem(R.layout.item_filter, "media", ""),
+            DisplayableItem(R.layout.item_detail_info, "media", ""),
+//            DisplayableItem(R.layout.item_shuffle, "media", ""),
+            DisplayableItem(R.layout.item_header, "media", "Most Played"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - 4 A.M ft. Travis Scott", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Good Drank feat Gucci Mane", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - It's a Vibe", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Lil Baby", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist")
     )
     private val recentlyAddedData: List<DisplayableItem> = mutableListOf(
-            DisplayableItem(R.layout.a_prova, "media", "Recently Added"),
-            DisplayableItem(R.layout.item_detail_song, "media5", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media6", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media7", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media8", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media9", "title", "artist")
+            DisplayableItem(R.layout.item_header, "media", "Recently Added"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - 4 A.M ft. Travis Scott", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Good Drank feat Gucci Mane", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - It's a Vibe", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Lil Baby", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist")
     )
     private val albumsData: List<DisplayableItem> = mutableListOf(
-            DisplayableItem(R.layout.a_prova, "media", "Albums"),
-            DisplayableItem(R.layout.item_tab_album, "media10", "title"),
-            DisplayableItem(R.layout.item_tab_album, "media11", "title"),
-            DisplayableItem(R.layout.item_tab_album, "media12", "title"),
-            DisplayableItem(R.layout.item_tab_album, "media13", "title"),
-            DisplayableItem(R.layout.item_tab_album, "media14", "title")
+            DisplayableItem(R.layout.item_header, "media", "Albums"),
+            DisplayableItem(R.layout.item_detail_album, "media10", "...Like Clockwork"),
+            DisplayableItem(R.layout.item_detail_album, "media11", "2001"),
+            DisplayableItem(R.layout.item_detail_album, "media12", "2014 Forest Hills Drive")
     )
     private val songsData: List<DisplayableItem> = mutableListOf(
-            DisplayableItem(R.layout.a_prova, "media", "Songs"),
-            DisplayableItem(R.layout.item_detail_song, "media15", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media16", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media17", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media18", "title", "artist"),
-            DisplayableItem(R.layout.item_detail_song, "media19", "title", "artist")
+            DisplayableItem(R.layout.item_header, "media", "Songs"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - 4 A.M ft. Travis Scott", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Good Drank feat Gucci Mane", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - It's a Vibe", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Lil Baby", "Unkown Artist"),
+            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist")
     )
     private val artistsInData: List<DisplayableItem> = mutableListOf()
 

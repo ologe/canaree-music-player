@@ -7,24 +7,32 @@
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="2dp">
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_marginTop="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            style="@style/Divider"/>
 
         <TextView
             android:text="@{item.title}"
             tools:text="Recently played"
-            android:layout_gravity="center"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:textAlignment="center"
             android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>
