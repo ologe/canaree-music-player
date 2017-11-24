@@ -29,10 +29,6 @@ class TabAdapter @Inject constructor(
             }
 
         })
-
-        viewHolder.setOnClickListener(getDataSet(), { item ->
-            // todo popup
-        })
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
