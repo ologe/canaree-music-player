@@ -1,7 +1,9 @@
 package dev.olog.presentation.fragment_detail
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import dev.olog.presentation.utils.removeLightStatusBar
 import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.presentation.utils.withArguments
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import org.jetbrains.anko.dip
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment() {
@@ -67,6 +70,18 @@ class DetailFragment : BaseFragment() {
                         window.removeLightStatusBar()
                     }
                 }
+        val padding = context!!.dip(8)
+        view.list.addItemDecoration(object : RecyclerView.ItemDecoration(){
+
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                if (parent.getChildAdapterPosition(view) > 0){
+                    outRect.left = padding
+                    outRect.right = padding
+                } else {
+                    super.getItemOffsets(outRect, view, parent, state)
+                }
+            }
+        })
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
