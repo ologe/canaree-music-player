@@ -13,6 +13,7 @@ abstract class FlowableUseCaseWithParam<T, in Param>(
         return Flowable.defer { this.buildUseCaseObservable(param)
                 .subscribeOn(schedulers.worker)
                 .observeOn(schedulers.ui) }
+                .doOnError { it.printStackTrace() }
     }
 
 }

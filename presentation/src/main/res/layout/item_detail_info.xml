@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="position" type="int"/>
+        <variable name="source" type="int"/>
+    </data>
 
     <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -15,16 +22,20 @@
             app:layout_constraintDimensionRatio="1.3"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/placeholder_folder"
             android:scaleType="centerCrop"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            app:imageBigAlbum="@{item.image}"
+            app:source="@{source}"
+            app:position="@{position}"
+            tools:src="@drawable/placeholder_folder"/>
 
         <TextView
             android:id="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Selena Gomez"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            android:text="@{item.title}"
+            tools:text="Selena Gomez"
             android:textSize="40sp"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
@@ -32,7 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
+            android:paddingBottom="8dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"/>
 
         <ImageButton
             android:id="@+id/back"
@@ -61,63 +75,6 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/subtitle"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/title"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--app:layout_constraintStart_toEndOf="@+id/coverLayout"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--android:text="Rihanna"-->
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:textSize="16sp"-->
-            <!--android:textColor="@color/item_selected"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:maxLines="2"/>-->
-        
-        <!--<TextView-->
-            <!--android:id="@+id/description"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/subtitle"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--app:layout_constraintStart_toEndOf="@+id/coverLayout"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--android:text="Pop - 2012"-->
-            <!--android:layout_marginStart="16dp"-->
-            <!--android:textSize="16sp"-->
-            <!--android:textColor="@color/grey600"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:maxLines="2"/>-->
-
-        <!--<ImageButton-->
-            <!--android:id="@+id/more"-->
-            <!--app:layout_constraintBottom_toBottomOf="@+id/coverLayout"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--android:src="@drawable/vd_more"-->
-            <!--android:padding="12dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:tint="@color/button_primary_tint"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:background="?attr/selectableItemBackgroundBorderless" />-->
-
-        <!--<TextView-->
-            <!--app:layout_constraintStart_toEndOf="@+id/coverLayout"-->
-            <!--app:layout_constraintBottom_toBottomOf="@+id/coverLayout"-->
-            <!--android:text="Shuffle All"-->
-            <!--android:textAllCaps="true"-->
-            <!--android:drawableStart="@drawable/vd_shuffle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingTop="16dp"-->
-            <!--android:paddingBottom="16dp"-->
-            <!--android:paddingStart="16dp"-->
-            <!--android:drawablePadding="16dp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="@color/dark_grey"-->
-            <!--android:gravity="center_vertical" />-->
         
     </android.support.constraint.ConstraintLayout>
 

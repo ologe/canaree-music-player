@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor.detail
+package dev.olog.domain.interactor.detail.item
 
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.executor.IoScheduler
@@ -6,7 +6,6 @@ import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
-import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 
 class GetArtistUseCase @Inject internal constructor(
@@ -16,15 +15,10 @@ class GetArtistUseCase @Inject internal constructor(
 ) : FlowableUseCaseWithParam<Artist, String>(schedulers) {
 
 
-    override fun buildUseCaseObservable(param: String): Flowable<Artist> {
-        val categoryValue = MediaIdHelper.extractCategoryValue(param)
+    override fun buildUseCaseObservable(mediaId: String): Flowable<Artist> {
+        val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
         val artistId = categoryValue.toLong()
 
-        return gateway.getAll()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.id == artistId }
-                        .firstOrError()
-                        .doOnSuccess { gateway.addLastPlayed(it) }
-                }
+        return gateway.getByParam(artistId)
     }
 }

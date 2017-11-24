@@ -1,9 +1,10 @@
-package dev.olog.domain.interactor.detail
+package dev.olog.domain.interactor.detail.siblings
 
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.interactor.base.FlowableUseCase
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 class GetFolderSiblingsUseCase @Inject constructor(
@@ -13,5 +14,5 @@ class GetFolderSiblingsUseCase @Inject constructor(
 ) : FlowableUseCase<List<Folder>>(schedulers) {
 
 
-    override fun buildUseCaseObservable() = gateway.getAll()
+    override fun buildUseCaseObservable() : Flowable<List<Folder>> = gateway.getAll().filter { it.size > 1 }
 }

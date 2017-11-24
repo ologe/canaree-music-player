@@ -65,9 +65,9 @@ object MediaIdHelper {
         }
         val indexOfLeaf = mediaId.indexOf(LEAF_SEPARATOR)
         if (indexOfLeaf == -1) {
-            return mediaId.substring(indexOfCategory)
+            return mediaId.substring(indexOfCategory + 1)
         } else{
-            return mediaId.substring(indexOfCategory, indexOfLeaf)
+            return mediaId.substring(indexOfCategory + 1, indexOfLeaf)
         }
     }
 
@@ -76,7 +76,7 @@ object MediaIdHelper {
         if (indexOfSongId == -1){
             throw IllegalArgumentException("invalid media id $mediaId")
         }
-        return mediaId.substring(indexOfSongId)
+        return mediaId.substring(indexOfSongId + 1)
     }
 
     fun mapCategoryToSource(mediaId: String): Int {

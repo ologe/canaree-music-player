@@ -1,7 +1,7 @@
 package dev.olog.presentation.fragment_detail
 
-import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
@@ -14,18 +14,24 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.ApplicationContext
+import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 
 class DetailAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle
-) :RecyclerView.Adapter<DataBoundViewHolder<*>>(), DefaultLifecycleObserver {
+        @ApplicationContext context: Context,
+        @FragmentLifecycle lifecycle: Lifecycle,
+        mediaId: String
+) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    private val allData = DetailData()
-    val innerAdapter = DetailHorizontalAdapter(allData.songs)
-    val recycled = RecyclerView.RecycledViewPool()
+    private val source = MediaIdHelper.mapCategoryToSource(mediaId)
+
+    private val dataController = DetailDataController(context, this)
+    private val innerAdapter = DetailHorizontalAdapter(dataController.fakeData)
+    private val recycled = RecyclerView.RecycledViewPool()
 
     init {
-        lifecycle.addObserver(this)
+        lifecycle.addObserver(dataController)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
@@ -49,22 +55,33 @@ class DetailAdapter @Inject constructor(
         }
     }
 
-    override fun getItemCount(): Int = allData.getSize()
+    override fun getItemCount(): Int = dataController.getSize()
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
-        bind(holder.binding, allData[position], position)
+        bind(holder.binding, dataController[position], position)
         holder.binding.executePendingBindings()
     }
 
     private fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
-        val source = if(item.type == R.layout.item_detail_album) 2 else 3
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source,  source)
         binding.setVariable(BR.position, position)
     }
 
-    override fun getItemViewType(position: Int): Int = allData[position].type
+    override fun getItemViewType(position: Int): Int = dataController[position].type
 
-    fun getItem(position: Int): DisplayableItem = allData[position]
+    fun getItem(position: Int): DisplayableItem = dataController[position]
+
+    fun onItemChanged(item: DisplayableItem){
+        dataController.publisher.onNext(DetailDataController.DataType.HEADER.to(listOf(item)))
+    }
+
+    fun onSongListChanged(list: List<DisplayableItem>){
+        dataController.publisher.onNext(DetailDataController.DataType.SONGS.to(list))
+    }
+
+    fun onAlbumListChanged(list: List<DisplayableItem>){
+        dataController.publisher.onNext(DetailDataController.DataType.ALBUMS.to(list))
+    }
 
 }

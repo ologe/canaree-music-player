@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor.detail
+package dev.olog.domain.interactor.detail.siblings
 
 import dev.olog.domain.entity.Album
 import dev.olog.domain.executor.IoScheduler
@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 
-class GetArtistSiblingsUseCase @Inject internal constructor(
+class GetAlbumSiblingsByArtistUseCase @Inject internal constructor(
         schedulers: IoScheduler,
         private val albumGateway: AlbumGateway
 
@@ -24,6 +24,6 @@ class GetArtistSiblingsUseCase @Inject internal constructor(
                 .flatMapSingle { it.toFlowable()
                         .filter { it.artistId == artistId }
                         .toList()
-                }
+                }.filter { it.size > 1 }
     }
 }

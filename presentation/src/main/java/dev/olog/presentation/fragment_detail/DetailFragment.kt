@@ -22,7 +22,6 @@ class DetailFragment : BaseFragment() {
             return DetailFragment().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId
             )
-
         }
     }
 
@@ -38,6 +37,12 @@ class DetailFragment : BaseFragment() {
 
         // todo if top if dark then
         activity!!.window.removeLightStatusBar()
+
+        viewModel.itemLiveData.subscribe(this, adapter::onItemChanged)
+
+        viewModel.songsLiveData.subscribe(this, adapter::onSongListChanged)
+
+        viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

@@ -15,12 +15,6 @@
         android:orientation="vertical"
         android:layout_marginTop="36dp">
 
-        <!--<View-->
-            <!--android:layout_marginTop="36dp"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--style="@style/Divider"/>-->
-
         <TextView
             android:text="@{item.title}"
             tools:text="Recently played"

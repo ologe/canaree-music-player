@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 class DetailFragmentViewModelFactory @Inject constructor(
         private val siblingMediaId: String,
-        private val data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        private val item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
+        private val albums: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) : ViewModelProvider.Factory {
@@ -17,7 +18,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DetailFragmentViewModel(
                 siblingMediaId,
-                data,
+                item,
+                albums,
                 getSongListByParamUseCase
         ) as T
     }

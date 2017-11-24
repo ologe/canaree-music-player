@@ -1,7 +1,6 @@
 package dev.olog.presentation.fragment_detail
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.presentation.model.DisplayableItem
@@ -12,37 +11,23 @@ import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 
 class DetailFragmentViewModel(
-        private val siblingMediaId: String,
-        private val data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+        siblingMediaId: String,
+        item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
+        data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) : ViewModel() {
 
     private val category = MediaIdHelper.extractCategory(siblingMediaId)
 
-    val siblingsObservable : Flowable<List<DisplayableItem>>
-        get() = data[category]!!.replay(1).refCount()
+    val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
 
-    val mediaIdLiveData = MutableLiveData<String>()
+    val albumsLiveData : LiveData<List<DisplayableItem>> = data[category]!!.asLiveData()
 
-    init {
-        mediaIdLiveData.value = siblingMediaId
-    }
-
-    val songListLiveData = Transformations.switchMap(mediaIdLiveData, { input ->
-        val source = MediaIdHelper.mapCategoryToSource(siblingMediaId)
-        getSongListByParamUseCase.execute(input)
-                .flatMapSingle { it.toFlowable()
-                        .map { it.toDetailDisplayableItem(source) }
-                        .toList()
-                }.asLiveData()
-    })
-
-    fun onMediaItemChanged(mediaItem: DisplayableItem) {
-        mediaIdLiveData.value = mediaItem.mediaId
-//        headerLiveData.value = mediaItem.title
-    }
-
+    val songsLiveData: LiveData<List<DisplayableItem>> = getSongListByParamUseCase
+            .execute(siblingMediaId)
+            .flatMapSingle { it.toFlowable().map { it.toDetailDisplayableItem() }.toList() }
+            .asLiveData()
 
 
 }

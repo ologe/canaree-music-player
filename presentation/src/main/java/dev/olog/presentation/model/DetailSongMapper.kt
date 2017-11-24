@@ -5,25 +5,25 @@ import dev.olog.presentation.R
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
 
-fun Folder.toDisplayableItem(): DisplayableItem{
+fun Folder.toDetailDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_detail_album,
             MediaIdHelper.folderId(path),
             title.capitalize()
     )
 }
 
-fun Playlist.toDisplayableItem(): DisplayableItem{
+fun Playlist.toDetailDisplayableItem(): DisplayableItem{
     return dev.olog.presentation.model.DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_detail_album,
             MediaIdHelper.playlistId(id),
             title.capitalize()
     )
 }
 
-fun Song.toDisplayableItem(): DisplayableItem{
+fun Song.toDetailDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_song,
+            R.layout.item_detail_song,
             MediaIdHelper.songId(id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
@@ -34,9 +34,9 @@ fun Song.toDisplayableItem(): DisplayableItem{
     )
 }
 
-fun Album.toDisplayableItem(): DisplayableItem{
+fun Album.toDetailDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_detail_album,
             MediaIdHelper.albumId(id),
             title,
             artist,
@@ -44,17 +44,17 @@ fun Album.toDisplayableItem(): DisplayableItem{
     )
 }
 
-fun Artist.toDisplayableItem(): DisplayableItem{
+fun Artist.toDetailDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_detail_album,
             MediaIdHelper.artistId(id),
             name
     )
 }
 
-fun Genre.toDisplayableItem(): DisplayableItem{
+fun Genre.toDetailDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_detail_album,
             MediaIdHelper.genreId(id),
             name
     )

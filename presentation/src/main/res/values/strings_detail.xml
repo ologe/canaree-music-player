@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="detail_most_played">Most Played</string>
+    <string name="detail_recently_added">Recently Added</string>
+    <string name="detail_albums">Albums</string>
+    <string name="detail_songs">Songs</string>
+
+</resources>

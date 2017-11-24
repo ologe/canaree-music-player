@@ -1,9 +1,10 @@
-package dev.olog.domain.interactor.detail
+package dev.olog.domain.interactor.detail.siblings
 
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.interactor.base.FlowableUseCase
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 class GetPlaylistSiblingsUseCase @Inject internal constructor(
@@ -12,5 +13,5 @@ class GetPlaylistSiblingsUseCase @Inject internal constructor(
 
 ) : FlowableUseCase<List<Playlist>>(schedulers) {
 
-    override fun buildUseCaseObservable() = gateway.getAll()
+    override fun buildUseCaseObservable(): Flowable<List<Playlist>> = gateway.getAll().filter { it.size > 1 }
 }
