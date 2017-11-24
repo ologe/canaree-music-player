@@ -11,7 +11,7 @@
     <dimen name="item_song_artist">12sp</dimen>
 
     <!--item detail album-->
-    <dimen name="item_detail_album_first_text">10sp</dimen>
-    <dimen name="item_detail_album_second_text">9sp</dimen>
+    <dimen name="item_detail_album_first_text">12sp</dimen>
+    <dimen name="item_detail_album_second_text">10sp</dimen>
 
 </resources>

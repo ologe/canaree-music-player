@@ -14,87 +14,108 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-
         android:clipToPadding="false"
         android:clipChildren="false">
 
-        <ImageView
-            android:id="@+id/cover"
+        <View
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/coverLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/coverLayout"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            style="@style/Divider"
+            android:layout_marginStart="12dp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/coverLayout"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintDimensionRatio="1"
-            android:layout_width="60dp"
-            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="18dp">
 
-            app:imageSong="@{item.image}"
-            app:position="@{position}"
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@drawable/placeholder_folder"
+                app:imageSong="@{item.image}"
+                app:position="@{position}"/>
 
-            android:padding="6dp"
-            tools:src="@drawable/placeholder_folder"/>
+        </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/firstText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="6dp"
-
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/coverLayout"
+            app:layout_constraintStart_toEndOf="@+id/coverLayout"
             app:layout_constraintBottom_toTopOf="@+id/secondText"
-            app:layout_constraintStart_toEndOf="@id/cover"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            style="@style/Song.MainText"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:text="@{item.title}"
-
-            tools:text="@tools:sample/lorem"/>
+            tools:text="@tools:sample/lorem"
+            style="@style/Song.MainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"/>
 
         <TextView
             android:id="@+id/secondText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="6dp"
-
-            app:layout_constraintStart_toEndOf="@+id/cover"
+            app:layout_constraintStart_toEndOf="@id/coverLayout"
             app:layout_constraintTop_toBottomOf="@+id/firstText"
             app:layout_constraintEnd_toStartOf="@+id/remix"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-            style="@style/Song.SecondaryText"
+            app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
             android:text="@{item.subtitle}"
-            tools:text="@tools:sample/lorem"/>
+            tools:text="@tools:sample/lorem"
+            style="@style/Song.SecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp" />
 
         <TextView
             android:id="@+id/explicit"
-            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="@+id/secondText"
+            app:layout_constraintBottom_toBottomOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            app:layout_constraintTop_toBottomOf="@+id/firstText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
+            android:layout_marginStart="4dp"
             style="@style/ExplicitView"
             android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}"/>
 
         <TextView
             android:id="@+id/remix"
+            app:layout_constraintTop_toTopOf="@+id/secondText"
+            app:layout_constraintBottom_toBottomOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/explicit"
+            style="@style/RemixView"
             android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{item.isRemix ? View.VISIBLE : View.GONE}"/>
 
-            app:layout_constraintTop_toBottomOf="@+id/firstText"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/explicit"
 
-            style="@style/RemixView"
-            android:visibility="@{item.isRemix ? View.VISIBLE : View.GONE}" />
+        <ImageButton
+            android:id="@+id/more"
+            app:layout_constraintTop_toTopOf="@id/coverLayout"
+            app:layout_constraintBottom_toBottomOf="@id/coverLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/vd_more"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
 
     </android.support.constraint.ConstraintLayout>
+
 
 </layout>

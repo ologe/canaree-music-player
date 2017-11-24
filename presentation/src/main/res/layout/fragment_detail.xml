@@ -62,6 +62,9 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:padding="8dp"/>
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"/>
 
 </LinearLayout>
