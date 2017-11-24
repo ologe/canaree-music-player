@@ -5,67 +5,54 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_margin="12dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/coverLayout"
+        <ImageView
+            android:id="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/placeholder_folder" />
-
-        </android.support.v7.widget.CardView>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1.3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/placeholder_folder"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:id="@+id/title"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/coverLayout"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Unapologetic (Deluxe Version)"
-            android:layout_marginStart="16dp"
-            android:textSize="18sp"
+            android:text="Selena Gomez"
+            android:textSize="40sp"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingStart="32dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
 
-        <TextView
-            android:id="@+id/subtitle"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@+id/coverLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Rihanna"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textColor="@color/item_selected"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"/>
-        
-        <TextView
-            android:id="@+id/description"
-            app:layout_constraintTop_toBottomOf="@+id/subtitle"
-            android:layout_marginTop="4dp"
-            app:layout_constraintStart_toEndOf="@+id/coverLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Pop - 2012"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textColor="@color/grey600"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"/>
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_marginTop="@dimen/status_bar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/vd_back_arrow"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:tint="@android:color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <ImageButton
             android:id="@+id/more"
-            app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/vd_more"
             android:padding="12dp"
             android:layout_width="wrap_content"
@@ -75,21 +62,62 @@
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
-        <TextView
-            app:layout_constraintStart_toEndOf="@+id/coverLayout"
-            app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
-            android:text="Shuffle All"
-            android:textAllCaps="true"
-            android:drawableStart="@drawable/vd_shuffle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingStart="16dp"
-            android:drawablePadding="16dp"
-            android:textStyle="bold"
-            android:textColor="@color/dark_grey"
-            android:gravity="center_vertical" />
+        <!--<TextView-->
+            <!--android:id="@+id/subtitle"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/title"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/coverLayout"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--android:text="Rihanna"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textColor="@color/item_selected"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:maxLines="2"/>-->
+        
+        <!--<TextView-->
+            <!--android:id="@+id/description"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/subtitle"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--app:layout_constraintStart_toEndOf="@+id/coverLayout"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--android:text="Pop - 2012"-->
+            <!--android:layout_marginStart="16dp"-->
+            <!--android:textSize="16sp"-->
+            <!--android:textColor="@color/grey600"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:maxLines="2"/>-->
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/more"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/coverLayout"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--android:src="@drawable/vd_more"-->
+            <!--android:padding="12dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:tint="@color/button_primary_tint"-->
+            <!--android:clickable="true"-->
+            <!--android:focusable="true"-->
+            <!--android:background="?attr/selectableItemBackgroundBorderless" />-->
+
+        <!--<TextView-->
+            <!--app:layout_constraintStart_toEndOf="@+id/coverLayout"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/coverLayout"-->
+            <!--android:text="Shuffle All"-->
+            <!--android:textAllCaps="true"-->
+            <!--android:drawableStart="@drawable/vd_shuffle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingTop="16dp"-->
+            <!--android:paddingBottom="16dp"-->
+            <!--android:paddingStart="16dp"-->
+            <!--android:drawablePadding="16dp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/dark_grey"-->
+            <!--android:gravity="center_vertical" />-->
         
     </android.support.constraint.ConstraintLayout>
 
