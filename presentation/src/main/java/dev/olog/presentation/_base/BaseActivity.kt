@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.presentation.utils.setLightStatusBar
-import dev.olog.presentation.utils.setTransparentStatusBar
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
@@ -12,7 +11,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.setTransparentStatusBar()
         window.setLightStatusBar()
 
     }

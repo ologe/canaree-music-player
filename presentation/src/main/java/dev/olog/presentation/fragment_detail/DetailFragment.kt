@@ -5,8 +5,11 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.utils.removeLightStatusBar
+import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.presentation.utils.withArguments
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
@@ -26,7 +29,6 @@ class DetailFragment : BaseFragment() {
     }
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
-//    @Inject lateinit var horizontalAdapter: DetailHorizontalAdapter
     @Inject lateinit var adapter: DetailAdapter
 
     private lateinit var layoutManager: GridLayoutManager
@@ -40,6 +42,8 @@ class DetailFragment : BaseFragment() {
 
 //        viewModel.songListLiveData
 //                .subscribe(this, adapter::updateDataSet)
+
+        activity!!.window.removeLightStatusBar()
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +55,18 @@ class DetailFragment : BaseFragment() {
         }
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+
+        RxRecyclerView.scrollEvents(view.list)
+                .map { layoutManager.findFirstVisibleItemPosition() >= 1 }
+                .distinctUntilChanged()
+                .subscribe { lightStatusBar ->
+                    val window = activity!!.window
+                    if (lightStatusBar){
+                        window.setLightStatusBar()
+                    } else {
+                        window.removeLightStatusBar()
+                    }
+                }
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
