@@ -14,9 +14,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        tools:layout_width="150dp"
-        tools:background="@color/background">
+        tools:background="@color/background"
+        android:layout_marginBottom="4dp">
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"
@@ -50,28 +49,11 @@
             app:layout_constraintTop_toBottomOf="@+id/coverLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/secondText"
 
             style="@style/Album.MainText"
             android:text="@{item.title}"
 
             tools:text="@tools:sample/lorem"/>
-
-        <TextView
-            android:id="@+id/secondText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            app:layout_constraintTop_toBottomOf="@+id/firstText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-            style="@style/Album.SecondaryText"
-            android:text="@{item.subtitle}"
-
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 
