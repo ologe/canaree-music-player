@@ -16,7 +16,9 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="16dp"
+        android:background="@color/background"
+        android:scrollbars="vertical"/>
 
     <View
         android:id="@+id/toolbar"
