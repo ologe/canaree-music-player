@@ -15,10 +15,9 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
+        tools:background="@color/background"
         android:layout_margin="5dp"
-        android:layout_marginBottom="2dp"
-
-        tools:background="@color/background">
+        android:layout_marginBottom="2dp">
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"
@@ -29,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
-            app:cardCornerRadius="4dp"
+            app:cardCornerRadius="5dp"
             app:cardElevation="0dp">
 
             <ImageView
@@ -46,7 +45,6 @@
         </android.support.v7.widget.CardView>
 
 
-
         <TextView
             android:id="@+id/firstText"
             android:layout_width="0dp"
@@ -58,24 +56,8 @@
 
             style="@style/Album.MainText"
             android:text="@{item.title}"
-            android:textStyle="bold"
 
             tools:text="@tools:sample/lorem"/>
-
-        <TextView
-            android:id="@+id/secondText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            app:layout_constraintTop_toBottomOf="@+id/firstText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            style="@style/Album.SecondaryText"
-            android:text="@{item.subtitle}"
-
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 

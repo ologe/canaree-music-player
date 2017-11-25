@@ -7,7 +7,7 @@ import dev.olog.shared.TextUtils
 
 fun Folder.toDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_tab_album_alt,
             MediaIdHelper.folderId(path),
             title.capitalize()
     )
@@ -15,7 +15,7 @@ fun Folder.toDisplayableItem(): DisplayableItem{
 
 fun Playlist.toDisplayableItem(): DisplayableItem{
     return dev.olog.presentation.model.DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_tab_album_alt,
             MediaIdHelper.playlistId(id),
             title.capitalize()
     )
@@ -46,7 +46,7 @@ fun Album.toDisplayableItem(): DisplayableItem{
 
 fun Artist.toDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_tab_album_alt,
             MediaIdHelper.artistId(id),
             name
     )
@@ -54,7 +54,7 @@ fun Artist.toDisplayableItem(): DisplayableItem{
 
 fun Genre.toDisplayableItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_tab_album_alt,
             MediaIdHelper.genreId(id),
             name
     )

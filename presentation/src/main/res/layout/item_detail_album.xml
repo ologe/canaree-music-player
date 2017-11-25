@@ -13,9 +13,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
 
         tools:layout_width="150dp"
         tools:background="@color/background">
@@ -71,7 +69,6 @@
 
             style="@style/Album.SecondaryText"
             android:text="@{item.subtitle}"
-            android:visibility="@{item.subtitle != null ? View.VISIBLE : View.GONE}"
 
             tools:text="@tools:sample/lorem"
             tools:visibility="visible" />

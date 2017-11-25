@@ -3,10 +3,6 @@ package dev.olog.presentation.fragment_tab
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.ALBUM
-import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.ARTIST
-import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.FOLDER
-import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.GENRE
-import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.PLAYLIST
 import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.SONG
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.PerFragment
@@ -27,11 +23,13 @@ class TabSpanSizeLookup @Inject constructor(
     private val isPortrait = context.isPortrait
 
     private fun getSpan(): Int{
+        val isAlbum = source == ALBUM
+
         return when {
             source == SONG && isPortrait -> SPAN_COUNT
             source == SONG && !isPortrait -> SPAN_COUNT / 2
-            (source == ALBUM || source == ARTIST) && isPortrait -> SPAN_COUNT / 2
-            (source == FOLDER || source == PLAYLIST || source == GENRE) && isPortrait -> SPAN_COUNT / 3
+            (isAlbum) && isPortrait -> SPAN_COUNT / 2
+            (isAlbum.not()) && isPortrait -> SPAN_COUNT / 3
             else -> SPAN_COUNT / 4
         }
     }
