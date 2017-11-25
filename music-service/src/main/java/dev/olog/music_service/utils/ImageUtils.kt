@@ -25,11 +25,10 @@ object ImageUtils {
             drawable.setBounds(0, 0, 24, 24)
             drawable.draw(canvas)
 
-            return bitmap
+            bitmap
         } catch (ex: Exception){
-            return null
+            null
         }
-
     }
 
     fun getBitmapFromUri(context: Context, coverUri: String?): Bitmap? {
@@ -42,7 +41,6 @@ object ImageUtils {
         } catch (ex: Exception) {
             null
         }
-
     }
 
 }

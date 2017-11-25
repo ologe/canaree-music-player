@@ -17,9 +17,9 @@ fun Window.setLightStatusBar(){
 }
 
 fun Window.removeLightStatusBar(){
-//    decorView.systemUiVisibility = 0
-//    statusBarColor = Color.TRANSPARENT
-//    decorView.systemUiVisibility = (decorView.systemUiVisibility or
-//            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    decorView.systemUiVisibility = 0
+    statusBarColor = Color.TRANSPARENT
+    decorView.systemUiVisibility = (decorView.systemUiVisibility or
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 }

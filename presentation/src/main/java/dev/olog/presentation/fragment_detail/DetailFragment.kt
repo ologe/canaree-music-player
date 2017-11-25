@@ -1,8 +1,13 @@
 package dev.olog.presentation.fragment_detail
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.Point
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.math.MathUtils
+import android.support.v7.graphics.Palette
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +15,10 @@ import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.images.ImageUtils
 import dev.olog.presentation.utils.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment() {
@@ -30,6 +37,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var viewModel: DetailFragmentViewModel
     @Inject lateinit var adapter: DetailAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
+    private var isCoverDark = false
 
     private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
 
@@ -43,12 +51,29 @@ class DetailFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // todo if top if dark then
-        activity!!.window.removeLightStatusBar()
-
         viewModel.itemLiveData.subscribe(this, {
             adapter.onItemChanged(it)
             view?.header?.text = it.title
+            val imageBitmap : Bitmap? = ImageUtils.getBitmapFromUri(context!!, it.image)
+            imageBitmap?.apply {
+                val point = Point()
+                activity!!.windowManager.defaultDisplay.getSize(point)
+                val statusBarHeight = context!!.dimen(R.dimen.status_bar)
+                Palette.from(this).setRegion(
+                        0, 0, point.x, statusBarHeight
+                ).generate {
+                    val dominantColor = it.getDominantColor(ContextCompat.getColor(context!!, R.color.dark_grey))
+                    isCoverDark = ColorUtils.isColorDark(dominantColor)
+                    if (isCoverDark){
+                        activity!!.window.removeLightStatusBar()
+                        view?.back?.setColorFilter(Color.WHITE)
+                    } else{
+                        activity!!.window.setLightStatusBar()
+                        view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
+                    }
+                }
+            }
+
         })
 
         viewModel.songsLiveData.subscribe(this, {
@@ -88,15 +113,14 @@ class DetailFragment : BaseFragment() {
                     view.toolbar.isActivated = lightStatusBar
                     view.back.isActivated = lightStatusBar
                     view.header.isActivated = lightStatusBar
-                    if (lightStatusBar){
+                    if (!isCoverDark){
                         window.setLightStatusBar()
                     } else {
                         window.removeLightStatusBar()
                     }
                 })
 
-        listObservable
-                .map { it.dy() }
+        listObservable.map { it.dy() }
                 .asLiveData()
                 .subscribe(this, { dy ->
                     val floatDiff = dy.toFloat()
