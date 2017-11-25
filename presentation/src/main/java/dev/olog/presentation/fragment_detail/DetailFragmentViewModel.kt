@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDetailDisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
@@ -29,6 +30,7 @@ class DetailFragmentViewModel(
 
     private val unknownArtist = application.getString(R.string.unknown_artist)
     private val category = MediaIdHelper.extractCategory(siblingMediaId)
+    private val source = MediaIdHelper.mapCategoryToSource(siblingMediaId)
 
     val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
 
@@ -40,8 +42,17 @@ class DetailFragmentViewModel(
             .refCount()
 
     val songsLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
-            .flatMapSingle { it.toFlowable().map { it.toDisplayableItem() }.toList() }
-            .asLiveData()
+            .map { it.to(it.sumBy { it.duration.toInt() }) }
+            .flatMapSingle { (songList, totalDuration) ->
+                songList.toFlowable().map { it.toDisplayableItem() }.toList().map {
+                it.to(TimeUnit.MINUTES.convert(totalDuration.toLong(), TimeUnit.MILLISECONDS).toInt())
+            } }
+            .map { (list, totalDuration) ->
+                list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
+                        application.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + ", " +
+                                application.resources.getQuantityString(R.plurals.duration_count, totalDuration, totalDuration)))
+                list
+            }.asLiveData()
 
     val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
             .filter { it.size >= 5 }
@@ -54,6 +65,7 @@ class DetailFragmentViewModel(
             }.asLiveData()
 
     val artistsInDataLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+            .filter { source != TabViewPagerAdapter.ALBUM || source != TabViewPagerAdapter.ARTIST }
             .map { it.asSequence()
                     .filter { it.artist != unknownArtist }
                     .map { it.artist }

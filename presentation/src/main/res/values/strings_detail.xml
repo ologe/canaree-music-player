@@ -17,4 +17,14 @@
 
     <string name="detail_artist_in">Artists in</string>
 
+    <plurals name="song_count">
+        <item quantity="one">%d Song</item>
+        <item quantity="other">%d Songs</item>
+    </plurals>
+
+    <plurals name="duration_count">
+        <item quantity="one">%d Minute</item>
+        <item quantity="other">%d Minutes</item>
+    </plurals>
+
 </resources>
