@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
+
+        <View
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            style="@style/Divider"/>
+
+        <ImageView
+            android:id="@+id/img"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/vd_shuffle"
+            android:padding="16dp"/>
 
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="Shuffle All"
-            android:textAllCaps="true"
-            android:drawableStart="@drawable/vd_shuffle"
-            android:layout_width="match_parent"
+            android:textSize="18sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:paddingStart="32dp"
-            android:drawablePadding="16dp"
-            android:textStyle="bold"
-            android:textColor="@color/item_selected"
+            android:textColor="@color/text_color_primary"
             android:gravity="center_vertical"/>
 
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </layout>

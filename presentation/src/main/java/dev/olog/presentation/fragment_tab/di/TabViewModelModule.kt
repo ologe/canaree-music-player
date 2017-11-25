@@ -8,7 +8,7 @@ import dagger.multibindings.IntKey
 import dagger.multibindings.IntoMap
 import dev.olog.domain.interactor.tab.*
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
-import dev.olog.presentation.fragment_tab.TabViewModel
+import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabViewModelFactory
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
@@ -19,8 +19,8 @@ import io.reactivex.rxkotlin.toFlowable
 class TabViewModelModule {
 
     @Provides
-    internal fun viewModel(activity: FragmentActivity, factory: TabViewModelFactory): TabViewModel {
-        return ViewModelProviders.of(activity, factory).get(TabViewModel::class.java)
+    internal fun viewModel(activity: FragmentActivity, factory: TabViewModelFactory): TabFragmentViewModel {
+        return ViewModelProviders.of(activity, factory).get(TabFragmentViewModel::class.java)
     }
 
     @Provides

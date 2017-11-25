@@ -1,8 +1,10 @@
 package dev.olog.presentation.fragment_detail
 
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDetailDisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
@@ -13,17 +15,19 @@ import io.reactivex.rxkotlin.toFlowable
 import java.util.concurrent.TimeUnit
 
 class DetailFragmentViewModel(
+        application: Application,
         siblingMediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         getSongListByParamUseCase: GetSongListByParamUseCase
 
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     companion object {
         private val ONE_WEEK = TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
     }
 
+    private val unknownArtist = application.getString(R.string.unknown_artist)
     private val category = MediaIdHelper.extractCategory(siblingMediaId)
 
     val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
@@ -32,7 +36,8 @@ class DetailFragmentViewModel(
 
     private val sharedSongObserver = getSongListByParamUseCase
             .execute(siblingMediaId)
-            .share()
+            .replay(1)
+            .refCount()
 
     val songsLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
             .flatMapSingle { it.toFlowable().map { it.toDisplayableItem() }.toList() }
@@ -47,5 +52,16 @@ class DetailFragmentViewModel(
                     .toList()
 
             }.asLiveData()
+
+    val artistsInDataLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+            .map { it.asSequence()
+                    .filter { it.artist != unknownArtist }
+                    .map { it.artist }
+                    .distinct()
+                    .joinToString()
+            }
+            .map { DisplayableItem(R.layout.item_related_artists, "related id", it) }
+            .map { listOf(it) }
+            .asLiveData()
 
 }

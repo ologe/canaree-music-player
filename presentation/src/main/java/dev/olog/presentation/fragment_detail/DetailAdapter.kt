@@ -98,4 +98,8 @@ class DetailAdapter @Inject constructor(
         dataController.publisher.onNext(DetailDataController.DataType.RECENT.to(list))
     }
 
+    fun onArtistInDataChanged(list: List<DisplayableItem>){
+        dataController.publisher.onNext(DetailDataController.DataType.ARTISTS_IN.to(list))
+    }
+
 }

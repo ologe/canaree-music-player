@@ -2,4 +2,6 @@
     <string name="app_name">presentation</string>
     <string name="app_real_name">Msc</string>
 
+    <string name="unknown_artist">Unknown Artist</string>
+
 </resources>

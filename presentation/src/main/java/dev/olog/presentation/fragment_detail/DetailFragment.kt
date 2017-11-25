@@ -62,6 +62,8 @@ class DetailFragment : BaseFragment() {
             recentlyAddedAdapter.updateDataSet(it)
             adapter.onRecentlyAddedChanged(it)
         })
+
+        viewModel.artistsInDataLiveData.subscribe(this, adapter::onArtistInDataChanged)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

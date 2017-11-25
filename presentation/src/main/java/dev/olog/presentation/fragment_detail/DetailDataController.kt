@@ -6,8 +6,10 @@ import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.unsubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
 
 class DetailDataController(
         context: Context,
@@ -44,6 +46,7 @@ class DetailDataController(
     private val recentlyAddedData: List<DisplayableItem> = mutableListOf()
     private val albumsData: List<DisplayableItem> = mutableListOf()
     private val songsData: List<DisplayableItem> = mutableListOf()
+    private val artistsInData: List<DisplayableItem> = mutableListOf()
 
     val fakeData: List<DisplayableItem> = mutableListOf(
             DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - 4 A.M ft. Travis Scott", "Unkown Artist"),
@@ -58,16 +61,13 @@ class DetailDataController(
             DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist")
     )
 
-
-    private val artistsInData: List<DisplayableItem> = mutableListOf()
-
     private val dataSet : MutableMap<DataType, List<DisplayableItem>> = mutableMapOf(
             DataType.HEADER to headerData,
             DataType.MOST_PLAYED to mostPlayedData,
             DataType.RECENT to recentlyAddedData,
             DataType.ALBUMS to albumsData,
-            DataType.SONGS to songsData,
-            DataType.ARTISTS_IN to artistsInData
+            DataType.ARTISTS_IN to artistsInData,
+            DataType.SONGS to songsData
     )
 
     fun getSize(): Int = dataSet.values.sumBy { it.size }
@@ -88,6 +88,13 @@ class DetailDataController(
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = publisher
                 .toSerialized()
+                .observeOn(Schedulers.computation())
+//                .map { (type, data) ->
+//                    val asMutable = data.toMutableList()
+//                    addHeaderByType(type, asMutable)
+//
+//                }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { (type, data) ->
                     val asMutable = data.toMutableList()
                     addHeaderByType(type, asMutable)
@@ -102,6 +109,9 @@ class DetailDataController(
 
     private fun addHeaderByType(type: DataType, list: MutableList<DisplayableItem>) {
         when (type){
+            DataType.HEADER -> {
+//                list.add(DisplayableItem(R.layout.item_shuffle, "shuffle id", ""))
+            }
             DataType.MOST_PLAYED -> {
                 if (list.isNotEmpty()){
                     list.clear() // all recent list is not needed
@@ -115,7 +125,6 @@ class DetailDataController(
                     list.add(0, recentlyAddedHeader)
                     list.add(1, recentlyAddedList)
                 }
-
             }
             DataType.ALBUMS -> list.add(0, albumsHeader)
             DataType.SONGS -> list.add(0, songsHeader)

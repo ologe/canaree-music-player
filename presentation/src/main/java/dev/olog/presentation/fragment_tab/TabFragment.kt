@@ -28,7 +28,7 @@ class TabFragment : BaseFragment() {
     }
 
     @Inject lateinit var adapter: TabAdapter
-    @Inject lateinit var viewModel: TabViewModel
+    @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject @JvmField var source: Int = 0
     @Inject lateinit var tabSpanSizeLookup: TabSpanSizeLookup
     @Inject lateinit var viewPool: RecyclerView.RecycledViewPool

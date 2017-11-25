@@ -12,6 +12,6 @@ class TabViewModelFactory @Inject constructor(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TabViewModel(data) as T
+        return TabFragmentViewModel(data) as T
     }
 }

@@ -7,7 +7,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.asLiveData
 import io.reactivex.Flowable
 
-class TabViewModel constructor(
+class TabFragmentViewModel constructor(
         private val data: Map<Int, Flowable<List<DisplayableItem>>>
 ) : ViewModel() {
 

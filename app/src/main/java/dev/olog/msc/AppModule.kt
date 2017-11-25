@@ -1,5 +1,6 @@
 package dev.olog.msc
 
+import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import dagger.Module
@@ -18,5 +19,8 @@ class AppModule(
 
     @Provides
     fun provideResources(): Resources = app.resources
+
+    @Provides
+    fun provideApplication(): Application = app
 
 }

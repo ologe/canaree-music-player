@@ -15,4 +15,6 @@
         <item>Other Genres</item>
     </string-array>
 
+    <string name="detail_artist_in">Artists in</string>
+
 </resources>
