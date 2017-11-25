@@ -94,4 +94,8 @@ class DetailAdapter @Inject constructor(
         dataController.publisher.onNext(DetailDataController.DataType.ALBUMS.to(list))
     }
 
+    fun onRecentlyAddedChanged(list: List<DisplayableItem>){
+        dataController.publisher.onNext(DetailDataController.DataType.RECENT.to(list))
+    }
+
 }

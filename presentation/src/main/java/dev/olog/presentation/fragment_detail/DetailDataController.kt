@@ -12,7 +12,7 @@ import io.reactivex.processors.PublishProcessor
 class DetailDataController(
         context: Context,
         private val adapter: DetailAdapter,
-        private val source: Int
+        source: Int
 
 ) : DefaultLifecycleObserver {
 
@@ -24,26 +24,24 @@ class DetailDataController(
         HEADER, MOST_PLAYED, RECENT, ALBUMS, SONGS, ARTISTS_IN
     }
 
-    private val mostPlayedHeader = DisplayableItem(R.layout.item_header, "most played id",
-            context.getString(R.string.detail_most_played))
-    private val recentlyAddedHeader = DisplayableItem(R.layout.item_header, "recent id",
-            context.getString(R.string.detail_recently_added))
+    private val mostPlayedList = DisplayableItem(R.layout.item_most_played_horizontal_list,
+            "most played list", "")
+    private val recentlyAddedList = DisplayableItem(R.layout.item_recent_horizontal_list,
+            "recent list", "")
+
+    private val mostPlayedHeader = DisplayableItem(R.layout.item_header, "most played id", context.getString(R.string.detail_most_played))
+    private val recentlyAddedHeader = DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added))
     private val albumsHeader = DisplayableItem(R.layout.item_header, "albums id",
             context.resources.getStringArray(R.array.detail_album_header)[source])
-    private val songsHeader = DisplayableItem(R.layout.item_header, "songs id",
-            context.getString(R.string.detail_songs))
+    private val songsHeader = DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs))
+
 
     private val headerData : List<DisplayableItem> = mutableListOf()
-
     private val mostPlayedData: List<DisplayableItem> = mutableListOf(
             mostPlayedHeader,
             DisplayableItem(R.layout.item_most_played_horizontal_list, "media", "Most Played")
     )
-    private val recentlyAddedData: List<DisplayableItem> = mutableListOf(
-            recentlyAddedHeader,
-            DisplayableItem(R.layout.item_recent_horizontal_list, "media", "Recently Added")
-    )
-
+    private val recentlyAddedData: List<DisplayableItem> = mutableListOf()
     private val albumsData: List<DisplayableItem> = mutableListOf()
     private val songsData: List<DisplayableItem> = mutableListOf()
 
@@ -104,10 +102,23 @@ class DetailDataController(
 
     private fun addHeaderByType(type: DataType, list: MutableList<DisplayableItem>) {
         when (type){
-            DataType.MOST_PLAYED -> list.add(0,mostPlayedHeader)
-            DataType.RECENT -> list.add(0,recentlyAddedHeader)
-            DataType.ALBUMS -> list.add(0,albumsHeader)
-            DataType.SONGS -> list.add(0,songsHeader)
+            DataType.MOST_PLAYED -> {
+                if (list.isNotEmpty()){
+                    list.clear() // all recent list is not needed
+                    list.add(0, mostPlayedHeader)
+                    list.add(1, mostPlayedList)
+                }
+            }
+            DataType.RECENT -> {
+                if (list.isNotEmpty()){
+                    list.clear() // all recent list is not needed
+                    list.add(0, recentlyAddedHeader)
+                    list.add(1, recentlyAddedList)
+                }
+
+            }
+            DataType.ALBUMS -> list.add(0, albumsHeader)
+            DataType.SONGS -> list.add(0, songsHeader)
         }
     }
 

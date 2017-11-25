@@ -58,7 +58,10 @@ class DetailFragment : BaseFragment() {
 
         viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
 
-        viewModel.recentlyAddedLiveData.subscribe(this, recentlyAddedAdapter::updateDataSet)
+        viewModel.recentlyAddedLiveData.subscribe(this, {
+            recentlyAddedAdapter.updateDataSet(it)
+            adapter.onRecentlyAddedChanged(it)
+        })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
