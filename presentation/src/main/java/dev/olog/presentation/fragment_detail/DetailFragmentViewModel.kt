@@ -5,7 +5,9 @@ import android.arch.lifecycle.ViewModel
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDetailDisplayableItem
+import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.presentation.utils.asLiveData
+import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import java.util.concurrent.TimeUnit
@@ -18,24 +20,32 @@ class DetailFragmentViewModel(
 
 ) : ViewModel() {
 
-    private val ONE_WEEK = TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
+    companion object {
+        private val ONE_WEEK = TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
+    }
 
-    val itemLiveData: LiveData<DisplayableItem> = item[siblingMediaId]!!.asLiveData()
+    private val category = MediaIdHelper.extractCategory(siblingMediaId)
 
-    val albumsLiveData : LiveData<List<DisplayableItem>> = data[siblingMediaId]!!.asLiveData()
+    val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
 
-    val songsLiveData: LiveData<List<DisplayableItem>> = getSongListByParamUseCase
+    val albumsLiveData : LiveData<List<DisplayableItem>> = data[category]!!.asLiveData()
+
+    private val sharedSongObserver = getSongListByParamUseCase
             .execute(siblingMediaId)
-            .flatMapSingle { it.toFlowable().map { it.toDetailDisplayableItem() }.toList() }
+            .share()
+
+    val songsLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+            .flatMapSingle { it.toFlowable().map { it.toDisplayableItem() }.toList() }
             .asLiveData()
 
-    val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = getSongListByParamUseCase
-            .execute(siblingMediaId)
+    val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+            .filter { it.size >= 5 }
             .flatMapSingle { it.toFlowable()
-                    .filter { (System.currentTimeMillis() - it.dateAdded) <= ONE_WEEK }
+                    .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }
                     .map { it.toDetailDisplayableItem() }
                     .take(20)
                     .toList()
+
             }.asLiveData()
 
 }

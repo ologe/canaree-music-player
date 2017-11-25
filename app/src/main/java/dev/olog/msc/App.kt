@@ -5,6 +5,11 @@ import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.data.DataConstants
+import dev.olog.music_service.MusicService
+import dev.olog.presentation.activity_main.MainActivity
+import dev.olog.presentation.activity_main.TabViewPagerAdapter
+import dev.olog.presentation.fragment_detail.DetailFragment
+import dev.olog.presentation.fragment_tab.TabFragment
 
 class App : DaggerApplication() {
 
@@ -31,6 +36,10 @@ class App : DaggerApplication() {
                 .detectAll()
                 .penaltyLog()
                 .penaltyDeath()
+                .setClassInstanceLimit(MainActivity::class.java, 1)
+                .setClassInstanceLimit(MusicService::class.java, 1)
+                .setClassInstanceLimit(TabFragment::class.java, TabViewPagerAdapter.ITEM_COUNT)
+                .setClassInstanceLimit(DetailFragment::class.java, 1)
                 .build())
     }
 

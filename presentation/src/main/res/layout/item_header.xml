@@ -13,7 +13,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:orientation="vertical"
-        android:layout_marginTop="36dp">
+        android:paddingTop="36dp">
 
         <TextView
             android:text="@{item.title}"

@@ -2,6 +2,7 @@ package dev.olog.presentation.fragment_detail
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.math.MathUtils
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +46,10 @@ class DetailFragment : BaseFragment() {
         // todo if top if dark then
         activity!!.window.removeLightStatusBar()
 
-        viewModel.itemLiveData.subscribe(this, adapter::onItemChanged)
+        viewModel.itemLiveData.subscribe(this, {
+            adapter.onItemChanged(it)
+            view?.header?.text = it.title
+        })
 
         viewModel.songsLiveData.subscribe(this, {
             adapter.onSongListChanged(it)
@@ -67,27 +71,52 @@ class DetailFragment : BaseFragment() {
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
 
-        RxRecyclerView.scrollEvents(view.list)
+        val listObservable = RxRecyclerView.scrollEvents(view.list)
+                .share()
+
+        listObservable
                 .map { layoutManager.findFirstVisibleItemPosition() >= 1 }
                 .distinctUntilChanged()
                 .asLiveData()
                 .subscribe(this, { lightStatusBar ->
                     val window = activity!!.window
+                    view.toolbar.isActivated = lightStatusBar
+                    view.back.isActivated = lightStatusBar
+                    view.header.isActivated = lightStatusBar
                     if (lightStatusBar){
                         window.setLightStatusBar()
                     } else {
                         window.removeLightStatusBar()
                     }
                 })
+
+        listObservable
+                .map { it.dy() }
+                .asLiveData()
+                .subscribe(this, { dy ->
+                    val floatDiff = dy.toFloat()
+                    if (layoutManager.findFirstVisibleItemPosition() < 1){
+                        // change alpha based on scroll
+                        val alpha = MathUtils.clamp(view.toolbar.alpha + floatDiff / 400, 0f, 1f)
+                        view.toolbar.alpha = alpha
+                        view.header.alpha = alpha
+                    } else if (view.toolbar.alpha != 1f) {
+                        // after the main image is covered only increase the alpha
+                        val alpha = MathUtils.clamp(view.toolbar.alpha + Math.abs(floatDiff / 400), 0f, 1f)
+                        view.toolbar.alpha = alpha
+                        view.header.alpha = alpha
+                    }
+
+                })
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         view!!.list.addItemDecoration(marginDecorator)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         view!!.list.removeItemDecoration(marginDecorator)
     }
 

@@ -41,7 +41,7 @@
         android:src="@drawable/placeholder_bird_singing"
         android:clickable="true"
         android:focusable="true"
-        android:stateListAnimator="@animator/elevate_on_activated" />
+        android:stateListAnimator="@animator/elevate_and_scale_on_activated" />
 
     <!-- prev -->
     <View

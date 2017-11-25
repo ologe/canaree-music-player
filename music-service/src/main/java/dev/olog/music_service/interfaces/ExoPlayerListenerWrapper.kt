@@ -17,12 +17,19 @@ interface ExoPlayerListenerWrapper : Player.EventListener {
     override fun onLoadingChanged(isLoading: Boolean) {
     }
 
-    override fun onPositionDiscontinuity() {
+    override fun onPositionDiscontinuity(reason: Int) {
+    }
+
+    override fun onSeekProcessed() {
     }
 
     override fun onRepeatModeChanged(repeatMode: Int) {
     }
 
     override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
+    }
+
+    override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
+
     }
 }

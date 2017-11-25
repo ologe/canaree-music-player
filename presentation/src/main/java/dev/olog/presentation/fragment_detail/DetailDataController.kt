@@ -11,7 +11,8 @@ import io.reactivex.processors.PublishProcessor
 
 class DetailDataController(
         context: Context,
-        private val adapter: DetailAdapter
+        private val adapter: DetailAdapter,
+        private val source: Int
 
 ) : DefaultLifecycleObserver {
 
@@ -28,7 +29,7 @@ class DetailDataController(
     private val recentlyAddedHeader = DisplayableItem(R.layout.item_header, "recent id",
             context.getString(R.string.detail_recently_added))
     private val albumsHeader = DisplayableItem(R.layout.item_header, "albums id",
-            context.getString(R.string.detail_albums))
+            context.resources.getStringArray(R.array.detail_album_header)[source])
     private val songsHeader = DisplayableItem(R.layout.item_header, "songs id",
             context.getString(R.string.detail_songs))
 

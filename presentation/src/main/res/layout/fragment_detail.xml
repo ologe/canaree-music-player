@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -19,4 +19,42 @@
         android:clipChildren="false"
         android:paddingBottom="16dp"/>
 
-</LinearLayout>
+    <View
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@android:color/white"
+        android:alpha="0"
+        tools:alpha="1"
+        android:stateListAnimator="@animator/toolbar_elevation_on_activated"/>
+
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_marginTop="@dimen/status_bar"
+        android:src="@drawable/vd_back_arrow"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/dark_grey"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:stateListAnimator="@animator/toolbar_elevation_on_activated" />
+
+    <TextView
+        android:id="@+id/header"
+        tools:text="Selena Gomez"
+        android:textColor="@color/dark_grey"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:alpha="0"
+        tools:alpha="1"
+        android:stateListAnimator="@animator/toolbar_elevation_on_activated" />
+
+</FrameLayout>
