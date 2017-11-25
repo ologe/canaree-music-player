@@ -21,7 +21,8 @@ import javax.inject.Inject
 class DetailAdapter @Inject constructor(
         @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
-        mediaId: String
+        mediaId: String,
+        private val recentSongsAdapter: DetailRecentlyAddedAdapter
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
@@ -43,11 +44,20 @@ class DetailAdapter @Inject constructor(
     }
 
     private fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
-        if (viewType == R.layout.item_horizontal_list) {
+        if (viewType == R.layout.item_most_played_horizontal_list) {
             val list = viewHolder.itemView as RecyclerView
             list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
                     5, GridLayoutManager.HORIZONTAL, false)
             list.adapter = innerAdapter
+            list.recycledViewPool = recycled
+
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(list)
+        } else if (viewType == R.layout.item_recent_horizontal_list){
+            val list = viewHolder.itemView as RecyclerView
+            list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
+                    5, GridLayoutManager.HORIZONTAL, false)
+            list.adapter = recentSongsAdapter
             list.recycledViewPool = recycled
 
             val snapHelper = LinearSnapHelper()

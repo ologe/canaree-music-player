@@ -36,11 +36,11 @@ class DetailDataController(
 
     private val mostPlayedData: List<DisplayableItem> = mutableListOf(
             mostPlayedHeader,
-            DisplayableItem(R.layout.item_horizontal_list, "media", "Most Played")
+            DisplayableItem(R.layout.item_most_played_horizontal_list, "media", "Most Played")
     )
     private val recentlyAddedData: List<DisplayableItem> = mutableListOf(
             recentlyAddedHeader,
-            DisplayableItem(R.layout.item_horizontal_list, "media", "Recently Added")
+            DisplayableItem(R.layout.item_recent_horizontal_list, "media", "Recently Added")
     )
 
     private val albumsData: List<DisplayableItem> = mutableListOf()

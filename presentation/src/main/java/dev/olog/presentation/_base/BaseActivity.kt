@@ -12,7 +12,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         window.setLightStatusBar()
-
     }
 
 }

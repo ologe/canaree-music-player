@@ -34,6 +34,19 @@ fun Song.toDetailDisplayableItem(): DisplayableItem{
     )
 }
 
+fun Song.toRecentDetailDisplayableItem(): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_detail_song,
+            MediaIdHelper.songId(id),
+            title,
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            image,
+            true,
+            isRemix,
+            isExplicit
+    )
+}
+
 fun Album.toDetailDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_detail_album,

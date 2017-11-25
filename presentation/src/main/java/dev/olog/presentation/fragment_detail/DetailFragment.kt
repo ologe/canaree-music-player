@@ -28,6 +28,7 @@ class DetailFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
     @Inject lateinit var adapter: DetailAdapter
+    @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
 
     private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
 
@@ -52,6 +53,8 @@ class DetailFragment : BaseFragment() {
         })
 
         viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
+
+        viewModel.recentlyAddedLiveData.subscribe(this, recentlyAddedAdapter::updateDataSet)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
