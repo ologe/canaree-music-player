@@ -113,9 +113,9 @@ class DetailFragment : BaseFragment() {
                     view.toolbar.isActivated = lightStatusBar
                     view.back.isActivated = lightStatusBar
                     view.header.isActivated = lightStatusBar
-                    if (!isCoverDark){
+                    if (lightStatusBar || !isCoverDark){
                         window.setLightStatusBar()
-                    } else {
+                    } else if (isCoverDark){
                         window.removeLightStatusBar()
                     }
                 })

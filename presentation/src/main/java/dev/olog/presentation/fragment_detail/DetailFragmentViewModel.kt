@@ -49,7 +49,7 @@ class DetailFragmentViewModel(
             } }
             .map { (list, totalDuration) ->
                 list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
-                        application.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + ", " +
+                        application.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED +
                                 application.resources.getQuantityString(R.plurals.duration_count, totalDuration, totalDuration)))
                 list
             }.asLiveData()
