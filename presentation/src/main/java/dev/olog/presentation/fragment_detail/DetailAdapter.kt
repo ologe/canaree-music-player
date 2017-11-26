@@ -137,28 +137,8 @@ class DetailAdapter @Inject constructor(
 
     fun getItem(position: Int): DisplayableItem = dataController[position]
 
-    fun onItemChanged(item: DisplayableItem){
-        dataController.publisher.onNext(DetailDataType.HEADER.to(listOf(item)))
-    }
-
-    fun onSongListChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataType.SONGS.to(list))
-    }
-
-    fun onAlbumListChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataType.ALBUMS.to(list))
-    }
-
-    fun onMostPlayedChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataType.MOST_PLAYED.to(list))
-    }
-
-    fun onRecentlyAddedChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataType.RECENT.to(list))
-    }
-
-    fun onArtistInDataChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataType.ARTISTS_IN.to(list))
+    fun updateDataSet(data: Map<DetailDataType, MutableList<DisplayableItem>>){
+        dataController.onNext(data)
     }
 
 }

@@ -3,11 +3,16 @@ package dev.olog.presentation.fragment_detail
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
+import android.support.v7.util.DiffUtil
+import dev.olog.presentation.DetailDiff
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.unsubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class DetailDataController(
         context: Context,
@@ -20,8 +25,7 @@ class DetailDataController(
 
     private var dataSetDisposable: Disposable? = null
 
-    val publisher :PublishProcessor<Pair<DetailDataType, List<DisplayableItem>>> =
-            PublishProcessor.create<Pair<DetailDataType ,List<DisplayableItem>>>()
+    private val publisher = PublishProcessor.create<Map<DetailDataType, List<DisplayableItem>>>()
 
     // header
     private val headerData : List<DisplayableItem> = mutableListOf()
@@ -49,7 +53,7 @@ class DetailDataController(
     // artist in this data
     private val artistsInData: List<DisplayableItem> = mutableListOf()
 
-    private val dataSet : MutableMap<DetailDataType, List<DisplayableItem>> = mutableMapOf(
+    private val originalDataSet : MutableMap<DetailDataType, List<DisplayableItem>> = mutableMapOf(
             DetailDataType.HEADER to headerData,
             DetailDataType.MOST_PLAYED to mostPlayedData,
             DetailDataType.RECENT to recentlyAddedData,
@@ -57,6 +61,8 @@ class DetailDataController(
             DetailDataType.ARTISTS_IN to artistsInData,
             DetailDataType.SONGS to songsData
     )
+
+    private val dataSet : MutableMap<DetailDataType, List<DisplayableItem>> = originalDataSet.toMutableMap()
 
     fun getSize(): Int = dataSet.values.sumBy { it.size }
 
@@ -76,10 +82,15 @@ class DetailDataController(
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = publisher
                 .toSerialized()
+                .debounce(50, TimeUnit.MILLISECONDS)
+                .observeOn(Schedulers.computation())
                 .onBackpressureBuffer()
-                .subscribe { (type, data) ->
-                    dataSet[type] = addHeaderByType(type, data)
-                    adapter.notifyDataSetChanged()
+                .map { it.to(DiffUtil.calculateDiff(DetailDiff(dataSet, it))) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { (newData, callback) ->
+                    dataSet.clear()
+                    dataSet.putAll(newData)
+                    callback.dispatchUpdatesTo(adapter)
                 }
     }
 
@@ -87,34 +98,45 @@ class DetailDataController(
         dataSetDisposable.unsubscribe()
     }
 
-    private fun addHeaderByType(type: DetailDataType, list: List<DisplayableItem>) : MutableList<DisplayableItem> {
-        var result : MutableList<DisplayableItem> = list.toMutableList()
-        when (type){
-            DetailDataType.MOST_PLAYED -> {
-                if (result.isNotEmpty()){
-                    result.clear() // all list is not needed, just add a nested list
-                    result.add(0, mostPlayedHeader)
-                    result.add(1, mostPlayedList)
+    fun onNext(data :Map<DetailDataType, MutableList<DisplayableItem>>){
+        originalDataSet.clear()
+        originalDataSet.putAll(addHeaderByType(data))
+        publisher.onNext(originalDataSet.toMap())
+    }
+
+    private fun addHeaderByType(data :Map<DetailDataType, MutableList<DisplayableItem>>) : Map<DetailDataType, List<DisplayableItem>> {
+
+        for ((key, value) in data.entries) {
+            when (key){
+                DetailDataType.MOST_PLAYED -> {
+                    if (value.isNotEmpty()){
+                        value.clear() // all list is not needed, just add a nested list
+                        value.add(0, mostPlayedHeader)
+                        value.add(1, mostPlayedList)
+                    }
                 }
-            }
-            DetailDataType.RECENT -> {
-                if (result.isNotEmpty()){
-                    result.clear() // all list is not needed, just add a nested list
-                    result.add(0, recentlyAddedHeader.copy(subtitle =
-                            if (list.size > 10) seeAll else ""))
-                    result.add(1, recentlyAddedList)
+                DetailDataType.RECENT -> {
+                    if (value.isNotEmpty()){
+                        value.clear() // all list is not needed, just add a nested list
+                        value.add(0, recentlyAddedHeader.copy(subtitle =
+                        if (value.size > 10) seeAll else ""))
+                        value.add(1, recentlyAddedList)
+                    }
                 }
-            }
-            DetailDataType.ALBUMS -> {
-                result = result.take(4).toMutableList()
-                result.add(0, albumsHeader.copy(subtitle =
-                        if (list.size > 4) seeAll else ""))
-            }
-            DetailDataType.SONGS -> {
-                result.add(0, songsHeader)
+                DetailDataType.ALBUMS -> {
+                    val newList = value.take(4).toMutableList()
+                    newList.add(0, albumsHeader.copy(subtitle =
+                    if (value.size > 4) seeAll else ""))
+                    value.clear()
+                    value.addAll(newList)
+                }
+                DetailDataType.SONGS -> {
+                    value.add(0, songsHeader)
+                }
             }
         }
-        return result
+
+        return data
     }
 
 }

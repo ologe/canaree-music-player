@@ -16,6 +16,7 @@ import dev.olog.presentation.utils.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
 import java.util.concurrent.TimeUnit
 
@@ -39,16 +40,18 @@ class DetailFragmentViewModel(
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
     private val inThisItemTitles = application.resources.getStringArray(R.array.detail_in_this_item)
 
-    val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
+    val itemFlowable: Flowable<DisplayableItem> = item[category]!!
+            .replay(1)
+            .refCount()
 
-    val albumsLiveData : LiveData<List<DisplayableItem>> = data[category]!!.asLiveData()
+    private val albumsFlowable: Flowable<List<DisplayableItem>> = data[category]!!
 
     private val sharedSongObserver = getSongListByParamUseCase
             .execute(mediaId)
             .replay(1)
             .refCount()
 
-    val songsLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+    private val songsFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
             .map { it.to(it.sumBy { it.duration.toInt() }) }
             .flatMapSingle { (songList, totalDuration) ->
                 songList.toFlowable().map { it.toDetailDisplayableItem(mediaId) }.toList().map {
@@ -59,9 +62,15 @@ class DetailFragmentViewModel(
                         application.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED +
                                 application.resources.getQuantityString(R.plurals.duration_count, totalDuration, totalDuration)))
                 list
-            }.asLiveData()
+            }
 
-    val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+    val mostPlayedFlowable: Flowable<List<DisplayableItem>> = getMostPlayedSongsUseCase.execute(mediaId)
+            .flatMapSingle { it.toFlowable()
+                    .map { it.toMostPlayedDetailDisplayableItem(mediaId) }
+                    .toList()
+            }.replay(1).refCount()
+
+    val recentlyAddedFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
             .filter { it.size >= 5 }
             .flatMapSingle { it.toFlowable()
                     .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }
@@ -69,9 +78,9 @@ class DetailFragmentViewModel(
                     .take(11)
                     .toList()
 
-            }.asLiveData()
+            }.replay(1).refCount()
 
-    val artistsInDataLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
+    private val artistsFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
             .filter { source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST }
             .map { it.asSequence()
                     .filter { it.artist != unknownArtist }
@@ -81,16 +90,23 @@ class DetailFragmentViewModel(
             }
             .map { DisplayableItem(R.layout.item_related_artists, "related id", it, inThisItemTitles[source]) }
             .map { listOf(it) }
-            .asLiveData()
-
-    val mostPlayedSongs: LiveData<List<DisplayableItem>> = getMostPlayedSongsUseCase.execute(mediaId)
-            .flatMapSingle { it.toFlowable()
-                    .map { it.toMostPlayedDetailDisplayableItem(mediaId) }
-                    .toList()
-            }.asLiveData()
 
     fun addToMostPlayed(mediaId: String): Completable {
         return insertMostPlayedUseCase.execute(mediaId)
     }
+
+    val data : LiveData<Map<DetailDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
+            itemFlowable, mostPlayedFlowable, recentlyAddedFlowable,
+            albumsFlowable, artistsFlowable, songsFlowable, { item, mostPlayed, recent, albums, artists, songs ->
+
+        mapOf(
+                DetailDataType.HEADER to mutableListOf(item),
+                DetailDataType.MOST_PLAYED to mostPlayed.toMutableList(),
+                DetailDataType.RECENT to recent.toMutableList(),
+                DetailDataType.ALBUMS to albums.toMutableList(),
+                DetailDataType.ARTISTS_IN to artists.toMutableList(),
+                DetailDataType.SONGS to songs.toMutableList()
+        ) }
+    ).asLiveData()
 
 }

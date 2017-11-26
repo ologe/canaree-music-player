@@ -52,8 +52,7 @@ class DetailFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.itemLiveData.subscribe(this, {
-            adapter.onItemChanged(it)
+        viewModel.itemFlowable.asLiveData().subscribe(this, {
             view?.header?.text = it.title
             val imageBitmap : Bitmap? = ImageUtils.getBitmapFromUri(context!!, it.image)
             imageBitmap?.apply {
@@ -72,27 +71,21 @@ class DetailFragment : BaseFragment() {
                     }
                 }
             }
-
         })
 
-        viewModel.songsLiveData.subscribe(this, {
-            adapter.onSongListChanged(it)
+        viewModel.mostPlayedFlowable.asLiveData().subscribe(this, {
+            mostPlayedAdapter.updateDataSet(it)
+        })
+
+        viewModel.recentlyAddedFlowable.asLiveData().subscribe(this, {
+            recentlyAddedAdapter.updateDataSet(it.take(10))
+        })
+
+        viewModel.data.subscribe(this, {
+            adapter.updateDataSet(it)
             startPostponedEnterTransition()
         })
 
-        viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
-
-        viewModel.mostPlayedSongs.subscribe(this, {
-            mostPlayedAdapter.updateDataSet(it)
-            adapter.onMostPlayedChanged(it)
-        })
-
-        viewModel.recentlyAddedLiveData.subscribe(this, {
-            recentlyAddedAdapter.updateDataSet(it.take(10))
-            adapter.onRecentlyAddedChanged(it)
-        })
-
-        viewModel.artistsInDataLiveData.subscribe(this, adapter::onArtistInDataChanged)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -144,7 +137,6 @@ class DetailFragment : BaseFragment() {
                         view.toolbar.alpha = alpha
                         view.header.alpha = alpha
                     }
-
                 })
     }
 
