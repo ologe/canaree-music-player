@@ -31,6 +31,7 @@ class DetailFragmentViewModel(
     private val unknownArtist = application.getString(R.string.unknown_artist)
     private val category = MediaIdHelper.extractCategory(siblingMediaId)
     private val source = MediaIdHelper.mapCategoryToSource(siblingMediaId)
+    private val inThisItemTitles = application.resources.getStringArray(R.array.detail_in_this_item)
 
     val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
 
@@ -72,7 +73,7 @@ class DetailFragmentViewModel(
                     .distinct()
                     .joinToString()
             }
-            .map { DisplayableItem(R.layout.item_related_artists, "related id", it) }
+            .map { DisplayableItem(R.layout.item_related_artists, "related id", it, inThisItemTitles[source]) }
             .map { listOf(it) }
             .asLiveData()
 

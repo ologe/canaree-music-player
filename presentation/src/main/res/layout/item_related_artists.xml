@@ -15,7 +15,8 @@
         android:paddingTop="36dp">
 
         <TextView
-            android:text="@string/detail_artist_in"
+            android:text="@{item.subtitle}"
+            tools:text="In this Folder"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"

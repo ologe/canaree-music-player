@@ -15,7 +15,15 @@
         <item>Other Genres</item>
     </string-array>
 
-    <string name="detail_artist_in">Artists in</string>
+    <string-array name="detail_in_this_item">
+        <item>In this folder</item>
+        <item>In this playlist</item>
+        <item>Unused</item>
+        <item>Unused</item>
+        <item>Unused</item>
+        <item>In this genre</item>
+    </string-array>
+    <string name="detail_artist_in">In this</string>
 
     <plurals name="song_count">
         <item quantity="one">%d Song</item>
