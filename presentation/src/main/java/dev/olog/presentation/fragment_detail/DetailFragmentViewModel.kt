@@ -71,7 +71,7 @@ class DetailFragmentViewModel(
             }.replay(1).refCount()
 
     val recentlyAddedFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
-            .filter { it.size >= 5 }
+            .map { if (it.size >= 5) it else listOf() }
             .flatMapSingle { it.toFlowable()
                     .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }
                     .map { it.toRecentDetailDisplayableItem(mediaId) }
@@ -81,7 +81,7 @@ class DetailFragmentViewModel(
             }.replay(1).refCount()
 
     private val artistsFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
-            .filter { source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST }
+            .map { if (source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST) it else listOf() }
             .map { it.asSequence()
                     .filter { it.artist != unknownArtist }
                     .map { it.artist }

@@ -28,7 +28,7 @@ class GetMostPlayedSongsUseCase @Inject constructor(
                     .distinctUntilChanged()
             MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.getMostPlayed(param)
                     .distinctUntilChanged()
-            else -> throw AssertionError("invalid media id $param")
+            else -> Flowable.just(listOf())
         }
     }
 }
