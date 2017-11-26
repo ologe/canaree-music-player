@@ -38,7 +38,6 @@ class DetailAdapter @Inject constructor(
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
     private val dataController = DetailDataController(context, this, MediaIdHelper.mapCategoryToSource(mediaId))
-//    private val innerAdapter = DetailHorizontalAdapter(dataController.fakeData)
     private val recycled = RecyclerView.RecycledViewPool()
 
     init {
