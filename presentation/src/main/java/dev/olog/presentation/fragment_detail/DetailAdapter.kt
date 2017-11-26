@@ -21,6 +21,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class DetailAdapter @Inject constructor(
@@ -57,7 +58,7 @@ class DetailAdapter @Inject constructor(
             R.layout.item_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 val layoutManager = GridLayoutManager(viewHolder.itemView.context,
-                        5, GridLayoutManager.HORIZONTAL, false)
+                        1, GridLayoutManager.HORIZONTAL, false)
                 layoutManager.isItemPrefetchEnabled = true
                 layoutManager.initialPrefetchItemCount = 10
                 list.layoutManager = layoutManager
@@ -110,6 +111,7 @@ class DetailAdapter @Inject constructor(
                 val layoutManager = list.layoutManager as GridLayoutManager
                 (list.adapter as BaseAdapter).onDataChanged()
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             layoutManager.spanCount = if (it.size < 5) it.size else 5
                         }, Throwable::printStackTrace)

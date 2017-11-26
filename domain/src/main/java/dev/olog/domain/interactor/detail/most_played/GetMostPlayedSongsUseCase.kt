@@ -20,15 +20,15 @@ class GetMostPlayedSongsUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(param: String): Flowable<List<Song>> {
         val category = MediaIdHelper.extractCategory(param)
-        val categoryValue = MediaIdHelper.extractCategoryValue(param)
+
         return when (category) {
-            MediaIdHelper.MEDIA_ID_BY_GENRE -> return genreGateway.observeSongListByParam(categoryValue.toLong())
+            MediaIdHelper.MEDIA_ID_BY_GENRE -> return genreGateway.getMostPlayed(param)
                     .distinctUntilChanged()
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> return playlistGateway.observeSongListByParam(categoryValue.toLong())
+            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> return playlistGateway.getMostPlayed(param)
                     .distinctUntilChanged()
             MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.getMostPlayed(param)
                     .distinctUntilChanged()
-            else -> throw AssertionError("invalid media id " + param)
+            else -> throw AssertionError("invalid media id $param")
         }
     }
 }

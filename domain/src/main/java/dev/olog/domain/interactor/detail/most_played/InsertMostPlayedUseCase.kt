@@ -2,31 +2,29 @@ package dev.olog.domain.interactor.detail.most_played
 
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FolderGateway
+import dev.olog.domain.gateway.GenreGateway
+import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class InsertMostPlayedUseCase @Inject constructor(
         scheduler: IoScheduler,
-        private val folderGateway: FolderGateway
+        private val folderGateway: FolderGateway,
+        private val playlistGateway: PlaylistGateway,
+        private val genreGateway: GenreGateway
 
 ) : CompletableUseCaseWithParam<String>(scheduler) {
 
     override fun buildUseCaseObservable(param: String): Completable {
-        return folderGateway.insertMostPlayed(param)
+        val category = MediaIdHelper.extractCategory(param)
+        return when (category){
+            MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.insertMostPlayed(param)
+            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistGateway.insertMostPlayed(param)
+            MediaIdHelper.MEDIA_ID_BY_GENRE -> genreGateway.insertMostPlayed(param)
+            else -> throw AssertionError("invalid media id $param")
+        }
     }
 
-    //    override fun buildUseCaseObservable(param: String): Flowable<List<Song>> {
-//        val category = MediaIdHelper.extractCategory(param)
-//        val categoryValue = MediaIdHelper.extractCategoryValue(param)
-//        when (category) {
-//            MediaIdHelper.MEDIA_ID_BY_GENRE -> return genreDataStore.observeSongListByParam(categoryValue.toLong())
-//            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> return playlistDataStore.observeSongListByParam(categoryValue.toLong())
-//            MediaIdHelper.MEDIA_ID_BY_FOLDER -> return fol.observeSongListByParam(categoryValue)
-//            MediaIdHelper.MEDIA_ID_BY_ALBUM -> return albumDataStore.observeSongListByParam(categoryValue.toLong())
-//            MediaIdHelper.MEDIA_ID_BY_ARTIST -> return artistDataStore.observeSongListByParam(categoryValue.toLong())
-//            MediaIdHelper.MEDIA_ID_BY_ALL -> return songDataStore.getAll()
-//        }
-//        return folderGateway.getMostPlayed(param)
-//    }
 }
