@@ -1,6 +1,5 @@
 package dev.olog.presentation.navigation
 
-import android.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
@@ -37,7 +36,12 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                setCustomAnimations(
+                            R.anim.right_slide_in,
+                            R.anim.right_stay,
+                            R.anim.left_stay,
+                            R.anim.left_slide_out
+                    )
                 replace(R.id.viewPagerLayout,
                             DetailFragment.newInstance(mediaId),
                             DetailFragment.TAG)
