@@ -57,6 +57,7 @@ class BaseAdapterController(
 
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = onDataChanged
+                .observeOn(Schedulers.computation())
                 .map {
                     val result = it.toMutableList()
                     result.addAll(createActualHeaders())
@@ -71,7 +72,7 @@ class BaseAdapterController(
                         it.toSingle()
                     }
                 }
-                .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) } // todo do better comparator
+//                .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) } // todo do better comparator
                 .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it))) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ (newData, callback) ->

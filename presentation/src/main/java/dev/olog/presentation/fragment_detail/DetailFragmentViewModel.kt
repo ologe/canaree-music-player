@@ -4,13 +4,17 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.domain.interactor.detail.most_played.GetMostPlayedSongsUseCase
+import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDetailDisplayableItem
+import dev.olog.presentation.model.toMostPlayedDetailDisplayableItem
 import dev.olog.presentation.model.toRecentDetailDisplayableItem
 import dev.olog.presentation.utils.asLiveData
 import dev.olog.shared.MediaIdHelper
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import java.util.concurrent.TimeUnit
@@ -20,7 +24,9 @@ class DetailFragmentViewModel(
         mediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        getSongListByParamUseCase: GetSongListByParamUseCase
+        getSongListByParamUseCase: GetSongListByParamUseCase,
+        getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
+        private val insertMostPlayedUseCase: InsertMostPlayedUseCase
 
 ) : AndroidViewModel(application) {
 
@@ -76,5 +82,13 @@ class DetailFragmentViewModel(
             .map { DisplayableItem(R.layout.item_related_artists, "related id", it, inThisItemTitles[source]) }
             .map { listOf(it) }
             .asLiveData()
+
+    val mostPlayedSongs: LiveData<List<DisplayableItem>> = getMostPlayedSongsUseCase.execute(mediaId)
+            .flatMapSingle { it.toFlowable().map { it.toMostPlayedDetailDisplayableItem(mediaId) }.toList() }
+            .asLiveData()
+
+    fun addToMostPlayed(mediaId: String): Completable {
+        return insertMostPlayedUseCase.execute(mediaId)
+    }
 
 }

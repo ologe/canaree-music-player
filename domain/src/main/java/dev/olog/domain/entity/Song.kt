@@ -1,5 +1,7 @@
 package dev.olog.domain.entity
 
+import java.io.File
+
 data class Song (
         val id: Long,
         val artistId: Long,
@@ -14,4 +16,9 @@ data class Song (
         val isExplicit: Boolean,
         val path: String,
         val folder: String
-)
+) {
+
+    val folderPath: String
+        get() = path.substring(0, path.lastIndexOf(File.separator))
+
+}

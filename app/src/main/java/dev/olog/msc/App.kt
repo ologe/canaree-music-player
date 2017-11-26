@@ -1,6 +1,7 @@
 package dev.olog.msc
 
 import android.os.StrictMode
+import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -15,6 +16,7 @@ import dev.olog.presentation.fragment_player.PlayerFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 
+
 class App : DaggerApplication() {
 
     override fun onCreate() {
@@ -27,7 +29,14 @@ class App : DaggerApplication() {
             initStrictMode()
             LeakCanary.install(this)
         }
-
+        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf(
+                "dev.olog.msc",
+                "dev.olog.data",
+                "dev.olog.domain",
+                "dev.olog.music_service",
+                "dev.olog.presentation",
+                "dev.olog.shared"
+        ))
     }
 
     private fun initStrictMode() {

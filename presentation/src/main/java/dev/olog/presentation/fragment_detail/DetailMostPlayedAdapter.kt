@@ -12,7 +12,7 @@ import dev.olog.presentation.utils.setOnClickListener
 import javax.inject.Inject
 
 @PerFragment
-class DetailRecentlyAddedAdapter @Inject constructor(
+class DetailMostPlayedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: DetailFragmentViewModel
 

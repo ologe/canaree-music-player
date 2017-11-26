@@ -37,6 +37,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var viewModel: DetailFragmentViewModel
     @Inject lateinit var adapter: DetailAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
+    @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     private var isCoverDark = false
 
     private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
@@ -80,6 +81,11 @@ class DetailFragment : BaseFragment() {
         })
 
         viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
+
+        viewModel.mostPlayedSongs.subscribe(this, {
+            mostPlayedAdapter.updateDataSet(it)
+            adapter.onMostPlayedChanged(it)
+        })
 
         viewModel.recentlyAddedLiveData.subscribe(this, {
             recentlyAddedAdapter.updateDataSet(it.take(10))

@@ -49,19 +49,6 @@ class DetailDataController(
     // artist in this data
     private val artistsInData: List<DisplayableItem> = mutableListOf()
 
-    val fakeData: List<DisplayableItem> = mutableListOf(
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - 4 A.M ft. Travis Scott", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Good Drank feat Gucci Mane", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - It's a Vibe", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Lil Baby", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - 4 A.M ft. Travis Scott", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Good Drank feat Gucci Mane", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - It's a Vibe", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - Lil Baby", "Unkown Artist"),
-            DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist")
-    )
-
     private val dataSet : MutableMap<DetailDataType, List<DisplayableItem>> = mutableMapOf(
             DetailDataType.HEADER to headerData,
             DetailDataType.MOST_PLAYED to mostPlayedData,
@@ -103,8 +90,6 @@ class DetailDataController(
     private fun addHeaderByType(type: DetailDataType, list: List<DisplayableItem>) : MutableList<DisplayableItem> {
         var result : MutableList<DisplayableItem> = list.toMutableList()
         when (type){
-            DetailDataType.HEADER -> {
-            }
             DetailDataType.MOST_PLAYED -> {
                 if (result.isNotEmpty()){
                     result.clear() // all list is not needed, just add a nested list

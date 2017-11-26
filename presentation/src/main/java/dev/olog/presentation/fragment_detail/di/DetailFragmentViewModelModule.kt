@@ -28,10 +28,12 @@ class DetailFragmentViewModelModule {
         return ViewModelProviders.of(fragment, factory).get(DetailFragmentViewModel::class.java)
     }
 
+    // albums
+
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_FOLDER)
-    internal fun provideFolderData(mediaId: String,
+    internal fun provideFolderSongs(mediaId: String,
                                    useCase: GetFolderSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -43,7 +45,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_PLAYLIST)
-    internal fun providePlaylistData(mediaId: String,
+    internal fun providePlaylistSongs(mediaId: String,
                                      useCase: GetPlaylistSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -55,7 +57,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_ALBUM)
-    internal fun provideAlbumData(mediaId: String,
+    internal fun provideAlbumSongs(mediaId: String,
                                   useCase: GetAlbumSiblingsByAlbumUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -67,7 +69,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_ARTIST)
-    internal fun provideArtistData(mediaId: String,
+    internal fun provideArtistSongs(mediaId: String,
                                    useCase: GetAlbumSiblingsByArtistUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -79,7 +81,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_GENRE)
-    internal fun provideGenreData(mediaId: String,
+    internal fun provideGenreSongs(mediaId: String,
                                   useCase: GetGenreSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -87,6 +89,8 @@ class DetailFragmentViewModelModule {
             it.toFlowable().map { it.toDetailDisplayableItem() }.toList()
         }
     }
+
+    // item
 
     @Provides
     @IntoMap
@@ -128,5 +132,6 @@ class DetailFragmentViewModelModule {
                 .map { it.toHeaderItem() }
     }
 
+    // most played
 
 }

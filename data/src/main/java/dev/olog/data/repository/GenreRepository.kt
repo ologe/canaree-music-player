@@ -3,13 +3,18 @@ package dev.olog.data.repository
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
+import dev.olog.data.db.AppDatabase
+import dev.olog.data.entity.GenreMostPlayedEntity
 import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toGenre
 import dev.olog.domain.entity.Genre
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
@@ -18,7 +23,8 @@ import javax.inject.Singleton
 @Singleton
 class GenreRepository @Inject constructor(
         private val contentResolver: BriteContentResolver,
-        private val songGateway: SongGateway
+        private val songGateway: SongGateway,
+        appDatabase: AppDatabase
 
 ) : GenreGateway {
 
@@ -37,6 +43,8 @@ class GenreRepository @Inject constructor(
         private val SONG_SELECTION_ARGS: Array<String>? = null
         private val SONG_SORT_ORDER : String? = null
     }
+
+    private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
     private val contentProviderObserver = contentResolver
             .createQuery(
@@ -81,5 +89,17 @@ class GenreRepository @Inject constructor(
                 }
     }
 
+    override fun getMostPlayed(param: String): Flowable<List<Song>> {
+        return mostPlayedDao.getAll(MediaIdHelper.extractCategoryValue(param).toLong(), songGateway.getAll())
+    }
+
+    override fun insertMostPlayed(mediaId: String): Completable {
+        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+        val genreId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        return songGateway.getByParam(songId)
+                .flatMapCompletable { song ->
+                    CompletableSource { mostPlayedDao.insertOne(GenreMostPlayedEntity(0, song.id, genreId)) }
+                }
+    }
 
 }

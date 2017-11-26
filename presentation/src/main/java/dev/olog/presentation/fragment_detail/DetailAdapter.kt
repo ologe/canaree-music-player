@@ -9,8 +9,10 @@ import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
@@ -18,22 +20,25 @@ import dev.olog.presentation.music_service.MusicController
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
+import io.reactivex.BackpressureStrategy
 import javax.inject.Inject
 
 class DetailAdapter @Inject constructor(
         @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
-        private val mediaId: String,
+        mediaId: String,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
+        private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val navigator: Navigator,
-        private val musicController: MusicController
+        private val musicController: MusicController,
+        private val viewModel: DetailFragmentViewModel
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
     private val dataController = DetailDataController(context, this, MediaIdHelper.mapCategoryToSource(mediaId))
-    private val innerAdapter = DetailHorizontalAdapter(dataController.fakeData)
+//    private val innerAdapter = DetailHorizontalAdapter(dataController.fakeData)
     private val recycled = RecyclerView.RecycledViewPool()
 
     init {
@@ -52,9 +57,12 @@ class DetailAdapter @Inject constructor(
         when (viewType) {
             R.layout.item_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
+                val layoutManager = GridLayoutManager(viewHolder.itemView.context,
                         5, GridLayoutManager.HORIZONTAL, false)
-                list.adapter = innerAdapter
+                layoutManager.isItemPrefetchEnabled = true
+                layoutManager.initialPrefetchItemCount = 10
+                list.layoutManager = layoutManager
+                list.adapter = mostPlayedAdapter
                 list.recycledViewPool = recycled
 
                 val snapHelper = LinearSnapHelper()
@@ -79,9 +87,35 @@ class DetailAdapter @Inject constructor(
                     if (position != RecyclerView.NO_POSITION){
                         val item = dataController[position]
                         musicController.playFromMediaId(item.mediaId)
+                        viewModel.addToMostPlayed(item.mediaId)
+                                .subscribe()
                     }
                 }
             }
+            R.layout.item_detail_album -> {
+                viewHolder.itemView.setOnClickListener {
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        navigator.toDetailActivity(item.mediaId)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
+        when (holder.itemViewType) {
+            R.layout.item_most_played_horizontal_list -> {
+                val list = holder.itemView as RecyclerView
+                val layoutManager = list.layoutManager as GridLayoutManager
+                (list.adapter as BaseAdapter).onDataChanged()
+                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+                        .subscribe({
+                            layoutManager.spanCount = if (it.size < 5) it.size else 5
+                        }, Throwable::printStackTrace)
+            }
+
         }
     }
 
@@ -112,6 +146,10 @@ class DetailAdapter @Inject constructor(
 
     fun onAlbumListChanged(list: List<DisplayableItem>){
         dataController.publisher.onNext(DetailDataType.ALBUMS.to(list))
+    }
+
+    fun onMostPlayedChanged(list: List<DisplayableItem>){
+        dataController.publisher.onNext(DetailDataType.MOST_PLAYED.to(list))
     }
 
     fun onRecentlyAddedChanged(list: List<DisplayableItem>){

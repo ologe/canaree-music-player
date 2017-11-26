@@ -7,13 +7,18 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
 import dev.olog.data.DataConstants
 import dev.olog.data.R
+import dev.olog.data.db.AppDatabase
+import dev.olog.data.entity.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toPlaylist
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
@@ -23,7 +28,8 @@ import javax.inject.Singleton
 class PlaylistRepository @Inject constructor(
         resources: Resources,
         private val contentResolver: BriteContentResolver,
-        private val songGateway: SongGateway
+        private val songGateway: SongGateway,
+        appDatabase: AppDatabase
 
 ) : PlaylistGateway {
 
@@ -42,6 +48,8 @@ class PlaylistRepository @Inject constructor(
         private val SONG_SELECTION_ARGS: Array<String>? = null
         private val SONG_SORT_ORDER : String? = null
     }
+
+    private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
 
     private val autoPlaylistsTitle = resources.getStringArray(R.array.auto_playlists)
 
@@ -106,6 +114,19 @@ class PlaylistRepository @Inject constructor(
                                 .filter { it.id == songId }
                                 .firstElement()
                         }.toList()
+                }
+    }
+
+    override fun getMostPlayed(param: String): Flowable<List<Song>> {
+        return mostPlayedDao.getAll(MediaIdHelper.extractCategoryValue(param).toLong(), songGateway.getAll())
+    }
+
+    override fun insertMostPlayed(mediaId: String): Completable {
+        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        return songGateway.getByParam(songId)
+                .flatMapCompletable { song ->
+                    CompletableSource { mostPlayedDao.insertOne(PlaylistMostPlayedEntity(0, song.id, playlistId)) }
                 }
     }
 }

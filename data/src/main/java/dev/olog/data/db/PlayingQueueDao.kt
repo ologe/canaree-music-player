@@ -4,7 +4,7 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Transaction
-import dev.olog.data.model.PlayingQueueEntity
+import dev.olog.data.entity.PlayingQueueEntity
 import dev.olog.domain.entity.Song
 import io.reactivex.Flowable
 import io.reactivex.Single

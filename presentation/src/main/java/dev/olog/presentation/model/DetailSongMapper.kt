@@ -34,10 +34,23 @@ fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem{
     )
 }
 
+fun Song.toMostPlayedDetailDisplayableItem(parentId: String): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_detail_song_with_counter,
+            MediaIdHelper.playableItem(parentId, id),
+            title,
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            image,
+            true,
+            isRemix,
+            isExplicit
+    )
+}
+
 fun Song.toRecentDetailDisplayableItem(parentId: String): DisplayableItem{
     return DisplayableItem(
             R.layout.item_detail_song,
-            MediaIdHelper.playableItem(parentId, id), // todo
+            MediaIdHelper.playableItem(parentId, id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,

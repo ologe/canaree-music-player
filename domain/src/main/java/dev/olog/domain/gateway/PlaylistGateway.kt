@@ -4,4 +4,5 @@ import dev.olog.domain.entity.Playlist
 
 interface PlaylistGateway :
         BaseGateway<Playlist, Long>,
-        ChildsHasSongs<Long>
+        ChildsHasSongs<Long>,
+        HasMostPlayed<String>

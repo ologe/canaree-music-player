@@ -1,4 +1,4 @@
-package dev.olog.data.model
+package dev.olog.data.entity
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index
