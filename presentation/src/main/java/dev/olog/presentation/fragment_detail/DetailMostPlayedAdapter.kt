@@ -27,7 +27,6 @@ class DetailMostPlayedAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.source,  2)
         binding.setVariable(BR.position, position)
     }
 

@@ -27,24 +27,25 @@
             style="@style/Divider"
             android:layout_marginStart="12dp" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/counter"-->
-            <!--android:text="@{`` + 1}"-->
-            <!--tools:text="1"-->
-            <!--tools:layout_marginStart="8dp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textColor="@color/dark_grey"-->
-            <!--android:textSize="16sp"-->
-            <!--app:layout_constraintTop_toTopOf="@+id/firstText"-->
-            <!--app:layout_constraintBottom_toBottomOf="@+id/firstText"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
+        <TextView
+            android:id="@+id/index"
+            android:text="@{`` + (position + 1)}"
+            tools:text="1"
+            tools:layout_marginStart="8dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@+id/firstText"
+            app:layout_constraintBottom_toBottomOf="@+id/firstText"
+            app:layout_constraintStart_toEndOf="@+id/coverLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/counter"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -66,7 +67,7 @@
         <TextView
             android:id="@+id/firstText"
             app:layout_constraintTop_toTopOf="@+id/coverLayout"
-            app:layout_constraintStart_toEndOf="@+id/coverLayout"
+            app:layout_constraintStart_toEndOf="@+id/index"
             app:layout_constraintBottom_toTopOf="@+id/secondText"
             app:layout_constraintEnd_toStartOf="@+id/more"
             android:text="@{item.title}"
@@ -78,7 +79,7 @@
 
         <TextView
             android:id="@+id/secondText"
-            app:layout_constraintStart_toEndOf="@id/coverLayout"
+            app:layout_constraintStart_toEndOf="@id/index"
             app:layout_constraintTop_toBottomOf="@+id/firstText"
             app:layout_constraintEnd_toStartOf="@+id/remix"
             app:layout_constraintBottom_toBottomOf="@+id/coverLayout"

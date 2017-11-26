@@ -84,8 +84,10 @@ class DetailFragmentViewModel(
             .asLiveData()
 
     val mostPlayedSongs: LiveData<List<DisplayableItem>> = getMostPlayedSongsUseCase.execute(mediaId)
-            .flatMapSingle { it.toFlowable().map { it.toMostPlayedDetailDisplayableItem(mediaId) }.toList() }
-            .asLiveData()
+            .flatMapSingle { it.toFlowable()
+                    .map { it.toMostPlayedDetailDisplayableItem(mediaId) }
+                    .toList()
+            }.asLiveData()
 
     fun addToMostPlayed(mediaId: String): Completable {
         return insertMostPlayedUseCase.execute(mediaId)
