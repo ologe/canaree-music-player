@@ -8,7 +8,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDetailDisplayableItem
-import dev.olog.presentation.model.toDisplayableItem
+import dev.olog.presentation.model.toRecentDetailDisplayableItem
 import dev.olog.presentation.utils.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 class DetailFragmentViewModel(
         application: Application,
-        siblingMediaId: String,
+        mediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         getSongListByParamUseCase: GetSongListByParamUseCase
@@ -29,8 +29,8 @@ class DetailFragmentViewModel(
     }
 
     private val unknownArtist = application.getString(R.string.unknown_artist)
-    private val category = MediaIdHelper.extractCategory(siblingMediaId)
-    private val source = MediaIdHelper.mapCategoryToSource(siblingMediaId)
+    private val category = MediaIdHelper.extractCategory(mediaId)
+    private val source = MediaIdHelper.mapCategoryToSource(mediaId)
     private val inThisItemTitles = application.resources.getStringArray(R.array.detail_in_this_item)
 
     val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
@@ -38,14 +38,14 @@ class DetailFragmentViewModel(
     val albumsLiveData : LiveData<List<DisplayableItem>> = data[category]!!.asLiveData()
 
     private val sharedSongObserver = getSongListByParamUseCase
-            .execute(siblingMediaId)
+            .execute(mediaId)
             .replay(1)
             .refCount()
 
     val songsLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
             .map { it.to(it.sumBy { it.duration.toInt() }) }
             .flatMapSingle { (songList, totalDuration) ->
-                songList.toFlowable().map { it.toDisplayableItem() }.toList().map {
+                songList.toFlowable().map { it.toDetailDisplayableItem(mediaId) }.toList().map {
                 it.to(TimeUnit.MINUTES.convert(totalDuration.toLong(), TimeUnit.MILLISECONDS).toInt())
             } }
             .map { (list, totalDuration) ->
@@ -59,7 +59,7 @@ class DetailFragmentViewModel(
             .filter { it.size >= 5 }
             .flatMapSingle { it.toFlowable()
                     .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }
-                    .map { it.toDetailDisplayableItem() }
+                    .map { it.toRecentDetailDisplayableItem(mediaId) }
                     .take(10)
                     .toList()
 

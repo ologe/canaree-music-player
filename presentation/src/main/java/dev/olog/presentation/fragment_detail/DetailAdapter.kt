@@ -14,6 +14,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.music_service.MusicController
+import dev.olog.presentation.navigation.Navigator
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
@@ -21,8 +23,11 @@ import javax.inject.Inject
 class DetailAdapter @Inject constructor(
         @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
-        mediaId: String,
-        private val recentSongsAdapter: DetailRecentlyAddedAdapter
+        private val mediaId: String,
+        private val recentSongsAdapter: DetailRecentlyAddedAdapter,
+        private val navigator: Navigator,
+        private val musicController: MusicController
+
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
@@ -44,24 +49,36 @@ class DetailAdapter @Inject constructor(
     }
 
     private fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
-        if (viewType == R.layout.item_most_played_horizontal_list) {
-            val list = viewHolder.itemView as RecyclerView
-            list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
-                    5, GridLayoutManager.HORIZONTAL, false)
-            list.adapter = innerAdapter
-            list.recycledViewPool = recycled
+        when (viewType) {
+            R.layout.item_most_played_horizontal_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
+                        5, GridLayoutManager.HORIZONTAL, false)
+                list.adapter = innerAdapter
+                list.recycledViewPool = recycled
 
-            val snapHelper = LinearSnapHelper()
-            snapHelper.attachToRecyclerView(list)
-        } else if (viewType == R.layout.item_recent_horizontal_list){
-            val list = viewHolder.itemView as RecyclerView
-            list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
-                    5, GridLayoutManager.HORIZONTAL, false)
-            list.adapter = recentSongsAdapter
-            list.recycledViewPool = recycled
+                val snapHelper = LinearSnapHelper()
+                snapHelper.attachToRecyclerView(list)
+            }
+            R.layout.item_recent_horizontal_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
+                        5, GridLayoutManager.HORIZONTAL, false)
+                list.adapter = recentSongsAdapter
+                list.recycledViewPool = recycled
 
-            val snapHelper = LinearSnapHelper()
-            snapHelper.attachToRecyclerView(list)
+                val snapHelper = LinearSnapHelper()
+                snapHelper.attachToRecyclerView(list)
+            }
+            R.layout.item_tab_song -> {
+                viewHolder.itemView.setOnClickListener {
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        musicController.playFromMediaId(item.mediaId)
+                    }
+                }
+            }
         }
     }
 

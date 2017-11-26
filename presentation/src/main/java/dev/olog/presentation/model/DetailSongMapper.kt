@@ -21,10 +21,10 @@ fun Playlist.toDetailDisplayableItem(): DisplayableItem{
     )
 }
 
-fun Song.toDetailDisplayableItem(): DisplayableItem{
+fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_detail_song,
-            MediaIdHelper.songId(id),
+            R.layout.item_tab_song,
+            MediaIdHelper.playableItem(parentId, id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
@@ -34,10 +34,10 @@ fun Song.toDetailDisplayableItem(): DisplayableItem{
     )
 }
 
-fun Song.toRecentDetailDisplayableItem(): DisplayableItem{
+fun Song.toRecentDetailDisplayableItem(parentId: String): DisplayableItem{
     return DisplayableItem(
             R.layout.item_detail_song,
-            MediaIdHelper.songId(id),
+            MediaIdHelper.playableItem(parentId, id), // todo
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
@@ -54,14 +54,6 @@ fun Album.toDetailDisplayableItem(): DisplayableItem{
             title,
             artist,
             image
-    )
-}
-
-fun Artist.toDetailDisplayableItem(): DisplayableItem{
-    return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaIdHelper.artistId(id),
-            name
     )
 }
 

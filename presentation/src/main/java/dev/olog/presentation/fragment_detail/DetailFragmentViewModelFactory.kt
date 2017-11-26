@@ -18,7 +18,6 @@ class DetailFragmentViewModelFactory @Inject constructor(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        println("wtf?")
         return DetailFragmentViewModel(
                 application,
                 siblingMediaId,

@@ -110,6 +110,12 @@ class DetailFragment : BaseFragment() {
                     view.toolbar.isActivated = lightStatusBar
                     view.back.isActivated = lightStatusBar
                     view.header.isActivated = lightStatusBar
+                })
+
+        listObservable.map { layoutManager.findFirstCompletelyVisibleItemPosition() != 0 }
+                .distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, { lightStatusBar ->
                     if (lightStatusBar || !isCoverDark){
                         setDarkButtons()
                     } else if (isCoverDark){

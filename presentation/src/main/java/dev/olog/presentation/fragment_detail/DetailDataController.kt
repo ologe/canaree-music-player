@@ -43,7 +43,7 @@ class DetailDataController(
     )
     private val recentlyAddedData: List<DisplayableItem> = mutableListOf()
     private val albumsData: List<DisplayableItem> = mutableListOf()
-    private val songsData: List<DisplayableItem> = mutableListOf()
+    val songsData: List<DisplayableItem> = mutableListOf()
     private val artistsInData: List<DisplayableItem> = mutableListOf()
 
     val fakeData: List<DisplayableItem> = mutableListOf(

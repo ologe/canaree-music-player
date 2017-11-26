@@ -30,6 +30,10 @@ object MediaIdHelper {
         return MEDIA_ID_BY_ALL + CATEGORY_SEPARATOR + LEAF_SEPARATOR + value
     }
 
+    fun playableItem(parentId: String, songId: Long): String {
+        return parentId + LEAF_SEPARATOR + songId
+    }
+
     fun albumId(value: Long): String {
         return createCategoryValue(MEDIA_ID_BY_ALBUM, value.toString())
     }

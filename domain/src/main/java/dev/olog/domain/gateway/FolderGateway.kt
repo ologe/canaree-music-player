@@ -4,4 +4,5 @@ import dev.olog.domain.entity.Folder
 
 interface FolderGateway :
         BaseGateway<Folder, String>,
-        ChildsHasSongs<String>
+        ChildsHasSongs<String>,
+        HasMostPlayed<String>

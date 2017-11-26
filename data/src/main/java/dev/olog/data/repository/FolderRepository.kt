@@ -43,4 +43,8 @@ class FolderRepository @Inject constructor(
                 .firstOrError()
         }
     }
+
+    override fun getMostPlayed(param: String): Flowable<List<Song>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
