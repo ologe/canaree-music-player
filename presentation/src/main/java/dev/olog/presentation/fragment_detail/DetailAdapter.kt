@@ -28,6 +28,7 @@ class DetailAdapter @Inject constructor(
         @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
         mediaId: String,
+        private val view: DetailFragmentView,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val navigator: Navigator,
@@ -139,6 +140,10 @@ class DetailAdapter @Inject constructor(
 
     fun updateDataSet(data: Map<DetailDataType, MutableList<DisplayableItem>>){
         dataController.onNext(data)
+    }
+
+    fun startTransition(){
+        view.startTransition()
     }
 
 }

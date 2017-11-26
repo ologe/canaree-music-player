@@ -33,8 +33,7 @@ class DetailDataController(
     // most played
     private val mostPlayedHeader = DisplayableItem(R.layout.item_header, "most played id", context.getString(R.string.detail_most_played))
     private val mostPlayedList = DisplayableItem(R.layout.item_most_played_horizontal_list, "most played list", "")
-    private val mostPlayedData: List<DisplayableItem> = mutableListOf(mostPlayedHeader,
-            DisplayableItem(R.layout.item_most_played_horizontal_list, "media", "Most Played"))
+    private val mostPlayedData: List<DisplayableItem> = mutableListOf()
 
     // recent
     private val recentlyAddedHeader = DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added))
@@ -88,9 +87,15 @@ class DetailDataController(
                 .map { it.to(DiffUtil.calculateDiff(DetailDiff(dataSet, it))) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { (newData, callback) ->
+                    val wasEmpty = isEmpty()
                     dataSet.clear()
                     dataSet.putAll(newData)
-                    callback.dispatchUpdatesTo(adapter)
+                    if (wasEmpty){
+                        adapter.notifyDataSetChanged()
+                        adapter.startTransition()
+                    } else{
+                        callback.dispatchUpdatesTo(adapter)
+                    }
                 }
     }
 
@@ -103,6 +108,8 @@ class DetailDataController(
         originalDataSet.putAll(addHeaderByType(data))
         publisher.onNext(originalDataSet.toMap())
     }
+
+    private fun isEmpty(): Boolean = getSize() == 0
 
     private fun addHeaderByType(data :Map<DetailDataType, MutableList<DisplayableItem>>) : Map<DetailDataType, List<DisplayableItem>> {
 

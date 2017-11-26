@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
-class DetailFragment : BaseFragment() {
+class DetailFragment : BaseFragment(), DetailFragmentView {
 
     companion object {
         const val TAG = "DetailFragment"
@@ -83,7 +83,6 @@ class DetailFragment : BaseFragment() {
 
         viewModel.data.subscribe(this, {
             adapter.updateDataSet(it)
-            startPostponedEnterTransition()
         })
 
     }
@@ -163,6 +162,10 @@ class DetailFragment : BaseFragment() {
     override fun onDestroyView() {
         activity!!.window.setLightStatusBar()
         super.onDestroyView()
+    }
+
+    override fun startTransition() {
+        startPostponedEnterTransition()
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
