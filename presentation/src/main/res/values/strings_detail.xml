@@ -23,6 +23,9 @@
         <item>Unused</item>
         <item>In this genre</item>
     </string-array>
+
+    <string name="detail_see_all">See All</string>
+
     <string name="detail_artist_in">In this</string>
 
     <plurals name="song_count">

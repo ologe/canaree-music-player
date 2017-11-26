@@ -5,14 +5,14 @@
 
     <data>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="can_see_all" type="boolean"/>
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:orientation="vertical"
         android:paddingTop="36dp">
 
         <TextView
@@ -21,13 +21,23 @@
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:textAlignment="center"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="bottom"/>
 
-    </LinearLayout>
+        <TextView
+            android:text="@{item.subtitle}"
+            tools:text="@string/detail_see_all"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="end|bottom"/>
+
+    </FrameLayout>
 
 </layout>

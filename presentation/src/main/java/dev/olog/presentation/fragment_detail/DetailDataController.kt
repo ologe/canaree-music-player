@@ -16,34 +16,37 @@ class DetailDataController(
 
 ) : DefaultLifecycleObserver {
 
+    private val seeAll = context.getString(R.string.detail_see_all)
+
     private var dataSetDisposable: Disposable? = null
-    val publisher :PublishProcessor<Pair<DataType, List<DisplayableItem>>> =
-            PublishProcessor.create<Pair<DataType ,List<DisplayableItem>>>()
 
-    enum class DataType {
-        HEADER, MOST_PLAYED, RECENT, ALBUMS, SONGS, ARTISTS_IN
-    }
+    val publisher :PublishProcessor<Pair<DetailDataType, List<DisplayableItem>>> =
+            PublishProcessor.create<Pair<DetailDataType ,List<DisplayableItem>>>()
 
-    private val mostPlayedList = DisplayableItem(R.layout.item_most_played_horizontal_list,
-            "most played list", "")
-    private val recentlyAddedList = DisplayableItem(R.layout.item_recent_horizontal_list,
-            "recent list", "")
+    // header
+    private val headerData : List<DisplayableItem> = mutableListOf()
 
+    // most played
     private val mostPlayedHeader = DisplayableItem(R.layout.item_header, "most played id", context.getString(R.string.detail_most_played))
+    private val mostPlayedList = DisplayableItem(R.layout.item_most_played_horizontal_list, "most played list", "")
+    private val mostPlayedData: List<DisplayableItem> = mutableListOf(mostPlayedHeader,
+            DisplayableItem(R.layout.item_most_played_horizontal_list, "media", "Most Played"))
+
+    // recent
     private val recentlyAddedHeader = DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added))
+    private val recentlyAddedList = DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
+    private val recentlyAddedData: List<DisplayableItem> = mutableListOf()
+
+    // albums
     private val albumsHeader = DisplayableItem(R.layout.item_header, "albums id",
             context.resources.getStringArray(R.array.detail_album_header)[source])
-    private val songsHeader = DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs))
-
-
-    private val headerData : List<DisplayableItem> = mutableListOf()
-    private val mostPlayedData: List<DisplayableItem> = mutableListOf(
-            mostPlayedHeader,
-            DisplayableItem(R.layout.item_most_played_horizontal_list, "media", "Most Played")
-    )
-    private val recentlyAddedData: List<DisplayableItem> = mutableListOf()
     private val albumsData: List<DisplayableItem> = mutableListOf()
-    val songsData: List<DisplayableItem> = mutableListOf()
+
+    // songs
+    private val songsHeader = DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs))
+    private val songsData: List<DisplayableItem> = mutableListOf()
+
+    // artist in this data
     private val artistsInData: List<DisplayableItem> = mutableListOf()
 
     val fakeData: List<DisplayableItem> = mutableListOf(
@@ -59,13 +62,13 @@ class DetailDataController(
             DisplayableItem(R.layout.item_detail_song, "media", "2 Chainz - OG Kush Diet", "Unkown Artist")
     )
 
-    private val dataSet : MutableMap<DataType, List<DisplayableItem>> = mutableMapOf(
-            DataType.HEADER to headerData,
-            DataType.MOST_PLAYED to mostPlayedData,
-            DataType.RECENT to recentlyAddedData,
-            DataType.ALBUMS to albumsData,
-            DataType.ARTISTS_IN to artistsInData,
-            DataType.SONGS to songsData
+    private val dataSet : MutableMap<DetailDataType, List<DisplayableItem>> = mutableMapOf(
+            DetailDataType.HEADER to headerData,
+            DetailDataType.MOST_PLAYED to mostPlayedData,
+            DetailDataType.RECENT to recentlyAddedData,
+            DetailDataType.ALBUMS to albumsData,
+            DetailDataType.ARTISTS_IN to artistsInData,
+            DetailDataType.SONGS to songsData
     )
 
     fun getSize(): Int = dataSet.values.sumBy { it.size }
@@ -88,9 +91,7 @@ class DetailDataController(
                 .toSerialized()
                 .onBackpressureBuffer()
                 .subscribe { (type, data) ->
-                    val asMutable = data.toMutableList()
-                    addHeaderByType(type, asMutable)
-                    dataSet[type] = asMutable
+                    dataSet[type] = addHeaderByType(type, data)
                     adapter.notifyDataSetChanged()
                 }
     }
@@ -99,32 +100,36 @@ class DetailDataController(
         dataSetDisposable.unsubscribe()
     }
 
-    private fun addHeaderByType(type: DataType, list: MutableList<DisplayableItem>) {
+    private fun addHeaderByType(type: DetailDataType, list: List<DisplayableItem>) : MutableList<DisplayableItem> {
+        var result : MutableList<DisplayableItem> = list.toMutableList()
         when (type){
-            DataType.HEADER -> {
-
+            DetailDataType.HEADER -> {
             }
-            DataType.MOST_PLAYED -> {
-                if (list.isNotEmpty()){
-                    list.clear() // all recent list is not needed
-                    list.add(0, mostPlayedHeader)
-                    list.add(1, mostPlayedList)
+            DetailDataType.MOST_PLAYED -> {
+                if (result.isNotEmpty()){
+                    result.clear() // all list is not needed, just add a nested list
+                    result.add(0, mostPlayedHeader)
+                    result.add(1, mostPlayedList)
                 }
             }
-            DataType.RECENT -> {
-                if (list.isNotEmpty()){
-                    list.clear() // all recent list is not needed
-                    list.add(0, recentlyAddedHeader)
-                    list.add(1, recentlyAddedList)
+            DetailDataType.RECENT -> {
+                if (result.isNotEmpty()){
+                    result.clear() // all list is not needed, just add a nested list
+                    result.add(0, recentlyAddedHeader.copy(subtitle =
+                            if (list.size > 10) seeAll else ""))
+                    result.add(1, recentlyAddedList)
                 }
             }
-            DataType.ALBUMS -> {
-                list.add(0, albumsHeader)
+            DetailDataType.ALBUMS -> {
+                result = result.take(4).toMutableList()
+                result.add(0, albumsHeader.copy(subtitle =
+                        if (list.size > 4) seeAll else ""))
             }
-            DataType.SONGS -> {
-                list.add(0, songsHeader)
+            DetailDataType.SONGS -> {
+                result.add(0, songsHeader)
             }
         }
+        return result
     }
 
 }

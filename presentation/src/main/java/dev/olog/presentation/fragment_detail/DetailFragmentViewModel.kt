@@ -60,7 +60,7 @@ class DetailFragmentViewModel(
             .flatMapSingle { it.toFlowable()
                     .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }
                     .map { it.toRecentDetailDisplayableItem(mediaId) }
-                    .take(10)
+                    .take(11)
                     .toList()
 
             }.asLiveData()

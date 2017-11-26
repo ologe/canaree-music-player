@@ -82,7 +82,7 @@ class DetailFragment : BaseFragment() {
         viewModel.albumsLiveData.subscribe(this, adapter::onAlbumListChanged)
 
         viewModel.recentlyAddedLiveData.subscribe(this, {
-            recentlyAddedAdapter.updateDataSet(it)
+            recentlyAddedAdapter.updateDataSet(it.take(10))
             adapter.onRecentlyAddedChanged(it)
         })
 

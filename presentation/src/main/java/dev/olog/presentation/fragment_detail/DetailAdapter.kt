@@ -62,8 +62,11 @@ class DetailAdapter @Inject constructor(
             }
             R.layout.item_recent_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                list.layoutManager = GridLayoutManager(viewHolder.itemView.context,
+                val layoutManager = GridLayoutManager(viewHolder.itemView.context,
                         5, GridLayoutManager.HORIZONTAL, false)
+                layoutManager.isItemPrefetchEnabled = true
+                layoutManager.initialPrefetchItemCount = 10
+                list.layoutManager = layoutManager
                 list.adapter = recentSongsAdapter
                 list.recycledViewPool = recycled
 
@@ -100,23 +103,23 @@ class DetailAdapter @Inject constructor(
     fun getItem(position: Int): DisplayableItem = dataController[position]
 
     fun onItemChanged(item: DisplayableItem){
-        dataController.publisher.onNext(DetailDataController.DataType.HEADER.to(listOf(item)))
+        dataController.publisher.onNext(DetailDataType.HEADER.to(listOf(item)))
     }
 
     fun onSongListChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataController.DataType.SONGS.to(list))
+        dataController.publisher.onNext(DetailDataType.SONGS.to(list))
     }
 
     fun onAlbumListChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataController.DataType.ALBUMS.to(list))
+        dataController.publisher.onNext(DetailDataType.ALBUMS.to(list))
     }
 
     fun onRecentlyAddedChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataController.DataType.RECENT.to(list))
+        dataController.publisher.onNext(DetailDataType.RECENT.to(list))
     }
 
     fun onArtistInDataChanged(list: List<DisplayableItem>){
-        dataController.publisher.onNext(DetailDataController.DataType.ARTISTS_IN.to(list))
+        dataController.publisher.onNext(DetailDataType.ARTISTS_IN.to(list))
     }
 
 }
