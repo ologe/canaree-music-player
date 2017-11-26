@@ -6,10 +6,8 @@ import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.unsubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
-import io.reactivex.schedulers.Schedulers
 
 class DetailDataController(
         context: Context,
@@ -88,13 +86,7 @@ class DetailDataController(
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = publisher
                 .toSerialized()
-                .observeOn(Schedulers.computation())
-//                .map { (type, data) ->
-//                    val asMutable = data.toMutableList()
-//                    addHeaderByType(type, asMutable)
-//
-//                }
-                .observeOn(AndroidSchedulers.mainThread())
+                .onBackpressureBuffer()
                 .subscribe { (type, data) ->
                     val asMutable = data.toMutableList()
                     addHeaderByType(type, asMutable)
@@ -110,7 +102,7 @@ class DetailDataController(
     private fun addHeaderByType(type: DataType, list: MutableList<DisplayableItem>) {
         when (type){
             DataType.HEADER -> {
-//                list.add(DisplayableItem(R.layout.item_shuffle, "shuffle id", ""))
+
             }
             DataType.MOST_PLAYED -> {
                 if (list.isNotEmpty()){
@@ -126,8 +118,12 @@ class DetailDataController(
                     list.add(1, recentlyAddedList)
                 }
             }
-            DataType.ALBUMS -> list.add(0, albumsHeader)
-            DataType.SONGS -> list.add(0, songsHeader)
+            DataType.ALBUMS -> {
+                list.add(0, albumsHeader)
+            }
+            DataType.SONGS -> {
+                list.add(0, songsHeader)
+            }
         }
     }
 

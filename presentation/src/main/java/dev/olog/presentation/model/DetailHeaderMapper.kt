@@ -7,7 +7,7 @@ private const val HEADER_ID = "header media id"
 
 fun Folder.toHeaderItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_detail_info,
+            R.layout.item_detail_info_image,
             HEADER_ID,
             title.capitalize(),
             null,
@@ -17,7 +17,7 @@ fun Folder.toHeaderItem(): DisplayableItem{
 
 fun Playlist.toHeaderItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_detail_info,
+            R.layout.item_detail_info_image,
             HEADER_ID,
             title.capitalize(),
             null,
@@ -27,7 +27,7 @@ fun Playlist.toHeaderItem(): DisplayableItem{
 
 fun Album.toHeaderItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_detail_info,
+            R.layout.item_detail_info_image,
             HEADER_ID,
             title,
             artist,
@@ -37,7 +37,7 @@ fun Album.toHeaderItem(): DisplayableItem{
 
 fun Artist.toHeaderItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_detail_info,
+            R.layout.item_detail_info_image,
             HEADER_ID,
             name,
             null,
@@ -47,7 +47,7 @@ fun Artist.toHeaderItem(): DisplayableItem{
 
 fun Genre.toHeaderItem(): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_detail_info,
+            R.layout.item_detail_info_image,
             HEADER_ID,
             name,
             null,

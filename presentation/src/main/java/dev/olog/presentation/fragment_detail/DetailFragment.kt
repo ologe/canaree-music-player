@@ -62,14 +62,12 @@ class DetailFragment : BaseFragment() {
                 Palette.from(this).setRegion(
                         0, 0, point.x, statusBarHeight
                 ).generate {
-                    val dominantColor = it.getDominantColor(ContextCompat.getColor(context!!, R.color.dark_grey))
+                    val dominantColor = it.getLightVibrantColor(ContextCompat.getColor(context!!, R.color.dark_grey))
                     isCoverDark = ColorUtils.isColorDark(dominantColor)
                     if (isCoverDark){
-                        activity!!.window.removeLightStatusBar()
-                        view?.back?.setColorFilter(Color.WHITE)
+                        setLightButtons()
                     } else{
-                        activity!!.window.setLightStatusBar()
-                        view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
+                        setDarkButtons()
                     }
                 }
             }
@@ -109,14 +107,13 @@ class DetailFragment : BaseFragment() {
                 .distinctUntilChanged()
                 .asLiveData()
                 .subscribe(this, { lightStatusBar ->
-                    val window = activity!!.window
                     view.toolbar.isActivated = lightStatusBar
                     view.back.isActivated = lightStatusBar
                     view.header.isActivated = lightStatusBar
                     if (lightStatusBar || !isCoverDark){
-                        window.setLightStatusBar()
+                        setDarkButtons()
                     } else if (isCoverDark){
-                        window.removeLightStatusBar()
+                        setLightButtons()
                     }
                 })
 
@@ -137,6 +134,16 @@ class DetailFragment : BaseFragment() {
                     }
 
                 })
+    }
+
+    private fun setLightButtons(){
+        activity!!.window.removeLightStatusBar()
+        view?.back?.setColorFilter(Color.WHITE)
+    }
+
+    private fun setDarkButtons(){
+        activity!!.window.setLightStatusBar()
+        view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
 
     override fun onStart() {

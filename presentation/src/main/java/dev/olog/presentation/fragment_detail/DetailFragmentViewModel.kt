@@ -65,7 +65,7 @@ class DetailFragmentViewModel(
             }.asLiveData()
 
     val artistsInDataLiveData: LiveData<List<DisplayableItem>> = sharedSongObserver
-            .filter { source != TabViewPagerAdapter.ALBUM || source != TabViewPagerAdapter.ARTIST }
+            .filter { source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST }
             .map { it.asSequence()
                     .filter { it.artist != unknownArtist }
                     .map { it.artist }
