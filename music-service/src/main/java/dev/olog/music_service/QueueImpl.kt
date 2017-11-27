@@ -122,6 +122,7 @@ class QueueImpl @Inject constructor(
         }
 
         currentSongPosition = 0
+        updateCurrentPosition(currentSongPosition)
         persist(playingQueue)
     }
 
@@ -131,6 +132,7 @@ class QueueImpl @Inject constructor(
         playingQueue.sortBy { it.title }
 
         currentSongPosition = playingQueue.indexOf(playingSong)
+        updateCurrentPosition(currentSongPosition)
         persist(playingQueue)
     }
 

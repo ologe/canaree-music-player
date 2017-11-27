@@ -5,7 +5,8 @@
     <TextView
         android:text="@string/player_load_more_song"
         android:gravity="center"
-        android:layout_margin="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:textSize="13sp"
         android:textStyle="bold"
         android:textColor="@color/text_color_primary"

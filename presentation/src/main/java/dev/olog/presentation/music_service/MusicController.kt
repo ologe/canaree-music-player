@@ -6,6 +6,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.MusicConstants.ACTION_PLAY_SHUFFLE
 import javax.inject.Inject
 
@@ -57,6 +58,10 @@ class MusicController @Inject constructor(
         val bundle = Bundle()
         bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId)
         getTransportControls()?.sendCustomAction(ACTION_PLAY_SHUFFLE, bundle)
+    }
+
+    fun skipToQueueItem(mediaId: String) {
+        getTransportControls()?.skipToQueueItem(MediaIdHelper.extractLeaf(mediaId).toLong())
     }
 
     private fun getTransportControls(): MediaControllerCompat.TransportControls? {
