@@ -7,6 +7,10 @@ import dev.olog.domain.gateway.SongGateway
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayingQueueRepository @Inject constructor(
@@ -15,6 +19,7 @@ class PlayingQueueRepository @Inject constructor(
 
 ) : PlayingQueueGateway {
 
+    private val publisher = BehaviorProcessor.create<List<Long>>()
     private val playingQueueDao = database.playingQueueDao()
 
     override fun getAll(): Single<List<Song>> {
@@ -29,7 +34,22 @@ class PlayingQueueRepository @Inject constructor(
         return Completable.fromCallable { playingQueueDao.insert(list) }
     }
 
+    override fun updateMiniQueue(data: List<Long>) {
+        publisher.onNext(data)
+    }
+
     override fun observeMiniQueue(): Flowable<List<Song>> {
-        return Flowable.just(listOf()) // todo
+        return publisher
+                .observeOn(Schedulers.computation())
+                .debounce(200, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .flatMapSingle { it.toFlowable()
+                        .flatMapMaybe { songId ->
+                            songGateway.getAll().firstOrError()
+                                    .flattenAsObservable { it }
+                                    .filter { it.id == songId }
+                                    .firstElement()
+                        }.toList()
+                }
     }
 }

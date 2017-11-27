@@ -3,4 +3,6 @@
 
     <string name="player_now_playing">Now Playing</string>
 
+    <string name="player_load_more_song">more songs load as you listen</string>
+
 </resources>

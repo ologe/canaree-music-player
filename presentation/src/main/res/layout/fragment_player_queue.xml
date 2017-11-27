@@ -8,4 +8,6 @@
     android:focusable="true"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:paddingBottom="8dp"/>
+    android:overScrollMode="never"
+    android:clipChildren="false"
+    android:clipToPadding="false"/>

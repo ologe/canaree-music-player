@@ -13,7 +13,5 @@ class GetPlayingQueueUseCase @Inject constructor(
 
 ) : SingleUseCase<List<Song>>(scheduler) {
 
-    override fun buildUseCaseObservable(): Single<List<Song>> {
-        return gateway.getAll()
-    }
+    override fun buildUseCaseObservable(): Single<List<Song>> = gateway.getAll()
 }

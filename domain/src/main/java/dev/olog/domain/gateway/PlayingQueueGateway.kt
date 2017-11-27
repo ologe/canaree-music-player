@@ -12,5 +12,6 @@ interface PlayingQueueGateway {
     fun update(list: List<Long>): Completable
 
     fun observeMiniQueue() : Flowable<List<Song>>
+    fun updateMiniQueue(data: List<Long>)
 
 }

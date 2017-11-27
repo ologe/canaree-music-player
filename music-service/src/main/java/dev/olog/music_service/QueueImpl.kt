@@ -3,10 +3,7 @@ package dev.olog.music_service
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.service.BookmarkUseCase
-import dev.olog.domain.interactor.service.CurrentSongIdUseCase
-import dev.olog.domain.interactor.service.GetPlayingQueueUseCase
-import dev.olog.domain.interactor.service.UpdatePlayingQueueUseCase
+import dev.olog.domain.interactor.service.*
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
@@ -21,6 +18,7 @@ import javax.inject.Inject
 class QueueImpl @Inject constructor(
         private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
+        private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
         private val currentSongIdUseCase: CurrentSongIdUseCase,
         private val repeatMode: RepeatMode,
         private val shuffleMode: ShuffleMode,
@@ -195,10 +193,9 @@ class QueueImpl @Inject constructor(
         currentSongPosition = position
         currentSongIdUseCase.set(songId)
 
-        val miniQueue = playingQueue.asSequence().drop(currentSongPosition).take(51)
+        val miniQueue = playingQueue.asSequence().drop(currentSongPosition + 1).take(51)
                 .map { it.id }.toList()
-        updatePlayingQueueUseCase.execute(miniQueue)
-                .subscribe()
+        updateMiniQueueUseCase.execute(miniQueue)
     }
 
     override fun getCurrentPositionInQueue(): PositionInQueue {

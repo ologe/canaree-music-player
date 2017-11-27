@@ -7,6 +7,7 @@ import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
 import dev.olog.presentation.fragment_mini_player.di.MiniPlayerFragmentInjector
 import dev.olog.presentation.fragment_player.di.PlayerFragmentInjector
+import dev.olog.presentation.fragment_queue.di.PlayingQueueInjector
 import dev.olog.presentation.fragment_related_artist.di.RelatedArtistFragmentInjector
 import dev.olog.presentation.fragment_tab.di.TabFragmentInjector
 import dev.olog.presentation.navigation.NavigatorModule
@@ -20,7 +21,8 @@ import dev.olog.presentation.navigation.NavigatorModule
         DetailFragmentInjector::class,
         PlayerFragmentInjector::class,
         MiniPlayerFragmentInjector::class,
-        RelatedArtistFragmentInjector::class
+        RelatedArtistFragmentInjector::class,
+        PlayingQueueInjector::class
 ))
 @PerActivity
 interface MainActivitySubComponent :AndroidInjector<MainActivity> {
