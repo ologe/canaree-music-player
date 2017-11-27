@@ -6,4 +6,6 @@ interface Navigator {
 
     fun toDetailActivity(mediaId: String)
 
+    fun toRelatedArtists(mediaId: String)
+
 }

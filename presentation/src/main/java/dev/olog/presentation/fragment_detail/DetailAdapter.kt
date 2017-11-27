@@ -102,6 +102,15 @@ class DetailAdapter @Inject constructor(
                     }
                 }
             }
+            R.layout.item_detail_related_artist -> {
+                viewHolder.itemView.setOnClickListener {
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        navigator.toRelatedArtists(item.mediaId)
+                    }
+                }
+            }
         }
     }
 

@@ -91,7 +91,7 @@ class DetailFragmentViewModel(
                             .joinToString()
                 } else ""
             }
-            .map { DisplayableItem(R.layout.item_related_artists, "related id", it, inThisItemTitles[source]) }
+            .map { DisplayableItem(R.layout.item_detail_related_artist, "related id", it, inThisItemTitles[source]) }
             .map { listOf(it) }
 
     fun addToMostPlayed(mediaId: String): Completable {
