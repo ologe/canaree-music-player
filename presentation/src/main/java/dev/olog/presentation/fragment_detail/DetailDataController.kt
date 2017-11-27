@@ -132,14 +132,32 @@ class DetailDataController(
                     }
                 }
                 DetailDataType.ALBUMS -> {
-                    val newList = value.take(4).toMutableList()
-                    newList.add(0, albumsHeader.copy(subtitle =
-                    if (value.size > 4) seeAll else ""))
-                    value.clear()
-                    value.addAll(newList)
+                    if (value.isNotEmpty()){
+                        val newList = value.take(4).toMutableList()
+                        val header = value[0]
+                        if (header.mediaId != albumsHeader.mediaId){
+                            newList.add(0, albumsHeader.copy(subtitle =
+                            if (value.size > 4) seeAll else ""))
+                        }
+                        value.clear()
+                        value.addAll(newList)
+                    }
                 }
                 DetailDataType.SONGS -> {
-                    value.add(0, songsHeader)
+                    if (value.isNotEmpty()){
+                        val header = value[0]
+                        if (header != songsHeader){
+                            value.add(0, songsHeader)
+                        }
+                    }
+                }
+                DetailDataType.ARTISTS_IN -> {
+                    if (value.isNotEmpty()){
+                        val (_, _, title) = value[0]
+                        if (title == ""){
+                            value.clear()
+                        }
+                    }
                 }
             }
         }
