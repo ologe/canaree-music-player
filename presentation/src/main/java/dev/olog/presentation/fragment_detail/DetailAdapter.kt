@@ -27,7 +27,7 @@ import javax.inject.Inject
 class DetailAdapter @Inject constructor(
         @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
-        mediaId: String,
+        private val mediaId: String,
         private val view: DetailFragmentView,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
@@ -104,11 +104,7 @@ class DetailAdapter @Inject constructor(
             }
             R.layout.item_detail_related_artist -> {
                 viewHolder.itemView.setOnClickListener {
-                    val position = viewHolder.adapterPosition
-                    if (position != RecyclerView.NO_POSITION){
-                        val item = dataController[position]
-                        navigator.toRelatedArtists(item.mediaId)
-                    }
+                    navigator.toRelatedArtists(mediaId)
                 }
             }
         }

@@ -38,4 +38,6 @@
         <item quantity="other">%d Minutes</item>
     </plurals>
 
+    <string name="related_artists">Related artists</string>
+
 </resources>

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.utils.subscribe
 import dev.olog.presentation.utils.withArguments
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -21,10 +20,9 @@ class RelatedArtistFragment: BaseFragment() {
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
 
-        fun newInstance(mediaId: String): DetailFragment {
-            return DetailFragment().withArguments(
-                    DetailFragment.ARGUMENTS_MEDIA_ID to mediaId
-            )
+        fun newInstance(mediaId: String): RelatedArtistFragment {
+            return RelatedArtistFragment().withArguments(
+                    ARGUMENTS_MEDIA_ID to mediaId)
         }
     }
 
