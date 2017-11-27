@@ -1,7 +1,6 @@
 package dev.olog.data.repository
 
 import android.content.res.Resources
-import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
@@ -41,12 +40,12 @@ class PlaylistRepository @Inject constructor(
         )
         private val SELECTION: String? = null
         private val SELECTION_ARGS: Array<String>? = null
-        private val SORT_ORDER = null
+        private val SORT_ORDER = MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER
 
         private val SONG_PROJECTION = arrayOf(BaseColumns._ID)
         private val SONG_SELECTION = null
         private val SONG_SELECTION_ARGS: Array<String>? = null
-        private val SONG_SORT_ORDER : String? = null
+        private val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
     }
 
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
@@ -67,7 +66,12 @@ class PlaylistRepository @Inject constructor(
                     SELECTION_ARGS,
                     SORT_ORDER,
                     false
-            ).flatMapSingle { it.asRows(Cursor::toPlaylist).startWith(autoPlaylists).toList() }
+            ).mapToList { it.toPlaylist() }
+            .map {
+                val result = it.sortedWith(compareBy { it.title.toLowerCase() }).toMutableList()
+                result.addAll(autoPlaylists)
+                result.toList()
+            }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)

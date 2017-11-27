@@ -84,6 +84,7 @@ class DetailDataController(
                 .debounce(50, TimeUnit.MILLISECONDS)
                 .observeOn(Schedulers.computation())
                 .onBackpressureBuffer()
+                .distinctUntilChanged()
                 .map { it.to(DiffUtil.calculateDiff(DetailDiff(dataSet, it))) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { (newData, callback) ->
@@ -92,10 +93,10 @@ class DetailDataController(
                     dataSet.putAll(newData)
                     if (wasEmpty){
                         adapter.notifyDataSetChanged()
-                        adapter.startTransition()
                     } else{
                         callback.dispatchUpdatesTo(adapter)
                     }
+                    adapter.startTransition()
                 }
     }
 

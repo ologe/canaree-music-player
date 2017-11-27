@@ -31,7 +31,7 @@ class GetAlbumSiblingsByAlbumUseCase @Inject constructor(
                             .filter { it.id != albumId }
                             .toList()
                 } }
-                .filter { it.size > 1 }
+                .map { if (it.size > 1) it else listOf() }
     }
 
 }

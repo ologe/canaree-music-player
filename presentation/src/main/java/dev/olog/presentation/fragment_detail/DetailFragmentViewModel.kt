@@ -70,6 +70,7 @@ class DetailFragmentViewModel(
                     .toList()
             }.replay(1).refCount()
 
+
     val recentlyAddedFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
             .map { if (it.size >= 5) it else listOf() }
             .flatMapSingle { it.toFlowable()
@@ -81,12 +82,14 @@ class DetailFragmentViewModel(
             }.replay(1).refCount()
 
     private val artistsFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
-            .map { if (source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST) it else listOf() }
-            .map { it.asSequence()
-                    .filter { it.artist != unknownArtist }
-                    .map { it.artist }
-                    .distinct()
-                    .joinToString()
+            .map {
+                if (source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST){
+                    it.asSequence()
+                            .filter { it.artist != unknownArtist }
+                            .map { it.artist }
+                            .distinct()
+                            .joinToString()
+                } else ""
             }
             .map { DisplayableItem(R.layout.item_related_artists, "related id", it, inThisItemTitles[source]) }
             .map { listOf(it) }

@@ -36,12 +36,12 @@ class GenreRepository @Inject constructor(
         )
         private val SELECTION: String? = null
         private val SELECTION_ARGS: Array<String>? = null
-        private val SORT_ORDER = null
+        private val SORT_ORDER = MediaStore.Audio.Genres.DEFAULT_SORT_ORDER
 
         private val SONG_PROJECTION = arrayOf(BaseColumns._ID)
         private val SONG_SELECTION = null
         private val SONG_SELECTION_ARGS: Array<String>? = null
-        private val SONG_SORT_ORDER : String? = null
+        private val SONG_SORT_ORDER = MediaStore.Audio.Genres.Members.DEFAULT_SORT_ORDER
     }
 
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
@@ -55,6 +55,7 @@ class GenreRepository @Inject constructor(
                     SORT_ORDER,
                     false
             ).mapToList { it.toGenre() }
+            .map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)

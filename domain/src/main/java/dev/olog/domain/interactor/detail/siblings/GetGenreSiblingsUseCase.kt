@@ -24,6 +24,6 @@ class GetGenreSiblingsUseCase @Inject constructor(
                 .flatMapSingle {
                     it.toFlowable().filter { it.id != genreId }.toList()
                 }
-                .filter { it.size > 1 }
+                .map { if (it.size > 1) it else listOf() }
     }
 }

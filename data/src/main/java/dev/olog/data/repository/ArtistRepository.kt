@@ -23,7 +23,7 @@ class ArtistRepository @Inject constructor(
                     .filter { it.album != DataConstants.UNKNOWN_ARTIST }
                     .distinct (Song::artistId)
                     .map(Song::toArtist)
-                    .toList()
+                    .toSortedList(compareBy { it.name.toLowerCase() })
             }.distinctUntilChanged()
             .replay(1)
             .refCount()

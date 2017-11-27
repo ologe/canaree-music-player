@@ -23,6 +23,6 @@ class GetPlaylistSiblingsUseCase @Inject internal constructor(
                 .flatMapSingle {
                     it.toFlowable().filter { it.id != playlistId }.toList()
                 }
-                .filter { it.size > 1 }
+                .map { if (it.size > 1) it else listOf() }
     }
 }

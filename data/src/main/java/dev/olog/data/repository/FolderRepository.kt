@@ -28,7 +28,7 @@ class FolderRepository @Inject constructor(
                 .flatMapSingle { it.toFlowable()
                         .distinct { it.folderPath }
                         .map(Song::toFolder)
-                        .toList()
+                        .toSortedList(compareBy { it.title.toLowerCase() })
                 }.distinctUntilChanged()
                 .replay(1)
                 .refCount()

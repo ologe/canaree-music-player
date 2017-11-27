@@ -24,6 +24,6 @@ class GetAlbumSiblingsByArtistUseCase @Inject internal constructor(
                 .flatMapSingle { it.toFlowable()
                         .filter { it.artistId == artistId }
                         .toList()
-                }.filter { it.size > 1 }
+                }.map { if (it.size > 1) it else listOf() }
     }
 }
