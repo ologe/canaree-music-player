@@ -117,11 +117,11 @@ class QueueImpl @Inject constructor(
     }
 
     override fun sort() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // todo
     }
 
     override fun shuffle() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // todo
     }
 
     private fun getPlayingSong(): PlayerMediaEntity {

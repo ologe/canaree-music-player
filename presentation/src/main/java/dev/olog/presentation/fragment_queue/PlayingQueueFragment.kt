@@ -5,6 +5,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -35,7 +37,22 @@ class PlayingQueueFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(context)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+        RxRecyclerView.scrollEvents(view.list)
+                .map { view.list.canScrollVertically(-1) }
+                .distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, {
+                    val toolbar = activity!!.findViewById<View>(R.id.playingQueueRoot)
+                    toolbar.isActivated = !it
+                })
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity!!.findViewById<SlidingUpPanelLayout>(R.id.innerPanel)
+                .setScrollableView(view!!.list)
+    }
+
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_player_queue, container, false)

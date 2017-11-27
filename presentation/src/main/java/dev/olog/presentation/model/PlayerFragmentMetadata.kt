@@ -1,7 +1,6 @@
 package dev.olog.presentation.model
 
 import android.support.v4.media.MediaMetadataCompat
-import dev.olog.shared.TextUtils
 
 data class PlayerFragmentMetadata (
         val title: String,
@@ -20,9 +19,7 @@ data class PlayerFragmentMetadata (
 fun MediaMetadataCompat.toPlayerMetadata(): PlayerFragmentMetadata{
     return PlayerFragmentMetadata(
             this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
-            this.getString(MediaMetadataCompat.METADATA_KEY_ALBUM) +
-                    TextUtils.MIDDLE_DOT_SPACED +
-                    this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
+            this.getString(MediaMetadataCompat.METADATA_KEY_ARTIST),
             false,
             false
     )

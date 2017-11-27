@@ -6,7 +6,8 @@
     tools:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container">
+    android:id="@+id/container"
+    tools:layout_marginBottom="@dimen/inner_panel_height">
 
     <View
         app:layout_constraintTop_toTopOf="parent"
@@ -26,9 +27,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/tab" />
 
-    <!-- cover -->
-    <dev.olog.presentation.widgets.SwipeableImageView
-        android:id="@+id/cover"
+    <android.support.v7.widget.CardView
+        android:id="@+id/coverLayout"
         app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,18 +36,28 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginEnd="26dp"
-        android:src="@drawable/placeholder_bird_singing"
-        android:clickable="true"
-        android:focusable="true"
-        android:stateListAnimator="@animator/elevate_and_scale_on_activated" />
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp">
+
+        <!-- cover -->
+        <dev.olog.presentation.widgets.SwipeableImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/placeholder_bird_singing"
+            android:clickable="true"
+            android:focusable="true"
+            android:stateListAnimator="@animator/elevate_and_scale_on_activated" />
+
+    </android.support.v7.widget.CardView>
 
     <!-- prev -->
     <View
         android:id="@+id/fakePrevious"
-        app:layout_constraintTop_toTopOf="@+id/cover"
-        app:layout_constraintBottom_toBottomOf="@+id/cover"
+        app:layout_constraintTop_toTopOf="@+id/coverLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="64dp"
         android:layout_height="0dp"
@@ -58,8 +68,8 @@
     <!-- next -->
     <View
         android:id="@+id/fakeNext"
-        app:layout_constraintTop_toTopOf="@+id/cover"
-        app:layout_constraintBottom_toBottomOf="@+id/cover"
+        app:layout_constraintTop_toTopOf="@+id/coverLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="64dp"
         android:layout_height="0dp"
@@ -102,7 +112,7 @@
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/cover"
+        app:layout_constraintTop_toBottomOf="@+id/coverLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:max="@integer/very_high_duration"
@@ -121,33 +131,35 @@
     <!-- shuffle -->
     <ImageButton
         android:id="@+id/shuffle"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:background="@null"
         android:src="@drawable/vd_shuffle"
         tools:tint="@color/item_selected"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/repeat"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        android:elevation="2dp"/>
+        android:elevation="2dp"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
     <!-- repeat -->
     <ImageButton
         android:id="@+id/repeat"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:background="@null"
         android:src="@drawable/vd_repeat"
         tools:src="@drawable/vd_repeat"
         tools:tint="@color/button_secondary_tint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/shuffle"
-        android:elevation="2dp"/>
+        android:elevation="2dp"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,7 @@ package dev.olog.presentation.activity_main
 import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.HasSlidingPanel
@@ -31,8 +32,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        title = findViewById(R.id.title)
-        artist = findViewById(R.id.artist)
+        title = findViewById<ViewGroup>(R.id.titleWrapper).findViewById(R.id.title)
+        artist = findViewById<ViewGroup>(R.id.artistWrapper).findViewById(R.id.artist)
 
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
