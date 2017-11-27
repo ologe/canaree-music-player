@@ -26,10 +26,12 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     companion object {
         const val TAG = "DetailFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        const val ARGUMENTS_LIST_POSITION = "$TAG.arguments.list_position"
 
-        fun newInstance(mediaId: String): DetailFragment {
+        fun newInstance(mediaId: String, position: Int): DetailFragment {
             return DetailFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId
+                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_LIST_POSITION to position
             )
         }
     }

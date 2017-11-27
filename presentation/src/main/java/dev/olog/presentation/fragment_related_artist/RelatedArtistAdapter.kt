@@ -21,7 +21,7 @@ class RelatedArtistAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item ->
-            navigator.toDetailActivity(item.mediaId)
+            navigator.toDetailActivity(item.mediaId, viewHolder.adapterPosition)
         })
     }
 

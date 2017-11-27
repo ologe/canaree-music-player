@@ -28,6 +28,7 @@ class DetailAdapter @Inject constructor(
         @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
         private val mediaId: String,
+        private val listPosition: Int,
         private val view: DetailFragmentView,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
@@ -98,7 +99,7 @@ class DetailAdapter @Inject constructor(
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
                         val item = dataController[position]
-                        navigator.toDetailActivity(item.mediaId)
+                        navigator.toDetailActivity(item.mediaId, position)
                     }
                 }
             }
@@ -136,7 +137,12 @@ class DetailAdapter @Inject constructor(
     private fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source,  source)
-        binding.setVariable(BR.position, position)
+        if (position == 0){
+            binding.setVariable(BR.position, listPosition)
+        } else{
+            binding.setVariable(BR.position, position)
+        }
+
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

@@ -4,7 +4,7 @@ interface Navigator {
 
     fun toMainActivity()
 
-    fun toDetailActivity(mediaId: String)
+    fun toDetailActivity(mediaId: String, position: Int)
 
     fun toRelatedArtists(mediaId: String)
 

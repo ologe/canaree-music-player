@@ -10,10 +10,7 @@ import dev.olog.domain.interactor.service.UpdatePlayingQueueUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
-import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.shuffle
-import dev.olog.shared.shuffleAndSwap
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.*
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
@@ -116,12 +113,27 @@ class QueueImpl @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun sort() {
-        // todo
+    override fun shuffle() {
+        val item = playingQueue[currentSongPosition]
+
+        playingQueue.shuffle()
+
+        val songPosition = playingQueue.indexOf(item)
+        if (songPosition != 0){
+            playingQueue.swap(0, songPosition)
+        }
+
+        currentSongPosition = 0
+        persist(playingQueue)
     }
 
-    override fun shuffle() {
-        // todo
+    override fun sort() {
+        val playingSong = playingQueue[currentSongPosition]
+        // todo proper sorting in detail
+        playingQueue.sortBy { it.title }
+
+        currentSongPosition = playingQueue.indexOf(playingSong)
+        persist(playingQueue)
     }
 
     private fun getPlayingSong(): PlayerMediaEntity {

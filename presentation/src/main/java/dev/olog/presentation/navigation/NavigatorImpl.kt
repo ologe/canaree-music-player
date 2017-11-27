@@ -34,7 +34,7 @@ class NavigatorImpl @Inject constructor(
         activity.finish()
     }
 
-    override fun toDetailActivity(mediaId: String) {
+    override fun toDetailActivity(mediaId: String, position: Int) {
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
@@ -45,7 +45,7 @@ class NavigatorImpl @Inject constructor(
                             R.anim.left_slide_out
                 )
                 replace(R.id.viewPagerLayout,
-                            DetailFragment.newInstance(mediaId),
+                            DetailFragment.newInstance(mediaId, position),
                             DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
             }

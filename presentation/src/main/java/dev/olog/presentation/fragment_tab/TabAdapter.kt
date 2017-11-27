@@ -25,7 +25,7 @@ class TabAdapter @Inject constructor(
             if (item.isPlayable){
                 musicController.playFromMediaId(item.mediaId)
             } else {
-                navigator.toDetailActivity(item.mediaId)
+                navigator.toDetailActivity(item.mediaId, viewHolder.adapterPosition)
             }
 
         })
