@@ -43,7 +43,7 @@ class NavigatorImpl @Inject constructor(
                             R.anim.right_stay,
                             R.anim.left_stay,
                             R.anim.left_slide_out
-                    )
+                )
                 replace(R.id.viewPagerLayout,
                             DetailFragment.newInstance(mediaId),
                             DetailFragment.TAG)

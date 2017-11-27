@@ -52,6 +52,7 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_related_artist"
         tools:layoutManager="android.support.v7.widget.GridLayoutManag‌​er"
-        app:spanCount="3"/>
+        app:spanCount="3"
+        android:padding="8dp"/>
 
 </LinearLayout>

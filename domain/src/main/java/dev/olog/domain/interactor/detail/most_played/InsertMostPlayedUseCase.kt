@@ -23,7 +23,7 @@ class InsertMostPlayedUseCase @Inject constructor(
             MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.insertMostPlayed(param)
             MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistGateway.insertMostPlayed(param)
             MediaIdHelper.MEDIA_ID_BY_GENRE -> genreGateway.insertMostPlayed(param)
-            else -> throw AssertionError("invalid media id $param")
+            else -> Completable.complete()
         }
     }
 
