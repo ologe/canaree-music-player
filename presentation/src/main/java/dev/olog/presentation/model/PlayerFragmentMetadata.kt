@@ -7,20 +7,13 @@ data class PlayerFragmentMetadata (
         val artist: String,
         val isExplicit: Boolean,
         val isRemix: Boolean
-) {
-
-    companion object {
-        const val KEY_EXPLICIT = "KEY_EXPLICIT"
-        const val KEY_REMIX = "KEY_REMIX"
-    }
-
-}
+)
 
 fun MediaMetadataCompat.toPlayerMetadata(): PlayerFragmentMetadata{
     return PlayerFragmentMetadata(
             this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
             this.getString(MediaMetadataCompat.METADATA_KEY_ARTIST),
-            false,
-            false
+            this.getLong("explicit") != 0L,
+            this.getLong("remix") != 0L
     )
 }

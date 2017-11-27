@@ -39,17 +39,18 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="8dp"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        android:stateListAnimator="@animator/elevate_on_activated">
 
         <!-- cover -->
         <dev.olog.presentation.widgets.SwipeableImageView
             android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/placeholder_bird_singing"
+            tools:src="@drawable/placeholder_bird_singing"
             android:clickable="true"
             android:focusable="true"
-            android:stateListAnimator="@animator/elevate_and_scale_on_activated" />
+            android:stateListAnimator="@animator/elevate_and_scale_on_activated"/>
 
     </android.support.v7.widget.CardView>
 

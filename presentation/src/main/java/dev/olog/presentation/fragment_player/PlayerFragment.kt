@@ -30,11 +30,16 @@ class PlayerFragment : BaseFragment() {
 
     lateinit var title: TextView
     lateinit var artist: TextView
+    lateinit var isExplicit: View
+    lateinit var isRemix: View
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        title = activity!!.findViewById<ViewGroup>(R.id.playingQueueLayout).findViewById(R.id.title)
-        artist = activity!!.findViewById<ViewGroup>(R.id.playingQueueLayout).findViewById(R.id.artist)
+        val container = activity!!.findViewById<ViewGroup>(R.id.playingQueueLayout)
+        title = container.findViewById(R.id.title)
+        artist = container.findViewById(R.id.artist)
+        isExplicit = container.findViewById(R.id.explicit)
+        isRemix = container.findViewById(R.id.remix)
 
         viewModel.onMetadataChangedLiveData
                 .subscribe(this, this::setMetadata)
@@ -47,6 +52,7 @@ class PlayerFragment : BaseFragment() {
                     seekBar.handleState(it)
                     nowPlaying.isActivated = it
                     cover.isActivated = it
+                    coverLayout.isActivated = it
                 })
 
         viewModel.onRepeatModeChangedLiveData
@@ -127,6 +133,8 @@ class PlayerFragment : BaseFragment() {
     private fun setMetadata(metadata: PlayerFragmentMetadata){
         title.text = metadata.title
         artist.text = metadata.artist
+        isExplicit.visibility = if (metadata.isExplicit) View.VISIBLE else View.GONE
+        isRemix.visibility = if (metadata.isRemix) View.VISIBLE else View.GONE
     }
 
     private fun setCover(coverModel: CoverModel){

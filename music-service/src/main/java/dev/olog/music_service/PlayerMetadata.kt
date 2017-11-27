@@ -35,6 +35,8 @@ class PlayerMetadata @Inject constructor(
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, entity.image))
+                .putLong("explicit", if(entity.isExplicit) 1L else 0L)
+                .putLong("remix", if(entity.isRemix) 1L else 0L)
                 .build()
 
         mediaSession.setMetadata(builder.build())

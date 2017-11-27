@@ -5,9 +5,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.utils.asLiveData
 import dev.olog.presentation.utils.subscribe
 import kotlinx.android.synthetic.main.fragment_player_queue.view.*
 import javax.inject.Inject
@@ -30,6 +32,16 @@ class PlayingQueueFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(context)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+
+        RxRecyclerView.scrollEvents(view.list)
+                .map { it.view() }
+                .map { it.canScrollVertically(-1) }
+                .distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, {
+                    val toolbar = activity!!.findViewById<View>(R.id.wrapper)
+                    toolbar?.isActivated = it
+                })
     }
 
     override fun onResume() {

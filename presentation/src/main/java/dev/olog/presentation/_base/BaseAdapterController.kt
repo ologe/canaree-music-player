@@ -34,7 +34,7 @@ class BaseAdapterController(
     private var filter = ""
 
     init {
-        dataSet.addAll(createActualHeaders())
+        dataSet.addAll(0, createActualHeaders())
     }
 
     operator fun get(position: Int): DisplayableItem = dataSet[position]

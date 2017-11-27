@@ -23,8 +23,6 @@ class TabAdapter @Inject constructor(
 
 ) : BaseAdapter(lifecycle) {
 
-
-
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item ->
             if (item.isPlayable){
@@ -32,7 +30,6 @@ class TabAdapter @Inject constructor(
             } else {
                 navigator.toDetailActivity(item.mediaId, viewHolder.adapterPosition)
             }
-
         })
     }
 
