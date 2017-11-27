@@ -3,7 +3,6 @@ package dev.olog.presentation.fragment_tab
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,6 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject @JvmField var source: Int = 0
     @Inject lateinit var tabSpanSizeLookup: TabSpanSizeLookup
-    @Inject lateinit var viewPool: RecyclerView.RecycledViewPool
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -46,7 +44,7 @@ class TabFragment : BaseFragment() {
         layoutManager.spanSizeLookup = tabSpanSizeLookup
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
-        view.list.recycledViewPool = viewPool
+        view.list.setHasFixedSize(true)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

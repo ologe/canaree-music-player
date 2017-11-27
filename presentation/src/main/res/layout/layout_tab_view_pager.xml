@@ -54,7 +54,9 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="@dimen/toolbar_elevation"
         android:tint="@color/button_primary_tint"
-        android:src="@drawable/vd_more"/>
+        android:src="@drawable/vd_more"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <ImageButton
         android:id="@+id/search"
@@ -66,7 +68,9 @@
         android:elevation="@dimen/toolbar_elevation"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:tint="@color/button_primary_tint"
-        android:src="@drawable/vd_search" />
+        android:src="@drawable/vd_search"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"

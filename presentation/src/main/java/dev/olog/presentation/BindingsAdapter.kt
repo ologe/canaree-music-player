@@ -10,7 +10,7 @@ import dev.olog.presentation.images.CoverUtils
 object BindingsAdapter {
 
     private val OVERRIDE_SMALL = 150
-    private val OVERRIDE_MID = 300
+    private val OVERRIDE_MID = 600
     private val OVERRIDE_BIG = 600
 
 

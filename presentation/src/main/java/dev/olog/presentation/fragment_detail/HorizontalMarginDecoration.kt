@@ -14,7 +14,8 @@ class HorizontalMarginDecoration(
     private val padding = context.dip(8)
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        if (parent.getChildAdapterPosition(view) > 0){
+        val position = parent.getChildAdapterPosition(view)
+        if (position > 0){
             outRect.left = padding
             outRect.right = padding
         } else {

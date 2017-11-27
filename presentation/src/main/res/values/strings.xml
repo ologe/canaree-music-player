@@ -4,4 +4,6 @@
 
     <string name="unknown_artist">Unknown Artist</string>
 
+    <string name="shuffle_all">Shuffle All</string>
+
 </resources>

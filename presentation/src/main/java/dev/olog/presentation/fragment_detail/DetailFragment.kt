@@ -98,6 +98,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         }
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+        view.list.setHasFixedSize(true)
 
         val listObservable = RxRecyclerView.scrollEvents(view.list)
                 .share()

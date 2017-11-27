@@ -4,12 +4,10 @@ import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.ActivityContext
-import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.music_service.MediaControllerProvider
 
 @Module
@@ -29,12 +27,6 @@ class MainActivityModule(
     @Provides
     internal fun provideActivity(): AppCompatActivity {
         return activity
-    }
-
-    @Provides
-    @PerActivity
-    internal fun provdeViewPool(): RecyclerView.RecycledViewPool {
-        return RecyclerView.RecycledViewPool()
     }
 
     @Provides
