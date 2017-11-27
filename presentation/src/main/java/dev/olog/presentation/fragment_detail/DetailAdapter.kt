@@ -108,7 +108,7 @@ class DetailAdapter @Inject constructor(
                     navigator.toRelatedArtists(mediaId)
                 }
             }
-            R.layout.item_shuffle -> {
+            R.layout.item_shuffle_with_divider -> {
                 viewHolder.itemView.setOnClickListener { musicController.playShuffle(mediaId) }
             }
         }

@@ -47,7 +47,7 @@ class DetailDataController(
 
     // songs
     private val songsHeader = DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs))
-    private val shuffleHeader = DisplayableItem(R.layout.item_shuffle, "shuffle id", "")
+    private val shuffleHeader = DisplayableItem(R.layout.item_shuffle_with_divider, "shuffle id", "")
     private val songsData: List<DisplayableItem> = mutableListOf()
 
     // artist in this data

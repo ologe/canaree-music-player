@@ -6,6 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/separator"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/img"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            style="@style/Divider" />
+
         <ImageView
             android:id="@+id/img"
             app:layout_constraintTop_toTopOf="parent"

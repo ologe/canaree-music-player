@@ -35,8 +35,6 @@ class MiniPlayerFragment : BaseFragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        viewModel.onMetadataChanged().observe(this, Observer { binding.data = it })
-
         viewModel.onMetadataChangedLiveData
                 .subscribe(this, {
                     view!!.title.text = it.title
