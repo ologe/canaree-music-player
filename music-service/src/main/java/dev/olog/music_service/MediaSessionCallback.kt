@@ -11,6 +11,8 @@ import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.Queue
+import dev.olog.shared.MusicConstants
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -79,6 +81,18 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSeekTo(pos: Long) {
         player.seekTo(pos)
+    }
+
+    override fun onCustomAction(action: String?, extras: Bundle?) {
+        val single = when (action) {
+//            MusicConstants.ACTION_PLAY_FIRST -> queue.handlePlayFirst(extras!!)
+            MusicConstants.ACTION_PLAY_SHUFFLE -> queue.handlePlayShuffle(extras!!)
+            else -> Single.error(Throwable())
+        }
+
+        single.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(player::play, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {
