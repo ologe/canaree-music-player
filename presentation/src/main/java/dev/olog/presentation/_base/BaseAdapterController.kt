@@ -60,7 +60,7 @@ class BaseAdapterController(
                 .observeOn(Schedulers.computation())
                 .map {
                     val result = it.toMutableList()
-                    result.addAll(createActualHeaders())
+                    result.addAll(0, createActualHeaders())
                     result.toList()
                 }
                 .flatMapSingle {
