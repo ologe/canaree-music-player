@@ -194,6 +194,11 @@ class QueueImpl @Inject constructor(
     private fun updateCurrentPosition(position: Int, songId: Long) {
         currentSongPosition = position
         currentSongIdUseCase.set(songId)
+
+        val miniQueue = playingQueue.asSequence().drop(currentSongPosition).take(51)
+                .map { it.id }.toList()
+        updatePlayingQueueUseCase.execute(miniQueue)
+                .subscribe()
     }
 
     override fun getCurrentPositionInQueue(): PositionInQueue {
