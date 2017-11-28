@@ -15,8 +15,7 @@
             android:layout_height="50dp"
             android:src="@drawable/vd_shuffle"
             android:padding="14dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginStart="16dp" />
 
         <TextView
             android:id="@+id/text"

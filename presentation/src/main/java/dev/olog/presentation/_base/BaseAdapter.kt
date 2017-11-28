@@ -51,7 +51,7 @@ abstract class BaseAdapter(
 
     internal fun getDataSet(): List<DisplayableItem> = dataController.dataSet
 
-    open fun provideStaticHeaders() : List<Header> = listOf()
+    open fun provideHeaders() : List<Header> = listOf()
 
     fun onDataChanged() = dataController.onDataChanged
 

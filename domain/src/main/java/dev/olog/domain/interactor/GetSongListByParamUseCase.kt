@@ -22,6 +22,9 @@ class GetSongListByParamUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(param: String): Flowable<List<Song>> {
         val category = MediaIdHelper.extractCategory(param)
+        if (category == MediaIdHelper.MEDIA_ID_BY_ALL){
+            return songDataStore.getAll()
+        }
         val categoryValue = MediaIdHelper.extractCategoryValue(param)
 
         when (category) {

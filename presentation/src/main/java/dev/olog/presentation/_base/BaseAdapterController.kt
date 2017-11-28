@@ -29,8 +29,6 @@ class BaseAdapterController(
     private val originalList = mutableListOf<DisplayableItem>()
     val dataSet = mutableListOf<DisplayableItem>()
 
-    private val staticHeaders = adapter.provideStaticHeaders()
-
     private var filter = ""
 
     init {
@@ -72,7 +70,6 @@ class BaseAdapterController(
                         it.toSingle()
                     }
                 }
-//                .flatMapSingle { it.toFlowable().toSortedList(compareBy { it.title }) } // todo do better comparator
                 .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it))) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ (newData, callback) ->
@@ -80,13 +77,13 @@ class BaseAdapterController(
 
                     this.dataSet.cleanThenAdd(newData)
 
+                    adapter.notifyDataSetChanged()
+
                     if (wasEmpty) {
                         adapter.notifyDataSetChanged()
                     } else {
                         callback.dispatchUpdatesTo(adapter)
                     }
-
-                    adapter.afterDataChanged()
 
                 },  { it.printStackTrace() })
     }
@@ -104,7 +101,7 @@ class BaseAdapterController(
     }
 
     private fun createActualHeaders(): List<DisplayableItem> {
-        return staticHeaders.mapIndexed { index: Int, header: Header ->
+        return adapter.provideHeaders().mapIndexed { index: Int, header: Header ->
             header.toDisplayableItem(index)
         }
     }
