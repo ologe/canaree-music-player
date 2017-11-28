@@ -1,5 +1,6 @@
 package dev.olog.presentation.fragment_player
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -8,7 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
@@ -141,6 +146,8 @@ class PlayerFragment : BaseFragment() {
         val (img, placeholder) = coverModel
         GlideApp.with(context).clear(cover)
 
+
+
         GlideApp.with(context)
                 .load(img)
                 .centerCrop()
@@ -148,6 +155,16 @@ class PlayerFragment : BaseFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .priority(Priority.IMMEDIATE)
                 .override(800)
+                .listener(object : RequestListener<Drawable>{
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                        placeholder.startTransition(200)
+                        return false
+                    }
+
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                        return false
+                    }
+                })
                 .into(cover)
     }
 

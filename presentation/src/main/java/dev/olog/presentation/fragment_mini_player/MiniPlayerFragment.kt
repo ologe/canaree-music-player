@@ -129,7 +129,9 @@ class MiniPlayerFragment : BaseFragment(){
     private fun resumeProgressBar() {
         seekBarDisposable = Observable
                 .interval(PROGRESS_BAR_INTERVAL, TimeUnit.MILLISECONDS)
-                .subscribe { view!!.progressBar.incrementProgressBy(PROGRESS_BAR_INTERVAL.toInt()) }
+                .subscribe({
+                    view!!.progressBar.incrementProgressBy(PROGRESS_BAR_INTERVAL.toInt())
+                }, Throwable::printStackTrace)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

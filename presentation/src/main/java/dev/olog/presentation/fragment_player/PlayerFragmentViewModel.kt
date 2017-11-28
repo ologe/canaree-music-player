@@ -3,9 +3,9 @@ package dev.olog.presentation.fragment_player
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import android.graphics.drawable.TransitionDrawable
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.domain.interactor.player.GetMiniPlayingQueueUseCase
 import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.DurationModel
@@ -18,10 +18,11 @@ import dev.olog.shared.TextUtils
 import io.reactivex.functions.Predicate
 
 class PlayerFragmentViewModel(
-        private val controllerCallback: RxMusicServiceControllerCallback,
-        private val miniPlayingQueueUseCase: GetMiniPlayingQueueUseCase
+        private val controllerCallback: RxMusicServiceControllerCallback
 
 ) : ViewModel() {
+
+    private var lastCoverPosition = 0
 
     private val filterPlaybackState : Predicate<Int> = Predicate { state ->
         state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
@@ -34,8 +35,14 @@ class PlayerFragmentViewModel(
     fun onCoverChangedLiveData(context: Context): LiveData<CoverModel> {
         return controllerCallback.onMetadataChanged()
                 .map { it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI) }
-                .map { CoverModel(it, CoverUtils.getGradient(context, 5, 2)) }
-                .asLiveData()
+                .map { cover ->
+                    lastCoverPosition++
+                    val drawable = TransitionDrawable(arrayOf(
+                            CoverUtils.getGradient(context, lastCoverPosition - 1, 2),
+                            CoverUtils.getGradient(context, lastCoverPosition, 2)
+                    ))
+                    CoverModel(cover, drawable)
+                }.asLiveData()
     }
 
     val onPlaybackStateChangedLiveData: LiveData<Boolean> = controllerCallback
