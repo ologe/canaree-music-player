@@ -15,7 +15,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         window.setLightStatusBar()
     }
 
-    protected fun <T : Fragment> findFragmentByTag(tag: String): T{
+    protected fun <T : Fragment> findFragmentByTag(tag: String): T? {
         return supportFragmentManager.findFragmentByTag(tag) as T
     }
 

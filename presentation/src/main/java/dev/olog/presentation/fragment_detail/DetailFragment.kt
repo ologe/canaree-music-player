@@ -40,7 +40,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var mediaId: String
-    private var isCoverDark = false
+    var isCoverDark = false
 
     private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
 
@@ -122,7 +122,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                 Palette.from(this).setRegion(
                         0, 0, this.width, (this.height * 0.2).toInt()
                 ).generate {
-                    val dominantColor = it.getDominantColor(Color.WHITE)
+                    val dominantColor = it.getVibrantColor(Color.WHITE)
                     isCoverDark = ColorUtils.isColorDark(dominantColor)
                     if (isCoverDark){
                         setLightButtons()
@@ -135,12 +135,12 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
     }
 
-    private fun setLightButtons(){
+    fun setLightButtons(){
         activity!!.window.removeLightStatusBar()
         view?.back?.setColorFilter(Color.WHITE)
     }
 
-    private fun setDarkButtons(){
+    fun setDarkButtons(){
         activity!!.window.setLightStatusBar()
         view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
