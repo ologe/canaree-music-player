@@ -3,7 +3,6 @@ package dev.olog.presentation.fragment_detail
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.Point
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.math.MathUtils
@@ -17,8 +16,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.images.ImageUtils
 import dev.olog.presentation.utils.*
+import dev.olog.shared.MediaIdHelper
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
 class DetailFragment : BaseFragment(), DetailFragmentView {
@@ -55,26 +54,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.itemFlowable.asLiveData().subscribe(this, {
-            view?.header?.text = it.title
-            val imageBitmap : Bitmap? = ImageUtils.getBitmapFromUri(context!!, it.image)
-            imageBitmap?.apply {
-                val point = Point()
-                activity!!.windowManager.defaultDisplay.getSize(point)
-                val statusBarHeight = context!!.dimen(R.dimen.status_bar)
-                Palette.from(this).setRegion(
-                        0, 0, point.x, statusBarHeight
-                ).generate {
-                    val dominantColor = it.getLightVibrantColor(ContextCompat.getColor(context!!, R.color.dark_grey))
-                    isCoverDark = ColorUtils.isColorDark(dominantColor)
-                    if (isCoverDark){
-                        setLightButtons()
-                    } else{
-                        setDarkButtons()
-                    }
-                }
-            }
-        })
 
         viewModel.mostPlayedFlowable.asLiveData()
                 .subscribe(this, mostPlayedAdapter::updateDataSet)
@@ -133,6 +112,27 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                         view.header.alpha = alpha
                     }
                 })
+
+        viewModel.itemFlowable.asLiveData().subscribe(this, {
+            view.header?.text = it.title
+            val imageBitmap : Bitmap? = ImageUtils.getBitmapFromUri(context!!, it.image,
+                    MediaIdHelper.mapCategoryToSource(mediaId),
+                    arguments!!.getInt(ARGUMENTS_LIST_POSITION))
+            imageBitmap?.apply {
+                Palette.from(this).setRegion(
+                        0, 0, this.width, (this.height * 0.2).toInt()
+                ).generate {
+                    val dominantColor = it.getDominantColor(Color.WHITE)
+                    isCoverDark = ColorUtils.isColorDark(dominantColor)
+                    if (isCoverDark){
+                        setLightButtons()
+                    } else{
+                        setDarkButtons()
+                    }
+                }
+            }
+        })
+
     }
 
     private fun setLightButtons(){
