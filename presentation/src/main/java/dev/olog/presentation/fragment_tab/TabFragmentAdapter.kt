@@ -17,7 +17,7 @@ import dev.olog.presentation.utils.setOnLongClickListener
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 
-class TabAdapter @Inject constructor(
+class TabFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
         private val source: Int,
@@ -29,14 +29,14 @@ class TabAdapter @Inject constructor(
         if (viewType == R.layout.item_shuffle){
             viewHolder.itemView.setOnClickListener { musicController.playShuffle(MediaIdHelper.MEDIA_ID_BY_ALL) }
         } else {
-            viewHolder.setOnClickListener(getDataSet(), { item ->
+            viewHolder.setOnClickListener(getDataSet(), { item, position ->
                 if (item.isPlayable){
                     musicController.playFromMediaId(item.mediaId)
                 } else {
-                    navigator.toDetailActivity(item.mediaId, viewHolder.adapterPosition)
+                    navigator.toDetailActivity(item.mediaId, position)
                 }
             })
-            viewHolder.setOnLongClickListener(getDataSet(), { item ->
+            viewHolder.setOnLongClickListener(getDataSet(), { item, _ ->
                 navigator.toDialog(item.mediaId)
             })
         }

@@ -26,10 +26,10 @@ class TabFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var adapter: TabAdapter
+    @Inject lateinit var adapter: TabFragmentAdapter
     @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject @JvmField var source: Int = 0
-    @Inject lateinit var tabSpanSizeLookup: TabSpanSizeLookup
+    @Inject lateinit var spanSizeLookup: TabFragmentSpanSizeLookup
     private lateinit var layoutManager: GridLayoutManager
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -40,8 +40,8 @@ class TabFragment : BaseFragment() {
 
     @CallSuper
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = GridLayoutManager(context, TabSpanSizeLookup.SPAN_COUNT)
-        layoutManager.spanSizeLookup = tabSpanSizeLookup
+        layoutManager = GridLayoutManager(context, TabFragmentSpanSizeLookup.SPAN_COUNT)
+        layoutManager.spanSizeLookup = spanSizeLookup
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)

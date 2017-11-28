@@ -2,9 +2,6 @@ package dev.olog.presentation.activity_main
 
 import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat
-import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.HasSlidingPanel
@@ -20,6 +17,7 @@ import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.presentation.utils.subscribe
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_player_drag_area.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
@@ -28,6 +26,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var adapter: TabViewPagerAdapter
 
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
+    @Inject lateinit var innerPanelSlideListener : InnerPanelSlideListener
 
     lateinit var title: TextView
     lateinit var artist: TextView
@@ -36,11 +35,11 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        title = findViewById<ViewGroup>(R.id.titleWrapper).findViewById(R.id.title)
-        artist = findViewById<ViewGroup>(R.id.artistWrapper).findViewById(R.id.artist)
+        title = titleWrapper.findViewById(R.id.title)
+        artist = artistWrapper.findViewById(R.id.artist)
 
         viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = 3
+        viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
 
         musicServiceBinder.getMediaControllerLiveData()
@@ -60,7 +59,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onResume() {
         super.onResume()
-        slidingPanel
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
     }
 
@@ -76,29 +74,13 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onBackPressed() {
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(getString(R.string.player_queue_fragment_tag))
-        val playingQueueList = playingQueue?.view as RecyclerView?
         when {
-            playingQueueList?.canScrollVertically(-1) == true -> {
-                playingQueueList.stopScroll()
-                playingQueueList.smoothScrollToPosition(0)
+            playingQueue?.cannotScrollUp() ?: false -> {
+                playingQueue?.smoothScrollToTop()
             }
             innerPanel.isExpanded() -> innerPanel.collapse()
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
-        }
-
-    }
-
-    private val innerPanelSlideListener = object : SlidingUpPanelLayout.PanelSlideListener {
-
-        override fun onPanelSlide(panel: View?, slideOffset: Float) {
-            // translate player layout on inner sliding panel translation
-            playerLayout.translationY = - Math.abs(playingQueueLayout.top - playerLayout.bottom).toFloat()
-        }
-
-        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-            // disable outer panel touch if inner is expanded
-            slidingPanel.isTouchEnabled = (newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
         }
     }
 

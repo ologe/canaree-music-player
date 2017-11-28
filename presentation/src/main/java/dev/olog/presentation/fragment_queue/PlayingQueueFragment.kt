@@ -43,6 +43,14 @@ class PlayingQueueFragment : BaseFragment() {
                 })
     }
 
+    fun smoothScrollToTop(){
+        view?.list?.stopScroll()
+        view?.list?.smoothScrollToPosition(0)
+    }
+
+    fun cannotScrollUp(): Boolean {
+        return view?.list?.canScrollVertically(-1) == true
+    }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_player_queue, container, false)

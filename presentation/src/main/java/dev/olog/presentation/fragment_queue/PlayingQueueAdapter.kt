@@ -18,7 +18,7 @@ class PlayingQueueAdapter @Inject constructor(
 ): BaseAdapter(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(getDataSet(), { item ->
+        viewHolder.setOnClickListener(getDataSet(), { item, _ ->
             musicController.skipToQueueItem(item.mediaId)
         })
     }

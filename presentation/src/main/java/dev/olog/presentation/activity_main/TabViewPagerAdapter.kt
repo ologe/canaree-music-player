@@ -13,6 +13,7 @@ import javax.inject.Inject
 class TabViewPagerAdapter @Inject constructor(
         resources: Resources,
         fragmentManager: FragmentManager
+
 ) : FragmentPagerAdapter(fragmentManager) {
 
     companion object {

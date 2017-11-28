@@ -25,9 +25,7 @@ class MainActivityModule(
     }
 
     @Provides
-    internal fun provideActivity(): AppCompatActivity {
-        return activity
-    }
+    internal fun provideActivity(): AppCompatActivity = activity
 
     @Provides
     internal fun provideFragmentActivity() : FragmentActivity = activity

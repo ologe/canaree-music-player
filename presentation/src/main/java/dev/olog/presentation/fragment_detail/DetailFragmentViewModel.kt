@@ -3,104 +3,76 @@ package dev.olog.presentation.fragment_detail
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.detail.most_played.GetMostPlayedSongsUseCase
+import android.graphics.Color
+import android.support.v7.graphics.Palette
 import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
-import dev.olog.presentation.R
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
+import dev.olog.presentation.images.ImageUtils
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.toDetailDisplayableItem
-import dev.olog.presentation.model.toMostPlayedDetailDisplayableItem
-import dev.olog.presentation.model.toRecentDetailDisplayableItem
+import dev.olog.presentation.utils.ColorUtils
 import dev.olog.presentation.utils.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
-import java.util.concurrent.TimeUnit
+import io.reactivex.schedulers.Schedulers
 
 class DetailFragmentViewModel(
         application: Application,
         mediaId: String,
+        itemPosition: Int,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        getSongListByParamUseCase: GetSongListByParamUseCase,
-        getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase
 
 ) : AndroidViewModel(application) {
 
     companion object {
-        private val ONE_WEEK = TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
+        const val RECENTLY_ADDED = "RECENTLY_ADDED"
+        const val MOST_PLAYED = "MOST_PLAYED"
+        const val RELATED_ARTISTS = "RELATED_ARTISTS"
+        const val SONGS = "RELATED_ARTISTS"
     }
 
-    private val unknownArtist = application.getString(R.string.unknown_artist)
     private val category = MediaIdHelper.extractCategory(mediaId)
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
-    private val inThisItemTitles = application.resources.getStringArray(R.array.detail_in_this_item)
 
-    val itemFlowable: Flowable<DisplayableItem> = item[category]!!
-            .replay(1)
-            .refCount()
+    val itemTitleLiveData: LiveData<String> = item[category]!!
+            .map { it.title }
+            .asLiveData()
 
-    private val albumsFlowable: Flowable<List<DisplayableItem>> = data[category]!!
-
-    private val sharedSongObserver = getSongListByParamUseCase
-            .execute(mediaId)
-            .replay(1)
-            .refCount()
-
-    private val songsFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
-            .map { it.to(it.sumBy { it.duration.toInt() }) }
-            .flatMapSingle { (songList, totalDuration) ->
-                songList.toFlowable().map { it.toDetailDisplayableItem(mediaId) }.toList().map {
-                it.to(TimeUnit.MINUTES.convert(totalDuration.toLong(), TimeUnit.MILLISECONDS).toInt())
-            } }
-            .map { (list, totalDuration) ->
-                list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
-                        application.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED +
-                                application.resources.getQuantityString(R.plurals.duration_count, totalDuration, totalDuration)))
-                list
-            }
-
-    val mostPlayedFlowable: Flowable<List<DisplayableItem>> = getMostPlayedSongsUseCase.execute(mediaId)
-            .flatMapSingle { it.toFlowable()
-                    .map { it.toMostPlayedDetailDisplayableItem(mediaId) }
-                    .toList()
-            }.replay(1).refCount()
-
-
-    val recentlyAddedFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
-            .map { if (it.size >= 5) it else listOf() }
-            .flatMapSingle { it.toFlowable()
-                    .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }
-                    .map { it.toRecentDetailDisplayableItem(mediaId) }
-                    .take(11)
-                    .toList()
-
-            }.replay(1).refCount()
-
-    private val artistsFlowable: Flowable<List<DisplayableItem>> = sharedSongObserver
+    val isCoverDarkLiveData: LiveData<Boolean> = item[category]!!
+            .observeOn(Schedulers.computation())
             .map {
-                if (source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST){
-                    it.asSequence()
-                            .filter { it.artist != unknownArtist }
-                            .map { it.artist }
-                            .distinct()
-                            .joinToString()
-                } else ""
+                ImageUtils.getBitmapFromUri(application, it.image, source, itemPosition)
             }
-            .map { DisplayableItem(R.layout.item_detail_related_artist, "related id", it, inThisItemTitles[source]) }
-            .map { listOf(it) }
+            .map { Palette.from(it).setRegion(0,0, it.width, (it.height * 0.2).toInt()) }
+            .map { it.generate() }
+            .map { it.getVibrantColor(Color.WHITE) }
+            .map { ColorUtils.isColorDark(it) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .asLiveData()
+
+    val mostPlayedFlowable: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
+            .asLiveData()
+
+
+    val recentlyAddedFlowable: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
+            .flatMapSingle { it.toFlowable().take(10).toList() }
+            .asLiveData()
+
+    private val artistsFlowable: Flowable<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
+            .replay(1)
+            .refCount()
 
     fun addToMostPlayed(mediaId: String): Completable {
         return insertMostPlayedUseCase.execute(mediaId)
     }
 
     val data : LiveData<Map<DetailDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
-            itemFlowable, mostPlayedFlowable, recentlyAddedFlowable,
-            albumsFlowable, artistsFlowable, songsFlowable, { item, mostPlayed, recent, albums, artists, songs ->
+            item[category]!!, data[MOST_PLAYED]!!, data[RECENTLY_ADDED]!!,
+            data[category]!!, data[RELATED_ARTISTS]!!, data[SONGS]!!, { item, mostPlayed, recent, albums, artists, songs ->
 
         mapOf(
                 DetailDataType.HEADER to mutableListOf(item),

@@ -1,11 +1,12 @@
-package dev.olog.presentation.model
+package dev.olog.presentation.fragment_detail.model
 
 import dev.olog.domain.entity.*
 import dev.olog.presentation.R
+import dev.olog.presentation.model.DisplayableItem
 
 private const val HEADER_ID = "header media id"
 
-fun Folder.toHeaderItem(): DisplayableItem{
+fun Folder.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
             HEADER_ID,
@@ -15,7 +16,7 @@ fun Folder.toHeaderItem(): DisplayableItem{
     )
 }
 
-fun Playlist.toHeaderItem(): DisplayableItem{
+fun Playlist.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
             HEADER_ID,
@@ -25,7 +26,7 @@ fun Playlist.toHeaderItem(): DisplayableItem{
     )
 }
 
-fun Album.toHeaderItem(): DisplayableItem{
+fun Album.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
             HEADER_ID,
@@ -35,7 +36,7 @@ fun Album.toHeaderItem(): DisplayableItem{
     )
 }
 
-fun Artist.toHeaderItem(): DisplayableItem{
+fun Artist.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
             HEADER_ID,
@@ -45,7 +46,7 @@ fun Artist.toHeaderItem(): DisplayableItem{
     )
 }
 
-fun Genre.toHeaderItem(): DisplayableItem{
+fun Genre.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
             HEADER_ID,

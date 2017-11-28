@@ -19,9 +19,8 @@ class DetailMostPlayedAdapter @Inject constructor(
 ) : BaseAdapter(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(getDataSet(), { item ->
-            viewModel.addToMostPlayed(item.mediaId)
-                    .subscribe()
+        viewHolder.setOnClickListener(getDataSet(), { item, _ ->
+            viewModel.addToMostPlayed(item.mediaId).subscribe()
         })
     }
 

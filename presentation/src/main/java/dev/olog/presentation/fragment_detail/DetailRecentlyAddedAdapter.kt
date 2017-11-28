@@ -19,15 +19,13 @@ class DetailRecentlyAddedAdapter @Inject constructor(
 ) : BaseAdapter(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(getDataSet(), { item ->
-            viewModel.addToMostPlayed(item.mediaId)
-                    .subscribe()
+        viewHolder.setOnClickListener(getDataSet(), { item, _ ->
+            viewModel.addToMostPlayed(item.mediaId).subscribe()
         })
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.source,  2)
         binding.setVariable(BR.position, position)
     }
 

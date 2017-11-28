@@ -27,11 +27,12 @@ class DetailFragmentModule(
     }
 
     @Provides
-    internal fun provideView(): DetailFragmentView = fragment
-
-    @Provides
     internal fun providePosition(): Int {
         return fragment.arguments!!.getInt(DetailFragment.ARGUMENTS_LIST_POSITION)
     }
+
+
+    @Provides
+    internal fun provideView(): DetailFragmentView = fragment
 
 }

@@ -1,12 +1,10 @@
 package dev.olog.presentation.fragment_detail
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.math.MathUtils
-import android.support.v7.graphics.Palette
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +13,10 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.images.ImageUtils
 import dev.olog.presentation.utils.*
-import dev.olog.shared.MediaIdHelper
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
+import kotlin.LazyThreadSafetyMode.NONE
 
 class DetailFragment : BaseFragment(), DetailFragmentView {
 
@@ -41,11 +38,11 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var mediaId: String
-    var isCoverDark = false
+    private var isCoverDark = false
 
-    private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
+    private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
 
-    private lateinit var layoutManager: GridLayoutManager
+    private val layoutManager by lazy (NONE) { GridLayoutManager(context!!, 2) }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -56,18 +53,17 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         super.onActivityCreated(savedInstanceState)
 
 
-        viewModel.mostPlayedFlowable.asLiveData()
+        viewModel.mostPlayedFlowable
                 .subscribe(this, mostPlayedAdapter::updateDataSet)
 
-        viewModel.recentlyAddedFlowable.take(10)
-                .asLiveData().subscribe(this, recentlyAddedAdapter::updateDataSet)
+        viewModel.recentlyAddedFlowable
+                .subscribe(this, recentlyAddedAdapter::updateDataSet)
 
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = GridLayoutManager(context!!, 2, GridLayoutManager.VERTICAL, false)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
@@ -114,26 +110,15 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                     }
                 })
 
-        viewModel.itemFlowable.asLiveData().subscribe(this, {
-            view.header?.text = it.title
-            val imageBitmap : Bitmap? = ImageUtils.getBitmapFromUri(context!!, it.image,
-                    MediaIdHelper.mapCategoryToSource(mediaId),
-                    arguments!!.getInt(ARGUMENTS_LIST_POSITION))
-            imageBitmap?.apply {
-                Palette.from(this).setRegion(
-                        0, 0, this.width, (this.height * 0.2).toInt()
-                ).generate {
-                    val dominantColor = it.getVibrantColor(Color.WHITE)
-                    isCoverDark = ColorUtils.isColorDark(dominantColor)
-                    if (isCoverDark){
-                        setLightButtons()
-                    } else{
-                        setDarkButtons()
-                    }
-                }
+        viewModel.itemTitleLiveData.subscribe(this, view.header::setText)
+
+        viewModel.isCoverDarkLiveData.subscribe(this, { isCoverDark ->
+            if (isCoverDark){
+                setLightButtons()
+            } else{
+                setDarkButtons()
             }
         })
-
     }
 
     private fun setLightButtons(){
@@ -171,7 +156,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
         override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
             if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
-                setLightButtons()
+                setDarkButtons()
             } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
                 if (isCoverDark) {
                     setLightButtons()

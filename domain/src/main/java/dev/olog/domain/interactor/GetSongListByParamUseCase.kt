@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 
-class GetSongListByParamUseCase @Inject constructor(
+open class GetSongListByParamUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val genreDataStore: GenreGateway,
         private val playlistDataStore: PlaylistGateway,

@@ -6,7 +6,7 @@ import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class TabViewModelFactory @Inject constructor(
+class TabFragmentViewModelFactory @Inject constructor(
         private val data: Map<Int, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>
 
 ) : ViewModelProvider.Factory {

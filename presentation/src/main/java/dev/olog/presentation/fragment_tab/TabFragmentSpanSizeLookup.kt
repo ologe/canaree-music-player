@@ -10,7 +10,7 @@ import dev.olog.presentation.utils.isPortrait
 import javax.inject.Inject
 
 @PerFragment
-class TabSpanSizeLookup @Inject constructor(
+class TabFragmentSpanSizeLookup @Inject constructor(
         @ActivityContext context: Context,
         private val source: Int
 
