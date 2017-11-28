@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.Header
 
-abstract class BaseAdapter(
+abstract class BaseAdapter (
         lifecycle: Lifecycle
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {

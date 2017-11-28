@@ -14,7 +14,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 internal class BaseAdapterController(
         private val adapter: BaseAdapter
@@ -47,8 +46,7 @@ internal class BaseAdapterController(
             .toSerialized()
             .observeOn(Schedulers.computation())
             .onBackpressureLatest()
-            .debounce(50, TimeUnit.MILLISECONDS)
-            .distinctUntilChanged()
+            .distinctUntilChanged { data -> data.list }
             .replay(1)
             .refCount()
 
@@ -61,19 +59,18 @@ internal class BaseAdapterController(
                 }
                 .filter { it.dataVersion == dataVersion }
                 .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it.list))) }
+                .filter { it.first.dataVersion == dataVersion }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ (newAdapterData, callback) ->
 
-                    if (newAdapterData.dataVersion == dataVersion){
-                        val wasEmpty = this.dataSet.isEmpty()
+                    val wasEmpty = this.dataSet.isEmpty()
 
-                        this.dataSet.cleanThenAdd(newAdapterData.list)
+                    this.dataSet.cleanThenAdd(newAdapterData.list)
 
-                        if (wasEmpty || !adapter.hasGranularUpdate()) {
-                            adapter.notifyDataSetChanged()
-                        } else {
-                            callback.dispatchUpdatesTo(adapter)
-                        }
+                    if (wasEmpty || !adapter.hasGranularUpdate()) {
+                        adapter.notifyDataSetChanged()
+                    } else {
+                        callback.dispatchUpdatesTo(adapter)
                     }
 
                 }, Throwable::printStackTrace)

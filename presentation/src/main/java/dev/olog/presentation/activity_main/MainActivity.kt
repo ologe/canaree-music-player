@@ -20,13 +20,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_player_drag_area.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
+import kotlin.LazyThreadSafetyMode.NONE
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     @Inject lateinit var adapter: TabViewPagerAdapter
 
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
-    @Inject lateinit var innerPanelSlideListener : InnerPanelSlideListener
+    private val innerPanelSlideListener by lazy(NONE) { InnerPanelSlideListener(this) }
 
     lateinit var title: TextView
     lateinit var artist: TextView
