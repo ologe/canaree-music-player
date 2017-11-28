@@ -2,6 +2,7 @@ package dev.olog.presentation.activity_main
 
 import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -9,6 +10,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
+import dev.olog.presentation.collapse
+import dev.olog.presentation.fragment_queue.PlayingQueueFragment
+import dev.olog.presentation.isExpanded
 import dev.olog.presentation.music_service.MediaControllerProvider
 import dev.olog.presentation.music_service.MusicServiceBinder
 import dev.olog.presentation.utils.asLiveData
@@ -70,6 +74,21 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         MediaControllerCompat.setMediaController(this, null)
     }
 
+    override fun onBackPressed() {
+        val playingQueue = findFragmentByTag<PlayingQueueFragment>(getString(R.string.player_queue_fragment_tag))
+        val playingQueueList = playingQueue.view as RecyclerView?
+        when {
+            playingQueueList?.canScrollVertically(-1) == true -> {
+                playingQueueList.stopScroll()
+                playingQueueList.smoothScrollToPosition(0)
+            }
+            innerPanel.isExpanded() -> innerPanel.collapse()
+            slidingPanel.isExpanded() -> slidingPanel.collapse()
+            else -> super.onBackPressed()
+        }
+
+    }
+
     private val innerPanelSlideListener = object : SlidingUpPanelLayout.PanelSlideListener {
 
         override fun onPanelSlide(panel: View?, slideOffset: Float) {
@@ -80,11 +99,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
             // disable outer panel touch if inner is expanded
             slidingPanel.isTouchEnabled = (newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
-            if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                innerPanel.setDragView(R.id.playingQueueLayout)
-            } else {
-                innerPanel.setDragView(R.id.drag_area)
-            }
         }
     }
 
@@ -92,7 +106,5 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         return MediaControllerCompat.getMediaController(this)
     }
 
-    override fun getSlidingPanel(): SlidingUpPanelLayout? {
-        return slidingPanel
-    }
+    override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
 }

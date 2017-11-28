@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.asLiveData
@@ -42,12 +41,6 @@ class PlayingQueueFragment : BaseFragment() {
                     val toolbar = activity!!.findViewById<View>(R.id.wrapper)
                     toolbar?.isActivated = it
                 })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity!!.findViewById<SlidingUpPanelLayout>(R.id.innerPanel)
-                .setScrollableView(view!!.list)
     }
 
 

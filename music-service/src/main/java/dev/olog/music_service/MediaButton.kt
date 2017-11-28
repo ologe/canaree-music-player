@@ -45,7 +45,6 @@ class MediaButton @Inject internal constructor(
     fun onNextEvent(mediaButtonEvent: Intent) {
         val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
 
-
         if (event.action == ACTION_DOWN && event.keyCode == KEYCODE_HEADSETHOOK) {
             clicks++
 
