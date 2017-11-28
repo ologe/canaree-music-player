@@ -2,71 +2,43 @@ package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation.DetailDiff
-import dev.olog.presentation.R
+import dev.olog.presentation._base.IAdapterController
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.cleanThenAdd
 import dev.olog.shared.unsubscribe
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class DetailDataController(
-        context: Context,
-        private val adapter: DetailAdapter,
-        source: Int
+class DetailDataController (
+        private val adapter: DetailAdapter
 
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver, IAdapterController<MutableMap<DetailDataType, MutableList<DisplayableItem>>> {
 
-    private val seeAll = context.getString(R.string.detail_see_all)
+    lateinit var detailHeaders : DetailHeaders
 
     private var dataSetDisposable: Disposable? = null
 
-    private val publisher = PublishProcessor.create<Map<DetailDataType, List<DisplayableItem>>>()
+    private val publisher = PublishProcessor.create<MutableMap<DetailDataType, MutableList<DisplayableItem>>>()
 
-    // header
-    private val headerData : List<DisplayableItem> = mutableListOf()
+    private val originalDataSet : MutableMap<DetailDataType, MutableList<DisplayableItem>> = mutableMapOf()
 
-    // most played
-    private val mostPlayedHeader = DisplayableItem(R.layout.item_header, "most played id", context.getString(R.string.detail_most_played))
-    private val mostPlayedList = DisplayableItem(R.layout.item_most_played_horizontal_list, "most played list", "")
-    private val mostPlayedData: List<DisplayableItem> = mutableListOf()
+    init {
+        for (value in DetailDataType.values()) {
+            originalDataSet.put(value, mutableListOf())
+        }
+    }
 
-    // recent
-    private val recentlyAddedHeader = DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added))
-    private val recentlyAddedList = DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
-    private val recentlyAddedData: List<DisplayableItem> = mutableListOf()
+    private val dataSet : MutableMap<DetailDataType, MutableList<DisplayableItem>> = originalDataSet.toMutableMap()
 
-    // albums
-    private val albumsHeader = DisplayableItem(R.layout.item_header, "albums id",
-            context.resources.getStringArray(R.array.detail_album_header)[source])
-    private val albumsData: List<DisplayableItem> = mutableListOf()
+    override fun getSize(): Int = dataSet.values.sumBy { it.size }
 
-    // songs
-    private val songsHeader = DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs))
-    private val shuffleHeader = DisplayableItem(R.layout.item_shuffle_with_divider, "shuffle id", "")
-    private val songsData: List<DisplayableItem> = mutableListOf()
-
-    // artist in this data
-    private val artistsInData: List<DisplayableItem> = mutableListOf()
-
-    private val originalDataSet : MutableMap<DetailDataType, List<DisplayableItem>> = mutableMapOf(
-            DetailDataType.HEADER to headerData,
-            DetailDataType.MOST_PLAYED to mostPlayedData,
-            DetailDataType.RECENT to recentlyAddedData,
-            DetailDataType.ALBUMS to albumsData,
-            DetailDataType.ARTISTS_IN to artistsInData,
-            DetailDataType.SONGS to songsData
-    )
-
-    private val dataSet : MutableMap<DetailDataType, List<DisplayableItem>> = originalDataSet.toMutableMap()
-
-    fun getSize(): Int = dataSet.values.sumBy { it.size }
-
-    operator fun get(position: Int): DisplayableItem {
+    override operator fun get(position: Int): DisplayableItem {
         var totalSize = 0
         for (value in dataSet.values) {
             if (position in totalSize until (totalSize + value.size)){
@@ -105,52 +77,57 @@ class DetailDataController(
         dataSetDisposable.unsubscribe()
     }
 
-    fun onNext(data :Map<DetailDataType, MutableList<DisplayableItem>>){
+    override fun onNext(data: MutableMap<DetailDataType, MutableList<DisplayableItem>>) {
         originalDataSet.clear()
         originalDataSet.putAll(addHeaderByType(data))
-        publisher.onNext(originalDataSet.toMap())
+        publisher.onNext(originalDataSet.toMutableMap())
+    }
+
+    override fun onDataChanged(): Flowable<MutableMap<DetailDataType, MutableList<DisplayableItem>>> {
+        return publisher
+    }
+
+    override fun getDataSet(): MutableMap<DetailDataType, MutableList<DisplayableItem>> {
+        return dataSet
     }
 
     private fun isEmpty(): Boolean = getSize() == 0
 
-    private fun addHeaderByType(data :Map<DetailDataType, MutableList<DisplayableItem>>) : Map<DetailDataType, List<DisplayableItem>> {
+    private fun addHeaderByType(data :MutableMap<DetailDataType, MutableList<DisplayableItem>>)
+            : MutableMap<DetailDataType, MutableList<DisplayableItem>> {
 
         for ((key, value) in data.entries) {
             when (key){
                 DetailDataType.MOST_PLAYED -> {
                     if (value.isNotEmpty()){
                         value.clear() // all list is not needed, just add a nested list
-                        value.add(0, mostPlayedHeader)
-                        value.add(1, mostPlayedList)
+                        value.addAll(0, detailHeaders.mostPlayed)
                     }
                 }
                 DetailDataType.RECENT -> {
                     if (value.isNotEmpty()){
                         value.clear() // all list is not needed, just add a nested list
-                        value.add(0, recentlyAddedHeader.copy(subtitle =
-                        if (value.size > 10) seeAll else ""))
-                        value.add(1, recentlyAddedList)
+                        if (value.size > 10){
+                            value.addAll(0, detailHeaders.recentWithSeeAll)
+                        } else {
+                            value.addAll(0, detailHeaders.recent)
+                        }
                     }
                 }
                 DetailDataType.ALBUMS -> {
-                    if (value.isNotEmpty()){
+                    if (value.isNotEmpty()) {
                         val newList = value.take(4).toMutableList()
-                        val header = value[0]
-                        if (header.mediaId != albumsHeader.mediaId){
-                            newList.add(0, albumsHeader.copy(subtitle =
-                            if (value.size > 4) seeAll else ""))
+                        if (value.size > 4){
+                            newList.add(0, detailHeaders.albumsWithSeeAll)
+                        } else{
+                            newList.add(0, detailHeaders.albums)
                         }
-                        value.clear()
-                        value.addAll(newList)
+                        value.cleanThenAdd(newList)
                     }
                 }
                 DetailDataType.SONGS -> {
                     if (value.isNotEmpty()){
-                        val header = value[0]
-                        if (header != songsHeader){
-                            value.add(0, songsHeader)
-                            value.add(1, shuffleHeader)
-                        }
+                        value.addAll(0, detailHeaders.songs)
                     }
                 }
                 DetailDataType.ARTISTS_IN -> {

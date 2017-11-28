@@ -16,7 +16,7 @@ class RelatedArtistAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator
 
-): BaseAdapter(lifecycle) {
+): BaseAdapter<List<DisplayableItem>>(lifecycle) {
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {

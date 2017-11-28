@@ -1,61 +1,43 @@
 package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.Lifecycle
-import android.content.Context
-import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
+import dev.olog.presentation._base.IAdapterController
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.music_service.MusicController
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class DetailAdapter @Inject constructor(
-        @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
         private val mediaId: String,
         private val listPosition: Int,
-        private val view: DetailFragmentView,
+        private var view: DetailFragmentView?,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val navigator: Navigator,
         private val musicController: MusicController,
-        private val viewModel: DetailFragmentViewModel
+        private val viewModel: DetailFragmentViewModel,
+        private val recyclerViewPool : RecyclerView.RecycledViewPool,
+        detailHeaders: DetailHeaders
 
-) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
+) : BaseAdapter<Map<DetailDataType, List<DisplayableItem>>>(lifecycle) {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
-    private val dataController = DetailDataController(context, this, MediaIdHelper.mapCategoryToSource(mediaId))
-    private val recycled = RecyclerView.RecycledViewPool()
-
-    init {
-        lifecycle.addObserver(dataController)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
-        val viewHolder = DataBoundViewHolder(binding)
-        initViewHolderListeners(viewHolder, viewType)
-        return viewHolder
-    }
-
-    private fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
             R.layout.item_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
@@ -65,7 +47,7 @@ class DetailAdapter @Inject constructor(
                 layoutManager.initialPrefetchItemCount = 10
                 list.layoutManager = layoutManager
                 list.adapter = mostPlayedAdapter
-                list.recycledViewPool = recycled
+                list.recycledViewPool = recyclerViewPool
 
                 val snapHelper = LinearSnapHelper()
                 snapHelper.attachToRecyclerView(list)
@@ -78,7 +60,7 @@ class DetailAdapter @Inject constructor(
                 layoutManager.initialPrefetchItemCount = 10
                 list.layoutManager = layoutManager
                 list.adapter = recentSongsAdapter
-                list.recycledViewPool = recycled
+                list.recycledViewPool = recyclerViewPool
 
                 val snapHelper = LinearSnapHelper()
                 snapHelper.attachToRecyclerView(list)
@@ -87,7 +69,7 @@ class DetailAdapter @Inject constructor(
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
-                        val item = dataController[position]
+                        val item = controller[position]
                         musicController.playFromMediaId(item.mediaId)
                         viewModel.addToMostPlayed(item.mediaId)
                                 .subscribe()
@@ -98,7 +80,7 @@ class DetailAdapter @Inject constructor(
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
-                        val item = dataController[position]
+                        val item = controller[position]
                         navigator.toDetailActivity(item.mediaId, position)
                     }
                 }
@@ -114,14 +96,18 @@ class DetailAdapter @Inject constructor(
         }
     }
 
+    init {
+        (controller as DetailDataController).detailHeaders = detailHeaders
+    }
+
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
         when (holder.itemViewType) {
             R.layout.item_most_played_horizontal_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                (list.adapter as BaseAdapter).onDataChanged()
+                (list.adapter as BaseAdapter<*>).onDataChanged()
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-                        .map { it.list.size }
+                        .map { (it as List<*>).size }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ size ->
                             layoutManager.spanCount = if (size < 5) size else 5
@@ -130,14 +116,7 @@ class DetailAdapter @Inject constructor(
         }
     }
 
-    override fun getItemCount(): Int = dataController.getSize()
-
-    override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
-        bind(holder.binding, dataController[position], position)
-        holder.binding.executePendingBindings()
-    }
-
-    private fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
+    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source,  source)
         if (position == 0){
@@ -145,19 +124,17 @@ class DetailAdapter @Inject constructor(
         } else{
             binding.setVariable(BR.position, position)
         }
-
     }
 
-    override fun getItemViewType(position: Int): Int = dataController[position].type
-
-    fun getItem(position: Int): DisplayableItem = dataController[position]
-
-    fun updateDataSet(data: Map<DetailDataType, MutableList<DisplayableItem>>){
-        dataController.onNext(data)
+    override fun provideController(): IAdapterController<Map<DetailDataType, List<DisplayableItem>>> {
+        return DetailDataController(this) as IAdapterController<Map<DetailDataType, List<DisplayableItem>>>
     }
+
+
 
     fun startTransition(){
-        view.startTransition()
+        view!!.startTransition()
+        view = null
     }
 
 }

@@ -1,7 +1,19 @@
 package dev.olog.presentation._base
 
-interface IAdapterController <T> {
+import android.arch.lifecycle.LifecycleObserver
+import dev.olog.presentation.model.DisplayableItem
+import io.reactivex.Flowable
 
-    fun updateDataset(data: T)
+interface IAdapterController <T>: LifecycleObserver{
+
+    fun onNext(data: T)
+
+    fun getSize(): Int
+
+    operator fun get(position: Int): DisplayableItem
+
+    fun getDataSet(): T
+
+    fun onDataChanged() : Flowable<T>
 
 }

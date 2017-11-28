@@ -23,7 +23,7 @@ class TabFragmentAdapter @Inject constructor(
         private val source: Int,
         private val musicController: MusicController
 
-) : BaseAdapter(lifecycle) {
+) : BaseAdapter<List<DisplayableItem>>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         if (viewType == R.layout.item_shuffle){

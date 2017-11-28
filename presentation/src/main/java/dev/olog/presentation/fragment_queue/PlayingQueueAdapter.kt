@@ -15,7 +15,7 @@ class PlayingQueueAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val musicController: MusicController
 
-): BaseAdapter(lifecycle) {
+): BaseAdapter<List<DisplayableItem>>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item, _ ->

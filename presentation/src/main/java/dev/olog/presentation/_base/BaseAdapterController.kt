@@ -10,21 +10,23 @@ import dev.olog.presentation.model.Header
 import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.shared.cleanThenAdd
 import dev.olog.shared.unsubscribe
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
 
-internal class BaseAdapterController(
-        private val adapter: BaseAdapter
-) : DefaultLifecycleObserver {
+class BaseAdapterController (
+        private val adapter: BaseAdapter<*>
+
+) : DefaultLifecycleObserver, IAdapterController<List<DisplayableItem>> {
 
     private var dataSetDisposable: Disposable? = null
 
     private val publisher = PublishProcessor.create<AdapterData<MutableList<DisplayableItem>>>()
 
     private val originalList = mutableListOf<DisplayableItem>()
-    val dataSet = mutableListOf<DisplayableItem>()
+    private val dataSet = mutableListOf<DisplayableItem>()
 
     private var dataVersion = 0
 
@@ -32,21 +34,15 @@ internal class BaseAdapterController(
         dataSet.addAll(0, createActualHeaders())
     }
 
-    operator fun get(position: Int): DisplayableItem = dataSet[position]
+    override operator fun get(position: Int): DisplayableItem = dataSet[position]
 
-    fun getSize() : Int = dataSet.size
+    override fun getSize() : Int = dataSet.size
 
-    fun updateData(newData: List<DisplayableItem>){
-        dataVersion++
-        this.originalList.cleanThenAdd(newData)
-        publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
-    }
-
-    val onDataChanged = publisher
+    private val onDataChanged = publisher
             .toSerialized()
             .observeOn(Schedulers.computation())
             .onBackpressureLatest()
-            .distinctUntilChanged { data -> data.list }
+//            .distinctUntilChanged { data -> data.list }
             .replay(1)
             .refCount()
 
@@ -76,6 +72,11 @@ internal class BaseAdapterController(
                 }, Throwable::printStackTrace)
     }
 
+
+    override fun onDataChanged(): Flowable<List<DisplayableItem>> {
+        return onDataChanged.map { it.list }
+    }
+
     @CallSuper
     override fun onStop(owner: LifecycleOwner) {
         dataSetDisposable.unsubscribe()
@@ -87,4 +88,11 @@ internal class BaseAdapterController(
         }
     }
 
+    override fun onNext(data: List<DisplayableItem>) {
+        dataVersion++
+        this.originalList.cleanThenAdd(data)
+        publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
+    }
+
+    override fun getDataSet(): List<DisplayableItem> = dataSet
 }

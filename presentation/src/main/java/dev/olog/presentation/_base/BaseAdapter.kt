@@ -8,16 +8,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.Header
+import io.reactivex.Flowable
 
-abstract class BaseAdapter (
+abstract class BaseAdapter <T> (
         lifecycle: Lifecycle
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    private val dataController = BaseAdapterController(this)
+    protected val controller: IAdapterController<T> = provideController()
 
     init {
-        lifecycle.addObserver(dataController)
+        lifecycle.addObserver(controller)
+    }
+
+    protected open fun provideController(): IAdapterController<T> {
+        return BaseAdapterController(this) as IAdapterController<T>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
@@ -31,7 +36,7 @@ abstract class BaseAdapter (
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int)
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
-        bind(holder.binding, dataController[position], position)
+        bind(holder.binding, controller[position], position)
         holder.binding.executePendingBindings()
     }
 
@@ -39,20 +44,22 @@ abstract class BaseAdapter (
                                 item: DisplayableItem,
                                 position: Int)
 
-    fun updateDataSet(dataSet: List<DisplayableItem>) {
-        dataController.updateData(dataSet)
+    fun updateDataSet(dataSet: T) {
+        controller.onNext(dataSet)
     }
 
-    override fun getItemCount(): Int = dataController.getSize()
+    override fun getItemCount(): Int = controller.getSize()
 
-    override fun getItemViewType(position: Int): Int = dataController[position].type
+    override fun getItemViewType(position: Int): Int = controller[position].type
 
-    internal fun getDataSet(): List<DisplayableItem> = dataController.dataSet
+    internal fun getDataSet(): T = controller.getDataSet()
 
     open fun provideHeaders() : List<Header> = listOf()
 
-    fun onDataChanged() = dataController.onDataChanged
+    fun onDataChanged() : Flowable<T> = controller.onDataChanged()
 
     open fun hasGranularUpdate() = false
+
+    fun getItem(position: Int): DisplayableItem = controller[position]
 
 }

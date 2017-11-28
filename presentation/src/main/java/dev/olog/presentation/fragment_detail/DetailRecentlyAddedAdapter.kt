@@ -16,7 +16,7 @@ class DetailRecentlyAddedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: DetailFragmentViewModel
 
-) : BaseAdapter(lifecycle) {
+) : BaseAdapter<List<DisplayableItem>>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item, _ ->

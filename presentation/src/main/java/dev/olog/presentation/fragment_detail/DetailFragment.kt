@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.math.MathUtils
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var mediaId: String
+    @Inject lateinit var recyclerViewPool : RecyclerView.RecycledViewPool
     private var isCoverDark = false
 
     private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
@@ -66,6 +68,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+        view.list.recycledViewPool = recyclerViewPool
         view.list.setHasFixedSize(true)
         layoutManager.spanSizeLookup = DetailSpanSizeLookup(view.list)
 

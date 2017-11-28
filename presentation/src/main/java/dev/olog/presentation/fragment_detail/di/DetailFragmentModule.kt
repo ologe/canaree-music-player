@@ -1,9 +1,11 @@
 package dev.olog.presentation.fragment_detail.di
 
 import android.arch.lifecycle.Lifecycle
+import android.support.v7.widget.RecyclerView
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_detail.DetailFragmentView
 
@@ -34,5 +36,11 @@ class DetailFragmentModule(
 
     @Provides
     internal fun provideView(): DetailFragmentView = fragment
+
+    @Provides
+    @PerFragment
+    fun provideRecycledViewPool(): RecyclerView.RecycledViewPool {
+        return RecyclerView.RecycledViewPool()
+    }
 
 }

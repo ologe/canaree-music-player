@@ -12,7 +12,7 @@ import javax.inject.Inject
 class DialogItemAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle
 
-) : BaseAdapter(lifecycle) {
+) : BaseAdapter<List<DisplayableItem>>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
 
