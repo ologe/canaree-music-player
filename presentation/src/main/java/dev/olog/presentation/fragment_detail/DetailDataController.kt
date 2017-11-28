@@ -7,6 +7,7 @@ import dev.olog.presentation.DetailDiff
 import dev.olog.presentation._base.IAdapterController
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.cleanThenAdd
+import dev.olog.shared.clearThenPut
 import dev.olog.shared.unsubscribe
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -62,8 +63,9 @@ class DetailDataController (
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { (newData, callback) ->
                     val wasEmpty = isEmpty()
-                    dataSet.clear()
-                    dataSet.putAll(newData)
+
+                    dataSet.clearThenPut(newData)
+
                     if (wasEmpty){
                         adapter.notifyDataSetChanged()
                     } else{
@@ -78,8 +80,7 @@ class DetailDataController (
     }
 
     override fun onNext(data: MutableMap<DetailDataType, MutableList<DisplayableItem>>) {
-        originalDataSet.clear()
-        originalDataSet.putAll(addHeaderByType(data))
+        originalDataSet.clearThenPut(addHeaderByType(data))
         publisher.onNext(originalDataSet.toMutableMap())
     }
 

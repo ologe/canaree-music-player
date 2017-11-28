@@ -133,8 +133,10 @@ class DetailAdapter @Inject constructor(
 
 
     fun startTransition(){
-        view!!.startTransition()
-        view = null
+        if (view != null){
+            view!!.startTransition()
+            view = null
+        }
     }
 
 }

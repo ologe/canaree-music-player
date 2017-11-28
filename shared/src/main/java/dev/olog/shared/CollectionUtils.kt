@@ -7,6 +7,11 @@ fun <T> MutableList<T>.cleanThenAdd(list: List<T>){
     addAll(list)
 }
 
+fun <T, R> MutableMap<T, R>.clearThenPut(map: MutableMap<T, R>){
+    this.clear()
+    this.putAll(map)
+}
+
 fun <T> List<T>.shuffleAndSwap(isShuffleModeEnabled: Boolean,
                                predicate: (T) -> Boolean): List<T> {
 
