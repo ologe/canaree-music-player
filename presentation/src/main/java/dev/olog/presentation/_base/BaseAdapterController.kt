@@ -77,8 +77,6 @@ class BaseAdapterController(
 
                     this.dataSet.cleanThenAdd(newData)
 
-                    adapter.notifyDataSetChanged()
-
                     if (wasEmpty) {
                         adapter.notifyDataSetChanged()
                     } else {

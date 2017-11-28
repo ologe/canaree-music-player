@@ -33,7 +33,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_FOLDER)
-    internal fun provideFolderSongs(mediaId: String,
+    internal fun provideFolderData(mediaId: String,
                                    useCase: GetFolderSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -45,7 +45,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_PLAYLIST)
-    internal fun providePlaylistSongs(mediaId: String,
+    internal fun providePlaylistData(mediaId: String,
                                      useCase: GetPlaylistSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -57,7 +57,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_ALBUM)
-    internal fun provideAlbumSongs(mediaId: String,
+    internal fun provideAlbumData(mediaId: String,
                                   useCase: GetAlbumSiblingsByAlbumUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -69,7 +69,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_ARTIST)
-    internal fun provideArtistSongs(mediaId: String,
+    internal fun provideArtistData(mediaId: String,
                                    useCase: GetAlbumSiblingsByArtistUseCase)
             : Flowable<List<DisplayableItem>> {
 
@@ -81,7 +81,7 @@ class DetailFragmentViewModelModule {
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_GENRE)
-    internal fun provideGenreSongs(mediaId: String,
+    internal fun provideGenreData(mediaId: String,
                                   useCase: GetGenreSiblingsUseCase)
             : Flowable<List<DisplayableItem>> {
 

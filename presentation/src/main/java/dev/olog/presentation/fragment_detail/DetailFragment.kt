@@ -40,6 +40,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var adapter: DetailAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
+    @Inject lateinit var mediaId: String
     private var isCoverDark = false
 
     private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
@@ -75,30 +76,22 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             }
         })
 
-        viewModel.mostPlayedFlowable.asLiveData().subscribe(this, {
-            mostPlayedAdapter.updateDataSet(it)
-        })
+        viewModel.mostPlayedFlowable.asLiveData()
+                .subscribe(this, mostPlayedAdapter::updateDataSet)
 
-        viewModel.recentlyAddedFlowable.asLiveData().subscribe(this, {
-            recentlyAddedAdapter.updateDataSet(it.take(10))
-        })
+        viewModel.recentlyAddedFlowable.take(10)
+                .asLiveData().subscribe(this, recentlyAddedAdapter::updateDataSet)
 
-        viewModel.data.subscribe(this, {
-            adapter.updateDataSet(it)
-        })
+        viewModel.data.subscribe(this, adapter::updateDataSet)
 
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         layoutManager = GridLayoutManager(context!!, 2, GridLayoutManager.VERTICAL, false)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup(){
-            override fun getSpanSize(position: Int): Int {
-                return if (adapter.getItem(position).type == R.layout.item_detail_album) 1 else 2
-            }
-        }
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
+        layoutManager.spanSizeLookup = DetailSpanSizeLookup(view.list)
 
         val listObservable = RxRecyclerView.scrollEvents(view.list)
                 .share()
