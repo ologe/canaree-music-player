@@ -7,7 +7,7 @@ import dev.olog.presentation._base.BaseAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.model.DisplayableItem
 
-class FolderDialogAdapter(
+class DialogItemAdapter(
         lifecycle: Lifecycle
 
 ) : BaseAdapter(lifecycle) {

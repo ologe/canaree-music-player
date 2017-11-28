@@ -62,10 +62,6 @@ class DetailFragmentViewModel(
             .flatMapSingle { it.toFlowable().take(10).toList() }
             .asLiveData()
 
-    private val artistsFlowable: Flowable<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
-            .replay(1)
-            .refCount()
-
     fun addToMostPlayed(mediaId: String): Completable {
         return insertMostPlayedUseCase.execute(mediaId)
     }

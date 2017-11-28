@@ -4,6 +4,7 @@ import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.dialog.di.DialogItemInjector
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
 import dev.olog.presentation.fragment_mini_player.di.MiniPlayerFragmentInjector
 import dev.olog.presentation.fragment_player.di.PlayerFragmentInjector
@@ -22,7 +23,8 @@ import dev.olog.presentation.navigation.NavigatorModule
         PlayerFragmentInjector::class,
         MiniPlayerFragmentInjector::class,
         RelatedArtistFragmentInjector::class,
-        PlayingQueueInjector::class
+        PlayingQueueInjector::class,
+        DialogItemInjector::class
 ))
 @PerActivity
 interface MainActivitySubComponent :AndroidInjector<MainActivity> {
