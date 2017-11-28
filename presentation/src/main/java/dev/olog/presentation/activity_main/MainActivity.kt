@@ -11,14 +11,12 @@ import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
-import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.music_service.MediaControllerProvider
 import dev.olog.presentation.music_service.MusicServiceBinder
 import dev.olog.presentation.utils.asLiveData
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
-import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.presentation.utils.subscribe
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
@@ -64,13 +62,11 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onResume()
         slidingPanel
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
-        slidingPanel.addPanelSlideListener(slidingPanelListener)
     }
 
     override fun onPause() {
         super.onPause()
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
-        slidingPanel.removePanelSlideListener(slidingPanelListener)
     }
 
     override fun onDestroy() {
@@ -89,28 +85,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
             innerPanel.isExpanded() -> innerPanel.collapse()
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
-        }
-
-    }
-
-    private val slidingPanelListener = object : SlidingUpPanelLayout.PanelSlideListener {
-
-        override fun onPanelSlide(panel: View?, slideOffset: Float) {
-        }
-
-        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-            if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
-                window.setLightStatusBar()
-            } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
-                val detailFragment = findFragmentByTag<DetailFragment>(DetailFragment.TAG)
-                if (detailFragment != null){
-                    if (detailFragment.isCoverDark) {
-                        detailFragment.setLightButtons()
-                    } else {
-                        detailFragment.setDarkButtons()
-                    }
-                }
-            }
         }
 
     }

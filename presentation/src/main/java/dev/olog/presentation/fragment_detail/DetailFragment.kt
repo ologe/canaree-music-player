@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.images.ImageUtils
@@ -135,12 +136,12 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
     }
 
-    fun setLightButtons(){
+    private fun setLightButtons(){
         activity!!.window.removeLightStatusBar()
         view?.back?.setColorFilter(Color.WHITE)
     }
 
-    fun setDarkButtons(){
+    private fun setDarkButtons(){
         activity!!.window.setLightStatusBar()
         view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
@@ -148,11 +149,38 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onStart() {
         super.onStart()
         view!!.list.addItemDecoration(marginDecorator)
+        activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
+                .addPanelSlideListener(slidingPanelListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
+                .removePanelSlideListener(slidingPanelListener)
     }
 
     override fun onStop() {
         super.onStop()
         view!!.list.removeItemDecoration(marginDecorator)
+    }
+
+    private val slidingPanelListener = object : SlidingUpPanelLayout.PanelSlideListener {
+
+        override fun onPanelSlide(panel: View?, slideOffset: Float) {
+        }
+
+        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+            if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
+                setLightButtons()
+            } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                if (isCoverDark) {
+                    setLightButtons()
+                } else {
+                    setDarkButtons()
+                }
+            }
+        }
+
     }
 
     override fun onDestroyView() {
