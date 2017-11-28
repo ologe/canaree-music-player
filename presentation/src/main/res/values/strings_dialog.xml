@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="popup_play">Play</string>
+    <string name="popup_play_shuffle">Play Shuffle</string>
+    <string name="popup_info">Info</string>
+    <string name="popup_add_to_favorites">Add to Favorites</string>
+    <string name="popup_remove_from_favorites">Remove from Favorites</string>
+    <string name="popup_add_to_playlist">Add to Playlist</string>
+    <string name="popup_add_to_queue">Add to Queue</string>
+    <string name="popup_view_album">View Album</string>
+    <string name="popup_view_artist">View Artist</string>
+    <string name="popup_share">Share</string>
+    <string name="popup_set_as_ringtone">Set as Ringtone</string>
+    <string name="popup_delete">Delete</string>
+    <string name="popup_rename">Rename</string>
+
+</resources>

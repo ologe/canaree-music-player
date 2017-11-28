@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:padding="8dp"
+    android:layout_gravity="bottom"
+    android:layout_marginEnd="8dp">
+
+    <TextView
+        android:id="@+id/play"
+        android:text="@string/popup_play"
+        android:drawableStart="@drawable/vd_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/play_shuffle"
+        android:text="@string/popup_play_shuffle"
+        android:drawableStart="@drawable/vd_shuffle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/add_to_playlist"
+        android:text="@string/popup_add_to_playlist"
+        android:drawableStart="@drawable/vd_playlist_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/add_to_playing_queue"
+        android:text="@string/popup_add_to_queue"
+        android:drawableStart="@drawable/vd_queue_music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/go_to_info"
+        android:text="@string/popup_info"
+        android:drawableStart="@drawable/vd_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/go_to_artist"
+        android:text="@string/popup_view_artist"
+        android:drawableStart="@drawable/vd_artist_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/share"
+        android:text="@string/popup_share"
+        android:drawableStart="@drawable/vd_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText"/>
+
+    <TextView
+        android:id="@+id/delete"
+        android:text="@string/popup_delete"
+        android:drawableStart="@drawable/vd_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/PopupText" />
+
+</LinearLayout>

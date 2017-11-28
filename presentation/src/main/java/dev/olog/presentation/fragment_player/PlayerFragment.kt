@@ -146,8 +146,6 @@ class PlayerFragment : BaseFragment() {
         val (img, placeholder) = coverModel
         GlideApp.with(context).clear(cover)
 
-
-
         GlideApp.with(context)
                 .load(img)
                 .centerCrop()
@@ -164,8 +162,7 @@ class PlayerFragment : BaseFragment() {
                     override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                         return false
                     }
-                })
-                .into(cover)
+                }).into(cover)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
