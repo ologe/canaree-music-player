@@ -97,6 +97,7 @@ dependencies {
 
     // other
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
+    implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
 
     implementation 'com.akaita.java:rxjava2-debug:1.2.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'

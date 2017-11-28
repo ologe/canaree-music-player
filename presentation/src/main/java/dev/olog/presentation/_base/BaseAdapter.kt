@@ -47,12 +47,12 @@ abstract class BaseAdapter(
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
 
-    internal fun afterDataChanged() {}
-
     internal fun getDataSet(): List<DisplayableItem> = dataController.dataSet
 
     open fun provideHeaders() : List<Header> = listOf()
 
     fun onDataChanged() = dataController.onDataChanged
+
+    open fun hasGranularUpdate() = false
 
 }

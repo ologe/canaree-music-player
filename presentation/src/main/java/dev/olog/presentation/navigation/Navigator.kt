@@ -8,6 +8,6 @@ interface Navigator {
 
     fun toRelatedArtists(mediaId: String)
 
-    fun toDialog(mediaId: String)
+    fun toDialog(mediaId: String, position: Int)
 
 }

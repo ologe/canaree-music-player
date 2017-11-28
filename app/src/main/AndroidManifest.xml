@@ -22,7 +22,10 @@
 
         </activity>
 
-        <activity android:name="dev.olog.presentation.activity_main.MainActivity"/>
+        <activity
+            android:name="dev.olog.presentation.activity_main.MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service android:name="dev.olog.music_service.MusicService">
 

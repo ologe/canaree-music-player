@@ -5,10 +5,12 @@ import android.databinding.ViewDataBinding
 import dev.olog.presentation.BR
 import dev.olog.presentation._base.BaseAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
+import javax.inject.Inject
 
-class DialogItemAdapter(
-        lifecycle: Lifecycle
+class DialogItemAdapter @Inject constructor(
+        @FragmentLifecycle lifecycle: Lifecycle
 
 ) : BaseAdapter(lifecycle) {
 

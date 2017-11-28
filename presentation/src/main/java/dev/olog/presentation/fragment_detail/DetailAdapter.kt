@@ -121,12 +121,12 @@ class DetailAdapter @Inject constructor(
                 val layoutManager = list.layoutManager as GridLayoutManager
                 (list.adapter as BaseAdapter).onDataChanged()
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+                        .map { it.list.size }
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            layoutManager.spanCount = if (it.size < 5) it.size else 5
+                        .subscribe({ size ->
+                            layoutManager.spanCount = if (size < 5) size else 5
                         }, Throwable::printStackTrace)
             }
-
         }
     }
 

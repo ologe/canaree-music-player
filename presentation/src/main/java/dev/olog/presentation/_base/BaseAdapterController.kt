@@ -13,23 +13,21 @@ import dev.olog.shared.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
-import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.rxkotlin.toSingle
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class BaseAdapterController(
+internal class BaseAdapterController(
         private val adapter: BaseAdapter
 ) : DefaultLifecycleObserver {
 
     private var dataSetDisposable: Disposable? = null
 
-    private val publisher = PublishProcessor.create<List<DisplayableItem>>()
+    private val publisher = PublishProcessor.create<AdapterData<MutableList<DisplayableItem>>>()
 
     private val originalList = mutableListOf<DisplayableItem>()
     val dataSet = mutableListOf<DisplayableItem>()
 
-    private var filter = ""
+    private var dataVersion = 0
 
     init {
         dataSet.addAll(0, createActualHeaders())
@@ -40,8 +38,9 @@ class BaseAdapterController(
     fun getSize() : Int = dataSet.size
 
     fun updateData(newData: List<DisplayableItem>){
+        dataVersion++
         this.originalList.cleanThenAdd(newData)
-        publisher.onNext(originalList.toList())
+        publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
     }
 
     val onDataChanged = publisher
@@ -57,45 +56,32 @@ class BaseAdapterController(
         dataSetDisposable = onDataChanged
                 .observeOn(Schedulers.computation())
                 .map {
-                    val result = it.toMutableList()
-                    result.addAll(0, createActualHeaders())
-                    result.toList()
+                    it.list.addAll(0, createActualHeaders())
+                    it
                 }
-                .flatMapSingle {
-                    if (filter.length >= 2){
-                        it.toFlowable()
-                                .filter { containsLowerCase(it, filter) }
-                                .toList()
-                    } else {
-                        it.toSingle()
-                    }
-                }
-                .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it))) }
+                .filter { it.dataVersion == dataVersion }
+                .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it.list))) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ (newData, callback) ->
-                    val wasEmpty = this.dataSet.isEmpty()
+                .subscribe({ (newAdapterData, callback) ->
 
-                    this.dataSet.cleanThenAdd(newData)
+                    if (newAdapterData.dataVersion == dataVersion){
+                        val wasEmpty = this.dataSet.isEmpty()
 
-                    if (wasEmpty) {
-                        adapter.notifyDataSetChanged()
-                    } else {
-                        callback.dispatchUpdatesTo(adapter)
+                        this.dataSet.cleanThenAdd(newAdapterData.list)
+
+                        if (wasEmpty || !adapter.hasGranularUpdate()) {
+                            adapter.notifyDataSetChanged()
+                        } else {
+                            callback.dispatchUpdatesTo(adapter)
+                        }
                     }
 
-                },  { it.printStackTrace() })
+                }, Throwable::printStackTrace)
     }
 
     @CallSuper
     override fun onStop(owner: LifecycleOwner) {
         dataSetDisposable.unsubscribe()
-    }
-
-    private fun containsLowerCase(item: DisplayableItem, pattern: String): Boolean {
-        val title = item.title
-        val subtitle = item.subtitle
-        return title.toLowerCase().contains(pattern) ||
-                (subtitle?.toLowerCase()?.contains(pattern) ?: false)
     }
 
     private fun createActualHeaders(): List<DisplayableItem> {

@@ -36,8 +36,8 @@ class TabFragmentAdapter @Inject constructor(
                     navigator.toDetailActivity(item.mediaId, position)
                 }
             })
-            viewHolder.setOnLongClickListener(getDataSet(), { item, _ ->
-                navigator.toDialog(item.mediaId)
+            viewHolder.setOnLongClickListener(getDataSet(), { item, position ->
+                navigator.toDialog(item.mediaId, position)
             })
         }
     }

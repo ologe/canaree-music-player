@@ -29,4 +29,6 @@ class PlayingQueueAdapter @Inject constructor(
         binding.setVariable(BR.position, position)
     }
 
+    override fun hasGranularUpdate(): Boolean = false
+
 }

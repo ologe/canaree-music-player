@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.dialog.DialogItemFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.utils.transaction
@@ -65,16 +66,16 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toDialog(mediaId: String) {
+    override fun toDialog(mediaId: String, position: Int) {
         if (allowed()){
-//            activity.supportFragmentManager.transaction {
-//                setReorderingAllowed(true)
-//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-//                replace(android.R.id.content,
-//                        FolderDialog(),
-//                        FolderDialog.TAG)
-//                addToBackStack(FolderDialog.TAG)
-//            }
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                replace(android.R.id.content,
+                        DialogItemFragment.newInstance(mediaId, position),
+                        DialogItemFragment.TAG)
+                addToBackStack(DialogItemFragment.TAG)
+            }
         }
     }
 

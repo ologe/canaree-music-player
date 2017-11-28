@@ -23,15 +23,14 @@ class DialogItemFragment : BaseFragment() {
         fun newInstance(mediaId: String, position: Int): DialogItemFragment {
             return DialogItemFragment().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId,
-                    ARGUMENTS_LIST_POSITION to position
-            )
+                    ARGUMENTS_LIST_POSITION to position)
         }
     }
 
     @Inject lateinit var viewModel: DialogItemViewModel
+    @Inject lateinit var adapter: DialogItemAdapter
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        val adapter = DialogItemAdapter(lifecycle)
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
 

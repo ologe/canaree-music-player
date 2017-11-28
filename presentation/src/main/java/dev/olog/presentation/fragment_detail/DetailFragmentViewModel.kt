@@ -32,7 +32,7 @@ class DetailFragmentViewModel(
         const val RECENTLY_ADDED = "RECENTLY_ADDED"
         const val MOST_PLAYED = "MOST_PLAYED"
         const val RELATED_ARTISTS = "RELATED_ARTISTS"
-        const val SONGS = "RELATED_ARTISTS"
+        const val SONGS = "SONGS"
     }
 
     private val category = MediaIdHelper.extractCategory(mediaId)
