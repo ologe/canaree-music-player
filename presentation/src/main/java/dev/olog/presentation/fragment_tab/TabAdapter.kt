@@ -13,6 +13,7 @@ import dev.olog.presentation.model.Header
 import dev.olog.presentation.music_service.MusicController
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.setOnClickListener
+import dev.olog.presentation.utils.setOnLongClickListener
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 
@@ -35,9 +36,10 @@ class TabAdapter @Inject constructor(
                     navigator.toDetailActivity(item.mediaId, viewHolder.adapterPosition)
                 }
             })
+            viewHolder.setOnLongClickListener(getDataSet(), { item ->
+                navigator.toDialog(item.mediaId)
+            })
         }
-
-
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

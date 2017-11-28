@@ -65,6 +65,19 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
+    override fun toDialog(mediaId: String) {
+        if (allowed()){
+//            activity.supportFragmentManager.transaction {
+//                setReorderingAllowed(true)
+//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                replace(android.R.id.content,
+//                        FolderDialog(),
+//                        FolderDialog.TAG)
+//                addToBackStack(FolderDialog.TAG)
+//            }
+        }
+    }
+
     private fun allowed(): Boolean {
         val allowed = (System.currentTimeMillis() - lastRequest) > NEXT_REQUEST_THRESHOLD
         lastRequest = System.currentTimeMillis()
