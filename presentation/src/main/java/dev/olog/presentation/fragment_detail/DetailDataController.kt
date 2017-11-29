@@ -4,7 +4,6 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation.DetailDiff
-import dev.olog.presentation._base.IAdapterController
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.cleanThenAdd
 import dev.olog.shared.clearThenPut
@@ -27,7 +26,7 @@ class DetailDataController (
 
     private val publisher = PublishProcessor.create<MutableMap<DetailDataType, MutableList<DisplayableItem>>>()
 
-    private val originalDataSet : MutableMap<DetailDataType, MutableList<DisplayableItem>> = mutableMapOf()
+
 
     init {
         for (value in DetailDataType.values()) {

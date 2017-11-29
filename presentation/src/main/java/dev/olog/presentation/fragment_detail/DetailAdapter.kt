@@ -8,9 +8,8 @@ import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseAdapter
+import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
-import dev.olog.presentation._base.IAdapterController
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.music_service.MusicController
@@ -33,7 +32,7 @@ class DetailAdapter @Inject constructor(
         private val recyclerViewPool : RecyclerView.RecycledViewPool,
         detailHeaders: DetailHeaders
 
-) : BaseAdapter<Map<DetailDataType, List<DisplayableItem>>>(lifecycle) {
+) : BaseListAdapter<Map<DetailDataType, List<DisplayableItem>>>(lifecycle) {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
@@ -105,7 +104,7 @@ class DetailAdapter @Inject constructor(
             R.layout.item_most_played_horizontal_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                (list.adapter as BaseAdapter<*>).onDataChanged()
+                (list.adapter as BaseListAdapter<*>).onDataChanged()
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
                         .map { (it as List<*>).size }
                         .observeOn(AndroidSchedulers.mainThread())

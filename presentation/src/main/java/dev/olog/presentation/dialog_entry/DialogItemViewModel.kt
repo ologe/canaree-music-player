@@ -16,8 +16,7 @@ class DialogItemViewModel(
 
 ): ViewModel(){
 
-    private val addFavorite = DialogModel(DisplayableItem(R.layout.item_dialog_text, "add favorite", context.getString(R.string.popup_add_to_favorites)),
-            )
+    private val addFavorite = DisplayableItem(R.layout.item_dialog_text, "add favorite", context.getString(R.string.popup_add_to_favorites))
     private val addToPlaylist = DisplayableItem(R.layout.item_dialog_text, "add playlist", context.getString(R.string.popup_add_to_playlist))
     private val addToQueue = DisplayableItem(R.layout.item_dialog_text, "add queue", context.getString(R.string.popup_add_to_queue))
     private val info = DisplayableItem(R.layout.item_dialog_text, "info", context.getString(R.string.popup_info))
@@ -30,7 +29,7 @@ class DialogItemViewModel(
 
     private val category = MediaIdHelper.extractCategory(mediaId)
 
-    val data : LiveData<List<DialogModel>> = item[category]!!
+    val data : LiveData<List<DisplayableItem>> = item[category]!!
             .map {
                 val result = actions.toMutableList()
                 result.add(0, it)

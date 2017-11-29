@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseAdapter
+import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
@@ -23,7 +23,7 @@ class TabFragmentAdapter @Inject constructor(
         private val source: Int,
         private val musicController: MusicController
 
-) : BaseAdapter<List<DisplayableItem>>(lifecycle) {
+) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         if (viewType == R.layout.item_shuffle){
@@ -55,4 +55,5 @@ class TabFragmentAdapter @Inject constructor(
         return super.provideHeaders()
     }
 
+    override fun getItemViewType(position: Int): Int = controller[position].type
 }

@@ -3,7 +3,7 @@ package dev.olog.presentation.fragment_detail
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.presentation.BR
-import dev.olog.presentation._base.BaseAdapter
+import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
@@ -16,7 +16,7 @@ class DetailRecentlyAddedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: DetailFragmentViewModel
 
-) : BaseAdapter<List<DisplayableItem>>(lifecycle) {
+) : BaseListAdapter<List<DisplayableItem>>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item, _ ->

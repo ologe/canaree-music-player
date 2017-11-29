@@ -7,22 +7,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.Header
-import io.reactivex.Flowable
 
-abstract class BaseAdapter <T> (
+abstract class BaseMapAdapter (
         lifecycle: Lifecycle
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    protected val controller: IAdapterController<T> = provideController()
-
     init {
         lifecycle.addObserver(controller)
-    }
-
-    protected open fun provideController(): IAdapterController<T> {
-        return BaseAdapterController(this) as IAdapterController<T>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
@@ -43,23 +35,5 @@ abstract class BaseAdapter <T> (
     protected abstract fun bind(binding: ViewDataBinding,
                                 item: DisplayableItem,
                                 position: Int)
-
-    fun updateDataSet(dataSet: T) {
-        controller.onNext(dataSet)
-    }
-
-    override fun getItemCount(): Int = controller.getSize()
-
-    override fun getItemViewType(position: Int): Int = controller[position].type
-
-    internal fun getDataSet(): T = controller.getDataSet()
-
-    open fun provideHeaders() : List<Header> = listOf()
-
-    fun onDataChanged() : Flowable<T> = controller.onDataChanged()
-
-    open fun hasGranularUpdate() = false
-
-    fun getItem(position: Int): DisplayableItem = controller[position]
 
 }
