@@ -1,8 +1,11 @@
 package dev.olog.data.repository
 
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.res.Resources
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import android.provider.MediaStore.Audio.Playlists.Members.*
 import com.squareup.sqlbrite2.BriteContentResolver
 import dev.olog.data.DataConstants
 import dev.olog.data.R
@@ -15,18 +18,16 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.MediaIdHelper
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
+import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class PlaylistRepository @Inject constructor(
+        private val contentResolver: ContentResolver,
         resources: Resources,
-        private val contentResolver: BriteContentResolver,
+        private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -45,7 +46,7 @@ class PlaylistRepository @Inject constructor(
         private val SONG_PROJECTION = arrayOf(BaseColumns._ID)
         private val SONG_SELECTION = null
         private val SONG_SELECTION_ARGS: Array<String>? = null
-        private val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
+        private val SONG_SORT_ORDER = DEFAULT_SORT_ORDER
     }
 
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
@@ -58,7 +59,7 @@ class PlaylistRepository @Inject constructor(
             Playlist(DataConstants.HISTORY_LIST_ID, autoPlaylistsTitle[2])
     )
 
-    private val contentProviderObserver : Flowable<List<Playlist>> = contentResolver
+    private val contentProviderObserver : Flowable<List<Playlist>> = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
                     PROJECTION,
@@ -102,8 +103,8 @@ class PlaylistRepository @Inject constructor(
     }
 
     private fun getPlaylistSongs(playlistId: Long) : Flowable<List<Song>> {
-        return contentResolver.createQuery(
-                MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
+        return rxContentResolver.createQuery(
+                getContentUri("external", playlistId),
                 SONG_PROJECTION,
                 SONG_SELECTION,
                 SONG_SELECTION_ARGS,
@@ -132,5 +133,40 @@ class PlaylistRepository @Inject constructor(
                 .flatMapCompletable { song ->
                     CompletableSource { mostPlayedDao.insertOne(PlaylistMostPlayedEntity(0, song.id, playlistId)) }
                 }
+    }
+
+    override fun deletePlaylist(id: Long): Completable {
+        return Completable.fromCallable{
+            contentResolver.delete(
+                    MEDIA_STORE_URI,
+                    "${BaseColumns._ID} = ?",
+                    arrayOf("$id"))
+        }
+    }
+
+    override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Completable {
+        return Single.create<Int> { e ->
+
+            val uri = getContentUri("external", playlistId)
+            val cursor = contentResolver.query(uri, arrayOf("max($PLAY_ORDER)"),
+                    null, null, null)
+
+            var itemInserted = 0
+
+            cursor.use {
+                var maxId = it.getInt(0) + 1
+
+                val arrayOf = mutableListOf<ContentValues>()
+                for (songId in songIds) {
+                    val values = ContentValues(2)
+                    values.put(PLAY_ORDER, maxId++)
+                    values.put(AUDIO_ID, songId)
+                    arrayOf.add(values)
+                }
+
+                itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+            }
+            e.onSuccess(itemInserted)
+        }.toCompletable()
     }
 }

@@ -22,6 +22,8 @@ class AddFavoriteDialog : BaseFragment() {
         }
     }
 
+
+
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

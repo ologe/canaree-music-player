@@ -44,7 +44,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
     private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
 
-    private val layoutManager by lazy (NONE) { GridLayoutManager(context!!, 2) }
+    private lateinit var layoutManager : GridLayoutManager
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -66,6 +66,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        layoutManager = GridLayoutManager(context!!, 2)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.recycledViewPool = recyclerViewPool

@@ -1,6 +1,7 @@
 package dev.olog.msc
 
 import android.app.Application
+import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import dagger.Module
@@ -22,5 +23,8 @@ class AppModule(
 
     @Provides
     fun provideApplication(): Application = app
+
+    @Provides
+    fun provideContentResolver(): ContentResolver = app.contentResolver
 
 }

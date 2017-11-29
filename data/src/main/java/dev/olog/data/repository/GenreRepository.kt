@@ -1,5 +1,6 @@
 package dev.olog.data.repository
 
+import android.content.ContentResolver
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
@@ -22,7 +23,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GenreRepository @Inject constructor(
-        private val contentResolver: BriteContentResolver,
+        private val contentResolver: ContentResolver,
+        private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -46,7 +48,7 @@ class GenreRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
-    private val contentProviderObserver = contentResolver
+    private val contentProviderObserver = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
                     PROJECTION,
@@ -71,7 +73,7 @@ class GenreRepository @Inject constructor(
     }
 
     override fun observeSongListByParam(param: Long): Flowable<List<Song>> {
-        return contentResolver.createQuery(
+        return rxContentResolver.createQuery(
                 MediaStore.Audio.Genres.Members.getContentUri("external", param),
                 SONG_PROJECTION,
                 SONG_SELECTION,
@@ -103,4 +105,12 @@ class GenreRepository @Inject constructor(
                 }
     }
 
+    override fun deleteGenre(id: Long): Completable {
+        return Completable.fromCallable{
+            contentResolver.delete(
+                    MEDIA_STORE_URI,
+                    "${BaseColumns._ID} = ?",
+                    arrayOf("$id"))
+        }
+    }
 }

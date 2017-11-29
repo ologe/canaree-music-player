@@ -5,8 +5,8 @@ import io.reactivex.Completable
 
 interface SongGateway : BaseGateway<Song, Long> {
 
-    fun deleteSingle(song : Song): Completable
+    fun deleteSingle(songId: Long): Completable
 
-    fun deleteGroup(songList : List<Song>): Completable
+    fun deleteGroup(mediaId: String): Completable
 
 }

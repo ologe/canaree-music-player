@@ -1,6 +1,7 @@
 package dev.olog.presentation.dialog_entry
 
 import dev.olog.domain.entity.*
+import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 
 private const val HEADER_ID = "header media id"

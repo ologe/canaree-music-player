@@ -1,5 +1,7 @@
 package dev.olog.data.repository
 
+import android.content.ContentResolver
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.AudioColumns.*
 import android.provider.MediaStore.Audio.Media.DURATION
@@ -11,13 +13,16 @@ import dev.olog.domain.gateway.SongGateway
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SongRepository @Inject constructor(
-        contentResolver: BriteContentResolver
+        private val contentResolver: ContentResolver,
+        rxContentResolver: BriteContentResolver
 
 ) : SongGateway {
 
@@ -47,7 +52,7 @@ class SongRepository @Inject constructor(
         private val SORT_ORDER = MediaStore.Audio.Media.DEFAULT_SORT_ORDER
     }
 
-    private val contentProviderObserver = contentResolver
+    private val contentProviderObserver = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
                     PROJECTION,
@@ -70,11 +75,22 @@ class SongRepository @Inject constructor(
         }
     }
 
-    override fun deleteSingle(song: Song): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteSingle(songId: Long): Completable {
+
+        return Single.fromCallable { contentResolver.delete(MEDIA_STORE_URI,
+                "${BaseColumns._ID} = ?",
+                arrayOf("$songId"))
+        }.filter { it > 0 }
+                .flatMapSingle { getByParam(songId).firstOrError() }
+                .map { File(it.path) }
+                .filter { it.exists() }
+                .map { it.delete() }
+                .toSingle()
+                .toCompletable()
+
     }
 
-    override fun deleteGroup(songList: List<Song>): Completable {
+    override fun deleteGroup(mediaId: String): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
