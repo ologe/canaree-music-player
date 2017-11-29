@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.presentation.model.DisplayableItem
 
-abstract class BaseMapAdapter (
+abstract class BaseMapAdapter<E: Enum<E>, Model> (
         lifecycle: Lifecycle
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
+
+    private val controller = BaseMapAdapterController(this)
 
     init {
         lifecycle.addObserver(controller)

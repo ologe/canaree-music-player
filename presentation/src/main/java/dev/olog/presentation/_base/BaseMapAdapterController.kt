@@ -1,21 +1,20 @@
 package dev.olog.presentation._base
 
-import android.widget.BaseAdapter
+import android.arch.lifecycle.LifecycleObserver
 import dev.olog.presentation.fragment_detail.DetailDataType
 import io.reactivex.processors.PublishProcessor
-import kotlin.reflect.KClass
 
 class BaseMapAdapterController<E : Enum<E>, Model>(
-        private val adapter: BaseAdapter
-) {
+        private val adapter: BaseMapAdapter<E, Model>
+
+) : LifecycleObserver{
 
     private val publisher = PublishProcessor.create<MutableMap<E, MutableList<Model>>>()
 
     private val originalDataSet : MutableMap<E, MutableList<Model>> = mutableMapOf()
 
     init {
-
-        E::class.enumValues()
+        Enum
 
 
         for (enumValue in enumValues) {
@@ -28,5 +27,3 @@ class BaseMapAdapterController<E : Enum<E>, Model>(
     }
 
 }
-
-fun <T: Enum<T>> KClass<T>.enumValues(): Array<T> = java.enumConstants
