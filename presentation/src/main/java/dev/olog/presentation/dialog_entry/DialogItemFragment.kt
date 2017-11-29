@@ -1,11 +1,10 @@
-package dev.olog.presentation.dialog
+package dev.olog.presentation.dialog_entry
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.subscribe
 import dev.olog.presentation.utils.withArguments
@@ -39,12 +38,6 @@ class DialogItemFragment : BaseFragment() {
         view.list.adapter = adapter
 
         viewModel.data.subscribe(this, adapter::updateDataSet)
-
-//        val screenShot = Utils.takeScreenShot(activity!!)
-//        val blurred = Utils.blur(activity!!, screenShot)
-//        GlideApp.with(context!!)
-//                .load(blurred)
-//                .into(view.blur)
 
         view.blur.post { startPostponedEnterTransition() }
     }

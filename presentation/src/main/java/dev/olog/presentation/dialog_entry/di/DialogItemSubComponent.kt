@@ -1,9 +1,9 @@
-package dev.olog.presentation.dialog.di
+package dev.olog.presentation.dialog_entry.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.dialog.DialogItemFragment
+import dev.olog.presentation.dialog_entry.DialogItemFragment
 
 @Subcomponent(modules = arrayOf(
         DialogItemModule::class,

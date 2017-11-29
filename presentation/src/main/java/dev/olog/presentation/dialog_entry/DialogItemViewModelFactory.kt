@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialog
+package dev.olog.presentation.dialog_entry
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

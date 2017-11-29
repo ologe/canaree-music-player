@@ -1,8 +1,7 @@
-package dev.olog.presentation.dialog
+package dev.olog.presentation.dialog_entry
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import dev.olog.presentation.BR
 import dev.olog.presentation._base.BaseAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle

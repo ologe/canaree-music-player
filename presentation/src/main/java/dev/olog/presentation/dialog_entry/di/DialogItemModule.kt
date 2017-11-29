@@ -1,10 +1,10 @@
-package dev.olog.presentation.dialog.di
+package dev.olog.presentation.dialog_entry.di
 
 import android.arch.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.dialog.DialogItemFragment
+import dev.olog.presentation.dialog_entry.DialogItemFragment
 
 @Module
 class DialogItemModule(

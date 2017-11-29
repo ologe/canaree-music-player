@@ -1,0 +1,25 @@
+package dev.olog.presentation.dialog_new_playlist.di
+
+import dagger.Subcomponent
+import dagger.android.AndroidInjector
+import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
+
+
+@Subcomponent(modules = arrayOf(
+        NewPlaylistDialogModule::class
+))
+@PerFragment
+interface NewPlaylistDialogSubComponent : AndroidInjector<NewPlaylistDialog> {
+
+    @Subcomponent.Builder
+    abstract class Builder : AndroidInjector.Builder<NewPlaylistDialog>() {
+
+        abstract fun module(module: NewPlaylistDialogModule): Builder
+
+        override fun seedInstance(instance: NewPlaylistDialog) {
+            module(NewPlaylistDialogModule(instance))
+        }
+    }
+
+}

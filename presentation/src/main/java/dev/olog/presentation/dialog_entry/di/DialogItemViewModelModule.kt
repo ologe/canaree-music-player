@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialog.di
+package dev.olog.presentation.dialog_entry.di
 
 import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
@@ -6,10 +6,10 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.domain.interactor.detail.item.*
-import dev.olog.presentation.dialog.DialogItemFragment
-import dev.olog.presentation.dialog.DialogItemViewModel
-import dev.olog.presentation.dialog.DialogItemViewModelFactory
-import dev.olog.presentation.dialog.toDialogItem
+import dev.olog.presentation.dialog_entry.DialogItemFragment
+import dev.olog.presentation.dialog_entry.DialogItemViewModel
+import dev.olog.presentation.dialog_entry.DialogItemViewModelFactory
+import dev.olog.presentation.dialog_entry.toDialogItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable

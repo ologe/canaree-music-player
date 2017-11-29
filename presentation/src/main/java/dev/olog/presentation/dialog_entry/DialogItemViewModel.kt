@@ -1,9 +1,8 @@
-package dev.olog.presentation.dialog
+package dev.olog.presentation.dialog_entry
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.asLiveData
 import dev.olog.shared.MediaIdHelper

@@ -2,10 +2,9 @@ package dev.olog.presentation.navigation
 
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
-import dev.olog.presentation.dialog.DialogItemFragment
+import dev.olog.presentation.dialog_entry.DialogItemFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.utils.transaction
