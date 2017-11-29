@@ -16,9 +16,6 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "xxxhdpi"
-
-        renderscriptTargetApi rootProject.ext.targetSdkVersion
-        renderscriptSupportModeEnabled true
     }
 
 
@@ -49,16 +46,7 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
-    dexOptions {
-        preDexLibraries true
-    }
 }
-
-repositories {
-    maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
-}
-
 
 dependencies {
 
@@ -86,6 +74,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.support_library"
     implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
     implementation "com.android.support:cardview-v7:$rootProject.support_library"
+    implementation "com.android.support:design:$rootProject.support_library"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
     // db

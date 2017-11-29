@@ -17,9 +17,6 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "xxxhdpi"
-
-        renderscriptTargetApi rootProject.ext.targetSdkVersion
-        renderscriptSupportModeEnabled true
     }
 
     buildTypes {
@@ -47,11 +44,6 @@ android {
     }
 
 }
-
-repositories {
-    maven { url 'https://github.com/500px/500px-android-blur/raw/master/releases/' }
-}
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -100,9 +92,6 @@ dependencies {
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
-
-    implementation 'com.fivehundredpx:blurringview:1.0.0'
-
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

@@ -6,13 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation._base.BaseBottomSheetDialogFragment
 import dev.olog.presentation.utils.subscribe
 import dev.olog.presentation.utils.withArguments
 import kotlinx.android.synthetic.main.dialog_item.view.*
 import javax.inject.Inject
 
-class DialogItemFragment : BaseFragment() {
+class DialogItemFragment : BaseBottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "DialogItemFragment"
@@ -34,8 +34,6 @@ class DialogItemFragment : BaseFragment() {
         view.list.adapter = adapter
 
         viewModel.data.subscribe(this, adapter::updateDataSet)
-
-        view.blurringView.setBlurredView(activity!!.window.decorView)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

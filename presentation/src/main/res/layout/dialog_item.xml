@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:elevation="4dp"
-    android:gravity="bottom">
-
-   <com.fivehundredpx.android.blur.BlurringView
-       android:id="@+id/blurringView"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       app:blurRadius="11"
-       app:downsampleFactor="6" />
+    android:gravity="bottom"
+    android:background="#a000">
 
    <android.support.v7.widget.RecyclerView
        android:id="@+id/list"
+       android:paddingTop="310dp"
        android:layout_width="match_parent"
-       android:layout_height="match_parent"
+       android:layout_height="wrap_content"
        android:clipToPadding="false"
-       android:clipChildren="false"/>
+       android:clipChildren="false"
+       android:layout_gravity="bottom"
+       tools:listitem="@layout/item_dialog_text"/>
 
 </FrameLayout>

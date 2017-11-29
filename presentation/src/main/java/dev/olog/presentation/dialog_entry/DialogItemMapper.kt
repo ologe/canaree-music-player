@@ -31,7 +31,7 @@ fun Song.toDialogItem(): DisplayableItem {
             R.layout.item_dialog_image,
             HEADER_ID,
             title.capitalize(),
-            null,
+            artist,
             image
     )
 }
