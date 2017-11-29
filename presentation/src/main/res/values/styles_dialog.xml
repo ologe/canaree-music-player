@@ -2,7 +2,7 @@
 <resources>
 
     <style name="PopupText">
-        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:paddingTop">@dimen/popup_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/popup_padding_vertical</item>
         <item name="android:paddingStart">@dimen/popup_padding_horizontal</item>

@@ -20,8 +20,9 @@ class DialogItemViewModel(
 
     val data : LiveData<List<DisplayableItem>> = item[category]!!
             .map {
-                actions.add(0, it)
-                actions.toList()
+                val result = actions.toMutableList()
+                result.add(0, it)
+                result.toList()
             }.asLiveData()
 
     private val folderActions = mutableListOf(

@@ -50,6 +50,23 @@ object BindingsAdapter {
                 .into(view)
     }
 
+    @BindingAdapter("imageDialog", "source", "position")
+    @JvmStatic
+    fun loadDialogItem(view: ImageView, image: String, source: Int, position: Int) {
+        val context = view.context
+
+        GlideApp.with(context).clear(view)
+
+        GlideApp.with(context)
+                .load(Uri.parse(image))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(OVERRIDE_MID)
+                .priority(Priority.IMMEDIATE)
+                .placeholder(CoverUtils.getGradient(context = context, position = position, source = source))
+                .into(view)
+    }
+
     @BindingAdapter("imageBigAlbum", "source", "position")
     @JvmStatic
     fun loadBigAlbumImage(view: ImageView, image: String?, source: Int, position: Int) {

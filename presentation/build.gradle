@@ -17,6 +17,9 @@ android {
 
         vectorDrawables.useSupportLibrary = true
         resConfigs "en", "xxxhdpi"
+
+        renderscriptTargetApi 19
+        renderscriptSupportModeEnabled true
     }
 
     buildTypes {

@@ -6,14 +6,14 @@
 
     <data>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="position" type="int"/>
+        <variable name="source" type="int"/>
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="100dp"
-        android:background="@drawable/grad">
+        android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,7 +30,10 @@
                 android:layout_marginEnd="100dp"
                 android:src="@drawable/placeholder_folder"
                 android:scaleType="centerCrop"
-                android:adjustViewBounds="true"/>
+                android:adjustViewBounds="true"
+                app:imageDialog="@{item.getImage}"
+                app:source="@{source}"
+                app:position="@{position}"/>
 
         </android.support.constraint.ConstraintLayout>
 
@@ -39,7 +42,8 @@
             android:text="@{item.title}"
             tools:text="More Life"
             android:textSize="18sp"
-            android:textColor="@color/text_color_primary"
+            android:textColor="@android:color/white"
+            tools:textColor="@color/dark_grey"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -49,7 +53,7 @@
             android:layout_marginBottom="12dp"
             android:text="@{item.subtitle}"
             tools:text="Drake"
-            android:textColor="@color/text_color_secondary"
+            android:textColor="@color/grey600"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

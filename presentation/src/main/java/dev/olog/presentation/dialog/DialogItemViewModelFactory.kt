@@ -18,7 +18,6 @@ class DialogItemViewModelFactory @Inject constructor(
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return DialogItemViewModel(
-                context, mediaId, item
-        ) as T
+                context, mediaId, item) as T
     }
 }
