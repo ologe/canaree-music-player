@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="popup_padding_horizontal">16dp</dimen>
-    <dimen name="popup_padding_vertical">12dp</dimen>
-    <dimen name="popup_text">20sp</dimen>
-    <dimen name="popup_drawable_padding">12dp</dimen>
-
-</resources>

@@ -9,7 +9,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.subscribe
 import dev.olog.presentation.utils.withArguments
-import kotlinx.android.synthetic.main.fragment_dialog_item.view.*
+import kotlinx.android.synthetic.main.dialog_item.view.*
 import javax.inject.Inject
 
 class DialogItemFragment : BaseFragment() {
@@ -35,12 +35,10 @@ class DialogItemFragment : BaseFragment() {
 
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
-        view.blurringView.setBlurredView(
-                activity!!.window.decorView
-        )
-
+        view.blurringView.setBlurredView(activity!!.window.decorView)
     }
+
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_dialog_item, container, false)
+        return inflater.inflate(R.layout.dialog_item, container, false)
     }
 }

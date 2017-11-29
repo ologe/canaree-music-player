@@ -11,14 +11,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="#4ccc">
 
         <TextView
             android:text="@{item.title}"
             tools:text="@string/popup_play_shuffle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/PopupText"/>
+            android:textColor="@color/text_color_primary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center" />
 
     </FrameLayout>
 
