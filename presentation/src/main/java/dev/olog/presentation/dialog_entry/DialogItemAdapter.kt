@@ -15,7 +15,7 @@ class DialogItemAdapter @Inject constructor(
         mediaId: String,
         private val listPosition: Int
 
-) : BaseAdapter<List<DisplayableItem>>(lifecycle) {
+) : BaseAdapter<List<DialogModel>>(lifecycle) {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
@@ -26,9 +26,6 @@ class DialogItemAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, source)
-//        if (TextUtils.isDigitsOnly(item.subtitle)){
-//            (binding as ItemDialogTextBinding).root.img.setImageResource(item.subtitle!!.toInt())
-//        }
 
         if (position == 0){
             binding.setVariable(BR.position, listPosition)

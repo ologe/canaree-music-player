@@ -16,8 +16,6 @@
         android:background="@color/background"
         android:elevation="8dp">
 
-
-
         <TextView
             android:text="@{item.title}"
             tools:text="@string/popup_play_shuffle"
@@ -27,7 +25,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingStart="32dp"
-            android:paddingEnd="32dp"/>
+            android:paddingEnd="32dp"
+            android:gravity="center"/>
 
     </LinearLayout>
 
