@@ -6,17 +6,17 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import dev.olog.presentation.model.DisplayableItem
 
 abstract class BaseMapAdapter<E: Enum<E>, Model> (
-        lifecycle: Lifecycle
+        lifecycle: Lifecycle,
+        enums: Array<E>
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    private val controller = BaseMapAdapterController(this)
+    protected val dataController = BaseMapAdapterController(this, enums)
 
     init {
-        lifecycle.addObserver(controller)
+        lifecycle.addObserver(dataController)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
@@ -30,12 +30,22 @@ abstract class BaseMapAdapter<E: Enum<E>, Model> (
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int)
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
-        bind(holder.binding, controller[position], position)
+        bind(holder.binding, dataController[position], position)
         holder.binding.executePendingBindings()
     }
 
-    protected abstract fun bind(binding: ViewDataBinding,
-                                item: DisplayableItem,
-                                position: Int)
+    protected abstract fun bind(binding: ViewDataBinding, item: Model, position: Int)
+
+    override fun getItemCount(): Int = dataController.getSize()
+
+    override abstract fun getItemViewType(position: Int): Int
+
+    abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
+
+    fun updateDataSet(data: MutableMap<E, MutableList<Model>>) {
+        dataController.onNext(data)
+    }
+
+    fun getItemAt(position: Int): Model = dataController[position]
 
 }

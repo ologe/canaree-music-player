@@ -66,11 +66,11 @@ class DetailFragmentViewModel(
         return insertMostPlayedUseCase.execute(mediaId)
     }
 
-    val data : LiveData<Map<DetailDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
+    val data : LiveData<MutableMap<DetailDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
             item[category]!!, data[MOST_PLAYED]!!, data[RECENTLY_ADDED]!!,
             data[category]!!, data[RELATED_ARTISTS]!!, data[SONGS]!!, { item, mostPlayed, recent, albums, artists, songs ->
 
-        mapOf(
+        mutableMapOf(
                 DetailDataType.HEADER to mutableListOf(item),
                 DetailDataType.MOST_PLAYED to mostPlayed.toMutableList(),
                 DetailDataType.RECENT to recent.toMutableList(),

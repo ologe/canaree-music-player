@@ -16,7 +16,7 @@ class RelatedArtistAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator
 
-): BaseListAdapter<List<DisplayableItem>>(lifecycle) {
+): BaseListAdapter<DisplayableItem>(lifecycle) {
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
@@ -30,4 +30,11 @@ class RelatedArtistAdapter @Inject constructor(
         binding.setVariable(BR.source, TabViewPagerAdapter.ARTIST)
         binding.setVariable(BR.position, position)
     }
+
+    override fun getItemViewType(position: Int): Int = dataController[position].type
+
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
+
 }

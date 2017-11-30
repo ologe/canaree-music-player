@@ -14,7 +14,7 @@ class DetailSpanSizeLookup(
 
     override fun getSpanSize(position: Int): Int {
         return adapter?.let {
-            if (it.getItem(position).type == R.layout.item_detail_album) 1 else 2
+            if (it.getItemAt(position).type == R.layout.item_detail_album) 1 else 2
         } ?: 2
     }
 }

@@ -4,7 +4,7 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
-import dev.olog.presentation.Diff
+import dev.olog.presentation.utils.assertBackgroundThread
 import dev.olog.shared.cleanThenAdd
 import dev.olog.shared.unsubscribe
 import io.reactivex.Flowable
@@ -13,17 +13,17 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
 
-class BaseListAdapterController<T>(
-        private val adapter: BaseListAdapter<*>
+class BaseListAdapterController<Model>(
+        private val adapter: BaseListAdapter<Model>
 
 ) : DefaultLifecycleObserver {
 
     private var dataSetDisposable: Disposable? = null
 
-    private val publisher = PublishProcessor.create<AdapterData<MutableList<T>>>()
+    val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
 
-    private val originalList = mutableListOf<T>()
-    private val dataSet = mutableListOf<T>()
+    private val originalList = mutableListOf<Model>()
+    private val dataSet = mutableListOf<Model>()
 
     private var dataVersion = 0
 
@@ -31,26 +31,42 @@ class BaseListAdapterController<T>(
 //        dataSet.addAll(0, createActualHeaders())
     }
 
-    operator fun get(position: Int): T = dataSet[position]
+    operator fun get(position: Int): Model = dataSet[position]
 
     fun getSize() : Int = dataSet.size
 
-    private val onDataChanged = publisher
-            .toSerialized()
-            .observeOn(Schedulers.computation())
-            .onBackpressureLatest()
-            .replay(1)
-            .refCount()
-
     override fun onStart(owner: LifecycleOwner) {
-        dataSetDisposable = onDataChanged
+        dataSetDisposable = publisher
+                .toSerialized()
+                .onBackpressureLatest()
                 .observeOn(Schedulers.computation())
 //                .map {
 //                    it.list.addAll(0, createActualHeaders())
 //                    it
 //                }
                 .filter { it.dataVersion == dataVersion }
-                .map { it.to(DiffUtil.calculateDiff(Diff(dataSet, it.list))) }
+                .map {
+                    it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+
+                    init { assertBackgroundThread() }
+
+                    override fun getOldListSize(): Int = dataSet.size
+
+                    override fun getNewListSize(): Int = it.list.size
+
+                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                        val oldItem : Model = dataSet[oldItemPosition]
+                        val newItem : Model = it.list[newItemPosition]
+                        return adapter.areItemsTheSame(oldItem, newItem)
+                    }
+
+                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                        val oldItem : Model = dataSet[oldItemPosition]
+                        val newItem : Model = it.list[newItemPosition]
+                        return oldItem == newItem &&
+                                oldItemPosition == newItemPosition
+                    }
+                })) }
                 .filter { it.first.dataVersion == dataVersion }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ (newAdapterData, callback) ->
@@ -69,8 +85,8 @@ class BaseListAdapterController<T>(
     }
 
 
-    fun onDataChanged(): Flowable<List<T>> {
-        return onDataChanged.map { it.list }
+    fun onDataChanged(): Flowable<List<Model>> {
+        return publisher.map { it.list }
     }
 
     @CallSuper
@@ -84,11 +100,11 @@ class BaseListAdapterController<T>(
 //        }
 //    }
 
-    fun onNext(data: List<T>) {
+    fun onNext(data: List<Model>) {
         dataVersion++
         this.originalList.cleanThenAdd(data)
         publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
     }
 
-    fun getDataSet(): List<T> = dataSet
+    fun getDataSet(): List<Model> = dataSet
 }

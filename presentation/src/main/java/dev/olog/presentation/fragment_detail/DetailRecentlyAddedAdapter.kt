@@ -16,7 +16,7 @@ class DetailRecentlyAddedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: DetailFragmentViewModel
 
-) : BaseListAdapter<List<DisplayableItem>>(lifecycle) {
+) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item, _ ->
@@ -29,4 +29,9 @@ class DetailRecentlyAddedAdapter @Inject constructor(
         binding.setVariable(BR.position, position)
     }
 
+    override fun getItemViewType(position: Int): Int = dataController[position].type
+
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
 }

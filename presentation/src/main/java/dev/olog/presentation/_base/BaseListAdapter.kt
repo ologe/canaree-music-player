@@ -9,15 +9,15 @@ import android.view.ViewGroup
 import dev.olog.presentation.model.Header
 import io.reactivex.Flowable
 
-abstract class BaseListAdapter<T> (
+abstract class BaseListAdapter<Model> (
         lifecycle: Lifecycle
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    protected val controller = BaseListAdapterController<T>(this)
+    protected val dataController = BaseListAdapterController<Model>(this)
 
     init {
-        lifecycle.addObserver(controller)
+        lifecycle.addObserver(dataController)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
@@ -31,30 +31,30 @@ abstract class BaseListAdapter<T> (
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int)
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
-        bind(holder.binding, controller[position], position)
+        bind(holder.binding, dataController[position], position)
         holder.binding.executePendingBindings()
     }
 
     protected abstract fun bind(binding: ViewDataBinding,
-                                item: T,
+                                item: Model,
                                 position: Int)
 
-    fun updateDataSet(dataSet: List<T>) {
-        controller.onNext(dataSet)
+    fun updateDataSet(dataSet: List<Model>) {
+        dataController.onNext(dataSet)
     }
 
-    override fun getItemCount(): Int = controller.getSize()
+    override fun getItemCount(): Int = dataController.getSize()
 
     override abstract fun getItemViewType(position: Int): Int
 
-    internal fun getDataSet(): List<T> = controller.getDataSet()
+    internal fun getDataSet(): List<Model> = dataController.getDataSet()
 
     open fun provideHeaders() : List<Header> = listOf()
 
-    fun onDataChanged() : Flowable<List<T>> = controller.onDataChanged()
+    fun onDataChanged() : Flowable<List<Model>> = dataController.onDataChanged()
 
     open fun hasGranularUpdate() = false
 
-    fun getItem(position: Int): T = controller[position]
+    abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
 
 }

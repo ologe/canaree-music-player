@@ -29,6 +29,9 @@ class DetailMostPlayedAdapter @Inject constructor(
         binding.setVariable(BR.position, position)
     }
 
-    override fun getItemViewType(position: Int): Int = controller[position].type
+    override fun getItemViewType(position: Int): Int = dataController[position].type
 
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
 }

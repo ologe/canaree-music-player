@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.fragment_detail.DetailDataType
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_detail.DetailFragmentView
 
@@ -41,6 +42,11 @@ class DetailFragmentModule(
     @PerFragment
     fun provideRecycledViewPool(): RecyclerView.RecycledViewPool {
         return RecyclerView.RecycledViewPool()
+    }
+
+    @Provides
+    internal fun provideEnums() : Array<DetailDataType> {
+        return DetailDataType.values()
     }
 
 }

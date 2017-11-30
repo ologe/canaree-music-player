@@ -9,6 +9,7 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
+import dev.olog.presentation._base.BaseMapAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
@@ -21,9 +22,9 @@ import javax.inject.Inject
 
 class DetailAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
+        enums: Array<DetailDataType>,
         private val mediaId: String,
         private val listPosition: Int,
-        private var view: DetailFragmentView?,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val navigator: Navigator,
@@ -32,7 +33,7 @@ class DetailAdapter @Inject constructor(
         private val recyclerViewPool : RecyclerView.RecycledViewPool,
         detailHeaders: DetailHeaders
 
-) : BaseListAdapter<Map<DetailDataType, List<DisplayableItem>>>(lifecycle) {
+) : BaseMapAdapter<DetailDataType, DisplayableItem>(lifecycle, enums) {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
@@ -68,7 +69,7 @@ class DetailAdapter @Inject constructor(
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
-                        val item = controller[position]
+                        val item = dataController[position]
                         musicController.playFromMediaId(item.mediaId)
                         viewModel.addToMostPlayed(item.mediaId)
                                 .subscribe()
@@ -79,7 +80,7 @@ class DetailAdapter @Inject constructor(
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
-                        val item = controller[position]
+                        val item = dataController[position]
                         navigator.toDetailActivity(item.mediaId, position)
                     }
                 }
@@ -96,8 +97,12 @@ class DetailAdapter @Inject constructor(
     }
 
     init {
-        (controller as DetailDataController).detailHeaders = detailHeaders
+
     }
+
+//    init {
+//        (controller as DetailDataController).detailHeaders = detailHeaders
+//    }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
         when (holder.itemViewType) {
@@ -125,17 +130,10 @@ class DetailAdapter @Inject constructor(
         }
     }
 
-    override fun provideController(): IAdapterController<Map<DetailDataType, List<DisplayableItem>>> {
-        return DetailDataController(this) as IAdapterController<Map<DetailDataType, List<DisplayableItem>>>
-    }
+    override fun getItemViewType(position: Int): Int = dataController[position].type
 
-
-
-    fun startTransition(){
-        if (view != null){
-            view!!.startTransition()
-            view = null
-        }
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
     }
 
 }

@@ -2,6 +2,7 @@ package dev.olog.msc
 
 import android.os.StrictMode
 import com.akaita.java.rxjava2debug.RxJava2Debug
+import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.data.DataConstants
@@ -14,6 +15,7 @@ import dev.olog.presentation.fragment_player.PlayerFragment
 import dev.olog.presentation.fragment_player.PlayerFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
+import dev.olog.presentation.navigation.Navigator
 
 
 class App : DaggerApplication() {
@@ -25,9 +27,9 @@ class App : DaggerApplication() {
 
 
         if (BuildConfig.DEBUG) {
-//            initStrictMode()
-//            LeakCanary.install(this)
-//            initRxJavaDebug()
+            initStrictMode()
+            LeakCanary.install(this)
+            initRxJavaDebug()
         }
 
     }
@@ -61,6 +63,7 @@ class App : DaggerApplication() {
                 .setClassInstanceLimit(DetailFragmentViewModel::class.java, 1)
                 .setClassInstanceLimit(PlayerFragment::class.java, 1)
                 .setClassInstanceLimit(PlayerFragmentViewModel::class.java, 1)
+                .setClassInstanceLimit(Navigator::class.java, 1)
                 .build())
     }
 

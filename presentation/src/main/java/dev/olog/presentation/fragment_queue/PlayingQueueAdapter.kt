@@ -15,7 +15,7 @@ class PlayingQueueAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val musicController: MusicController
 
-): BaseListAdapter<List<DisplayableItem>>(lifecycle) {
+): BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(getDataSet(), { item, _ ->
@@ -31,4 +31,9 @@ class PlayingQueueAdapter @Inject constructor(
 
     override fun hasGranularUpdate(): Boolean = false
 
+    override fun getItemViewType(position: Int): Int = dataController[position].type
+
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
 }

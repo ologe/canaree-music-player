@@ -4,10 +4,8 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.presentation.BR
 import dev.olog.presentation._base.BaseListAdapter
-import dev.olog.presentation._base.BaseMapAdapterController
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.fragment_detail.DetailDataType
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
@@ -34,9 +32,11 @@ class DialogItemAdapter @Inject constructor(
         } else {
             binding.setVariable(BR.position, position)
         }
-
-        val baseMapAdapterController = BaseMapAdapterController<DetailDataType, DisplayableItem>()
     }
 
-    override fun getItemViewType(position: Int): Int = controller[position].type
+    override fun getItemViewType(position: Int): Int = dataController[position].type
+
+    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItem.mediaId == newItem.mediaId
+    }
 }
