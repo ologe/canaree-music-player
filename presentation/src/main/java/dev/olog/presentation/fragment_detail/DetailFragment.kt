@@ -1,5 +1,6 @@
 package dev.olog.presentation.fragment_detail
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -44,6 +45,11 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
 
     private lateinit var layoutManager : GridLayoutManager
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        postponeEnterTransition()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

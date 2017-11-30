@@ -83,8 +83,7 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
                     } else{
                         callback.dispatchUpdatesTo(adapter)
                     }
-
-//                    adapter.startTransition() // todo
+                    adapter.afterDataChanged()
                 }
     }
 

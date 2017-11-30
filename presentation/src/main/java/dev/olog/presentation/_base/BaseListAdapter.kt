@@ -14,7 +14,7 @@ abstract class BaseListAdapter<Model> (
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    protected val dataController = BaseListAdapterController<Model>(this)
+    protected val dataController = BaseListAdapterController(this)
 
     init {
         lifecycle.addObserver(dataController)
@@ -35,9 +35,7 @@ abstract class BaseListAdapter<Model> (
         holder.binding.executePendingBindings()
     }
 
-    protected abstract fun bind(binding: ViewDataBinding,
-                                item: Model,
-                                position: Int)
+    protected abstract fun bind(binding: ViewDataBinding, item: Model, position: Int)
 
     fun updateDataSet(dataSet: List<Model>) {
         dataController.onNext(dataSet)
@@ -56,5 +54,8 @@ abstract class BaseListAdapter<Model> (
     open fun hasGranularUpdate() = false
 
     abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
+
+    internal open fun afterDataChanged(){
+    }
 
 }

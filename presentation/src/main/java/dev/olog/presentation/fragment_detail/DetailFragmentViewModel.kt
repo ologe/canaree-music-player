@@ -24,7 +24,8 @@ class DetailFragmentViewModel(
         itemPosition: Int,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        private val insertMostPlayedUseCase: InsertMostPlayedUseCase
+        private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
+        private val headers: DetailHeaders
 
 ) : AndroidViewModel(application) {
 
@@ -72,12 +73,59 @@ class DetailFragmentViewModel(
 
         mutableMapOf(
                 DetailDataType.HEADER to mutableListOf(item),
-                DetailDataType.MOST_PLAYED to mostPlayed.toMutableList(),
-                DetailDataType.RECENT to recent.toMutableList(),
-                DetailDataType.ALBUMS to albums.toMutableList(),
-                DetailDataType.ARTISTS_IN to artists.toMutableList(),
-                DetailDataType.SONGS to songs.toMutableList()
+                DetailDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList()),
+                DetailDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList()),
+                DetailDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
+                DetailDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList()),
+                DetailDataType.SONGS to handleSongsHeader(songs.toMutableList())
         ) }
     ).asLiveData()
+
+    private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        if (list.isNotEmpty()){
+            list.clear()
+            list.addAll(0, headers.mostPlayed)
+        }
+        return list
+    }
+
+    private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        if (list.isNotEmpty()){
+            if (list.size > 10){
+                list.clear()
+                list.addAll(0, headers.recentWithSeeAll)
+            } else {
+                list.clear()
+                list.addAll(0, headers.recent)
+            }
+        }
+        return list
+    }
+
+    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        val albumsList = list.take(4).toMutableList()
+        if (albumsList.isNotEmpty()){
+            if (list.size > 4){
+                albumsList.add(0, headers.albumsWithSeeAll)
+            } else {
+                albumsList.add(0, headers.albums)
+            }
+        }
+
+        return albumsList
+    }
+
+    private fun handleArtistsInHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        val (_, _, title) = list[0]
+        if (title == ""){
+            list.clear()
+        }
+        return list
+    }
+
+    private fun handleSongsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        list.addAll(0, headers.songs)
+        return list
+    }
 
 }

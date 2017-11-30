@@ -5,7 +5,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation.utils.assertBackgroundThread
-import dev.olog.shared.cleanThenAdd
+import dev.olog.shared.clearThenAdd
 import dev.olog.shared.unsubscribe
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -73,13 +73,14 @@ class BaseListAdapterController<Model>(
 
                     val wasEmpty = this.dataSet.isEmpty()
 
-                    this.dataSet.cleanThenAdd(newAdapterData.list)
+                    this.dataSet.clearThenAdd(newAdapterData.list)
 
                     if (wasEmpty || !adapter.hasGranularUpdate()) {
                         adapter.notifyDataSetChanged()
                     } else {
                         callback.dispatchUpdatesTo(adapter)
                     }
+                    adapter.afterDataChanged()
 
                 }, Throwable::printStackTrace)
     }
@@ -102,7 +103,7 @@ class BaseListAdapterController<Model>(
 
     fun onNext(data: List<Model>) {
         dataVersion++
-        this.originalList.cleanThenAdd(data)
+        this.originalList.clearThenAdd(data)
         publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
     }
 

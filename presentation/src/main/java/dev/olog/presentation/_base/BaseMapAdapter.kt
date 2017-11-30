@@ -48,4 +48,7 @@ abstract class BaseMapAdapter<E: Enum<E>, Model> (
 
     fun getItemAt(position: Int): Model = dataController[position]
 
+    internal open fun afterDataChanged(){
+    }
+
 }

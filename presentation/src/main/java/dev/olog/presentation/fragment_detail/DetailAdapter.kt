@@ -23,6 +23,7 @@ import javax.inject.Inject
 class DetailAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         enums: Array<DetailDataType>,
+        private val view: DetailFragmentView,
         private val mediaId: String,
         private val listPosition: Int,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
@@ -96,10 +97,6 @@ class DetailAdapter @Inject constructor(
         }
     }
 
-    init {
-
-    }
-
 //    init {
 //        (controller as DetailDataController).detailHeaders = detailHeaders
 //    }
@@ -134,6 +131,10 @@ class DetailAdapter @Inject constructor(
 
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
+    }
+
+    override fun afterDataChanged() {
+        view.startTransition()
     }
 
 }

@@ -2,12 +2,12 @@ package dev.olog.shared
 
 import java.util.*
 
-fun <T> MutableList<T>.cleanThenAdd(list: List<T>){
+fun <T> MutableList<T>.clearThenAdd(list: List<T>) {
     clear()
     addAll(list)
 }
 
-fun <T, R> MutableMap<T, R>.clearThenPut(map: MutableMap<T, R>){
+fun <Key, Value> MutableMap<Key, Value>.clearThenPut(map: MutableMap<Key, Value>) {
     this.clear()
     this.putAll(map)
 }

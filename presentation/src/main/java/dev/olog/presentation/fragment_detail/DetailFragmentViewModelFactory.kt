@@ -14,7 +14,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
         private val itemPosition: Int,
         private val item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         private val albums: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        private val insertMostPlayedUseCase: InsertMostPlayedUseCase
+        private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
+        private val headers: DetailHeaders
 
 ) : ViewModelProvider.Factory {
 
@@ -25,7 +26,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
                 itemPosition,
                 item,
                 albums,
-                insertMostPlayedUseCase
+                insertMostPlayedUseCase,
+                headers
         ) as T
     }
 }
