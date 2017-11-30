@@ -120,4 +120,8 @@ class NavigatorImpl @Inject constructor(
         val fragment = DeleteDialog.newInstance(mediaId)
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
+
+    override fun toCreatePlaylistDialog(mediaId: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -12,6 +12,8 @@ interface Navigator {
 
     fun toSetRingtoneDialog(mediaId: String)
 
+    fun toCreatePlaylistDialog(mediaId: String)
+
     fun toAddToPlaylistDialog(mediaId: String)
 
     fun toAddToFavoriteDialog(mediaId: String)

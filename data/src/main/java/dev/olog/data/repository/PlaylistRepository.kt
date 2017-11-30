@@ -70,17 +70,18 @@ class PlaylistRepository @Inject constructor(
                     SORT_ORDER,
                     false
             ).mapToList { it.toPlaylist() }
-            .map {
-                val result = it.sortedWith(compareBy { it.title.toLowerCase() }).toMutableList()
-                result.addAll(autoPlaylists)
-                result.toList()
-            }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)
             .refCount()
 
     override fun getAll(): Flowable<List<Playlist>> = contentProviderObserver
+            .map { val result = it.sortedWith(compareBy { it.title.toLowerCase() }).toMutableList()
+                result.addAll(autoPlaylists)
+                result.toList()
+            }
+
+    override fun getActualPlaylists(): Flowable<List<Playlist>> = contentProviderObserver
 
     override fun getByParam(param: Long): Flowable<Playlist> {
         return getAll().flatMapSingle { it.toFlowable()

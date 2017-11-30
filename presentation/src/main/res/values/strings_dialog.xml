@@ -18,4 +18,7 @@
     <string name="popup_negative_cancel">Cancel</string>
     <string name="popup_positive_ok">OK</string>
 
+    <string name="popup_new_playlist">New Playlist</string>
+    <string name="popup_no_playlist">No playlists yet..</string>
+
 </resources>
