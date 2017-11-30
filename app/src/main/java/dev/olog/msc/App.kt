@@ -54,7 +54,7 @@ class App : DaggerApplication() {
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
                 .detectAll()
                 .penaltyLog()
-                .penaltyDeath()
+//                .penaltyDeath()
                 .setClassInstanceLimit(MainActivity::class.java, 1)
                 .setClassInstanceLimit(MusicService::class.java, 1)
                 .setClassInstanceLimit(TabFragment::class.java, TabViewPagerAdapter.ITEM_COUNT)
