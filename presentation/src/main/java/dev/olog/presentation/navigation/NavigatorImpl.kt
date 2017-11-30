@@ -10,6 +10,7 @@ import dev.olog.presentation.dialog_add_playlist.AddPlaylistDialog
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
 import dev.olog.presentation.dialog_delete.DeleteDialog
 import dev.olog.presentation.dialog_entry.DialogItemFragment
+import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
 import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_detail.DetailFragment
@@ -122,6 +123,7 @@ class NavigatorImpl @Inject constructor(
     }
 
     override fun toCreatePlaylistDialog(mediaId: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val fragment = NewPlaylistDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 }

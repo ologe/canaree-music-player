@@ -16,10 +16,14 @@
     <string name="popup_rename">Rename</string>
 
     <string name="popup_negative_cancel">Cancel</string>
+
     <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_create">Create</string>
 
     <string name="popup_new_playlist">New Playlist</string>
     <string name="popup_no_playlist">No playlists yet..</string>
+
+    <string name="new_playlist_hint">Playlist name</string>
 
     <!--add to queue-->
     <string name="add_song_x_to_queue"><![CDATA[Add <b>%1$s</b> to Queue?]]></string>
@@ -45,6 +49,7 @@
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
     </plurals>
 
+    <!--delete-->
     <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>
 
     <plurals name="delete_xx_songs_from_y">

@@ -57,9 +57,19 @@ class DialogItemViewModel(
     val data : LiveData<List<DialogModel>> = item[category]!!
             .map {
                 val result = actions.toMutableList()
-                result.add(0, DialogModel(it, null))
+                result.add(0, DialogModel(it.copy(subtitle = itemType), null))
                 result.toList()
             }.asLiveData()
+
+    private val itemType: String = when (category){
+        MediaIdHelper.MEDIA_ID_BY_FOLDER -> context.getString(R.string.folder)
+        MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> context.getString(R.string.playlist)
+        MediaIdHelper.MEDIA_ID_BY_ALL -> context.getString(R.string.song)
+        MediaIdHelper.MEDIA_ID_BY_ALBUM -> context.getString(R.string.album)
+        MediaIdHelper.MEDIA_ID_BY_ARTIST -> context.getString(R.string.artist)
+        MediaIdHelper.MEDIA_ID_BY_GENRE -> context.getString(R.string.genre)
+        else -> ""
+    }
 
     private val folderActions : List<DialogModel> = mutableListOf(
             addToPlaylist, addToQueue, addFavorite, delete

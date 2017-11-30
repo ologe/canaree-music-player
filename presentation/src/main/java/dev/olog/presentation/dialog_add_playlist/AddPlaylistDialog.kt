@@ -36,8 +36,7 @@ class AddPlaylistDialog : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context)
-                .setTitle(R.string.popup_add_to_playlist)
-                .setMessage(Html.fromHtml(createMessage()))
+                .setTitle(Html.fromHtml(createMessage()))
                 .setItems(createItems(), { _, which -> presenter.onItemClick(which) })
                 .setPositiveButton(R.string.popup_new_playlist, { _, _ ->
                     navigator.toCreatePlaylistDialog(mediaId)

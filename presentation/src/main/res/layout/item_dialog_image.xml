@@ -60,7 +60,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="#folder"
-            tools:text="Drake"
+            tools:text="#folder"
             android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:textColor="#b2b2b2"

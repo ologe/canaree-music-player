@@ -6,4 +6,11 @@
 
     <string name="shuffle_all">Shuffle All</string>
 
+    <string name="folder">Folder</string>
+    <string name="playlist">Playlist</string>
+    <string name="song">Song</string>
+    <string name="album">Album</string>
+    <string name="artist">Artist</string>
+    <string name="genre">Genre</string>
+
 </resources>
