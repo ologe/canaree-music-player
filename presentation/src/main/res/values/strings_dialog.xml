@@ -3,11 +3,11 @@
 
     <string name="popup_play">Play</string>
     <string name="popup_play_shuffle">Play Shuffle</string>
-    <string name="popup_info">Info</string>
+    <string name="popup_add_to_playlist">Add to Playlist</string>
     <string name="popup_add_to_favorites">Add to Favorites</string>
     <string name="popup_remove_from_favorites">Remove from Favorites</string>
-    <string name="popup_add_to_playlist">Add to Playlist</string>
     <string name="popup_add_to_queue">Add to Queue</string>
+    <string name="popup_view_info">View Info</string>
     <string name="popup_view_album">View Album</string>
     <string name="popup_view_artist">View Artist</string>
     <string name="popup_share">Share</string>
@@ -20,5 +20,36 @@
 
     <string name="popup_new_playlist">New Playlist</string>
     <string name="popup_no_playlist">No playlists yet..</string>
+
+    <!--add to queue-->
+    <string name="add_song_x_to_queue"><![CDATA[Add <b>%1$s</b> to Queue?]]></string>
+
+    <plurals name="add_xx_songs_to_queue">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Queue?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Queue?]]></item>
+    </plurals>
+
+    <!--add to favorite-->
+    <string name="add_song_x_to_favorite"><![CDATA[Add <b>%1$s</b> to Favorites?]]></string>
+
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Favorites?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
+    </plurals>
+
+    <!--add to playlist-->
+    <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
+
+    <plurals name="add_xx_songs_to_playlist">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
+    </plurals>
+
+    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>
+
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from <b>%2$s</b>?]]></item>
+        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
+    </plurals>
 
 </resources>

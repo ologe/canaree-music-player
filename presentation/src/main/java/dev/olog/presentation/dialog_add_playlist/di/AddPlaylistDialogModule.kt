@@ -20,4 +20,9 @@ class AddPlaylistDialogModule(
         return fragment.arguments!!.getString(AddPlaylistDialog.ARGUMENTS_MEDIA_ID)
     }
 
+    @Provides
+    fun provideListSize(): Int {
+        return fragment.arguments!!.getInt(AddPlaylistDialog.ARGUMENTS_LIST_SIZE)
+    }
+
 }

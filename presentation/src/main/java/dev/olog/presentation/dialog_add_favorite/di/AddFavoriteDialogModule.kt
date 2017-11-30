@@ -20,4 +20,9 @@ class AddFavoriteDialogModule(
         return fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_MEDIA_ID)
     }
 
+    @Provides
+    fun provideListSize(): Int {
+        return fragment.arguments!!.getInt(AddFavoriteDialog.ARGUMENTS_LIST_SIZE)
+    }
+
 }

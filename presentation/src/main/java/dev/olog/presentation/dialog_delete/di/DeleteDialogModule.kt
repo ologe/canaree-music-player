@@ -20,4 +20,10 @@ class DeleteDialogModule(
         return fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_MEDIA_ID)
     }
 
+    @Provides
+    fun provideListSize(): Int {
+        return fragment.arguments!!.getInt(DeleteDialog.ARGUMENTS_LIST_SIZE)
+    }
+
+
 }

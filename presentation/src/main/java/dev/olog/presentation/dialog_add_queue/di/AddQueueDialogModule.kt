@@ -20,4 +20,9 @@ class AddQueueDialogModule(
         return fragment.arguments!!.getString(AddQueueDialog.ARGUMENTS_MEDIA_ID)
     }
 
+    @Provides
+    fun provideListSize(): Int {
+        return fragment.arguments!!.getInt(AddQueueDialog.ARGUMENTS_LIST_SIZE)
+    }
+
 }

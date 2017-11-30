@@ -14,14 +14,14 @@ interface Navigator {
 
     fun toCreatePlaylistDialog(mediaId: String)
 
-    fun toAddToPlaylistDialog(mediaId: String)
+    fun toAddToPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String)
 
-    fun toAddToFavoriteDialog(mediaId: String)
+    fun toAddToFavoriteDialog(mediaId: String, listSize: Int, itemTitle: String)
 
-    fun toAddToQueueDialog(mediaId: String)
+    fun toAddToQueueDialog(mediaId: String, listSize: Int, itemTitle: String)
 
     fun toRenameDialog(mediaId: String)
 
-    fun toDeleteDialog(mediaId: String)
+    fun toDeleteDialog(mediaId: String, listSize: Int, itemTitle: String)
 
 }

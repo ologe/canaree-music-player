@@ -96,18 +96,18 @@ class NavigatorImpl @Inject constructor(
         fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 
-    override fun toAddToPlaylistDialog(mediaId: String) {
-        val fragment = AddPlaylistDialog.newInstance(mediaId)
+    override fun toAddToPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String) {
+        val fragment = AddPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, AddPlaylistDialog.TAG)
     }
 
-    override fun toAddToFavoriteDialog(mediaId: String) {
-        val fragment = AddFavoriteDialog.newInstance(mediaId)
+    override fun toAddToFavoriteDialog(mediaId: String, listSize: Int, itemTitle: String) {
+        val fragment = AddFavoriteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
     }
 
-    override fun toAddToQueueDialog(mediaId: String) {
-        val fragment = AddQueueDialog.newInstance(mediaId)
+    override fun toAddToQueueDialog(mediaId: String, listSize: Int, itemTitle: String) {
+        val fragment = AddQueueDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, AddQueueDialog.TAG)
     }
 
@@ -116,8 +116,8 @@ class NavigatorImpl @Inject constructor(
         fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
     }
 
-    override fun toDeleteDialog(mediaId: String) {
-        val fragment = DeleteDialog.newInstance(mediaId)
+    override fun toDeleteDialog(mediaId: String, listSize: Int, itemTitle: String) {
+        val fragment = DeleteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 

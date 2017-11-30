@@ -37,7 +37,7 @@ class DialogItemViewModel(
             useCases[ADD_PLAYLIST])
     private val addToQueue = DialogModel(DisplayableItem(R.layout.item_dialog_text, "add queue", context.getString(R.string.popup_add_to_queue)),
             useCases[ADD_QUEUE])
-    private val info = DialogModel(DisplayableItem(R.layout.item_dialog_text, "info", context.getString(R.string.popup_info)),
+    private val info = DialogModel(DisplayableItem(R.layout.item_dialog_text, "info", context.getString(R.string.popup_view_info)),
             useCases[VIEW_INFO])
     private val viewAlbum = DialogModel(DisplayableItem(R.layout.item_dialog_text, "view album", context.getString(R.string.popup_view_album)),
             useCases[VIEW_ALBUM])
