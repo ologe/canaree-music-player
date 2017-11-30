@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.presentation.utils.extension
 
 import android.content.Context
 import android.content.res.Configuration

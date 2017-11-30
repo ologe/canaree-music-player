@@ -5,8 +5,8 @@ import android.app.Dialog
 import android.os.Bundle
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
-import dev.olog.presentation.utils.makeDialog
-import dev.olog.presentation.utils.withArguments
+import dev.olog.presentation.utils.extension.makeDialog
+import dev.olog.presentation.utils.extension.withArguments
 
 class RenameDialog : BaseDialogFragment() {
 

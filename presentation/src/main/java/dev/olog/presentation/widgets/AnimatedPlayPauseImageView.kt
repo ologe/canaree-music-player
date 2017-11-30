@@ -5,7 +5,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.presentation.R
-import dev.olog.presentation.utils.getAnimatedVectorDrawable
+import dev.olog.presentation.utils.extension.getAnimatedVectorDrawable
 
 class AnimatedPlayPauseImageView @JvmOverloads constructor(
         context: Context,

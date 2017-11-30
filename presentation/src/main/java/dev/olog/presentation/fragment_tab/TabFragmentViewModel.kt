@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.util.SparseArray
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.extension.asLiveData
 import io.reactivex.Flowable
 
 class TabFragmentViewModel constructor(

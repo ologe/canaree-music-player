@@ -9,9 +9,9 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.utils.asLiveData
-import dev.olog.presentation.utils.requestStoragePemission
-import dev.olog.presentation.utils.subscribe
+import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.presentation.utils.extension.requestStoragePemission
+import dev.olog.presentation.utils.extension.subscribe
 import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 

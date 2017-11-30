@@ -12,8 +12,8 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.isCollapsed
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.music_service.MusicController
-import dev.olog.presentation.utils.asLiveData
-import dev.olog.presentation.utils.subscribe
+import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

@@ -9,7 +9,7 @@ import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.utils.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnClickListener
 import javax.inject.Inject
 
 class RelatedArtistAdapter @Inject constructor(

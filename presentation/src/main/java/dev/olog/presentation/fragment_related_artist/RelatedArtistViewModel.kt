@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.rxkotlin.toFlowable
 

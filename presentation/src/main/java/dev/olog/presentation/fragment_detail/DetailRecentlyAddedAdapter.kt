@@ -8,7 +8,7 @@ import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnClickListener
 import javax.inject.Inject
 
 @PerFragment

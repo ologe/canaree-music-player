@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.asLiveData
-import dev.olog.presentation.utils.subscribe
+import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.presentation.utils.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_player_queue.view.*
 import javax.inject.Inject
 

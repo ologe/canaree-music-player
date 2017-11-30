@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.presentation.utils.extension
 
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observable

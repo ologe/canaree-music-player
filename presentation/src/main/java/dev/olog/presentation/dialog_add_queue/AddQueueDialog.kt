@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.text.Html
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
-import dev.olog.presentation.utils.makeDialog
-import dev.olog.presentation.utils.withArguments
+import dev.olog.presentation.utils.extension.makeDialog
+import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 

@@ -9,7 +9,7 @@ import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
 import dev.olog.presentation.images.ImageUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.ColorUtils
-import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable

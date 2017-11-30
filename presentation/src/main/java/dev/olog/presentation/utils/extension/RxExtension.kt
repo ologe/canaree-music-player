@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.presentation.utils.extension
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams

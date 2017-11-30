@@ -15,7 +15,7 @@ import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
-import dev.olog.presentation.utils.transaction
+import dev.olog.presentation.utils.extension.transaction
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask

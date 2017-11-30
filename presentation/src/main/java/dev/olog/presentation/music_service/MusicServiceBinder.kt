@@ -38,9 +38,7 @@ class MusicServiceBinder @Inject constructor(
         connectionCallback.onConnectionChanged()
                 .subscribe(this)
 
-        if (!mediaBrowser.isConnected){
-            mediaBrowser.connect()
-        }
+        mediaBrowser.connect()
     }
 
     override fun onStop(owner: LifecycleOwner) {

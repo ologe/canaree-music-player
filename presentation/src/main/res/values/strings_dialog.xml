@@ -57,4 +57,7 @@
         <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
     </plurals>
 
+    <string name="popup_playlist_name_not_valid">Playlist name not valid</string>
+    <string name="popup_playlist_name_already_exist">Playlist already exist</string>
+
 </resources>

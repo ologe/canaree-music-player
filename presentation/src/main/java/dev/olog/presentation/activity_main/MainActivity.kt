@@ -12,9 +12,9 @@ import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.music_service.MediaControllerProvider
 import dev.olog.presentation.music_service.MusicServiceBinder
-import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
-import dev.olog.presentation.utils.subscribe
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_player_drag_area.*

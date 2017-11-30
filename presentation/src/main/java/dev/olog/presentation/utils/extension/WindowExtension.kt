@@ -1,8 +1,9 @@
-package dev.olog.presentation.utils
+package dev.olog.presentation.utils.extension
 
 import android.graphics.Color
 import android.view.View
 import android.view.Window
+import dev.olog.presentation.utils.isMarshmallow
 
 fun Window.setLightStatusBar(){
     decorView.systemUiVisibility = 0

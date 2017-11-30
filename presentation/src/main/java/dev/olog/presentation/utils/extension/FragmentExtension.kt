@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.presentation.utils.extension
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

@@ -6,7 +6,7 @@ import dev.olog.domain.interactor.service.GetMiniPlayingQueueUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
-import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.extension.asLiveData
 import io.reactivex.rxkotlin.toFlowable
 
 class PlayingQueueViewModel(

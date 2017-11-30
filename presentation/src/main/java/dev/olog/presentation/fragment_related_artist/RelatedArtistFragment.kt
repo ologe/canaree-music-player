@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.subscribe
-import dev.olog.presentation.utils.withArguments
+import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 

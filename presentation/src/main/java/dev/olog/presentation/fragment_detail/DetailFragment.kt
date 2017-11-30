@@ -14,7 +14,7 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.*
+import dev.olog.presentation.utils.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE

@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils
+package dev.olog.presentation.utils.extension
 
 import android.app.AlertDialog
 import android.content.DialogInterface

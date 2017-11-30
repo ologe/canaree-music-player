@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.asLiveData
+import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable

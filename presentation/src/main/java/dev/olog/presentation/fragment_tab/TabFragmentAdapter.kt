@@ -11,8 +11,8 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.music_service.MusicController
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.utils.setOnClickListener
-import dev.olog.presentation.utils.setOnLongClickListener
+import dev.olog.presentation.utils.extension.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 

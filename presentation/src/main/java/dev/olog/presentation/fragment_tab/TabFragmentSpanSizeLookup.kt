@@ -6,7 +6,7 @@ import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.ALBUM
 import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.SONG
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.utils.isPortrait
+import dev.olog.presentation.utils.extension.isPortrait
 import javax.inject.Inject
 
 @PerFragment
