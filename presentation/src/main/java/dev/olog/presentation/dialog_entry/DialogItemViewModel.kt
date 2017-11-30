@@ -57,7 +57,7 @@ class DialogItemViewModel(
     val data : LiveData<List<DialogModel>> = item[category]!!
             .map {
                 val result = actions.toMutableList()
-                result.add(0, DialogModel(it.copy(subtitle = itemType), null))
+                result.add(0, DialogModel(it.copy(subtitle = itemType.toLowerCase()), null))
                 result.toList()
             }.asLiveData()
 

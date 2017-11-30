@@ -9,6 +9,7 @@ import dev.olog.presentation.dialog_add_playlist.di.AddPlaylistDialogInjector
 import dev.olog.presentation.dialog_add_queue.di.AddQueueDialogInjector
 import dev.olog.presentation.dialog_delete.di.DeleteDialogInjector
 import dev.olog.presentation.dialog_entry.di.DialogItemInjector
+import dev.olog.presentation.dialog_new_playlist.di.NewPlaylistDialogInjector
 import dev.olog.presentation.dialog_rename.di.RenameDialogInjector
 import dev.olog.presentation.dialog_set_ringtone.di.SetRingtoneDialogInjector
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
@@ -35,6 +36,7 @@ import dev.olog.presentation.navigation.NavigatorModule
         DialogItemInjector::class,
         AddFavoriteDialogInjector::class,
         AddPlaylistDialogInjector::class,
+        NewPlaylistDialogInjector::class,
         AddQueueDialogInjector::class,
         SetRingtoneDialogInjector::class,
         RenameDialogInjector::class,
