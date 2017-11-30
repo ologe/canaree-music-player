@@ -1,11 +1,14 @@
 package dev.olog.presentation.dialog_entry.di
 
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_entry.DialogItemFragment
 import dev.olog.presentation.dialog_entry.DialogItemView
+import dev.olog.presentation.dialog_entry.DialogItemViewModel
+import dev.olog.presentation.dialog_entry.DialogItemViewModelFactory
 
 @Module
 class DialogItemModule(
@@ -31,5 +34,10 @@ class DialogItemModule(
 
     @Provides
     fun provideVIew(): DialogItemView = fragment
+
+    @Provides
+    fun provideViewModel(factory: DialogItemViewModelFactory) : DialogItemViewModel {
+        return ViewModelProviders.of(fragment, factory).get(DialogItemViewModel::class.java)
+    }
 
 }

@@ -7,7 +7,8 @@ import dev.olog.presentation.dialog_entry.DialogItemFragment
 
 @Subcomponent(modules = arrayOf(
         DialogItemModule::class,
-        DialogItemViewModelModule::class
+        DialogItemViewModelModule::class,
+        DialogUseCasesModule::class
 ))
 @PerFragment
 interface DialogItemSubComponent : AndroidInjector<DialogItemFragment> {

@@ -8,6 +8,7 @@ import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.shared.MediaIdHelper
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DialogItemAdapter @Inject constructor(
@@ -25,6 +26,7 @@ class DialogItemAdapter @Inject constructor(
             val position = viewHolder.adapterPosition
             if (position != RecyclerView.NO_POSITION){
                 dataController[position].useCase
+                        ?.timeout(2, TimeUnit.SECONDS)
                         ?.subscribe(view::dismiss, Throwable::printStackTrace)
             }
         }

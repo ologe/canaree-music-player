@@ -12,4 +12,14 @@ interface Navigator {
 
     fun toSetRingtoneDialog(mediaId: String)
 
+    fun toAddToPlaylistDialog(mediaId: String)
+
+    fun toAddToFavoriteDialog(mediaId: String)
+
+    fun toAddToQueueDialog(mediaId: String)
+
+    fun toRenameDialog(mediaId: String)
+
+    fun toDeleteDialog(mediaId: String)
+
 }

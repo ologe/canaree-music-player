@@ -52,8 +52,4 @@ class DialogItemFragment : BaseBottomSheetDialogFragment(), DialogItemView {
         return inflater.inflate(R.layout.dialog_item, container, false)
     }
 
-    override fun dismiss() {
-        super.dismiss()
-    }
-
 }

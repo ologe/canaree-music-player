@@ -1,4 +1,4 @@
-package dev.olog.data.model
+package dev.olog.data.entity
 
 data class SongMostTimesPlayedEntity(
         val songId: Long,

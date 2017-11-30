@@ -15,6 +15,7 @@ import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toPlaylist
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.entity.Song
+import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.MediaIdHelper
@@ -29,6 +30,7 @@ class PlaylistRepository @Inject constructor(
         resources: Resources,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
+        private val favoriteGateway: FavoriteGateway,
         appDatabase: AppDatabase
 
 ) : PlaylistGateway {
@@ -87,12 +89,12 @@ class PlaylistRepository @Inject constructor(
         }
     }
 
-    override fun observeSongListByParam(param: Long): Flowable<List<Song>> {
-        return when (param){
+    override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
+        return when (playlistId){
             DataConstants.LAST_ADDED_ID -> getLastAddedSongs()
-            DataConstants.FAVORITE_LIST_ID -> getLastAddedSongs() // todo
+            DataConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
             DataConstants.HISTORY_LIST_ID -> getLastAddedSongs() // todo
-            else -> getPlaylistSongs(param)
+            else -> getPlaylistSongs(playlistId)
         }
     }
 

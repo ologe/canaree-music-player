@@ -5,7 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
+import dev.olog.presentation.dialog_add_playlist.AddPlaylistDialog
+import dev.olog.presentation.dialog_add_queue.AddQueueDialog
+import dev.olog.presentation.dialog_delete.DeleteDialog
 import dev.olog.presentation.dialog_entry.DialogItemFragment
+import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
@@ -89,5 +94,30 @@ class NavigatorImpl @Inject constructor(
     override fun toSetRingtoneDialog(mediaId: String) {
         val fragment = SetRingtoneDialog.newInstance(mediaId)
         fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
+    }
+
+    override fun toAddToPlaylistDialog(mediaId: String) {
+        val fragment = AddPlaylistDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, AddPlaylistDialog.TAG)
+    }
+
+    override fun toAddToFavoriteDialog(mediaId: String) {
+        val fragment = AddFavoriteDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
+    }
+
+    override fun toAddToQueueDialog(mediaId: String) {
+        val fragment = AddQueueDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, AddQueueDialog.TAG)
+    }
+
+    override fun toRenameDialog(mediaId: String) {
+        val fragment = RenameDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
+    }
+
+    override fun toDeleteDialog(mediaId: String) {
+        val fragment = DeleteDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 }

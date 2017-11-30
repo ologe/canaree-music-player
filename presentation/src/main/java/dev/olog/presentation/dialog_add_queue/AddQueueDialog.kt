@@ -1,28 +1,36 @@
 package dev.olog.presentation.dialog_add_queue
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseDialogFragment
+import dev.olog.presentation.utils.makeDialog
 import dev.olog.presentation.utils.withArguments
 
-class AddQueueDialog : BaseFragment() {
+class AddQueueDialog : BaseDialogFragment() {
 
     companion object {
         const val TAG = "AddQueueDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_POSITION = "$TAG.arguments.list_position"
 
-        fun newInstance(mediaId: String, position: Int): AddQueueDialog {
+        fun newInstance(mediaId: String): AddQueueDialog {
             return AddQueueDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
-                    ARGUMENTS_LIST_POSITION to position
+                    ARGUMENTS_MEDIA_ID to mediaId
             )
         }
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(context)
+                .setTitle("add to queue?")
+                .setNegativeButton(R.string.popup_negative_cancel, null)
+                .setPositiveButton(R.string.popup_positive_ok, { dialog, button ->
+                    // todo
+                })
+
+
+        return builder.makeDialog()
     }
+
 }

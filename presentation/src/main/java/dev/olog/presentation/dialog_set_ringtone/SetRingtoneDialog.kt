@@ -2,11 +2,10 @@ package dev.olog.presentation.dialog_set_ringtone
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
+import dev.olog.presentation.utils.makeDialog
 import dev.olog.presentation.utils.withArguments
 
 class SetRingtoneDialog : BaseDialogFragment() {
@@ -31,11 +30,7 @@ class SetRingtoneDialog : BaseDialogFragment() {
                     // todo
                 })
 
-        val dialog = builder.show()
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(context!!, R.color.item_selected))
-
-        return dialog
+        return builder.makeDialog()
     }
 
 

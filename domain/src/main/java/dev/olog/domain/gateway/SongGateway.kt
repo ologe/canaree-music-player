@@ -9,4 +9,6 @@ interface SongGateway : BaseGateway<Song, Long> {
 
     fun deleteGroup(mediaId: String): Completable
 
+
+
 }

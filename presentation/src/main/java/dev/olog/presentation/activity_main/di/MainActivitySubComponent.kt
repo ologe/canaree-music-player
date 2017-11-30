@@ -4,7 +4,12 @@ import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.dialog_add_favorite.di.AddFavoriteDialogInjector
+import dev.olog.presentation.dialog_add_playlist.di.AddPlaylistDialogInjector
+import dev.olog.presentation.dialog_add_queue.di.AddQueueDialogInjector
+import dev.olog.presentation.dialog_delete.di.DeleteDialogInjector
 import dev.olog.presentation.dialog_entry.di.DialogItemInjector
+import dev.olog.presentation.dialog_rename.di.RenameDialogInjector
 import dev.olog.presentation.dialog_set_ringtone.di.SetRingtoneDialogInjector
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
 import dev.olog.presentation.fragment_mini_player.di.MiniPlayerFragmentInjector
@@ -25,8 +30,15 @@ import dev.olog.presentation.navigation.NavigatorModule
         MiniPlayerFragmentInjector::class,
         RelatedArtistFragmentInjector::class,
         PlayingQueueInjector::class,
+
+        // dialogs
         DialogItemInjector::class,
-        SetRingtoneDialogInjector::class
+        AddFavoriteDialogInjector::class,
+        AddPlaylistDialogInjector::class,
+        AddQueueDialogInjector::class,
+        SetRingtoneDialogInjector::class,
+        RenameDialogInjector::class,
+        DeleteDialogInjector::class
 ))
 @PerActivity
 interface MainActivitySubComponent :AndroidInjector<MainActivity> {

@@ -37,4 +37,8 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun providePlayingQueueRepository(repository: PlayingQueueRepository): PlayingQueueGateway
 
+    @Binds
+    @Singleton
+    abstract fun provideFavoriteRepository(repository: FavoriteRepository): FavoriteGateway
+
 }
