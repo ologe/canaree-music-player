@@ -40,10 +40,10 @@ class BaseListAdapterController<Model>(
                 .toSerialized()
                 .onBackpressureLatest()
                 .observeOn(Schedulers.computation())
-//                .map {
-//                    it.list.addAll(0, createActualHeaders())
-//                    it
-//                }
+                .map {
+                    it.list.addAll(0, adapter.provideHeaders())
+                    it
+                }
                 .filter { it.dataVersion == dataVersion }
                 .map {
                     it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
@@ -94,12 +94,6 @@ class BaseListAdapterController<Model>(
     override fun onStop(owner: LifecycleOwner) {
         dataSetDisposable.unsubscribe()
     }
-
-//    private fun createActualHeaders(): List<T> {
-//        return adapter.provideHeaders().mapIndexed { index: Int, header: Header ->
-//            header.toDisplayableItem(index)
-//        }
-//    }
 
     fun onNext(data: List<Model>) {
         dataVersion++

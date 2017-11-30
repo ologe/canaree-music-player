@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
@@ -31,8 +30,7 @@ class DetailAdapter @Inject constructor(
         private val navigator: Navigator,
         private val musicController: MusicController,
         private val viewModel: DetailFragmentViewModel,
-        private val recyclerViewPool : RecyclerView.RecycledViewPool,
-        detailHeaders: DetailHeaders
+        private val recyclerViewPool : RecyclerView.RecycledViewPool
 
 ) : BaseMapAdapter<DetailDataType, DisplayableItem>(lifecycle, enums) {
 
@@ -66,7 +64,7 @@ class DetailAdapter @Inject constructor(
                 val snapHelper = LinearSnapHelper()
                 snapHelper.attachToRecyclerView(list)
             }
-            R.layout.item_tab_song -> {
+            R.layout.item_detail_song -> {
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
@@ -97,18 +95,14 @@ class DetailAdapter @Inject constructor(
         }
     }
 
-//    init {
-//        (controller as DetailDataController).detailHeaders = detailHeaders
-//    }
-
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
         when (holder.itemViewType) {
             R.layout.item_most_played_horizontal_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                (list.adapter as BaseListAdapter<*>).onDataChanged()
+                (list.adapter as DetailMostPlayedAdapter).onDataChanged()
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-                        .map { (it as List<*>).size }
+                        .map { it.size }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ size ->
                             layoutManager.spanCount = if (size < 5) size else 5

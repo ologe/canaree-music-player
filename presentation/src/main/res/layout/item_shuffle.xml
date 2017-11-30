@@ -14,6 +14,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/vd_shuffle"
+            android:tint="@color/button_primary_tint"
             android:padding="14dp"
             android:layout_marginStart="16dp" />
 

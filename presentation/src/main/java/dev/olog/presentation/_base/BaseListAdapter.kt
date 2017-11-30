@@ -6,7 +6,6 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import dev.olog.presentation.model.Header
 import io.reactivex.Flowable
 
 abstract class BaseListAdapter<Model> (
@@ -47,7 +46,7 @@ abstract class BaseListAdapter<Model> (
 
     internal fun getDataSet(): List<Model> = dataController.getDataSet()
 
-    open fun provideHeaders() : List<Header> = listOf()
+    open fun provideHeaders() : List<Model> = listOf()
 
     fun onDataChanged() : Flowable<List<Model>> = dataController.onDataChanged()
 
@@ -57,5 +56,4 @@ abstract class BaseListAdapter<Model> (
 
     internal open fun afterDataChanged(){
     }
-
 }

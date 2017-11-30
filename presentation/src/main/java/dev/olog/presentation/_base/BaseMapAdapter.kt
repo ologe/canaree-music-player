@@ -51,4 +51,5 @@ abstract class BaseMapAdapter<E: Enum<E>, Model> (
     internal open fun afterDataChanged(){
     }
 
+
 }

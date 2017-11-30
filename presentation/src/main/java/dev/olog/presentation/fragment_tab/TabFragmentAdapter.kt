@@ -9,7 +9,6 @@ import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.Header
 import dev.olog.presentation.music_service.MusicController
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.setOnClickListener
@@ -48,9 +47,9 @@ class TabFragmentAdapter @Inject constructor(
         binding.setVariable(BR.position, position)
     }
 
-    override fun provideHeaders(): List<Header> {
+    override fun provideHeaders(): List<DisplayableItem> {
         if (source == TabViewPagerAdapter.SONG){
-            return listOf(Header(R.layout.item_shuffle))
+            return listOf(DisplayableItem(R.layout.item_shuffle, "shuffle id",""))
         }
         return super.provideHeaders()
     }
@@ -60,6 +59,7 @@ class TabFragmentAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
+
 
 
 }

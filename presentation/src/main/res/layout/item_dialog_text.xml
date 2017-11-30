@@ -12,16 +12,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:background="@color/background"
-        android:elevation="8dp">
+        android:paddingBottom="16dp">
 
         <TextView
             android:text="@{item.title}"
             tools:text="@string/popup_play_shuffle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_primary"
+            android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingStart="32dp"
