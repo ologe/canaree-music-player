@@ -11,8 +11,6 @@ class AddPlaylistPresenter @Inject constructor(
 
     fun getPlaylistsAsList(): List<DisplayablePlaylist> {
         return getPlaylistSiblingsUseCase.execute()
-                .firstOrError()
-                .blockingGet()
                 .map { DisplayablePlaylist(it.id, "- ${it.title}") }
     }
 

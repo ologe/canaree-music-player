@@ -81,7 +81,17 @@ class PlaylistRepository @Inject constructor(
                 result.toList()
             }
 
-    override fun getActualPlaylists(): Flowable<List<Playlist>> = contentProviderObserver
+    override fun getActualPlaylistsBlocking(): List<Playlist> {
+        val cursor = contentResolver.query(MEDIA_STORE_URI, PROJECTION,
+                SELECTION, SELECTION_ARGS, SORT_ORDER)
+        val list = mutableListOf<Playlist>()
+        cursor.use {
+            while (it.moveToNext()){
+                list.add(cursor.toPlaylist())
+            }
+        }
+        return list
+    }
 
     override fun getByParam(param: Long): Flowable<Playlist> {
         return getAll().flatMapSingle { it.toFlowable()
