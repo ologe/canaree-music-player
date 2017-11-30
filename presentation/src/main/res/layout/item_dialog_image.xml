@@ -14,9 +14,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="16dp"
+        tools:background="@android:color/black">
 
         <ImageView
             android:id="@+id/cover"
@@ -42,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@{item.title}"
             tools:text="More Life"
-            android:textSize="@{item.subtitle == null ? @dimen/dialog_text_big : @dimen/dialog_text}"
+            android:textSize="18sp"
             android:textColor="@android:color/white"
             android:gravity="center"
             android:textStyle="bold"
@@ -64,7 +64,7 @@
             android:textColor="#b2b2b2"
             android:alpha=".7"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="1"

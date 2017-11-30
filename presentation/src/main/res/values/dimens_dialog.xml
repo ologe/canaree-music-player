@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="dialog_text_big">25sp</dimen>
-    <dimen name="dialog_text">22sp</dimen>
-
-</resources>
