@@ -6,6 +6,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_entry.DialogItemFragment
+import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.utils.transaction
@@ -83,5 +84,10 @@ class NavigatorImpl @Inject constructor(
         val allowed = (System.currentTimeMillis() - lastRequest) > NEXT_REQUEST_THRESHOLD
         lastRequest = System.currentTimeMillis()
         return allowed
+    }
+
+    override fun toSetRingtoneDialog(mediaId: String) {
+        val fragment = SetRingtoneDialog.newInstance(mediaId)
+        fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 }

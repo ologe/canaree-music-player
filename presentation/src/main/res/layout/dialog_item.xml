@@ -8,27 +8,15 @@
     android:elevation="4dp"
     android:background="@drawable/grad">
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:paddingTop="200dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            tools:listitem="@layout/item_dialog_text"
-            android:paddingBottom="16dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:background="@android:color/black"
-            android:layout_gravity="bottom"/>
-
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        tools:listitem="@layout/item_dialog_text"
+        android:paddingBottom="16dp"
+        android:overScrollMode="never"/>
 
 </FrameLayout>

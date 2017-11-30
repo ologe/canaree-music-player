@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseBottomSheetDialogFragment
+import dev.olog.presentation.utils.removeLightStatusBar
+import dev.olog.presentation.utils.setLightStatusBar
 import dev.olog.presentation.utils.subscribe
 import dev.olog.presentation.utils.withArguments
 import kotlinx.android.synthetic.main.dialog_item.view.*
 import javax.inject.Inject
 
-class DialogItemFragment : BaseBottomSheetDialogFragment() {
+class DialogItemFragment : BaseBottomSheetDialogFragment(), DialogItemView {
 
     companion object {
         const val TAG = "DialogItemFragment"
@@ -29,6 +31,11 @@ class DialogItemFragment : BaseBottomSheetDialogFragment() {
     @Inject lateinit var viewModel: DialogItemViewModel
     @Inject lateinit var adapter: DialogItemAdapter
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        activity!!.window.removeLightStatusBar()
+    }
+
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
@@ -36,7 +43,17 @@ class DialogItemFragment : BaseBottomSheetDialogFragment() {
         viewModel.data.subscribe(this, adapter::updateDataSet)
     }
 
+    override fun onDestroyView() {
+        activity!!.window.setLightStatusBar()
+        super.onDestroyView()
+    }
+
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.dialog_item, container, false)
     }
+
+    override fun dismiss() {
+        super.dismiss()
+    }
+
 }

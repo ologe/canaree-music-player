@@ -26,8 +26,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginEnd="100dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginEnd="120dp"
             tools:src="@drawable/placeholder_folder"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
@@ -50,6 +50,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"/>
 
@@ -58,8 +59,9 @@
             app:layout_constraintTop_toBottomOf="@+id/firstText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{item.subtitle}"
+            android:text="folder"
             tools:text="Drake"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
             android:textColor="#b2b2b2"
             android:alpha=".7"
@@ -69,7 +71,6 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:layout_marginEnd="16dp"
-            android:visibility="@{item.subtitle == null ? View.GONE : View.VISIBLE}"
             android:ellipsize="end"/>
 
     </android.support.constraint.ConstraintLayout>

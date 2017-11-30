@@ -10,4 +10,6 @@ interface Navigator {
 
     fun toDialog(mediaId: String, position: Int)
 
+    fun toSetRingtoneDialog(mediaId: String)
+
 }

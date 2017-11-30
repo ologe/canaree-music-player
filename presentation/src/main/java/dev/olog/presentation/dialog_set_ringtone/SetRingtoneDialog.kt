@@ -1,28 +1,42 @@
 package dev.olog.presentation.dialog_set_ringtone
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import dev.olog.presentation._base.BaseFragment
+import android.support.v4.content.ContextCompat
+import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.withArguments
 
-class SetRingtoneDialog : BaseFragment() {
+class SetRingtoneDialog : BaseDialogFragment() {
 
     companion object {
         const val TAG = "SetRingtoneDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_POSITION = "$TAG.arguments.list_position"
 
-        fun newInstance(mediaId: String, position: Int): SetRingtoneDialog {
+        fun newInstance(mediaId: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
-                    ARGUMENTS_LIST_POSITION to position
-            )
+                    ARGUMENTS_MEDIA_ID to mediaId)
         }
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("will be set as ringtone") // todo
+                .setMessage("wtf")      // todo
+                .setNegativeButton(R.string.popup_negative_cancel, null)
+                .setPositiveButton(R.string.popup_positive_ok, { dialog, button ->
+                    // todo
+                })
+
+        val dialog = builder.show()
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(context!!, R.color.item_selected))
+
+        return dialog
     }
+
+
 }

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_entry.DialogItemFragment
+import dev.olog.presentation.dialog_entry.DialogItemView
 
 @Module
 class DialogItemModule(
@@ -27,5 +28,8 @@ class DialogItemModule(
     @Provides
     @FragmentLifecycle
     fun provideLifecycle(): Lifecycle = fragment.lifecycle
+
+    @Provides
+    fun provideVIew(): DialogItemView = fragment
 
 }

@@ -15,4 +15,7 @@
     <string name="popup_delete">Delete</string>
     <string name="popup_rename">Rename</string>
 
+    <string name="popup_negative_cancel">Cancel</string>
+    <string name="popup_positive_ok">OK</string>
+
 </resources>
