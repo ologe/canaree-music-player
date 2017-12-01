@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialog_entry
+package dev.olog.presentation.dialog_entry.di
 
 import dagger.Module
 import dagger.Provides

@@ -4,7 +4,7 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 class DialogItemViewModel @Inject constructor(
-        val data: Map<String, Completable>
+        val data: Map<String, @JvmSuppressWildcards Completable>
 
 ) {
 

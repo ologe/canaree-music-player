@@ -48,11 +48,11 @@ ext {
     sql_brite = '2.0.0'
 
     // reactive
-    rx_java = '2.1.6'
+    rx_java = '2.1.7'
     rx_android = '2.0.1'
     rx_binding = '2.0.0'
     rx_preferences = '2.0.0-RC3'
-    rx_kotlin = '2.1.0'
+    rx_kotlin = '2.2.0'
     rx_permission = '0.9.4@aar'
 
     anko_version = '0.10.3'

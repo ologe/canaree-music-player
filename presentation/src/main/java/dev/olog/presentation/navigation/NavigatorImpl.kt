@@ -79,7 +79,7 @@ class NavigatorImpl @Inject constructor(
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 replace(android.R.id.content,
-                        DialogItemFragment.newInstance(mediaId, position),
+                        DialogItemFragment.newInstance(mediaId),
                         DialogItemFragment.TAG)
                 addToBackStack(DialogItemFragment.TAG)
             }

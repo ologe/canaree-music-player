@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialog_entry
+package dev.olog.presentation.dialog_entry.di
 
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +12,8 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetAlbumUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
+import dev.olog.presentation.dialog_entry.DialogItemFragment
+import dev.olog.presentation.dialog_entry.DialogItemViewModel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.shared.MediaIdHelper
@@ -20,14 +22,20 @@ import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Singles
 
 @Module(includes = [(ItemModule::class)])
-class DialogUseCasesModule (
-        private val mediaId: String
+class DialogItemFragmentModule(
+        private val fragment: DialogItemFragment
 ) {
+
+    @Provides
+    fun provideMediaId(): String {
+        return fragment.arguments!!.getString(DialogItemFragment.ARGUMENTS_MEDIA_ID)
+    }
 
     @Provides
     @IntoMap
     @StringKey(DialogItemViewModel.ADD_PLAYLIST)
     fun provideAddToPlaylistUseCase(
+            mediaId: String,
             navigator: Navigator,
             item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
             getSongListByParamUseCase: GetSongListByParamUseCase): Completable {
@@ -46,6 +54,7 @@ class DialogUseCasesModule (
     @IntoMap
     @StringKey(DialogItemViewModel.ADD_FAVORITE)
     fun provideAddToFavoriteUseCase(
+            mediaId: String,
             getSongListByParamUseCase: GetSongListByParamUseCase,
             navigator: Navigator,
             item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>): Completable {
@@ -62,9 +71,11 @@ class DialogUseCasesModule (
     @Provides
     @IntoMap
     @StringKey(DialogItemViewModel.ADD_QUEUE)
-    fun provideAddQueueUseCase(getSongListByParamUseCase: GetSongListByParamUseCase,
-                               item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
-                               navigator: Navigator): Completable {
+    fun provideAddQueueUseCase(
+            mediaId: String,
+            getSongListByParamUseCase: GetSongListByParamUseCase,
+            item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
+            navigator: Navigator): Completable {
 
         return Singles.zip(
                 getSongListByParamUseCase.execute(mediaId).map { it.size }.firstOrError(),
@@ -80,6 +91,7 @@ class DialogUseCasesModule (
     @IntoMap
     @StringKey(DialogItemViewModel.VIEW_ALBUM)
     fun provideViewAlbumUseCase(
+            mediaId: String,
             getSongUseCase: GetSongUseCase,
             navigator: Navigator) : Completable {
 
@@ -98,6 +110,7 @@ class DialogUseCasesModule (
     @IntoMap
     @StringKey(DialogItemViewModel.VIEW_ARTIST)
     fun provideViewArtistUseCase(
+            mediaId: String,
             getSongUseCase: GetSongUseCase,
             getAlbumUseCase: GetAlbumUseCase,
             navigator: Navigator) : Completable {
@@ -125,6 +138,7 @@ class DialogUseCasesModule (
     @IntoMap
     @StringKey(DialogItemViewModel.SHARE)
     fun provideShareUseCase(
+            mediaId: String,
             getSongUseCase: GetSongUseCase,
             activity: AppCompatActivity) : Completable {
 
@@ -134,19 +148,6 @@ class DialogUseCasesModule (
                 .toCompletable()
     }
 
-
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.SET_RINGTONE)
-    fun provideSetRingtoneUseCase(
-            navigator: Navigator) : Completable {
-
-        return Completable.fromCallable { navigator.toSetRingtoneDialog(mediaId) }
-    }
-
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.SHARE)
     private fun share(activity: AppCompatActivity, song: Song){
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
@@ -162,8 +163,21 @@ class DialogUseCasesModule (
 
     @Provides
     @IntoMap
+    @StringKey(DialogItemViewModel.SET_RINGTONE)
+    fun provideSetRingtoneUseCase(
+            mediaId: String,
+            navigator: Navigator) : Completable {
+
+        return Completable.fromCallable { navigator.toSetRingtoneDialog(mediaId) }
+    }
+
+
+    @Provides
+    @IntoMap
     @StringKey(DialogItemViewModel.RENAME)
-    fun provideRenamePlaylistUseCase(navigator: Navigator): Completable {
+    fun provideRenamePlaylistUseCase(
+            mediaId: String,
+            navigator: Navigator): Completable {
 
         return Completable.fromCallable { navigator.toRenameDialog(mediaId) }
     }
@@ -173,6 +187,7 @@ class DialogUseCasesModule (
     @IntoMap
     @StringKey(DialogItemViewModel.DELETE)
     fun provideDeleteUseCase(
+            mediaId: String,
             getSongListByParamUseCase: GetSongListByParamUseCase,
             item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
             navigator: Navigator): Completable {
