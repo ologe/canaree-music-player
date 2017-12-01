@@ -1,9 +1,8 @@
 package dev.olog.presentation.dialog_entry
 
+import android.app.Application
 import android.content.Context
 import android.support.annotation.MenuRes
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
@@ -12,19 +11,22 @@ import dev.olog.shared.MediaIdHelper
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class DialogItemFragment : Fragment() {
+class DialogItemFragment @Inject constructor(
+        application: Application
+){
 
     @Inject lateinit var viewModel: DialogItemViewModel
 
-    private lateinit var popup: PopupMenu
+    init {
+
+    }
 
     fun create(context: Context, anchor: View, mediaId: String){
-        popup = PopupMenu(context, anchor, Gravity.BOTTOM)
+        val popup = PopupMenu(context, anchor, Gravity.BOTTOM)
         popup.inflate(provideMenuRes(mediaId))
-        viewModel.activity = context as AppCompatActivity
         popup.setOnMenuItemClickListener { item ->
 
-            viewModel.useCases[item.title]
+            viewModel.data[item.title]
                     ?.timeout(2, TimeUnit.SECONDS)
                     ?.subscribe(popup::dismiss, Throwable::printStackTrace)
 
