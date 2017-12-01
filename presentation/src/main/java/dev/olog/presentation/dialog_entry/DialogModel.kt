@@ -1,9 +1,14 @@
 package dev.olog.presentation.dialog_entry
 
-import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Completable
 
 data class DialogModel(
-        val item: DisplayableItem,
+        val viewType: Int,
+        val mediaId: String,
+        val title: String,
+        val subtitle: String? = null,
+        val image: String? = null,
+        val canViewAlbum: Boolean = false,
+        val canViewArtist: Boolean = false,
         val useCase: Completable?
 )

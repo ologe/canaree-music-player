@@ -1,67 +1,85 @@
 package dev.olog.presentation.dialog_entry
 
+import android.content.Context
 import dev.olog.domain.entity.*
 import dev.olog.presentation.R
-import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.TextUtils
 
-private const val HEADER_ID = "header media id"
-
-fun Folder.toDialogItem(): DisplayableItem {
-    return DisplayableItem(
+fun Folder.toDialogItem(): DialogModel {
+    return DialogModel(
             R.layout.item_dialog_image,
-            HEADER_ID,
+            MediaIdHelper.folderId(this.path),
             title.capitalize(),
             null,
-            image
+            image,
+            false,
+            false,
+            null
     )
 }
 
-fun Playlist.toDialogItem(): DisplayableItem {
-    return DisplayableItem(
+fun Playlist.toDialogItem(): DialogModel {
+    return DialogModel(
             R.layout.item_dialog_image,
-            HEADER_ID,
+            MediaIdHelper.playlistId(this.id),
             title.capitalize(),
             null,
-            image
+            image,
+            false,
+            false,
+            null
     )
 }
 
-fun Song.toDialogItem(): DisplayableItem {
-    return DisplayableItem(
+fun Song.toDialogItem(context: Context): DialogModel {
+    return DialogModel(
             R.layout.item_dialog_image,
-            HEADER_ID,
-            title.capitalize(),
-            artist,
-            image
+            MediaIdHelper.songId(this.id),
+            title,
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            image,
+            this.artist != context.getString(R.string.unknown_artist),
+            this.album != context.getString(R.string.unknown_album),
+            null
     )
 }
 
-fun Album.toDialogItem(): DisplayableItem {
-    return DisplayableItem(
+fun Album.toDialogItem(): DialogModel {
+    return DialogModel(
             R.layout.item_dialog_image,
-            HEADER_ID,
+            MediaIdHelper.albumId(this.id),
             title,
             artist,
-            image
+            image,
+            false,
+            false,
+            null
     )
 }
 
-fun Artist.toDialogItem(): DisplayableItem {
-    return DisplayableItem(
+fun Artist.toDialogItem(): DialogModel {
+    return DialogModel(
             R.layout.item_dialog_image,
-            HEADER_ID,
+            MediaIdHelper.artistId(this.id),
             name,
             null,
-            image
+            image,
+            false,
+            false,
+            null
     )
 }
 
-fun Genre.toDialogItem(): DisplayableItem {
-    return DisplayableItem(
+fun Genre.toDialogItem(): DialogModel {
+    return DialogModel(
             R.layout.item_dialog_image,
-            HEADER_ID,
+            MediaIdHelper.genreId(this.id),
             name,
             null,
-            image
+            image,
+            false,
+            false,
+            null
     )
 }

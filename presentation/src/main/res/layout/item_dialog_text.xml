@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.presentation.dialog_entry.DialogModel"/>
     </data>
 
     <LinearLayout

@@ -27,10 +27,6 @@ class BaseListAdapterController<Model>(
 
     private var dataVersion = 0
 
-    init {
-//        dataSet.addAll(0, createActualHeaders())
-    }
-
     operator fun get(position: Int): Model = dataSet[position]
 
     fun getSize() : Int = dataSet.size
@@ -40,6 +36,7 @@ class BaseListAdapterController<Model>(
                 .toSerialized()
                 .onBackpressureLatest()
                 .observeOn(Schedulers.computation())
+                .distinctUntilChanged { data -> data.list }
                 .map {
                     it.list.addAll(0, adapter.provideHeaders())
                     it

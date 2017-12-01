@@ -11,6 +11,7 @@ import dev.olog.presentation.utils.extension.removeLightStatusBar
 import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaIdHelper
 import kotlinx.android.synthetic.main.dialog_item.view.*
 import javax.inject.Inject
 
@@ -40,7 +41,37 @@ class DialogItemFragment : BaseBottomSheetDialogFragment(), DialogItemView {
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
 
-        viewModel.data.subscribe(this, adapter::updateDataSet)
+        viewModel.data.subscribe(this, {
+
+            val item = it[0]
+            if (!item.canViewArtist){
+                val indexOfArtist = it.indexOfFirst { it.mediaId == DialogItemViewModel.VIEW_ARTIST }
+                if (indexOfArtist != -1){
+                    it.removeAt(indexOfArtist)
+                }
+            }
+            if (!item.canViewAlbum){
+                val indexOfAlbum = it.indexOfFirst { it.mediaId == DialogItemViewModel.VIEW_ALBUM }
+                if (indexOfAlbum != -1){
+                    it.removeAt(indexOfAlbum)
+                }
+            }
+
+            val category = MediaIdHelper.extractCategory(item.mediaId)
+            when (category) {
+                MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> {
+                    val categoryValue = MediaIdHelper.extractCategoryValue(item.mediaId).toLong()
+                    when (categoryValue){
+                        -3000L, -4000L, -5000L -> {
+                            val indexOf = it.indexOfFirst { it.mediaId == DialogItemViewModel.RENAME }
+                            it.removeAt(indexOf)
+                        }
+                    }
+                }
+            }
+
+            adapter.updateDataSet(it)
+        })
     }
 
     override fun onDestroyView() {

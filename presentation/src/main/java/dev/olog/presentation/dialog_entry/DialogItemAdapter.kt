@@ -33,7 +33,7 @@ class DialogItemAdapter @Inject constructor(
     }
 
     override fun bind(binding: ViewDataBinding, item: DialogModel, position: Int) {
-        binding.setVariable(BR.item, item.item)
+        binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, source)
 
         if (position == 0){
@@ -43,9 +43,9 @@ class DialogItemAdapter @Inject constructor(
         }
     }
 
-    override fun getItemViewType(position: Int): Int = dataController[position].item.type
+    override fun getItemViewType(position: Int): Int = dataController[position].viewType
 
     override fun areItemsTheSame(oldItem: DialogModel, newItem: DialogModel): Boolean {
-        return oldItem.item.mediaId == newItem.item.mediaId
+        return oldItem.mediaId == newItem.mediaId
     }
 }

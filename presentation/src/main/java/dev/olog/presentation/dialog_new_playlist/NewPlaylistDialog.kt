@@ -59,7 +59,7 @@ class NewPlaylistDialog : BaseDialogFragment() {
             }
         }
 
-        ImeUtils.showIme(editText)
+        ImeUtils.showIme(editText) // todo not working
 
         return dialog
     }

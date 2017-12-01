@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.presentation.dialog_entry.DialogModel"/>
         <variable name="position" type="int"/>
         <variable name="source" type="int"/>
     </data>
