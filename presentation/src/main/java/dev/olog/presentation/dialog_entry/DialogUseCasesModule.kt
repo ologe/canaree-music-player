@@ -1,73 +1,68 @@
-package dev.olog.presentation.dialog_entry.di
+package dev.olog.presentation.dialog_entry
 
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import dagger.Module
-import dagger.Provides
-import dagger.multibindings.IntoMap
-import dagger.multibindings.StringKey
 import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.detail.item.GetAlbumUseCase
-import dev.olog.domain.interactor.detail.item.GetSongUseCase
-import dev.olog.presentation.dialog_entry.DialogItemViewModel
-import dev.olog.presentation.dialog_entry.DialogModel
+import dev.olog.domain.interactor.detail.item.*
+import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Singles
+import javax.inject.Inject
 
-@Module
-class DialogUseCasesModule {
+class DialogUseCasesModule @Inject constructor(
+        private val activity: AppCompatActivity,
+        private val mediaId: String,
+        private val navigator: Navigator,
+        private val getSongListByParamUseCase: GetSongListByParamUseCase,
+        getFolderUseCase: GetFolderUseCase,
+        getPlaylistUseCase: GetPlaylistUseCase,
+        private val getSongUseCase: GetSongUseCase,
+        private val getAlbumUseCase: GetAlbumUseCase,
+        getArtistUseCase: GetArtistUseCase,
+        getGenreUseCase: GetGenreUseCase
+) {
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.ADD_PLAYLIST)
-    fun provideAddToPlaylistUseCase(mediaId: String,
-                                    navigator: Navigator,
-                                    getSongListByParamUseCase: GetSongListByParamUseCase,
-                                    item: Map<String, @JvmSuppressWildcards Flowable<DialogModel>>): Completable {
+    private val itemMap = mapOf(
+            MediaIdHelper.MEDIA_ID_BY_FOLDER to getFolderUseCase.execute(mediaId).map { it.toDisplayableItem() },
+            MediaIdHelper.MEDIA_ID_BY_PLAYLIST to getPlaylistUseCase.execute(mediaId).map { it.toDisplayableItem() },
+            MediaIdHelper.MEDIA_ID_BY_ALL to getSongUseCase.execute(mediaId).map { it.toDisplayableItem() },
+            MediaIdHelper.MEDIA_ID_BY_ALBUM to getAlbumUseCase.execute(mediaId).map { it.toDisplayableItem() },
+            MediaIdHelper.MEDIA_ID_BY_ARTIST to getArtistUseCase.execute(mediaId).map { it.toDisplayableItem() },
+            MediaIdHelper.MEDIA_ID_BY_GENRE to getGenreUseCase.execute(mediaId).map { it.toDisplayableItem() }
+    )
+
+    fun provideAddToPlaylistUseCase(): Completable {
 
         return Singles.zip(
                 getSongListByParamUseCase.execute(mediaId).map { it.size }.firstOrError(),
-                item[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
+                itemMap[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
             listSize.to(displayableItem.title)
         })
                 .doOnSuccess { navigator.toAddToPlaylistDialog(mediaId, it.first, it.second) }
                 .toCompletable()
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.ADD_FAVORITE)
-    fun provideAddToFavoriteUseCase(mediaId: String,
-                                    navigator: Navigator,
-                                    getSongListByParamUseCase: GetSongListByParamUseCase,
-                                    item: Map<String, @JvmSuppressWildcards Flowable<DialogModel>>): Completable {
+    fun provideAddToFavoriteUseCase(): Completable {
 
         return Singles.zip(
                 getSongListByParamUseCase.execute(mediaId).map { it.size }.firstOrError(),
-                item[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
+                itemMap[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
             listSize.to(displayableItem.title)
         })
                 .doOnSuccess { navigator.toAddToFavoriteDialog(mediaId, it.first, it.second) }
                 .toCompletable()
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.ADD_QUEUE)
-    fun provideAddQueueUseCase(mediaId: String,
-                               navigator: Navigator,
-                               getSongListByParamUseCase: GetSongListByParamUseCase,
-                               item: Map<String, @JvmSuppressWildcards Flowable<DialogModel>>): Completable {
+    fun provideAddQueueUseCase(): Completable {
 
         return Singles.zip(
                 getSongListByParamUseCase.execute(mediaId).map { it.size }.firstOrError(),
-                item[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
+                itemMap[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
             listSize.to(displayableItem.title)
 
         })
@@ -75,11 +70,7 @@ class DialogUseCasesModule {
                 .toCompletable()
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.VIEW_ALBUM)
-    fun provideViewAlbumUseCase(navigator: Navigator, mediaId: String,
-                         getSongUseCase: GetSongUseCase) : Completable {
+    fun provideViewAlbumUseCase() : Completable {
 
         val category = MediaIdHelper.extractCategory(mediaId)
         return when (category){
@@ -92,12 +83,7 @@ class DialogUseCasesModule {
         }
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.VIEW_ARTIST)
-    fun provideViewArtistUseCase(navigator: Navigator, mediaId: String,
-                          getSongUseCase: GetSongUseCase,
-                          getAlbumUseCase: GetAlbumUseCase) : Completable {
+    fun provideViewArtistUseCase() : Completable {
 
         val category = MediaIdHelper.extractCategory(mediaId)
         return when (category){
@@ -117,20 +103,14 @@ class DialogUseCasesModule {
         }
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.SHARE)
-    fun provideShareUseCase(activity: AppCompatActivity, mediaId: String, useCase: GetSongUseCase) : Completable {
-        return useCase.execute(mediaId)
+    fun provideShareUseCase() : Completable {
+        return getSongUseCase.execute(mediaId)
                 .firstOrError()
                 .doOnSuccess { share(activity, it) }
                 .toCompletable()
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.SET_RINGTONE)
-    fun provideSetRingtoneUseCase(navigator: Navigator, mediaId: String) : Completable {
+    fun provideSetRingtoneUseCase() : Completable {
         return Completable.fromCallable { navigator.toSetRingtoneDialog(mediaId) }
     }
 
@@ -146,25 +126,16 @@ class DialogUseCasesModule {
         }
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.RENAME)
-    fun provideRenamePlaylistUseCase(mediaId: String, navigator: Navigator): Completable {
+    fun provideRenamePlaylistUseCase(): Completable {
 
         return Completable.fromCallable { navigator.toRenameDialog(mediaId) }
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(DialogItemViewModel.DELETE)
-    fun provideDeleteUseCase(mediaId: String,
-                             navigator: Navigator,
-                             getSongListByParamUseCase: GetSongListByParamUseCase,
-                             item: Map<String, @JvmSuppressWildcards Flowable<DialogModel>>): Completable {
+    fun provideDeleteUseCase(): Completable {
 
         return Singles.zip(
                 getSongListByParamUseCase.execute(mediaId).map { it.size }.firstOrError(),
-                item[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
+                itemMap[MediaIdHelper.extractCategory(mediaId)]!!.firstOrError(), { listSize, displayableItem ->
                     listSize.to(displayableItem.title)
                 })
                 .doOnSuccess { navigator.toDeleteDialog(mediaId, it.first, it.second) }
