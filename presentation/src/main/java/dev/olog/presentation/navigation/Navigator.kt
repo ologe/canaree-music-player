@@ -1,6 +1,7 @@
 package dev.olog.presentation.navigation
 
 import android.view.View
+import dev.olog.presentation.model.DisplayableItem
 
 interface Navigator {
 
@@ -10,7 +11,7 @@ interface Navigator {
 
     fun toRelatedArtists(mediaId: String)
 
-    fun toDialog(mediaId: String, anchor: View)
+    fun toDialog(mediaId: DisplayableItem, anchor: View)
 
     fun toSetRingtoneDialog(mediaId: String)
 

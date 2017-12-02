@@ -28,16 +28,19 @@ class TabFragmentAdapter @Inject constructor(
         if (viewType == R.layout.item_shuffle){
             viewHolder.itemView.setOnClickListener { musicController.playShuffle(MediaIdHelper.MEDIA_ID_BY_ALL) }
         } else {
-            viewHolder.setOnClickListener(getDataSet(), { item, position ->
+            viewHolder.setOnClickListener(getDataSet()) { item, position ->
                 if (item.isPlayable){
                     musicController.playFromMediaId(item.mediaId)
                 } else {
                     navigator.toDetailActivity(item.mediaId, position)
                 }
+            }
+            viewHolder.setOnLongClickListener(getDataSet(), { item, _ ->
+                navigator.toDialog(item, viewHolder.itemView)
             })
-            viewHolder.setOnLongClickListener(getDataSet(), { item, position ->
-                navigator.toDialog(item.mediaId, position)
-            })
+            viewHolder.setOnClickListener(R.id.more, getDataSet()) { item, _, view ->
+                navigator.toDialog(item, view)
+            }
         }
     }
 

@@ -3,17 +3,21 @@ package dev.olog.presentation.fragment_queue
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.presentation.BR
+import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.music_service.MusicController
+import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
 class PlayingQueueAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        private val musicController: MusicController
+        private val musicController: MusicController,
+        private val navigator: Navigator
 
 ): BaseListAdapter<DisplayableItem>(lifecycle) {
 
@@ -21,6 +25,12 @@ class PlayingQueueAdapter @Inject constructor(
         viewHolder.setOnClickListener(getDataSet(), { item, _ ->
             musicController.skipToQueueItem(item.mediaId)
         })
+        viewHolder.setOnLongClickListener(getDataSet(), { item, _ ->
+            navigator.toDialog(item, viewHolder.itemView)
+        })
+        viewHolder.setOnClickListener(R.id.more, getDataSet()) { item, _, view ->
+            navigator.toDialog(item, view)
+        }
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

@@ -2,22 +2,28 @@ package dev.olog.presentation.dialog_entry
 
 import android.view.MenuItem
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.domain.interactor.detail.item.GetAlbumUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
-import io.reactivex.Completable
+import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 
-class PlaylistMenuListener @Inject constructor(
+class AlbumMenuListener @Inject constructor(
         getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val getAlbumUseCase: GetAlbumUseCase
 
 ) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         val itemId = item.itemId
         when (itemId){
-            R.id.rename -> {
-                Completable.fromCallable { navigator.toRenameDialog(mediaId) }
+            R.id.viewArtist -> {
+                getAlbumUseCase.execute(mediaId)
+                        .map { MediaIdHelper.artistId(it.artistId) }
+                        .firstOrError()
+                        .doOnSuccess { navigator.toDetailActivity(it, 0) }
+                        .toCompletable()
                         .subscribe()
             }
         }

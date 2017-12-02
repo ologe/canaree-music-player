@@ -5,13 +5,20 @@ import android.widget.PopupMenu
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
+import javax.inject.Inject
 
-open class BaseMenuListener(
-        private val mediaId: String,
+open class BaseMenuListener @Inject constructor(
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator
 
 ) : PopupMenu.OnMenuItemClickListener {
+
+    protected lateinit var mediaId: String
+
+    fun setMediaId(mediaId: String): PopupMenu.OnMenuItemClickListener{
+        this.mediaId = mediaId
+        return this
+    }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
         val itemId = item.itemId

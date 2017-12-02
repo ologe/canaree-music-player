@@ -3,7 +3,6 @@ package dev.olog.presentation.navigation
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.PopupMenu
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
@@ -11,16 +10,15 @@ import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
 import dev.olog.presentation.dialog_add_playlist.AddPlaylistDialog
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
 import dev.olog.presentation.dialog_delete.DeleteDialog
-import dev.olog.presentation.dialog_entry.PlaylistMenuListener
+import dev.olog.presentation.dialog_entry.MenuListenerFactory
 import dev.olog.presentation.dialog_entry.Popup
-import dev.olog.presentation.dialog_entry.SongMenuListener
 import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
 import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
-import dev.olog.shared.MediaIdHelper
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
@@ -28,7 +26,8 @@ import javax.inject.Inject
 
 @PerActivity
 class NavigatorImpl @Inject constructor(
-        private val activity: AppCompatActivity
+        private val activity: AppCompatActivity,
+        private val menuListenerFactory: MenuListenerFactory
 
 ): Navigator {
 
@@ -78,19 +77,9 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toDialog(mediaId: String, anchor: View) {
+    override fun toDialog(mediaId: DisplayableItem, anchor: View) {
         if (allowed()){
-            Popup.create(activity, anchor, mediaId, getPopupMenuListener(mediaId))
-        }
-    }
-
-    private fun getPopupMenuListener(mediaId: String): PopupMenu.OnMenuItemClickListener {
-        return when (MediaIdHelper.extractCategory(mediaId)){
-            MediaIdHelper.MEDIA_ID_BY_ALL -> SongMenuListener()
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> PlaylistMenuListener()
-            MediaIdHelper.MEDIA_ID_BY_ALBUM -> SongMenuListener()
-            MediaIdHelper.MEDIA_ID_BY_ARTIST -> SongMenuListener()
-            else -> throw IllegalArgumentException("invalid media id $mediaId")
+            Popup.create(activity, anchor, mediaId, menuListenerFactory.get(mediaId.mediaId))
         }
     }
 

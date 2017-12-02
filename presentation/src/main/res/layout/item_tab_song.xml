@@ -18,6 +18,7 @@
         android:clipChildren="false">
 
         <View
+            android:id="@+id/separator"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/coverLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +109,7 @@
             android:src="@drawable/vd_more"
             android:padding="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:tint="@color/button_primary_tint"
             android:clickable="true"
             android:focusable="true"

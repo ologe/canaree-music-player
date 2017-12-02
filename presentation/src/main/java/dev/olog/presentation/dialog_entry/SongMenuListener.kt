@@ -12,15 +12,15 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
+import javax.inject.Inject
 
-class SongMenuListener(
+class SongMenuListener @Inject constructor(
         private val activity: AppCompatActivity,
-        private val mediaId: String,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
         private val getSongUseCase: GetSongUseCase
 
-) : BaseMenuListener(mediaId, getSongListByParamUseCase, navigator) {
+) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
