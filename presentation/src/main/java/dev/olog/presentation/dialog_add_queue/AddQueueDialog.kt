@@ -40,7 +40,6 @@ class AddQueueDialog : BaseDialogFragment() {
                 .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
                     presenter.execute(activity!!)
                             .subscribe({}, Throwable::printStackTrace)
-                    this.dismiss()
                 })
 
         return builder.makeDialog()

@@ -53,7 +53,8 @@ class NewPlaylistDialog : BaseDialogFragment() {
                     editTextLayout.postDelayed({ if (editTextLayout != null) editTextLayout.isErrorEnabled = false }, (2 * 1000).toLong())
                 }
                 else -> {
-                    // todo data valid
+                    presenter.execute(playlistTitle)
+                            .subscribe({}, Throwable::printStackTrace)
                     dismiss()
                 }
             }

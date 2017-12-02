@@ -1,6 +1,7 @@
 package dev.olog.data.repository
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.res.Resources
 import android.provider.BaseColumns
@@ -163,26 +164,51 @@ class PlaylistRepository @Inject constructor(
     override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String> {
         return Single.create<String> { e ->
 
-            val uri = getContentUri("external", playlistId)
-            val cursor = contentResolver.query(uri, arrayOf("max($PLAY_ORDER)"),
+            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+            val cursor = contentResolver.query(uri, arrayOf("max(${MediaStore.Audio.Playlists.Members.PLAY_ORDER})"),
                     null, null, null)
 
             var itemInserted = 0
 
             cursor.use {
-                var maxId = it.getInt(0) + 1
+                if (cursor.moveToFirst()){
+                    var maxId = it.getInt(0) + 1
 
-                val arrayOf = mutableListOf<ContentValues>()
-                for (songId in songIds) {
-                    val values = ContentValues(2)
-                    values.put(PLAY_ORDER, maxId++)
-                    values.put(AUDIO_ID, songId)
-                    arrayOf.add(values)
+                    val arrayOf = mutableListOf<ContentValues>()
+                    for (songId in songIds) {
+                        val values = ContentValues(2)
+                        values.put(PLAY_ORDER, maxId++)
+                        values.put(AUDIO_ID, songId)
+                        arrayOf.add(values)
+                    }
+
+                    itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+                } else {
+                    e.onError(IllegalArgumentException("invalid playlist id $playlistId"))
                 }
-
-                itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
             }
+
             e.onSuccess(itemInserted.toString())
+        }
+    }
+
+    override fun createPlaylist(playlistName: String): Single<Long> {
+        return Single.create<Long> { e ->
+            val added = System.currentTimeMillis()
+
+            val contentValues = ContentValues()
+            contentValues.put(MediaStore.Audio.Playlists.NAME, playlistName)
+            contentValues.put(MediaStore.Audio.Playlists.DATE_ADDED, added)
+            contentValues.put(MediaStore.Audio.Playlists.DATE_MODIFIED, added)
+
+            try {
+                val uri = contentResolver.insert(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, contentValues)
+
+                e.onSuccess(ContentUris.parseId(uri))
+
+            } catch (exception: Exception){
+                e.onError(exception)
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.MediaIdHelper
-import io.reactivex.Single
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.toast
@@ -22,9 +22,9 @@ class AddQueueDialogPresenter @Inject constructor(
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 ) {
 
-    fun execute(activity: Activity): Single<String> {
+    fun execute(activity: Activity): Completable {
         val controller = MediaControllerCompat.getMediaController(activity)
-                ?: return Single.error(AssertionError("null media controller"))
+                ?: return Completable.error(AssertionError("null media controller"))
 
         val single = if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
             getSongUseCase.execute(mediaId)
@@ -45,6 +45,7 @@ class AddQueueDialogPresenter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { createSuccessMessage(it) }
                 .doOnError { createErrorMessage() }
+                .toCompletable()
     }
 
     private fun createSuccessMessage(string: String){

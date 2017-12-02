@@ -9,6 +9,8 @@ interface PlaylistGateway :
         ChildsHasSongs<Long>,
         HasMostPlayed<String> {
 
+    fun createPlaylist(playlistName: String): Single<Long>
+
     fun deletePlaylist(id: Long): Completable
 
     fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String>

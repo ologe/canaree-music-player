@@ -3,15 +3,13 @@ package dev.olog.presentation.dialog_add_playlist
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.text.Html
-import android.text.TextUtils
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaIdHelper
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class AddPlaylistDialog : BaseDialogFragment() {
@@ -38,11 +36,9 @@ class AddPlaylistDialog : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context)
-                .setTitle(Html.fromHtml(createDialogMessage()))
+                .setTitle(createDialogMessage().asHtml())
                 .setItems(createItems(), { _, which ->
                     presenter.onItemClick(which)
-                            .doOnSuccess { createSuccessMessage(it) }
-                            .doOnError { createErrorMessage() }
                             .subscribe({}, Throwable::printStackTrace)
                 })
                 .setPositiveButton(R.string.popup_new_playlist, { _, _ ->
@@ -50,21 +46,6 @@ class AddPlaylistDialog : BaseDialogFragment() {
                 })
 
         return builder.makeDialog()
-    }
-
-    private fun createSuccessMessage(pairStringPlaylistName: Pair<String, String>){
-        val (string, playlistTitle) = pairStringPlaylistName
-        val message = if (TextUtils.isDigitsOnly(string)){
-            val size = string.toInt()
-            context!!.resources.getQuantityString(R.plurals.added_xx_songs_to_playlist_y, size, size, playlistTitle)
-        } else {
-            context!!.getString(R.string.added_song_x_to_playlist_y, string, playlistTitle)
-        }
-        context!!.toast(message)
-    }
-
-    private fun createErrorMessage(){
-        context!!.toast(context!!.getString(R.string.popup_error_message))
     }
 
     private fun createDialogMessage() : String {
