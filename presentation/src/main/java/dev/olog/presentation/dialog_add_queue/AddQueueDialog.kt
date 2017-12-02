@@ -38,7 +38,7 @@ class AddQueueDialog : BaseDialogFragment() {
                 .setMessage(Html.fromHtml(createMessage()))
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
-                    presenter.execute().subscribe({}, Throwable::printStackTrace)
+                    presenter.execute(activity!!).subscribe({}, Throwable::printStackTrace)
                     this.dismiss()
                 })
 

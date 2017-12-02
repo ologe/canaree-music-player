@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import dev.olog.music_service.di.PerService
@@ -108,6 +109,10 @@ class MediaSessionCallback @Inject constructor(
             queue.sort()
         }
         playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
+    }
+
+    override fun onAddQueueItem(description: MediaDescriptionCompat) {
+        queue.addItemToQueue(description)
     }
 
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {

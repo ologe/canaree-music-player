@@ -1,6 +1,7 @@
 package dev.olog.music_service
 
 import android.os.Bundle
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.service.*
@@ -214,4 +215,18 @@ class QueueImpl @Inject constructor(
         }
     }
 
+    override fun addItemToQueue(item: MediaDescriptionCompat) {
+        val bundle = item.extras as Bundle
+        playingQueue.add(MediaEntity(
+                MediaIdHelper.extractLeaf(item.mediaId!!).toLong(),
+                item.title.toString(),
+                item.subtitle.toString(),
+                item.description.toString(),
+                item.mediaUri.toString(),
+                bundle.getLong("duration"),
+                bundle.getBoolean("remix"),
+                bundle.getBoolean("explicit")
+        ))
+        persist(playingQueue)
+    }
 }

@@ -1,6 +1,7 @@
 package dev.olog.music_service.interfaces
 
 import android.os.Bundle
+import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.model.PositionInQueue
 import io.reactivex.Single
@@ -31,6 +32,6 @@ interface Queue {
 
     fun shuffle()
 
-
+    fun addItemToQueue(item: MediaDescriptionCompat)
 
 }
