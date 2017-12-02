@@ -13,18 +13,17 @@ class RepeatMode @Inject constructor(
         private val mediaSession: MediaSessionCompat,
         private val repeatModeUseCase: RepeatModeUseCase) {
 
-    private val state: Int
-        get() = repeatModeUseCase.get()
-
-    fun isRepeatNone(): Boolean = state == REPEAT_MODE_NONE
-
-    fun isRepeatOne(): Boolean = state == PlaybackStateCompat.REPEAT_MODE_ONE
-
-    val isRepeatAll: Boolean = state == REPEAT_MODE_ALL
-
     init {
-        mediaSession.setRepeatMode(state)
+        mediaSession.setRepeatMode(getState())
     }
+
+    private fun getState(): Int = repeatModeUseCase.get()
+
+    fun isRepeatNone(): Boolean = getState() == REPEAT_MODE_NONE
+
+    fun isRepeatOne(): Boolean = getState() == PlaybackStateCompat.REPEAT_MODE_ONE
+
+    fun isRepeatAll(): Boolean = getState() == REPEAT_MODE_ALL
 
     fun update() {
         val repeatMode = repeatModeUseCase.get()

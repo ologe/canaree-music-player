@@ -79,7 +79,7 @@ class QueueImpl @Inject constructor(
 
         var newPosition = currentSongPosition + 1
         if (newPosition > playingQueue.lastIndex) {
-            newPosition = if (repeatMode.isRepeatAll) 0 else playingQueue.lastIndex
+            newPosition = if (repeatMode.isRepeatAll()) 0 else playingQueue.lastIndex
         }
 
         val media = playingQueue[newPosition]
@@ -94,7 +94,7 @@ class QueueImpl @Inject constructor(
 
         var newPosition = currentSongPosition - 1
         if (newPosition < 0) {
-            newPosition = if (repeatMode.isRepeatAll) playingQueue.lastIndex else 0
+            newPosition = if (repeatMode.isRepeatAll()) playingQueue.lastIndex else 0
         }
 
         val media = playingQueue[newPosition]
@@ -121,13 +121,6 @@ class QueueImpl @Inject constructor(
     @CheckResult
     private fun ensurePosition(list: List<MediaEntity>, position: Int): Int {
         return MathUtils.clamp(position, 0, list.lastIndex)
-//        if (position < 0) {
-//            return if (repeatMode.isRepeatAll) playingQueue.lastIndex else 0
-//        }
-//        if (position > playingQueue.lastIndex) {
-//            return if (repeatMode.isRepeatAll) 0 else playingQueue.lastIndex
-//        }
-//        return position
     }
 
     fun shuffle(){

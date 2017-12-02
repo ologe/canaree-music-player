@@ -113,7 +113,7 @@ class QueueManager @Inject constructor(
 
     private val currentLastPlayedSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
         val songId = currentSongIdUseCase.get()
-        val currentPosition = list.indexOfFirst { it.id == songId }
+        val currentPosition = MathUtils.clamp(list.indexOfFirst { it.id == songId }, 0, list.lastIndex)
         Pair(list, currentPosition)
     }
 
@@ -140,7 +140,7 @@ class QueueManager @Inject constructor(
 
     private fun computePositionInQueue(position: Int, list: List<MediaEntity>): PositionInQueue {
         return when {
-            repeatMode.isRepeatAll || repeatMode.isRepeatOne() -> PositionInQueue.IN_MIDDLE
+            repeatMode.isRepeatAll() || repeatMode.isRepeatOne() -> PositionInQueue.IN_MIDDLE
             position == 0 && position == list.lastIndex -> PositionInQueue.BOTH
             position == 0 -> PositionInQueue.FIRST
             position == list.lastIndex -> PositionInQueue.LAST
