@@ -22,6 +22,7 @@ import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -209,6 +210,24 @@ class PlaylistRepository @Inject constructor(
             } catch (exception: Exception){
                 e.onError(exception)
             }
-        }
+        }.subscribeOn(Schedulers.io())
+    }
+
+    override fun renamePlaylist(id: Long, newTitle: String): Completable {
+        return Completable.create { e ->
+
+            val values = ContentValues(1)
+            values.put(MediaStore.Audio.Playlists.NAME, newTitle)
+
+            val rowsUpdated = contentResolver.update(MEDIA_STORE_URI,
+                    values, "${BaseColumns._ID} = ?", arrayOf("$id"))
+
+            if (rowsUpdated > 0){
+                e.onComplete()
+            } else {
+                e.onError(Throwable("playlist name not updated"))
+            }
+
+        }.subscribeOn(Schedulers.io())
     }
 }

@@ -41,9 +41,11 @@ class RenameDialog : BaseDialogFragment() {
         val dialog = builder.makeDialog()
         val editText = dialog.findViewById<TextInputEditText>(R.id.editText)
         val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
+
         editText.setText(arguments!!.getString(ARGUMENTS_ITEM_TITLE))
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val oldTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
             val playlistTitle = editText.text.toString()
             val errorMessage = presenter.checkData(playlistTitle)
             when (errorMessage) {
@@ -56,7 +58,7 @@ class RenameDialog : BaseDialogFragment() {
                     editTextLayout.postDelayed({ if (editTextLayout != null) editTextLayout.isErrorEnabled = false }, (2 * 1000).toLong())
                 }
                 else -> {
-                    presenter.execute(playlistTitle)
+                    presenter.execute(oldTitle, playlistTitle)
                             .subscribe({}, Throwable::printStackTrace)
                     dismiss()
                 }

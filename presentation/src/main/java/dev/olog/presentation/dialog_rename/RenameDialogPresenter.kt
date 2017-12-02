@@ -26,9 +26,8 @@ class RenameDialogPresenter @Inject constructor(
     fun execute(oldTitle: String, newTitle: String) : Completable {
         val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
         return renamePlaylistUseCase.execute(Pair(playlistId, newTitle))
-                .doOnSuccess { createSuccessMessage(oldTitle, newTitle) }
+                .doOnComplete { createSuccessMessage(oldTitle, newTitle) }
                 .doOnError { createErrorMessage() }
-                .toCompletable()
     }
 
     private fun createSuccessMessage(oldTitle: String, newTitle: String){
