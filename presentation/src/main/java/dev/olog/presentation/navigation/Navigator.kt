@@ -11,7 +11,7 @@ interface Navigator {
 
     fun toRelatedArtists(mediaId: String)
 
-    fun toDialog(mediaId: DisplayableItem, anchor: View)
+    fun toDialog(item: DisplayableItem, anchor: View)
 
     fun toSetRingtoneDialog(mediaId: String)
 

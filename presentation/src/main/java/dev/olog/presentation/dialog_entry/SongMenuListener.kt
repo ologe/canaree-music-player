@@ -23,11 +23,11 @@ class SongMenuListener @Inject constructor(
 ) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
 
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        val itemId = item.itemId
+    override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        val itemId = menuItem.itemId
         when (itemId){
             R.id.viewAlbum -> {
-                getSongUseCase.execute(mediaId)
+                getSongUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.albumId(it.albumId) }
                         .firstOrError()
                         .doOnSuccess { navigator.toDetailActivity(it, 0) }
@@ -35,7 +35,7 @@ class SongMenuListener @Inject constructor(
                         .subscribe()
             }
             R.id.viewArtist -> {
-                getSongUseCase.execute(mediaId)
+                getSongUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.artistId(it.artistId) }
                         .firstOrError()
                         .doOnSuccess { navigator.toDetailActivity(it, 0) }
@@ -43,18 +43,18 @@ class SongMenuListener @Inject constructor(
                         .subscribe()
             }
             R.id.share -> {
-                getSongUseCase.execute(mediaId)
+                getSongUseCase.execute(item.mediaId)
                         .firstOrError()
                         .doOnSuccess { share(activity, it) }
                         .toCompletable()
                         .subscribe()
             }
             R.id.setRingtone -> {
-                Completable.fromCallable { navigator.toSetRingtoneDialog(mediaId) }
+                Completable.fromCallable { navigator.toSetRingtoneDialog(item.mediaId) }
                         .subscribe()
             }
         }
-        return super.onMenuItemClick(item)
+        return super.onMenuItemClick(menuItem)
     }
 
     private fun share(activity: AppCompatActivity, song: Song){

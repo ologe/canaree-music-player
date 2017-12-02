@@ -77,9 +77,9 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toDialog(mediaId: DisplayableItem, anchor: View) {
+    override fun toDialog(item: DisplayableItem, anchor: View) {
         if (allowed()){
-            Popup.create(activity, anchor, mediaId, menuListenerFactory.get(mediaId.mediaId))
+            Popup.create(activity, anchor, item, menuListenerFactory.get(item))
         }
     }
 

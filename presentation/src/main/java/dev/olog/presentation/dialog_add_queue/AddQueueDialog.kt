@@ -30,14 +30,16 @@ class AddQueueDialog : BaseDialogFragment() {
 
     @Inject lateinit var mediaId: String
     @Inject @JvmField var listSize: Int = 0
+    @Inject lateinit var presenter: AddQueueDialogPresenter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context)
                 .setTitle(R.string.popup_add_to_queue)
                 .setMessage(Html.fromHtml(createMessage()))
                 .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_ok, { dialog, button ->
-                    // todo
+                .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
+                    presenter.execute().subscribe({}, Throwable::printStackTrace)
+                    this.dismiss()
                 })
 
         return builder.makeDialog()

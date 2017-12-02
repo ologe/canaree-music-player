@@ -15,11 +15,11 @@ class AlbumMenuListener @Inject constructor(
 
 ) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        val itemId = item.itemId
+    override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        val itemId = menuItem.itemId
         when (itemId){
             R.id.viewArtist -> {
-                getAlbumUseCase.execute(mediaId)
+                getAlbumUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.artistId(it.artistId) }
                         .firstOrError()
                         .doOnSuccess { navigator.toDetailActivity(it, 0) }
@@ -27,7 +27,7 @@ class AlbumMenuListener @Inject constructor(
                         .subscribe()
             }
         }
-        return super.onMenuItemClick(item)
+        return super.onMenuItemClick(menuItem)
     }
 
 }

@@ -13,15 +13,15 @@ class PlaylistMenuListener @Inject constructor(
 
 ) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
-    override fun onMenuItemClick(item: MenuItem): Boolean {
-        val itemId = item.itemId
+    override fun onMenuItemClick(menuItem: MenuItem): Boolean {
+        val itemId = menuItem.itemId
         when (itemId){
             R.id.rename -> {
-                Completable.fromCallable { navigator.toRenameDialog(mediaId) }
+                Completable.fromCallable { navigator.toRenameDialog(item.mediaId) }
                         .subscribe()
             }
         }
-        return super.onMenuItemClick(item)
+        return super.onMenuItemClick(menuItem)
     }
 
 }
