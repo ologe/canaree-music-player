@@ -38,6 +38,11 @@ class QueueImpl @Inject constructor(
     fun updatePlayingQueue(songList: List<MediaEntity>) {
         playingQueue.clear()
         playingQueue.addAll(songList)
+    }
+
+    fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
+        playingQueue.clear()
+        playingQueue.addAll(songList)
 
         persist(songList)
     }

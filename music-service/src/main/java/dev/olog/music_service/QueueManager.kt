@@ -61,7 +61,7 @@ class QueueManager @Inject constructor(
                 .firstOrError()
                 .flatMap { mapToMediaEntityAndPersist.apply(it) }
                 .map { shuffleIfNeeded(songId).apply(it) }
-                .doOnSuccess(queueImpl::updatePlayingQueue)
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
                 .doOnSuccess { (list , position) -> queueImpl.updateCurrentSongPosition(list, position) }
                 .map { (list, position) -> list[position] }
@@ -75,7 +75,7 @@ class QueueManager @Inject constructor(
                 .firstOrError()
                 .flatMap { mapToMediaEntityAndPersist.apply(it) }
                 .map { it.shuffled() }
-                .doOnSuccess(queueImpl::updatePlayingQueue)
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }
                 .map { (list, position) -> list[position] }
