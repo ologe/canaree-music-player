@@ -8,6 +8,7 @@ import dev.olog.domain.interactor.dialog.GetActualPlaylistUseCase
 import dev.olog.presentation.R
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AddPlaylistPresenter @Inject constructor(
@@ -30,33 +31,10 @@ class AddPlaylistPresenter @Inject constructor(
 
 
         return addToPlaylistUseCase.execute(Pair(playlist, mediaId))
+                .timeout(5, TimeUnit.SECONDS)
                 .doOnSuccess { createSuccessMessage(it) }
                 .doOnError { createErrorMessage() }
                 .toCompletable()
-
-//        val single = if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
-//            Single.just(getPlaylistsAsList[position])
-//                    .flatMap { playlist -> addToPlaylistUseCase.execute(Pair(playlist.playlistId, mediaId))
-//
-////            getSongUseCase.execute(mediaId)
-////                    .firstOrError()
-////                    .map { Pair(it, getPlaylistsAsList()[position]) }
-////                    .flatMap { (song, playlist) ->
-////
-////                    }
-//        } else {
-//            getSongListByParamUseCase.execute(mediaId)
-//                    .observeOn(Schedulers.computation())
-//                    .firstOrError()
-//                    .map { Pair(it, getPlaylistsAsList()[position]) }
-//                    .flatMap { (songList, playlist) ->
-//                        addToPlaylistUseCase.execute(Pair(playlist.playlistId, mediaId))
-//                            .map { (songList.size.toString()).to(playlist.playlistTitle) }
-//                    }
-//        }
-//
-//        return single
-
     }
 
     private fun createSuccessMessage(pairStringPlaylistName: Pair<String, String>){

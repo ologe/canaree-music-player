@@ -30,11 +30,13 @@ class FavoriteRepository @Inject constructor(
 
             }
 
-    override fun addSingle(songId: Long): Completable {
-        return favoriteDao.addToFavorite(listOf(songId))
+    override fun addSingle(songId: Long): Single<String> {
+        return songGateway.getByParam(songId)
+                .firstOrError()
+                .flatMap { favoriteDao.addToFavoriteSingle(it) }
     }
 
-    override fun addGroup(songListId: List<Long>): Completable {
+    override fun addGroup(songListId: List<Long>): Single<String> {
         return favoriteDao.addToFavorite(songListId)
     }
 

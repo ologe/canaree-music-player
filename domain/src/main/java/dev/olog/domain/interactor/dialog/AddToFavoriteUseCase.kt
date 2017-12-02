@@ -3,10 +3,11 @@ package dev.olog.domain.interactor.dialog
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.domain.interactor.base.SingleUseCaseWithParam
 import dev.olog.shared.MediaIdHelper
-import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class AddToFavoriteUseCase @Inject constructor(
@@ -14,9 +15,9 @@ class AddToFavoriteUseCase @Inject constructor(
         private val favoriteGateway: FavoriteGateway,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 
-) : CompletableUseCaseWithParam<String>(scheduler) {
+) : SingleUseCaseWithParam<String, String>(scheduler) {
 
-    override fun buildUseCaseObservable(param: String): Completable {
+    override fun buildUseCaseObservable(param: String): Single<String> {
         val category = MediaIdHelper.extractCategory(param)
 
         return when (category) {
@@ -25,10 +26,12 @@ class AddToFavoriteUseCase @Inject constructor(
                 favoriteGateway.addSingle(songId)
             }
             else -> getSongListByParamUseCase.execute(param)
-                    .flatMapSingle { it.toFlowable()
+                    .observeOn(Schedulers.io())
+                    .firstOrError()
+                    .flatMap { it.toFlowable()
                             .map { it.id }
                             .toList()
-                    }.flatMapCompletable(favoriteGateway::addGroup)
+                    }.flatMap{ favoriteGateway.addGroup(it) }
         }
     }
 }

@@ -3,9 +3,9 @@ package dev.olog.presentation.dialog_add_favorite
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.text.Html
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
+import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaIdHelper
@@ -35,11 +35,10 @@ class AddFavoriteDialog : BaseDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context)
                 .setTitle(R.string.popup_add_to_favorites)
-                .setMessage(Html.fromHtml(createMessage()))
+                .setMessage(createMessage().asHtml())
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
                     presenter.execute().subscribe({}, Throwable::printStackTrace)
-                    this.dismiss()
                 })
 
 

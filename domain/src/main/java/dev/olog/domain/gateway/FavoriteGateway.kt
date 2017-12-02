@@ -9,8 +9,8 @@ interface FavoriteGateway {
 
     fun getAll(): Flowable<List<Song>>
 
-    fun addSingle(songId: Long): Completable
-    fun addGroup(songListId: List<Long>): Completable
+    fun addSingle(songId: Long): Single<String>
+    fun addGroup(songListId: List<Long>): Single<String>
 
     fun deleteSingle(songId: Long): Completable
     fun deleteGroup(songListId: List<Long>): Completable

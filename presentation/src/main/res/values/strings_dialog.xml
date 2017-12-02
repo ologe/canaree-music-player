@@ -49,6 +49,12 @@
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
     </plurals>
 
+    <string name="added_song_x_to_favorites">%1$s added to Favorites</string>
+    <plurals name="added_xx_songs_to_favorites">
+        <item quantity="one">Added %1$d song to Favorites</item>
+        <item quantity="other">Added %1$d songs to Favorites</item>
+    </plurals>
+
     <!--add to playlist-->
     <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
 
