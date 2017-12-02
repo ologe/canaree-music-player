@@ -1,20 +1,22 @@
 package dev.olog.presentation.dialog_add_queue
 
 import android.app.Activity
-import android.net.Uri
-import android.os.Bundle
+import android.app.Application
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
-import dev.olog.domain.entity.Song
+import android.text.TextUtils
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
+import dev.olog.presentation.R
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Single
-import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class AddQueueDialogPresenter @Inject constructor(
+        private val application: Application,
         private val mediaId: String,
         private val getSongUseCase: GetSongUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
@@ -24,37 +26,44 @@ class AddQueueDialogPresenter @Inject constructor(
         val controller = MediaControllerCompat.getMediaController(activity)
                 ?: return Single.error(AssertionError("null media controller"))
 
-        if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
-            return getSongUseCase.execute(mediaId)
+        val single = if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
+            getSongUseCase.execute(mediaId)
                     .firstOrError()
-                    .map { it.toMediaDescriptionItem() }
-                    .doOnSuccess { controller.addQueueItem(it) }
-                    .map { it.title.toString() }
+                    .doOnSuccess { controller.addQueueItem(newMediaDescriptionItem(it.id.toString())) }
+                    .map { it.title }
+        } else {
+            getSongListByParamUseCase.execute(mediaId)
+                    .observeOn(Schedulers.computation())
+                    .firstOrError()
+                    .map { Pair(it.map { it.id }.joinToString(), it) }
+                    .doOnSuccess { (songIds, _) -> controller.addQueueItem(newMediaDescriptionItem(songIds)) }
+                    .map { it.second.size }
+                    .map { it.toString() }
         }
 
-        return getSongListByParamUseCase.execute(mediaId)
-                .observeOn(Schedulers.computation())
-                .firstOrError()
-                .flatMap { it.toFlowable()
-                        .map { it.toMediaDescriptionItem() }
-                        .doOnNext { controller.addQueueItem(it) }
-                        .toList()
-
-                }.map { it.size.toString() }
+        return single
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess { createSuccessMessage(it) }
+                .doOnError { createErrorMessage() }
     }
 
-    private fun Song.toMediaDescriptionItem(): MediaDescriptionCompat {
-        val bundle = Bundle()
-        bundle.putBoolean("remix", isRemix)
-        bundle.putBoolean("explicit", isExplicit)
-        bundle.putLong("duration", duration)
+    private fun createSuccessMessage(string: String){
+        val message = if (TextUtils.isDigitsOnly(string)){
+            val size = string.toInt()
+            application.resources.getQuantityString(R.plurals.added_xx_songs_to_queue, size, size)
+        } else {
+            application.getString(R.string.added_song_x_to_queue, string)
+        }
+        application.toast(message)
+    }
+
+    private fun createErrorMessage(){
+        application.toast(application.getString(R.string.popup_error_message))
+    }
+
+    private fun newMediaDescriptionItem(songId: String): MediaDescriptionCompat {
         return MediaDescriptionCompat.Builder()
-                .setMediaId(MediaIdHelper.songId(this.id))
-                .setTitle(this.title)
-                .setSubtitle(this.artist)
-                .setDescription(this.album)
-                .setMediaUri(Uri.parse(this.image))
-                .setExtras(bundle)
+                .setMediaId(songId)
                 .build()
     }
 

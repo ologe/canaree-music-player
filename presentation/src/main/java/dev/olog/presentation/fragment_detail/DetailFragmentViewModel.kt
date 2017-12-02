@@ -68,12 +68,12 @@ class DetailFragmentViewModel(
     }
 
     val data : LiveData<MutableMap<DetailDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
-            item[category]!!.doOnNext { println("item") },
-            data[MOST_PLAYED]!!.doOnNext { println("most played") },
-            data[RECENTLY_ADDED]!!.doOnNext { println("recent") },
-            data[category]!!.doOnNext { println("albums") },
-            data[RELATED_ARTISTS]!!.doOnNext { println("artits") },
-            data[SONGS]!!.doOnNext { println("songs") },
+            item[category]!!,
+            data[MOST_PLAYED]!!,
+            data[RECENTLY_ADDED]!!,
+            data[category]!!,
+            data[RELATED_ARTISTS]!!,
+            data[SONGS]!!,
             { item, mostPlayed, recent, albums, artists, songs ->
 
         mutableMapOf(

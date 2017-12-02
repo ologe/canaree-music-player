@@ -128,7 +128,6 @@ class PlaylistRepository @Inject constructor(
                 false
 
         ).mapToList { it.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID) }
-                .doOnNext { println(it) }
                 .toFlowable(BackpressureStrategy.LATEST)
                 .flatMapSingle { it.toFlowable()
                         .flatMapMaybe { songId -> songGateway.getAll()

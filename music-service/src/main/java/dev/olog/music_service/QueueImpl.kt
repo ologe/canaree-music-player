@@ -1,14 +1,14 @@
 package dev.olog.music_service
 
-import android.os.Bundle
 import android.support.annotation.CheckResult
 import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.domain.interactor.service.CurrentSongIdUseCase
 import dev.olog.domain.interactor.service.UpdateMiniQueueUseCase
 import dev.olog.domain.interactor.service.UpdatePlayingQueueUseCase
+import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.shared.MediaIdHelper
+import dev.olog.music_service.model.toMediaEntity
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -22,7 +22,8 @@ class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
         private val repeatMode: RepeatMode,
-        private val currentSongIdUseCase: CurrentSongIdUseCase
+        private val currentSongIdUseCase: CurrentSongIdUseCase,
+        private val getAllSongsUseCase: GetAllSongsUseCase
 ) {
 
     companion object {
@@ -108,18 +109,18 @@ class QueueImpl @Inject constructor(
     }
 
     fun addItemToQueue(item: MediaDescriptionCompat) {
-        val bundle = item.extras as Bundle
-        playingQueue.add(MediaEntity(
-                MediaIdHelper.extractLeaf(item.mediaId!!).toLong(),
-                item.title.toString(),
-                item.subtitle.toString(),
-                item.description.toString(),
-                item.mediaUri.toString(),
-                bundle.getLong("duration"),
-                bundle.getBoolean("remix"),
-                bundle.getBoolean("explicit")
-        ))
-        persist(playingQueue)
+        val split = item.mediaId!!.split(",")
+        split.toFlowable()
+                .observeOn(Schedulers.computation())
+                .map { it.toLong() }
+                .flatMapMaybe { songId -> getAllSongsUseCase.execute()
+                        .flatMapIterable { it }
+                        .filter { it.id == songId }
+                        .map { it.toMediaEntity() }
+                        .firstElement()
+                }.toList()
+                .doOnSuccess { playingQueue.addAll(it) }
+                .doOnSuccess { persist(it) }
     }
 
     @Contract(pure = true)
