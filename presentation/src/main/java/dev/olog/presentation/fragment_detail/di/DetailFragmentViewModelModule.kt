@@ -23,6 +23,7 @@ import dev.olog.presentation.fragment_detail.model.toRecentDetailDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import java.util.concurrent.TimeUnit
@@ -191,7 +192,7 @@ class DetailFragmentViewModelModule {
     private fun createSongFooter(context: Context, pair: Pair<MutableList<DisplayableItem>, Int>): List<DisplayableItem> {
         val (list, duration) = pair
         list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
-                context.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED +
+                context.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + MIDDLE_DOT_SPACED +
                 context.resources.getQuantityString(R.plurals.duration_count, duration, duration)))
         return list
     }

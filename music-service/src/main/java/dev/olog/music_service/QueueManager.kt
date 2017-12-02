@@ -34,7 +34,6 @@ class QueueManager @Inject constructor(
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
                 .flatMap { mapToMediaEntityAndPersist.apply(it) }
-                .doOnSuccess { println(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueue)
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }

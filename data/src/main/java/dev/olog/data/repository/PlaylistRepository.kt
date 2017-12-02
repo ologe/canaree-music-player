@@ -11,8 +11,8 @@ import dev.olog.data.DataConstants
 import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
-import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toPlaylist
+import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FavoriteGateway
@@ -45,10 +45,13 @@ class PlaylistRepository @Inject constructor(
         private val SELECTION_ARGS: Array<String>? = null
         private val SORT_ORDER = MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER
 
-        private val SONG_PROJECTION = arrayOf(BaseColumns._ID)
+        private val SONG_PROJECTION = arrayOf(
+                MediaStore.Audio.Playlists.Members._ID,
+                MediaStore.Audio.Playlists.Members.AUDIO_ID
+        )
         private val SONG_SELECTION = null
         private val SONG_SELECTION_ARGS: Array<String>? = null
-        private val SONG_SORT_ORDER = DEFAULT_SORT_ORDER
+        private val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
     }
 
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
@@ -124,7 +127,8 @@ class PlaylistRepository @Inject constructor(
                 SONG_SORT_ORDER,
                 false
 
-        ).mapToList { it.extractId() }
+        ).mapToList { it.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID) }
+                .doOnNext { println(it) }
                 .toFlowable(BackpressureStrategy.LATEST)
                 .flatMapSingle { it.toFlowable()
                         .flatMapMaybe { songId -> songGateway.getAll()

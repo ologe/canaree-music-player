@@ -5,8 +5,8 @@
     <string name="unknown_artist">Unknown Artist</string>
 
     <string-array name="auto_playlists">
-        <item>Favorites</item>
         <item>Last added</item>
+        <item>Favorites</item>
         <item>History</item>
     </string-array>
 
