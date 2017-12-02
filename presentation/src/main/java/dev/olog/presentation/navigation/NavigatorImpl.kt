@@ -109,8 +109,8 @@ class NavigatorImpl @Inject constructor(
         fragment.show(activity.supportFragmentManager, AddQueueDialog.TAG)
     }
 
-    override fun toRenameDialog(mediaId: String) {
-        val fragment = RenameDialog.newInstance(mediaId)
+    override fun toRenameDialog(mediaId: String, itemTitle: String) {
+        val fragment = RenameDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
     }
 

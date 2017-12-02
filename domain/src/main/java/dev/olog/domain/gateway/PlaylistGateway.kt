@@ -11,6 +11,8 @@ interface PlaylistGateway :
 
     fun createPlaylist(playlistName: String): Single<Long>
 
+    fun renamePlaylist(id: Long, newTitle: String): Completable
+
     fun deletePlaylist(id: Long): Completable
 
     fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String>

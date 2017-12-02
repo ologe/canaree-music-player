@@ -21,6 +21,7 @@
     <string name="popup_positive_ok">OK</string>
     <string name="popup_positive_create">Create</string>
     <string name="popup_positive_delete">Delete</string>
+    <string name="popup_positive_rename">Rename</string>
 
     <string name="popup_new_playlist">New Playlist</string>
     <string name="popup_no_playlist">No playlists yet..</string>
@@ -70,6 +71,9 @@
         <item quantity="one">Added %1$d song to playlist %2$s</item>
         <item quantity="other">Added %1$d songs to playlist %2$s</item>
     </plurals>
+
+    <!--rename-->
+    <string name="playlist_x_renamed_to_y">Playlist %1$s renamed to %2$s</string>
 
     <!--delete-->
     <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>

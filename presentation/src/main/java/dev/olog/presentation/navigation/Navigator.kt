@@ -23,7 +23,7 @@ interface Navigator {
 
     fun toAddToQueueDialog(mediaId: String, listSize: Int, itemTitle: String)
 
-    fun toRenameDialog(mediaId: String)
+    fun toRenameDialog(mediaId: String, itemTitle: String)
 
     fun toDeleteDialog(mediaId: String, listSize: Int, itemTitle: String)
 
