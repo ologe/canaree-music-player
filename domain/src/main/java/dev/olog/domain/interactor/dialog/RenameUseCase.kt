@@ -6,7 +6,6 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
-import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 
 class RenameUseCase @Inject constructor(
@@ -22,13 +21,9 @@ class RenameUseCase @Inject constructor(
         return when (category) {
             MediaIdHelper.MEDIA_ID_BY_ALL -> {
                 val songId = MediaIdHelper.extractLeaf(param).toLong()
-                playlistGateway.addSongsToPlaylist(-1, listOf(songId))
+                Completable.complete()
             }
-            else -> getSongListByParamUseCase.execute(param)
-                    .flatMapSingle { it.toFlowable()
-                            .map { it.id }
-                            .toList()
-                    }.flatMapCompletable { playlistGateway.addSongsToPlaylist(-1, it) }
+            else -> Completable.complete()
         }
     }
 }

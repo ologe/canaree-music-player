@@ -157,8 +157,8 @@ class PlaylistRepository @Inject constructor(
         }
     }
 
-    override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Completable {
-        return Single.create<Int> { e ->
+    override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String> {
+        return Single.create<String> { e ->
 
             val uri = getContentUri("external", playlistId)
             val cursor = contentResolver.query(uri, arrayOf("max($PLAY_ORDER)"),
@@ -179,7 +179,7 @@ class PlaylistRepository @Inject constructor(
 
                 itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
             }
-            e.onSuccess(itemInserted)
-        }.toCompletable()
+            e.onSuccess(itemInserted.toString())
+        }
     }
 }

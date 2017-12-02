@@ -57,6 +57,12 @@
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
     </plurals>
 
+    <string name="added_song_x_to_playlist_y">%1$s added to playlist %2$s</string>
+    <plurals name="added_xx_songs_to_playlist_y">
+        <item quantity="one">Added %1$d song to playlist %2$s</item>
+        <item quantity="other">Added %1$d songs to playlist %2$s</item>
+    </plurals>
+
     <!--delete-->
     <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>
 
