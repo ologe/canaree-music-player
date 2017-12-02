@@ -14,13 +14,13 @@ import java.util.*
 @Dao
 abstract class PlayingQueueDao {
 
-    @Query("SELECT * FROM playing_queue")
+    @Query("SELECT * FROM playing_queue ORDER BY `index`")
     internal abstract fun getAllImpl(): Single<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
     internal abstract fun deleteAllImpl()
 
-    @Query("SELECT * FROM playing_queue")
+    @Query("SELECT * FROM playing_queue ORDER BY `index`")
     abstract fun observeAll(): Flowable<List<PlayingQueueEntity>>
 
     @Insert
@@ -44,7 +44,7 @@ abstract class PlayingQueueDao {
     @Transaction
     open fun insert(list: List<Long>) {
         deleteAllImpl()
-        val result = list.map { PlayingQueueEntity(it) }
+        val result = list.map { PlayingQueueEntity(value = it) }
         insertAllImpl(result)
     }
 

@@ -5,7 +5,9 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "playing_queue",
-        indices = arrayOf(Index("value")))
+        indices = arrayOf(Index("index")))
 data class PlayingQueueEntity(
-        @PrimaryKey var value: Long
+        @PrimaryKey(autoGenerate = true)
+        val index: Int = 0,
+        val value: Long
 )
