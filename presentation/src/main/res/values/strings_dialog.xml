@@ -14,11 +14,13 @@
     <string name="popup_set_as_ringtone">Set as Ringtone</string>
     <string name="popup_delete">Delete</string>
     <string name="popup_rename">Rename</string>
+    <string name="popup_clear_playlist">Clear playlist</string>
 
     <string name="popup_negative_cancel">Cancel</string>
 
     <string name="popup_positive_ok">OK</string>
     <string name="popup_positive_create">Create</string>
+    <string name="popup_positive_delete">Delete</string>
 
     <string name="popup_new_playlist">New Playlist</string>
     <string name="popup_no_playlist">No playlists yet..</string>

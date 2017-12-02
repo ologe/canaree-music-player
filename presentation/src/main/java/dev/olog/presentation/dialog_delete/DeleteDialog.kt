@@ -37,7 +37,7 @@ class DeleteDialog: BaseDialogFragment() {
                 .setTitle(R.string.popup_delete)
                 .setMessage(Html.fromHtml(createMessage()))
                 .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_ok, { dialog, button ->
+                .setPositiveButton(R.string.popup_positive_delete, { dialog, button ->
                     // todo
                 })
 

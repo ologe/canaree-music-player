@@ -30,7 +30,10 @@ object Popup {
             MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> {
                 val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
                 when (playlistId){
-                    -5000L, -4000L, -3000L -> menu.removeItem(R.id.rename)
+                    -5000L, -4000L, -3000L -> {
+                        menu.removeItem(R.id.rename)
+                        menu.removeItem(R.id.clear)
+                    }
                 }
             }
             MediaIdHelper.MEDIA_ID_BY_ALL -> {

@@ -20,6 +20,10 @@ class PlaylistMenuListener @Inject constructor(
                 Completable.fromCallable { navigator.toRenameDialog(item.mediaId) }
                         .subscribe()
             }
+            R.id.clear -> {
+                Completable.fromCallable { navigator.toRenameDialog(item.mediaId) }
+                        .subscribe() // todo
+            }
         }
         return super.onMenuItemClick(menuItem)
     }

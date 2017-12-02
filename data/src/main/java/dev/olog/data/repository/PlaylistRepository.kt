@@ -81,7 +81,7 @@ class PlaylistRepository @Inject constructor(
 
     override fun getAll(): Flowable<List<Playlist>> = contentProviderObserver
             .map { val result = it.sortedWith(compareBy { it.title.toLowerCase() }).toMutableList()
-                result.addAll(autoPlaylists)
+                result.addAll(0, autoPlaylists)
                 result.toList()
             }
 
