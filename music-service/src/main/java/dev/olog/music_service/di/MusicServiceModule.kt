@@ -14,7 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.music_service.MusicService
 import dev.olog.music_service.PlayerImpl
-import dev.olog.music_service.QueueImpl
+import dev.olog.music_service.QueueManager
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.interfaces.ServiceLifecycleController
@@ -79,7 +79,7 @@ class MusicServiceModule(
 
     @Provides
     @PerService
-    internal fun provideQueue(queue: QueueImpl): Queue {
+    internal fun provideQueue(queue: QueueManager): Queue {
         return queue
     }
 

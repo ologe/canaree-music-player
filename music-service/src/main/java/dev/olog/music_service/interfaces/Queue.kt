@@ -22,8 +22,6 @@ interface Queue {
 
     fun handlePlayShuffle(bundle: Bundle): Single<PlayerMediaEntity>
 
-    fun handlePlayFirst(bundle: Bundle): Single<PlayerMediaEntity>
-
     fun handlePlayFromSearch(extras: Bundle): Single<PlayerMediaEntity>
 
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>

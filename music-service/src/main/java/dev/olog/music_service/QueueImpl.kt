@@ -1,154 +1,41 @@
 package dev.olog.music_service
 
 import android.os.Bundle
+import android.support.annotation.CheckResult
+import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
-import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.service.*
-import dev.olog.music_service.di.PerService
-import dev.olog.music_service.interfaces.Queue
-import dev.olog.music_service.model.*
-import dev.olog.shared.*
-import io.reactivex.Single
+import dev.olog.domain.interactor.service.CurrentSongIdUseCase
+import dev.olog.domain.interactor.service.UpdateMiniQueueUseCase
+import dev.olog.domain.interactor.service.UpdatePlayingQueueUseCase
+import dev.olog.music_service.model.MediaEntity
+import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.swap
+import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
+import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
 
-@PerService
 class QueueImpl @Inject constructor(
-        private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
-        private val currentSongIdUseCase: CurrentSongIdUseCase,
         private val repeatMode: RepeatMode,
-        private val shuffleMode: ShuffleMode,
-        private val bookmarkUseCase: BookmarkUseCase,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
-
-) : Queue {
+        private val currentSongIdUseCase: CurrentSongIdUseCase
+) {
 
     companion object {
         private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000
     }
 
-    private val playingQueue = Vector<MediaEntity>()
-
     private var savePlayingQueueDisposable: Disposable? = null
 
-    private var currentSongPosition = -1
+    private val playingQueue = Vector<MediaEntity>()
 
-    override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
-        return getPlayingQueueUseCase.execute()
-                .flatMap{ it.toFlowable().map { it.toMediaEntity() }.toList() }
-                .doOnSuccess(this::updatePlayingQueue)
-                .map(this::getCurrentSong)
-                .doOnSuccess { (position, metadata) -> updateCurrentPosition(position, metadata.id) }
-                .map { (position, metadata) -> metadata.toPlayerMediaEntity(computePositionInQueue(position))
-                        .to(bookmarkUseCase.get())
-                }
-    }
+    var currentSongPosition = -1
 
-    override fun handleSkipToQueueItem(id: Long): PlayerMediaEntity {
-        var position = playingQueue.indexOfFirst { it.id == id }
-        position = ensurePosition(position)
-        val mediaEntity = playingQueue[position]
-        updateCurrentPosition(position, mediaEntity.id)
-
-        return mediaEntity.toPlayerMediaEntity(getCurrentPositionInQueue())
-    }
-
-    override fun handleSkipToNext(): PlayerMediaEntity {
-        return if (repeatMode.isRepeatOne()) {
-            getPlayingSong()
-        } else getSongAtPosition(currentSongPosition + 1)
-    }
-
-    override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity {
-        return if (playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD || repeatMode.isRepeatOne()) {
-            getPlayingSong()
-        } else getSongAtPosition(currentSongPosition - 1)
-    }
-
-    override fun handlePlayFromMediaId(mediaId: String): Single<PlayerMediaEntity> {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
-
-        return getSongListByParamUseCase.execute(mediaId)
-                .firstOrError()
-                .flatMap{ it.toFlowable().map { it.toMediaEntity() }.toList() }
-                .map { it.shuffleAndSwap(shuffleMode.isEnabled(), { it.id == songId }) }
-                .doOnSuccess { updatePlayingQueue(it) }
-                .map { if (shuffleMode.isEnabled()){
-                    getSongByPosition(it, 0)
-                } else {  getSongById(it, songId)
-                } }
-                .doOnSuccess { (position, metadata) -> updateCurrentPosition(position, metadata.id) }
-                .map { (position, metadata) -> metadata.toPlayerMediaEntity(computePositionInQueue(position)) }
-    }
-
-    override fun handlePlayShuffle(bundle: Bundle): Single<PlayerMediaEntity> {
-        val mediaId = bundle.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-
-        return getSongListByParamUseCase.execute(mediaId)
-                .firstOrError()
-                .flatMap{ it.toFlowable().map { it.toMediaEntity() }.toList() }
-                .map { it.shuffle() }
-                .doOnSuccess { updatePlayingQueue(it) }
-                .map { getSongByPosition(it, 0) }
-                .doOnSuccess { (position, metadata) -> updateCurrentPosition(position, metadata.id) }
-                .map { (position, metadata) -> metadata.toPlayerMediaEntity(computePositionInQueue(position)) }
-                .doOnSuccess { shuffleMode.setEnabled(true) }
-    }
-
-    override fun handlePlayFirst(bundle: Bundle): Single<PlayerMediaEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun handlePlayFromSearch(extras: Bundle): Single<PlayerMediaEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun shuffle() {
-        val item = playingQueue[currentSongPosition]
-
-        playingQueue.shuffle()
-
-        val songPosition = playingQueue.indexOf(item)
-        if (songPosition != 0){
-            playingQueue.swap(0, songPosition)
-        }
-
-        currentSongPosition = 0
-        updateCurrentPosition(currentSongPosition)
-        persist(playingQueue)
-    }
-
-    override fun sort() {
-        val playingSong = playingQueue[currentSongPosition]
-        // todo proper sorting in detail
-        playingQueue.sortBy { it.title }
-
-        currentSongPosition = playingQueue.indexOf(playingSong)
-        updateCurrentPosition(currentSongPosition)
-        persist(playingQueue)
-    }
-
-    private fun getPlayingSong(): PlayerMediaEntity {
-        return playingQueue[currentSongPosition].toPlayerMediaEntity(getCurrentPositionInQueue())
-    }
-
-    private fun getSongAtPosition(position: Int): PlayerMediaEntity {
-        updateCurrentPosition(ensurePosition(position))
-
-        return playingQueue[currentSongPosition].toPlayerMediaEntity(computePositionInQueue(position))
-    }
-
-
-    private fun updatePlayingQueue(songList: List<MediaEntity>) {
+    fun updatePlayingQueue(songList: List<MediaEntity>) {
         playingQueue.clear()
         playingQueue.addAll(songList)
 
@@ -158,64 +45,64 @@ class QueueImpl @Inject constructor(
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = songList.toFlowable()
+                .observeOn(Schedulers.io())
                 .map { it.id }
                 .toList()
                 .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
     }
 
-    private fun getCurrentSong(list: List<MediaEntity>): Pair<Int, MediaEntity> {
-        val currentSongId = currentSongIdUseCase.get()
-        return getSongById(list, currentSongId)
-    }
-
-    private fun getSongById(list: List<MediaEntity>, songId: Long) : Pair<Int, MediaEntity> {
-        val position = list.indexOfFirst { it.id == songId }
-        return getSongByPosition(list, position)
-    }
-
-    private fun getSongByPosition(list: List<MediaEntity>, position: Int) : Pair<Int, MediaEntity> {
-        val songPosition = ensurePosition(position)
-        return songPosition.to(list[songPosition])
-    }
-
-    private fun ensurePosition(position: Int): Int {
-        if (position < 0) {
-            return if (repeatMode.isRepeatAll) playingQueue.lastIndex else 0
-        }
-        return if (position > playingQueue.lastIndex) {
-            if (repeatMode.isRepeatAll) 0 else playingQueue.lastIndex
-        } else position
-    }
-
-    private fun updateCurrentPosition(position: Int){
-        updateCurrentPosition(position, playingQueue[position].id)
-    }
-
-    private fun updateCurrentPosition(position: Int, songId: Long) {
-        currentSongPosition = position
+    fun updateCurrentSongPosition(list: List<MediaEntity>, position: Int){
+        val pos = ensurePosition(list, position)
+        val songId = list[pos].id
+        currentSongPosition = pos
         currentSongIdUseCase.set(songId)
 
-        val miniQueue = playingQueue.asSequence().drop(currentSongPosition + 1).take(51)
+        val miniQueue = list.asSequence().drop(currentSongPosition + 1).take(51)
                 .map { it.id }.toList()
         updateMiniQueueUseCase.execute(miniQueue)
     }
 
-    override fun getCurrentPositionInQueue(): PositionInQueue {
-        return computePositionInQueue(currentSongPosition)
+    fun getSongById(songId: Long) : MediaEntity {
+        val positionToTest = playingQueue.indexOfFirst { it.id == songId }
+        val position = ensurePosition(playingQueue, positionToTest)
+        val media = playingQueue[position]
+        updateCurrentSongPosition(playingQueue, position)
+
+        return media
     }
 
-    private fun computePositionInQueue(position: Int): PositionInQueue {
-        return when {
-            repeatMode.isRepeatAll || repeatMode.isRepeatOne() -> PositionInQueue.IN_MIDDLE
-            currentSongPosition == 0 && currentSongPosition == playingQueue.lastIndex -> PositionInQueue.BOTH
-            currentSongPosition == 0 -> PositionInQueue.FIRST
-            currentSongPosition == playingQueue.lastIndex -> PositionInQueue.LAST
-            else -> PositionInQueue.IN_MIDDLE
+    fun getNextSong() : MediaEntity {
+        if (repeatMode.isRepeatOne()){
+            return playingQueue[currentSongPosition]
         }
+
+        var newPosition = currentSongPosition + 1
+        if (newPosition > playingQueue.lastIndex) {
+            newPosition = if (repeatMode.isRepeatAll) 0 else playingQueue.lastIndex
+        }
+
+        val media = playingQueue[newPosition]
+        updateCurrentSongPosition(playingQueue, newPosition)
+        return media
     }
 
-    override fun addItemToQueue(item: MediaDescriptionCompat) {
+    fun getPreviousSong(playerBookmark: Long) : MediaEntity {
+        if (repeatMode.isRepeatOne() || playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD){
+            return playingQueue[currentSongPosition]
+        }
+
+        var newPosition = currentSongPosition - 1
+        if (newPosition < 0) {
+            newPosition = if (repeatMode.isRepeatAll) playingQueue.lastIndex else 0
+        }
+
+        val media = playingQueue[newPosition]
+        updateCurrentSongPosition(playingQueue, newPosition)
+        return media
+    }
+
+    fun addItemToQueue(item: MediaDescriptionCompat) {
         val bundle = item.extras as Bundle
         playingQueue.add(MediaEntity(
                 MediaIdHelper.extractLeaf(item.mediaId!!).toLong(),
@@ -229,4 +116,43 @@ class QueueImpl @Inject constructor(
         ))
         persist(playingQueue)
     }
+
+    @Contract(pure = true)
+    @CheckResult
+    private fun ensurePosition(list: List<MediaEntity>, position: Int): Int {
+        return MathUtils.clamp(position, 0, list.lastIndex)
+//        if (position < 0) {
+//            return if (repeatMode.isRepeatAll) playingQueue.lastIndex else 0
+//        }
+//        if (position > playingQueue.lastIndex) {
+//            return if (repeatMode.isRepeatAll) 0 else playingQueue.lastIndex
+//        }
+//        return position
+    }
+
+    fun shuffle(){
+        val item = playingQueue[currentSongPosition]
+
+        playingQueue.shuffle()
+
+        val songPosition = playingQueue.indexOf(item)
+        if (songPosition != 0){
+            playingQueue.swap(0, songPosition)
+        }
+
+        currentSongPosition = 0
+        updateCurrentSongPosition(playingQueue, currentSongPosition)
+        persist(playingQueue)
+    }
+
+    fun sort(){
+        val playingSong = playingQueue[currentSongPosition]
+        // todo proper sorting in detail
+        playingQueue.sortBy { it.title }
+
+        currentSongPosition = playingQueue.indexOf(playingSong)
+        updateCurrentSongPosition(playingQueue, currentSongPosition)
+        persist(playingQueue)
+    }
+
 }

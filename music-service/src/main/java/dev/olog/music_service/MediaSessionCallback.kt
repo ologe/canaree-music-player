@@ -86,7 +86,6 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
         val single = when (action) {
-//            MusicConstants.ACTION_PLAY_FIRST -> queue.handlePlayFirst(extras!!)
             MusicConstants.ACTION_PLAY_SHUFFLE -> queue.handlePlayShuffle(extras!!)
             else -> Single.error(Throwable())
         }
