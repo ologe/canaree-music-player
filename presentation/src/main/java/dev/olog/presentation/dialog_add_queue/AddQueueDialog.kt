@@ -47,7 +47,9 @@ class AddQueueDialog : BaseDialogFragment() {
 
     private fun createMessage() : String {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
+        val category = MediaIdHelper.extractCategory(mediaId)
+        val isSong = MediaIdHelper.isSong(mediaId)
+        if (category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong){
             return getString(R.string.add_song_x_to_queue, itemTitle)
         }
         return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_queue, listSize, listSize)

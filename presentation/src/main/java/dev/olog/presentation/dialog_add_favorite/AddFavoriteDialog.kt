@@ -47,12 +47,14 @@ class AddFavoriteDialog : BaseDialogFragment() {
 
     private fun createMessage() : String {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
-            return getString(R.string.add_song_x_to_favorite, itemTitle)
+        val category = MediaIdHelper.extractCategory(mediaId)
+        val isSong = MediaIdHelper.isSong(mediaId)
+        return if (isSong || category == MediaIdHelper.MEDIA_ID_BY_ALL) {
+            getString(R.string.add_song_x_to_favorite, itemTitle)
+        } else {
+            context!!.resources.getQuantityString(
+                    R.plurals.add_xx_songs_to_favorite, listSize, listSize)
         }
-
-        return context!!.resources.getQuantityString(
-                R.plurals.add_xx_songs_to_favorite, listSize, listSize)
     }
 
 }

@@ -48,9 +48,12 @@ class DeleteDialog: BaseDialogFragment() {
 
     private fun createMessage() : String {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        return when (MediaIdHelper.extractCategory(mediaId)) {
-            MediaIdHelper.MEDIA_ID_BY_ALL -> getString(R.string.delete_song_y, itemTitle)
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> getString(R.string.delete_playlist_y, itemTitle)
+        val category = MediaIdHelper.extractCategory(mediaId)
+        val isSong = MediaIdHelper.isSong(mediaId)
+
+        return when {
+            category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong -> getString(R.string.delete_song_y, itemTitle)
+            category == MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> getString(R.string.delete_playlist_y, itemTitle)
             else -> context!!.resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize, itemTitle)
         }
     }

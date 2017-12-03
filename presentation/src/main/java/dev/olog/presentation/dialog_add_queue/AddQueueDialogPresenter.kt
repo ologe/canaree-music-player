@@ -27,7 +27,10 @@ class AddQueueDialogPresenter @Inject constructor(
         val controller = MediaControllerCompat.getMediaController(activity)
                 ?: return Completable.error(AssertionError("null media controller"))
 
-        val single = if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
+        val isSong = MediaIdHelper.isSong(mediaId)
+        val category = MediaIdHelper.extractCategory(mediaId)
+
+        val single = if (category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong){
             getSongUseCase.execute(mediaId)
                     .firstOrError()
                     .doOnSuccess { controller.addQueueItem(newMediaDescriptionItem(it.id.toString())) }

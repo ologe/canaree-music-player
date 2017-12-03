@@ -14,10 +14,14 @@ class MenuListenerFactory @Inject constructor(
 ) {
 
     fun get(item: DisplayableItem): PopupMenu.OnMenuItemClickListener {
-        return when (MediaIdHelper.extractCategory(item.mediaId)){
-            MediaIdHelper.MEDIA_ID_BY_ALL -> songMenuListener.get().setMediaId(item)
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistMenuListener.get().setMediaId(item)
-            MediaIdHelper.MEDIA_ID_BY_ALBUM -> albumMenuListener.get().setMediaId(item)
+        val mediaId = item.mediaId
+        val isSong = MediaIdHelper.isSong(mediaId)
+        val category = MediaIdHelper.extractCategory(mediaId)
+
+        return when {
+            category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong -> songMenuListener.get().setMediaId(item)
+            category == MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistMenuListener.get().setMediaId(item)
+            category == MediaIdHelper.MEDIA_ID_BY_ALBUM -> albumMenuListener.get().setMediaId(item)
             else -> baseMenuListener.get().setMediaId(item)
         }
     }

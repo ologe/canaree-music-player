@@ -50,10 +50,13 @@ class AddPlaylistDialog : BaseDialogFragment() {
 
     private fun createDialogMessage() : String {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALL){
-            return getString(R.string.add_song_x_to_playlist, itemTitle)
+        val category = MediaIdHelper.extractCategory(mediaId)
+        val isSong = MediaIdHelper.isSong(mediaId)
+        return if (category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong){
+            getString(R.string.add_song_x_to_playlist, itemTitle)
+        } else {
+            context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_playlist, listSize, listSize)
         }
-        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_playlist, listSize, listSize)
     }
 
     private fun createItems(): Array<out CharSequence> {
