@@ -10,7 +10,7 @@ import dev.olog.shared.MediaIdHelper
 
 fun Folder.toDetailDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
+            R.layout.item_detail_album_mini,
             MediaIdHelper.folderId(path),
             title.capitalize()
     )
@@ -18,7 +18,7 @@ fun Folder.toDetailDisplayableItem(): DisplayableItem {
 
 fun Playlist.toDetailDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
+            R.layout.item_detail_album_mini,
             MediaIdHelper.playlistId(id),
             title.capitalize()
     )
@@ -36,7 +36,7 @@ fun Album.toDetailDisplayableItem(): DisplayableItem {
 
 fun Genre.toDetailDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
+            R.layout.item_detail_album_mini,
             MediaIdHelper.genreId(id),
             name.capitalize()
     )
