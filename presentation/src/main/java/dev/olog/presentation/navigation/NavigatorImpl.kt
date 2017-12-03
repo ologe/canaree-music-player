@@ -3,6 +3,8 @@ package dev.olog.presentation.navigation
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
@@ -49,6 +51,9 @@ class NavigatorImpl @Inject constructor(
 
     override fun toDetailActivity(mediaId: String, position: Int) {
         if (allowed()){
+            activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
+            activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
+
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setCustomAnimations(
