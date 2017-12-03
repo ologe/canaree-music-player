@@ -2,7 +2,6 @@ package dev.olog.presentation.dialog_add_playlist
 
 import android.app.Application
 import android.text.TextUtils
-import dev.olog.domain.entity.Playlist
 import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.GetActualPlaylistUseCase
 import dev.olog.presentation.R
@@ -26,9 +25,7 @@ class AddPlaylistPresenter @Inject constructor(
 
     fun onItemClick(position: Int): Completable {
 
-        val displayablePlaylist = getPlaylistsAsList()[position]
-        val playlist = Playlist(displayablePlaylist.playlistId, displayablePlaylist.playlistTitle)
-
+        val playlist = getPlaylistSiblingsUseCase.execute()[position]
 
         return addToPlaylistUseCase.execute(Pair(playlist, mediaId))
                 .timeout(5, TimeUnit.SECONDS)

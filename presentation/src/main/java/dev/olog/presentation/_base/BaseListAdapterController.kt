@@ -20,7 +20,7 @@ class BaseListAdapterController<Model>(
 
     private var dataSetDisposable: Disposable? = null
 
-    val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
+    private val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
 
     private val originalList = mutableListOf<Model>()
     private val dataSet = mutableListOf<Model>()

@@ -50,7 +50,7 @@ abstract class BaseListAdapter<Model> (
 
     fun onDataChanged() : Flowable<List<Model>> = dataController.onDataChanged()
 
-    open fun hasGranularUpdate() = false
+    open fun hasGranularUpdate() = true
 
     abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
 
