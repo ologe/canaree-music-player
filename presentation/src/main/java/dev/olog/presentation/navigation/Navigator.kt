@@ -25,6 +25,8 @@ interface Navigator {
 
     fun toRenameDialog(mediaId: String, itemTitle: String)
 
+    fun toClearPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String)
+
     fun toDeleteDialog(mediaId: String, listSize: Int, itemTitle: String)
 
 }

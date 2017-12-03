@@ -1,4 +1,4 @@
-package dev.olog.presentation.dialog_delete
+package dev.olog.presentation.dialog_clear_playlist
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -8,19 +8,19 @@ import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
-import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
+import javax.inject.Named
 
-class DeleteDialog: BaseDialogFragment() {
+class ClearPlaylistDialog : BaseDialogFragment() {
 
     companion object {
-        const val TAG = "DeleteDialog"
+        const val TAG = "ClearPlaylistDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        fun newInstance(mediaId: String, listSize: Int, itemTitle: String): DeleteDialog {
-            return DeleteDialog().withArguments(
+        fun newInstance(mediaId: String, listSize: Int, itemTitle: String): ClearPlaylistDialog {
+            return ClearPlaylistDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
@@ -29,15 +29,15 @@ class DeleteDialog: BaseDialogFragment() {
     }
 
     @Inject @JvmField var listSize: Int = 0
-    @Inject lateinit var mediaId: String
-    @Inject lateinit var presenter: DeleteDialogPresenter
+    @Inject @Named("item title") lateinit var itemTitle: String
+    @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context)
-                .setTitle(R.string.popup_delete)
+                .setTitle(R.string.popup_clear_playlist)
                 .setMessage(createMessage().asHtml())
                 .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_delete, { dialog, button ->
+                .setPositiveButton(R.string.popup_positive_delete, { _, _ ->
                     presenter.execute()
                             .subscribe({}, Throwable::printStackTrace)
                 })
@@ -47,12 +47,7 @@ class DeleteDialog: BaseDialogFragment() {
     }
 
     private fun createMessage() : String {
-        val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        return when (MediaIdHelper.extractCategory(mediaId)) {
-            MediaIdHelper.MEDIA_ID_BY_ALL -> getString(R.string.delete_song_y, itemTitle)
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> getString(R.string.delete_playlist_y, itemTitle)
-            else -> context!!.resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize, itemTitle)
-        }
+        return context!!.resources.getQuantityString(R.plurals.remove_xx_songs_from_playlist_y, listSize, listSize, itemTitle)
     }
 
 }

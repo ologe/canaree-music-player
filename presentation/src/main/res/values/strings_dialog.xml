@@ -75,12 +75,28 @@
     <!--rename-->
     <string name="playlist_x_renamed_to_y">Playlist %1$s renamed to %2$s</string>
 
+    <!--clear playlist-->
+    <string name="playlist_x_cleared">Playlist %1$s cleared</string>
+    <plurals name="remove_xx_songs_from_playlist_y">
+        <item quantity="one"><![CDATA[Remove <b>%1$d song</b> from playlist <b>%2$s</b>?]]></item>
+        <item quantity="other"><![CDATA[Remove <b>%1$d songs</b> from playlist <b>%2$s</b>?]]></item>
+    </plurals>
+
     <!--delete-->
     <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>
+    <string name="delete_playlist_y"><![CDATA[Delete playlist <b>%1$s</b>?]]></string>
+
+    <string name="playlist_x_deleted">Playlist %1$s deleted</string>
+    <string name="song_x_deleted">%1$s deleted</string>
 
     <plurals name="delete_xx_songs_from_y">
         <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from <b>%2$s</b>?]]></item>
         <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
+    </plurals>
+
+    <plurals name="deleted_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Deleted <b>%1$d song</b> from <b>%2$s</b>?]]></item>
+        <item quantity="other"><![CDATA[Deleted <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
     </plurals>
 
     <string name="popup_playlist_name_not_valid">Playlist name not valid</string>

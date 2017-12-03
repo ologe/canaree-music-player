@@ -1,9 +1,9 @@
 package dev.olog.domain.interactor.dialog
 
 import dev.olog.domain.executor.IoScheduler
-import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
@@ -13,7 +13,7 @@ class DeleteUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val playlistGateway: PlaylistGateway,
         private val songGateway: SongGateway,
-        private val genreGateway: GenreGateway
+        private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) : CompletableUseCaseWithParam<String>(scheduler) {
 
@@ -27,8 +27,8 @@ class DeleteUseCase @Inject constructor(
                 val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
                 songGateway.deleteSingle(songId)
             }
-            MediaIdHelper.MEDIA_ID_BY_GENRE -> genreGateway.deleteGenre(categoryValue.toLong())
-            else -> songGateway.deleteGroup(mediaId)
+            else -> getSongListByParamUseCase.execute(mediaId)
+                    .flatMapCompletable { songGateway.deleteGroup(it) }
         }
     }
 }

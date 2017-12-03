@@ -230,4 +230,8 @@ class PlaylistRepository @Inject constructor(
 
         }.subscribeOn(Schedulers.io())
     }
+
+    override fun clearPlaylist(id: Long): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -9,6 +9,7 @@ import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
 import dev.olog.presentation.dialog_add_playlist.AddPlaylistDialog
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
+import dev.olog.presentation.dialog_clear_playlist.ClearPlaylistDialog
 import dev.olog.presentation.dialog_delete.DeleteDialog
 import dev.olog.presentation.dialog_entry.MenuListenerFactory
 import dev.olog.presentation.dialog_entry.Popup
@@ -122,5 +123,10 @@ class NavigatorImpl @Inject constructor(
     override fun toCreatePlaylistDialog(mediaId: String) {
         val fragment = NewPlaylistDialog.newInstance(mediaId)
         fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
+    }
+
+    override fun toClearPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String) {
+        val fragment = ClearPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
     }
 }

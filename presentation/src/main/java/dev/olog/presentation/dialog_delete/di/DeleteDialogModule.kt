@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_delete.DeleteDialog
+import javax.inject.Named
 
 @Module
 class DeleteDialogModule(
@@ -25,5 +26,9 @@ class DeleteDialogModule(
         return fragment.arguments!!.getInt(DeleteDialog.ARGUMENTS_LIST_SIZE)
     }
 
-
+    @Provides
+    @Named("item title")
+    fun provideItemTitle(): String {
+        return fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_ITEM_TITLE)
+    }
 }

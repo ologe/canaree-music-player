@@ -15,6 +15,8 @@ interface PlaylistGateway :
 
     fun deletePlaylist(id: Long): Completable
 
+    fun clearPlaylist(id: Long): Completable
+
     fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String>
 
     fun getActualPlaylistsBlocking(): List<Playlist>

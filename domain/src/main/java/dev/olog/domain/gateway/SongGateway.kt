@@ -7,7 +7,7 @@ interface SongGateway : BaseGateway<Song, Long> {
 
     fun deleteSingle(songId: Long): Completable
 
-    fun deleteGroup(mediaId: String): Completable
+    fun deleteGroup(songList: List<Song>): Completable
 
 
 

@@ -2,17 +2,14 @@ package dev.olog.presentation.dialog_entry
 
 import android.view.MenuItem
 import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.detail.item.GetPlaylistUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
 import io.reactivex.Completable
-import io.reactivex.CompletableSource
 import javax.inject.Inject
 
 class PlaylistMenuListener @Inject constructor(
-        getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val navigator: Navigator,
-        private val getPlaylistUseCase: GetPlaylistUseCase
+        private val getSongListByParamUseCase: GetSongListByParamUseCase,
+        private val navigator: Navigator
 
 ) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
@@ -20,14 +17,15 @@ class PlaylistMenuListener @Inject constructor(
         val itemId = menuItem.itemId
         when (itemId){
             R.id.rename -> {
-                getPlaylistUseCase.execute(item.mediaId)
-                        .firstOrError()
-                        .flatMapCompletable { playlist -> CompletableSource {
-                            navigator.toRenameDialog(item.mediaId, playlist.title)
-                        }}.subscribe()
+                Completable.fromCallable { navigator.toRenameDialog(item.mediaId, item.title) }
+                        .subscribe()
             }
             R.id.clear -> {
-                Completable.complete() // todo
+                getSongListByParamUseCase.execute(item.mediaId)
+                        .firstOrError()
+                        .doOnSuccess { navigator.toClearPlaylistDialog(item.mediaId, it.size, item.title) }
+                        .toCompletable()
+                        .subscribe()
             }
         }
         return super.onMenuItemClick(menuItem)

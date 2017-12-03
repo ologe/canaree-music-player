@@ -15,6 +15,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -90,7 +91,11 @@ class SongRepository @Inject constructor(
 
     }
 
-    override fun deleteGroup(mediaId: String): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteGroup(songList: List<Song>): Completable {
+        return Flowable.fromIterable(songList)
+                .map { it.id }
+                .flatMapCompletable {
+                    deleteSingle(it).subscribeOn(Schedulers.io())
+                }
     }
 }

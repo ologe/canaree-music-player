@@ -104,13 +104,4 @@ class GenreRepository @Inject constructor(
                     CompletableSource { mostPlayedDao.insertOne(GenreMostPlayedEntity(0, song.id, genreId)) }
                 }
     }
-
-    override fun deleteGenre(id: Long): Completable {
-        return Completable.fromCallable{
-            contentResolver.delete(
-                    MEDIA_STORE_URI,
-                    "${BaseColumns._ID} = ?",
-                    arrayOf("$id"))
-        }
-    }
 }
