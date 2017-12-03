@@ -20,86 +20,14 @@
 
     <string name="popup_positive_ok">OK</string>
     <string name="popup_positive_create">Create</string>
-    <string name="popup_positive_delete">Delete</string>
-    <string name="popup_positive_rename">Rename</string>
-
-    <string name="popup_new_playlist">New Playlist</string>
-    <string name="popup_no_playlist">No playlists yet..</string>
-
-    <string name="new_playlist_hint">Playlist name</string>
 
     <string name="popup_error_message">Something went wrong</string>
 
-    <!--add to queue-->
-    <string name="add_song_x_to_queue"><![CDATA[Add <b>%1$s</b> to Queue?]]></string>
+    <string name="share_song_x"><![CDATA[Share <b><font color="black">%1$s</b></font>…]]></string>
 
-    <plurals name="add_xx_songs_to_queue">
-        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Queue?]]></item>
-        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Queue?]]></item>
-    </plurals>
-
-    <string name="added_song_x_to_queue">%1$s added to Queue</string>
-    <plurals name="added_xx_songs_to_queue">
-        <item quantity="one">Added %1$d song to Queue</item>
-        <item quantity="other">Added %1$d songs to Queue</item>
-    </plurals>
-
-    <!--add to favorite-->
-    <string name="add_song_x_to_favorite"><![CDATA[Add <b>%1$s</b> to Favorites?]]></string>
-
-    <plurals name="add_xx_songs_to_favorite">
-        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Favorites?]]></item>
-        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Favorites?]]></item>
-    </plurals>
-
-    <string name="added_song_x_to_favorites">%1$s added to Favorites</string>
-    <plurals name="added_xx_songs_to_favorites">
-        <item quantity="one">Added %1$d song to Favorites</item>
-        <item quantity="other">Added %1$d songs to Favorites</item>
-    </plurals>
-
-    <!--add to playlist-->
-    <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
-
-    <plurals name="add_xx_songs_to_playlist">
-        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
-        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>
-    </plurals>
-
-    <string name="added_song_x_to_playlist_y">%1$s added to playlist %2$s</string>
-    <plurals name="added_xx_songs_to_playlist_y">
-        <item quantity="one">Added %1$d song to playlist %2$s</item>
-        <item quantity="other">Added %1$d songs to playlist %2$s</item>
-    </plurals>
-
-    <!--rename-->
-    <string name="playlist_x_renamed_to_y">Playlist %1$s renamed to %2$s</string>
-
-    <!--clear playlist-->
-    <string name="playlist_x_cleared">Playlist %1$s cleared</string>
-    <plurals name="remove_xx_songs_from_playlist_y">
-        <item quantity="one"><![CDATA[Remove <b>%1$d song</b> from playlist <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Remove <b>%1$d songs</b> from playlist <b>%2$s</b>?]]></item>
-    </plurals>
-
-    <!--delete-->
-    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>
-    <string name="delete_playlist_y"><![CDATA[Delete playlist <b>%1$s</b>?]]></string>
-
-    <string name="playlist_x_deleted">Playlist %1$s deleted</string>
-    <string name="song_x_deleted">%1$s deleted</string>
-
-    <plurals name="delete_xx_songs_from_y">
-        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
-    </plurals>
-
-    <plurals name="deleted_xx_songs_from_y">
-        <item quantity="one"><![CDATA[Deleted <b>%1$d song</b> from <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Deleted <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
-    </plurals>
-
-    <string name="popup_playlist_name_not_valid">Playlist name not valid</string>
-    <string name="popup_playlist_name_already_exist">Playlist already exist</string>
+    <string name="popup_permission">Permission</string>
+    <string name="popup_request_permission_write_settings">
+        Please accept the following permission in order to change the ringtone
+    </string>
 
 </resources>

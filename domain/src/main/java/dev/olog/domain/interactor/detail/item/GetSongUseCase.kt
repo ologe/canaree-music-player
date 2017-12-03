@@ -16,8 +16,8 @@ class GetSongUseCase @Inject internal constructor(
 
 
     override fun buildUseCaseObservable(mediaId: String): Flowable<Song> {
-        val categoryValue = MediaIdHelper.extractLeaf(mediaId)
-        val songId = categoryValue.toLong()
+        val leaf = MediaIdHelper.extractLeaf(mediaId)
+        val songId = leaf.toLong()
 
         return gateway.getByParam(songId)
     }

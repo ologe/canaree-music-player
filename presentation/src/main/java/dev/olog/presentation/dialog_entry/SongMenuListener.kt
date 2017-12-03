@@ -10,6 +10,7 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -50,7 +51,7 @@ class SongMenuListener @Inject constructor(
                         .subscribe()
             }
             R.id.setRingtone -> {
-                Completable.fromCallable { navigator.toSetRingtoneDialog(item.mediaId) }
+                Completable.fromCallable { navigator.toSetRingtoneDialog(item.mediaId, item.title) }
                         .subscribe()
             }
         }
@@ -63,7 +64,8 @@ class SongMenuListener @Inject constructor(
         intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://${song.path}"))
         intent.type = "audio/*"
         if (intent.resolveActivity(activity.packageManager) != null){
-            activity.startActivity(Intent.createChooser(intent, "share ${song.title}?"))
+            val string = activity.getString(R.string.share_song_x, song.title)
+            activity.startActivity(Intent.createChooser(intent, string.asHtml()))
         } else {
             Log.e("DialogItem", "share failed, null package manager")
         }

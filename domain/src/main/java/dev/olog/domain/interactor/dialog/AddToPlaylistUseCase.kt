@@ -23,24 +23,22 @@ class AddToPlaylistUseCase @Inject constructor(
         val (playlist, mediaId) = param
         val category = MediaIdHelper.extractCategory(mediaId)
 
-        return when (category) {
-            MediaIdHelper.MEDIA_ID_BY_ALL -> {
-                val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
-                getSongUseCase.execute(mediaId)
-                        .firstOrError()
-                        .flatMap { song -> playlistGateway.addSongsToPlaylist(playlist.id, listOf(songId))
-                                .map { song }
-                        }
-                        .map { Pair(it.title, playlist.title) }
-            }
-            else -> getSongListByParamUseCase.execute(mediaId)
+        if (MediaIdHelper.isSong(mediaId) || category == MediaIdHelper.MEDIA_ID_BY_ALL) {
+            val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+            return getSongUseCase.execute(mediaId)
                     .firstOrError()
-                    .flatMap { it.toFlowable()
-                            .map { it.id }
-                            .toList()
-                    }.flatMap { playlistGateway.addSongsToPlaylist(playlist.id, it) }
-                    .map { Pair(it, playlist.title) }
-
+                    .flatMap { song -> playlistGateway.addSongsToPlaylist(playlist.id, listOf(songId))
+                            .map { song }
+                    }
+                    .map { Pair(it.title, playlist.title) }
         }
+
+        return getSongListByParamUseCase.execute(mediaId)
+                .firstOrError()
+                .flatMap { it.toFlowable()
+                        .map { it.id }
+                        .toList()
+                }.flatMap { playlistGateway.addSongsToPlaylist(playlist.id, it) }
+                .map { Pair(it, playlist.title) }
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_song_x_to_queue"><![CDATA[Add <b>%1$s</b> to Queue?]]></string>
+
+    <plurals name="add_xx_songs_to_queue">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to Queue?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to Queue?]]></item>
+    </plurals>
+
+    <string name="added_song_x_to_queue">%1$s added to Queue</string>
+    <plurals name="added_xx_songs_to_queue">
+        <item quantity="one">Added %1$d song to Queue</item>
+        <item quantity="other">Added %1$d songs to Queue</item>
+    </plurals>
+
+</resources>

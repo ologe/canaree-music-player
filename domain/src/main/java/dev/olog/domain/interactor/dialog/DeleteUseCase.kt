@@ -21,12 +21,13 @@ class DeleteUseCase @Inject constructor(
         val category = MediaIdHelper.extractCategory(mediaId)
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
 
+        if (MediaIdHelper.isSong(mediaId) || category == MediaIdHelper.MEDIA_ID_BY_ALL) {
+            val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+            return songGateway.deleteSingle(songId)
+        }
+
         return when (category){
             MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistGateway.deletePlaylist(categoryValue.toLong())
-            MediaIdHelper.MEDIA_ID_BY_ALL -> {
-                val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
-                songGateway.deleteSingle(songId)
-            }
             else -> getSongListByParamUseCase.execute(mediaId)
                     .flatMapCompletable { songGateway.deleteGroup(it) }
         }

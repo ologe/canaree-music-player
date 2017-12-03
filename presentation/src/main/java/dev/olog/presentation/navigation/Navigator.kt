@@ -13,7 +13,7 @@ interface Navigator {
 
     fun toDialog(item: DisplayableItem, anchor: View)
 
-    fun toSetRingtoneDialog(mediaId: String)
+    fun toSetRingtoneDialog(mediaId: String, itemTitle: String)
 
     fun toCreatePlaylistDialog(mediaId: String)
 

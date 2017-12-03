@@ -20,18 +20,17 @@ class AddToFavoriteUseCase @Inject constructor(
     override fun buildUseCaseObservable(param: String): Single<String> {
         val category = MediaIdHelper.extractCategory(param)
 
-        return when (category) {
-            MediaIdHelper.MEDIA_ID_BY_ALL -> {
-                val songId = MediaIdHelper.extractLeaf(param).toLong()
-                favoriteGateway.addSingle(songId)
-            }
-            else -> getSongListByParamUseCase.execute(param)
-                    .observeOn(Schedulers.io())
-                    .firstOrError()
-                    .flatMap { it.toFlowable()
-                            .map { it.id }
-                            .toList()
-                    }.flatMap{ favoriteGateway.addGroup(it) }
+        if (MediaIdHelper.isSong(param) || category == MediaIdHelper.MEDIA_ID_BY_ALL) {
+            val songId = MediaIdHelper.extractLeaf(param).toLong()
+            return favoriteGateway.addSingle(songId)
         }
+
+        return getSongListByParamUseCase.execute(param)
+                .observeOn(Schedulers.io())
+                .firstOrError()
+                .flatMap { it.toFlowable()
+                        .map { it.id }
+                        .toList()
+                }.flatMap{ favoriteGateway.addGroup(it) }
     }
 }
