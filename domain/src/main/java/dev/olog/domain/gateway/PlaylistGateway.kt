@@ -11,11 +11,11 @@ interface PlaylistGateway :
 
     fun createPlaylist(playlistName: String): Single<Long>
 
-    fun renamePlaylist(id: Long, newTitle: String): Completable
+    fun renamePlaylist(playlistId: Long, newTitle: String): Completable
 
-    fun deletePlaylist(id: Long): Completable
+    fun deletePlaylist(playlistId: Long): Completable
 
-    fun clearPlaylist(id: Long): Completable
+    fun clearPlaylist(playlistId: Long): Completable
 
     fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String>
 

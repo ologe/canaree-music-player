@@ -193,6 +193,21 @@ class PlaylistRepository @Inject constructor(
         }
     }
 
+    override fun clearPlaylist(playlistId: Long): Completable {
+        return getPlaylistSongs(playlistId)
+                .firstOrError()
+                .flattenAsFlowable { it }
+                .map { it.id }
+                .map { songId -> removeSongFromPlaylist(playlistId, songId) }
+                .toList()
+                .toCompletable()
+    }
+
+    private fun removeSongFromPlaylist(playlistId: Long, songId: Long){
+        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+        contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members.AUDIO_ID} = ?", arrayOf("$songId"))
+    }
+
     override fun createPlaylist(playlistName: String): Single<Long> {
         return Single.create<Long> { e ->
             val added = System.currentTimeMillis()
@@ -229,9 +244,5 @@ class PlaylistRepository @Inject constructor(
             }
 
         }.subscribeOn(Schedulers.io())
-    }
-
-    override fun clearPlaylist(id: Long): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -9,7 +9,6 @@ import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
 import javax.inject.Inject
-import javax.inject.Named
 
 class ClearPlaylistDialog : BaseDialogFragment() {
 
@@ -29,7 +28,6 @@ class ClearPlaylistDialog : BaseDialogFragment() {
     }
 
     @Inject @JvmField var listSize: Int = 0
-    @Inject @Named("item title") lateinit var itemTitle: String
     @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -47,6 +45,7 @@ class ClearPlaylistDialog : BaseDialogFragment() {
     }
 
     private fun createMessage() : String {
+        val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
         return context!!.resources.getQuantityString(R.plurals.remove_xx_songs_from_playlist_y, listSize, listSize, itemTitle)
     }
 
