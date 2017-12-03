@@ -45,7 +45,7 @@ class SongRepository @Inject constructor(
                 MediaStore.Audio.Media.DATE_ADDED
         )
 
-        private const val SELECTION = "$IS_MUSIC <> 0 AND $IS_ALARM = 0 AND $IS_PODCAST = 0 AND $IS_RINGTONE = 0 " +
+        private const val SELECTION = "$IS_MUSIC <> 0 AND $IS_ALARM = 0 AND $IS_PODCAST = 0 " +
                 "AND $TITLE NOT LIKE ? AND $DURATION > ?"
 
         private val SELECTION_ARGS = arrayOf("AUD%", "20000")

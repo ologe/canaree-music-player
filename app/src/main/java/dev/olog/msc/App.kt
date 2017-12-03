@@ -29,7 +29,7 @@ class App : DaggerApplication() {
         if (BuildConfig.DEBUG) {
             initStrictMode()
             LeakCanary.install(this)
-//            initRxJavaDebug()
+            initRxJavaDebug()
         }
 
     }

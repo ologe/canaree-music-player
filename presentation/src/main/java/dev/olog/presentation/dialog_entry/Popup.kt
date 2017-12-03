@@ -46,6 +46,7 @@ object Popup {
                     when (playlistId){
                         -5000L, -4000L, -3000L -> {
                             menu.removeItem(R.id.rename)
+                            menu.removeItem(R.id.delete)
                         }
                     }
                     when (playlistId){

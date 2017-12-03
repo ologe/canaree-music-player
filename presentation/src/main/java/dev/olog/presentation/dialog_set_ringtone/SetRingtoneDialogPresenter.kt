@@ -7,6 +7,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
@@ -52,7 +53,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
 
     @TargetApi(23)
     private fun requestWritingSettingsPermission(){
-        AlertDialog.Builder(application)
+        AlertDialog.Builder(activity)
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
@@ -78,10 +79,9 @@ class SetRingtoneDialogPresenter @Inject constructor(
 
         val values = ContentValues(2)
         values.put(MediaStore.Audio.AudioColumns.IS_RINGTONE, "1")
-        values.put(MediaStore.Audio.AudioColumns.IS_ALARM, "1")
 
         application.contentResolver.update(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                values, null, null)
+                values, "${BaseColumns._ID} = ?", arrayOf("$songId"))
 
         return Settings.System.putString(application.contentResolver, Settings.System.RINGTONE, uri.toString())
     }

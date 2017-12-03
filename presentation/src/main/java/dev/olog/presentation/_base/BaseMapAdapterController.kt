@@ -18,12 +18,13 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
 
 ) : DefaultLifecycleObserver {
 
-    private val publisher = PublishProcessor.create<MutableMap<E, MutableList<Model>>>()
+    private var dataSetDisposable: Disposable? = null
+    private val publisher = PublishProcessor.create<AdapterData<MutableMap<E, MutableList<Model>>>>()
 
     private val originalDataSet : MutableMap<E, MutableList<Model>> = mutableMapOf()
     private val dataSet : MutableMap<E, MutableList<Model>> = mutableMapOf()
 
-    private var dataSetDisposable: Disposable? = null
+    private var dataVersion = 0
 
     init {
         for (enum in enums) {
@@ -32,44 +33,51 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
         dataSet.putAll(originalDataSet)
     }
 
+    operator fun get(position: Int): Model = getItem(dataSet, position)
+
     fun getSize(): Int = dataSet.values.sumBy { it.size }
 
     private fun isEmpty(): Boolean = getSize() == 0
 
-    operator fun get(position: Int): Model = getItem(dataSet, position)
-
     fun onNext(data: MutableMap<E, MutableList<Model>>) {
-        publisher.onNext(data)
+        dataVersion++
+        this.originalDataSet.clearThenPut(data)
+        publisher.onNext(AdapterData(originalDataSet.toMutableMap(), dataVersion))
     }
 
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = publisher
                 .toSerialized()
-                .debounce(50, TimeUnit.MILLISECONDS)
                 .observeOn(Schedulers.computation())
-                .onBackpressureBuffer()
-                .distinctUntilChanged()
-                .map { it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+                .debounce(50, TimeUnit.MILLISECONDS)
+                .onBackpressureLatest()
+                .distinctUntilChanged { data -> data.data }
+                .filter { it.version == dataVersion }
+                .map {
+
+                    it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
 
                     init { assertBackgroundThread() }
 
                     override fun getOldListSize(): Int = dataSet.values.sumBy { it.size }
 
-                    override fun getNewListSize(): Int = it.values.sumBy { it.size }
+                    override fun getNewListSize(): Int = it.data.values.sumBy { it.size }
 
                     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                         val oldItem = getItem(dataSet, oldItemPosition)
-                        val newItem = getItem(it, newItemPosition)
+                        val newItem = getItem(it.data, newItemPosition)
                         return adapter.areItemsTheSame(oldItem, newItem)
                     }
 
                     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                         val oldItem = getItem(dataSet, oldItemPosition)
-                        val newItem = getItem(it, newItemPosition)
+                        val newItem = getItem(it.data, newItemPosition)
                         return oldItem == newItem &&
                                 oldItemPosition == newItemPosition
                     }
                 })) }
+                .filter { it.first.version == dataVersion }
+                .map { (data, callback) -> Pair(data.data, callback) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { (newData, callback) ->
                     val wasEmpty = isEmpty()

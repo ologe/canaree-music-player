@@ -12,6 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 
 class BaseListAdapterController<Model>(
         private val adapter: BaseListAdapter<Model>
@@ -19,7 +20,6 @@ class BaseListAdapterController<Model>(
 ) : DefaultLifecycleObserver {
 
     private var dataSetDisposable: Disposable? = null
-
     private val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
 
     private val originalList = mutableListOf<Model>()
@@ -31,17 +31,24 @@ class BaseListAdapterController<Model>(
 
     fun getSize() : Int = dataSet.size
 
+    fun onNext(data: List<Model>) {
+        dataVersion++
+        this.originalList.clearThenAdd(data)
+        publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
+    }
+
     override fun onStart(owner: LifecycleOwner) {
         dataSetDisposable = publisher
                 .toSerialized()
-                .onBackpressureLatest()
                 .observeOn(Schedulers.computation())
-                .distinctUntilChanged { data -> data.list }
+                .debounce(50, TimeUnit.MILLISECONDS)
+                .onBackpressureLatest()
+                .distinctUntilChanged { data -> data.data }
                 .map {
-                    it.list.addAll(0, adapter.provideHeaders())
+                    it.data.addAll(0, adapter.provideHeaders())
                     it
                 }
-                .filter { it.dataVersion == dataVersion }
+                .filter { it.version == dataVersion }
                 .map {
                     it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
 
@@ -49,28 +56,29 @@ class BaseListAdapterController<Model>(
 
                     override fun getOldListSize(): Int = dataSet.size
 
-                    override fun getNewListSize(): Int = it.list.size
+                    override fun getNewListSize(): Int = it.data.size
 
                     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                         val oldItem : Model = dataSet[oldItemPosition]
-                        val newItem : Model = it.list[newItemPosition]
+                        val newItem : Model = it.data[newItemPosition]
                         return adapter.areItemsTheSame(oldItem, newItem)
                     }
 
                     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                         val oldItem : Model = dataSet[oldItemPosition]
-                        val newItem : Model = it.list[newItemPosition]
+                        val newItem : Model = it.data[newItemPosition]
                         return oldItem == newItem &&
                                 oldItemPosition == newItemPosition
                     }
                 })) }
-                .filter { it.first.dataVersion == dataVersion }
+                .filter { it.first.version == dataVersion }
+                .map { (data, callback) -> Pair(data.data, callback)}
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ (newAdapterData, callback) ->
+                .subscribe({ (newData, callback) ->
 
                     val wasEmpty = this.dataSet.isEmpty()
 
-                    this.dataSet.clearThenAdd(newAdapterData.list)
+                    this.dataSet.clearThenAdd(newData)
 
                     if (wasEmpty || !adapter.hasGranularUpdate()) {
                         adapter.notifyDataSetChanged()
@@ -84,18 +92,12 @@ class BaseListAdapterController<Model>(
 
 
     fun onDataChanged(): Flowable<List<Model>> {
-        return publisher.map { it.list }
+        return publisher.map { it.data }
     }
 
     @CallSuper
     override fun onStop(owner: LifecycleOwner) {
         dataSetDisposable.unsubscribe()
-    }
-
-    fun onNext(data: List<Model>) {
-        dataVersion++
-        this.originalList.clearThenAdd(data)
-        publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
     }
 
     fun getDataSet(): List<Model> = dataSet
