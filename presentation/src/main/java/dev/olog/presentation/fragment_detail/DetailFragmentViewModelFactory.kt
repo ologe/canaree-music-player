@@ -11,7 +11,6 @@ import javax.inject.Inject
 class DetailFragmentViewModelFactory @Inject constructor(
         private val application: Application,
         private val mediaId: String,
-        private val itemPosition: Int,
         private val item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         private val albums: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
@@ -23,7 +22,6 @@ class DetailFragmentViewModelFactory @Inject constructor(
         return DetailFragmentViewModel(
                 application,
                 mediaId,
-                itemPosition,
                 item,
                 albums,
                 insertMostPlayedUseCase,

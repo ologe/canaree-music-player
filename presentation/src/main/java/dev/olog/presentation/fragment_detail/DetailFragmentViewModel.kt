@@ -3,25 +3,18 @@ package dev.olog.presentation.fragment_detail
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import android.graphics.Color
-import android.support.v7.graphics.Palette
 import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
-import dev.olog.presentation.images.ImageUtils
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.ColorUtils
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
 
 class DetailFragmentViewModel(
         application: Application,
         mediaId: String,
-        itemPosition: Int,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
@@ -37,22 +30,9 @@ class DetailFragmentViewModel(
     }
 
     private val category = MediaIdHelper.extractCategory(mediaId)
-    private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
     val itemTitleLiveData: LiveData<String> = item[category]!!
             .map { it.title }
-            .asLiveData()
-
-    val isCoverDarkLiveData: LiveData<Boolean> = item[category]!!
-            .observeOn(Schedulers.computation())
-            .map {
-                ImageUtils.getBitmapFromUri(application, it.image, source, itemPosition)
-            }
-            .map { Palette.from(it).setRegion(0,0, it.width, (it.height * 0.2).toInt()) }
-            .map { it.generate() }
-            .map { it.getVibrantColor(Color.WHITE) }
-            .map { ColorUtils.isColorDark(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .asLiveData()
 
     val mostPlayedFlowable: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!

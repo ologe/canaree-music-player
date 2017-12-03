@@ -40,7 +40,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var mediaId: String
     @Inject lateinit var recyclerViewPool : RecyclerView.RecycledViewPool
-    private var isCoverDark = false
 
     private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
 
@@ -53,7 +52,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        setLightButtons()
 
         viewModel.mostPlayedFlowable
                 .subscribe(this, mostPlayedAdapter::updateDataSet)
@@ -90,9 +89,9 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                 .distinctUntilChanged()
                 .asLiveData()
                 .subscribe(this, { lightStatusBar ->
-                    if (lightStatusBar || !isCoverDark){
+                    if (lightStatusBar){
                         setDarkButtons()
-                    } else if (isCoverDark){
+                    } else {
                         setLightButtons()
                     }
                 })
@@ -115,14 +114,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                 })
 
         viewModel.itemTitleLiveData.subscribe(this, view.header::setText)
-
-        viewModel.isCoverDarkLiveData.subscribe(this, { isCoverDark ->
-            if (isCoverDark){
-                setLightButtons()
-            } else{
-                setDarkButtons()
-            }
-        })
     }
 
     private fun setLightButtons(){
@@ -162,11 +153,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
                 setDarkButtons()
             } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
-                if (isCoverDark) {
-                    setLightButtons()
-                } else {
-                    setDarkButtons()
-                }
+                setLightButtons()
             }
         }
 

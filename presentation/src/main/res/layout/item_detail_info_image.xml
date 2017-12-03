@@ -26,7 +26,15 @@
             app:imageBigAlbum="@{item.image}"
             app:source="@{source}"
             app:position="@{position}"
-            tools:src="@drawable/placeholder_folder"/>
+            tools:src="@android:color/holo_red_dark" />
+
+        <View
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:background="@drawable/vd_fade"/>
 
         <TextView
             android:id="@+id/title"
