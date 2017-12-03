@@ -39,8 +39,6 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
     operator fun get(position: Int): Model = getItem(dataSet, position)
 
     fun onNext(data: MutableMap<E, MutableList<Model>>) {
-//        originalDataSet.clearThenPut(addHeaderByType(data))
-//        publisher.onNext(originalDataSet.toMutableMap())
         publisher.onNext(data)
     }
 
@@ -103,5 +101,7 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
         }
         throw IllegalArgumentException("invalid position $position")
     }
+
+    fun getDataSet() : MutableMap<E, MutableList<Model>> = dataSet
 
 }

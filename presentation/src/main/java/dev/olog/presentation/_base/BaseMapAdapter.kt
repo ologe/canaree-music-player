@@ -51,5 +51,6 @@ abstract class BaseMapAdapter<E: Enum<E>, Model> (
     internal open fun afterDataChanged(){
     }
 
+    internal fun getDataSet(): Map<E, List<Model>> = dataController.getDataSet()
 
 }

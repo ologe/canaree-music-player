@@ -62,6 +62,10 @@ object MediaIdHelper {
         return mediaId.substring(0, indexOfCategory)
     }
 
+    fun isSong(mediaId: String) : Boolean {
+        return mediaId.indexOf(LEAF_SEPARATOR) > 0
+    }
+
     fun extractCategoryValue(mediaId: String): String {
         val indexOfCategory = mediaId.indexOf(CATEGORY_SEPARATOR)
         if (indexOfCategory == -1){

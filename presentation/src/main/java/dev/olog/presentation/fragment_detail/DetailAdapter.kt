@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
@@ -64,6 +65,7 @@ class DetailAdapter @Inject constructor(
                 val snapHelper = LinearSnapHelper()
                 snapHelper.attachToRecyclerView(list)
             }
+
             R.layout.item_detail_song -> {
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
@@ -74,7 +76,23 @@ class DetailAdapter @Inject constructor(
                                 .subscribe()
                     }
                 }
+                viewHolder.itemView.setOnLongClickListener {
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        navigator.toDialog(item, viewHolder.itemView)
+                    }
+                    true
+                }
+                viewHolder.itemView.findViewById<View>(R.id.more).setOnClickListener { view ->
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        navigator.toDialog(item, view)
+                    }
+                }
             }
+
             R.layout.item_detail_album -> {
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
@@ -83,6 +101,15 @@ class DetailAdapter @Inject constructor(
                         navigator.toDetailActivity(item.mediaId, position)
                     }
                 }
+                viewHolder.itemView.setOnLongClickListener {
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        navigator.toDialog(item, viewHolder.itemView)
+                    }
+                    true
+                }
+
             }
             R.layout.item_detail_related_artist -> {
                 viewHolder.itemView.setOnClickListener {

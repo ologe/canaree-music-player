@@ -32,8 +32,10 @@ object Popup {
                 when (playlistId){
                     -5000L, -4000L, -3000L -> {
                         menu.removeItem(R.id.rename)
-                        menu.removeItem(R.id.clear)
                     }
+                }
+                when (playlistId){
+                    -5000L -> menu.removeItem(R.id.clear)
                 }
             }
             MediaIdHelper.MEDIA_ID_BY_ALL -> {
@@ -62,6 +64,10 @@ object Popup {
     @MenuRes
     private fun provideMenuRes(mediaId: String): Int{
         val category = MediaIdHelper.extractCategory(mediaId)
+        if (MediaIdHelper.isSong(mediaId)){
+            return R.menu.dialog_song
+        }
+
         return when (category){
             MediaIdHelper.MEDIA_ID_BY_FOLDER -> R.menu.dialog_folder
             MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> R.menu.dialog_playlist
