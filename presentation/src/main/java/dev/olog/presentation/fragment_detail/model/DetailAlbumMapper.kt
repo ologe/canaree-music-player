@@ -1,5 +1,6 @@
 package dev.olog.presentation.fragment_detail.model
 
+import android.content.res.Resources
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Genre
@@ -8,19 +9,21 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
 
-fun Folder.toDetailDisplayableItem(): DisplayableItem {
+fun Folder.toDetailDisplayableItem(resources: Resources, folderSize: Int): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album_mini,
             MediaIdHelper.folderId(path),
-            title.capitalize()
+            title.capitalize(),
+            resources.getQuantityString(R.plurals.detail_xx_songs, folderSize, folderSize)
     )
 }
 
-fun Playlist.toDetailDisplayableItem(): DisplayableItem {
+fun Playlist.toDetailDisplayableItem(resources: Resources, playlistSize: Int): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album_mini,
             MediaIdHelper.playlistId(id),
-            title.capitalize()
+            title.capitalize(),
+            resources.getQuantityString(R.plurals.detail_xx_songs, playlistSize, playlistSize)
     )
 }
 
@@ -34,10 +37,11 @@ fun Album.toDetailDisplayableItem(): DisplayableItem {
     )
 }
 
-fun Genre.toDetailDisplayableItem(): DisplayableItem {
+fun Genre.toDetailDisplayableItem(resources: Resources, genreSize: Int): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album_mini,
             MediaIdHelper.genreId(id),
-            name.capitalize()
+            name.capitalize(),
+            resources.getQuantityString(R.plurals.detail_xx_songs, genreSize, genreSize)
     )
 }

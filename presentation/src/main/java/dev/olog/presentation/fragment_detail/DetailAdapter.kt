@@ -43,7 +43,7 @@ class DetailAdapter @Inject constructor(
             R.layout.item_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 val layoutManager = GridLayoutManager(viewHolder.itemView.context,
-                        1, GridLayoutManager.HORIZONTAL, false)
+                        5, GridLayoutManager.HORIZONTAL, false)
                 layoutManager.isItemPrefetchEnabled = true
                 layoutManager.initialPrefetchItemCount = 10
                 list.layoutManager = layoutManager
@@ -94,7 +94,8 @@ class DetailAdapter @Inject constructor(
                 }
             }
 
-            R.layout.item_detail_album -> {
+            R.layout.item_detail_album,
+            R.layout.item_detail_album_mini -> {
                 viewHolder.itemView.setOnClickListener {
                     val position = viewHolder.adapterPosition
                     if (position != RecyclerView.NO_POSITION){
@@ -142,7 +143,7 @@ class DetailAdapter @Inject constructor(
             R.layout.item_most_played_horizontal_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                (list.adapter as DetailMostPlayedAdapter).onDataChanged()
+                mostPlayedAdapter.onDataChanged()
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
                         .map { it.size }
                         .observeOn(AndroidSchedulers.mainThread())

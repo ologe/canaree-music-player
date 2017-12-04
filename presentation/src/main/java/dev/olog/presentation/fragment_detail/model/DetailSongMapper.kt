@@ -8,11 +8,18 @@ import dev.olog.shared.TextUtils
 
 
 fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
+    val category = MediaIdHelper.extractCategory(parentId)
+    val secondText = when (category){
+        MediaIdHelper.MEDIA_ID_BY_ALBUM -> this.artist
+        MediaIdHelper.MEDIA_ID_BY_ARTIST -> this.album
+        else -> "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
+    }
+
     return DisplayableItem(
             R.layout.item_detail_song,
             MediaIdHelper.playableItem(parentId, id),
             title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            secondText,
             image,
             true,
             isRemix,

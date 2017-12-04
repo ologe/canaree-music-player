@@ -42,4 +42,9 @@
     <string name="recently_added">Recently Added</string>
     <string name="albums">Albums</string>
 
+    <plurals name="detail_xx_songs">
+        <item quantity="one">%1$d song</item>
+        <item quantity="other">%1$d songs</item>
+    </plurals>
+
 </resources>

@@ -13,8 +13,8 @@ class DetailHeaders @Inject constructor(
 ) {
 
     companion object {
-        const val RECENTLY_ADDED_ID = "recent id"
-        const val ALBUMS_ID = "albums id"
+        const val RECENTLY_ADDED_ID = "recent id with see all"
+        const val ALBUMS_ID = "albums id with see all"
     }
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
@@ -25,19 +25,19 @@ class DetailHeaders @Inject constructor(
     )
 
     val recent = listOf(
-            DisplayableItem(R.layout.item_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added)),
+            DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added)),
             DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
     )
 
     val recentWithSeeAll = listOf(
-            DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_all)),
+            DisplayableItem(R.layout.item_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_all)),
             DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
     )
 
-    val albums : DisplayableItem = DisplayableItem(R.layout.item_header, ALBUMS_ID,
+    val albums : DisplayableItem = DisplayableItem(R.layout.item_header, "albums id",
             context.resources.getStringArray(R.array.detail_album_header)[source])
 
-    val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_header, "albums id",
+    val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_header, ALBUMS_ID,
             context.resources.getStringArray(R.array.detail_album_header)[source],
             context.getString(R.string.detail_see_all))
 
