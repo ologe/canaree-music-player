@@ -20,7 +20,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
-import dev.olog.presentation.music_service.MusicController
+import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView

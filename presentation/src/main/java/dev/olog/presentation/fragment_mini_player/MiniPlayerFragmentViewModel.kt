@@ -6,7 +6,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.fragment_mini_player.model.MiniPlayerMedatata
 import dev.olog.presentation.fragment_mini_player.model.toMiniPlayerMetadata
-import dev.olog.presentation.music_service.RxMusicServiceControllerCallback
+import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
 
 class MiniPlayerFragmentViewModel(

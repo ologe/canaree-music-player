@@ -1,4 +1,4 @@
-package dev.olog.presentation.music_service
+package dev.olog.presentation.service_music
 
 import android.support.v4.media.session.MediaControllerCompat
 

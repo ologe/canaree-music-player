@@ -1,4 +1,4 @@
-package dev.olog.presentation.music_service
+package dev.olog.presentation.service_music
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner

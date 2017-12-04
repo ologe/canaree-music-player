@@ -1,5 +1,6 @@
 package dev.olog.presentation.activity_main
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat
 import android.widget.TextView
@@ -10,8 +11,10 @@ import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
-import dev.olog.presentation.music_service.MediaControllerProvider
-import dev.olog.presentation.music_service.MusicServiceBinder
+import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
+import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
+import dev.olog.presentation.service_music.MediaControllerProvider
+import dev.olog.presentation.service_music.MusicServiceBinder
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
@@ -24,9 +27,13 @@ import kotlin.LazyThreadSafetyMode.NONE
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
-    @Inject lateinit var adapter: TabViewPagerAdapter
+    companion object {
+        val REQUEST_CODE_HOVER_PERMISSION = 1000
+    }
 
+    @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
+    @Inject lateinit var floatingInfoClass: FloatingInfoServiceBinder
     private val innerPanelSlideListener by lazy(NONE) { InnerPanelSlideListener(this) }
 
     lateinit var title: TextView
@@ -71,6 +78,14 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     override fun onDestroy() {
         super.onDestroy()
         MediaControllerCompat.setMediaController(this, null)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_CODE_HOVER_PERMISSION){
+            FloatingInfoServiceHelper.startService(this, floatingInfoClass)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun onBackPressed() {

@@ -1,4 +1,4 @@
-package dev.olog.presentation.music_service
+package dev.olog.presentation.service_music
 
 enum class MusicServiceConnectionState {
     NONE, CONNECTING, CONNECTED, FAILED

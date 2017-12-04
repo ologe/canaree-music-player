@@ -8,7 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.ActivityContext
-import dev.olog.presentation.music_service.MediaControllerProvider
+import dev.olog.presentation.service_music.MediaControllerProvider
 
 @Module
 class MainActivityModule(

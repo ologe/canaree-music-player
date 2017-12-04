@@ -2,7 +2,7 @@ package dev.olog.presentation.fragment_mini_player
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.presentation.music_service.RxMusicServiceControllerCallback
+import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import javax.inject.Inject
 
 class MiniPlayerFragmentViewModelFactory @Inject constructor(

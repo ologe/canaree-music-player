@@ -4,4 +4,7 @@
     <string name="channel_id_notification">Media playback</string>
     <string name="channel_id_notification_description">Media playback controls</string>
 
+    <string name="unknown_album">Unknown Album</string>
+    <string name="unknown_artist">Unknown Artist</string>
+
 </resources>

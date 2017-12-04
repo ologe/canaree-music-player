@@ -7,6 +7,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
+import dev.olog.music_service.helper.MusixmatchPlugin
 import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
@@ -20,6 +21,7 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var activityClass : ActivityClass
     @Inject lateinit var mediaSession: MediaSessionCompat
     @Inject lateinit var callback: MediaSessionCallback
+    @Inject lateinit var musixMatchPlugin: MusixmatchPlugin
 
     override fun onCreate() {
         super.onCreate()

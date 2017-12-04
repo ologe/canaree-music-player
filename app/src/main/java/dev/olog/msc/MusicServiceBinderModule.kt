@@ -8,7 +8,7 @@ import dagger.Provides
 import dev.olog.music_service.MusicService
 import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.presentation.activity_main.MainActivity
-import dev.olog.presentation.music_service.RxMusicServiceConnectionCallback
+import dev.olog.presentation.service_music.RxMusicServiceConnectionCallback
 import dev.olog.shared.ApplicationContext
 import javax.inject.Singleton
 

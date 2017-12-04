@@ -1,5 +1,6 @@
 package dev.olog.presentation.dialog_entry
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -8,9 +9,14 @@ import android.view.MenuItem
 import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
+import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
+import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.utils.extension.asHtml
+import dev.olog.presentation.utils.isMarshmallow
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -19,11 +25,13 @@ class SongMenuListener @Inject constructor(
         private val activity: AppCompatActivity,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
-        private val getSongUseCase: GetSongUseCase
+        private val getSongUseCase: GetSongUseCase,
+        private val floatingInfoServiceBinder: FloatingInfoServiceBinder,
+        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase
 
 ) : BaseMenuListener(getSongListByParamUseCase, navigator) {
 
-
+    @SuppressLint("NewApi")
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
         when (itemId){
@@ -42,6 +50,22 @@ class SongMenuListener @Inject constructor(
                         .doOnSuccess { navigator.toDetailActivity(it, 0) }
                         .toCompletable()
                         .subscribe()
+            }
+            R.id.lyrics,
+            R.id.video -> {
+                getSongUseCase.execute(item.mediaId)
+                        .firstOrError()
+                        .map { item.title } // todo vedere che dati prendere
+                        .doOnSuccess { setFloatingInfoRequestUseCase.execute(it) }
+                        .subscribe()
+
+                val drawOverlay = FloatingInfoServiceHelper.hasOverlayPermission(activity)
+                if (!drawOverlay && isMarshmallow()){
+                    val intent = FloatingInfoServiceHelper.createIntentToRequestOverlayPermission(activity)
+                    activity.startActivityForResult(intent, MainActivity.REQUEST_CODE_HOVER_PERMISSION)
+                } else {
+                    FloatingInfoServiceHelper.startService(activity, floatingInfoServiceBinder)
+                }
             }
             R.id.share -> {
                 getSongUseCase.execute(item.mediaId)

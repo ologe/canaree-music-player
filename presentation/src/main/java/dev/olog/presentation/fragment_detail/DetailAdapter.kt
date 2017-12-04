@@ -14,8 +14,8 @@ import dev.olog.presentation._base.BaseMapAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.music_service.MusicController
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_music.MusicController
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers

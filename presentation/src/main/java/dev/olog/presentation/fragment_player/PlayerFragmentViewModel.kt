@@ -11,7 +11,7 @@ import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.DurationModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.model.toPlayerMetadata
-import dev.olog.presentation.music_service.RxMusicServiceControllerCallback
+import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.TextUtils.getReadableSongLength
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.TextUtils
