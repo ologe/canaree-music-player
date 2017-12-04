@@ -1,0 +1,3 @@
+package dev.olog.presentation.fragment_search
+
+class SearchFragmentAdapter

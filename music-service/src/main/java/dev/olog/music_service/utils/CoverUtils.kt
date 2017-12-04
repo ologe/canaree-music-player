@@ -38,8 +38,6 @@ object CoverUtils {
     }
 
     @DrawableRes
-    private fun getDrawable(): Int {
-        return R.drawable.placeholder_musical_note
-    }
+    private fun getDrawable(): Int = R.drawable.placeholder_musical_note
 
 }
