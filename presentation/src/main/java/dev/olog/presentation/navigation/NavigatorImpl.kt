@@ -18,7 +18,9 @@ import dev.olog.presentation.dialog_entry.Popup
 import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
 import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
+import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
+import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
@@ -79,6 +81,32 @@ class NavigatorImpl @Inject constructor(
                         RelatedArtistFragment.newInstance(mediaId),
                         RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
+            }
+        }
+    }
+
+    override fun toRecentlyAdded(mediaId: String) {
+        if (allowed()){
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                replace(R.id.viewPagerLayout,
+                        RecentlyAddedFragment.newInstance(mediaId),
+                        RecentlyAddedFragment.TAG)
+                addToBackStack(RecentlyAddedFragment.TAG)
+            }
+        }
+    }
+
+    override fun toAlbums(mediaId: String) {
+        if (allowed()){
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                replace(R.id.viewPagerLayout,
+                        AlbumsFragment.newInstance(mediaId),
+                        AlbumsFragment.TAG)
+                addToBackStack(AlbumsFragment.TAG)
             }
         }
     }

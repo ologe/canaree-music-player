@@ -39,5 +39,7 @@
     </plurals>
 
     <string name="related_artists">Related artists</string>
+    <string name="recently_added">Recently Added</string>
+    <string name="albums">Albums</string>
 
 </resources>

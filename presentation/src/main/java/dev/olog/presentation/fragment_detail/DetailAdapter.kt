@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.TextView
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
@@ -118,6 +119,20 @@ class DetailAdapter @Inject constructor(
             }
             R.layout.item_shuffle_with_divider -> {
                 viewHolder.itemView.setOnClickListener { musicController.playShuffle(mediaId) }
+            }
+            R.layout.item_header -> {
+                val seeAll = viewHolder.itemView.findViewById<TextView>(R.id.seeAll)
+                seeAll.setOnClickListener {
+                    val position = viewHolder.adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val item = dataController[position]
+                        when (item.mediaId) {
+                            DetailHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
+                            DetailHeaders.ALBUMS_ID -> navigator.toAlbums(mediaId)
+                        }
+                    }
+                }
+
             }
         }
     }

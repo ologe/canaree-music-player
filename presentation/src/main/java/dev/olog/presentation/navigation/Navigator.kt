@@ -11,6 +11,10 @@ interface Navigator {
 
     fun toRelatedArtists(mediaId: String)
 
+    fun toRecentlyAdded(mediaId: String)
+
+    fun toAlbums(mediaId: String)
+
     fun toDialog(item: DisplayableItem, anchor: View)
 
     fun toSetRingtoneDialog(mediaId: String, itemTitle: String)

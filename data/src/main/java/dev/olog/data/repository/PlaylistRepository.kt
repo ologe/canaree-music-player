@@ -105,6 +105,7 @@ class PlaylistRepository @Inject constructor(
         }
     }
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
         return when (playlistId){
             DataConstants.LAST_ADDED_ID -> getLastAddedSongs()
@@ -153,12 +154,12 @@ class PlaylistRepository @Inject constructor(
                 }
     }
 
-    override fun deletePlaylist(id: Long): Completable {
+    override fun deletePlaylist(playlistId: Long): Completable {
         return Completable.fromCallable{
             contentResolver.delete(
                     MEDIA_STORE_URI,
                     "${BaseColumns._ID} = ?",
-                    arrayOf("$id"))
+                    arrayOf("$playlistId"))
         }
     }
 
@@ -228,14 +229,14 @@ class PlaylistRepository @Inject constructor(
         }.subscribeOn(Schedulers.io())
     }
 
-    override fun renamePlaylist(id: Long, newTitle: String): Completable {
+    override fun renamePlaylist(playlistId: Long, newTitle: String): Completable {
         return Completable.create { e ->
 
             val values = ContentValues(1)
             values.put(MediaStore.Audio.Playlists.NAME, newTitle)
 
             val rowsUpdated = contentResolver.update(MEDIA_STORE_URI,
-                    values, "${BaseColumns._ID} = ?", arrayOf("$id"))
+                    values, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
 
             if (rowsUpdated > 0){
                 e.onComplete()
