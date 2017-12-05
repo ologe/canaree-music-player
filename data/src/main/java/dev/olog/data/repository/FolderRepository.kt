@@ -6,12 +6,12 @@ import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.domain.mapper.toFolder
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,31 +24,35 @@ class FolderRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    private val listObservable : Flowable<List<Folder>> = songGateway.getAll()
-                .flatMapSingle { it.toFlowable()
-                        .distinct { it.folderPath }
-                        .map(Song::toFolder)
-                        .toSortedList(compareBy { it.title.toLowerCase() })
-                }.distinctUntilChanged()
-                .replay(1)
-                .refCount()
+    private val data : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAll()
+            .flatMapSingle { it.toFlowable().collectInto(mutableMapOf<String, MutableList<Song>>(), { map, song ->
+                if (map.contains(song.folderPath)){
+                    map[song.folderPath]!!.add(song)
+                } else {
+                    map.put(song.folderPath, mutableListOf(song))
+                }
+            })
+            }.distinctUntilChanged()
+            .replay(1)
+            .refCount()
 
+    private val listObservable : Flowable<List<Folder>> = data.flatMapSingle { it.entries.toFlowable()
+                .map {
+                    Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
+                            it.key, it.value.size)
+                }.toSortedList(compareBy { it.title.toLowerCase() })
+            }.distinctUntilChanged()
+            .replay(1)
+            .refCount()
 
     override fun getAll(): Flowable<List<Folder>> = listObservable
 
     override fun observeSongListByParam(param: String): Flowable<List<Song>> {
-        return songGateway.getAll()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.folderPath == param }
-                        .toList()
-                }
+        return data.map { it[param]!! }
     }
 
     override fun getByParam(param: String): Flowable<Folder> {
-        return getAll().flatMapSingle { it.toFlowable()
-                .filter { it.path == param }
-                .firstOrError()
-        }
+        return getAll().map { it.first { it.path == param } }
     }
 
     override fun getMostPlayed(param: String): Flowable<List<Song>> {

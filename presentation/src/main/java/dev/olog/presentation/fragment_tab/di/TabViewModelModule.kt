@@ -1,6 +1,7 @@
 package dev.olog.presentation.fragment_tab.di
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.v4.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
@@ -12,6 +13,7 @@ import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragmentViewModelFactory
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
+import dev.olog.shared.ApplicationContext
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 
@@ -26,9 +28,12 @@ class TabViewModelModule {
     @Provides
     @IntoMap
     @IntKey(TabViewPagerAdapter.FOLDER)
-    internal fun provideFolderData(useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
+    internal fun provideFolderData(
+            @ApplicationContext context: Context,
+            useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
+
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }
+                .map { it.toDisplayableItem(context) }
                 .toList()
         }
     }
@@ -66,9 +71,12 @@ class TabViewModelModule {
     @Provides
     @IntoMap
     @IntKey(TabViewPagerAdapter.ARTIST)
-    internal fun provideArtistData(useCase: GetAllArtistsUseCase): Flowable<List<DisplayableItem>> {
+    internal fun provideArtistData(
+            @ApplicationContext context: Context,
+            useCase: GetAllArtistsUseCase) : Flowable<List<DisplayableItem>> {
+
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }
+                .map { it.toDisplayableItem(context) }
                 .toList()
         }
     }

@@ -1,15 +1,18 @@
 package dev.olog.presentation.model
 
+import android.content.Context
 import dev.olog.domain.entity.*
 import dev.olog.presentation.R
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
 
-fun Folder.toDisplayableItem(): DisplayableItem{
+fun Folder.toDisplayableItem(context: Context): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album_alt,
+            R.layout.item_tab_album,
             MediaIdHelper.folderId(path),
-            title.capitalize()
+            title.capitalize(),
+            context.resources.getQuantityString(R.plurals.song_count,
+                    this.size, this.size).toLowerCase()
     )
 }
 
@@ -44,11 +47,15 @@ fun Album.toDisplayableItem(): DisplayableItem{
     )
 }
 
-fun Artist.toDisplayableItem(): DisplayableItem{
+fun Artist.toDisplayableItem(context: Context): DisplayableItem{
+    val songs = context.resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+    val albums = context.resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)
+
     return DisplayableItem(
-            R.layout.item_tab_album_alt,
+            R.layout.item_tab_album,
             MediaIdHelper.artistId(id),
-            name
+            name,
+            "$albums, $songs".toLowerCase()
     )
 }
 

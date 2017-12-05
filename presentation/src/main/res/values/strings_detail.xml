@@ -33,6 +33,11 @@
         <item quantity="other">%d Songs</item>
     </plurals>
 
+    <plurals name="album_count">
+        <item quantity="one">%d Album</item>
+        <item quantity="other">%d Albums</item>
+    </plurals>
+
     <plurals name="duration_count">
         <item quantity="one">%d Minute</item>
         <item quantity="other">%d Minutes</item>
@@ -41,10 +46,5 @@
     <string name="related_artists">Related artists</string>
     <string name="recently_added">Recently Added</string>
     <string name="albums">Albums</string>
-
-    <plurals name="detail_xx_songs">
-        <item quantity="one">%1$d song</item>
-        <item quantity="other">%1$d songs</item>
-    </plurals>
 
 </resources>

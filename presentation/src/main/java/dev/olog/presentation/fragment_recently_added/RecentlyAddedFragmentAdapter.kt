@@ -22,7 +22,7 @@ class RecentlyAddedFragmentAdapter @Inject constructor(
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, position ->
+        viewHolder.setOnClickListener(dataController) { item, _ ->
             musicController.playFromMediaId(item.mediaId)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->

@@ -30,7 +30,7 @@ class SearchFragmentViewModel(
         private val getAllAlbumsUseCase: GetAllAlbumsUseCase,
         private val getAllArtistsUseCase: GetAllArtistsUseCase,
         private val searchHeaders: SearchHeaders,
-        private val getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
+        getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
         private val insertSearchSongUseCase: InsertRecentSearchSongUseCase,
         private val insertSearchAlbumUseCase: InsertRecentSearchAlbumUseCase,
         private val insertSearchArtistUseCase: InsertRecentSearchArtistUseCase,
@@ -147,9 +147,11 @@ class SearchFragmentViewModel(
             .flatMapSingle { it.toFlowable().map { it.toDisplayableItem(application) }.toList() }
             .map {
                 if (it.isNotEmpty()){
-                    it.addAll(0, searchHeaders.recents)
-                    it.add(DisplayableItem(R.layout.item_recent_search_footer, "clear recents id", ""))
+                    it.add(DisplayableItem(R.layout.item_recent_search_footer, "clear recent id", ""))
+                } else {
+                    it.add(DisplayableItem(R.layout.item_recent_search_empty_state, "search empty state id", ""))
                 }
+                it.addAll(0, searchHeaders.recents)
                 it
             }
 

@@ -13,6 +13,7 @@
 
     <string name="search_recent_searches">Recent searches</string>
     <string name="search_clear_recent_searches">Clear recent searches</string>
+    <string name="search_recent_empty_state">Search something first..</string>
 
     <plurals name="search_xx_results">
         <item quantity="one">%1$s result</item>

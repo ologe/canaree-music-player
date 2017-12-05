@@ -13,7 +13,6 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
         tools:background="@color/background"
         android:layout_margin="5dp"
@@ -58,6 +57,21 @@
             android:text="@{item.title}"
 
             tools:text="@tools:sample/lorem"/>
+
+        <TextView
+            android:id="@+id/secondText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@+id/firstText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            style="@style/Album.SecondaryText"
+            android:text="@{item.subtitle}"
+
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 

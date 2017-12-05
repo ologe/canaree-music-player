@@ -2,6 +2,7 @@ package dev.olog.presentation.fragment_albums.di
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,7 @@ import dev.olog.presentation.fragment_albums.AlbumsFragmentViewModel
 import dev.olog.presentation.fragment_albums.AlbumsFragmentViewModelFactory
 import dev.olog.presentation.fragment_detail.model.toDetailDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
@@ -44,18 +46,13 @@ class AlbumsFragmentModule(
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_FOLDER)
     internal fun provideFolderData(
-            resources: Resources,
+            @ApplicationContext context: Context,
             mediaId: String,
-            useCase: GetFolderSiblingsUseCase,
-            albumsSizeUseCase: GetAlbumsSizeUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().flatMapSingle { folder ->
-                albumsSizeUseCase.execute(MediaIdHelper.folderId(folder.path))
-                        .map { folder.toDetailDisplayableItem(resources, it) }
-                        .firstOrError().subscribeOn(Schedulers
-                        .computation())
-            }.toList()
+        return useCase.execute(mediaId).flatMapSingle { it.toFlowable()
+                .map { it.toDetailDisplayableItem(context) }
+                .toList()
         }
     }
 
