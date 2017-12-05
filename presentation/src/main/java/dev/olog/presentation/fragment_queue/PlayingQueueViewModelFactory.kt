@@ -2,7 +2,7 @@ package dev.olog.presentation.fragment_queue
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.domain.interactor.service.GetMiniPlayingQueueUseCase
+import dev.olog.domain.interactor.music_service.GetMiniPlayingQueueUseCase
 import javax.inject.Inject
 
 class PlayingQueueViewModelFactory @Inject constructor(

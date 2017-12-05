@@ -3,7 +3,7 @@ package dev.olog.music_service
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
-import dev.olog.domain.interactor.service.RepeatModeUseCase
+import dev.olog.domain.interactor.music_service.RepeatModeUseCase
 import dev.olog.music_service.di.PerService
 import javax.inject.Inject
 

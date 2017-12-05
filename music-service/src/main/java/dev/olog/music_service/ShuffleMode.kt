@@ -3,7 +3,7 @@ package dev.olog.music_service
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_ALL
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_NONE
-import dev.olog.domain.interactor.service.ShuffleModeUseCase
+import dev.olog.domain.interactor.music_service.ShuffleModeUseCase
 import dev.olog.music_service.di.PerService
 import javax.inject.Inject
 

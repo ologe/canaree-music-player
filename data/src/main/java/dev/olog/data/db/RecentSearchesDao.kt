@@ -1,9 +1,6 @@
 package dev.olog.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import dev.olog.data.entity.RecentSearchesEntity
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
@@ -27,7 +24,8 @@ abstract class RecentSearchesDao {
 
     @Query("SELECT * " +
             "from recent_searches " +
-            "ORDER BY insertionTime DESC")
+            "ORDER BY insertionTime DESC "+
+            "LIMIT 50")
     internal abstract fun getAllImpl(): Flowable<List<RecentSearchesEntity>>
 
     fun getAll(songList: Single<List<Song>>,
@@ -58,6 +56,26 @@ abstract class RecentSearchesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertImpl(recent: RecentSearchesEntity)
+
+    @Delete
+    abstract fun deleteImpl(recentSearch: RecentSearchesEntity)
+
+    @Query("DELETE FROM recent_searches WHERE dataType = :dataType AND itemId = :itemId")
+    abstract fun deleteImpl(dataType: Int, itemId: Long): RecentSearchesEntity
+
+    @Query("DELETE FROM recent_searches")
+    abstract fun deleteAllImpl()
+
+    fun delete(dataType: Int, itemId: Long): Completable {
+        return Completable.fromCallable {
+            deleteImpl(dataType, itemId)
+        }.subscribeOn(Schedulers.io())
+    }
+
+    fun deleteAll(): Completable {
+        return Completable.fromCallable { deleteAll() }
+                .subscribeOn(Schedulers.io())
+    }
 
     fun insertSong(song: Song): Completable{
         return Completable.fromCallable { insertImpl(

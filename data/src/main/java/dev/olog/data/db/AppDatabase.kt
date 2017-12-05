@@ -9,7 +9,8 @@ import dev.olog.data.entity.*
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
         GenreMostPlayedEntity::class,
-        FavoriteEntity::class
+        FavoriteEntity::class,
+        RecentSearchesEntity::class
 
 ), version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

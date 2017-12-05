@@ -3,9 +3,9 @@ package dev.olog.music_service
 import android.support.annotation.CheckResult
 import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaDescriptionCompat
-import dev.olog.domain.interactor.service.CurrentSongIdUseCase
-import dev.olog.domain.interactor.service.UpdateMiniQueueUseCase
-import dev.olog.domain.interactor.service.UpdatePlayingQueueUseCase
+import dev.olog.domain.interactor.music_service.CurrentSongIdUseCase
+import dev.olog.domain.interactor.music_service.UpdateMiniQueueUseCase
+import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.model.toMediaEntity

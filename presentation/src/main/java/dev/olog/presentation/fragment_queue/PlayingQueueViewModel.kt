@@ -2,7 +2,7 @@ package dev.olog.presentation.fragment_queue
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.domain.interactor.service.GetMiniPlayingQueueUseCase
+import dev.olog.domain.interactor.music_service.GetMiniPlayingQueueUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem

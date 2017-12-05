@@ -6,9 +6,9 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.service.BookmarkUseCase
-import dev.olog.domain.interactor.service.CurrentSongIdUseCase
-import dev.olog.domain.interactor.service.GetPlayingQueueUseCase
+import dev.olog.domain.interactor.music_service.BookmarkUseCase
+import dev.olog.domain.interactor.music_service.CurrentSongIdUseCase
+import dev.olog.domain.interactor.music_service.GetPlayingQueueUseCase
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
 import dev.olog.shared.MediaIdHelper

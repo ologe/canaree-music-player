@@ -53,6 +53,8 @@
         tools:listitem="@layout/item_related_artist"
         tools:layoutManager="android.support.v7.widget.GridLayoutManag‌​er"
         app:spanCount="3"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"/>
 
 </LinearLayout>

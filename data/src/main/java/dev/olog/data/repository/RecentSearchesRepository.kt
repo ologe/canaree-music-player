@@ -32,15 +32,15 @@ class RecentSearchesRepository @Inject constructor(
                 artistGateway.getAll().firstOrError())
     }
 
-    override fun insertSong(song: Song): Completable {
-        return dao.insertSong(song)
+    override fun insertSong(song: Song): Completable = dao.insertSong(song)
+
+    override fun insertAlbum(album: Album): Completable = dao.insertAlbum(album)
+
+    override fun insertArtist(artist: Artist): Completable = dao.insertArtist(artist)
+
+    override fun deleteItem(dataType: Int, itemId: Long): Completable {
+        return dao.delete(dataType, itemId)
     }
 
-    override fun insertAlbum(album: Album): Completable {
-        return dao.insertAlbum(album)
-    }
-
-    override fun insertArtist(artist: Artist): Completable {
-        return dao.insertArtist(artist)
-    }
+    override fun deleteAll(): Completable = dao.deleteAll()
 }

@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor.service
+package dev.olog.domain.interactor.music_service
 
 import dev.olog.domain.entity.Song
 import dev.olog.domain.executor.IoScheduler

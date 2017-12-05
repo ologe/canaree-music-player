@@ -43,5 +43,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun provideFavoriteRepository(repository: RecentSearchesRepository): RecentSearchesGateway
+    abstract fun provideRecentSearchesRepository(repository: RecentSearchesRepository): RecentSearchesGateway
 }

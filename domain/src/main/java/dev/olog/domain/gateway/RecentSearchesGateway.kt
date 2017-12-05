@@ -15,5 +15,7 @@ interface RecentSearchesGateway {
     fun insertAlbum(album: Album): Completable
     fun insertArtist(artist: Artist): Completable
 
+    fun deleteItem(dataType: Int, itemId: Long): Completable
+    fun deleteAll(): Completable
 
 }
