@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
@@ -43,29 +44,11 @@ class DetailAdapter @Inject constructor(
         when (viewType) {
             R.layout.item_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                val layoutManager = GridLayoutManager(viewHolder.itemView.context,
-                        5, GridLayoutManager.HORIZONTAL, false)
-                layoutManager.isItemPrefetchEnabled = true
-                layoutManager.initialPrefetchItemCount = 10
-                list.layoutManager = layoutManager
-                list.adapter = mostPlayedAdapter
-                list.recycledViewPool = recyclerViewPool
-
-                val snapHelper = LinearSnapHelper()
-                snapHelper.attachToRecyclerView(list)
+                setupHorizontalList(list, mostPlayedAdapter)
             }
             R.layout.item_recent_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                val layoutManager = GridLayoutManager(viewHolder.itemView.context,
-                        5, GridLayoutManager.HORIZONTAL, false)
-                layoutManager.isItemPrefetchEnabled = true
-                layoutManager.initialPrefetchItemCount = 10
-                list.layoutManager = layoutManager
-                list.adapter = recentSongsAdapter
-                list.recycledViewPool = recyclerViewPool
-
-                val snapHelper = LinearSnapHelper()
-                snapHelper.attachToRecyclerView(list)
+                setupHorizontalList(list, recentSongsAdapter)
             }
 
             R.layout.item_detail_song -> {
@@ -80,7 +63,6 @@ class DetailAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
             }
-
             R.layout.item_detail_album,
             R.layout.item_detail_album_mini -> {
                 viewHolder.setOnClickListener(dataController) { item, position ->
@@ -110,6 +92,19 @@ class DetailAdapter @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
+        val layoutManager = GridLayoutManager(list.context,
+                5, GridLayoutManager.HORIZONTAL, false)
+        layoutManager.isItemPrefetchEnabled = true
+        layoutManager.initialPrefetchItemCount = 10
+        list.layoutManager = layoutManager
+        list.adapter = adapter
+        list.recycledViewPool = recyclerViewPool
+
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(list)
     }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {

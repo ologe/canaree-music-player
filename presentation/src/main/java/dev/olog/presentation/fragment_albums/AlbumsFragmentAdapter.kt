@@ -24,13 +24,13 @@ class AlbumsFragmentAdapter @Inject constructor(
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(getDataSet()) { item, position ->
+        viewHolder.setOnClickListener(dataController) { item, position ->
             navigator.toDetailFragment(item.mediaId, position)
         }
-        viewHolder.setOnLongClickListener(getDataSet(), { item, _ ->
+        viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
-        })
-        viewHolder.setOnClickListener(R.id.more, getDataSet()) { item, _, view ->
+        }
+        viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
             navigator.toDialog(item, view)
         }
     }

@@ -1,14 +1,13 @@
 package dev.olog.presentation.fragment_detail.di
 
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.RecyclerView
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.fragment_detail.DetailDataType
-import dev.olog.presentation.fragment_detail.DetailFragment
-import dev.olog.presentation.fragment_detail.DetailFragmentView
+import dev.olog.presentation.fragment_detail.*
 
 @Module
 class DetailFragmentModule(
@@ -20,9 +19,7 @@ class DetailFragmentModule(
 
     @Provides
     @FragmentLifecycle
-    internal fun lifecycle(): Lifecycle {
-        return fragment.lifecycle
-    }
+    internal fun lifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
     internal fun provideMediaId(): String {
@@ -40,13 +37,15 @@ class DetailFragmentModule(
 
     @Provides
     @PerFragment
-    fun provideRecycledViewPool(): RecyclerView.RecycledViewPool {
-        return RecyclerView.RecycledViewPool()
-    }
+    fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
 
     @Provides
-    internal fun provideEnums() : Array<DetailDataType> {
-        return DetailDataType.values()
+    internal fun provideEnums() = DetailDataType.values()
+
+    @Provides
+    internal fun provideViewModel(factory: DetailFragmentViewModelFactory): DetailFragmentViewModel {
+        return ViewModelProviders.of(fragment, factory)
+                .get(DetailFragmentViewModel::class.java)
     }
 
 }

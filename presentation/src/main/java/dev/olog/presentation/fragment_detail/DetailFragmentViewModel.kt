@@ -1,8 +1,7 @@
 package dev.olog.presentation.fragment_detail
 
-import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.ViewModel
 import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
@@ -13,14 +12,13 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
 
 class DetailFragmentViewModel(
-        application: Application,
         mediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
         private val headers: DetailHeaders
 
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     companion object {
         const val RECENTLY_ADDED = "RECENTLY_ADDED"
