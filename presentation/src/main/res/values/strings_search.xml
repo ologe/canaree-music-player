@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search_hint">Search</string>
+
+    <string name="search_songs">Songs</string>
+    <string name="search_albums">Albums</string>
+    <string name="search_artists">Artists</string>
+
+</resources>

@@ -23,7 +23,7 @@ class SwipeableImageView @JvmOverloads constructor(
     private var yUp: Float = 0.toFloat()
     private var swipeListener: SwipeListener? = null
 
-    fun setOnSwipeListener(swipeListener: SwipeListener) {
+    fun setOnSwipeListener(swipeListener: SwipeListener?) {
         this.swipeListener = swipeListener
     }
 

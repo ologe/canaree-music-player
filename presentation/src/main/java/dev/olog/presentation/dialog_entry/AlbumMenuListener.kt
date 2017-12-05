@@ -22,7 +22,7 @@ class AlbumMenuListener @Inject constructor(
                 getAlbumUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.artistId(it.artistId) }
                         .firstOrError()
-                        .doOnSuccess { navigator.toDetailActivity(it, 0) }
+                        .doOnSuccess { navigator.toDetailFragment(it, 0) }
                         .toCompletable()
                         .subscribe()
             }

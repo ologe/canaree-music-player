@@ -22,6 +22,7 @@ import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
+import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import org.jetbrains.anko.clearTop
@@ -51,7 +52,7 @@ class NavigatorImpl @Inject constructor(
         activity.finish()
     }
 
-    override fun toDetailActivity(mediaId: String, position: Int) {
+    override fun toDetailFragment(mediaId: String, position: Int) {
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
             activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
@@ -68,6 +69,27 @@ class NavigatorImpl @Inject constructor(
                             DetailFragment.newInstance(mediaId, position),
                             DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
+            }
+        }
+    }
+
+    override fun toSearchFragment() {
+        if (allowed()){
+//            activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
+//            activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
+
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                setCustomAnimations(
+                        R.anim.right_slide_in,
+                        R.anim.right_stay,
+                        R.anim.left_stay,
+                        R.anim.left_slide_out
+                )
+                replace(R.id.viewPagerLayout,
+                        SearchFragment.newInstance(),
+                        SearchFragment.TAG)
+                addToBackStack(SearchFragment.TAG)
             }
         }
     }

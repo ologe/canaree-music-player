@@ -10,6 +10,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
 class RelatedArtistAdapter @Inject constructor(
@@ -20,9 +21,12 @@ class RelatedArtistAdapter @Inject constructor(
 
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(getDataSet(), { item, _ ->
-            navigator.toDetailActivity(item.mediaId, viewHolder.adapterPosition)
-        })
+        viewHolder.setOnClickListener(dataController) { item, _ ->
+            navigator.toDetailFragment(item.mediaId, viewHolder.adapterPosition)
+        }
+        viewHolder.setOnLongClickListener(dataController) { item, _ ->
+            navigator.toDialog(item, viewHolder.itemView)
+        }
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

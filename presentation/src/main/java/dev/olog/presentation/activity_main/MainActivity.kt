@@ -11,6 +11,7 @@ import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
+import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
@@ -34,6 +35,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
     @Inject lateinit var floatingInfoClass: FloatingInfoServiceBinder
+    @Inject lateinit var navigator: Navigator
     private val innerPanelSlideListener by lazy(NONE) { InnerPanelSlideListener(this) }
 
     lateinit var title: TextView
@@ -54,8 +56,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                 .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
 
         Observables.combineLatest(
-                RxSlidingUpPanel.panelStateEvents(slidingPanel).map { it.newState() == SlidingUpPanelLayout.PanelState.EXPANDED },
-                RxSlidingUpPanel.panelStateEvents(innerPanel).map { it.newState() == SlidingUpPanelLayout.PanelState.COLLAPSED },
+                RxSlidingUpPanel.panelStateEvents(slidingPanel).map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED },
+                RxSlidingUpPanel.panelStateEvents(innerPanel).map { it.newState == SlidingUpPanelLayout.PanelState.COLLAPSED },
                 { outerIsExpanded, innerIsCollapsed -> outerIsExpanded && innerIsCollapsed }
         ).distinctUntilChanged()
                 .asLiveData()
@@ -68,11 +70,13 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     override fun onResume() {
         super.onResume()
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
+        search.setOnClickListener { navigator.toSearchFragment() }
     }
 
     override fun onPause() {
         super.onPause()
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
+        search.setOnClickListener(null)
     }
 
     override fun onDestroy() {
