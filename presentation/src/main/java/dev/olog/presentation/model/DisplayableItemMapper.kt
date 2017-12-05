@@ -49,13 +49,15 @@ fun Album.toDisplayableItem(): DisplayableItem{
 
 fun Artist.toDisplayableItem(context: Context): DisplayableItem{
     val songs = context.resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
-    val albums = context.resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)
+    val albums = if (this.albums == 0) "" else {
+        "${context.resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}, "
+    }
 
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaIdHelper.artistId(id),
             name,
-            "$albums, $songs".toLowerCase()
+            "$albums$songs".toLowerCase()
     )
 }
 

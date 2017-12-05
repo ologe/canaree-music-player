@@ -54,7 +54,7 @@ class ArtistRepository @Inject constructor(
                 val result = mutableMapOf<Long, Pair<MutableList<Song>, MutableList<Album>>>()
                 for (entry in artists.entries) {
                     val key = entry.key
-                    result.put(key, Pair(entry.value, albums[key]!!))
+                    result.put(key, Pair(entry.value, albums[key] ?: mutableListOf()))
                 }
                 result
             }).distinctUntilChanged()
