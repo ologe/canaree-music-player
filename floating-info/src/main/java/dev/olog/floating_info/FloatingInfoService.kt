@@ -20,12 +20,17 @@ class FloatingInfoService : BaseService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return if (intent != null && intent.action != null && intent.action == ACTION_STOP){
-            stopSelf()
-            Service.START_NOT_STICKY
-        } else {
-            super.onStartCommand(intent, flags, startId)
+
+
+        if (intent != null && intent.action != null){
+            when (intent.action){
+                ACTION_STOP -> {
+                    stopSelf()
+                    return Service.START_NOT_STICKY
+                }
+            }
         }
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun getContextForHoverMenu(): Context {

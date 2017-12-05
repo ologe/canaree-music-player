@@ -44,7 +44,7 @@ open class NotificationImpl21 @Inject constructor(
 
         val mediaStyle = android.support.v4.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(token)
-                .setShowActionsInCompactView(0, 1, 2)
+                .setShowActionsInCompactView(2, 4, 4)
 
         builder.setSmallIcon(R.drawable.vd_bird_not_singing)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -55,6 +55,8 @@ open class NotificationImpl21 @Inject constructor(
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
+                .addAction(R.drawable.vd_fire, "floating info", buildFloatingInfoPendingIntent())
+                .addAction(R.drawable.vd_not_favoite, "favorite", buildContentIntent())
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
                 .addAction(R.drawable.vd_skip_next, "Next", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT))
@@ -70,7 +72,7 @@ open class NotificationImpl21 @Inject constructor(
         val state = playbackState.state
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
-        val action = builder.mActions[1]
+        val action = builder.mActions[3]
         action.actionIntent = buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
         action.icon = if (isPlaying) R.drawable.vd_pause else R.drawable.vd_play
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
@@ -112,6 +114,12 @@ open class NotificationImpl21 @Inject constructor(
                 .setContentTitle(title)
                 .setContentText(artist)
                 .setSubText(album)
+    }
+
+    private fun buildFloatingInfoPendingIntent(): PendingIntent {
+        val intent = Intent(service, activityClass.get())
+        intent.action = "start floating service"
+        return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     private fun buildContentIntent(): PendingIntent {

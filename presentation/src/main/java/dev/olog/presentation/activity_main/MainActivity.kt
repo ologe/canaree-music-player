@@ -2,9 +2,12 @@ package dev.olog.presentation.activity_main
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import dagger.Lazy
+import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
@@ -34,8 +37,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
-    @Inject lateinit var floatingInfoClass: FloatingInfoServiceBinder
+    @Inject lateinit var floatingInfoClass: Lazy<FloatingInfoServiceBinder>
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var setFloatingInfoRequestUseCase: Lazy<SetFloatingInfoRequestUseCase>
     private val innerPanelSlideListener by lazy(NONE) { InnerPanelSlideListener(this) }
 
     lateinit var title: TextView
@@ -65,6 +69,27 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     title.isSelected = it
                     artist.isSelected = it
                 })
+
+        intent?.let { handleIntent(it) }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let { handleIntent(it) }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        val action = intent.action
+        when (action){
+            "start floating service" -> {
+                musicServiceBinder.getMediaControllerLiveData().value?.let {
+                    val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
+                    setFloatingInfoRequestUseCase.get().execute(title)
+                }
+
+                FloatingInfoServiceHelper.startService(this, floatingInfoClass.get())
+            }
+        }
     }
 
     override fun onResume() {
@@ -86,7 +111,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_CODE_HOVER_PERMISSION){
-            FloatingInfoServiceHelper.startService(this, floatingInfoClass)
+            FloatingInfoServiceHelper.startService(this, floatingInfoClass.get())
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }

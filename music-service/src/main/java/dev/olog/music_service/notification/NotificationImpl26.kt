@@ -20,7 +20,6 @@ class NotificationImpl26 @Inject constructor(
         activityClass: ActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
-
 ) : NotificationImpl24(service, activityClass, token, notificationManager) {
 
     companion object {
