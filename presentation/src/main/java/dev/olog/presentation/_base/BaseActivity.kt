@@ -15,8 +15,9 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         window.setLightStatusBar()
     }
 
+    @Suppress("UNCHECKED_CAST")
     protected fun <T : Fragment> findFragmentByTag(tag: String): T? {
-        return supportFragmentManager.findFragmentByTag(tag) as T
+        return supportFragmentManager.findFragmentByTag(tag) as T?
     }
 
 }

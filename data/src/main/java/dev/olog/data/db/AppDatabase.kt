@@ -12,7 +12,6 @@ import dev.olog.data.entity.*
         FavoriteEntity::class
 
 ), version = 1, exportSchema = false)
-
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -24,5 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun genreMostPlayedDao(): GenreMostPlayedDao
 
     abstract fun favoriteDao(): FavoriteDao
+
+    abstract fun recentSearchesDao(): RecentSearchesDao
 
 }

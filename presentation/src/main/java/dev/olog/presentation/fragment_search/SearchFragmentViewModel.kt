@@ -11,6 +11,7 @@ import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.shared.notContainsAll
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
@@ -44,19 +45,19 @@ class SearchFragmentViewModel(
 
     fun adjustDataMap(data: MutableMap<SearchType, MutableList<DisplayableItem>>) {
         val albums = data[SearchType.ALBUMS]!!
-        if (albums.isNotEmpty()){
+        if (albums.isNotEmpty() && albums.notContainsAll(searchHeaders.albums)){
             albums.clear()
             albums.addAll(0, searchHeaders.albums)
         }
 
         val artists = data[SearchType.ARTISTS]!!
-        if (artists.isNotEmpty()){
+        if (artists.isNotEmpty() && artists.notContainsAll(searchHeaders.artists)){
             artists.clear()
             artists.addAll(0, searchHeaders.artists)
         }
 
         val songs = data[SearchType.SONGS]!!
-        if (songs.isNotEmpty()){
+        if (songs.isNotEmpty() && songs.notContainsAll(searchHeaders.songs)){
             songs.addAll(0, searchHeaders.songs)
         }
     }
