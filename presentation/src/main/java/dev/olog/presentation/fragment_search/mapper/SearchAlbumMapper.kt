@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_search
+package dev.olog.presentation.fragment_search.mapper
 
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist

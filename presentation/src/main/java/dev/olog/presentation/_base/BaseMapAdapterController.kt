@@ -84,7 +84,7 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
 
                     dataSet.clearThenPut(newData)
 
-                    if (wasEmpty){
+                    if (wasEmpty || !adapter.hasGranularUpdate){
                         adapter.notifyDataSetChanged()
                     } else{
                         callback.dispatchUpdatesTo(adapter)

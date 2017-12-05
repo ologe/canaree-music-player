@@ -7,4 +7,16 @@
     <string name="search_albums">Albums</string>
     <string name="search_artists">Artists</string>
 
+    <string name="search_type_song">Song</string>
+    <string name="search_type_album">Album</string>
+    <string name="search_type_artist">Artist</string>
+
+    <string name="search_recent_searches">Recent searches</string>
+    <string name="search_clear_recent_searches">Clear recent searches</string>
+
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s result</item>
+        <item quantity="other">%1$s results</item>
+    </plurals>
+
 </resources>

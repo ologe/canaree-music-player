@@ -21,11 +21,3 @@ fun <T> List<T>.swap(i: Int, j: Int): List<T> {
     Collections.swap(this, i, j)
     return this
 }
-
-fun <T> MutableList<T>.notContains(element: T): Boolean{
-    return contains(element).not()
-}
-
-fun <T> MutableList<T>.notContainsAll(elements: List<T>): Boolean{
-    return containsAll(elements).not()
-}

@@ -17,13 +17,16 @@ import javax.inject.Inject
 @PerFragment
 class SearchFragmentAlbumAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val viewModel: SearchFragmentViewModel
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, position ->
             navigator.toDetailFragment(item.mediaId, position)
+            viewModel.insertAlbumToRecents(item.mediaId)
+                    .subscribe({}, Throwable::printStackTrace)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)

@@ -21,6 +21,7 @@
         android:elevation="@dimen/toolbar_elevation">
 
         <ImageButton
+            android:id="@+id/back"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_back_arrow"
             android:layout_width="wrap_content"
@@ -28,6 +29,7 @@
             android:padding="12dp"/>
 
         <ImageButton
+            android:id="@+id/clear"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_clear"
             android:layout_width="wrap_content"
@@ -52,6 +54,7 @@
         tools:listitem="@layout/item_tab_song"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
+        android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"/>

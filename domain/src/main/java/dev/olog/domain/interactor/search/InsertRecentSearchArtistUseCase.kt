@@ -1,19 +1,19 @@
 package dev.olog.domain.interactor.search
 
-import dev.olog.domain.entity.Album
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.RecentSearchesGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class InsertSearchAlbumUseCase @Inject constructor(
+class InsertRecentSearchArtistUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val recentSearchesGateway: RecentSearchesGateway
 
-) : CompletableUseCaseWithParam<Album>(scheduler) {
+) : CompletableUseCaseWithParam<Long>(scheduler) {
 
-    override fun buildUseCaseObservable(param: Album): Completable {
-        return recentSearchesGateway.insertAlbum(param)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(artistId: Long): Completable {
+        return recentSearchesGateway.insertArtist(artistId)
     }
 }

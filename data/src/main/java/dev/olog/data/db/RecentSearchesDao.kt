@@ -7,6 +7,9 @@ import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.SearchResult
 import dev.olog.domain.entity.Song
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.RecentSearchesTypes.ALBUM
+import dev.olog.shared.RecentSearchesTypes.ARTIST
+import dev.olog.shared.RecentSearchesTypes.SONG
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -17,9 +20,7 @@ import io.reactivex.schedulers.Schedulers
 abstract class RecentSearchesDao {
 
     companion object {
-        const val SONG = 0
-        const val ARTIST = 1
-        const val ALBUM = 2
+
     }
 
     @Query("SELECT * " +
@@ -61,38 +62,47 @@ abstract class RecentSearchesDao {
     abstract fun deleteImpl(recentSearch: RecentSearchesEntity)
 
     @Query("DELETE FROM recent_searches WHERE dataType = :dataType AND itemId = :itemId")
-    abstract fun deleteImpl(dataType: Int, itemId: Long): RecentSearchesEntity
+    abstract fun deleteImpl(dataType: Int, itemId: Long)
 
     @Query("DELETE FROM recent_searches")
     abstract fun deleteAllImpl()
 
-    fun delete(dataType: Int, itemId: Long): Completable {
-        return Completable.fromCallable {
-            deleteImpl(dataType, itemId)
-        }.subscribeOn(Schedulers.io())
-    }
-
-    fun deleteAll(): Completable {
-        return Completable.fromCallable { deleteAll() }
+    fun deleteSong(itemId: Long): Completable {
+        return Completable.fromCallable { deleteImpl(SONG, itemId) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun insertSong(song: Song): Completable{
-        return Completable.fromCallable { insertImpl(
-           RecentSearchesEntity(dataType = SONG, itemId = song.id)
-        ) }.subscribeOn(Schedulers.io())
+    fun deleteAlbum(itemId: Long): Completable {
+        return Completable.fromCallable { deleteImpl(ALBUM, itemId) }
+                .subscribeOn(Schedulers.io())
     }
 
-    fun insertAlbum(album: Album): Completable{
-        return Completable.fromCallable { insertImpl(
-                RecentSearchesEntity(dataType = ALBUM, itemId = album.id)
-        ) }.subscribeOn(Schedulers.io())
+    fun deleteArtist(itemId: Long): Completable {
+        return Completable.fromCallable { deleteImpl(ARTIST, itemId) }
+                .subscribeOn(Schedulers.io())
     }
 
-    fun insertArtist(artist: Artist): Completable{
-        return Completable.fromCallable { insertImpl(
-                RecentSearchesEntity(dataType = ARTIST, itemId = artist.id)
-        ) }.subscribeOn(Schedulers.io())
+    fun deleteAll(): Completable {
+        return Completable.fromCallable { deleteAllImpl() }
+                .subscribeOn(Schedulers.io())
+    }
+
+    fun insertSong(songId: Long): Completable{
+        return deleteSong(songId)
+                .andThen { insertImpl(RecentSearchesEntity(dataType = SONG, itemId = songId)) }
+                .subscribeOn(Schedulers.io())
+    }
+
+    fun insertAlbum(albumId: Long): Completable{
+        return deleteAlbum(albumId)
+                .andThen { insertImpl(RecentSearchesEntity(dataType = ALBUM, itemId = albumId)) }
+                .subscribeOn(Schedulers.io())
+    }
+
+    fun insertArtist(artistId: Long): Completable{
+        return deleteArtist(artistId)
+                .andThen { insertImpl(RecentSearchesEntity(dataType = ARTIST, itemId = artistId)) }
+                .subscribeOn(Schedulers.io())
     }
 
     private fun searchSongMapper(recentSearch: RecentSearchesEntity, song: Song) : SearchResult {
@@ -101,12 +111,12 @@ abstract class RecentSearchesDao {
     }
 
     private fun searchAlbumMapper(recentSearch: RecentSearchesEntity, album: Album) : SearchResult {
-        return SearchResult(MediaIdHelper.songId(album.id), recentSearch.dataType,
+        return SearchResult(MediaIdHelper.albumId(album.id), recentSearch.dataType,
                 album.title, album.image)
     }
 
     private fun searchArtistMapper(recentSearch: RecentSearchesEntity, artist: Artist) : SearchResult {
-        return SearchResult(MediaIdHelper.songId(artist.id), recentSearch.dataType,
+        return SearchResult(MediaIdHelper.artistId(artist.id), recentSearch.dataType,
                 artist.name, "")
     }
 

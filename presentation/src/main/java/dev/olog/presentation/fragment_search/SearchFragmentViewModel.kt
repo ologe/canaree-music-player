@@ -1,17 +1,23 @@
 package dev.olog.presentation.fragment_search
 
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
 import android.text.TextUtils
+import dev.olog.domain.interactor.search.*
 import dev.olog.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.domain.interactor.tab.GetAllArtistsUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.presentation.R
+import dev.olog.presentation.fragment_search.mapper.toDisplayableItem
+import dev.olog.presentation.fragment_search.mapper.toSearchDisplayableItem
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.notContainsAll
+import dev.olog.shared.MediaIdHelper
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
@@ -19,12 +25,21 @@ import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 
 class SearchFragmentViewModel(
-    private val getAllSongsUseCase: GetAllSongsUseCase,
-    private val getAllAlbumsUseCase: GetAllAlbumsUseCase,
-    private val getAllArtistsUseCase: GetAllArtistsUseCase,
-    private val searchHeaders: SearchHeaders
+        application: Application,
+        private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val getAllAlbumsUseCase: GetAllAlbumsUseCase,
+        private val getAllArtistsUseCase: GetAllArtistsUseCase,
+        private val searchHeaders: SearchHeaders,
+        private val getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
+        private val insertSearchSongUseCase: InsertRecentSearchSongUseCase,
+        private val insertSearchAlbumUseCase: InsertRecentSearchAlbumUseCase,
+        private val insertSearchArtistUseCase: InsertRecentSearchArtistUseCase,
+        private val deleteRecentSearchSongUseCase: DeleteRecentSearchSongUseCase,
+        private val deleteRecentSearchAlbumUseCase: DeleteRecentSearchAlbumUseCase,
+        private val deleteRecentSearchArtistUseCase: DeleteRecentSearchArtistUseCase,
+        private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
 
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val queryText = MutableLiveData<String>()
 
@@ -32,33 +47,66 @@ class SearchFragmentViewModel(
         queryText.value = newQuery
     }
 
-    val data : LiveData<MutableMap<SearchType, MutableList<DisplayableItem>>> = Transformations.switchMap(queryText, { input -> Flowables.zip(
-            setupArtistsUseCase(input), setupAlbumsUseCase(input), setupSongsUseCase(input),
-            { artists, albums, songs -> mutableMapOf(
-                SearchType.ARTISTS to artists,
-                SearchType.ALBUMS to albums,
-                SearchType.SONGS to songs)
-            }).subscribeOn(Schedulers.computation())
-            .observeOn(AndroidSchedulers.mainThread())
-            .asLiveData()
+    val data : LiveData<MutableMap<SearchType, MutableList<DisplayableItem>>> = Transformations.switchMap(queryText, { input ->
+        if (TextUtils.isEmpty(input)){
+            recentsData.map { mutableMapOf(
+                    SearchType.RECENT to it,
+                    SearchType.ARTISTS to mutableListOf(),
+                    SearchType.ALBUMS to mutableListOf(),
+                    SearchType.SONGS to mutableListOf()
+                    ) }.asLiveData()
+        } else {
+            Flowables.zip(
+                    setupArtistsUseCase(input), setupAlbumsUseCase(input), setupSongsUseCase(input),
+                    { artists, albums, songs -> mutableMapOf(
+                            SearchType.RECENT to mutableListOf(),
+                            SearchType.ARTISTS to artists,
+                            SearchType.ALBUMS to albums,
+                            SearchType.SONGS to songs)
+                    }).subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .asLiveData()
+        }
     })
 
     fun adjustDataMap(data: MutableMap<SearchType, MutableList<DisplayableItem>>) {
         val albums = data[SearchType.ALBUMS]!!
-        if (albums.isNotEmpty() && albums.notContainsAll(searchHeaders.albums)){
-            albums.clear()
-            albums.addAll(0, searchHeaders.albums)
+        if (albums.isNotEmpty()){
+            val albumsHeaders = searchHeaders.albumsHeaders(albums.size)
+            if (albums[0].mediaId == albumsHeaders[0].mediaId){
+                albumsHeaders.forEachIndexed { index, displayableItem ->
+                    albums[index] = displayableItem
+                }
+            } else {
+                albums.clear()
+                albums.addAll(0, albumsHeaders)
+            }
+
         }
 
         val artists = data[SearchType.ARTISTS]!!
-        if (artists.isNotEmpty() && artists.notContainsAll(searchHeaders.artists)){
-            artists.clear()
-            artists.addAll(0, searchHeaders.artists)
+        if (artists.isNotEmpty()){
+            val artistsHeaders = searchHeaders.artistsHeaders(artists.size)
+            if (artists[0].mediaId == artistsHeaders[0].mediaId){
+                artistsHeaders.forEachIndexed { index, displayableItem ->
+                    artists[index] = displayableItem
+                }
+            } else {
+                artists.clear()
+                artists.addAll(0, artistsHeaders)
+            }
         }
 
         val songs = data[SearchType.SONGS]!!
-        if (songs.isNotEmpty() && songs.notContainsAll(searchHeaders.songs)){
-            songs.addAll(0, searchHeaders.songs)
+        if (songs.isNotEmpty()){
+            val songHeaders = searchHeaders.songsHeaders(songs.size)
+            if (songs[0].mediaId == songHeaders[0].mediaId){
+                songHeaders.forEachIndexed { index, displayableItem ->
+                    songs[index] = displayableItem
+                }
+            } else {
+                songs.addAll(0, songHeaders)
+            }
         }
     }
 
@@ -93,6 +141,54 @@ class SearchFragmentViewModel(
                         .map { it.toSearchDisplayableItem() }
                         .toList()
                 }
+    }
+
+    private val recentsData : Flowable<MutableList<DisplayableItem>> = getAllRecentSearchesUseCase.execute()
+            .flatMapSingle { it.toFlowable().map { it.toDisplayableItem(application) }.toList() }
+            .map {
+                if (it.isNotEmpty()){
+                    it.addAll(0, searchHeaders.recents)
+                    it.add(DisplayableItem(R.layout.item_recent_search_footer, "clear recents id", ""))
+                }
+                it
+            }
+
+    fun insertSongToRecents(mediaId: String): Completable {
+        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+        return insertSearchSongUseCase.execute(songId)
+    }
+
+    fun insertAlbumToRecents(mediaId: String): Completable {
+        val albumId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        return insertSearchAlbumUseCase.execute(albumId)
+    }
+
+    fun insertArtistToRecents(mediaId: String): Completable {
+        val artistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        return insertSearchArtistUseCase.execute(artistId)
+    }
+
+    fun deleteFromRecents(mediaId: String): Completable{
+        val category = MediaIdHelper.extractCategory(mediaId)
+        return when (category) {
+            MediaIdHelper.MEDIA_ID_BY_ALBUM -> {
+                val albumId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+                deleteRecentSearchAlbumUseCase.execute(albumId)
+            }
+            MediaIdHelper.MEDIA_ID_BY_ARTIST -> {
+                val artistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+                deleteRecentSearchArtistUseCase.execute(artistId)
+            }
+            MediaIdHelper.MEDIA_ID_BY_ALL -> {
+                val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+                return deleteRecentSearchSongUseCase.execute(songId)
+            }
+            else -> throw IllegalArgumentException("invalid media id $mediaId")
+        }
+    }
+
+    fun clearRecentSearches(): Completable {
+        return clearRecentSearchesUseCase.execute()
     }
 
 }

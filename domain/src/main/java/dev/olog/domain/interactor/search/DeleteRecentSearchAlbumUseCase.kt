@@ -6,13 +6,14 @@ import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class DeleteRecentSearchItemUseCase @Inject constructor(
+class DeleteRecentSearchAlbumUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val recentSearchesGateway: RecentSearchesGateway
 
-) : CompletableUseCaseWithParam<Pair<Int, Long>>(scheduler) {
+) : CompletableUseCaseWithParam<Long>(scheduler) {
 
-    override fun buildUseCaseObservable(param: Pair<Int, Long>): Completable {
-        return recentSearchesGateway.deleteItem(param.first, param.second)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(albumId: Long): Completable {
+        return recentSearchesGateway.deleteAlbum(albumId)
     }
 }

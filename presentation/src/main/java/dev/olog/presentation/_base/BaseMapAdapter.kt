@@ -53,4 +53,6 @@ abstract class BaseMapAdapter<E: Enum<E>, Model> (
 
     internal fun getDataSet(): Map<E, List<Model>> = dataController.getDataSet()
 
+    open val hasGranularUpdate : Boolean = true
+
 }

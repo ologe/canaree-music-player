@@ -5,9 +5,9 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
@@ -15,6 +15,8 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.extension.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
 class SearchFragmentAdapter @Inject constructor(
@@ -24,7 +26,8 @@ class SearchFragmentAdapter @Inject constructor(
         private val artistAdapter: SearchFragmentArtistAdapter,
         private val recycledViewPool: RecyclerView.RecycledViewPool,
         private val musicController: MusicController,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val viewModel: SearchFragmentViewModel
 
 ) : BaseMapAdapter<SearchType, DisplayableItem>(lifecycle, enums) {
 
@@ -32,54 +35,62 @@ class SearchFragmentAdapter @Inject constructor(
         when (viewType){
             R.layout.item_search_albums_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                val layoutManager = LinearLayoutManager(viewHolder.itemView.context,
-                        LinearLayoutManager.HORIZONTAL, false)
-                layoutManager.isItemPrefetchEnabled = true
-                list.layoutManager = layoutManager
-                list.adapter = albumAdapter
-                list.recycledViewPool = recycledViewPool
-
-                val snapHelper = LinearSnapHelper()
-                snapHelper.attachToRecyclerView(list)
+                setupHorizontalList(list, albumAdapter)
             }
             R.layout.item_search_artists_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                val layoutManager = LinearLayoutManager(viewHolder.itemView.context,
-                        LinearLayoutManager.HORIZONTAL, false)
-                layoutManager.isItemPrefetchEnabled = true
-                list.layoutManager = layoutManager
-                list.adapter = artistAdapter
-                list.recycledViewPool = recycledViewPool
-
-                val snapHelper = LinearSnapHelper()
-                snapHelper.attachToRecyclerView(list)
+                setupHorizontalList(list, artistAdapter)
             }
             R.layout.item_tab_song -> {
-                viewHolder.itemView.setOnClickListener {
-                    val position = viewHolder.adapterPosition
-                    if (position != RecyclerView.NO_POSITION){
-                        val item = dataController[position]
+                viewHolder.setOnClickListener(dataController) { item, _ ->
+                    musicController.playFromMediaId(item.mediaId)
+                    viewModel.insertSongToRecents(item.mediaId)
+                            .subscribe({}, Throwable::printStackTrace)
+
+                }
+                viewHolder.setOnLongClickListener(dataController) { item ,_ ->
+                    navigator.toDialog(item, viewHolder.itemView)
+                }
+                viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
+                    navigator.toDialog(item, view)
+                }
+
+            }
+            R.layout.item_recent_search_footer -> {
+                viewHolder.setOnClickListener(dataController) { _, _ ->
+                    viewModel.clearRecentSearches()
+                            .subscribe({}, Throwable::printStackTrace)
+                }
+            }
+            R.layout.item_recent_search -> {
+                viewHolder.setOnClickListener(dataController) { item, _  ->
+                    if (item.isPlayable){
                         musicController.playFromMediaId(item.mediaId)
+                    } else {
+                        navigator.toDetailFragment(item.mediaId, 0) // todo
                     }
                 }
-                viewHolder.itemView.setOnLongClickListener {
-                    val position = viewHolder.adapterPosition
-                    if (position != RecyclerView.NO_POSITION){
-                        val item = dataController[position]
-                        navigator.toDialog(item, viewHolder.itemView)
-                    }
-                    true
+                viewHolder.setOnLongClickListener(dataController) { item ,_ ->
+                    navigator.toDialog(item, viewHolder.itemView)
                 }
-                viewHolder.itemView.findViewById<View>(R.id.more).setOnClickListener { view ->
-                    val position = viewHolder.adapterPosition
-                    if (position != RecyclerView.NO_POSITION){
-                        val item = dataController[position]
-                        navigator.toDialog(item, view)
-                    }
+                viewHolder.setOnClickListener(R.id.clear, dataController) { item, _, _ ->
+                    viewModel.deleteFromRecents(item.mediaId)
+                            .subscribe({}, Throwable::printStackTrace)
                 }
             }
 
         }
+    }
+
+    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
+        val layoutManager = LinearLayoutManager(list.context,
+                LinearLayoutManager.HORIZONTAL, false)
+        list.layoutManager = layoutManager
+        list.adapter = adapter
+        list.recycledViewPool = recycledViewPool
+
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(list)
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
@@ -93,4 +104,6 @@ class SearchFragmentAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
+
+    override val hasGranularUpdate: Boolean = true
 }

@@ -39,7 +39,7 @@ class PlayingQueueAdapter @Inject constructor(
         binding.setVariable(BR.position, position)
     }
 
-    override fun hasGranularUpdate(): Boolean = false
+    override val hasGranularUpdate: Boolean = false
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
 

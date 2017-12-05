@@ -34,7 +34,7 @@ class DetailAdapter @Inject constructor(
         private val navigator: Navigator,
         private val musicController: MusicController,
         private val viewModel: DetailFragmentViewModel,
-        private val recyclerViewPool : RecyclerView.RecycledViewPool
+        private val recycledViewPool : RecyclerView.RecycledViewPool
 
 ) : BaseMapAdapter<DetailDataType, DisplayableItem>(lifecycle, enums) {
 
@@ -101,7 +101,7 @@ class DetailAdapter @Inject constructor(
         layoutManager.initialPrefetchItemCount = 10
         list.layoutManager = layoutManager
         list.adapter = adapter
-        list.recycledViewPool = recyclerViewPool
+        list.recycledViewPool = recycledViewPool
 
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(list)

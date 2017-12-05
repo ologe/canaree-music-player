@@ -2,10 +2,7 @@ package dev.olog.data.repository
 
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.db.RecentSearchesDao
-import dev.olog.domain.entity.Album
-import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.SearchResult
-import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.RecentSearchesGateway
@@ -32,15 +29,17 @@ class RecentSearchesRepository @Inject constructor(
                 artistGateway.getAll().firstOrError())
     }
 
-    override fun insertSong(song: Song): Completable = dao.insertSong(song)
+    override fun insertSong(songId: Long): Completable = dao.insertSong(songId)
 
-    override fun insertAlbum(album: Album): Completable = dao.insertAlbum(album)
+    override fun insertAlbum(albumId: Long): Completable = dao.insertAlbum(albumId)
 
-    override fun insertArtist(artist: Artist): Completable = dao.insertArtist(artist)
+    override fun insertArtist(artistId: Long): Completable = dao.insertArtist(artistId)
 
-    override fun deleteItem(dataType: Int, itemId: Long): Completable {
-        return dao.delete(dataType, itemId)
-    }
+    override fun deleteSong(itemId: Long): Completable = dao.deleteSong(itemId)
+
+    override fun deleteAlbum(itemId: Long): Completable = dao.deleteAlbum(itemId)
+
+    override fun deleteArtist(itemId: Long): Completable = dao.deleteArtist(itemId)
 
     override fun deleteAll(): Completable = dao.deleteAll()
 }

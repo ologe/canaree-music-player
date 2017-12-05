@@ -28,13 +28,9 @@ class SearchFragmentModule(
 
     @Provides
     @PerFragment
-    fun provideRecycledViewPool(): RecyclerView.RecycledViewPool {
-        return RecyclerView.RecycledViewPool()
-    }
+    fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
 
     @Provides
-    internal fun provideEnums() : Array<SearchType> {
-        return SearchType.values()
-    }
+    internal fun provideEnums() = SearchType.values()
 
 }
