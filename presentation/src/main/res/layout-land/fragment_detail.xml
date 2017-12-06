@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:elevation="4dp"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -68,16 +69,16 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/coverLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
@@ -94,6 +95,7 @@
         app:layout_constraintDimensionRatio="1"
         app:cardCornerRadius="4dp"
         app:cardElevation="0dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp">
 

@@ -22,7 +22,6 @@ import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.*
 import dev.olog.shared.MediaIdHelper
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
@@ -62,7 +61,9 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setLightButtons()
+        if (context!!.isPortrait){
+            setLightButtons()
+        }
 
         viewModel.mostPlayedFlowable
                 .subscribe(this, mostPlayedAdapter::updateDataSet)
@@ -70,7 +71,12 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         viewModel.recentlyAddedFlowable
                 .subscribe(this, recentlyAddedAdapter::updateDataSet)
 
-        viewModel.data.subscribe(this, adapter::updateDataSet)
+        viewModel.data.subscribe(this, {
+            if (context!!.isLandscape){
+                it[DetailDataType.HEADER]!!.clear()
+            }
+            adapter.updateDataSet(it)
+        })
 
     }
 
@@ -128,7 +134,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         viewModel.itemTitleLiveData.subscribe(this, {
             view.header.text = it.title
 
-            if (context!!.isPortrait.not()){
+            if (context!!.isLandscape){
                 setImage(it)
             }
         })
