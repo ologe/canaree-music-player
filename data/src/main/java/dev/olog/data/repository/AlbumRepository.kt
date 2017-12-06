@@ -1,6 +1,7 @@
 package dev.olog.data.repository
 
 import dev.olog.data.DataConstants
+import dev.olog.data.db.AppDatabase
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
@@ -13,9 +14,12 @@ import javax.inject.Singleton
 
 @Singleton
 class AlbumRepository @Inject constructor(
-        songGateway: SongGateway
+        songGateway: SongGateway,
+        appDatabase: AppDatabase
 
 ) : AlbumGateway{
+
+    private val lastPlayedDao = appDatabase.lastPlayedAlbumDao()
 
     private val dataMap : Flowable<MutableMap<Long, MutableList<Song>>> = songGateway.getAll()
             .flatMapSingle { it.toFlowable()
@@ -51,11 +55,14 @@ class AlbumRepository @Inject constructor(
         return dataMap.map { it[param]!! }
     }
 
-    override fun getLastPlayed(): Flowable<List<Album>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getLastPlayed(): Flowable<List<Album>> = lastPlayedDao.getAll()
+            .map { it.sortedWith(compareByDescending { it.dateAdded }) }
+            .flatMapSingle { it.toFlowable()
+                    .map { Album(it.id, it.artistId, it.title, it.artist, it.image) }
+                    .toList()
+            }
 
     override fun addLastPlayed(item: Album): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return lastPlayedDao.insertOne(item)
     }
 }
