@@ -4,14 +4,13 @@ import android.content.res.Resources
 import dev.olog.domain.entity.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
-
-private const val HEADER_ID = "header media id"
 
 fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
-            HEADER_ID,
+            MediaIdHelper.folderId(path),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             image
@@ -21,7 +20,7 @@ fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
 fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
-            HEADER_ID,
+            MediaIdHelper.playlistId(this.id),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             image
@@ -31,7 +30,7 @@ fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
 fun Album.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
-            HEADER_ID,
+            MediaIdHelper.albumId(this.id),
             title,
             artist,
             image
@@ -46,7 +45,7 @@ fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
             R.layout.item_detail_info_image,
-            HEADER_ID,
+            MediaIdHelper.artistId(this.id),
             name,
             "$albums$songs".toLowerCase(),
             image
@@ -56,7 +55,7 @@ fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
 fun Genre.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_info_image,
-            HEADER_ID,
+            MediaIdHelper.genreId(this.id),
             name,
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             image

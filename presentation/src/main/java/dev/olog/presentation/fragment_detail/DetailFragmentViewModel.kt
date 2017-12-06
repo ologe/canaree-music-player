@@ -2,21 +2,25 @@ package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
+import java.util.concurrent.TimeUnit
 
 class DetailFragmentViewModel(
         mediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
-        private val headers: DetailHeaders
+        private val headers: DetailHeaders,
+        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase
 
 ) : ViewModel() {
 
@@ -29,11 +33,23 @@ class DetailFragmentViewModel(
 
     private val category = MediaIdHelper.extractCategory(mediaId)
 
-    val itemTitleLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
+    val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
+
+    fun artistMediaId(mediaId: String) : Single<String> {
+        val category = MediaIdHelper.extractCategory(mediaId)
+        return if (category == MediaIdHelper.MEDIA_ID_BY_ALBUM){
+            getArtistFromAlbumUseCase.execute(mediaId)
+                    .firstOrError()
+                    .map { MediaIdHelper.artistId(it.id) }
+                    .timeout(2, TimeUnit.SECONDS)
+        } else {
+            Single.error(Throwable("not an album"))
+        }
+
+    }
 
     val mostPlayedFlowable: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
             .asLiveData()
-
 
     val recentlyAddedFlowable: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
             .flatMapSingle { it.toFlowable().take(10).toList() }

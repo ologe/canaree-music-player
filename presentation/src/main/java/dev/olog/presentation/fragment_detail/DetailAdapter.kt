@@ -42,6 +42,21 @@ class DetailAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
+            R.layout.item_detail_info_image -> {
+                viewHolder.setOnClickListener(R.id.more, dataController) { item ,_, view ->
+                    navigator.toDialog(item, view)
+                }
+                if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALBUM){
+                    viewHolder.setOnClickListener(R.id.subtitle, dataController) { item, _, _ ->
+                        viewModel.artistMediaId(item.mediaId)
+                                .subscribe({ artistMediaId ->
+                                    navigator.toDetailFragment(artistMediaId, 0) // todo position
+                                }, Throwable::printStackTrace)
+
+                    }
+                }
+            }
+
             R.layout.item_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalList(list, mostPlayedAdapter)

@@ -132,7 +132,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                     })
         }
 
-        viewModel.itemTitleLiveData.subscribe(this, {
+        viewModel.itemLiveData.subscribe(this, {
             view.header.text = it.title
 
             if (context!!.isLandscape){
@@ -175,6 +175,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
                     .addPanelSlideListener(slidingPanelListener)
         }
+        view!!.back.setOnClickListener { activity!!.onBackPressed() }
     }
 
     override fun onPause() {
@@ -183,6 +184,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
                     .removePanelSlideListener(slidingPanelListener)
         }
+        view!!.back.setOnClickListener(null)
     }
 
     override fun onStop() {
