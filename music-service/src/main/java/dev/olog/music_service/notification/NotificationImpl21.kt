@@ -44,7 +44,7 @@ open class NotificationImpl21 @Inject constructor(
 
         val mediaStyle = android.support.v4.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(token)
-                .setShowActionsInCompactView(2, 4, 4)
+                .setShowActionsInCompactView(2, 3, 4)
 
         builder.setSmallIcon(R.drawable.vd_bird_not_singing)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)

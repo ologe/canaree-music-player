@@ -1,6 +1,5 @@
 package dev.olog.data.repository
 
-import android.content.ContentResolver
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
@@ -23,7 +22,6 @@ import javax.inject.Singleton
 
 @Singleton
 class GenreRepository @Inject constructor(
-        private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
@@ -57,6 +55,14 @@ class GenreRepository @Inject constructor(
                     SORT_ORDER,
                     false
             ).mapToList { it.toGenre() }
+            .flatMapSingle { it.toFlowable()
+                    .flatMapSingle { genre -> rxContentResolver.createQuery(MediaStore.Audio.Genres.Members.getContentUri("external", genre.id),
+                            arrayOf("count(*)"), null, null, null, false)
+                            .mapToOne { it.getInt(0) }
+                            .firstOrError()
+                            .map { Genre(genre.id, genre.name, it) }
+                    }.toList()
+            }
             .map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()

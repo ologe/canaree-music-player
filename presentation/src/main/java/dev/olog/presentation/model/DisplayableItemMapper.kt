@@ -1,26 +1,26 @@
 package dev.olog.presentation.model
 
-import android.content.Context
+import android.content.res.Resources
 import dev.olog.domain.entity.*
 import dev.olog.presentation.R
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
 
-fun Folder.toDisplayableItem(context: Context): DisplayableItem{
+fun Folder.toDisplayableItem(resources: Resources): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaIdHelper.folderId(path),
             title.capitalize(),
-            context.resources.getQuantityString(R.plurals.song_count,
-                    this.size, this.size).toLowerCase()
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
     )
 }
 
-fun Playlist.toDisplayableItem(): DisplayableItem{
+fun Playlist.toDisplayableItem(resources: Resources): DisplayableItem{
     return dev.olog.presentation.model.DisplayableItem(
-            R.layout.item_tab_album_alt,
+            R.layout.item_tab_album,
             MediaIdHelper.playlistId(id),
-            title.capitalize()
+            title.capitalize(),
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
     )
 }
 
@@ -47,10 +47,10 @@ fun Album.toDisplayableItem(): DisplayableItem{
     )
 }
 
-fun Artist.toDisplayableItem(context: Context): DisplayableItem{
-    val songs = context.resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+fun Artist.toDisplayableItem(resources: Resources): DisplayableItem{
+    val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
-        "${context.resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}, "
+        "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
     return DisplayableItem(
@@ -61,10 +61,11 @@ fun Artist.toDisplayableItem(context: Context): DisplayableItem{
     )
 }
 
-fun Genre.toDisplayableItem(): DisplayableItem{
+fun Genre.toDisplayableItem(resources: Resources): DisplayableItem{
     return DisplayableItem(
-            R.layout.item_tab_album_alt,
+            R.layout.item_tab_album,
             MediaIdHelper.genreId(id),
-            name
+            name,
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
     )
 }

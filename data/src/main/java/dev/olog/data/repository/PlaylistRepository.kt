@@ -75,6 +75,15 @@ class PlaylistRepository @Inject constructor(
                     SORT_ORDER,
                     false
             ).mapToList { it.toPlaylist() }
+            .flatMapSingle { it.toFlowable()
+                    .flatMapSingle { playlist -> rxContentResolver.createQuery(getContentUri("external", playlist.id),
+                            arrayOf("count(*)"), null, null, null, false)
+                            .mapToOne { it.getInt(0) }
+                            .firstOrError()
+                            .map { Playlist(playlist.id, playlist.title, it) }
+                    }.toList()
+
+            }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)

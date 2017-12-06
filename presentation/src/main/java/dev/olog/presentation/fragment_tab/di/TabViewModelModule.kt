@@ -1,7 +1,7 @@
 package dev.olog.presentation.fragment_tab.di
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
+import android.content.res.Resources
 import android.support.v4.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
@@ -13,7 +13,6 @@ import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragmentViewModelFactory
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
-import dev.olog.shared.ApplicationContext
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 
@@ -29,11 +28,11 @@ class TabViewModelModule {
     @IntoMap
     @IntKey(TabViewPagerAdapter.FOLDER)
     internal fun provideFolderData(
-            @ApplicationContext context: Context,
+            resources: Resources,
             useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(context) }
+                .map { it.toDisplayableItem(resources) }
                 .toList()
         }
     }
@@ -41,9 +40,12 @@ class TabViewModelModule {
     @Provides
     @IntoMap
     @IntKey(TabViewPagerAdapter.PLAYLIST)
-    internal fun providePlaylistData(useCase: GetAllPlaylistsUseCase): Flowable<List<DisplayableItem>> {
+    internal fun providePlaylistData(
+            resources: Resources,
+            useCase: GetAllPlaylistsUseCase): Flowable<List<DisplayableItem>> {
+
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }
+                .map { it.toDisplayableItem(resources) }
                 .toList()
         }
     }
@@ -72,11 +74,11 @@ class TabViewModelModule {
     @IntoMap
     @IntKey(TabViewPagerAdapter.ARTIST)
     internal fun provideArtistData(
-            @ApplicationContext context: Context,
+            resources: Resources,
             useCase: GetAllArtistsUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(context) }
+                .map { it.toDisplayableItem(resources) }
                 .toList()
         }
     }
@@ -84,9 +86,12 @@ class TabViewModelModule {
     @Provides
     @IntoMap
     @IntKey(TabViewPagerAdapter.GENRE)
-    internal fun provideGenreData(useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
+    internal fun provideGenreData(
+            resources: Resources,
+            useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
+
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }
+                .map { it.toDisplayableItem(resources) }
                 .toList()
         }
     }
