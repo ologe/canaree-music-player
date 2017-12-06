@@ -20,6 +20,9 @@ class MusicPreferencesImpl @Inject constructor(
         private const val SONG_ID = TAG + ".SONG_ID"
         private const val SHUFFLE_MODE = TAG + ".SHUFFLE_MODE"
         private const val REPEAT_MODE = TAG + ".REPEAT_MODE"
+
+        private const val SKIP_PREVIOUS = TAG + ".SKIP_PREVIOUS"
+        private const val SKIP_NEXT = TAG + ".SKIP_NEXT"
     }
 
     override fun getBookmark(): Long {
@@ -59,4 +62,21 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putInt(SHUFFLE_MODE, shuffleMode) }
     }
 
+    override fun setSkipToPreviousVisibility(visible: Boolean) {
+        preferences.edit { putBoolean(SKIP_PREVIOUS, visible) }
+    }
+
+    override fun observeSkipToPreviousVisibility(): Flowable<Boolean> {
+        return rxPreferences.getBoolean(SKIP_PREVIOUS, true).asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+    }
+
+    override fun setSkipToNextVisibility(visible: Boolean) {
+        preferences.edit { putBoolean(SKIP_NEXT, visible) }
+    }
+
+    override fun observeSkipToNextVisibility(): Flowable<Boolean> {
+        return rxPreferences.getBoolean(SKIP_NEXT, true).asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+    }
 }

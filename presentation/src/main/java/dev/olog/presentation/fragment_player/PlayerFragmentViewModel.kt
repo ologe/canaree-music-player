@@ -30,6 +30,7 @@ class PlayerFragmentViewModel(
 
     val onMetadataChangedLiveData: LiveData<PlayerFragmentMetadata> = controllerCallback.onMetadataChanged()
             .map { it.toPlayerMetadata() }
+            .distinctUntilChanged()
             .asLiveData()
 
     fun onCoverChangedLiveData(context: Context): LiveData<CoverModel> {
@@ -50,6 +51,7 @@ class PlayerFragmentViewModel(
             .map { it.state }
             .filter(filterPlaybackState)
             .map { state -> state == PlaybackStateCompat.STATE_PLAYING }
+            .distinctUntilChanged()
             .asLiveData()
 
     val onRepeatModeChangedLiveData: LiveData<Int> = controllerCallback

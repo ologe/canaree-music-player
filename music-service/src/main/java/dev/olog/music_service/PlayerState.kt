@@ -3,6 +3,8 @@ package dev.olog.music_service
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.domain.interactor.music_service.BookmarkUseCase
+import dev.olog.domain.interactor.music_service.ToggleSkipToNextVisibilityUseCase
+import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.PositionInQueue
 import javax.inject.Inject
@@ -10,7 +12,9 @@ import javax.inject.Inject
 @PerService
 class PlayerState @Inject constructor(
         private val mediaSession: MediaSessionCompat,
-        private val bookmarkUseCase: BookmarkUseCase
+        private val bookmarkUseCase: BookmarkUseCase,
+        private val toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase,
+        private val toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase
 
 ){
 
@@ -20,8 +24,7 @@ class PlayerState @Inject constructor(
     init {
         builder.setState(PlaybackStateCompat.STATE_PAUSED, bookmarkUseCase.get(), 0f)
                 .setActions(getActions())
-
-        mediaSession.setPlaybackState(builder.build())
+//        mediaSession.setPlaybackState(builder.build())
     }
 
     fun prepare(id: Long) {
@@ -54,21 +57,26 @@ class PlayerState @Inject constructor(
     }
 
     fun toggleSkipToActions(positionInQueue: PositionInQueue) {
-        var actions = getActions()
 
-        if (positionInQueue === PositionInQueue.FIRST) {
-            actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-
-        } else if (positionInQueue === PositionInQueue.LAST) {
-            actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
-
-        } else if (positionInQueue === PositionInQueue.IN_MIDDLE) {
-            actions = actions or (PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
-                    PlaybackStateCompat.ACTION_SKIP_TO_NEXT)
+        when {
+            positionInQueue === PositionInQueue.FIRST -> {
+                toggleSkipToNextVisibilityUseCase.set(true)
+                toggleSkipToPreviousVisibilityUseCase.set(false)
+            }
+            positionInQueue === PositionInQueue.LAST -> {
+                toggleSkipToNextVisibilityUseCase.set(false)
+                toggleSkipToPreviousVisibilityUseCase.set(true)
+            }
+            positionInQueue === PositionInQueue.IN_MIDDLE -> {
+                toggleSkipToNextVisibilityUseCase.set(true)
+                toggleSkipToPreviousVisibilityUseCase.set(true)
+            }
+            positionInQueue == PositionInQueue.BOTH -> {
+                toggleSkipToNextVisibilityUseCase.set(false)
+                toggleSkipToPreviousVisibilityUseCase.set(false)
+            }
         }
 
-        builder.setActions(actions)
-        mediaSession.setPlaybackState(builder.build())
     }
 
     fun skipTo(toNext: Boolean) {
@@ -92,7 +100,9 @@ class PlayerState @Inject constructor(
                 PlaybackStateCompat.ACTION_SEEK_TO or
                 PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE or
                 PlaybackStateCompat.ACTION_SET_REPEAT_MODE or
-                PlaybackStateCompat.ACTION_SET_RATING
+                PlaybackStateCompat.ACTION_SET_RATING or
+                PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
+                PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
     }
 
 }

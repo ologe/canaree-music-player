@@ -17,4 +17,10 @@ interface MusicPreferencesGateway {
     fun getShuffleMode(): Int
     fun setShuffleMode(shuffleMode: Int)
 
+    fun setSkipToPreviousVisibility(visible: Boolean)
+    fun observeSkipToPreviousVisibility(): Flowable<Boolean>
+
+    fun setSkipToNextVisibility(visible: Boolean)
+    fun observeSkipToNextVisibility(): Flowable<Boolean>
+
 }
