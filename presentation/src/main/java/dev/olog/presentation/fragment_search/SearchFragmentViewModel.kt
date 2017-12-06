@@ -148,10 +148,8 @@ class SearchFragmentViewModel(
             .map {
                 if (it.isNotEmpty()){
                     it.add(DisplayableItem(R.layout.item_recent_search_footer, "clear recent id", ""))
-                } else {
-                    it.add(DisplayableItem(R.layout.item_recent_search_empty_state, "search empty state id", ""))
+                    it.addAll(0, searchHeaders.recents)
                 }
-                it.addAll(0, searchHeaders.recents)
                 it
             }
 

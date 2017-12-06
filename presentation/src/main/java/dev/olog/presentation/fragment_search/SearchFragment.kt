@@ -42,6 +42,12 @@ class SearchFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.data.subscribe(this, { map ->
+            val itemCount = map.values.sumBy { it.size }
+            val visibility = if (itemCount == 0) View.VISIBLE else View.GONE
+            view!!.search.visibility = visibility
+            view!!.searchText.visibility = visibility
+            view!!.list.visibility = if (itemCount == 0) View.GONE else View.VISIBLE
+
             val albums = map[SearchType.ALBUMS]!!
             val artists = map[SearchType.ARTISTS]!!
             albumAdapter.updateDataSet(albums)
