@@ -20,9 +20,9 @@ class GetFolderSiblingsUseCase @Inject constructor(
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
 
         return gateway.getAll()
-                .flatMapSingle {
-                    it.toFlowable().filter { it.path != categoryValue }.toList()
+                .flatMapSingle { it.toFlowable()
+                        .filter { it.path != categoryValue }
+                        .toList()
                 }
-                .map { if (it.size > 1) it else listOf() }
     }
 }

@@ -20,9 +20,9 @@ class GetPlaylistSiblingsUseCase @Inject internal constructor(
         val playlistId = categoryValue.toLong()
 
         return gateway.getAll()
-                .flatMapSingle {
-                    it.toFlowable().filter { it.id != playlistId }.toList()
+                .flatMapSingle { it.toFlowable()
+                        .filter { it.id != playlistId }
+                        .toList()
                 }
-                .map { if (it.size > 1) it else listOf() }
     }
 }

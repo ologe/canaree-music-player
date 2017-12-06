@@ -21,9 +21,9 @@ class GetGenreSiblingsUseCase @Inject constructor(
         val genreId = categoryValue.toLong()
 
         return gateway.getAll()
-                .flatMapSingle {
-                    it.toFlowable().filter { it.id != genreId }.toList()
+                .flatMapSingle { it.toFlowable()
+                        .filter { it.id != genreId }
+                        .toList()
                 }
-                .map { if (it.size > 1) it else listOf() }
     }
 }
