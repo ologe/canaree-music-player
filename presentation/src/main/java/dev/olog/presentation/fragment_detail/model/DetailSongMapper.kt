@@ -20,6 +20,17 @@ fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
         else -> "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
     }
 
+    var trackAsString = trackNumber.toString()
+    if (trackAsString.length > 3){
+        trackAsString = trackAsString.substring(1)
+    }
+    val trackResult = trackAsString.toInt()
+    trackAsString = if (trackResult == 0){
+        "-"
+    } else {
+        trackResult.toString()
+    }
+
     return DisplayableItem(
             viewType,
             MediaIdHelper.playableItem(parentId, id),
@@ -29,7 +40,7 @@ fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
             true,
             isRemix,
             isExplicit,
-            if (trackNumber < 1) "-" else trackNumber.toString()
+            trackAsString
     )
 }
 
