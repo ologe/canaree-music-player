@@ -1,6 +1,9 @@
 package dev.olog.data.db
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Insert
+import android.arch.persistence.room.OnConflictStrategy
+import android.arch.persistence.room.Query
 import dev.olog.data.entity.LastPlayedAlbumEntity
 import dev.olog.domain.entity.Album
 import io.reactivex.Completable
@@ -19,7 +22,6 @@ abstract class LastPlayedAlbumDao {
     @Query("DELETE FROM last_played_albums WHERE id = :albumId")
     internal abstract fun deleteImpl(albumId: Long)
 
-    @Transaction
     open fun insertOne(album: Album) : Completable {
         return Completable.fromCallable{ deleteImpl(album.id) }
                 .andThen { insertImpl(LastPlayedAlbumEntity(

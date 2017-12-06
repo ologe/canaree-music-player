@@ -6,8 +6,11 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.activity_main.TabViewPagerAdapter
+import dev.olog.presentation.fragment_tab.di.TabViewModelModule
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.view.*
@@ -32,10 +35,28 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var spanSizeLookup: TabFragmentSpanSizeLookup
     private lateinit var layoutManager: GridLayoutManager
 
+    @Inject lateinit var lastAlbumsAdapter : Lazy<TabLastPlayedAlbumsAdapter>
+    @Inject lateinit var lastArtistsAdapter : Lazy<TabLastPlayedArtistsAdapter>
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.observeData(source)
                 .subscribe(this, adapter::updateDataSet)
+
+        when (source){
+            TabViewPagerAdapter.ALBUM -> {
+                viewModel.observeData(TabViewModelModule.LAST_PLAYED_ALBUM)
+                        .subscribe(this, {
+                            lastAlbumsAdapter.get().updateDataSet(it)
+                        })
+            }
+            TabViewPagerAdapter.ARTIST -> {
+                viewModel.observeData(TabViewModelModule.LAST_PLAYED_ARTIST)
+                        .subscribe(this, {
+                            lastArtistsAdapter.get().updateDataSet(it)
+                        })
+            }
+        }
     }
 
     @CallSuper

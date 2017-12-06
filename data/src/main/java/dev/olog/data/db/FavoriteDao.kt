@@ -20,7 +20,6 @@ abstract class FavoriteDao {
     @Delete
     internal abstract fun deleteGroupImpl(item: List<FavoriteEntity>)
 
-    @Transaction
     open fun addToFavoriteSingle(song: Song): Single<String> {
         return Single.create<String> { e ->
 
@@ -31,7 +30,6 @@ abstract class FavoriteDao {
         }.subscribeOn(Schedulers.io())
     }
 
-    @Transaction
     open fun addToFavorite(songIds: List<Long>): Single<String> {
         return Single.create<String> { e ->
 
@@ -42,7 +40,6 @@ abstract class FavoriteDao {
         }.subscribeOn(Schedulers.io())
     }
 
-    @Transaction
     open fun removeFromFavorite(songId: List<Long>): Completable {
         return Flowable.fromIterable(songId)
                 .observeOn(Schedulers.io())
