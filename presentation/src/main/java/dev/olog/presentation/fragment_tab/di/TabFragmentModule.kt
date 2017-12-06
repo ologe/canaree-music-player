@@ -18,8 +18,6 @@ class TabFragmentModule(
 
     @Provides
     @FragmentLifecycle
-    internal fun provideLifecycle(): Lifecycle {
-        return fragment.lifecycle
-    }
+    internal fun provideLifecycle(): Lifecycle = fragment.lifecycle
 
 }
