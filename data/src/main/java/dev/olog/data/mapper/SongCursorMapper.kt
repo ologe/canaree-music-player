@@ -31,10 +31,12 @@ fun Cursor.toSong(): Song {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val cover = ContentUris.withAppendedId(COVER_URI, albumId).toString()
+    val trackNumber = getString(MediaStore.Audio.AudioColumns.TRACK)
 
     return Song(
             id, artistId, albumId, title, artist, album, cover,
-            duration, dateAdded, isRemix, isExplicit, path, folder)
+            duration, dateAdded, isRemix, isExplicit, path, folder,
+            trackNumber)
 }
 
 private fun extractFolder(path: String): String {
