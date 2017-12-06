@@ -67,39 +67,46 @@ abstract class RecentSearchesDao {
     @Query("DELETE FROM recent_searches")
     abstract fun deleteAllImpl()
 
-    fun deleteSong(itemId: Long): Completable {
+    @Transaction
+    open fun deleteSong(itemId: Long): Completable {
         return Completable.fromCallable { deleteImpl(SONG, itemId) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun deleteAlbum(itemId: Long): Completable {
+    @Transaction
+    open fun deleteAlbum(itemId: Long): Completable {
         return Completable.fromCallable { deleteImpl(ALBUM, itemId) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun deleteArtist(itemId: Long): Completable {
+    @Transaction
+    open fun deleteArtist(itemId: Long): Completable {
         return Completable.fromCallable { deleteImpl(ARTIST, itemId) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun deleteAll(): Completable {
+    @Transaction
+    open fun deleteAll(): Completable {
         return Completable.fromCallable { deleteAllImpl() }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun insertSong(songId: Long): Completable{
+    @Transaction
+    open fun insertSong(songId: Long): Completable{
         return deleteSong(songId)
                 .andThen { insertImpl(RecentSearchesEntity(dataType = SONG, itemId = songId)) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun insertAlbum(albumId: Long): Completable{
+    @Transaction
+    open fun insertAlbum(albumId: Long): Completable{
         return deleteAlbum(albumId)
                 .andThen { insertImpl(RecentSearchesEntity(dataType = ALBUM, itemId = albumId)) }
                 .subscribeOn(Schedulers.io())
     }
 
-    fun insertArtist(artistId: Long): Completable{
+    @Transaction
+    open fun insertArtist(artistId: Long): Completable{
         return deleteArtist(artistId)
                 .andThen { insertImpl(RecentSearchesEntity(dataType = ARTIST, itemId = artistId)) }
                 .subscribeOn(Schedulers.io())

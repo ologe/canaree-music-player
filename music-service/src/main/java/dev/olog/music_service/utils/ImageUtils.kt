@@ -16,15 +16,19 @@ object ImageUtils {
         }
     }
 
-    private fun getPlaceholderAsBitmap(context: Context): Bitmap {
-        val drawable = CoverUtils.getGradient(context)
+    private fun getPlaceholderAsBitmap(context: Context): Bitmap? {
+        try {
+            val drawable = CoverUtils.getGradient(context)
 
-        val bitmap = Bitmap.createBitmap(24, 24, Bitmap.Config.RGB_565)
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, 24, 24)
-        drawable.draw(canvas)
+            val bitmap = Bitmap.createBitmap(24, 24, Bitmap.Config.RGB_565)
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, 24, 24)
+            drawable.draw(canvas)
 
-        return bitmap
+            return bitmap
+        } catch (ex: Exception){
+            return null
+        }
     }
 
     fun getBitmapFromUri(context: Context, coverUri: String?): Bitmap? {

@@ -1,9 +1,6 @@
 package dev.olog.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import dev.olog.data.entity.LastPlayedArtistEntity
 import dev.olog.domain.entity.Artist
 import io.reactivex.Completable
@@ -14,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 abstract class LastPlayedArtistDao {
 
     @Query("SELECT * FROM last_played_artists ORDER BY dateAdded DESC LIMIT 10")
-    abstract fun getAll(): Flowable<List<LastPlayedArtistDao>>
+    abstract fun getAll(): Flowable<List<LastPlayedArtistEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertImpl(entity: LastPlayedArtistEntity)
@@ -22,7 +19,8 @@ abstract class LastPlayedArtistDao {
     @Query("DELETE FROM last_played_artists WHERE id = :artistId")
     internal abstract fun deleteImpl(artistId: Long)
 
-    fun insertOne(artist: Artist) : Completable {
+    @Transaction
+    open fun insertOne(artist: Artist) : Completable {
         return Completable.fromCallable{ deleteImpl(artist.id) }
                 .andThen { insertImpl(LastPlayedArtistEntity(
                         artist.id, artist.name

@@ -1,9 +1,6 @@
 package dev.olog.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import dev.olog.data.entity.HistoryEntity
 import dev.olog.domain.entity.Song
 import io.reactivex.Completable
@@ -39,7 +36,8 @@ abstract class HistoryDao {
     @Query("DELETE FROM song_history WHERE songId = :id")
     abstract fun deleteImpl(id: Long)
 
-    fun insert(id: Long): Completable {
+    @Transaction
+    open fun insert(id: Long): Completable {
         return Completable.fromCallable{ deleteImpl(id) }
                 .andThen { insertImpl(HistoryEntity.from(id)) }
                 .subscribeOn(Schedulers.io())
