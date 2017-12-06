@@ -29,9 +29,7 @@ class DetailFragmentViewModel(
 
     private val category = MediaIdHelper.extractCategory(mediaId)
 
-    val itemTitleLiveData: LiveData<String> = item[category]!!
-            .map { it.title }
-            .asLiveData()
+    val itemTitleLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
 
     val mostPlayedFlowable: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
             .asLiveData()

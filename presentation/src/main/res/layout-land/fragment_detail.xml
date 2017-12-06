@@ -9,68 +9,100 @@
     android:clickable="true"
     android:focusable="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:listitem="@layout/item_tab_song"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:paddingBottom="16dp"
-        android:background="@color/background"
-        android:scrollbars="vertical"/>
-
-    <android.support.v7.widget.CardView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1">
-
-        <ImageView
-            tools:src="@drawable/placeholder_folder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </android.support.v7.widget.CardView>
-
     <View
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="@android:color/white"
-        android:alpha="0"
-        tools:alpha="1"
-        android:stateListAnimator="@animator/toolbar_elevation_on_activated"/>
-
-    <ImageButton
-        android:id="@+id/back"
-        android:layout_marginTop="@dimen/status_bar"
-        android:src="@drawable/vd_back_arrow"
-        android:padding="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:tint="@color/dark_grey"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:stateListAnimator="@animator/toolbar_elevation_on_activated" />
+        android:elevation="2dp"/>
 
     <TextView
         android:id="@+id/header"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/status_bar"
         tools:text="Selena Gomez"
         android:textColor="@color/dark_grey"
         android:textStyle="bold"
         android:textSize="18sp"
         android:gravity="center"
-        android:layout_marginTop="@dimen/status_bar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
-        android:alpha="0"
-        tools:alpha="1"
-        android:stateListAnimator="@animator/toolbar_elevation_on_activated" />
+        android:elevation="2dp"/>
+
+    <ImageButton
+        android:id="@+id/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header"
+        app:layout_constraintBottom_toBottomOf="@+id/header"
+        android:src="@drawable/vd_back_arrow"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/button_primary_tint"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:elevation="2dp"/>
+
+    <ImageButton
+        android:id="@+id/more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header"
+        app:layout_constraintBottom_toBottomOf="@+id/header"
+        android:src="@drawable/vd_more"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:tint="@color/button_primary_tint"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:elevation="2dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toEndOf="@+id/coverLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_tab_song"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:background="@color/background"
+        android:scrollbars="vertical"/>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/coverLayout"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:id="@+id/cover"
+            tools:src="@drawable/placeholder_folder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>
