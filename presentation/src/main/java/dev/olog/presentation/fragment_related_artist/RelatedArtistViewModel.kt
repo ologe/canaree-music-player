@@ -3,19 +3,25 @@ package dev.olog.presentation.fragment_related_artist
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import dev.olog.domain.entity.Artist
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.TextUtils
 import io.reactivex.rxkotlin.toFlowable
 
 class RelatedArtistViewModel(
         application: Application,
         mediaId: String,
-        getSongListByParamUseCase: GetSongListByParamUseCase
+        getSongListByParamUseCase: GetSongListByParamUseCase,
+        private val getArtistUseCase: GetArtistUseCase
 
 ): AndroidViewModel(application) {
+
+    private val resources = application.resources
 
     private val unknownArtist = application.getString(R.string.unknown_artist)
 
@@ -24,10 +30,24 @@ class RelatedArtistViewModel(
             .flatMapSingle { it.toFlowable()
                     .distinct { it.artist }
                     .filter { it.artist != unknownArtist }
-                    .map { DisplayableItem(R.layout.item_related_artist,
-                            MediaIdHelper.artistId(it.artistId),
-                            it.artist)
+                    .flatMapSingle { song -> getArtistUseCase.execute(MediaIdHelper.artistId(song.artistId))
+                            .map { it.toRelatedArtist() }
+                            .firstOrError()
                     }.toSortedList(compareBy { it.title.toLowerCase() })
             }.asLiveData()
+
+    private fun Artist.toRelatedArtist(): DisplayableItem {
+        val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+        val albums = if (this.albums == 0) "" else {
+            "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
+        }
+
+        return DisplayableItem(
+                R.layout.item_related_artist,
+                MediaIdHelper.artistId(id),
+                this.name,
+                "$albums$songs".toLowerCase()
+        )
+    }
 
 }
