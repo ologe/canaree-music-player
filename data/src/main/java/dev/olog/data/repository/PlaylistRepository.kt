@@ -90,10 +90,11 @@ class PlaylistRepository @Inject constructor(
             .refCount()
 
     override fun getAll(): Flowable<List<Playlist>> = contentProviderObserver
-            .map { val result = it.sortedWith(compareBy { it.title.toLowerCase() }).toMutableList()
-                result.addAll(0, autoPlaylists)
-                result.toList()
-            }
+            .map { it.sortedWith(compareBy { it.title.toLowerCase() }) }
+
+    override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
+        return Flowable.just(autoPlaylists)
+    }
 
     override fun getActualPlaylistsBlocking(): List<Playlist> {
         val cursor = contentResolver.query(MEDIA_STORE_URI, PROJECTION,

@@ -3,6 +3,7 @@ package dev.olog.presentation.fragment_tab
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.ALBUM
+import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.PLAYLIST
 import dev.olog.presentation.activity_main.TabViewPagerAdapter.Companion.SONG
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.PerFragment
@@ -22,7 +23,13 @@ class TabFragmentSpanSizeLookup @Inject constructor(
 
     private val isPortrait = context.isPortrait
 
-    private fun getSpan(): Int{
+    private fun getSpan(position: Int): Int{
+        if (source == PLAYLIST){
+            if (position == 0 || position == 4){
+                return SPAN_COUNT
+            }
+        }
+
         val isAlbum = source == ALBUM
 
         return when {
@@ -34,6 +41,6 @@ class TabFragmentSpanSizeLookup @Inject constructor(
         }
     }
 
-    override fun getSpanSize(position: Int): Int = getSpan()
+    override fun getSpanSize(position: Int): Int = getSpan(position)
 
 }

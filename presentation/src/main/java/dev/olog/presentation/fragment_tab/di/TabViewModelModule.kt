@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.multibindings.IntKey
 import dagger.multibindings.IntoMap
 import dev.olog.domain.interactor.tab.*
+import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragmentViewModelFactory
@@ -15,6 +16,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.model.toDisplayableItem
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.rxkotlin.withLatestFrom
 
 @Module
 class TabViewModelModule {
@@ -42,12 +44,24 @@ class TabViewModelModule {
     @IntKey(TabViewPagerAdapter.PLAYLIST)
     internal fun providePlaylistData(
             resources: Resources,
-            useCase: GetAllPlaylistsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAllPlaylistsUseCase,
+            autoPlaylistsUseCase: GetAllAutoPlaylistsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle{ it.toFlowable()
+        val playlistsObs = useCase.execute().flatMapSingle { it.toFlowable()
                 .map { it.toDisplayableItem(resources) }
+                .startWith(DisplayableItem(R.layout.item_tab_header, "all playlist header", resources.getString(R.string.tab_all_playlists)))
                 .toList()
         }
+        val autoPlaylistsObs = autoPlaylistsUseCase.execute().flatMapSingle { it.toFlowable()
+                .map { it.toDisplayableItem(resources) }
+                .startWith(DisplayableItem(R.layout.item_tab_header, "auto playlist header", resources.getString(R.string.tab_auto_playlists)))
+                .toList()
+        }
+
+        return playlistsObs.withLatestFrom(autoPlaylistsObs, { playlists, autoPlaylist ->
+            autoPlaylist.addAll(playlists)
+            autoPlaylist
+        })
     }
 
     @Provides
@@ -56,6 +70,7 @@ class TabViewModelModule {
     internal fun provideSongData(useCase: GetAllSongsUseCase): Flowable<List<DisplayableItem>> {
         return useCase.execute().flatMapSingle{ it.toFlowable()
                 .map { it.toDisplayableItem() }
+                .startWith(DisplayableItem(R.layout.item_shuffle, "shuffle id",""))
                 .toList()
         }
     }

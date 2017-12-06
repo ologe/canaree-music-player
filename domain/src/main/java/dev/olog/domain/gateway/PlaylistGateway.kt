@@ -2,12 +2,15 @@ package dev.olog.domain.gateway
 
 import dev.olog.domain.entity.Playlist
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 interface PlaylistGateway :
         BaseGateway<Playlist, Long>,
         ChildsHasSongs<Long>,
         HasMostPlayed<String> {
+
+    fun getAllAutoPlaylists() : Flowable<List<Playlist>>
 
     fun createPlaylist(playlistName: String): Single<Long>
 

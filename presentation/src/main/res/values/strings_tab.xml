@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tab_auto_playlists">Auto Playlist</string>
+    <string name="tab_all_playlists">All Playlist</string>
+    <string name="tab_all_albums">All Albums</string>
+    <string name="tab_all_artists">All Artists</string>
+    <string name="tab_last_played">Last Played</string>
+
+</resources>

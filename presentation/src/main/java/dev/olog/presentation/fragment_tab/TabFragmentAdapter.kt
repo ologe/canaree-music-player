@@ -6,7 +6,6 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
@@ -48,13 +47,6 @@ class TabFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, source)
         binding.setVariable(BR.position, position)
-    }
-
-    override fun provideHeaders(): List<DisplayableItem> {
-        if (source == TabViewPagerAdapter.SONG){
-            return listOf(DisplayableItem(R.layout.item_shuffle, "shuffle id",""))
-        }
-        return super.provideHeaders()
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

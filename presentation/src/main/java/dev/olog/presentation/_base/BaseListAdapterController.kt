@@ -44,10 +44,6 @@ class BaseListAdapterController<Model>(
                 .debounce(50, TimeUnit.MILLISECONDS)
                 .onBackpressureLatest()
                 .distinctUntilChanged { data -> data.data }
-                .map {
-                    it.data.addAll(0, adapter.provideHeaders())
-                    it
-                }
                 .filter { it.version == dataVersion }
                 .map {
                     it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
