@@ -4,6 +4,7 @@ import dev.olog.data.DataConstants
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.Song
+import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.domain.mapper.toAlbum
@@ -16,7 +17,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ArtistRepository @Inject constructor(
-        songGateway: SongGateway
+        songGateway: SongGateway,
+        private val albumGateway: AlbumGateway
 
 ) :ArtistGateway{
 
@@ -88,6 +90,10 @@ class ArtistRepository @Inject constructor(
 
     override fun getAlbums(artistId: Long): Flowable<List<Album>> {
         return data.map { it[artistId]!!.second }
+                .flatMapSingle { it.toFlowable()
+                        .flatMapSingle { albumGateway.getByParam(it.id).firstOrError() }
+                        .toList()
+                }
     }
 
     override fun getLastPlayed(): Flowable<List<Artist>> {
