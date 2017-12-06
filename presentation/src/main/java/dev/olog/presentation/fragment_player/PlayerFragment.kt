@@ -17,21 +17,31 @@ import com.bumptech.glide.request.target.Target
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
+import dev.olog.presentation.SeekBarObservable
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.TextUtils
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView
+import dev.olog.shared.unsubscribe
+import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.ofType
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: PlayerFragmentViewModel
     @Inject lateinit var musicController: MusicController
+
+    private var updateDisposable : Disposable? = null
 
     lateinit var title: TextView
     lateinit var artist: TextView
@@ -54,7 +64,7 @@ class PlayerFragment : BaseFragment() {
 
         viewModel.onPlaybackStateChangedLiveData
                 .subscribe(this, {
-                    seekBar.handleState(it)
+                    handleSeekbarState(it)
                     nowPlaying.isActivated = it
                     cover.isActivated = it
                     coverLayout.isActivated = it
@@ -82,18 +92,24 @@ class PlayerFragment : BaseFragment() {
                     seekBar.max = it.asInt
                 })
 
-        seekBar.observeStopTrackingTouch()
-                .map { it.progress.toLong() }
-                .asLiveData()
-                .subscribe(this, { musicController.seekTo(it) })
-
 //        bookmark textView will automatically updated
         viewModel.onBookmarkChangedObservable
                 .subscribe(this, { seekBar.progress = it })
 
-        seekBar.observeChanges()
+        val seekBarObservable = SeekBarObservable(seekBar).share()
+
+        seekBarObservable
+                .ofType(Int::class.java)
+                .map { it.toLong() }
+                .map { TextUtils.getReadableSongLength(it) }
                 .asLiveData()
                 .subscribe(this, { bookmark.text = it })
+
+        seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
+                .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
+                .map { (_, progress) -> progress.toLong() }
+                .asLiveData()
+                .subscribe(this, musicController::seekTo)
 
         RxView.clicks(repeat)
                 .asLiveData()
@@ -133,6 +149,18 @@ class PlayerFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         cover.setOnSwipeListener(null)
+    }
+
+    private fun handleSeekbarState(isPlaying: Boolean){
+        updateDisposable.unsubscribe()
+        if (isPlaying) {
+            resumeSeekBar()
+        }
+    }
+
+    private fun resumeSeekBar(){
+        updateDisposable = Observable.interval(250, TimeUnit.MILLISECONDS)
+                .subscribe({ view!!.seekBar.incrementProgressBy(250) }, Throwable::printStackTrace)
     }
 
     private fun setMetadata(metadata: PlayerFragmentMetadata){
