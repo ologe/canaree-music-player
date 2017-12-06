@@ -67,10 +67,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:paddingTop="2dp"
-            android:paddingBottom="2dp"
+            android:paddingBottom="12dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:scrollHorizontally="true"/>
+            android:scrollHorizontally="true" />
 
         <View
             android:id="@+id/clickableArtist"
@@ -79,7 +79,7 @@
             app:layout_constraintEnd_toEndOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/subtitle"
             android:layout_width="0dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp" />
 
         <ImageButton
             android:id="@+id/more"

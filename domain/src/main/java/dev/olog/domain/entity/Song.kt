@@ -16,7 +16,7 @@ data class Song (
         val isExplicit: Boolean,
         val path: String,
         val folder: String,
-        val trackNumber: String) {
+        val trackNumber: Int) {
 
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))

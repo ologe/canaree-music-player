@@ -1,6 +1,5 @@
 package dev.olog.presentation.navigation
 
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -86,7 +85,7 @@ class NavigatorImpl @Inject constructor(
                         R.anim.left_stay,
                         R.anim.left_slide_out
                 )
-                replace(R.id.viewPagerLayout,
+                add(R.id.viewPagerLayout,
                         SearchFragment.newInstance(),
                         SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
@@ -98,8 +97,13 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                replace(R.id.viewPagerLayout,
+                setCustomAnimations(
+                        R.anim.right_slide_in,
+                        R.anim.right_stay,
+                        R.anim.left_stay,
+                        R.anim.left_slide_out
+                )
+                add(R.id.viewPagerLayout,
                         RelatedArtistFragment.newInstance(mediaId),
                         RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
@@ -111,8 +115,13 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                replace(R.id.viewPagerLayout,
+                setCustomAnimations(
+                        R.anim.right_slide_in,
+                        R.anim.right_stay,
+                        R.anim.left_stay,
+                        R.anim.left_slide_out
+                )
+                add(R.id.viewPagerLayout,
                         RecentlyAddedFragment.newInstance(mediaId),
                         RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
@@ -124,8 +133,13 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                replace(R.id.viewPagerLayout,
+                setCustomAnimations(
+                        R.anim.right_slide_in,
+                        R.anim.right_stay,
+                        R.anim.left_stay,
+                        R.anim.left_slide_out
+                )
+                add(R.id.viewPagerLayout,
                         AlbumsFragment.newInstance(mediaId),
                         AlbumsFragment.TAG)
                 addToBackStack(AlbumsFragment.TAG)

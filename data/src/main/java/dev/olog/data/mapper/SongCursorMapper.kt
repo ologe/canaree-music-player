@@ -7,6 +7,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.data.DataConstants
 import dev.olog.data.DataConstants.UNKNOWN
+import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.domain.entity.Song
@@ -31,7 +32,7 @@ fun Cursor.toSong(): Song {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val cover = ContentUris.withAppendedId(COVER_URI, albumId).toString()
-    val trackNumber = getString(MediaStore.Audio.AudioColumns.TRACK)
+    val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
 
     return Song(
             id, artistId, albumId, title, artist, album, cover,

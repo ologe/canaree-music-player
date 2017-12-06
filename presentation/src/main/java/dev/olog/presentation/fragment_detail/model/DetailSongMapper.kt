@@ -9,6 +9,11 @@ import dev.olog.shared.TextUtils
 
 fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
     val category = MediaIdHelper.extractCategory(parentId)
+    val viewType = when (category){
+        MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.layout.item_detail_song_with_track
+        else -> R.layout.item_detail_song
+    }
+
     val secondText = when (category){
         MediaIdHelper.MEDIA_ID_BY_ALBUM -> this.artist
         MediaIdHelper.MEDIA_ID_BY_ARTIST -> this.album
@@ -16,14 +21,15 @@ fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
     }
 
     return DisplayableItem(
-            R.layout.item_detail_song,
+            viewType,
             MediaIdHelper.playableItem(parentId, id),
             title,
             secondText,
             image,
             true,
             isRemix,
-            isExplicit
+            isExplicit,
+            if (trackNumber < 1) "-" else trackNumber.toString()
     )
 }
 

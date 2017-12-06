@@ -2,6 +2,10 @@ package dev.olog.data.utils
 
 import android.database.Cursor
 
+fun Cursor.getInt(column: String): Int {
+    return getInt(getColumnIndex(column))
+}
+
 fun Cursor.getLong(column: String): Long {
     return getLong(getColumnIndex(column))
 }

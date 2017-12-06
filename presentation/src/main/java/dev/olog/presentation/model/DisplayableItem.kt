@@ -8,5 +8,6 @@ data class DisplayableItem (
         val image: String = "",
         val isPlayable: Boolean = false,
         val isRemix: Boolean = false,
-        val isExplicit: Boolean = false
+        val isExplicit: Boolean = false,
+        val trackNumber: String = ""
 )
