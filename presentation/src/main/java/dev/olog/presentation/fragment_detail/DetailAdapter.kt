@@ -47,7 +47,7 @@ class DetailAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
                 if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALBUM){
-                    viewHolder.setOnClickListener(R.id.subtitle, dataController) { item, _, _ ->
+                    viewHolder.setOnClickListener(R.id.clickableArtist, dataController) { item, _, _ ->
                         viewModel.artistMediaId(item.mediaId)
                                 .subscribe({ artistMediaId ->
                                     navigator.toDetailFragment(artistMediaId, 0) // todo position

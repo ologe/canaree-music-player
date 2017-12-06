@@ -65,7 +65,7 @@ class NavigatorImpl @Inject constructor(
                             R.anim.left_stay,
                             R.anim.left_slide_out
                 )
-                replace(R.id.viewPagerLayout,
+                add(R.id.viewPagerLayout,
                             DetailFragment.newInstance(mediaId, position),
                             DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
