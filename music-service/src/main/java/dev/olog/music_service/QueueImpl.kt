@@ -32,7 +32,7 @@ class QueueImpl @Inject constructor(
 
     private var savePlayingQueueDisposable: Disposable? = null
 
-    private val playingQueue = Vector<MediaEntity>()
+    val playingQueue = Vector<MediaEntity>()
 
     var currentSongPosition = -1
 

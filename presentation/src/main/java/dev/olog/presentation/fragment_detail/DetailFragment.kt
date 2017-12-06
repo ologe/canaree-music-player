@@ -167,14 +167,22 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onStart() {
         super.onStart()
         view!!.list.addItemDecoration(marginDecorator)
-        activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
-                .addPanelSlideListener(slidingPanelListener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (context!!.isPortrait){
+            activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
+                    .addPanelSlideListener(slidingPanelListener)
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
-                .removePanelSlideListener(slidingPanelListener)
+        if (context!!.isPortrait){
+            activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
+                    .removePanelSlideListener(slidingPanelListener)
+        }
     }
 
     override fun onStop() {
