@@ -4,21 +4,26 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.domain.interactor.music_service.ToggleSkipToNextVisibilityUseCase
+import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUseCase
 import dev.olog.presentation.fragment_mini_player.model.MiniPlayerMedatata
 import dev.olog.presentation.fragment_mini_player.model.toMiniPlayerMetadata
 import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
 
 class MiniPlayerFragmentViewModel(
-        private val controllerCallback: RxMusicServiceControllerCallback
+        controllerCallback: RxMusicServiceControllerCallback,
+        toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase,
+        toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase
 
 ) : ViewModel() {
 
 
     val onMetadataChangedLiveData: LiveData<MiniPlayerMedatata> = controllerCallback
             .onMetadataChanged()
-                .map { it.toMiniPlayerMetadata() }
-                .asLiveData()
+            .map { it.toMiniPlayerMetadata() }
+            .distinctUntilChanged()
+            .asLiveData()
 
     val animatePlayPauseLiveData: LiveData<Int> = controllerCallback
             .onPlaybackStateChanged()
@@ -27,6 +32,9 @@ class MiniPlayerFragmentViewModel(
             .distinctUntilChanged()
             .skip(1)
             .asLiveData()
+
+    val skipToNextVisibility = toggleSkipToNextVisibilityUseCase.observe().asLiveData()
+    val skipToPreviousVisibility = toggleSkipToPreviousVisibilityUseCase.observe().asLiveData()
 
     val animateSkipToLiveData: LiveData<Boolean> = controllerCallback.onPlaybackStateChanged()
             .map { it.state }

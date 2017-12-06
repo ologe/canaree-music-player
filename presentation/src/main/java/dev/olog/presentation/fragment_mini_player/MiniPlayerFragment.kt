@@ -74,6 +74,12 @@ class MiniPlayerFragment : BaseFragment(){
         RxView.clicks(view!!.playPause)
                 .asLiveData()
                 .subscribe(this, { musicController.playPause() })
+
+        viewModel.skipToNextVisibility
+                .subscribe(this, view!!.next::toggleVisibility)
+
+        viewModel.skipToPreviousVisibility
+                .subscribe(this, view!!.next::toggleVisibility)
     }
 
     override fun onResume() {

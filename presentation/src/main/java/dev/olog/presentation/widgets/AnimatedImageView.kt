@@ -46,9 +46,4 @@ class AnimatedImageView @JvmOverloads constructor(
         animator.alpha(if (show) 1f else 0f)
     }
 
-    fun toggleVisibilityImmediate(show: Boolean) {
-        isEnabled = show
-        alpha = if (show) 1f else 0f
-    }
-
 }

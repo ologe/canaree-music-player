@@ -7,6 +7,7 @@ import javax.inject.Inject
 
 class PlayerFragmentViewModelFactory @Inject constructor(
         private val controllerCallback: RxMusicServiceControllerCallback
+
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

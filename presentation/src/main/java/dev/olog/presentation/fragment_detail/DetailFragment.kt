@@ -22,6 +22,7 @@ import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.*
 import dev.olog.shared.MediaIdHelper
+import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
