@@ -99,11 +99,13 @@ class PlayerFragment : BaseFragment() {
         val seekBarObservable = SeekBarObservable(seekBar).share()
 
         seekBarObservable
-                .ofType(Int::class.java)
+                .ofType<Int>()
                 .map { it.toLong() }
                 .map { TextUtils.getReadableSongLength(it) }
                 .asLiveData()
-                .subscribe(this, { bookmark.text = it })
+                .subscribe(this, {
+                    view!!.bookmark.text = it
+                })
 
         seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
                 .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
