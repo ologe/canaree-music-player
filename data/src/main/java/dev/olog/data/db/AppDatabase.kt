@@ -10,7 +10,10 @@ import dev.olog.data.entity.*
         PlaylistMostPlayedEntity::class,
         GenreMostPlayedEntity::class,
         FavoriteEntity::class,
-        RecentSearchesEntity::class
+        RecentSearchesEntity::class,
+        HistoryEntity::class,
+        LastPlayedAlbumEntity::class,
+        LastPlayedArtistEntity::class
 
 ), version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -26,5 +29,10 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
 
     abstract fun recentSearchesDao(): RecentSearchesDao
+
+    abstract fun historyDao(): HistoryDao
+
+    abstract fun lastPlayedAlbumDao() : LastPlayedAlbumDao
+    abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
 
 }
