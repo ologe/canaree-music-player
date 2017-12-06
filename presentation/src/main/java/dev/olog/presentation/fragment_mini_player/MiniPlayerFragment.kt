@@ -79,7 +79,7 @@ class MiniPlayerFragment : BaseFragment(){
                 .subscribe(this, view!!.next::toggleVisibility)
 
         viewModel.skipToPreviousVisibility
-                .subscribe(this, view!!.next::toggleVisibility)
+                .subscribe(this, view!!.previous::toggleVisibility)
     }
 
     override fun onResume() {
