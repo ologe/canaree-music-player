@@ -1,12 +1,13 @@
 package dev.olog.presentation.fragment_albums
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.utils.extension.isPortrait
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_albums.view.*
@@ -35,7 +36,9 @@ class AlbumsFragment : BaseFragment() {
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.adapter = adapter
-        view.list.layoutManager = LinearLayoutManager(context!!)
+        val spanCount = if (context!!.isPortrait) 2 else 4
+        val layoutManager = GridLayoutManager(context!!, spanCount)
+        view.list.layoutManager = layoutManager
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
