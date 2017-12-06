@@ -24,7 +24,7 @@ class FolderRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    private val data : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAll()
+    private val dataMap : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAll()
             .flatMapSingle { it.toFlowable().collectInto(mutableMapOf<String, MutableList<Song>>(), { map, song ->
                 if (map.contains(song.folderPath)){
                     map[song.folderPath]!!.add(song)
@@ -36,7 +36,7 @@ class FolderRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    private val listObservable : Flowable<List<Folder>> = data.flatMapSingle { it.entries.toFlowable()
+    private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
                     Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
                             it.key, it.value.size)
@@ -48,7 +48,7 @@ class FolderRepository @Inject constructor(
     override fun getAll(): Flowable<List<Folder>> = listObservable
 
     override fun observeSongListByParam(param: String): Flowable<List<Song>> {
-        return data.map { it[param]!! }
+        return dataMap.map { it[param]!! }
     }
 
     override fun getByParam(param: String): Flowable<Folder> {

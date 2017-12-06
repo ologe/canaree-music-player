@@ -16,12 +16,13 @@ import javax.inject.Singleton
 
 @Singleton
 class ArtistRepository @Inject constructor(
-        private val songGateway: SongGateway
+        songGateway: SongGateway
+
 ) :ArtistGateway{
 
     private val artistsMap : Flowable<MutableMap<Long, MutableList<Song>>> = songGateway.getAll()
             .flatMapSingle { it.toFlowable()
-                    .filter { it.album != DataConstants.UNKNOWN_ARTIST }
+                    .filter { it.artist != DataConstants.UNKNOWN_ARTIST }
                     .collectInto(mutableMapOf<Long, MutableList<Song>>(), { map, song ->
                         if (map.contains(song.artistId)){
                             map[song.artistId]!!.add(song)
@@ -35,7 +36,7 @@ class ArtistRepository @Inject constructor(
 
     private val artistAlbumsMap : Flowable<MutableMap<Long, MutableList<Album>>> = songGateway.getAll()
             .flatMapSingle { it.toFlowable()
-                    .filter { it.album != DataConstants.UNKNOWN_ARTIST }
+                    .filter { it.artist != DataConstants.UNKNOWN_ARTIST }
                     .distinct(Song::albumId)
                     .map { it.toAlbum() }
                     .collectInto(mutableMapOf<Long, MutableList<Album>>(), { map, album ->

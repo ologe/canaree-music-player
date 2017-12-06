@@ -27,12 +27,12 @@ fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     )
 }
 
-fun Album.toDetailDisplayableItem(): DisplayableItem {
+fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
             MediaIdHelper.albumId(id),
             title,
-            artist,
+            resources.getQuantityString(R.plurals.song_count, this.songs, this.songs).toLowerCase(),
             image
     )
 }

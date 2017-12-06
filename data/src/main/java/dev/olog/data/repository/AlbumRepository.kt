@@ -5,7 +5,6 @@ import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.domain.mapper.toAlbum
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
@@ -14,35 +13,42 @@ import javax.inject.Singleton
 
 @Singleton
 class AlbumRepository @Inject constructor(
-        private val songGateway: SongGateway
+        songGateway: SongGateway
 
 ) : AlbumGateway{
 
-    private val listObservable : Flowable<List<Album>> = songGateway.getAll()
+    private val dataMap : Flowable<MutableMap<Long, MutableList<Song>>> = songGateway.getAll()
             .flatMapSingle { it.toFlowable()
                     .filter { it.album != DataConstants.UNKNOWN_ALBUM }
-                    .distinct (Song::albumId)
-                    .map(Song::toAlbum)
-                    .toSortedList(compareBy { it.title.toLowerCase() })
-            }.distinctUntilChanged()
+                    .collectInto(mutableMapOf<Long, MutableList<Song>>(), { map, song ->
+                        if (map.contains(song.albumId)){
+                            map[song.albumId]!!.add(song)
+                        } else {
+                            map.put(song.albumId, mutableListOf(song))
+                        }
+                    }) }
+            .distinctUntilChanged()
+            .replay(1)
+            .refCount()
+
+    private val listObservable : Flowable<List<Album>> = dataMap.flatMapSingle { it.entries.toFlowable()
+            .map {
+                val song = it.value[0]
+                Album(song.albumId, song.artistId, song.album, song.artist, song.image, it.value.size)
+            }
+            .toSortedList(compareBy { it.title.toLowerCase() })
+    }.distinctUntilChanged()
             .replay(1)
             .refCount()
 
     override fun getAll(): Flowable<List<Album>> = listObservable
 
     override fun getByParam(param: Long): Flowable<Album> {
-        return getAll().flatMapSingle { it.toFlowable()
-                .filter { it.id == param }
-                .firstOrError()
-        }
+        return getAll().map { it.first { it.id == param } }
     }
 
     override fun observeSongListByParam(param: Long): Flowable<List<Song>> {
-        return songGateway.getAll()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.albumId == param }
-                        .toList()
-                }
+        return dataMap.map { it[param]!! }
     }
 
     override fun getLastPlayed(): Flowable<List<Album>> {

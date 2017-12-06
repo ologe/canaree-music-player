@@ -17,7 +17,6 @@
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:layout_marginBottom="2dp"
 
         tools:background="@color/background">
 
@@ -59,7 +58,6 @@
 
             style="@style/Album.MainText"
             android:text="@{item.title}"
-            android:textStyle="bold"
 
             tools:text="@tools:sample/lorem"/>
 

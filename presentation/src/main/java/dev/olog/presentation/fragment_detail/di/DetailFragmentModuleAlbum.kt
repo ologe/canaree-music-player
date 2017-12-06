@@ -46,23 +46,25 @@ class DetailFragmentModuleAlbum {
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_ALBUM)
     internal fun provideAlbumData(
+            resources: Resources,
             mediaId: String,
             useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().map { it.toDetailDisplayableItem() }.toList()
+            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
         }
     }
 
     @Provides
     @IntoMap
     @StringKey(MediaIdHelper.MEDIA_ID_BY_ARTIST)
-    internal fun provideArtistData(mediaId: String,
-                                   useCase: GetAlbumSiblingsByArtistUseCase)
-            : Flowable<List<DisplayableItem>> {
+    internal fun provideArtistData(
+            resources: Resources,
+            mediaId: String,
+            useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().map { it.toDetailDisplayableItem() }.toList()
+            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
         }
     }
 
