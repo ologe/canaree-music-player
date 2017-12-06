@@ -22,7 +22,7 @@ object ImageUtils {
 
             val bitmap = Bitmap.createBitmap(24, 24, Bitmap.Config.RGB_565)
             val canvas = Canvas(bitmap)
-            drawable.setBounds(0, 0, 500, 500)
+            drawable.setBounds(0, 0, 24, 24)
             drawable.draw(canvas)
 
             bitmap

@@ -46,9 +46,8 @@ class AlbumsFragmentModule(
             mediaId: String,
             useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle { it.toFlowable()
-                .map { it.toDetailDisplayableItem(resources) }
-                .toList()
+        return useCase.execute(mediaId).flatMapSingle {
+            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
         }
     }
 
@@ -60,9 +59,8 @@ class AlbumsFragmentModule(
             mediaId: String,
             useCase: GetPlaylistSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle { it.toFlowable()
-                .map { it.toDetailDisplayableItem(resources) }
-                .toList()
+        return useCase.execute(mediaId).flatMapSingle {
+            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
         }
     }
 
