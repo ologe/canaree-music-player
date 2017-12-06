@@ -28,6 +28,7 @@ abstract class LastPlayedAlbumDao {
                         album.id, album.artistId, album.title, album.artist, album.image
                 )) }
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
     }
 
 }

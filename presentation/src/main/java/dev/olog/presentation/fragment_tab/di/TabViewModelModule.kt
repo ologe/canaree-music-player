@@ -95,7 +95,7 @@ class TabViewModelModule {
         val lastPlayedObs = lastPlayedAlbumsUseCase.execute().flatMapSingle{ it.toFlowable()
                 .map { it.toDisplayableItem() }.toList() }
 
-        return Flowables.zip(allObs, lastPlayedObs, { all, last ->
+        return Flowables.combineLatest(allObs, lastPlayedObs, { all, last ->
             if (last.isNotEmpty()){
                 last.clear()
                 all.addAll(0, listOf(
@@ -122,7 +122,7 @@ class TabViewModelModule {
         val lastPlayedObs = lastPlayedArtistsUseCase.execute().flatMapSingle{ it.toFlowable()
                 .map { it.toDisplayableItem(resources) }.toList() }
 
-        return Flowables.zip(allObs, lastPlayedObs, { all, last ->
+        return Flowables.combineLatest(allObs, lastPlayedObs, { all, last ->
             if (last.isNotEmpty()){
                 last.clear()
                 all.addAll(0, listOf(
