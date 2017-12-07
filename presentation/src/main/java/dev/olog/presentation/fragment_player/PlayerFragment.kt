@@ -96,6 +96,14 @@ class PlayerFragment : BaseFragment() {
         viewModel.onBookmarkChangedObservable
                 .subscribe(this, { seekBar.progress = it })
 
+        viewModel.onFavoriteStateChangedObservable()
+                .subscribe(this, { favorite.toggleFavorite(it) })
+
+        viewModel.onFavoriteAnimateRequestObservable()
+                .asLiveData()
+                .subscribe(this, { favorite.animateFavorite(it) })
+
+
         val seekBarObservable = SeekBarObservable(seekBar).share()
 
         seekBarObservable
@@ -104,7 +112,7 @@ class PlayerFragment : BaseFragment() {
                 .map { TextUtils.getReadableSongLength(it) }
                 .asLiveData()
                 .subscribe(this, {
-                    view!!.bookmark.text = it
+                    bookmark.text = it
                 })
 
         seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
@@ -128,6 +136,10 @@ class PlayerFragment : BaseFragment() {
         RxView.clicks(fakePrevious)
                 .asLiveData()
                 .subscribe(this, { musicController.skipToPrevious() })
+
+        RxView.clicks(favorite)
+                .asLiveData()
+                .subscribe(this, { musicController.togglePlayerFavorite() })
     }
 
     override fun onResume() {

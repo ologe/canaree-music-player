@@ -3,6 +3,7 @@ package dev.olog.presentation.service_music
 import android.media.session.PlaybackState.STATE_PAUSED
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.dagger.PerActivity
@@ -75,6 +76,23 @@ class MusicController @Inject constructor(
 
     fun skipToQueueItem(mediaId: String) {
         getTransportControls()?.skipToQueueItem(MediaIdHelper.extractLeaf(mediaId).toLong())
+    }
+
+    fun togglePlayerFavorite() {
+        val mediaController = getMediaController() ?: return
+
+        val playbackState = mediaController.playbackState
+        if (playbackState != null) {
+            val activeQueueItemId = playbackState.activeQueueItemId
+            toggleFavorite(activeQueueItemId)
+        }
+    }
+
+    private fun toggleFavorite(songId: Long) {
+        val transportControls = getTransportControls() ?: return
+        val bundle = Bundle()
+        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, songId.toString())
+        transportControls.setRating(RatingCompat.newHeartRating(false), bundle)
     }
 
     private fun getTransportControls(): MediaControllerCompat.TransportControls? {

@@ -6,6 +6,8 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
+import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import dev.olog.music_service.di.PerService
@@ -100,6 +102,11 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSeekTo(pos: Long) {
         player.seekTo(pos)
+    }
+
+    override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
+        val songId = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID).toLong()
+        playerMetadata.toggleFavorite(songId)
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
