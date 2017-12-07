@@ -10,6 +10,7 @@ import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.utils.ImageUtils
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.constants.MetadataConstants
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -36,8 +37,8 @@ class PlayerMetadata @Inject constructor(
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, entity.image))
-                .putLong("explicit", if(entity.isExplicit) 1L else 0L)
-                .putLong("remix", if(entity.isRemix) 1L else 0L)
+                .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
+                .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
                 .build()
 
         mediaSession.setMetadata(builder.build())

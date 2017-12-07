@@ -100,7 +100,9 @@ dependencies {
     // other
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
     implementation 'io.mattcarroll.hover:hover:0.9.8'
+    implementation "com.airbnb.android:lottie:$rootProject.lottie"
 
+    // debug
     implementation 'com.akaita.java:rxjava2-debug:1.2.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 //    debugCompile 'com.amitshekhar.android:debug-db:1.0.1'

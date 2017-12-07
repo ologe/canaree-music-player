@@ -20,6 +20,13 @@
             android:layout_height="match_parent"
             android:gravity="center" />
 
+        <dev.olog.presentation.widgets.LottieFavorite
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="48dp" />
+
         <ImageButton
             android:id="@+id/toolbarMore"
             android:layout_gravity="end"

@@ -36,12 +36,14 @@ abstract class HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertImpl(entity: HistoryEntity)
 
-    @Query("DELETE FROM song_history WHERE songId = :id")
-    abstract fun deleteImpl(id: Long)
+//    @Query("DELETE FROM song_history WHERE songId = :id")
+//    abstract fun deleteImpl(id: Long)
 
     fun insert(id: Long): Completable {
-        return Completable.fromCallable{ deleteImpl(id) }
-                .andThen { insertImpl(HistoryEntity.from(id)) }
+//        return Completable.fromCallable{ deleteImpl(id) }
+//                .andThen { insertImpl(HistoryEntity.from(id)) }
+//                .subscribeOn(Schedulers.io())
+        return Completable.fromCallable{ insertImpl(HistoryEntity(songId = id)) }
                 .subscribeOn(Schedulers.io())
     }
 

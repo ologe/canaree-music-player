@@ -13,7 +13,7 @@ fun MediaMetadataCompat.toPlayerMetadata(): PlayerFragmentMetadata{
     return PlayerFragmentMetadata(
             this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
             this.getString(MediaMetadataCompat.METADATA_KEY_ARTIST),
-            this.getLong("explicit") != 0L,
-            this.getLong("remix") != 0L
+            this.getLong(dev.olog.shared.constants.MetadataConstants.IS_EXPLICIT) != 0L,
+            this.getLong(dev.olog.shared.constants.MetadataConstants.IS_REMIX) != 0L
     )
 }
