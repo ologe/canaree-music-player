@@ -10,6 +10,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
@@ -18,13 +19,15 @@ import javax.inject.Inject
 class DetailMostPlayedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: DetailFragmentViewModel,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val musicController: MusicController
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
             viewModel.addToMostPlayed(item.mediaId).subscribe()
+            musicController.playMostPlayedFromMediaId(item.mediaId)
         }
 
         viewHolder.setOnLongClickListener(dataController) { item, _ ->

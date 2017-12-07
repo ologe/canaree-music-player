@@ -7,6 +7,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MusicConstants
 import dev.olog.shared.MusicConstants.ACTION_PLAY_SHUFFLE
 import javax.inject.Inject
 
@@ -52,6 +53,18 @@ class MusicController @Inject constructor(
 
     fun playFromMediaId(mediaId: String) {
         getTransportControls()?.playFromMediaId(mediaId, null)
+    }
+
+    fun playRecentlyPlayedFromMediaId(mediaId: String){
+        val bundle = Bundle()
+        bundle.putBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, true)
+        getTransportControls()?.playFromMediaId(mediaId, bundle)
+    }
+
+    fun playMostPlayedFromMediaId(mediaId: String){
+        val bundle = Bundle()
+        bundle.putBoolean(MusicConstants.BUNDLE_MOST_PLAYED, true)
+        getTransportControls()?.playFromMediaId(mediaId, bundle)
     }
 
     fun playShuffle(mediaId: String) {

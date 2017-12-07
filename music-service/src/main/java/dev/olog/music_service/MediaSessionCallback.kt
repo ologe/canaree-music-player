@@ -51,10 +51,28 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
-        queue.handlePlayFromMediaId(mediaId!!)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(player::play, Throwable::printStackTrace)
-                .addTo(subscriptions)
+        if (extras != null){
+            when {
+                extras.isEmpty -> {
+                    queue.handlePlayFromMediaId(mediaId!!)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(player::play, Throwable::printStackTrace)
+                            .addTo(subscriptions)
+                }
+                extras.getBoolean(MusicConstants.BUNDLE_MOST_PLAYED, false) -> {
+                    queue.handlePlayMostPlayed(mediaId!!)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(player::play, Throwable::printStackTrace)
+                            .addTo(subscriptions)
+                }
+                extras.getBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, false) -> {
+                    queue.handlePlayRecentlyPlayed(mediaId!!)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(player::play, Throwable::printStackTrace)
+                            .addTo(subscriptions)
+                }
+            }
+        }
     }
 
     override fun onPlay() {

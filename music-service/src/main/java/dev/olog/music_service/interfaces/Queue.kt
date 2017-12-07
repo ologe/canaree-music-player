@@ -18,6 +18,10 @@ interface Queue {
 
     fun handlePlayFromMediaId(mediaId: String): Single<PlayerMediaEntity>
 
+    fun handlePlayRecentlyPlayed(mediaId: String): Single<PlayerMediaEntity>
+
+    fun handlePlayMostPlayed(mediaId: String): Single<PlayerMediaEntity>
+
     fun handleSkipToQueueItem(id: Long): PlayerMediaEntity
 
     fun handlePlayShuffle(bundle: Bundle): Single<PlayerMediaEntity>

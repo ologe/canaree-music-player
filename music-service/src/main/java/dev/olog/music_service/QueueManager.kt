@@ -6,6 +6,8 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.domain.interactor.detail.most_played.GetMostPlayedSongsUseCase
+import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.domain.interactor.music_service.BookmarkUseCase
 import dev.olog.domain.interactor.music_service.CurrentSongIdUseCase
 import dev.olog.domain.interactor.music_service.GetPlayingQueueUseCase
@@ -27,7 +29,9 @@ class QueueManager @Inject constructor(
         private val bookmarkUseCase: BookmarkUseCase,
         private val repeatMode: RepeatMode,
         private val shuffleMode: ShuffleMode,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+        private val getSongListByParamUseCase: GetSongListByParamUseCase,
+        private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
+        private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase
 
 ) : Queue {
 
@@ -63,6 +67,32 @@ class QueueManager @Inject constructor(
         val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
 
         return getSongListByParamUseCase.execute(mediaId)
+                .firstOrError()
+                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .map { shuffleIfNeeded(songId).apply(it) }
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
+                .map { getCurrentSongOnPlayFromId(songId).apply(it) }
+                .doOnSuccess { (list , position) -> queueImpl.updateCurrentSongPosition(list, position) }
+                .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
+    }
+
+    override fun handlePlayRecentlyPlayed(mediaId: String): Single<PlayerMediaEntity> {
+        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+
+        return getRecentlyAddedUseCase.execute(mediaId)
+                .firstOrError()
+                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .map { shuffleIfNeeded(songId).apply(it) }
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
+                .map { getCurrentSongOnPlayFromId(songId).apply(it) }
+                .doOnSuccess { (list , position) -> queueImpl.updateCurrentSongPosition(list, position) }
+                .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
+    }
+
+    override fun handlePlayMostPlayed(mediaId: String): Single<PlayerMediaEntity> {
+        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+
+        return getMostPlayedSongsUseCase.execute(mediaId)
                 .firstOrError()
                 .flatMap { mapToMediaEntityAndPersist.apply(it) }
                 .map { shuffleIfNeeded(songId).apply(it) }
