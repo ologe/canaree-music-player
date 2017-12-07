@@ -38,7 +38,7 @@ abstract class PlayingQueueDao {
                     songList.flattenAsFlowable { it }
                             .filter { it.id == songId }
                             .firstElement()
-                }.toSortedList { o1, o2 -> String.CASE_INSENSITIVE_ORDER.compare(o1.title, o2.title) }
+                }.toList()
                 .onErrorReturnItem(ArrayList(0))
     }
 

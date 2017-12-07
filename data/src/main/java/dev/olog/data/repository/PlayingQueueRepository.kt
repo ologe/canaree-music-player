@@ -41,7 +41,7 @@ class PlayingQueueRepository @Inject constructor(
     override fun observeMiniQueue(): Flowable<List<Song>> {
         return publisher
                 .observeOn(Schedulers.computation())
-                .debounce(300, TimeUnit.MILLISECONDS)
+                .debounce(150, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
                 .flatMapSingle { it.toFlowable()
                         .flatMapMaybe { songId ->
