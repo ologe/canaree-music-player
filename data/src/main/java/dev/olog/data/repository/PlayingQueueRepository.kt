@@ -31,7 +31,7 @@ class PlayingQueueRepository @Inject constructor(
     }
 
     override fun update(list: List<Long>): Completable {
-        return Completable.fromCallable { playingQueueDao.insert(list) }
+        return playingQueueDao.insert(list)
     }
 
     override fun updateMiniQueue(data: List<Long>) {
