@@ -40,6 +40,11 @@ object Popup {
                     menu.removeItem(R.id.viewArtist)
                 }
             }
+            if (category == MediaIdHelper.MEDIA_ID_BY_ALBUM){
+                menu.removeItem(R.id.viewAlbum)
+            } else if (category == MediaIdHelper.MEDIA_ID_BY_ARTIST){
+                menu.removeItem(R.id.viewArtist)
+            }
         } else {
             when (category){
                 MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> {
@@ -66,6 +71,7 @@ object Popup {
                 }
             }
         }
+
     }
 
     @MenuRes

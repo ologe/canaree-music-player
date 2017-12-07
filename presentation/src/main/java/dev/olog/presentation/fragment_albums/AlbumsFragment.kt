@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.fragment_detail.HorizontalMarginDecoration
 import dev.olog.presentation.utils.extension.isPortrait
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
@@ -28,6 +29,8 @@ class AlbumsFragment : BaseFragment() {
     @Inject lateinit var adapter : AlbumsFragmentAdapter
     @Inject lateinit var viewModel: AlbumsFragmentViewModel
 
+    private val marginDecorator by lazy (LazyThreadSafetyMode.NONE){ HorizontalMarginDecoration(context!!) }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -39,6 +42,16 @@ class AlbumsFragment : BaseFragment() {
         val spanCount = if (context!!.isPortrait) 2 else 4
         val layoutManager = GridLayoutManager(context!!, spanCount)
         view.list.layoutManager = layoutManager
+    }
+
+    override fun onStart() {
+        super.onStart()
+        view!!.list.addItemDecoration(marginDecorator)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        view!!.list.removeItemDecoration(marginDecorator)
     }
 
     override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

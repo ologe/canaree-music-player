@@ -66,7 +66,8 @@ class DetailAdapter @Inject constructor(
                 setupHorizontalList(list, recentSongsAdapter)
             }
 
-            R.layout.item_detail_song -> {
+            R.layout.item_detail_song,
+            R.layout.item_detail_song_with_track -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     musicController.playFromMediaId(item.mediaId)
                     viewModel.addToMostPlayed(item.mediaId).subscribe()
