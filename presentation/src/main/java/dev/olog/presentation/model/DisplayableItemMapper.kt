@@ -16,11 +16,15 @@ fun Folder.toDisplayableItem(resources: Resources): DisplayableItem{
 }
 
 fun Playlist.toDisplayableItem(resources: Resources): DisplayableItem{
-    return dev.olog.presentation.model.DisplayableItem(
+    val listSize = if (this.size == -1){ "" } else {
+        resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    }
+
+    return DisplayableItem(
             R.layout.item_tab_album,
             MediaIdHelper.playlistId(id),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            listSize
     )
 }
 

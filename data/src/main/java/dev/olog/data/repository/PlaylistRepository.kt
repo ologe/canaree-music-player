@@ -95,28 +95,11 @@ class PlaylistRepository @Inject constructor(
 
     override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
         return Flowable.just(autoPlaylists)
-                .flatMapSingle { it.toFlowable()
-                        .flatMapSingle { playlist ->
-                            when (playlist.id){
-                                DataConstants.HISTORY_LIST_ID -> historyDao.getAllImpl()
-                                        .map { it.size }
-                                        .map { Playlist(playlist.id, playlist.title, it) }
-                                        .firstOrError()
+                .flatMapSingle { it.toFlowable().toSortedList(compareByDescending { it.id }) }
+    }
 
-                                DataConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
-                                        .map { it.size }
-                                        .map { Playlist(playlist.id, playlist.title, it) }
-                                        .firstOrError()
-
-                                DataConstants.LAST_ADDED_ID -> songGateway.getAll()
-                                        .map { it.size }
-                                        .map { Playlist(playlist.id, playlist.title, it) }
-                                        .firstOrError()
-
-                                else -> throw IllegalArgumentException("playlist id not valid ${playlist.id}")
-                            }
-                        }.toSortedList(compareByDescending { it.id })
-                }
+    override fun insertSongToHistory(songId: Long): Completable {
+        return historyDao.insert(songId)
     }
 
     override fun getActualPlaylistsBlocking(): List<Playlist> {
@@ -132,7 +115,11 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Flowable<Playlist> {
-        return getAll().flatMapSingle { it.toFlowable()
+        val result = if (DataConstants.autoPlaylists.contains(param)){
+            getAllAutoPlaylists()
+        } else getAll()
+
+        return result.flatMapSingle { it.toFlowable()
                 .filter { it.id == param }
                 .firstOrError()
         }
@@ -175,7 +162,11 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getMostPlayed(param: String): Flowable<List<Song>> {
-        return mostPlayedDao.getAll(MediaIdHelper.extractCategoryValue(param).toLong(), songGateway.getAll())
+        val playlistId = MediaIdHelper.extractCategoryValue(param).toLong()
+        if (DataConstants.autoPlaylists.contains(playlistId)){
+            return Flowable.just(listOf())
+        }
+        return mostPlayedDao.getAll(playlistId, songGateway.getAll())
     }
 
     override fun insertMostPlayed(mediaId: String): Completable {

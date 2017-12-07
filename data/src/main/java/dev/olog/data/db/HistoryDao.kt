@@ -39,7 +39,7 @@ abstract class HistoryDao {
     @Query("DELETE FROM song_history WHERE songId = :id")
     abstract fun deleteImpl(id: Long)
 
-    open fun insert(id: Long): Completable {
+    fun insert(id: Long): Completable {
         return Completable.fromCallable{ deleteImpl(id) }
                 .andThen { insertImpl(HistoryEntity.from(id)) }
                 .subscribeOn(Schedulers.io())

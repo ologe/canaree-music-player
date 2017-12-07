@@ -24,4 +24,6 @@ interface PlaylistGateway :
 
     fun getActualPlaylistsBlocking(): List<Playlist>
 
+    fun insertSongToHistory(songId: Long): Completable
+
 }
