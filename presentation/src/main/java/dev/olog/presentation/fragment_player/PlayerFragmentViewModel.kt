@@ -26,7 +26,7 @@ class PlayerFragmentViewModel(
     }
 
     val onMetadataChangedLiveData: LiveData<PlayerFragmentMetadata> = controllerCallback.onMetadataChanged()
-            .map { it.toPlayerMetadata(application.resources) }
+            .map { it.toPlayerMetadata() }
             .distinctUntilChanged()
             .asLiveData()
 

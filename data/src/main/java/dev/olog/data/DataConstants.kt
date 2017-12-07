@@ -4,8 +4,6 @@ import android.content.res.Resources
 
 object DataConstants {
 
-
-
     const val UNKNOWN = "<unknown>"
     lateinit var UNKNOWN_ALBUM: String
     lateinit var UNKNOWN_ARTIST: String

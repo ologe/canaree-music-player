@@ -32,8 +32,6 @@ class PlayerMetadata @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     private val builder = MediaMetadataCompat.Builder()
-    private val unknownArtist = context.getString(R.string.unknown_artist)
-    private val unknownAlbum = context.getString(R.string.unknown_album)
 
     @SuppressLint("CheckResult")
     fun update(entity: MediaEntity) {
@@ -45,13 +43,10 @@ class PlayerMetadata @Inject constructor(
         isFavoriteSongUseCase.execute(entity.id)
                 .subscribe({ isFavorite ->
 
-                    val artist = if (entity.artist == unknownArtist) "<unknown>" else entity.artist
-                    val album = if (entity.album == unknownAlbum) "<unknown>" else entity.album
-
                     builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaIdHelper.songId(entity.id))
                             .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
+                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
+                            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
                             .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                             .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                             .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, entity.image))

@@ -44,6 +44,7 @@ class ArtistRepository @Inject constructor(
             .flatMapSingle { it.toFlowable()
                     .filter { it.artist != DataConstants.UNKNOWN_ARTIST }
                     .distinct(Song::albumId)
+                    .doOnNext { println("wtf $it") }
                     .map { it.toAlbum() }
                     .collectInto(mutableMapOf<Long, MutableList<Album>>(), { map, album ->
                         if (map.contains(album.artistId)){
@@ -95,8 +96,9 @@ class ArtistRepository @Inject constructor(
     override fun getAlbums(artistId: Long): Flowable<List<Album>> {
         return data.map { it[artistId]!!.second }
                 .flatMapSingle { it.toFlowable()
-                        .flatMapSingle { albumGateway.getByParam(it.id).firstOrError() }
+                        .flatMapMaybe { albumGateway.getByParam(it.id).firstElement() }
                         .toList()
+                        .onErrorReturn { listOf() }
                 }
     }
 
