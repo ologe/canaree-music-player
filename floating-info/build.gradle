@@ -45,16 +45,18 @@ android {
 }
 
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // modules
     implementation project(":domain")
     implementation project(":shared")
 
     // kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    implementation "com.android.support:appcompat-v7:$rootProject.support_library"
+    implementation "com.android.support:support-v4:$rootProject.support_library"
     implementation "com.android.support:cardview-v7:$rootProject.support_library"
+    implementation "com.android.support:appcompat-v7:$rootProject.support_library"
+    implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
 
     implementation 'io.mattcarroll.hover:hover:0.9.8'
 
@@ -66,7 +68,6 @@ dependencies {
     implementation "com.google.dagger:dagger:$rootProject.dagger"
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
     implementation "com.google.dagger:dagger-android:$rootProject.dagger"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
     // reactive streams
