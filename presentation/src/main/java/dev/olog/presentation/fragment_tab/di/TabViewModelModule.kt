@@ -65,8 +65,9 @@ class TabViewModelModule {
         }
 
         return playlistsObs.withLatestFrom(autoPlaylistsObs, { playlists, autoPlaylist ->
-            autoPlaylist.addAll(playlists)
-            autoPlaylist
+            val result = autoPlaylist.toMutableList()
+            result.addAll(playlists)
+            result
         })
     }
 
