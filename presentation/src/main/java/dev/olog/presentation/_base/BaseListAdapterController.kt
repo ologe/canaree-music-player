@@ -88,7 +88,8 @@ class BaseListAdapterController<Model>(
 
 
     fun onDataChanged(): Flowable<List<Model>> {
-        return publisher.map { it.data }
+        return publisher.map { it.data.toList() }
+                .startWith(dataSet)
     }
 
     @CallSuper

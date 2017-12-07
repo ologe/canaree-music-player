@@ -128,6 +128,7 @@ class DetailAdapter @Inject constructor(
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
                 mostPlayedAdapter.onDataChanged()
+                        .doOnNext { println("dio cane ${it.size}") }
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
                         .map { it.size }
                         .observeOn(AndroidSchedulers.mainThread())
