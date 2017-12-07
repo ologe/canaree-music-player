@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
+    android:paddingBottom="16dp"
     android:overScrollMode="never"
     android:clipChildren="false"
     android:clipToPadding="false"/>

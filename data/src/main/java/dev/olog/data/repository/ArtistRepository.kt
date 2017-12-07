@@ -44,7 +44,6 @@ class ArtistRepository @Inject constructor(
             .flatMapSingle { it.toFlowable()
                     .filter { it.artist != DataConstants.UNKNOWN_ARTIST }
                     .distinct(Song::albumId)
-                    .doOnNext { println("wtf $it") }
                     .map { it.toAlbum() }
                     .collectInto(mutableMapOf<Long, MutableList<Album>>(), { map, album ->
                         if (map.contains(album.artistId)){
