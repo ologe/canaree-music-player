@@ -1,5 +1,6 @@
 package dev.olog.music_service
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.content.Context
 import android.os.Bundle
@@ -31,7 +32,10 @@ class PlayerMetadata @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     private val builder = MediaMetadataCompat.Builder()
+    private val unknownArtist = context.getString(R.string.unknown_artist)
+    private val unknownAlbum = context.getString(R.string.unknown_album)
 
+    @SuppressLint("CheckResult")
     fun update(entity: MediaEntity) {
 
         insertHistorySongUseCase.execute(entity.id)
@@ -41,12 +45,13 @@ class PlayerMetadata @Inject constructor(
         isFavoriteSongUseCase.execute(entity.id)
                 .subscribe({ isFavorite ->
 
-                    println("dio cane $isFavorite")
+                    val artist = if (entity.artist == unknownArtist) "<unknown>" else entity.artist
+                    val album = if (entity.album == unknownAlbum) "<unknown>" else entity.album
 
                     builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaIdHelper.songId(entity.id))
                             .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
+                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
+                            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
                             .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                             .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                             .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, entity.image))
@@ -60,6 +65,7 @@ class PlayerMetadata @Inject constructor(
                 }, Throwable::printStackTrace)
     }
 
+    @SuppressLint("CheckResult")
     fun toggleFavorite(songId: Long){
         isFavoriteSongUseCase.execute(songId)
                 .doOnSuccess { isFavorite ->

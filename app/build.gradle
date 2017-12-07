@@ -32,7 +32,7 @@ android {
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            debuggable false
-            applicationIdSuffix = ".debug"
+//            applicationIdSuffix = ".debug"
         }
     }
 

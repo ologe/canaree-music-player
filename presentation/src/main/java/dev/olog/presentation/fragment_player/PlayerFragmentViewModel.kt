@@ -21,14 +21,12 @@ class PlayerFragmentViewModel(
 
 ) : AndroidViewModel(application) {
 
-//    private var lastCoverPosition = 0
-
     private val filterPlaybackState : Predicate<Int> = Predicate { state ->
         state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
     }
 
     val onMetadataChangedLiveData: LiveData<PlayerFragmentMetadata> = controllerCallback.onMetadataChanged()
-            .map { it.toPlayerMetadata() }
+            .map { it.toPlayerMetadata(application.resources) }
             .distinctUntilChanged()
             .asLiveData()
 

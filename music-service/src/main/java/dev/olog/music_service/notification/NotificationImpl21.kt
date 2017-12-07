@@ -119,12 +119,12 @@ open class NotificationImpl21 @Inject constructor(
     private fun buildFloatingInfoPendingIntent(): PendingIntent {
         val intent = Intent(service, activityClass.get())
         intent.action = "start floating service"
-        return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildContentIntent(): PendingIntent {
         return PendingIntent.getActivity(service, 0,
-                Intent(service, activityClass.get()), PendingIntent.FLAG_CANCEL_CURRENT)
+                Intent(service, activityClass.get()), PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildPendingIntent(action: Long): PendingIntent? {
