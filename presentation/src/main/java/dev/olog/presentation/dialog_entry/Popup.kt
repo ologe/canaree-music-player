@@ -9,6 +9,7 @@ import android.widget.PopupMenu
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.constants.DataConstants
 
 object Popup {
 
@@ -44,13 +45,15 @@ object Popup {
                 MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> {
                     val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
                     when (playlistId){
-                        -5000L, -4000L, -3000L -> {
+                        DataConstants.FAVORITE_LIST_ID,
+                        DataConstants.HISTORY_LIST_ID,
+                        DataConstants.LAST_ADDED_ID -> {
                             menu.removeItem(R.id.rename)
                             menu.removeItem(R.id.delete)
                         }
                     }
                     when (playlistId){
-                        -5000L -> menu.removeItem(R.id.clear)
+                        DataConstants.LAST_ADDED_ID -> menu.removeItem(R.id.clear)
                     }
                 }
                 MediaIdHelper.MEDIA_ID_BY_ALBUM -> {

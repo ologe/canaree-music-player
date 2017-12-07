@@ -12,7 +12,7 @@ import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.Queue
-import dev.olog.shared.MusicConstants
+import dev.olog.shared.constants.MusicConstants
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -57,6 +57,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
+    private val historyDao = appDatabase.historyDao()
 
     private val autoPlaylistsTitle = resources.getStringArray(R.array.auto_playlists)
 
@@ -94,6 +95,28 @@ class PlaylistRepository @Inject constructor(
 
     override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
         return Flowable.just(autoPlaylists)
+                .flatMapSingle { it.toFlowable()
+                        .flatMapSingle { playlist ->
+                            when (playlist.id){
+                                DataConstants.HISTORY_LIST_ID -> historyDao.getAllImpl()
+                                        .map { it.size }
+                                        .map { Playlist(playlist.id, playlist.title, it) }
+                                        .firstOrError()
+
+                                DataConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
+                                        .map { it.size }
+                                        .map { Playlist(playlist.id, playlist.title, it) }
+                                        .firstOrError()
+
+                                DataConstants.LAST_ADDED_ID -> songGateway.getAll()
+                                        .map { it.size }
+                                        .map { Playlist(playlist.id, playlist.title, it) }
+                                        .firstOrError()
+
+                                else -> throw IllegalArgumentException("playlist id not valid ${playlist.id}")
+                            }
+                        }.toList()
+                }
     }
 
     override fun getActualPlaylistsBlocking(): List<Playlist> {
@@ -120,7 +143,7 @@ class PlaylistRepository @Inject constructor(
         return when (playlistId){
             DataConstants.LAST_ADDED_ID -> getLastAddedSongs()
             DataConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
-            DataConstants.HISTORY_LIST_ID -> getLastAddedSongs() // todo
+            DataConstants.HISTORY_LIST_ID -> historyDao.getAllAsSongs(songGateway.getAll().firstOrError())
             else -> getPlaylistSongs(playlistId)
         }
     }

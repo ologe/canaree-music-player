@@ -7,8 +7,8 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.MusicConstants
-import dev.olog.shared.MusicConstants.ACTION_PLAY_SHUFFLE
+import dev.olog.shared.constants.MusicConstants
+import dev.olog.shared.constants.MusicConstants.ACTION_PLAY_SHUFFLE
 import javax.inject.Inject
 
 @PerActivity
