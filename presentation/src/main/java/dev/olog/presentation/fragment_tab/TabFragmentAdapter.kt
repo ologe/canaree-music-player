@@ -3,7 +3,6 @@ package dev.olog.presentation.fragment_tab
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import dagger.Lazy
 import dev.olog.presentation.BR
@@ -63,7 +62,7 @@ class TabFragmentAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
             }
-            R.layout.item_tab_last_played_album_horizontal_list -> {
+            R.layout.aa -> {
                 val view = viewHolder.itemView as RecyclerView
                 setupHorizontalList(view, lastPlayedAlbumsAdapter.get())
             }
@@ -79,8 +78,8 @@ class TabFragmentAdapter @Inject constructor(
         list.layoutManager = layoutManager
         list.adapter = adapter
 
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(list)
+//        val snapHelper = LinearSnapHelper()
+//        snapHelper.attachToRecyclerView(list)
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

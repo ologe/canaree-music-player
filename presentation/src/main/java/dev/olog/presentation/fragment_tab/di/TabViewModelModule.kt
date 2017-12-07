@@ -100,7 +100,7 @@ class TabViewModelModule {
                 last.clear()
                 all.addAll(0, listOf(
                         DisplayableItem(R.layout.item_tab_header, "last played album id", resources.getString(R.string.tab_last_played)),
-                        DisplayableItem(R.layout.item_tab_last_played_album_horizontal_list, "horizontal list last played album id", ""),
+                        DisplayableItem(R.layout.aa, "horizontal list last played album id", ""),
                         DisplayableItem(R.layout.item_tab_header, "all albums id", resources.getString(R.string.tab_all_albums))
                 ))
             }
@@ -152,11 +152,10 @@ class TabViewModelModule {
     @IntoMap
     @IntKey(LAST_PLAYED_ALBUM)
     internal fun provideLastPlayedAlbumData(
-            resources: Resources,
             useCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }
+                .map { it.toLastPlayedDisplayableItem() }
                 .toList()
         }
     }
@@ -165,11 +164,10 @@ class TabViewModelModule {
     @IntoMap
     @IntKey(LAST_PLAYED_ARTIST)
     internal fun provideLastPlayedArtistData(
-            resources: Resources,
             useCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(resources) }
+                .map { it.toLastPlayedDisplayableItem() }
                 .toList()
         }
     }
