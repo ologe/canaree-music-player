@@ -9,16 +9,25 @@ import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.utils.extension.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
 @PerFragment
 class TabLastPlayedArtistsAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle
+        @FragmentLifecycle lifecycle: Lifecycle,
+        private val navigator: Navigator
 
 ): BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-
+        viewHolder.setOnClickListener(dataController) { item, position ->
+            navigator.toDetailFragment(item.mediaId, position)
+        }
+        viewHolder.setOnLongClickListener(dataController) { item, _ ->
+            navigator.toDialog(item, viewHolder.itemView)
+        }
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
