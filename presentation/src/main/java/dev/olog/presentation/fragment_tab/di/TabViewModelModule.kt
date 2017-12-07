@@ -96,15 +96,16 @@ class TabViewModelModule {
                 .map { it.toDisplayableItem() }.toList() }
 
         return Flowables.combineLatest(allObs, lastPlayedObs, { all, last ->
+            val result = all.toMutableList()
             if (last.isNotEmpty()){
                 last.clear()
-                all.addAll(0, listOf(
+                result.addAll(0, listOf(
                         DisplayableItem(R.layout.item_tab_header, "last played album id", resources.getString(R.string.tab_last_played)),
-                        DisplayableItem(R.layout.aa, "horizontal list last played album id", ""),
+                        DisplayableItem(R.layout.item_tab_last_played_album_horizontal_list, "horizontal list last played album id", ""),
                         DisplayableItem(R.layout.item_tab_header, "all albums id", resources.getString(R.string.tab_all_albums))
                 ))
             }
-            all
+            result
         })
     }
 
@@ -123,15 +124,16 @@ class TabViewModelModule {
                 .map { it.toDisplayableItem(resources) }.toList() }
 
         return Flowables.combineLatest(allObs, lastPlayedObs, { all, last ->
+            val result = all.toMutableList()
             if (last.isNotEmpty()){
                 last.clear()
-                all.addAll(0, listOf(
+                result.addAll(0, listOf(
                         DisplayableItem(R.layout.item_tab_header, "last played artist id", resources.getString(R.string.tab_last_played)),
                         DisplayableItem(R.layout.item_tab_last_played_artist_horizontal_list, "horizontal list last played artist id", ""),
                         DisplayableItem(R.layout.item_tab_header, "all artists id", resources.getString(R.string.tab_all_artists))
                 ))
             }
-            all
+            result
         })
     }
 

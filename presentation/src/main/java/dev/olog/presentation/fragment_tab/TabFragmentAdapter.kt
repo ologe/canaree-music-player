@@ -62,7 +62,7 @@ class TabFragmentAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
             }
-            R.layout.aa -> {
+            R.layout.item_tab_last_played_album_horizontal_list -> {
                 val view = viewHolder.itemView as RecyclerView
                 setupHorizontalList(view, lastPlayedAlbumsAdapter.get())
             }
