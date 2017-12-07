@@ -46,6 +46,8 @@ abstract class BaseListAdapter<Model> (
 
     internal fun getDataSet(): List<Model> = dataController.getDataSet()
 
+    internal fun getItem(position: Int): Model = dataController[position]
+
     fun onDataChanged() : Flowable<List<Model>> = dataController.onDataChanged()
 
     open val hasGranularUpdate : Boolean = true

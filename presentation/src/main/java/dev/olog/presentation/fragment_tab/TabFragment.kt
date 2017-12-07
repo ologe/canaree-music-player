@@ -32,7 +32,7 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var adapter: TabFragmentAdapter
     @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject @JvmField var source: Int = 0
-    @Inject lateinit var spanSizeLookup: TabFragmentSpanSizeLookup
+    private val spanSizeLookup by lazy { TabFragmentSpanSizeLookup(context!!, source, adapter) }
     private lateinit var layoutManager: GridLayoutManager
 
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabLastPlayedAlbumsAdapter>
