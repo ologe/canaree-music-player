@@ -71,13 +71,13 @@ class PlayerMetadata @Inject constructor(
                     }
                     extras.putInt(MetadataConstants.IS_FAVORITE, value)
                     mediaSession.setExtras(extras)
-                }.flatMap { isFavorite ->
+                }.flatMapCompletable { isFavorite ->
                     if (isFavorite){
                         removeSongFromFavoriteUseCase.execute(songId)
                     } else {
                         addSongToFavoriteUseCase.execute(songId)
                     }
-                }.timeout(2, TimeUnit.SECONDS)
+                }.timeout(1, TimeUnit.SECONDS)
                 .subscribe({}, Throwable::printStackTrace)
     }
 
