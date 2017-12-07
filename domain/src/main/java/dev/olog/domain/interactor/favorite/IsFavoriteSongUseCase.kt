@@ -3,7 +3,6 @@ package dev.olog.domain.interactor.favorite
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.interactor.base.SingleUseCaseWithParam
-import dev.olog.shared.Option
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -14,7 +13,6 @@ class IsFavoriteSongUseCase @Inject constructor(
 ) : SingleUseCaseWithParam<Boolean, Long>(schedulers) {
 
     override fun buildUseCaseObservable(songId: Long): Single<Boolean> {
-        return Single.fromCallable { Option(gateway.isFavorite(songId)) }
-                .map { it.isNotNull() }
+        return gateway.isFavorite(songId)
     }
 }

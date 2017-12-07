@@ -4,6 +4,7 @@ import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import javax.inject.Inject
 
 class AddSongToFavoriteUseCase @Inject constructor(
@@ -14,7 +15,7 @@ class AddSongToFavoriteUseCase @Inject constructor(
 
     override fun buildUseCaseObservable(songId: Long): Completable {
         return gateway.addSingle(songId)
-                .toCompletable()
+                .flatMapCompletable { CompletableSource {  } }
     }
 }
 

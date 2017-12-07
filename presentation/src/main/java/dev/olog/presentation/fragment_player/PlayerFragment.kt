@@ -96,11 +96,10 @@ class PlayerFragment : BaseFragment() {
         viewModel.onBookmarkChangedObservable
                 .subscribe(this, { seekBar.progress = it })
 
-        viewModel.onFavoriteStateChangedObservable()
+        viewModel.onFavoriteStateChangedObservable
                 .subscribe(this, { favorite.toggleFavorite(it) })
 
-        viewModel.onFavoriteAnimateRequestObservable()
-                .asLiveData()
+        viewModel.onFavoriteAnimateRequestObservable
                 .subscribe(this, { favorite.animateFavorite(it) })
 
 

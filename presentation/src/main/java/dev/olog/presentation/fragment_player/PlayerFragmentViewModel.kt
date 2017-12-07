@@ -16,7 +16,6 @@ import dev.olog.presentation.utils.TextUtils.getReadableSongLength
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.TextUtils
 import dev.olog.shared.constants.MetadataConstants
-import io.reactivex.Observable
 import io.reactivex.functions.Predicate
 
 class PlayerFragmentViewModel(
@@ -78,15 +77,12 @@ class PlayerFragmentViewModel(
             }.map { it.position.toInt() }
             .asLiveData()
 
-    fun onFavoriteStateChangedObservable(): LiveData<Boolean> {
-        return controllerCallback.onMetadataChanged()
+    val onFavoriteStateChangedObservable: LiveData<Boolean> = controllerCallback.onMetadataChanged()
                 .map { it.getRating(MediaMetadataCompat.METADATA_KEY_USER_RATING) }
                 .map { it.hasHeart() }
                 .asLiveData()
-    }
 
-    fun onFavoriteAnimateRequestObservable(): Observable<Boolean> {
-        return controllerCallback.onExtrasChanged()
+    val onFavoriteAnimateRequestObservable: LiveData<Boolean> = controllerCallback.onExtrasChanged()
                 .map { bundle ->
                     val animate = bundle.getInt(MetadataConstants.IS_FAVORITE, MetadataConstants.NOT_ANIMATE)
                     bundle.putInt(MetadataConstants.IS_FAVORITE, MetadataConstants.NOT_ANIMATE)
@@ -94,6 +90,6 @@ class PlayerFragmentViewModel(
                 }
                 .filter { it != MetadataConstants.NOT_ANIMATE }
                 .map { it == MetadataConstants.ANIMATE_TO_FAVORITE }
-    }
+            .asLiveData()
 
 }

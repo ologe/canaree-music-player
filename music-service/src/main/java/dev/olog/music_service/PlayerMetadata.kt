@@ -41,6 +41,8 @@ class PlayerMetadata @Inject constructor(
         isFavoriteSongUseCase.execute(entity.id)
                 .subscribe({ isFavorite ->
 
+                    println("dio cane $isFavorite")
+
                     builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaIdHelper.songId(entity.id))
                             .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
                             .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
