@@ -1,6 +1,7 @@
 package dev.olog.presentation.fragment_player
 
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -59,7 +60,7 @@ class PlayerFragment : BaseFragment() {
         viewModel.onMetadataChangedLiveData
                 .subscribe(this, this::setMetadata)
 
-        viewModel.onCoverChangedLiveData(context!!)
+        viewModel.onCoverChangedLiveData
                 .subscribe(this, this::setCover)
 
         viewModel.onPlaybackStateChangedLiveData
@@ -196,7 +197,9 @@ class PlayerFragment : BaseFragment() {
                 .override(800)
                 .listener(object : RequestListener<Drawable>{
                     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
-                        placeholder.startTransition(200)
+                        if (placeholder is TransitionDrawable){
+                            placeholder.startTransition(300)
+                        }
                         return false
                     }
 

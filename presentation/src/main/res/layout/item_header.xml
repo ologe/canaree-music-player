@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/seeAll"
             android:text="@{item.subtitle}"
-            tools:text="@string/detail_see_all"
+            tools:text="@string/detail_see_more"
             android:textSize="16sp"
             android:textColor="@color/item_selected"
             android:layout_width="wrap_content"

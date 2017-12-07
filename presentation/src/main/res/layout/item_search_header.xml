@@ -27,7 +27,7 @@
 
         <TextView
             android:text="@{item.subtitle}"
-            tools:text="@string/detail_see_all"
+            tools:text="@string/detail_see_more"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:layout_width="wrap_content"

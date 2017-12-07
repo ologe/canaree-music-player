@@ -1,16 +1,13 @@
 package dev.olog.presentation.fragment_player
 
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
-import android.content.Context
 import android.graphics.drawable.TransitionDrawable
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.images.CoverUtils
-import dev.olog.presentation.model.CoverModel
-import dev.olog.presentation.model.DurationModel
-import dev.olog.presentation.model.PlayerFragmentMetadata
-import dev.olog.presentation.model.toPlayerMetadata
+import dev.olog.presentation.model.*
 import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.TextUtils.getReadableSongLength
 import dev.olog.presentation.utils.extension.asLiveData
@@ -19,11 +16,12 @@ import dev.olog.shared.constants.MetadataConstants
 import io.reactivex.functions.Predicate
 
 class PlayerFragmentViewModel(
-        private val controllerCallback: RxMusicServiceControllerCallback
+        application: Application,
+        controllerCallback: RxMusicServiceControllerCallback
 
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
-    private var lastCoverPosition = 0
+//    private var lastCoverPosition = 0
 
     private val filterPlaybackState : Predicate<Int> = Predicate { state ->
         state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
@@ -34,18 +32,33 @@ class PlayerFragmentViewModel(
             .distinctUntilChanged()
             .asLiveData()
 
-    fun onCoverChangedLiveData(context: Context): LiveData<CoverModel> {
-        return controllerCallback.onMetadataChanged()
-                .map { it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI) }
-                .map { cover ->
-                    lastCoverPosition++
+    val onCoverChangedLiveData: LiveData<CoverModel> = controllerCallback.onMetadataChanged()
+            .map { CoverTempModel(it) }
+            .scan { old: CoverTempModel, new: CoverTempModel ->
+                if (old.id.contains("|")){
+                    val indexOf = old.id.indexOf("|")
+                    CoverTempModel(new.uri, "${old.id.substring(indexOf + 1)}|${new.id}")
+                } else {
+                    CoverTempModel(new.uri, "${old.id}|${new.id}")
+                }
+             }
+            .distinctUntilChanged()
+            .map { model ->
+                val indexOf = model.id.indexOf("|")
+                if (indexOf != -1) {
+                    val oldId = model.id.substring(0, indexOf).toInt()
+                    val newId = model.id.substring(indexOf + 1).toInt()
+
                     val drawable = TransitionDrawable(arrayOf(
-                            CoverUtils.getGradient(context, lastCoverPosition - 1, 2),
-                            CoverUtils.getGradient(context, lastCoverPosition, 2)
+                            CoverUtils.getGradient(application, oldId),
+                            CoverUtils.getGradient(application, newId)
                     ))
-                    CoverModel(cover, drawable)
-                }.asLiveData()
-    }
+                    CoverModel(model.uri, drawable)
+                } else {
+                    CoverModel(model.uri, CoverUtils.getGradient(application, model.id.toInt()))
+                }
+
+            }.asLiveData()
 
     val onPlaybackStateChangedLiveData: LiveData<Boolean> = controllerCallback
             .onPlaybackStateChanged()

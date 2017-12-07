@@ -1,9 +1,6 @@
 package dev.olog.data.repository
 
-import android.content.ContentResolver
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.res.Resources
+import android.content.*
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.*
@@ -18,6 +15,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.DataConstants
 import io.reactivex.*
@@ -28,8 +26,8 @@ import javax.inject.Singleton
 
 @Singleton
 class PlaylistRepository @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
-        resources: Resources,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
@@ -55,6 +53,8 @@ class PlaylistRepository @Inject constructor(
         private val SONG_SELECTION_ARGS: Array<String>? = null
         private val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
     }
+
+    private val resources = context.resources
 
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
@@ -209,6 +209,9 @@ class PlaylistRepository @Inject constructor(
                     }
 
                     itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+
+                    context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, MEDIA_STORE_URI))
+
                 } else {
                     e.onError(IllegalArgumentException("invalid playlist id $playlistId"))
                 }

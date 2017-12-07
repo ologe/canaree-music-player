@@ -30,7 +30,7 @@ class DetailHeaders @Inject constructor(
     )
 
     val recentWithSeeAll = listOf(
-            DisplayableItem(R.layout.item_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_all)),
+            DisplayableItem(R.layout.item_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_more)),
             DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
     )
 
@@ -39,7 +39,7 @@ class DetailHeaders @Inject constructor(
 
     val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_header, ALBUMS_ID,
             context.resources.getStringArray(R.array.detail_album_header)[source],
-            context.getString(R.string.detail_see_all))
+            context.getString(R.string.detail_see_more))
 
     val songs = listOf(
             DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs)),
