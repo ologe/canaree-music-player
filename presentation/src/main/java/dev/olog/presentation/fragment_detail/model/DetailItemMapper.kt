@@ -18,11 +18,15 @@ fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
 }
 
 fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
+    val listSize = if (this.size == -1){ "" } else {
+        resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    }
+
     return DisplayableItem(
             R.layout.item_detail_info_image,
             MediaIdHelper.playlistId(this.id),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            listSize,
             image
     )
 }
