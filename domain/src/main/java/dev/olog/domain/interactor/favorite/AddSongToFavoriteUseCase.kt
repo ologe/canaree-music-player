@@ -2,20 +2,18 @@ package dev.olog.domain.interactor.favorite
 
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FavoriteGateway
-import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
+import dev.olog.domain.interactor.base.SingleUseCaseWithParam
+import io.reactivex.Single
 import javax.inject.Inject
 
 class AddSongToFavoriteUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val gateway: FavoriteGateway
 
-) : CompletableUseCaseWithParam<Long>(schedulers) {
+) : SingleUseCaseWithParam<String, Long>(schedulers) {
 
-    override fun buildUseCaseObservable(songId: Long): Completable {
+    override fun buildUseCaseObservable(songId: Long): Single<String> {
         return gateway.addSingle(songId)
-                .flatMapCompletable { CompletableSource {  } }
     }
 }
 

@@ -4,7 +4,6 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.SongGateway
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
@@ -40,12 +39,12 @@ class FavoriteRepository @Inject constructor(
         return favoriteDao.addToFavorite(songListId)
     }
 
-    override fun deleteSingle(songId: Long): Completable {
-        return favoriteDao.removeFromFavorite(listOf(songId))
+    override fun deleteSingle(songId: Long): Single<String> {
+        return Single.fromCallable { favoriteDao.removeFromFavorite(listOf(songId)) }.map { "" }
     }
 
-    override fun deleteGroup(songListId: List<Long>): Completable {
-        return favoriteDao.removeFromFavorite(songListId)
+    override fun deleteGroup(songListId: List<Long>): Single<String> {
+        return Single.fromCallable { favoriteDao.removeFromFavorite(songListId) }.map { "" }
     }
 
     override fun isFavorite(songId: Long): Single<Boolean> {
