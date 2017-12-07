@@ -1,6 +1,9 @@
 package dev.olog.data.repository
 
-import android.content.*
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.ContentValues
+import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.*
@@ -209,8 +212,6 @@ class PlaylistRepository @Inject constructor(
                     }
 
                     itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
-
-                    context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, MEDIA_STORE_URI))
 
                 } else {
                     e.onError(IllegalArgumentException("invalid playlist id $playlistId"))
