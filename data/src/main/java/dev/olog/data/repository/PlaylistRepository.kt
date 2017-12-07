@@ -8,7 +8,6 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.*
 import com.squareup.sqlbrite2.BriteContentResolver
-import dev.olog.data.DataConstants
 import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
@@ -20,6 +19,7 @@ import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.constants.DataConstants
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
@@ -115,7 +115,7 @@ class PlaylistRepository @Inject constructor(
 
                                 else -> throw IllegalArgumentException("playlist id not valid ${playlist.id}")
                             }
-                        }.toList()
+                        }.toSortedList(compareByDescending { it.id })
                 }
     }
 
