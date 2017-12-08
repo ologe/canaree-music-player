@@ -27,7 +27,7 @@ object CoverUtils {
             intArrayOf(0xff17ead9.toInt(), 0xff6098ea.toInt()))
 
     fun getGradient(context: Context, id: Long): Drawable {
-        val drawable = ContextCompat.getDrawable(context, getDrawable())!!.mutate() as LayerDrawable
+        val drawable = ContextCompat.getDrawable(context, getDrawable()) as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
         val pos = id.toInt() % COLORS.size
         gradient.colors = COLORS[Math.abs(pos)]

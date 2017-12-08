@@ -42,7 +42,8 @@ class QueueManager @Inject constructor(
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
                 .map { (list, position) -> list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
-                .map { it.to(bookmarkUseCase.get()) }
+                .map { it.to(MathUtils.clamp(bookmarkUseCase.get().toInt() - 2000, // load 2 sec before
+                        0, it.mediaEntity.duration.toInt()).toLong()) }
     }
 
     override fun handleSkipToQueueItem(id: Long): PlayerMediaEntity {
