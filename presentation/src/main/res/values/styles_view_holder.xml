@@ -50,8 +50,7 @@
     </style>
 
     <style name="ExplicitView" parent="InfoView">
-        <!--<item name="android:text">@string/song_info_explicit</item>-->
-        <item name="android:text">E</item>
+        <item name="android:text">@string/song_info_explicit</item>
     </style>
 
     <style name="RemixView" parent="InfoView">

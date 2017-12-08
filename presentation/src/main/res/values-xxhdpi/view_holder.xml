@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--item song-->
+    <dimen name="item_song_cover_margin_top">14dp</dimen>
+    <dimen name="item_song_cover_size">50dp</dimen>
+    <dimen name="item_song_title">14sp</dimen>
+    <dimen name="item_song_artist">11sp</dimen>
+
+    <!--item tab album last played-->
+    <dimen name="item_tab_album_last_player_width">150dp</dimen>
+
+    <!--shuffle-->
+    <dimen name="item_shuffle_text_size">16sp</dimen>
+    <dimen name="item_shuffle_padding">12sp</dimen>
+
+    <!--item detail main header-->
+    <dimen name="item_detail_main_header_title_size">35sp</dimen>
+    <dimen name="item_detail_main_header_subtitle_size">12sp</dimen>
+
+    <!--item detail header-->
+    <dimen name="item_detail_header_text_size">20sp</dimen>
+    <dimen name="item_detail_header_sec_text_size">14sp</dimen>
+    <dimen name="item_detail_header_padding_top">32dp</dimen>
+
+    <!--item detail most played-->
+    <dimen name="item_detail_most_played_cover_margin_top">12dp</dimen>
+    <dimen name="item_detail_most_played_cover_size">45dp</dimen>
+
+    <!--item search footer-->
+    <dimen name="item_search_footer_text_size">16sp</dimen>
+
+</resources>

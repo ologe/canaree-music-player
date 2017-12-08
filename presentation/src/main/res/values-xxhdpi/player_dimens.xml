@@ -4,7 +4,7 @@
     <dimen name="player_now_playing_size">24sp</dimen>
     <dimen name="player_title_size">20sp</dimen>
     <dimen name="player_artist_size">14sp</dimen>
-    <dimen name="player_bookmark">14sp</dimen>
+    <dimen name="player_bookmark">13sp</dimen>
     <dimen name="player_seekBar_bottom_padding">22dp</dimen>
     <dimen name="player_seekBar_top_padding">6dp</dimen>
 

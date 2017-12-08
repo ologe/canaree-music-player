@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:paddingTop="36dp">
+        android:paddingTop="@dimen/item_detail_header_padding_top">
 
         <TextView
             android:text="@{item.title}"
             tools:text="Recently played"
-            android:textSize="22sp"
+            android:textSize="@dimen/item_detail_header_text_size"
             android:textStyle="bold"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
             android:id="@+id/seeAll"
             android:text="@{item.subtitle}"
             tools:text="@string/detail_see_more"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_detail_header_sec_text_size"
             android:textColor="@color/item_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -2,16 +2,39 @@
 <resources>
 
     <string name="song_info_remix">Remix</string>
-    <string name="song_info_explicit">Explicit</string>
-
+    <string name="song_info_explicit">E</string>
 
     <!-- item tab song -->
-    <dimen name="item_song_container">70dp</dimen>
+    <dimen name="item_song_cover_margin_top">18dp</dimen>
+    <dimen name="item_song_cover_size">55dp</dimen>
     <dimen name="item_song_title">15sp</dimen>
     <dimen name="item_song_artist">12sp</dimen>
+
+    <!--item tab album last played-->
+    <dimen name="item_tab_album_last_player_width">180dp</dimen>
 
     <!--item detail album-->
     <dimen name="item_detail_album_first_text">12sp</dimen>
     <dimen name="item_detail_album_second_text">10sp</dimen>
+
+    <!--item detail main header-->
+    <dimen name="item_detail_main_header_title_size">40sp</dimen>
+    <dimen name="item_detail_main_header_subtitle_size">15sp</dimen>
+
+    <!--item detail header-->
+    <dimen name="item_detail_header_text_size">22sp</dimen>
+    <dimen name="item_detail_header_sec_text_size">16sp</dimen>
+
+    <!--item detail most played-->
+    <dimen name="item_detail_most_played_cover_margin_top">12dp</dimen>
+    <dimen name="item_detail_most_played_cover_size">50dp</dimen>
+    <dimen name="item_detail_header_padding_top">36dp</dimen>
+
+    <!--shuffle-->
+    <dimen name="item_shuffle_text_size">18sp</dimen>
+    <dimen name="item_shuffle_padding">14sp</dimen>
+
+    <!--item search footer-->
+    <dimen name="item_search_footer_text_size">16sp</dimen>
 
 </resources>

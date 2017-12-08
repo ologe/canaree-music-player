@@ -16,7 +16,7 @@
         <TextView
             android:text="@{item.title}"
             tools:text="Recently played"
-            android:textSize="22sp"
+            android:textSize="@dimen/item_detail_header_text_size"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
         <TextView
             android:text="@{item.subtitle}"
             tools:text="@string/detail_see_more"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_detail_header_sec_text_size"
             android:textColor="@android:color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

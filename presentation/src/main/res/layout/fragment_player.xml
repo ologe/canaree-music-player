@@ -150,7 +150,7 @@
         android:id="@+id/repeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/player_shuffle_padding"
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/vd_repeat"
