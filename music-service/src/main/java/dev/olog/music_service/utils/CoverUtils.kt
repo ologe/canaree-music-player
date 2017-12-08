@@ -7,11 +7,8 @@ import android.graphics.drawable.LayerDrawable
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import dev.olog.music_service.R
-import java.util.*
 
 object CoverUtils {
-
-    private val random = Random()
 
     private val COLORS = arrayOf(
             intArrayOf(0xff00c9ff.toInt(), 0xff92fe9d.toInt()),
@@ -29,11 +26,11 @@ object CoverUtils {
             intArrayOf(0xffB650DB.toInt(), 0xff2873E1.toInt()),
             intArrayOf(0xff17ead9.toInt(), 0xff6098ea.toInt()))
 
-    fun getGradient(context: Context): Drawable {
+    fun getGradient(context: Context, id: Long): Drawable {
         val drawable = ContextCompat.getDrawable(context, getDrawable())!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
-        val pos = random.nextInt() % COLORS.size
-        gradient.colors = COLORS[pos]
+        val pos = id.toInt() % COLORS.size
+        gradient.colors = COLORS[Math.abs(pos)]
         return drawable
     }
 

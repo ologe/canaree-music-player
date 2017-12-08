@@ -86,16 +86,17 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        tools:progress="50"
-        style="@android:style/Widget.ProgressBar.Horizontal"
+        style="?android:attr/progressBarStyleHorizontal"
         android:max="@integer/very_high_duration"
         android:progressTint="@color/item_selected"
         android:progressBackgroundTint="@color/toolbar"
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/player_progress_bar_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:progress="40"/>
+        tools:progress="40"
+        tools:max="100"
+        android:translationY="@dimen/player_progress_bar_translation"/>
 
 </android.support.constraint.ConstraintLayout>

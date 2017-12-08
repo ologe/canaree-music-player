@@ -56,7 +56,7 @@ open class NotificationImpl21 @Inject constructor(
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
                 .addAction(R.drawable.vd_fire, "floating info", buildFloatingInfoPendingIntent())
-                .addAction(R.drawable.vd_not_favoite, "favorite", buildContentIntent())
+                .addAction(R.drawable.vd_not_favorite, "favorite", buildContentIntent())
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
                 .addAction(R.drawable.vd_skip_next, "Next", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT))
@@ -106,11 +106,11 @@ open class NotificationImpl21 @Inject constructor(
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
 
-        updateMetadataImpl(spannableTitle, artist, album, Uri.parse(mediaEntity.image))
+        updateMetadataImpl(mediaEntity.id, spannableTitle, artist, album, Uri.parse(mediaEntity.image))
     }
 
-    protected open fun updateMetadataImpl(title: SpannableString, artist: String, album: String, image: Uri){
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image))
+    protected open fun updateMetadataImpl(id: Long, title: SpannableString, artist: String, album: String, image: Uri){
+        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
                 .setContentTitle(title)
                 .setContentText(artist)
                 .setSubText(album)

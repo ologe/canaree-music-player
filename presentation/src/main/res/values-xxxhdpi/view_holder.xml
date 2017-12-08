@@ -37,4 +37,5 @@
     <!--item search footer-->
     <dimen name="item_search_footer_text_size">16sp</dimen>
 
+
 </resources>

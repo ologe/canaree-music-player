@@ -47,14 +47,18 @@ class SearchFragmentViewModel(
         queryText.value = newQuery
     }
 
-    val data : LiveData<MutableMap<SearchType, MutableList<DisplayableItem>>> = Transformations.switchMap(queryText, { input ->
+    val data : LiveData<Pair<MutableMap<SearchType, MutableList<DisplayableItem>>, String>> = Transformations.switchMap(queryText, { input ->
         if (TextUtils.isEmpty(input)){
             recentsData.map { mutableMapOf(
                     SearchType.RECENT to it,
                     SearchType.ARTISTS to mutableListOf(),
                     SearchType.ALBUMS to mutableListOf(),
                     SearchType.SONGS to mutableListOf()
-                    ) }.asLiveData()
+                    ) }
+                    .map { it.to(input) }
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .asLiveData()
         } else {
             Flowables.zip(
                     setupArtistsUseCase(input), setupAlbumsUseCase(input), setupSongsUseCase(input),
@@ -63,7 +67,9 @@ class SearchFragmentViewModel(
                             SearchType.ARTISTS to artists,
                             SearchType.ALBUMS to albums,
                             SearchType.SONGS to songs)
-                    }).subscribeOn(Schedulers.computation())
+                    })
+                    .map { it.to(input) }
+                    .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .asLiveData()
         }

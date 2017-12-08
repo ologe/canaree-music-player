@@ -98,6 +98,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                     .distinctUntilChanged()
                     .asLiveData()
                     .subscribe(this, { lightStatusBar ->
+                        view.statusBar.isActivated = lightStatusBar
                         view.toolbar.isActivated = lightStatusBar
                         view.back.isActivated = lightStatusBar
                         view.header.isActivated = lightStatusBar
@@ -123,11 +124,13 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                             val alpha = MathUtils.clamp(view.toolbar.alpha + floatDiff / 400, 0f, 1f)
                             view.toolbar.alpha = alpha
                             view.header.alpha = alpha
+                            view.statusBar.alpha = alpha
                         } else if (view.toolbar.alpha != 1f) {
                             // after the main image is covered only increase the alpha
                             val alpha = MathUtils.clamp(view.toolbar.alpha + Math.abs(floatDiff / 400), 0f, 1f)
                             view.toolbar.alpha = alpha
                             view.header.alpha = alpha
+                            view.statusBar.alpha = alpha
                         }
                     })
         }

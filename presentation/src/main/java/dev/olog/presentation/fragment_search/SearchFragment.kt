@@ -13,6 +13,7 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import javax.inject.Inject
 
@@ -41,12 +42,14 @@ class SearchFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.data.subscribe(this, { map ->
+        viewModel.data.subscribe(this, { (map, query) ->
             val itemCount = map.values.sumBy { it.size }
-            val visibility = if (itemCount == 0) View.VISIBLE else View.GONE
-            view!!.search.visibility = visibility
-            view!!.searchText.visibility = visibility
-            view!!.list.visibility = if (itemCount == 0) View.GONE else View.VISIBLE
+            val isEmpty = itemCount == 0
+            view!!.searchText.toggleVisibility(isEmpty)
+            view!!.search.toggleVisibility(isEmpty && query.length < 2)
+            view!!.searchText.toggleVisibility(isEmpty && query.length < 2)
+            view!!.list.toggleVisibility(!isEmpty)
+            view!!.emptyState.toggleVisibility(isEmpty && query.length >= 2)
 
             val albums = map[SearchType.ALBUMS]!!
             val artists = map[SearchType.ARTISTS]!!

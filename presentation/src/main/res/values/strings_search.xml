@@ -15,6 +15,8 @@
     <string name="search_clear_recent_searches">Clear recent searches</string>
     <string name="search_recent_empty_state">Search your library..</string>
 
+    <string name="search_no_results">No results</string>
+
     <plurals name="search_xx_results">
         <item quantity="one">%1$s result</item>
         <item quantity="other">%1$s results</item>

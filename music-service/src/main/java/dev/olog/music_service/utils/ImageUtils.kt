@@ -8,27 +8,26 @@ import android.provider.MediaStore
 
 object ImageUtils {
 
-    fun getBitmapFromUriWithPlaceholder(context: Context, uri: Uri): Bitmap? {
+    fun getBitmapFromUriWithPlaceholder(context: Context, uri: Uri, id: Long): Bitmap? {
         return try {
             MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
         } catch (ex: Exception) {
-            getPlaceholderAsBitmap(context)
+            getPlaceholderAsBitmap(context, id)
         }
     }
 
-    private fun getPlaceholderAsBitmap(context: Context): Bitmap? {
-        try {
-            val drawable = CoverUtils.getGradient(context)
+    private fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
-            val bitmap = Bitmap.createBitmap(24, 24, Bitmap.Config.RGB_565)
-            val canvas = Canvas(bitmap)
-            drawable.setBounds(0, 0, 24, 24)
-            drawable.draw(canvas)
+    private fun getPlaceholderAsBitmap(context: Context, id: Long): Bitmap {
+        val size = context.dip(128)
+        val drawable = CoverUtils.getGradient(context, id)
 
-            return bitmap
-        } catch (ex: Exception){
-            return null
-        }
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, size, size)
+        drawable.draw(canvas)
+
+        return bitmap
     }
 
     fun getBitmapFromUri(context: Context, coverUri: String?): Bitmap? {

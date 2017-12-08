@@ -25,10 +25,13 @@
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/progress_bar_size"
             style="?android:attr/progressBarStyleHorizontal"
-            android:max="100"
-            tools:progress="40"/>
+            android:translationY="@dimen/progress_bar_translation"
+            android:progressTint="#FF1744"
+            tools:progress="40"
+            tools:max="100"
+            android:max="100"/>
 
         <TextView
             android:id="@+id/back"

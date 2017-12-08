@@ -35,8 +35,8 @@ open class NotificationImpl24 @Inject constructor(
         builder.setSubText(TextUtils.formatTimeMillis(playbackState.position))
     }
 
-    override fun updateMetadataImpl(title: SpannableString, artist: String, album: String, image: Uri) {
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image))
+    override fun updateMetadataImpl(id: Long, title: SpannableString, artist: String, album: String, image: Uri) {
+        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
                 .setContentTitle(title)
                 .setContentText(artist + MIDDLE_DOT_SPACED + album)
     }

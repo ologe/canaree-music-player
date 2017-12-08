@@ -21,9 +21,19 @@
         android:scrollbars="vertical"/>
 
     <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/status_bar_secondary"
+        android:alpha="0"
+        tools:alpha="1"
+        android:stateListAnimator="@animator/toolbar_elevation_on_activated" />
+
+    <View
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="@dimen/toolbar"
+        android:layout_marginTop="@dimen/status_bar"
         android:background="@android:color/white"
         android:alpha="0"
         tools:alpha="1"
