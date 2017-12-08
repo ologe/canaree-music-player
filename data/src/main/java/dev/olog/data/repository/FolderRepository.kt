@@ -1,5 +1,7 @@
 package dev.olog.data.repository
 
+import android.annotation.SuppressLint
+import android.content.ContentResolver
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.FolderMostPlayedEntity
 import dev.olog.domain.entity.Folder
@@ -17,6 +19,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FolderRepository @Inject constructor(
+        private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -45,7 +48,35 @@ class FolderRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    override fun getAll(): Flowable<List<Folder>> = listObservable
+//    class Option<T>(
+//            val item: T?
+//    )
+
+    @SuppressLint("CheckResult")
+    override fun getAll(): Flowable<List<Folder>> {
+        // todo
+//        dataMap.flatMapSingle { it.entries.toFlowable()
+//                .map { it.value }
+//                .flatMapSingle { it.toFlowable()
+//                        .map { it.albumId }
+//                        .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+//                        .map { uri -> try {
+//                            Option(MediaStore.Images.Media.getBitmap(contentResolver, uri))
+//                        } catch (ex: Exception){
+//                            Option(null)
+//                        }}
+//                        .filter { it.item != null }
+//                        .map { it.item!! }
+//                        .take(4)
+//                        .toList()
+//                        .map { ImageUtils.joinImages(it) }
+//                        .subscribeOn(Schedulers.io())
+//                }.toList()
+//        }.subscribeOn(Schedulers.io())
+//                .subscribe(::println, Throwable::printStackTrace)
+
+        return listObservable
+    }
 
     override fun observeSongListByParam(param: String): Flowable<List<Song>> {
         return dataMap.map { it[param]!! }
