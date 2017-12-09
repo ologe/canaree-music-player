@@ -35,6 +35,7 @@
         android:layout_height="@dimen/toolbar"
         android:layout_marginTop="@dimen/status_bar"
         android:background="@android:color/white"
+
         android:alpha="0"
         tools:alpha="1"
         android:stateListAnimator="@animator/toolbar_elevation_on_activated"/>

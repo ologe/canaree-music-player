@@ -94,8 +94,6 @@ class SongRepository @Inject constructor(
     override fun deleteGroup(songList: List<Song>): Completable {
         return Flowable.fromIterable(songList)
                 .map { it.id }
-                .flatMapCompletable {
-                    deleteSingle(it).subscribeOn(Schedulers.io())
-                }
+                .flatMapCompletable { deleteSingle(it).subscribeOn(Schedulers.io()) }
     }
 }

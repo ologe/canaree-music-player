@@ -1,7 +1,6 @@
 package dev.olog.data.repository
 
 import android.annotation.SuppressLint
-import android.content.ContentResolver
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.FolderMostPlayedEntity
 import dev.olog.domain.entity.Folder
@@ -19,7 +18,6 @@ import javax.inject.Singleton
 
 @Singleton
 class FolderRepository @Inject constructor(
-        private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -51,13 +49,21 @@ class FolderRepository @Inject constructor(
 //    class Option<T>(
 //            val item: T?
 //    )
+//
+//    private fun saveFile(path: String, bitmap: Bitmap){
+//        val dest = File(context.applicationInfo.dataDir, path)
+//        val out = FileOutputStream(dest)
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out)
+//        out.close()
+//        bitmap.recycle()
+//    }
 
     @SuppressLint("CheckResult")
     override fun getAll(): Flowable<List<Folder>> {
-        // todo
+
 //        dataMap.flatMapSingle { it.entries.toFlowable()
 //                .map { it.value }
-//                .flatMapSingle { it.toFlowable()
+//                .flatMapSingle { folder -> folder.toFlowable()
 //                        .map { it.albumId }
 //                        .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
 //                        .map { uri -> try {
@@ -70,8 +76,11 @@ class FolderRepository @Inject constructor(
 //                        .take(4)
 //                        .toList()
 //                        .map { ImageUtils.joinImages(it) }
+//                        .doOnSuccess { saveFile(folder[0].folderPath, it) }
 //                        .subscribeOn(Schedulers.io())
-//                }.toList()
+//                }
+//                .toList()
+//                .doOnSuccess { context.sendBroadcast(Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://${Environment.getExternalStorageDirectory()}"))) }
 //        }.subscribeOn(Schedulers.io())
 //                .subscribe(::println, Throwable::printStackTrace)
 
