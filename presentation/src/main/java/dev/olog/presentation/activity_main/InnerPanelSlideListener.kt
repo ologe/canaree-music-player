@@ -5,9 +5,10 @@ import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.delegates.weakRef
+import javax.inject.Inject
 
-class InnerPanelSlideListener (
-        val activity: AppCompatActivity
+class InnerPanelSlideListener @Inject constructor(
+        activity: AppCompatActivity
 ) : SlidingUpPanelLayout.PanelSlideListener {
 
     private val playerLayout by weakRef(activity.findViewById<View>(R.id.playerLayout))

@@ -5,11 +5,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import dev.olog.presentation.R
-import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.fragment_tab.TabFragment
 import javax.inject.Inject
 
-@PerActivity
 class TabViewPagerAdapter @Inject constructor(
         resources: Resources,
         fragmentManager: FragmentManager

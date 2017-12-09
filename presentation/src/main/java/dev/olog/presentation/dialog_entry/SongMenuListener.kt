@@ -11,12 +11,10 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.utils.extension.asHtml
-import dev.olog.presentation.utils.isMarshmallow
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -59,13 +57,7 @@ class SongMenuListener @Inject constructor(
                         .doOnSuccess { setFloatingInfoRequestUseCase.execute(it) }
                         .subscribe()
 
-                val drawOverlay = FloatingInfoServiceHelper.hasOverlayPermission(activity)
-                if (!drawOverlay && isMarshmallow()){
-                    val intent = FloatingInfoServiceHelper.createIntentToRequestOverlayPermission(activity)
-                    activity.startActivityForResult(intent, MainActivity.REQUEST_CODE_HOVER_PERMISSION)
-                } else {
-                    FloatingInfoServiceHelper.startService(activity, floatingInfoServiceBinder)
-                }
+                FloatingInfoServiceHelper.startService(activity, floatingInfoServiceBinder)
             }
             R.id.share -> {
                 getSongUseCase.execute(item.mediaId)

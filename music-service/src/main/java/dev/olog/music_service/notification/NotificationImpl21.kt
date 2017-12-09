@@ -22,6 +22,7 @@ import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.utils.ImageUtils
+import dev.olog.shared.constants.FloatingInfoConstants
 import javax.inject.Inject
 
 @PerService
@@ -118,7 +119,7 @@ open class NotificationImpl21 @Inject constructor(
 
     private fun buildFloatingInfoPendingIntent(): PendingIntent {
         val intent = Intent(service, activityClass.get())
-        intent.action = "start floating service"
+        intent.action = FloatingInfoConstants.ACTION_START_SERVICE
         return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

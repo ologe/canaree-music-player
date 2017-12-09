@@ -6,13 +6,16 @@ import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.data.DataConstants
+import dev.olog.floating_info.FloatingInfoService
 import dev.olog.music_service.MusicService
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
-import dev.olog.presentation.fragment_detail.DetailFragment
-import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
+import dev.olog.presentation.fragment_mini_player.MiniPlayerFragment
+import dev.olog.presentation.fragment_mini_player.MiniPlayerFragmentViewModel
 import dev.olog.presentation.fragment_player.PlayerFragment
 import dev.olog.presentation.fragment_player.PlayerFragmentViewModel
+import dev.olog.presentation.fragment_queue.PlayingQueueFragment
+import dev.olog.presentation.fragment_queue.PlayingQueueViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
@@ -40,6 +43,7 @@ class App : DaggerApplication() {
                 "dev.olog.data",
                 "dev.olog.domain",
                 "dev.olog.music_service",
+                "dev.olog.floating_info",
                 "dev.olog.presentation",
                 "dev.olog.shared"
         ))
@@ -56,13 +60,22 @@ class App : DaggerApplication() {
                 .penaltyLog()
 //                .penaltyDeath()
                 .setClassInstanceLimit(MainActivity::class.java, 1)
+                .setClassInstanceLimit(TabViewPagerAdapter::class.java, 1)
+
                 .setClassInstanceLimit(MusicService::class.java, 1)
+                .setClassInstanceLimit(FloatingInfoService::class.java, 1)
+
                 .setClassInstanceLimit(TabFragment::class.java, TabViewPagerAdapter.ITEM_COUNT)
                 .setClassInstanceLimit(TabFragmentViewModel::class.java, 1)
-                .setClassInstanceLimit(DetailFragment::class.java, 1)
-                .setClassInstanceLimit(DetailFragmentViewModel::class.java, 1)
+
                 .setClassInstanceLimit(PlayerFragment::class.java, 1)
                 .setClassInstanceLimit(PlayerFragmentViewModel::class.java, 1)
+
+                .setClassInstanceLimit(MiniPlayerFragment::class.java, 1)
+                .setClassInstanceLimit(MiniPlayerFragmentViewModel::class.java, 1)
+
+                .setClassInstanceLimit(PlayingQueueFragment::class.java, 1)
+                .setClassInstanceLimit(PlayingQueueViewModel::class.java, 1)
                 .setClassInstanceLimit(Navigator::class.java, 1)
                 .build())
     }

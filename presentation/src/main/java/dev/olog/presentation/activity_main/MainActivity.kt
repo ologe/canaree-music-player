@@ -7,7 +7,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
-import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
@@ -15,35 +14,30 @@ import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinder
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
+import dev.olog.shared.constants.FloatingInfoConstants
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_player_drag_area.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
-import kotlin.LazyThreadSafetyMode.NONE
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
-    companion object {
-        val REQUEST_CODE_HOVER_PERMISSION = 1000
-    }
-
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
-    @Inject lateinit var floatingInfoClass: Lazy<FloatingInfoServiceBinder>
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var setFloatingInfoRequestUseCase: Lazy<SetFloatingInfoRequestUseCase>
-    private val innerPanelSlideListener by lazy(NONE) { InnerPanelSlideListener(this) }
+    @Inject lateinit var innerPanelSlideListener : InnerPanelSlideListener
 
-    lateinit var title: TextView
-    lateinit var artist: TextView
+    @Inject lateinit var presenter: Lazy<MainActivityPresenter>
+
+    private lateinit var title: TextView
+    private lateinit var artist: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,29 +59,18 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                 { outerIsExpanded, innerIsCollapsed -> outerIsExpanded && innerIsCollapsed }
         ).distinctUntilChanged()
                 .asLiveData()
-                .subscribe(this, {
-                    title.isSelected = it
-                    artist.isSelected = it
+                .subscribe(this, { canScroll ->
+                    title.isSelected = canScroll
+                    artist.isSelected = canScroll
                 })
-
-        intent?.let { handleIntent(it) }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        intent?.let { handleIntent(it) }
-    }
 
-    private fun handleIntent(intent: Intent) {
-        val action = intent.action
-        when (action){
-            "start floating service" -> {
-                musicServiceBinder.getMediaControllerLiveData().value?.let {
-                    val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
-                    setFloatingInfoRequestUseCase.get().execute(title)
-                }
-
-                FloatingInfoServiceHelper.startService(this, floatingInfoClass.get())
+    override fun handleIntent(intent: Intent) {
+        if (intent.action == FloatingInfoConstants.ACTION_START_SERVICE){
+            musicServiceBinder.getMediaControllerLiveData().value?.let {
+                val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
+                presenter.get().startFloatingService(this, title)
             }
         }
     }
@@ -110,10 +93,11 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_HOVER_PERMISSION){
-            FloatingInfoServiceHelper.startService(this, floatingInfoClass.get())
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode){
+            FloatingInfoServiceHelper.REQUEST_CODE_HOVER_PERMISSION -> {
+                presenter.get().startFloatingService(this, null)
+            }
+            else -> super.onActivityResult(requestCode, resultCode, data)
         }
     }
 

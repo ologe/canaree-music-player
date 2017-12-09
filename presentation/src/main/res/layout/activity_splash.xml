@@ -15,7 +15,6 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="@string/app_real_name"
         android:textColor="@color/text_color_primary"
         android:textSize="80sp"
