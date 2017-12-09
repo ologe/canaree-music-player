@@ -2,9 +2,7 @@ package dev.olog.presentation.fragment_mini_player
 
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
@@ -140,7 +138,5 @@ class MiniPlayerFragment : BaseFragment(){
                 }, Throwable::printStackTrace)
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_mini_player, container, false)
-    }
+    override fun provideLayoutId(): Int = R.layout.fragment_mini_player
 }

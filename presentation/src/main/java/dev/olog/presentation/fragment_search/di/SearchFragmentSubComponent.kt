@@ -6,7 +6,8 @@ import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.fragment_search.SearchFragment
 
 @Subcomponent(modules = arrayOf(
-        SearchFragmentModule::class
+        SearchFragmentModule::class,
+        SearchFragmentViewModelModule::class
 ))
 @PerFragment
 interface SearchFragmentSubComponent : AndroidInjector<SearchFragment> {

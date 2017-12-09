@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -22,9 +20,7 @@ class SearchFragment : BaseFragment() {
     companion object {
         const val TAG = "SearchFragment"
 
-        fun newInstance(): SearchFragment{
-            return SearchFragment()
-        }
+        fun newInstance(): SearchFragment = SearchFragment()
     }
 
     @Inject lateinit var adapter : SearchFragmentAdapter
@@ -42,7 +38,7 @@ class SearchFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.data.subscribe(this, { (map, query) ->
+        viewModel.searchData.subscribe(this, { (map, query) ->
             val itemCount = map.values.sumBy { it.size }
             val isEmpty = itemCount == 0
             view!!.searchText.toggleVisibility(isEmpty)
@@ -97,8 +93,5 @@ class SearchFragment : BaseFragment() {
         view!!.editText.clearFocus()
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_search, container, false)
-    }
-
+    override fun provideLayoutId(): Int = R.layout.fragment_search
 }

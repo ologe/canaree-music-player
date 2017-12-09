@@ -2,9 +2,7 @@ package dev.olog.presentation.fragment_queue
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -52,7 +50,5 @@ class PlayingQueueFragment : BaseFragment() {
         return view?.list?.canScrollVertically(-1) == true
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_player_queue, container, false)
-    }
+    override fun provideLayoutId(): Int = R.layout.fragment_player_queue
 }

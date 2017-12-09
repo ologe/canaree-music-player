@@ -3,6 +3,7 @@ package dev.olog.presentation.fragment_related_artist
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import android.content.res.Resources
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistUseCase
@@ -31,23 +32,23 @@ class RelatedArtistViewModel(
                     .distinct { it.artist }
                     .filter { it.artist != unknownArtist }
                     .flatMapSingle { song -> getArtistUseCase.execute(MediaIdHelper.artistId(song.artistId))
-                            .map { it.toRelatedArtist() }
+                            .map { it.toRelatedArtist(resources) }
                             .firstOrError()
                     }.toSortedList(compareBy { it.title.toLowerCase() })
             }.asLiveData()
 
-    private fun Artist.toRelatedArtist(): DisplayableItem {
-        val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
-        val albums = if (this.albums == 0) "" else {
-            "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
-        }
+}
 
-        return DisplayableItem(
-                R.layout.item_related_artist,
-                MediaIdHelper.artistId(id),
-                this.name,
-                "$albums$songs".toLowerCase()
-        )
+private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
+    val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+    val albums = if (this.albums == 0) "" else {
+        "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
+    return DisplayableItem(
+            R.layout.item_related_artist,
+            MediaIdHelper.artistId(id),
+            this.name,
+            "$albums$songs".toLowerCase()
+    )
 }

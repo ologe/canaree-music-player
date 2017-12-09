@@ -5,12 +5,16 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
+import dev.olog.domain.entity.Album
+import dev.olog.domain.entity.Folder
+import dev.olog.domain.entity.Genre
+import dev.olog.domain.entity.Playlist
 import dev.olog.domain.interactor.detail.siblings.*
-import dev.olog.presentation.fragment_detail.model.toDetailDisplayableItem
+import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.utils.rx.groupMap
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
-import io.reactivex.rxkotlin.toFlowable
 
 @Module
 class DetailFragmentModuleAlbum {
@@ -23,10 +27,7 @@ class DetailFragmentModuleAlbum {
             mediaId: String,
             useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle { it.toFlowable()
-                .map { it.toDetailDisplayableItem(resources) }
-                .toList()
-        }
+        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
     }
 
     @Provides
@@ -37,9 +38,7 @@ class DetailFragmentModuleAlbum {
             mediaId: String,
             useCase: GetPlaylistSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
-        }
+        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
     }
 
     @Provides
@@ -50,9 +49,7 @@ class DetailFragmentModuleAlbum {
             mediaId: String,
             useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
-        }
+        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
     }
 
     @Provides
@@ -63,9 +60,7 @@ class DetailFragmentModuleAlbum {
             mediaId: String,
             useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
-        }
+        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
     }
 
     @Provides
@@ -76,9 +71,43 @@ class DetailFragmentModuleAlbum {
             mediaId: String,
             useCase: GetGenreSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).flatMapSingle {
-            it.toFlowable().map { it.toDetailDisplayableItem(resources) }.toList()
-        }
+        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
     }
+}
 
+private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_detail_album_mini,
+            MediaIdHelper.folderId(path),
+            title.capitalize(),
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    )
+}
+
+private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_detail_album_mini,
+            MediaIdHelper.playlistId(id),
+            title.capitalize(),
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    )
+}
+
+private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_detail_album,
+            MediaIdHelper.albumId(id),
+            title,
+            resources.getQuantityString(R.plurals.song_count, this.songs, this.songs).toLowerCase(),
+            image
+    )
+}
+
+private fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_detail_album_mini,
+            MediaIdHelper.genreId(id),
+            name.capitalize(),
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    )
 }

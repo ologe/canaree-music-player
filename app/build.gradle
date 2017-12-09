@@ -98,8 +98,9 @@ dependencies {
     implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rx_permission"
 
     // other
+    implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
-    implementation 'io.mattcarroll.hover:hover:0.9.8'
+    implementation "io.mattcarroll.hover:hover:$rootProject.hover"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
 
     // debug

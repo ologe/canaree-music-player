@@ -2,6 +2,7 @@ package dev.olog.presentation._base
 
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,17 +14,15 @@ abstract class BaseFragment : DaggerFragment() {
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = provideView(inflater, container, savedInstanceState)
+        val view = inflater.inflate(provideLayoutId(), container, false)
         onViewBound(view, savedInstanceState)
         return view
     }
 
     protected open fun onViewBound(view: View, savedInstanceState: Bundle?) {}
 
-    protected abstract fun provideView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?): View
+    @LayoutRes
+    protected abstract fun provideLayoutId(): Int
 
     fun getSlidingPanel(): SlidingUpPanelLayout? {
         return (activity as HasSlidingPanel).getSlidingPanel()

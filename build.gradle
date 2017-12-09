@@ -46,6 +46,7 @@ ext {
     sliding_panel = '3.4.0'
     lottie = '2.3.0'
     sql_brite = '2.0.0'
+    hover = '0.9.8'
 
     // reactive
     rx_java = '2.1.7'

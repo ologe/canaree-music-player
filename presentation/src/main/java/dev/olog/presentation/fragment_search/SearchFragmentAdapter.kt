@@ -44,7 +44,7 @@ class SearchFragmentAdapter @Inject constructor(
             R.layout.item_tab_song -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     musicController.playFromMediaId(item.mediaId)
-                    viewModel.insertSongToRecents(item.mediaId)
+                    viewModel.insertSongToRecent(item.mediaId)
                             .subscribe({}, Throwable::printStackTrace)
 
                 }
@@ -56,13 +56,13 @@ class SearchFragmentAdapter @Inject constructor(
                 }
 
             }
-            R.layout.item_recent_search_footer -> {
+            R.layout.item_search_clear_recent -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
                     viewModel.clearRecentSearches()
                             .subscribe({}, Throwable::printStackTrace)
                 }
             }
-            R.layout.item_recent_search -> {
+            R.layout.item_search_recent -> {
                 viewHolder.setOnClickListener(dataController) { item, _  ->
                     if (item.isPlayable){
                         musicController.playFromMediaId(item.mediaId)
@@ -74,7 +74,7 @@ class SearchFragmentAdapter @Inject constructor(
                     navigator.toDialog(item, viewHolder.itemView)
                 }
                 viewHolder.setOnClickListener(R.id.clear, dataController) { item, _, _ ->
-                    viewModel.deleteFromRecents(item.mediaId)
+                    viewModel.deleteFromRecent(item.mediaId)
                             .subscribe({}, Throwable::printStackTrace)
                 }
             }

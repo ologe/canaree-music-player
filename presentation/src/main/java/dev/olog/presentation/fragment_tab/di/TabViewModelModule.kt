@@ -1,19 +1,19 @@
 package dev.olog.presentation.fragment_tab.di
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.res.Resources
-import android.support.v4.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntKey
 import dagger.multibindings.IntoMap
+import dev.olog.domain.entity.*
 import dev.olog.domain.interactor.tab.*
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
-import dev.olog.presentation.fragment_tab.TabFragmentViewModel
-import dev.olog.presentation.fragment_tab.TabFragmentViewModelFactory
+import dev.olog.presentation.fragment_tab.TabFragmentHeaders
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.toDisplayableItem
+import dev.olog.presentation.utils.rx.groupMap
+import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.TextUtils
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
@@ -28,21 +28,13 @@ class TabViewModelModule {
     }
 
     @Provides
-    internal fun viewModel(activity: FragmentActivity, factory: TabFragmentViewModelFactory): TabFragmentViewModel {
-        return ViewModelProviders.of(activity, factory).get(TabFragmentViewModel::class.java)
-    }
-
-    @Provides
     @IntoMap
     @IntKey(TabViewPagerAdapter.FOLDER)
     internal fun provideFolderData(
             resources: Resources,
             useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(resources) }
-                .toList()
-        }
+        return useCase.execute().groupMap { it.toTabDisplayableItem(resources) }
     }
 
     @Provides
@@ -51,22 +43,23 @@ class TabViewModelModule {
     internal fun providePlaylistData(
             resources: Resources,
             useCase: GetAllPlaylistsUseCase,
-            autoPlaylistsUseCase: GetAllAutoPlaylistsUseCase): Flowable<List<DisplayableItem>> {
+            autoPlaylistUseCase: GetAllAutoPlaylistUseCase,
+            headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
 
-        val playlistsObs = useCase.execute().flatMapSingle { it.toFlowable()
-                .map { it.toDisplayableItem(resources) }
-                .startWith(DisplayableItem(R.layout.item_tab_header, "all playlist header", resources.getString(R.string.tab_all_playlists)))
+        val playlistObs = useCase.execute().flatMapSingle { it.toFlowable()
+                .map { it.toTabDisplayableItem(resources) }
+                .startWith(headers.allPlaylistHeader)
                 .toList()
         }
-        val autoPlaylistsObs = autoPlaylistsUseCase.execute().flatMapSingle { it.toFlowable()
-                .map { it.toDisplayableItem(resources) }
-                .startWith(DisplayableItem(R.layout.item_tab_header, "auto playlist header", resources.getString(R.string.tab_auto_playlists)))
+        val autoPlaylistObs = autoPlaylistUseCase.execute().flatMapSingle { it.toFlowable()
+                .map { it.toTabDisplayableItem(resources) }
+                .startWith(headers.autoPlaylistHeader)
                 .toList()
         }
 
-        return playlistsObs.withLatestFrom(autoPlaylistsObs, { playlists, autoPlaylist ->
+        return playlistObs.withLatestFrom(autoPlaylistObs, { playlist, autoPlaylist ->
             val result = autoPlaylist.toMutableList()
-            result.addAll(if (playlists.size == 1) listOf() else playlists)
+            result.addAll(if (playlist.size == 1) listOf() else playlist)
             result
         })
     }
@@ -74,10 +67,13 @@ class TabViewModelModule {
     @Provides
     @IntoMap
     @IntKey(TabViewPagerAdapter.SONG)
-    internal fun provideSongData(useCase: GetAllSongsUseCase): Flowable<List<DisplayableItem>> {
+    internal fun provideSongData(
+            useCase: GetAllSongsUseCase,
+            headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
+
         return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }
-                .startWith(DisplayableItem(R.layout.item_shuffle, "shuffle id",""))
+                .map { it.toTabDisplayableItem() }
+                .startWith(headers.shuffleHeader)
                 .toList()
         }
     }
@@ -86,27 +82,22 @@ class TabViewModelModule {
     @IntoMap
     @IntKey(TabViewPagerAdapter.ALBUM)
     internal fun provideAlbumData(
-            resources: Resources,
             useCase: GetAllAlbumsUseCase,
-            lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
+            lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
+            headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
 
-        val allObs = useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }.toList() }
+        val allObs = useCase.execute().groupMap { it.toTabDisplayableItem() }
+                .map { it.toMutableList() }
+                .distinctUntilChanged()
 
-        val lastPlayedObs = lastPlayedAlbumsUseCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem() }.toList() }
+        val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
+                .groupMap { it.toTabDisplayableItem() }
+                .map { if (it.isNotEmpty()) headers.albumHeaders else listOf() }
+                .distinctUntilChanged()
 
-        return Flowables.combineLatest(allObs, lastPlayedObs, { all, last ->
-            val result = all.toMutableList()
-            if (last.isNotEmpty()){
-                last.clear()
-                result.addAll(0, listOf(
-                        DisplayableItem(R.layout.item_tab_header, "last played album id", resources.getString(R.string.tab_recent)),
-                        DisplayableItem(R.layout.item_tab_last_played_album_horizontal_list, "horizontal list last played album id", ""),
-                        DisplayableItem(R.layout.item_tab_header, "all albums id", resources.getString(R.string.tab_all_albums))
-                ))
-            }
-            result
+        return Flowables.combineLatest(allObs, lastPlayedObs, { all, recent ->
+            all.addAll(0, recent)
+            all
         })
     }
 
@@ -116,25 +107,22 @@ class TabViewModelModule {
     internal fun provideArtistData(
             resources: Resources,
             useCase: GetAllArtistsUseCase,
-            lastPlayedArtistsUseCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
+            lastPlayedArtistsUseCase: GetLastPlayedArtistsUseCase,
+            headers: TabFragmentHeaders) : Flowable<List<DisplayableItem>> {
 
-        val allObs = useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(resources) }.toList() }
+        val allObs = useCase.execute()
+                .groupMap { it.toTabDisplayableItem(resources) }
+                .map { it.toMutableList() }
+                .distinctUntilChanged()
 
-        val lastPlayedObs = lastPlayedArtistsUseCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(resources) }.toList() }
+        val lastPlayedObs = lastPlayedArtistsUseCase.execute()
+                .groupMap { it.toTabDisplayableItem(resources) }
+                .map { if (it.isNotEmpty()) headers.artistHeaders else listOf() }
+                .distinctUntilChanged()
 
-        return Flowables.combineLatest(allObs, lastPlayedObs, { all, last ->
-            val result = all.toMutableList()
-            if (last.isNotEmpty()){
-                last.clear()
-                result.addAll(0, listOf(
-                        DisplayableItem(R.layout.item_tab_header, "last played artist id", resources.getString(R.string.tab_recent)),
-                        DisplayableItem(R.layout.item_tab_last_played_artist_horizontal_list, "horizontal list last played artist id", ""),
-                        DisplayableItem(R.layout.item_tab_header, "all artists id", resources.getString(R.string.tab_all_artists))
-                ))
-            }
-            result
+        return Flowables.combineLatest(allObs, lastPlayedObs, { all, recent ->
+            all.addAll(0, recent)
+            all
         })
     }
 
@@ -145,10 +133,7 @@ class TabViewModelModule {
             resources: Resources,
             useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toDisplayableItem(resources) }
-                .toList()
-        }
+        return useCase.execute().groupMap { it.toTabDisplayableItem(resources) }
     }
 
     @Provides
@@ -157,10 +142,8 @@ class TabViewModelModule {
     internal fun provideLastPlayedAlbumData(
             useCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toLastPlayedDisplayableItem() }
-                .toList()
-        }
+        return useCase.execute().distinctUntilChanged()
+                .groupMap { it.toTabLastPlayedDisplayableItem() }
     }
 
     @Provides
@@ -169,10 +152,96 @@ class TabViewModelModule {
     internal fun provideLastPlayedArtistData(
             useCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().flatMapSingle{ it.toFlowable()
-                .map { it.toLastPlayedDisplayableItem() }
-                .toList()
-        }
+        return useCase.execute()
+                .distinctUntilChanged()
+                .groupMap { it.toTabLastPlayedDisplayableItem() }
     }
 
+}
+
+private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaIdHelper.folderId(path),
+            title.capitalize(),
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    )
+}
+
+private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem{
+    val listSize = if (this.size == -1){ "" } else {
+        resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    }
+
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaIdHelper.playlistId(id),
+            title.capitalize(),
+            listSize
+    )
+}
+
+private fun Song.toTabDisplayableItem(): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_tab_song,
+            MediaIdHelper.songId(id),
+            title,
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            image,
+            true,
+            isRemix,
+            isExplicit
+    )
+}
+
+private fun Album.toTabDisplayableItem(): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaIdHelper.albumId(id),
+            title,
+            artist,
+            image
+    )
+}
+
+private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
+    val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+    val albums = if (this.albums == 0) "" else {
+        "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
+    }
+
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaIdHelper.artistId(id),
+            name,
+            "$albums$songs".toLowerCase()
+    )
+}
+
+private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaIdHelper.genreId(id),
+            name,
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+    )
+}
+
+private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_tab_album_last_played,
+            MediaIdHelper.albumId(id),
+            title,
+            artist,
+            image
+    )
+}
+
+private fun Artist.toTabLastPlayedDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_tab_album_last_played,
+            MediaIdHelper.artistId(id),
+            name,
+            null
+    )
 }

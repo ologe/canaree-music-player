@@ -6,12 +6,12 @@ import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 
 
-@Subcomponent(modules = [
-    (DetailFragmentModule::class),
-    (DetailFragmentModuleSongs::class),
-    (DetailFragmentModuleAlbum::class),
-    (DetailFragmentModuleItem::class)
-])
+@Subcomponent(modules = arrayOf(
+    DetailFragmentModule::class,
+    DetailFragmentModuleSongs::class,
+    DetailFragmentModuleAlbum::class,
+    DetailFragmentModuleItem::class
+))
 @PerFragment
 interface DetailFragmentSubComponent : AndroidInjector<DetailFragment> {
 

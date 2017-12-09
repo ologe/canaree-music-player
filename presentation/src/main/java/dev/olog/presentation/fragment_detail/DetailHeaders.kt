@@ -20,30 +20,30 @@ class DetailHeaders @Inject constructor(
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
     val mostPlayed = listOf(
-            DisplayableItem(R.layout.item_header, "most played id", context.getString(R.string.detail_most_played)),
-            DisplayableItem(R.layout.item_most_played_horizontal_list, "most played list", "")
+            DisplayableItem(R.layout.item_detail_header, "most played id", context.getString(R.string.detail_most_played)),
+            DisplayableItem(R.layout.item_detail_most_played_horizontal_list, "most played list", "")
     )
 
     val recent = listOf(
-            DisplayableItem(R.layout.item_header, "recent id", context.getString(R.string.detail_recently_added)),
-            DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
+            DisplayableItem(R.layout.item_detail_header, "recent id", context.getString(R.string.detail_recently_added)),
+            DisplayableItem(R.layout.item_detail_recent_horizontal_list, "recent list", "")
     )
 
     val recentWithSeeAll = listOf(
-            DisplayableItem(R.layout.item_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_more)),
-            DisplayableItem(R.layout.item_recent_horizontal_list, "recent list", "")
+            DisplayableItem(R.layout.item_detail_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_more)),
+            DisplayableItem(R.layout.item_detail_recent_horizontal_list, "recent list", "")
     )
 
-    val albums : DisplayableItem = DisplayableItem(R.layout.item_header, "albums id",
+    val albums : DisplayableItem = DisplayableItem(R.layout.item_detail_header, "albums id",
             context.resources.getStringArray(R.array.detail_album_header)[source])
 
-    val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_header, ALBUMS_ID,
+    val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_detail_header, ALBUMS_ID,
             context.resources.getStringArray(R.array.detail_album_header)[source],
             context.getString(R.string.detail_see_more))
 
     val songs = listOf(
-            DisplayableItem(R.layout.item_header, "songs id", context.getString(R.string.detail_songs)),
-            DisplayableItem(R.layout.item_shuffle_with_divider, "shuffle id", "")
+            DisplayableItem(R.layout.item_detail_header, "songs id", context.getString(R.string.detail_songs)),
+            DisplayableItem(R.layout.item_detail_shuffle, "shuffle id", "")
     )
 
 }

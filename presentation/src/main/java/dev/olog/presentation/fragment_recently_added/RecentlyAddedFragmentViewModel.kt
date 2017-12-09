@@ -2,11 +2,13 @@ package dev.olog.presentation.fragment_recently_added
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
+import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.toDisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import io.reactivex.rxkotlin.toFlowable
+import dev.olog.presentation.utils.rx.groupMap
+import dev.olog.shared.MediaIdHelper
 
 class RecentlyAddedFragmentViewModel(
         mediaId: String,
@@ -15,7 +17,22 @@ class RecentlyAddedFragmentViewModel(
 ) : ViewModel() {
 
     val data : LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
-            .flatMapSingle { it.toFlowable().map { it.toDisplayableItem() }.toList() }
+            .groupMap { it.toRecentDetailDisplayableItem(mediaId) }
             .asLiveData()
 
 }
+
+private fun Song.toRecentDetailDisplayableItem(parentId: String): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_recently_added,
+            MediaIdHelper.playableItem(parentId, id),
+            title,
+            artist,
+            image,
+            true,
+            isRemix,
+            isExplicit
+    )
+}
+
+

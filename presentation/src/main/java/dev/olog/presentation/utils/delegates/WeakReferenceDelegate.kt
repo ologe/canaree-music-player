@@ -1,13 +1,14 @@
 package dev.olog.presentation.utils.delegates
 
 import java.lang.ref.WeakReference
+import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-class WeakReferenceDelegate<out T>(ref: T) {
+class WeakReferenceDelegate<out T>(ref: T): ReadOnlyProperty<Any, T> {
 
     private val value = WeakReference<T>(ref)
 
-    operator fun getValue(thisRef: Any, property: KProperty<*>) = value.get()
+    override fun getValue(thisRef: Any, property: KProperty<*>): T = value.get()!!
 }
 
 fun <T> weakRef(value: T): WeakReferenceDelegate<T> = WeakReferenceDelegate(value)

@@ -2,15 +2,17 @@ package dev.olog.presentation.fragment_search
 
 import android.content.Context
 import dev.olog.presentation.R
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
+@PerFragment
 class SearchHeaders @Inject constructor(
         @ApplicationContext private val context: Context
 ) {
 
-    val recents = listOf(DisplayableItem(R.layout.item_recent_header, "recent searches header id",
+    val recents = listOf(DisplayableItem(R.layout.item_search_recent_header, "recent searches header id",
             context.getString(R.string.search_recent_searches)))
 
     fun songsHeaders(size: Int) = listOf(DisplayableItem(R.layout.item_search_header, "songs header id",

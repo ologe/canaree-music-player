@@ -11,6 +11,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import java.util.concurrent.TimeUnit
 
 class TabFragmentViewModel constructor(
         private val data: Map<Int, Flowable<List<DisplayableItem>>>,
@@ -37,12 +38,14 @@ class TabFragmentViewModel constructor(
         return getAlbumUseCase.execute(mediaId)
                 .firstOrError()
                 .flatMapCompletable { insertLastPlayedAlbumUseCase.execute(it) }
+                .timeout(2, TimeUnit.SECONDS)
     }
 
     fun insertArtistLastPlayed(mediaId: String): Completable{
         return getArtistUseCase.execute(mediaId)
                 .firstOrError()
                 .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it) }
+                .timeout(2, TimeUnit.SECONDS)
     }
 
 }

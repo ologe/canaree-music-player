@@ -2,9 +2,7 @@ package dev.olog.presentation.fragment_recently_added
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
@@ -39,7 +37,5 @@ class RecentlyAddedFragment : BaseFragment() {
         view.list.layoutManager = LinearLayoutManager(context!!)
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_recently_added, container, false)
-    }
+    override fun provideLayoutId(): Int = R.layout.fragment_recently_added
 }

@@ -31,12 +31,13 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         when (viewType) {
-            R.layout.item_shuffle -> {
+            R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
                     musicController.playShuffle(MediaIdHelper.MEDIA_ID_BY_ALL)
                 }
             }
-            R.layout.item_tab_album, R.layout.item_tab_song -> {
+            R.layout.item_tab_album,
+            R.layout.item_tab_song -> {
                 viewHolder.setOnClickListener(dataController) { item, position ->
                     if (item.isPlayable){
                         musicController.playFromMediaId(item.mediaId)

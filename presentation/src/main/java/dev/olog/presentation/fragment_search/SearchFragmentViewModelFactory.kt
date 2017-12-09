@@ -1,21 +1,20 @@
+
 package dev.olog.presentation.fragment_search
 
 import android.app.Application
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.domain.interactor.search.*
-import dev.olog.domain.interactor.tab.GetAllAlbumsUseCase
-import dev.olog.domain.interactor.tab.GetAllArtistsUseCase
-import dev.olog.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.presentation.model.DisplayableItem
 import javax.inject.Inject
 
 class SearchFragmentViewModelFactory @Inject constructor(
         private val application: Application,
-        private val getAllSongsUseCase: GetAllSongsUseCase,
-        private val getAllAlbumsUseCase: GetAllAlbumsUseCase,
-        private val getAllArtistsUseCase: GetAllArtistsUseCase,
+        private val queryText: MutableLiveData<String>,
+        private val searchData: LiveData<Pair<MutableMap<SearchType, MutableList<DisplayableItem>>, String>>,
         private val searchHeaders: SearchHeaders,
-        private val getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
         private val insertSearchSongUseCase: InsertRecentSearchSongUseCase,
         private val insertSearchAlbumUseCase: InsertRecentSearchAlbumUseCase,
         private val insertSearchArtistUseCase: InsertRecentSearchArtistUseCase,
@@ -29,9 +28,9 @@ class SearchFragmentViewModelFactory @Inject constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SearchFragmentViewModel(
                 application,
-                getAllSongsUseCase, getAllAlbumsUseCase, getAllArtistsUseCase,
+                queryText,
+                searchData,
                 searchHeaders,
-                getAllRecentSearchesUseCase,
                 insertSearchSongUseCase,
                 insertSearchAlbumUseCase,
                 insertSearchArtistUseCase,

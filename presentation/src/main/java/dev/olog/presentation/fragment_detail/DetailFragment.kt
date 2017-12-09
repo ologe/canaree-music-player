@@ -8,14 +8,12 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.math.MathUtils
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.GlideApp
+import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.images.CoverUtils
@@ -46,13 +44,11 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var mediaId: String
-    @Inject lateinit var recyclerViewPool : RecyclerView.RecycledViewPool
+    @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject @JvmField var listPosition: Int = 0
-
+    private val slidingPanelListener by lazy (NONE) { DetailSlidingPanelListener(this) }
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
-
     private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
-
     private lateinit var layoutManager : GridLayoutManager
 
     override fun onAttach(context: Context?) {
@@ -74,6 +70,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
         viewModel.data.subscribe(this, {
             if (context!!.isLandscape){
+                // header in list is not need in landscape
                 it[DetailDataType.HEADER]!!.clear()
             }
             adapter.updateDataSet(it)
@@ -85,63 +82,69 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         layoutManager = GridLayoutManager(context!!, 2)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
-        view.list.recycledViewPool = recyclerViewPool
-        view.list.setHasFixedSize(true)
+        view.list.recycledViewPool = recycledViewPool
         layoutManager.spanSizeLookup = DetailSpanSizeLookup(view.list)
+        view.list.setHasFixedSize(true)
 
-        if (context!!.isPortrait){
-            val listObservable = RxRecyclerView.scrollEvents(view.list)
-                    .share()
-
-            listObservable
-                    .map { layoutManager.findFirstVisibleItemPosition() >= 1 }
-                    .distinctUntilChanged()
-                    .asLiveData()
-                    .subscribe(this, { lightStatusBar ->
-                        view.statusBar.isActivated = lightStatusBar
-                        view.toolbar.isActivated = lightStatusBar
-                        view.back.isActivated = lightStatusBar
-                        view.header.isActivated = lightStatusBar
-                    })
-
-            listObservable.map { layoutManager.findFirstCompletelyVisibleItemPosition() != 0 }
-                    .distinctUntilChanged()
-                    .asLiveData()
-                    .subscribe(this, { lightStatusBar ->
-                        if (lightStatusBar){
-                            setDarkButtons()
-                        } else {
-                            setLightButtons()
-                        }
-                    })
-
-            listObservable.map { it.dy() }
-                    .asLiveData()
-                    .subscribe(this, { dy ->
-                        val floatDiff = dy.toFloat()
-                        if (layoutManager.findFirstVisibleItemPosition() < 1){
-                            // change alpha based on scroll
-                            val alpha = MathUtils.clamp(view.toolbar.alpha + floatDiff / 400, 0f, 1f)
-                            view.toolbar.alpha = alpha
-                            view.header.alpha = alpha
-                            view.statusBar.alpha = alpha
-                        } else if (view.toolbar.alpha != 1f) {
-                            // after the main image is covered only increase the alpha
-                            val alpha = MathUtils.clamp(view.toolbar.alpha + Math.abs(floatDiff / 400), 0f, 1f)
-                            view.toolbar.alpha = alpha
-                            view.header.alpha = alpha
-                            view.statusBar.alpha = alpha
-                        }
-                    })
-        }
+        setupListScroll(view)
 
         viewModel.itemLiveData.subscribe(this, {
             view.header.text = it.title
-
             if (context!!.isLandscape){
                 setImage(it)
             }
         })
+    }
+
+    private fun setupListScroll(view: View){
+        if (context!!.isLandscape) {
+            return
+        }
+
+        val sharedObservable = RxRecyclerView.scrollEvents(view.list)
+                .share()
+
+        sharedObservable
+                .map { layoutManager.findFirstVisibleItemPosition() >= 1 }
+                .distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, { lightStatusBar ->
+                    view.statusBar.isActivated = lightStatusBar
+                    view.toolbar.isActivated = lightStatusBar
+                    view.back.isActivated = lightStatusBar
+                    view.header.isActivated = lightStatusBar
+                })
+
+        sharedObservable.map { layoutManager.findFirstCompletelyVisibleItemPosition() != 0 }
+                .distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, { lightStatusBar ->
+                    if (lightStatusBar){
+                        setDarkButtons()
+                    } else {
+                        setLightButtons()
+                    }
+                })
+
+        sharedObservable.map { it.dy() }
+                .asLiveData()
+                .subscribe(this, { dy ->
+                    val floatDiff = dy.toFloat()
+                    if (layoutManager.findFirstVisibleItemPosition() < 1){
+                        // change alpha based on scroll
+                        val alpha = MathUtils.clamp(view.toolbar.alpha + floatDiff / 400, 0f, 1f)
+                        view.toolbar.alpha = alpha
+                        view.header.alpha = alpha
+                        view.statusBar.alpha = alpha
+                    } else if (view.toolbar.alpha != 1f) {
+                        // after the main image is covered only increase the alpha
+                        val alpha = MathUtils.clamp(view.toolbar.alpha + Math.abs(floatDiff / 400), 0f, 1f)
+                        view.toolbar.alpha = alpha
+                        view.header.alpha = alpha
+                        view.statusBar.alpha = alpha
+                    }
+                })
+
     }
 
     private fun setImage(item: DisplayableItem){
@@ -157,12 +160,12 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                 .into(view!!.cover)
     }
 
-    private fun setLightButtons(){
+    internal fun setLightButtons(){
         activity!!.window.removeLightStatusBar()
         view?.back?.setColorFilter(Color.WHITE)
     }
 
-    private fun setDarkButtons(){
+    internal fun setDarkButtons(){
         activity!!.window.setLightStatusBar()
         view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
@@ -175,8 +178,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onResume() {
         super.onResume()
         if (context!!.isPortrait){
-            activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
-                    .addPanelSlideListener(slidingPanelListener)
+            (activity as HasSlidingPanel).addSlidingPanel(slidingPanelListener)
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
     }
@@ -184,8 +186,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onPause() {
         super.onPause()
         if (context!!.isPortrait){
-            activity!!.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel)
-                    .removePanelSlideListener(slidingPanelListener)
+            (activity as HasSlidingPanel).removeSlidingPanel(slidingPanelListener)
         }
         view!!.back.setOnClickListener(null)
     }
@@ -193,21 +194,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onStop() {
         super.onStop()
         view!!.list.removeItemDecoration(marginDecorator)
-    }
-
-    private val slidingPanelListener = object : SlidingUpPanelLayout.PanelSlideListener {
-
-        override fun onPanelSlide(panel: View?, slideOffset: Float) {
-        }
-
-        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
-            if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
-                setDarkButtons()
-            } else if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
-                setLightButtons()
-            }
-        }
-
     }
 
     override fun onDestroyView() {
@@ -219,6 +205,5 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         startPostponedEnterTransition()
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.fragment_detail, container, false)
+    override fun provideLayoutId(): Int = R.layout.fragment_detail
 }

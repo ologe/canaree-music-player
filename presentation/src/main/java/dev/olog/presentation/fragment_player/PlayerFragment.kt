@@ -5,7 +5,6 @@ import android.graphics.drawable.TransitionDrawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -209,9 +208,5 @@ class PlayerFragment : BaseFragment() {
                 }).into(cover)
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_player, container, false)
-    }
-
-
+    override fun provideLayoutId(): Int = R.layout.fragment_player
 }

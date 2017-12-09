@@ -25,7 +25,7 @@ class SearchFragmentArtistAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, position ->
             navigator.toDetailFragment(item.mediaId, position)
-            viewModel.insertArtistToRecents(item.mediaId)
+            viewModel.insertArtistToRecent(item.mediaId)
                     .subscribe({}, Throwable::printStackTrace)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->

@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.base.FlowableUseCase
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class GetAllAutoPlaylistsUseCase @Inject constructor(
+class GetAllAutoPlaylistUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val gateway: PlaylistGateway
 

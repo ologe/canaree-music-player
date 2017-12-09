@@ -3,9 +3,7 @@ package dev.olog.presentation.fragment_tab
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.widget.GridLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -15,6 +13,7 @@ import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
+import kotlin.LazyThreadSafetyMode.NONE
 
 class TabFragment : BaseFragment() {
 
@@ -32,7 +31,7 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var adapter: TabFragmentAdapter
     @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject @JvmField var source: Int = 0
-    private val spanSizeLookup by lazy { TabFragmentSpanSizeLookup(context!!, source, adapter) }
+    private val spanSizeLookup by lazy (NONE) { TabSpanSpanSizeLookupFactory(context!!, source, adapter) }
     private lateinit var layoutManager: GridLayoutManager
 
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabLastPlayedAlbumsAdapter>
@@ -46,29 +45,23 @@ class TabFragment : BaseFragment() {
         when (source){
             TabViewPagerAdapter.ALBUM -> {
                 viewModel.observeData(TabViewModelModule.LAST_PLAYED_ALBUM)
-                        .subscribe(this, {
-                            lastAlbumsAdapter.get().updateDataSet(it)
-                        })
+                        .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
             }
             TabViewPagerAdapter.ARTIST -> {
                 viewModel.observeData(TabViewModelModule.LAST_PLAYED_ARTIST)
-                        .subscribe(this, {
-                            lastArtistsAdapter.get().updateDataSet(it)
-                        })
+                        .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }
     }
 
     @CallSuper
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = GridLayoutManager(context, TabFragmentSpanSizeLookup.SPAN_COUNT)
-        layoutManager.spanSizeLookup = spanSizeLookup
+        layoutManager = GridLayoutManager(context, spanSizeLookup.getSpanSize())
+        layoutManager.spanSizeLookup = spanSizeLookup.get()
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_tab, container, false)
-    }
+    override fun provideLayoutId(): Int = R.layout.fragment_tab
 }

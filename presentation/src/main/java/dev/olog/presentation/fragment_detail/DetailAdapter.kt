@@ -57,11 +57,11 @@ class DetailAdapter @Inject constructor(
                 }
             }
 
-            R.layout.item_most_played_horizontal_list -> {
+            R.layout.item_detail_most_played_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalList(list, mostPlayedAdapter)
             }
-            R.layout.item_recent_horizontal_list -> {
+            R.layout.item_detail_recent_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalList(list, recentSongsAdapter)
             }
@@ -94,12 +94,12 @@ class DetailAdapter @Inject constructor(
                     navigator.toRelatedArtists(mediaId)
                 }
             }
-            R.layout.item_shuffle_with_divider -> {
+            R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
                     musicController.playShuffle(mediaId)
                 }
             }
-            R.layout.item_header -> {
+            R.layout.item_detail_header -> {
                 viewHolder.setOnClickListener(R.id.seeAll, dataController) { item, _, _ ->
                     when (item.mediaId) {
                         DetailHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
@@ -125,7 +125,7 @@ class DetailAdapter @Inject constructor(
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
         when (holder.itemViewType) {
-            R.layout.item_most_played_horizontal_list -> {
+            R.layout.item_detail_most_played_horizontal_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
                 mostPlayedAdapter.onDataChanged()

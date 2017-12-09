@@ -58,7 +58,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.support_library"
     implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
 
-    implementation 'io.mattcarroll.hover:hover:0.9.8'
+    implementation "io.mattcarroll.hover:hover:$rootProject.hover"
 
     // android lifecycle
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"

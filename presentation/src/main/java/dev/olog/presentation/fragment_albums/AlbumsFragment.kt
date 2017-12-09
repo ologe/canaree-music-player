@@ -2,9 +2,7 @@ package dev.olog.presentation.fragment_albums
 
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.fragment_detail.HorizontalMarginDecoration
@@ -54,7 +52,5 @@ class AlbumsFragment : BaseFragment() {
         view!!.list.removeItemDecoration(marginDecorator)
     }
 
-    override fun provideView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_albums, container, false)
-    }
+    override fun provideLayoutId(): Int = R.layout.fragment_albums
 }

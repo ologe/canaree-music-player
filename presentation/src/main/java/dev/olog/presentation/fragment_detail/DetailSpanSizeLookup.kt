@@ -13,8 +13,7 @@ class DetailSpanSizeLookup(
     private val adapter by weakRef(list.adapter as DetailAdapter)
 
     override fun getSpanSize(position: Int): Int {
-        return adapter?.let {
-            if (it.getItemAt(position).type == R.layout.item_detail_album) 1 else 2
-        } ?: 2
+        val item = adapter.getItemAt(position)
+        return if (item.type == R.layout.item_detail_album) 1 else 2
     }
 }
