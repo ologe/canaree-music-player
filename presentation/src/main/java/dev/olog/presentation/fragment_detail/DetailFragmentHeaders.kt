@@ -7,7 +7,7 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 
-class DetailHeaders @Inject constructor(
+class DetailFragmentHeaders @Inject constructor(
         @ApplicationContext private val context: Context,
         mediaId: String
 ) {

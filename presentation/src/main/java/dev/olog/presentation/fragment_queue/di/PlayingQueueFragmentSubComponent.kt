@@ -7,18 +7,18 @@ import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 
 
 @Subcomponent(modules = arrayOf(
-        PlayingQueueModule::class
+        PlayingQueueFragmentModule::class
 ))
 @PerFragment
-interface PlayingQueueSubComponent : AndroidInjector<PlayingQueueFragment> {
+interface PlayingQueueFragmentSubComponent : AndroidInjector<PlayingQueueFragment> {
 
     @Subcomponent.Builder
     abstract class Builder : AndroidInjector.Builder<PlayingQueueFragment>() {
 
-        abstract fun module(module: PlayingQueueModule): Builder
+        abstract fun module(module: PlayingQueueFragmentModule): Builder
 
         override fun seedInstance(instance: PlayingQueueFragment) {
-            module(PlayingQueueModule(instance))
+            module(PlayingQueueFragmentModule(instance))
         }
     }
 

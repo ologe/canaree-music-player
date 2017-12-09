@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class SearchFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        enums : Array<SearchType>,
+        enums : Array<SearchFragmentType>,
         private val albumAdapter: SearchFragmentAlbumAdapter,
         private val artistAdapter: SearchFragmentArtistAdapter,
         private val recycledViewPool: RecyclerView.RecycledViewPool,
@@ -29,7 +29,7 @@ class SearchFragmentAdapter @Inject constructor(
         private val navigator: Navigator,
         private val viewModel: SearchFragmentViewModel
 
-) : BaseMapAdapter<SearchType, DisplayableItem>(lifecycle, enums) {
+) : BaseMapAdapter<SearchFragmentType, DisplayableItem>(lifecycle, enums) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         when (viewType){

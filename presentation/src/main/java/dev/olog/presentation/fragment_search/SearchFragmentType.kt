@@ -1,5 +1,5 @@
 package dev.olog.presentation.fragment_search
 
-enum class SearchType {
+enum class SearchFragmentType {
     RECENT, ARTISTS, ALBUMS, SONGS
 }

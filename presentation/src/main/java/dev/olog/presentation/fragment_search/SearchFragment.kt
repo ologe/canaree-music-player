@@ -47,8 +47,8 @@ class SearchFragment : BaseFragment() {
             view!!.list.toggleVisibility(!isEmpty)
             view!!.emptyState.toggleVisibility(isEmpty && query.length >= 2)
 
-            val albums = map[SearchType.ALBUMS]!!
-            val artists = map[SearchType.ARTISTS]!!
+            val albums = map[SearchFragmentType.ALBUMS]!!
+            val artists = map[SearchFragmentType.ARTISTS]!!
             albumAdapter.updateDataSet(albums)
             artistAdapter.updateDataSet(artists)
             viewModel.adjustDataMap(map)

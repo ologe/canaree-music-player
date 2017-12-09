@@ -8,13 +8,13 @@ import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
 import dev.olog.presentation.fragment_queue.PlayingQueueFragment
 
-@Module(subcomponents = arrayOf(PlayingQueueSubComponent::class))
-abstract class PlayingQueueInjector {
+@Module(subcomponents = arrayOf(PlayingQueueFragmentSubComponent::class))
+abstract class PlayingQueueFragmentInjector {
 
     @Binds
     @IntoMap
     @FragmentKey(PlayingQueueFragment::class)
-    internal abstract fun injectorFactory(builder: PlayingQueueSubComponent.Builder)
+    internal abstract fun injectorFactory(builder: PlayingQueueFragmentSubComponent.Builder)
             : AndroidInjector.Factory<out Fragment>
 
 }

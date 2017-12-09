@@ -24,8 +24,8 @@ class TabFragmentAdapter @Inject constructor(
         private val source: Int,
         private val musicController: MusicController,
         private val viewModel: TabFragmentViewModel,
-        private val lastPlayedArtistsAdapter: Lazy<TabLastPlayedArtistsAdapter>,
-        private val lastPlayedAlbumsAdapter: Lazy<TabLastPlayedAlbumsAdapter>
+        private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
+        private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 

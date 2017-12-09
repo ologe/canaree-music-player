@@ -7,8 +7,6 @@ import android.content.Context
 import android.text.TextUtils
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntoMap
-import dagger.multibindings.StringKey
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.SearchResult
@@ -18,8 +16,8 @@ import dev.olog.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.domain.interactor.tab.GetAllArtistsUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.fragment_search.SearchHeaders
-import dev.olog.presentation.fragment_search.SearchType
+import dev.olog.presentation.fragment_search.SearchFragmentHeaders
+import dev.olog.presentation.fragment_search.SearchFragmentType
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.rx.groupMap
@@ -32,11 +30,6 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 
-private const val SONGS = "SONGS"
-private const val ALBUMS = "ALBUMS"
-private const val ARTISTS = "ARTISTS"
-private const val RECENT = "RECENT"
-
 @Module
 class SearchFragmentViewModelModule {
 
@@ -47,32 +40,35 @@ class SearchFragmentViewModelModule {
 
     @Provides
     fun provideSearchData(
+            getAllArtistsUseCase: GetAllArtistsUseCase,
+            getAllAlbumsUseCase: GetAllAlbumsUseCase,
+            getAllSongsUseCase: GetAllSongsUseCase,
             queryLiveData: MutableLiveData<String>,
-            originalData: Map<String, @JvmSuppressWildcards Flowable<MutableList<DisplayableItem>>>)
-            : LiveData<Pair<MutableMap<SearchType, MutableList<DisplayableItem>>, String>>{
+            recent: Flowable<MutableList<DisplayableItem>>)
+            : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>{
 
         return Transformations.switchMap(queryLiveData, { input ->
 
             if (TextUtils.isEmpty(input)){
-                originalData[RECENT]!!.map { mutableMapOf(
-                        SearchType.RECENT to it,
-                        SearchType.ARTISTS to mutableListOf(),
-                        SearchType.ALBUMS to mutableListOf(),
-                        SearchType.SONGS to mutableListOf())
+                recent.map { mutableMapOf(
+                        SearchFragmentType.RECENT to it,
+                        SearchFragmentType.ARTISTS to mutableListOf(),
+                        SearchFragmentType.ALBUMS to mutableListOf(),
+                        SearchFragmentType.SONGS to mutableListOf())
                 }.map { Pair(it, input) }
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             } else {
                 Flowables.zip(
-                        originalData[ARTISTS]!!,
-                        originalData[ALBUMS]!!,
-                        originalData[SONGS]!!,
+                        provideSearchByArtist(getAllArtistsUseCase, input),
+                        provideSearchByAlbum(getAllAlbumsUseCase, input),
+                        provideSearchBySong(getAllSongsUseCase, input),
                         { artists, albums, songs -> mutableMapOf(
-                                SearchType.RECENT to mutableListOf(),
-                                SearchType.ARTISTS to artists,
-                                SearchType.ALBUMS to albums,
-                                SearchType.SONGS to songs)
+                                SearchFragmentType.RECENT to mutableListOf(),
+                                SearchFragmentType.ARTISTS to artists,
+                                SearchFragmentType.ALBUMS to albums,
+                                SearchFragmentType.SONGS to songs)
                         })
                         .map { it.to(input) }
                         .subscribeOn(Schedulers.computation())
@@ -82,10 +78,7 @@ class SearchFragmentViewModelModule {
         })
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(SONGS)
-    fun provideSearchBySong(
+    private fun provideSearchBySong(
             getAllSongsUseCase: GetAllSongsUseCase,
             query: String): Flowable<MutableList<DisplayableItem>> {
 
@@ -100,10 +93,7 @@ class SearchFragmentViewModelModule {
                 }
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(ALBUMS)
-    fun provideSearchByAlbum(
+    private fun provideSearchByAlbum(
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
             query: String): Flowable<MutableList<DisplayableItem>> {
 
@@ -117,10 +107,7 @@ class SearchFragmentViewModelModule {
                 }
     }
 
-    @Provides
-    @IntoMap
-    @StringKey(ARTISTS)
-    fun provideSearchByArtist(
+    private fun provideSearchByArtist(
             getAllArtistsUseCase: GetAllArtistsUseCase,
             query: String): Flowable<MutableList<DisplayableItem>> {
 
@@ -134,12 +121,10 @@ class SearchFragmentViewModelModule {
     }
 
     @Provides
-    @IntoMap
-    @StringKey(RECENT)
     fun provideRecentSearchAsLiveDataFlowable(
             @ApplicationContext context: Context,
             getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
-            searchHeaders: SearchHeaders): Flowable<MutableList<DisplayableItem>> {
+            searchHeaders: SearchFragmentHeaders): Flowable<MutableList<DisplayableItem>> {
 
         return getAllRecentSearchesUseCase.execute()
                 .groupMap { it.toSearchDisplayableItem(context) }

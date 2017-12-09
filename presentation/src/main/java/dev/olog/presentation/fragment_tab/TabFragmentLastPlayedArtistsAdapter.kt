@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_related_artist
+package dev.olog.presentation.fragment_tab
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
@@ -7,22 +7,26 @@ import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
-class RelatedArtistAdapter @Inject constructor(
+@PerFragment
+class TabFragmentLastPlayedArtistsAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val viewModel: TabFragmentViewModel
 
 ): BaseListAdapter<DisplayableItem>(lifecycle) {
 
-
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, _ ->
-            navigator.toDetailFragment(item.mediaId, viewHolder.adapterPosition)
+        viewHolder.setOnClickListener(dataController) { item, position ->
+            navigator.toDetailFragment(item.mediaId, position)
+            viewModel.insertArtistLastPlayed(item.mediaId)
+                    .subscribe({}, Throwable::printStackTrace)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
@@ -40,5 +44,4 @@ class RelatedArtistAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
-
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="player_now_playing_size">28sp</dimen>
+    <dimen name="player_title_size">23sp</dimen>
+    <dimen name="player_artist_size">16sp</dimen>
+    <dimen name="player_bookmark">16sp</dimen>
+    <dimen name="player_seekBar_bottom_padding">30dp</dimen>
+    <dimen name="player_seekBar_top_padding">12dp</dimen>
+
+    <dimen name="player_artist_bottom_padding">10dp</dimen>
+
+    <dimen name="player_cover_margin_top">12dp</dimen>
+
+    <dimen name="player_shuffle_padding">16dp</dimen>
+
+</resources>

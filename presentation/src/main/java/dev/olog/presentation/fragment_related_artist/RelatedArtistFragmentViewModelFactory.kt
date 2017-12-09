@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import javax.inject.Inject
 
-class RelatedArtistViewModelFactory @Inject constructor(
+class RelatedArtistFragmentViewModelFactory @Inject constructor(
         private val application: Application,
         private val mediaId: String,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,

@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.delegates.weakRef
 
-class DetailSpanSizeLookup(
+class DetailFragmentSpanSizeLookup(
         list: RecyclerView
 
 ) : GridLayoutManager.SpanSizeLookup() {
 
-    private val adapter by weakRef(list.adapter as DetailAdapter)
+    private val adapter by weakRef(list.adapter as DetailFragmentAdapter)
 
     override fun getSpanSize(position: Int): Int {
         val item = adapter.getItemAt(position)

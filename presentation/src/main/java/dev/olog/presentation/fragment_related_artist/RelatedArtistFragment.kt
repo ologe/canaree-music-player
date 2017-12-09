@@ -23,7 +23,7 @@ class RelatedArtistFragment: BaseFragment() {
         }
     }
 
-    @Inject lateinit var adapter: RelatedArtistAdapter
+    @Inject lateinit var adapter: RelatedArtistFragmentAdapter
     @Inject lateinit var viewModel: RelatedArtistViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

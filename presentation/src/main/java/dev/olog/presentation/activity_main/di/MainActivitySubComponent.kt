@@ -16,7 +16,7 @@ import dev.olog.presentation.fragment_albums.di.AlbumsFragmentInjector
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
 import dev.olog.presentation.fragment_mini_player.di.MiniPlayerFragmentInjector
 import dev.olog.presentation.fragment_player.di.PlayerFragmentInjector
-import dev.olog.presentation.fragment_queue.di.PlayingQueueInjector
+import dev.olog.presentation.fragment_queue.di.PlayingQueueFragmentInjector
 import dev.olog.presentation.fragment_recently_added.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.fragment_related_artist.di.RelatedArtistFragmentInjector
 import dev.olog.presentation.fragment_search.di.SearchFragmentInjector
@@ -35,7 +35,7 @@ import dev.olog.presentation.navigation.NavigatorModule
         RecentlyAddedFragmentInjector::class,
         RelatedArtistFragmentInjector::class,
         AlbumsFragmentInjector::class,
-        PlayingQueueInjector::class,
+        PlayingQueueFragmentInjector::class,
         SearchFragmentInjector::class,
 
         // dialogs

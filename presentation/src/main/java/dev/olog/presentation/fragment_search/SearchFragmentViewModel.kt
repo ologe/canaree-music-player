@@ -12,8 +12,8 @@ import io.reactivex.Completable
 class SearchFragmentViewModel(
         application: Application,
         private val queryText: MutableLiveData<String>,
-        val searchData: LiveData<Pair<MutableMap<SearchType, MutableList<DisplayableItem>>, String>>,
-        private val searchHeaders: SearchHeaders,
+        val searchData: LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>,
+        private val searchHeaders: SearchFragmentHeaders,
         private val insertSearchSongUseCase: InsertRecentSearchSongUseCase,
         private val insertSearchAlbumUseCase: InsertRecentSearchAlbumUseCase,
         private val insertSearchArtistUseCase: InsertRecentSearchArtistUseCase,
@@ -28,10 +28,10 @@ class SearchFragmentViewModel(
         queryText.value = newQuery
     }
 
-    fun adjustDataMap(data: MutableMap<SearchType, MutableList<DisplayableItem>>) {
-        adjustAlbums(data[SearchType.ALBUMS]!!)
-        adjustArtists(data[SearchType.ARTISTS]!!)
-        adjustSongs(data[SearchType.SONGS]!!)
+    fun adjustDataMap(data: MutableMap<SearchFragmentType, MutableList<DisplayableItem>>) {
+        adjustAlbums(data[SearchFragmentType.ALBUMS]!!)
+        adjustArtists(data[SearchFragmentType.ARTISTS]!!)
+        adjustSongs(data[SearchFragmentType.SONGS]!!)
     }
 
     private fun adjustAlbums(list: MutableList<DisplayableItem>){

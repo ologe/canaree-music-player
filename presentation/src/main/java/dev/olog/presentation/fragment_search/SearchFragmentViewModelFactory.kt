@@ -13,8 +13,8 @@ import javax.inject.Inject
 class SearchFragmentViewModelFactory @Inject constructor(
         private val application: Application,
         private val queryText: MutableLiveData<String>,
-        private val searchData: LiveData<Pair<MutableMap<SearchType, MutableList<DisplayableItem>>, String>>,
-        private val searchHeaders: SearchHeaders,
+        private val searchData: LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>,
+        private val searchHeaders: SearchFragmentHeaders,
         private val insertSearchSongUseCase: InsertRecentSearchSongUseCase,
         private val insertSearchAlbumUseCase: InsertRecentSearchAlbumUseCase,
         private val insertSearchArtistUseCase: InsertRecentSearchArtistUseCase,

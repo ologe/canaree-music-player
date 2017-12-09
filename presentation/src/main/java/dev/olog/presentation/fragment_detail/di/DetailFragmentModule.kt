@@ -40,7 +40,7 @@ class DetailFragmentModule(
     fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
 
     @Provides
-    internal fun provideEnums() = DetailDataType.values()
+    internal fun provideEnums() = DetailFragmentDataType.values()
 
     @Provides
     internal fun provideViewModel(factory: DetailFragmentViewModelFactory): DetailFragmentViewModel {

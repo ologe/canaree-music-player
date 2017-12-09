@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import dev.olog.domain.interactor.music_service.GetMiniPlayingQueueUseCase
 import javax.inject.Inject
 
-class PlayingQueueViewModelFactory @Inject constructor(
+class PlayingQueueFragmentViewModelFactory @Inject constructor(
         private val getMiniPlayingQueueUseCase: GetMiniPlayingQueueUseCase
 
 ) : ViewModelProvider.Factory {

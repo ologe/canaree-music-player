@@ -4,7 +4,7 @@ import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.utils.delegates.weakRef
 
-class DetailSlidingPanelListener(
+class DetailFragmentSlidingPanelListener(
         fragment: DetailFragment
 
 ) : SlidingUpPanelLayout.PanelSlideListener {

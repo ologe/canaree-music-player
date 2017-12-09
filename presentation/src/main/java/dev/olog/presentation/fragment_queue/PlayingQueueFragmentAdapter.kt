@@ -14,7 +14,7 @@ import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
-class PlayingQueueAdapter @Inject constructor(
+class PlayingQueueFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val musicController: MusicController,
         private val navigator: Navigator

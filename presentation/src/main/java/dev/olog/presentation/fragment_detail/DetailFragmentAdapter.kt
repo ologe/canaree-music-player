@@ -23,20 +23,20 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class DetailAdapter @Inject constructor(
+class DetailFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        enums: Array<DetailDataType>,
+        enums: Array<DetailFragmentDataType>,
         private val view: DetailFragmentView,
         private val mediaId: String,
         private val listPosition: Int,
-        private val recentSongsAdapter: DetailRecentlyAddedAdapter,
-        private val mostPlayedAdapter: DetailMostPlayedAdapter,
+        private val recentSongsAdapter: DetailFragmentRecentlyAddedAdapter,
+        private val mostPlayedAdapter: DetailFragmentMostPlayedAdapter,
         private val navigator: Navigator,
         private val musicController: MusicController,
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapter<DetailDataType, DisplayableItem>(lifecycle, enums) {
+) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
 
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
@@ -102,8 +102,8 @@ class DetailAdapter @Inject constructor(
             R.layout.item_detail_header -> {
                 viewHolder.setOnClickListener(R.id.seeAll, dataController) { item, _, _ ->
                     when (item.mediaId) {
-                        DetailHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
-                        DetailHeaders.ALBUMS_ID -> navigator.toAlbums(mediaId)
+                        DetailFragmentHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
+                        DetailFragmentHeaders.ALBUMS_ID -> navigator.toAlbums(mediaId)
                     }
                 }
             }

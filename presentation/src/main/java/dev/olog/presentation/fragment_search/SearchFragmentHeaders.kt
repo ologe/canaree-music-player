@@ -8,7 +8,7 @@ import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
 @PerFragment
-class SearchHeaders @Inject constructor(
+class SearchFragmentHeaders @Inject constructor(
         @ApplicationContext private val context: Context
 ) {
 

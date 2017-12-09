@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
+import dev.olog.presentation.fragment_related_artist.RelatedArtistFragmentViewModelFactory
 import dev.olog.presentation.fragment_related_artist.RelatedArtistViewModel
-import dev.olog.presentation.fragment_related_artist.RelatedArtistViewModelFactory
 
 @Module
 class RelatedArtistFragmentModule(
@@ -24,7 +24,7 @@ class RelatedArtistFragmentModule(
     }
 
     @Provides
-    internal fun provideViewModel(factory: RelatedArtistViewModelFactory): RelatedArtistViewModel {
+    internal fun provideViewModel(factory: RelatedArtistFragmentViewModelFactory): RelatedArtistViewModel {
 
         return ViewModelProviders.of(fragment, factory).get(RelatedArtistViewModel::class.java)
     }

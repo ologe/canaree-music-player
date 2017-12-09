@@ -14,7 +14,7 @@ import javax.inject.Inject
 class PlayingQueueFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: PlayingQueueViewModel
-    @Inject lateinit var adapter : PlayingQueueAdapter
+    @Inject lateinit var adapter : PlayingQueueFragmentAdapter
 
     private lateinit var layoutManager: LinearLayoutManager
 

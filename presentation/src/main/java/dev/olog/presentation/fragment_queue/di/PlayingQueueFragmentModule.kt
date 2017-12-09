@@ -6,16 +6,16 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.fragment_queue.PlayingQueueFragment
+import dev.olog.presentation.fragment_queue.PlayingQueueFragmentViewModelFactory
 import dev.olog.presentation.fragment_queue.PlayingQueueViewModel
-import dev.olog.presentation.fragment_queue.PlayingQueueViewModelFactory
 
 @Module
-class PlayingQueueModule(
+class PlayingQueueFragmentModule(
         private val fragment: PlayingQueueFragment
 ) {
 
     @Provides
-    fun provideViewModel(factory: PlayingQueueViewModelFactory): PlayingQueueViewModel{
+    fun provideViewModel(factory: PlayingQueueFragmentViewModelFactory): PlayingQueueViewModel{
         return ViewModelProviders.of(fragment, factory).get(PlayingQueueViewModel::class.java)
     }
 

@@ -19,7 +19,7 @@ class DetailFragmentViewModel(
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
-        private val headers: DetailHeaders,
+        private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase
 
 ) : ViewModel() {
@@ -59,7 +59,7 @@ class DetailFragmentViewModel(
         return insertMostPlayedUseCase.execute(mediaId)
     }
 
-    val data : LiveData<MutableMap<DetailDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
+    val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
             item[category]!!,
             data[MOST_PLAYED]!!,
             data[RECENTLY_ADDED]!!,
@@ -69,12 +69,12 @@ class DetailFragmentViewModel(
             { item, mostPlayed, recent, albums, artists, songs ->
 
         mutableMapOf(
-                DetailDataType.HEADER to mutableListOf(item),
-                DetailDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList()),
-                DetailDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList()),
-                DetailDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
-                DetailDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList()),
-                DetailDataType.SONGS to handleSongsHeader(songs.toMutableList())
+                DetailFragmentDataType.HEADER to mutableListOf(item),
+                DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList()),
+                DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList()),
+                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
+                DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList()),
+                DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList())
         ) }
     ).asLiveData()
 

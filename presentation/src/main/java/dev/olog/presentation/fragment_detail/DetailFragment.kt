@@ -40,15 +40,15 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     }
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
-    @Inject lateinit var adapter: DetailAdapter
-    @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
-    @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
+    @Inject lateinit var adapter: DetailFragmentAdapter
+    @Inject lateinit var recentlyAddedAdapter : DetailFragmentRecentlyAddedAdapter
+    @Inject lateinit var mostPlayedAdapter: DetailFragmentMostPlayedAdapter
     @Inject lateinit var mediaId: String
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject @JvmField var listPosition: Int = 0
-    private val slidingPanelListener by lazy (NONE) { DetailSlidingPanelListener(this) }
+    private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
-    private val marginDecorator by lazy (NONE){ HorizontalMarginDecoration(context!!) }
+    private val marginDecorator by lazy (NONE){ DetailFragmentHorizontalMarginDecoration(context!!) }
     private lateinit var layoutManager : GridLayoutManager
 
     override fun onAttach(context: Context?) {
@@ -71,7 +71,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         viewModel.data.subscribe(this, {
             if (context!!.isLandscape){
                 // header in list is not need in landscape
-                it[DetailDataType.HEADER]!!.clear()
+                it[DetailFragmentDataType.HEADER]!!.clear()
             }
             adapter.updateDataSet(it)
         })
@@ -83,7 +83,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.recycledViewPool = recycledViewPool
-        layoutManager.spanSizeLookup = DetailSpanSizeLookup(view.list)
+        layoutManager.spanSizeLookup = DetailFragmentSpanSizeLookup(view.list)
         view.list.setHasFixedSize(true)
 
         setupListScroll(view)

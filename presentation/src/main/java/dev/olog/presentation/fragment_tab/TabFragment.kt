@@ -34,8 +34,8 @@ class TabFragment : BaseFragment() {
     private val spanSizeLookup by lazy (NONE) { TabSpanSpanSizeLookupFactory(context!!, source, adapter) }
     private lateinit var layoutManager: GridLayoutManager
 
-    @Inject lateinit var lastAlbumsAdapter : Lazy<TabLastPlayedAlbumsAdapter>
-    @Inject lateinit var lastArtistsAdapter : Lazy<TabLastPlayedArtistsAdapter>
+    @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
+    @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

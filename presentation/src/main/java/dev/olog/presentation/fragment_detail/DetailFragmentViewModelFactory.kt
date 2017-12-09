@@ -13,7 +13,7 @@ class DetailFragmentViewModelFactory @Inject constructor(
         private val item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         private val albums: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
-        private val headers: DetailHeaders,
+        private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase
 
 ) : ViewModelProvider.Factory {
