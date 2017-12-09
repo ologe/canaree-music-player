@@ -164,7 +164,8 @@ private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem{
             R.layout.item_tab_album,
             MediaIdHelper.folderId(path),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            this.image
     )
 }
 
@@ -177,7 +178,8 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
             R.layout.item_tab_album,
             MediaIdHelper.playlistId(id),
             title.capitalize(),
-            listSize
+            listSize,
+            this.image
     )
 }
 
@@ -214,7 +216,8 @@ private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
             R.layout.item_tab_album,
             MediaIdHelper.artistId(id),
             name,
-            "$albums$songs".toLowerCase()
+            "$albums$songs".toLowerCase(),
+            this.image
     )
 }
 
@@ -223,7 +226,8 @@ private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
             R.layout.item_tab_album,
             MediaIdHelper.genreId(id),
             name,
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            this.image
     )
 }
 
@@ -242,6 +246,7 @@ private fun Artist.toTabLastPlayedDisplayableItem(): DisplayableItem {
             R.layout.item_tab_album_last_played,
             MediaIdHelper.artistId(id),
             name,
-            null
+            null,
+            this.image
     )
 }

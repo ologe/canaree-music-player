@@ -3,7 +3,6 @@ package dev.olog.data.repository
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
-import android.graphics.Bitmap
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.FolderMostPlayedEntity
 import dev.olog.domain.entity.Folder
@@ -17,7 +16,6 @@ import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,7 +29,6 @@ class FolderRepository @Inject constructor(
 ): FolderGateway {
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
-    private val imagesDao = appDatabase.folderImagesDao()
 
     private val dataMap : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAll()
             .flatMapSingle { it.toFlowable().collectInto(mutableMapOf<String, MutableList<Song>>(), { map, song ->
@@ -41,62 +38,64 @@ class FolderRepository @Inject constructor(
                     map.put(song.folderPath, mutableListOf(song))
                 }
             })
-            }.distinctUntilChanged()
+            }
+            .distinctUntilChanged()
             .replay(1)
             .refCount()
 
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
+                    val dataDir = "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}"
+                    val image = "$dataDir${it.key.replace(File.separator, "")}"
                     Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
-                            it.key, it.value.size)
+                            it.key, it.value.size, image)
                 }.toSortedList(compareBy { it.title.toLowerCase() })
-            }.distinctUntilChanged()
+            }
+            .distinctUntilChanged()
             .replay(1)
             .refCount()
 
-    class Option<T>(
-            val item: T?
-    )
 
-    private fun saveFile(path: String, bitmap: Bitmap): String {
-        val name = path.replace(File.separator, "", false)
-        val dest = File(context.applicationInfo.dataDir, name)
-        val out = FileOutputStream(dest)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out)
-        out.close()
-        bitmap.recycle()
-        return dest.path
-    }
+
+    private var imagesCreated = false
+
+//    private val images = dataMap
+//            .firstOrError()
+//            .flatMap { it.entries.toFlowable()
+//            .map { it.value }
+//            .flatMapSingle { songList -> songList.toFlowable()
+//                    .map { it.albumId }
+//                    .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+//                    .map { uri -> try {
+//                        Option(MediaStore.Images.Media.getBitmap(contentResolver, uri))
+//                    } catch (ex: Exception){
+//                        Option(null)
+//                    }}
+//                    .filter { it.item != null }
+//                    .map { it.item!! }
+//                    .take(4)
+//                    .toList()
+//                    .map { ImageUtils.joinImages(it) }
+//                    .map {
+//                        val song = songList[0]
+//                        val name = song.folderPath.replace(File.separator, "", false)
+//                        FileUtils.saveFile(context, "folder",name, it)
+//                    }
+//                    .subscribeOn(Schedulers.io())
+//            }.toList()
+//    }.subscribeOn(Schedulers.io())
+//            .toCompletable()
 
     @SuppressLint("CheckResult")
     override fun getAll(): Flowable<List<Folder>> {
 
-//        dataMap.flatMapSingle { it.entries.toFlowable()
-//                .map { it.value }
-//                .flatMapSingle { songList -> songList.toFlowable()
-//                        .map { it.albumId }
-//                        .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-//                        .map { uri -> try {
-//                            Option(MediaStore.Images.Media.getBitmap(contentResolver, uri))
-//                        } catch (ex: Exception){
-//                            Option(null)
-//                        }}
-//                        .filter { it.item != null }
-//                        .map { it.item!! }
-//                        .take(4)
-//                        .toList()
-//                        .map { ImageUtils.joinImages(it) }
-//                        .map {
-//                            val song = songList[0]
-//                            val path = saveFile(song.folderPath, it)
-//                            ImageFolderEntity(song.folderPath, path)
-//                        }
-//                        .doOnSuccess { imagesDao.insert(it) }
-//                        .subscribeOn(Schedulers.io())
-//                }
-//                .toList()
-//        }.subscribeOn(Schedulers.io())
-//                .subscribe(::println, Throwable::printStackTrace)
+//        if (!imagesCreated){
+//            imagesCreated = true
+//            images.subscribe({
+//                contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+//
+//            }, Throwable::printStackTrace)
+//        }
 
         return listObservable
     }

@@ -3,10 +3,13 @@ package dev.olog.data
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
+import dev.olog.data.utils.assertBackgroundThread
 
 object ImageUtils {
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
+        assertBackgroundThread()
+
         val result = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(result)
         val paint = Paint()

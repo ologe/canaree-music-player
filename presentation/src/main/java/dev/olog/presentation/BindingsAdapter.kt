@@ -6,6 +6,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.images.CoverUtils
+import java.io.File
 
 object BindingsAdapter {
 
@@ -41,30 +42,24 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        GlideApp.with(context)
-                .load(Uri.parse(image))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(OVERRIDE_MID)
-                .error(CoverUtils.getGradient(context = context, position = position, source = source))
-                .into(view)
-    }
-
-    @BindingAdapter("imageDialog", "source", "position")
-    @JvmStatic
-    fun loadDialogItem(view: ImageView, image: String, source: Int, position: Int) {
-        val context = view.context
-
-        GlideApp.with(context).clear(view)
-
-        GlideApp.with(context)
-                .load(Uri.parse(image))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(OVERRIDE_MID)
-                .priority(Priority.IMMEDIATE)
-                .placeholder(CoverUtils.getGradient(context = context, position = position, source = source))
-                .into(view)
+        val file = File(image)
+        if (file.exists()){
+            GlideApp.with(context)
+                    .load(Uri.fromFile(file))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(OVERRIDE_MID)
+                    .error(CoverUtils.getGradient(context = context, position = position, source = source))
+                    .into(view)
+        } else {
+            GlideApp.with(context)
+                    .load(Uri.parse(image))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(OVERRIDE_MID)
+                    .error(CoverUtils.getGradient(context = context, position = position, source = source))
+                    .into(view)
+        }
     }
 
     @BindingAdapter("imageBigAlbum", "source", "position")
@@ -78,14 +73,28 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        GlideApp.with(context)
-                .load(Uri.parse(image))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(OVERRIDE_BIG)
-                .priority(Priority.IMMEDIATE)
-                .error(CoverUtils.getGradient(context, position, source))
-                .into(view)
+        val file = File(image)
+        if (file.exists()){
+            GlideApp.with(context)
+                    .load(Uri.fromFile(file))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(OVERRIDE_BIG)
+                    .priority(Priority.IMMEDIATE)
+                    .error(CoverUtils.getGradient(context, position, source))
+                    .into(view)
+        } else {
+            GlideApp.with(context)
+                    .load(Uri.parse(image))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(OVERRIDE_BIG)
+                    .priority(Priority.IMMEDIATE)
+                    .error(CoverUtils.getGradient(context, position, source))
+                    .into(view)
+        }
+
+
     }
 
 }

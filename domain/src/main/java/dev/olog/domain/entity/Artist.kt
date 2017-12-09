@@ -5,5 +5,5 @@ data class Artist (
         val name: String,
         val songs: Int = -1,
         val albums: Int = -1,
-        val image: String = ""
+        val image: String
 )
