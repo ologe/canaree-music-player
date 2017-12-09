@@ -37,10 +37,6 @@ private const val ALBUMS = "ALBUMS"
 private const val ARTISTS = "ARTISTS"
 private const val RECENT = "RECENT"
 
-private const val INSERT_SONG = "INSERT_SONG"
-private const val INSERT_ALBUM = "INSERT_ALBUM"
-private const val INSERT_ARTIST = "INSERT_ARTIST"
-
 @Module
 class SearchFragmentViewModelModule {
 
