@@ -5,6 +5,7 @@ import javax.inject.Inject
 
 class FirstAccessUseCase @Inject constructor(
         private val prefs: AppPreferencesGateway
+
 ) {
 
     fun get() = prefs.isFirstAccess()

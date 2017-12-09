@@ -1,9 +1,11 @@
 package dev.olog.presentation.utils.extension
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import org.jetbrains.anko.configuration
 
 val Context.isPortrait: Boolean
@@ -14,4 +16,8 @@ val Context.isLandscape: Boolean
 
 fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawable {
     return this.getDrawable(id) as AnimatedVectorDrawable
+}
+
+fun Context.hasPermission(permission: String) : Boolean {
+    return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 }
