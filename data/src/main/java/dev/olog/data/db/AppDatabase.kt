@@ -13,7 +13,12 @@ import dev.olog.data.entity.*
         RecentSearchesEntity::class,
         HistoryEntity::class,
         LastPlayedAlbumEntity::class,
-        LastPlayedArtistEntity::class
+        LastPlayedArtistEntity::class,
+
+        ImageFolderEntity::class,
+        ImagePlaylistEntity::class,
+        ImageArtistEntity::class,
+        ImageGenreEntity::class
 
 ), version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -34,5 +39,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun lastPlayedAlbumDao() : LastPlayedAlbumDao
     abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
+
+    abstract fun folderImagesDao(): FolderImagesDao
 
 }
