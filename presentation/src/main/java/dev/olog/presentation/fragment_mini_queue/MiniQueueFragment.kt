@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_queue
+package dev.olog.presentation.fragment_mini_queue
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -8,13 +8,13 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
-import kotlinx.android.synthetic.main.fragment_player_queue.view.*
+import kotlinx.android.synthetic.main.fragment_mini_queue.view.*
 import javax.inject.Inject
 
-class PlayingQueueFragment : BaseFragment() {
+class MiniQueueFragment : BaseFragment() {
 
-    @Inject lateinit var viewModel: PlayingQueueViewModel
-    @Inject lateinit var adapter : PlayingQueueFragmentAdapter
+    @Inject lateinit var viewModel: MiniQueueViewModel
+    @Inject lateinit var adapter : MiniQueueFragmentAdapter
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -50,5 +50,5 @@ class PlayingQueueFragment : BaseFragment() {
         return view?.list?.canScrollVertically(-1) == true
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_player_queue
+    override fun provideLayoutId(): Int = R.layout.fragment_mini_queue
 }

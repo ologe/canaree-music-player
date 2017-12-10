@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.Flowable
+import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,11 +14,11 @@ class RxMusicServiceControllerCallback @Inject constructor() {
 
     private val listener = Listener()
 
-    private val playbackStatePublisher = BehaviorSubject.create<PlaybackStateCompat>()
-    private val metadataPublisher = BehaviorSubject.create<MediaMetadataCompat>()
-    private val repeatModePublisher = BehaviorSubject.create<Int>()
-    private val shuffleModePublisher = BehaviorSubject.create<Int>()
-    private val extrasPublisher = BehaviorSubject.create<Bundle>()
+    private val playbackStatePublisher = BehaviorProcessor.create<PlaybackStateCompat>()
+    private val metadataPublisher = BehaviorProcessor.create<MediaMetadataCompat>()
+    private val repeatModePublisher = BehaviorProcessor.create<Int>()
+    private val shuffleModePublisher = BehaviorProcessor.create<Int>()
+    private val extrasPublisher = BehaviorProcessor.create<Bundle>()
 
     val metadata: MediaMetadataCompat?
         get() = metadataPublisher.value
@@ -55,23 +55,23 @@ class RxMusicServiceControllerCallback @Inject constructor() {
         shuffleModePublisher.onNext(controller.shuffleMode)
     }
 
-    fun onPlaybackStateChanged(): Observable<PlaybackStateCompat> {
+    fun onPlaybackStateChanged(): Flowable<PlaybackStateCompat> {
         return playbackStatePublisher.share()
     }
 
-    fun onMetadataChanged(): Observable<MediaMetadataCompat> {
+    fun onMetadataChanged(): Flowable<MediaMetadataCompat> {
         return metadataPublisher.share()
     }
 
-    fun onRepeatModeChanged(): Observable<Int> {
+    fun onRepeatModeChanged(): Flowable<Int> {
         return repeatModePublisher.share()
     }
 
-    fun onShuffleModeChanged(): Observable<Int> {
+    fun onShuffleModeChanged(): Flowable<Int> {
         return shuffleModePublisher.share()
     }
 
-    fun onExtrasChanged(): Observable<Bundle> {
+    fun onExtrasChanged(): Flowable<Bundle> {
         return extrasPublisher.share()
     }
 

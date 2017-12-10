@@ -17,6 +17,8 @@ interface Navigator {
 
     fun toAlbums(mediaId: String)
 
+    fun toPlayingQueueFragment()
+
     fun toDialog(item: DisplayableItem, anchor: View)
 
     fun toSetRingtoneDialog(mediaId: String, itemTitle: String)

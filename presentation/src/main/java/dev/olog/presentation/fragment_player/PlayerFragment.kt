@@ -21,6 +21,7 @@ import dev.olog.presentation.SeekBarObservable
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
+import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.TextUtils
 import dev.olog.presentation.utils.extension.asLiveData
@@ -40,6 +41,7 @@ class PlayerFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: PlayerFragmentViewModel
     @Inject lateinit var musicController: MusicController
+    @Inject lateinit var navigator: Navigator
 
     private var updateDisposable : Disposable? = null
 
@@ -139,6 +141,10 @@ class PlayerFragment : BaseFragment() {
         RxView.clicks(favorite)
                 .asLiveData()
                 .subscribe(this, { musicController.togglePlayerFavorite() })
+
+        RxView.clicks(playingQueue)
+                .asLiveData()
+                .subscribe(this, { navigator.toPlayingQueueFragment() })
     }
 
     override fun onResume() {

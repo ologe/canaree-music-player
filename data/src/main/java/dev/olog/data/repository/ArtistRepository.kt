@@ -1,7 +1,5 @@
 package dev.olog.data.repository
 
-import android.content.ContentResolver
-import android.content.Context
 import dev.olog.data.DataConstants
 import dev.olog.data.db.AppDatabase
 import dev.olog.domain.entity.Album
@@ -11,19 +9,15 @@ import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.domain.mapper.toAlbum
-import dev.olog.shared.ApplicationContext
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ArtistRepository @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val contentResolver: ContentResolver,
         songGateway: SongGateway,
         private val albumGateway: AlbumGateway,
         appDatabase: AppDatabase
@@ -80,59 +74,14 @@ class ArtistRepository @Inject constructor(
                         val value = it.value
                         val song = value.first[0]
 
-                        Artist(song.artistId, song.artist, value.first.size, value.second.size,
-                                getImagePath(song.artistId))
+                        Artist(song.artistId, song.artist, value.first.size, value.second.size, "")
                     }
                     .toSortedList(compareBy { it.name.toLowerCase() })
             }.distinctUntilChanged()
             .replay(1)
             .refCount()
 
-    private var imagesCreated = false
-
-    private fun getImagePath(artistId: Long): String {
-        val dataDir = "${context.applicationInfo.dataDir}${File.separator}artist${File.separator}"
-        return "$dataDir$artistId"
-    }
-
-//    private val images = dataMap
-//            .firstOrError()
-//            .flatMap { it.entries.toFlowable()
-//                    .map { it.value }
-//                    .flatMapSingle { (songList, _) -> songList.toFlowable()
-//                            .map { it.albumId }
-//                            .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-//                            .map { uri -> try {
-//                                Option(MediaStore.Images.Media.getBitmap(contentResolver, uri))
-//                            } catch (ex: Exception){
-//                                Option(null)
-//                            }}
-//                            .filter { it.item != null }
-//                            .map { it.item!! }
-//                            .take(4)
-//                            .toList()
-//                            .map { ImageUtils.joinImages(it) }
-//                            .map {
-//                                val song = songList[0]
-//                                FileUtils.saveFile(context, "artist", song.artist,it)
-//                            }
-//                            .subscribeOn(Schedulers.io())
-//                    }.toList()
-//            }.subscribeOn(Schedulers.io())
-//            .toCompletable()
-
-    override fun getAll(): Flowable<List<Artist>> {
-
-//        if (!imagesCreated){
-//            imagesCreated = true
-//            images.subscribe({
-//                contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-//
-//            }, Throwable::printStackTrace)
-//        }
-
-        return listObservable
-    }
+    override fun getAll(): Flowable<List<Artist>> = listObservable
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun getByParam(artistId: Long): Flowable<Artist> {
@@ -157,7 +106,7 @@ class ArtistRepository @Inject constructor(
             .map { it.sortedWith(compareByDescending { it.dateAdded }) }
             .flatMapSingle { it.toFlowable()
                     .map {
-                        Artist(it.id, it.name, image = getImagePath(it.id))
+                        Artist(it.id, it.name, image = "")
                     }
                     .toList()
             }

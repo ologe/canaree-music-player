@@ -11,7 +11,7 @@ import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
-import dev.olog.presentation.fragment_queue.PlayingQueueFragment
+import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -32,7 +32,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var musicServiceBinder: MusicServiceBinder
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var innerPanelSlideListener : InnerPanelSlideListener
+    private val innerPanelSlideListener by lazy (LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
 
     @Inject lateinit var presenter: Lazy<MainActivityPresenter>
 
@@ -102,7 +102,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun onBackPressed() {
-        val playingQueue = findFragmentByTag<PlayingQueueFragment>(getString(R.string.player_queue_fragment_tag))
+        val playingQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
         when {
             playingQueue?.cannotScrollUp() ?: false -> {
                 playingQueue?.smoothScrollToTop()

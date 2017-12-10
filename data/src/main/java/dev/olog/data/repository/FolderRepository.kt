@@ -1,15 +1,12 @@
 package dev.olog.data.repository
 
 import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.content.Context
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.FolderMostPlayedEntity
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -21,8 +18,6 @@ import javax.inject.Singleton
 
 @Singleton
 class FolderRepository @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -45,10 +40,10 @@ class FolderRepository @Inject constructor(
 
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
-                    val dataDir = "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}"
-                    val image = "$dataDir${it.key.replace(File.separator, "")}"
+//                    val dataDir = "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}"
+//                    val image = "$dataDir${it.key.replace(File.separator, "")}"
                     Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
-                            it.key, it.value.size, image)
+                            it.key, it.value.size, "")
                 }.toSortedList(compareBy { it.title.toLowerCase() })
             }
             .distinctUntilChanged()

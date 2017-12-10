@@ -28,11 +28,12 @@
             android:layout_marginEnd="48dp" />
 
         <ImageButton
-            android:id="@+id/toolbarMore"
+            android:id="@+id/playingQueue"
             android:layout_gravity="end"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/vd_more"
+            android:src="@drawable/vd_playing_queue"
+            android:backgroundTint="@color/button_primary_tint"
             android:tint="@color/button_primary_tint"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"

@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_queue
+package dev.olog.presentation.fragment_mini_queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
@@ -14,7 +14,7 @@ import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
-class PlayingQueueFragmentAdapter @Inject constructor(
+class MiniQueueFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val musicController: MusicController,
         private val navigator: Navigator

@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_queue.di
+package dev.olog.presentation.fragment_playing_queue.di
 
 import android.support.v4.app.Fragment
 import dagger.Binds
@@ -6,7 +6,8 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import dev.olog.presentation.fragment_queue.PlayingQueueFragment
+import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
+
 
 @Module(subcomponents = arrayOf(PlayingQueueFragmentSubComponent::class))
 abstract class PlayingQueueFragmentInjector {

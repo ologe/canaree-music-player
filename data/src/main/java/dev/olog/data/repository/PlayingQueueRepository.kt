@@ -30,6 +30,20 @@ class PlayingQueueRepository @Inject constructor(
                 .firstOrError()
     }
 
+    override fun observeAll(): Flowable<List<Song>> {
+        return playingQueueDao.observeAll()
+                .distinctUntilChanged()
+                .flatMapSingle { it.toFlowable()
+                        .map { it.id.toLong() }
+                        .flatMapMaybe { songId ->
+                            songGateway.getAll().firstOrError()
+                                    .flattenAsObservable { it }
+                                    .filter { it.id == songId }
+                                    .firstElement()
+                        }.toList()
+                }
+    }
+
     override fun update(list: List<Long>): Completable {
         return playingQueueDao.insert(list)
     }

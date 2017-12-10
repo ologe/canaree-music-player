@@ -19,6 +19,7 @@ import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
+import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.fragment_search.SearchFragment
@@ -143,6 +144,17 @@ class NavigatorImpl @Inject constructor(
                         AlbumsFragment.newInstance(mediaId),
                         AlbumsFragment.TAG)
                 addToBackStack(AlbumsFragment.TAG)
+            }
+        }
+    }
+
+    override fun toPlayingQueueFragment() {
+        if (allowed()) {
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                add(android.R.id.content, PlayingQueueFragment(),
+                        PlayingQueueFragment.TAG)
+                addToBackStack(PlayingQueueFragment.TAG)
             }
         }
     }

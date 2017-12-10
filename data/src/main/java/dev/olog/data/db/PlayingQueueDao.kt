@@ -16,7 +16,7 @@ import java.util.*
 abstract class PlayingQueueDao {
 
     @Query("SELECT * FROM playing_queue ORDER BY timeAdded DESC")
-    internal abstract fun getAllImpl(): Single<List<PlayingQueueEntity>>
+    internal abstract fun getAllImpl(): Flowable<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
     internal abstract fun deleteAllImpl()
@@ -30,6 +30,7 @@ abstract class PlayingQueueDao {
     fun getAllAsSongs(songList: Single<List<Song>>): Single<List<Song>> {
 
         return this.getAllImpl()
+                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flattenAsFlowable { it }

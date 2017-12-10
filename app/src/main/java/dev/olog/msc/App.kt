@@ -12,10 +12,10 @@ import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_mini_player.MiniPlayerFragment
 import dev.olog.presentation.fragment_mini_player.MiniPlayerFragmentViewModel
+import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
+import dev.olog.presentation.fragment_mini_queue.MiniQueueViewModel
 import dev.olog.presentation.fragment_player.PlayerFragment
 import dev.olog.presentation.fragment_player.PlayerFragmentViewModel
-import dev.olog.presentation.fragment_queue.PlayingQueueFragment
-import dev.olog.presentation.fragment_queue.PlayingQueueViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
@@ -74,8 +74,8 @@ class App : DaggerApplication() {
                 .setClassInstanceLimit(MiniPlayerFragment::class.java, 1)
                 .setClassInstanceLimit(MiniPlayerFragmentViewModel::class.java, 1)
 
-                .setClassInstanceLimit(PlayingQueueFragment::class.java, 1)
-                .setClassInstanceLimit(PlayingQueueViewModel::class.java, 1)
+                .setClassInstanceLimit(MiniQueueFragment::class.java, 1)
+                .setClassInstanceLimit(MiniQueueViewModel::class.java, 1)
                 .setClassInstanceLimit(Navigator::class.java, 1)
                 .build())
     }

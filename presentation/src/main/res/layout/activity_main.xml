@@ -64,9 +64,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:name="dev.olog.presentation.fragment_queue.PlayingQueueFragment"
+                android:name="dev.olog.presentation.fragment_mini_queue.MiniQueueFragment"
                 android:tag="@string/player_queue_fragment_tag"
-                tools:layout="@layout/fragment_player_queue"/>
+                tools:layout="@layout/fragment_mini_queue"/>
 
             <View
                 android:id="@+id/drag_area"

@@ -7,6 +7,8 @@ import io.reactivex.Single
 
 interface PlayingQueueGateway {
 
+    fun observeAll(): Flowable<List<Song>>
+
     fun getAll(): Single<List<Song>>
 
     fun update(list: List<Long>): Completable

@@ -1,10 +1,9 @@
-package dev.olog.presentation.fragment_queue.di
+package dev.olog.presentation.fragment_playing_queue.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.fragment_queue.PlayingQueueFragment
-
+import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 
 @Subcomponent(modules = arrayOf(
         PlayingQueueFragmentModule::class
