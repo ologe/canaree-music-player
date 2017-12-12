@@ -13,7 +13,7 @@ class ClearPlaylistUseCase @Inject constructor(
 
 ) : CompletableUseCaseWithParam<String>(scheduler) {
 
-
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: String): Completable {
         val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
         return playlistGateway.clearPlaylist(playlistId)

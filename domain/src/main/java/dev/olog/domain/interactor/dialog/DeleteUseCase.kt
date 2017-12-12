@@ -17,6 +17,7 @@ class DeleteUseCase @Inject constructor(
 
 ) : CompletableUseCaseWithParam<String>(scheduler) {
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: String): Completable {
         val category = MediaIdHelper.extractCategory(mediaId)
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)

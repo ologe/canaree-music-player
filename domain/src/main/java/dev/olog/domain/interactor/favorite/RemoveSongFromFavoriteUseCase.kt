@@ -13,6 +13,7 @@ class RemoveSongFromFavoriteUseCase @Inject constructor(
 
 ) : CompletableUseCaseWithParam<Long>(schedulers) {
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(songId: Long): Completable {
         return gateway.deleteSingle(songId)
     }

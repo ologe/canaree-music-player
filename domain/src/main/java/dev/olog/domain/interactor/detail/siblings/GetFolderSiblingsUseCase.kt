@@ -15,7 +15,7 @@ class GetFolderSiblingsUseCase @Inject constructor(
 
 ) : FlowableUseCaseWithParam<List<Folder>, String>(schedulers) {
 
-
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: String) : Flowable<List<Folder>> {
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
 

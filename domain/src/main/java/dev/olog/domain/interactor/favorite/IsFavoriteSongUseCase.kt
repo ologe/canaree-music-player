@@ -12,6 +12,7 @@ class IsFavoriteSongUseCase @Inject constructor(
 
 ) : SingleUseCaseWithParam<Boolean, Long>(schedulers) {
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(songId: Long): Single<Boolean> {
         return gateway.isFavorite(songId)
     }

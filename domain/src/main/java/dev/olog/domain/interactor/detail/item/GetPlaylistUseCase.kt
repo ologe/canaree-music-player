@@ -14,7 +14,7 @@ class GetPlaylistUseCase @Inject internal constructor(
 
 ) : FlowableUseCaseWithParam<Playlist, String>(schedulers) {
 
-
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: String): Flowable<Playlist> {
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
         val artistId = categoryValue.toLong()

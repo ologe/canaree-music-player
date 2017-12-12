@@ -38,7 +38,7 @@ class CustomHoverMenu @Inject constructor(
         disposable.unsubscribe()
     }
 
-    private var item by Delegates.observable("", { prop, old, new ->
+    private var item by Delegates.observable("", { _, _, new ->
         sections.forEach {
             if (it.content is WebViewContent){
                 (it.content as WebViewContent).item = URLEncoder.encode(new, "UTF-8")

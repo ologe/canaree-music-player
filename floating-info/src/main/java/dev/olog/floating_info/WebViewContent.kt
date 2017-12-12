@@ -12,7 +12,7 @@ abstract class WebViewContent(
         context: Context
 ) : Content {
 
-    var item by Delegates.observable("", { property, old, new ->
+    var item by Delegates.observable("", { _, _, new ->
         webView.loadUrl(getUrl(new))
     })
 

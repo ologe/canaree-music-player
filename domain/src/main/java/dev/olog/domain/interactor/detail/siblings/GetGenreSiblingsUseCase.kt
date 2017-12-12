@@ -15,7 +15,7 @@ class GetGenreSiblingsUseCase @Inject constructor(
 
 ) : FlowableUseCaseWithParam<List<Genre>, String>(schedulers) {
 
-
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: String) : Flowable<List<Genre>> {
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
         val genreId = categoryValue.toLong()

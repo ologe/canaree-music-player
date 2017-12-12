@@ -12,6 +12,7 @@ class AlbumsFragmentViewModelFactory @Inject constructor(
 
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return AlbumsFragmentViewModel(mediaId, data) as T
     }
