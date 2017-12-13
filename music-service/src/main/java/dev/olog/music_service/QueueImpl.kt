@@ -8,6 +8,7 @@ import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.model.toMediaEntity
+import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable

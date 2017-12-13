@@ -1,8 +1,6 @@
 package dev.olog.msc
 
 import android.os.StrictMode
-import com.akaita.java.rxjava2debug.RxJava2Debug
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.data.DataConstants
@@ -33,22 +31,22 @@ class App : DaggerApplication() {
 
         if (BuildConfig.DEBUG) {
             initStrictMode()
-            LeakCanary.install(this)
+//            LeakCanary.install(this)
             initRxJavaDebug()
         }
 
     }
 
     private fun initRxJavaDebug(){
-        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf(
-                "dev.olog.msc",
-                "dev.olog.data",
-                "dev.olog.domain",
-                "dev.olog.music_service",
-                "dev.olog.floating_info",
-                "dev.olog.presentation",
-                "dev.olog.shared"
-        ))
+//        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf(
+//                "dev.olog.msc",
+//                "dev.olog.data",
+//                "dev.olog.domain",
+//                "dev.olog.music_service",
+//                "dev.olog.floating_info",
+//                "dev.olog.presentation",
+//                "dev.olog.shared"
+//        ))
     }
 
     private fun initStrictMode() {

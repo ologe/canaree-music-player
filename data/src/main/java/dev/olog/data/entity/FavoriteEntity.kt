@@ -5,7 +5,7 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "favorite_songs",
-        indices = [(Index(value = ["songId"]))]
+        indices = arrayOf(Index("songId"))
 )
 data class FavoriteEntity(
         @PrimaryKey var songId: Long

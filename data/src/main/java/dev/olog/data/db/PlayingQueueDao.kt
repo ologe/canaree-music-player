@@ -36,7 +36,10 @@ abstract class PlayingQueueDao {
                             songList.flattenAsFlowable { it }
                                     .filter { it.id == songId }
                                     .firstElement()
-                        }.toList()
+                                    .subscribeOn(Schedulers.computation())
+                        }
+                        .subscribeOn(Schedulers.computation())
+                        .toList()
                         .onErrorReturnItem(ArrayList(0))
                 }
     }

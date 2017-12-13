@@ -107,7 +107,7 @@ class QueueManager @Inject constructor(
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
                 .groupMap { it.toMediaEntity() }
-                .map { it.shuffled() }
+                .map { it.shuffle() }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }

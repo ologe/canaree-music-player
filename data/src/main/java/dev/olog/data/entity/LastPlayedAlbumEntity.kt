@@ -5,7 +5,8 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "last_played_albums",
-        indices = arrayOf(Index("id")))
+        indices = arrayOf(Index("id"))
+)
 data class LastPlayedAlbumEntity(
         @PrimaryKey var id: Long,
         var artistId: Long,

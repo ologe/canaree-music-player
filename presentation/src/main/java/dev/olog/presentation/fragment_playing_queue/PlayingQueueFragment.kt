@@ -34,7 +34,6 @@ class PlayingQueueFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
-
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

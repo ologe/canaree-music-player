@@ -104,9 +104,9 @@ dependencies {
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
 
     // debug
-    implementation 'com.akaita.java:rxjava2-debug:1.2.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.1'
+//    implementation 'com.akaita.java:rxjava2-debug:1.2.1'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+//    debugCompile 'com.amitshekhar.android:debug-db:1.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
