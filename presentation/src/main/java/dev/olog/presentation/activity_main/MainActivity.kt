@@ -51,6 +51,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
 
+        musicServiceBinder.getMediaControllerLiveData()
+                .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
+
         Observables.combineLatest(
                 RxSlidingUpPanel.panelStateEvents(slidingPanel).map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED },
                 RxSlidingUpPanel.panelStateEvents(innerPanel).map { it.newState == SlidingUpPanelLayout.PanelState.COLLAPSED },
@@ -66,7 +69,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun handleIntent(intent: Intent) {
         if (intent.action == FloatingInfoConstants.ACTION_START_SERVICE){
-            musicServiceBinder.mediaController?.let {
+            musicServiceBinder.getMediaControllerLiveData().value?.let {
                 val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
                 presenter.get().startFloatingService(this, title)
             }
@@ -83,6 +86,11 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onPause()
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener(null)
+    }
+
+    override fun onDestroy() {
+        MediaControllerCompat.setMediaController(this, null)
+        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,10 +118,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun getSupportMediaController(): MediaControllerCompat? {
         return MediaControllerCompat.getMediaController(this)
-    }
-
-    override fun setSupportMediaController(mediaController: MediaControllerCompat?) {
-        MediaControllerCompat.setMediaController(this, mediaController)
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel

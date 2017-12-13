@@ -10,11 +10,13 @@ import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.service_music.RxMusicServiceConnectionCallback
 import dev.olog.shared.ApplicationContext
+import javax.inject.Singleton
 
 @Module
 class MusicServiceBinderModule {
 
     @Provides
+    @Singleton
     internal fun provideMediaBrowser(
             @ApplicationContext context: Context,
             rxConnectionCallback: RxMusicServiceConnectionCallback): MediaBrowserCompat {

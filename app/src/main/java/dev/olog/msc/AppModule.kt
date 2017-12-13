@@ -1,12 +1,15 @@
 package dev.olog.msc
 
 import android.app.Application
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.ProcessLifecycle
 
 @Module
 class AppModule(
@@ -26,5 +29,11 @@ class AppModule(
 
     @Provides
     fun provideContentResolver(): ContentResolver = app.contentResolver
+
+    @Provides
+    @ProcessLifecycle
+    fun provideAppLifecycle(): Lifecycle {
+        return ProcessLifecycleOwner.get().lifecycle
+    }
 
 }

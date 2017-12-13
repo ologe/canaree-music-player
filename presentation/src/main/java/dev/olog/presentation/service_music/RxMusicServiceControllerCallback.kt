@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class RxMusicServiceControllerCallback @Inject constructor() {
 
-    private val listener = Listener()
+    private var listener = Listener()
 
     private val playbackStatePublisher = BehaviorProcessor.create<PlaybackStateCompat>()
     private val metadataPublisher = BehaviorProcessor.create<MediaMetadataCompat>()
@@ -92,8 +92,9 @@ class RxMusicServiceControllerCallback @Inject constructor() {
         }
 
         override fun onExtrasChanged(extras: Bundle?) {
-            if (extras == null) return
-            extrasPublisher.onNext(extras)
+            if (extras != null) {
+                extrasPublisher.onNext(extras)
+            }
         }
     }
 
