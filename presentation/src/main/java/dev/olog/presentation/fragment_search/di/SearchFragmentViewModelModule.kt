@@ -21,7 +21,6 @@ import dev.olog.presentation.fragment_search.SearchFragmentHeaders
 import dev.olog.presentation.fragment_search.SearchFragmentType
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.presentation.utils.rx.groupMap
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.RecentSearchesTypes

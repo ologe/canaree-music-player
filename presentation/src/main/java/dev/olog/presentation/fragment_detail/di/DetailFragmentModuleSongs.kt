@@ -13,7 +13,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.rx.groupMap
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils

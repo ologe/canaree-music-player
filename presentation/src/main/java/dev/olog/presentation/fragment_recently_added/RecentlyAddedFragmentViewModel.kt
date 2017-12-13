@@ -6,8 +6,6 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.presentation.utils.rx.groupMap
 import dev.olog.shared.MediaIdHelper
 
 class RecentlyAddedFragmentViewModel(

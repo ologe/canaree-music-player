@@ -4,7 +4,6 @@ import android.support.annotation.CheckResult
 import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.domain.interactor.music_service.CurrentSongIdUseCase
-import dev.olog.domain.interactor.music_service.UpdateMiniQueueUseCase
 import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.music_service.model.MediaEntity
@@ -20,10 +19,10 @@ import javax.inject.Inject
 
 class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
-        private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
         private val repeatMode: RepeatMode,
         private val currentSongIdUseCase: CurrentSongIdUseCase,
-        private val getAllSongsUseCase: GetAllSongsUseCase
+        private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val queueMediaSession: QueueMediaSession
 ) {
 
     companion object {
@@ -64,9 +63,11 @@ class QueueImpl @Inject constructor(
         currentSongPosition = pos
         currentSongIdUseCase.set(songId)
 
-        val miniQueue = list.asSequence().drop(currentSongPosition + 1).take(51)
-                .map { it.id }.toList()
-        updateMiniQueueUseCase.execute(miniQueue)
+        queueMediaSession.onNext(list.asSequence()
+                .drop(currentSongPosition + 1)
+                .take(51)
+                .toList()
+        )
     }
 
     fun getSongById(songId: Long) : MediaEntity {

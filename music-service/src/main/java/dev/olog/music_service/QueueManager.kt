@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
-import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.most_played.GetMostPlayedSongsUseCase
 import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
@@ -14,12 +13,11 @@ import dev.olog.domain.interactor.music_service.GetPlayingQueueUseCase
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.groupMap
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import io.reactivex.Single
-import io.reactivex.SingleSource
 import io.reactivex.functions.Function
-import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 
 class QueueManager @Inject constructor(
@@ -37,7 +35,7 @@ class QueueManager @Inject constructor(
 
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
-                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .groupMap { it.toMediaEntity() }
                 .doOnSuccess(queueImpl::updatePlayingQueue)
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
@@ -69,7 +67,7 @@ class QueueManager @Inject constructor(
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
-                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .groupMap { it.toMediaEntity() }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -82,7 +80,7 @@ class QueueManager @Inject constructor(
 
         return getRecentlyAddedUseCase.execute(mediaId)
                 .firstOrError()
-                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .groupMap { it.toMediaEntity() }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -95,7 +93,7 @@ class QueueManager @Inject constructor(
 
         return getMostPlayedSongsUseCase.execute(mediaId)
                 .firstOrError()
-                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .groupMap { it.toMediaEntity() }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -108,7 +106,7 @@ class QueueManager @Inject constructor(
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
-                .flatMap { mapToMediaEntityAndPersist.apply(it) }
+                .groupMap { it.toMediaEntity() }
                 .map { it.shuffled() }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }
@@ -139,10 +137,6 @@ class QueueManager @Inject constructor(
 
     override fun addItemToQueue(item: MediaDescriptionCompat) {
         queueImpl.addItemToQueue(item)
-    }
-
-    private val mapToMediaEntityAndPersist = Function<List<Song>, SingleSource<List<MediaEntity>>> {
-        it.toFlowable().map { it.toMediaEntity() }.toList()
     }
 
     private val currentLastPlayedSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->

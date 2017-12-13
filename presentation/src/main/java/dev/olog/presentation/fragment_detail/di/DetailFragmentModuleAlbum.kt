@@ -12,7 +12,6 @@ import dev.olog.domain.entity.Playlist
 import dev.olog.domain.interactor.detail.siblings.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.rx.groupMap
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
 
