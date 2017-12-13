@@ -20,12 +20,6 @@ class RxMusicServiceControllerCallback @Inject constructor() {
     private val shuffleModePublisher = BehaviorProcessor.create<Int>()
     private val extrasPublisher = BehaviorProcessor.create<Bundle>()
 
-    val metadata: MediaMetadataCompat?
-        get() = metadataPublisher.value
-
-    val playbackState: PlaybackStateCompat?
-        get() = playbackStatePublisher.value
-
     fun registerCallback(controller: MediaControllerCompat) {
         initializePublishers(controller)
         controller.registerCallback(listener)

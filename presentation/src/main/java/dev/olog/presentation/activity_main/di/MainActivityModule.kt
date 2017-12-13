@@ -1,5 +1,6 @@
 package dev.olog.presentation.activity_main.di
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
@@ -9,6 +10,7 @@ import dagger.Provides
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.service_music.MediaControllerProvider
+import dev.olog.presentation.service_music.MusicServiceBinderViewModel
 
 @Module
 class MainActivityModule(
@@ -32,5 +34,11 @@ class MainActivityModule(
 
     @Provides
     internal fun provideMusicControllerProvider(): MediaControllerProvider = activity
+
+    @Provides
+    internal fun provideMusicServiceBinder(): MusicServiceBinderViewModel {
+
+        return ViewModelProviders.of(activity).get(MusicServiceBinderViewModel::class.java)
+    }
 
 }

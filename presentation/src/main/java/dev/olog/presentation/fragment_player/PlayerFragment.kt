@@ -170,6 +170,11 @@ class PlayerFragment : BaseFragment() {
         cover.setOnSwipeListener(null)
     }
 
+    override fun onStop() {
+        super.onStop()
+        updateDisposable.unsubscribe()
+    }
+
     private fun handleSeekbarState(isPlaying: Boolean){
         updateDisposable.unsubscribe()
         if (isPlaying) {

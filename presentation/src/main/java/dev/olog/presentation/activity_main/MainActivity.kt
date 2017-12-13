@@ -9,7 +9,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseActivity
+import dev.olog.presentation._base.BaseMusicBinderActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
@@ -17,7 +17,7 @@ import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
-import dev.olog.presentation.service_music.MusicServiceBinder
+import dev.olog.presentation.service_music.MusicServiceBinderViewModel
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
@@ -28,10 +28,10 @@ import kotlinx.android.synthetic.main.layout_player_drag_area.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
-class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
+class MainActivity: BaseMusicBinderActivity(), MediaControllerProvider, HasSlidingPanel {
 
     @Inject lateinit var adapter: TabViewPagerAdapter
-    @Inject lateinit var musicServiceBinder: MusicServiceBinder
+    @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
     @Inject lateinit var navigator: Navigator
     private val innerPanelSlideListener by lazy (LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
 
@@ -50,6 +50,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
+
+        musicServiceBinder.connect(mediaBrowser, connectionCallback, mediaControllerCallback)
 
         musicServiceBinder.getMediaControllerLiveData()
                 .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
@@ -89,8 +91,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        musicServiceBinder.disconnect()
         MediaControllerCompat.setMediaController(this, null)
+        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
