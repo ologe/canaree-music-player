@@ -9,6 +9,7 @@ import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
@@ -21,26 +22,23 @@ abstract class PlayingQueueDao {
     @Query("DELETE FROM playing_queue")
     internal abstract fun deleteAllImpl()
 
-    @Query("SELECT * FROM playing_queue ORDER BY timeAdded DESC")
-    abstract fun observeAll(): Flowable<List<PlayingQueueEntity>>
-
     @Insert
     internal abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
 
-    fun getAllAsSongs(songList: Single<List<Song>>): Single<List<Song>> {
+    fun getAllAsSongs(songList: Single<List<Song>>): Flowable<List<Song>> {
 
         return this.getAllImpl()
-                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .flattenAsFlowable { it }
-                .map(PlayingQueueEntity::value)
-                .flatMapMaybe { songId ->
-                    songList.flattenAsFlowable { it }
-                            .filter { it.id == songId }
-                            .firstElement()
-                }.toList()
-                .onErrorReturnItem(ArrayList(0))
+                .flatMapSingle { it.toFlowable()
+                        .map(PlayingQueueEntity::value)
+                        .flatMapMaybe { songId ->
+                            songList.flattenAsFlowable { it }
+                                    .filter { it.id == songId }
+                                    .firstElement()
+                        }.toList()
+                        .onErrorReturnItem(ArrayList(0))
+                }
     }
 
     fun insert(list: List<Long>) : Completable {

@@ -22,7 +22,10 @@ class PlayingQueueFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.data.subscribe(this, adapter::updateDataSet)
+        viewModel.data.subscribe(this, {
+            println(it)
+            adapter.updateDataSet(it)
+        })
         viewModel.metadata.subscribe(this, {})
     }
 

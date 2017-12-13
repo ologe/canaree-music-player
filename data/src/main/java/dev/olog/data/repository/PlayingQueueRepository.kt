@@ -24,24 +24,14 @@ class PlayingQueueRepository @Inject constructor(
 
     override fun getAll(): Single<List<Song>> {
         return Single.concat(
-                playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError()),
+                playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError()).firstOrError(),
                 songGateway.getAll().firstOrError()
         ).filter { it.isNotEmpty() }
                 .firstOrError()
     }
 
     override fun observeAll(): Flowable<List<Song>> {
-        return playingQueueDao.observeAll()
-                .distinctUntilChanged()
-                .flatMapSingle { it.toFlowable()
-                        .map { it.id.toLong() }
-                        .flatMapMaybe { songId ->
-                            songGateway.getAll().firstOrError()
-                                    .flattenAsObservable { it }
-                                    .filter { it.id == songId }
-                                    .firstElement()
-                        }.toList()
-                }
+        return playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError())
     }
 
     override fun update(list: List<Long>): Completable {
