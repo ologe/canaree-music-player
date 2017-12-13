@@ -50,7 +50,7 @@ class SongRepository @Inject constructor(
 
         private val SELECTION_ARGS = arrayOf("AUD%", "20000")
 
-        private val SORT_ORDER = MediaStore.Audio.Media.DEFAULT_SORT_ORDER
+        private val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
     }
 
     private val contentProviderObserver = rxContentResolver

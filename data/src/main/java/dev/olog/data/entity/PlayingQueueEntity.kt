@@ -5,11 +5,11 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "playing_queue",
-        indices = arrayOf(Index("id"))
+        indices = arrayOf(Index("songId"))
 )
 data class PlayingQueueEntity(
         @PrimaryKey(autoGenerate = true)
         val id: Int = 0,
-        val value: Long,
+        val songId: Long,
         val timeAdded: Long = System.currentTimeMillis()
 )

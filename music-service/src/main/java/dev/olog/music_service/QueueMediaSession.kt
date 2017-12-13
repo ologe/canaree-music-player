@@ -37,7 +37,7 @@ class QueueMediaSession @Inject constructor(
 
         notificationQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
                 .flatMapSingle { it.toFlowable()
-                        .take(5)
+                        .take(6)
                         .map { it.toQueueItem() }
                         .toList()
                 }.subscribe(mediaSession::setQueue, Throwable::printStackTrace)

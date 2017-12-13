@@ -31,22 +31,18 @@ abstract class PlayingQueueDao {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMapSingle { it.toFlowable()
-                        .map(PlayingQueueEntity::value)
-                        .flatMapMaybe { songId ->
+                        .flatMapMaybe { entity ->
                             songList.flattenAsFlowable { it }
-                                    .filter { it.id == songId }
+                                    .filter { it.id == entity.songId }
                                     .firstElement()
-                                    .subscribeOn(Schedulers.computation())
-                        }
-                        .subscribeOn(Schedulers.computation())
-                        .toList()
+                        }.toList()
                         .onErrorReturnItem(ArrayList(0))
                 }
     }
 
     fun insert(list: List<Long>) : Completable {
         return Single.fromCallable { deleteAllImpl() }
-                .map { list.map { PlayingQueueEntity(value = it) } }
+                .map { list.map { PlayingQueueEntity(songId = it) } }
                 .flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
     }
 
