@@ -12,6 +12,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
+import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -102,10 +103,12 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun onBackPressed() {
-        val playingQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
+        val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
+        val miniQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
         when {
-            playingQueue?.cannotScrollUp() ?: false -> {
-                playingQueue?.smoothScrollToTop()
+            playingQueue != null -> super.onBackPressed()
+            miniQueue?.cannotScrollUp() ?: false -> {
+                miniQueue?.smoothScrollToTop()
             }
             innerPanel.isExpanded() -> innerPanel.collapse()
             slidingPanel.isExpanded() -> slidingPanel.collapse()

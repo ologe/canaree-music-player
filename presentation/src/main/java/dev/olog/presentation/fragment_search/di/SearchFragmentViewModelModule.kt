@@ -16,6 +16,7 @@ import dev.olog.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.domain.interactor.tab.GetAllArtistsUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.presentation.R
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.fragment_search.SearchFragmentHeaders
 import dev.olog.presentation.fragment_search.SearchFragmentType
 import dev.olog.presentation.model.DisplayableItem
@@ -34,29 +35,31 @@ import io.reactivex.schedulers.Schedulers
 class SearchFragmentViewModelModule {
 
     @Provides
-    internal fun provideQueryLiveData(): MutableLiveData<String> {
-        return MutableLiveData()
-    }
+    @PerFragment
+    internal fun provideQueryLiveData(): MutableLiveData<String> = MutableLiveData()
 
     @Provides
     fun provideSearchData(
+            @ApplicationContext context: Context,
             getAllArtistsUseCase: GetAllArtistsUseCase,
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
             getAllSongsUseCase: GetAllSongsUseCase,
-            queryLiveData: MutableLiveData<String>,
-            recent: Flowable<MutableList<DisplayableItem>>)
+            getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
+            searchHeaders: SearchFragmentHeaders,
+            queryLiveData: MutableLiveData<String>)
             : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>{
 
         return Transformations.switchMap(queryLiveData, { input ->
 
             if (TextUtils.isEmpty(input)){
-                recent.map { mutableMapOf(
+                provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
+                        .map { mutableMapOf(
                         SearchFragmentType.RECENT to it,
                         SearchFragmentType.ARTISTS to mutableListOf(),
                         SearchFragmentType.ALBUMS to mutableListOf(),
                         SearchFragmentType.SONGS to mutableListOf())
                 }.map { Pair(it, input) }
-                        .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             } else {
@@ -83,7 +86,6 @@ class SearchFragmentViewModelModule {
             query: String): Flowable<MutableList<DisplayableItem>> {
 
         return getAllSongsUseCase.execute()
-                .map { if (TextUtils.isEmpty(query)) listOf() else it }
                 .flatMapSingle { it.toFlowable()
                         .filter { it.title.contains(query, true)  ||
                                 it.artist.contains(query, true) ||
@@ -98,7 +100,6 @@ class SearchFragmentViewModelModule {
             query: String): Flowable<MutableList<DisplayableItem>> {
 
         return getAllAlbumsUseCase.execute()
-                .map { if (TextUtils.isEmpty(query)) listOf() else it }
                 .flatMapSingle { it.toFlowable()
                         .filter { it.title.contains(query, true)  ||
                                 it.artist.contains(query, true)
@@ -112,7 +113,6 @@ class SearchFragmentViewModelModule {
             query: String): Flowable<MutableList<DisplayableItem>> {
 
         return getAllArtistsUseCase.execute()
-                .map { if (TextUtils.isEmpty(query)) listOf() else it }
                 .flatMapSingle { it.toFlowable()
                         .filter { it.name.contains(query, true) }
                         .map { it.toSearchDisplayableItem() }
@@ -120,9 +120,8 @@ class SearchFragmentViewModelModule {
                 }
     }
 
-    @Provides
-    fun provideRecentSearchAsLiveDataFlowable(
-            @ApplicationContext context: Context,
+    private fun provideRecents(
+            context: Context,
             getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
             searchHeaders: SearchFragmentHeaders): Flowable<MutableList<DisplayableItem>> {
 
