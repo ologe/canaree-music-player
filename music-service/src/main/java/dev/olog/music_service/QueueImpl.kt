@@ -63,11 +63,10 @@ class QueueImpl @Inject constructor(
         currentSongPosition = pos
         currentSongIdUseCase.set(songId)
 
-        queueMediaSession.onNext(list.asSequence()
-                .drop(currentSongPosition + 1)
+        queueMediaSession.onNext(list
+                .drop(pos + 1)
                 .take(51)
-                .toList()
-        )
+                .toList())
     }
 
     fun getSongById(songId: Long) : MediaEntity {

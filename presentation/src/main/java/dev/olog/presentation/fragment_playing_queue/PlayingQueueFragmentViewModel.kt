@@ -10,6 +10,7 @@ import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
+import dev.olog.shared.groupMap
 
 class PlayingQueueFragmentViewModel(
         observePlayingQueueUseCase: ObservePlayingQueueUseCase,

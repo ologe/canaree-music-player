@@ -19,6 +19,7 @@ import dev.olog.presentation.fragment_albums.AlbumsFragmentViewModel
 import dev.olog.presentation.fragment_albums.AlbumsFragmentViewModelFactory
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.groupMap
 import io.reactivex.Flowable
 
 @Module

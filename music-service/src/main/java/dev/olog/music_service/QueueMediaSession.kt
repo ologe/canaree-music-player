@@ -11,20 +11,18 @@ import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.groupMap
 import dev.olog.shared.unsubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class QueueMediaSession @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         mediaSession: MediaSessionCompat,
-        private val updateMiniQueueUseCase: UpdateMiniQueueUseCase
+        updateMiniQueueUseCase: UpdateMiniQueueUseCase
 
-        ) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver {
 
     private val publisher : BehaviorProcessor<List<MediaEntity>> = BehaviorProcessor.create()
     private var notificationQueueDisposable : Disposable? = null
@@ -33,17 +31,16 @@ class QueueMediaSession @Inject constructor(
     init {
         lifecycle.addObserver(this)
         miniQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
                 .groupMap { it.id }
                 .subscribe(updateMiniQueueUseCase::execute, Throwable::printStackTrace)
 
         notificationQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
-                .observeOn(Schedulers.computation())
                 .flatMapSingle { it.toFlowable()
-                        .take(3)
+                        .take(5)
                         .map { it.toQueueItem() }
                         .toList()
-                }.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mediaSession::setQueue, Throwable::printStackTrace)
+                }.subscribe(mediaSession::setQueue, Throwable::printStackTrace)
     }
 
     fun onNext(list: List<MediaEntity>){

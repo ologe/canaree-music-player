@@ -24,6 +24,7 @@ import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.RecentSearchesTypes
+import dev.olog.shared.groupMap
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables

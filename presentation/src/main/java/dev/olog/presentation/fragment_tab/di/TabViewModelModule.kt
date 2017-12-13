@@ -13,6 +13,7 @@ import dev.olog.presentation.fragment_tab.TabFragmentHeaders
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
+import dev.olog.shared.groupMap
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
