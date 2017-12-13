@@ -34,7 +34,6 @@ class QueueManager @Inject constructor(
 ) : Queue {
 
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
-        println("dio cane")
         return getPlayingQueueUseCase.execute()
                 .groupMap { it.toMediaEntity() }
                 .doOnSuccess(queueImpl::updatePlayingQueue)

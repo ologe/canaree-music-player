@@ -1,65 +1,65 @@
 package dev.olog.presentation.service_music
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.DefaultLifecycleObserver
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
+import dagger.Lazy
+import dev.olog.presentation.dagger.ActivityLifecycle
+import dev.olog.presentation.dagger.PerActivity
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
-class MusicServiceBinderViewModel(
-        application: Application
+@PerActivity
+class MusicServiceBinderViewModel @Inject constructor(
+        private val application: Application,
+        @ActivityLifecycle lifecycle: Lifecycle,
+        private val view: Lazy<MediaControllerProvider>,
+        private var mediaBrowser: MediaBrowserCompat,
+        private var connectionCallback: RxMusicServiceConnectionCallback,
+        private var mediaControllerCallback: RxMusicServiceControllerCallback
 
-) : AndroidViewModel(application), Observer<MusicServiceConnectionState> {
+) : Observer<MusicServiceConnectionState>, DefaultLifecycleObserver {
 
     private lateinit var connectionDisposable: Disposable
 
-    private val mediaControllerLiveData = MutableLiveData<MediaControllerCompat>()
-    private var mediaController: MediaControllerCompat? = null
+    var mediaController: MediaControllerCompat? = null
 
-    private var mediaBrowser: MediaBrowserCompat? = null
-    private var connectionCallback: RxMusicServiceConnectionCallback? = null
-    private var mediaControllerCallback: RxMusicServiceControllerCallback? = null
+    init {
+        lifecycle.addObserver(this)
+        connect()
+    }
 
-    fun connect(mediaBrowserCompat: MediaBrowserCompat,
-                connectionCallback: RxMusicServiceConnectionCallback,
-                mediaControllerCallback: RxMusicServiceControllerCallback){
-
-        this.mediaBrowser = mediaBrowserCompat
-        this.connectionCallback = connectionCallback
-        this.mediaControllerCallback = mediaControllerCallback
+    private fun connect(){
 
         connectionCallback.onConnectionChanged()
                 .subscribe(this)
 
-        if (!this.mediaBrowser!!.isConnected){
-            this.mediaBrowser!!.connect()
+        if (!this.mediaBrowser.isConnected){
+            this.mediaBrowser.connect()
         }
     }
 
-    fun disconnect(){
-        connectionCallback!!.setState(MusicServiceConnectionState.NONE)
-        if (mediaController != null) {
-            mediaControllerCallback!!.unregisterCallback(mediaController!!)
+    override fun onDestroy(owner: LifecycleOwner) {
+        if (mediaBrowser.isConnected){
+            mediaBrowser.disconnect()
         }
 
-        mediaControllerLiveData.value = null
+        connectionCallback.setState(MusicServiceConnectionState.NONE)
+        if (mediaController != null) {
+            mediaControllerCallback.unregisterCallback(mediaController!!)
+            this.mediaController = null
+        }
+
+        view.get().setSupportMediaController(null)
 
         connectionDisposable.unsubscribe()
-        if (mediaBrowser!!.isConnected){
-            mediaBrowser!!.disconnect()
-        }
-
-        this.mediaBrowser = null
-        this.connectionCallback = null
-        this.mediaControllerCallback = null
-        this.mediaController = null
     }
-
-    fun getMediaControllerLiveData() = mediaControllerLiveData
 
     override fun onSubscribe(d: Disposable) {
         connectionDisposable = d
@@ -75,10 +75,9 @@ class MusicServiceBinderViewModel(
 
     private fun tryConnection() {
         try {
-            mediaController = MediaControllerCompat(getApplication(), mediaBrowser!!.sessionToken)
-            mediaControllerLiveData.value = mediaController
-            mediaControllerCallback!!.registerCallback(mediaController!!)
-
+            mediaController = MediaControllerCompat(application, mediaBrowser.sessionToken)
+            view.get().setSupportMediaController(mediaController)
+            mediaControllerCallback.registerCallback(mediaController!!)
             onConnectionSuccessful()
         } catch (e: RemoteException) {
             e.printStackTrace()
@@ -88,14 +87,13 @@ class MusicServiceBinderViewModel(
     }
 
     private fun onConnectionSuccessful() {
-        connectionCallback!!.setState(MusicServiceConnectionState.CONNECTED)
+        connectionCallback.setState(MusicServiceConnectionState.CONNECTED)
     }
 
     private fun onConnectionFailed() {
         if (mediaController != null) {
-            mediaControllerCallback!!.unregisterCallback(mediaController!!)
+            mediaControllerCallback.unregisterCallback(mediaController!!)
         }
-        mediaControllerLiveData.value = null
     }
 
     override fun onError(e: Throwable) {

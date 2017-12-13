@@ -9,7 +9,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseMusicBinderActivity
+import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.layout_player_drag_area.*
 import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
-class MainActivity: BaseMusicBinderActivity(), MediaControllerProvider, HasSlidingPanel {
+class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
@@ -51,11 +51,6 @@ class MainActivity: BaseMusicBinderActivity(), MediaControllerProvider, HasSlidi
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
 
-        musicServiceBinder.connect(mediaBrowser, connectionCallback, mediaControllerCallback)
-
-        musicServiceBinder.getMediaControllerLiveData()
-                .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
-
         Observables.combineLatest(
                 RxSlidingUpPanel.panelStateEvents(slidingPanel).map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED },
                 RxSlidingUpPanel.panelStateEvents(innerPanel).map { it.newState == SlidingUpPanelLayout.PanelState.COLLAPSED },
@@ -71,7 +66,7 @@ class MainActivity: BaseMusicBinderActivity(), MediaControllerProvider, HasSlidi
 
     override fun handleIntent(intent: Intent) {
         if (intent.action == FloatingInfoConstants.ACTION_START_SERVICE){
-            musicServiceBinder.getMediaControllerLiveData().value?.let {
+            musicServiceBinder.mediaController?.let {
                 val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
                 presenter.get().startFloatingService(this, title)
             }
@@ -88,12 +83,6 @@ class MainActivity: BaseMusicBinderActivity(), MediaControllerProvider, HasSlidi
         super.onPause()
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        musicServiceBinder.disconnect()
-        MediaControllerCompat.setMediaController(this, null)
-        super.onDestroy()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -121,6 +110,10 @@ class MainActivity: BaseMusicBinderActivity(), MediaControllerProvider, HasSlidi
 
     override fun getSupportMediaController(): MediaControllerCompat? {
         return MediaControllerCompat.getMediaController(this)
+    }
+
+    override fun setSupportMediaController(mediaController: MediaControllerCompat?) {
+        MediaControllerCompat.setMediaController(this, mediaController)
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
