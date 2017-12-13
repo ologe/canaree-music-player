@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
-import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapter
@@ -28,7 +27,6 @@ class DetailFragmentAdapter @Inject constructor(
         enums: Array<DetailFragmentDataType>,
         private val view: DetailFragmentView,
         private val mediaId: String,
-        private val listPosition: Int,
         private val recentSongsAdapter: DetailFragmentRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailFragmentMostPlayedAdapter,
         private val navigator: Navigator,
@@ -50,7 +48,7 @@ class DetailFragmentAdapter @Inject constructor(
                     viewHolder.setOnClickListener(R.id.clickableArtist, dataController) { item, _, _ ->
                         viewModel.artistMediaId(item.mediaId)
                                 .subscribe({ artistMediaId ->
-                                    navigator.toDetailFragment(artistMediaId, 0) // todo position
+                                    navigator.toDetailFragment(artistMediaId)
                                 }, Throwable::printStackTrace)
 
                     }
@@ -81,8 +79,8 @@ class DetailFragmentAdapter @Inject constructor(
             }
             R.layout.item_detail_album,
             R.layout.item_detail_album_mini -> {
-                viewHolder.setOnClickListener(dataController) { item, position ->
-                    navigator.toDetailFragment(item.mediaId, position)
+                viewHolder.setOnClickListener(dataController) { item, _ ->
+                    navigator.toDetailFragment(item.mediaId)
                 }
                 viewHolder.setOnLongClickListener(dataController) { item, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
@@ -141,7 +139,6 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.position, if (position == 0) listPosition else position)
 
         if (position > 0 && source == TabViewPagerAdapter.ARTIST){
             binding.setVariable(BR.source,  TabViewPagerAdapter.ALBUM)

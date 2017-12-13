@@ -5,8 +5,10 @@ import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.images.CoverUtils
-import java.io.File
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaIdHelper
 
 object BindingsAdapter {
 
@@ -15,85 +17,66 @@ object BindingsAdapter {
     private val OVERRIDE_BIG = 600
 
 
-    @BindingAdapter("imageSong", "position")
+    @BindingAdapter("imageSong")
     @JvmStatic
-    fun loadSongImage(view: ImageView, image: String?, position: Int) {
-        if (image == null) {
-            return
-        }
-
+    fun loadSongImage(view: ImageView, item: DisplayableItem) {
         val context = view.context
+
+        val id = MediaIdHelper.extractLeaf(item.mediaId).toInt()
 
         GlideApp.with(context).clear(view)
 
         GlideApp.with(context)
-                .load(Uri.parse(image))
+                .load(Uri.parse(item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(OVERRIDE_SMALL)
-                .placeholder(CoverUtils.getGradient(context = context, position = position))
+                .placeholder(CoverUtils.getGradient(context = context, position = id))
                 .into(view)
     }
 
-    @BindingAdapter("imageAlbum", "source", "position")
+    @BindingAdapter("imageAlbum")
     @JvmStatic
-    fun loadAlbumImage(view: ImageView, image: String, source: Int, position: Int) {
+    fun loadAlbumImage(view: ImageView, item: DisplayableItem) {
         val context = view.context
 
         GlideApp.with(context).clear(view)
 
-        val file = File(image)
-        if (file.exists()){
-            GlideApp.with(context)
-                    .load(Uri.fromFile(file))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(OVERRIDE_MID)
-                    .error(CoverUtils.getGradient(context = context, position = position, source = source))
-                    .into(view)
-        } else {
-            GlideApp.with(context)
-                    .load(Uri.parse(image))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(OVERRIDE_MID)
-                    .error(CoverUtils.getGradient(context = context, position = position, source = source))
-                    .into(view)
-        }
+        val source = MediaIdHelper.mapCategoryToSource(item.mediaId)
+        val id = if (source == TabViewPagerAdapter.FOLDER){
+            MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
+        } else MediaIdHelper.extractCategory(item.mediaId).toInt()
+
+        GlideApp.with(context)
+                .load(Uri.parse(item.image))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(OVERRIDE_MID)
+                .error(CoverUtils.getGradient(context = context, position = id, source = source))
+                .into(view)
     }
 
-    @BindingAdapter("imageBigAlbum", "source", "position")
+    @BindingAdapter("imageBigAlbum")
     @JvmStatic
-    fun loadBigAlbumImage(view: ImageView, image: String?, source: Int, position: Int) {
-        if (image == null) {
-            return
-        }
+    fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
 
         val context = view.context
 
+        val source = MediaIdHelper.mapCategoryToSource(item.mediaId)
+        val id = if (source == TabViewPagerAdapter.FOLDER){
+            MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
+        } else MediaIdHelper.extractCategory(item.mediaId).toInt()
+
         GlideApp.with(context).clear(view)
 
-        val file = File(image)
-        if (file.exists()){
-            GlideApp.with(context)
-                    .load(Uri.fromFile(file))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(OVERRIDE_BIG)
-                    .priority(Priority.IMMEDIATE)
-                    .error(CoverUtils.getGradient(context, position, source))
-                    .into(view)
-        } else {
-            GlideApp.with(context)
-                    .load(Uri.parse(image))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(OVERRIDE_BIG)
-                    .priority(Priority.IMMEDIATE)
-                    .error(CoverUtils.getGradient(context, position, source))
-                    .into(view)
-        }
-
+        GlideApp.with(context)
+                .load(Uri.parse(item.image))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(OVERRIDE_BIG)
+                .priority(Priority.IMMEDIATE)
+                .error(CoverUtils.getGradient(context, id, source))
+                .into(view)
 
     }
 

@@ -2,7 +2,6 @@ package dev.olog.presentation.fragment_related_artist
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import dev.olog.presentation.BR
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
@@ -22,7 +21,7 @@ class RelatedArtistFragmentAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            navigator.toDetailFragment(item.mediaId, viewHolder.adapterPosition)
+            navigator.toDetailFragment(item.mediaId)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
@@ -32,7 +31,6 @@ class RelatedArtistFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, TabViewPagerAdapter.ARTIST)
-        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

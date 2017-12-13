@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
-import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapter
@@ -67,7 +66,7 @@ class SearchFragmentAdapter @Inject constructor(
                     if (item.isPlayable){
                         musicController.playFromMediaId(item.mediaId)
                     } else {
-                        navigator.toDetailFragment(item.mediaId, 0) // todo
+                        navigator.toDetailFragment(item.mediaId)
                     }
                 }
                 viewHolder.setOnLongClickListener(dataController) { item ,_ ->
@@ -96,7 +95,6 @@ class SearchFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source,  TabViewPagerAdapter.SONG)
-        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

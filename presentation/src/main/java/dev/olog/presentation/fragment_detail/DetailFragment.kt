@@ -12,7 +12,6 @@ import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
-import dev.olog.presentation.GlideApp
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -29,13 +28,10 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     companion object {
         const val TAG = "DetailFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_POSITION = "$TAG.arguments.list_position"
 
-        fun newInstance(mediaId: String, position: Int): DetailFragment {
+        fun newInstance(mediaId: String): DetailFragment {
             return DetailFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
-                    ARGUMENTS_LIST_POSITION to position
-            )
+                    ARGUMENTS_MEDIA_ID to mediaId)
         }
     }
 

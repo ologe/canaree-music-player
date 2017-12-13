@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import dagger.Lazy
-import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
@@ -38,11 +37,11 @@ class TabFragmentAdapter @Inject constructor(
             }
             R.layout.item_tab_album,
             R.layout.item_tab_song -> {
-                viewHolder.setOnClickListener(dataController) { item, position ->
+                viewHolder.setOnClickListener(dataController) { item, _ ->
                     if (item.isPlayable){
                         musicController.playFromMediaId(item.mediaId)
                     } else {
-                        navigator.toDetailFragment(item.mediaId, position)
+                        navigator.toDetailFragment(item.mediaId)
                         val category = MediaIdHelper.extractCategory(item.mediaId)
                         when (category){
                             MediaIdHelper.MEDIA_ID_BY_ARTIST -> {
@@ -86,7 +85,6 @@ class TabFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, source)
-        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

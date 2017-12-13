@@ -52,7 +52,7 @@ class NavigatorImpl @Inject constructor(
         activity.finish()
     }
 
-    override fun toDetailFragment(mediaId: String, position: Int) {
+    override fun toDetailFragment(mediaId: String) {
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
             activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
@@ -66,7 +66,7 @@ class NavigatorImpl @Inject constructor(
                             R.anim.left_slide_out
                 )
                 add(R.id.viewPagerLayout,
-                            DetailFragment.newInstance(mediaId, position),
+                            DetailFragment.newInstance(mediaId),
                             DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
             }

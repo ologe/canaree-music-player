@@ -7,8 +7,6 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
-        <variable name="position" type="int"/>
-        <variable name="source" type="int"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -32,11 +30,7 @@
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
-                app:imageAlbum="@{item.getImage}"
-                app:source="@{source}"
-                app:position="@{position}"
-
+                app:imageAlbum="@{item}"
                 tools:src="@drawable/placeholder_folder"/>
 
         </android.support.v7.widget.CardView>

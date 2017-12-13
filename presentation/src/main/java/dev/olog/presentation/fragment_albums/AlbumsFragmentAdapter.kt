@@ -2,7 +2,6 @@ package dev.olog.presentation.fragment_albums
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
@@ -24,8 +23,8 @@ class AlbumsFragmentAdapter @Inject constructor(
     private val source = MediaIdHelper.mapCategoryToSource(mediaId)
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, position ->
-            navigator.toDetailFragment(item.mediaId, position)
+        viewHolder.setOnClickListener(dataController) { item, _ ->
+            navigator.toDetailFragment(item.mediaId)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
@@ -38,7 +37,6 @@ class AlbumsFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, source)
-        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

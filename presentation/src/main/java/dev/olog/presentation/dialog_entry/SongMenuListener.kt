@@ -37,7 +37,7 @@ class SongMenuListener @Inject constructor(
                 getSongUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.albumId(it.albumId) }
                         .firstOrError()
-                        .doOnSuccess { navigator.toDetailFragment(it, 0) }
+                        .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()
                         .subscribe()
             }
@@ -45,7 +45,7 @@ class SongMenuListener @Inject constructor(
                 getSongUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.artistId(it.artistId) }
                         .firstOrError()
-                        .doOnSuccess { navigator.toDetailFragment(it, 0) }
+                        .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()
                         .subscribe()
             }

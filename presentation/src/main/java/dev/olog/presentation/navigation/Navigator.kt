@@ -7,7 +7,7 @@ interface Navigator {
 
     fun toMainActivity()
 
-    fun toDetailFragment(mediaId: String, position: Int)
+    fun toDetailFragment(mediaId: String)
 
     fun toSearchFragment()
 

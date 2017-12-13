@@ -2,7 +2,6 @@ package dev.olog.presentation.fragment_tab
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import dev.olog.presentation.BR
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
@@ -23,8 +22,8 @@ class TabFragmentLastPlayedArtistsAdapter @Inject constructor(
 ): BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, position ->
-            navigator.toDetailFragment(item.mediaId, position)
+        viewHolder.setOnClickListener(dataController) { item, _ ->
+            navigator.toDetailFragment(item.mediaId)
             viewModel.insertArtistLastPlayed(item.mediaId)
                     .subscribe({}, Throwable::printStackTrace)
         }
@@ -36,7 +35,6 @@ class TabFragmentLastPlayedArtistsAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.source, TabViewPagerAdapter.ARTIST)
-        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
