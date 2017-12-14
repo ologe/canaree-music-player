@@ -17,13 +17,13 @@ class SplashFragmentTutorial : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        view!!.favorite.setMinProgress(.35f)
         view!!.cover.setOnClickListener {
             val newState = !view!!.coverLayout.isActivated
             view!!.coverLayout.isActivated = newState
             view!!.nowPlaying.isActivated = newState
         }
         view!!.favorite.setOnClickListener {
+            view!!.favorite.setMinProgress(.35f)
             isFavorite = !isFavorite
             view!!.favorite.animateFavorite(isFavorite)
         }
