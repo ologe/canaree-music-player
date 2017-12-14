@@ -1,5 +1,6 @@
 package dev.olog.presentation.navigation
 
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -77,6 +78,7 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.viewPagerLayout,
                         SearchFragment.newInstance(),
                         SearchFragment.TAG)

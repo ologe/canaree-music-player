@@ -8,6 +8,7 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
 
 class RelatedArtistFragment: BaseFragment() {
@@ -35,6 +36,15 @@ class RelatedArtistFragment: BaseFragment() {
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = GridLayoutManager(context!!, 3)
         view.list.adapter = adapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_related_artist

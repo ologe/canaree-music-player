@@ -24,6 +24,7 @@ class SearchFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SearchFragment"
+        const val ANIMATION_DONE = "$TAG.ANIMATION_DONE"
 
         fun newInstance(): SearchFragment = SearchFragment()
     }
@@ -34,11 +35,6 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var viewModel: SearchFragmentViewModel
     @Inject lateinit var recycledViewPool: RecyclerView.RecycledViewPool
     private lateinit var layoutManager: LinearLayoutManager
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        postponeEnterTransition()
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -58,16 +54,6 @@ class SearchFragment : BaseFragment() {
             artistAdapter.updateDataSet(artists)
             viewModel.adjustDataMap(map)
             adapter.updateDataSet(map)
-
-            startPostponedEnterTransition()
-            if (savedInstanceState == null){
-                view!!.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                    override fun onLayoutChange(v: View?, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
-                        v?.removeOnLayoutChangeListener(this)
-                        startCircularReveal()
-                    }
-                })
-            }
         })
     }
 
@@ -82,6 +68,15 @@ class SearchFragment : BaseFragment() {
                 .filter { TextUtils.isEmpty(it) || it.length >= 2 }
                 .asLiveData()
                 .subscribe(this, viewModel::setNewQuery)
+
+        if (savedInstanceState == null){
+            view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                override fun onLayoutChange(v: View?, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
+                    v?.removeOnLayoutChangeListener(this)
+                    startCircularReveal()
+                }
+            })
+        }
     }
 
     override fun onResume() {
@@ -112,6 +107,11 @@ class SearchFragment : BaseFragment() {
         view!!.editText.clearFocus()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(ANIMATION_DONE, true)
+    }
+
     override fun provideLayoutId(): Int = R.layout.fragment_search
 
     private fun startCircularReveal(){
@@ -126,7 +126,7 @@ class SearchFragment : BaseFragment() {
         anim.start()
 
         val valueAnimator = ValueAnimator()
-        valueAnimator.setIntValues(0x88262626.toInt(), Color.WHITE)
+        valueAnimator.setIntValues(0xfff0f0f0.toInt(), Color.WHITE)
         valueAnimator.setEvaluator(ArgbEvaluator())
         valueAnimator.addUpdateListener { background.setBackgroundColor(it.animatedValue as Int) }
         valueAnimator.start()
