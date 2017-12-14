@@ -6,6 +6,7 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.shared.MediaIdHelper
 import javax.inject.Inject
 
 open class BaseMenuListener @Inject constructor(
@@ -46,11 +47,17 @@ open class BaseMenuListener @Inject constructor(
                         .subscribe()
             }
             R.id.delete -> {
-                getSongListByParamUseCase.execute(item.mediaId)
-                        .firstOrError()
-                        .doOnSuccess { navigator.toDeleteDialog(item.mediaId, it.size, item.title) }
-                        .toCompletable()
-                        .subscribe()
+                val category = MediaIdHelper.extractCategory(item.mediaId)
+                if (category == MediaIdHelper.MEDIA_ID_BY_PLAYLIST){
+                    // playlist size not needed
+                    navigator.toDeleteDialog(item.mediaId, -1, item.title)
+                } else {
+                    getSongListByParamUseCase.execute(item.mediaId)
+                            .firstOrError()
+                            .doOnSuccess { navigator.toDeleteDialog(item.mediaId, it.size, item.title) }
+                            .toCompletable()
+                            .subscribe()
+                }
             }
         }
 

@@ -72,8 +72,7 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
                     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                         val oldItem = getItem(dataSet, oldItemPosition)
                         val newItem = getItem(it.data, newItemPosition)
-                        return oldItem == newItem &&
-                                oldItemPosition == newItemPosition
+                        return oldItem == newItem
                     }
                 })) }
                 .filter { it.first.version == dataVersion }

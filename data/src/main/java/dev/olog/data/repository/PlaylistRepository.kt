@@ -93,8 +93,10 @@ class PlaylistRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    override fun getAll(): Flowable<List<Playlist>> = contentProviderObserver
-            .map { it.sortedWith(compareBy { it.title.toLowerCase() }) }
+    override fun getAll(): Flowable<List<Playlist>> {
+        return contentProviderObserver
+                .map { it.sortedWith(compareBy { it.title.toLowerCase() }) }
+    }
 
     override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
         return Flowable.just(autoPlaylists)
@@ -213,6 +215,8 @@ class PlaylistRepository @Inject constructor(
                     }
 
                     itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+
+                    contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
 
                 } else {
                     e.onError(IllegalArgumentException("invalid playlist id $playlistId"))

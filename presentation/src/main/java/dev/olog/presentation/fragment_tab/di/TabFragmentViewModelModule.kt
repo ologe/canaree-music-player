@@ -20,7 +20,7 @@ import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.rxkotlin.withLatestFrom
 
 @Module
-class TabViewModelModule {
+class TabFragmentViewModelModule {
 
     companion object {
         const val LAST_PLAYED_ARTIST = 50

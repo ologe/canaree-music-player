@@ -8,7 +8,7 @@ import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
-import dev.olog.presentation.fragment_tab.di.TabViewModelModule
+import dev.olog.presentation.fragment_tab.di.TabFragmentViewModelModule
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.view.*
@@ -44,11 +44,11 @@ class TabFragment : BaseFragment() {
 
         when (source){
             TabViewPagerAdapter.ALBUM -> {
-                viewModel.observeData(TabViewModelModule.LAST_PLAYED_ALBUM)
+                viewModel.observeData(TabFragmentViewModelModule.LAST_PLAYED_ALBUM)
                         .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
             }
             TabViewPagerAdapter.ARTIST -> {
-                viewModel.observeData(TabViewModelModule.LAST_PLAYED_ARTIST)
+                viewModel.observeData(TabFragmentViewModelModule.LAST_PLAYED_ARTIST)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }
