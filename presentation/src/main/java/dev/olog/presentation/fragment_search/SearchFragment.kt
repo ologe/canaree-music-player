@@ -1,10 +1,14 @@
 package dev.olog.presentation.fragment_search
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import android.view.ViewAnimationUtils
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -13,6 +17,7 @@ import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {
@@ -53,7 +58,16 @@ class SearchFragment : BaseFragment() {
             artistAdapter.updateDataSet(artists)
             viewModel.adjustDataMap(map)
             adapter.updateDataSet(map)
+
             startPostponedEnterTransition()
+            if (savedInstanceState == null){
+                view!!.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    override fun onLayoutChange(v: View?, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
+                        v?.removeOnLayoutChangeListener(this)
+                        startCircularReveal()
+                    }
+                })
+            }
         })
     }
 
@@ -80,12 +94,17 @@ class SearchFragment : BaseFragment() {
             ImeUtils.hideIme(view!!.editText)
             activity!!.onBackPressed()
         }
+        view!!.root.setOnClickListener {
+            view!!.editText.requestFocus()
+            ImeUtils.showIme(view!!.editText)
+        }
     }
 
     override fun onPause() {
         super.onPause()
         view!!.clear.setOnClickListener(null)
         view!!.back.setOnClickListener(null)
+        view!!.root.setOnClickListener(null)
     }
 
     override fun onStop() {
@@ -94,4 +113,22 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search
+
+    private fun startCircularReveal(){
+        val background = view!!.root
+        val searchView = activity!!.search
+        val cx = (searchView.x + searchView.width / 2).toInt()
+        val cy = (searchView.y + searchView.height / 2).toInt()
+        val width = background.width
+        val height = background.height
+        val finalRadius = Math.sqrt((width * width + height * height).toDouble()).toFloat()
+        val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy, 0f, finalRadius)
+        anim.start()
+
+        val valueAnimator = ValueAnimator()
+        valueAnimator.setIntValues(0x88262626.toInt(), Color.WHITE)
+        valueAnimator.setEvaluator(ArgbEvaluator())
+        valueAnimator.addUpdateListener { background.setBackgroundColor(it.animatedValue as Int) }
+        valueAnimator.start()
+    }
 }

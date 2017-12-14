@@ -75,17 +75,8 @@ class NavigatorImpl @Inject constructor(
 
     override fun toSearchFragment() {
         if (allowed()){
-//            activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
-//            activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
-
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setCustomAnimations(
-                        R.anim.right_slide_in,
-                        R.anim.right_stay,
-                        R.anim.left_stay,
-                        R.anim.left_slide_out
-                )
                 add(R.id.viewPagerLayout,
                         SearchFragment.newInstance(),
                         SearchFragment.TAG)
