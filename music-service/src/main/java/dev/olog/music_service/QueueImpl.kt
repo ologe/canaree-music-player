@@ -52,7 +52,7 @@ class QueueImpl @Inject constructor(
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = songList.toFlowable()
                 .observeOn(Schedulers.io())
-                .map { it.id }
+                .map { it.mediaId.to(it.id) }
                 .toList()
                 .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)

@@ -34,7 +34,7 @@ class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError())
     }
 
-    override fun update(list: List<Long>): Completable {
+    override fun update(list: List<Pair<String, Long>>): Completable {
         return playingQueueDao.insert(list)
     }
 

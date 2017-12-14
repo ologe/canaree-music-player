@@ -7,7 +7,6 @@ import dev.olog.domain.interactor.dialog.GetActualPlaylistUseCase
 import dev.olog.presentation.R
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AddPlaylistPresenter @Inject constructor(
@@ -28,7 +27,6 @@ class AddPlaylistPresenter @Inject constructor(
         val playlist = getPlaylistSiblingsUseCase.execute()[position]
 
         return addToPlaylistUseCase.execute(Pair(playlist, mediaId))
-                .timeout(5, TimeUnit.SECONDS)
                 .doOnSuccess { createSuccessMessage(it) }
                 .doOnError { createErrorMessage() }
                 .toCompletable()

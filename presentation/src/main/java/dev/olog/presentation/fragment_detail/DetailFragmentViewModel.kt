@@ -10,7 +10,6 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
-import java.util.concurrent.TimeUnit
 
 class DetailFragmentViewModel(
         mediaId: String,
@@ -38,7 +37,6 @@ class DetailFragmentViewModel(
             getArtistFromAlbumUseCase.execute(mediaId)
                     .firstOrError()
                     .map { MediaIdHelper.artistId(it.id) }
-                    .timeout(2, TimeUnit.SECONDS)
         } else {
             Single.error(Throwable("not an album"))
         }

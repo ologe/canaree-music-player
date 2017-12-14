@@ -33,7 +33,7 @@ class TabFragmentAdapter @Inject constructor(
         when (viewType) {
             R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
-                    musicController.playShuffle(MediaIdHelper.MEDIA_ID_BY_ALL)
+                    musicController.playShuffle(MediaIdHelper.shuffleAllId())
                 }
             }
             R.layout.item_tab_album,

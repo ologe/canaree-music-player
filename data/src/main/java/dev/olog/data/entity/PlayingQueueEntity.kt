@@ -10,5 +10,7 @@ import android.arch.persistence.room.PrimaryKey
 data class PlayingQueueEntity(
         @PrimaryKey(autoGenerate = true)
         val progressive: Int = 0,
+        val category: String,
+        val categoryValue: String,
         val songId: Long
 )

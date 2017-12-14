@@ -50,6 +50,10 @@ object MediaIdHelper {
         return category + CATEGORY_SEPARATOR + categoryValue + LEAF_SEPARATOR + songId
     }
 
+    fun shuffleAllId(): String {
+        return MEDIA_ID_BY_ALL + CATEGORY_SEPARATOR + ""
+    }
+
     fun extractCategory(mediaId: String) : String{
         when (mediaId){
             MEDIA_ID_BY_FOLDER,

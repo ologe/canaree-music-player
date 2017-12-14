@@ -13,7 +13,6 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.toast
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AddQueueDialogPresenter @Inject constructor(
@@ -46,7 +45,6 @@ class AddQueueDialogPresenter @Inject constructor(
         }
 
         return single
-                .timeout(5, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { createSuccessMessage(it) }
                 .doOnError { createErrorMessage() }

@@ -19,7 +19,6 @@ import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.MetadataConstants
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerService
@@ -38,16 +37,18 @@ class PlayerMetadata @Inject constructor(
 
     fun update(entity: MediaEntity) {
 
+        // todo move to class
         insertHistorySongUseCase.execute(entity.id)
-                .timeout(2, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .subscribe({}, Throwable::printStackTrace)
 
+        // todo move to class
         Single.fromCallable { MediaIdHelper.extractCategory(entity.mediaId) }
                 .map { it.to(MediaIdHelper.extractCategoryValue(entity.mediaId)) }
                 .map { MediaIdHelper.createId(it.first, it.second, entity.id) }
+                .onErrorResumeNext { Single.just("") }
+                .filter { it != "" }
                 .flatMapCompletable { insertMostPlayedUseCase.execute(it) }
-                .timeout(2, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .subscribe(::println, Throwable::printStackTrace)
 
@@ -88,8 +89,7 @@ class PlayerMetadata @Inject constructor(
                     } else {
                         addSongToFavoriteUseCase.execute(songId)
                     }
-                }.timeout(1, TimeUnit.SECONDS)
-                .subscribe({}, Throwable::printStackTrace)
+                }.subscribe({}, Throwable::printStackTrace)
     }
 
 }

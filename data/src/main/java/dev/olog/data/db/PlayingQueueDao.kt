@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import dev.olog.data.entity.PlayingQueueEntity
 import dev.olog.domain.entity.Song
+import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.groupMap
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -40,10 +41,12 @@ abstract class PlayingQueueDao {
                 } }
     }
 
-    fun insert(list: List<Long>) : Completable {
+    fun insert(list: List<Pair<String, Long>>) : Completable {
         return Single.fromCallable { deleteAllImpl() }
-                .map { list.map { PlayingQueueEntity(songId = it) } }
-                .flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
+                .map { list.map { PlayingQueueEntity(songId = it.second,
+                        category = MediaIdHelper.extractCategory(it.first),
+                        categoryValue = MediaIdHelper.extractCategoryValue(it.first)) }
+                }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
     }
 
 }

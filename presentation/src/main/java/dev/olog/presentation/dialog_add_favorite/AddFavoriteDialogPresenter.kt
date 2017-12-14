@@ -6,7 +6,6 @@ import dev.olog.domain.interactor.dialog.AddToFavoriteUseCase
 import dev.olog.presentation.R
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AddFavoriteDialogPresenter @Inject constructor(
@@ -17,7 +16,6 @@ class AddFavoriteDialogPresenter @Inject constructor(
 
     fun execute(): Completable {
         return addToFavoriteUseCase.execute(mediaId)
-                .timeout(5, TimeUnit.SECONDS)
                 .doOnSuccess { createSuccessMessage(it) }
                 .doOnError { createErrorMessage() }
                 .toCompletable()

@@ -10,9 +10,9 @@ class UpdatePlayingQueueUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val gateway: PlayingQueueGateway
 
-) : CompletableUseCaseWithParam<List<Long>>(schedulers) {
+) : CompletableUseCaseWithParam<List<Pair<String, Long>>>(schedulers) {
 
-    override fun buildUseCaseObservable(param: List<Long>): Completable {
+    override fun buildUseCaseObservable(param: List<Pair<String, Long>>): Completable {
         return gateway.update(param)
     }
 }
