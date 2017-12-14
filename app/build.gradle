@@ -102,6 +102,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
     implementation "io.mattcarroll.hover:hover:$rootProject.hover"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
+    implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
 
     // debug
 //    implementation 'com.akaita.java:rxjava2-debug:1.2.1'

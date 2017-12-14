@@ -20,7 +20,8 @@
         android:name=".App"
         tools:replace="android:allowBackup">
 
-        <activity android:name="dev.olog.presentation.activity_splash.SplashActivity">
+        <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
+            android:theme="@style/Theme.Intro">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

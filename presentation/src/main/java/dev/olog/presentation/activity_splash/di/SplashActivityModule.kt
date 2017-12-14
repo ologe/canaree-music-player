@@ -1,6 +1,5 @@
 package dev.olog.presentation.activity_splash.di
 
-import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Module
@@ -17,10 +16,5 @@ class SplashActivityModule(
 
     @Provides
     fun provideRxPermission() : RxPermissions = RxPermissions(activity)
-
-    @Provides
-    fun provideFragmentManager() : FragmentManager {
-        return activity.supportFragmentManager
-    }
 
 }
