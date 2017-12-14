@@ -2,6 +2,7 @@ package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder

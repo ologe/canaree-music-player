@@ -2,6 +2,7 @@ package dev.olog.presentation.fragment_mini_queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
@@ -34,7 +35,6 @@ class MiniQueueFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.source, 2)
     }
 
     override val hasGranularUpdate: Boolean = false

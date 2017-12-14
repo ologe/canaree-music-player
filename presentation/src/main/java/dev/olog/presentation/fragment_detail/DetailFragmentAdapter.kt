@@ -5,12 +5,12 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
+import com.android.databinding.library.baseAdapters.BR
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
@@ -139,12 +139,6 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
-
-        if (position > 0 && source == TabViewPagerAdapter.ARTIST){
-            binding.setVariable(BR.source,  TabViewPagerAdapter.ALBUM)
-        } else {
-            binding.setVariable(BR.source,  source)
-        }
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

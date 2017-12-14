@@ -12,9 +12,11 @@ import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import dev.olog.presentation.GlideApp
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.*
@@ -41,7 +43,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var mostPlayedAdapter: DetailFragmentMostPlayedAdapter
     @Inject lateinit var mediaId: String
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
-    @Inject @JvmField var listPosition: Int = 0
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
     private val marginDecorator by lazy (NONE){ DetailFragmentHorizontalMarginDecoration(context!!) }
@@ -144,6 +145,11 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     }
 
     private fun setImage(item: DisplayableItem){
+
+        val id = if (source == TabViewPagerAdapter.FOLDER){
+            MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
+        } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
+
         GlideApp.with(context).clear(view)
 
         GlideApp.with(context)
@@ -152,7 +158,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(600)
                 .priority(Priority.IMMEDIATE)
-                .error(CoverUtils.getGradient(context!!, listPosition, source))
+                .error(CoverUtils.getGradient(context!!, id, source))
                 .into(view!!.cover)
     }
 

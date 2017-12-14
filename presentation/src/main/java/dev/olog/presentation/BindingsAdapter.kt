@@ -45,7 +45,7 @@ object BindingsAdapter {
         val source = MediaIdHelper.mapCategoryToSource(item.mediaId)
         val id = if (source == TabViewPagerAdapter.FOLDER){
             MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
-        } else MediaIdHelper.extractCategory(item.mediaId).toInt()
+        } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
 
         GlideApp.with(context)
                 .load(Uri.parse(item.image))
@@ -65,7 +65,7 @@ object BindingsAdapter {
         val source = MediaIdHelper.mapCategoryToSource(item.mediaId)
         val id = if (source == TabViewPagerAdapter.FOLDER){
             MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
-        } else MediaIdHelper.extractCategory(item.mediaId).toInt()
+        } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
 
         GlideApp.with(context).clear(view)
 

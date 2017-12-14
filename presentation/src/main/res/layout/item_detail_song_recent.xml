@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:src="@drawable/placeholder_folder"
-                app:imageSong="@{item.}"/>
+                app:imageSong="@{item}"/>
 
         </android.support.v7.widget.CardView>
 

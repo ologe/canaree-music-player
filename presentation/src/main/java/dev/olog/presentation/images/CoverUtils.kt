@@ -10,8 +10,6 @@ import dev.olog.presentation.R
 
 object CoverUtils {
 
-    private val RANDOM = 4
-
     private val COLORS = arrayOf(
             intArrayOf(0xff00c9ff.toInt(), 0xff92fe9d.toInt()),
             intArrayOf(0xfff54ea2.toInt(), 0xffff7676.toInt()),
@@ -32,8 +30,8 @@ object CoverUtils {
     fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
         val drawable = ContextCompat.getDrawable(context, getDrawable(source))!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
-        val pos = (position + RANDOM) % COLORS.size
-        gradient.colors = COLORS[pos]
+        val pos = (position) % COLORS.size
+        gradient.colors = COLORS[Math.abs(pos)]
         return drawable
     }
 
