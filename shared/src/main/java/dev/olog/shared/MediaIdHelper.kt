@@ -46,6 +46,10 @@ object MediaIdHelper {
         return createCategoryValue(MEDIA_ID_BY_GENRE, value.toString())
     }
 
+    fun createId(category: String, categoryValue: String, songId: Long): String{
+        return category + CATEGORY_SEPARATOR + categoryValue + LEAF_SEPARATOR + songId
+    }
+
     fun extractCategory(mediaId: String) : String{
         when (mediaId){
             MEDIA_ID_BY_FOLDER,

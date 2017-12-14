@@ -4,6 +4,7 @@ import dev.olog.domain.entity.Song
 
 data class MediaEntity(
         val id: Long,
+        val mediaId: String,
         val title: String,
         val artist: String,
         val album: String,
@@ -13,9 +14,10 @@ data class MediaEntity(
         val isExplicit: Boolean
 )
 
-fun Song.toMediaEntity() : MediaEntity {
+fun Song.toMediaEntity(mediaId: String) : MediaEntity {
     return MediaEntity(
             this.id,
+            mediaId,
             this.title,
             this.artist,
             this.album,

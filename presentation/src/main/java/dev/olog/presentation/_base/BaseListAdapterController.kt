@@ -63,7 +63,8 @@ class BaseListAdapterController<Model>(
                     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                         val oldItem : Model = dataSet[oldItemPosition]
                         val newItem : Model = it.data[newItemPosition]
-                        return oldItem == newItem
+                        return oldItem == newItem && adapter.areContentTheSameExtension(
+                                oldItemPosition, newItemPosition, oldItem, newItem)
                     }
                 })) }
                 .filter { it.first.version == dataVersion }

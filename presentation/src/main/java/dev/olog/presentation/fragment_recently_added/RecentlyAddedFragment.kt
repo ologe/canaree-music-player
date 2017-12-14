@@ -37,5 +37,15 @@ class RecentlyAddedFragment : BaseFragment() {
         view.list.layoutManager = LinearLayoutManager(context!!)
     }
 
+    override fun onResume() {
+        super.onResume()
+        view!!.back.setOnClickListener { activity!!.onBackPressed() }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view!!.back.setOnClickListener(null)
+    }
+
     override fun provideLayoutId(): Int = R.layout.fragment_recently_added
 }

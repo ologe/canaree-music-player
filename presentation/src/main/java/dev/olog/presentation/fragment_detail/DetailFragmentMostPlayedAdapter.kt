@@ -18,7 +18,6 @@ import javax.inject.Inject
 @PerFragment
 class DetailFragmentMostPlayedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        private val viewModel: DetailFragmentViewModel,
         private val navigator: Navigator,
         private val musicController: MusicController
 
@@ -26,7 +25,6 @@ class DetailFragmentMostPlayedAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            viewModel.addToMostPlayed(item.mediaId).subscribe()
             musicController.playMostPlayedFromMediaId(item.mediaId)
         }
 
@@ -49,4 +47,9 @@ class DetailFragmentMostPlayedAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
+
+    override fun areContentTheSameExtension(oldItemPosition: Int, newItemPosition: Int, oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItemPosition == newItemPosition
+    }
+
 }

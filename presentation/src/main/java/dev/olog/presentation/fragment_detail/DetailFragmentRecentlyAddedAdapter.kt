@@ -18,7 +18,6 @@ import javax.inject.Inject
 @PerFragment
 class DetailFragmentRecentlyAddedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        private val viewModel: DetailFragmentViewModel,
         private val navigator: Navigator,
         private val musicController: MusicController
 
@@ -26,7 +25,6 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            viewModel.addToMostPlayed(item.mediaId).subscribe()
             musicController.playRecentlyPlayedFromMediaId(item.mediaId)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->

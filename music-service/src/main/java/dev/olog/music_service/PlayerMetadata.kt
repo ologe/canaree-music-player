@@ -1,12 +1,12 @@
 package dev.olog.music_service
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
+import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
 import dev.olog.domain.interactor.favorite.AddSongToFavoriteUseCase
 import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.domain.interactor.favorite.RemoveSongFromFavoriteUseCase
@@ -17,6 +17,8 @@ import dev.olog.music_service.utils.ImageUtils
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.MetadataConstants
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -27,18 +29,27 @@ class PlayerMetadata @Inject constructor(
         private val insertHistorySongUseCase: InsertHistorySongUseCase,
         private val addSongToFavoriteUseCase: AddSongToFavoriteUseCase,
         private val removeSongFromFavoriteUseCase: RemoveSongFromFavoriteUseCase,
-        private val isFavoriteSongUseCase: IsFavoriteSongUseCase
+        private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
+        private val insertMostPlayedUseCase: InsertMostPlayedUseCase
 
 ) : DefaultLifecycleObserver {
 
     private val builder = MediaMetadataCompat.Builder()
 
-    @SuppressLint("CheckResult")
     fun update(entity: MediaEntity) {
 
         insertHistorySongUseCase.execute(entity.id)
                 .timeout(2, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
                 .subscribe({}, Throwable::printStackTrace)
+
+        Single.fromCallable { MediaIdHelper.extractCategory(entity.mediaId) }
+                .map { it.to(MediaIdHelper.extractCategoryValue(entity.mediaId)) }
+                .map { MediaIdHelper.createId(it.first, it.second, entity.id) }
+                .flatMapCompletable { insertMostPlayedUseCase.execute(it) }
+                .timeout(2, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(::println, Throwable::printStackTrace)
 
         isFavoriteSongUseCase.execute(entity.id)
                 .subscribe({ isFavorite ->
@@ -60,7 +71,6 @@ class PlayerMetadata @Inject constructor(
                 }, Throwable::printStackTrace)
     }
 
-    @SuppressLint("CheckResult")
     fun toggleFavorite(songId: Long){
         isFavoriteSongUseCase.execute(songId)
                 .doOnSuccess { isFavorite ->

@@ -54,6 +54,8 @@ abstract class BaseListAdapter<Model> (
 
     abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
 
+    internal open fun areContentTheSameExtension(oldItemPosition: Int, newItemPosition: Int, oldItem: Model, newItem: Model) = true
+
     internal open fun afterDataChanged(){
     }
 }

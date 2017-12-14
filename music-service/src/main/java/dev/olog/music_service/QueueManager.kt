@@ -35,7 +35,7 @@ class QueueManager @Inject constructor(
 
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
-                .groupMap { it.toMediaEntity() }
+                .groupMap { it.toMediaEntity("") }
                 .doOnSuccess(queueImpl::updatePlayingQueue)
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
@@ -67,7 +67,7 @@ class QueueManager @Inject constructor(
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
-                .groupMap { it.toMediaEntity() }
+                .groupMap { it.toMediaEntity(mediaId) }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -80,7 +80,7 @@ class QueueManager @Inject constructor(
 
         return getRecentlyAddedUseCase.execute(mediaId)
                 .firstOrError()
-                .groupMap { it.toMediaEntity() }
+                .groupMap { it.toMediaEntity(mediaId) }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -93,7 +93,7 @@ class QueueManager @Inject constructor(
 
         return getMostPlayedSongsUseCase.execute(mediaId)
                 .firstOrError()
-                .groupMap { it.toMediaEntity() }
+                .groupMap { it.toMediaEntity(mediaId) }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
@@ -106,7 +106,7 @@ class QueueManager @Inject constructor(
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
-                .groupMap { it.toMediaEntity() }
+                .groupMap { it.toMediaEntity(mediaId) }
                 .map { it.shuffle() }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }

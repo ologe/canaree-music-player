@@ -36,8 +36,6 @@ class DetailFragmentAdapter @Inject constructor(
 
 ) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
 
-    private val source = MediaIdHelper.mapCategoryToSource(mediaId)
-
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
             R.layout.item_detail_info_image -> {
@@ -68,7 +66,6 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_song_with_track -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     musicController.playFromMediaId(item.mediaId)
-                    viewModel.addToMostPlayed(item.mediaId).subscribe()
                 }
                 viewHolder.setOnLongClickListener(dataController) { item, _ ->
                     navigator.toDialog(item, viewHolder.itemView)

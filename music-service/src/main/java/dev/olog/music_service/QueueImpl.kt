@@ -117,7 +117,7 @@ class QueueImpl @Inject constructor(
                 .flatMapMaybe { songId -> getAllSongsUseCase.execute()
                         .flatMapIterable { it }
                         .filter { it.id == songId }
-                        .map { it.toMediaEntity() }
+                        .map { it.toMediaEntity("") }
                         .firstElement()
                 }.toList()
                 .doOnSuccess { playingQueue.addAll(it) }

@@ -3,11 +3,9 @@ package dev.olog.presentation.fragment_detail
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
-import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
-import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Flowables
@@ -18,7 +16,6 @@ class DetailFragmentViewModel(
         mediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        private val insertMostPlayedUseCase: InsertMostPlayedUseCase,
         private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase
 
@@ -54,10 +51,6 @@ class DetailFragmentViewModel(
     val recentlyAddedFlowable: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
             .flatMapSingle { it.toFlowable().take(10).toList() }
             .asLiveData()
-
-    fun addToMostPlayed(mediaId: String): Completable {
-        return insertMostPlayedUseCase.execute(mediaId)
-    }
 
     val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
             item[category]!!,

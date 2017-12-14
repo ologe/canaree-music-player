@@ -7,7 +7,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
 
@@ -40,11 +39,12 @@ class RelatedArtistFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
+        view!!.back.setOnClickListener { activity!!.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
+        view!!.back.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_related_artist

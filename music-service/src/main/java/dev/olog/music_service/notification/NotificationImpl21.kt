@@ -102,7 +102,9 @@ open class NotificationImpl21 @Inject constructor(
 
     @CallSuper
     override fun updateMetadata(mediaEntity: MediaEntity) {
-        val (_, title, artist, album) = mediaEntity
+        val title = mediaEntity.title
+        val artist = mediaEntity.artist
+        val album = mediaEntity.album
 
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
