@@ -2,57 +2,83 @@ package dev.olog.presentation.activity_splash
 
 import android.Manifest
 import android.os.Bundle
-import com.heinrichreimersoftware.materialintro.app.IntroActivity
-import com.heinrichreimersoftware.materialintro.slide.FragmentSlide
-import dagger.android.AndroidInjection
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
+import dagger.Lazy
 import dev.olog.presentation.R
+import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.hasPermission
-import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.isOreo
+import dev.olog.shared.unsubscribe
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
-class SplashActivity : IntroActivity() {
+class SplashActivity : BaseActivity() {
 
     @Inject lateinit var presenter: SplashPresenter
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var adapter : Lazy<SplashActivityViewPagerAdapter>
+
+    private var disposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         val hasStoragePermission = checkStoragePermission()
 
         if (presenter.isFirstAccess(hasStoragePermission)){
-            setupSlides()
-//            setContentView(R.layout.activity_splash)
-//            viewPager.adapter = adapter.get()
-//            subscribeToStorageRequest()
+            setContentView(R.layout.activity_splash)
+            viewPager.adapter = adapter.get()
+            inkIndicator.setViewPager(viewPager)
         } else {
             navigator.toMainActivity()
         }
+
+        if (isOreo()){
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.toolbar)
+        }
     }
 
-    private fun setupSlides(){
-        val presentationSlide = FragmentSlide.Builder()
-                .fragment(R.layout.fragment_splash)
-                .build()
+    override fun onResume() {
+        super.onResume()
+        val pager = findViewById<ViewPager>(R.id.viewPager)
+        pager?.addOnPageChangeListener(onPageChangeListener)
+    }
 
-        val tutorialSlide = FragmentSlide.Builder()
-                .fragment(R.layout.fragment_splash_tutorial)
-                .build()
+    override fun onPause() {
+        super.onPause()
+        val pager = findViewById<ViewPager>(R.id.viewPager)
+        pager?.removeOnPageChangeListener(onPageChangeListener)
+    }
 
-        addSlide(presentationSlide)
-        addSlide(tutorialSlide)
+    override fun onDestroy() {
+        disposable.unsubscribe()
+        super.onDestroy()
     }
 
     private fun checkStoragePermission() : Boolean {
         return hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
-    private fun subscribeToStorageRequest(){
-        presenter.subscribeToStoragePermission(root)
-                .subscribe(this, { navigator.toMainActivity() })
+    private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrollStateChanged(state: Int) {
+        }
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        }
+
+        override fun onPageSelected(position: Int) {
+            disposable.unsubscribe()
+
+            if (position == 1){
+                disposable = presenter.subscribeToStoragePermission(root)
+                        .subscribe({ navigator.toMainActivity() }, Throwable::printStackTrace)
+            }
+
+        }
     }
+
 
 }
