@@ -96,7 +96,7 @@ class PlayerFragmentViewModel(
     val onFavoriteAnimateRequestObservable: LiveData<Boolean> = controllerCallback.onExtrasChanged()
                 .map { bundle ->
                     val animate = bundle.getInt(MetadataConstants.IS_FAVORITE, MetadataConstants.NOT_ANIMATE)
-                    bundle.putInt(MetadataConstants.IS_FAVORITE, MetadataConstants.NOT_ANIMATE)
+                    bundle.clear()
                     animate
                 }
                 .filter { it != MetadataConstants.NOT_ANIMATE }

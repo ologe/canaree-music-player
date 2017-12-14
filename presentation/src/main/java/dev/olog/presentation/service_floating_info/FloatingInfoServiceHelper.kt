@@ -9,6 +9,7 @@ import android.os.Build
 import android.provider.Settings
 import android.support.annotation.CheckResult
 import android.support.annotation.RequiresApi
+import android.support.v4.content.ContextCompat
 import dev.olog.presentation.utils.isMarshmallow
 
 object FloatingInfoServiceHelper {
@@ -23,7 +24,8 @@ object FloatingInfoServiceHelper {
             val intent = FloatingInfoServiceHelper.createIntentToRequestOverlayPermission(activity)
             activity.startActivityForResult(intent, REQUEST_CODE_HOVER_PERMISSION)
         } else {
-            FloatingInfoServiceHelper.startService(activity, serviceClass)
+            val intent = Intent(activity, serviceClass.get())
+            ContextCompat.startForegroundService(activity, intent)
         }
     }
 

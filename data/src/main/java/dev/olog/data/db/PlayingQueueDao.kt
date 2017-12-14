@@ -5,18 +5,17 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import dev.olog.data.entity.PlayingQueueEntity
 import dev.olog.domain.entity.Song
+import dev.olog.shared.groupMap
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 @Dao
 abstract class PlayingQueueDao {
 
-    @Query("SELECT * FROM playing_queue ORDER BY timeAdded DESC")
+    @Query("SELECT * FROM playing_queue ORDER BY progressive")
     internal abstract fun getAllImpl(): Flowable<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
@@ -30,14 +29,15 @@ abstract class PlayingQueueDao {
         return this.getAllImpl()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .flatMapSingle { it.toFlowable()
-                        .flatMapMaybe { entity ->
-                            songList.flattenAsFlowable { it }
-                                    .filter { it.id == entity.songId }
-                                    .firstElement()
-                        }.toList()
-                        .onErrorReturnItem(ArrayList(0))
-                }
+                .groupMap { it.songId }
+                .flatMapSingle { ids -> songList.flatMap { songs ->
+                    val result : List<Song> = ids.asSequence()
+                            .map { id -> songs.firstOrNull { it.id == id } }
+                            .filter { it != null }
+                            .map { it!! }
+                            .toList()
+                    Single.just(result)
+                } }
     }
 
     fun insert(list: List<Long>) : Completable {

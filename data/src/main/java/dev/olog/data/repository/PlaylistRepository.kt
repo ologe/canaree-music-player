@@ -155,13 +155,14 @@ class PlaylistRepository @Inject constructor(
 
         ).mapToList { it.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID) }
                 .toFlowable(BackpressureStrategy.LATEST)
-                .flatMapSingle { it.toFlowable()
-                        .flatMapMaybe { songId -> songGateway.getAll()
-                                .flatMapIterable { it }
-                                .filter { it.id == songId }
-                                .firstElement()
-                        }.toList()
-                }
+                .flatMapSingle { ids -> songGateway.getAll().firstOrError().flatMap { songs ->
+                    val result : List<Song> = ids.asSequence()
+                            .map { id -> songs.firstOrNull { it.id == id } }
+                            .filter { it != null }
+                            .map { it!! }
+                            .toList()
+                    Single.just(result)
+                }}
     }
 
     override fun getMostPlayed(param: String): Flowable<List<Song>> {

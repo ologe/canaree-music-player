@@ -6,10 +6,10 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import dev.olog.data.entity.HistoryEntity
 import dev.olog.domain.entity.Song
+import dev.olog.shared.groupMap
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 
 @Dao
@@ -23,14 +23,15 @@ abstract class HistoryDao {
         return getAllImpl()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
-                .flatMapSingle { it.toFlowable()
-                        .map(HistoryEntity::songId)
-                        .flatMapMaybe { songId ->
-                            songList.flattenAsFlowable { it }
-                                    .filter { (id) -> id == songId }
-                                    .firstElement()
-                        }.toList()
-                }
+                .groupMap { it.songId }
+                .flatMapSingle { ids -> songList.flatMap { songs ->
+                    val result : List<Song> = ids.asSequence()
+                            .map { id -> songs.firstOrNull { it.id == id } }
+                            .filter { it != null }
+                            .map { it!! }
+                            .toList()
+                    Single.just(result)
+                } }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

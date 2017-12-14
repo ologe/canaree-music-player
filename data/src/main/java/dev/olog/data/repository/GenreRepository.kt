@@ -12,10 +12,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.MediaIdHelper
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
+import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -89,13 +86,14 @@ class GenreRepository @Inject constructor(
 
         ).mapToList { it.extractId() }
                 .toFlowable(BackpressureStrategy.LATEST)
-                .flatMapSingle { it.toFlowable()
-                        .flatMapMaybe { songId -> songGateway.getAll()
-                                .flatMapIterable { it }
-                                .filter { it.id == songId }
-                                .firstElement()
-                        }.toList()
-                }
+                .flatMapSingle { ids -> songGateway.getAll().firstOrError().flatMap { songs ->
+                    val result : List<Song> = ids.asSequence()
+                            .map { id -> songs.firstOrNull { it.id == id } }
+                            .filter { it != null }
+                            .map { it!! }
+                            .toList()
+                    Single.just(result)
+                }}
     }
 
     override fun getMostPlayed(param: String): Flowable<List<Song>> {

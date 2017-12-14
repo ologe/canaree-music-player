@@ -52,7 +52,7 @@ class InfoNotification @Inject constructor(
         return builder
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setSmallIcon(R.drawable.vd_hot)
+                .setSmallIcon(R.drawable.vd_notification_icon)
                 .setContentTitle(notificationTitle)
                 .setColor(Color.BLACK)
                 .setContentText("")
