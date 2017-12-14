@@ -9,6 +9,8 @@
         <item name="android:windowBackground">@color/background</item>
     </style>
 
+    <style name="Splash" parent="BaseTheme"/>
+
     <style name="AppTheme" parent="BaseTheme"/>
 
 </resources>

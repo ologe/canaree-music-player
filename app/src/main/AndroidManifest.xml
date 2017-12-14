@@ -20,7 +20,8 @@
         android:name=".App"
         tools:replace="android:allowBackup">
 
-        <activity android:name="dev.olog.presentation.activity_splash.SplashActivity">
+        <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
+            android:theme="@style/Splash">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +36,6 @@
             android:windowSoftInputMode="adjustPan"/>
 
         <service android:name="dev.olog.music_service.MusicService">
-
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
