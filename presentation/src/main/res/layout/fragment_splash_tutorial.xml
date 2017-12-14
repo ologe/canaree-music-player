@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    android:background="@color/toolbar"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="64dp"
+        android:background="@color/background"
+        android:elevation="4dp">
+
+
+        <include
+            android:id="@+id/playerToolbar"
+            layout="@layout/layout_player_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/tab"
+            android:layout_marginTop="8dp"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/coverLayout"
+            app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/player_cover_margin_top"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="10dp">
+
+            <!-- cover -->
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/placeholder_song_splash" />
+
+        </android.support.v7.widget.CardView>
+
+        <!-- seekbar -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:max="@integer/very_high_duration"
+            android:paddingBottom="@dimen/player_seekBar_bottom_padding"
+            android:paddingTop="@dimen/player_seekBar_top_padding"
+            android:paddingStart="36dp"
+            android:paddingEnd="36dp"
+            android:progressTint="@color/progress_bar_tint"
+            android:thumbTint="@color/progress_bar_tint"
+            android:progressBackgroundTint="@color/progress_bar_secondary_tint"
+            tools:progress="40"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:text="Player controls"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:textColor="@color/text_color_primary"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:text="Click the image to play/pause"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:text="Click the image's edges or swipe to skip"
+        android:textColor="@color/text_color_primary"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
