@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"
-        android:elevation="@dimen/player_seekBar_top_padding"
+        android:elevation="@dimen/toolbar_elevation"
         android:background="@color/colorPrimaryDark"/>
 
     <View

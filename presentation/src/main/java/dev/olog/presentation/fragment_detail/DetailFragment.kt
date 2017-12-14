@@ -101,17 +101,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         val sharedObservable = RxRecyclerView.scrollEvents(view.list)
                 .share()
 
-        sharedObservable
-                .map { layoutManager.findFirstVisibleItemPosition() >= 1 }
-                .distinctUntilChanged()
-                .asLiveData()
-                .subscribe(this, { lightStatusBar ->
-                    view.statusBar.isActivated = lightStatusBar
-                    view.toolbar.isActivated = lightStatusBar
-                    view.back.isActivated = lightStatusBar
-                    view.header.isActivated = lightStatusBar
-                })
-
         sharedObservable.map { layoutManager.findFirstCompletelyVisibleItemPosition() != 0 }
                 .distinctUntilChanged()
                 .asLiveData()

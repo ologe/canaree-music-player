@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background"
-    android:elevation="2dp">
+    android:elevation="2dp"
+    android:id="@+id/root">
 
     <View
         android:layout_width="match_parent"
