@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
@@ -13,55 +11,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/background"
-        android:elevation="4dp">
+        android:layout_marginTop="24dp">
 
-        <FrameLayout
-            android:layout_marginTop="8dp"
+        <include
             android:id="@+id/playerToolbar"
+            layout="@layout/layout_player_toolbar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="@dimen/tab">
-
-            <TextView
-                android:textSize="@dimen/player_now_playing_size"
-                android:text="@string/player_now_playing"
-                android:textStyle="bold"
-                android:layout_marginStart="48dp"
-                android:textColor="@color/now_playing"
-                tools:textColor="@color/text_color_primary"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center" />
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/favorite"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:layout_marginEnd="48dp"
-                app:lottie_progress="0"
-                app:lottie_fileName="favorite.json"/>
-
-            <ImageButton
-                android:id="@+id/playingQueue"
-                android:layout_gravity="end"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/vd_playing_queue"
-                android:backgroundTint="@color/button_primary_tint"
-                android:tint="@color/button_primary_tint"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
-
-
-        </FrameLayout>
+            android:layout_height="@dimen/tab" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"
@@ -75,14 +34,17 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="10dp">
+            app:cardElevation="0dp"
+            android:stateListAnimator="@animator/elevate_on_activated">
 
             <!-- cover -->
             <ImageView
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/placeholder_song_splash" />
+                android:src="@drawable/placeholder_song_splash"
+                android:clickable="true"
+                android:focusable="true"/>
 
         </android.support.v7.widget.CardView>
 
@@ -120,7 +82,7 @@
 
     <TextView
         android:text="Player controls"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:textColor="@color/text_color_primary"
         android:textSize="30sp"

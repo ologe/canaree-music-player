@@ -4,8 +4,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab"
-        tools:background="@color/background">
+        android:layout_height="@dimen/tab">
 
         <TextView
             android:id="@+id/nowPlaying"

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
 
     <View
         android:layout_width="match_parent"
@@ -15,15 +16,16 @@
         android:id="@+id/viewPager"
         android:layout_marginTop="@dimen/status_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/toolbar"/>
+        android:layout_height="match_parent" />
 
     <dev.olog.presentation.widgets.InkPageIndicator
         android:id="@+id/inkIndicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:layout_gravity="bottom|center_horizontal" />
+        android:layout_gravity="bottom|center_horizontal"
+        app:currentPageIndicatorColor="@color/dark_grey"
+        app:pageIndicatorColor="@color/light_grey" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/next"

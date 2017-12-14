@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root">
 
     <ImageView
         android:id="@+id/logo"
@@ -23,10 +24,11 @@
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
-        android:layout_marginTop="72dp"
-        android:textSize="40dp"
+        android:textSize="30sp"
         android:text="Welcome to Msc"
+        app:layout_constraintVertical_bias=".35"
         android:textStyle="bold"
         android:textColor="@color/text_color_primary"
         android:layout_width="0dp"
