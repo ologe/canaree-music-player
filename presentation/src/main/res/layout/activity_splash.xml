@@ -15,16 +15,8 @@
         android:id="@+id/viewPager"
         android:layout_marginTop="@dimen/status_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <!--<TextView-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/app_real_name"-->
-        <!--android:textColor="@color/text_color_primary"-->
-        <!--android:textSize="80sp"-->
-        <!--android:fontFamily="@font/lobster"/>-->
+        android:layout_height="match_parent"
+        android:background="@color/toolbar"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/next"

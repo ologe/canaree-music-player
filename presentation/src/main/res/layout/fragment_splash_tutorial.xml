@@ -6,28 +6,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container"
-    android:background="@color/toolbar"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
         android:background="@color/background"
         android:elevation="4dp">
 
-
-        <include
+        <FrameLayout
+            android:layout_marginTop="8dp"
             android:id="@+id/playerToolbar"
-            layout="@layout/layout_player_toolbar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="@dimen/tab"
-            android:layout_marginTop="8dp"/>
+            android:layout_height="@dimen/tab">
+
+            <TextView
+                android:textSize="@dimen/player_now_playing_size"
+                android:text="@string/player_now_playing"
+                android:textStyle="bold"
+                android:layout_marginStart="48dp"
+                android:textColor="@color/now_playing"
+                tools:textColor="@color/text_color_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="48dp"
+                app:lottie_progress="0"
+                app:lottie_fileName="favorite.json"/>
+
+            <ImageButton
+                android:id="@+id/playingQueue"
+                android:layout_gravity="end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/vd_playing_queue"
+                android:backgroundTint="@color/button_primary_tint"
+                android:tint="@color/button_primary_tint"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
+
+
+        </FrameLayout>
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"
@@ -60,7 +94,6 @@
             app:layout_constraintTop_toBottomOf="@+id/coverLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:max="@integer/very_high_duration"
             android:paddingBottom="@dimen/player_seekBar_bottom_padding"
             android:paddingTop="@dimen/player_seekBar_top_padding"
             android:paddingStart="36dp"
@@ -68,9 +101,10 @@
             android:progressTint="@color/progress_bar_tint"
             android:thumbTint="@color/progress_bar_tint"
             android:progressBackgroundTint="@color/progress_bar_secondary_tint"
-            tools:progress="40"
-            android:clickable="true"
-            android:focusable="true" />
+            android:progress="40"
+            android:max="100"
+            android:clickable="false"
+            android:focusable="false" />
 
     </android.support.constraint.ConstraintLayout>
 
