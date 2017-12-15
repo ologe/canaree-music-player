@@ -26,10 +26,11 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@{license.url}"
+            android:textColor="@color/item_selected"
             tools:text="https://github.com/google/dagger"
-            android:textColor="@color/text_color_secondary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autoLink="web"/>
 
         <TextView
             android:text="@{license.license}"

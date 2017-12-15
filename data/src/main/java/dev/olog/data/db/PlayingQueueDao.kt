@@ -4,9 +4,9 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import dev.olog.data.entity.PlayingQueueEntity
+import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.entity.Song
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.groupMap
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
@@ -25,17 +25,22 @@ abstract class PlayingQueueDao {
     @Insert
     internal abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
 
-    fun getAllAsSongs(songList: Single<List<Song>>): Flowable<List<Song>> {
+    fun getAllAsSongs(songList: Single<List<Song>>): Flowable<List<PlayingQueueSong>> {
 
         return this.getAllImpl()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .groupMap { it.songId }
                 .flatMapSingle { ids -> songList.flatMap { songs ->
-                    val result : List<Song> = ids.asSequence()
+                    val result : List<PlayingQueueSong> = ids.asSequence()
+                            .map { it.songId }
                             .map { id -> songs.firstOrNull { it.id == id } }
                             .filter { it != null }
                             .map { it!! }
+                            .map { song ->
+                                val pos = ids.indexOfFirst { it.songId == song.id }
+                                val item = ids[pos]
+                                song.toPlayingQueueSong(item.category, item.categoryValue)
+                            }
                             .toList()
                     Single.just(result)
                 } }
@@ -47,6 +52,26 @@ abstract class PlayingQueueDao {
                         category = MediaIdHelper.extractCategory(it.first),
                         categoryValue = MediaIdHelper.extractCategoryValue(it.first)) }
                 }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
+    }
+
+    private fun Song.toPlayingQueueSong(category: String, categoryValue: String): PlayingQueueSong {
+        return PlayingQueueSong(
+                this.id,
+                MediaIdHelper.createCategoryValue(category, categoryValue),
+                this.artistId,
+                this.albumId,
+                this.title,
+                this.artist,
+                this.album,
+                this.image,
+                this.duration,
+                this.dateAdded,
+                this.isRemix,
+                this.isExplicit,
+                this.path,
+                this.folder,
+                this.trackNumber
+        )
     }
 
 }

@@ -14,7 +14,7 @@ object MediaIdHelper {
     private const val CATEGORY_SEPARATOR = '/'
     private const val LEAF_SEPARATOR = '|'
 
-    private fun createCategoryValue(category: String, categoryValue: String): String {
+    fun createCategoryValue(category: String, categoryValue: String): String {
         return category + CATEGORY_SEPARATOR + categoryValue
     }
 

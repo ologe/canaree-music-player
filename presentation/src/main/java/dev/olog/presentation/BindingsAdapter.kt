@@ -2,13 +2,16 @@ package dev.olog.presentation
 
 import android.databinding.BindingAdapter
 import android.net.Uri
+import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
+import dev.olog.presentation.fragment_special_thanks.SpecialThanksModel
 import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
+import java.io.File
 
 object BindingsAdapter {
 
@@ -47,13 +50,25 @@ object BindingsAdapter {
             MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
         } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
 
-        GlideApp.with(context)
-                .load(Uri.parse(item.image))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(OVERRIDE_MID)
-                .error(CoverUtils.getGradient(context = context, position = id, source = source))
-                .into(view)
+        val image = item.image
+        val file = File(image)
+        if (file.exists()){
+            GlideApp.with(context)
+                    .load(Uri.fromFile(file))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(OVERRIDE_MID)
+                    .error(CoverUtils.getGradient(context = context, position = id, source = source))
+                    .into(view)
+        } else {
+            GlideApp.with(context)
+                    .load(Uri.parse(item.image))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(OVERRIDE_MID)
+                    .error(CoverUtils.getGradient(context = context, position = id, source = source))
+                    .into(view)
+        }
     }
 
     @BindingAdapter("imageBigAlbum")
@@ -78,6 +93,22 @@ object BindingsAdapter {
                 .error(CoverUtils.getGradient(context, id, source))
                 .into(view)
 
+    }
+
+    @BindingAdapter("imageSpecialThanks")
+    @JvmStatic
+    fun loadSongImage(view: ImageView, item: SpecialThanksModel) {
+        val context = view.context
+
+        GlideApp.with(context).clear(view)
+
+        GlideApp.with(context)
+                .load(Uri.EMPTY)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(OVERRIDE_SMALL)
+                .placeholder(ContextCompat.getDrawable(view.context, item.image))
+                .into(view)
     }
 
 }

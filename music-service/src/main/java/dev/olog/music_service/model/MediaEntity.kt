@@ -1,5 +1,6 @@
 package dev.olog.music_service.model
 
+import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.entity.Song
 
 data class MediaEntity(
@@ -18,6 +19,20 @@ fun Song.toMediaEntity(mediaId: String) : MediaEntity {
     return MediaEntity(
             this.id,
             mediaId,
+            this.title,
+            this.artist,
+            this.album,
+            this.image,
+            this.duration,
+            this.isRemix,
+            this.isExplicit
+    )
+}
+
+fun PlayingQueueSong.toMediaEntity() : MediaEntity {
+    return MediaEntity(
+            this.id,
+            this.parentMediaId,
             this.title,
             this.artist,
             this.album,

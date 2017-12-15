@@ -16,7 +16,8 @@ class LicensesFragmentAdapter @Inject constructor(
 ) : BaseListAdapter<LicenseModel>(lifecycle){
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        (viewHolder.binding as ItemLicenseBinding).url.movementMethod = LinkMovementMethod.getInstance()
+        (viewHolder.binding as ItemLicenseBinding)
+                .url.movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun bind(binding: ViewDataBinding, item: LicenseModel, position: Int) {

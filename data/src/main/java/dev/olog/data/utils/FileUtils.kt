@@ -7,8 +7,8 @@ import java.io.FileOutputStream
 
 object FileUtils {
 
-    fun saveFile(context: Context, parent: String, fileName: String, bitmap: Bitmap): String {
-        val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parent")
+    fun saveFile(context: Context, parentFolder: String, fileName: String, bitmap: Bitmap): String {
+        val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parentFolder")
         parentFile.mkdirs()
         val dest = File(parentFile, fileName)
         val out = FileOutputStream(dest)

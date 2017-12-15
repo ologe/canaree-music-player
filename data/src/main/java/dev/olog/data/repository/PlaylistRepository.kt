@@ -4,14 +4,17 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.*
 import com.squareup.sqlbrite2.BriteContentResolver
+import dev.olog.data.ImageUtils
 import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toPlaylist
+import dev.olog.data.utils.FileUtils
 import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.entity.Song
@@ -24,6 +27,8 @@ import dev.olog.shared.constants.DataConstants
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -62,12 +67,12 @@ class PlaylistRepository @Inject constructor(
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
 
-    private val autoPlaylistsTitle = resources.getStringArray(R.array.auto_playlists)
+    private val autoPlaylistTitle = resources.getStringArray(R.array.auto_playlists)
 
-    private val autoPlaylists = listOf(
-            Playlist(DataConstants.LAST_ADDED_ID, autoPlaylistsTitle[0]),
-            Playlist(DataConstants.FAVORITE_LIST_ID, autoPlaylistsTitle[1]),
-            Playlist(DataConstants.HISTORY_LIST_ID, autoPlaylistsTitle[2])
+    private val autoPlaylist = listOf(
+            Playlist(DataConstants.LAST_ADDED_ID, autoPlaylistTitle[0]),
+            Playlist(DataConstants.FAVORITE_LIST_ID, autoPlaylistTitle[1]),
+            Playlist(DataConstants.HISTORY_LIST_ID, autoPlaylistTitle[2])
     )
 
     private val contentProviderObserver : Flowable<List<Playlist>> = rxContentResolver
@@ -84,7 +89,10 @@ class PlaylistRepository @Inject constructor(
                             arrayOf("count(*)"), null, null, null, false)
                             .mapToOne { it.getInt(0) }
                             .firstOrError()
-                            .map { Playlist(playlist.id, playlist.title, it) }
+                            .map {
+                                val imagePath = "${context.applicationInfo.dataDir}${File.separator}playlist${File.separator}${playlist.id}"
+                                Playlist(playlist.id, playlist.title, it, imagePath)
+                            }
                     }.toList()
 
             }
@@ -93,13 +101,39 @@ class PlaylistRepository @Inject constructor(
             .replay(1)
             .refCount()
 
+    private val imagesCreated = AtomicBoolean(false)
+
     override fun getAll(): Flowable<List<Playlist>> {
+        val compareAndSet = imagesCreated.compareAndSet(false, true)
+        if (compareAndSet){
+            getAll().firstOrError().flattenAsFlowable { it }
+                    .flatMap { playlist -> getPlaylistSongs(playlist.id)
+                            .map { songList -> songList.asSequence()
+                                    .map { it.albumId }
+                                    .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+                                    .map {
+                                        try {
+                                            MediaStore.Images.Media.getBitmap(contentResolver, it)
+                                        } catch (ex: Exception) {
+                                            null
+                                        }
+                                    }.filter { it != null }
+                                    .map { it!! }
+                                    .take(4)
+                                    .toList()
+                            }.map { ImageUtils.joinImages(it) }
+                            .doOnNext { FileUtils.saveFile(context, "playlist", "${playlist.id}", it) }
+                            .subscribeOn(Schedulers.io())
+                    }.subscribeOn(Schedulers.io())
+                    .subscribe({ contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
+        }
+
         return contentProviderObserver
                 .map { it.sortedWith(compareBy { it.title.toLowerCase() }) }
     }
 
     override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
-        return Flowable.just(autoPlaylists)
+        return Flowable.just(autoPlaylist)
                 .flatMapSingle { it.toFlowable().toSortedList(compareByDescending { it.id }) }
     }
 

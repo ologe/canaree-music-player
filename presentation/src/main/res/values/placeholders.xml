@@ -7,7 +7,7 @@
     <dimen name="placeholder_player_padding">12dp</dimen>
     <dimen name="placeholder_song_padding">62dp</dimen>
     <dimen name="placeholder_folder_padding">65dp</dimen>
-    <dimen name="placeholder_playlist_padding">65dp</dimen>
+    <dimen name="placeholder_playlist_padding">15dp</dimen>
     <dimen name="placeholder_album_padding">65dp</dimen>
     <dimen name="placeholder_artist_padding">65dp</dimen>
     <dimen name="placeholder_genre_padding">65dp</dimen>

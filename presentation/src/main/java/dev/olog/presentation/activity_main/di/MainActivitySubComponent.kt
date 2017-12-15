@@ -23,6 +23,7 @@ import dev.olog.presentation.fragment_playing_queue.di.PlayingQueueFragmentInjec
 import dev.olog.presentation.fragment_recently_added.di.RecentlyAddedFragmentInjector
 import dev.olog.presentation.fragment_related_artist.di.RelatedArtistFragmentInjector
 import dev.olog.presentation.fragment_search.di.SearchFragmentInjector
+import dev.olog.presentation.fragment_special_thanks.di.SpecialThanksFragmentInjector
 import dev.olog.presentation.fragment_tab.di.TabFragmentInjector
 import dev.olog.presentation.navigation.NavigatorModule
 
@@ -44,6 +45,7 @@ import dev.olog.presentation.navigation.NavigatorModule
 
         // dialogs
         AboutFragmentInjector::class,
+        SpecialThanksFragmentInjector::class,
         LicensesFragmentInjector::class,
         AddFavoriteDialogInjector::class,
         AddPlaylistDialogInjector::class,

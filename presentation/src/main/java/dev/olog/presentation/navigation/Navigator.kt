@@ -27,6 +27,8 @@ interface Navigator {
 
     fun toLicensesFragment()
 
+    fun toSpecialThanksFragment()
+
     fun toSetRingtoneDialog(mediaId: String, itemTitle: String)
 
     fun toCreatePlaylistDialog(mediaId: String)

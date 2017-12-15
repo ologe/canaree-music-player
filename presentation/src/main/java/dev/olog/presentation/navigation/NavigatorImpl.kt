@@ -28,6 +28,7 @@ import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.fragment_search.SearchFragment
+import dev.olog.presentation.fragment_special_thanks.SpecialThanksFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import org.jetbrains.anko.clearTop
@@ -149,6 +150,7 @@ class NavigatorImpl @Inject constructor(
         if (allowed()) {
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayingQueueFragment(),
                         PlayingQueueFragment.TAG)
                 addToBackStack(PlayingQueueFragment.TAG)
@@ -177,6 +179,7 @@ class NavigatorImpl @Inject constructor(
     override fun toAboutFragment() {
         activity.supportFragmentManager.transaction {
             setReorderingAllowed(true)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             add(android.R.id.content, AboutFragment(), AboutFragment.TAG)
             addToBackStack(AboutFragment.TAG)
         }
@@ -186,8 +189,20 @@ class NavigatorImpl @Inject constructor(
         if (allowed()) {
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, LicensesFragment(), LicensesFragment.TAG)
                 addToBackStack(LicensesFragment.TAG)
+            }
+        }
+    }
+
+    override fun toSpecialThanksFragment() {
+        if (allowed()) {
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                add(android.R.id.content, SpecialThanksFragment(), SpecialThanksFragment.TAG)
+                addToBackStack(SpecialThanksFragment.TAG)
             }
         }
     }
