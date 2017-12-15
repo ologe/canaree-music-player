@@ -28,6 +28,7 @@ import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -125,6 +126,8 @@ class PlaylistRepository @Inject constructor(
                             .doOnNext { FileUtils.saveFile(context, "playlist", "${playlist.id}", it) }
                             .subscribeOn(Schedulers.io())
                     }.subscribeOn(Schedulers.io())
+                    .toList()
+                    .delay(1, TimeUnit.SECONDS)
                     .subscribe({ contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
         }
 
