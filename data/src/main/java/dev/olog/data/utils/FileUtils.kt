@@ -18,4 +18,10 @@ object FileUtils {
         return dest.path
     }
 
+    fun playlistImagePath(context: Context, playlistId: Long): String {
+        return "${context.applicationInfo.dataDir}${File.separator}playlist${File.separator}$playlistId"
+    }
+
+    fun
+
 }

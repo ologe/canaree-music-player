@@ -91,8 +91,9 @@ class PlaylistRepository @Inject constructor(
                             .mapToOne { it.getInt(0) }
                             .firstOrError()
                             .map {
-                                val imagePath = "${context.applicationInfo.dataDir}${File.separator}playlist${File.separator}${playlist.id}"
-                                Playlist(playlist.id, playlist.title, it, imagePath)
+                                val imagePath = FileUtils.playlistImagePath(context, playlist.id)
+                                val file = File(imagePath)
+                                Playlist(playlist.id, playlist.title, it, if (file.exists()) imagePath else "")
                             }
                     }.toList()
 
