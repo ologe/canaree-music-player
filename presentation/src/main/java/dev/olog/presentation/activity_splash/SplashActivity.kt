@@ -57,7 +57,7 @@ class SplashActivity : BaseActivity() {
                     if (success){
                         navigator.toMainActivity()
                     } else if (viewPager.currentItem == 0){
-                        viewPager.currentItem = 1
+                        viewPager.setCurrentItem(1, true)
                     }
                 })
     }
