@@ -108,9 +108,12 @@ class PlaylistRepository @Inject constructor(
                     .flatMap { it.toFlowable()
                             .flatMapMaybe { playlist -> FileUtils.makeImages(context,
                                     getPlaylistSongs(playlist.id), "playlist", "${playlist.id}")
+                                    .subscribeOn(Schedulers.io())
                             }.subscribeOn(Schedulers.io())
+                            .buffer(3)
+                            .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }
                             .toList()
-                    }.subscribe({ contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
+                    }.subscribe({}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver

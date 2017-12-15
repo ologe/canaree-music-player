@@ -16,11 +16,13 @@ import java.io.FileOutputStream
 object FileUtils {
 
     fun saveFile(context: Context, parentFolder: String, fileName: String, bitmap: Bitmap): String {
+        assertBackgroundThread()
+
         val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parentFolder")
         parentFile.mkdirs()
         val dest = File(parentFile, fileName)
         val out = FileOutputStream(dest)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 80, out)
         out.close()
         bitmap.recycle()
         return dest.path
@@ -35,6 +37,7 @@ object FileUtils {
     }
 
     fun makeImages(context: Context, songListFlowable: Flowable<List<Song>>, parentFolder: String, itemId: String): Maybe<Bitmap> {
+
         return songListFlowable.firstOrError()
                 .map { songList -> songList.asSequence()
                         .map { it.albumId }
@@ -47,7 +50,7 @@ object FileUtils {
                             }
                         }.filter { it != null }
                         .map { it!! }
-                        .take(4)
+                        .take(9)
                         .toList()
                 }.filter { it.isNotEmpty() }
                 .map { ImageUtils.joinImages(it) }
