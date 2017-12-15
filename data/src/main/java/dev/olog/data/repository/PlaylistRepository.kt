@@ -96,8 +96,7 @@ class PlaylistRepository @Inject constructor(
                             }
                     }.toList()
 
-            }
-            .toFlowable(BackpressureStrategy.LATEST)
+            }.toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)
             .refCount()
@@ -107,28 +106,31 @@ class PlaylistRepository @Inject constructor(
     override fun getAll(): Flowable<List<Playlist>> {
         val compareAndSet = imagesCreated.compareAndSet(false, true)
         if (compareAndSet){
-            getAll().firstOrError().flattenAsFlowable { it }
-                    .flatMap { playlist -> getPlaylistSongs(playlist.id)
-                            .map { songList -> songList.asSequence()
-                                    .map { it.albumId }
-                                    .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-                                    .map {
-                                        try {
-                                            MediaStore.Images.Media.getBitmap(contentResolver, it)
-                                        } catch (ex: Exception) {
-                                            null
-                                        }
-                                    }.filter { it != null }
-                                    .map { it!! }
-                                    .take(4)
-                                    .toList()
-                            }.map { ImageUtils.joinImages(it) }
-                            .doOnNext { FileUtils.saveFile(context, "playlist", "${playlist.id}", it) }
-                            .subscribeOn(Schedulers.io())
-                    }.subscribeOn(Schedulers.io())
-                    .toList()
-                    .delay(1, TimeUnit.SECONDS)
-                    .subscribe({ contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
+            getAll().take(1)
+                    .delay(2, TimeUnit.SECONDS)
+                    .flatMapSingle { it.toFlowable()
+                            .flatMap { playlist -> getPlaylistSongs(playlist.id)
+                                    .map { songList -> songList.asSequence()
+                                            .map { it.albumId }
+                                            .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+                                            .map {
+                                                try {
+                                                    MediaStore.Images.Media.getBitmap(contentResolver, it)
+                                                } catch (ex: Exception) {
+                                                    null
+                                                }
+                                            }.filter { it != null }
+                                            .map { it!! }
+                                            .take(4)
+                                            .toList()
+                                    }.filter { it.isNotEmpty() }
+                                    .map { ImageUtils.joinImages(it) }
+                                    .doOnNext { FileUtils.saveFile(context, "playlist", "${playlist.id}", it) }
+                                    .subscribeOn(Schedulers.io())
+                            }.subscribeOn(Schedulers.io())
+                            .toList()
+                            .doOnSuccess { contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }
+                    }.subscribe({}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver
