@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.utils.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
@@ -51,7 +50,7 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(SearchFragment.ANIMATION_DONE, true)
+        outState.putBoolean(ANIMATION_DONE, true)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

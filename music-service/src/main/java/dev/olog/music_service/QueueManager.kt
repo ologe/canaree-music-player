@@ -36,11 +36,12 @@ class QueueManager @Inject constructor(
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
                 .groupMap { it.toMediaEntity("") }
-                .doOnSuccess(queueImpl::updatePlayingQueue)
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
+                .doOnSuccess {  }
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
                 .map { (list, position) -> list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
-                .map { it.to(MathUtils.clamp(bookmarkUseCase.get().toInt() - 2000, // load 2 sec before
+                .map { it.to(MathUtils.clamp(bookmarkUseCase.get().toInt(),
                         0, it.mediaEntity.duration.toInt()).toLong()) }
     }
 

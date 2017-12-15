@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/header"
-            android:text="@string/player_playing_queue"
+            android:text="@string/about"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -38,24 +38,14 @@
             android:layout_height="@dimen/toolbar"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp" />
-
     </FrameLayout>
-
-    <TextView
-        android:text="@string/player_now_playing"
-        android:padding="8dp"
-        android:textColor="@color/text_color_primary"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
+        android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:clipChildren="false"/>
 
 </LinearLayout>

@@ -12,8 +12,10 @@ import dev.olog.presentation.dialog_delete.di.DeleteDialogInjector
 import dev.olog.presentation.dialog_new_playlist.di.NewPlaylistDialogInjector
 import dev.olog.presentation.dialog_rename.di.RenameDialogInjector
 import dev.olog.presentation.dialog_set_ringtone.di.SetRingtoneDialogInjector
+import dev.olog.presentation.fragment_about.di.AboutFragmentInjector
 import dev.olog.presentation.fragment_albums.di.AlbumsFragmentInjector
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
+import dev.olog.presentation.fragment_licenses.di.LicensesFragmentInjector
 import dev.olog.presentation.fragment_mini_player.di.MiniPlayerFragmentInjector
 import dev.olog.presentation.fragment_mini_queue.di.MiniQueueFragmentInjector
 import dev.olog.presentation.fragment_player.di.PlayerFragmentInjector
@@ -41,6 +43,8 @@ import dev.olog.presentation.navigation.NavigatorModule
         PlayingQueueFragmentInjector::class,
 
         // dialogs
+        AboutFragmentInjector::class,
+        LicensesFragmentInjector::class,
         AddFavoriteDialogInjector::class,
         AddPlaylistDialogInjector::class,
         NewPlaylistDialogInjector::class,

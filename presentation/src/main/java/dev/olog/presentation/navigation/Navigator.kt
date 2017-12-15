@@ -21,6 +21,12 @@ interface Navigator {
 
     fun toDialog(item: DisplayableItem, anchor: View)
 
+    fun toMainPopup(anchor: View)
+
+    fun toAboutFragment()
+
+    fun toLicensesFragment()
+
     fun toSetRingtoneDialog(mediaId: String, itemTitle: String)
 
     fun toCreatePlaylistDialog(mediaId: String)

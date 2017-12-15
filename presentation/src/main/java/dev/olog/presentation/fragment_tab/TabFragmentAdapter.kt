@@ -21,7 +21,6 @@ import javax.inject.Inject
 class TabFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
-        private val source: Int,
         private val musicController: MusicController,
         private val viewModel: TabFragmentViewModel,
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
@@ -78,9 +77,6 @@ class TabFragmentAdapter @Inject constructor(
         val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
         list.layoutManager = layoutManager
         list.adapter = adapter
-
-//        val snapHelper = LinearSnapHelper()
-//        snapHelper.attachToRecyclerView(list)
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

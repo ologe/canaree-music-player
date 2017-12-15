@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about_version">Version</string>
+    <string name="about_third_sw">Third-Party software</string>
+    <string name="about_third_sw_description">Software that helped development</string>
+
+</resources>

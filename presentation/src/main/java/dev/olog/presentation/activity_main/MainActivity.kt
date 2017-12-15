@@ -80,12 +80,14 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onResume()
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment() }
+        settings.setOnClickListener { navigator.toMainPopup(it) }
     }
 
     override fun onPause() {
         super.onPause()
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener(null)
+        settings.setOnClickListener(null)
     }
 
     override fun onDestroy() {

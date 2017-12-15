@@ -17,6 +17,7 @@
     <string name="popup_delete">Delete</string>
     <string name="popup_rename">Rename</string>
     <string name="popup_clear_playlist">Clear playlist</string>
+    <string name="popup_about">About</string>
 
     <string name="popup_negative_cancel">Cancel</string>
 

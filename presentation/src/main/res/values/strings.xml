@@ -14,4 +14,6 @@
     <string name="artist">Artist</string>
     <string name="genre">Genre</string>
 
+    <string name="about">About</string>
+
 </resources>

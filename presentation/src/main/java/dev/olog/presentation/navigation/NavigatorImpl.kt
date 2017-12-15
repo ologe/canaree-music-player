@@ -2,7 +2,9 @@ package dev.olog.presentation.navigation
 
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.view.Gravity
 import android.view.View
+import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import dev.olog.presentation.R
@@ -18,8 +20,10 @@ import dev.olog.presentation.dialog_entry.Popup
 import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
 import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
+import dev.olog.presentation.fragment_about.AboutFragment
 import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
+import dev.olog.presentation.fragment_licenses.LicensesFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
@@ -155,6 +159,36 @@ class NavigatorImpl @Inject constructor(
     override fun toDialog(item: DisplayableItem, anchor: View) {
         if (allowed()){
             Popup.create(activity, anchor, item, menuListenerFactory.get(item))
+        }
+    }
+
+    override fun toMainPopup(anchor: View) {
+        val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
+        popup.inflate(R.menu.main)
+        popup.setOnMenuItemClickListener {
+            when (it.itemId){
+                R.id.about -> this.toAboutFragment()
+            }
+            true
+        }
+        popup.show()
+    }
+
+    override fun toAboutFragment() {
+        activity.supportFragmentManager.transaction {
+            setReorderingAllowed(true)
+            add(android.R.id.content, AboutFragment(), AboutFragment.TAG)
+            addToBackStack(AboutFragment.TAG)
+        }
+    }
+
+    override fun toLicensesFragment() {
+        if (allowed()) {
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                add(android.R.id.content, LicensesFragment(), LicensesFragment.TAG)
+                addToBackStack(LicensesFragment.TAG)
+            }
         }
     }
 
