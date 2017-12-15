@@ -52,23 +52,19 @@ object BindingsAdapter {
 
         val image = item.image
         val file = File(image)
-        if (file.exists()){
-            GlideApp.with(context)
-                    .load(Uri.fromFile(file))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(OVERRIDE_MID)
-                    .error(CoverUtils.getGradient(context = context, position = id, source = source))
-                    .into(view)
+        val uri = if (file.exists()){
+            Uri.fromFile(file)
         } else {
-            GlideApp.with(context)
-                    .load(Uri.parse(item.image))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(OVERRIDE_MID)
-                    .error(CoverUtils.getGradient(context = context, position = id, source = source))
-                    .into(view)
+            Uri.parse(image)
         }
+
+        GlideApp.with(context)
+                .load(uri)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(OVERRIDE_MID)
+                .error(CoverUtils.getGradient(context = context, position = id, source = source))
+                .into(view)
     }
 
     @BindingAdapter("imageBigAlbum")
@@ -84,8 +80,16 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
+        val image = item.image
+        val file = File(image)
+        val uri = if (file.exists()){
+            Uri.fromFile(file)
+        } else {
+            Uri.parse(image)
+        }
+
         GlideApp.with(context)
-                .load(Uri.parse(item.image))
+                .load(uri)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(OVERRIDE_BIG)

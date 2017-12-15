@@ -1,5 +1,7 @@
 package dev.olog.data.repository
 
+import android.content.ContentResolver
+import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
@@ -7,18 +9,25 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.GenreMostPlayedEntity
 import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toGenre
+import dev.olog.data.utils.FileUtils
 import dev.olog.domain.entity.Genre
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
+import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class GenreRepository @Inject constructor(
+        @ApplicationContext private val context: Context,
+        private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
@@ -57,7 +66,11 @@ class GenreRepository @Inject constructor(
                             arrayOf("count(*)"), null, null, null, false)
                             .mapToOne { it.getInt(0) }
                             .firstOrError()
-                            .map { Genre(genre.id, genre.name, it) }
+                            .map {
+                                val imagePath = FileUtils.genreImagePath(context, genre.id)
+                                val file = File(imagePath)
+                                Genre(genre.id, genre.name, it, if (file.exists()) imagePath else "")
+                            }
                     }.toList()
             }
             .map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
@@ -66,7 +79,22 @@ class GenreRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    override fun getAll(): Flowable<List<Genre>> = contentProviderObserver
+    private val imagesCreated = AtomicBoolean(false)
+
+    override fun getAll(): Flowable<List<Genre>> {
+        val compareAndSet = imagesCreated.compareAndSet(false, true)
+        if (compareAndSet){
+            getAll().firstOrError()
+                    .flatMap { it.toFlowable()
+                            .flatMapMaybe { genre -> FileUtils.makeImages(context,
+                                    observeSongListByParam(genre.id), "genre", "${genre.id}")
+                            }.subscribeOn(Schedulers.io())
+                            .toList()
+                    }.subscribe({ contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
+        }
+
+        return contentProviderObserver
+    }
 
     override fun getByParam(param: Long): Flowable<Genre> {
         return getAll().flatMapSingle { it.toFlowable()

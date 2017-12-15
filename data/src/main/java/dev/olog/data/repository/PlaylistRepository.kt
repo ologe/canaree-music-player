@@ -4,12 +4,10 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.*
 import com.squareup.sqlbrite2.BriteContentResolver
-import dev.olog.data.ImageUtils
 import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
@@ -28,7 +26,6 @@ import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -108,27 +105,9 @@ class PlaylistRepository @Inject constructor(
         val compareAndSet = imagesCreated.compareAndSet(false, true)
         if (compareAndSet){
             getAll().firstOrError()
-                    .delay(2, TimeUnit.SECONDS)
                     .flatMap { it.toFlowable()
-                            .flatMapMaybe { playlist -> getPlaylistSongs(playlist.id)
-                                    .firstOrError()
-                                    .map { songList -> songList.asSequence()
-                                            .map { it.albumId }
-                                            .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-                                            .map {
-                                                try {
-                                                    MediaStore.Images.Media.getBitmap(contentResolver, it)
-                                                } catch (ex: Exception) {
-                                                    null
-                                                }
-                                            }.filter { it != null }
-                                            .map { it!! }
-                                            .take(4)
-                                            .toList()
-                                    }.filter { it.isNotEmpty() }
-                                    .map { ImageUtils.joinImages(it) }
-                                    .doOnSuccess { FileUtils.saveFile(context, "playlist", "${playlist.id}", it) }
-                                    .subscribeOn(Schedulers.io())
+                            .flatMapMaybe { playlist -> FileUtils.makeImages(context,
+                                    getPlaylistSongs(playlist.id), "playlist", "${playlist.id}")
                             }.subscribeOn(Schedulers.io())
                             .toList()
                     }.subscribe({ contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
