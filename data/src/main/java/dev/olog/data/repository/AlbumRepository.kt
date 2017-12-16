@@ -28,15 +28,15 @@ class AlbumRepository @Inject constructor(
         private val MEDIA_STORE_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 
         private val PROJECTION = arrayOf(
-                MediaStore.Audio.Albums.ALBUM_ID,
+                MediaStore.Audio.Albums._ID,
                 MediaStore.Audio.Albums.ARTIST,
                 MediaStore.Audio.Albums.ALBUM,
                 MediaStore.Audio.Albums.ARTIST,
                 MediaStore.Audio.Albums.NUMBER_OF_SONGS
         )
 
-        private val SELECTION = null
-        private val SELECTION_ARGS = null
+        private val SELECTION = "${MediaStore.Audio.Albums.ARTIST} <> ?"
+        private val SELECTION_ARGS = arrayOf("<unknown>")
         private val SORT_ORDER = "lower(${MediaStore.Audio.Albums.ALBUM})"
     }
 
@@ -53,6 +53,12 @@ class AlbumRepository @Inject constructor(
                     SORT_ORDER,
                     false
             ).mapToList { it.toAlbum() }
+//            .flatMapSingle { it.toFlowable()
+//                    .flatMapSingle { album -> songGateway.getAll().firstOrError()
+//                            .flatMap { it.toFlowable().filter { it.albumId == album.id }.firstOrError() }
+//                            .map { album.copy(artistId = it.artistId) }
+//                    }.toList()
+//            }
             .toFlowable(BackpressureStrategy.LATEST)
             .replay(1)
             .refCount()
@@ -69,10 +75,11 @@ class AlbumRepository @Inject constructor(
         if (songListFlowable == null){
             songListFlowable = songGateway.getAll()
                     .flatMapSingle { it.toFlowable()
-                            .filter { it.artist != DataConstants.UNKNOWN_ALBUM }
+                            .filter { it.album != DataConstants.UNKNOWN_ALBUM }
                             .filter { it.albumId == albumId }
                             .toList()
-                    }.distinctUntilChanged()
+                    }
+                    .distinctUntilChanged()
                     .replay(1)
                     .refCount()
 

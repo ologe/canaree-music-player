@@ -2,6 +2,7 @@ package dev.olog.data.repository
 
 import android.content.ContentResolver
 import android.content.Context
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
 import dev.olog.data.DataConstants
@@ -13,6 +14,7 @@ import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.ArtistGateway
+import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import io.reactivex.BackpressureStrategy
@@ -31,6 +33,7 @@ class ArtistRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
+        private val folderGateway: FolderGateway,
         appDatabase: AppDatabase
 
 ) :ArtistGateway {
@@ -45,13 +48,15 @@ class ArtistRepository @Inject constructor(
                 MediaStore.Audio.Artists.NUMBER_OF_TRACKS
         )
 
-        private val SELECTION = null
-        private val SELECTION_ARGS = null
+        private val SELECTION = "${MediaStore.Audio.Artists.ARTIST} <> ?"
+        private val SELECTION_ARGS = arrayOf("<unknown>")
         private val SORT_ORDER = "lower(${MediaStore.Audio.Artists.ARTIST})"
 
         private val ALBUM_PROJECTION = arrayOf(
-                MediaStore.Audio.Playlists.Members._ID,
-                MediaStore.Audio.Playlists.Members.AUDIO_ID
+                BaseColumns._ID,
+                MediaStore.Audio.Artists.Albums.ALBUM,
+                MediaStore.Audio.Artists.Albums.ARTIST,
+                MediaStore.Audio.Artists.Albums.NUMBER_OF_SONGS
         )
         private val ALBUM_SELECTION = null
         private val ALBUM_SELECTION_ARGS: Array<String>? = null
@@ -64,7 +69,7 @@ class ArtistRepository @Inject constructor(
 
     private val albumListMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
 
-    private val contentProviderObserver = rxContentResolver
+    private val contentProviderObserver : Flowable<List<Artist>> = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
                     PROJECTION,
@@ -74,6 +79,11 @@ class ArtistRepository @Inject constructor(
                     false
             ).mapToList { it.toArtist(context) }
             .toFlowable(BackpressureStrategy.LATEST)
+            .flatMapSingle { artistList ->
+                folderGateway.getAll()
+                        .firstOrError()
+                        .map { folders -> artistList }
+            }
             .replay(1)
             .refCount()
 

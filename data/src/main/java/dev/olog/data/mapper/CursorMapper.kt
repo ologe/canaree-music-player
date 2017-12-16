@@ -39,25 +39,26 @@ fun Cursor.toArtist(context: Context) : Artist {
 }
 
 fun Cursor.toArtistsAlbum(artistId: Long) : Album {
-    val albumId = this.getLong(MediaStore.Audio.Artists.Albums.ALBUM_ID)
+    val albumId = this.getLong(android.provider.BaseColumns._ID)
 
     return Album(
-            this.getLong(MediaStore.Audio.Artists.Albums.ALBUM_ID),
+            albumId,
             artistId,
             this.getString(MediaStore.Audio.Artists.Albums.ALBUM),
             this.getString(MediaStore.Audio.Artists.Albums.ARTIST),
-            ContentUris.withAppendedId(COVER_URI, albumId).toString()
+            ContentUris.withAppendedId(COVER_URI, albumId).toString(),
+            this.getInt(MediaStore.Audio.Artists.Albums.NUMBER_OF_SONGS)
     )
 }
 
 fun Cursor.toAlbum() : Album {
-    val id = this.getLong(MediaStore.Audio.AlbumColumns.ALBUM_ID)
+    val id = this.getLong(MediaStore.Audio.Albums._ID)
 
     return Album(
             id,
-            -1,
-            this.getString(MediaStore.Audio.AlbumColumns.ALBUM),
-            this.getString(MediaStore.Audio.AlbumColumns.ARTIST),
+            -2,
+            this.getString(MediaStore.Audio.Albums.ALBUM),
+            this.getString(MediaStore.Audio.Albums.ARTIST),
             ContentUris.withAppendedId(COVER_URI, id).toString()
     )
 }

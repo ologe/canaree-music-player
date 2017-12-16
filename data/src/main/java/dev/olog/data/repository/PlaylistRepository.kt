@@ -104,6 +104,7 @@ class PlaylistRepository @Inject constructor(
     override fun getAll(): Flowable<List<Playlist>> {
         val compareAndSet = imagesCreated.compareAndSet(false, true)
         if (compareAndSet){
+//            getAll().concatMap { getAllAutoPlaylists() }
             getAll().firstOrError()
                     .flatMap { it.toFlowable()
                             .flatMapMaybe { playlist -> FileUtils.makeImages(context,
