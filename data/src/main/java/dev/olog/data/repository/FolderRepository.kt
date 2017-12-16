@@ -49,6 +49,7 @@ class FolderRepository @Inject constructor(
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
                     val image = FileUtils.folderImagePath(context, it.key)
+                    println(image)
                     val file = File(image)
                     Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
                             it.key, it.value.size, if (file.exists()) image else "")
@@ -66,7 +67,7 @@ class FolderRepository @Inject constructor(
             getAll().firstOrError()
                     .flatMap { it.toFlowable()
                             .flatMapMaybe { folder -> FileUtils.makeImages(context,
-                                    observeSongListByParam(folder.path), "folder", folder.path)
+                                    observeSongListByParam(folder.path), "folder", folder.path.replace(File.separator, ""))
                                     .subscribeOn(Schedulers.io())
                             }.subscribeOn(Schedulers.io())
                             .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null) }

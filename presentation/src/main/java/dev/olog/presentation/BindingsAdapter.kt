@@ -17,7 +17,7 @@ object BindingsAdapter {
 
     private val OVERRIDE_SMALL = 150
     private val OVERRIDE_MID = 600
-    private val OVERRIDE_BIG = 600
+    private val OVERRIDE_BIG = 1000
 
 
     @BindingAdapter("imageSong")

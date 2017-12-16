@@ -22,14 +22,14 @@ object FileUtils {
         parentFile.mkdirs()
         val dest = File(parentFile, fileName)
         val out = FileOutputStream(dest)
-        bitmap.compress(Bitmap.CompressFormat.WEBP, 80, out)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, out)
         out.close()
         bitmap.recycle()
         return dest.path
     }
 
     fun folderImagePath(context: Context, folderpath: String): String {
-        return "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}$" +
+        return "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}" +
                 folderpath.replace(File.separator, "")
     }
 

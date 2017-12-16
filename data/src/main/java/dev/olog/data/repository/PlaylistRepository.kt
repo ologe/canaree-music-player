@@ -110,7 +110,7 @@ class PlaylistRepository @Inject constructor(
                                     getPlaylistSongs(playlist.id), "playlist", "${playlist.id}")
                                     .subscribeOn(Schedulers.io())
                             }.subscribeOn(Schedulers.io())
-                            .buffer(3)
+                            .buffer(2)
                             .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }
                             .toList()
                     }.subscribe({}, Throwable::printStackTrace)

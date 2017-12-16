@@ -1,14 +1,11 @@
 package dev.olog.data
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Matrix
-import android.graphics.Paint
+import android.graphics.*
 import dev.olog.data.utils.assertBackgroundThread
 
 object ImageUtils {
 
-    private const val IMAGE_SIZE = 1000
+    private const val IMAGE_SIZE = 1500
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()
@@ -23,50 +20,75 @@ object ImageUtils {
                 val item2 = list[1]
                 listOf(item1, item2, item2, item1)
             }
-            list.size < 9 -> {
+            list.size == 3 -> {
                 val item1 = list[0]
                 val item2 = list[1]
                 val item3 = list[2]
                 listOf(item1, item2, item3, item1)
             }
-            else -> list // case 4
+            list.size < 9 -> { // case 4
+                val item1 = list[0]
+                val item2 = list[1]
+                val item3 = list[2]
+                val item4 = list[3]
+                listOf(item1, item2, item3, item4)
+            }
+            else -> list // case 9
         }
 
         val combinedImage = create(resultList, IMAGE_SIZE, if (list.size == 9) 3 else 2)
-        val rotatedBitmap = rotate(combinedImage, IMAGE_SIZE, if (list.size == 9) 9f else 3f)
-        val croppedBitmap = centerCrop(rotatedBitmap, IMAGE_SIZE, list.size)
-        rotatedBitmap.recycle()
-
-        return croppedBitmap
+        if (list.size == 9){
+            return rotateAndCrop(combinedImage, IMAGE_SIZE, 9f)
+        }
+        return combinedImage
     }
 
     private fun create(images: List<Bitmap>, imageSize: Int, parts: Int) : Bitmap {
         val result = Bitmap.createBitmap(imageSize, imageSize, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(result)
-        val paint = Paint()
-        val padding = 10
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val onePartSize = imageSize / parts
+
         images.forEachIndexed { i, bitmap ->
-            val bit = Bitmap.createScaledBitmap(bitmap, onePartSize - padding, onePartSize - padding, false)
+            val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, false)
             canvas.drawBitmap(bit, (onePartSize * (i % parts)).toFloat(), (onePartSize * (i / parts)).toFloat(), paint)
             bit.recycle()
         }
+
+        paint.color = Color.WHITE
+        paint.strokeWidth = 10f
+
+        if (parts == 2){
+            val halfImageSize = (IMAGE_SIZE / 2).toFloat()
+            canvas.drawLine(halfImageSize, 0f, halfImageSize, imageSize.toFloat(), paint)
+            canvas.drawLine(0f, halfImageSize, imageSize.toFloat(), halfImageSize, paint)
+        } else {
+            val oneThirdSize = (IMAGE_SIZE / 3).toFloat()
+            val twoThirdSize = (IMAGE_SIZE / 3 * 2).toFloat()
+            // vertical lines
+            canvas.drawLine(oneThirdSize, 0f, oneThirdSize, imageSize.toFloat(), paint)
+            canvas.drawLine(twoThirdSize,0f, twoThirdSize, imageSize.toFloat(), paint)
+            // horizontal lines
+            canvas.drawLine(0f, oneThirdSize, imageSize.toFloat(), oneThirdSize, paint)
+            canvas.drawLine(0f, twoThirdSize, imageSize.toFloat(), twoThirdSize, paint)
+        }
+
         return result
     }
 
-    private fun rotate(bitmap: Bitmap, imageSize: Int, degrees: Float): Bitmap {
+    private fun rotateAndCrop(bitmap: Bitmap, imageSize: Int, degrees: Float): Bitmap {
         val matrix = Matrix()
         matrix.postRotate(degrees)
-        return Bitmap.createBitmap(bitmap, 0, 0, imageSize, imageSize, matrix, true)
+
+        val rotated = Bitmap.createBitmap(bitmap, 0, 0, imageSize, imageSize, matrix, true)
+        bitmap.recycle()
+        val cropStart = imageSize * 25 / 100
+        val cropEnd : Int = (cropStart * 1.5).toInt()
+        val cropped = Bitmap.createBitmap(rotated, cropStart, cropStart, imageSize - cropEnd, imageSize - cropEnd)
+        rotated.recycle()
+
+        return cropped
     }
 
-    private fun centerCrop(bitmap: Bitmap, imageSize: Int, listSize: Int): Bitmap {
-        val point = if (listSize == 9){
-            imageSize / 3 / 2
-        } else imageSize / 2 / 3
-
-        return Bitmap.createBitmap(bitmap, point, point, (imageSize - point * 2),
-                (imageSize - point * 2))
-    }
 
 }
