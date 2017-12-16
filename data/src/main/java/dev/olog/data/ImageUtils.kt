@@ -40,7 +40,7 @@ object ImageUtils {
                 val item4 = list[3]
                 listOf(item1, item2, item3, item4, item1, item2, item3, item4, item1)
             }
-            list.size == 5 -> {
+            list.size < 9 -> { // 5 to 8
                 val item1 = list[0]
                 val item2 = list[1]
                 val item3 = list[2]
@@ -61,6 +61,7 @@ object ImageUtils {
         images.forEachIndexed { i, bitmap ->
             val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, false)
             canvas.drawBitmap(bit, (onePartSize * (i % parts)).toFloat(), (onePartSize * (i / parts)).toFloat(), paint)
+//            bit.recycle()
         }
 
         paint.color = Color.WHITE

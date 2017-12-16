@@ -15,9 +15,9 @@ import java.io.File
 
 object BindingsAdapter {
 
-    private val OVERRIDE_SMALL = 150
-    private val OVERRIDE_MID = 600
-    private val OVERRIDE_BIG = 1000
+    private const val OVERRIDE_SMALL = 150
+    private const val OVERRIDE_MID = 800
+    private const val OVERRIDE_BIG = 1000
 
 
     @BindingAdapter("imageSong")
@@ -96,7 +96,6 @@ object BindingsAdapter {
                 .priority(Priority.IMMEDIATE)
                 .error(CoverUtils.getGradient(context, id, source))
                 .into(view)
-
     }
 
     @BindingAdapter("imageSpecialThanks")

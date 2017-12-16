@@ -49,7 +49,6 @@ class FolderRepository @Inject constructor(
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
                     val image = FileUtils.folderImagePath(context, it.key)
-                    println(image)
                     val file = File(image)
                     Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
                             it.key, it.value.size, if (file.exists()) image else "")
