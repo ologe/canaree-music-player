@@ -8,7 +8,7 @@ import dev.olog.data.utils.assertBackgroundThread
 
 object ImageUtils {
 
-    private const val IMAGE_SIZE = 750
+    private const val IMAGE_SIZE = 1000
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()
@@ -34,10 +34,10 @@ object ImageUtils {
 
         val combinedImage = create(resultList, IMAGE_SIZE, if (list.size == 9) 3 else 2)
         val rotatedBitmap = rotate(combinedImage, IMAGE_SIZE, if (list.size == 9) 9f else 3f)
-//        val croppedBitmap = centerCrop(rotatedBitmap, IMAGE_SIZE, list.size)
-//        rotatedBitmap.recycle()
+        val croppedBitmap = centerCrop(rotatedBitmap, IMAGE_SIZE, list.size)
+        rotatedBitmap.recycle()
 
-        return rotatedBitmap
+        return croppedBitmap
     }
 
     private fun create(images: List<Bitmap>, imageSize: Int, parts: Int) : Bitmap {
@@ -56,18 +56,17 @@ object ImageUtils {
 
     private fun rotate(bitmap: Bitmap, imageSize: Int, degrees: Float): Bitmap {
         val matrix = Matrix()
-        matrix.setTranslate((- IMAGE_SIZE / 2).toFloat(), (- IMAGE_SIZE / 2).toFloat())
         matrix.postRotate(degrees)
-        matrix.postTranslate((IMAGE_SIZE / 2).toFloat(), (IMAGE_SIZE / 2).toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, imageSize, imageSize, matrix, true)
     }
 
     private fun centerCrop(bitmap: Bitmap, imageSize: Int, listSize: Int): Bitmap {
         val point = if (listSize == 9){
-            imageSize / 3 / 3
-        } else imageSize / 2 / 4
+            imageSize / 3 / 2
+        } else imageSize / 2 / 3
 
-        return Bitmap.createBitmap(bitmap, point, point, imageSize - point * 2, imageSize - point * 2)
+        return Bitmap.createBitmap(bitmap, point, point, (imageSize - point * 2),
+                (imageSize - point * 2))
     }
 
 }

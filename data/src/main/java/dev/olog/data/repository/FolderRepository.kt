@@ -1,23 +1,31 @@
 package dev.olog.data.repository
 
-import android.annotation.SuppressLint
+import android.content.ContentResolver
+import android.content.Context
+import android.provider.MediaStore
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.FolderMostPlayedEntity
+import dev.olog.data.utils.FileUtils
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FolderRepository @Inject constructor(
+        @ApplicationContext private val context: Context,
+        private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -40,57 +48,31 @@ class FolderRepository @Inject constructor(
 
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
-//                    val dataDir = "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}"
-//                    val image = "$dataDir${it.key.replace(File.separator, "")}"
+                    val image = FileUtils.folderImagePath(context, it.key)
+                    val file = File(image)
                     Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
-                            it.key, it.value.size, "")
+                            it.key, it.value.size, if (file.exists()) image else "")
                 }.toSortedList(compareBy { it.title.toLowerCase() })
             }
             .distinctUntilChanged()
             .replay(1)
             .refCount()
 
+    private val imagesCreated = AtomicBoolean(false)
 
-
-    private var imagesCreated = false
-
-//    private val images = dataMap
-//            .firstOrError()
-//            .flatMap { it.entries.toFlowable()
-//            .map { it.value }
-//            .flatMapSingle { songList -> songList.toFlowable()
-//                    .map { it.albumId }
-//                    .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-//                    .map { uri -> try {
-//                        Option(MediaStore.Images.Media.getBitmap(contentResolver, uri))
-//                    } catch (ex: Exception){
-//                        Option(null)
-//                    }}
-//                    .filter { it.item != null }
-//                    .map { it.item!! }
-//                    .take(4)
-//                    .toList()
-//                    .map { ImageUtils.joinImages(it) }
-//                    .map {
-//                        val song = songList[0]
-//                        val name = song.folderPath.replace(File.separator, "", false)
-//                        FileUtils.saveFile(context, "folder",name, it)
-//                    }
-//                    .subscribeOn(Schedulers.io())
-//            }.toList()
-//    }.subscribeOn(Schedulers.io())
-//            .toCompletable()
-
-    @SuppressLint("CheckResult")
     override fun getAll(): Flowable<List<Folder>> {
-
-//        if (!imagesCreated){
-//            imagesCreated = true
-//            images.subscribe({
-//                contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-//
-//            }, Throwable::printStackTrace)
-//        }
+        val compareAndSet = imagesCreated.compareAndSet(false, true)
+        if (compareAndSet){
+            getAll().firstOrError()
+                    .flatMap { it.toFlowable()
+                            .flatMapMaybe { folder -> FileUtils.makeImages(context,
+                                    observeSongListByParam(folder.path), "folder", folder.path)
+                                    .subscribeOn(Schedulers.io())
+                            }.subscribeOn(Schedulers.io())
+                            .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null) }
+                            .toList()
+                    }.subscribe({}, Throwable::printStackTrace)
+        }
 
         return listObservable
     }

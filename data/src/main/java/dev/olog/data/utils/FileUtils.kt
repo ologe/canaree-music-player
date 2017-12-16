@@ -28,6 +28,11 @@ object FileUtils {
         return dest.path
     }
 
+    fun folderImagePath(context: Context, folderpath: String): String {
+        return "${context.applicationInfo.dataDir}${File.separator}folder${File.separator}$" +
+                folderpath.replace(File.separator, "")
+    }
+
     fun playlistImagePath(context: Context, playlistId: Long): String {
         return "${context.applicationInfo.dataDir}${File.separator}playlist${File.separator}$playlistId"
     }
