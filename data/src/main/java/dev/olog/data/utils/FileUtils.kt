@@ -37,6 +37,10 @@ object FileUtils {
         return "${context.applicationInfo.dataDir}${File.separator}playlist${File.separator}$playlistId"
     }
 
+    fun artistImagePath(context: Context, artistId: Long): String {
+        return "${context.applicationInfo.dataDir}${File.separator}artist${File.separator}$artistId"
+    }
+
     fun genreImagePath(context: Context, genreId: Long): String {
         return "${context.applicationInfo.dataDir}${File.separator}genre${File.separator}$genreId"
     }
