@@ -46,6 +46,7 @@ object FileUtils {
         return songListFlowable.firstOrError()
                 .map { songList -> songList.asSequence()
                         .map { it.albumId }
+                        .distinct()
                         .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
                         .map {
                             try {
