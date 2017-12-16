@@ -63,11 +63,15 @@ class SongRepository @Inject constructor(
                     false
             ).mapToList { it.toSong() }
             .toFlowable(BackpressureStrategy.LATEST)
-            .distinctUntilChanged()
             .replay(1)
             .refCount()
 
-    override fun getAll(): Flowable<List<Song>> = contentProviderObserver
+    private val distinctContentProviderObserver = contentProviderObserver
+            .distinctUntilChanged()
+
+    override fun getAllNotDistinct() = contentProviderObserver
+
+    override fun getAll(): Flowable<List<Song>> = distinctContentProviderObserver
 
     override fun getByParam(param: Long): Flowable<Song> {
         return getAll().flatMapSingle { it.toFlowable()
@@ -97,3 +101,4 @@ class SongRepository @Inject constructor(
                 .flatMapCompletable { deleteSingle(it).subscribeOn(Schedulers.io()) }
     }
 }
+

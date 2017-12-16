@@ -22,7 +22,7 @@ object FileUtils {
         parentFile.mkdirs()
         val dest = File(parentFile, fileName)
         val out = FileOutputStream(dest)
-        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, out)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()
         bitmap.recycle()
         return dest.path

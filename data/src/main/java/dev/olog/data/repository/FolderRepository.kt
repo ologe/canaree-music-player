@@ -33,7 +33,7 @@ class FolderRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    private val dataMap : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAll()
+    private val dataMap : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAllNotDistinct()
             .flatMapSingle { it.toFlowable().collectInto(mutableMapOf<String, MutableList<Song>>(), { map, song ->
                 if (map.contains(song.folderPath)){
                     map[song.folderPath]!!.add(song)
@@ -41,10 +41,10 @@ class FolderRepository @Inject constructor(
                     map.put(song.folderPath, mutableListOf(song))
                 }
             })
-            }
-            .distinctUntilChanged()
-            .replay(1)
+            }.replay(1)
             .refCount()
+
+    private val distinctDataMap = dataMap.distinctUntilChanged()
 
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
                 .map {
@@ -61,6 +61,7 @@ class FolderRepository @Inject constructor(
 
     private val imagesCreated = AtomicBoolean(false)
 
+
     override fun getAll(): Flowable<List<Folder>> {
         val compareAndSet = imagesCreated.compareAndSet(false, true)
         if (compareAndSet){
@@ -70,6 +71,7 @@ class FolderRepository @Inject constructor(
                                     observeSongListByParam(folder.path), "folder", folder.path.replace(File.separator, ""))
                                     .subscribeOn(Schedulers.io())
                             }.subscribeOn(Schedulers.io())
+                            .buffer(2)
                             .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null) }
                             .toList()
                     }.subscribe({}, Throwable::printStackTrace)
@@ -79,7 +81,7 @@ class FolderRepository @Inject constructor(
     }
 
     override fun observeSongListByParam(param: String): Flowable<List<Song>> {
-        return dataMap.map { it[param]!! }
+        return distinctDataMap.map { it[param]!! }
     }
 
     override fun getByParam(param: String): Flowable<Folder> {

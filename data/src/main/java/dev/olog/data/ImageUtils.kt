@@ -10,37 +10,46 @@ object ImageUtils {
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()
 
-        val resultList = when {
+        val resultList = arrangeBitmaps(list)
+
+        val combinedImage = create(resultList, IMAGE_SIZE, 3)
+        return rotateAndCrop(combinedImage, IMAGE_SIZE, 9f)
+    }
+
+    private fun arrangeBitmaps(list: List<Bitmap>): List<Bitmap> {
+        return when {
             list.size == 1 -> {
                 val item = list[0]
-                listOf(item, item, item, item)
+                listOf(item, item, item, item, item, item, item, item, item)
             }
             list.size == 2 -> {
                 val item1 = list[0]
                 val item2 = list[1]
-                listOf(item1, item2, item2, item1)
+                listOf(item1, item2, item1, item2, item1, item2, item1, item2, item1)
             }
             list.size == 3 -> {
                 val item1 = list[0]
                 val item2 = list[1]
                 val item3 = list[2]
-                listOf(item1, item2, item3, item1)
+                listOf(item1, item2, item3, item3, item1, item2, item2, item3, item1)
             }
-            list.size < 9 -> { // case 4
+            list.size == 4 -> {
                 val item1 = list[0]
                 val item2 = list[1]
                 val item3 = list[2]
                 val item4 = list[3]
-                listOf(item1, item2, item3, item4)
+                listOf(item1, item2, item3, item4, item1, item2, item3, item4, item1)
+            }
+            list.size == 5 -> {
+                val item1 = list[0]
+                val item2 = list[1]
+                val item3 = list[2]
+                val item4 = list[3]
+                val item5 = list[4]
+                listOf(item1, item2, item3, item4, item5, item2, item3, item4, item1)
             }
             else -> list // case 9
         }
-
-        val combinedImage = create(resultList, IMAGE_SIZE, if (list.size == 9) 3 else 2)
-        if (list.size == 9){
-            return rotateAndCrop(combinedImage, IMAGE_SIZE, 9f)
-        }
-        return combinedImage
     }
 
     private fun create(images: List<Bitmap>, imageSize: Int, parts: Int) : Bitmap {
@@ -52,26 +61,19 @@ object ImageUtils {
         images.forEachIndexed { i, bitmap ->
             val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, false)
             canvas.drawBitmap(bit, (onePartSize * (i % parts)).toFloat(), (onePartSize * (i / parts)).toFloat(), paint)
-            bit.recycle()
         }
 
         paint.color = Color.WHITE
         paint.strokeWidth = 10f
 
-        if (parts == 2){
-            val halfImageSize = (IMAGE_SIZE / 2).toFloat()
-            canvas.drawLine(halfImageSize, 0f, halfImageSize, imageSize.toFloat(), paint)
-            canvas.drawLine(0f, halfImageSize, imageSize.toFloat(), halfImageSize, paint)
-        } else {
-            val oneThirdSize = (IMAGE_SIZE / 3).toFloat()
-            val twoThirdSize = (IMAGE_SIZE / 3 * 2).toFloat()
-            // vertical lines
-            canvas.drawLine(oneThirdSize, 0f, oneThirdSize, imageSize.toFloat(), paint)
-            canvas.drawLine(twoThirdSize,0f, twoThirdSize, imageSize.toFloat(), paint)
-            // horizontal lines
-            canvas.drawLine(0f, oneThirdSize, imageSize.toFloat(), oneThirdSize, paint)
-            canvas.drawLine(0f, twoThirdSize, imageSize.toFloat(), twoThirdSize, paint)
-        }
+        val oneThirdSize = (IMAGE_SIZE / 3).toFloat()
+        val twoThirdSize = (IMAGE_SIZE / 3 * 2).toFloat()
+        // vertical lines
+        canvas.drawLine(oneThirdSize, 0f, oneThirdSize, imageSize.toFloat(), paint)
+        canvas.drawLine(twoThirdSize,0f, twoThirdSize, imageSize.toFloat(), paint)
+        // horizontal lines
+        canvas.drawLine(0f, oneThirdSize, imageSize.toFloat(), oneThirdSize, paint)
+        canvas.drawLine(0f, twoThirdSize, imageSize.toFloat(), twoThirdSize, paint)
 
         return result
     }
