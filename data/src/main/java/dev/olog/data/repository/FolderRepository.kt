@@ -47,13 +47,13 @@ class FolderRepository @Inject constructor(
     private val distinctDataMap = dataMap.distinctUntilChanged()
 
     private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
-                .map {
-                    val image = FileUtils.folderImagePath(context, it.key)
-                    val file = File(image)
-                    Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
-                            it.key, it.value.size, if (file.exists()) image else "")
-                }.toSortedList(compareBy { it.title.toLowerCase() })
-            }
+            .map {
+                val image = FileUtils.folderImagePath(context, it.key)
+                val file = File(image)
+                Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
+                        it.key, it.value.size, if (file.exists()) image else "")
+            }.toSortedList(compareBy { it.title.toLowerCase() })
+    }
             .distinctUntilChanged()
             .replay(1)
             .refCount()
