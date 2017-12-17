@@ -9,17 +9,18 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.GenreMostPlayedEntity
 import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toGenre
-import dev.olog.data.utils.FileUtils
+import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Genre
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
-import io.reactivex.*
-import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
-import java.io.File
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
+import io.reactivex.Flowable
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -60,72 +61,84 @@ class GenreRepository @Inject constructor(
                     SELECTION_ARGS,
                     SORT_ORDER,
                     false
-            ).mapToList { it.toGenre() }
-            .flatMapSingle { it.toFlowable()
-                    .flatMapSingle { genre -> rxContentResolver.createQuery(MediaStore.Audio.Genres.Members.getContentUri("external", genre.id),
-                            arrayOf("count(*)"), null, null, null, false)
-                            .mapToOne { it.getInt(0) }
-                            .firstOrError()
-                            .map {
-                                val imagePath = FileUtils.genreImagePath(context, genre.id)
-                                val file = File(imagePath)
-                                Genre(genre.id, genre.name, it, if (file.exists()) imagePath else "")
-                            }
-                    }.toList()
-            }
-            .map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
+            ).mapToList {
+                val genreSize = getGenreSize(it.getLong(BaseColumns._ID))
+                it.toGenre(context, genreSize)
+            }.map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)
             .refCount()
+
+    private val songsMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
+
+    private fun getGenreSize(genreId: Long): Int {
+        assertBackgroundThread()
+
+        val cursor = contentResolver.query(MediaStore.Audio.Genres.Members.getContentUri("external", genreId),
+                arrayOf("count(*)"), null, null, null)
+        cursor.moveToFirst()
+        val size = cursor.getInt(0)
+        cursor.close()
+        return size
+    }
 
     private val imagesCreated = AtomicBoolean(false)
 
     override fun getAll(): Flowable<List<Genre>> {
         val compareAndSet = imagesCreated.compareAndSet(false, true)
         if (compareAndSet){
-            getAll().firstOrError()
-                    .flatMap { it.toFlowable()
-                            .flatMapMaybe { genre -> FileUtils.makeImages(context,
-                                    observeSongListByParam(genre.id), "genre", "${genre.id}")
-                            }.subscribeOn(Schedulers.io())
-                            .toList()
-                    }.subscribe({ contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
+//            getAll().firstOrError()
+//                    .flatMap { it.toFlowable()
+//                            .flatMapMaybe { genre -> FileUtils.makeImages(context,
+//                                    observeSongListByParam(genre.id), "genre", "${genre.id}")
+//                            }.subscribeOn(Schedulers.io())
+//                            .toList()
+//                    }.subscribe({ contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
         }
 
         return contentProviderObserver
     }
 
-    override fun getByParam(param: Long): Flowable<Genre> {
-        return getAll().flatMapSingle { it.toFlowable()
-                .filter { it.id == param }
-                .firstOrError()
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun getByParam(playlistId: Long): Flowable<Genre> {
+        return getAll().map { it.first { it.id == playlistId } }
+    }
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
+        var flowable = songsMap[playlistId]
+
+        if (flowable == null){
+            flowable = rxContentResolver.createQuery(
+                    MediaStore.Audio.Genres.Members.getContentUri("external", playlistId),
+                    SONG_PROJECTION,
+                    SONG_SELECTION,
+                    SONG_SELECTION_ARGS,
+                    SONG_SORT_ORDER,
+                    false
+            ).mapToList { it.extractId() }
+                    .toFlowable(BackpressureStrategy.LATEST)
+                    .flatMapSingle { ids -> songGateway.getAll().firstOrError().map { songs ->
+                        ids.asSequence()
+                                .map { id -> songs.firstOrNull { it.id == id } }
+                                .filter { it != null }
+                                .map { it!! }
+                                .toList()
+                    }}.distinctUntilChanged()
+                    .replay(1)
+                    .refCount()
+
+            songsMap[playlistId] = flowable
         }
+
+        return flowable
     }
 
-    override fun observeSongListByParam(param: Long): Flowable<List<Song>> {
-        return rxContentResolver.createQuery(
-                MediaStore.Audio.Genres.Members.getContentUri("external", param),
-                SONG_PROJECTION,
-                SONG_SELECTION,
-                SONG_SELECTION_ARGS,
-                SONG_SORT_ORDER,
-                false
-
-        ).mapToList { it.extractId() }
-                .toFlowable(BackpressureStrategy.LATEST)
-                .flatMapSingle { ids -> songGateway.getAll().firstOrError().flatMap { songs ->
-                    val result : List<Song> = ids.asSequence()
-                            .map { id -> songs.firstOrNull { it.id == id } }
-                            .filter { it != null }
-                            .map { it!! }
-                            .toList()
-                    Single.just(result)
-                }}
-    }
-
-    override fun getMostPlayed(param: String): Flowable<List<Song>> {
-        return mostPlayedDao.getAll(MediaIdHelper.extractCategoryValue(param).toLong(), songGateway.getAll())
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun getMostPlayed(mediaId: String): Flowable<List<Song>> {
+        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        return mostPlayedDao.getAll(playlistId, songGateway.getAll())
     }
 
     override fun insertMostPlayed(mediaId: String): Completable {

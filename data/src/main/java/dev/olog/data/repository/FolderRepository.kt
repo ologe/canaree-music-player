@@ -5,20 +5,17 @@ import android.content.Context
 import android.provider.MediaStore
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.FolderMostPlayedEntity
-import dev.olog.data.utils.FileUtils
+import dev.olog.data.mapper.toFolder
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.flatMapGroup
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
-import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
-import java.io.File
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,56 +28,64 @@ class FolderRepository @Inject constructor(
 
 ): FolderGateway {
 
+    companion object {
+        private val MEDIA_STORE_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
+    }
+
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    private val dataMap : Flowable<MutableMap<String, MutableList<Song>>> = songGateway.getAllNotDistinct()
-            .flatMapSingle { it.toFlowable().collectInto(mutableMapOf<String, MutableList<Song>>(), { map, song ->
-                if (map.contains(song.folderPath)){
-                    map[song.folderPath]!!.add(song)
-                } else {
-                    map.put(song.folderPath, mutableListOf(song))
-                }
-            })
-            }.replay(1)
-            .refCount()
+    private val songMap : MutableMap<String, Flowable<List<Song>>> = mutableMapOf()
 
-    private val distinctDataMap = dataMap.distinctUntilChanged()
-
-    private val listObservable : Flowable<List<Folder>> = dataMap.flatMapSingle { it.entries.toFlowable()
-            .map {
-                val image = FileUtils.folderImagePath(context, it.key)
-                val file = File(image)
-                Folder(it.key.substring(it.key.lastIndexOf(File.separator) + 1),
-                        it.key, it.value.size, if (file.exists()) image else "")
-            }.toSortedList(compareBy { it.title.toLowerCase() })
-    }
-            .distinctUntilChanged()
+    private val listObservable = songGateway.getAll()
+            .flatMapGroup { distinct { it.folderPath } }
+            .flatMapSingle { songsToFolder -> songGateway.getAll().firstOrError()
+                    .map { songList ->
+                        songsToFolder.map { songToFolder -> songToFolder.toFolder(context,
+                                songList.count { it.folderPath == songToFolder.folderPath }) }
+                    }
+            }.distinctUntilChanged()
             .replay(1)
             .refCount()
 
-    private val imagesCreated = AtomicBoolean(false)
-
+    private var imagesCreated = false
 
     override fun getAll(): Flowable<List<Folder>> {
-        val compareAndSet = imagesCreated.compareAndSet(false, true)
-        if (compareAndSet){
-            getAll().firstOrError()
-                    .flatMap { it.toFlowable()
-                            .flatMapMaybe { folder -> FileUtils.makeImages(context,
-                                    observeSongListByParam(folder.path), "folder", folder.path.replace(File.separator, ""))
-                                    .subscribeOn(Schedulers.io())
-                            }.subscribeOn(Schedulers.io())
-                            .buffer(2)
-                            .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null) }
-                            .toList()
-                    }.subscribe({}, Throwable::printStackTrace)
+//        val compareAndSet = imagesCreated.compareAndSet(false, true)
+        if (!imagesCreated){
+            imagesCreated = true
+
+//            Single.fromCallable { songGateway.getAllForImageCreation() }
+//                    .subscribeOn(Schedulers.io())
+//                    .map { it.groupBy { it.folderPath } }
+//                    .flatMap { it.entries.toFlowable()
+//                            .parallel()
+//                            .runOn(Schedulers.computation())
+//                            .map { map -> FileUtils.makeImages(context, map.value, "folder",
+//                                    map.key.replace(File.separator, "")) }
+//                            .sequential()
+//                            .toList()
+//                            .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+//                    }.subscribe({}, Throwable::printStackTrace)
         }
 
         return listObservable
     }
 
-    override fun observeSongListByParam(param: String): Flowable<List<Song>> {
-        return distinctDataMap.map { it[param]!! }
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun observeSongListByParam(folderPath: String): Flowable<List<Song>> {
+        var flowable = songMap[folderPath]
+
+        if (flowable == null){
+            flowable = songGateway.getAll().map {
+                it.asSequence().filter { it.folderPath == folderPath}.toList()
+            }.distinctUntilChanged()
+                    .replay(1)
+                    .refCount()
+
+            songMap[folderPath] = flowable
+        }
+
+        return flowable
     }
 
     override fun getByParam(param: String): Flowable<Folder> {

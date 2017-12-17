@@ -6,5 +6,5 @@ data class Album(
         val title: String,
         val artist: String,
         val image: String,
-        val songs: Int = -1
+        val songs: Int
 )

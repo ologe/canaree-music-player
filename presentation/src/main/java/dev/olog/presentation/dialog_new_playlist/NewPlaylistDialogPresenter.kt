@@ -28,7 +28,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
     fun execute(playlistTitle: String) : Completable {
 
         return createPlaylistUseCase.execute(playlistTitle)
-                .map { Playlist(it, playlistTitle) }
+                .map { Playlist(it, playlistTitle, -1, "") }
                 .flatMap { playlist -> addToPlaylistUseCase.execute(Pair(playlist, mediaId)) }
                 .doOnSuccess { createSuccessMessage(it) }
                 .doOnError { createErrorMessage() }

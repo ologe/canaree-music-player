@@ -12,7 +12,7 @@ import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toPlaylist
-import dev.olog.data.utils.FileUtils
+import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.entity.Song
@@ -25,7 +25,6 @@ import dev.olog.shared.constants.DataConstants
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
-import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -68,9 +67,9 @@ class PlaylistRepository @Inject constructor(
     private val autoPlaylistTitle = resources.getStringArray(R.array.auto_playlists)
 
     private val autoPlaylist = listOf(
-            Playlist(DataConstants.LAST_ADDED_ID, autoPlaylistTitle[0]),
-            Playlist(DataConstants.FAVORITE_LIST_ID, autoPlaylistTitle[1]),
-            Playlist(DataConstants.HISTORY_LIST_ID, autoPlaylistTitle[2])
+            Playlist(DataConstants.LAST_ADDED_ID, autoPlaylistTitle[0], -1, ""),
+            Playlist(DataConstants.FAVORITE_LIST_ID, autoPlaylistTitle[1], -1, ""),
+            Playlist(DataConstants.HISTORY_LIST_ID, autoPlaylistTitle[2], -1, "")
     )
 
     private val contentProviderObserver : Flowable<List<Playlist>> = rxContentResolver
@@ -81,23 +80,24 @@ class PlaylistRepository @Inject constructor(
                     SELECTION_ARGS,
                     SORT_ORDER,
                     false
-            ).mapToList { it.toPlaylist() }
-            .flatMapSingle { it.toFlowable()
-                    .flatMapSingle { playlist -> rxContentResolver.createQuery(getContentUri("external", playlist.id),
-                            arrayOf("count(*)"), null, null, null, false)
-                            .mapToOne { it.getInt(0) }
-                            .firstOrError()
-                            .map {
-                                val imagePath = FileUtils.playlistImagePath(context, playlist.id)
-                                val file = File(imagePath)
-                                Playlist(playlist.id, playlist.title, it, if (file.exists()) imagePath else "")
-                            }
-                    }.toList()
-
+            ).mapToList {
+                val playlistSize = getPlaylistSize(it.getLong(BaseColumns._ID))
+                it.toPlaylist(context, playlistSize)
             }.toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .replay(1)
             .refCount()
+
+    private fun getPlaylistSize(playlistId: Long): Int {
+        assertBackgroundThread()
+
+        val cursor = contentResolver.query(getContentUri("external", playlistId),
+                arrayOf("count(*)"), null, null, null)
+        cursor.moveToFirst()
+        val size = cursor.getInt(0)
+        cursor.close()
+        return size
+    }
 
     private val imagesCreated = AtomicBoolean(false)
 
@@ -105,16 +105,16 @@ class PlaylistRepository @Inject constructor(
         val compareAndSet = imagesCreated.compareAndSet(false, true)
         if (compareAndSet){
 //            getAll().concatMap { getAllAutoPlaylists() }
-            getAll().firstOrError()
-                    .flatMap { it.toFlowable()
-                            .flatMapMaybe { playlist -> FileUtils.makeImages(context,
-                                    getPlaylistSongs(playlist.id), "playlist", "${playlist.id}")
-                                    .subscribeOn(Schedulers.io())
-                            }.subscribeOn(Schedulers.io())
-                            .buffer(2)
-                            .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }
-                            .toList()
-                    }.subscribe({}, Throwable::printStackTrace)
+//            getAll().firstOrError()
+//                    .flatMap { it.toFlowable()
+//                            .flatMapMaybe { playlist -> FileUtils.makeImages(context,
+//                                    getPlaylistSongs(playlist.id), "playlist", "${playlist.id}")
+//                                    .subscribeOn(Schedulers.io())
+//                            }.subscribeOn(Schedulers.io())
+//                            .buffer(2)
+//                            .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }
+//                            .toList()
+//                    }.subscribe({}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver
@@ -136,7 +136,7 @@ class PlaylistRepository @Inject constructor(
         val list = mutableListOf<Playlist>()
         cursor.use {
             while (it.moveToNext()){
-                list.add(cursor.toPlaylist())
+                list.add(cursor.toPlaylist(context, -1))
             }
         }
         return list
@@ -180,13 +180,12 @@ class PlaylistRepository @Inject constructor(
 
         ).mapToList { it.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID) }
                 .toFlowable(BackpressureStrategy.LATEST)
-                .flatMapSingle { ids -> songGateway.getAll().firstOrError().flatMap { songs ->
-                    val result : List<Song> = ids.asSequence()
+                .flatMapSingle { ids -> songGateway.getAll().firstOrError().map { songs ->
+                    ids.asSequence()
                             .map { id -> songs.firstOrNull { it.id == id } }
                             .filter { it != null }
                             .map { it!! }
                             .toList()
-                    Single.just(result)
                 }}
     }
 

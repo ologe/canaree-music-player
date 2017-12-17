@@ -14,7 +14,6 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import javax.inject.Inject
@@ -23,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
-        rxContentResolver: BriteContentResolver
+        private val rxContentResolver: BriteContentResolver
 
 ) : SongGateway {
 
@@ -61,23 +60,29 @@ class SongRepository @Inject constructor(
                     SELECTION_ARGS,
                     SORT_ORDER,
                     false
-            ).mapToList { it.toSong() }
+            ).mapToList { println("dio cane"); it.toSong() }
             .toFlowable(BackpressureStrategy.LATEST)
             .replay(1)
             .refCount()
 
-    private val distinctContentProviderObserver = contentProviderObserver
-            .distinctUntilChanged()
+    override fun getAll(): Flowable<List<Song>> = contentProviderObserver
 
-    override fun getAllNotDistinct() = contentProviderObserver
-
-    override fun getAll(): Flowable<List<Song>> = distinctContentProviderObserver
-
-    override fun getByParam(param: Long): Flowable<Song> {
-        return getAll().flatMapSingle { it.toFlowable()
-                .filter { it.id == param }
+    override fun getAllForImageCreation(): Single<List<Song>> {
+        return rxContentResolver.createQuery(
+                        MEDIA_STORE_URI,
+                        PROJECTION,
+                        SELECTION,
+                        SELECTION_ARGS,
+                        SORT_ORDER,
+                        false
+                ).mapToList { it.toSong() }
+                .toFlowable(BackpressureStrategy.LATEST)
                 .firstOrError()
-        }
+    }
+
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun getByParam(songId: Long): Flowable<Song> {
+        return getAll().map { it.first { it.id == songId } }
     }
 
     override fun deleteSingle(songId: Long): Completable {

@@ -7,9 +7,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.io.FileOutputStream
 
@@ -45,27 +42,46 @@ object FileUtils {
         return "${context.applicationInfo.dataDir}${File.separator}genre${File.separator}$genreId"
     }
 
-    fun makeImages(context: Context, songListFlowable: Flowable<List<Song>>, parentFolder: String, itemId: String): Maybe<Bitmap> {
+    fun makeImages(context: Context, songList: List<Song>, parentFolder: String, itemId: String) {
 
-        return songListFlowable.firstOrError()
-                .map { songList -> songList.asSequence()
-                        .map { it.albumId }
-                        .distinct()
-                        .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-                        .map {
-                            try {
-                                MediaStore.Images.Media.getBitmap(context.contentResolver, it)
-                            } catch (ex: Exception) {
-                                null
-                            }
-                        }.filter { it != null }
-                        .map { it!! }
-                        .take(9)
-                        .toList()
-                }.filter { it.isNotEmpty() }
-                .map { ImageUtils.joinImages(it) }
-                .doOnSuccess { FileUtils.saveFile(context, parentFolder, itemId, it) }
-                .subscribeOn(Schedulers.io())
+        val uris = songList.asSequence()
+                .map { it.albumId }
+                .distinctBy { it }
+                .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+                .map { try {
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                } catch (ex: Exception){
+                    null
+                } }
+                .filter { it != null }
+                .map { it!! }
+                .take(9)
+                .toList()
+
+        if (uris.isNotEmpty()){
+            val bitmap = ImageUtils.joinImages(uris)
+            FileUtils.saveFile(context, parentFolder, itemId, bitmap)
+        }
+
+//        return songListFlowable.firstOrError()
+//                .map { songList -> songList.asSequence()
+//                        .map { it.albumId }
+//                        .distinct()
+//                        .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+//                        .map {
+//                            try {
+//                                MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+//                            } catch (ex: Exception) {
+//                                null
+//                            }
+//                        }.filter { it != null }
+//                        .map { it!! }
+//                        .take(9)
+//                        .toList()
+//                }.filter { it.isNotEmpty() }
+//                .map { ImageUtils.joinImages(it) }
+//                .doOnSuccess { FileUtils.saveFile(context, parentFolder, itemId, it) }
+//                .subscribeOn(Schedulers.io())
     }
 
 }
