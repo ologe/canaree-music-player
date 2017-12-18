@@ -7,6 +7,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.domain.gateway.prefs.DataPreferencesGateway
 import dev.olog.domain.gateway.prefs.FloatingInfoPreferencesGateway
 import dev.olog.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.shared.ApplicationContext
@@ -35,6 +36,12 @@ class PreferenceModule{
 
     @Provides
     @Singleton
+    fun provideDataPreferences(dataStore: DataPreferencesImpl): DataPreferencesGateway {
+        return dataStore
+    }
+
+    @Provides
+    @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
@@ -44,5 +51,7 @@ class PreferenceModule{
     fun provideRxPreferences(preferences: SharedPreferences): RxSharedPreferences {
         return RxSharedPreferences.create(preferences)
     }
+
+
 
 }

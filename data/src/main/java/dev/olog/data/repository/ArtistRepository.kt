@@ -14,6 +14,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.data.ArtistImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.groupMap
 import io.reactivex.BackpressureStrategy
@@ -21,7 +22,6 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,7 +32,8 @@ class ArtistRepository @Inject constructor(
         rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val albumGateway: AlbumGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val artistImagesUseCase: ArtistImagesUseCase
 
 ) : ArtistGateway{
 
@@ -71,10 +72,8 @@ class ArtistRepository @Inject constructor(
     private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
     private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
-    private var imagesCreated = AtomicBoolean(false)
-
     override fun getAll(): Flowable<List<Artist>> {
-        if (imagesCreated.compareAndSet(false, true)){
+        if (artistImagesUseCase.areImagesCreated().compareAndSet(false, true)){
             songGateway.getAllForImageCreation()
                     .map { it.groupBy { it.artistId } }
                     .flatMap { it.entries.toFlowable()
@@ -86,7 +85,9 @@ class ArtistRepository @Inject constructor(
                             .buffer(10)
                             .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
                             .toList()
-                    }.subscribe({}, Throwable::printStackTrace)
+                    }
+                    .doOnSuccess { artistImagesUseCase.setCreated() }
+                    .subscribe({}, Throwable::printStackTrace)
         }
         return contentProviderObserver
     }

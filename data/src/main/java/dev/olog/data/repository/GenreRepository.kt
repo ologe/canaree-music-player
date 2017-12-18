@@ -16,6 +16,7 @@ import dev.olog.domain.entity.Genre
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.data.GenreImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
@@ -24,7 +25,6 @@ import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,7 +34,8 @@ class GenreRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val genreImagesUseCase: GenreImagesUseCase
 
 ) : GenreGateway {
 
@@ -86,11 +87,9 @@ class GenreRepository @Inject constructor(
         return size
     }
 
-    private val imagesCreated = AtomicBoolean(false)
-
     override fun getAll(): Flowable<List<Genre>> {
-        if (imagesCreated.compareAndSet(false, true)){
-            getAll().firstOrError().flatMap { it.toFlowable()
+        if (genreImagesUseCase.areImagesCreated().compareAndSet(false, true)){
+            contentProviderObserver.firstOrError().flatMap { it.toFlowable()
                     .parallel()
                     .runOn(Schedulers.io())
                     .map { Pair(it, getSongListAlbumsId(it.id)) }
@@ -98,7 +97,8 @@ class GenreRepository @Inject constructor(
                     .sequential()
                     .toList()
                     .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-            }.subscribe({}, Throwable::printStackTrace)
+            }.doOnSuccess { genreImagesUseCase.setCreated() }
+                    .subscribe({}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver

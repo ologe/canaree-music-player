@@ -45,6 +45,12 @@ object FileUtils {
     fun makeImages(context: Context, songList: List<Song>, parentFolder: String, itemId: String) {
         assertBackgroundThread()
 
+        val imageName = "${context.applicationInfo.dataDir}${File.separator}$parentFolder${File.separator}$itemId"
+        val file = File(imageName)
+        if (file.exists()){
+            return
+        }
+
         val uris = songList.asSequence()
                 .map { it.albumId }
                 .distinctBy { it }

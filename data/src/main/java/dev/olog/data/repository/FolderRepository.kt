@@ -11,6 +11,7 @@ import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.data.FolderImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.flatMapGroup
@@ -20,7 +21,6 @@ import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,7 +29,8 @@ class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val folderImagesUseCase: FolderImagesUseCase
 
 ): FolderGateway {
 
@@ -52,10 +53,8 @@ class FolderRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    private var imagesCreated = AtomicBoolean(false)
-
     override fun getAll(): Flowable<List<Folder>> {
-        if (imagesCreated.compareAndSet(false, true)){
+        if (folderImagesUseCase.areImagesCreated().compareAndSet(false, true)){
             songGateway.getAllForImageCreation()
                     .map { it.groupBy { it.folderPath } }
                     .flatMap { it.entries.toFlowable()
@@ -66,7 +65,9 @@ class FolderRepository @Inject constructor(
                             .sequential()
                             .toList()
                             .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                    }.subscribe({}, Throwable::printStackTrace)
+                    }
+                    .doOnSuccess { folderImagesUseCase.setCreated() }
+                    .subscribe({}, Throwable::printStackTrace)
         }
 
         return listObservable

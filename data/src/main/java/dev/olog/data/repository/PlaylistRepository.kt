@@ -20,13 +20,14 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.data.PlaylistImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.DataConstants
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.atomic.AtomicBoolean
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,7 +38,8 @@ class PlaylistRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val playlistImagesUseCase: PlaylistImagesUseCase
 
 ) : PlaylistGateway {
 
@@ -67,11 +69,17 @@ class PlaylistRepository @Inject constructor(
 
     private val autoPlaylistTitle = resources.getStringArray(R.array.auto_playlists)
 
-    private val autoPlaylist = listOf(
-            Playlist(DataConstants.LAST_ADDED_ID, autoPlaylistTitle[0], -1, ""),
-            Playlist(DataConstants.FAVORITE_LIST_ID, autoPlaylistTitle[1], -1, ""),
-            Playlist(DataConstants.HISTORY_LIST_ID, autoPlaylistTitle[2], -1, "")
+    private fun autoPlaylist() = listOf(
+            createAutoPlaylist(DataConstants.LAST_ADDED_ID, autoPlaylistTitle[0]),
+            createAutoPlaylist(DataConstants.FAVORITE_LIST_ID, autoPlaylistTitle[1]),
+            createAutoPlaylist(DataConstants.HISTORY_LIST_ID, autoPlaylistTitle[2])
     )
+
+    private fun createAutoPlaylist(id: Long, title: String) : Playlist {
+        val image = FileUtils.playlistImagePath(context, id)
+        val file = File(image)
+        return Playlist(id, title, -1, if (file.exists()) image else "")
+    }
 
     private val contentProviderObserver : Flowable<List<Playlist>> = rxContentResolver
             .createQuery(
@@ -100,11 +108,10 @@ class PlaylistRepository @Inject constructor(
         return size
     }
 
-    private val imagesCreated = AtomicBoolean(false)
-
     override fun getAll(): Flowable<List<Playlist>> {
-        if (imagesCreated.compareAndSet(false, true)){
-            getAll().firstOrError().flatMap { it.toFlowable()
+        if (playlistImagesUseCase.areImagesCreated().compareAndSet(false, true)){
+            contentProviderObserver.firstOrError()
+                    .flatMap { it.toFlowable()
                     .parallel()
                     .runOn(Schedulers.io())
                     .map { Pair(it, getSongListAlbumsId(it.id)) }
@@ -112,7 +119,7 @@ class PlaylistRepository @Inject constructor(
                     .sequential()
                     .toList()
                     .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-            }.subscribe({}, Throwable::printStackTrace)
+            }.subscribe({playlistImagesUseCase.setCreated()}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver
@@ -120,7 +127,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
-        return Flowable.just(autoPlaylist)
+        return Flowable.just(autoPlaylist())
                 .flatMapSingle { it.toFlowable().toSortedList(compareByDescending { it.id }) }
     }
 
