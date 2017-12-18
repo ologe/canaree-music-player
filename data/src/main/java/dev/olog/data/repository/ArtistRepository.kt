@@ -14,12 +14,13 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.domain.interactor.data.ArtistImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.groupMap
+import dev.olog.shared.unsubscribe
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -32,8 +33,7 @@ class ArtistRepository @Inject constructor(
         rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val albumGateway: AlbumGateway,
-        appDatabase: AppDatabase,
-        private val artistImagesUseCase: ArtistImagesUseCase
+        appDatabase: AppDatabase
 
 ) : ArtistGateway{
 
@@ -42,6 +42,8 @@ class ArtistRepository @Inject constructor(
     }
 
     private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
+
+    private var imageDisposable : Disposable? = null
 
     private val contentProviderObserver : Flowable<List<Artist>> = rxContentResolver
             .createQuery(
@@ -66,29 +68,36 @@ class ArtistRepository @Inject constructor(
                         .toList()
 
             }.distinctUntilChanged()
+            .doOnNext { createImages() }
             .replay(1)
             .refCount()
+            .doOnTerminate { imageDisposable.unsubscribe() }
 
     private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
     private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
+    private fun createImages(){
+//        println("request artist image creation")
+
+        imageDisposable.unsubscribe()
+
+        imageDisposable = songGateway.getAllForImageCreation()
+                .map { it.groupBy { it.artistId } }
+                .flatMap { it.entries.toFlowable()
+                        .parallel()
+                        .runOn(Schedulers.io())
+                        .map { map -> FileUtils.makeImages(context, map.value, "artist",
+                                "${map.key}") }
+                        .sequential()
+                        .buffer(10)
+                        .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+                        .toList()
+
+                }.subscribe({}, Throwable::printStackTrace)
+    }
+
     override fun getAll(): Flowable<List<Artist>> {
-        if (artistImagesUseCase.areImagesCreated().compareAndSet(false, true)){
-            songGateway.getAllForImageCreation()
-                    .map { it.groupBy { it.artistId } }
-                    .flatMap { it.entries.toFlowable()
-                            .parallel()
-                            .runOn(Schedulers.io())
-                            .map { map -> FileUtils.makeImages(context, map.value, "artist",
-                                    "${map.key}") }
-                            .sequential()
-                            .buffer(10)
-                            .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                            .toList()
-                    }
-                    .doOnSuccess { artistImagesUseCase.setCreated() }
-                    .subscribe({}, Throwable::printStackTrace)
-        }
+
         return contentProviderObserver
     }
 

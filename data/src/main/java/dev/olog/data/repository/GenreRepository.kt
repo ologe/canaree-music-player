@@ -16,13 +16,14 @@ import dev.olog.domain.entity.Genre
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.domain.interactor.data.GenreImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.unsubscribe
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -34,8 +35,7 @@ class GenreRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase,
-        private val genreImagesUseCase: GenreImagesUseCase
+        appDatabase: AppDatabase
 
 ) : GenreGateway {
 
@@ -57,6 +57,8 @@ class GenreRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
+    private var imageDisposable : Disposable? = null
+
     private val contentProviderObserver = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
@@ -71,8 +73,10 @@ class GenreRepository @Inject constructor(
             }.map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
+            .doOnNext { createImages() }
             .replay(1)
             .refCount()
+            .doOnTerminate { imageDisposable.unsubscribe() }
 
     private val songsMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
@@ -87,22 +91,24 @@ class GenreRepository @Inject constructor(
         return size
     }
 
-    override fun getAll(): Flowable<List<Genre>> {
-        if (genreImagesUseCase.areImagesCreated().compareAndSet(false, true)){
-            contentProviderObserver.firstOrError().flatMap { it.toFlowable()
-                    .parallel()
-                    .runOn(Schedulers.io())
-                    .map { Pair(it, getSongListAlbumsId(it.id)) }
-                    .map { (genre, albumsId) -> FileUtils.makeImages2(context, albumsId, "genre", "${genre.id}") }
-                    .sequential()
-                    .toList()
-                    .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-            }.doOnSuccess { genreImagesUseCase.setCreated() }
-                    .subscribe({}, Throwable::printStackTrace)
-        }
+    private fun createImages(){
+//        println("request genre image creation")
 
-        return contentProviderObserver
+        imageDisposable.unsubscribe()
+
+        imageDisposable = contentProviderObserver.firstOrError().flatMap { it.toFlowable()
+                .parallel()
+                .runOn(Schedulers.io())
+                .map { Pair(it, getSongListAlbumsId(it.id)) }
+                .map { (genre, albumsId) -> FileUtils.makeImages2(context, albumsId, "genre", "${genre.id}") }
+                .sequential()
+                .toList()
+                .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+
+        }.subscribe({}, Throwable::printStackTrace)
     }
+
+    override fun getAll(): Flowable<List<Genre>> = contentProviderObserver
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun getByParam(playlistId: Long): Flowable<Genre> {

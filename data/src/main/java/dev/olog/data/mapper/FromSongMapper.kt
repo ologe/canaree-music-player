@@ -1,7 +1,6 @@
 package dev.olog.data.mapper
 
 import android.content.Context
-import dev.olog.data.utils.FileUtils
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.Folder
@@ -9,20 +8,19 @@ import dev.olog.domain.entity.Song
 import java.io.File
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
-//    val normalizedPath = this.folderPath.replace(File.separator, "")
-//    val image = FileUtils.folderImagePath(context, normalizedPath)
-//    val file = File(image)
 
     val image = "${context.applicationInfo.dataDir}${File.separator}folder"
     val file = File(image)
-    val itemId = this.folderPath.replace(File.separator, "")
-    val imageFile = file.listFiles().firstOrNull { it.name.contains(itemId) }
+    val imageFile = if (file.exists()){
+        val itemId = this.folderPath.replace(File.separator, "")
+        file.listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
+    } else null
 
     return Folder(
             this.folder,
             this.folderPath,
             songCount,
-            if (imageFile != null) image else ""
+            if (imageFile != null) imageFile.path else ""
     )
 }
 
@@ -38,14 +36,17 @@ fun Song.toAlbum(songCount: Int) : Album {
 }
 
 fun Song.toArtist(context: Context, songCount: Int, albumsCount: Int) : Artist {
-    val image = FileUtils.artistImagePath(context, this.artistId)
+    val image = "${context.applicationInfo.dataDir}${File.separator}artist"
     val file = File(image)
+    val imageFile = if (file.exists()){
+        file.listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == "${this.artistId}" }
+    } else null
 
     return Artist(
             this.artistId,
             this.artist,
             songCount,
             albumsCount,
-            if (file.exists()) image else ""
+            if (imageFile != null) imageFile.path else ""
     )
 }

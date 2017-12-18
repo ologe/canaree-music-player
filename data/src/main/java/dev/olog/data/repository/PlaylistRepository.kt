@@ -20,14 +20,14 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.domain.interactor.data.PlaylistImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.DataConstants
+import dev.olog.shared.unsubscribe
 import io.reactivex.*
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,8 +38,7 @@ class PlaylistRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
-        appDatabase: AppDatabase,
-        private val playlistImagesUseCase: PlaylistImagesUseCase
+        appDatabase: AppDatabase
 
 ) : PlaylistGateway {
 
@@ -64,6 +63,8 @@ class PlaylistRepository @Inject constructor(
 
     private val resources = context.resources
 
+    private var imageDisposable : Disposable? = null
+
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
 
@@ -76,9 +77,9 @@ class PlaylistRepository @Inject constructor(
     )
 
     private fun createAutoPlaylist(id: Long, title: String) : Playlist {
-        val image = FileUtils.playlistImagePath(context, id)
-        val file = File(image)
-        return Playlist(id, title, -1, if (file.exists()) image else "")
+//        val image = FileUtils.playlistImagePath(context, id) todo
+//        val file = File(image)
+        return Playlist(id, title, -1, "")
     }
 
     private val contentProviderObserver : Flowable<List<Playlist>> = rxContentResolver
@@ -94,8 +95,10 @@ class PlaylistRepository @Inject constructor(
                 it.toPlaylist(context, playlistSize)
             }.toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
+            .doOnNext { createImages() }
             .replay(1)
             .refCount()
+            .doOnTerminate { imageDisposable.unsubscribe() }
 
     private fun getPlaylistSize(playlistId: Long): Int {
         assertBackgroundThread()
@@ -108,20 +111,24 @@ class PlaylistRepository @Inject constructor(
         return size
     }
 
-    override fun getAll(): Flowable<List<Playlist>> {
-        if (playlistImagesUseCase.areImagesCreated().compareAndSet(false, true)){
-            contentProviderObserver.firstOrError()
-                    .flatMap { it.toFlowable()
-                    .parallel()
-                    .runOn(Schedulers.io())
-                    .map { Pair(it, getSongListAlbumsId(it.id)) }
-                    .map { (playlist, albumsId) -> FileUtils.makeImages2(context, albumsId, "playlist", "${playlist.id}") }
-                    .sequential()
-                    .toList()
-                    .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-            }.subscribe({playlistImagesUseCase.setCreated()}, Throwable::printStackTrace)
-        }
+    private fun createImages(){
+//        println("request playlist image creation")
 
+        imageDisposable.unsubscribe()
+
+        imageDisposable = contentProviderObserver.firstOrError()
+                .flatMap { it.toFlowable()
+                        .parallel()
+                        .runOn(Schedulers.io())
+                        .map { Pair(it, getSongListAlbumsId(it.id)) }
+                        .map { (playlist, albumsId) -> FileUtils.makeImages2(context, albumsId, "playlist", "${playlist.id}") }
+                        .sequential()
+                        .toList()
+                        .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+                }.subscribe({}, Throwable::printStackTrace)
+    }
+
+    override fun getAll(): Flowable<List<Playlist>> {
         return contentProviderObserver
                 .map { it.sortedWith(compareBy { it.title.toLowerCase() }) }
     }

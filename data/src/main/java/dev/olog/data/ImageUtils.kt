@@ -5,7 +5,7 @@ import dev.olog.data.utils.assertBackgroundThread
 
 object ImageUtils {
 
-    private const val IMAGE_SIZE = 1500
+    private const val IMAGE_SIZE = 1000
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()

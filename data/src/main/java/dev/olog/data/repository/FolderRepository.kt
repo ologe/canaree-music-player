@@ -11,13 +11,14 @@ import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.domain.interactor.data.FolderImagesUseCase
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.flatMapGroup
+import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -29,8 +30,7 @@ class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase,
-        private val folderImagesUseCase: FolderImagesUseCase
+        appDatabase: AppDatabase
 
 ): FolderGateway {
 
@@ -39,6 +39,8 @@ class FolderRepository @Inject constructor(
     }
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
+
+    private var imageDisposable : Disposable? = null
 
     private val songMap : MutableMap<String, Flowable<List<Song>>> = mutableMapOf()
 
@@ -50,26 +52,30 @@ class FolderRepository @Inject constructor(
                                 songList.count { it.folderPath == songToFolder.folderPath }) }
                     }
             }.distinctUntilChanged()
+            .doOnNext { createImages() }
             .replay(1)
             .refCount()
+            .doOnTerminate { imageDisposable.unsubscribe() }
+
+    private fun createImages(){
+//        println("request folder image creation")
+
+        imageDisposable.unsubscribe()
+
+        imageDisposable = songGateway.getAllForImageCreation()
+                .map { it.groupBy { it.folderPath } }
+                .flatMap { it.entries.toFlowable()
+                        .parallel()
+                        .runOn(Schedulers.io())
+                        .map { map -> FileUtils.makeImages(context, map.value, "folder",
+                                map.key.replace(File.separator, "")) }
+                        .sequential()
+                        .toList()
+                        .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+                }.subscribe({}, Throwable::printStackTrace)
+    }
 
     override fun getAll(): Flowable<List<Folder>> {
-        if (folderImagesUseCase.areImagesCreated().compareAndSet(false, true)){
-            songGateway.getAllForImageCreation()
-                    .map { it.groupBy { it.folderPath } }
-                    .flatMap { it.entries.toFlowable()
-                            .parallel()
-                            .runOn(Schedulers.io())
-                            .map { map -> FileUtils.makeImages(context, map.value, "folder",
-                                    map.key.replace(File.separator, "")) }
-                            .sequential()
-                            .toList()
-                            .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                    }
-                    .doOnSuccess { folderImagesUseCase.setCreated() }
-                    .subscribe({}, Throwable::printStackTrace)
-        }
-
         return listObservable
     }
 
