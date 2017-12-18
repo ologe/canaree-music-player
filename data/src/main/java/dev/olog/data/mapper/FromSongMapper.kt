@@ -9,15 +9,20 @@ import dev.olog.domain.entity.Song
 import java.io.File
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
-    val normalizedPath = this.folderPath.replace(File.separator, "")
-    val image = FileUtils.folderImagePath(context, normalizedPath)
+//    val normalizedPath = this.folderPath.replace(File.separator, "")
+//    val image = FileUtils.folderImagePath(context, normalizedPath)
+//    val file = File(image)
+
+    val image = "${context.applicationInfo.dataDir}${File.separator}folder"
     val file = File(image)
+    val itemId = this.folderPath.replace(File.separator, "")
+    val imageFile = file.listFiles().firstOrNull { it.name.contains(itemId) }
 
     return Folder(
             this.folder,
             this.folderPath,
             songCount,
-            if (file.exists()) image else ""
+            if (imageFile != null) image else ""
     )
 }
 
