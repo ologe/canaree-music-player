@@ -9,6 +9,7 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.GenreMostPlayedEntity
 import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toGenre
+import dev.olog.data.utils.FileUtils
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Genre
@@ -21,6 +22,8 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -86,15 +89,16 @@ class GenreRepository @Inject constructor(
     private val imagesCreated = AtomicBoolean(false)
 
     override fun getAll(): Flowable<List<Genre>> {
-        val compareAndSet = imagesCreated.compareAndSet(false, true)
-        if (compareAndSet){
-//            getAll().firstOrError()
-//                    .flatMap { it.toFlowable()
-//                            .flatMapMaybe { genre -> FileUtils.makeImages(context,
-//                                    observeSongListByParam(genre.id), "genre", "${genre.id}")
-//                            }.subscribeOn(Schedulers.io())
-//                            .toList()
-//                    }.subscribe({ contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null) }, Throwable::printStackTrace)
+        if (imagesCreated.compareAndSet(false, true)){
+            getAll().firstOrError().flatMap { it.toFlowable()
+                    .parallel()
+                    .runOn(Schedulers.io())
+                    .map { Pair(it, getSongListAlbumsId(it.id)) }
+                    .map { (genre, albumsId) -> FileUtils.makeImages2(context, albumsId, "genre", "${genre.id}") }
+                    .sequential()
+                    .toList()
+                    .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+            }.subscribe({}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver
@@ -106,12 +110,12 @@ class GenreRepository @Inject constructor(
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
-        var flowable = songsMap[playlistId]
+    override fun observeSongListByParam(genreId: Long): Flowable<List<Song>> {
+        var flowable = songsMap[genreId]
 
         if (flowable == null){
             flowable = rxContentResolver.createQuery(
-                    MediaStore.Audio.Genres.Members.getContentUri("external", playlistId),
+                    MediaStore.Audio.Genres.Members.getContentUri("external", genreId),
                     SONG_PROJECTION,
                     SONG_SELECTION,
                     SONG_SELECTION_ARGS,
@@ -129,10 +133,23 @@ class GenreRepository @Inject constructor(
                     .replay(1)
                     .refCount()
 
-            songsMap[playlistId] = flowable
+            songsMap[genreId] = flowable
         }
 
         return flowable
+    }
+
+    private fun getSongListAlbumsId(genreId: Long): List<Long> {
+        val result = mutableListOf<Long>()
+
+        val cursor = contentResolver.query(
+                MediaStore.Audio.Genres.Members.getContentUri("external", genreId),
+                arrayOf(MediaStore.Audio.Genres.Members.ALBUM_ID), null, null, null)
+        while (cursor.moveToNext()){
+            result.add(cursor.getLong(0))
+        }
+        cursor.close()
+        return result
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

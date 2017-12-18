@@ -21,6 +21,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,7 +48,7 @@ class ArtistRepository @Inject constructor(
                     arrayOf("count(*)"),
                     null, null, null,
                     false
-            ).mapToOne { println("cane"); 0 }
+            ).mapToOne { 0 }
             .toFlowable(BackpressureStrategy.LATEST)
             .flatMap { songGateway.getAll() }
             .map { songList -> songList.asSequence()
@@ -63,44 +64,29 @@ class ArtistRepository @Inject constructor(
                         }.sortedBy { it.name.toLowerCase() }
                         .toList()
 
-            }
-            .distinctUntilChanged()
+            }.distinctUntilChanged()
             .replay(1)
             .refCount()
 
     private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
     private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
-    private var imagesCreated = false
+    private var imagesCreated = AtomicBoolean(false)
 
     override fun getAll(): Flowable<List<Artist>> {
-        if (!imagesCreated){
-            imagesCreated = true
+        if (imagesCreated.compareAndSet(false, true)){
             songGateway.getAllForImageCreation()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
                     .map { it.groupBy { it.artistId } }
                     .flatMap { it.entries.toFlowable()
                             .parallel()
-                            .runOn(Schedulers.computation())
+                            .runOn(Schedulers.io())
                             .map { map -> FileUtils.makeImages(context, map.value, "artist",
                                     "${map.key}") }
                             .sequential()
+                            .buffer(10)
+                            .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
                             .toList()
-                            .doOnSuccess { println("success") }
-                            .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                    }.subscribe({ println("success 2") }, Throwable::printStackTrace)
-
-//            getAll().firstOrError()
-//                    .flatMap { it.toFlowable()
-//                            .flatMapMaybe { artist -> FileUtils.makeImages(context,
-//                                    observeSongListByParam(artist.id), "artist", "${artist.id}")
-//                                    .subscribeOn(Schedulers.io())
-//                            }.subscribeOn(Schedulers.io())
-//                            .buffer(5)
-//                            .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-//                            .toList()
-//                    }.subscribe({}, Throwable::printStackTrace)
+                    }.subscribe({}, Throwable::printStackTrace)
         }
         return contentProviderObserver
     }

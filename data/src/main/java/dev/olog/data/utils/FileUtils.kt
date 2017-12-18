@@ -43,6 +43,7 @@ object FileUtils {
     }
 
     fun makeImages(context: Context, songList: List<Song>, parentFolder: String, itemId: String) {
+        assertBackgroundThread()
 
         val uris = songList.asSequence()
                 .map { it.albumId }
@@ -62,26 +63,28 @@ object FileUtils {
             val bitmap = ImageUtils.joinImages(uris)
             FileUtils.saveFile(context, parentFolder, itemId, bitmap)
         }
+    }
 
-//        return songListFlowable.firstOrError()
-//                .map { songList -> songList.asSequence()
-//                        .map { it.albumId }
-//                        .distinct()
-//                        .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
-//                        .map {
-//                            try {
-//                                MediaStore.Images.Media.getBitmap(context.contentResolver, it)
-//                            } catch (ex: Exception) {
-//                                null
-//                            }
-//                        }.filter { it != null }
-//                        .map { it!! }
-//                        .take(9)
-//                        .toList()
-//                }.filter { it.isNotEmpty() }
-//                .map { ImageUtils.joinImages(it) }
-//                .doOnSuccess { FileUtils.saveFile(context, parentFolder, itemId, it) }
-//                .subscribeOn(Schedulers.io())
+    fun makeImages2(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) {
+        assertBackgroundThread()
+
+        val uris = albumIdList.asSequence()
+                .distinctBy { it }
+                .map { ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), it) }
+                .map { try {
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                } catch (ex: Exception){
+                    null
+                } }
+                .filter { it != null }
+                .map { it!! }
+                .take(9)
+                .toList()
+
+        if (uris.isNotEmpty()){
+            val bitmap = ImageUtils.joinImages(uris)
+            FileUtils.saveFile(context, parentFolder, itemId, bitmap)
+        }
     }
 
 }

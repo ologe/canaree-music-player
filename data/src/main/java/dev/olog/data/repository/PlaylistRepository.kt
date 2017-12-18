@@ -12,6 +12,7 @@ import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toPlaylist
+import dev.olog.data.utils.FileUtils
 import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Playlist
@@ -102,19 +103,16 @@ class PlaylistRepository @Inject constructor(
     private val imagesCreated = AtomicBoolean(false)
 
     override fun getAll(): Flowable<List<Playlist>> {
-        val compareAndSet = imagesCreated.compareAndSet(false, true)
-        if (compareAndSet){
-//            getAll().concatMap { getAllAutoPlaylists() }
-//            getAll().firstOrError()
-//                    .flatMap { it.toFlowable()
-//                            .flatMapMaybe { playlist -> FileUtils.makeImages(context,
-//                                    getPlaylistSongs(playlist.id), "playlist", "${playlist.id}")
-//                                    .subscribeOn(Schedulers.io())
-//                            }.subscribeOn(Schedulers.io())
-//                            .buffer(2)
-//                            .doOnNext { contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null) }
-//                            .toList()
-//                    }.subscribe({}, Throwable::printStackTrace)
+        if (imagesCreated.compareAndSet(false, true)){
+            getAll().firstOrError().flatMap { it.toFlowable()
+                    .parallel()
+                    .runOn(Schedulers.io())
+                    .map { Pair(it, getSongListAlbumsId(it.id)) }
+                    .map { (playlist, albumsId) -> FileUtils.makeImages2(context, albumsId, "playlist", "${playlist.id}") }
+                    .sequential()
+                    .toList()
+                    .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
+            }.subscribe({}, Throwable::printStackTrace)
         }
 
         return contentProviderObserver
@@ -161,6 +159,19 @@ class PlaylistRepository @Inject constructor(
             DataConstants.HISTORY_LIST_ID -> historyDao.getAllAsSongs(songGateway.getAll().firstOrError())
             else -> getPlaylistSongs(playlistId)
         }
+    }
+
+    private fun getSongListAlbumsId(playlistId: Long): List<Long> {
+        val result = mutableListOf<Long>()
+
+        val cursor = contentResolver.query(
+                MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
+                arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null, null, null)
+        while (cursor.moveToNext()){
+            result.add(cursor.getLong(0))
+        }
+        cursor.close()
+        return result
     }
 
     private fun getLastAddedSongs() : Flowable<List<Song>>{

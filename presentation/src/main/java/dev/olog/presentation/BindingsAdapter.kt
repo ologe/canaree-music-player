@@ -16,8 +16,8 @@ import java.io.File
 object BindingsAdapter {
 
     private const val OVERRIDE_SMALL = 150
-    private const val OVERRIDE_MID = 800
-    private const val OVERRIDE_BIG = 1000
+    private const val OVERRIDE_MID = 400
+    private const val OVERRIDE_BIG = 750
 
 
     @BindingAdapter("imageSong")
@@ -63,6 +63,7 @@ object BindingsAdapter {
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(OVERRIDE_MID)
+                .priority(Priority.HIGH)
                 .error(CoverUtils.getGradient(context = context, position = id, source = source))
                 .into(view)
     }

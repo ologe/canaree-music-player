@@ -60,7 +60,7 @@ class SongRepository @Inject constructor(
                     SELECTION_ARGS,
                     SORT_ORDER,
                     false
-            ).mapToList { println("dio cane"); it.toSong() }
+            ).mapToList { it.toSong() }
             .toFlowable(BackpressureStrategy.LATEST)
             .replay(1)
             .refCount()
@@ -76,7 +76,6 @@ class SongRepository @Inject constructor(
                         SORT_ORDER,
                         false
                 ).mapToList { it.toSong() }
-                .toFlowable(BackpressureStrategy.LATEST)
                 .firstOrError()
     }
 
