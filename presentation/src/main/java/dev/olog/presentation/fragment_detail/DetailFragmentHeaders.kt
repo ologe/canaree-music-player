@@ -42,7 +42,7 @@ class DetailFragmentHeaders @Inject constructor(
             context.getString(R.string.detail_see_more))
 
     val songs = listOf(
-            DisplayableItem(R.layout.item_detail_header, "songs id", context.getString(R.string.detail_songs)),
+            DisplayableItem(R.layout.item_detail_header_all_song, "songs id", context.getString(R.string.detail_songs)),
             DisplayableItem(R.layout.item_detail_shuffle, "shuffle id", "")
     )
 

@@ -48,8 +48,9 @@ class FolderRepository @Inject constructor(
             .flatMapGroup { distinct { it.folderPath } }
             .flatMapSingle { songsToFolder -> songGateway.getAll().firstOrError()
                     .map { songList ->
-                        songsToFolder.map { songToFolder -> songToFolder.toFolder(context,
-                                songList.count { it.folderPath == songToFolder.folderPath }) }
+                        songsToFolder.map { song -> song.toFolder(context,
+                                songList.count { it.folderPath == song.folderPath })
+                        }.sortedBy { it.title.toLowerCase() }
                     }
             }.distinctUntilChanged()
             .doOnNext { createImages() }

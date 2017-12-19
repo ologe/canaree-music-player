@@ -25,6 +25,7 @@
     <color name="button_secondary_tint">@color/button_primary_tint</color>
 
     <color name="item_selected">#FF1744</color>
+    <!--<color name="item_selected">#2979FF</color>-->
 
     <color name="progress_bar_tint">@color/dark_grey</color>
     <color name="progress_bar_secondary_tint">@color/grey600</color>

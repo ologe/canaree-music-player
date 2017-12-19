@@ -39,7 +39,8 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
         fun newInstance(mediaId: String): DetailFragment {
             return DetailFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId)
+                    ARGUMENTS_MEDIA_ID to mediaId
+            )
         }
     }
 

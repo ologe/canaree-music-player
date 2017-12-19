@@ -39,15 +39,15 @@ class MusicServiceBinderViewModel @Inject constructor(
         connectionCallback.onConnectionChanged()
                 .subscribe(this)
 
-        if (!this.mediaBrowser.isConnected){
-            this.mediaBrowser.connect()
+        if (this.mediaBrowser.isConnected){
+            this.mediaBrowser.disconnect()
+            // disconnect from leaked service
         }
+        this.mediaBrowser.connect()
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        if (mediaBrowser.isConnected){
-            mediaBrowser.disconnect()
-        }
+        mediaBrowser.disconnect()
 
         connectionCallback.setState(MusicServiceConnectionState.NONE)
         if (mediaController != null) {

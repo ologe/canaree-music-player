@@ -61,7 +61,6 @@ object ImageUtils {
         images.forEachIndexed { i, bitmap ->
             val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, false)
             canvas.drawBitmap(bit, (onePartSize * (i % parts)).toFloat(), (onePartSize * (i / parts)).toFloat(), paint)
-//            bit.recycle()
         }
 
         paint.color = Color.WHITE

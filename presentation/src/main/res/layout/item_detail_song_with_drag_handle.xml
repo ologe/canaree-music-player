@@ -53,7 +53,7 @@
             app:layout_constraintTop_toTopOf="@+id/coverLayout"
             app:layout_constraintStart_toEndOf="@+id/coverLayout"
             app:layout_constraintBottom_toTopOf="@+id/secondText"
-            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintEnd_toStartOf="@+id/dragHandle"
             android:text="@{item.title}"
             tools:text="@tools:sample/lorem"
             style="@style/Song.MainText"

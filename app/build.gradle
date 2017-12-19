@@ -27,10 +27,10 @@ android {
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
+//            debuggable false
             applicationIdSuffix = ".debug"
         }
     }

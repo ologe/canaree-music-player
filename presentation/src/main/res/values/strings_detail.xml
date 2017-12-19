@@ -6,6 +6,8 @@
     <string name="detail_albums">Albums</string>
     <string name="detail_songs">Songs</string>
 
+    <string name="detail_sort">sort</string>
+
     <string-array name="detail_album_header">
         <item>Other Folders</item>
         <item>Other Playlists</item>
@@ -24,9 +26,7 @@
         <item>In this genre</item>
     </string-array>
 
-    <string name="detail_see_more">See more</string>
-
-    <string name="detail_artist_in">In this</string>
+    <string name="detail_see_more">see more</string>
 
     <plurals name="song_count">
         <item quantity="one">%d Song</item>
@@ -46,5 +46,7 @@
     <string name="related_artists">Related artists</string>
     <string name="recently_added">Recently Added</string>
     <string name="albums">Albums</string>
+
+
 
 </resources>
