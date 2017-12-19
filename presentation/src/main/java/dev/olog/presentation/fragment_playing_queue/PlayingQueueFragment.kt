@@ -5,11 +5,13 @@ import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.view.ViewAnimationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import javax.inject.Inject
@@ -29,7 +31,6 @@ class PlayingQueueFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.data.subscribe(this, adapter::updateDataSet)
-        viewModel.metadata.subscribe(this, {})
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +38,10 @@ class PlayingQueueFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
+        val callback = ItemTouchHelperCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
 
         if (savedInstanceState == null){
             view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
@@ -46,6 +51,16 @@ class PlayingQueueFragment : BaseFragment() {
                 }
             })
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view!!.back.setOnClickListener { activity!!.onBackPressed() }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view!!.back.setOnClickListener(null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

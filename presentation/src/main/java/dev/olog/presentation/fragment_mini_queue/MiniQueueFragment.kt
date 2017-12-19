@@ -2,12 +2,14 @@ package dev.olog.presentation.fragment_mini_queue
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_mini_queue.view.*
 import javax.inject.Inject
 
@@ -29,6 +31,11 @@ class MiniQueueFragment : BaseFragment() {
         layoutManager = LinearLayoutManager(context)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+        view.list.setHasFixedSize(true)
+        val callback = ItemTouchHelperCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
 
         RxRecyclerView.scrollEvents(view.list)
                 .map { it.view() }

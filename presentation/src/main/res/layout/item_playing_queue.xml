@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        android:background="@color/background">
 
         <View
             android:id="@+id/separator"
@@ -25,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             style="@style/Divider"
-            android:layout_marginStart="12dp" />
+            android:layout_marginStart="12dp"/>
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"

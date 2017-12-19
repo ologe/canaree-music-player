@@ -14,10 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        android:background="@color/background">
 
         <View
-            android:id="@+id/separator"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/coverLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:src="@drawable/placeholder_folder"
-                app:imageSong="@{item}" />
+                app:imageSong="@{item}"/>
 
         </android.support.v7.widget.CardView>
 
@@ -79,7 +79,7 @@
             android:id="@+id/explicit"
             app:layout_constraintTop_toTopOf="@+id/secondText"
             app:layout_constraintBottom_toBottomOf="@+id/secondText"
-            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintEnd_toStartOf="@+id/dragHandle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -100,14 +100,14 @@
 
 
         <ImageButton
-            android:id="@+id/more"
+            android:id="@+id/dragHandle"
             app:layout_constraintTop_toTopOf="@id/coverLayout"
-            app:layout_constraintBottom_toBottomOf="@id/coverLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/vd_more"
+            android:src="@drawable/vd_drag_handle"
             android:padding="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:tint="@color/button_primary_tint"
             android:clickable="true"
             android:focusable="true"

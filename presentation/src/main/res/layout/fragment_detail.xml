@@ -53,6 +53,20 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="@dimen/toolbar_elevation" />
 
+    <ImageButton
+        android:id="@+id/search"
+        android:layout_marginTop="@dimen/status_bar"
+        android:src="@drawable/vd_search"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/dark_grey"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:elevation="@dimen/toolbar_elevation" />
+
     <TextView
         android:id="@+id/header"
         tools:text="Selena Gomez"

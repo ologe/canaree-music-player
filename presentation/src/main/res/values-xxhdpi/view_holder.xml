@@ -8,7 +8,7 @@
     <dimen name="item_song_artist">11sp</dimen>
 
     <!--item tab album last played-->
-    <dimen name="item_tab_album_last_player_width">150dp</dimen>
+    <dimen name="item_tab_album_last_player_width">130dp</dimen>
 
     <!--shuffle-->
     <dimen name="item_shuffle_text_size">16sp</dimen>
@@ -16,7 +16,7 @@
 
     <!--item detail main header-->
     <dimen name="item_detail_main_header_title_size">35sp</dimen>
-    <dimen name="item_detail_main_header_subtitle_size">12sp</dimen>
+    <dimen name="item_detail_main_header_subtitle_size">14sp</dimen>
 
     <!--item detail header-->
     <dimen name="item_detail_header_text_size">20sp</dimen>

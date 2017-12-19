@@ -15,10 +15,9 @@ import java.io.File
 
 object BindingsAdapter {
 
-    private const val OVERRIDE_SMALL = 150
-    private const val OVERRIDE_MID = 400
-    private const val OVERRIDE_BIG = 750
-
+    const val OVERRIDE_SMALL = 150
+    const val OVERRIDE_MID = 400
+    const val OVERRIDE_BIG = 750
 
     @BindingAdapter("imageSong")
     @JvmStatic

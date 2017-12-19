@@ -2,9 +2,10 @@ package dev.olog.presentation.fragment_playing_queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import android.view.MotionEvent
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapter
+import dev.olog.presentation._base.BaseListAdapterDraggable
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
@@ -12,6 +13,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
+import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
 
 class PlayingQueueFragmentAdapter @Inject constructor(
@@ -19,7 +21,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         private val musicController: MusicController,
         private val navigator: Navigator
 
-) : BaseListAdapter<DisplayableItem>(lifecycle) {
+) : BaseListAdapterDraggable<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
@@ -28,8 +30,11 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
-        viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
-            navigator.toDialog(item, view)
+        viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
+            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
+                touchHelper?.startDrag(viewHolder)
+                true
+            } else false
         }
     }
 
@@ -42,4 +47,6 @@ class PlayingQueueFragmentAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
+
+    override fun isViewTypeDraggable(): Int = R.layout.item_playing_queue
 }

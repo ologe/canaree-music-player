@@ -14,6 +14,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -55,6 +56,8 @@ class SearchFragment : BaseFragment() {
             viewModel.adjustDataMap(map)
             adapter.updateDataSet(map)
         })
+
+        activity!!.window.setLightStatusBar()
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

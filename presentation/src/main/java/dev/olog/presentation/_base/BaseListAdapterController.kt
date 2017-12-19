@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation.utils.assertBackgroundThread
 import dev.olog.shared.clearThenAdd
+import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,6 +29,24 @@ class BaseListAdapterController<Model>(
     private var dataVersion = 0
 
     operator fun get(position: Int): Model = dataSet[position]
+
+    fun remove(position: Int) {
+        dataSet.removeAt(position)
+        adapter.notifyItemRemoved(position)
+    }
+
+    fun swap(from: Int, to: Int) {
+        if (from < to){
+            for (position in from until to){
+                dataSet.swap(position , position+ 1)
+            }
+        } else {
+            for (position in from downTo to + 1){
+                dataSet.swap(position , position - 1)
+            }
+        }
+        adapter.notifyItemMoved(from, to)
+    }
 
     fun getSize() : Int = dataSet.size
 

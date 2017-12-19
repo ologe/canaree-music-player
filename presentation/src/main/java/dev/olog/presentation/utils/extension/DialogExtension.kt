@@ -10,8 +10,20 @@ private fun AlertDialog.tintPositiveButton(){
             .setTextColor(ContextCompat.getColor(context!!, R.color.item_selected))
 }
 
+private fun AlertDialog.tintNegativeButton(){
+    getButton(DialogInterface.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(context!!, R.color.dark_grey))
+}
+
+private fun AlertDialog.tintNeutralButton(){
+    getButton(DialogInterface.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(context!!, R.color.dark_grey))
+}
+
 fun AlertDialog.Builder.makeDialog(): AlertDialog{
     val dialog = this.show()
     dialog.tintPositiveButton()
+    dialog.tintNegativeButton()
+    dialog.tintNeutralButton()
     return dialog
 }

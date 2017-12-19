@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation.utils.assertBackgroundThread
 import dev.olog.shared.clearThenPut
+import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -34,6 +35,24 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
     }
 
     operator fun get(position: Int): Model = getItem(dataSet, position)
+
+    fun swap(from: Int, to: Int) {
+        if (from < to){
+            for (position in from until to){
+                val (list, realPosition1) = getItemPositionWithListWithin(dataSet, position)
+                val (_, realPosition2) = getItemPositionWithListWithin(dataSet, position + 1)
+
+                list.swap(realPosition1 , realPosition2)
+            }
+        } else {
+            for (position in from downTo to + 1){
+                val (list, realPosition1) = getItemPositionWithListWithin(dataSet, position)
+                val (_, realPosition2) = getItemPositionWithListWithin(dataSet, position - 1)
+                list.swap(realPosition1 , realPosition2)
+            }
+        }
+        adapter.notifyItemMoved(from, to)
+    }
 
     fun getSize(): Int = dataSet.values.sumBy { it.size }
 
@@ -102,6 +121,19 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
             if (position in totalSize until (totalSize + value.size)){
                 val realPosition = position - totalSize
                 return value[realPosition]
+            } else{
+                totalSize += value.size
+            }
+        }
+        throw IllegalArgumentException("invalid position $position")
+    }
+
+    private fun getItemPositionWithListWithin(dataSet: Map<E, List<Model>>, position: Int): Pair<List<Model>, Int> {
+        var totalSize = 0
+        for (value in dataSet.values) {
+            if (position in totalSize until (totalSize + value.size)){
+                val realPosition = position - totalSize
+                return value.to(realPosition)
             } else{
                 totalSize += value.size
             }

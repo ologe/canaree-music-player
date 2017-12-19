@@ -105,6 +105,7 @@ private fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
     val category = MediaIdHelper.extractCategory(parentId)
     val viewType = when (category){
         MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.layout.item_detail_song_with_track
+        MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> R.layout.item_detail_song_with_drag_handle
         else -> R.layout.item_detail_song
     }
 

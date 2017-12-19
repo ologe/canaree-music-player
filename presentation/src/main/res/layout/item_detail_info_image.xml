@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="72dp"
+            android:layout_height="150dp"
             android:background="@drawable/vd_fade"/>
 
         <TextView

@@ -104,7 +104,8 @@ private fun Folder.toAlbumsDetailDisplayableItem(resources: Resources): Displaya
             R.layout.item_albums,
             MediaIdHelper.folderId(path),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            this.image
     )
 }
 
@@ -113,7 +114,8 @@ private fun Playlist.toAlbumsDetailDisplayableItem(resources: Resources): Displa
             R.layout.item_albums,
             MediaIdHelper.playlistId(id),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            this.image
     )
 }
 
@@ -132,6 +134,7 @@ private fun Genre.toAlbumsDetailDisplayableItem(resources: Resources): Displayab
             R.layout.item_albums,
             MediaIdHelper.genreId(id),
             name.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            this.image
     )
 }

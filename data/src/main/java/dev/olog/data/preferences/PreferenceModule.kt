@@ -7,7 +7,6 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.domain.gateway.prefs.DataPreferencesGateway
 import dev.olog.domain.gateway.prefs.FloatingInfoPreferencesGateway
 import dev.olog.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.shared.ApplicationContext
@@ -31,12 +30,6 @@ class PreferenceModule{
     @Provides
     @Singleton
     fun provideFloatingInfoPreferences(dataStore: FloatingInfoPreferencesImpl): FloatingInfoPreferencesGateway {
-        return dataStore
-    }
-
-    @Provides
-    @Singleton
-    fun provideDataPreferences(dataStore: DataPreferencesImpl): DataPreferencesGateway {
         return dataStore
     }
 

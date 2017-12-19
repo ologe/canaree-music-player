@@ -49,6 +49,7 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
             R.layout.item_related_artist,
             MediaIdHelper.artistId(id),
             this.name,
-            "$albums$songs".toLowerCase()
+            "$albums$songs".toLowerCase(),
+            this.image
     )
 }

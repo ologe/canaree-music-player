@@ -8,10 +8,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.math.MathUtils
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import dagger.Lazy
+import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
@@ -19,9 +22,12 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.*
+import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.MediaIdHelper
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import java.io.File
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
@@ -43,9 +49,10 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var mostPlayedAdapter: DetailFragmentMostPlayedAdapter
     @Inject lateinit var mediaId: String
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
+    @Inject lateinit var navigator: Lazy<Navigator>
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
+    @Inject lateinit var marginDecorator : DetailFragmentHorizontalMarginDecoration
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
-    private val marginDecorator by lazy (NONE){ DetailFragmentHorizontalMarginDecoration(context!!) }
     private lateinit var layoutManager : GridLayoutManager
 
     override fun onAttach(context: Context?) {
@@ -82,6 +89,10 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         view.list.recycledViewPool = recycledViewPool
         layoutManager.spanSizeLookup = DetailFragmentSpanSizeLookup(view.list)
         view.list.setHasFixedSize(true)
+        val callback = ItemTouchHelperCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
 
         setupListScroll(view)
 
@@ -141,11 +152,18 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
         GlideApp.with(context).clear(view)
 
+        val file = File(item.image)
+        val imageUri = if(file.exists()){
+            Uri.fromFile(file)
+        } else {
+            Uri.parse(item.image)
+        }
+
         GlideApp.with(context)
-                .load(Uri.parse(item.image))
+                .load(imageUri)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(600)
+                .override(BindingsAdapter.OVERRIDE_BIG)
                 .priority(Priority.IMMEDIATE)
                 .error(CoverUtils.getGradient(context!!, id, source))
                 .into(view!!.cover)
@@ -154,11 +172,13 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     internal fun setLightButtons(){
         activity!!.window.removeLightStatusBar()
         view?.back?.setColorFilter(Color.WHITE)
+        view?.search?.setColorFilter(Color.WHITE)
     }
 
     internal fun setDarkButtons(){
         activity!!.window.setLightStatusBar()
         view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
+        view?.search?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
 
     override fun onStart() {
@@ -172,6 +192,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             (activity as HasSlidingPanel).addSlidingPanel(slidingPanelListener)
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
+        view!!.search.setOnClickListener { navigator.get().toSearchFragment() }
     }
 
     override fun onPause() {
@@ -180,6 +201,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             (activity as HasSlidingPanel).removeSlidingPanel(slidingPanelListener)
         }
         view!!.back.setOnClickListener(null)
+        view!!.search.setOnClickListener(null)
     }
 
     override fun onStop() {

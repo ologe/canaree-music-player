@@ -5,11 +5,13 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
+import android.view.View
 import com.android.databinding.library.baseAdapters.BR
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
-import dev.olog.presentation._base.BaseMapAdapter
+import dev.olog.presentation._base.BaseMapAdapterDraggable
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
@@ -34,7 +36,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
+) : BaseMapAdapterDraggable<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
@@ -63,7 +65,8 @@ class DetailFragmentAdapter @Inject constructor(
             }
 
             R.layout.item_detail_song,
-            R.layout.item_detail_song_with_track -> {
+            R.layout.item_detail_song_with_track,
+            R.layout.item_detail_song_with_drag_handle -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     musicController.playFromMediaId(item.mediaId)
                 }
@@ -72,6 +75,12 @@ class DetailFragmentAdapter @Inject constructor(
                 }
                 viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
                     navigator.toDialog(item, view)
+                }
+                viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
+                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
+                        touchHelper?.startDrag(viewHolder)
+                        true
+                    } else false
                 }
             }
             R.layout.item_detail_album,
@@ -148,4 +157,7 @@ class DetailFragmentAdapter @Inject constructor(
         view.startTransition()
     }
 
+    override fun isViewTypeDraggable(): Int = R.layout.item_detail_song_with_drag_handle
+
+    override fun isSwipeEnabled(): Boolean = false
 }

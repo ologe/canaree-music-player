@@ -5,23 +5,15 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.music_service.ObservePlayingQueueUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.model.toPlayerMetadata
-import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
 import dev.olog.shared.groupMap
 
 class PlayingQueueFragmentViewModel(
-        observePlayingQueueUseCase: ObservePlayingQueueUseCase,
-        controllerCallback: RxMusicServiceControllerCallback
+        observePlayingQueueUseCase: ObservePlayingQueueUseCase
 
 ) : ViewModel() {
-
-    val metadata = controllerCallback.onMetadataChanged()
-            .map { it.toPlayerMetadata() }
-            .distinctUntilChanged()
-            .asLiveData()
 
     val data = observePlayingQueueUseCase.execute()
             .groupMap { it.toPlayingQueueDisplayableItem() }

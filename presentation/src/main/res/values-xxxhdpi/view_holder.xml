@@ -11,7 +11,7 @@
     <dimen name="item_song_artist">12sp</dimen>
 
     <!--item tab album last played-->
-    <dimen name="item_tab_album_last_player_width">180dp</dimen>
+    <dimen name="item_tab_album_last_player_width">150dp</dimen>
 
     <!--item detail album-->
     <dimen name="item_detail_album_first_text">12sp</dimen>

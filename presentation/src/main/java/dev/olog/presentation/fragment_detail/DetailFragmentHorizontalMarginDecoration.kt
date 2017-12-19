@@ -4,10 +4,12 @@ import android.content.Context
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import dev.olog.shared.ApplicationContext
 import org.jetbrains.anko.dip
+import javax.inject.Inject
 
-class DetailFragmentHorizontalMarginDecoration(
-        context: Context
+class DetailFragmentHorizontalMarginDecoration @Inject constructor(
+        @ApplicationContext context: Context
 
 ) : RecyclerView.ItemDecoration() {
 

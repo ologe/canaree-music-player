@@ -77,6 +77,21 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="2dp"/>
 
+    <ImageButton
+        android:id="@+id/search"
+        app:layout_constraintTop_toTopOf="@+id/header"
+        app:layout_constraintEnd_toStartOf="@+id/more"
+        android:src="@drawable/vd_search"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/dark_grey"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:elevation="@dimen/toolbar_elevation"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         app:layout_constraintTop_toTopOf="parent"
