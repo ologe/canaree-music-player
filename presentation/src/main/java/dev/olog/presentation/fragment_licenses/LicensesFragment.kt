@@ -28,12 +28,6 @@ class LicensesFragment : BaseFragment(){
     override fun onResume() {
         super.onResume()
         adapter.updateDataSet(presenter.data)
-        view!!.back.setOnClickListener { activity!!.onBackPressed() }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        view!!.back.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_licenses

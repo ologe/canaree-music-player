@@ -11,4 +11,8 @@ abstract class NavigatorModule {
     @PerActivity
     abstract fun provideNavigator(navigatorImpl: NavigatorImpl): Navigator
 
+    @Binds
+    @PerActivity
+    abstract fun provideNavigatorAbout(navigatorImpl: NavigatorAboutImpl): NavigatorAbout
+
 }

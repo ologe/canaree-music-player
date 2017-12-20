@@ -36,6 +36,8 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan"/>
 
+        <activity android:name="dev.olog.presentation.activity_about.AboutActivity"/>
+
         <service android:name="dev.olog.music_service.MusicService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />

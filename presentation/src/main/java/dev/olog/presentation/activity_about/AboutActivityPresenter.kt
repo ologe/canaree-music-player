@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_about
+package dev.olog.presentation.activity_about
 
 import android.content.Context
 import dev.olog.presentation.BuildConfig
@@ -7,7 +7,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
-class AboutFragmentPresenter @Inject constructor(
+class AboutActivityPresenter @Inject constructor(
         @ApplicationContext private val context: Context
 
 ) {

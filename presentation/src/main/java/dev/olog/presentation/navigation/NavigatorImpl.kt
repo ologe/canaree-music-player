@@ -11,6 +11,7 @@ import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_about.AboutActivity
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
@@ -23,15 +24,12 @@ import dev.olog.presentation.dialog_entry.Popup
 import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
 import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
-import dev.olog.presentation.fragment_about.AboutFragment
 import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
-import dev.olog.presentation.fragment_licenses.LicensesFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.fragment_search.SearchFragment
-import dev.olog.presentation.fragment_special_thanks.SpecialThanksFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import org.jetbrains.anko.clearTop
@@ -173,7 +171,7 @@ class NavigatorImpl @Inject constructor(
         popup.inflate(R.menu.main)
         popup.setOnMenuItemClickListener {
             when (it.itemId){
-                R.id.about -> this.toAboutFragment()
+                R.id.about -> this.toAboutActivity()
                 R.id.equalizer -> this.toEqualizer(anchor.context)
             }
             true
@@ -181,13 +179,9 @@ class NavigatorImpl @Inject constructor(
         popup.show()
     }
 
-    override fun toAboutFragment() {
-        activity.supportFragmentManager.transaction {
-            setReorderingAllowed(true)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            add(android.R.id.content, AboutFragment(), AboutFragment.TAG)
-            addToBackStack(AboutFragment.TAG)
-        }
+    override fun toAboutActivity() {
+        val intent = Intent(activity, AboutActivity::class.java)
+        activity.startActivity(intent)
     }
 
     private fun toEqualizer(context: Context){
@@ -199,27 +193,7 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toLicensesFragment() {
-        if (allowed()) {
-            activity.supportFragmentManager.transaction {
-                setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, LicensesFragment(), LicensesFragment.TAG)
-                addToBackStack(LicensesFragment.TAG)
-            }
-        }
-    }
 
-    override fun toSpecialThanksFragment() {
-        if (allowed()) {
-            activity.supportFragmentManager.transaction {
-                setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, SpecialThanksFragment(), SpecialThanksFragment.TAG)
-                addToBackStack(SpecialThanksFragment.TAG)
-            }
-        }
-    }
 
     private fun allowed(): Boolean {
         val allowed = (System.currentTimeMillis() - lastRequest) > NEXT_REQUEST_THRESHOLD

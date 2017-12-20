@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_about
+package dev.olog.presentation.activity_about
 
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
@@ -11,26 +11,26 @@ import dev.olog.presentation.BR
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.ActivityContext
-import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.navigation.NavigatorAbout
 import dev.olog.presentation.utils.extension.setOnClickListener
 import javax.inject.Inject
 
 
-class AboutFragmentAdapter @Inject constructor(
+class AboutActivityAdapter @Inject constructor(
         @ActivityContext private val context: Context,
-        @FragmentLifecycle lifecycle: Lifecycle,
-        private val navigator: Lazy<Navigator>
+        @ActivityLifecycle lifecycle: Lifecycle,
+        private val navigator: Lazy<NavigatorAbout>
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
             when (item.mediaId){
-                AboutFragmentPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
-                AboutFragmentPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
-                AboutFragmentPresenter.RATE_ID -> toMarket()
+                AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
+                AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
+                AboutActivityPresenter.RATE_ID -> toMarket()
             }
         }
     }

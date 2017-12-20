@@ -23,11 +23,7 @@ interface Navigator {
 
     fun toMainPopup(anchor: View)
 
-    fun toAboutFragment()
-
-    fun toLicensesFragment()
-
-    fun toSpecialThanksFragment()
+    fun toAboutActivity()
 
     fun toSetRingtoneDialog(mediaId: String, itemTitle: String)
 
