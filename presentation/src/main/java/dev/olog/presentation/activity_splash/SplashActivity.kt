@@ -2,7 +2,6 @@ package dev.olog.presentation.activity_splash
 
 import android.Manifest
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Lazy
@@ -13,7 +12,6 @@ import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.hasPermission
 import dev.olog.presentation.utils.extension.requestStoragePemission
 import dev.olog.presentation.utils.extension.subscribe
-import dev.olog.presentation.utils.isOreo
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
@@ -38,11 +36,6 @@ class SplashActivity : BaseActivity() {
         } else {
             navigator.toMainActivity()
         }
-
-        if (isOreo()){
-            window.navigationBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
-        }
-
 
     }
 

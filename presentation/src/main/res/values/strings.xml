@@ -16,4 +16,6 @@
 
     <string name="about">About</string>
 
+    <string name="equalizer_not_found">Equalizer not found</string>
+
 </resources>

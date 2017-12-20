@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_about.view.*
+import kotlinx.android.synthetic.main.fragment_licenses.view.*
 import javax.inject.Inject
 
 class LicensesFragment : BaseFragment(){
@@ -28,6 +28,12 @@ class LicensesFragment : BaseFragment(){
     override fun onResume() {
         super.onResume()
         adapter.updateDataSet(presenter.data)
+        view!!.back.setOnClickListener { activity!!.onBackPressed() }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view!!.back.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_licenses

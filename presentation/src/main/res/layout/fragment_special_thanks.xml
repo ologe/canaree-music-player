@@ -23,6 +23,7 @@
         android:background="@color/toolbar">
 
         <ImageButton
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackgroundBorderless"

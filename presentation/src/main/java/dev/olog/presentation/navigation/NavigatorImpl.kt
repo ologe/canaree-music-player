@@ -1,5 +1,8 @@
 package dev.olog.presentation.navigation
 
+import android.content.Context
+import android.content.Intent
+import android.media.audiofx.AudioEffect
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -34,6 +37,7 @@ import dev.olog.presentation.utils.extension.transaction
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 @PerActivity
@@ -170,6 +174,7 @@ class NavigatorImpl @Inject constructor(
         popup.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.about -> this.toAboutFragment()
+                R.id.equalizer -> this.toEqualizer(anchor.context)
             }
             true
         }
@@ -182,6 +187,15 @@ class NavigatorImpl @Inject constructor(
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             add(android.R.id.content, AboutFragment(), AboutFragment.TAG)
             addToBackStack(AboutFragment.TAG)
+        }
+    }
+
+    private fun toEqualizer(context: Context){
+        val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+        if (intent.resolveActivity(context.packageManager) != null){
+            context.startActivity(intent)
+        } else {
+            context.toast(R.string.equalizer_not_found)
         }
     }
 
