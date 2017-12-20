@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_licenses.view.*
 import javax.inject.Inject
 
@@ -22,12 +23,12 @@ class LicensesFragment : BaseFragment(){
         layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
-        view.list.setHasFixedSize(true)
     }
 
     override fun onResume() {
         super.onResume()
         adapter.updateDataSet(presenter.data)
+        activity!!.switcher.setText(getString(R.string.about_third_sw))
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_licenses

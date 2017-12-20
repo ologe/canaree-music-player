@@ -7,7 +7,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.Gravity
-import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.ViewSwitcher
 import dev.olog.presentation.R
@@ -31,8 +32,12 @@ class AboutActivity : BaseActivity() {
 
         switcher.setFactory(factory)
         switcher.setCurrentText(getString(R.string.about))
-        switcher.setInAnimation(this, R.anim.slide_up_fade_in)
-        switcher.setOutAnimation(this, R.anim.slide_up_fade_out)
+        val inAnimation = AnimationUtils.loadAnimation(this,
+                R.anim.slide_in_top)
+        val outAnimation = AnimationUtils.loadAnimation(this,
+                R.anim.slide_out_top)
+        switcher.inAnimation = inAnimation
+        switcher.outAnimation = outAnimation
     }
 
     override fun onResume() {
@@ -46,12 +51,21 @@ class AboutActivity : BaseActivity() {
         back.setOnClickListener(null)
     }
 
+    override fun onBackPressed() {
+        val stackBefore = supportFragmentManager.backStackEntryCount
+        super.onBackPressed()
+        val stackNow = supportFragmentManager.backStackEntryCount
+        if (stackBefore == 1 && stackNow == 0){
+            switcher.setText(getString(R.string.about))
+        }
+    }
+
     private val factory = ViewSwitcher.ViewFactory {
         val textView = TextView(this@AboutActivity)
-        textView.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
+        textView.layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
-        textView.gravity = Gravity.CENTER_HORIZONTAL
+        textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.setTextColor(ColorStateList.valueOf(

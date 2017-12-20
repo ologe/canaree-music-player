@@ -30,7 +30,7 @@ class NavigatorAboutImpl @Inject constructor(
                         R.anim.left_stay,
                         R.anim.left_slide_out
                 )
-                add(R.id.list, LicensesFragment(), LicensesFragment.TAG)
+                add(android.R.id.content, LicensesFragment(), LicensesFragment.TAG)
                 addToBackStack(LicensesFragment.TAG)
             }
         }
@@ -46,7 +46,7 @@ class NavigatorAboutImpl @Inject constructor(
                         R.anim.left_stay,
                         R.anim.left_slide_out
                 )
-                add(R.id.list, SpecialThanksFragment(), SpecialThanksFragment.TAG)
+                add(android.R.id.content, SpecialThanksFragment(), SpecialThanksFragment.TAG)
                 addToBackStack(SpecialThanksFragment.TAG)
             }
         }

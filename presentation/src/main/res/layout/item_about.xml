@@ -10,15 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="12dp">
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="?attr/selectableItemBackground">
 
         <TextView
             android:text="@{item.title}"
             tools:text="Version"
-
+            android:textStyle="bold"
             android:textColor="@color/text_color_primary"
             android:textSize="18sp"
             android:layout_width="match_parent"

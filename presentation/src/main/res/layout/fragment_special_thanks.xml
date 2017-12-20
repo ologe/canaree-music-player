@@ -2,10 +2,12 @@
 <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list"
+    android:layout_marginTop="80dp"
     android:padding="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:clipChildren="false"
     android:clickable="true"
-    android:focusable="true"/>
+    android:focusable="true"
+    android:background="@color/background" />
