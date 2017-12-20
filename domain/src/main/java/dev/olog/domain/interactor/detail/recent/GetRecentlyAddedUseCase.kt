@@ -2,8 +2,8 @@ package dev.olog.domain.interactor.detail.recent
 
 import dev.olog.domain.entity.Song
 import dev.olog.domain.executor.IoScheduler
-import dev.olog.domain.gateway.*
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
@@ -12,15 +12,9 @@ import javax.inject.Inject
 
 class GetRecentlyAddedUseCase @Inject constructor(
         scheduler: IoScheduler,
-        genreDataStore: GenreGateway,
-        playlistDataStore: PlaylistGateway,
-        albumDataStore: AlbumGateway,
-        artistDataStore: ArtistGateway,
-        folderDataStore: FolderGateway,
-        songDataStore: SongGateway
+        private val getSongListByParamUseCase: GetSongListByParamUseCase
 
-) : GetSongListByParamUseCase(scheduler, genreDataStore, playlistDataStore,
-        albumDataStore, artistDataStore, folderDataStore, songDataStore) {
+) : FlowableUseCaseWithParam<List<Song>, String>(scheduler) {
 
     companion object {
         private val ONE_WEEK = TimeUnit.MILLISECONDS.convert(7, TimeUnit.DAYS)
@@ -33,7 +27,7 @@ class GetRecentlyAddedUseCase @Inject constructor(
         }
 
 
-        return super.buildUseCaseObservable(param)
+        return getSongListByParamUseCase.execute(param)
                 .map { if (it.size >= 5) it else listOf() }
                 .flatMapSingle { it.toFlowable()
                         .filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= ONE_WEEK }

@@ -6,8 +6,6 @@
     <string name="detail_albums">Albums</string>
     <string name="detail_songs">Songs</string>
 
-    <string name="detail_sort">sort</string>
-
     <string-array name="detail_album_header">
         <item>Other Folders</item>
         <item>Other Playlists</item>

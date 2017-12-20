@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 
-open class GetSongListByParamUseCase @Inject constructor(
+class GetSongListByParamUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val genreDataStore: GenreGateway,
         private val playlistDataStore: PlaylistGateway,
@@ -20,12 +20,13 @@ open class GetSongListByParamUseCase @Inject constructor(
 
 ) : FlowableUseCaseWithParam<List<Song>, String>(schedulers) {
 
-    override fun buildUseCaseObservable(param: String): Flowable<List<Song>> {
-        val category = MediaIdHelper.extractCategory(param)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(mediaId: String): Flowable<List<Song>> {
+        val category = MediaIdHelper.extractCategory(mediaId)
         if (category == MediaIdHelper.MEDIA_ID_BY_ALL){
             return songDataStore.getAll()
         }
-        val categoryValue = MediaIdHelper.extractCategoryValue(param)
+        val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
 
         when (category) {
             MediaIdHelper.MEDIA_ID_BY_GENRE -> return genreDataStore.observeSongListByParam(categoryValue.toLong())
@@ -35,6 +36,6 @@ open class GetSongListByParamUseCase @Inject constructor(
             MediaIdHelper.MEDIA_ID_BY_ARTIST -> return artistDataStore.observeSongListByParam(categoryValue.toLong())
             MediaIdHelper.MEDIA_ID_BY_ALL -> return songDataStore.getAll()
         }
-        throw AssertionError("invalid media id " + param)
+        throw AssertionError("invalid media id " + mediaId)
     }
 }

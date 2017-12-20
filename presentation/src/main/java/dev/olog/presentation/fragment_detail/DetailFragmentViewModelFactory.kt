@@ -3,6 +3,10 @@ package dev.olog.presentation.fragment_detail
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
+import dev.olog.domain.interactor.detail.sorting.GetSortArrangingUseCase
+import dev.olog.domain.interactor.detail.sorting.GetSortOrderUseCase
+import dev.olog.domain.interactor.detail.sorting.SetSortArrangingUseCase
+import dev.olog.domain.interactor.detail.sorting.SetSortOrderUseCase
 import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -12,7 +16,11 @@ class DetailFragmentViewModelFactory @Inject constructor(
         private val item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         private val albums: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
-        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase
+        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
+        private val setSortOrderUseCase: SetSortOrderUseCase,
+        private val getSortOrderUseCase: GetSortOrderUseCase,
+        private val setSortArrangingUseCase: SetSortArrangingUseCase,
+        private val getSortArrangingUseCase: GetSortArrangingUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -23,7 +31,11 @@ class DetailFragmentViewModelFactory @Inject constructor(
                 item,
                 albums,
                 headers,
-                getArtistFromAlbumUseCase
+                getArtistFromAlbumUseCase,
+                setSortOrderUseCase,
+                getSortOrderUseCase,
+                setSortArrangingUseCase,
+                getSortArrangingUseCase
         ) as T
     }
 }

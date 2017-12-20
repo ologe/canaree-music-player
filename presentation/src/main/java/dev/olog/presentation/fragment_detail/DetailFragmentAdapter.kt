@@ -9,11 +9,14 @@ import android.view.MotionEvent
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
 import com.jakewharton.rxbinding2.view.RxView
+import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortType
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapterDraggable
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dialog_sort.DetailSortDialog
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
@@ -22,6 +25,8 @@ import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Flowables
+import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import javax.inject.Inject
 
 class DetailFragmentAdapter @Inject constructor(
@@ -111,6 +116,20 @@ class DetailFragmentAdapter @Inject constructor(
                     }
                 }
             }
+            R.layout.item_detail_header_all_song -> {
+                viewHolder.setOnClickListener(R.id.sort, dataController) { _, _, view ->
+                    DetailSortDialog().show(view.context, view, mediaId, viewModel.getSortOrder().firstOrError()) { sortType ->
+                        viewModel.updateSortType(sortType).subscribe()
+                    }
+                }
+                viewHolder.setOnClickListener(R.id.sortImage, dataController) { _, _, _ ->
+                    viewModel.getSortOrder()
+                            .firstOrError()
+                            .filter { it != SortType.CUSTOM }
+                            .flatMapCompletable { viewModel.toggleSortArranging() }
+                            .subscribe()
+                }
+            }
         }
     }
 
@@ -138,6 +157,39 @@ class DetailFragmentAdapter @Inject constructor(
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ size ->
                             layoutManager.spanCount = if (size < 5) size else 5
+                        }, Throwable::printStackTrace)
+            }
+            R.layout.item_detail_recent_horizontal_list -> {
+                val list = holder.itemView as RecyclerView
+                val layoutManager = list.layoutManager as GridLayoutManager
+                recentSongsAdapter.onDataChanged()
+                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+                        .map { it.size }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ size ->
+                            layoutManager.spanCount = if (size < 5) size else 5
+                        }, Throwable::printStackTrace)
+            }
+            R.layout.item_detail_header_all_song -> {
+                val image = holder.itemView.sortImage
+
+                Flowables.combineLatest(
+                        viewModel.getSortOrder(),
+                        viewModel.getSortArranging(), { sort, arranging ->
+                    Pair(sort, arranging)
+
+                }).takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+                        .subscribe({ (sort, arranging) ->
+                            if (sort == SortType.CUSTOM){
+                                image.setImageResource(R.drawable.vd_remove)
+                            } else {
+                                if (arranging == SortArranging.ASCENDING){
+                                    image.setImageResource(R.drawable.vd_arrow_down)
+                                } else {
+                                    image.setImageResource(R.drawable.vd_arrow_up)
+                                }
+                            }
+
                         }, Throwable::printStackTrace)
             }
         }

@@ -2,21 +2,29 @@ package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
+import dev.olog.domain.interactor.detail.sorting.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
 
 class DetailFragmentViewModel(
-        mediaId: String,
+        private val mediaId: String,
         item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
-        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase
+        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
+        private val setSortOrderUseCase: SetSortOrderUseCase,
+        private val getSortOrderUseCase: GetSortOrderUseCase,
+        private val setSortArrangingUseCase: SetSortArrangingUseCase,
+        private val getSortArrangingUseCase: GetSortArrangingUseCase
 
 ) : ViewModel() {
 
@@ -114,6 +122,23 @@ class DetailFragmentViewModel(
     private fun handleSongsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
         list.addAll(0, headers.songs)
         return list
+    }
+
+    fun updateSortType(sortType: SortType): Completable {
+        return setSortOrderUseCase.execute(SetSortOrderRequestModel(
+                mediaId, sortType))
+    }
+
+    fun toggleSortArranging(): Completable {
+        return setSortArrangingUseCase.execute()
+    }
+
+    fun getSortOrder(): Flowable<SortType> {
+        return getSortOrderUseCase.execute(mediaId)
+    }
+
+    fun getSortArranging(): Flowable<SortArranging> {
+        return getSortArrangingUseCase.execute()
     }
 
 }

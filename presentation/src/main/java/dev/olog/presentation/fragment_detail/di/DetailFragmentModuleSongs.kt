@@ -6,9 +6,12 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.domain.entity.Song
+import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.most_played.GetMostPlayedSongsUseCase
 import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
+import dev.olog.domain.interactor.detail.sorting.GetSortOrderUseCase
+import dev.olog.domain.interactor.detail.sorting.GetSortedSongListByParamUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
@@ -55,12 +58,15 @@ class DetailFragmentModuleSongs {
     internal fun provideSongList(
             @ApplicationContext context: Context,
             mediaId: String,
-            useCase: GetSongListByParamUseCase) : Flowable<List<DisplayableItem>> {
+            useCase: GetSortedSongListByParamUseCase,
+            getSortOrderUseCase: GetSortOrderUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .map { it.to(it.sumBy { it.duration.toInt() }) }
-                .flatMapSingle { (songList, totalDuration) ->
-                    songList.toFlowable().map { it.toDetailDisplayableItem(mediaId) }.toList().map {
+                .flatMapSingle { songList -> getSortOrderUseCase.execute(mediaId).firstOrError()
+                        .map { sort -> Triple(songList, songList.sumBy { it.duration.toInt() }, sort) }
+                }
+                .flatMapSingle { (songList, totalDuration, sort) ->
+                    songList.toFlowable().map { it.toDetailDisplayableItem(mediaId, sort) }.toList().map {
                         it.to(TimeUnit.MINUTES.convert(totalDuration.toLong(), TimeUnit.MILLISECONDS).toInt())
                     }
                 }.map { createSongFooter(context, it) }
@@ -101,11 +107,12 @@ class DetailFragmentModuleSongs {
 
 }
 
-private fun Song.toDetailDisplayableItem(parentId: String): DisplayableItem {
+private fun Song.toDetailDisplayableItem(parentId: String, sortType: SortType): DisplayableItem {
     val category = MediaIdHelper.extractCategory(parentId)
-    val viewType = when (category){
-        MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.layout.item_detail_song_with_track
-        MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> R.layout.item_detail_song_with_drag_handle
+    val viewType = when {
+        category == MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.layout.item_detail_song_with_track
+        category == MediaIdHelper.MEDIA_ID_BY_PLAYLIST && sortType == SortType.CUSTOM ->
+            R.layout.item_detail_song_with_drag_handle
         else -> R.layout.item_detail_song
     }
 

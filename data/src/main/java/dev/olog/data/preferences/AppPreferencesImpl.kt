@@ -3,7 +3,12 @@ package dev.olog.data.preferences
 import android.content.SharedPreferences
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.data.utils.edit
+import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortType
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,6 +21,14 @@ class AppPreferencesImpl @Inject constructor(
     companion object {
         private const val TAG = "AppPreferencesDataStoreImpl"
         private const val FIRST_ACCESS = TAG + ".FIRST_ACCESS"
+
+        private const val DETAIL_SORT_FOLDER_ORDER = TAG + ".DETAIL_SORT_FOLDER_ORDER"
+        private const val DETAIL_SORT_PLAYLIST_ORDER = TAG + ".DETAIL_SORT_PLAYLIST_ORDER"
+        private const val DETAIL_SORT_ALBUM_ORDER = TAG + ".DETAIL_SORT_ALBUM_ORDER"
+        private const val DETAIL_SORT_ARTIST_ORDER = TAG + ".DETAIL_SORT_ARTIST_ORDER"
+        private const val DETAIL_SORT_GENRE_ORDER = TAG + ".DETAIL_SORT_GENRE_ORDER"
+
+        private const val DETAIL_SORT_ARRANGING = TAG + ".DETAIL_SORT_ARRANGING"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -28,4 +41,75 @@ class AppPreferencesImpl @Inject constructor(
         return isFirstAccess
     }
 
+    override fun getFolderSortOrder(): Flowable<SortType> {
+        return rxPreferences.getInteger(DETAIL_SORT_FOLDER_ORDER, SortType.TITLE.ordinal)
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map { ordinal -> SortType.values()[ordinal] }
+    }
+
+    override fun getPlaylistSortOrder(): Flowable<SortType> {
+        return rxPreferences.getInteger(DETAIL_SORT_PLAYLIST_ORDER, SortType.CUSTOM.ordinal)
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map { ordinal -> SortType.values()[ordinal] }
+    }
+
+    override fun getAlbumSortOrder(): Flowable<SortType> {
+        return rxPreferences.getInteger(DETAIL_SORT_ALBUM_ORDER, SortType.TITLE.ordinal)
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map { ordinal -> SortType.values()[ordinal] }
+    }
+
+    override fun getArtistSortOrder(): Flowable<SortType> {
+        return rxPreferences.getInteger(DETAIL_SORT_ARTIST_ORDER, SortType.TITLE.ordinal)
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map { ordinal -> SortType.values()[ordinal] }
+    }
+
+    override fun getGenreSortOrder(): Flowable<SortType> {
+        return rxPreferences.getInteger(DETAIL_SORT_GENRE_ORDER, SortType.TITLE.ordinal)
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map { ordinal -> SortType.values()[ordinal] }
+    }
+
+    override fun setFolderSortOrder(sortType: SortType) : Completable{
+        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_FOLDER_ORDER, sortType.ordinal) } }
+    }
+
+    override fun setPlaylistSortOrder(sortType: SortType) : Completable{
+        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_PLAYLIST_ORDER, sortType.ordinal) } }
+    }
+
+    override fun setAlbumSortOrder(sortType: SortType) : Completable{
+        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ALBUM_ORDER, sortType.ordinal) } }
+    }
+
+    override fun setArtistSortOrder(sortType: SortType) : Completable{
+        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ARTIST_ORDER, sortType.ordinal) } }
+    }
+
+    override fun setGenreSortOrder(sortType: SortType) : Completable{
+        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_GENRE_ORDER, sortType.ordinal) } }
+    }
+
+    override fun getSortArranging(): Flowable<SortArranging> {
+        return rxPreferences.getInteger(DETAIL_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map { ordinal -> SortArranging.values()[ordinal] }
+    }
+
+    override fun toggleSortArranging() : Completable{
+        val oldArranging = SortArranging.values()[preferences.getInt(DETAIL_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)]
+
+        val newArranging = if (oldArranging == SortArranging.ASCENDING){
+            SortArranging.DESCENDING
+        } else SortArranging.ASCENDING
+
+        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ARRANGING, newArranging.ordinal) } }
+    }
 }

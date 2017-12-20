@@ -6,6 +6,7 @@
 
     <!-- item tab song -->
     <dimen name="item_song_cover_margin_top">18dp</dimen>
+    <dimen name="item_song_cover_margin_vertical">9dp</dimen>
     <dimen name="item_song_cover_size">55dp</dimen>
     <dimen name="item_song_title">15sp</dimen>
     <dimen name="item_song_artist">12sp</dimen>
