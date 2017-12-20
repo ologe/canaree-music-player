@@ -31,7 +31,7 @@
             android:padding="12dp"/>
 
         <TextSwitcher
-            android:id="@+id/header"
+            android:id="@+id/switcher"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"
             android:layout_marginStart="48dp"
