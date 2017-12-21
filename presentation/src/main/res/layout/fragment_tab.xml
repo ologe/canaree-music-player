@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    android:paddingTop="8dp"
-    android:paddingStart="8dp"
-    android:paddingBottom="8dp"
-    android:paddingEnd="8dp"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    tools:listitem="@layout/item_tab_song" />
+    android:layout_width="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:paddingStart="8dp"
+        android:paddingBottom="8dp"
+        android:paddingEnd="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_tab_song" />
+
+    <com.l4digital.fastscroll.FastScroller
+        android:id="@+id/fastScroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:handleColor="@color/item_selected"
+        app:bubbleColor="@color/item_selected"
+        app:bubbleTextColor="@android:color/white"
+        app:trackColor="@android:color/transparent"/>
+
+</FrameLayout>

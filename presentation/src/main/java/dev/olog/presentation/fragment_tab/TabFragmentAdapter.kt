@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.l4digital.fastscroll.FastScroller
 import dagger.Lazy
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
@@ -26,7 +27,7 @@ class TabFragmentAdapter @Inject constructor(
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
 
-) : BaseListAdapter<DisplayableItem>(lifecycle) {
+) : BaseListAdapter<DisplayableItem>(lifecycle), FastScroller.SectionIndexer {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         when (viewType) {
@@ -89,6 +90,5 @@ class TabFragmentAdapter @Inject constructor(
         return oldItem.mediaId == newItem.mediaId
     }
 
-
-
+    override fun getSectionText(position: Int): String = dataController[position].title
 }

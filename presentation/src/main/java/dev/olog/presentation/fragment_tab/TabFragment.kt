@@ -61,6 +61,7 @@ class TabFragment : BaseFragment() {
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
+        view.fastScroller.attachRecyclerView(view.list)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_tab
