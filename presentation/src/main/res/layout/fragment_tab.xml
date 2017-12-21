@@ -18,7 +18,7 @@
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song" />
 
-    <com.l4digital.fastscroll.FastScroller
+    <dev.olog.presentation.widgets.fastscroller.RxFastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

@@ -8,6 +8,7 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
+import java.util.*
 import javax.inject.Inject
 
 class GetSortedSongListByParamUseCase @Inject constructor(
@@ -24,14 +25,15 @@ class GetSortedSongListByParamUseCase @Inject constructor(
                 getSongListByParamUseCase.execute(mediaId),
                 getSortOrderUseCase.execute(mediaId),
                 getSortArrangingUseCase.execute(), { songList, sortOrder, arranging ->
-            val list = songList.sortedWith(getComparator(sortOrder))
-            if (arranging == SortArranging.DESCENDING){
-                list.asReversed()
-            } else list
+            if (arranging == SortArranging.ASCENDING){
+                songList.sortedWith(getAscendingComparator(sortOrder))
+            } else {
+                songList.sortedWith(getDescendingComparator(sortOrder))
+            }
         })
     }
 
-    private fun getComparator(sortType: SortType): Comparator<Song> {
+    private fun getAscendingComparator(sortType: SortType): Comparator<Song> {
         return when (sortType){
             SortType.TITLE -> compareBy { it.title.toLowerCase() }
             SortType.ARTIST -> compareBy { it.artist.toLowerCase() }
@@ -40,6 +42,18 @@ class GetSortedSongListByParamUseCase @Inject constructor(
             SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
             SortType.TRACK_NUMBER -> compareBy { it.trackNumber }
             SortType.CUSTOM -> compareBy { 0 }
+        }
+    }
+
+    private fun getDescendingComparator(sortType: SortType): Comparator<Song> {
+        return when (sortType){
+            SortType.TITLE -> compareByDescending { it.title.toLowerCase() }
+            SortType.ARTIST -> compareByDescending { it.artist.toLowerCase() }
+            SortType.ALBUM -> compareByDescending { it.album.toLowerCase() }
+            SortType.DURATION -> compareByDescending { it.duration }
+            SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
+            SortType.TRACK_NUMBER -> compareByDescending { it.trackNumber }
+            SortType.CUSTOM -> compareByDescending { 0 }
         }
     }
 

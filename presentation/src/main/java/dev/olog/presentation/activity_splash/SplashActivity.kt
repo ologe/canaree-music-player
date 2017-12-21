@@ -18,6 +18,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -62,7 +63,7 @@ class SplashActivity : BaseActivity() {
                 }}.asLiveData()
                 .subscribe(this, { success ->
                     if (success){
-                        timeDisposable = Observable.timer(5, TimeUnit.SECONDS)
+                        timeDisposable = Observable.timer(4, TimeUnit.SECONDS)
                                 .doOnSubscribe { showLoader() }
                                 .doOnSubscribe { startLoadingImages() }
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -80,8 +81,13 @@ class SplashActivity : BaseActivity() {
         viewPager.visibility = View.GONE
         inkIndicator.visibility = View.GONE
         next.visibility = View.GONE
+
+        val messages = resources.getStringArray(R.array.splash_loading_messages)
+        val randomMessage = messages[Random().nextInt(messages.size)]
+
         loader.visibility = View.VISIBLE
         message.visibility = View.VISIBLE
+        message.text = randomMessage
         loader.playAnimation()
     }
 

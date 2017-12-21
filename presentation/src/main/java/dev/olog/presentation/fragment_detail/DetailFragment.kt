@@ -94,6 +94,8 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+        view.fastScroller.attachRecyclerView(view.list)
+        view.fastScroller.setSectionIndexer(adapter)
 
         setupListScroll(view)
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="splash_loading_messages">
+        <item>Looking for unicorns..</item>
+        <item>Just wasting your time..</item>
+        <item>Saving the princess from the dragon..</item>
+    </string-array>
+
+</resources>

@@ -22,6 +22,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
+import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,7 +42,8 @@ class DetailFragmentAdapter @Inject constructor(
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapterDraggable<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
+) : BaseMapAdapterDraggable<DetailFragmentDataType, DisplayableItem>(lifecycle, enums),
+        FastScrollerSectionIndexer {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
@@ -219,5 +221,17 @@ class DetailFragmentAdapter @Inject constructor(
         val (_, realTo) = dataController.getItemPositionWithListWithin(to)
         val headersCount = list.indexOfFirst { it.type == isViewTypeDraggable() }
         viewModel.moveItemInPlaylist(realFrom - headersCount, realTo - headersCount)
+    }
+
+    override fun getSectionText(position: Int): String? {
+        val item = dataController[position]
+        val itemType = item.type
+        if (itemType == R.layout.item_detail_song ||
+                itemType == R.layout.item_detail_song_with_drag_handle ||
+                itemType == R.layout.item_detail_song_with_track) {
+            return item.title[0].toString().toUpperCase()
+        } else {
+            return null
+        }
     }
 }

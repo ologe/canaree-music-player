@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:elevation="4dp"
     android:layout_width="match_parent"
@@ -16,9 +17,20 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingBottom="16dp"
-        android:background="@color/background"
-        android:scrollbars="vertical"/>
+        android:paddingBottom="16dp" />
+
+    <dev.olog.presentation.widgets.fastscroller.RxFastScroller
+        android:id="@+id/fastScroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:handleColor="@color/item_selected"
+        app:bubbleColor="@color/item_selected"
+        app:bubbleTextColor="@android:color/white"
+        app:trackColor="@android:color/transparent"
+        android:layout_gravity="end"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="8dp"
+        android:paddingStart="16dp" />
 
     <View
         android:id="@+id/statusBar"
