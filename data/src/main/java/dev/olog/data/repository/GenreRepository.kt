@@ -91,8 +91,7 @@ class GenreRepository @Inject constructor(
         return size
     }
 
-    private fun createImages(){
-//        println("request genre image creation")
+    override fun createImages(){
 
         imageDisposable.unsubscribe()
 

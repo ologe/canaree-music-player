@@ -3,14 +3,17 @@ package dev.olog.presentation.fragment_player
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
-import android.graphics.drawable.TransitionDrawable
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.images.CoverUtils
-import dev.olog.presentation.model.*
+import dev.olog.presentation.model.CoverModel
+import dev.olog.presentation.model.DurationModel
+import dev.olog.presentation.model.PlayerFragmentMetadata
+import dev.olog.presentation.model.toPlayerMetadata
 import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.TextUtils.getReadableSongLength
 import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
 import dev.olog.shared.constants.MetadataConstants
 import io.reactivex.functions.Predicate
@@ -31,32 +34,38 @@ class PlayerFragmentViewModel(
             .asLiveData()
 
     val onCoverChangedLiveData: LiveData<CoverModel> = controllerCallback.onMetadataChanged()
-            .map { CoverTempModel(it) }
-            .scan { old: CoverTempModel, new: CoverTempModel ->
-                if (old.id.contains("|")){
-                    val indexOf = old.id.indexOf("|")
-                    CoverTempModel(new.uri, "${old.id.substring(indexOf + 1)}|${new.id}")
-                } else {
-                    CoverTempModel(new.uri, "${old.id}|${new.id}")
-                }
-             }
+            .map {
+                val image = it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
+                val id = MediaIdHelper.extractLeaf(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID))
+                CoverModel(image, CoverUtils.getGradient(application, id.toInt()))
+            }
+//            .map { CoverTempModel(it) }
+//            .scan { old: CoverTempModel, new: CoverTempModel ->
+//                if (old.id.contains("|")){
+//                    val indexOf = old.id.indexOf("|")
+//                    CoverTempModel(new.uri, "${old.id.substring(indexOf + 1)}|${new.id}")
+//                } else {
+//                    CoverTempModel(new.uri, "${old.id}|${new.id}")
+//                }
+//             }
             .distinctUntilChanged()
-            .map { model ->
-                val indexOf = model.id.indexOf("|")
-                if (indexOf != -1) {
-                    val oldId = model.id.substring(0, indexOf).toInt()
-                    val newId = model.id.substring(indexOf + 1).toInt()
-
-                    val drawable = TransitionDrawable(arrayOf(
-                            CoverUtils.getGradient(application, oldId),
-                            CoverUtils.getGradient(application, newId)
-                    ))
-                    CoverModel(model.uri, drawable)
-                } else {
-                    CoverModel(model.uri, CoverUtils.getGradient(application, model.id.toInt()))
-                }
-
-            }.asLiveData()
+//            .map { model ->
+//                val indexOf = model.id.indexOf("|")
+//                if (indexOf != -1) {
+//                    val oldId = model.id.substring(0, indexOf).toInt()
+//                    val newId = model.id.substring(indexOf + 1).toInt()
+//
+//                    val drawable = TransitionDrawable(arrayOf(
+//                            CoverUtils.getGradient(application, oldId),
+//                            CoverUtils.getGradient(application, newId)
+//                    ))
+//                    CoverModel(model.uri, drawable)
+//                } else {
+//                    CoverModel(model.uri, CoverUtils.getGradient(application, model.id.toInt()))
+//                }
+//
+//            }
+            .asLiveData()
 
     val onPlaybackStateChangedLiveData: LiveData<Boolean> = controllerCallback
             .onPlaybackStateChanged()

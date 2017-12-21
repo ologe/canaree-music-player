@@ -76,8 +76,7 @@ class ArtistRepository @Inject constructor(
     private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
     private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
-    private fun createImages(){
-//        println("request artist image creation")
+    override fun createImages(){
 
         imageDisposable.unsubscribe()
 

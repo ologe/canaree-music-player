@@ -90,5 +90,5 @@ class TabFragmentAdapter @Inject constructor(
         return oldItem.mediaId == newItem.mediaId
     }
 
-    override fun getSectionText(position: Int): String = dataController[position].title
+    override fun getSectionText(position: Int): String = dataController[position].title[0].toString().toUpperCase()
 }

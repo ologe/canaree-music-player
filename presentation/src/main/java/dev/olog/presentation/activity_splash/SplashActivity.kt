@@ -2,6 +2,7 @@ package dev.olog.presentation.activity_splash
 
 import android.Manifest
 import android.os.Bundle
+import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Lazy
@@ -12,8 +13,12 @@ import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.hasPermission
 import dev.olog.presentation.utils.extension.requestStoragePemission
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SplashActivity : BaseActivity() {
@@ -22,6 +27,9 @@ class SplashActivity : BaseActivity() {
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var adapter : Lazy<SplashActivityViewPagerAdapter>
     @Inject lateinit var rxPermissions: RxPermissions
+
+    private var timeDisposable : Disposable? = null
+    private var prefetchImageDisposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +47,12 @@ class SplashActivity : BaseActivity() {
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        timeDisposable.unsubscribe()
+        prefetchImageDisposable.unsubscribe()
+    }
+
     private fun setupStorageRequestListener(){
         RxView.clicks(next)
                 .flatMap { if (viewPager.currentItem != 0) {
@@ -48,11 +62,31 @@ class SplashActivity : BaseActivity() {
                 }}.asLiveData()
                 .subscribe(this, { success ->
                     if (success){
-                        navigator.toMainActivity()
+                        timeDisposable = Observable.timer(5, TimeUnit.SECONDS)
+                                .doOnSubscribe { showLoader() }
+                                .doOnSubscribe { startLoadingImages() }
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe({
+                                    loader.pauseAnimation()
+                                    navigator.toMainActivity()
+                                }, Throwable::printStackTrace)
                     } else if (viewPager.currentItem == 0){
                         viewPager.setCurrentItem(1, true)
                     }
                 })
+    }
+
+    private fun showLoader(){
+        viewPager.visibility = View.GONE
+        inkIndicator.visibility = View.GONE
+        next.visibility = View.GONE
+        loader.visibility = View.VISIBLE
+        message.visibility = View.VISIBLE
+        loader.playAnimation()
+    }
+
+    private fun startLoadingImages(){
+        prefetchImageDisposable = presenter.prefetchImages().subscribe({}, Throwable::printStackTrace)
     }
 
     private fun checkStoragePermission() : Boolean {

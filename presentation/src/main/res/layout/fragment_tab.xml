@@ -25,6 +25,10 @@
         app:handleColor="@color/item_selected"
         app:bubbleColor="@color/item_selected"
         app:bubbleTextColor="@android:color/white"
-        app:trackColor="@android:color/transparent"/>
+        app:trackColor="@android:color/transparent"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:paddingStart="16dp" />
 
 </FrameLayout>

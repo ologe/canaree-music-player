@@ -111,8 +111,7 @@ class PlaylistRepository @Inject constructor(
         return size
     }
 
-    private fun createImages(){
-//        println("request playlist image creation")
+    override fun createImages(){
 
         imageDisposable.unsubscribe()
 

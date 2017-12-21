@@ -7,7 +7,8 @@ import io.reactivex.Flowable
 interface ArtistGateway :
         BaseGateway<Artist, Long>,
         ChildsHasSongs<Long>,
-        HasLastPlayed<Artist> {
+        HasLastPlayed<Artist>,
+        HasCreatedImages {
 
     fun getAlbums(artistId: Long): Flowable<List<Album>>
 

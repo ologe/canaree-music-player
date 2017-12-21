@@ -5,4 +5,5 @@ import dev.olog.domain.entity.Genre
 interface GenreGateway  :
         BaseGateway<Genre, Long>,
         ChildsHasSongs<Long>,
-        HasMostPlayed<String>
+        HasMostPlayed<String>,
+        HasCreatedImages

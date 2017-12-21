@@ -58,8 +58,7 @@ class FolderRepository @Inject constructor(
             .refCount()
             .doOnTerminate { imageDisposable.unsubscribe() }
 
-    private fun createImages(){
-//        println("request folder image creation")
+    override fun createImages(){
 
         imageDisposable.unsubscribe()
 

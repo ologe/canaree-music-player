@@ -27,10 +27,10 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable false
+            debuggable false
             applicationIdSuffix = ".debug"
         }
     }
@@ -106,11 +106,12 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
     implementation "io.mattcarroll.hover:hover:$rootProject.hover"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
+    implementation 'com.l4digital.fastscroll:fastscroll:1.0.4'
 
     // debug
 //    implementation 'com.akaita.java:rxjava2-debug:1.2.1'
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
+//    debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
