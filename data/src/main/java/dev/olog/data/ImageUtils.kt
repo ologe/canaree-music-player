@@ -2,6 +2,7 @@ package dev.olog.data
 
 import android.graphics.*
 import dev.olog.data.utils.assertBackgroundThread
+import dev.olog.shared.shuffle
 
 object ImageUtils {
 
@@ -12,7 +13,7 @@ object ImageUtils {
 
         val resultList = arrangeBitmaps(list)
 
-        val combinedImage = create(resultList, IMAGE_SIZE, 3)
+        val combinedImage = create(resultList.shuffle(), IMAGE_SIZE, 3)
         return rotateAndCrop(combinedImage, IMAGE_SIZE, 9f)
     }
 

@@ -2,8 +2,10 @@ package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import dagger.Lazy
 import dev.olog.domain.SortArranging
 import dev.olog.domain.entity.SortType
+import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
 import dev.olog.presentation.model.DisplayableItem
@@ -24,7 +26,8 @@ class DetailFragmentViewModel(
         private val setSortOrderUseCase: SetSortOrderUseCase,
         private val getSortOrderUseCase: GetSortOrderUseCase,
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
-        private val getSortArrangingUseCase: GetSortArrangingUseCase
+        private val getSortArrangingUseCase: GetSortArrangingUseCase,
+        private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>
 
 ) : ViewModel() {
 
@@ -139,6 +142,16 @@ class DetailFragmentViewModel(
 
     fun getSortArranging(): Flowable<SortArranging> {
         return getSortArrangingUseCase.execute()
+    }
+
+    fun moveItemInPlaylist(from: Int, to: Int){
+        val category = MediaIdHelper.extractCategory(mediaId)
+        if (category != MediaIdHelper.MEDIA_ID_BY_PLAYLIST){
+            throw IllegalArgumentException("not a playlist")
+        }
+        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        val success = moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
+        println(success)
     }
 
 }

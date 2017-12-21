@@ -326,4 +326,8 @@ class PlaylistRepository @Inject constructor(
 
         }.subscribeOn(Schedulers.io())
     }
+
+    override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
+        return MediaStore.Audio.Playlists.Members.moveItem(contentResolver, playlistId, from, to)
+    }
 }

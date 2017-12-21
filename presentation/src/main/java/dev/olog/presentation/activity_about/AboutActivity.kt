@@ -3,6 +3,7 @@ package dev.olog.presentation.activity_about
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
@@ -32,12 +33,12 @@ class AboutActivity : BaseActivity() {
 
         switcher.setFactory(factory)
         switcher.setCurrentText(getString(R.string.about))
-        val inAnimation = AnimationUtils.loadAnimation(this,
-                R.anim.slide_in_top)
-        val outAnimation = AnimationUtils.loadAnimation(this,
-                R.anim.slide_out_top)
-        switcher.inAnimation = inAnimation
-        switcher.outAnimation = outAnimation
+        setInAnimation()
+    }
+
+    override fun onAttachFragment(fragment: Fragment?) {
+        super.onAttachFragment(fragment)
+        setInAnimation()
     }
 
     override fun onResume() {
@@ -52,12 +53,13 @@ class AboutActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        val stackBefore = supportFragmentManager.backStackEntryCount
-        super.onBackPressed()
-        val stackNow = supportFragmentManager.backStackEntryCount
-        if (stackBefore == 1 && stackNow == 0){
+        setOutAnimation()
+        val stack = supportFragmentManager.backStackEntryCount
+        if (stack == 1){
             switcher.setText(getString(R.string.about))
         }
+
+        super.onBackPressed()
     }
 
     private val factory = ViewSwitcher.ViewFactory {
@@ -72,4 +74,20 @@ class AboutActivity : BaseActivity() {
                 ContextCompat.getColor(this@AboutActivity, R.color.text_color_primary)))
         textView
     }
+
+    fun setInAnimation(){
+        setSwitcherAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom)
+    }
+
+    fun setOutAnimation(){
+        setSwitcherAnimation(R.anim.slide_in_top, R.anim.slide_out_top)
+    }
+
+    private fun setSwitcherAnimation(inAnimation: Int, outAnimation: Int){
+        val inAnim = AnimationUtils.loadAnimation(this, inAnimation)
+        val outAnima = AnimationUtils.loadAnimation(this, outAnimation)
+        switcher.inAnimation = inAnim
+        switcher.outAnimation = outAnima
+    }
+
 }

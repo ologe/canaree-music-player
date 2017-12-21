@@ -56,7 +56,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun checkStoragePermission() : Boolean {
-        return hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+        return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
 }

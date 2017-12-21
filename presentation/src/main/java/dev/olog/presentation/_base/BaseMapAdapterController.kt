@@ -39,15 +39,14 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
     fun swap(from: Int, to: Int) {
         if (from < to){
             for (position in from until to){
-                val (list, realPosition1) = getItemPositionWithListWithin(dataSet, position)
-                val (_, realPosition2) = getItemPositionWithListWithin(dataSet, position + 1)
-
+                val (list, realPosition1) = getItemPositionWithListWithin(position)
+                val (_, realPosition2) = getItemPositionWithListWithin(position + 1)
                 list.swap(realPosition1 , realPosition2)
             }
         } else {
             for (position in from downTo to + 1){
-                val (list, realPosition1) = getItemPositionWithListWithin(dataSet, position)
-                val (_, realPosition2) = getItemPositionWithListWithin(dataSet, position - 1)
+                val (list, realPosition1) = getItemPositionWithListWithin(position)
+                val (_, realPosition2) = getItemPositionWithListWithin(position - 1)
                 list.swap(realPosition1 , realPosition2)
             }
         }
@@ -128,7 +127,7 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
         throw IllegalArgumentException("invalid position $position")
     }
 
-    private fun getItemPositionWithListWithin(dataSet: Map<E, List<Model>>, position: Int): Pair<List<Model>, Int> {
+    fun getItemPositionWithListWithin(position: Int): Pair<List<Model>, Int> {
         var totalSize = 0
         for (value in dataSet.values) {
             if (position in totalSize until (totalSize + value.size)){

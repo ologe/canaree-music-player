@@ -212,4 +212,12 @@ class DetailFragmentAdapter @Inject constructor(
     override fun isViewTypeDraggable(): Int = R.layout.item_detail_song_with_drag_handle
 
     override fun isSwipeEnabled(): Boolean = false
+
+    override fun onItemMove(from: Int, to: Int) {
+        super.onItemMove(from, to)
+        val (list, realFrom) = dataController.getItemPositionWithListWithin(from)
+        val (_, realTo) = dataController.getItemPositionWithListWithin(to)
+        val headersCount = list.indexOfFirst { it.type == isViewTypeDraggable() }
+        viewModel.moveItemInPlaylist(realFrom - headersCount, realTo - headersCount)
+    }
 }

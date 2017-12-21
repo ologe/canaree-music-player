@@ -26,4 +26,6 @@ interface PlaylistGateway :
 
     fun insertSongToHistory(songId: Long): Completable
 
+    fun moveItem(playlistId: Long, from: Int, to: Int): Boolean
+
 }
