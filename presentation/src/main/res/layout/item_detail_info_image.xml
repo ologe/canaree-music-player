@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:background="@drawable/vd_fade"/>
 
         <TextView
@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
             android:text="@{item.title}"
-            tools:text="...Like Clockwork"
+            tools:text="Animal Ambition: An Untamed Desire to Win"
             android:textSize="@dimen/item_detail_main_header_title_size"
             android:textColor="@color/text_color_primary"
             android:textStyle="bold"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:paddingTop="8dp"
-            android:maxLines="2"
+            android:maxLines="3"
             android:ellipsize="end"
             android:scrollHorizontally="true"/>
 
@@ -56,7 +56,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
             android:text="@{item.subtitle}"
-            tools:text="Queens Of The Stone Age"
+            tools:text="50 Cent"
             android:textSize="@dimen/item_detail_main_header_subtitle_size"
             android:textColor="@color/item_selected"
             android:layout_width="0dp"

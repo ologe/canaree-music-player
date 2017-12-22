@@ -24,13 +24,15 @@ import dev.olog.presentation.R
 import dev.olog.shared.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.processors.PublishProcessor
 import java.util.concurrent.TimeUnit
 
 private const val BUBBLE_ANIMATION_DURATION = 100
 private const val SCROLL_BAR_ANIMATION_DURATION = 300
 private const val SCROLL_BAR_HIDE_DELAY = 1000
 private const val TRACK_SNAP_RANGE = 5
+private const val TEXT_THROTTLE = 100L
+private const val SCROLL_THROTTLE = 100L
 
 class RxFastScroller @JvmOverloads constructor(
         context: Context,
@@ -109,8 +111,10 @@ class RxFastScroller @JvmOverloads constructor(
     private var mHandleImage: Drawable? = null
     private var mTrackImage: Drawable? = null
 
-    private val bubbleTextPublisher = BehaviorProcessor.create<String>()
+    private val bubbleTextPublisher = PublishProcessor.create<String>()
+    private val scrollPublisher = PublishProcessor.create<Int>()
     private var bubbleTextDisposable : Disposable? = null
+    private var scrollDisposable : Disposable? = null
 
     private var mFastScrollStateChangeListener: FastScrollStateChangeListener? = null
 
@@ -220,7 +224,8 @@ class RxFastScroller @JvmOverloads constructor(
 
         if (!isInEditMode){
             bubbleTextDisposable = bubbleTextPublisher
-                    .throttleLast(100, TimeUnit.MILLISECONDS)
+                    .onBackpressureLatest()
+                    .throttleLast(TEXT_THROTTLE, TimeUnit.MILLISECONDS)
                     .distinctUntilChanged()
                     .observeOn(AndroidSchedulers.mainThread())
                     .map {
@@ -230,12 +235,22 @@ class RxFastScroller @JvmOverloads constructor(
                             else -> it
                         }
                     }.subscribe({ mBubbleView!!.text = it }, Throwable::printStackTrace)
+
+            scrollDisposable = scrollPublisher
+                    .onBackpressureLatest()
+                    .throttleLast(SCROLL_THROTTLE, TimeUnit.MILLISECONDS)
+                    .distinctUntilChanged()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ position ->
+                        mRecyclerView!!.layoutManager.scrollToPosition(position)
+                    }, Throwable::printStackTrace)
         }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         bubbleTextDisposable.unsubscribe()
+        scrollDisposable.unsubscribe()
     }
 
     fun detachRecyclerView() {
@@ -414,7 +429,7 @@ class RxFastScroller @JvmOverloads constructor(
             }
 
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
-            mRecyclerView!!.layoutManager.scrollToPosition(targetPos)
+            scrollPublisher.onNext(targetPos)
 
             val letter = mSectionIndexer.getSectionText(targetPos)
             letter?.let { bubbleTextPublisher.onNext(it) }
