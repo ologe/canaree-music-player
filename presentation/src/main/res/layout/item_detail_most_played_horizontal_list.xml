@@ -8,6 +8,8 @@
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingEnd="18dp"/>
+        android:paddingEnd="34dp"
+        android:paddingStart="16dp"
+        android:background="@color/background"/>
 
 </layout>

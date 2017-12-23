@@ -58,16 +58,13 @@ class RxFastScroller @JvmOverloads constructor(
 
         mBubbleView = findViewById<View>(R.id.fastscroll_bubble) as TextView
         mHandleView = findViewById<View>(R.id.fastscroll_handle) as ImageView
-        mTrackView = findViewById<View>(R.id.fastscroll_track) as ImageView
         mScrollbar = findViewById(R.id.fastscroll_scrollbar)
 
         var bubbleColor = Color.GRAY
         var handleColor = Color.DKGRAY
-        var trackColor = Color.LTGRAY
         var textColor = Color.WHITE
 
         var hideScrollbar = true
-        var showTrack = false
 
         if (attrs != null) {
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FastScroller, 0, 0)
@@ -76,9 +73,7 @@ class RxFastScroller @JvmOverloads constructor(
                 try {
                     bubbleColor = typedArray.getColor(R.styleable.FastScroller_bubbleColor, bubbleColor)
                     handleColor = typedArray.getColor(R.styleable.FastScroller_handleColor, handleColor)
-                    trackColor = typedArray.getColor(R.styleable.FastScroller_trackColor, trackColor)
                     textColor = typedArray.getColor(R.styleable.FastScroller_bubbleTextColor, textColor)
-                    showTrack = typedArray.getBoolean(R.styleable.FastScroller_showTrack, false)
                     hideScrollbar = typedArray.getBoolean(R.styleable.FastScroller_hideScrollbar, true)
                 } finally {
                     typedArray.recycle()
@@ -86,12 +81,10 @@ class RxFastScroller @JvmOverloads constructor(
             }
         }
 
-        setTrackColor(trackColor)
         setHandleColor(handleColor)
         setBubbleColor(bubbleColor)
         setBubbleTextColor(textColor)
         setHideScrollbar(hideScrollbar)
-        setTrackVisible(showTrack)
     }
 
     @ColorInt private var mBubbleColor: Int = 0
@@ -105,11 +98,9 @@ class RxFastScroller @JvmOverloads constructor(
     private var mRecyclerView: RecyclerView? = null
     private var mBubbleView: TextView? = null
     private var mHandleView: ImageView? = null
-    private var mTrackView: ImageView? = null
     private var mScrollbar: View? = null
     private var mBubbleImage: Drawable? = null
     private var mHandleImage: Drawable? = null
-    private var mTrackImage: Drawable? = null
 
     private val bubbleTextPublisher = PublishProcessor.create<String>()
     private val scrollPublisher = PublishProcessor.create<Int>()
@@ -268,31 +259,6 @@ class RxFastScroller @JvmOverloads constructor(
     fun setHideScrollbar(hideScrollbar: Boolean) {
         mHideScrollbar = hideScrollbar
         mScrollbar!!.visibility = if (hideScrollbar) View.GONE else View.VISIBLE
-    }
-
-    /**
-     * Display a scroll track while scrolling.
-     *
-     * @param visible True to show scroll track, false to hide
-     */
-    fun setTrackVisible(visible: Boolean) {
-        mTrackView!!.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
-    /**
-     * Set the color of the scroll track.
-     *
-     * @param color The color for the scroll track
-     */
-    fun setTrackColor(@ColorInt color: Int) {
-
-        if (mTrackImage == null) {
-            mTrackImage = DrawableCompat.wrap(ContextCompat.getDrawable(context, R.drawable.fastscroll_track)!!)
-            mTrackImage!!.mutate()
-        }
-
-        DrawableCompat.setTint(mTrackImage!!, color)
-        mTrackView!!.setImageDrawable(mTrackImage)
     }
 
     /**

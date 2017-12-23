@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v4.math.MathUtils
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -52,7 +51,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Lazy<Navigator>
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
-    @Inject lateinit var marginDecorator : DetailFragmentHorizontalMarginDecoration
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
     private lateinit var layoutManager : GridLayoutManager
 
@@ -75,7 +73,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
         viewModel.data.subscribe(this, {
             if (context!!.isLandscape){
-                // header in list is not need in landscape
+                // header in list is not used in landscape
                 it[DetailFragmentDataType.HEADER]!!.clear()
             }
             adapter.updateDataSet(it)
@@ -101,9 +99,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
         viewModel.itemLiveData.subscribe(this, {
             view.header.text = it.title
-            if (context!!.isLandscape){
-                setImage(it)
-            }
+            setImage(it)
         })
     }
 
@@ -112,36 +108,18 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             return
         }
 
-        val sharedObservable = RxRecyclerView.scrollEvents(view.list)
-                .share()
-
-        sharedObservable.map { layoutManager.findFirstCompletelyVisibleItemPosition() != 0 }
+        RxRecyclerView.scrollEvents(view.list)
+                .map { layoutManager.findFirstCompletelyVisibleItemPosition() > 2 }
                 .distinctUntilChanged()
                 .asLiveData()
-                .subscribe(this, { lightStatusBar ->
-                    if (lightStatusBar){
+                .subscribe(this, { isActive ->
+                    view.statusBar.isActivated = isActive
+                    view.toolbar.isActivated = isActive
+                    view.header.isActivated = isActive
+                    if (isActive){
                         setDarkButtons()
                     } else {
                         setLightButtons()
-                    }
-                })
-
-        sharedObservable.map { it.dy() }
-                .asLiveData()
-                .subscribe(this, { dy ->
-                    val floatDiff = dy.toFloat()
-                    if (layoutManager.findFirstVisibleItemPosition() < 1){
-                        // change alpha based on scroll
-                        val alpha = MathUtils.clamp(view.toolbar.alpha + floatDiff / 400, 0f, 1f)
-                        view.toolbar.alpha = alpha
-                        view.header.alpha = alpha
-                        view.statusBar.alpha = alpha
-                    } else if (view.toolbar.alpha != 1f) {
-                        // after the main image is covered only increase the alpha
-                        val alpha = MathUtils.clamp(view.toolbar.alpha + Math.abs(floatDiff / 400), 0f, 1f)
-                        view.toolbar.alpha = alpha
-                        view.header.alpha = alpha
-                        view.statusBar.alpha = alpha
                     }
                 })
 
@@ -184,11 +162,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         view?.search?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
 
-    override fun onStart() {
-        super.onStart()
-        view!!.list.addItemDecoration(marginDecorator)
-    }
-
     override fun onResume() {
         super.onResume()
         if (context!!.isPortrait){
@@ -205,11 +178,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         }
         view!!.back.setOnClickListener(null)
         view!!.search.setOnClickListener(null)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        view!!.list.removeItemDecoration(marginDecorator)
     }
 
     override fun onDestroyView() {

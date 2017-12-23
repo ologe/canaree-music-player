@@ -11,8 +11,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:paddingTop="@dimen/item_detail_header_padding_top">
+        android:paddingStart="24dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="@dimen/item_detail_header_padding_top"
+        android:background="@color/background">
 
         <TextView
             android:text="@{item.title}"

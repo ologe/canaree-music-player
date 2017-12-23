@@ -72,7 +72,8 @@
         app:fabSize="normal"
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/vd_expand"
+        android:src="@drawable/vd_expand"
+        android:tint="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
