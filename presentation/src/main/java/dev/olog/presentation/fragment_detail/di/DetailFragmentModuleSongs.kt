@@ -16,6 +16,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.utils.TimeUtils
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.TextUtils
@@ -76,7 +77,7 @@ class DetailFragmentModuleSongs {
         val (list, duration) = pair
         list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
                 context.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + TextUtils.MIDDLE_DOT_SPACED +
-                        context.resources.getQuantityString(R.plurals.duration_count, duration, duration)))
+                        TimeUtils.formatMillis(context, duration)))
         return list
     }
 
