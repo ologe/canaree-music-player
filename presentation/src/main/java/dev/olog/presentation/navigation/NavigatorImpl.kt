@@ -67,13 +67,14 @@ class NavigatorImpl @Inject constructor(
 
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setCustomAnimations(
-                            R.anim.right_slide_in,
-                            R.anim.right_stay,
-                            R.anim.left_stay,
-                            R.anim.left_slide_out
-                )
-                add(R.id.viewPagerLayout,
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setCustomAnimations(
+//                            R.anim.right_slide_in,
+//                            R.anim.right_stay,
+//                            R.anim.left_stay,
+//                            R.anim.left_slide_out
+//                )
+                replace(R.id.viewPagerLayout,
                             DetailFragment.newInstance(mediaId),
                             DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
@@ -98,12 +99,13 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setCustomAnimations(
-                        R.anim.right_slide_in,
-                        R.anim.right_stay,
-                        R.anim.left_stay,
-                        R.anim.left_slide_out
-                )
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setCustomAnimations(
+//                        R.anim.right_slide_in,
+//                        R.anim.right_stay,
+//                        R.anim.left_stay,
+//                        R.anim.left_slide_out
+//                )
                 add(R.id.viewPagerLayout,
                         RelatedArtistFragment.newInstance(mediaId),
                         RelatedArtistFragment.TAG)
@@ -116,12 +118,13 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setCustomAnimations(
-                        R.anim.right_slide_in,
-                        R.anim.right_stay,
-                        R.anim.left_stay,
-                        R.anim.left_slide_out
-                )
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setCustomAnimations(
+//                        R.anim.right_slide_in,
+//                        R.anim.right_stay,
+//                        R.anim.left_stay,
+//                        R.anim.left_slide_out
+//                )
                 add(R.id.viewPagerLayout,
                         RecentlyAddedFragment.newInstance(mediaId),
                         RecentlyAddedFragment.TAG)
@@ -134,12 +137,13 @@ class NavigatorImpl @Inject constructor(
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
-                setCustomAnimations(
-                        R.anim.right_slide_in,
-                        R.anim.right_stay,
-                        R.anim.left_stay,
-                        R.anim.left_slide_out
-                )
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setCustomAnimations(
+//                        R.anim.right_slide_in,
+//                        R.anim.right_stay,
+//                        R.anim.left_stay,
+//                        R.anim.left_slide_out
+//                )
                 add(R.id.viewPagerLayout,
                         AlbumsFragment.newInstance(mediaId),
                         AlbumsFragment.TAG)

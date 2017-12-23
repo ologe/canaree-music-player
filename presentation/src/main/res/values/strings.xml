@@ -18,4 +18,22 @@
 
     <string name="equalizer_not_found">Equalizer not found</string>
 
+    <string-array name="tab_empty_state">
+        <item>No folders</item>
+        <item>Not used</item>
+        <item>No songs</item>
+        <item>No albums</item>
+        <item>No artists</item>
+        <item>No genres</item>
+    </string-array>
+
+    <integer-array name="tab_empty_image">
+        <item>@drawable/vd_folder</item>
+        <item>@null</item>
+        <item>@drawable/vd_musical_note</item>
+        <item>@drawable/vd_album</item>
+        <item>@drawable/vd_artist</item>
+        <item>@drawable/vd_genre</item>
+    </integer-array>
+
 </resources>

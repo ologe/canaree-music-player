@@ -40,7 +40,10 @@ class TabFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.observeData(source)
-                .subscribe(this, adapter::updateDataSet)
+                .subscribe(this, { list ->
+                    handleEmpyStateVisibility(list.isEmpty())
+                    adapter.updateDataSet(list)
+                })
 
         when (source){
             TabViewPagerAdapter.ALBUM -> {
@@ -52,6 +55,19 @@ class TabFragment : BaseFragment() {
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }
+    }
+
+    private fun handleEmpyStateVisibility(isEmpty: Boolean){
+        val visibility = if (isEmpty) View.VISIBLE else View.GONE
+        if (isEmpty){
+            val emptyText = context!!.resources.getStringArray(R.array.tab_empty_state)
+            val emptyImage = context!!.resources.obtainTypedArray(R.array.tab_empty_image)
+            view!!.emptyStateText.text = emptyText[source]
+            view!!.emptyStateImage.setImageResource(emptyImage.getResourceId(source, -1))
+            emptyImage.recycle()
+        }
+        view!!.emptyStateText.visibility = visibility
+        view!!.emptyStateImage.visibility = visibility
     }
 
     @CallSuper

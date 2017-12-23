@@ -1,6 +1,5 @@
 package dev.olog.presentation.fragment_detail
 
-import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -54,10 +53,10 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
     private lateinit var layoutManager : GridLayoutManager
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        postponeEnterTransition()
-    }
+//    override fun onAttach(context: Context?) {
+//        super.onAttach(context)
+//        postponeEnterTransition()
+//    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -78,7 +77,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
             }
             adapter.updateDataSet(it)
         })
-
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -109,7 +107,7 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
         }
 
         RxRecyclerView.scrollEvents(view.list)
-                .map { layoutManager.findFirstCompletelyVisibleItemPosition() > 2 }
+                .map { layoutManager.findFirstCompletelyVisibleItemPosition() > 1 }
                 .distinctUntilChanged()
                 .asLiveData()
                 .subscribe(this, { isActive ->

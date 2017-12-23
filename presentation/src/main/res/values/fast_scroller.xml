@@ -24,6 +24,6 @@
     <dimen name="fastscroll_scrollbar_margin_top">8dp</dimen>
     <dimen name="fastscroll_scrollbar_margin_bottom">8dp</dimen>
     <dimen name="fastscroll_scrollbar_padding_start">8dp</dimen>
-    <dimen name="fastscroll_scrollbar_padding_end">8dp</dimen>
+    <dimen name="fastscroll_scrollbar_padding_end">4dp</dimen>
 
 </resources>

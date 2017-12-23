@@ -8,6 +8,7 @@ import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
+import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
@@ -108,6 +109,13 @@ class DetailFragmentViewModel(
                 albumsList.add(0, headers.albumsWithSeeAll)
             } else {
                 albumsList.add(0, headers.albums)
+            }
+        }
+
+        if (list.isNotEmpty() && list.size % 2 != 0){
+            // add empty background to right
+            if (list[0].type == R.layout.item_detail_album){
+                albumsList.add(DisplayableItem(R.layout.item_empty, "fake album background id", ""))
             }
         }
 

@@ -25,6 +25,7 @@ class AnimatedImageView @JvmOverloads constructor(
 
         avd = a.getDrawable(R.styleable.AnimatedImageView_avd) as AnimatedVectorDrawable
         setImageDrawable(avd)
+        a.recycle()
     }
 
     fun playAnimation() {

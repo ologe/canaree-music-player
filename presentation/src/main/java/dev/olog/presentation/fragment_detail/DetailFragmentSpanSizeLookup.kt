@@ -14,6 +14,7 @@ class DetailFragmentSpanSizeLookup(
 
     override fun getSpanSize(position: Int): Int {
         val item = adapter.getItemAt(position)
-        return if (item.type == R.layout.item_detail_album) 1 else 2
+        return if (item.type == R.layout.item_detail_album ||
+                item.type == R.layout.item_empty) 1 else 2
     }
 }

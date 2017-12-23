@@ -40,7 +40,7 @@ class SearchFragmentAdapter @Inject constructor(
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalList(list, artistAdapter)
             }
-            R.layout.item_tab_song -> {
+            R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     musicController.playFromMediaId(item.mediaId)
                     viewModel.insertSongToRecent(item.mediaId)
