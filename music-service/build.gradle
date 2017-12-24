@@ -55,9 +55,8 @@ dependencies {
 
     // support
     implementation "com.android.support:support-media-compat:$rootProject.support_library"
-    implementation "com.android.support:support-core-ui:$rootProject.support_library"
-    implementation "com.android.support:support-core-utils:$rootProject.support_library"
-    implementation "com.android.support:support-fragment:$rootProject.support_library"
+    implementation "com.android.support:support-v4:$rootProject.support_library"
+    implementation "com.android.support:appcompat-v7:$rootProject.support_library"
 
     // android lifecycle
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"

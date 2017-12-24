@@ -20,11 +20,8 @@ class NotificationImpl26 @Inject constructor(
         activityClass: ActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
-) : NotificationImpl24(service, activityClass, token, notificationManager) {
 
-    companion object {
-        private val CHANNEL_ID = "0x6d7363"
-    }
+) : NotificationImpl24(service, activityClass, token, notificationManager) {
 
     override fun extendInitialization() {
        createChannel()
@@ -41,9 +38,5 @@ class NotificationImpl26 @Inject constructor(
         channel.setShowBadge(false)
         channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
         notificationManager.get().createNotificationChannel(channel)
-    }
-
-    override fun provideNotificationBuilder(): NotificationCompat.Builder {
-        return NotificationCompat.Builder(service, NotificationImpl26.CHANNEL_ID)
     }
 }

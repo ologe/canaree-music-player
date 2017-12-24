@@ -13,6 +13,7 @@ import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
+import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -64,8 +65,22 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     title.isSelected = canScroll
                     artist.isSelected = canScroll
                 })
+
+
+        setupCast()
+
     }
 
+    private fun setupCast(){
+        // https://developers.google.com/android/guides/setup dice di chiamare nella onResume
+//        val availability = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
+//        if (availability == ConnectionResult.SUCCESS){
+//            CastButtonFactory.setUpMediaRouteButton(this, cast)
+//        } else {
+//            GoogleApiAvailability.getInstance().getErrorDialog(this, availability, 0)
+//            toast("play services not found")
+//        }
+    }
 
     override fun handleIntent(intent: Intent) {
         if (intent.action == FloatingInfoConstants.ACTION_START_SERVICE){
@@ -107,8 +122,10 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     override fun onBackPressed() {
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         val miniQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
+        val searchFragment = findFragmentByTag<SearchFragment>(SearchFragment.TAG)
         when {
-            playingQueue != null -> super.onBackPressed()
+            searchFragment != null -> searchFragment.onBackPressed()
+            playingQueue != null -> playingQueue.onBackPressed()
             miniQueue?.cannotScrollUp() ?: false -> {
                 miniQueue?.smoothScrollToTop()
             }

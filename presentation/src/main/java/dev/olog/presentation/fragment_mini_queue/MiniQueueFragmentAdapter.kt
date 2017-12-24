@@ -33,7 +33,8 @@ class MiniQueueFragmentAdapter @Inject constructor(
         viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
             navigator.toDialog(item, view)
         }
-        viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
+
+        viewHolder.itemView.dragHandle?.setOnTouchListener { _, event ->
             if(event.actionMasked == MotionEvent.ACTION_DOWN) {
                 touchHelper?.startDrag(viewHolder)
                 true

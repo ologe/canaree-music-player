@@ -34,7 +34,11 @@ open class NotificationImpl21 @Inject constructor(
 
 ) : INotification {
 
-    protected var builder: NotificationCompat.Builder = provideNotificationBuilder()
+    companion object {
+        const val CHANNEL_ID = "0x6d7363"
+    }
+
+    protected var builder = NotificationCompat.Builder(service, CHANNEL_ID)
 
     private var created = false
 
@@ -133,10 +137,6 @@ open class NotificationImpl21 @Inject constructor(
     private fun buildPendingIntent(action: Long): PendingIntent? {
         return MediaButtonReceiver.buildMediaButtonPendingIntent(
                 service, ComponentName(service, MediaButtonReceiver::class.java), action)
-    }
-
-    open fun provideNotificationBuilder(): NotificationCompat.Builder {
-        return NotificationCompat.Builder(service)
     }
 
     override fun update(): android.app.Notification {

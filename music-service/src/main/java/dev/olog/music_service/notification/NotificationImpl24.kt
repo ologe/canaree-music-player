@@ -23,6 +23,7 @@ open class NotificationImpl24 @Inject constructor(
         activityClass: ActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
+
 ) : NotificationImpl21(service, activityClass, token, notificationManager) {
 
     override fun startChronometer(playbackState: PlaybackStateCompat) {

@@ -1,15 +1,12 @@
 package dev.olog.presentation.fragment_playing_queue
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import android.view.ViewAnimationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.utils.AnimationUtils
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
@@ -47,7 +44,7 @@ class PlayingQueueFragment : BaseFragment() {
             view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
                 override fun onLayoutChange(v: View?, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
                     v?.removeOnLayoutChangeListener(this)
-                    startCircularReveal()
+                    AnimationUtils.startCircularReveal(view.root, activity!!.playingQueue)
                 }
             })
         }
@@ -70,21 +67,9 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
 
-    private fun startCircularReveal(){
-        val background = view!!.root
-        val searchView = activity!!.playingQueue
-        val cx = (searchView.x + searchView.width / 2).toInt()
-        val cy = (searchView.y + searchView.height / 2).toInt()
-        val width = background.width
-        val height = background.height
-        val finalRadius = Math.sqrt((width * width + height * height).toDouble()).toFloat()
-        val anim = ViewAnimationUtils.createCircularReveal(background, cx, cy, 0f, finalRadius)
-        anim.start()
-
-        val valueAnimator = ValueAnimator()
-        valueAnimator.setIntValues(0xfff0f0f0.toInt(), Color.WHITE)
-        valueAnimator.setEvaluator(ArgbEvaluator())
-        valueAnimator.addUpdateListener { background.setBackgroundColor(it.animatedValue as Int) }
-        valueAnimator.start()
+    fun onBackPressed(){
+        AnimationUtils.stopCircularReveal(view!!.root, activity!!.playingQueue,
+                activity!!.supportFragmentManager)
     }
+
 }

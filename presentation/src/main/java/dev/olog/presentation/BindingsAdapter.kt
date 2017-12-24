@@ -3,6 +3,7 @@ package dev.olog.presentation
 import android.databinding.BindingAdapter
 import android.net.Uri
 import android.support.v4.content.ContextCompat
+import android.text.TextUtils
 import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -40,14 +41,19 @@ object BindingsAdapter {
     @BindingAdapter("imageAlbum")
     @JvmStatic
     fun loadAlbumImage(view: ImageView, item: DisplayableItem) {
+        val mediaId = item.mediaId
+        if (TextUtils.isEmpty(mediaId)){
+            return
+        }
+
         val context = view.context
 
         GlideApp.with(context).clear(view)
 
-        val source = MediaIdHelper.mapCategoryToSource(item.mediaId)
+        val source = MediaIdHelper.mapCategoryToSource(mediaId)
         val id = if (source == TabViewPagerAdapter.FOLDER){
-            MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
-        } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
+            MediaIdHelper.extractCategoryValue(mediaId).hashCode()
+        } else MediaIdHelper.extractCategoryValue(mediaId).toInt()
 
         val image = item.image
         val file = File(image)
@@ -70,13 +76,17 @@ object BindingsAdapter {
     @BindingAdapter("imageBigAlbum")
     @JvmStatic
     fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
+        val mediaId = item.mediaId
+        if (TextUtils.isEmpty(mediaId)){
+            return
+        }
 
         val context = view.context
 
-        val source = MediaIdHelper.mapCategoryToSource(item.mediaId)
+        val source = MediaIdHelper.mapCategoryToSource(mediaId)
         val id = if (source == TabViewPagerAdapter.FOLDER){
-            MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
-        } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
+            MediaIdHelper.extractCategoryValue(mediaId).hashCode()
+        } else MediaIdHelper.extractCategoryValue(mediaId).toInt()
 
         GlideApp.with(context).clear(view)
 
