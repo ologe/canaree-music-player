@@ -6,7 +6,7 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
-import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dagger.NestedFragmentLifecycle
 import dev.olog.presentation.dagger.PerNestedFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @PerNestedFragment
 class DetailFragmentRecentlyAddedAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
+        @NestedFragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
         private val musicController: MusicController
 

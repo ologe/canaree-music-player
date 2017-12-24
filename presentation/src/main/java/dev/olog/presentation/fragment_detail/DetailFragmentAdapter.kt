@@ -30,8 +30,6 @@ class DetailFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         enums: Array<DetailFragmentDataType>,
         private val mediaId: String,
-//        private val recentSongsAdapter: DetailFragmentRecentlyAddedAdapter,
-//        private val mostPlayedAdapter: DetailFragmentMostPlayedAdapter,
         private val viewPagerAdapter: DetailFragmentViewPagerAdapter,
         private val navigator: Navigator,
         private val musicController: MusicController,
@@ -56,21 +54,6 @@ class DetailFragmentAdapter @Inject constructor(
                     }
                 }
             }
-            R.layout.item_detail_view_pager -> {
-                val pager = viewHolder.itemView.viewPager
-                val tabLayout = viewHolder.itemView.tabLayout
-                pager.adapter = viewPagerAdapter
-                tabLayout.setupWithViewPager(pager)
-            }
-
-//            R.layout.fragment_detail_most_played -> {
-//                val list = viewHolder.itemView as RecyclerView
-//                setupHorizontalList(list, mostPlayedAdapter)
-//            }
-//            R.layout.fragment_detail_recently_added -> {
-//                val list = viewHolder.itemView as RecyclerView
-//                setupHorizontalList(list, recentSongsAdapter)
-//            }
 
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
@@ -136,43 +119,14 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-//    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
-//        val layoutManager = GridLayoutManager(list.context,
-//                5, GridLayoutManager.HORIZONTAL, false)
-//        layoutManager.isItemPrefetchEnabled = true
-//        layoutManager.initialPrefetchItemCount = 10
-//        list.layoutManager = layoutManager
-//        list.adapter = adapter
-//        list.recycledViewPool = recycledViewPool
-//
-//        val snapHelper = LinearSnapHelper()
-//        snapHelper.attachToRecyclerView(list)
-//    }
-
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
         when (holder.itemViewType) {
-//            R.layout.fragment_detail_most_played -> {
-//                val list = holder.itemView as RecyclerView
-//                val layoutManager = list.layoutManager as GridLayoutManager
-//                mostPlayedAdapter.onDataChanged()
-//                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-//                        .map { it.size }
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({ size ->
-//                            layoutManager.spanCount = if (size < 5) size else 5
-//                        }, Throwable::printStackTrace)
-//            }
-//            R.layout.fragment_detail_recently_added -> {
-//                val list = holder.itemView as RecyclerView
-//                val layoutManager = list.layoutManager as GridLayoutManager
-//                recentSongsAdapter.onDataChanged()
-//                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-//                        .map { it.size }
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({ size ->
-//                            layoutManager.spanCount = if (size < 5) size else 5
-//                        }, Throwable::printStackTrace)
-//            }
+            R.layout.item_detail_view_pager -> {
+                val pager = holder.itemView.viewPager
+                val tabLayout = holder.itemView.tabLayout
+                pager.adapter = viewPagerAdapter
+                tabLayout.setupWithViewPager(pager)
+            }
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage
 
@@ -194,6 +148,15 @@ class DetailFragmentAdapter @Inject constructor(
                             }
 
                         }, Throwable::printStackTrace)
+            }
+        }
+    }
+
+    override fun onViewDetachedFromWindow(holder: DataBoundViewHolder<*>) {
+        when (holder.itemViewType){
+            R.layout.item_detail_view_pager -> {
+                val pager = holder.itemView.viewPager
+                pager.adapter = null
             }
         }
     }

@@ -54,9 +54,9 @@ class AddQueueDialogPresenter @Inject constructor(
     private fun createSuccessMessage(string: String){
         val message = if (TextUtils.isDigitsOnly(string)){
             val size = string.toInt()
-            application.resources.getQuantityString(R.plurals.added_xx_songs_to_queue, size, size)
+            application.resources.getQuantityString(R.plurals.xx_songs_added_to_queue, size, size)
         } else {
-            application.getString(R.string.added_song_x_to_queue, string)
+            application.getString(R.string.song_x_added_to_queue, string)
         }
         application.toast(message)
     }

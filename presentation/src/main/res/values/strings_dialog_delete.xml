@@ -12,9 +12,9 @@
         <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
     </plurals>
 
-    <plurals name="deleted_xx_songs_from_y">
-        <item quantity="one"><![CDATA[Deleted <b>%1$d song</b> from <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Deleted <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="one"><![CDATA[<b>%1$d song</b> deleted from <b>%2$s</b>?]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from <b>%2$s</b>?]]></item>
     </plurals>
 
     <string name="popup_positive_delete">Delete</string>

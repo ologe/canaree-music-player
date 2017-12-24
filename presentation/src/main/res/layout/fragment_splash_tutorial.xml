@@ -81,7 +81,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:text="Player controls"
+        android:text="@string/splash_player_controls"
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:textColor="@color/text_color_primary"
@@ -92,7 +92,7 @@
 
     <TextView
         android:layout_marginTop="16dp"
-        android:text="Click the image to play/pause"
+        android:text="@string/splash_player_tutorial_1"
         android:textColor="@color/text_color_primary"
         android:layout_width="match_parent"
         android:gravity="center"
@@ -100,7 +100,7 @@
 
     <TextView
         android:layout_marginTop="6dp"
-        android:text="Click the image's edges or swipe to skip"
+        android:text="@string/splash_player_tutorial_2"
         android:textColor="@color/text_color_primary"
         android:layout_width="match_parent"
         android:gravity="center"

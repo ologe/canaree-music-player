@@ -9,9 +9,9 @@
     </plurals>
 
     <string name="added_song_x_to_playlist_y">%1$s added to playlist %2$s</string>
-    <plurals name="added_xx_songs_to_playlist_y">
-        <item quantity="one">Added %1$d song to playlist %2$s</item>
-        <item quantity="other">Added %1$d songs to playlist %2$s</item>
+    <plurals name="xx_songs_added_to_playlist_y">
+        <item quantity="one">%1$d song added to playlist %2$s</item>
+        <item quantity="other">%1$d songs added to playlist %2$s</item>
     </plurals>
 
     <string name="popup_new_playlist">New Playlist</string>

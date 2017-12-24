@@ -2,11 +2,11 @@ package dev.olog.presentation.fragment_detail.di
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.widget.RecyclerView
+import android.support.v4.app.FragmentManager
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.dagger.NestedFragmentManager
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_detail.DetailFragmentDataType
 import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
@@ -30,8 +30,10 @@ class DetailFragmentModule(
     }
 
     @Provides
-    @PerFragment
-    fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
+    @NestedFragmentManager
+    fun provideFragmentManager(): FragmentManager {
+        return fragment.childFragmentManager
+    }
 
     @Provides
     internal fun provideEnums() = DetailFragmentDataType.values()

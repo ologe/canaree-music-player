@@ -52,8 +52,7 @@ class NavigatorImpl @Inject constructor(
     private var lastRequest: Long = -1
 
     override fun toMainActivity() {
-        activity.startActivity(
-                activity.intentFor<MainActivity>()
+        activity.startActivity(activity.intentFor<MainActivity>()
                 .clearTop()
                 .newTask()
         )
@@ -106,7 +105,7 @@ class NavigatorImpl @Inject constructor(
 //                        R.anim.left_stay,
 //                        R.anim.left_slide_out
 //                )
-                add(R.id.viewPagerLayout,
+                replace(R.id.viewPagerLayout,
                         RelatedArtistFragment.newInstance(mediaId),
                         RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
@@ -125,7 +124,7 @@ class NavigatorImpl @Inject constructor(
 //                        R.anim.left_stay,
 //                        R.anim.left_slide_out
 //                )
-                add(R.id.viewPagerLayout,
+                replace(R.id.viewPagerLayout,
                         RecentlyAddedFragment.newInstance(mediaId),
                         RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
@@ -144,7 +143,7 @@ class NavigatorImpl @Inject constructor(
 //                        R.anim.left_stay,
 //                        R.anim.left_slide_out
 //                )
-                add(R.id.viewPagerLayout,
+                replace(R.id.viewPagerLayout,
                         AlbumsFragment.newInstance(mediaId),
                         AlbumsFragment.TAG)
                 addToBackStack(AlbumsFragment.TAG)

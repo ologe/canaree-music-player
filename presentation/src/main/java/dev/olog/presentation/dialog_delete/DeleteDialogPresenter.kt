@@ -29,7 +29,7 @@ class DeleteDialogPresenter @Inject constructor(
         val message = when (category) {
             MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> application.getString(R.string.playlist_x_deleted, itemTitle)
             MediaIdHelper.MEDIA_ID_BY_ALL -> application.getString(R.string.song_x_deleted, itemTitle)
-            else -> application.resources.getQuantityString(R.plurals.added_xx_songs_to_playlist_y, listSize, listSize, itemTitle)
+            else -> application.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, listSize, listSize, itemTitle)
         }
         application.toast(message)
     }

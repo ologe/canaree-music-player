@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">presentation</string>
-    <string name="app_real_name">Msc</string>
+    <string name="app_name" translatable="false">presentation</string>
+    <string name="app_real_name" translatable="false">Msc</string>
 
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="unknown_artist">Artiste Inconnu</string>
+    <string name="unknown_album">Album Inconnu</string>
+
+    <string-array name="auto_playlists">
+        <item>Dernier Ajouté</item>
+        <item>Favoris</item>
+        <item>Titres écoutés récemment</item>
+    </string-array>
+</resources>

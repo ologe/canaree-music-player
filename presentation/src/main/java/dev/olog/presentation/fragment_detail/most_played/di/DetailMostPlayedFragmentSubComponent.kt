@@ -1,9 +1,9 @@
-package dev.olog.presentation.fragment_detail.most_player.di
+package dev.olog.presentation.fragment_detail.most_played.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.presentation.dagger.PerNestedFragment
-import dev.olog.presentation.fragment_detail.most_player.DetailMostPlayedFragment
+import dev.olog.presentation.fragment_detail.most_played.DetailMostPlayedFragment
 
 @Subcomponent(modules = arrayOf(
         DetailMostPlayedFragmentModule::class

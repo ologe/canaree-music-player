@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_song_x_to_favorite"><![CDATA[Ajouter <b>%1$s</b> aux Favoris?]]></string>
+
+    <plurals name="add_xx_songs_to_favorite">
+        <item quantity="one"><![CDATA[Ajouter <b>%1$d titre</b> aux Favoris?]]></item>
+        <item quantity="other"><![CDATA[Ajouter <b>%1$d titres</b> aux Favoris?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_favorites">%1$s ajouté aux Favoris</string>
+    <plurals name="xx_songs_added_to_favorites">
+        <item quantity="one">%1$d titre ajouté aux Favoris</item>
+        <item quantity="other">%1$d titres ajouté aux Favoris</item>
+    </plurals>
+
+</resources>

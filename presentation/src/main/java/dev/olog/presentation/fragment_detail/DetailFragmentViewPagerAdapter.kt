@@ -3,21 +3,25 @@ package dev.olog.presentation.fragment_detail
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import dev.olog.presentation.R
+import dev.olog.presentation.dagger.NestedFragmentManager
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.fragment_detail.most_player.DetailMostPlayedFragment
+import dev.olog.presentation.fragment_detail.most_played.DetailMostPlayedFragment
 import dev.olog.presentation.fragment_detail.recently_added.DetailRecentlyAddedFragment
 import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
+
 
 @PerFragment
 class DetailFragmentViewPagerAdapter @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaId: String,
-        fragmentManager: FragmentManager
+        @NestedFragmentManager fragmentManager: FragmentManager
 
-) : FragmentPagerAdapter(fragmentManager) {
+) : FragmentStatePagerAdapter(fragmentManager) {
+
+    private var currentPosition = -1
 
     override fun getItem(position: Int): Fragment? {
         return when (position){

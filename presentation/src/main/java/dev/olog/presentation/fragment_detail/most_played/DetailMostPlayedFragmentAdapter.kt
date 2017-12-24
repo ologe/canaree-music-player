@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_detail.most_player
+package dev.olog.presentation.fragment_detail.most_played
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
@@ -6,8 +6,8 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
-import dev.olog.presentation.dagger.FragmentLifecycle
-import dev.olog.presentation.dagger.PerFragment
+import dev.olog.presentation.dagger.NestedFragmentLifecycle
+import dev.olog.presentation.dagger.PerNestedFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
@@ -15,9 +15,9 @@ import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
-@PerFragment
-class DetailFragmentMostPlayedAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
+@PerNestedFragment
+class DetailMostPlayedFragmentAdapter @Inject constructor(
+        @NestedFragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
         private val musicController: MusicController
 

@@ -14,6 +14,8 @@ import dev.olog.presentation.dialog_rename.di.RenameDialogInjector
 import dev.olog.presentation.dialog_set_ringtone.di.SetRingtoneDialogInjector
 import dev.olog.presentation.fragment_albums.di.AlbumsFragmentInjector
 import dev.olog.presentation.fragment_detail.di.DetailFragmentInjector
+import dev.olog.presentation.fragment_detail.most_played.di.DetailMostPlayedFragmentInjector
+import dev.olog.presentation.fragment_detail.recently_added.di.DetailRecentlyAddedFragmentInjector
 import dev.olog.presentation.fragment_mini_player.di.MiniPlayerFragmentInjector
 import dev.olog.presentation.fragment_mini_queue.di.MiniQueueFragmentInjector
 import dev.olog.presentation.fragment_player.di.PlayerFragmentInjector
@@ -30,7 +32,6 @@ import dev.olog.presentation.navigation.NavigatorModule
 
         // fragments
         TabFragmentInjector::class,
-        DetailFragmentInjector::class,
         PlayerFragmentInjector::class,
         MiniPlayerFragmentInjector::class,
         RecentlyAddedFragmentInjector::class,
@@ -39,6 +40,10 @@ import dev.olog.presentation.navigation.NavigatorModule
         MiniQueueFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
+
+        DetailFragmentInjector::class,
+        DetailMostPlayedFragmentInjector::class,
+        DetailRecentlyAddedFragmentInjector::class,
 
         // dialogs
         AddFavoriteDialogInjector::class,

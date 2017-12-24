@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sort_by">trier par</string>
+
+    <string name="sort_by_title">Nom</string>
+    <string name="sort_by_artist">Artiste</string>
+    <string name="sort_by_album">Album</string>
+    <string name="sort_by_duration">Durée</string>
+    <string name="sort_by_recently_added">Récemment ajouté</string>
+    <string name="sort_by_custom">Personnalisé</string>
+    <string name="sort_by_track">Numéro de piste</string>
+
+</resources>

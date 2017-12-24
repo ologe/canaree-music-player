@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="about_author">Autore</string>
+    <string name="about_version">Versione</string>
+    <string name="about_third_sw">Third-Party software</string>
+    <string name="about_third_sw_description">Software that helped development</string>
+    <string name="about_special_thanks_to">Ringraziamenti a</string>
+
+    <string name="about_support_dev">Supporta lo sviluppo</string>
+    <string name="about_support_report_bug">Report bugs</string>
+    <string name="about_support_report_bug_description">Report bugs or request new feature</string>
+    <string name="about_support_rate">Vota</string>
+    <string name="about_support_rate_description">Leave a positive rating if you appreciate my work</string>
+
+    <string name="icon_made_by_x_from_y">Icon made by %1$s from %2$s</string>
+
+</resources>

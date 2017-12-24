@@ -39,7 +39,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
         val (string, playlistTitle) = pairStringPlaylistName
         val message = if (TextUtils.isDigitsOnly(string)){
             val size = string.toInt()
-            application.resources.getQuantityString(R.plurals.added_xx_songs_to_playlist_y, size, size, playlistTitle)
+            application.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, size, size, playlistTitle)
         } else {
             application.getString(R.string.added_song_x_to_playlist_y, string, playlistTitle)
         }
