@@ -7,7 +7,10 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
-import dev.olog.presentation.fragment_detail.*
+import dev.olog.presentation.fragment_detail.DetailFragment
+import dev.olog.presentation.fragment_detail.DetailFragmentDataType
+import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
+import dev.olog.presentation.fragment_detail.DetailFragmentViewModelFactory
 
 @Module
 class DetailFragmentModule(
@@ -25,9 +28,6 @@ class DetailFragmentModule(
     internal fun provideMediaId(): String {
         return fragment.arguments!!.getString(DetailFragment.ARGUMENTS_MEDIA_ID)
     }
-
-    @Provides
-    internal fun provideView(): DetailFragmentView = fragment
 
     @Provides
     @PerFragment

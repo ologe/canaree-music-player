@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_detail
+package dev.olog.presentation.fragment_detail.most_player
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
@@ -16,7 +16,7 @@ import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
 @PerFragment
-class DetailFragmentRecentlyAddedAdapter @Inject constructor(
+class DetailFragmentMostPlayedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
         private val musicController: MusicController
@@ -25,8 +25,9 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            musicController.playRecentlyPlayedFromMediaId(item.mediaId)
+            musicController.playMostPlayedFromMediaId(item.mediaId)
         }
+
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
@@ -38,6 +39,7 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
@@ -45,4 +47,9 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
+
+    override fun areContentTheSameExtension(oldItemPosition: Int, newItemPosition: Int, oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItemPosition == newItemPosition
+    }
+
 }

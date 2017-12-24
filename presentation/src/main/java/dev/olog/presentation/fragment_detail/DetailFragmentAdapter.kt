@@ -2,9 +2,6 @@ package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearSnapHelper
-import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
@@ -12,7 +9,6 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.domain.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.BaseMapAdapterDraggable
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
@@ -25,22 +21,21 @@ import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
 import dev.olog.shared.MediaIdHelper
 import io.reactivex.BackpressureStrategy
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
+import kotlinx.android.synthetic.main.item_detail_view_pager.view.*
 import javax.inject.Inject
 
 class DetailFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         enums: Array<DetailFragmentDataType>,
-        private val view: DetailFragmentView,
         private val mediaId: String,
-        private val recentSongsAdapter: DetailFragmentRecentlyAddedAdapter,
-        private val mostPlayedAdapter: DetailFragmentMostPlayedAdapter,
+//        private val recentSongsAdapter: DetailFragmentRecentlyAddedAdapter,
+//        private val mostPlayedAdapter: DetailFragmentMostPlayedAdapter,
+        private val viewPagerAdapter: DetailFragmentViewPagerAdapter,
         private val navigator: Navigator,
         private val musicController: MusicController,
-        private val viewModel: DetailFragmentViewModel,
-        private val recycledViewPool : RecyclerView.RecycledViewPool
+        private val viewModel: DetailFragmentViewModel
 
 ) : BaseMapAdapterDraggable<DetailFragmentDataType, DisplayableItem>(lifecycle, enums),
         FastScrollerSectionIndexer {
@@ -61,15 +56,21 @@ class DetailFragmentAdapter @Inject constructor(
                     }
                 }
             }
+            R.layout.item_detail_view_pager -> {
+                val pager = viewHolder.itemView.viewPager
+                val tabLayout = viewHolder.itemView.tabLayout
+                pager.adapter = viewPagerAdapter
+                tabLayout.setupWithViewPager(pager)
+            }
 
-            R.layout.item_detail_most_played_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
-                setupHorizontalList(list, mostPlayedAdapter)
-            }
-            R.layout.item_detail_recent_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
-                setupHorizontalList(list, recentSongsAdapter)
-            }
+//            R.layout.fragment_detail_most_played -> {
+//                val list = viewHolder.itemView as RecyclerView
+//                setupHorizontalList(list, mostPlayedAdapter)
+//            }
+//            R.layout.fragment_detail_recently_added -> {
+//                val list = viewHolder.itemView as RecyclerView
+//                setupHorizontalList(list, recentSongsAdapter)
+//            }
 
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
@@ -135,43 +136,43 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
-        val layoutManager = GridLayoutManager(list.context,
-                5, GridLayoutManager.HORIZONTAL, false)
-        layoutManager.isItemPrefetchEnabled = true
-        layoutManager.initialPrefetchItemCount = 10
-        list.layoutManager = layoutManager
-        list.adapter = adapter
-        list.recycledViewPool = recycledViewPool
-
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(list)
-    }
+//    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
+//        val layoutManager = GridLayoutManager(list.context,
+//                5, GridLayoutManager.HORIZONTAL, false)
+//        layoutManager.isItemPrefetchEnabled = true
+//        layoutManager.initialPrefetchItemCount = 10
+//        list.layoutManager = layoutManager
+//        list.adapter = adapter
+//        list.recycledViewPool = recycledViewPool
+//
+//        val snapHelper = LinearSnapHelper()
+//        snapHelper.attachToRecyclerView(list)
+//    }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
         when (holder.itemViewType) {
-            R.layout.item_detail_most_played_horizontal_list -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
-                mostPlayedAdapter.onDataChanged()
-                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-                        .map { it.size }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ size ->
-                            layoutManager.spanCount = if (size < 5) size else 5
-                        }, Throwable::printStackTrace)
-            }
-            R.layout.item_detail_recent_horizontal_list -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
-                recentSongsAdapter.onDataChanged()
-                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-                        .map { it.size }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ size ->
-                            layoutManager.spanCount = if (size < 5) size else 5
-                        }, Throwable::printStackTrace)
-            }
+//            R.layout.fragment_detail_most_played -> {
+//                val list = holder.itemView as RecyclerView
+//                val layoutManager = list.layoutManager as GridLayoutManager
+//                mostPlayedAdapter.onDataChanged()
+//                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+//                        .map { it.size }
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe({ size ->
+//                            layoutManager.spanCount = if (size < 5) size else 5
+//                        }, Throwable::printStackTrace)
+//            }
+//            R.layout.fragment_detail_recently_added -> {
+//                val list = holder.itemView as RecyclerView
+//                val layoutManager = list.layoutManager as GridLayoutManager
+//                recentSongsAdapter.onDataChanged()
+//                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+//                        .map { it.size }
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe({ size ->
+//                            layoutManager.spanCount = if (size < 5) size else 5
+//                        }, Throwable::printStackTrace)
+//            }
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage
 
@@ -208,7 +209,6 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override fun afterDataChanged() {
-        view.startTransition()
     }
 
     override fun isViewTypeDraggable(): Int = R.layout.item_detail_song_with_drag_handle

@@ -29,7 +29,7 @@ import java.io.File
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
-class DetailFragment : BaseFragment(), DetailFragmentView {
+class DetailFragment : BaseFragment() {
 
     companion object {
         const val TAG = "DetailFragment"
@@ -44,8 +44,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
     @Inject lateinit var adapter: DetailFragmentAdapter
-    @Inject lateinit var recentlyAddedAdapter : DetailFragmentRecentlyAddedAdapter
-    @Inject lateinit var mostPlayedAdapter: DetailFragmentMostPlayedAdapter
     @Inject lateinit var mediaId: String
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Lazy<Navigator>
@@ -53,22 +51,11 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
     private lateinit var layoutManager : GridLayoutManager
 
-//    override fun onAttach(context: Context?) {
-//        super.onAttach(context)
-//        postponeEnterTransition()
-//    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (context!!.isPortrait){
             setLightButtons()
         }
-
-        viewModel.mostPlayedFlowable
-                .subscribe(this, mostPlayedAdapter::updateDataSet)
-
-        viewModel.recentlyAddedFlowable
-                .subscribe(this, recentlyAddedAdapter::updateDataSet)
 
         viewModel.data.subscribe(this, {
             if (context!!.isLandscape){
@@ -181,10 +168,6 @@ class DetailFragment : BaseFragment(), DetailFragmentView {
     override fun onDestroyView() {
         activity!!.window.setLightStatusBar()
         super.onDestroyView()
-    }
-
-    override fun startTransition() {
-        startPostponedEnterTransition()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
