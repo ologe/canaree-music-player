@@ -15,7 +15,7 @@ import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_search.view.*
-import kotlinx.android.synthetic.main.layout_tab_view_pager.*
+import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {

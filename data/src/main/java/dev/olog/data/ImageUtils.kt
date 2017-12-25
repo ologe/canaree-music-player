@@ -11,9 +11,10 @@ object ImageUtils {
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()
 
+        list.shuffle()
         val resultList = arrangeBitmaps(list)
 
-        val combinedImage = create(resultList.shuffle(), IMAGE_SIZE, 3)
+        val combinedImage = create(resultList, IMAGE_SIZE, 3)
         return rotateAndCrop(combinedImage, IMAGE_SIZE, 9f)
     }
 

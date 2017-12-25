@@ -8,18 +8,18 @@ import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
+import dev.olog.presentation.dagger.ActivityLifecycle
+import dev.olog.presentation.dagger.PerActivity
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.ProcessLifecycle
 import dev.olog.shared.unsubscribe
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@PerActivity
 class MusicServiceBinderViewModel @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ProcessLifecycle lifecycle: Lifecycle,
+        @ActivityLifecycle private val lifecycle: Lifecycle,
         private var mediaBrowser: MediaBrowserCompat,
         private var connectionCallback: RxMusicServiceConnectionCallback,
         private var mediaControllerCallback: RxMusicServiceControllerCallback
@@ -39,10 +39,6 @@ class MusicServiceBinderViewModel @Inject constructor(
         connectionCallback.onConnectionChanged()
                 .subscribe(this)
 
-        if (this.mediaBrowser.isConnected){
-            this.mediaBrowser.disconnect()
-            // disconnect from leaked service
-        }
         this.mediaBrowser.connect()
     }
 
@@ -94,6 +90,7 @@ class MusicServiceBinderViewModel @Inject constructor(
     private fun onConnectionFailed() {
         if (mediaController != null) {
             mediaControllerCallback.unregisterCallback(mediaController!!)
+            mediaController = null
         }
         mediaControllerLiveData.value = null
     }

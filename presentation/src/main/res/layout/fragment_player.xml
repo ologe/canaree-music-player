@@ -89,8 +89,7 @@
         app:layout_constraintEnd_toStartOf="@+id/duration"
         android:layout_marginStart="32dp"
         android:clickable="false"
-        android:focusable="false"
-        android:fontFamily="@font/product_sans"/>
+        android:focusable="false" />
 
     <!-- duration -->
     <TextView
@@ -104,8 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="32dp"
         android:clickable="false"
-        android:focusable="false"
-        android:fontFamily="@font/product_sans"/>
+        android:focusable="false" />
 
     <!-- seekbar -->
     <SeekBar

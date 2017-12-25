@@ -69,46 +69,38 @@ class DetailFragmentViewModel(
             data[category]!!,
             data[RELATED_ARTISTS]!!,
             data[SONGS]!!,
-            { item, mostPlayed, recentlyAdded, albums, artists, songs ->
+            { item, mostPlayed, recent, albums, artists, songs ->
 
-        mutableMapOf(
-                DetailFragmentDataType.HEADER to mutableListOf(item),
-                DetailFragmentDataType.PAGER to handleViewPager(mostPlayed, recentlyAdded),
-                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
-                DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList()),
-                DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList())
-        ) }
+                mutableMapOf(
+                        DetailFragmentDataType.HEADER to mutableListOf(item),
+                        DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList()),
+                        DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList()),
+                        DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
+                        DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList()),
+                        DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList())
+                ) }
     ).asLiveData()
 
-    private fun handleViewPager(mostPlayed: List<DisplayableItem>,
-                                recentlyAdded: List<DisplayableItem>) : MutableList<DisplayableItem>{
-        if (mostPlayed.isNotEmpty() || recentlyAdded.isNotEmpty()){
-            return headers.viewPager.toMutableList()
-        } else {
-            return mutableListOf()
+    private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        if (list.isNotEmpty()){
+            list.clear()
+            list.addAll(0, headers.mostPlayed)
         }
+        return list
     }
 
-//    private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-//        if (list.isNotEmpty()){
-//            list.clear()
-//            list.addAll(0, headers.mostPlayed)
-//        }
-//        return list
-//    }
-
-//    private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-//        if (list.isNotEmpty()){
-//            if (list.size > 10){
-//                list.clear()
-//                list.addAll(0, headers.recentWithSeeAll)
-//            } else {
-//                list.clear()
-//                list.addAll(0, headers.recent)
-//            }
-//        }
-//        return list
-//    }
+    private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        if (list.isNotEmpty()){
+            if (list.size > 10){
+                list.clear()
+                list.addAll(0, headers.recentWithSeeAll)
+            } else {
+                list.clear()
+                list.addAll(0, headers.recent)
+            }
+        }
+        return list
+    }
 
     private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
         val albumsList = list.take(4).toMutableList()

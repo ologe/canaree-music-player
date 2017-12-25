@@ -7,10 +7,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorControlNormal">@color/dark_grey</item>
+        <item name="android:colorControlActivated">@color/item_selected</item>
     </style>
 
     <style name="Splash" parent="BaseTheme"/>
 
     <style name="AppTheme" parent="BaseTheme"/>
+
+    <style name="Popup" parent="Widget.AppCompat.PopupMenu">
+
+    </style>
 
 </resources>

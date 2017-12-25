@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_detail.recently_added
+package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
@@ -6,8 +6,8 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
-import dev.olog.presentation.dagger.NestedFragmentLifecycle
-import dev.olog.presentation.dagger.PerNestedFragment
+import dev.olog.presentation.dagger.FragmentLifecycle
+import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
@@ -15,9 +15,9 @@ import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
 
-@PerNestedFragment
-class DetailFragmentRecentlyAddedAdapter @Inject constructor(
-        @NestedFragmentLifecycle lifecycle: Lifecycle,
+@PerFragment
+class DetailMostPlayedAdapter @Inject constructor(
+        @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
         private val musicController: MusicController
 
@@ -25,8 +25,9 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            musicController.playRecentlyPlayedFromMediaId(item.mediaId)
+            musicController.playMostPlayedFromMediaId(item.mediaId)
         }
+
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
@@ -38,6 +39,7 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.position, position)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
@@ -45,4 +47,9 @@ class DetailFragmentRecentlyAddedAdapter @Inject constructor(
     override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
         return oldItem.mediaId == newItem.mediaId
     }
+
+    override fun areContentTheSameExtension(oldItemPosition: Int, newItemPosition: Int, oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
+        return oldItemPosition == newItemPosition
+    }
+
 }

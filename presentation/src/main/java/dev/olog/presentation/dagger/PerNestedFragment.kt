@@ -1,6 +1,6 @@
-package dev.olog.presentation.dagger
-
-import javax.inject.Scope
-
-@Scope
-annotation class PerNestedFragment
+//package dev.olog.presentation.dagger
+//
+//import javax.inject.Scope
+//
+//@Scope
+//annotation class PerNestedFragment

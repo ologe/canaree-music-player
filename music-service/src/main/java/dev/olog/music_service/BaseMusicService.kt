@@ -8,8 +8,11 @@ import android.content.Intent
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
+import android.util.Log
 import dagger.android.AndroidInjection
+import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.ServiceLifecycleController
+import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
         LifecycleOwner,
@@ -22,7 +25,10 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     @Suppress("LeakingThis")
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
+    @Inject lateinit var player: Player
+
     private var serviceStarted = false
+    private var appIsAlive = false
 
     @CallSuper
     override fun onCreate() {
@@ -49,10 +55,24 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         if (intent == null) return
 
         val action = intent.action
-        if (action == null) {
-            stop()
-        } else {
-            handleMediaButton(intent)
+        when (action){
+            null -> stop()
+            "activity.start_service" -> {
+                start()
+                appIsAlive = true
+                Log.i("music service", "app is alive, starting service")
+            }
+            "activity.stop_service" -> {
+                appIsAlive = false
+
+                if (!player.isPlaying()){
+                    stop()
+                    Log.i("music service", "app destroyed, killing service")
+                } else {
+                    Log.i("music service", "app destroyed, keeping service alive")
+                }
+            }
+            else -> handleMediaButton(intent)
         }
     }
 
@@ -66,7 +86,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     }
 
     override fun stop() {
-        if (serviceStarted) {
+        if (!appIsAlive && serviceStarted) {
             serviceStarted = false
             stopSelf()
         }

@@ -16,7 +16,7 @@
 
     <include
         android:id="@+id/viewPagerLayout"
-        layout="@layout/layout_tab_view_pager" />
+        layout="@layout/fragment_tab_view_pager" />
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:layout_width="match_parent"

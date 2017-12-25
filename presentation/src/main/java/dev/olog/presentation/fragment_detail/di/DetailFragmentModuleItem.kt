@@ -74,7 +74,7 @@ class DetailFragmentModuleItem {
 
 private fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_info_image,
+            R.layout.item_detail_item_info,
             MediaIdHelper.folderId(path),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
@@ -88,7 +88,7 @@ private fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
     }
 
     return DisplayableItem(
-            R.layout.item_detail_info_image,
+            R.layout.item_detail_item_info,
             MediaIdHelper.playlistId(this.id),
             title.capitalize(),
             listSize,
@@ -98,7 +98,7 @@ private fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
 
 private fun Album.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_info_image,
+            R.layout.item_detail_item_info,
             MediaIdHelper.albumId(this.id),
             title,
             artist,
@@ -113,7 +113,7 @@ private fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
     }
 
     return DisplayableItem(
-            R.layout.item_detail_info_image,
+            R.layout.item_detail_item_info,
             MediaIdHelper.artistId(this.id),
             name,
             "$albums$songs".toLowerCase(),
@@ -123,7 +123,7 @@ private fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
 
 private fun Genre.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_info_image,
+            R.layout.item_detail_item_info,
             MediaIdHelper.genreId(this.id),
             name,
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),

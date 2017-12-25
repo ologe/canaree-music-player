@@ -20,6 +20,7 @@ interface Navigator {
     fun toPlayingQueueFragment()
 
     fun toDialog(item: DisplayableItem, anchor: View)
+    fun toDialogDetailItem(item: DisplayableItem, anchor: View)
 
     fun toMainPopup(anchor: View)
 

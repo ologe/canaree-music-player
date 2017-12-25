@@ -14,12 +14,16 @@ import dev.olog.shared.constants.DataConstants
 object Popup {
 
     fun create(context: Context, anchor: View, item: DisplayableItem,
-               listener: PopupMenu.OnMenuItemClickListener){
+               listener: PopupMenu.OnMenuItemClickListener,
+               showDetailItem: Boolean = false){
 
         val popup = PopupMenu(context, anchor, Gravity.BOTTOM or Gravity.END)
         popup.inflate(provideMenuRes(item.mediaId))
         popup.setOnMenuItemClickListener(listener)
         adjustMenu(context, item, popup.menu)
+        if (showDetailItem){
+            changeVisibleTabs(popup.menu)
+        }
 
         popup.show()
     }
@@ -72,6 +76,20 @@ object Popup {
             }
         }
 
+    }
+
+    private fun changeVisibleTabs(menu: Menu){
+        val visibleTabsItemId = View.generateViewId()
+
+        val subMenu = menu.addSubMenu(visibleTabsItemId, visibleTabsItemId, Menu.NONE, "Visible tabs")
+        val groudId = View.generateViewId()
+        val item1 = subMenu.add(groudId, View.generateViewId(), Menu.NONE, "Most Played")
+        val item2 = subMenu.add(groudId, View.generateViewId(), Menu.NONE,"Recently Added")
+        val item3 = subMenu.add(groudId, View.generateViewId(), Menu.NONE,"Related Artists")
+        item1.isChecked = true
+        item2.isChecked = true
+        item3.isChecked = true
+        subMenu.setGroupCheckable(groudId, true, false)
     }
 
     @MenuRes

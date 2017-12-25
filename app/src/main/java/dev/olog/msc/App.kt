@@ -19,9 +19,13 @@ import dev.olog.presentation.fragment_search.SearchFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_music.MusicServiceController
+import javax.inject.Inject
 
 
 class App : DaggerApplication() {
+
+    @Inject lateinit var musicServiceController : MusicServiceController
 
     override fun onCreate() {
         super.onCreate()

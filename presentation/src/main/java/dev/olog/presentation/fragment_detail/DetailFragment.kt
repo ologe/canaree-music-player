@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.bumptech.glide.Priority
@@ -43,7 +44,10 @@ class DetailFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
     @Inject lateinit var adapter: DetailFragmentAdapter
+    @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
+    @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var mediaId: String
+    @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Lazy<Navigator>
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
@@ -54,6 +58,12 @@ class DetailFragment : BaseFragment() {
         if (context!!.isPortrait){
             setLightButtons()
         }
+
+        viewModel.mostPlayedFlowable
+                .subscribe(this, mostPlayedAdapter::updateDataSet)
+
+        viewModel.recentlyAddedFlowable
+                .subscribe(this, recentlyAddedAdapter::updateDataSet)
 
         viewModel.data.subscribe(this, {
             if (context!!.isLandscape){
@@ -68,6 +78,7 @@ class DetailFragment : BaseFragment() {
         layoutManager = GridLayoutManager(context!!, 2)
         view.list.layoutManager = layoutManager
         view.list.adapter = adapter
+        view.list.recycledViewPool = recycledViewPool
         layoutManager.spanSizeLookup = DetailFragmentSpanSizeLookup(view.list)
         view.list.setHasFixedSize(true)
         val callback = ItemTouchHelperCallback(adapter)

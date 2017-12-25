@@ -169,6 +169,12 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
+    override fun toDialogDetailItem(item: DisplayableItem, anchor: View) {
+        if (allowed()){
+            Popup.create(activity, anchor, item, menuListenerFactory.get(item), true)
+        }
+    }
+
     override fun toMainPopup(anchor: View) {
         val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
         popup.inflate(R.menu.main)

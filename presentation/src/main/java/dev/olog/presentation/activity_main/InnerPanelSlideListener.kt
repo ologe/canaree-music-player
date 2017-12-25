@@ -5,8 +5,9 @@ import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.delegates.weakRef
+import javax.inject.Inject
 
-class InnerPanelSlideListener (
+class InnerPanelSlideListener @Inject constructor(
         activity: AppCompatActivity
 ) : SlidingUpPanelLayout.PanelSlideListener {
 

@@ -25,18 +25,19 @@ import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.shared.constants.FloatingInfoConstants
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import kotlinx.android.synthetic.main.layout_player_drag_area.*
-import kotlinx.android.synthetic.main.layout_tab_view_pager.*
 import javax.inject.Inject
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
-    @Inject lateinit var adapter: TabViewPagerAdapter
+
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
-    @Inject lateinit var navigator: Navigator
-    private val innerPanelSlideListener by lazy (LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
+    @Inject lateinit var innerPanelSlideListener : InnerPanelSlideListener
 
     @Inject lateinit var presenter: Lazy<MainActivityPresenter>
+    @Inject lateinit var adapter: TabViewPagerAdapter
+    @Inject lateinit var navigator: Navigator
 
     private lateinit var title: TextView
     private lateinit var artist: TextView
@@ -45,12 +46,12 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        title = titleWrapper.findViewById(R.id.title)
-        artist = artistWrapper.findViewById(R.id.artist)
-
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
+
+        title = titleWrapper.findViewById(R.id.title)
+        artist = artistWrapper.findViewById(R.id.artist)
 
         musicServiceBinder.getMediaControllerLiveData()
                 .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
@@ -66,20 +67,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     artist.isSelected = canScroll
                 })
 
-
-        setupCast()
-
-    }
-
-    private fun setupCast(){
-        // https://developers.google.com/android/guides/setup dice di chiamare nella onResume
-//        val availability = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
-//        if (availability == ConnectionResult.SUCCESS){
-//            CastButtonFactory.setUpMediaRouteButton(this, cast)
-//        } else {
-//            GoogleApiAvailability.getInstance().getErrorDialog(this, availability, 0)
-//            toast("play services not found")
-//        }
     }
 
     override fun handleIntent(intent: Intent) {
@@ -96,6 +83,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment() }
         settings.setOnClickListener { navigator.toMainPopup(it) }
+
     }
 
     override fun onPause() {

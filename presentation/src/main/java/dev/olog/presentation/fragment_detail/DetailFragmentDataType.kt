@@ -1,5 +1,5 @@
 package dev.olog.presentation.fragment_detail
 
 enum class DetailFragmentDataType {
-    HEADER, PAGER, ALBUMS, ARTISTS_IN, SONGS
+    HEADER, MOST_PLAYED, RECENT, ALBUMS, ARTISTS_IN, SONGS
 }
