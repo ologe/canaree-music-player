@@ -10,7 +10,6 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dagger.Lazy
 import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.GlideApp
@@ -25,6 +24,7 @@ import dev.olog.presentation.utils.extension.*
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.MediaIdHelper
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import org.jetbrains.anko.dimen
 import java.io.File
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -52,6 +52,7 @@ class DetailFragment : BaseFragment() {
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
     private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
     private lateinit var layoutManager : GridLayoutManager
+    private val toolbarHeight by lazy(NONE) { context!!.dimen(R.dimen.status_bar) + context!!.dimen(R.dimen.toolbar) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -88,34 +89,10 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.setSectionIndexer(adapter)
 
-        setupListScroll(view)
-
         viewModel.itemLiveData.subscribe(this, {
             view.header.text = it.title
             setImage(it)
         })
-    }
-
-    private fun setupListScroll(view: View){
-        if (context!!.isLandscape) {
-            return
-        }
-
-        RxRecyclerView.scrollEvents(view.list)
-                .map { layoutManager.findFirstCompletelyVisibleItemPosition() > 1 }
-                .distinctUntilChanged()
-                .asLiveData()
-                .subscribe(this, { isActive ->
-                    view.statusBar.isActivated = isActive
-                    view.toolbar.isActivated = isActive
-                    view.header.isActivated = isActive
-                    if (isActive){
-                        setDarkButtons()
-                    } else {
-                        setLightButtons()
-                    }
-                })
-
     }
 
     private fun setImage(item: DisplayableItem){
@@ -159,6 +136,7 @@ class DetailFragment : BaseFragment() {
         super.onResume()
         if (context!!.isPortrait){
             (activity as HasSlidingPanel).addSlidingPanel(slidingPanelListener)
+            view!!.list.addOnScrollListener(recyclerOnScrollListener)
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
         view!!.search.setOnClickListener { navigator.get().toSearchFragment() }
@@ -168,6 +146,7 @@ class DetailFragment : BaseFragment() {
         super.onPause()
         if (context!!.isPortrait){
             (activity as HasSlidingPanel).removeSlidingPanel(slidingPanelListener)
+            view!!.list.removeOnScrollListener(recyclerOnScrollListener)
         }
         view!!.back.setOnClickListener(null)
         view!!.search.setOnClickListener(null)
@@ -176,6 +155,34 @@ class DetailFragment : BaseFragment() {
     override fun onDestroyView() {
         activity!!.window.setLightStatusBar()
         super.onDestroyView()
+    }
+
+    private val recyclerOnScrollListener = object : RecyclerView.OnScrollListener() {
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val first = recyclerView.getChildAt(0)
+            val holder = recyclerView.getChildViewHolder(first)
+
+            if (holder.itemViewType == R.layout.item_detail_item_info) {
+                var top = first.top
+                top = Math.max(1, top)
+                view!!.cover.bottom = top
+                view!!.scrim?.top = top
+
+                val needDarkLayout = top - toolbarHeight < 0
+
+                view!!.statusBar.isActivated = needDarkLayout
+                view!!.toolbar.isActivated = needDarkLayout
+                view!!.header.isActivated = needDarkLayout
+
+                if (needDarkLayout) {
+                    setDarkButtons()
+                } else {
+                    setLightButtons()
+                }
+            }
+        }
+
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail

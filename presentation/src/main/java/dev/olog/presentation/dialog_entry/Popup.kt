@@ -13,6 +13,8 @@ import dev.olog.shared.constants.DataConstants
 
 object Popup {
 
+    val changeDetailTabsVisibility = View.generateViewId()
+
     fun create(context: Context, anchor: View, item: DisplayableItem,
                listener: PopupMenu.OnMenuItemClickListener,
                showDetailItem: Boolean = false){
@@ -22,9 +24,11 @@ object Popup {
         popup.setOnMenuItemClickListener(listener)
         adjustMenu(context, item, popup.menu)
         if (showDetailItem){
-            changeVisibleTabs(popup.menu)
+            addChangeVisibleTabs(context, popup.menu)
         }
+        popup.setOnDismissListener {
 
+        }
         popup.show()
     }
 
@@ -78,18 +82,8 @@ object Popup {
 
     }
 
-    private fun changeVisibleTabs(menu: Menu){
-        val visibleTabsItemId = View.generateViewId()
-
-        val subMenu = menu.addSubMenu(visibleTabsItemId, visibleTabsItemId, Menu.NONE, "Visible tabs")
-        val groudId = View.generateViewId()
-        val item1 = subMenu.add(groudId, View.generateViewId(), Menu.NONE, "Most Played")
-        val item2 = subMenu.add(groudId, View.generateViewId(), Menu.NONE,"Recently Added")
-        val item3 = subMenu.add(groudId, View.generateViewId(), Menu.NONE,"Related Artists")
-        item1.isChecked = true
-        item2.isChecked = true
-        item3.isChecked = true
-        subMenu.setGroupCheckable(groudId, true, false)
+    private fun addChangeVisibleTabs(context: Context, menu: Menu){
+        menu.add(Menu.NONE, changeDetailTabsVisibility, Menu.NONE, context.getString(R.string.popup_visible_items))
     }
 
     @MenuRes

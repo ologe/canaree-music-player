@@ -9,6 +9,10 @@ interface AppPreferencesGateway : Sorting {
 
     fun isFirstAccess(): Boolean
 
+    fun observeVisibleTabs(): Flowable<List<Boolean>>
+    fun getVisibleTabs(): BooleanArray
+    fun setVisibleTabs(items: List<Boolean>)
+
 }
 
 interface Sorting {

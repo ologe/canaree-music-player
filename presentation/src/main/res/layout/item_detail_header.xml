@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="24dp"
         android:paddingEnd="8dp"
-        android:paddingTop="@dimen/item_detail_header_padding_top"
-        android:background="@color/background">
+        android:paddingTop="@dimen/item_detail_header_padding_top">
 
         <TextView
             android:text="@{item.title}"

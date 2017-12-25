@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dagger.Lazy
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
+import dev.olog.domain.interactor.detail.ObserveDetailTabsVisiblityUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.GetSortArrangingUseCase
 import dev.olog.domain.interactor.detail.sorting.GetSortOrderUseCase
@@ -23,7 +24,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
         private val getSortOrderUseCase: GetSortOrderUseCase,
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
-        private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>
+        private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
+        private val getVisibleTabsUseCase : ObserveDetailTabsVisiblityUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -39,7 +41,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
                 getSortOrderUseCase,
                 setSortArrangingUseCase,
                 getSortArrangingUseCase,
-                moveItemInPlaylistUseCase
+                moveItemInPlaylistUseCase,
+                getVisibleTabsUseCase
         ) as T
     }
 }

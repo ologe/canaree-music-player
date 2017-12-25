@@ -6,9 +6,9 @@ import dagger.Lazy
 import dev.olog.domain.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
+import dev.olog.domain.interactor.detail.ObserveDetailTabsVisiblityUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
-import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
@@ -28,7 +28,8 @@ class DetailFragmentViewModel(
         private val getSortOrderUseCase: GetSortOrderUseCase,
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
-        private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>
+        private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
+        private val getVisibleTabsUseCase : ObserveDetailTabsVisiblityUseCase
 
 ) : ViewModel() {
 
@@ -69,28 +70,31 @@ class DetailFragmentViewModel(
             data[category]!!,
             data[RELATED_ARTISTS]!!,
             data[SONGS]!!,
-            { item, mostPlayed, recent, albums, artists, songs ->
+            getVisibleTabsUseCase.execute(),
+            { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
                 mutableMapOf(
                         DetailFragmentDataType.HEADER to mutableListOf(item),
-                        DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList()),
-                        DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList()),
+                        DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
+                        DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
-                        DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList()),
+                        DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList(), visibility[2]),
                         DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList())
                 ) }
     ).asLiveData()
 
-    private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-        if (list.isNotEmpty()){
+    private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
+        if (list.isNotEmpty() && isEnabled){
             list.clear()
             list.addAll(0, headers.mostPlayed)
+        } else {
+            list.clear()
         }
         return list
     }
 
-    private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-        if (list.isNotEmpty()){
+    private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
+        if (list.isNotEmpty() && isEnabled){
             if (list.size > 10){
                 list.clear()
                 list.addAll(0, headers.recentWithSeeAll)
@@ -98,6 +102,8 @@ class DetailFragmentViewModel(
                 list.clear()
                 list.addAll(0, headers.recent)
             }
+        } else {
+            list.clear()
         }
         return list
     }
@@ -112,19 +118,12 @@ class DetailFragmentViewModel(
             }
         }
 
-        if (list.isNotEmpty() && list.size % 2 != 0){
-            // add empty background to right
-            if (list[0].type == R.layout.item_detail_album){
-                albumsList.add(DisplayableItem(R.layout.item_empty, "fake album background id", ""))
-            }
-        }
-
         return albumsList
     }
 
-    private fun handleArtistsInHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+    private fun handleArtistsInHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         val (_, _, title) = list[0]
-        if (title == ""){
+        if (title == "" || !isEnabled){
             list.clear()
         }
         return list

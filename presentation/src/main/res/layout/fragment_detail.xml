@@ -8,8 +8,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:focusable="true"
-    android:background="@color/background">
+    android:focusable="true">
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background" />
 
     <ImageView
         android:id="@+id/cover"
@@ -19,9 +24,9 @@
         app:layout_constraintDimensionRatio="1.3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
+        tools:src="@android:color/holo_red_dark"
         android:adjustViewBounds="true"
-        tools:src="@android:color/holo_red_dark" />
+        android:scaleType="centerCrop"/>
 
     <View
         app:layout_constraintTop_toTopOf="parent"

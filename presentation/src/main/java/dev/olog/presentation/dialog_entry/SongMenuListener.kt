@@ -1,6 +1,7 @@
 package dev.olog.presentation.dialog_entry
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -8,9 +9,12 @@ import android.util.Log
 import android.view.MenuItem
 import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
+import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
+import dev.olog.domain.interactor.detail.SetDetailTabsVisiblityUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.R
+import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -20,14 +24,18 @@ import io.reactivex.Completable
 import javax.inject.Inject
 
 class SongMenuListener @Inject constructor(
+        @ActivityContext context: Context,
         private val activity: AppCompatActivity,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
         private val getSongUseCase: GetSongUseCase,
         private val floatingInfoServiceBinder: FloatingInfoServiceBinder,
-        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase
+        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
+        getDetailTabVisibilityUseCase: GetDetailTabsVisibilityUseCase,
+        setDetailTabVisibilityUseCase: SetDetailTabsVisiblityUseCase
 
-) : BaseMenuListener(getSongListByParamUseCase, navigator) {
+) : BaseMenuListener(context, getSongListByParamUseCase, navigator,
+        getDetailTabVisibilityUseCase, setDetailTabVisibilityUseCase) {
 
     @SuppressLint("NewApi")
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
@@ -40,6 +48,7 @@ class SongMenuListener @Inject constructor(
                         .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()
                         .subscribe()
+                return true
             }
             R.id.viewArtist -> {
                 getSongUseCase.execute(item.mediaId)
@@ -48,6 +57,7 @@ class SongMenuListener @Inject constructor(
                         .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()
                         .subscribe()
+                return true
             }
             R.id.lyrics,
             R.id.video -> {
@@ -58,6 +68,7 @@ class SongMenuListener @Inject constructor(
                         .subscribe()
 
                 FloatingInfoServiceHelper.startService(activity, floatingInfoServiceBinder)
+                return true
             }
             R.id.share -> {
                 getSongUseCase.execute(item.mediaId)
@@ -65,10 +76,12 @@ class SongMenuListener @Inject constructor(
                         .doOnSuccess { share(activity, it) }
                         .toCompletable()
                         .subscribe()
+                return true
             }
             R.id.setRingtone -> {
                 Completable.fromCallable { navigator.toSetRingtoneDialog(item.mediaId, item.title) }
                         .subscribe()
+                return true
             }
         }
         return super.onMenuItemClick(menuItem)

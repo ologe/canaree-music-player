@@ -19,6 +19,7 @@
     <string name="popup_clear_playlist">Clear playlist</string>
     <string name="popup_about">About</string>
     <string name="popup_equalizer">Equalizer</string>
+    <string name="popup_visible_items">Visible Items</string>
 
     <string name="popup_negative_cancel">Cancel</string>
 

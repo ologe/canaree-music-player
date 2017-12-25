@@ -9,6 +9,7 @@ import dev.olog.domain.gateway.prefs.AppPreferencesGateway
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,6 +17,7 @@ import javax.inject.Singleton
 class AppPreferencesImpl @Inject constructor(
         private val preferences: SharedPreferences,
         private val rxPreferences: RxSharedPreferences
+
 ) : AppPreferencesGateway {
 
     companion object {
@@ -29,6 +31,9 @@ class AppPreferencesImpl @Inject constructor(
         private const val DETAIL_SORT_GENRE_ORDER = TAG + ".DETAIL_SORT_GENRE_ORDER"
 
         private const val DETAIL_SORT_ARRANGING = TAG + ".DETAIL_SORT_ARRANGING"
+        private const val DETAIL_VISIBILITY_MOST_PLAYED = TAG + ".DETAIL_VISIBILITY_MOST_PLAYED"
+        private const val DETAIL_VISIBILITY_RECENTLY_ADDED = TAG + ".DETAIL_VISIBILITY_RECENTLY_ADDED"
+        private const val DETAIL_VISIBILITY_RELATED_ARTISTS = TAG + ".DETAIL_VISIBILITY_RELATED_ARTISTS"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -111,5 +116,34 @@ class AppPreferencesImpl @Inject constructor(
         } else SortArranging.ASCENDING
 
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ARRANGING, newArranging.ordinal) } }
+    }
+
+    override fun observeVisibleTabs(): Flowable<List<Boolean>> {
+        val mostPlayedVisibility = rxPreferences.getBoolean(DETAIL_VISIBILITY_MOST_PLAYED, true).asObservable()
+        val recentlyAddedVisibility = rxPreferences.getBoolean(DETAIL_VISIBILITY_RECENTLY_ADDED, true).asObservable()
+        val relatedArtistsVisibility = rxPreferences.getBoolean(DETAIL_VISIBILITY_RELATED_ARTISTS, true).asObservable()
+        return Observables.combineLatest(
+                mostPlayedVisibility,
+                recentlyAddedVisibility,
+                relatedArtistsVisibility, { mostPlayed, recentlyAdded, relatedArtists ->
+
+            listOf(mostPlayed, recentlyAdded, relatedArtists)
+        }
+        ).toFlowable(BackpressureStrategy.LATEST)
+    }
+
+    override fun getVisibleTabs(): BooleanArray {
+        val mostPlayedVisibility = preferences.getBoolean(DETAIL_VISIBILITY_MOST_PLAYED, true)
+        val recentlyAddedVisibility = preferences.getBoolean(DETAIL_VISIBILITY_RECENTLY_ADDED, true)
+        val relatedArtistsVisibility = preferences.getBoolean(DETAIL_VISIBILITY_RELATED_ARTISTS, true)
+        return booleanArrayOf(mostPlayedVisibility, recentlyAddedVisibility, relatedArtistsVisibility)
+    }
+
+    override fun setVisibleTabs(items: List<Boolean>) {
+        preferences.edit {
+            putBoolean(DETAIL_VISIBILITY_MOST_PLAYED, items[0])
+            putBoolean(DETAIL_VISIBILITY_RECENTLY_ADDED, items[1])
+            putBoolean(DETAIL_VISIBILITY_RELATED_ARTISTS, items[2])
+        }
     }
 }
