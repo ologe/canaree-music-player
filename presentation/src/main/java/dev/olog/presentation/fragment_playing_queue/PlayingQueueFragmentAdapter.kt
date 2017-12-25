@@ -26,6 +26,9 @@ class PlayingQueueFragmentAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
             musicController.skipToQueueItem(item.mediaId)
+            if (viewHolder.itemViewType == R.layout.item_playing_queue){
+
+            }
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)

@@ -13,6 +13,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.extension.setOnAlbumTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
@@ -72,6 +73,11 @@ class TabFragmentAdapter @Inject constructor(
                 setupHorizontalList(view, lastPlayedArtistsAdapter.get())
             }
         }
+
+        if (viewType == R.layout.item_tab_album){
+            viewHolder.setOnAlbumTouch()
+        }
+
     }
 
     private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){

@@ -1,5 +1,6 @@
 package dev.olog.presentation.fragment_detail
 
+
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -96,6 +97,10 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun setImage(item: DisplayableItem){
+        if (context!!.isPortrait){
+            return
+        }
+
 
         val id = if (source == TabViewPagerAdapter.FOLDER){
             MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
@@ -160,16 +165,12 @@ class DetailFragment : BaseFragment() {
     private val recyclerOnScrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val first = recyclerView.getChildAt(0)
-            val holder = recyclerView.getChildViewHolder(first)
+            val child = recyclerView.getChildAt(0)
+            val holder = recyclerView.getChildViewHolder(child)
 
             if (holder.itemViewType == R.layout.item_detail_item_info) {
-                var top = first.top
-                top = Math.max(1, top)
-                view!!.cover.bottom = top
-                view!!.scrim?.top = top
-
-                val needDarkLayout = top - toolbarHeight < 0
+                val bottom = child.bottom
+                val needDarkLayout = bottom - toolbarHeight * 2 < 0
 
                 view!!.statusBar.isActivated = needDarkLayout
                 view!!.toolbar.isActivated = needDarkLayout

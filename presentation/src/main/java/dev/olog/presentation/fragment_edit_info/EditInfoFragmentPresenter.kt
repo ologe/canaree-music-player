@@ -1,0 +1,3 @@
+package dev.olog.presentation.fragment_edit_info
+
+class EditInfoFragmentPresenter

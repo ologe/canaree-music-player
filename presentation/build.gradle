@@ -40,25 +40,19 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-//    sourceSets {
-//        main.java.srcDirs += 'src/main/kotlin'
-//    }
-
 }
 
-//kapt {
-//    generateStubs = true
-//}
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation files('libs/jaudiotagger-android-2.2.3.jar')
 
     // modules
     implementation project(':domain')
     implementation project(':shared')
 
     // kotlin
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
 
     // data binding
@@ -79,7 +73,8 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
     // play service
-//    implementation "com.google.android.gms:play-services-cast-framework:$rootProject.play_services"
+
+    //    implementation "com.google.android.gms:play-services-cast-framework:$rootProject.play_services"
 
     // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"

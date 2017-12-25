@@ -25,10 +25,14 @@ class MiniQueueFragmentAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            musicController.skipToQueueItem(item.mediaId)
+            if (viewHolder.itemViewType == R.layout.item_playing_queue){
+                musicController.skipToQueueItem(item.mediaId)
+            }
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
-            navigator.toDialog(item, viewHolder.itemView)
+            if (viewHolder.itemViewType == R.layout.item_playing_queue){
+                navigator.toDialog(item, viewHolder.itemView)
+            }
         }
         viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
             navigator.toDialog(item, view)

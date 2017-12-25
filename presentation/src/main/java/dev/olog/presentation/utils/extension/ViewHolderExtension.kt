@@ -3,8 +3,10 @@ package dev.olog.presentation.utils.extension
 import android.support.annotation.IdRes
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapterController
 import dev.olog.presentation._base.BaseMapAdapterController
+import dev.olog.presentation.utils.touch.ElevateAlbumOnTouch
 
 fun <T> RecyclerView.ViewHolder.setOnClickListener(data: BaseListAdapterController<T>, func: (item: T, position: Int) -> Unit){
     itemView.setOnClickListener {
@@ -56,4 +58,9 @@ fun <T> RecyclerView.ViewHolder.setOnClickListener(@IdRes resId: Int, data: Base
             func(data[adapterPosition], adapterPosition, view)
         }
     }
+}
+
+fun RecyclerView.ViewHolder.setOnAlbumTouch(){
+    itemView.setOnTouchListener(ElevateAlbumOnTouch(
+            itemView.findViewById(R.id.coverLayout)))
 }

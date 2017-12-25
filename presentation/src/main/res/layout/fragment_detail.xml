@@ -8,33 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:focusable="true">
-
-    <View
-        android:id="@+id/scrim"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background" />
-
-    <ImageView
-        android:id="@+id/cover"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1.3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:src="@android:color/holo_red_dark"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
-
-    <View
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:background="@drawable/vd_fade"/>
+    android:focusable="true"
+    android:background="@color/background">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
@@ -47,7 +22,6 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingTop="320dp"
         android:paddingBottom="16dp" />
 
     <dev.olog.presentation.widgets.fastscroller.RxFastScroller

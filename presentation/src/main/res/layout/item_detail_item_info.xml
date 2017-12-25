@@ -10,15 +10,32 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:paddingStart="32dp"
-        android:paddingEnd="12dp"
         tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:id="@+id/cover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1.3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:imageBigAlbum="@{item}"
+            tools:src="@android:color/holo_red_dark" />
+
+        <View
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@drawable/vd_fade"/>
 
         <TextView
             android:id="@+id/title"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
             android:text="@{item.title}"
@@ -29,6 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
+            android:layout_marginStart="32dp"
             android:maxLines="3"
             android:ellipsize="end"
             android:scrollHorizontally="true"/>
@@ -36,8 +54,8 @@
         <TextView
             android:id="@+id/subtitle"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="@+id/title"
             android:text="@{item.subtitle}"
             tools:text="50 Cent"
             android:textSize="@dimen/item_detail_main_header_subtitle_size"
@@ -71,7 +89,8 @@
             android:tint="@color/button_primary_tint"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="12dp"/>
         
     </android.support.constraint.ConstraintLayout>
 

@@ -19,6 +19,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinderViewModel
+import dev.olog.presentation.service_music.MusicServiceController
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
@@ -31,9 +32,9 @@ import javax.inject.Inject
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
-
+    @Inject lateinit var musicServiceController : MusicServiceController
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
-    @Inject lateinit var innerPanelSlideListener : InnerPanelSlideListener
+    private val innerPanelSlideListener by lazy(LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
 
     @Inject lateinit var presenter: Lazy<MainActivityPresenter>
     @Inject lateinit var adapter: TabViewPagerAdapter
@@ -66,7 +67,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     title.isSelected = canScroll
                     artist.isSelected = canScroll
                 })
-
     }
 
     override fun handleIntent(intent: Intent) {
