@@ -1,6 +1,5 @@
 package dev.olog.presentation.dialog_entry
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -37,10 +36,13 @@ class SongMenuListener @Inject constructor(
 ) : BaseMenuListener(context, getSongListByParamUseCase, navigator,
         getDetailTabVisibilityUseCase, setDetailTabVisibilityUseCase) {
 
-    @SuppressLint("NewApi")
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
         when (itemId){
+            R.id.viewInfo -> {
+                navigator.toEditInfoFragment(item.mediaId)
+            }
+
             R.id.viewAlbum -> {
                 getSongUseCase.execute(item.mediaId)
                         .map { MediaIdHelper.albumId(it.albumId) }

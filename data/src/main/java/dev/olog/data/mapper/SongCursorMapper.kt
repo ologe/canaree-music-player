@@ -16,6 +16,7 @@ import java.io.File
 private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
 
 fun Cursor.toSong(): Song {
+
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)

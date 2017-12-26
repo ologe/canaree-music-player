@@ -19,6 +19,8 @@ interface Navigator {
 
     fun toPlayingQueueFragment()
 
+    fun toEditInfoFragment(mediaId: String)
+
     fun toDialog(item: DisplayableItem, anchor: View)
     fun toDialogDetailItem(item: DisplayableItem, anchor: View)
 

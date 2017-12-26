@@ -26,6 +26,7 @@ import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
 import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
+import dev.olog.presentation.fragment_edit_info.EditInfoFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
@@ -43,7 +44,7 @@ class NavigatorImpl @Inject constructor(
         private val activity: AppCompatActivity,
         private val menuListenerFactory: MenuListenerFactory
 
-): Navigator {
+) : Navigator {
 
     companion object {
         private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
@@ -67,12 +68,6 @@ class NavigatorImpl @Inject constructor(
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                setCustomAnimations(
-//                            R.anim.right_slide_in,
-//                            R.anim.right_stay,
-//                            R.anim.left_stay,
-//                            R.anim.left_slide_out
-//                )
                 replace(R.id.viewPagerLayout,
                             DetailFragment.newInstance(mediaId),
                             DetailFragment.TAG)
@@ -99,12 +94,6 @@ class NavigatorImpl @Inject constructor(
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                setCustomAnimations(
-//                        R.anim.right_slide_in,
-//                        R.anim.right_stay,
-//                        R.anim.left_stay,
-//                        R.anim.left_slide_out
-//                )
                 replace(R.id.viewPagerLayout,
                         RelatedArtistFragment.newInstance(mediaId),
                         RelatedArtistFragment.TAG)
@@ -118,12 +107,6 @@ class NavigatorImpl @Inject constructor(
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                setCustomAnimations(
-//                        R.anim.right_slide_in,
-//                        R.anim.right_stay,
-//                        R.anim.left_stay,
-//                        R.anim.left_slide_out
-//                )
                 replace(R.id.viewPagerLayout,
                         RecentlyAddedFragment.newInstance(mediaId),
                         RecentlyAddedFragment.TAG)
@@ -137,12 +120,6 @@ class NavigatorImpl @Inject constructor(
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                setCustomAnimations(
-//                        R.anim.right_slide_in,
-//                        R.anim.right_stay,
-//                        R.anim.left_stay,
-//                        R.anim.left_slide_out
-//                )
                 replace(R.id.viewPagerLayout,
                         AlbumsFragment.newInstance(mediaId),
                         AlbumsFragment.TAG)
@@ -159,6 +136,18 @@ class NavigatorImpl @Inject constructor(
                 add(android.R.id.content, PlayingQueueFragment(),
                         PlayingQueueFragment.TAG)
                 addToBackStack(PlayingQueueFragment.TAG)
+            }
+        }
+    }
+
+    override fun toEditInfoFragment(mediaId: String) {
+        if (allowed()) {
+            activity.supportFragmentManager.transaction {
+                setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                add(android.R.id.content, EditInfoFragment.newInstance(mediaId),
+                        EditInfoFragment.TAG)
+                addToBackStack(EditInfoFragment.TAG)
             }
         }
     }

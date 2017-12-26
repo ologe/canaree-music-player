@@ -23,7 +23,6 @@ import dev.olog.shared.TextUtils
 import dev.olog.shared.groupMap
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
-import java.util.concurrent.TimeUnit
 
 @Module
 class DetailFragmentModuleSongs {
@@ -67,9 +66,8 @@ class DetailFragmentModuleSongs {
                         .map { sort -> Triple(songList, songList.sumBy { it.duration.toInt() }, sort) }
                 }
                 .flatMapSingle { (songList, totalDuration, sort) ->
-                    songList.toFlowable().map { it.toDetailDisplayableItem(mediaId, sort) }.toList().map {
-                        it.to(TimeUnit.MINUTES.convert(totalDuration.toLong(), TimeUnit.MILLISECONDS).toInt())
-                    }
+                    songList.toFlowable().map { it.toDetailDisplayableItem(mediaId, sort) }.toList()
+                            .map { it.to(totalDuration) }
                 }.map { createSongFooter(context, it) }
     }
 
@@ -77,7 +75,7 @@ class DetailFragmentModuleSongs {
         val (list, duration) = pair
         list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
                 context.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + TextUtils.MIDDLE_DOT_SPACED +
-                        TimeUtils.formatMillis(context, duration)))
+                        TimeUtils.formatMillis(context, duration.toLong())))
         return list
     }
 

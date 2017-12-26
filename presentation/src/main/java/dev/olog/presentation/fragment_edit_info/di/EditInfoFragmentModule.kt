@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.ActivityContext
+import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.fragment_edit_info.EditInfoFragment
 import dev.olog.presentation.fragment_edit_info.EditInfoFragmentView
 
@@ -22,5 +23,13 @@ class EditInfoFragmentModule(
     @Provides
     fun provideView(): EditInfoFragmentView = fragment
 
+    @Provides
+    fun provideMediaId(): String {
+        return fragment.arguments!!.getString(EditInfoFragment.ARGUMENTS_MEDIA_ID)
+    }
+
+    @Provides
+    @FragmentLifecycle
+    fun provideLifecycle() = fragment.lifecycle
 
 }

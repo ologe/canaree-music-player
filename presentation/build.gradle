@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
+//    implementation group: 'org', name: 'jaudiotagger', version: '2.0.3'
     implementation files('libs/jaudiotagger-android-2.2.3.jar')
 
     // modules
@@ -96,6 +97,7 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
+    implementation "org.jsoup:jsoup:$rootProject.jsoup"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

@@ -8,7 +8,9 @@ import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite2.BriteContentResolver
 import dev.olog.data.mapper.toSong
+import dev.olog.data.mapper.toUneditedSong
 import dev.olog.domain.entity.Song
+import dev.olog.domain.entity.UneditedSong
 import dev.olog.domain.gateway.SongGateway
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
@@ -59,7 +61,7 @@ class SongRepository @Inject constructor(
                     SELECTION,
                     SELECTION_ARGS,
                     SORT_ORDER,
-                    false
+                    true
             ).mapToList { it.toSong() }
             .toFlowable(BackpressureStrategy.LATEST)
             .replay(1)
@@ -103,6 +105,14 @@ class SongRepository @Inject constructor(
         return Flowable.fromIterable(songList)
                 .map { it.id }
                 .flatMapCompletable { deleteSingle(it).subscribeOn(Schedulers.io()) }
+    }
+
+    override fun getByParamUnedited(songId: Long): Flowable<UneditedSong> {
+        return rxContentResolver.createQuery(
+                MEDIA_STORE_URI, null,"${MediaStore.Audio.Media._ID} = ?",
+                arrayOf("$songId"), null, false)
+                .mapToOne { it.toUneditedSong() }
+                .toFlowable(BackpressureStrategy.LATEST)
     }
 }
 

@@ -26,3 +26,7 @@
   **[] $VALUES;
   public *;
 }
+
+-keep class org.jsoup.** { *; }
+-keep class java.nio** { *; }
+-keep class org.jaudiotagger.** { *; }
