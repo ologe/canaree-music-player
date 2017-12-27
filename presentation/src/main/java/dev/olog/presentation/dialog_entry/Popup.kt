@@ -1,34 +1,48 @@
 package dev.olog.presentation.dialog_entry
 
 import android.content.Context
+import android.graphics.Typeface
 import android.support.annotation.MenuRes
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
+import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.DataConstants
+import javax.inject.Inject
 
-object Popup {
+class Popup @Inject constructor(
+        private val getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase
+){
 
-    val changeDetailTabsVisibility = View.generateViewId()
+    companion object {
+        val NEW_PLAYLIST_ID = View.generateViewId()
+    }
 
     fun create(context: Context, anchor: View, item: DisplayableItem,
-               listener: PopupMenu.OnMenuItemClickListener,
-               showDetailItem: Boolean = false){
+               listener: PopupMenu.OnMenuItemClickListener){
 
-        val popup = PopupMenu(context, anchor, Gravity.BOTTOM or Gravity.END)
+        val popup = PopupMenu(context, anchor, Gravity.CENTER)
         popup.inflate(provideMenuRes(item.mediaId))
         popup.setOnMenuItemClickListener(listener)
         adjustMenu(context, item, popup.menu)
-        if (showDetailItem){
-            addChangeVisibleTabs(context, popup.menu)
-        }
-        popup.setOnDismissListener {
 
-        }
+        val menu = popup.menu
+        val addToPlaylistMenuItem = menu.findItem(R.id.addToPlaylist)
+        val addToPlaylistSubMenu = addToPlaylistMenuItem.subMenu
+
+        val playlists = getPlaylistBlockingUseCase.execute()
+
+        playlists.forEach { addToPlaylistSubMenu.add(Menu.NONE, it.id.toInt(), Menu.NONE, it.title) }
+        val spannableString = SpannableString("${context.getString(R.string.popup_new_playlist)}..")
+        spannableString.setSpan(StyleSpan(Typeface.BOLD), 0, spannableString.length, 0)
+        addToPlaylistSubMenu.add(Menu.NONE, NEW_PLAYLIST_ID, Menu.NONE, spannableString)
+
         popup.show()
     }
 
@@ -82,10 +96,6 @@ object Popup {
 
     }
 
-    private fun addChangeVisibleTabs(context: Context, menu: Menu){
-        menu.add(Menu.NONE, changeDetailTabsVisibility, Menu.NONE, context.getString(R.string.popup_visible_items))
-    }
-
     @MenuRes
     private fun provideMenuRes(mediaId: String): Int{
         if (MediaIdHelper.isSong(mediaId)){
@@ -104,4 +114,28 @@ object Popup {
         }
     }
 
+//    private fun addChangeVisibleTabs(context: Context, menu: Menu){
+//        menu.add(Menu.NONE, changeDetailTabsVisibility, Menu.NONE, context.getString(R.string.popup_visible_items))
+//    }
+
+//    private fun createChangeDetailVisibilityDialog(){
+//        val array = arrayOf(
+//                context.getString(R.string.detail_most_played),
+//                context.getString(R.string.detail_recently_added),
+//                context.getString(R.string.related_artists)
+//        )
+//        val checkedArray = getDetailTabVisibilityUseCase.execute()
+//        val checkedList = checkedArray.toMutableList()
+//
+//        AlertDialog.Builder(context)
+//                .setTitle(context.getString(R.string.popup_visible_items))
+//                .setMultiChoiceItems(array, checkedArray, { _, which, isChecked ->
+//                    checkedList[which] = isChecked
+//                })
+//                .setPositiveButton(context.getString(R.string.popup_positive_ok), { _, _ ->
+//                    setDetailTabVisibilityUseCase.execute(checkedList)
+//                })
+//                .setNegativeButton(context.getString(R.string.popup_negative_cancel), null)
+//                .makeDialog()
+//    }
 }

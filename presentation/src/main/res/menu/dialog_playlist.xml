@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/addToPlaylist"
-        android:title="@string/popup_add_to_playlist"/>
-
     <item android:id="@+id/addToQueue"
         android:title="@string/popup_add_to_queue"/>
 
     <item android:id="@+id/addToFavorite"
         android:title="@string/popup_add_to_favorites"/>
+
+    <group>
+
+        <item
+            android:id="@+id/addToPlaylist"
+            android:title="@string/popup_add_to_playlist">
+
+            <menu/>
+
+        </item>
+
+    </group>
 
     <item android:id="@+id/clear"
         android:title="@string/popup_clear_playlist"/>

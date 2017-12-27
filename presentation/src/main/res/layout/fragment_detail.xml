@@ -24,6 +24,14 @@
         android:clipChildren="false"
         android:paddingBottom="16dp" />
 
+    <View
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:background="@drawable/vd_fade"/>
+
     <dev.olog.presentation.widgets.fastscroller.RxFastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"

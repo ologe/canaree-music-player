@@ -14,7 +14,7 @@ class MainActivityPresenter @Inject constructor(
     fun startFloatingService(activity: Activity, songTitle: String?){
         songTitle?.let { setFloatingInfoRequestUseCase.execute(it) }
 
-        FloatingInfoServiceHelper.startService(activity, floatingInfoClass)
+        FloatingInfoServiceHelper.startServiceIfHasOverlayPermission(activity, floatingInfoClass)
     }
 
 }

@@ -6,12 +6,15 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.DrawableRes
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import dev.olog.domain.interactor.floating_info.GetFloatingInfoRequestUseCase
 import dev.olog.floating_info.di.ServiceContext
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.unsubscribe
 import io.mattcarroll.hover.HoverMenu
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.dip
 import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -57,7 +60,17 @@ class CustomHoverMenu @Inject constructor(
     )
 
     private fun createTabView(@DrawableRes icon: Int): View {
-        return TabView(context, R.drawable.gradient, icon)
+        val imageView = ImageView(context)
+        imageView.layoutParams = ViewGroup.LayoutParams(
+            context.dip(48), context.dip(48)
+        )
+        imageView.setBackgroundResource(R.drawable.gradient)
+        imageView.setImageResource(icon)
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+        imageView.adjustViewBounds = true
+        val padding = context.dip(12)
+        imageView.setPadding(padding, padding, padding, padding)
+        return imageView
     }
 
     override fun getId(): String = "menu id"

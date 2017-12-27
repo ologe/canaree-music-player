@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/addToPlaylist"
-        android:title="@string/popup_add_to_playlist"/>
+    <item android:id="@+id/lyrics_video"
+        android:title="@string/popup_lyrics_video"/>
 
     <item android:id="@+id/addToQueue"
         android:title="@string/popup_add_to_queue"/>
 
     <item android:id="@+id/addToFavorite"
         android:title="@string/popup_add_to_favorites"/>
+
+    <group>
+
+        <item
+            android:id="@+id/addToPlaylist"
+            android:title="@string/popup_add_to_playlist">
+
+            <menu/>
+
+        </item>
+
+    </group>
 
     <item android:id="@+id/viewInfo"
         android:title="@string/popup_view_info"/>
@@ -18,12 +30,6 @@
 
     <item android:id="@+id/viewArtist"
         android:title="@string/popup_view_artist"/>
-
-    <item android:id="@+id/lyrics"
-          android:title="@string/popup_lyrics"/>
-
-    <item android:id="@+id/video"
-          android:title="@string/popup_video"/>
 
     <item android:id="@+id/share"
         android:title="@string/popup_share"/>

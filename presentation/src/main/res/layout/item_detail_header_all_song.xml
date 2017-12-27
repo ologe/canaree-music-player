@@ -56,7 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:tint="@color/item_selected"
-            android:padding="6dp"/>
+            android:padding="6dp"
+            android:layout_marginEnd="8dp"/>
 
     </android.support.constraint.ConstraintLayout>
 

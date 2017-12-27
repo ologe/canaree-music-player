@@ -5,7 +5,6 @@ import dagger.android.AndroidInjector
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_add_favorite.di.AddFavoriteDialogInjector
-import dev.olog.presentation.dialog_add_playlist.di.AddPlaylistDialogInjector
 import dev.olog.presentation.dialog_add_queue.di.AddQueueDialogInjector
 import dev.olog.presentation.dialog_clear_playlist.di.ClearPlaylistDialogInjector
 import dev.olog.presentation.dialog_delete.di.DeleteDialogInjector
@@ -44,7 +43,6 @@ import dev.olog.presentation.navigation.NavigatorModule
 
         // dialogs
         AddFavoriteDialogInjector::class,
-        AddPlaylistDialogInjector::class,
         NewPlaylistDialogInjector::class,
         AddQueueDialogInjector::class,
         SetRingtoneDialogInjector::class,

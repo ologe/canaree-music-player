@@ -1,25 +1,24 @@
 package dev.olog.presentation.dialog_entry
 
-import android.content.Context
+import android.app.Application
 import android.view.MenuItem
 import dev.olog.domain.interactor.GetSongListByParamUseCase
-import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
-import dev.olog.domain.interactor.detail.SetDetailTabsVisiblityUseCase
+import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
+import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.navigation.Navigator
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class PlaylistMenuListener @Inject constructor(
-        @ActivityContext context: Context,
+        application: Application,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
-        getDetailTabVisibilityUseCase: GetDetailTabsVisibilityUseCase,
-        setDetailTabVisibilityUseCase: SetDetailTabsVisiblityUseCase
+        getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
+        addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : BaseMenuListener(context, getSongListByParamUseCase, navigator,
-        getDetailTabVisibilityUseCase, setDetailTabVisibilityUseCase) {
+) : BaseMenuListener(application, getSongListByParamUseCase, navigator,
+        getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId

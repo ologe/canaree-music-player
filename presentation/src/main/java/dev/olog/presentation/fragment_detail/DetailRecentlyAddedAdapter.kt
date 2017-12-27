@@ -11,6 +11,7 @@ import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
@@ -34,6 +35,7 @@ class DetailRecentlyAddedAdapter @Inject constructor(
         viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
             navigator.toDialog(item, view)
         }
+        viewHolder.elevateSongOnTouch()
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){

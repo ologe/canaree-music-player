@@ -23,7 +23,7 @@ interface PlaylistGateway :
 
     fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String>
 
-    fun getActualPlaylistsBlocking(): List<Playlist>
+    fun getPlaylistsBlocking(): List<Playlist>
 
     fun insertSongToHistory(songId: Long): Completable
 

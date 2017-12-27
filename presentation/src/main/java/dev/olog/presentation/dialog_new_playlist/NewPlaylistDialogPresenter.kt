@@ -6,7 +6,7 @@ import android.text.TextUtils
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.CreatePlaylistUseCase
-import dev.olog.domain.interactor.dialog.GetActualPlaylistUseCase
+import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class NewPlaylistDialogPresenter @Inject constructor(
         private val application: Application,
         private val mediaId: String,
-        getPlaylistSiblingsUseCase: GetActualPlaylistUseCase,
+        getPlaylistSiblingsUseCase: GetPlaylistBlockingUseCase,
         private val createPlaylistUseCase: CreatePlaylistUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase
 

@@ -7,8 +7,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingBottom="8dp">
 
         <View
             android:id="@+id/separator"
@@ -28,7 +27,8 @@
             android:layout_height="50dp"
             android:src="@drawable/vd_shuffle"
             android:tint="@color/button_primary_tint"
-            android:padding="@dimen/item_shuffle_padding"/>
+            android:padding="@dimen/item_shuffle_padding"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/text"

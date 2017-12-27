@@ -15,7 +15,6 @@ import dev.olog.presentation.activity_about.AboutActivity
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
-import dev.olog.presentation.dialog_add_playlist.AddPlaylistDialog
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
 import dev.olog.presentation.dialog_clear_playlist.ClearPlaylistDialog
 import dev.olog.presentation.dialog_delete.DeleteDialog
@@ -38,11 +37,13 @@ import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 import org.jetbrains.anko.toast
 import javax.inject.Inject
+import javax.inject.Provider
 
 @PerActivity
 class NavigatorImpl @Inject constructor(
         private val activity: AppCompatActivity,
-        private val menuListenerFactory: MenuListenerFactory
+        private val menuListenerFactory: MenuListenerFactory,
+        private val popupFactory: Provider<Popup>
 
 ) : Navigator {
 
@@ -154,13 +155,7 @@ class NavigatorImpl @Inject constructor(
 
     override fun toDialog(item: DisplayableItem, anchor: View) {
         if (allowed()){
-            Popup.create(activity, anchor, item, menuListenerFactory.get(item))
-        }
-    }
-
-    override fun toDialogDetailItem(item: DisplayableItem, anchor: View) {
-        if (allowed()){
-            Popup.create(activity, anchor, item, menuListenerFactory.get(item), true)
+            popupFactory.get().create(activity, anchor, item, menuListenerFactory.get(item))
         }
     }
 
@@ -205,8 +200,8 @@ class NavigatorImpl @Inject constructor(
     }
 
     override fun toAddToPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String) {
-        val fragment = AddPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
-        fragment.show(activity.supportFragmentManager, AddPlaylistDialog.TAG)
+//        val fragment = AddPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
+//        fragment.show(activity.supportFragmentManager, AddPlaylistDialog.TAG)
     }
 
     override fun toAddToFavoriteDialog(mediaId: String, listSize: Int, itemTitle: String) {

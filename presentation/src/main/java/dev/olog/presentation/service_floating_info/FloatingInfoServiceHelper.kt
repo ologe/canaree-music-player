@@ -10,20 +10,25 @@ import android.provider.Settings
 import android.support.annotation.CheckResult
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
-import dev.olog.presentation.utils.isMarshmallow
 
 object FloatingInfoServiceHelper {
 
     const val REQUEST_CODE_HOVER_PERMISSION = 1000
 
     @SuppressLint("NewApi")
-    fun startService(activity: Activity, serviceClass: FloatingInfoServiceBinder){
-
-        val drawOverlay = FloatingInfoServiceHelper.hasOverlayPermission(activity)
-        if (!drawOverlay && isMarshmallow()){
+    fun startServiceOrRequestOverlayPermission(activity: Activity, serviceClass: FloatingInfoServiceBinder){
+        if (hasOverlayPermission(activity)){
+            val intent = Intent(activity, serviceClass.get())
+            ContextCompat.startForegroundService(activity, intent)
+        } else {
             val intent = FloatingInfoServiceHelper.createIntentToRequestOverlayPermission(activity)
             activity.startActivityForResult(intent, REQUEST_CODE_HOVER_PERMISSION)
-        } else {
+        }
+    }
+
+    @SuppressLint("NewApi")
+    fun startServiceIfHasOverlayPermission(activity: Activity, serviceClass: FloatingInfoServiceBinder){
+        if (hasOverlayPermission(activity)){
             val intent = Intent(activity, serviceClass.get())
             ContextCompat.startForegroundService(activity, intent)
         }

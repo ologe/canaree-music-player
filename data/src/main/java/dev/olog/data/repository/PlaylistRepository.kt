@@ -141,7 +141,7 @@ class PlaylistRepository @Inject constructor(
         return historyDao.insert(songId)
     }
 
-    override fun getActualPlaylistsBlocking(): List<Playlist> {
+    override fun getPlaylistsBlocking(): List<Playlist> {
         val cursor = contentResolver.query(MEDIA_STORE_URI, PROJECTION,
                 SELECTION, SELECTION_ARGS, SORT_ORDER)
         val list = mutableListOf<Playlist>()

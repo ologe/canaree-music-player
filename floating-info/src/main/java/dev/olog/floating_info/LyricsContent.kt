@@ -7,6 +7,6 @@ class LyricsContent(
 ) : WebViewContent(context) {
 
     override fun getUrl(item: String): String {
-        return "http://www.google.it/search?q=$item+lyrics"
+        return "http://www.google.it/search?q=$item+genius+lyrics"
     }
 }

@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.view.ContextThemeWrapper
+import android.widget.ImageView
 import io.mattcarroll.hover.HoverMenu
 import io.mattcarroll.hover.HoverView
 import javax.inject.Inject
@@ -46,34 +47,40 @@ class FloatingInfoService : BaseService() {
 
     override fun onHoverMenuExitingByUserRequest() {
         super.onHoverMenuExitingByUserRequest()
-        hoverView.removeOnExpandAndCollapseListener(onExpansionListener)
+//        hoverView.removeOnExpandAndCollapseListener(onExpansionListener)
     }
 
     private val onExpansionListener = object : HoverView.Listener {
         override fun onCollapsing() {
-            val section = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
-            (section?.tabView as TabView).setIcon(R.drawable.vd_bird_singing)
+            println("onCollapsing")
+            val lyrics = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
+            val video = hoverMenu.getSection(HoverMenu.SectionId("video"))
+            (video?.tabView as ImageView?)?.setImageResource(R.drawable.vd_bird_singing)
+            (lyrics?.tabView as ImageView?)?.setImageResource(R.drawable.vd_bird_singing)
         }
 
         override fun onExpanding() {
-            val section = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
-            (section?.tabView as TabView).setIcon(R.drawable.vd_lyrics)
+            println("onExpanding")
+            val lyrics = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
+            val video = hoverMenu.getSection(HoverMenu.SectionId("video"))
+            (lyrics?.tabView as ImageView?)?.setImageResource(R.drawable.vd_lyrics)
+            (video?.tabView as ImageView?)?.setImageResource(R.drawable.vd_video)
         }
 
         override fun onClosing() {
-
+            println("onClosing")
         }
 
         override fun onClosed() {
-
+            println("onClosed")
         }
 
         override fun onExpanded() {
-
+            println("onExpanded")
         }
 
         override fun onCollapsed() {
-
+            println("onCollapsed")
         }
     }
 
