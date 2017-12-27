@@ -67,5 +67,6 @@ fun RecyclerView.ViewHolder.elevateAlbumOnTouch(){
 }
 
 fun RecyclerView.ViewHolder.elevateSongOnTouch(){
-    itemView.setOnTouchListener(ElevateSongOnTouch(itemView))
+    itemView.setOnTouchListener(ElevateSongOnTouch(
+            itemView, itemView.findViewById(R.id.coverLayout)))
 }

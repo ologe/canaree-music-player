@@ -40,6 +40,41 @@ class FloatingInfoService : BaseService() {
     override fun onHoverMenuLaunched(intent: Intent, hoverView: HoverView) {
         hoverView.setMenu(createHoverMenu())
         hoverView.collapse()
+
+        hoverView.addOnExpandAndCollapseListener(onExpansionListener)
+    }
+
+    override fun onHoverMenuExitingByUserRequest() {
+        super.onHoverMenuExitingByUserRequest()
+        hoverView.removeOnExpandAndCollapseListener(onExpansionListener)
+    }
+
+    private val onExpansionListener = object : HoverView.Listener {
+        override fun onCollapsing() {
+            val section = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
+            (section?.tabView as TabView).setIcon(R.drawable.vd_bird_singing)
+        }
+
+        override fun onExpanding() {
+            val section = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
+            (section?.tabView as TabView).setIcon(R.drawable.vd_lyrics)
+        }
+
+        override fun onClosing() {
+
+        }
+
+        override fun onClosed() {
+
+        }
+
+        override fun onExpanded() {
+
+        }
+
+        override fun onCollapsed() {
+
+        }
     }
 
     override fun getForegroundNotificationId(): Int = InfoNotification.NOTIFICATION_ID

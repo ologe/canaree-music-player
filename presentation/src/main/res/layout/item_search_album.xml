@@ -13,7 +13,8 @@
         android:layout_width="@dimen/item_tab_album_last_player_width"
         android:layout_height="wrap_content"
         tools:background="@color/background"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:clipChildren="false">
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"

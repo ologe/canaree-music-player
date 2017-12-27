@@ -27,7 +27,7 @@ import android.view.View
 /**
  * Visual representation of a top-level tab in a Hover menu.
  */
-class TabView(
+class TabView (
         context: Context,
         @DrawableRes backgroundDrawable: Int,
         @DrawableRes iconDrawable: Int
@@ -35,7 +35,7 @@ class TabView(
 ) : View(context) {
 
     private val mCircleDrawable: Drawable? = ContextCompat.getDrawable(context, backgroundDrawable)
-    private val mIconDrawable: Drawable? = ContextCompat.getDrawable(context, iconDrawable)
+    private var mIconDrawable: Drawable? = ContextCompat.getDrawable(context, iconDrawable)
     private var mIconInsetLeft: Int = 0
     private var mIconInsetTop: Int = 0
     private var mIconInsetRight: Int = 0
@@ -63,10 +63,10 @@ class TabView(
     }
 
     private fun updateIconBounds() {
-        if (null != mIconDrawable) {
+        if (mIconDrawable != null) {
             val bounds = Rect(mCircleDrawable!!.bounds)
             bounds.set(bounds.left + mIconInsetLeft, bounds.top + mIconInsetTop, bounds.right - mIconInsetRight, bounds.bottom - mIconInsetBottom)
-            mIconDrawable.bounds = bounds
+            mIconDrawable?.bounds = bounds
         }
     }
 
@@ -74,4 +74,10 @@ class TabView(
         mCircleDrawable!!.draw(canvas)
         mIconDrawable?.draw(canvas)
     }
+
+    fun setIcon(@DrawableRes iconDrawable: Int){
+        mIconDrawable = ContextCompat.getDrawable(context, iconDrawable)
+        invalidate()
+    }
+
 }

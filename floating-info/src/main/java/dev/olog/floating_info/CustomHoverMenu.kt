@@ -47,7 +47,7 @@ class CustomHoverMenu @Inject constructor(
     })
 
     private val lyricsSection = Section(SectionId("lyrics"),
-            createTabView(R.drawable.vd_lyrics), lyricsContent)
+            createTabView(R.drawable.vd_bird_singing), lyricsContent)
 
     private val videoSection = Section(SectionId("video"),
             createTabView(R.drawable.vd_video), videoContent)
