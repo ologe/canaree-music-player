@@ -11,6 +11,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
@@ -24,25 +25,27 @@ class MiniQueueFragmentAdapter @Inject constructor(
 ): BaseListAdapterDraggable<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, _ ->
-            if (viewHolder.itemViewType == R.layout.item_playing_queue){
-                musicController.skipToQueueItem(item.mediaId)
-            }
-        }
-        viewHolder.setOnLongClickListener(dataController) { item, _ ->
-            if (viewHolder.itemViewType == R.layout.item_playing_queue){
-                navigator.toDialog(item, viewHolder.itemView)
-            }
-        }
-        viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
-            navigator.toDialog(item, view)
-        }
 
-        viewHolder.itemView.dragHandle?.setOnTouchListener { _, event ->
-            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                touchHelper?.startDrag(viewHolder)
-                true
-            } else false
+        when (viewType){
+            R.layout.item_playing_queue -> {
+                viewHolder.setOnClickListener(dataController) { item, _ ->
+                    musicController.skipToQueueItem(item.mediaId)
+                }
+                viewHolder.setOnLongClickListener(dataController) { item, _ ->
+                    navigator.toDialog(item, viewHolder.itemView)
+                }
+                viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
+                    navigator.toDialog(item, view)
+                }
+
+                viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
+                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
+                        touchHelper?.startDrag(viewHolder)
+                        true
+                    } else false
+                }
+                viewHolder.elevateSongOnTouch()
+            }
         }
     }
 

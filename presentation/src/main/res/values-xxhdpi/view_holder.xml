@@ -2,7 +2,6 @@
 <resources>
 
     <!--item song-->
-    <dimen name="item_song_cover_margin_top">14dp</dimen>
     <dimen name="item_song_cover_size">50dp</dimen>
     <dimen name="item_song_title">14sp</dimen>
     <dimen name="item_song_artist">11sp</dimen>
@@ -24,7 +23,7 @@
     <dimen name="item_detail_header_padding_top">32dp</dimen>
 
     <!--item detail most played-->
-    <dimen name="item_detail_most_played_cover_margin_top">12dp</dimen>
+    <dimen name="item_detail_most_played_cover_margin_vertical">6dp</dimen>
     <dimen name="item_detail_most_played_cover_size">45dp</dimen>
 
     <!--item search footer-->

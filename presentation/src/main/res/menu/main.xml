@@ -4,6 +4,9 @@
     <item android:id="@+id/equalizer"
         android:title="@string/popup_equalizer"/>
 
+    <item android:id="@+id/settings"
+          android:title="@string/popup_settings"/>
+
     <item android:id="@+id/about"
         android:title="@string/popup_about"/>
 

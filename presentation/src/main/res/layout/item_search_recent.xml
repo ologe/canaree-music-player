@@ -14,13 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        android:background="@color/background">
 
         <View
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/coverLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/coverLayout"
             android:layout_width="0dp"
             android:layout_height="1dp"
             style="@style/Divider"
@@ -36,7 +36,8 @@
             app:cardElevation="0dp"
             app:cardCornerRadius="4dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="@dimen/item_song_cover_margin_top">
+            android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+            android:layout_marginBottom="@dimen/item_song_cover_margin_vertical">
 
             <ImageView
                 android:id="@+id/cover"

@@ -7,6 +7,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseListAdapterController
 import dev.olog.presentation._base.BaseMapAdapterController
 import dev.olog.presentation.utils.touch.ElevateAlbumOnTouch
+import dev.olog.presentation.utils.touch.ElevateSongOnTouch
 
 fun <T> RecyclerView.ViewHolder.setOnClickListener(data: BaseListAdapterController<T>, func: (item: T, position: Int) -> Unit){
     itemView.setOnClickListener {
@@ -60,7 +61,11 @@ fun <T> RecyclerView.ViewHolder.setOnClickListener(@IdRes resId: Int, data: Base
     }
 }
 
-fun RecyclerView.ViewHolder.setOnAlbumTouch(){
+fun RecyclerView.ViewHolder.elevateAlbumOnTouch(){
     itemView.setOnTouchListener(ElevateAlbumOnTouch(
             itemView.findViewById(R.id.coverLayout)))
+}
+
+fun RecyclerView.ViewHolder.elevateSongOnTouch(){
+    itemView.setOnTouchListener(ElevateSongOnTouch(itemView))
 }

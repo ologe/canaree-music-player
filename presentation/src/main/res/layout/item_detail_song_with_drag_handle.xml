@@ -16,7 +16,8 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:background="@color/background">
 
         <View
             app:layout_constraintTop_toTopOf="parent"

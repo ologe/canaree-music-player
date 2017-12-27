@@ -9,6 +9,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.utils.extension.elevateAlbumOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
@@ -30,6 +31,7 @@ class TabFragmentLastPlayedArtistsAdapter @Inject constructor(
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
+        viewHolder.elevateAlbumOnTouch()
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {

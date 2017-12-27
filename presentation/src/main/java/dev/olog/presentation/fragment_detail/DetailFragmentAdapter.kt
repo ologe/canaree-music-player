@@ -20,6 +20,8 @@ import dev.olog.presentation.dialog_sort.DetailSortDialog
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.extension.elevateAlbumOnTouch
+import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
@@ -131,6 +133,14 @@ class DetailFragmentAdapter @Inject constructor(
                             .subscribe()
                 }
             }
+        }
+
+        when (viewType){
+            R.layout.item_detail_album -> viewHolder.elevateAlbumOnTouch()
+            R.layout.item_detail_song,
+            R.layout.item_detail_song_with_track,
+            R.layout.item_detail_song_with_drag_handle,
+            R.layout.item_detail_album_mini-> viewHolder.elevateSongOnTouch()
         }
     }
 

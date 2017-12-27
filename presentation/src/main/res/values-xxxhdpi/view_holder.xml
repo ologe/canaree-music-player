@@ -5,7 +5,6 @@
     <string name="song_info_explicit">E</string>
 
     <!-- item tab song -->
-    <dimen name="item_song_cover_margin_top">18dp</dimen>
     <dimen name="item_song_cover_margin_vertical">9dp</dimen>
     <dimen name="item_song_cover_size">55dp</dimen>
     <dimen name="item_song_title">15sp</dimen>
@@ -27,7 +26,7 @@
     <dimen name="item_detail_header_sec_text_size">16sp</dimen>
 
     <!--item detail most played-->
-    <dimen name="item_detail_most_played_cover_margin_top">12dp</dimen>
+    <dimen name="item_detail_most_played_cover_margin_vertical">6dp</dimen>
     <dimen name="item_detail_most_played_cover_size">50dp</dimen>
     <dimen name="item_detail_header_padding_top">36dp</dimen>
 

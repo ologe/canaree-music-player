@@ -40,6 +40,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 }
 
 dependencies {
@@ -99,7 +103,9 @@ dependencies {
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "org.jsoup:jsoup:$rootProject.jsoup"
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    testImplementation "junit:junit:$rootProject.junit"
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.runner"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espresso"
+
 }

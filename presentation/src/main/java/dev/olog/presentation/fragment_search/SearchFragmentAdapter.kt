@@ -14,6 +14,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
+import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import javax.inject.Inject
@@ -77,7 +78,10 @@ class SearchFragmentAdapter @Inject constructor(
                             .subscribe({}, Throwable::printStackTrace)
                 }
             }
-
+        }
+        when (viewType){
+            R.layout.item_search_song,
+            R.layout.item_search_recent -> viewHolder.elevateSongOnTouch()
         }
     }
 

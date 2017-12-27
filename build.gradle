@@ -66,6 +66,6 @@ ext {
     // test
     junit = '4.12'
     mockito = '2.10.0'
-    runner = '1.0.0'
+    runner = '1.0.1'
     espresso = '3.0.1'
 }
