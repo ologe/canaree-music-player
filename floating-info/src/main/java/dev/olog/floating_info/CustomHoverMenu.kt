@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import dev.olog.domain.interactor.floating_info.GetFloatingInfoRequestUseCase
+import dev.olog.floating_info.api.HoverMenu
 import dev.olog.floating_info.di.ServiceContext
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.unsubscribe
-import io.mattcarroll.hover.HoverMenu
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.dip
 import java.net.URLEncoder

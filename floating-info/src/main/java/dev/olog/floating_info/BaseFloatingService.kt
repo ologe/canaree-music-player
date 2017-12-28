@@ -5,9 +5,9 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ServiceLifecycleDispatcher
 import android.support.annotation.CallSuper
 import dagger.android.AndroidInjection
-import io.mattcarroll.hover.window.HoverMenuService
+import dev.olog.floating_info.api.window.HoverMenuService
 
-abstract class BaseService : HoverMenuService(), LifecycleOwner{
+abstract class BaseFloatingService : HoverMenuService(), LifecycleOwner{
 
     @Suppress("LeakingThis")
     private val dispatcher = ServiceLifecycleDispatcher(this)

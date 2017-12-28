@@ -3,9 +3,11 @@ package dev.olog.floating_info
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.webkit.*
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ProgressBar
-import io.mattcarroll.hover.Content
+import dev.olog.floating_info.api.Content
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
@@ -22,7 +24,6 @@ abstract class WebViewContent(
     private val webView = content.findViewById<WebView>(R.id.webView)
     private val progressBar = content.findViewById<ProgressBar>(R.id.progressBar)
     private val back = content.findViewById<View>(R.id.back)
-    private val noConnection = content.findViewById<View>(R.id.no_connection)
 
     init {
         webView.settings.javaScriptEnabled = true
@@ -30,18 +31,12 @@ abstract class WebViewContent(
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progressBar.progress = newProgress
                 progressBar.visibility = View.VISIBLE
-                noConnection.visibility = View.GONE
             }
         }
         webView.webViewClient = object : WebViewClient(){
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
-            }
-
-            override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                super.onReceivedError(view, request, error)
-                noConnection.visibility = View.VISIBLE
             }
         }
         back.setOnClickListener {

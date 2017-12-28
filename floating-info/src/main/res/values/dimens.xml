@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="hover_tab_size">72dp</dimen>
+    <dimen name="hover_tab_margin">8dp</dimen>
+    <dimen name="hover_navigator_corner_radius">7dp</dimen>
+    <dimen name="hover_exit_icon_size">40dp</dimen>
+    <dimen name="hover_exit_radius">75dp</dimen>
+
+</resources>

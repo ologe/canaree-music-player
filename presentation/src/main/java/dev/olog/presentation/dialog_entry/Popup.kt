@@ -27,7 +27,7 @@ class Popup @Inject constructor(
     fun create(context: Context, anchor: View, item: DisplayableItem,
                listener: PopupMenu.OnMenuItemClickListener){
 
-        val popup = PopupMenu(context, anchor, Gravity.CENTER)
+        val popup = PopupMenu(context, anchor, Gravity.BOTTOM or Gravity.END)
         popup.inflate(provideMenuRes(item.mediaId))
         popup.setOnMenuItemClickListener(listener)
         adjustMenu(context, item, popup.menu)

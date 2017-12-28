@@ -1,5 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="dev.olog.msc">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -17,8 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".App"
-        tools:replace="android:allowBackup">
+        android:name=".App">
 
         <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
             android:theme="@style/Splash"

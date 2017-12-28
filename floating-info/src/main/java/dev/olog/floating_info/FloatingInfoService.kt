@@ -6,11 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.view.ContextThemeWrapper
 import android.widget.ImageView
-import io.mattcarroll.hover.HoverMenu
-import io.mattcarroll.hover.HoverView
+import dev.olog.floating_info.api.HoverMenu
+import dev.olog.floating_info.api.HoverView
 import javax.inject.Inject
 
-class FloatingInfoService : BaseService() {
+class FloatingInfoService : BaseFloatingService() {
 
     @Inject lateinit var hoverMenu: CustomHoverMenu
     @Inject lateinit var notification : InfoNotification
@@ -35,7 +35,8 @@ class FloatingInfoService : BaseService() {
     }
 
     override fun getContextForHoverMenu(): Context {
-        return ContextThemeWrapper(this, R.style.AppTheme)
+//        return ContextThemeWrapper(this, R.style.AppTheme)
+        return ContextThemeWrapper(this, 0)
     }
 
     override fun onHoverMenuLaunched(intent: Intent, hoverView: HoverView) {
@@ -47,7 +48,7 @@ class FloatingInfoService : BaseService() {
 
     override fun onHoverMenuExitingByUserRequest() {
         super.onHoverMenuExitingByUserRequest()
-//        hoverView.removeOnExpandAndCollapseListener(onExpansionListener)
+        hoverView.removeOnExpandAndCollapseListener(onExpansionListener)
     }
 
     private val onExpansionListener = object : HoverView.Listener {
