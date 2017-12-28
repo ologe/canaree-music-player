@@ -22,7 +22,6 @@ class FloatingInfoService : BaseFloatingService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-
         if (intent != null && intent.action != null){
             when (intent.action){
                 ACTION_STOP -> {
@@ -31,6 +30,7 @@ class FloatingInfoService : BaseFloatingService() {
                 }
             }
         }
+
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -53,7 +53,6 @@ class FloatingInfoService : BaseFloatingService() {
 
     private val onExpansionListener = object : HoverView.Listener {
         override fun onCollapsing() {
-            println("onCollapsing")
             val lyrics = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
             val video = hoverMenu.getSection(HoverMenu.SectionId("video"))
             (video?.tabView as ImageView?)?.setImageResource(R.drawable.vd_bird_singing)
@@ -61,27 +60,22 @@ class FloatingInfoService : BaseFloatingService() {
         }
 
         override fun onExpanding() {
-            println("onExpanding")
             val lyrics = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
             val video = hoverMenu.getSection(HoverMenu.SectionId("video"))
             (lyrics?.tabView as ImageView?)?.setImageResource(R.drawable.vd_lyrics)
             (video?.tabView as ImageView?)?.setImageResource(R.drawable.vd_video)
         }
 
+        override fun onExpanded() {
+        }
+
         override fun onClosing() {
-            println("onClosing")
         }
 
         override fun onClosed() {
-            println("onClosed")
-        }
-
-        override fun onExpanded() {
-            println("onExpanded")
         }
 
         override fun onCollapsed() {
-            println("onCollapsed")
         }
     }
 

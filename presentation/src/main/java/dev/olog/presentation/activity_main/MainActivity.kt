@@ -12,8 +12,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
-import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
-import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -32,6 +30,7 @@ import javax.inject.Inject
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
+    @Suppress("unused") // needed to maintain service alive on rotation changes
     @Inject lateinit var musicServiceController : MusicServiceController
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
     private val innerPanelSlideListener by lazy(LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
@@ -108,12 +107,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun onBackPressed() {
-        val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         val miniQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
-        val searchFragment = findFragmentByTag<SearchFragment>(SearchFragment.TAG)
         when {
-            searchFragment != null -> searchFragment.onBackPressed()
-            playingQueue != null -> playingQueue.onBackPressed()
             miniQueue?.cannotScrollUp() ?: false -> {
                 miniQueue?.smoothScrollToTop()
             }

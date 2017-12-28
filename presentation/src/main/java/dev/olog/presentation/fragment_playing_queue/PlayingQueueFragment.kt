@@ -6,7 +6,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.AnimationUtils
+import dev.olog.presentation.utils.animation.CircularReveal
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
@@ -17,12 +17,16 @@ class PlayingQueueFragment : BaseFragment() {
 
     companion object {
         const val TAG = "PlayingQueueFragment"
-        private const val ANIMATION_DONE = "$TAG.ANIMATION_DONE"
     }
 
     @Inject lateinit var adapter: PlayingQueueFragmentAdapter
     private lateinit var layoutManager : LinearLayoutManager
     @Inject lateinit var viewModel : PlayingQueueFragmentViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = CircularReveal(activity!!.playingQueue)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -39,15 +43,6 @@ class PlayingQueueFragment : BaseFragment() {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
-
-        if (savedInstanceState == null){
-            view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                override fun onLayoutChange(v: View?, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
-                    v?.removeOnLayoutChangeListener(this)
-                    AnimationUtils.startCircularReveal(view.root, activity!!.playingQueue)
-                }
-            })
-        }
     }
 
     override fun onResume() {
@@ -60,16 +55,6 @@ class PlayingQueueFragment : BaseFragment() {
         view!!.back.setOnClickListener(null)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(ANIMATION_DONE, true)
-    }
-
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
-
-    fun onBackPressed(){
-        AnimationUtils.stopCircularReveal(view!!.root, activity!!.playingQueue,
-                activity!!.supportFragmentManager)
-    }
 
 }

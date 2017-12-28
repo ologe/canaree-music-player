@@ -11,9 +11,7 @@
     <dev.olog.floating_info.api.TabSelectorView
         android:id="@+id/tabselector"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp"/>
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/view_content_container"

@@ -23,18 +23,6 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/progress_bar_size"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:translationY="@dimen/progress_bar_translation"
-            android:progressTint="#FF1744"
-            tools:progress="40"
-            tools:max="100"
-            android:max="100"
-            android:layout_gravity="bottom"/>
-
         <TextView
             android:id="@+id/back"
             android:text="@string/back"
@@ -47,6 +35,18 @@
             android:layout_gravity="bottom"
             android:padding="12dp"
             android:elevation="4dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressTint="#FF1744"
+            tools:progress="40"
+            tools:max="100"
+            android:max="100"
+            android:layout_gravity="bottom"
+            android:elevation="4dp" />
 
     </android.support.v7.widget.CardView>
 

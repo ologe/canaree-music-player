@@ -8,8 +8,8 @@ import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.AnimationUtils
 import dev.olog.presentation.utils.ImeUtils
+import dev.olog.presentation.utils.animation.CircularReveal
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
@@ -22,7 +22,6 @@ class SearchFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SearchFragment"
-        const val ANIMATION_DONE = "$TAG.ANIMATION_DONE"
 
         fun newInstance(): SearchFragment = SearchFragment()
     }
@@ -33,6 +32,11 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var viewModel: SearchFragmentViewModel
     @Inject lateinit var recycledViewPool: RecyclerView.RecycledViewPool
     private lateinit var layoutManager: LinearLayoutManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = CircularReveal(activity!!.search)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -68,15 +72,6 @@ class SearchFragment : BaseFragment() {
                 .filter { TextUtils.isEmpty(it) || it.length >= 2 }
                 .asLiveData()
                 .subscribe(this, viewModel::setNewQuery)
-
-        if (savedInstanceState == null){
-            view.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                override fun onLayoutChange(v: View?, p1: Int, p2: Int, p3: Int, p4: Int, p5: Int, p6: Int, p7: Int, p8: Int) {
-                    v?.removeOnLayoutChangeListener(this)
-                    AnimationUtils.startCircularReveal(view.root, activity!!.search)
-                }
-            })
-        }
     }
 
     override fun onResume() {
@@ -107,16 +102,6 @@ class SearchFragment : BaseFragment() {
         view!!.editText.clearFocus()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(ANIMATION_DONE, true)
-    }
-
     override fun provideLayoutId(): Int = R.layout.fragment_search
-
-    fun onBackPressed(){
-        AnimationUtils.stopCircularReveal(view!!, activity!!.search,
-                activity!!.supportFragmentManager)
-    }
 
 }

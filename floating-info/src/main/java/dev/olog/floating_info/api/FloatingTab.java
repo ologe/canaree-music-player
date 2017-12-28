@@ -18,7 +18,6 @@ package dev.olog.floating_info.api;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -57,12 +56,8 @@ class FloatingTab extends FrameLayout {
     private Dock mDock;
     private final Set<OnPositionChangeListener> mOnPositionChangeListeners = new CopyOnWriteArraySet<>();
 
-    private final OnLayoutChangeListener mOnLayoutChangeListener = new OnLayoutChangeListener() {
-        @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-            notifyListenersOfPositionChange();
-        }
-    };
+    private final OnLayoutChangeListener mOnLayoutChangeListener = (v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom)
+            -> notifyListenersOfPositionChange();
 
     public FloatingTab(@NonNull Context context, @NonNull String tabId) {
         super(context);
@@ -254,12 +249,7 @@ class FloatingTab extends FrameLayout {
             public void onAnimationRepeat(Animator animation) { }
         });
 
-        xAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                notifyListenersOfPositionChange();
-            }
-        });
+        xAnimation.addUpdateListener(animation -> notifyListenersOfPositionChange());
     }
 
     public void dockImmediately() {

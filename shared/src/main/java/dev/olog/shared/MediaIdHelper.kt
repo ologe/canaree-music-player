@@ -95,6 +95,10 @@ object MediaIdHelper {
         return mediaId.substring(indexOfSongId + 1)
     }
 
+    fun isLeaf(mediaId: String): Boolean{
+        return mediaId.indexOf(LEAF_SEPARATOR) != -1
+    }
+
     fun mapCategoryToSource(mediaId: String): Int {
         val category = extractCategory(mediaId)
         when (category) {

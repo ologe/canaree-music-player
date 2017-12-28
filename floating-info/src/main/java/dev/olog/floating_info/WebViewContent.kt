@@ -12,6 +12,7 @@ import kotlin.properties.Delegates
 
 abstract class WebViewContent(
         context: Context
+
 ) : Content {
 
     var item by Delegates.observable("", { _, _, new ->
@@ -32,12 +33,13 @@ abstract class WebViewContent(
                 progressBar.progress = newProgress
                 progressBar.visibility = View.VISIBLE
             }
+
         }
         webView.webViewClient = object : WebViewClient(){
             override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
             }
+
         }
         back.setOnClickListener {
             webView.goBack()

@@ -80,8 +80,6 @@ class NavigatorImpl @Inject constructor(
     override fun toSearchFragment() {
         if (allowed()){
             activity.supportFragmentManager.transaction {
-                setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.viewPagerLayout,
                         SearchFragment.newInstance(),
                         SearchFragment.TAG)

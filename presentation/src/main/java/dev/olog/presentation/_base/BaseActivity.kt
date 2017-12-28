@@ -29,7 +29,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
 
     protected open fun handleIntent(intent: Intent){
-
     }
 
 }
