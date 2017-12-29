@@ -19,10 +19,6 @@ import io.reactivex.schedulers.Schedulers
 @Dao
 abstract class RecentSearchesDao {
 
-    companion object {
-
-    }
-
     @Query("SELECT * " +
             "from recent_searches " +
             "ORDER BY insertionTime DESC "+

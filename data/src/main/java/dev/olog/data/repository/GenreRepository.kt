@@ -10,7 +10,6 @@ import dev.olog.data.entity.GenreMostPlayedEntity
 import dev.olog.data.mapper.extractId
 import dev.olog.data.mapper.toGenre
 import dev.olog.data.utils.FileUtils
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Genre
 import dev.olog.domain.entity.Song
@@ -19,6 +18,7 @@ import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.CompletableSource

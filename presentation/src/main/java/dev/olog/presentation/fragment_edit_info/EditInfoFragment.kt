@@ -12,10 +12,11 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared_android.Constants
+import dev.olog.shared_android.CoverUtils
 import kotlinx.android.synthetic.main.fragment_edit_info.*
 import kotlinx.android.synthetic.main.fragment_edit_info.view.*
 import org.jetbrains.anko.toast
@@ -92,11 +93,11 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
     private fun setTextViews(view: View, song: UneditedSong){
         view.first.append(song.title)
         val artist = song.artist
-        if (artist != "<unknown>"){
+        if (artist != Constants.UNKNOWN){
             view.second.append(artist)
         }
         val album = song.album
-        if (album != "<unknown>"){
+        if (album != Constants.UNKNOWN){
             view.third.append(album)
         }
     }

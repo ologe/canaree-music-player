@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.TextUtils.isEmpty
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.Constants
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -88,7 +89,7 @@ class AutoTag @Inject constructor(
         return editInfoFragmentPresenter.getSong()
                 .map {
                     var result = it.title
-                    if (it.artist != "<unknown>" ){
+                    if (it.artist != Constants.UNKNOWN){
                        result += it.artist
                     }
                     result

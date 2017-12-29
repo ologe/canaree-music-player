@@ -3,7 +3,6 @@ package dev.olog.shared.constants
 object MusicConstants {
 
     private const val TAG = "MusicConstants."
-    const val ACTION_PLAY_FIRST = TAG + "action.play_first"
     const val ACTION_PLAY_SHUFFLE = TAG + "action.play_shuffle"
 
     const val BUNDLE_RECENTLY_PLAYED = "RECENTLY_PLAYED"

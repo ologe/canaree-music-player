@@ -14,8 +14,8 @@ import android.support.v7.app.AppCompatActivity
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.extension.makeDialog
-import dev.olog.presentation.utils.isMarshmallow
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared_android.isMarshmallow
 import io.reactivex.Single
 import org.jetbrains.anko.toast
 import javax.inject.Inject

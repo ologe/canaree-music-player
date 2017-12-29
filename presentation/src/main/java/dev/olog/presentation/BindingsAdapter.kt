@@ -8,9 +8,9 @@ import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.fragment_special_thanks.SpecialThanksModel
-import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared_android.CoverUtils
 import java.io.File
 
 object BindingsAdapter {

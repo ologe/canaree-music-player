@@ -5,12 +5,11 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.data.DataConstants
-import dev.olog.data.DataConstants.UNKNOWN
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.domain.entity.Song
+import dev.olog.shared_android.Constants
 import java.io.File
 
 private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
@@ -48,18 +47,18 @@ private fun extractFolder(path: String): String {
 }
 
 private fun adjustAlbum(album: String, folder: String): String {
-    val hasUnknownAlbum = album == DataConstants.UNKNOWN || album == folder
+    val hasUnknownAlbum = album == Constants.UNKNOWN || album == folder
     return if (hasUnknownAlbum) {
-        DataConstants.UNKNOWN_ALBUM
+        Constants.UNKNOWN_ALBUM
     } else {
         album
     }
 }
 
 private fun adjustArtist(artist: String): String {
-    val hasUnknownArtist = artist == UNKNOWN
+    val hasUnknownArtist = artist == Constants.UNKNOWN
     return if (hasUnknownArtist) {
-        DataConstants.UNKNOWN_ARTIST
+        Constants.UNKNOWN_ARTIST
     } else {
         artist
     }

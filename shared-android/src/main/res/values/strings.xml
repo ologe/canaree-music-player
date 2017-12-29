@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">shared-android</string>
+
+    <plurals name="plurals_hours">
+        <item quantity="one">%d heure</item>
+        <item quantity="other">%d heures</item>
+    </plurals>
+
+    <plurals name="plurals_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <string name="unknown_album">Unknown Album</string>
+    <string name="unknown_artist">Unknown Artist</string>
+
+    <string-array name="auto_playlists">
+        <item>Last added</item>
+        <item>Favorites</item>
+        <item>History</item>
+    </string-array>
+
+</resources>

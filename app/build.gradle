@@ -67,6 +67,7 @@ dependencies {
     implementation project(':shared')
     implementation project(':data')
     implementation project(':floating-info')
+    implementation project(':shared-android')
 
     // data binding
     kapt "com.android.databinding:compiler:$gradle_plugin"

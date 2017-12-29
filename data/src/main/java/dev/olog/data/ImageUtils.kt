@@ -1,8 +1,8 @@
 package dev.olog.data
 
 import android.graphics.*
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.shared.shuffle
+import dev.olog.shared_android.assertBackgroundThread
 
 object ImageUtils {
 

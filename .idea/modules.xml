@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/music-service/music-service.iml" filepath="$PROJECT_DIR$/music-service/music-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/presentation/presentation.iml" filepath="$PROJECT_DIR$/presentation/presentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/shared/shared.iml" filepath="$PROJECT_DIR$/shared/shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shared-android/shared-android.iml" filepath="$PROJECT_DIR$/shared-android/shared-android.iml" />
     </modules>
   </component>
 </project>

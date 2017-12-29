@@ -2,7 +2,6 @@ package dev.olog.data.repository
 
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
-import dev.olog.data.DataConstants
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.mapper.toAlbum
 import dev.olog.domain.entity.Album
@@ -10,6 +9,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.groupMap
+import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -42,7 +42,7 @@ class AlbumRepository @Inject constructor(
             .toFlowable(BackpressureStrategy.LATEST)
             .flatMap { songGateway.getAll() }
             .map { songList -> songList.asSequence()
-                    .filter { it.album != DataConstants.UNKNOWN_ALBUM }
+                    .filter { it.album != Constants.UNKNOWN_ALBUM }
                     .distinctBy { it.albumId }
                     .map { song ->
                         val songs = songList.count { it.albumId == song.albumId }

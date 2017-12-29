@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="warm_grey">#4E5665</color>
-    <color name="light_grey">#AAA</color>
-    <color name="dark_grey">#262626</color>
-    <color name="grey600">#757575</color>
-    <color name="accent">#FF1744</color>
-
     <color name="colorPrimary">@color/dark_grey</color>
     <color name="colorPrimaryDark">@color/status_bar</color>
     <color name="colorAccent">@color/dark_grey</color>
@@ -25,7 +19,7 @@
     <color name="button_secondary_tint">@color/button_primary_tint</color>
 
     <!--<color name="item_selected">#FF1744</color>-->
-    <color name="item_selected">#2979FF</color>
+    <color name="item_selected">@color/accent</color>
 
     <color name="progress_bar_tint">@color/dark_grey</color>
     <color name="progress_bar_secondary_tint">@color/grey600</color>

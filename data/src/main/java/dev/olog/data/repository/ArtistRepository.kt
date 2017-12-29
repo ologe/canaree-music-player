@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite2.BriteContentResolver
-import dev.olog.data.DataConstants
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.utils.FileUtils
@@ -17,6 +16,7 @@ import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.groupMap
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -55,7 +55,7 @@ class ArtistRepository @Inject constructor(
             .toFlowable(BackpressureStrategy.LATEST)
             .flatMap { songGateway.getAll() }
             .map { songList -> songList.asSequence()
-                        .filter { it.artist != DataConstants.UNKNOWN_ARTIST }
+                        .filter { it.artist != Constants.UNKNOWN_ARTIST }
                         .distinctBy { it.artistId }
                         .map { song ->
                             val albums = songList.asSequence()

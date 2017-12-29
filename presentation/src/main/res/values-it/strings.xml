@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="unknown_artist">Artista Sconosciuto</string>
-    <string name="unknown_album">Album Sconosciuto</string>
-
     <string name="shuffle_all">Riproduzione Casuale</string>
 
     <string name="folder">Cartella</string>

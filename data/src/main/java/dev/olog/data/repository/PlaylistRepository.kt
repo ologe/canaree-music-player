@@ -13,7 +13,6 @@ import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity
 import dev.olog.data.mapper.toPlaylist
 import dev.olog.data.utils.FileUtils
-import dev.olog.data.utils.assertBackgroundThread
 import dev.olog.data.utils.getLong
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.entity.Song
@@ -22,8 +21,9 @@ import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.constants.DataConstants
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.Constants
+import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
@@ -71,9 +71,9 @@ class PlaylistRepository @Inject constructor(
     private val autoPlaylistTitle = resources.getStringArray(R.array.auto_playlists)
 
     private fun autoPlaylist() = listOf(
-            createAutoPlaylist(DataConstants.LAST_ADDED_ID, autoPlaylistTitle[0]),
-            createAutoPlaylist(DataConstants.FAVORITE_LIST_ID, autoPlaylistTitle[1]),
-            createAutoPlaylist(DataConstants.HISTORY_LIST_ID, autoPlaylistTitle[2])
+            createAutoPlaylist(Constants.LAST_ADDED_ID, autoPlaylistTitle[0]),
+            createAutoPlaylist(Constants.FAVORITE_LIST_ID, autoPlaylistTitle[1]),
+            createAutoPlaylist(Constants.HISTORY_LIST_ID, autoPlaylistTitle[2])
     )
 
     private fun createAutoPlaylist(id: Long, title: String) : Playlist {
@@ -154,7 +154,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Flowable<Playlist> {
-        val result = if (DataConstants.autoPlaylists.contains(param)){
+        val result = if (Constants.autoPlaylists.contains(param)){
             getAllAutoPlaylists()
         } else getAll()
 
@@ -167,9 +167,9 @@ class PlaylistRepository @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
         return when (playlistId){
-            DataConstants.LAST_ADDED_ID -> getLastAddedSongs()
-            DataConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
-            DataConstants.HISTORY_LIST_ID -> historyDao.getAllAsSongs(songGateway.getAll().firstOrError())
+            Constants.LAST_ADDED_ID -> getLastAddedSongs()
+            Constants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
+            Constants.HISTORY_LIST_ID -> historyDao.getAllAsSongs(songGateway.getAll().firstOrError())
             else -> getPlaylistSongs(playlistId)
         }
     }
@@ -215,7 +215,7 @@ class PlaylistRepository @Inject constructor(
 
     override fun getMostPlayed(param: String): Flowable<List<Song>> {
         val playlistId = MediaIdHelper.extractCategoryValue(param).toLong()
-        if (DataConstants.autoPlaylists.contains(playlistId)){
+        if (Constants.autoPlaylists.contains(playlistId)){
             return Flowable.just(listOf())
         }
         return mostPlayedDao.getAll(playlistId, songGateway.getAll())

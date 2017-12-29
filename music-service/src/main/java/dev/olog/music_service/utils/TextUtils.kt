@@ -1,6 +1,6 @@
 package dev.olog.music_service.utils
 
-import dev.olog.shared.TimeUtils
+import dev.olog.shared_android.TimeUtils
 
 object TextUtils {
 

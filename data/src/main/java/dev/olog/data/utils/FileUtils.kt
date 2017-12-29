@@ -7,6 +7,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
+import dev.olog.shared_android.assertBackgroundThread
 import java.io.File
 import java.io.FileOutputStream
 

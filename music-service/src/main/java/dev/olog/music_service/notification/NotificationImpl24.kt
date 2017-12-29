@@ -11,9 +11,9 @@ import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.ActivityClass
-import dev.olog.music_service.utils.ImageUtils
 import dev.olog.music_service.utils.TextUtils
-import dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED
+import dev.olog.shared_android.ImageUtils
+import dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)

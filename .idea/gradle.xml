@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/music-service" />
             <option value="$PROJECT_DIR$/presentation" />
             <option value="$PROJECT_DIR$/shared" />
+            <option value="$PROJECT_DIR$/shared-android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

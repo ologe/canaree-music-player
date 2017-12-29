@@ -8,7 +8,6 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
-import android.graphics.Color
 import android.support.v4.app.NotificationCompat
 import dev.olog.domain.interactor.floating_info.GetFloatingInfoRequestUseCase
 import dev.olog.floating_info.di.ServiceLifecycle
@@ -52,9 +51,9 @@ class InfoNotification @Inject constructor(
         return builder
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setSmallIcon(R.drawable.vd_notification_icon)
+                .setSmallIcon(R.drawable.info_notification)
                 .setContentTitle(notificationTitle)
-                .setColor(Color.BLACK)
+//                .setLargeIcon()
                 .setContentText("")
                 .setContentIntent(createContentIntent())
                 .addAction(0, "Stop", createStopPendingIntent())

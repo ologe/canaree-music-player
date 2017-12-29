@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="channel_id_notification">Lecture multimédia</string>
-    <string name="channel_id_notification_description">Commandes de lecture multimédia</string>
-
-    <string name="unknown_artist">Artiste Inconnu</string>
-    <string name="unknown_album">Album Inconnu</string>
-
-</resources>

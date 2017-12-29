@@ -5,16 +5,13 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.DurationModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.model.toPlayerMetadata
 import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
-import dev.olog.presentation.utils.TextUtils.getReadableSongLength
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.TextUtils
 import dev.olog.shared.constants.MetadataConstants
 import io.reactivex.functions.Predicate
 
@@ -56,12 +53,12 @@ class PlayerFragmentViewModel(
 //                    val newId = model.id.substring(indexOf + 1).toInt()
 //
 //                    val drawable = TransitionDrawable(arrayOf(
-//                            CoverUtils.getGradient(application, oldId),
-//                            CoverUtils.getGradient(application, newId)
+//                            CoverUtils.getGradientForNotification(application, oldId),
+//                            CoverUtils.getGradientForNotification(application, newId)
 //                    ))
 //                    CoverModel(model.uri, drawable)
 //                } else {
-//                    CoverModel(model.uri, CoverUtils.getGradient(application, model.id.toInt()))
+//                    CoverModel(model.uri, CoverUtils.getGradientForNotification(application, model.id.toInt()))
 //                }
 //
 //            }

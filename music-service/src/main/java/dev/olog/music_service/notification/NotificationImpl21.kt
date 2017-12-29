@@ -21,8 +21,8 @@ import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.music_service.utils.ImageUtils
 import dev.olog.shared.constants.FloatingInfoConstants
+import dev.olog.shared_android.ImageUtils
 import javax.inject.Inject
 
 @PerService
@@ -60,7 +60,7 @@ open class NotificationImpl21 @Inject constructor(
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
-                .addAction(R.drawable.vd_info_notification_icon, "floating info", buildFloatingInfoPendingIntent())
+                .addAction(R.drawable.info_notification, "floating info", buildFloatingInfoPendingIntent())
                 .addAction(R.drawable.vd_not_favorite, "favorite", buildContentIntent())
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))

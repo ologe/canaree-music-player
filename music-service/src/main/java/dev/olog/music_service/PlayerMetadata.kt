@@ -13,10 +13,10 @@ import dev.olog.domain.interactor.favorite.RemoveSongFromFavoriteUseCase
 import dev.olog.domain.interactor.music_service.InsertHistorySongUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.music_service.utils.ImageUtils
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.MetadataConstants
+import dev.olog.shared_android.ImageUtils
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

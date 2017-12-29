@@ -2,9 +2,6 @@
     <string name="app_name" translatable="false">presentation</string>
     <string name="app_real_name" translatable="false">Msc</string>
 
-    <string name="unknown_artist">Unknown Artist</string>
-    <string name="unknown_album">Unknown Album</string>
-
     <string name="shuffle_all">Shuffle All</string>
 
     <string name="folder">Folder</string>

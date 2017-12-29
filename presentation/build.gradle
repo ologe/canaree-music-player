@@ -21,7 +21,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -55,6 +55,7 @@ dependencies {
     // modules
     implementation project(':domain')
     implementation project(':shared')
+    implementation project(':shared-android')
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

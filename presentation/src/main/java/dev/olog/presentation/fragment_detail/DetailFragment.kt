@@ -18,12 +18,12 @@ import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
-import dev.olog.presentation.images.CoverUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.*
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared_android.CoverUtils
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
 import java.io.File
