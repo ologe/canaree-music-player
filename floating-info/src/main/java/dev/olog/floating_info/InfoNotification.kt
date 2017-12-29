@@ -19,7 +19,6 @@ import javax.inject.Inject
 class InfoNotification @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
-        private val activityClass : ActivityClass,
         private val notificationManager: NotificationManager,
         getFloatingInfoRequestUseCase: GetFloatingInfoRequestUseCase
 
@@ -55,16 +54,19 @@ class InfoNotification @Inject constructor(
                 .setSmallIcon(R.drawable.vd_bird_singing)
                 .setContentTitle(notificationTitle)
                 .setLargeIcon(ImageUtils.getBitmapFromDrawable(service, R.drawable.info_notification))
-                .setContentText("")
+                .setContentText("Tap to close") // todo string resource
+                .setColor(0xff1f86ef.toInt())
                 .setContentIntent(createContentIntent())
-                .addAction(0, "Stop", createStopPendingIntent())
+//                .addAction(0, "Stop", createStopPendingIntent())
                 .build()
     }
 
     private fun createContentIntent() : PendingIntent {
-        return PendingIntent.getActivity(service, 0,
-                Intent(service, activityClass.get()),
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        val intent = Intent(service, FloatingInfoService::class.java)
+        intent.action = FloatingInfoService.ACTION_STOP
+
+        return PendingIntent.getService(service, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun createStopPendingIntent() : PendingIntent{

@@ -62,7 +62,7 @@ open class NotificationImpl21 @Inject constructor(
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
-                .addAction(R.drawable.info_notification, "floating info", buildFloatingInfoPendingIntent())
+                .addAction(R.drawable.vd_bird_singing, "floating info", buildFloatingInfoPendingIntent())
                 .addAction(R.drawable.vd_not_favorite, "favorite", buildUpdateFavoriteIntent())
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
