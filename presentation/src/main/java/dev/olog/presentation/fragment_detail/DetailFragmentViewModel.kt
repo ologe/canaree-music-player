@@ -65,11 +65,11 @@ class DetailFragmentViewModel(
 
     val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
             item[category]!!,
-            data[MOST_PLAYED]!!,
-            data[RECENTLY_ADDED]!!,
-            data[category]!!,
-            data[RELATED_ARTISTS]!!,
-            data[SONGS]!!,
+            data[MOST_PLAYED]!!.startWithArray(mutableListOf()),
+            data[RECENTLY_ADDED]!!.startWithArray(mutableListOf()),
+            data[category]!!.startWithArray(mutableListOf()),
+            data[RELATED_ARTISTS]!!.startWithArray(mutableListOf()),
+            data[SONGS]!!.startWithArray(mutableListOf()),
             getVisibleTabsUseCase.execute(),
             { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
@@ -122,9 +122,11 @@ class DetailFragmentViewModel(
     }
 
     private fun handleArtistsInHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        val (_, _, title) = list[0]
-        if (title == "" || !isEnabled){
-            list.clear()
+        if (list.isNotEmpty()){
+            val (_, _, title) = list[0]
+            if (title == "" || !isEnabled){
+                list.clear()
+            }
         }
         return list
     }

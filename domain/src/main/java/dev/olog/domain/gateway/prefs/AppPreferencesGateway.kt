@@ -13,6 +13,9 @@ interface AppPreferencesGateway : Sorting {
     fun getVisibleTabs(): BooleanArray
     fun setVisibleTabs(items: List<Boolean>)
 
+    fun getViewPagerLastVisitedPage(): Int
+    fun setViewPagerLastVisitedPage(lastPage: Int)
+
 }
 
 interface Sorting {

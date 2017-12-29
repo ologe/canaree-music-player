@@ -24,6 +24,8 @@ class AppPreferencesImpl @Inject constructor(
         private const val TAG = "AppPreferencesDataStoreImpl"
         private const val FIRST_ACCESS = TAG + ".FIRST_ACCESS"
 
+        private const val VIEW_PAGER_LAST_PAGE = TAG + ".VIEW_PAGER_LAST_PAGE"
+
         private const val DETAIL_SORT_FOLDER_ORDER = TAG + ".DETAIL_SORT_FOLDER_ORDER"
         private const val DETAIL_SORT_PLAYLIST_ORDER = TAG + ".DETAIL_SORT_PLAYLIST_ORDER"
         private const val DETAIL_SORT_ALBUM_ORDER = TAG + ".DETAIL_SORT_ALBUM_ORDER"
@@ -44,6 +46,14 @@ class AppPreferencesImpl @Inject constructor(
         }
 
         return isFirstAccess
+    }
+
+    override fun getViewPagerLastVisitedPage(): Int {
+        return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
+    }
+
+    override fun setViewPagerLastVisitedPage(lastPage: Int) {
+        preferences.edit { putInt(VIEW_PAGER_LAST_PAGE, lastPage) }
     }
 
     override fun getFolderSortOrder(): Flowable<SortType> {

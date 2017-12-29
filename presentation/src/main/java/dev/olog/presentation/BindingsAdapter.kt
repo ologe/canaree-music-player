@@ -16,8 +16,8 @@ import java.io.File
 object BindingsAdapter {
 
     const val OVERRIDE_SMALL = 150
-    const val OVERRIDE_MID = 400
-    const val OVERRIDE_BIG = 750
+    const val OVERRIDE_MID = 300
+    const val OVERRIDE_BIG = 500
 
     private fun loadImageImpl(view: ImageView, item: DisplayableItem,
                               override: Int, priority: Priority = Priority.HIGH, asPlaceholder: Boolean = false){

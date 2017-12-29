@@ -4,14 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.view.ViewPager
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dagger.Lazy
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
+import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -35,7 +36,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
     private val innerPanelSlideListener by lazy(LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
 
-    @Inject lateinit var presenter: Lazy<MainActivityPresenter>
+    @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var navigator: Navigator
 
@@ -49,6 +50,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
+        viewPager.currentItem = presenter.getViewPagerLastPage()
 
         title = titleWrapper.findViewById(R.id.title)
         artist = artistWrapper.findViewById(R.id.artist)
@@ -72,7 +74,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         if (intent.action == FloatingInfoConstants.ACTION_START_SERVICE){
             musicServiceBinder.getMediaControllerLiveData().value?.let {
                 val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
-                presenter.get().startFloatingService(this, title)
+                presenter.startFloatingService(this, title)
             }
         }
     }
@@ -82,7 +84,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment() }
         settings.setOnClickListener { navigator.toMainPopup(it) }
-
+        viewPager.addOnPageChangeListener(onAdapterPageChangeListener)
     }
 
     override fun onPause() {
@@ -90,6 +92,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
         search.setOnClickListener(null)
         settings.setOnClickListener(null)
+        viewPager.removeOnPageChangeListener(onAdapterPageChangeListener)
     }
 
     override fun onDestroy() {
@@ -100,7 +103,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode){
             FloatingInfoServiceHelper.REQUEST_CODE_HOVER_PERMISSION -> {
-                presenter.get().startFloatingService(this, null)
+                presenter.startFloatingService(this, null)
             }
             else -> super.onActivityResult(requestCode, resultCode, data)
         }
@@ -108,7 +111,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onBackPressed() {
         val miniQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
+        val playingQueue = findFragmentByTag<MiniQueueFragment>(PlayingQueueFragment.TAG)
         when {
+            playingQueue != null -> super.onBackPressed()
             miniQueue?.cannotScrollUp() ?: false -> {
                 miniQueue?.smoothScrollToTop()
             }
@@ -123,4 +128,16 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
+
+    private val onAdapterPageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrollStateChanged(state: Int) {
+        }
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        }
+
+        override fun onPageSelected(position: Int) {
+            presenter.setViewPagerLastPage(position)
+        }
+    }
 }
