@@ -27,6 +27,10 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+private const val METADATA_DEBOUNCE = 250L
+private const val NOTIFICATION_DEBOUNCE = 150L
+private const val SECONDS_TO_DESTROY = 30
+
 @PerService
 class MusicNotificationManager @Inject constructor(
         private val service: Service,
@@ -34,16 +38,9 @@ class MusicNotificationManager @Inject constructor(
         private val audioManager: Lazy<AudioManager>,
         private val notification: INotification,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-        private val observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase
+        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase
 
 ) : DefaultLifecycleObserver {
-
-    companion object {
-        private val METADATA_DEBOUNCE = 250L
-        private val NOTIFICATION_DEBOUNCE = 150L
-
-        private val SECONDS_TO_DESTROY = 30
-    }
 
     private var isForeground: Boolean = false
 

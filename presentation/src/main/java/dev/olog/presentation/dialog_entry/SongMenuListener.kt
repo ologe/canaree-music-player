@@ -14,10 +14,10 @@ import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.service_floating_info.FloatingInfoServiceBinder
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -27,7 +27,7 @@ class SongMenuListener @Inject constructor(
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
         private val getSongUseCase: GetSongUseCase,
-        private val floatingInfoServiceBinder: FloatingInfoServiceBinder,
+        private val floatingInfoServiceBinder: FloatingInfoServiceClass,
         private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase

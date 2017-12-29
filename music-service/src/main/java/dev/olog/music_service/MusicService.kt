@@ -7,8 +7,8 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
-import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.shared.MediaIdHelper
+import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
 class MusicService : BaseMusicService() {
@@ -17,7 +17,7 @@ class MusicService : BaseMusicService() {
         const val TAG = "MusicService"
     }
 
-    @Inject lateinit var activityClass : ActivityClass
+    @Inject lateinit var activityClass : MainActivityClass
     @Inject lateinit var mediaSession: MediaSessionCompat
     @Inject lateinit var callback: MediaSessionCallback
 

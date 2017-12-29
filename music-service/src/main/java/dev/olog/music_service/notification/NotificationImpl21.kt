@@ -19,18 +19,18 @@ import dagger.Lazy
 import dev.olog.music_service.MusicService
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
-import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.ImageUtils
+import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
 @PerService
 open class NotificationImpl21 @Inject constructor(
         protected val service: Service,
-        private val activityClass: ActivityClass,
+        private val activityClass: MainActivityClass,
         private val token: MediaSessionCompat.Token,
         protected val notificationManager: Lazy<NotificationManager>
 

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.support.v4.content.ContextCompat
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.ProcessLifecycle
+import dev.olog.shared_android.interfaces.MusicServiceClass
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 class MusicServiceController @Inject constructor(
         @ApplicationContext private val context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
-        private val serviceClass: MusicServiceBinder
+        private val serviceClass: MusicServiceClass
 
 ) : DefaultLifecycleObserver {
 

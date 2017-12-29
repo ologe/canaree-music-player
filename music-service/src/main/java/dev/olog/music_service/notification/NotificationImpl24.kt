@@ -11,17 +11,17 @@ import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
-import dev.olog.music_service.interfaces.ActivityClass
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED
+import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
 @PerService
 open class NotificationImpl24 @Inject constructor(
         service: Service,
-        activityClass: ActivityClass,
+        activityClass: MainActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
 

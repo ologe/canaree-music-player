@@ -10,14 +10,14 @@ import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
-import dev.olog.music_service.interfaces.ActivityClass
+import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 @PerService
 class NotificationImpl26 @Inject constructor(
         service: Service,
-        activityClass: ActivityClass,
+        activityClass: MainActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
 

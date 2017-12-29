@@ -30,11 +30,10 @@ import javax.inject.Singleton
 
         // music service
         MusicServiceInjector::class,
-        MusicServiceBinderModule::class,
 
         // floating info service
         FloatingInfoServiceInjector::class,
-        FloatingInfoBinderModule::class
+        SharedClassModule::class
 ))
 @Singleton
 interface AppComponent: AndroidInjector<App> {
