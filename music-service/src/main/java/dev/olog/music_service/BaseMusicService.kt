@@ -10,8 +10,10 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.util.Log
 import dagger.android.AndroidInjection
+import dev.olog.domain.interactor.favorite.ToggleLastFavoriteUseCase
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.ServiceLifecycleController
+import dev.olog.shared.constants.MusicConstants
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
@@ -26,6 +28,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     @Inject lateinit var player: Player
+    @Inject lateinit var toggleLastFavoriteUseCase: ToggleLastFavoriteUseCase
 
     private var serviceStarted = false
     private var appIsAlive = false
@@ -71,6 +74,9 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
                 } else {
                     Log.i("music service", "app destroyed, keeping service alive")
                 }
+            }
+            MusicConstants.ACTION_TOGGLE_FAVORITE -> {
+                toggleLastFavoriteUseCase.execute()
             }
             else -> handleMediaButton(intent)
         }

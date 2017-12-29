@@ -10,6 +10,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
+import dev.olog.domain.interactor.favorite.ToggleFavoriteUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.Player
@@ -30,7 +31,8 @@ class MediaSessionCallback @Inject constructor(
         private val shuffleMode: ShuffleMode,
         private val mediaButton: MediaButton,
         private val playerState: PlayerState,
-        private val playerMetadata: PlayerMetadata
+        private val playerMetadata: PlayerMetadata,
+        private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
 ): MediaSessionCompat.Callback(), DefaultLifecycleObserver {
 
@@ -106,7 +108,7 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
         val songId = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID).toLong()
-        playerMetadata.toggleFavorite(songId)
+        toggleFavoriteUseCase.execute(songId)
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {

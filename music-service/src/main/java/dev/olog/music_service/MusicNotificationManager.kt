@@ -9,6 +9,9 @@ import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import dagger.Lazy
+import dev.olog.domain.entity.AnimateFavoriteEnum
+import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
+import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.INotification
@@ -29,7 +32,9 @@ class MusicNotificationManager @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>,
-        private val notification: INotification
+        private val notification: INotification,
+        private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
+        private val observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -44,6 +49,7 @@ class MusicNotificationManager @Inject constructor(
 
     private var stopServiceAfterDelayDisposable: Disposable? = null
     private var notificationDisposable: Disposable? = null
+    private var observeFavoriteAnimationDisposable: Disposable? = null
 
     private val metadataPublisher = BehaviorSubject.create<MediaEntity>()
     private val statePublisher = BehaviorSubject.create<PlaybackStateCompat>()
@@ -54,6 +60,9 @@ class MusicNotificationManager @Inject constructor(
         val metadataObservable = metadataPublisher
                 .observeOn(Schedulers.computation())
                 .debounce(METADATA_DEBOUNCE, TimeUnit.MILLISECONDS)
+                .flatMapSingle { mediaEntity ->
+                    isFavoriteSongUseCase.execute(mediaEntity.id).map { mediaEntity.to(it) }
+                }
 
         val playbackStateObservable = statePublisher
                 .observeOn(Schedulers.computation())
@@ -66,7 +75,7 @@ class MusicNotificationManager @Inject constructor(
         notificationDisposable = Observables.combineLatest (
                 metadataObservable,
                 playbackStateObservable
-        ) { metadata, playbackState -> update(playbackState, metadata) }
+        ) { metadataWithFavorite, playbackState -> update(playbackState, metadataWithFavorite) }
                 .debounce(NOTIFICATION_DEBOUNCE, TimeUnit.MILLISECONDS)
                 .map { notification.update().to(it) }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -79,6 +88,11 @@ class MusicNotificationManager @Inject constructor(
                         pauseForeground()
                     }
                 })
+
+        observeFavoriteAnimationDisposable = observeFavoriteAnimationUseCase
+                .execute()
+                .subscribe({ notification.updateFavoriteState(it.animateTo == AnimateFavoriteEnum.TO_FAVORITE) },
+                        Throwable::printStackTrace)
 
     }
 
@@ -139,11 +153,11 @@ class MusicNotificationManager @Inject constructor(
     }
 
     private fun update(playbackState: PlaybackStateCompat,
-                       metadata: MediaEntity): Int {
+                       metadataWithFavorite: Pair<MediaEntity, Boolean>): Int {
 
         notification.createIfNeeded()
         notification.updateState(playbackState)
-        notification.updateMetadata(metadata)
+        notification.updateMetadata(metadataWithFavorite)
 
         return playbackState.state
     }

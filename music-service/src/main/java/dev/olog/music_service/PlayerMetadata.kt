@@ -2,94 +2,44 @@ package dev.olog.music_service
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.content.Context
-import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
-import dev.olog.domain.interactor.detail.most_played.InsertMostPlayedUseCase
-import dev.olog.domain.interactor.favorite.AddSongToFavoriteUseCase
-import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
-import dev.olog.domain.interactor.favorite.RemoveSongFromFavoriteUseCase
-import dev.olog.domain.interactor.music_service.InsertHistorySongUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.MetadataConstants
 import dev.olog.shared_android.ImageUtils
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @PerService
 class PlayerMetadata @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
-        private val insertHistorySongUseCase: InsertHistorySongUseCase,
-        private val addSongToFavoriteUseCase: AddSongToFavoriteUseCase,
-        private val removeSongFromFavoriteUseCase: RemoveSongFromFavoriteUseCase,
-        private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-        private val insertMostPlayedUseCase: InsertMostPlayedUseCase
+        private val currentSong: CurrentSong
 
 ) : DefaultLifecycleObserver {
 
     private val builder = MediaMetadataCompat.Builder()
 
-    fun update(entity: MediaEntity) {
+    fun update(entity: MediaEntity, isFromPrepare: Boolean = false) {
 
-        // todo move to class
-        insertHistorySongUseCase.execute(entity.id)
-                .subscribeOn(Schedulers.io())
-                .subscribe({}, Throwable::printStackTrace)
+        if (!isFromPrepare){
+            currentSong.update(entity)
+        }
 
-        // todo move to class
-        Single.fromCallable { MediaIdHelper.extractCategory(entity.mediaId) }
-                .map { it.to(MediaIdHelper.extractCategoryValue(entity.mediaId)) }
-                .map { MediaIdHelper.createId(it.first, it.second, entity.id) }
-                .onErrorResumeNext { Single.just("") }
-                .filter { it != "" }
-                .flatMapCompletable { insertMostPlayedUseCase.execute(it) }
-                .subscribeOn(Schedulers.io())
-                .subscribe(::println, Throwable::printStackTrace)
+        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaIdHelper.songId(entity.id))
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, entity.image))
+                .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
+                .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
+                .build()
 
-        isFavoriteSongUseCase.execute(entity.id)
-                .subscribe({ isFavorite ->
-
-                    builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaIdHelper.songId(entity.id))
-                            .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
-                            .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
-                            .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
-                            .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, entity.image))
-                            .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
-                            .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
-                            .putRating(MediaMetadataCompat.METADATA_KEY_USER_RATING, RatingCompat.newHeartRating(isFavorite))
-                            .build()
-
-                    mediaSession.setMetadata(builder.build())
-
-                }, Throwable::printStackTrace)
-    }
-
-    fun toggleFavorite(songId: Long){
-        isFavoriteSongUseCase.execute(songId)
-                .doOnSuccess { isFavorite ->
-                    val extras = Bundle()
-                    val value = if (isFavorite) {
-                        MetadataConstants.ANIMATE_TO_NOT_FAVORITE
-                    } else {
-                        MetadataConstants.ANIMATE_TO_FAVORITE
-                    }
-                    extras.putInt(MetadataConstants.IS_FAVORITE, value)
-                    mediaSession.setExtras(extras)
-                }.flatMapCompletable { isFavorite ->
-                    if (isFavorite){
-                        removeSongFromFavoriteUseCase.execute(songId)
-                    } else {
-                        addSongToFavoriteUseCase.execute(songId)
-                    }
-                }.subscribe({}, Throwable::printStackTrace)
+        mediaSession.setMetadata(builder.build())
     }
 
 }

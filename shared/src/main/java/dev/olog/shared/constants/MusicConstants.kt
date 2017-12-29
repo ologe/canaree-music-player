@@ -7,5 +7,6 @@ object MusicConstants {
 
     const val BUNDLE_RECENTLY_PLAYED = "RECENTLY_PLAYED"
     const val BUNDLE_MOST_PLAYED = "BUNDLE_MOST_PLAYED"
+    const val ACTION_TOGGLE_FAVORITE = "ACTION_TOGGLE_FAVORITE"
 
 }

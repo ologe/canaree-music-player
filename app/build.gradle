@@ -115,8 +115,8 @@ dependencies {
     implementation "org.jsoup:jsoup:$rootProject.jsoup"
 
     // debug
-//    implementation 'com.akaita.java:rxjava2-debug:1.2.1'
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    implementation 'com.akaita.java:rxjava2-debug:1.2.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
 //    debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'
 
     testImplementation 'junit:junit:4.12'

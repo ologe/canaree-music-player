@@ -17,12 +17,13 @@ class InsertMostPlayedUseCase @Inject constructor(
 
 ) : CompletableUseCaseWithParam<String>(scheduler) {
 
-    override fun buildUseCaseObservable(param: String): Completable {
-        val category = MediaIdHelper.extractCategory(param)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(mediaId: String): Completable {
+        val category = MediaIdHelper.extractCategory(mediaId)
         return when (category){
-            MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.insertMostPlayed(param)
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistGateway.insertMostPlayed(param)
-            MediaIdHelper.MEDIA_ID_BY_GENRE -> genreGateway.insertMostPlayed(param)
+            MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.insertMostPlayed(mediaId)
+            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistGateway.insertMostPlayed(mediaId)
+            MediaIdHelper.MEDIA_ID_BY_GENRE -> genreGateway.insertMostPlayed(mediaId)
             else -> Completable.complete()
         }
     }

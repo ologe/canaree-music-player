@@ -5,6 +5,9 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.domain.entity.AnimateFavoriteEnum
+import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
+import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.DurationModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
@@ -12,14 +15,15 @@ import dev.olog.presentation.model.toPlayerMetadata
 import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.constants.MetadataConstants
 import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.TextUtils
 import io.reactivex.functions.Predicate
 
 class PlayerFragmentViewModel(
         application: Application,
-        controllerCallback: RxMusicServiceControllerCallback
+        controllerCallback: RxMusicServiceControllerCallback,
+        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+        isFavoriteSongUseCase: IsFavoriteSongUseCase
 
 ) : AndroidViewModel(application) {
 
@@ -97,18 +101,16 @@ class PlayerFragmentViewModel(
             .asLiveData()
 
     val onFavoriteStateChangedObservable: LiveData<Boolean> = controllerCallback.onMetadataChanged()
-                .map { it.getRating(MediaMetadataCompat.METADATA_KEY_USER_RATING) }
-                .map { it.hasHeart() }
-                .asLiveData()
+            .map { it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) }
+            .map { MediaIdHelper.extractLeaf(it) }
+            .map { it.toLong() }
+            .distinctUntilChanged()
+            .flatMapSingle { isFavoriteSongUseCase.execute(it) }
+            .asLiveData()
 
-    val onFavoriteAnimateRequestObservable: LiveData<Boolean> = controllerCallback.onExtrasChanged()
-                .map { bundle ->
-                    val animate = bundle.getInt(MetadataConstants.IS_FAVORITE, MetadataConstants.NOT_ANIMATE)
-                    bundle.clear()
-                    animate
-                }
-                .filter { it != MetadataConstants.NOT_ANIMATE }
-                .map { it == MetadataConstants.ANIMATE_TO_FAVORITE }
+    val onFavoriteAnimateRequestObservable: LiveData<Boolean> = observeFavoriteAnimationUseCase
+            .execute()
+            .map { it.animateTo == AnimateFavoriteEnum.TO_FAVORITE }
             .asLiveData()
 
 }

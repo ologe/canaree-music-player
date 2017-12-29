@@ -1,5 +1,6 @@
 package dev.olog.domain.gateway
 
+import dev.olog.domain.entity.AnimateFavoriteEntity
 import dev.olog.domain.entity.Song
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -16,5 +17,11 @@ interface FavoriteGateway {
     fun deleteGroup(songListId: List<Long>): Completable
 
     fun isFavorite(songId: Long): Single<Boolean>
+
+    fun observeToggleFavorite(): Flowable<AnimateFavoriteEntity>
+
+    fun toggleLastFavorite()
+
+    fun toggleFavorite(songId: Long)
 
 }

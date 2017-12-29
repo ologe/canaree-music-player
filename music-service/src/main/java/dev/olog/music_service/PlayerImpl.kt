@@ -79,7 +79,7 @@ class PlayerImpl @Inject constructor(
         playerState.prepare(entity.id)
         playerState.toggleSkipToActions(positionInQueue)
 
-        playerMetadata.update(entity)
+        playerMetadata.update(entity, true)
         notification.get().onNextMetadata(entity)
     }
 
