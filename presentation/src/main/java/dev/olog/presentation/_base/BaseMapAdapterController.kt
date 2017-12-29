@@ -3,10 +3,10 @@ package dev.olog.presentation._base
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.util.DiffUtil
-import dev.olog.presentation.utils.assertBackgroundThread
 import dev.olog.shared.clearThenPut
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor

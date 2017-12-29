@@ -10,7 +10,7 @@ import dev.olog.domain.interactor.detail.item.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.TextUtils
+import dev.olog.shared_android.TextUtils
 import io.reactivex.Flowable
 
 @Module

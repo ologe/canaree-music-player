@@ -11,8 +11,8 @@ import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.ActivityClass
-import dev.olog.music_service.utils.TextUtils
 import dev.olog.shared_android.ImageUtils
+import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ open class NotificationImpl24 @Inject constructor(
 
     override fun stopChronometer(playbackState: PlaybackStateCompat) {
         super.stopChronometer(playbackState)
-        builder.setSubText(TextUtils.formatTimeMillis(playbackState.position))
+        builder.setSubText(TextUtils.formatTimeMillisForNotification(playbackState.position))
     }
 
     override fun updateMetadataImpl(id: Long, title: SpannableString, artist: String, album: String, image: Uri) {

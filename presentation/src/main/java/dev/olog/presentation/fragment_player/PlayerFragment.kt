@@ -23,11 +23,11 @@ import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
-import dev.olog.presentation.utils.TextUtils
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.TextUtils
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType

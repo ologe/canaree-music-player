@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+
+        <shape android:shape="oval">
+            <solid android:color="@android:color/black"/>
+
+            <gradient
+                android:angle="45"
+                android:endColor="#4d36e2"
+                android:startColor="#1f86ef"
+                android:type="linear" />
+        </shape>
+
+    </item>
+
+    <item android:drawable="@drawable/vd_bird_not_singing"
+        android:top="10dp"
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"/>
+
+</layer-list>

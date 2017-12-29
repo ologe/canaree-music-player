@@ -144,7 +144,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
             R.layout.item_search_song,
             MediaIdHelper.songId(id),
             title,
-            "$artist${dev.olog.shared.TextUtils.MIDDLE_DOT_SPACED}$album",
+            "$artist${dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
             true,
             isRemix,

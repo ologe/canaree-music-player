@@ -5,9 +5,29 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
 import android.provider.MediaStore
+import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import org.jetbrains.anko.dip
 
 object ImageUtils {
+
+    fun getBitmapFromDrawable(context: Context, @DrawableRes drawableRes: Int): Bitmap{
+        val drawable = ContextCompat.getDrawable(context, drawableRes)
+
+        val bitmap: Bitmap
+
+        if (drawable!!.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+
+        drawable.setBounds(0, 0, canvas.height, canvas.width)
+        drawable.draw(canvas)
+        return bitmap
+    }
 
     fun getBitmapFromUri(context: Context, uri: String?): Bitmap? {
         return try {

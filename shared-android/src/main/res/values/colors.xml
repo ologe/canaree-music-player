@@ -6,6 +6,6 @@
     <color name="grey600">#757575</color>
 
     <!--<item name="accent">#FF1744</item>-->
-    <item name="accent">#2979FF</item>
+    <color name="accent">#2979FF</color>
 
 </resources>

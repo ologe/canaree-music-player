@@ -13,7 +13,7 @@ import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.constants.DataConstants
+import dev.olog.shared_android.Constants
 import javax.inject.Inject
 
 class Popup @Inject constructor(
@@ -72,15 +72,15 @@ class Popup @Inject constructor(
                 MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> {
                     val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
                     when (playlistId){
-                        DataConstants.FAVORITE_LIST_ID,
-                        DataConstants.HISTORY_LIST_ID,
-                        DataConstants.LAST_ADDED_ID -> {
+                        Constants.FAVORITE_LIST_ID,
+                        Constants.HISTORY_LIST_ID,
+                        Constants.LAST_ADDED_ID -> {
                             menu.removeItem(R.id.rename)
                             menu.removeItem(R.id.delete)
                         }
                     }
                     when (playlistId){
-                        DataConstants.LAST_ADDED_ID -> menu.removeItem(R.id.clear)
+                        Constants.LAST_ADDED_ID -> menu.removeItem(R.id.clear)
                     }
                 }
                 MediaIdHelper.MEDIA_ID_BY_ALBUM -> {

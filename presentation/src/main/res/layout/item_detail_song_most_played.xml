@@ -6,7 +6,6 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="dev.olog.shared.TextUtils"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
         <variable name="position" type="int"/>
     </data>

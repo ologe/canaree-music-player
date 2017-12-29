@@ -8,8 +8,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.TextUtils
 import dev.olog.shared.groupMap
+import dev.olog.shared_android.TextUtils
 
 class MiniQueueViewModel(
         getMiniPlayingQueueUseCase: GetMiniPlayingQueueUseCase

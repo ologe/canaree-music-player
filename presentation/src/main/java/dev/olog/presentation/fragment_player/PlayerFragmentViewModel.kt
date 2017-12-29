@@ -13,6 +13,8 @@ import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.MetadataConstants
+import dev.olog.shared_android.CoverUtils
+import dev.olog.shared_android.TextUtils
 import io.reactivex.functions.Predicate
 
 class PlayerFragmentViewModel(
@@ -82,7 +84,7 @@ class PlayerFragmentViewModel(
 
     val onMaxChangedObservable: LiveData<DurationModel> = controllerCallback.onMetadataChanged()
             .map { it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION) }
-            .map { DurationModel(it.toInt(), TextUtils.MIDDLE_DOT_SPACED + getReadableSongLength(it)) }
+            .map { DurationModel(it.toInt(), TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(it)) }
             .asLiveData()
 
 

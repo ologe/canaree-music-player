@@ -3,7 +3,6 @@ package dev.olog.msc
 import android.os.StrictMode
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
-import dev.olog.data.DataConstants
 import dev.olog.floating_info.FloatingInfoService
 import dev.olog.music_service.MusicService
 import dev.olog.presentation.activity_main.MainActivity
@@ -19,6 +18,7 @@ import dev.olog.presentation.fragment_search.SearchFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.shared_android.Constants
 
 
 class App : DaggerApplication() {
@@ -26,7 +26,7 @@ class App : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        DataConstants.init(resources)
+        Constants.init(resources)
 
 
         if (BuildConfig.DEBUG) {

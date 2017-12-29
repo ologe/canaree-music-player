@@ -16,11 +16,11 @@ import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.TimeUtils
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaIdHelper
-import dev.olog.shared.TextUtils
 import dev.olog.shared.groupMap
+import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.TimeUtils
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 

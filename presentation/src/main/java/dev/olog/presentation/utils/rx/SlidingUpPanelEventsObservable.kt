@@ -3,7 +3,7 @@ package dev.olog.presentation.utils.rx
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
-import dev.olog.presentation.utils.assertMainThread
+import dev.olog.shared_android.assertMainThread
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.android.MainThreadDisposable

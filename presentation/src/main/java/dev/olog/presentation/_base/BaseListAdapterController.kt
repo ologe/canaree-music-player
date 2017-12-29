@@ -4,10 +4,10 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
-import dev.olog.presentation.utils.assertBackgroundThread
 import dev.olog.shared.clearThenAdd
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
