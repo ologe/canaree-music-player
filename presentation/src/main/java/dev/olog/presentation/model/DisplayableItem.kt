@@ -1,8 +1,10 @@
 package dev.olog.presentation.model
 
+import dev.olog.shared.MediaId
+
 data class DisplayableItem (
         val type: Int,
-        val mediaId: String,
+        val mediaId: MediaId,
         val title: String,
         val subtitle: String? = null,
         val image: String = "",

@@ -8,7 +8,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.domain.interactor.music_service.UpdateMiniQueueUseCase
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -36,6 +36,7 @@ class QueueMediaSession @Inject constructor(
                 .subscribe(updateMiniQueueUseCase::execute, Throwable::printStackTrace)
 
         notificationQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
+                .delay(100, TimeUnit.MILLISECONDS)
                 .flatMapSingle { it.toFlowable()
                         .take(6)
                         .map { it.toQueueItem() }
@@ -54,7 +55,7 @@ class QueueMediaSession @Inject constructor(
 
     private fun MediaEntity.toQueueItem() : MediaSessionCompat.QueueItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaIdHelper.songId(this.id))
+                .setMediaId(MediaId.songId(this.id).toString())
                 .setTitle(this.title)
                 .setSubtitle(this.artist)
                 .build()

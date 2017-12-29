@@ -5,7 +5,8 @@ import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -15,15 +16,14 @@ class InsertMostPlayedUseCase @Inject constructor(
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway
 
-) : CompletableUseCaseWithParam<String>(scheduler) {
+) : CompletableUseCaseWithParam<MediaId>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: String): Completable {
-        val category = MediaIdHelper.extractCategory(mediaId)
-        return when (category){
-            MediaIdHelper.MEDIA_ID_BY_FOLDER -> folderGateway.insertMostPlayed(mediaId)
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> playlistGateway.insertMostPlayed(mediaId)
-            MediaIdHelper.MEDIA_ID_BY_GENRE -> genreGateway.insertMostPlayed(mediaId)
+    override fun buildUseCaseObservable(mediaId: MediaId): Completable {
+        return when (mediaId.category){
+            MediaIdCategory.FOLDER -> folderGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.PLAYLIST -> playlistGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.GENRE -> genreGateway.insertMostPlayed(mediaId)
             else -> Completable.complete()
         }
     }

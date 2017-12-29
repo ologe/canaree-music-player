@@ -8,6 +8,7 @@ import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.model.toMediaEntity
+import dev.olog.shared.MediaId
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
@@ -36,10 +37,10 @@ class QueueImpl @Inject constructor(
 
     var currentSongPosition = -1
 
-    fun updatePlayingQueue(songList: List<MediaEntity>) {
-        playingQueue.clear()
-        playingQueue.addAll(songList)
-    }
+//    fun updatePlayingQueue(songList: List<MediaEntity>) {
+//        playingQueue.clear()
+//        playingQueue.addAll(songList)
+//    }
 
     fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
         playingQueue.clear()
@@ -117,7 +118,7 @@ class QueueImpl @Inject constructor(
                 .flatMapMaybe { songId -> getAllSongsUseCase.execute()
                         .flatMapIterable { it }
                         .filter { it.id == songId }
-                        .map { it.toMediaEntity("") }
+                        .map { it.toMediaEntity(MediaId.headerId("")) }
                         .firstElement()
                 }.toList()
                 .doOnSuccess { playingQueue.addAll(it) }

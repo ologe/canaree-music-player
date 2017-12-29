@@ -15,6 +15,7 @@ import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.Queue
+import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -31,7 +32,6 @@ class MediaSessionCallback @Inject constructor(
         private val shuffleMode: ShuffleMode,
         private val mediaButton: MediaButton,
         private val playerState: PlayerState,
-        private val playerMetadata: PlayerMetadata,
         private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
 ): MediaSessionCompat.Callback(), DefaultLifecycleObserver {
@@ -54,23 +54,25 @@ class MediaSessionCallback @Inject constructor(
                 .addTo(subscriptions)
     }
 
-    override fun onPlayFromMediaId(mediaId: String?, extras: Bundle?) {
+    override fun onPlayFromMediaId(mediaIdAsString: String, extras: Bundle?) {
         if (extras != null){
+            val mid = MediaId.fromString(mediaIdAsString)
+
             when {
                 extras.isEmpty -> {
-                    queue.handlePlayFromMediaId(mediaId!!)
+                    queue.handlePlayFromMediaId(mid)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(player::play, Throwable::printStackTrace)
                             .addTo(subscriptions)
                 }
                 extras.getBoolean(MusicConstants.BUNDLE_MOST_PLAYED, false) -> {
-                    queue.handlePlayMostPlayed(mediaId!!)
+                    queue.handlePlayMostPlayed(mid)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(player::play, Throwable::printStackTrace)
                             .addTo(subscriptions)
                 }
                 extras.getBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, false) -> {
-                    queue.handlePlayRecentlyPlayed(mediaId!!)
+                    queue.handlePlayRecentlyPlayed(mid)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(player::play, Throwable::printStackTrace)
                             .addTo(subscriptions)
@@ -113,7 +115,11 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
         val single = when (action) {
-            MusicConstants.ACTION_PLAY_SHUFFLE -> queue.handlePlayShuffle(extras!!)
+            MusicConstants.ACTION_PLAY_SHUFFLE -> {
+                val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                val mediaId = MediaId.fromString(mediaIdAsString)
+                queue.handlePlayShuffle(mediaId)
+            }
             else -> Single.error(Throwable())
         }
 

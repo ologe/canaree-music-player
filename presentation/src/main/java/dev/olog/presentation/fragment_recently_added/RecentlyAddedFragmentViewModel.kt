@@ -7,11 +7,11 @@ import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 
 class RecentlyAddedFragmentViewModel(
-        mediaId: String,
+        mediaId: MediaId,
         useCase: GetRecentlyAddedUseCase
 
 ) : ViewModel() {
@@ -22,10 +22,10 @@ class RecentlyAddedFragmentViewModel(
 
 }
 
-private fun Song.toRecentDetailDisplayableItem(parentId: String): DisplayableItem {
+private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
     return DisplayableItem(
             R.layout.item_recently_added,
-            MediaIdHelper.playableItem(parentId, id),
+            MediaId.playableItem(parentId, id),
             title,
             artist,
             image,

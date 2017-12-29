@@ -61,7 +61,7 @@ ext {
     anko_version = '0.10.3'
 
     // dependency injection
-    dagger = '2.13'
+    dagger = '2.14.1'
 
     // test
     junit = '4.12'

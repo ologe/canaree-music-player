@@ -7,7 +7,7 @@ import dev.olog.domain.interactor.music_service.GetMiniPlayingQueueUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
 
@@ -16,7 +16,7 @@ class MiniQueueViewModel(
 
 ) : ViewModel() {
 
-    private val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, "load more id", "")
+    private val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, MediaId.headerId("load more"), "")
 
     val data: LiveData<MutableList<DisplayableItem>> = getMiniPlayingQueueUseCase
             .execute()
@@ -34,7 +34,7 @@ class MiniQueueViewModel(
 private fun Song.toPlayingQueueDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_playing_queue,
-            MediaIdHelper.songId(id),
+            MediaId.songId(id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,

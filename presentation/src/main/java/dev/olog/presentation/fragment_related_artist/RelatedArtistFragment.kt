@@ -7,6 +7,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaId
 import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
 
@@ -17,7 +18,7 @@ class RelatedArtistFragment: BaseFragment() {
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
 
-        fun newInstance(mediaId: String): RelatedArtistFragment {
+        fun newInstance(mediaId: MediaId): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId)
         }

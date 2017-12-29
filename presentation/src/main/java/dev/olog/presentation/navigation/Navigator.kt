@@ -2,24 +2,25 @@ package dev.olog.presentation.navigation
 
 import android.view.View
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaId
 
 interface Navigator {
 
     fun toMainActivity()
 
-    fun toDetailFragment(mediaId: String)
+    fun toDetailFragment(mediaId: MediaId)
 
     fun toSearchFragment()
 
-    fun toRelatedArtists(mediaId: String)
+    fun toRelatedArtists(mediaId: MediaId)
 
-    fun toRecentlyAdded(mediaId: String)
+    fun toRecentlyAdded(mediaId: MediaId)
 
-    fun toAlbums(mediaId: String)
+    fun toAlbums(mediaId: MediaId)
 
     fun toPlayingQueueFragment()
 
-    fun toEditInfoFragment(mediaId: String)
+    fun toEditInfoFragment(mediaId: MediaId)
 
     fun toDialog(item: DisplayableItem, anchor: View)
 
@@ -27,20 +28,18 @@ interface Navigator {
 
     fun toAboutActivity()
 
-    fun toSetRingtoneDialog(mediaId: String, itemTitle: String)
+    fun toSetRingtoneDialog(mediaId: MediaId, itemTitle: String)
 
-    fun toCreatePlaylistDialog(mediaId: String)
+    fun toCreatePlaylistDialog(mediaId: MediaId)
 
-    fun toAddToPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String)
+    fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toAddToFavoriteDialog(mediaId: String, listSize: Int, itemTitle: String)
+    fun toAddToQueueDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toAddToQueueDialog(mediaId: String, listSize: Int, itemTitle: String)
+    fun toRenameDialog(mediaId: MediaId, itemTitle: String)
 
-    fun toRenameDialog(mediaId: String, itemTitle: String)
+    fun toClearPlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toClearPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String)
-
-    fun toDeleteDialog(mediaId: String, listSize: Int, itemTitle: String)
+    fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
 }

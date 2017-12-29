@@ -4,46 +4,44 @@ import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
         @ApplicationContext private val context: Context,
-        mediaId: String
+        mediaId: MediaId
 ) {
 
     companion object {
-        const val RECENTLY_ADDED_ID = "recent id with see all"
-        const val ALBUMS_ID = "albums id with see all"
+        val RECENTLY_ADDED_ID = MediaId.headerId("recent header with see all")
+        val ALBUMS_ID = MediaId.headerId("albums header with see all")
     }
 
-    private val source = MediaIdHelper.mapCategoryToSource(mediaId)
-
     val mostPlayed = listOf(
-            DisplayableItem(R.layout.item_detail_header, "most played id", context.getString(R.string.detail_most_played)),
-            DisplayableItem(R.layout.item_detail_most_played_list, "most played list", "")
+            DisplayableItem(R.layout.item_detail_header, MediaId.headerId("most played header"), context.getString(R.string.detail_most_played)),
+            DisplayableItem(R.layout.item_detail_most_played_list, MediaId.headerId("most played horiz list"), "")
     )
 
     val recent = listOf(
-            DisplayableItem(R.layout.item_detail_header, "recent id", context.getString(R.string.detail_recently_added)),
-            DisplayableItem(R.layout.item_detail_recently_added_list, "recent list", "")
+            DisplayableItem(R.layout.item_detail_header, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added)),
+            DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
     val recentWithSeeAll = listOf(
             DisplayableItem(R.layout.item_detail_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_more)),
-            DisplayableItem(R.layout.item_detail_recently_added_list, "recent list", "")
+            DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
-    val albums : DisplayableItem = DisplayableItem(R.layout.item_detail_header, "albums id",
-            context.resources.getStringArray(R.array.detail_album_header)[source])
+    val albums : DisplayableItem = DisplayableItem(R.layout.item_detail_header, MediaId.headerId("detail albums"),
+            context.resources.getStringArray(R.array.detail_album_header)[mediaId.source])
 
     val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_detail_header, ALBUMS_ID,
-            context.resources.getStringArray(R.array.detail_album_header)[source],
+            context.resources.getStringArray(R.array.detail_album_header)[mediaId.source],
             context.getString(R.string.detail_see_more))
 
     val songs = listOf(
-            DisplayableItem(R.layout.item_detail_header_all_song, "songs id", context.getString(R.string.detail_songs)),
-            DisplayableItem(R.layout.item_detail_shuffle, "shuffle id", "")
+            DisplayableItem(R.layout.item_detail_header_all_song, MediaId.headerId("detail songs header"), context.getString(R.string.detail_songs)),
+            DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
     )
 
 }

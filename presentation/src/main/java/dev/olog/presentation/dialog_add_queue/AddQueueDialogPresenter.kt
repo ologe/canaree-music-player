@@ -8,7 +8,7 @@ import android.text.TextUtils
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class AddQueueDialogPresenter @Inject constructor(
         private val application: Application,
-        private val mediaId: String,
+        private val mediaId: MediaId,
         private val getSongUseCase: GetSongUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 ) {
@@ -26,10 +26,7 @@ class AddQueueDialogPresenter @Inject constructor(
         val controller = MediaControllerCompat.getMediaController(activity)
                 ?: return Completable.error(AssertionError("null media controller"))
 
-        val isSong = MediaIdHelper.isSong(mediaId)
-        val category = MediaIdHelper.extractCategory(mediaId)
-
-        val single = if (category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong){
+        val single = if (mediaId.isAll || mediaId.isLeaf){
             getSongUseCase.execute(mediaId)
                     .firstOrError()
                     .doOnSuccess { controller.addQueueItem(newMediaDescriptionItem(it.id.toString())) }

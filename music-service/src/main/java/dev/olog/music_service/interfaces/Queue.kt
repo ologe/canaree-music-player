@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.model.PositionInQueue
+import dev.olog.shared.MediaId
 import io.reactivex.Single
 
 interface Queue {
@@ -16,15 +17,15 @@ interface Queue {
 
     fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity
 
-    fun handlePlayFromMediaId(mediaId: String): Single<PlayerMediaEntity>
+    fun handlePlayFromMediaId(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handlePlayRecentlyPlayed(mediaId: String): Single<PlayerMediaEntity>
+    fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handlePlayMostPlayed(mediaId: String): Single<PlayerMediaEntity>
+    fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handleSkipToQueueItem(id: Long): PlayerMediaEntity
 
-    fun handlePlayShuffle(bundle: Bundle): Single<PlayerMediaEntity>
+    fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handlePlayFromSearch(extras: Bundle): Single<PlayerMediaEntity>
 

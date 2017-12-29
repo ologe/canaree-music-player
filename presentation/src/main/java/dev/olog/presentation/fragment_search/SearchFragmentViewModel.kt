@@ -6,7 +6,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import dev.olog.domain.interactor.search.*
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 
 class SearchFragmentViewModel(
@@ -75,35 +76,32 @@ class SearchFragmentViewModel(
         }
     }
 
-    fun insertSongToRecent(mediaId: String): Completable {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
-        return insertSearchSongUseCase.execute(songId)
+    fun insertSongToRecent(mediaId: MediaId): Completable {
+        return insertSearchSongUseCase.execute(mediaId.leaf!!)
     }
 
-    fun insertAlbumToRecent(mediaId: String): Completable {
-        val albumId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+    fun insertAlbumToRecent(mediaId: MediaId): Completable {
+        val albumId = mediaId.categoryValue.toLong()
         return insertSearchAlbumUseCase.execute(albumId)
     }
 
-    fun insertArtistToRecent(mediaId: String): Completable {
-        val artistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+    fun insertArtistToRecent(mediaId: MediaId): Completable {
+        val artistId = mediaId.categoryValue.toLong()
         return insertSearchArtistUseCase.execute(artistId)
     }
 
-    fun deleteFromRecent(mediaId: String): Completable{
-        val category = MediaIdHelper.extractCategory(mediaId)
-        return when (category) {
-            MediaIdHelper.MEDIA_ID_BY_ALBUM -> {
-                val albumId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+    fun deleteFromRecent(mediaId: MediaId): Completable{
+        return when (mediaId.category) {
+            MediaIdCategory.ALBUM -> {
+                val albumId = mediaId.categoryValue.toLong()
                 deleteRecentSearchAlbumUseCase.execute(albumId)
             }
-            MediaIdHelper.MEDIA_ID_BY_ARTIST -> {
-                val artistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+            MediaIdCategory.ARTIST -> {
+                val artistId = mediaId.categoryValue.toLong()
                 deleteRecentSearchArtistUseCase.execute(artistId)
             }
-            MediaIdHelper.MEDIA_ID_BY_ALL -> {
-                val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
-                return deleteRecentSearchSongUseCase.execute(songId)
+            MediaIdCategory.ALL -> {
+                return deleteRecentSearchSongUseCase.execute(mediaId.leaf!!)
             }
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }

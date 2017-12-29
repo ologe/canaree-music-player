@@ -12,7 +12,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.flatMapGroup
 import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
@@ -100,13 +100,14 @@ class FolderRepository @Inject constructor(
         return getAll().map { it.first { it.path == param } }
     }
 
-    override fun getMostPlayed(param: String): Flowable<List<Song>> {
-
-        return mostPlayedDao.getAll(MediaIdHelper.extractCategoryValue(param), songGateway.getAll())
+    override fun getMostPlayed(mediaId: MediaId): Flowable<List<Song>> {
+        val folderPath = mediaId.categoryValue
+        return mostPlayedDao.getAll(folderPath, songGateway.getAll())
     }
 
-    override fun insertMostPlayed(mediaId: String): Completable {
-        return songGateway.getByParam(MediaIdHelper.extractLeaf(mediaId).toLong())
+    override fun insertMostPlayed(mediaId: MediaId): Completable {
+        val songId = mediaId.leaf!!
+        return songGateway.getByParam(songId)
                 .flatMapCompletable { song ->
                     CompletableSource { mostPlayedDao.insertOne(FolderMostPlayedEntity(0, song.id, song.folderPath)) }
                 }

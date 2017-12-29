@@ -18,7 +18,8 @@ import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import javax.inject.Inject
 
 class TabFragmentAdapter @Inject constructor(
@@ -35,7 +36,7 @@ class TabFragmentAdapter @Inject constructor(
         when (viewType) {
             R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
-                    musicController.playShuffle(MediaIdHelper.shuffleAllId())
+                    musicController.playShuffle(MediaId.shuffleAllId())
                 }
             }
             R.layout.item_tab_album,
@@ -45,13 +46,12 @@ class TabFragmentAdapter @Inject constructor(
                         musicController.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
-                        val category = MediaIdHelper.extractCategory(item.mediaId)
-                        when (category){
-                            MediaIdHelper.MEDIA_ID_BY_ARTIST -> {
+                        when (item.mediaId.category){
+                            MediaIdCategory.ARTIST -> {
                                 viewModel.insertArtistLastPlayed(item.mediaId)
                                         .subscribe({}, Throwable::printStackTrace)
                             }
-                            MediaIdHelper.MEDIA_ID_BY_ALBUM -> {
+                            MediaIdCategory.ALBUM -> {
                                 viewModel.insertAlbumLastPlayed(item.mediaId)
                                         .subscribe({}, Throwable::printStackTrace)
                             }

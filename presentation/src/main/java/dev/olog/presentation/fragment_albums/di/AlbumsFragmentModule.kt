@@ -6,7 +6,6 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dagger.multibindings.StringKey
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Genre
@@ -18,7 +17,9 @@ import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_albums.AlbumsFragmentViewModel
 import dev.olog.presentation.fragment_albums.AlbumsFragmentViewModelFactory
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
+import dev.olog.shared.MediaIdCategoryKey
 import dev.olog.shared.groupMap
 import io.reactivex.Flowable
 
@@ -32,8 +33,9 @@ class AlbumsFragmentModule(
     internal fun lifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    internal fun provideMediaId(): String {
-        return fragment.arguments!!.getString(AlbumsFragment.ARGUMENTS_MEDIA_ID)
+    internal fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(AlbumsFragment.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides
@@ -44,10 +46,10 @@ class AlbumsFragmentModule(
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_FOLDER)
+    @MediaIdCategoryKey(MediaIdCategory.FOLDER)
     internal fun provideFolderData(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
@@ -55,10 +57,10 @@ class AlbumsFragmentModule(
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_PLAYLIST)
+    @MediaIdCategoryKey(MediaIdCategory.PLAYLIST)
     internal fun providePlaylistData(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetPlaylistSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
@@ -66,10 +68,10 @@ class AlbumsFragmentModule(
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_ALBUM)
+    @MediaIdCategoryKey(MediaIdCategory.ALBUM)
     internal fun provideAlbumData(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
@@ -77,10 +79,10 @@ class AlbumsFragmentModule(
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_ARTIST)
+    @MediaIdCategoryKey(MediaIdCategory.ARTIST)
     internal fun provideArtistData(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
@@ -88,10 +90,10 @@ class AlbumsFragmentModule(
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_GENRE)
+    @MediaIdCategoryKey(MediaIdCategory.GENRE)
     internal fun provideGenreData(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetGenreSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
@@ -102,7 +104,7 @@ class AlbumsFragmentModule(
 private fun Folder.toAlbumsDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_albums,
-            MediaIdHelper.folderId(path),
+            MediaId.folderId(path),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             this.image
@@ -112,7 +114,7 @@ private fun Folder.toAlbumsDetailDisplayableItem(resources: Resources): Displaya
 private fun Playlist.toAlbumsDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_albums,
-            MediaIdHelper.playlistId(id),
+            MediaId.playlistId(id),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             this.image
@@ -122,7 +124,7 @@ private fun Playlist.toAlbumsDetailDisplayableItem(resources: Resources): Displa
 private fun Album.toAlbumsDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_albums,
-            MediaIdHelper.albumId(id),
+            MediaId.albumId(id),
             title,
             resources.getQuantityString(R.plurals.song_count, this.songs, this.songs).toLowerCase(),
             image
@@ -132,7 +134,7 @@ private fun Album.toAlbumsDetailDisplayableItem(resources: Resources): Displayab
 private fun Genre.toAlbumsDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_albums,
-            MediaIdHelper.genreId(id),
+            MediaId.genreId(id),
             name.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             this.image

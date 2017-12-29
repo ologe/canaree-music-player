@@ -7,7 +7,7 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.presentation.dagger.PerActivity
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared.constants.MusicConstants.ACTION_PLAY_SHUFFLE
 import javax.inject.Inject
@@ -52,30 +52,30 @@ class MusicController @Inject constructor(
         getTransportControls()?.seekTo(pos)
     }
 
-    fun playFromMediaId(mediaId: String) {
-        getTransportControls()?.playFromMediaId(mediaId, null)
+    fun playFromMediaId(mediaId: MediaId) {
+        getTransportControls()?.playFromMediaId(mediaId.toString(), null)
     }
 
-    fun playRecentlyPlayedFromMediaId(mediaId: String){
+    fun playRecentlyPlayedFromMediaId(mediaId: MediaId){
         val bundle = Bundle()
         bundle.putBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, true)
-        getTransportControls()?.playFromMediaId(mediaId, bundle)
+        getTransportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
-    fun playMostPlayedFromMediaId(mediaId: String){
+    fun playMostPlayedFromMediaId(mediaId: MediaId){
         val bundle = Bundle()
         bundle.putBoolean(MusicConstants.BUNDLE_MOST_PLAYED, true)
-        getTransportControls()?.playFromMediaId(mediaId, bundle)
+        getTransportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
-    fun playShuffle(mediaId: String) {
+    fun playShuffle(mediaId: MediaId) {
         val bundle = Bundle()
-        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId)
+        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId.toString())
         getTransportControls()?.sendCustomAction(ACTION_PLAY_SHUFFLE, bundle)
     }
 
-    fun skipToQueueItem(mediaId: String) {
-        getTransportControls()?.skipToQueueItem(MediaIdHelper.extractLeaf(mediaId).toLong())
+    fun skipToQueueItem(mediaId: MediaId) {
+        getTransportControls()?.skipToQueueItem(mediaId.leaf!!)
     }
 
     fun togglePlayerFavorite() {

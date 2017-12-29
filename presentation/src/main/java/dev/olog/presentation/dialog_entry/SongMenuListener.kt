@@ -16,13 +16,13 @@ import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.utils.extension.asHtml
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class SongMenuListener @Inject constructor(
-        private val application: Application,
+        application: Application,
         private val activity: AppCompatActivity,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
@@ -44,7 +44,7 @@ class SongMenuListener @Inject constructor(
 
             R.id.viewAlbum -> {
                 getSongUseCase.execute(item.mediaId)
-                        .map { MediaIdHelper.albumId(it.albumId) }
+                        .map { MediaId.albumId(it.albumId) }
                         .firstOrError()
                         .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()
@@ -53,7 +53,7 @@ class SongMenuListener @Inject constructor(
             }
             R.id.viewArtist -> {
                 getSongUseCase.execute(item.mediaId)
-                        .map { MediaIdHelper.artistId(it.artistId) }
+                        .map { MediaId.artistId(it.artistId) }
                         .firstOrError()
                         .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()

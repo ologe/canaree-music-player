@@ -8,13 +8,14 @@ import android.view.View
 import android.widget.PopupMenu
 import dev.olog.domain.entity.SortType
 import dev.olog.presentation.R
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
 class DetailSortDialog {
 
-    fun show(context: Context, view: View, mediaId: String, sortTypeSingle: Single<SortType>, updateUseCase: (SortType) -> Disposable) {
+    fun show(context: Context, view: View, mediaId: MediaId, sortTypeSingle: Single<SortType>, updateUseCase: (SortType) -> Disposable) {
         sortTypeSingle.subscribe({ sortType ->
 
             val popup = PopupMenu(context, view, Gravity.BOTTOM)
@@ -47,11 +48,10 @@ class DetailSortDialog {
     }
 
     @MenuRes
-    private fun getLayout(mediaId: String) : Int{
-        val category = MediaIdHelper.extractCategory(mediaId)
-        return when (category){
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> R.menu.sort_mode_playlist
-            MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.menu.sort_mode_album
+    private fun getLayout(mediaId: MediaId) : Int{
+        return when (mediaId.category){
+            MediaIdCategory.PLAYLIST -> R.menu.sort_mode_playlist
+            MediaIdCategory.ALBUM -> R.menu.sort_mode_album
             else -> R.menu.sort_mode
         }
     }

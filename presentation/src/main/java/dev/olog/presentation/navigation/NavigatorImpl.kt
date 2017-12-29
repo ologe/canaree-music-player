@@ -32,6 +32,7 @@ import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
 import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
+import dev.olog.shared.MediaId
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
@@ -61,7 +62,7 @@ class NavigatorImpl @Inject constructor(
         activity.finish()
     }
 
-    override fun toDetailFragment(mediaId: String) {
+    override fun toDetailFragment(mediaId: MediaId) {
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
             activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
@@ -69,7 +70,7 @@ class NavigatorImpl @Inject constructor(
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.viewPagerLayout,
+                add(R.id.viewPagerLayout,
                             DetailFragment.newInstance(mediaId),
                             DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
@@ -88,12 +89,12 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toRelatedArtists(mediaId: String) {
+    override fun toRelatedArtists(mediaId: MediaId) {
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.viewPagerLayout,
+                add(R.id.viewPagerLayout,
                         RelatedArtistFragment.newInstance(mediaId),
                         RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
@@ -101,12 +102,12 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toRecentlyAdded(mediaId: String) {
+    override fun toRecentlyAdded(mediaId: MediaId) {
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.viewPagerLayout,
+                add(R.id.viewPagerLayout,
                         RecentlyAddedFragment.newInstance(mediaId),
                         RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
@@ -114,12 +115,12 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toAlbums(mediaId: String) {
+    override fun toAlbums(mediaId: MediaId) {
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.viewPagerLayout,
+                add(R.id.viewPagerLayout,
                         AlbumsFragment.newInstance(mediaId),
                         AlbumsFragment.TAG)
                 addToBackStack(AlbumsFragment.TAG)
@@ -139,7 +140,7 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toEditInfoFragment(mediaId: String) {
+    override fun toEditInfoFragment(mediaId: MediaId) {
         if (allowed()) {
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)
@@ -184,50 +185,43 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-
-
     private fun allowed(): Boolean {
         val allowed = (System.currentTimeMillis() - lastRequest) > NEXT_REQUEST_THRESHOLD
         lastRequest = System.currentTimeMillis()
         return allowed
     }
 
-    override fun toSetRingtoneDialog(mediaId: String, itemTitle: String) {
+    override fun toSetRingtoneDialog(mediaId: MediaId, itemTitle: String) {
         val fragment = SetRingtoneDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 
-    override fun toAddToPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String) {
-//        val fragment = AddPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
-//        fragment.show(activity.supportFragmentManager, AddPlaylistDialog.TAG)
-    }
-
-    override fun toAddToFavoriteDialog(mediaId: String, listSize: Int, itemTitle: String) {
+    override fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
         val fragment = AddFavoriteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
     }
 
-    override fun toAddToQueueDialog(mediaId: String, listSize: Int, itemTitle: String) {
+    override fun toAddToQueueDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
         val fragment = AddQueueDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, AddQueueDialog.TAG)
     }
 
-    override fun toRenameDialog(mediaId: String, itemTitle: String) {
+    override fun toRenameDialog(mediaId: MediaId, itemTitle: String) {
         val fragment = RenameDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, RenameDialog.TAG)
     }
 
-    override fun toDeleteDialog(mediaId: String, listSize: Int, itemTitle: String) {
+    override fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
         val fragment = DeleteDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 
-    override fun toCreatePlaylistDialog(mediaId: String) {
+    override fun toCreatePlaylistDialog(mediaId: MediaId) {
         val fragment = NewPlaylistDialog.newInstance(mediaId)
         fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
-    override fun toClearPlaylistDialog(mediaId: String, listSize: Int, itemTitle: String) {
+    override fun toClearPlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
         val fragment = ClearPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
     }

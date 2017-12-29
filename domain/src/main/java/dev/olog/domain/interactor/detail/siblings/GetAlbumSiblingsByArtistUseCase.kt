@@ -4,7 +4,7 @@ import dev.olog.domain.entity.Album
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -12,13 +12,12 @@ class GetAlbumSiblingsByArtistUseCase @Inject internal constructor(
         schedulers: IoScheduler,
         private val artistGateway: ArtistGateway
 
-) : FlowableUseCaseWithParam<List<Album>, String>(schedulers) {
+) : FlowableUseCaseWithParam<List<Album>, MediaId>(schedulers) {
 
 
-    override fun buildUseCaseObservable(param: String): Flowable<List<Album>> {
-        val categoryValue = MediaIdHelper.extractCategoryValue(param)
-        val artistId = categoryValue.toLong()
-
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(mediaId: MediaId): Flowable<List<Album>> {
+        val artistId = mediaId.categoryValue.toLong()
         return artistGateway.getAlbums(artistId)
     }
 }

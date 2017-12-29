@@ -11,7 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_tab.TabFragmentHeaders
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
 import io.reactivex.Flowable
@@ -162,7 +162,7 @@ class TabFragmentViewModelModule {
 private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
-            MediaIdHelper.folderId(path),
+            MediaId.folderId(path),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             this.image
@@ -176,7 +176,7 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
 
     return DisplayableItem(
             R.layout.item_tab_album,
-            MediaIdHelper.playlistId(id),
+            MediaId.playlistId(id),
             title.capitalize(),
             listSize,
             this.image
@@ -186,7 +186,7 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
 private fun Song.toTabDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_song,
-            MediaIdHelper.songId(id),
+            MediaId.songId(id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
@@ -199,7 +199,7 @@ private fun Song.toTabDisplayableItem(): DisplayableItem{
 private fun Album.toTabDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
-            MediaIdHelper.albumId(id),
+            MediaId.albumId(id),
             title,
             artist,
             image
@@ -214,7 +214,7 @@ private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
 
     return DisplayableItem(
             R.layout.item_tab_album,
-            MediaIdHelper.artistId(id),
+            MediaId.artistId(id),
             name,
             "$albums$songs".toLowerCase(),
             this.image
@@ -224,7 +224,7 @@ private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
 private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
-            MediaIdHelper.genreId(id),
+            MediaId.genreId(id),
             name,
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             this.image
@@ -234,7 +234,7 @@ private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
 private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_album_last_played,
-            MediaIdHelper.albumId(id),
+            MediaId.albumId(id),
             title,
             artist,
             image
@@ -244,7 +244,7 @@ private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
 private fun Artist.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_album_last_played,
-            MediaIdHelper.artistId(id),
+            MediaId.artistId(id),
             name,
             null,
             this.image

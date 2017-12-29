@@ -2,31 +2,24 @@ package dev.olog.presentation.fragment_detail
 
 
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dagger.Lazy
 import dev.olog.presentation.BindingsAdapter
-import dev.olog.presentation.GlideApp
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.*
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
-import dev.olog.shared.MediaIdHelper
-import dev.olog.shared_android.CoverUtils
+import dev.olog.shared.MediaId
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
-import java.io.File
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
 
@@ -36,9 +29,9 @@ class DetailFragment : BaseFragment() {
         const val TAG = "DetailFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        fun newInstance(mediaId: String): DetailFragment {
+        fun newInstance(mediaId: MediaId): DetailFragment {
             return DetailFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId
+                    ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
@@ -47,11 +40,11 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var adapter: DetailFragmentAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
-    @Inject lateinit var mediaId: String
+    @Inject lateinit var mediaId: MediaId
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Lazy<Navigator>
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
-    private val source by lazy { MediaIdHelper.mapCategoryToSource(mediaId) }
+    private val source by lazy { mediaId.source }
     private lateinit var layoutManager : GridLayoutManager
     private val toolbarHeight by lazy(NONE) { context!!.dimen(R.dimen.status_bar) + context!!.dimen(R.dimen.toolbar) }
 
@@ -107,28 +100,17 @@ class DetailFragment : BaseFragment() {
             return
         }
 
+        @Suppress("PLUGIN_WARNING")
+        BindingsAdapter.loadBigAlbumImage(view!!.cover, item)
 
-        val id = if (source == TabViewPagerAdapter.FOLDER){
-            MediaIdHelper.extractCategoryValue(item.mediaId).hashCode()
-        } else MediaIdHelper.extractCategoryValue(item.mediaId).toInt()
-
-        GlideApp.with(context).clear(view)
-
-        val file = File(item.image)
-        val imageUri = if(file.exists()){
-            Uri.fromFile(file)
-        } else {
-            Uri.parse(item.image)
-        }
-
-        GlideApp.with(context)
-                .load(imageUri)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(BindingsAdapter.OVERRIDE_BIG)
-                .priority(Priority.IMMEDIATE)
-                .error(CoverUtils.getGradient(context!!, id, source))
-                .into(view!!.cover)
+//        GlideApp.with(context)
+//                .load(imageUri)
+//                .centerCrop()
+//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+//                .override(BindingsAdapter.OVERRIDE_BIG)
+//                .priority(Priority.IMMEDIATE)
+//                .error(CoverUtils.getGradient(context!!, id, source))
+//                .into(view!!.cover)
     }
 
     internal fun setLightButtons(){

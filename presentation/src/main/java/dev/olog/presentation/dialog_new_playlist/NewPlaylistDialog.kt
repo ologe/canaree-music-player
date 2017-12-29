@@ -12,6 +12,7 @@ import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class NewPlaylistDialog : BaseDialogFragment() {
@@ -20,7 +21,7 @@ class NewPlaylistDialog : BaseDialogFragment() {
         const val TAG = "NewPlaylistDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        fun newInstance(mediaId: String): NewPlaylistDialog {
+        fun newInstance(mediaId: MediaId): NewPlaylistDialog {
             return NewPlaylistDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId
             )

@@ -22,7 +22,7 @@ import dev.olog.presentation.fragment_search.SearchFragmentType
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.RecentSearchesTypes
 import dev.olog.shared.groupMap
 import io.reactivex.Flowable
@@ -130,7 +130,7 @@ class SearchFragmentViewModelModule {
                 .map { it.toMutableList() }
                 .map {
                     if (it.isNotEmpty()){
-                        it.add(DisplayableItem(R.layout.item_search_clear_recent, "clear recent id", ""))
+                        it.add(DisplayableItem(R.layout.item_search_clear_recent, MediaId.headerId("clear recent"), ""))
                         it.addAll(0, searchHeaders.recents)
                     }
                     it
@@ -142,7 +142,7 @@ class SearchFragmentViewModelModule {
 private fun Song.toSearchDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_search_song,
-            MediaIdHelper.songId(id),
+            MediaId.songId(id),
             title,
             "$artist${dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
@@ -155,7 +155,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
 private fun Album.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_search_album,
-            MediaIdHelper.albumId(id),
+            MediaId.albumId(id),
             title,
             artist,
             image
@@ -165,7 +165,7 @@ private fun Album.toSearchDisplayableItem(): DisplayableItem {
 private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_search_album,
-            MediaIdHelper.artistId(id),
+            MediaId.artistId(id),
             name,
             null,
             image

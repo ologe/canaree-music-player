@@ -3,13 +3,12 @@ package dev.olog.presentation
 import android.databinding.BindingAdapter
 import android.net.Uri
 import android.support.v4.content.ContextCompat
-import android.text.TextUtils
 import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.fragment_special_thanks.SpecialThanksModel
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.CoverUtils
 import java.io.File
 
@@ -22,15 +21,12 @@ object BindingsAdapter {
     private fun loadImageImpl(view: ImageView, item: DisplayableItem,
                               override: Int, priority: Priority = Priority.HIGH, asPlaceholder: Boolean = false){
         val mediaId = item.mediaId
-        if (TextUtils.isEmpty(mediaId)){
-            return
-        }
 
         val context = view.context
 
         GlideApp.with(context).clear(view)
 
-        val source = resolveCategory(mediaId)
+        val source = mediaId.source
         val id = resolveId(mediaId)
 
         var request = GlideApp.with(context)
@@ -92,24 +88,14 @@ object BindingsAdapter {
         }
     }
 
-    private fun resolveCategory(mediaId: String): Int {
-        return MediaIdHelper.mapCategoryToSource(mediaId)
-    }
-
-    private fun resolveId(mediaId: String): Int {
-        val isLeaf = MediaIdHelper.isLeaf(mediaId)
-        if (isLeaf){
-            return MediaIdHelper.extractLeaf(mediaId).toInt()
+    private fun resolveId(mediaId: MediaId): Int {
+        if (mediaId.isLeaf){
+            return mediaId.leaf!!.toInt()
         }
-
-        val category = MediaIdHelper.extractCategory(mediaId)
-        val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
-        if (category == MediaIdHelper.MEDIA_ID_BY_FOLDER){
-            return categoryValue.hashCode()
+        if (mediaId.isFolder){
+            return mediaId.categoryValue.hashCode()
         }
-        if (TextUtils.isDigitsOnly(categoryValue)){
-            return categoryValue.toInt()
-        } else return 0
+        return mediaId.categoryValue.toInt()
     }
 
 }

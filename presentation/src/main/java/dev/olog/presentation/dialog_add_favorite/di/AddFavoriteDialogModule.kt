@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
+import dev.olog.shared.MediaId
 
 @Module
 class AddFavoriteDialogModule(
@@ -16,8 +17,9 @@ class AddFavoriteDialogModule(
     fun provideLifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    fun provideMediaId(): String {
-        return fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_MEDIA_ID)
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides

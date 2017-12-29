@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_clear_playlist.ClearPlaylistDialog
-import javax.inject.Named
+import dev.olog.shared.MediaId
 
 @Module
 class ClearPlaylistDialogModule(
@@ -17,12 +17,12 @@ class ClearPlaylistDialogModule(
     fun provideLifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    fun provideMediaId(): String {
-        return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_MEDIA_ID)
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides
-    @Named("item title")
     fun provideItemTitle(): String {
         return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_ITEM_TITLE)
     }

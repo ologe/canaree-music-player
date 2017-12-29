@@ -6,7 +6,7 @@ import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.SearchResult
 import dev.olog.domain.entity.Song
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.RecentSearchesTypes.ALBUM
 import dev.olog.shared.RecentSearchesTypes.ARTIST
 import dev.olog.shared.RecentSearchesTypes.SONG
@@ -102,17 +102,17 @@ abstract class RecentSearchesDao {
     }
 
     private fun searchSongMapper(recentSearch: RecentSearchesEntity, song: Song) : SearchResult {
-        return SearchResult(MediaIdHelper.songId(song.id), recentSearch.dataType,
+        return SearchResult(MediaId.songId(song.id), recentSearch.dataType,
                 song.title, song.image)
     }
 
     private fun searchAlbumMapper(recentSearch: RecentSearchesEntity, album: Album) : SearchResult {
-        return SearchResult(MediaIdHelper.albumId(album.id), recentSearch.dataType,
+        return SearchResult(MediaId.albumId(album.id), recentSearch.dataType,
                 album.title, album.image)
     }
 
     private fun searchArtistMapper(recentSearch: RecentSearchesEntity, artist: Artist) : SearchResult {
-        return SearchResult(MediaIdHelper.artistId(artist.id), recentSearch.dataType,
+        return SearchResult(MediaId.artistId(artist.id), recentSearch.dataType,
                 artist.name, "")
     }
 

@@ -4,13 +4,14 @@ import android.app.Application
 import android.text.TextUtils
 import dev.olog.domain.interactor.dialog.AddToFavoriteUseCase
 import dev.olog.presentation.R
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class AddFavoriteDialogPresenter @Inject constructor(
         private val application: Application,
-        private val mediaId: String,
+        private val mediaId: MediaId,
         private val addToFavoriteUseCase: AddToFavoriteUseCase
 ) {
 

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_rename.RenameDialog
+import dev.olog.shared.MediaId
 
 
 @Module
@@ -17,8 +18,9 @@ class RenameDialogModule(
     fun provideLifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    fun provideMediaId(): String {
-        return fragment.arguments!!.getString(RenameDialog.ARGUMENTS_MEDIA_ID)
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(RenameDialog.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
 }

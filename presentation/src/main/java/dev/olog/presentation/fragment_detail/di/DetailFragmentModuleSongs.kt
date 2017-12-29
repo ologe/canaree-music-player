@@ -13,11 +13,10 @@ import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.domain.interactor.detail.sorting.GetSortOrderUseCase
 import dev.olog.domain.interactor.detail.sorting.GetSortedSongListByParamUseCase
 import dev.olog.presentation.R
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_detail.DetailFragmentViewModel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.TimeUtils
@@ -31,7 +30,7 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.RECENTLY_ADDED)
     internal fun provideRecentlyAdded(
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetRecentlyAddedUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
@@ -46,7 +45,7 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.MOST_PLAYED)
     internal fun provideMostPlayed(
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetMostPlayedSongsUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).groupMap { it.toMostPlayedDetailDisplayableItem(mediaId) }
@@ -57,7 +56,7 @@ class DetailFragmentModuleSongs {
     @StringKey(DetailFragmentViewModel.SONGS)
     internal fun provideSongList(
             @ApplicationContext context: Context,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetSortedSongListByParamUseCase,
             getSortOrderUseCase: GetSortOrderUseCase) : Flowable<List<DisplayableItem>> {
 
@@ -73,7 +72,7 @@ class DetailFragmentModuleSongs {
 
     private fun createSongFooter(context: Context, pair: Pair<MutableList<DisplayableItem>, Int>): List<DisplayableItem> {
         val (list, duration) = pair
-        list.add(DisplayableItem(R.layout.item_detail_footer, "song footer id",
+        list.add(DisplayableItem(R.layout.item_detail_footer, MediaId.headerId("song footer"),
                 context.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + TextUtils.MIDDLE_DOT_SPACED +
                         TimeUtils.formatMillis(context, duration.toLong())))
         return list
@@ -84,40 +83,38 @@ class DetailFragmentModuleSongs {
     @StringKey(DetailFragmentViewModel.RELATED_ARTISTS)
     internal fun provideRelatedArtists(
             @ApplicationContext context: Context,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetSongListByParamUseCase): Flowable<List<DisplayableItem>> {
 
-        val source = MediaIdHelper.mapCategoryToSource(mediaId)
         val unknownArtist = context.getString(R.string.unknown_artist)
-        val inThisItemTitles = context.resources.getStringArray(R.array.detail_in_this_item)
+        val inThisItemHeader = context.resources.getStringArray(R.array.detail_in_this_item)[mediaId.source]
 
         return useCase.execute(mediaId)
                 .map {
-                    if (source != TabViewPagerAdapter.ALBUM && source != TabViewPagerAdapter.ARTIST){
+                    if (!mediaId.isAlbum && !mediaId.isArtist){
                         it.asSequence().filter { it.artist != unknownArtist }
                                 .map { it.artist }
                                 .distinct()
                                 .joinToString()
                     } else ""
                 }
-                .map { DisplayableItem(R.layout.item_detail_related_artist, "related id", it, inThisItemTitles[source]) }
+                .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it, inThisItemHeader) }
                 .map { listOf(it) }
     }
 
 }
 
-private fun Song.toDetailDisplayableItem(parentId: String, sortType: SortType): DisplayableItem {
-    val category = MediaIdHelper.extractCategory(parentId)
+private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {
     val viewType = when {
-        category == MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.layout.item_detail_song_with_track
-        category == MediaIdHelper.MEDIA_ID_BY_PLAYLIST && sortType == SortType.CUSTOM ->
+        parentId.isAlbum -> R.layout.item_detail_song_with_track
+        parentId.isPlaylist && sortType == SortType.CUSTOM ->
             R.layout.item_detail_song_with_drag_handle
         else -> R.layout.item_detail_song
     }
 
-    val secondText = when (category){
-        MediaIdHelper.MEDIA_ID_BY_ALBUM -> this.artist
-        MediaIdHelper.MEDIA_ID_BY_ARTIST -> this.album
+    val secondText = when {
+        parentId.isAlbum -> this.artist
+        parentId.isArtist -> this.album
         else -> "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
     }
 
@@ -134,7 +131,7 @@ private fun Song.toDetailDisplayableItem(parentId: String, sortType: SortType): 
 
     return DisplayableItem(
             viewType,
-            MediaIdHelper.playableItem(parentId, id),
+            MediaId.playableItem(parentId, id),
             title,
             secondText,
             image,
@@ -145,10 +142,10 @@ private fun Song.toDetailDisplayableItem(parentId: String, sortType: SortType): 
     )
 }
 
-private fun Song.toMostPlayedDetailDisplayableItem(parentId: String): DisplayableItem {
+private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_song_most_played,
-            MediaIdHelper.playableItem(parentId, id),
+            MediaId.playableItem(parentId, id),
             title,
             artist,
             image,
@@ -158,10 +155,10 @@ private fun Song.toMostPlayedDetailDisplayableItem(parentId: String): Displayabl
     )
 }
 
-private fun Song.toRecentDetailDisplayableItem(parentId: String): DisplayableItem {
+private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_song_recent,
-            MediaIdHelper.playableItem(parentId, id),
+            MediaId.playableItem(parentId, id),
             title,
             artist,
             image,

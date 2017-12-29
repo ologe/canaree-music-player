@@ -8,13 +8,14 @@ import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.CreatePlaylistUseCase
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class NewPlaylistDialogPresenter @Inject constructor(
         private val application: Application,
-        private val mediaId: String,
+        private val mediaId: MediaId,
         getPlaylistSiblingsUseCase: GetPlaylistBlockingUseCase,
         private val createPlaylistUseCase: CreatePlaylistUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase

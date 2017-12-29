@@ -3,7 +3,6 @@ package dev.olog.music_service
 import android.os.Bundle
 import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaDescriptionCompat
-import android.support.v4.media.MediaMetadataCompat
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.most_played.GetMostPlayedSongsUseCase
 import dev.olog.domain.interactor.detail.recent.GetRecentlyAddedUseCase
@@ -12,7 +11,7 @@ import dev.olog.domain.interactor.music_service.CurrentSongIdUseCase
 import dev.olog.domain.interactor.music_service.GetPlayingQueueUseCase
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
@@ -63,8 +62,8 @@ class QueueManager @Inject constructor(
         )
     }
 
-    override fun handlePlayFromMediaId(mediaId: String): Single<PlayerMediaEntity> {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+    override fun handlePlayFromMediaId(mediaId: MediaId): Single<PlayerMediaEntity> {
+        val songId = mediaId.leaf!!
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
@@ -76,8 +75,8 @@ class QueueManager @Inject constructor(
                 .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
     }
 
-    override fun handlePlayRecentlyPlayed(mediaId: String): Single<PlayerMediaEntity> {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+    override fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
+        val songId = mediaId.leaf!!
 
         return getRecentlyAddedUseCase.execute(mediaId)
                 .firstOrError()
@@ -89,8 +88,8 @@ class QueueManager @Inject constructor(
                 .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
     }
 
-    override fun handlePlayMostPlayed(mediaId: String): Single<PlayerMediaEntity> {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+    override fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
+        val songId = mediaId.leaf!!
 
         return getMostPlayedSongsUseCase.execute(mediaId)
                 .firstOrError()
@@ -102,9 +101,7 @@ class QueueManager @Inject constructor(
                 .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
     }
 
-    override fun handlePlayShuffle(bundle: Bundle): Single<PlayerMediaEntity> {
-        val mediaId = bundle.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-
+    override fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity> {
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
                 .groupMap { it.toMediaEntity(mediaId) }

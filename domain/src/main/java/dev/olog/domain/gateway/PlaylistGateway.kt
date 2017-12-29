@@ -8,7 +8,7 @@ import io.reactivex.Single
 interface PlaylistGateway :
         BaseGateway<Playlist, Long>,
         ChildsHasSongs<Long>,
-        HasMostPlayed<String>,
+        HasMostPlayed,
         HasCreatedImages {
 
     fun getAllAutoPlaylists() : Flowable<List<Playlist>>

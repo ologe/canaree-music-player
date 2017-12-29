@@ -42,10 +42,10 @@ open class NotificationImpl21 @Inject constructor(
 
     protected var builder = NotificationCompat.Builder(service, CHANNEL_ID)
 
-    private var created = false
+    private var isCreated = false
 
     override fun createIfNeeded() {
-        if (created){
+        if (isCreated){
             return
         }
 
@@ -70,7 +70,7 @@ open class NotificationImpl21 @Inject constructor(
 
         extendInitialization()
 
-        created = true
+        isCreated = true
     }
 
     protected open fun extendInitialization(){}
@@ -170,8 +170,10 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     override fun updateFavoriteState(isFavorite: Boolean) {
-        val isFavoriteAction = builder.mActions[1]
-        isFavoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
-        notificationManager.get().notify(INotification.NOTIFICATION_ID, builder.build())
+        if (isCreated){
+            val isFavoriteAction = builder.mActions[1]
+            isFavoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
+            notificationManager.get().notify(INotification.NOTIFICATION_ID, builder.build())
+        }
     }
 }

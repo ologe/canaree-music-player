@@ -1,10 +1,11 @@
 package dev.olog.domain.entity
 
+import dev.olog.shared.MediaId
 import java.io.File
 
 data class PlayingQueueSong (
         val id: Long,
-        val parentMediaId: String,
+        val parentMediaId: MediaId,
         val artistId: Long,
         val albumId: Long,
         val title: String,

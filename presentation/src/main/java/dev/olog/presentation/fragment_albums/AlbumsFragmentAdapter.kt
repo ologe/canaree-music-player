@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class AlbumsFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        mediaId: String,
         private val navigator: Navigator
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {

@@ -4,7 +4,8 @@ import dev.olog.domain.entity.SortType
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -15,19 +16,19 @@ class SetSortOrderUseCase @Inject constructor(
 ) : CompletableUseCaseWithParam<SetSortOrderRequestModel>(schedulers){
 
     override fun buildUseCaseObservable(param: SetSortOrderRequestModel): Completable {
-        val category = MediaIdHelper.extractCategory(param.mediaId)
+        val category = param.mediaId.category
         return when (category){
-            MediaIdHelper.MEDIA_ID_BY_FOLDER -> gateway.setFolderSortOrder(param.sortType)
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> gateway.setPlaylistSortOrder(param.sortType)
-            MediaIdHelper.MEDIA_ID_BY_ALBUM -> gateway.setAlbumSortOrder(param.sortType)
-            MediaIdHelper.MEDIA_ID_BY_ARTIST -> gateway.setArtistSortOrder(param.sortType)
-            MediaIdHelper.MEDIA_ID_BY_GENRE -> gateway.setGenreSortOrder(param.sortType)
+            MediaIdCategory.FOLDER -> gateway.setFolderSortOrder(param.sortType)
+            MediaIdCategory.PLAYLIST -> gateway.setPlaylistSortOrder(param.sortType)
+            MediaIdCategory.ALBUM -> gateway.setAlbumSortOrder(param.sortType)
+            MediaIdCategory.ARTIST -> gateway.setArtistSortOrder(param.sortType)
+            MediaIdCategory.GENRE -> gateway.setGenreSortOrder(param.sortType)
             else -> throw IllegalArgumentException("invalid param $param")
         }
     }
 }
 
 class SetSortOrderRequestModel(
-        val mediaId: String,
+        val mediaId: MediaId,
         val sortType: SortType
 )

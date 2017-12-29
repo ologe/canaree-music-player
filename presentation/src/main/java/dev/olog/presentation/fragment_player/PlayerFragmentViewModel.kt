@@ -14,7 +14,7 @@ import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.model.toPlayerMetadata
 import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.TextUtils
 import io.reactivex.functions.Predicate
@@ -39,35 +39,10 @@ class PlayerFragmentViewModel(
     val onCoverChangedLiveData: LiveData<CoverModel> = controllerCallback.onMetadataChanged()
             .map {
                 val image = it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
-                val id = MediaIdHelper.extractLeaf(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID))
+                val mediaId = MediaId.fromString(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID))
+                val id = mediaId.leaf!!
                 CoverModel(image, CoverUtils.getGradient(application, id.toInt()))
-            }
-//            .map { CoverTempModel(it) }
-//            .scan { old: CoverTempModel, new: CoverTempModel ->
-//                if (old.id.contains("|")){
-//                    val indexOf = old.id.indexOf("|")
-//                    CoverTempModel(new.uri, "${old.id.substring(indexOf + 1)}|${new.id}")
-//                } else {
-//                    CoverTempModel(new.uri, "${old.id}|${new.id}")
-//                }
-//             }
-            .distinctUntilChanged()
-//            .map { model ->
-//                val indexOf = model.id.indexOf("|")
-//                if (indexOf != -1) {
-//                    val oldId = model.id.substring(0, indexOf).toInt()
-//                    val newId = model.id.substring(indexOf + 1).toInt()
-//
-//                    val drawable = TransitionDrawable(arrayOf(
-//                            CoverUtils.getGradientForNotification(application, oldId),
-//                            CoverUtils.getGradientForNotification(application, newId)
-//                    ))
-//                    CoverModel(model.uri, drawable)
-//                } else {
-//                    CoverModel(model.uri, CoverUtils.getGradientForNotification(application, model.id.toInt()))
-//                }
-//
-//            }
+            }.distinctUntilChanged()
             .asLiveData()
 
     val onPlaybackStateChangedLiveData: LiveData<Boolean> = controllerCallback
@@ -102,8 +77,8 @@ class PlayerFragmentViewModel(
 
     val onFavoriteStateChangedObservable: LiveData<Boolean> = controllerCallback.onMetadataChanged()
             .map { it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) }
-            .map { MediaIdHelper.extractLeaf(it) }
-            .map { it.toLong() }
+            .map { MediaId.fromString(it) }
+            .map { it.leaf!! }
             .distinctUntilChanged()
             .flatMapSingle { isFavoriteSongUseCase.execute(it) }
             .asLiveData()

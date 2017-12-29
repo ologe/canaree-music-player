@@ -8,7 +8,7 @@ import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class AddFavoriteDialog : BaseDialogFragment() {
@@ -19,16 +19,16 @@ class AddFavoriteDialog : BaseDialogFragment() {
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        fun newInstance(mediaId: String, listSize: Int, itemTitle: String): AddFavoriteDialog {
+        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): AddFavoriteDialog {
             return AddFavoriteDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    @Inject lateinit var mediaId: String
+    @Inject lateinit var mediaId: MediaId
     @Inject @JvmField var listSize: Int = 0
     @Inject lateinit var presenter: AddFavoriteDialogPresenter
 
@@ -47,9 +47,7 @@ class AddFavoriteDialog : BaseDialogFragment() {
 
     private fun createMessage() : String {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        val category = MediaIdHelper.extractCategory(mediaId)
-        val isSong = MediaIdHelper.isSong(mediaId)
-        return if (isSong || category == MediaIdHelper.MEDIA_ID_BY_ALL) {
+        return if (mediaId.isLeaf) {
             getString(R.string.add_song_x_to_favorite, itemTitle)
         } else {
             context!!.resources.getQuantityString(

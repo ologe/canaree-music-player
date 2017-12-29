@@ -25,13 +25,17 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        postponeEnterTransition()
         enterTransition = CircularReveal(activity!!.playingQueue)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.data.subscribe(this, adapter::updateDataSet)
+        viewModel.data.subscribe(this, {
+            adapter.updateDataSet(it)
+            startPostponedEnterTransition()
+        })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

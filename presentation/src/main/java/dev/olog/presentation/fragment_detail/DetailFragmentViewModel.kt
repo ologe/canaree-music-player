@@ -11,7 +11,8 @@ import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -19,8 +20,9 @@ import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
 
 class DetailFragmentViewModel(
-        private val mediaId: String,
-        item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
+        private val mediaId: MediaId,
+        item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<DisplayableItem>>,
+        albums: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
@@ -29,7 +31,7 @@ class DetailFragmentViewModel(
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
-        private val getVisibleTabsUseCase : ObserveDetailTabsVisiblityUseCase
+        getVisibleTabsUseCase : ObserveDetailTabsVisiblityUseCase
 
 ) : ViewModel() {
 
@@ -40,16 +42,15 @@ class DetailFragmentViewModel(
         const val SONGS = "SONGS"
     }
 
-    private val category = MediaIdHelper.extractCategory(mediaId)
+    private val currentCategory = mediaId.category
 
-    val itemLiveData: LiveData<DisplayableItem> = item[category]!!.asLiveData()
+    val itemLiveData: LiveData<DisplayableItem> = item[currentCategory]!!.asLiveData()
 
-    fun artistMediaId(mediaId: String) : Single<String> {
-        val category = MediaIdHelper.extractCategory(mediaId)
-        return if (category == MediaIdHelper.MEDIA_ID_BY_ALBUM){
+    fun artistMediaId(mediaId: MediaId) : Single<MediaId> {
+        return if (mediaId.isAlbum){
             getArtistFromAlbumUseCase.execute(mediaId)
                     .firstOrError()
-                    .map { MediaIdHelper.artistId(it.id) }
+                    .map { MediaId.artistId(it.id) }
         } else {
             Single.error(Throwable("not an album"))
         }
@@ -64,12 +65,12 @@ class DetailFragmentViewModel(
             .asLiveData()
 
     val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
-            item[category]!!,
-            data[MOST_PLAYED]!!.startWithArray(mutableListOf()),
-            data[RECENTLY_ADDED]!!.startWithArray(mutableListOf()),
-            data[category]!!.startWithArray(mutableListOf()),
-            data[RELATED_ARTISTS]!!.startWithArray(mutableListOf()),
-            data[SONGS]!!.startWithArray(mutableListOf()),
+            item[currentCategory]!!,
+            data[MOST_PLAYED]!!,
+            data[RECENTLY_ADDED]!!,
+            albums[currentCategory]!!,
+            data[RELATED_ARTISTS]!!,
+            data[SONGS]!!,
             getVisibleTabsUseCase.execute(),
             { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
@@ -154,11 +155,10 @@ class DetailFragmentViewModel(
     }
 
     fun moveItemInPlaylist(from: Int, to: Int){
-        val category = MediaIdHelper.extractCategory(mediaId)
-        if (category != MediaIdHelper.MEDIA_ID_BY_PLAYLIST){
+        if (!mediaId.isPlaylist){
             throw IllegalArgumentException("not a playlist")
         }
-        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        val playlistId = mediaId.categoryValue.toLong()
         val success = moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
         println(success)
     }

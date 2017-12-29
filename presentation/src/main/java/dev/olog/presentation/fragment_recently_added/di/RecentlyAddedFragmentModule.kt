@@ -8,6 +8,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragmentViewModel
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragmentViewModelFactory
+import dev.olog.shared.MediaId
 
 @Module
 class RecentlyAddedFragmentModule(
@@ -19,8 +20,9 @@ class RecentlyAddedFragmentModule(
     internal fun lifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    internal fun provideMediaId(): String {
-        return fragment.arguments!!.getString(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)
+    internal fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides

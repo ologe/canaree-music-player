@@ -4,7 +4,7 @@ import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.FavoriteGateway
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.base.SingleUseCaseWithParam
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
@@ -15,17 +15,17 @@ class AddToFavoriteUseCase @Inject constructor(
         private val favoriteGateway: FavoriteGateway,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 
-) : SingleUseCaseWithParam<String, String>(scheduler) {
+) : SingleUseCaseWithParam<String, MediaId>(scheduler) {
 
-    override fun buildUseCaseObservable(param: String): Single<String> {
-        val category = MediaIdHelper.extractCategory(param)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(mediaId: MediaId): Single<String> {
 
-        if (MediaIdHelper.isSong(param) || category == MediaIdHelper.MEDIA_ID_BY_ALL) {
-            val songId = MediaIdHelper.extractLeaf(param).toLong()
+        if (mediaId.isAll || mediaId.isLeaf) {
+            val songId = mediaId.leaf!!
             return favoriteGateway.addSingle(songId)
         }
 
-        return getSongListByParamUseCase.execute(param)
+        return getSongListByParamUseCase.execute(mediaId)
                 .observeOn(Schedulers.io())
                 .firstOrError()
                 .flatMap { it.toFlowable()

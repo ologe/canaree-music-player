@@ -4,12 +4,13 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dagger.multibindings.StringKey
 import dev.olog.domain.entity.*
 import dev.olog.domain.interactor.detail.item.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
+import dev.olog.shared.MediaIdCategoryKey
 import dev.olog.shared_android.TextUtils
 import io.reactivex.Flowable
 
@@ -18,10 +19,10 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_FOLDER)
+    @MediaIdCategoryKey(MediaIdCategory.FOLDER)
     internal fun provideFolderItem(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetFolderUseCase) : Flowable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
@@ -29,10 +30,10 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_PLAYLIST)
+    @MediaIdCategoryKey(MediaIdCategory.PLAYLIST)
     internal fun providePlaylistItem(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetPlaylistUseCase) : Flowable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
@@ -40,9 +41,9 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_ALBUM)
+    @MediaIdCategoryKey(MediaIdCategory.ALBUM)
     internal fun provideAlbumItem(
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetAlbumUseCase) : Flowable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem() }
@@ -50,10 +51,10 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_ARTIST)
+    @MediaIdCategoryKey(MediaIdCategory.ARTIST)
     internal fun provideArtistItem(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetArtistUseCase) : Flowable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
@@ -61,10 +62,10 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @StringKey(MediaIdHelper.MEDIA_ID_BY_GENRE)
+    @MediaIdCategoryKey(MediaIdCategory.GENRE)
     internal fun provideGenreItem(
             resources: Resources,
-            mediaId: String,
+            mediaId: MediaId,
             useCase: GetGenreUseCase) : Flowable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
@@ -75,7 +76,7 @@ class DetailFragmentModuleItem {
 private fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_item_info,
-            MediaIdHelper.folderId(path),
+            MediaId.folderId(path),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             image
@@ -89,7 +90,7 @@ private fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
             R.layout.item_detail_item_info,
-            MediaIdHelper.playlistId(this.id),
+            MediaId.playlistId(this.id),
             title.capitalize(),
             listSize,
             image
@@ -99,7 +100,7 @@ private fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
 private fun Album.toHeaderItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_item_info,
-            MediaIdHelper.albumId(this.id),
+            MediaId.albumId(this.id),
             title,
             artist,
             image
@@ -114,7 +115,7 @@ private fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
             R.layout.item_detail_item_info,
-            MediaIdHelper.artistId(this.id),
+            MediaId.artistId(this.id),
             name,
             "$albums$songs".toLowerCase(),
             image
@@ -124,7 +125,7 @@ private fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
 private fun Genre.toHeaderItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_item_info,
-            MediaIdHelper.genreId(this.id),
+            MediaId.genreId(this.id),
             name,
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
             image

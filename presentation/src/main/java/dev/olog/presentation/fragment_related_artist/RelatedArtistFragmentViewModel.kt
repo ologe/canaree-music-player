@@ -10,13 +10,13 @@ import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.TextUtils
 import io.reactivex.rxkotlin.toFlowable
 
 class RelatedArtistViewModel(
         application: Application,
-        mediaId: String,
+        mediaId: MediaId,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getArtistUseCase: GetArtistUseCase
 
@@ -31,7 +31,7 @@ class RelatedArtistViewModel(
             .flatMapSingle { it.toFlowable()
                     .distinct { it.artist }
                     .filter { it.artist != unknownArtist }
-                    .flatMapSingle { song -> getArtistUseCase.execute(MediaIdHelper.artistId(song.artistId))
+                    .flatMapSingle { song -> getArtistUseCase.execute(MediaId.artistId(song.artistId))
                             .map { it.toRelatedArtist(resources) }
                             .firstOrError()
                     }.toSortedList(compareBy { it.title.toLowerCase() })
@@ -47,7 +47,7 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
 
     return DisplayableItem(
             R.layout.item_related_artist,
-            MediaIdHelper.artistId(id),
+            MediaId.artistId(id),
             this.name,
             "$albums$songs".toLowerCase(),
             this.image

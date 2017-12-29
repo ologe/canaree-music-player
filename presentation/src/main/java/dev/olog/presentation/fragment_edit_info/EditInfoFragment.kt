@@ -15,6 +15,7 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
 import kotlinx.android.synthetic.main.fragment_edit_info.*
@@ -28,7 +29,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         const val TAG = "EditInfoFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
-        fun newInstance(mediaId: String): EditInfoFragment {
+        fun newInstance(mediaId: MediaId): EditInfoFragment {
             return EditInfoFragment().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId
             )

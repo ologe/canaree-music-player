@@ -3,12 +3,14 @@ package dev.olog.presentation.fragment_albums
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Flowable
 import javax.inject.Inject
 
 class AlbumsFragmentViewModelFactory @Inject constructor(
-        private val mediaId: String,
-        private val data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>
+        private val mediaId: MediaId,
+        private val data: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>
 
 ) : ViewModelProvider.Factory {
 

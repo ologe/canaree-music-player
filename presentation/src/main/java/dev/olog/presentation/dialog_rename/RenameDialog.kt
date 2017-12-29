@@ -12,6 +12,7 @@ import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class RenameDialog : BaseDialogFragment() {
@@ -21,7 +22,7 @@ class RenameDialog : BaseDialogFragment() {
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        fun newInstance(mediaId: String, itemTitle: String): RenameDialog {
+        fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId,
                     ARGUMENTS_ITEM_TITLE to itemTitle

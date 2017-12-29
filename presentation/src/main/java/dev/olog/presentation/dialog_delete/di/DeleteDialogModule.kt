@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_delete.DeleteDialog
-import javax.inject.Named
+import dev.olog.shared.MediaId
 
 @Module
 class DeleteDialogModule(
@@ -17,8 +17,9 @@ class DeleteDialogModule(
     fun provideLifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    fun provideMediaId(): String {
-        return fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_MEDIA_ID)
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides
@@ -27,7 +28,6 @@ class DeleteDialogModule(
     }
 
     @Provides
-    @Named("item title")
     fun provideItemTitle(): String {
         return fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_ITEM_TITLE)
     }

@@ -6,6 +6,7 @@ import dev.olog.domain.entity.SortType
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
+import dev.olog.shared.MediaId
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import java.util.*
@@ -17,10 +18,10 @@ class GetSortedSongListByParamUseCase @Inject constructor(
         private val getSortOrderUseCase: GetSortOrderUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase
 
-) : FlowableUseCaseWithParam<List<Song>, String>(schedulers){
+) : FlowableUseCaseWithParam<List<Song>, MediaId>(schedulers){
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: String): Flowable<List<Song>> {
+    override fun buildUseCaseObservable(mediaId: MediaId): Flowable<List<Song>> {
         return Flowables.combineLatest(
                 getSongListByParamUseCase.execute(mediaId),
                 getSortOrderUseCase.execute(mediaId),

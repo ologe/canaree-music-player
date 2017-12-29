@@ -9,7 +9,7 @@ import dev.olog.domain.interactor.music_service.InsertHistorySongUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.unsubscribe
 import io.reactivex.Maybe
 import io.reactivex.disposables.Disposable
@@ -63,11 +63,9 @@ class CurrentSong @Inject constructor(
                 .subscribe()
     }
 
-    private fun createMostPlayedId(entity: MediaEntity): Maybe<String> {
+    private fun createMostPlayedId(entity: MediaEntity): Maybe<MediaId> {
         try {
-            val category = MediaIdHelper.extractCategory(entity.mediaId)
-            val categoryValue = MediaIdHelper.extractCategoryValue(entity.mediaId)
-            return Maybe.just(MediaIdHelper.createId(category, categoryValue, entity.id))
+            return Maybe.just(MediaId.playableItem(entity.mediaId, entity.id))
         } catch (ex: Exception){
             return Maybe.empty()
         }

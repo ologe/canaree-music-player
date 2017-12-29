@@ -6,14 +6,14 @@ import android.text.TextUtils
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.domain.interactor.dialog.RenamePlaylistUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class RenameDialogPresenter @Inject constructor(
         private val application: Application,
-        private val mediaId: String,
+        private val mediaId: MediaId,
         getPlaylistSiblingsUseCase: GetPlaylistBlockingUseCase,
         private val renamePlaylistUseCase: RenamePlaylistUseCase
 
@@ -24,7 +24,7 @@ class RenameDialogPresenter @Inject constructor(
             .map { it.toLowerCase() }
 
     fun execute(oldTitle: String, newTitle: String) : Completable {
-        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+        val playlistId = mediaId.categoryValue.toLong()
         return renamePlaylistUseCase.execute(Pair(playlistId, newTitle))
                 .doOnComplete { createSuccessMessage(oldTitle, newTitle) }
                 .doOnError { createErrorMessage() }

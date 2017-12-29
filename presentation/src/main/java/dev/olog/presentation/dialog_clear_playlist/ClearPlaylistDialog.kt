@@ -8,6 +8,7 @@ import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class ClearPlaylistDialog : BaseDialogFragment() {
@@ -18,9 +19,9 @@ class ClearPlaylistDialog : BaseDialogFragment() {
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        fun newInstance(mediaId: String, listSize: Int, itemTitle: String): ClearPlaylistDialog {
+        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): ClearPlaylistDialog {
             return ClearPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )

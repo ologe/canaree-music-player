@@ -7,7 +7,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
@@ -55,7 +55,7 @@ class MusicService : BaseMusicService() {
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
+        return BrowserRoot(MediaId.MEDIA_ID_ROOT, null)
     }
 
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {

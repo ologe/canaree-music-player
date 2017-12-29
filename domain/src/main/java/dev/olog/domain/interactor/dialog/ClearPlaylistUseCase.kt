@@ -3,7 +3,7 @@ package dev.olog.domain.interactor.dialog
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -11,11 +11,11 @@ class ClearPlaylistUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val playlistGateway: PlaylistGateway
 
-) : CompletableUseCaseWithParam<String>(scheduler) {
+) : CompletableUseCaseWithParam<MediaId>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: String): Completable {
-        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+    override fun buildUseCaseObservable(mediaId: MediaId): Completable {
+        val playlistId = mediaId.categoryValue.toLong()
         return playlistGateway.clearPlaylist(playlistId)
     }
 }

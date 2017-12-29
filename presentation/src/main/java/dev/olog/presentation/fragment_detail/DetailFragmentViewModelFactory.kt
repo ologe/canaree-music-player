@@ -11,13 +11,16 @@ import dev.olog.domain.interactor.detail.sorting.GetSortOrderUseCase
 import dev.olog.domain.interactor.detail.sorting.SetSortArrangingUseCase
 import dev.olog.domain.interactor.detail.sorting.SetSortOrderUseCase
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Flowable
 import javax.inject.Inject
 
 class DetailFragmentViewModelFactory @Inject constructor(
-        private val mediaId: String,
-        private val item: Map<String, @JvmSuppressWildcards Flowable<DisplayableItem>>,
-        private val albums: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        private val mediaId: MediaId,
+        private val item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<DisplayableItem>>,
+        private val albums: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        private val data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
         private val setSortOrderUseCase: SetSortOrderUseCase,
@@ -35,6 +38,7 @@ class DetailFragmentViewModelFactory @Inject constructor(
                 mediaId,
                 item,
                 albums,
+                data,
                 headers,
                 getArtistFromAlbumUseCase,
                 setSortOrderUseCase,

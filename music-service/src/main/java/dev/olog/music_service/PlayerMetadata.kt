@@ -7,7 +7,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaIdHelper
 import dev.olog.shared.constants.MetadataConstants
 import dev.olog.shared_android.ImageUtils
 import javax.inject.Inject
@@ -28,7 +27,7 @@ class PlayerMetadata @Inject constructor(
             currentSong.update(entity)
         }
 
-        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaIdHelper.songId(entity.id))
+        builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)

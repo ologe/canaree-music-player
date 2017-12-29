@@ -4,17 +4,18 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Flowable
 
 class AlbumsFragmentViewModel(
-        mediaId: String,
-        data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>
+        mediaId: MediaId,
+        data: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>
 
 ) : ViewModel() {
 
-    private val category = MediaIdHelper.extractCategory(mediaId)
 
-    val data : LiveData<List<DisplayableItem>> = data[category]!!.asLiveData()
+
+    val data : LiveData<List<DisplayableItem>> = data[mediaId.category]!!.asLiveData()
 
 }

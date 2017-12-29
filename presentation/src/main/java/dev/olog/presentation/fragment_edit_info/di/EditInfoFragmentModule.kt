@@ -8,6 +8,7 @@ import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.fragment_edit_info.EditInfoFragment
 import dev.olog.presentation.fragment_edit_info.EditInfoFragmentView
+import dev.olog.shared.MediaId
 
 @Module
 class EditInfoFragmentModule(
@@ -24,8 +25,9 @@ class EditInfoFragmentModule(
     fun provideView(): EditInfoFragmentView = fragment
 
     @Provides
-    fun provideMediaId(): String {
-        return fragment.arguments!!.getString(EditInfoFragment.ARGUMENTS_MEDIA_ID)
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(EditInfoFragment.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides

@@ -9,6 +9,7 @@ import dev.olog.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -33,13 +34,13 @@ class TabFragmentViewModel constructor(
         return liveData
     }
 
-    fun insertAlbumLastPlayed(mediaId: String): Completable{
+    fun insertAlbumLastPlayed(mediaId: MediaId): Completable{
         return getAlbumUseCase.execute(mediaId)
                 .firstOrError()
                 .flatMapCompletable { insertLastPlayedAlbumUseCase.execute(it) }
     }
 
-    fun insertArtistLastPlayed(mediaId: String): Completable{
+    fun insertArtistLastPlayed(mediaId: MediaId): Completable{
         return getArtistUseCase.execute(mediaId)
                 .firstOrError()
                 .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it) }

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
+import dev.olog.shared.MediaId
 
 @Module
 class AddQueueDialogModule(
@@ -16,8 +17,9 @@ class AddQueueDialogModule(
     fun provideLifecycle(): Lifecycle = fragment.lifecycle
 
     @Provides
-    fun provideMediaId(): String {
-        return fragment.arguments!!.getString(AddQueueDialog.ARGUMENTS_MEDIA_ID)
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(AddQueueDialog.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
     }
 
     @Provides

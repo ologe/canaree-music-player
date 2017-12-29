@@ -16,7 +16,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.BackpressureStrategy
@@ -158,14 +158,14 @@ class GenreRepository @Inject constructor(
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun getMostPlayed(mediaId: String): Flowable<List<Song>> {
-        val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
-        return mostPlayedDao.getAll(playlistId, songGateway.getAll())
+    override fun getMostPlayed(mediaId: MediaId): Flowable<List<Song>> {
+        val genreId = mediaId.categoryValue.toLong()
+        return mostPlayedDao.getAll(genreId, songGateway.getAll())
     }
 
-    override fun insertMostPlayed(mediaId: String): Completable {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
-        val genreId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+    override fun insertMostPlayed(mediaId: MediaId): Completable {
+        val songId = mediaId.leaf!!
+        val genreId = mediaId.categoryValue.toLong()
         return songGateway.getByParam(songId)
                 .flatMapCompletable { song ->
                     CompletableSource { mostPlayedDao.insertOne(GenreMostPlayedEntity(0, song.id, genreId)) }

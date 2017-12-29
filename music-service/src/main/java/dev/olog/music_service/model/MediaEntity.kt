@@ -2,10 +2,11 @@ package dev.olog.music_service.model
 
 import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.entity.Song
+import dev.olog.shared.MediaId
 
 data class MediaEntity(
         val id: Long,
-        val mediaId: String,
+        val mediaId: MediaId,
         val title: String,
         val artist: String,
         val album: String,
@@ -15,10 +16,10 @@ data class MediaEntity(
         val isExplicit: Boolean
 )
 
-fun Song.toMediaEntity(mediaId: String) : MediaEntity {
+fun Song.toMediaEntity(mediaId: MediaId) : MediaEntity {
     return MediaEntity(
             this.id,
-            mediaId,
+            MediaId.playableItem(mediaId, this.id),
             this.title,
             this.artist,
             this.album,
@@ -32,7 +33,7 @@ fun Song.toMediaEntity(mediaId: String) : MediaEntity {
 fun PlayingQueueSong.toMediaEntity() : MediaEntity {
     return MediaEntity(
             this.id,
-            this.parentMediaId,
+            MediaId.playableItem(parentMediaId, this.id),
             this.title,
             this.artist,
             this.album,

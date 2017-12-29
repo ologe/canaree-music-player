@@ -111,7 +111,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onBackPressed() {
         val miniQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
-        val playingQueue = findFragmentByTag<MiniQueueFragment>(PlayingQueueFragment.TAG)
+        val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         when {
             playingQueue != null -> super.onBackPressed()
             miniQueue?.cannotScrollUp() ?: false -> {

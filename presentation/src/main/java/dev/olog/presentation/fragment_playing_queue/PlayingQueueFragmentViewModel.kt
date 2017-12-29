@@ -6,7 +6,7 @@ import dev.olog.domain.interactor.music_service.ObservePlayingQueueUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
 
@@ -24,7 +24,7 @@ class PlayingQueueFragmentViewModel(
 private fun Song.toPlayingQueueDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_playing_queue,
-            MediaIdHelper.songId(id),
+            MediaId.songId(id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,

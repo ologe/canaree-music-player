@@ -9,6 +9,7 @@ import android.net.Uri
 import dev.olog.domain.entity.UneditedSong
 import dev.olog.domain.interactor.GetUneditedSongUseCase
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.MediaId
 import dev.olog.shared.ProcessLifecycle
 import dev.olog.shared.unsubscribe
 import io.reactivex.Single
@@ -23,7 +24,7 @@ import javax.inject.Inject
 class EditInfoFragmentPresenter @Inject constructor(
         @ApplicationContext private val context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
-        private val mediaId: String,
+        private val mediaId: MediaId,
         private val getSongUseCase: GetUneditedSongUseCase
 
 ) : DefaultLifecycleObserver {

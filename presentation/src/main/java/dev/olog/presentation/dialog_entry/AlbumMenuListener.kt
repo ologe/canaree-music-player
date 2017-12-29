@@ -8,7 +8,7 @@ import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class AlbumMenuListener @Inject constructor(
@@ -27,7 +27,7 @@ class AlbumMenuListener @Inject constructor(
         when (itemId){
             R.id.viewArtist -> {
                 getAlbumUseCase.execute(item.mediaId)
-                        .map { MediaIdHelper.artistId(it.artistId) }
+                        .map { MediaId.artistId(it.artistId) }
                         .firstOrError()
                         .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()

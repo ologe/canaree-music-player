@@ -6,7 +6,8 @@ import android.arch.persistence.room.Query
 import dev.olog.data.entity.PlayingQueueEntity
 import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.entity.Song
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
@@ -46,18 +47,22 @@ abstract class PlayingQueueDao {
                 } }
     }
 
-    fun insert(list: List<Pair<String, Long>>) : Completable {
+    fun insert(list: List<Pair<MediaId, Long>>) : Completable {
+
         return Single.fromCallable { deleteAllImpl() }
-                .map { list.map { PlayingQueueEntity(songId = it.second,
-                        category = MediaIdHelper.extractCategory(it.first),
-                        categoryValue = MediaIdHelper.extractCategoryValue(it.first)) }
-                }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
+                .map { list.map {
+                    val (mediaId, songId) = it
+                    PlayingQueueEntity(
+                            songId = songId,
+                            category = mediaId.category.toString(),
+                            categoryValue = mediaId.categoryValue)
+                } }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
     }
 
     private fun Song.toPlayingQueueSong(category: String, categoryValue: String): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
-                MediaIdHelper.createCategoryValue(category, categoryValue),
+                MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
                 this.artistId,
                 this.albumId,
                 this.title,

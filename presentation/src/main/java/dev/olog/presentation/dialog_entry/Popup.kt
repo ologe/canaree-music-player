@@ -12,7 +12,8 @@ import android.widget.PopupMenu
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import dev.olog.shared_android.Constants
 import javax.inject.Inject
 
@@ -48,10 +49,8 @@ class Popup @Inject constructor(
 
     private fun adjustMenu(context: Context, item: DisplayableItem, menu: Menu){
         val mediaId = item.mediaId
-        val category = MediaIdHelper.extractCategory(mediaId)
 
-        val isSong = MediaIdHelper.isSong(mediaId)
-        if (isSong){
+        if (item.mediaId.isLeaf){
             item.subtitle?.let {
                 val unknownAlbum = context.getString(R.string.unknown_album)
                 val unknownArtist = context.getString(R.string.unknown_artist)
@@ -62,15 +61,15 @@ class Popup @Inject constructor(
                     menu.removeItem(R.id.viewArtist)
                 }
             }
-            if (category == MediaIdHelper.MEDIA_ID_BY_ALBUM){
+            if (item.mediaId.isAlbum){
                 menu.removeItem(R.id.viewAlbum)
-            } else if (category == MediaIdHelper.MEDIA_ID_BY_ARTIST){
+            } else if (item.mediaId.isArtist){
                 menu.removeItem(R.id.viewArtist)
             }
         } else {
-            when (category){
-                MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> {
-                    val playlistId = MediaIdHelper.extractCategoryValue(mediaId).toLong()
+            when (item.mediaId.category){
+                MediaIdCategory.PLAYLIST -> {
+                    val playlistId = item.mediaId.categoryValue.toLong()
                     when (playlistId){
                         Constants.FAVORITE_LIST_ID,
                         Constants.HISTORY_LIST_ID,
@@ -83,7 +82,7 @@ class Popup @Inject constructor(
                         Constants.LAST_ADDED_ID -> menu.removeItem(R.id.clear)
                     }
                 }
-                MediaIdHelper.MEDIA_ID_BY_ALBUM -> {
+                MediaIdCategory.ALBUM -> {
                     item.subtitle?.let {
                         val unknownArtist = context.getString(R.string.unknown_artist)
                         if (it.contains(unknownArtist)){
@@ -97,19 +96,18 @@ class Popup @Inject constructor(
     }
 
     @MenuRes
-    private fun provideMenuRes(mediaId: String): Int{
-        if (MediaIdHelper.isSong(mediaId)){
+    private fun provideMenuRes(mediaId: MediaId): Int{
+        if (mediaId.isLeaf){
             return R.menu.dialog_song
         }
 
-        val category = MediaIdHelper.extractCategory(mediaId)
-        return when (category){
-            MediaIdHelper.MEDIA_ID_BY_FOLDER -> R.menu.dialog_folder
-            MediaIdHelper.MEDIA_ID_BY_PLAYLIST -> R.menu.dialog_playlist
-            MediaIdHelper.MEDIA_ID_BY_ALL -> R.menu.dialog_song
-            MediaIdHelper.MEDIA_ID_BY_ALBUM -> R.menu.dialog_album
-            MediaIdHelper.MEDIA_ID_BY_ARTIST -> R.menu.dialog_artist
-            MediaIdHelper.MEDIA_ID_BY_GENRE -> R.menu.dialog_genre
+        return when (mediaId.category){
+            MediaIdCategory.FOLDER -> R.menu.dialog_folder
+            MediaIdCategory.PLAYLIST -> R.menu.dialog_playlist
+//            MediaIdCategory.ALL -> R.menu.dialog_song
+            MediaIdCategory.ALBUM -> R.menu.dialog_album
+            MediaIdCategory.ARTIST -> R.menu.dialog_artist
+            MediaIdCategory.GENRE -> R.menu.dialog_genre
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }

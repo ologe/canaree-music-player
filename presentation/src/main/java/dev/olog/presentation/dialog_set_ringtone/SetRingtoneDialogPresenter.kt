@@ -14,18 +14,17 @@ import android.support.v7.app.AppCompatActivity
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.extension.makeDialog
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import dev.olog.shared_android.isMarshmallow
 import io.reactivex.Single
 import org.jetbrains.anko.toast
 import javax.inject.Inject
-import javax.inject.Named
 
 class SetRingtoneDialogPresenter @Inject constructor(
         private val application: Application,
         private val activity: AppCompatActivity,
-        private val mediaId: String,
-        @Named("item title") private val itemTitle: String,
+        private val mediaId: MediaId,
+        private val itemTitle: String,
         private val scheduler: IoScheduler
 ) {
 
@@ -74,7 +73,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
     }
 
     private fun writeSettings() : Boolean {
-        val songId = MediaIdHelper.extractLeaf(mediaId).toLong()
+        val songId = mediaId.leaf!!
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, songId)
 
         val values = ContentValues(2)

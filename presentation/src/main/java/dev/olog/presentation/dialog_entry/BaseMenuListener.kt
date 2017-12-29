@@ -11,7 +11,7 @@ import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
 import javax.inject.Inject
@@ -60,9 +60,8 @@ open class BaseMenuListener @Inject constructor(
                         .subscribe()
             }
             R.id.delete -> {
-                val category = MediaIdHelper.extractCategory(item.mediaId)
-                if (category == MediaIdHelper.MEDIA_ID_BY_PLAYLIST){
-                    // playlist size not needed
+                if (item.mediaId.isPlaylist){
+                    // playlist does not use size
                     navigator.toDeleteDialog(item.mediaId, -1, item.title)
                 } else {
                     getSongListByParamUseCase.execute(item.mediaId)
@@ -78,7 +77,7 @@ open class BaseMenuListener @Inject constructor(
         return true
     }
 
-    private fun onPlaylistClick(playlist: Playlist, mediaId: String): Completable {
+    private fun onPlaylistClick(playlist: Playlist, mediaId: MediaId): Completable {
 
         return addToPlaylistUseCase.execute(Pair(playlist, mediaId))
                 .doOnSuccess { createSuccessMessage(it) }

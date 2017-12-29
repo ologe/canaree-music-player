@@ -25,7 +25,7 @@ import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class DetailFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         enums: Array<DetailFragmentDataType>,
-        private val mediaId: String,
+        private val mediaId: MediaId,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val navigator: Navigator,
@@ -52,7 +52,7 @@ class DetailFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.more, dataController) { item ,_, view ->
                     navigator.toDialog(item, view)
                 }
-                if (MediaIdHelper.extractCategory(mediaId) == MediaIdHelper.MEDIA_ID_BY_ALBUM){
+                if (mediaId.isAlbum){
                     viewHolder.setOnClickListener(R.id.clickableArtist, dataController) { item, _, _ ->
                         viewModel.artistMediaId(item.mediaId)
                                 .subscribe({ artistMediaId ->

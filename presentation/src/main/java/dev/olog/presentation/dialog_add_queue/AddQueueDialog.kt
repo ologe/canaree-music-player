@@ -8,7 +8,7 @@ import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
-import dev.olog.shared.MediaIdHelper
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class AddQueueDialog : BaseDialogFragment() {
@@ -19,16 +19,16 @@ class AddQueueDialog : BaseDialogFragment() {
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
-        fun newInstance(mediaId: String, listSize: Int, itemTitle: String): AddQueueDialog {
+        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): AddQueueDialog {
             return AddQueueDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
     }
 
-    @Inject lateinit var mediaId: String
+    @Inject lateinit var mediaId: MediaId
     @Inject @JvmField var listSize: Int = 0
     @Inject lateinit var presenter: AddQueueDialogPresenter
 
@@ -47,9 +47,7 @@ class AddQueueDialog : BaseDialogFragment() {
 
     private fun createMessage() : String {
         val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        val category = MediaIdHelper.extractCategory(mediaId)
-        val isSong = MediaIdHelper.isSong(mediaId)
-        if (category == MediaIdHelper.MEDIA_ID_BY_ALL || isSong){
+        if (mediaId.isAll || mediaId.isLeaf){
             return getString(R.string.add_song_x_to_queue, itemTitle)
         }
         return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_queue, listSize, listSize)
