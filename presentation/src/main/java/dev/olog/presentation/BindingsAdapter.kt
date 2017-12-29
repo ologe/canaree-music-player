@@ -105,7 +105,7 @@ object BindingsAdapter {
         val category = MediaIdHelper.extractCategory(mediaId)
         val categoryValue = MediaIdHelper.extractCategoryValue(mediaId)
         if (category == MediaIdHelper.MEDIA_ID_BY_FOLDER){
-            return category.hashCode()
+            return categoryValue.hashCode()
         }
         if (TextUtils.isDigitsOnly(categoryValue)){
             return categoryValue.toInt()
