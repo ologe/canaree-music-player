@@ -48,8 +48,6 @@ class Popup @Inject constructor(
     }
 
     private fun adjustMenu(context: Context, item: DisplayableItem, menu: Menu){
-        val mediaId = item.mediaId
-
         if (item.mediaId.isLeaf){
             item.subtitle?.let {
                 val unknownAlbum = context.getString(R.string.unknown_album)
@@ -111,29 +109,4 @@ class Popup @Inject constructor(
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }
-
-//    private fun addChangeVisibleTabs(context: Context, menu: Menu){
-//        menu.add(Menu.NONE, changeDetailTabsVisibility, Menu.NONE, context.getString(R.string.popup_visible_items))
-//    }
-
-//    private fun createChangeDetailVisibilityDialog(){
-//        val array = arrayOf(
-//                context.getString(R.string.detail_most_played),
-//                context.getString(R.string.detail_recently_added),
-//                context.getString(R.string.related_artists)
-//        )
-//        val checkedArray = getDetailTabVisibilityUseCase.execute()
-//        val checkedList = checkedArray.toMutableList()
-//
-//        AlertDialog.Builder(context)
-//                .setTitle(context.getString(R.string.popup_visible_items))
-//                .setMultiChoiceItems(array, checkedArray, { _, which, isChecked ->
-//                    checkedList[which] = isChecked
-//                })
-//                .setPositiveButton(context.getString(R.string.popup_positive_ok), { _, _ ->
-//                    setDetailTabVisibilityUseCase.execute(checkedList)
-//                })
-//                .setNegativeButton(context.getString(R.string.popup_negative_cancel), null)
-//                .makeDialog()
-//    }
 }

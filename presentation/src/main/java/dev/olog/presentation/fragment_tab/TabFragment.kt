@@ -55,6 +55,15 @@ class TabFragment : BaseFragment() {
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }
+
+        viewModel.getSmallPlayTypeLiveData.subscribe(this, { type ->
+            val oldType = adapter.smallPlay
+            adapter.smallPlay = type
+            if (oldType != null){
+                adapter.notifyDataSetChanged()
+            }
+        })
+
     }
 
     private fun handleEmpyStateVisibility(isEmpty: Boolean){

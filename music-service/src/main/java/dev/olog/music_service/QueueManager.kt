@@ -40,8 +40,10 @@ class QueueManager @Inject constructor(
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
                 .map { (list, position) -> list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
-                .map { it.to(MathUtils.clamp(bookmarkUseCase.get().toInt(),
-                        0, it.mediaEntity.duration.toInt()).toLong()) }
+                .map {
+                    it to MathUtils.clamp(bookmarkUseCase.get().toInt(),
+                            0, it.mediaEntity.duration.toInt()).toLong()
+                }
     }
 
     override fun handleSkipToQueueItem(id: Long): PlayerMediaEntity {
@@ -63,7 +65,7 @@ class QueueManager @Inject constructor(
     }
 
     override fun handlePlayFromMediaId(mediaId: MediaId): Single<PlayerMediaEntity> {
-        val songId = mediaId.leaf!!
+        val songId = mediaId.leaf ?: -1L
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
@@ -144,7 +146,7 @@ class QueueManager @Inject constructor(
     }
 
     private fun getCurrentSongOnPlayFromId(songId: Long) = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
-        if (shuffleMode.isEnabled()){
+        if (shuffleMode.isEnabled() || songId == -1L){
             Pair(list, 0)
         } else {
             val position = MathUtils.clamp(list.indexOfFirst { it.id == songId }, 0, list.lastIndex)
@@ -154,10 +156,10 @@ class QueueManager @Inject constructor(
 
     private fun shuffleIfNeeded(songId: Long) = Function<List<MediaEntity>, List<MediaEntity>> { list ->
         if (shuffleMode.isEnabled()){
-            val item = list.first { it.id == songId }
+            val item = list.firstOrNull { it.id == songId }
             list.shuffle()
             val songPosition = list.indexOf(item)
-            if (songPosition != 0){
+            if (songPosition != 0 && songPosition != -1){
                 list.swap(0, songPosition)
             }
         }

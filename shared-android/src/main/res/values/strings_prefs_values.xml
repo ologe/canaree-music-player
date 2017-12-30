@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="prefs_small_play_hide">Hide</string>
+    <string name="prefs_small_play_play">Play</string>
+    <string name="prefs_small_play_shuffle">Shuffle</string>
+
+    <string name="prefs_detail_visible_tabs_most_played" translatable="false">Most Played</string>
+    <string name="prefs_detail_visible_tabs_recently_added" translatable="false">Recently Added</string>
+    <string name="prefs_detail_visible_tabs_related_artists" translatable="false">Related Artists</string>
+
+</resources>

@@ -9,3 +9,6 @@ fun View.toggleVisibility(visible: Boolean){
         this.visibility = View.GONE
     }
 }
+
+val View.isVisible: Boolean
+    get() = visibility == View.VISIBLE

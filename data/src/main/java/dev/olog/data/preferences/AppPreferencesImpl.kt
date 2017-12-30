@@ -1,20 +1,25 @@
 package dev.olog.data.preferences
 
+import android.content.Context
 import android.content.SharedPreferences
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import dev.olog.data.R
 import dev.olog.data.utils.edit
 import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SmallPlayEnum
+import dev.olog.domain.entity.SmallPlayType
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.shared.ApplicationContext
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AppPreferencesImpl @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val preferences: SharedPreferences,
         private val rxPreferences: RxSharedPreferences
 
@@ -33,9 +38,6 @@ class AppPreferencesImpl @Inject constructor(
         private const val DETAIL_SORT_GENRE_ORDER = TAG + ".DETAIL_SORT_GENRE_ORDER"
 
         private const val DETAIL_SORT_ARRANGING = TAG + ".DETAIL_SORT_ARRANGING"
-        private const val DETAIL_VISIBILITY_MOST_PLAYED = TAG + ".DETAIL_VISIBILITY_MOST_PLAYED"
-        private const val DETAIL_VISIBILITY_RECENTLY_ADDED = TAG + ".DETAIL_VISIBILITY_RECENTLY_ADDED"
-        private const val DETAIL_VISIBILITY_RELATED_ARTISTS = TAG + ".DETAIL_VISIBILITY_RELATED_ARTISTS"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -128,32 +130,30 @@ class AppPreferencesImpl @Inject constructor(
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ARRANGING, newArranging.ordinal) } }
     }
 
-    override fun observeVisibleTabs(): Flowable<List<Boolean>> {
-        val mostPlayedVisibility = rxPreferences.getBoolean(DETAIL_VISIBILITY_MOST_PLAYED, true).asObservable()
-        val recentlyAddedVisibility = rxPreferences.getBoolean(DETAIL_VISIBILITY_RECENTLY_ADDED, true).asObservable()
-        val relatedArtistsVisibility = rxPreferences.getBoolean(DETAIL_VISIBILITY_RELATED_ARTISTS, true).asObservable()
-        return Observables.combineLatest(
-                mostPlayedVisibility,
-                recentlyAddedVisibility,
-                relatedArtistsVisibility, { mostPlayed, recentlyAdded, relatedArtists ->
-
-            listOf(mostPlayed, recentlyAdded, relatedArtists)
-        }
-        ).toFlowable(BackpressureStrategy.LATEST)
+    override fun getVisibleTabs(): Flowable<BooleanArray> {
+        return rxPreferences.getStringSet(context.getString(R.string.prefs_detail_visible_items_key))
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map {
+                    booleanArrayOf(
+                            it.contains(context.getString(R.string.prefs_detail_visible_tabs_most_played)),
+                            it.contains(context.getString(R.string.prefs_detail_visible_tabs_recently_added)),
+                            it.contains(context.getString(R.string.prefs_detail_visible_tabs_related_artists))
+                    )
+                }
     }
 
-    override fun getVisibleTabs(): BooleanArray {
-        val mostPlayedVisibility = preferences.getBoolean(DETAIL_VISIBILITY_MOST_PLAYED, true)
-        val recentlyAddedVisibility = preferences.getBoolean(DETAIL_VISIBILITY_RECENTLY_ADDED, true)
-        val relatedArtistsVisibility = preferences.getBoolean(DETAIL_VISIBILITY_RELATED_ARTISTS, true)
-        return booleanArrayOf(mostPlayedVisibility, recentlyAddedVisibility, relatedArtistsVisibility)
-    }
-
-    override fun setVisibleTabs(items: List<Boolean>) {
-        preferences.edit {
-            putBoolean(DETAIL_VISIBILITY_MOST_PLAYED, items[0])
-            putBoolean(DETAIL_VISIBILITY_RECENTLY_ADDED, items[1])
-            putBoolean(DETAIL_VISIBILITY_RELATED_ARTISTS, items[2])
-        }
+    override fun getSmallPlay(): Flowable<SmallPlayType> {
+        return rxPreferences.getString(context.getString(R.string.prefs_small_play_key))
+                .asObservable()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .map {
+                    val enum = when (it) {
+                        context.getString(R.string.prefs_small_play_hide) -> SmallPlayEnum.NONE
+                        context.getString(R.string.prefs_small_play_play) -> SmallPlayEnum.PLAY
+                        else ->  SmallPlayEnum.SHUFFLE
+                    }
+                    SmallPlayType(enum)
+                }
     }
 }

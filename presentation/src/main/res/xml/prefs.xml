@@ -2,25 +2,24 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="category 1">
-
+        android:title="General">
 
         <ListPreference
             android:title="Small icon"
-            android:summary="asdasa"
-            android:entries="@array/small_play" />
+            android:summary="Change the action of the small icon next to images"
+            android:entries="@array/small_play"
+            android:entryValues="@array/small_play_values"
+            android:defaultValue="@string/prefs_small_play_hide"
+            android:key="@string/prefs_small_play_key"/>
+
+        <MultiSelectListPreference
+            android:title="Detail visible items"
+            android:summary="Change the visible items in the detail view"
+            android:key="@string/prefs_detail_visible_items_key"
+            android:entries="@array/detail_visible_items"
+            android:entryValues="@array/detail_visible_items_values"
+            android:defaultValue="@array/detail_visible_items_values_default"/>
 
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="category 2">
-
-        <ListPreference
-            android:title="Detail visible tabs"
-            android:summary="asdasa"
-            android:entries="@array/detaiil_visible_tabs" />
-
-    </PreferenceCategory>
-
 
 </PreferenceScreen>

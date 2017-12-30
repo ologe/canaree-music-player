@@ -2,6 +2,7 @@ package dev.olog.presentation.fragment_tab
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import dev.olog.domain.interactor.GetSmallPlayType
 import dev.olog.domain.interactor.detail.item.GetAlbumUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedAlbumUseCase
@@ -15,7 +16,8 @@ class TabFragmentViewModelFactory @Inject constructor(
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
         private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
         private val getAlbumUseCase: GetAlbumUseCase,
-        private val getArtistUseCase: GetArtistUseCase
+        private val getArtistUseCase: GetArtistUseCase,
+        private val getSmallPlayType: GetSmallPlayType
 
 ) : ViewModelProvider.Factory {
 
@@ -23,7 +25,7 @@ class TabFragmentViewModelFactory @Inject constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return TabFragmentViewModel(data,
                 insertLastPlayedAlbumUseCase, insertLastPlayedArtistUseCase,
-                getAlbumUseCase, getArtistUseCase
+                getAlbumUseCase, getArtistUseCase, getSmallPlayType
         ) as T
     }
 }

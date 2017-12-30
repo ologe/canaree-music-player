@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="prefs_small_play_key">key_small_play</string>
+    <string name="prefs_detail_visible_items_key">key_detail_items</string>
+
+</resources>

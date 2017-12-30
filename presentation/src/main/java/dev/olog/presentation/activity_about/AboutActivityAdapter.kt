@@ -2,10 +2,7 @@ package dev.olog.presentation.activity_about
 
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
-import android.content.Intent
 import android.databinding.ViewDataBinding
-import android.net.Uri
-import android.util.Log
 import dagger.Lazy
 import dev.olog.presentation.BR
 import dev.olog.presentation._base.list.BaseListAdapter
@@ -30,7 +27,8 @@ class AboutActivityAdapter @Inject constructor(
             when (item.mediaId){
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
-                AboutActivityPresenter.RATE_ID -> toMarket()
+                AboutActivityPresenter.RATE_ID -> navigator.get().toMarket()
+                AboutActivityPresenter.PRIVACY_POLICY -> navigator.get().toPrivacyPolicy()
             }
         }
     }
@@ -39,16 +37,4 @@ class AboutActivityAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    private fun toMarket(){
-        val uri = Uri.parse("market://details?id=" + context.packageName)
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        } else {
-            Log.w("to rate app", "google play market not found")
-        }
-    }
 }

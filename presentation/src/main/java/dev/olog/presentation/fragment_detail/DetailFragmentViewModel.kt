@@ -6,7 +6,7 @@ import dagger.Lazy
 import dev.olog.domain.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
-import dev.olog.domain.interactor.detail.ObserveDetailTabsVisiblityUseCase
+import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
 import dev.olog.presentation.model.DisplayableItem
@@ -31,7 +31,7 @@ class DetailFragmentViewModel(
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
-        getVisibleTabsUseCase : ObserveDetailTabsVisiblityUseCase
+        getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase
 
 ) : ViewModel() {
 
@@ -159,8 +159,7 @@ class DetailFragmentViewModel(
             throw IllegalArgumentException("not a playlist")
         }
         val playlistId = mediaId.categoryValue.toLong()
-        val success = moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
-        println(success)
+        moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
     }
 
 }

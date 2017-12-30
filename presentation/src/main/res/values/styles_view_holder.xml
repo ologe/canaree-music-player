@@ -58,7 +58,6 @@
     </style>
 
     <style name="SmallShufflePlay">
-        <item name="android:src">@drawable/vd_shuffle</item>
         <item name="android:padding">6dp</item>
         <item name="android:background">@drawable/faded_circle</item>
         <item name="android:layout_gravity">bottom|end</item>

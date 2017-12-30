@@ -6,7 +6,9 @@
 
     <data>
         <import type="android.view.View"/>
+        <import type="dev.olog.domain.entity.SmallPlayEnum"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="smallPlay" type="dev.olog.domain.entity.SmallPlayType"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -40,8 +42,11 @@
             <ImageView
                 android:id="@+id/smallButton"
                 style="@style/SmallShufflePlay"
+                android:tint="@color/dark_grey"
+                android:src="@{smallPlay.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"
                 android:layout_width="@dimen/smallShuffleSize"
-                android:layout_height="@dimen/smallShuffleSize" />
+                android:layout_height="@dimen/smallShuffleSize"
+                android:visibility="@{smallPlay.isNone ? View.GONE : View.VISIBLE}" />
 
         </android.support.v7.widget.CardView>
 

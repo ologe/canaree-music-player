@@ -1,6 +1,7 @@
 package dev.olog.msc
 
 import android.os.StrictMode
+import android.preference.PreferenceManager
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -29,6 +30,7 @@ class App : DaggerApplication() {
 
         Constants.init(resources)
 
+        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
 
         if (BuildConfig.DEBUG) {
             initStrictMode()
