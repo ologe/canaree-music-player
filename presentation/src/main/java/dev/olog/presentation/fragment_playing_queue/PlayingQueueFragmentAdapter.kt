@@ -5,7 +5,7 @@ import android.databinding.ViewDataBinding
 import android.view.MotionEvent
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapterDraggable
+import dev.olog.presentation._base.BaseListAdapter
 import dev.olog.presentation._base.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
@@ -22,7 +22,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         private val musicController: MusicController,
         private val navigator: Navigator
 
-) : BaseListAdapterDraggable<DisplayableItem>(lifecycle) {
+) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
@@ -50,5 +50,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         return oldItem.mediaId == newItem.mediaId
     }
 
-    override fun isViewTypeDraggable(): Int = R.layout.item_playing_queue
+    override val hasDraggableCapabilities: Boolean = true
+
+    override val draggableViewType: Int = R.layout.item_playing_queue
 }

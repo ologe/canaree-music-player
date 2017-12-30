@@ -3,6 +3,7 @@ package dev.olog.presentation._base
 import android.arch.lifecycle.Lifecycle
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
+import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,7 +14,16 @@ abstract class BaseListAdapter<Model> (
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
+    protected open val hasDraggableCapabilities : Boolean = false
+    @LayoutRes protected open val draggableViewType : Int = DraggableBehavior.UNSET
+
     protected val dataController = BaseListAdapterController(this)
+
+    private val draggableBehavior by lazy { if (hasDraggableCapabilities) {
+        DraggableBehaviorImpl(dataController, draggableViewType)
+    } else null }
+
+    val touchHelper = draggableBehavior?.touchHelper
 
     init {
         lifecycle.addObserver(dataController)

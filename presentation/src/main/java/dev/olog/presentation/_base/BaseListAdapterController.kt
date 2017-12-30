@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 class BaseListAdapterController<Model>(
         private val adapter: BaseListAdapter<Model>
 
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver, DraggableControllerCapabilities {
 
     private var dataSetDisposable: Disposable? = null
     private val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
@@ -30,12 +30,12 @@ class BaseListAdapterController<Model>(
 
     operator fun get(position: Int): Model = dataSet[position]
 
-    fun remove(position: Int) {
+    override fun remove(position: Int) {
         dataSet.removeAt(position)
         adapter.notifyItemRemoved(position)
     }
 
-    fun swap(from: Int, to: Int) {
+    override fun swap(from: Int, to: Int) {
         if (from < to){
             for (position in from until to){
                 dataSet.swap(position , position+ 1)
