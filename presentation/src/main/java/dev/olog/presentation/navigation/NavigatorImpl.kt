@@ -1,6 +1,5 @@
 package dev.olog.presentation.navigation
 
-import android.content.Context
 import android.content.Intent
 import android.media.audiofx.AudioEffect
 import android.support.v4.app.FragmentTransaction
@@ -13,6 +12,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_about.AboutActivity
 import dev.olog.presentation.activity_main.MainActivity
+import dev.olog.presentation.activity_preferences.PreferencesActivity
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
@@ -164,7 +164,8 @@ class NavigatorImpl @Inject constructor(
         popup.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.about -> this.toAboutActivity()
-                R.id.equalizer -> this.toEqualizer(anchor.context)
+                R.id.equalizer -> this.toEqualizer()
+                R.id.settings -> this.toSettingsActivty()
             }
             true
         }
@@ -176,12 +177,17 @@ class NavigatorImpl @Inject constructor(
         activity.startActivity(intent)
     }
 
-    private fun toEqualizer(context: Context){
+    private fun toSettingsActivty(){
+        val intent = Intent(activity, PreferencesActivity::class.java)
+        activity.startActivity(intent)
+    }
+
+    private fun toEqualizer(){
         val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
-        if (intent.resolveActivity(context.packageManager) != null){
-            context.startActivity(intent)
+        if (intent.resolveActivity(activity.packageManager) != null){
+            activity.startActivity(intent)
         } else {
-            context.toast(R.string.equalizer_not_found)
+            activity.toast(R.string.equalizer_not_found)
         }
     }
 
