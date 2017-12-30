@@ -1,8 +1,9 @@
-package dev.olog.presentation._base
+package dev.olog.presentation._base.list
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.util.DiffUtil
+import dev.olog.presentation._base.BaseModel
 import dev.olog.shared.clearThenPut
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
@@ -13,11 +14,11 @@ import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class BaseMapAdapterController <E : Enum<E>, Model> (
+class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
         private val adapter: BaseMapAdapter<E, Model>,
         enums: Array<E>
 
-) : DefaultLifecycleObserver {
+) : DefaultLifecycleObserver, AdapterController<Model>, TouchBehaviorCapabilities {
 
     private var dataSetDisposable: Disposable? = null
     private val publisher = PublishProcessor.create<AdapterData<MutableMap<E, MutableList<Model>>>>()
@@ -29,14 +30,14 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
 
     init {
         for (enum in enums) {
-            originalDataSet.put(enum, mutableListOf())
+            originalDataSet[enum] = mutableListOf()
         }
         dataSet.putAll(originalDataSet)
     }
 
-    operator fun get(position: Int): Model = getItem(dataSet, position)
+    override operator fun get(position: Int): Model = getItem(dataSet, position)
 
-    fun swap(from: Int, to: Int) {
+    override fun swap(from: Int, to: Int) {
         if (from < to){
             for (position in from until to){
                 val (list, realPosition1) = getItemPositionWithListWithin(position)
@@ -51,6 +52,15 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
             }
         }
         adapter.notifyItemMoved(from, to)
+    }
+
+    override fun remove(position: Int) {
+        TODO("not supported")
+    }
+
+    override fun headersWithinList(position: Int, viewType: Int): Int {
+        val (list, _) = getItemPositionWithListWithin(position)
+        return list.indexOfFirst { it.type == viewType }
     }
 
     fun getSize(): Int = dataSet.values.sumBy { it.size }
@@ -73,26 +83,27 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
                 .filter { it.version == dataVersion }
                 .map {
 
-                    it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+                    it to DiffUtil.calculateDiff(object : DiffUtil.Callback(){
 
-                    init { assertBackgroundThread() }
+                        init { assertBackgroundThread() }
 
-                    override fun getOldListSize(): Int = dataSet.values.sumBy { it.size }
+                        override fun getOldListSize(): Int = dataSet.values.sumBy { it.size }
 
-                    override fun getNewListSize(): Int = it.data.values.sumBy { it.size }
+                        override fun getNewListSize(): Int = it.data.values.sumBy { it.size }
 
-                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                        val oldItem = getItem(dataSet, oldItemPosition)
-                        val newItem = getItem(it.data, newItemPosition)
-                        return adapter.areItemsTheSame(oldItem, newItem)
-                    }
+                        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                            val oldItem = getItem(dataSet, oldItemPosition)
+                            val newItem = getItem(it.data, newItemPosition)
+                            return oldItem.mediaId == newItem.mediaId
+                        }
 
-                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                        val oldItem = getItem(dataSet, oldItemPosition)
-                        val newItem = getItem(it.data, newItemPosition)
-                        return oldItem == newItem
-                    }
-                })) }
+                        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                            val oldItem = getItem(dataSet, oldItemPosition)
+                            val newItem = getItem(it.data, newItemPosition)
+                            return oldItem == newItem
+                        }
+                    })
+                }
                 .filter { it.first.version == dataVersion }
                 .map { (data, callback) -> Pair(data.data, callback) }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -106,7 +117,8 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
                     } else{
                         callback.dispatchUpdatesTo(adapter)
                     }
-                    adapter.afterDataChanged()
+
+                    adapter.onDataChangedListener?.onChanged()
                 }
     }
 
@@ -132,7 +144,7 @@ class BaseMapAdapterController <E : Enum<E>, Model> (
         for (value in dataSet.values) {
             if (position in totalSize until (totalSize + value.size)){
                 val realPosition = position - totalSize
-                return value.to(realPosition)
+                return value to realPosition
             } else{
                 totalSize += value.size
             }

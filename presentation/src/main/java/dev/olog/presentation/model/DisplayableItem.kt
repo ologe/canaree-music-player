@@ -1,10 +1,11 @@
 package dev.olog.presentation.model
 
+import dev.olog.presentation._base.BaseModel
 import dev.olog.shared.MediaId
 
 data class DisplayableItem (
-        val type: Int,
-        val mediaId: MediaId,
+        override val type: Int,
+        override val mediaId: MediaId,
         val title: String,
         val subtitle: String? = null,
         val image: String = "",
@@ -12,4 +13,5 @@ data class DisplayableItem (
         val isRemix: Boolean = false,
         val isExplicit: Boolean = false,
         val trackNumber: String = ""
-)
+
+) : BaseModel

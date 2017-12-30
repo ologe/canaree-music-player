@@ -159,6 +159,7 @@ class MediaSessionCallback @Inject constructor(
                 KeyEvent.KEYCODE_MEDIA_PREVIOUS -> onSkipToPrevious()
                 KeyEvent.KEYCODE_MEDIA_STOP -> player.stopService()
                 KeyEvent.KEYCODE_MEDIA_PAUSE -> player.pause(false)
+                KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
                 else -> mediaButton.onNextEvent(mediaButtonEvent)
             }
         }

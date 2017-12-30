@@ -1,61 +1,88 @@
 package dev.olog.presentation.fragment_licenses
 
 import dev.olog.presentation.R
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 @Suppress("PrivatePropertyName")
 class LicensesFragmentPresenter @Inject constructor() {
 
     private val ANDROID_OPEN_SOURCE_PROJECT = LicenseModel(
-            R.layout.item_license, "The Android Open Source Project", "https://source.android.com",
+            R.layout.item_license,
+            MediaId.headerId("android"),
+            "The Android Open Source Project", "https://source.android.com",
             Licenses.apache("2004", "The Android Open Source Project"))
 
     private val ANDROID_SUPPORT_LIBRARIES = LicenseModel(
-            R.layout.item_license, "Android Support Libraries", "https://developer.android.com/topic/libraries/support-library/index.html",
+            R.layout.item_license,
+            MediaId.headerId("android support"),
+            "Android Support Libraries", "https://developer.android.com/topic/libraries/support-library/index.html",
             Licenses.apache("2016", "The Android Open Source Project"))
 
     private val DAGGER = LicenseModel(
-            R.layout.item_license, "Dagger", "https://github.com/google/dagger",
+            R.layout.item_license,
+            MediaId.headerId("dagger"),
+            "Dagger", "https://github.com/google/dagger",
             Licenses.apache("2012", "The Dagger Authors"))
 
     private val RX_JAVA = LicenseModel(
-            R.layout.item_license, "RxJava", "https://github.com/ReactiveX/RxJava",
+            R.layout.item_license,
+            MediaId.headerId("rxJava"),
+            "RxJava", "https://github.com/ReactiveX/RxJava",
             Licenses.apache("2016-present", "RxJava Contributors"))
 
     private val RX_ANDROID = LicenseModel(
-            R.layout.item_license, "RxAndroid", "https://github.com/ReactiveX/RxAndroid",
+            R.layout.item_license,
+            MediaId.headerId("rxAndroid"),
+            "RxAndroid", "https://github.com/ReactiveX/RxAndroid",
             Licenses.apache("2015", "RxAndroid authors"))
 
     private val RX_BINDING = LicenseModel(
-            R.layout.item_license, "RxBinding", "https://github.com/JakeWharton/RxBinding",
+            R.layout.item_license,
+            MediaId.headerId("rxBinding"),
+            "RxBinding", "https://github.com/JakeWharton/RxBinding",
             Licenses.apache("2015", "Jake Wharton"))
 
     private val RX_PERMISSION = LicenseModel(
-            R.layout.item_license, "RxPermissions", "https://github.com/tbruyelle/RxPermissions",
+            R.layout.item_license,
+            MediaId.headerId("rxPermission"),
+            "RxPermissions", "https://github.com/tbruyelle/RxPermissions",
             Licenses.apache("2015", "Thomas Bruyelle"))
 
     private val SQL_BRITE = LicenseModel(
-            R.layout.item_license, "sqlbrite", "https://github.com/square/sqlbrite",
+            R.layout.item_license,
+            MediaId.headerId("sqlbrite"),
+            "sqlbrite", "https://github.com/square/sqlbrite",
             Licenses.apache("2015", "Square, Inc."))
 
     private val SLIDING_PANEL = LicenseModel(
-            R.layout.item_license, "Android Sliding Up Panel", "https://github.com/umano/AndroidSlidingUpPanel",
+            R.layout.item_license,
+            MediaId.headerId("sliding panel"),
+            "Android Sliding Up Panel", "https://github.com/umano/AndroidSlidingUpPanel",
             Licenses.apache("2015", "Anton Lopyrev"))
 
     private val EXO_PLAYER = LicenseModel(
-            R.layout.item_license, "ExoPlayer", "https://github.com/google/ExoPlayer",
+            R.layout.item_license,
+            MediaId.headerId("exo player"),
+            "ExoPlayer", "https://github.com/google/ExoPlayer",
             Licenses.apacheLong())
 
     private val HOVER = LicenseModel(
-            R.layout.item_license, "Hover", "https://github.com/google/hover",
+            R.layout.item_license,
+            MediaId.headerId("hover"),
+            "Hover", "https://github.com/google/hover",
             Licenses.apache("2016", "Nest Labs"))
 
     private val LOTTIE = LicenseModel(
-            R.layout.item_license, "Lottie", "https://github.com/airbnb/lottie-android",
+            R.layout.item_license,
+            MediaId.headerId("lottie"),
+            "Lottie", "https://github.com/airbnb/lottie-android",
             Licenses.apache("2018", "Airbnb, Inc."))
 
     private val GLIDE = LicenseModel(
-            R.layout.item_license, "Glide", "https://github.com/bumptech/glide",
+            R.layout.item_license,
+            MediaId.headerId("glide"),
+            "Glide", "https://github.com/bumptech/glide",
             Licenses.glide())
 
     val data : List<LicenseModel> = listOf(

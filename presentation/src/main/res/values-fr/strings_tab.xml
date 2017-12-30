@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="tab_auto_playlists">Auto Playlist</string>
+    <string name="tab_auto_playlists">Auto Playlists</string>
     <string name="tab_all_playlists">Toutes les Playlist</string>
     <string name="tab_all_albums">Tous les Albums</string>
     <string name="tab_all_artists">Tous les Artistes</string>

@@ -4,8 +4,8 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import android.text.method.LinkMovementMethod
 import dev.olog.presentation.BR
-import dev.olog.presentation._base.BaseListAdapter
-import dev.olog.presentation._base.DataBoundViewHolder
+import dev.olog.presentation._base.list.BaseListAdapter
+import dev.olog.presentation._base.list.DataBoundViewHolder
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.databinding.ItemLicenseBinding
 import javax.inject.Inject
@@ -24,9 +24,4 @@ class LicensesFragmentAdapter @Inject constructor(
         binding.setVariable(BR.license, item)
     }
 
-    override fun getItemViewType(position: Int): Int = dataController[position].type
-
-    override fun areItemsTheSame(oldItem: LicenseModel, newItem: LicenseModel): Boolean {
-        return oldItem.url == newItem.url
-    }
 }

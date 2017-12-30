@@ -1,29 +1,31 @@
-package dev.olog.presentation._base
+package dev.olog.presentation._base.list
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import dev.olog.presentation._base.BaseModel
 import io.reactivex.Flowable
 
-abstract class BaseListAdapter<Model> (
+abstract class BaseListAdapter<Model: BaseModel> (
         lifecycle: Lifecycle
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    protected open val hasDraggableCapabilities : Boolean = false
-    @LayoutRes protected open val draggableViewType : Int = DraggableBehavior.UNSET
+    protected open val touchCallbackConfig = TouchCallbackConfig()
+
+    var onDataChangedListener : OnDataChangedListener? = null
 
     protected val dataController = BaseListAdapterController(this)
 
-    private val draggableBehavior by lazy { if (hasDraggableCapabilities) {
-        DraggableBehaviorImpl(dataController, draggableViewType)
+    private val draggableBehavior by lazy { if (touchCallbackConfig.canDrag) {
+        TouchBehaviorImpl(dataController, touchCallbackConfig)
     } else null }
 
-    val touchHelper = draggableBehavior?.touchHelper
+    fun touchHelper() : ItemTouchHelper? = draggableBehavior?.touchHelper
 
     init {
         lifecycle.addObserver(dataController)
@@ -52,7 +54,7 @@ abstract class BaseListAdapter<Model> (
 
     override fun getItemCount(): Int = dataController.getSize()
 
-    override abstract fun getItemViewType(position: Int): Int
+    override fun getItemViewType(position: Int) = dataController[position].type
 
     internal fun getDataSet(): List<Model> = dataController.getDataSet()
 
@@ -62,10 +64,6 @@ abstract class BaseListAdapter<Model> (
 
     open val hasGranularUpdate : Boolean = true
 
-    abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
-
     internal open fun areContentTheSameExtension(oldItemPosition: Int, newItemPosition: Int, oldItem: Model, newItem: Model) = true
 
-    internal open fun afterDataChanged(){
-    }
 }

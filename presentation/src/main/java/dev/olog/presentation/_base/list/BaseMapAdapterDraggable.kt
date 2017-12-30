@@ -1,3 +1,5 @@
+package dev.olog.presentation._base.list
+
 //package dev.olog.presentation._base
 //
 //import android.arch.lifecycle.Lifecycle
@@ -5,10 +7,13 @@
 //import android.support.v7.widget.helper.ItemTouchHelper
 //import dev.olog.presentation.utils.recycler_view.ItemTouchHelperAdapter
 //
-//abstract class BaseListAdapterDraggable<Model> (
-//        lifecycle: Lifecycle
+//abstract class BaseMapAdapterDraggable<E: Enum<E>, Model> (
+//        lifecycle: Lifecycle,
+//        enums: Array<E>
 //
-//) : BaseListAdapter<Model>(lifecycle), ItemTouchHelperAdapter {
+//): BaseMapAdapter<E, Model>(lifecycle, enums), ItemTouchHelperAdapter {
+//
+//    var touchHelper : ItemTouchHelper? = null
 //
 //    @CallSuper
 //    override fun onItemMove(from: Int, to: Int) {
@@ -17,6 +22,9 @@
 //
 //    @CallSuper
 //    override fun onItemDismiss(position: Int) {
-//        dataController.remove(position)
+//
 //    }
+//
+//    override fun isSwipeEnabled(): Boolean = false
+//
 //}

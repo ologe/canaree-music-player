@@ -1,4 +1,4 @@
-package dev.olog.presentation._base
+package dev.olog.presentation._base.list
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.DataBindingUtil
@@ -6,14 +6,25 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import dev.olog.presentation._base.BaseModel
 
-abstract class BaseMapAdapter<E: Enum<E>, Model> (
+abstract class BaseMapAdapter<E: Enum<E>, Model : BaseModel> (
         lifecycle: Lifecycle,
         enums: Array<E>
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
+    protected open val touchCallbackConfig = TouchCallbackConfig()
+
+    var onDataChangedListener : OnDataChangedListener? = null
+
     protected val dataController = BaseMapAdapterController(this, enums)
+
+    private val draggableBehavior by lazy { if (touchCallbackConfig.canDrag) {
+        TouchBehaviorImpl(dataController, touchCallbackConfig)
+    } else null }
+
+    fun touchHelper() = draggableBehavior?.touchHelper
 
     init {
         lifecycle.addObserver(dataController)
@@ -38,18 +49,13 @@ abstract class BaseMapAdapter<E: Enum<E>, Model> (
 
     override fun getItemCount(): Int = dataController.getSize()
 
-    override abstract fun getItemViewType(position: Int): Int
-
-    abstract fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean
+    override fun getItemViewType(position: Int) = dataController[position].type
 
     fun updateDataSet(data: MutableMap<E, MutableList<Model>>) {
         dataController.onNext(data)
     }
 
     fun getItemAt(position: Int): Model = dataController[position]
-
-    internal open fun afterDataChanged(){
-    }
 
     internal fun getDataSet(): Map<E, List<Model>> = dataController.getDataSet()
 

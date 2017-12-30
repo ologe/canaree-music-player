@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dagger.Lazy
 import dev.olog.presentation.BindingsAdapter
@@ -16,7 +15,6 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.*
-import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.MediaId
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
@@ -44,7 +42,6 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Lazy<Navigator>
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
-    private val source by lazy { mediaId.source }
     private lateinit var layoutManager : GridLayoutManager
     private val toolbarHeight by lazy(NONE) { context!!.dimen(R.dimen.status_bar) + context!!.dimen(R.dimen.toolbar) }
 
@@ -82,10 +79,7 @@ class DetailFragment : BaseFragment() {
         view.list.recycledViewPool = recycledViewPool
         layoutManager.spanSizeLookup = DetailFragmentSpanSizeLookup(view.list)
         view.list.setHasFixedSize(true)
-        val callback = ItemTouchHelperCallback(adapter)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(view.list)
-        adapter.touchHelper = touchHelper
+        adapter.touchHelper()!!.attachToRecyclerView(view.list)
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.setSectionIndexer(adapter)
 

@@ -3,7 +3,7 @@ package dev.olog.presentation.fragment_tab
 import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapter
+import dev.olog.presentation._base.list.BaseListAdapter
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.model.DisplayableItem

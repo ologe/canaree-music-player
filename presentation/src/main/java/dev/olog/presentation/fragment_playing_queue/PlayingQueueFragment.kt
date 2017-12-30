@@ -41,11 +41,7 @@ class PlayingQueueFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
-
-//        val callback = ItemTouchHelperCallback(adapter)
-//        val touchHelper = ItemTouchHelper(callback)
-//        touchHelper.attachToRecyclerView(view.list)
-//        adapter.touchHelper = touchHelper
+        adapter.touchHelper()!!.attachToRecyclerView(view.list)
     }
 
     override fun onResume() {
@@ -59,5 +55,6 @@ class PlayingQueueFragment : BaseFragment() {
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
+
 
 }

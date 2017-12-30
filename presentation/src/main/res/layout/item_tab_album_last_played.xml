@@ -36,6 +36,12 @@
                 app:imageAlbum="@{item}"
                 tools:src="@drawable/placeholder_folder"/>
 
+            <ImageView
+                android:id="@+id/smallButton"
+                style="@style/SmallShufflePlay"
+                android:layout_width="@dimen/smallShuffleSize"
+                android:layout_height="@dimen/smallShuffleSize" />
+
         </android.support.v7.widget.CardView>
 
 

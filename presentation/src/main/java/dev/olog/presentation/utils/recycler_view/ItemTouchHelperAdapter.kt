@@ -6,8 +6,8 @@ interface ItemTouchHelperAdapter {
 
     fun onItemDismiss(position: Int)
 
-    fun isViewTypeDraggable(): Int
+    val draggableViewType: Int
 
-    fun isSwipeEnabled() = true
+    val isSwipeEnabled: Boolean
 
 }

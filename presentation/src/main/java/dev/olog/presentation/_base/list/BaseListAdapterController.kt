@@ -1,9 +1,10 @@
-package dev.olog.presentation._base
+package dev.olog.presentation._base.list
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
+import dev.olog.presentation._base.BaseModel
 import dev.olog.shared.clearThenAdd
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
@@ -15,10 +16,10 @@ import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class BaseListAdapterController<Model>(
+class BaseListAdapterController<Model : BaseModel>(
         private val adapter: BaseListAdapter<Model>
 
-) : DefaultLifecycleObserver, DraggableControllerCapabilities {
+) : DefaultLifecycleObserver, AdapterController<Model>, TouchBehaviorCapabilities {
 
     private var dataSetDisposable: Disposable? = null
     private val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
@@ -28,7 +29,7 @@ class BaseListAdapterController<Model>(
 
     private var dataVersion = 0
 
-    operator fun get(position: Int): Model = dataSet[position]
+    override operator fun get(position: Int): Model = dataSet[position]
 
     override fun remove(position: Int) {
         dataSet.removeAt(position)
@@ -48,6 +49,10 @@ class BaseListAdapterController<Model>(
         adapter.notifyItemMoved(from, to)
     }
 
+    override fun headersWithinList(position: Int, viewType: Int): Int {
+        return dataSet.indexOfFirst { it.type == viewType }
+    }
+
     fun getSize() : Int = dataSet.size
 
     fun onNext(data: List<Model>) {
@@ -65,27 +70,28 @@ class BaseListAdapterController<Model>(
                 .distinctUntilChanged { data -> data.data }
                 .filter { it.version == dataVersion }
                 .map {
-                    it.to(DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+                    it to DiffUtil.calculateDiff(object : DiffUtil.Callback(){
 
-                    init { assertBackgroundThread() }
+                        init { assertBackgroundThread() }
 
-                    override fun getOldListSize(): Int = dataSet.size
+                        override fun getOldListSize(): Int = dataSet.size
 
-                    override fun getNewListSize(): Int = it.data.size
+                        override fun getNewListSize(): Int = it.data.size
 
-                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                        val oldItem : Model = dataSet[oldItemPosition]
-                        val newItem : Model = it.data[newItemPosition]
-                        return adapter.areItemsTheSame(oldItem, newItem)
-                    }
+                        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                            val oldItem : Model = dataSet[oldItemPosition]
+                            val newItem : Model = it.data[newItemPosition]
+                            return oldItem.mediaId == newItem.mediaId
+                        }
 
-                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                        val oldItem : Model = dataSet[oldItemPosition]
-                        val newItem : Model = it.data[newItemPosition]
-                        return oldItem == newItem && adapter.areContentTheSameExtension(
-                                oldItemPosition, newItemPosition, oldItem, newItem)
-                    }
-                })) }
+                        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                            val oldItem : Model = dataSet[oldItemPosition]
+                            val newItem : Model = it.data[newItemPosition]
+                            return oldItem == newItem && adapter.areContentTheSameExtension(
+                                    oldItemPosition, newItemPosition, oldItem, newItem)
+                        }
+                    })
+                }
                 .filter { it.first.version == dataVersion }
                 .map { (data, callback) -> Pair(data.data, callback)}
                 .observeOn(AndroidSchedulers.mainThread())
@@ -100,7 +106,8 @@ class BaseListAdapterController<Model>(
                     } else {
                         callback.dispatchUpdatesTo(adapter)
                     }
-                    adapter.afterDataChanged()
+
+                    adapter.onDataChangedListener?.onChanged()
 
                 }, Throwable::printStackTrace)
     }

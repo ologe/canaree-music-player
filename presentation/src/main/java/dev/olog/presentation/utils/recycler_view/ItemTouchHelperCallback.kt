@@ -15,7 +15,7 @@ class ItemTouchHelperCallback(
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        if (target.itemViewType == adapter.isViewTypeDraggable()){
+        if (target.itemViewType == adapter.draggableViewType){
             adapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
@@ -26,7 +26,7 @@ class ItemTouchHelperCallback(
         adapter.onItemDismiss(viewHolder.adapterPosition)
     }
 
-    override fun isItemViewSwipeEnabled(): Boolean = adapter.isSwipeEnabled()
+    override fun isItemViewSwipeEnabled(): Boolean = adapter.isSwipeEnabled
 
     override fun isLongPressDragEnabled(): Boolean = false
 }

@@ -5,8 +5,9 @@ import android.databinding.ViewDataBinding
 import android.view.MotionEvent
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapter
-import dev.olog.presentation._base.DataBoundViewHolder
+import dev.olog.presentation._base.list.BaseListAdapter
+import dev.olog.presentation._base.list.DataBoundViewHolder
+import dev.olog.presentation._base.list.TouchCallbackConfig
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
@@ -33,7 +34,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         }
         viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
             if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                touchHelper?.startDrag(viewHolder)
+                touchHelper()?.startDrag(viewHolder)
                 true
             } else false
         }
@@ -44,13 +45,8 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    override fun getItemViewType(position: Int): Int = dataController[position].type
-
-    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
-
-    override val hasDraggableCapabilities: Boolean = true
-
-    override val draggableViewType: Int = R.layout.item_playing_queue
+    override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
+            true, true,
+            draggableViewType = R.layout.item_playing_queue
+    )
 }

@@ -8,8 +8,8 @@ import android.net.Uri
 import android.util.Log
 import dagger.Lazy
 import dev.olog.presentation.BR
-import dev.olog.presentation._base.BaseListAdapter
-import dev.olog.presentation._base.DataBoundViewHolder
+import dev.olog.presentation._base.list.BaseListAdapter
+import dev.olog.presentation._base.list.DataBoundViewHolder
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.presentation.model.DisplayableItem
@@ -37,12 +37,6 @@ class AboutActivityAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-    }
-
-    override fun getItemViewType(position: Int): Int = dataController[position].type
-
-    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
-        return oldItem.mediaId == newItem.mediaId
     }
 
     private fun toMarket(){

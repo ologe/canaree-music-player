@@ -3,6 +3,7 @@ package dev.olog.presentation.fragment_special_thanks
 import android.content.Context
 import dev.olog.presentation.R
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class SpecialThanksPresenter @Inject constructor(
@@ -10,27 +11,33 @@ class SpecialThanksPresenter @Inject constructor(
 ) {
 
     val data = listOf(
-            SpecialThanksModel(R.layout.item_special_thanks, "folder img id",
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("folder img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
                     R.drawable.vd_folder), // folder icon
 
-            SpecialThanksModel(R.layout.item_special_thanks, "playlist img id",
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId( "playlist img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Smashicons", "www.flaticon.com "),
                     R.drawable.vd_playlist), // playlist icon
 
-            SpecialThanksModel(R.layout.item_special_thanks, "music not img id",
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("music not img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
                     R.drawable.vd_musical_note), // album icon
 
-            SpecialThanksModel(R.layout.item_special_thanks, "album img id",
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("album img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Those Icons", "www.flaticon.com "),
                     R.drawable.vd_album), // album icon
 
-            SpecialThanksModel(R.layout.item_special_thanks, "artist img id",
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId( "artist img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
                     R.drawable.vd_artist), // artist icon
 
-            SpecialThanksModel(R.layout.item_special_thanks, "genre img id",
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("genre img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Nikita Golubev", "www.flaticon.com "),
                     R.drawable.vd_genre) // genre icon
     )

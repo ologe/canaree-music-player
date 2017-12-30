@@ -12,9 +12,10 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.domain.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseListAdapter
-import dev.olog.presentation._base.BaseMapAdapterDraggable
-import dev.olog.presentation._base.DataBoundViewHolder
+import dev.olog.presentation._base.list.BaseListAdapter
+import dev.olog.presentation._base.list.BaseMapAdapter
+import dev.olog.presentation._base.list.DataBoundViewHolder
+import dev.olog.presentation._base.list.TouchCallbackConfig
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.dialog_sort.DetailSortDialog
 import dev.olog.presentation.model.DisplayableItem
@@ -43,7 +44,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapterDraggable<DetailFragmentDataType, DisplayableItem>(lifecycle, enums),
+) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums),
         FastScrollerSectionIndexer {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
@@ -86,7 +87,7 @@ class DetailFragmentAdapter @Inject constructor(
                 }
                 viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
                     if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        touchHelper?.startDrag(viewHolder)
+                        touchHelper()?.startDrag(viewHolder)
                         true
                     } else false
                 }
@@ -212,25 +213,6 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
 
-    override fun areItemsTheSame(oldItem: DisplayableItem, newItem: DisplayableItem): Boolean {
-        return oldItem.mediaId == newItem.mediaId
-    }
-
-    override fun afterDataChanged() {
-    }
-
-    override fun isViewTypeDraggable(): Int = R.layout.item_detail_song_with_drag_handle
-
-    override fun isSwipeEnabled(): Boolean = false
-
-    override fun onItemMove(from: Int, to: Int) {
-        super.onItemMove(from, to)
-        val (list, realFrom) = dataController.getItemPositionWithListWithin(from)
-        val (_, realTo) = dataController.getItemPositionWithListWithin(to)
-        val headersCount = list.indexOfFirst { it.type == isViewTypeDraggable() }
-        viewModel.moveItemInPlaylist(realFrom - headersCount, realTo - headersCount)
-    }
-
     override fun getSectionText(position: Int): String? {
         val item = dataController[position]
         val itemType = item.type
@@ -242,4 +224,10 @@ class DetailFragmentAdapter @Inject constructor(
             return null
         }
     }
+
+    override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
+            true, false,
+            draggableViewType = R.layout.item_detail_song_with_drag_handle,
+            onDragAction = { from, to -> viewModel.moveItemInPlaylist(from, to) }
+    )
 }
