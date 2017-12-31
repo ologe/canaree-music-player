@@ -13,6 +13,11 @@ import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
+import dev.olog.shared.unsubscribe
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NewPlaylistDialog : BaseDialogFragment() {
@@ -23,10 +28,12 @@ class NewPlaylistDialog : BaseDialogFragment() {
 
         fun newInstance(mediaId: MediaId): NewPlaylistDialog {
             return NewPlaylistDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId
+                    ARGUMENTS_MEDIA_ID to mediaId.toString()
             )
         }
     }
+
+    private var disposable : Disposable? = null
 
     @Inject lateinit var presenter: NewPlaylistDialogPresenter
 
@@ -61,8 +68,16 @@ class NewPlaylistDialog : BaseDialogFragment() {
             }
         }
 
-        ImeUtils.showIme(editText) // todo not working
+        disposable = Observable.timer(100, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ ImeUtils.showIme(editText) }, Throwable::printStackTrace)
 
         return dialog
     }
+
+    override fun onStop() {
+        super.onStop()
+        disposable.unsubscribe()
+    }
+
 }

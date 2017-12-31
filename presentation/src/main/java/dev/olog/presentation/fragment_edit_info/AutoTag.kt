@@ -4,8 +4,6 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.net.ConnectivityManager
-import android.text.TextUtils
-import android.text.TextUtils.isEmpty
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
@@ -62,9 +60,9 @@ class AutoTag @Inject constructor(
                 .doAfterTerminate { queryInProgress = false }
                 .subscribe({ result ->
 
-                    val emptyTitle = TextUtils.isEmpty(result.title)
-                    val emptyArtist = TextUtils.isEmpty(result.artist)
-                    val emptyAlbum = TextUtils.isEmpty(result.album)
+                    val emptyTitle = result.title.isBlank()
+                    val emptyArtist = result.artist.isBlank()
+                    val emptyAlbum = result.album.isBlank()
 
                     if (emptyArtist && emptyAlbum){
                         view.showToast("no results found")
@@ -162,10 +160,10 @@ class AutoTag @Inject constructor(
         result.setAlbum(document, "_XWk")
         result.setTitle(document, "kno-fb-ctx _g2g")
 
-        if (isEmpty(result.album)){
+        if (result.album.isBlank()){
             result.setAlbum(document, "kno-ecr-pt kno-fb-ctx")
 
-            if (isEmpty(result.artist)){
+            if (result.artist.isBlank()){
                 result.setArtist(document, "_Xbe kno-fv")
             }
         }
@@ -181,7 +179,7 @@ class AutoTag @Inject constructor(
         result.setArtist(document, "_XWk")
         result.setTitle(document, "kno-fb-ctx _g2g")
 
-        if (isEmpty(result.artist)){
+        if (result.artist.isBlank()){
             // work when there are more than one artists
             val anotherResultForArtists = document.getElementsByClass("title")
             try {
@@ -201,26 +199,26 @@ class AutoTag @Inject constructor(
 
     private val getFirstNotNull : BiFunction<AutoTagQueryResult, AutoTagQueryResult, AutoTagQueryResult> =
             BiFunction { t1, t2 ->
-                val title = if (!isEmpty(t1.title)){
+                val title = if (t1.title.isNotBlank()){
                     t1.title
                 } else {
-                    if (!isEmpty(t2.title)){
+                    if (t2.title.isNotBlank()){
                         t2.title
                     } else ""
                 }
 
-                val artist = if (!isEmpty(t1.artist)){
+                val artist = if (t1.artist.isNotBlank()){
                     t1.artist
                 } else {
-                    if (!isEmpty(t2.artist)){
+                    if (t2.artist.isNotBlank()){
                         t2.artist
                     } else ""
                 }
 
-                val album = if (!isEmpty(t1.album)){
+                val album = if (t1.album.isNotBlank()){
                     t1.album
                 } else {
-                    if (!isEmpty(t2.album)){
+                    if (t2.album.isNotBlank()){
                         t2.album
                     } else ""
                 }
@@ -250,7 +248,7 @@ private data class AutoTagQueryResult(
     }
 
     fun addArtist(artist: String){
-        if (TextUtils.isEmpty(artist)){
+        if (artist.isBlank()){
             this.artist = artist
         } else {
             this.artist += ", $artist"

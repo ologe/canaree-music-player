@@ -2,7 +2,6 @@ package dev.olog.presentation.dialog_new_playlist
 
 import android.app.Application
 import android.support.annotation.StringRes
-import android.text.TextUtils
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.CreatePlaylistUseCase
@@ -38,7 +37,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
 
     private fun createSuccessMessage(pairStringPlaylistName: Pair<String, String>){
         val (string, playlistTitle) = pairStringPlaylistName
-        val message = if (TextUtils.isDigitsOnly(string)){
+        val message = if (android.text.TextUtils.isDigitsOnly(string)){
             val size = string.toInt()
             application.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, size, size, playlistTitle)
         } else {
@@ -53,7 +52,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
 
     @StringRes
     fun checkData(playlistTitle: String): Int {
-        if (TextUtils.isEmpty(playlistTitle)) {
+        if (playlistTitle.isBlank()) {
             return R.string.popup_playlist_name_not_valid
         } else if (existingPlaylists.contains(playlistTitle.toLowerCase())) {
             return R.string.popup_playlist_name_already_exist

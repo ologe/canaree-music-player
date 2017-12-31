@@ -2,7 +2,6 @@ package dev.olog.presentation.fragment_edit_info
 
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -43,7 +42,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         super.onActivityCreated(savedInstanceState)
         RxTextView.afterTextChangeEvents(first)
                 .map { it.view().text.toString() }
-                .map { !TextUtils.isEmpty(it) }
+                .map { it.isNotBlank() }
                 .asLiveData()
                 .subscribe(this, {
                     okButton.isEnabled = it

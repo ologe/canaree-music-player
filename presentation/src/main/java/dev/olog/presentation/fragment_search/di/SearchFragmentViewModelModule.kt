@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.content.Context
-import android.text.TextUtils
 import dagger.Module
 import dagger.Provides
 import dev.olog.domain.entity.*
@@ -50,7 +49,7 @@ class SearchFragmentViewModelModule {
 
         return Transformations.switchMap(queryLiveData, { input ->
 
-            if (TextUtils.isEmpty(input)){
+            if (input.isBlank()){
                 provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
                         .map { mutableMapOf(
                         SearchFragmentType.RECENT to it,
