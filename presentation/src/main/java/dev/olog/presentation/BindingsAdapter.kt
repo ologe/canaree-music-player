@@ -60,7 +60,7 @@ object BindingsAdapter {
     @BindingAdapter("imageBigAlbum")
     @JvmStatic
     fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE)
+        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE, asPlaceholder = true)
     }
 
     @BindingAdapter("imageSpecialThanks")

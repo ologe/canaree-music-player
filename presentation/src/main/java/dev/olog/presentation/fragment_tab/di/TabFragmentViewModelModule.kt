@@ -6,13 +6,13 @@ import dagger.Provides
 import dagger.multibindings.IntKey
 import dagger.multibindings.IntoMap
 import dev.olog.domain.entity.*
+import dev.olog.domain.interactor.GetSmallPlayType
 import dev.olog.domain.interactor.tab.*
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_tab.TabFragmentHeaders
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaId
-import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
@@ -32,9 +32,12 @@ class TabFragmentViewModelModule {
     @IntKey(TabViewPagerAdapter.FOLDER)
     internal fun provideFolderData(
             resources: Resources,
-            useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAllFoldersUseCase,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().groupMap { it.toTabDisplayableItem(resources) }
+        return Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toTabDisplayableItem(resources, smallPlayType) }
+        })
     }
 
     @Provides
@@ -44,18 +47,20 @@ class TabFragmentViewModelModule {
             resources: Resources,
             useCase: GetAllPlaylistsUseCase,
             autoPlaylistUseCase: GetAllAutoPlaylistUseCase,
-            headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
+            headers: TabFragmentHeaders,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        val playlistObs = useCase.execute().flatMapSingle { it.toFlowable()
-                .map { it.toTabDisplayableItem(resources) }
-                .startWith(headers.allPlaylistHeader)
-                .toList()
-        }
-        val autoPlaylistObs = autoPlaylistUseCase.execute().flatMapSingle { it.toFlowable()
-                .map { it.toTabDisplayableItem(resources) }
-                .startWith(headers.autoPlaylistHeader)
-                .toList()
-        }
+        val playlistObs = Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            val result = data.map { it.toTabDisplayableItem(resources, smallPlayType) }.toMutableList()
+            result.add(0, headers.allPlaylistHeader)
+            result
+        })
+
+        val autoPlaylistObs = Flowables.combineLatest(autoPlaylistUseCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            val result = data.map { it.toTabDisplayableItem(resources, smallPlayType) }.toMutableList()
+            result.add(0, headers.autoPlaylistHeader)
+            result
+        })
 
         return playlistObs.withLatestFrom(autoPlaylistObs, { playlist, autoPlaylist ->
             val result = autoPlaylist.toMutableList()
@@ -84,16 +89,20 @@ class TabFragmentViewModelModule {
     internal fun provideAlbumData(
             useCase: GetAllAlbumsUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
-            headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
+            headers: TabFragmentHeaders,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        val allObs = useCase.execute().groupMap { it.toTabDisplayableItem() }
-                .map { it.toMutableList() }
-                .distinctUntilChanged()
+        val allObs = Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toTabDisplayableItem(smallPlayType) }.toMutableList()
+        })
 
-        val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
-                .groupMap { it.toTabDisplayableItem() }
-                .map { if (it.isNotEmpty()) headers.albumHeaders else listOf() }
-                .distinctUntilChanged()
+        val lastPlayedObs = Flowables.combineLatest(lastPlayedAlbumsUseCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            if (data.isEmpty()){
+                listOf()
+            } else {
+                headers.albumHeaders
+            }
+        }).distinctUntilChanged()
 
         return Flowables.combineLatest(allObs, lastPlayedObs, { all, recent ->
             all.addAll(0, recent)
@@ -108,17 +117,18 @@ class TabFragmentViewModelModule {
             resources: Resources,
             useCase: GetAllArtistsUseCase,
             lastPlayedArtistsUseCase: GetLastPlayedArtistsUseCase,
-            headers: TabFragmentHeaders) : Flowable<List<DisplayableItem>> {
+            headers: TabFragmentHeaders,
+            getSmallPlayType: GetSmallPlayType) : Flowable<List<DisplayableItem>> {
 
-        val allObs = useCase.execute()
-                .groupMap { it.toTabDisplayableItem(resources) }
-                .map { it.toMutableList() }
-                .distinctUntilChanged()
+        val allObs = Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toTabDisplayableItem(resources, smallPlayType) }.toMutableList()
+        })
 
-        val lastPlayedObs = lastPlayedArtistsUseCase.execute()
-                .groupMap { it.toTabDisplayableItem(resources) }
-                .map { if (it.isNotEmpty()) headers.artistHeaders else listOf() }
-                .distinctUntilChanged()
+        val lastPlayedObs = Flowables.combineLatest(lastPlayedArtistsUseCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            if (data.isEmpty()){
+                listOf()
+            } else headers.artistHeaders
+        }).distinctUntilChanged()
 
         return Flowables.combineLatest(allObs, lastPlayedObs, { all, recent ->
             all.addAll(0, recent)
@@ -131,45 +141,52 @@ class TabFragmentViewModelModule {
     @IntKey(TabViewPagerAdapter.GENRE)
     internal fun provideGenreData(
             resources: Resources,
-            useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAllGenresUseCase,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().groupMap { it.toTabDisplayableItem(resources) }
+        return Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toTabDisplayableItem(resources, smallPlayType) }
+        })
     }
 
     @Provides
     @IntoMap
     @IntKey(LAST_PLAYED_ALBUM)
     internal fun provideLastPlayedAlbumData(
-            useCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetLastPlayedAlbumsUseCase,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().distinctUntilChanged()
-                .groupMap { it.toTabLastPlayedDisplayableItem() }
+        return Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toTabLastPlayedDisplayableItem(smallPlayType) }
+        })
     }
 
     @Provides
     @IntoMap
     @IntKey(LAST_PLAYED_ARTIST)
     internal fun provideLastPlayedArtistData(
-            useCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
+            useCase: GetLastPlayedArtistsUseCase,
+            getSmallPlayType: GetSmallPlayType) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute()
-                .distinctUntilChanged()
-                .groupMap { it.toTabLastPlayedDisplayableItem() }
+        return Flowables.combineLatest(useCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toTabLastPlayedDisplayableItem(smallPlayType) }
+        })
     }
 
 }
 
-private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Folder.toTabDisplayableItem(resources: Resources, smallPlayType: SmallPlayType): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.folderId(path),
             title.capitalize(),
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
-            this.image
+            this.image,
+            smallPlayType = smallPlayType
     )
 }
 
-private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Playlist.toTabDisplayableItem(resources: Resources, smallPlayType: SmallPlayType): DisplayableItem{
     val listSize = if (this.size == -1){ "" } else {
         resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
     }
@@ -179,7 +196,8 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
             MediaId.playlistId(id),
             title.capitalize(),
             listSize,
-            this.image
+            this.image,
+            smallPlayType = smallPlayType
     )
 }
 
@@ -196,17 +214,18 @@ private fun Song.toTabDisplayableItem(): DisplayableItem{
     )
 }
 
-private fun Album.toTabDisplayableItem(): DisplayableItem{
+private fun Album.toTabDisplayableItem(smallPlayType: SmallPlayType): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.albumId(id),
             title,
             artist,
-            image
+            image,
+            smallPlayType = smallPlayType
     )
 }
 
-private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Artist.toTabDisplayableItem(resources: Resources, smallPlayType: SmallPlayType): DisplayableItem{
     val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
         "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
@@ -217,36 +236,40 @@ private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
             MediaId.artistId(id),
             name,
             "$albums$songs".toLowerCase(),
-            this.image
+            this.image,
+            smallPlayType = smallPlayType
     )
 }
 
-private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Genre.toTabDisplayableItem(resources: Resources, smallPlayType: SmallPlayType): DisplayableItem{
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.genreId(id),
             name,
             resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
-            this.image
+            this.image,
+            smallPlayType = smallPlayType
     )
 }
 
-private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
+private fun Album.toTabLastPlayedDisplayableItem(smallPlayType: SmallPlayType): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_album_last_played,
             MediaId.albumId(id),
             title,
             artist,
-            image
+            image,
+            smallPlayType = smallPlayType
     )
 }
 
-private fun Artist.toTabLastPlayedDisplayableItem(): DisplayableItem {
+private fun Artist.toTabLastPlayedDisplayableItem(smallPlayType: SmallPlayType): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_album_last_played,
             MediaId.artistId(id),
             name,
             null,
-            this.image
+            this.image,
+            smallPlayType = smallPlayType
     )
 }

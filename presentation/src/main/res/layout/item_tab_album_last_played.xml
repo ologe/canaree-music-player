@@ -40,7 +40,9 @@
                 android:id="@+id/smallButton"
                 style="@style/SmallShufflePlay"
                 android:layout_width="@dimen/smallShuffleSize"
-                android:layout_height="@dimen/smallShuffleSize" />
+                android:layout_height="@dimen/smallShuffleSize"
+                android:src="@{item.smallPlayType.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"
+                android:visibility="@{item.smallPlayType == null ? View.GONE : View.VISIBLE}" />
 
         </android.support.v7.widget.CardView>
 

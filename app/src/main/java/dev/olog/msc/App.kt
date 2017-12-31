@@ -33,9 +33,9 @@ class App : DaggerApplication() {
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
 
         if (BuildConfig.DEBUG) {
-            initStrictMode()
+//            initStrictMode()
 //            LeakCanary.install(this)
-            initRxJavaDebug()
+//            initRxJavaDebug()
         }
 
     }

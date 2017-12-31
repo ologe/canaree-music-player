@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import dagger.Lazy
 import dev.olog.domain.entity.SmallPlayEnum
-import dev.olog.domain.entity.SmallPlayType
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
@@ -30,8 +29,6 @@ class TabFragmentAdapter @Inject constructor(
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle), FastScrollerSectionIndexer {
-
-    var smallPlay : SmallPlayType? = null
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         when (viewType) {
@@ -66,8 +63,8 @@ class TabFragmentAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
                 viewHolder.setOnClickListener(R.id.smallButton, dataController) { item, _, view ->
-                    if (view.isVisible && smallPlay != null) {
-                        when (smallPlay!!.enum){
+                    if (view.isVisible && item.smallPlayType != null) {
+                        when (item.smallPlayType.enum){
                             SmallPlayEnum.PLAY -> musicController.playFromMediaId(item.mediaId)
                             SmallPlayEnum.SHUFFLE -> musicController.playShuffle(item.mediaId)
                         }
@@ -98,7 +95,6 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.smallPlay, smallPlay)
     }
 
     override fun getSectionText(position: Int): String? {
@@ -110,4 +106,5 @@ class TabFragmentAdapter @Inject constructor(
             return null
         }
     }
+
 }

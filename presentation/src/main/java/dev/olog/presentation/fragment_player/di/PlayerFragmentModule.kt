@@ -18,4 +18,6 @@ class PlayerFragmentModule(
         return ViewModelProviders.of(fragment, factory).get(PlayerFragmentViewModel::class.java)
     }
 
+
+
 }

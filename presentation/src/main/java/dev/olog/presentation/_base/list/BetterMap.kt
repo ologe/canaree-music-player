@@ -10,9 +10,7 @@ class BetterMap <K, Model> constructor(
 ) {
 
     init {
-        for (enum in enums) {
-            data[enum] = mutableListOf()
-        }
+        enums.filter { data[it] == null }.forEach { data[it] = mutableListOf() }
     }
 
     operator fun get(position: Int): Model {
@@ -32,9 +30,8 @@ class BetterMap <K, Model> constructor(
 
     fun wrappedValue() : MutableMap<K, MutableList<Model>> = data.toMutableMap() // pass a copy
 
-    fun update(data: BetterMap<K, Model>) : BetterMap<K, Model> {
+    fun update(data: BetterMap<K, Model>) {
         this.data.clearThenPut(data.wrappedValue())
-        return this
     }
 
     fun swap(from: Int, to: Int){
@@ -66,5 +63,7 @@ class BetterMap <K, Model> constructor(
         }
         throw IllegalArgumentException("invalid position $position")
     }
+
+    fun isEmpty() = size() == 0
 
 }

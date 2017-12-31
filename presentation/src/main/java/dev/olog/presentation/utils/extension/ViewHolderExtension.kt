@@ -8,7 +8,7 @@ import dev.olog.presentation._base.list.AdapterController
 import dev.olog.presentation.utils.touch.ElevateAlbumOnTouch
 import dev.olog.presentation.utils.touch.ElevateSongOnTouch
 
-fun <T> RecyclerView.ViewHolder.setOnClickListener(data: AdapterController<T>, func: (item: T, position: Int) -> Unit){
+fun <T> RecyclerView.ViewHolder.setOnClickListener(data: AdapterController<*,T>, func: (item: T, position: Int) -> Unit){
     itemView.setOnClickListener {
         if (adapterPosition != RecyclerView.NO_POSITION){
             func(data[adapterPosition], adapterPosition)
@@ -16,7 +16,7 @@ fun <T> RecyclerView.ViewHolder.setOnClickListener(data: AdapterController<T>, f
     }
 }
 
-fun <T> RecyclerView.ViewHolder.setOnLongClickListener(data: AdapterController<T>, func: (item: T, position: Int) -> Unit){
+fun <T> RecyclerView.ViewHolder.setOnLongClickListener(data: AdapterController<*, T>, func: (item: T, position: Int) -> Unit){
     itemView.setOnLongClickListener inner@ {
         if (adapterPosition != RecyclerView.NO_POSITION){
             func(data[adapterPosition], adapterPosition)
@@ -26,7 +26,7 @@ fun <T> RecyclerView.ViewHolder.setOnLongClickListener(data: AdapterController<T
     }
 }
 
-fun <T> RecyclerView.ViewHolder.setOnClickListener(@IdRes resId: Int, data: AdapterController<T>, func: (item: T, position: Int, view: View) -> Unit){
+fun <T> RecyclerView.ViewHolder.setOnClickListener(@IdRes resId: Int, data: AdapterController<*, T>, func: (item: T, position: Int, view: View) -> Unit){
     itemView.findViewById<View>(resId)?.setOnClickListener { view ->
         if (adapterPosition != RecyclerView.NO_POSITION){
             func(data[adapterPosition], adapterPosition, view)

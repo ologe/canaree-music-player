@@ -30,8 +30,7 @@ class DetailFragment : BaseFragment() {
 
         fun newInstance(mediaId: MediaId): DetailFragment {
             return DetailFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId.toString()
-            )
+                    ARGUMENTS_MEDIA_ID to mediaId.toString())
         }
     }
 
@@ -39,7 +38,6 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var adapter: DetailFragmentAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
-    @Inject lateinit var mediaId: MediaId
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Lazy<Navigator>
     private val slidingPanelListener by lazy (NONE) { DetailFragmentSlidingPanelListener(this) }
@@ -48,7 +46,7 @@ class DetailFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postponeEnterTransition()
+//        postponeEnterTransition()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -118,11 +116,11 @@ class DetailFragment : BaseFragment() {
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
         view!!.search.setOnClickListener { navigator.get().toSearchFragment() }
-        adapter.setOnDataChangedListener(object : OnDataChangedListener{
+        adapter.onDataChangedListener = object : OnDataChangedListener{
             override fun onChanged() {
                 startPostponedEnterTransition()
             }
-        })
+        }
     }
 
     override fun onPause() {
@@ -133,6 +131,7 @@ class DetailFragment : BaseFragment() {
         }
         view!!.back.setOnClickListener(null)
         view!!.search.setOnClickListener(null)
+        adapter.onDataChangedListener = null
     }
 
     override fun onDestroyView() {

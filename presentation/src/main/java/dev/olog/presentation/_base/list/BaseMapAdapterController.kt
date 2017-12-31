@@ -55,8 +55,6 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
 
     override fun getSize(): Int = dataSet.size()
 
-    private fun isEmpty(): Boolean = getSize() == 0
-
     override fun setAdapter(adapter: BaseAdapter<*,*>) {
         this.adapter = adapter as BaseMapAdapter<E, Model>
     }
@@ -107,7 +105,7 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
                 .map { (data, callback) -> Pair(data.data, callback) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { (newData, callback) ->
-                    val wasEmpty = isEmpty()
+                    val wasEmpty = dataSet.isEmpty()
 
                     dataSet.update(newData)
 
