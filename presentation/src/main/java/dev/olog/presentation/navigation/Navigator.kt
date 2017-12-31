@@ -6,8 +6,6 @@ import dev.olog.shared.MediaId
 
 interface Navigator {
 
-    fun toMainActivity()
-
     fun toDetailFragment(mediaId: MediaId)
 
     fun toSearchFragment()

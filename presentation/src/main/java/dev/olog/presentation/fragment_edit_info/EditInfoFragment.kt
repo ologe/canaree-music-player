@@ -30,8 +30,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
 
         fun newInstance(mediaId: MediaId): EditInfoFragment {
             return EditInfoFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId
-            )
+                    ARGUMENTS_MEDIA_ID to mediaId.toString())
         }
     }
 

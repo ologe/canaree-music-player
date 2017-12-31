@@ -15,6 +15,7 @@ import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
+import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
@@ -26,6 +27,7 @@ class SongMenuListener @Inject constructor(
         private val activity: AppCompatActivity,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
+        musicController: MusicController,
         private val getSongUseCase: GetSongUseCase,
         private val floatingInfoServiceBinder: FloatingInfoServiceClass,
         private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
@@ -33,7 +35,7 @@ class SongMenuListener @Inject constructor(
         addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : BaseMenuListener(application, getSongListByParamUseCase, navigator,
-        getPlaylistBlockingUseCase, addToPlaylistUseCase) {
+        musicController, getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId

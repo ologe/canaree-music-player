@@ -11,6 +11,7 @@ import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_music.MusicController
 import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
@@ -20,6 +21,7 @@ open class BaseMenuListener @Inject constructor(
         private val application: Application,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
+        private val musicController: MusicController,
         private val getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase
 
@@ -42,9 +44,10 @@ open class BaseMenuListener @Inject constructor(
                 .forEach { onPlaylistClick(it, item.mediaId).subscribe() }
 
         when (itemId) {
-            Popup.NEW_PLAYLIST_ID -> {
-                navigator.toCreatePlaylistDialog(item.mediaId)
-            }
+            Popup.NEW_PLAYLIST_ID -> navigator.toCreatePlaylistDialog(item.mediaId)
+            R.id.play -> musicController.playFromMediaId(item.mediaId)
+            R.id.playShuffle -> musicController.playShuffle(item.mediaId)
+
             R.id.addToFavorite -> {
                 getSongListByParamUseCase.execute(item.mediaId)
                         .firstOrError()

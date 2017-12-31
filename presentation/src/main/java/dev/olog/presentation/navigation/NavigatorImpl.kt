@@ -11,7 +11,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_about.AboutActivity
-import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.activity_preferences.PreferencesActivity
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
@@ -33,9 +32,6 @@ import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import dev.olog.shared.MediaId
-import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider
@@ -53,14 +49,6 @@ class NavigatorImpl @Inject constructor(
     }
 
     private var lastRequest: Long = -1
-
-    override fun toMainActivity() {
-        activity.startActivity(activity.intentFor<MainActivity>()
-                .clearTop()
-                .newTask()
-        )
-        activity.finish()
-    }
 
     override fun toDetailFragment(mediaId: MediaId) {
         if (allowed()){

@@ -1,21 +1,12 @@
 package dev.olog.presentation.dialog_rename
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.DialogInterface
-import android.os.Bundle
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
-import android.view.animation.AnimationUtils
 import dev.olog.presentation.R
-import dev.olog.presentation._base.BaseDialogFragment
-import dev.olog.presentation.utils.ImeUtils
-import dev.olog.presentation.utils.extension.makeDialog
+import dev.olog.presentation._base.BaseEditTextDialog
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
 import javax.inject.Inject
 
-class RenameDialog : BaseDialogFragment() {
+class RenameDialog : BaseEditTextDialog() {
 
     companion object {
         const val TAG = "DeleteDialog"
@@ -32,43 +23,23 @@ class RenameDialog : BaseDialogFragment() {
 
     @Inject lateinit var presenter: RenameDialogPresenter
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(context)
-                .setTitle(R.string.popup_rename)
-                .setView(R.layout.layout_edit_text)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_rename, null)
+    override fun provideDialogTitle(): Int = R.string.popup_rename
 
-        val dialog = builder.makeDialog()
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
+    override fun providePositiveMessage(): Int = R.string.popup_positive_rename
 
-        editText.setText(arguments!!.getString(ARGUMENTS_ITEM_TITLE))
+    override fun provideErrorMessageForEmptyString(): Int = R.string.popup_playlist_name_not_valid
 
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val oldTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-            val playlistTitle = editText.text.toString()
-            val errorMessage = presenter.checkData(playlistTitle)
-            when (errorMessage) {
-                R.string.popup_playlist_name_not_valid,
-                R.string.popup_playlist_name_already_exist -> {
-                    val shake = AnimationUtils.loadAnimation(context, R.anim.shake)
-                    editText.startAnimation(shake)
-                    editTextLayout.error = getString(errorMessage)
-                    editTextLayout.isErrorEnabled = true
-                    editTextLayout.postDelayed({ if (editTextLayout != null) editTextLayout.isErrorEnabled = false }, (2 * 1000).toLong())
-                }
-                else -> {
-                    presenter.execute(oldTitle, playlistTitle)
-                            .subscribe({}, Throwable::printStackTrace)
-                    dismiss()
-                }
-            }
-        }
+    override fun provideErrorMessageForInvalidString(string: String): Int = R.string.popup_playlist_name_already_exist
 
-        ImeUtils.showIme(editText) // todo not working
-
-        return dialog
+    override fun onValidData(string: String) {
+        val oldTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
+        presenter.execute(oldTitle, string)
+                .subscribe({}, Throwable::printStackTrace)
     }
 
+    override fun isStringValid(string: String): Boolean = presenter.checkData(string)
+
+    override fun provideStartEditTextValue(): String {
+        return arguments!!.getString(ARGUMENTS_ITEM_TITLE)
+    }
 }

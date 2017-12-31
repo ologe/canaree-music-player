@@ -18,6 +18,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.TimeUtils
 import io.reactivex.Flowable
@@ -66,7 +67,7 @@ class DetailFragmentModuleSongs {
                 }
                 .flatMapSingle { (songList, totalDuration, sort) ->
                     songList.toFlowable().map { it.toDetailDisplayableItem(mediaId, sort) }.toList()
-                            .map { it.to(totalDuration) }
+                            .map { it to totalDuration }
                 }.map { createSongFooter(context, it) }
     }
 
@@ -107,8 +108,12 @@ class DetailFragmentModuleSongs {
 private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {
     val viewType = when {
         parentId.isAlbum -> R.layout.item_detail_song_with_track
-        parentId.isPlaylist && sortType == SortType.CUSTOM ->
-            R.layout.item_detail_song_with_drag_handle
+        parentId.isPlaylist && sortType == SortType.CUSTOM -> {
+            val playlistId = parentId.categoryValue.toLong()
+            if (Constants.autoPlaylists.contains(playlistId)) {
+                R.layout.item_detail_song
+            } else R.layout.item_detail_song_with_drag_handle
+        }
         else -> R.layout.item_detail_song
     }
 

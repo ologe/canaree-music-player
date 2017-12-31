@@ -20,7 +20,7 @@ class SetRingtoneDialog : BaseDialogFragment() {
 
         fun newInstance(mediaId: MediaId, itemTitle: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_ITEM_TITLE to itemTitle)
         }
     }

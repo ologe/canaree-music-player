@@ -1,7 +1,6 @@
 package dev.olog.presentation.dialog_new_playlist
 
 import android.app.Application
-import android.support.annotation.StringRes
 import dev.olog.domain.entity.Playlist
 import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.CreatePlaylistUseCase
@@ -50,14 +49,8 @@ class NewPlaylistDialogPresenter @Inject constructor(
         application.toast(application.getString(R.string.popup_error_message))
     }
 
-    @StringRes
-    fun checkData(playlistTitle: String): Int {
-        if (playlistTitle.isBlank()) {
-            return R.string.popup_playlist_name_not_valid
-        } else if (existingPlaylists.contains(playlistTitle.toLowerCase())) {
-            return R.string.popup_playlist_name_already_exist
-        }
-        return 0
+    fun isStringValid(string: String): Boolean {
+        return !existingPlaylists.contains(string.toLowerCase())
     }
 
 }

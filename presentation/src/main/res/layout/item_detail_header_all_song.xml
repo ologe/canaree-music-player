@@ -11,7 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="24dp"
+        android:paddingStart="16dp"
         android:paddingEnd="8dp"
         android:paddingTop="@dimen/item_detail_header_padding_top">
 

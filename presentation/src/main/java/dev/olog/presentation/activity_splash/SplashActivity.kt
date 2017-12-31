@@ -8,7 +8,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
-import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.hasPermission
 import dev.olog.presentation.utils.extension.requestStoragePemission
@@ -18,6 +18,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
+import org.jetbrains.anko.clearTop
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.newTask
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -25,7 +28,6 @@ import javax.inject.Inject
 class SplashActivity : BaseActivity() {
 
     @Inject lateinit var presenter: SplashActivityPresenter
-    @Inject lateinit var navigator: Navigator
     @Inject lateinit var adapter : Lazy<SplashActivityViewPagerAdapter>
     @Inject lateinit var rxPermissions: RxPermissions
 
@@ -42,7 +44,7 @@ class SplashActivity : BaseActivity() {
             inkIndicator.setViewPager(viewPager)
             setupStorageRequestListener()
         } else {
-            navigator.toMainActivity()
+            toMainActivity()
         }
 
     }
@@ -68,7 +70,7 @@ class SplashActivity : BaseActivity() {
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe({
                                     loader.pauseAnimation()
-                                    navigator.toMainActivity()
+                                    toMainActivity()
                                 }, Throwable::printStackTrace)
                     } else if (viewPager.currentItem == 0){
                         viewPager.setCurrentItem(1, true)
@@ -92,6 +94,14 @@ class SplashActivity : BaseActivity() {
 
     private fun checkStoragePermission() : Boolean {
         return hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    private fun toMainActivity() {
+        startActivity(intentFor<MainActivity>()
+                .clearTop()
+                .newTask()
+        )
+        finish()
     }
 
 }

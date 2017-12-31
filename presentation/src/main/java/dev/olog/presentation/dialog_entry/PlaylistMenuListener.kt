@@ -7,6 +7,7 @@ import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_music.MusicController
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -14,11 +15,12 @@ class PlaylistMenuListener @Inject constructor(
         application: Application,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
+        musicController: MusicController,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : BaseMenuListener(application, getSongListByParamUseCase, navigator,
-        getPlaylistBlockingUseCase, addToPlaylistUseCase) {
+        musicController, getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId

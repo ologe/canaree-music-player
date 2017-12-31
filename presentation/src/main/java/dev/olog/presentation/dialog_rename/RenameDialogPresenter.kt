@@ -1,7 +1,6 @@
 package dev.olog.presentation.dialog_rename
 
 import android.app.Application
-import android.support.annotation.StringRes
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.domain.interactor.dialog.RenamePlaylistUseCase
 import dev.olog.presentation.R
@@ -38,14 +37,8 @@ class RenameDialogPresenter @Inject constructor(
         application.toast(application.getString(R.string.popup_error_message))
     }
 
-    @StringRes
-    fun checkData(playlistTitle: String): Int {
-        if (playlistTitle.isBlank()) {
-            return R.string.popup_playlist_name_not_valid
-        } else if (existingPlaylists.contains(playlistTitle.toLowerCase())) {
-            return R.string.popup_playlist_name_already_exist
-        }
-        return 0
+    fun checkData(playlistTitle: String): Boolean {
+        return !existingPlaylists.contains(playlistTitle.toLowerCase())
     }
 
 }

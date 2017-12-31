@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/play"
+        android:title="@string/popup_play"/>
+
+    <item android:id="@+id/playShuffle"
+        android:title="@string/popup_play_shuffle"/>
+
     <item android:id="@+id/addToQueue"
         android:title="@string/popup_add_to_queue"/>
 
