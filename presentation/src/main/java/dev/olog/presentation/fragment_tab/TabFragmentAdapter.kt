@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import dagger.Lazy
-import dev.olog.domain.entity.SmallPlayEnum
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
@@ -14,7 +13,10 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_music.MusicController
-import dev.olog.presentation.utils.extension.*
+import dev.olog.presentation.utils.extension.elevateAlbumOnTouch
+import dev.olog.presentation.utils.extension.elevateSongOnTouch
+import dev.olog.presentation.utils.extension.setOnClickListener
+import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
@@ -62,14 +64,14 @@ class TabFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-                viewHolder.setOnClickListener(R.id.smallButton, dataController) { item, _, view ->
-                    if (view.isVisible && item.smallPlayType != null) {
-                        when (item.smallPlayType.enum){
-                            SmallPlayEnum.PLAY -> musicController.playFromMediaId(item.mediaId)
-                            SmallPlayEnum.SHUFFLE -> musicController.playShuffle(item.mediaId)
-                        }
-                    }
-                }
+//                viewHolder.setOnClickListener(R.id.smallButton, dataController) { item, _, view ->
+//                    if (view.isVisible && item.smallPlayType != null) {
+//                        when (item.smallPlayType.enum){
+//                            SmallPlayEnum.PLAY -> musicController.playFromMediaId(item.mediaId)
+//                            SmallPlayEnum.SHUFFLE -> musicController.playShuffle(item.mediaId)
+//                        }
+//                    }
+//                }
             }
             R.layout.item_tab_last_played_album_horizontal_list -> {
                 val view = viewHolder.itemView as RecyclerView
@@ -95,6 +97,7 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.musicController, musicController)
     }
 
     override fun getSectionText(position: Int): String? {

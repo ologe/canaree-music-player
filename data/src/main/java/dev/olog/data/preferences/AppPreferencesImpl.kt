@@ -51,7 +51,11 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun getViewPagerLastVisitedPage(): Int {
-        return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
+        val remember = preferences.getBoolean(context.getString(R.string.prefs_remember_last_tab_key), true)
+        if (remember){
+            return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
+        }
+        return 2
     }
 
     override fun setViewPagerLastVisitedPage(lastPage: Int) {

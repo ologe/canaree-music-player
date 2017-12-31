@@ -14,13 +14,13 @@ import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.groupMap
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -146,9 +146,15 @@ class ArtistRepository @Inject constructor(
         return flowable
     }
 
-    override fun getLastPlayed(): Flowable<List<Artist>> = lastPlayedDao.getAll()
-            .map { it.sortedWith(compareByDescending { it.dateAdded }) }
-            .groupMap { it.toArtist(context) }
+    override fun getLastPlayed(): Flowable<List<Artist>> {
+        return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
+            lastPlayed.asSequence()
+                    .filter { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } != null }
+                    .map { it.toArtist(context) }
+                    .take(10)
+                    .toList()
+        })
+    }
 
     override fun addLastPlayed(item: Artist): Completable = lastPlayedDao.insertOne(item)
 

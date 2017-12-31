@@ -20,7 +20,8 @@ class RelatedArtistFragment: BaseFragment() {
 
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
             return RelatedArtistFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId)
+                    ARGUMENTS_MEDIA_ID to mediaId.toString()
+            )
         }
     }
 

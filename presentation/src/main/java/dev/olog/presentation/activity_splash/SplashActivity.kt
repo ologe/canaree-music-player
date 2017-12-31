@@ -29,8 +29,7 @@ class SplashActivity : BaseActivity() {
     @Inject lateinit var adapter : Lazy<SplashActivityViewPagerAdapter>
     @Inject lateinit var rxPermissions: RxPermissions
 
-    private var timeDisposable : Disposable? = null
-    private var prefetchImageDisposable : Disposable? = null
+    private var disposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +49,7 @@ class SplashActivity : BaseActivity() {
 
     override fun onStop() {
         super.onStop()
-        timeDisposable.unsubscribe()
-        prefetchImageDisposable.unsubscribe()
+        disposable.unsubscribe()
     }
 
     private fun setupStorageRequestListener(){
@@ -63,9 +61,10 @@ class SplashActivity : BaseActivity() {
                 }}.asLiveData()
                 .subscribe(this, { success ->
                     if (success){
-                        timeDisposable = Observable.timer(4, TimeUnit.SECONDS)
+                        disposable = presenter.prefetchImages()
+                                .delay(2, TimeUnit.SECONDS)
                                 .doOnSubscribe { showLoader() }
-                                .doOnSubscribe { startLoadingImages() }
+                                .timeout(6, TimeUnit.SECONDS)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe({
                                     loader.pauseAnimation()
@@ -89,10 +88,6 @@ class SplashActivity : BaseActivity() {
         message.visibility = View.VISIBLE
         message.text = randomMessage
         loader.playAnimation()
-    }
-
-    private fun startLoadingImages(){
-        prefetchImageDisposable = presenter.prefetchImages().subscribe({}, Throwable::printStackTrace)
     }
 
     private fun checkStoragePermission() : Boolean {

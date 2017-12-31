@@ -7,6 +7,9 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable
+            name="musicController"
+            type="dev.olog.presentation.service_music.MusicController"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -35,6 +38,17 @@
                 app:imageAlbum="@{item}"
                 tools:src="@drawable/placeholder_folder"/>
 
+            <ImageView
+                android:id="@+id/smallButton"
+                style="@style/SmallShufflePlay"
+                android:tint="@color/dark_grey"
+                android:layout_width="@dimen/smallShuffleSize"
+                android:layout_height="@dimen/smallShuffleSize"
+                android:src="@{item.smallPlayType.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"
+                android:visibility="@{item.smallPlayType.isNone ? View.GONE : View.VISIBLE}"
+                app:smallPlayListenerItem="@{item}"
+                app:musicController="@{musicController}"/>
+
         </android.support.v7.widget.CardView>
 
         <TextView
@@ -52,6 +66,21 @@
             android:text="@{item.title}"
 
             tools:text="@tools:sample/lorem"/>
+
+        <TextView
+            android:id="@+id/secondText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@+id/firstText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            style="@style/Album.SecondaryText"
+            android:text="@{item.subtitle}"
+
+            tools:text="@tools:sample/lorem"
+            tools:visibility="visible" />
 
     </android.support.constraint.ConstraintLayout>
 

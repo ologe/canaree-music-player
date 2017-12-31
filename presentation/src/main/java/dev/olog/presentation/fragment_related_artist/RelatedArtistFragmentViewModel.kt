@@ -5,6 +5,8 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.content.res.Resources
 import dev.olog.domain.entity.Artist
+import dev.olog.domain.entity.SmallPlayType
+import dev.olog.domain.interactor.GetSmallPlayType
 import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.presentation.R
@@ -12,13 +14,15 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.TextUtils
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.toFlowable
 
 class RelatedArtistViewModel(
         application: Application,
         mediaId: MediaId,
         getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val getArtistUseCase: GetArtistUseCase
+        private val getArtistUseCase: GetArtistUseCase,
+        private val getSmallPlayType: GetSmallPlayType
 
 ): AndroidViewModel(application) {
 
@@ -31,15 +35,17 @@ class RelatedArtistViewModel(
             .flatMapSingle { it.toFlowable()
                     .distinct { it.artist }
                     .filter { it.artist != unknownArtist }
-                    .flatMapSingle { song -> getArtistUseCase.execute(MediaId.artistId(song.artistId))
-                            .map { it.toRelatedArtist(resources) }
-                            .firstOrError()
+                    .flatMapSingle { song -> Singles.zip(
+                            getArtistUseCase.execute(MediaId.artistId(song.artistId)).firstOrError(),
+                            getSmallPlayType.execute().firstOrError(), { data, smallPlayType ->
+                                data.toRelatedArtist(resources, smallPlayType)
+                            })
                     }.toSortedList(compareBy { it.title.toLowerCase() })
             }.asLiveData()
 
 }
 
-private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
+private fun Artist.toRelatedArtist(resources: Resources, smallPlayType: SmallPlayType): DisplayableItem {
     val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
         "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
@@ -50,6 +56,7 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
             MediaId.artistId(id),
             this.name,
             "$albums$songs".toLowerCase(),
-            this.image
+            this.image,
+            smallPlayType = smallPlayType
     )
 }

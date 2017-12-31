@@ -4,6 +4,12 @@
     <PreferenceCategory
         android:title="General">
 
+        <SwitchPreference
+            android:title="Remember last tab"
+            android:summary="Go to the last opened tab on launch"
+            android:key="@string/prefs_remember_last_tab_key"
+            android:defaultValue="true" />
+
         <ListPreference
             android:title="Small icon"
             android:summary="Change the action of the small icon next to images"

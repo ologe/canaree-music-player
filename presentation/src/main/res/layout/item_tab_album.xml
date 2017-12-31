@@ -6,8 +6,10 @@
 
     <data>
         <import type="android.view.View"/>
-        <import type="dev.olog.domain.entity.SmallPlayEnum"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable
+            name="musicController"
+            type="dev.olog.presentation.service_music.MusicController"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -45,7 +47,9 @@
                 android:layout_width="@dimen/smallShuffleSize"
                 android:layout_height="@dimen/smallShuffleSize"
                 android:src="@{item.smallPlayType.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"
-                android:visibility="@{item.smallPlayType == null ? View.GONE : View.VISIBLE}" />
+                android:visibility="@{item.smallPlayType.isNone ? View.GONE : View.VISIBLE}"
+                app:smallPlayListenerItem="@{item}"
+                app:musicController="@{musicController}"/>
 
         </android.support.v7.widget.CardView>
 

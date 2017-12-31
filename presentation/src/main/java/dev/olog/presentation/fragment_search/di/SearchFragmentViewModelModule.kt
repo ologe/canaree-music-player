@@ -7,10 +7,8 @@ import android.content.Context
 import android.text.TextUtils
 import dagger.Module
 import dagger.Provides
-import dev.olog.domain.entity.Album
-import dev.olog.domain.entity.Artist
-import dev.olog.domain.entity.SearchResult
-import dev.olog.domain.entity.Song
+import dev.olog.domain.entity.*
+import dev.olog.domain.interactor.GetSmallPlayType
 import dev.olog.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.domain.interactor.tab.GetAllArtistsUseCase
@@ -46,7 +44,8 @@ class SearchFragmentViewModelModule {
             getAllSongsUseCase: GetAllSongsUseCase,
             getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
             searchHeaders: SearchFragmentHeaders,
-            queryLiveData: MutableLiveData<String>)
+            queryLiveData: MutableLiveData<String>,
+            getSmallPlayType: GetSmallPlayType)
             : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>{
 
         return Transformations.switchMap(queryLiveData, { input ->
@@ -64,8 +63,8 @@ class SearchFragmentViewModelModule {
                         .asLiveData()
             } else {
                 Flowables.zip(
-                        provideSearchByArtist(getAllArtistsUseCase, input),
-                        provideSearchByAlbum(getAllAlbumsUseCase, input),
+                        provideSearchByArtist(getAllArtistsUseCase, input, getSmallPlayType),
+                        provideSearchByAlbum(getAllAlbumsUseCase, input, getSmallPlayType),
                         provideSearchBySong(getAllSongsUseCase, input),
                         { artists, albums, songs -> mutableMapOf(
                                 SearchFragmentType.RECENT to mutableListOf(),
@@ -73,7 +72,7 @@ class SearchFragmentViewModelModule {
                                 SearchFragmentType.ALBUMS to albums,
                                 SearchFragmentType.SONGS to songs)
                         })
-                        .map { it.to(input) }
+                        .map { it to input }
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
@@ -97,27 +96,30 @@ class SearchFragmentViewModelModule {
 
     private fun provideSearchByAlbum(
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
-            query: String): Flowable<MutableList<DisplayableItem>> {
+            query: String,
+            getSmallPlayType: GetSmallPlayType): Flowable<MutableList<DisplayableItem>> {
 
-        return getAllAlbumsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.title.contains(query, true)  ||
-                                it.artist.contains(query, true)
-                        }.map { it.toSearchDisplayableItem() }
-                        .toList()
-                }
+        return Flowables.combineLatest(
+                getAllAlbumsUseCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.filter { it.title.contains(query, true)  || it.artist.contains(query, true) }
+                    .map { it.toSearchDisplayableItem(smallPlayType) }
+                    .toMutableList()
+
+        })
     }
 
     private fun provideSearchByArtist(
             getAllArtistsUseCase: GetAllArtistsUseCase,
-            query: String): Flowable<MutableList<DisplayableItem>> {
+            query: String,
+            getSmallPlayType: GetSmallPlayType): Flowable<MutableList<DisplayableItem>> {
 
-        return getAllArtistsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.name.contains(query, true) }
-                        .map { it.toSearchDisplayableItem() }
-                        .toList()
-                }
+        return Flowables.combineLatest(
+                getAllArtistsUseCase.execute(), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.filter { it.name.contains(query, true) }
+                    .map { it.toSearchDisplayableItem(smallPlayType) }
+                    .toMutableList()
+
+        })
     }
 
     private fun provideRecents(
@@ -152,23 +154,25 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
     )
 }
 
-private fun Album.toSearchDisplayableItem(): DisplayableItem {
+private fun Album.toSearchDisplayableItem(smallPlayType: SmallPlayType): DisplayableItem {
     return DisplayableItem(
             R.layout.item_search_album,
             MediaId.albumId(id),
             title,
             artist,
-            image
+            image,
+            smallPlayType = smallPlayType
     )
 }
 
-private fun Artist.toSearchDisplayableItem(): DisplayableItem {
+private fun Artist.toSearchDisplayableItem(smallPlayType: SmallPlayType): DisplayableItem {
     return DisplayableItem(
             R.layout.item_search_album,
             MediaId.artistId(id),
             name,
             null,
-            image
+            image,
+            smallPlayType = smallPlayType
     )
 }
 

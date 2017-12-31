@@ -209,6 +209,7 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.musicController, musicController)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type

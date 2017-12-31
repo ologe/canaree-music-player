@@ -4,10 +4,8 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.domain.entity.Album
-import dev.olog.domain.entity.Folder
-import dev.olog.domain.entity.Genre
-import dev.olog.domain.entity.Playlist
+import dev.olog.domain.entity.*
+import dev.olog.domain.interactor.GetSmallPlayType
 import dev.olog.domain.interactor.detail.siblings.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
@@ -16,6 +14,7 @@ import dev.olog.shared.MediaIdCategory
 import dev.olog.shared.MediaIdCategoryKey
 import dev.olog.shared.groupMap
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.Flowables
 
 @Module
 class DetailFragmentModuleAlbum {
@@ -48,9 +47,13 @@ class DetailFragmentModuleAlbum {
     internal fun provideAlbumData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumSiblingsByAlbumUseCase,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
+        return Flowables.combineLatest(
+                useCase.execute(mediaId), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toDetailDisplayableItem(resources, smallPlayType) }
+        })
     }
 
     @Provides
@@ -59,9 +62,13 @@ class DetailFragmentModuleAlbum {
     internal fun provideArtistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumSiblingsByArtistUseCase,
+            getSmallPlayType: GetSmallPlayType): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toDetailDisplayableItem(resources) }
+        return Flowables.combineLatest(
+                useCase.execute(mediaId), getSmallPlayType.execute(), { data, smallPlayType ->
+            data.map { it.toDetailDisplayableItem(resources, smallPlayType) }
+        })
     }
 
     @Provides
@@ -96,13 +103,14 @@ private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableI
     )
 }
 
-private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
+private fun Album.toDetailDisplayableItem(resources: Resources, smallPlayType: SmallPlayType): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_album,
             MediaId.albumId(id),
             title,
             resources.getQuantityString(R.plurals.song_count, this.songs, this.songs).toLowerCase(),
-            image
+            image,
+            smallPlayType = smallPlayType
     )
 }
 

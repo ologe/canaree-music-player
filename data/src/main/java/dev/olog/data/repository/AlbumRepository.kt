@@ -8,11 +8,11 @@ import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.shared.groupMap
 import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.rxkotlin.Flowables
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -79,9 +79,15 @@ class AlbumRepository @Inject constructor(
         return flowable
     }
 
-    override fun getLastPlayed(): Flowable<List<Album>> = lastPlayedDao.getAll()
-            .map { it.sortedWith(compareByDescending { it.dateAdded }) }
-            .groupMap { it.toAlbum() }
+    override fun getLastPlayed(): Flowable<List<Album>> {
+        return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
+            lastPlayed.asSequence()
+                    .filter { lastPlayedAlbumEntity -> all.firstOrNull { it.id == lastPlayedAlbumEntity.id } != null }
+                    .map { it.toAlbum() }
+                    .take(10)
+                    .toList()
+        })
+    }
 
     override fun addLastPlayed(item: Album): Completable {
         return lastPlayedDao.insertOne(item)

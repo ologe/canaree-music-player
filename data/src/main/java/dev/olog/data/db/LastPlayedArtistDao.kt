@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 @Dao
 abstract class LastPlayedArtistDao {
 
-    @Query("SELECT * FROM last_played_artists ORDER BY dateAdded DESC LIMIT 10")
+    @Query("SELECT * FROM last_played_artists ORDER BY dateAdded DESC LIMIT 20")
     abstract fun getAll(): Flowable<List<LastPlayedArtistEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
