@@ -37,7 +37,7 @@ object BindingsAdapter {
                 .priority(priority)
 
         if (asPlaceholder){
-            request = request.placeholder(CoverUtils.getGradient(context, position = id, source = source))
+            request = request.placeholder(CoverUtils.getGradient(context, position = id))
         } else {
             request = request.error(CoverUtils.getGradient(context, position = id, source = source))
         }

@@ -16,15 +16,16 @@ import io.reactivex.processors.PublishProcessor
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class BaseListAdapterController<Model : BaseModel>(
-        private val adapter: BaseListAdapter<Model>
+class BaseListAdapterController<Model : BaseModel> :
+        DefaultLifecycleObserver,
+        AdapterController<List<Model>, Model>,
+        TouchBehaviorCapabilities {
 
-) : DefaultLifecycleObserver, AdapterController<Model>, TouchBehaviorCapabilities {
+    lateinit var adapter: BaseListAdapter<Model>
 
     private var dataSetDisposable: Disposable? = null
     private val publisher = PublishProcessor.create<AdapterData<MutableList<Model>>>()
 
-    private val originalList = mutableListOf<Model>()
     private val dataSet = mutableListOf<Model>()
 
     private var dataVersion = 0
@@ -39,7 +40,7 @@ class BaseListAdapterController<Model : BaseModel>(
     override fun swap(from: Int, to: Int) {
         if (from < to){
             for (position in from until to){
-                dataSet.swap(position , position+ 1)
+                dataSet.swap(position , position + 1)
             }
         } else {
             for (position in from downTo to + 1){
@@ -53,12 +54,11 @@ class BaseListAdapterController<Model : BaseModel>(
         return dataSet.indexOfFirst { it.type == viewType }
     }
 
-    fun getSize() : Int = dataSet.size
+    override fun getSize() : Int = dataSet.size
 
-    fun onNext(data: List<Model>) {
+    override fun onNext(data: List<Model>) {
         dataVersion++
-        this.originalList.clearThenAdd(data)
-        publisher.onNext(AdapterData(originalList.toMutableList(), dataVersion))
+        publisher.onNext(AdapterData(data.toMutableList(), dataVersion))
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -112,8 +112,11 @@ class BaseListAdapterController<Model : BaseModel>(
                 }, Throwable::printStackTrace)
     }
 
+    override fun setAdapter(adapter: BaseAdapter<*,*>) {
+        this.adapter = adapter as BaseListAdapter<Model>
+    }
 
-    fun onDataChanged(): Flowable<List<Model>> {
+    override fun onDataChanged(): Flowable<List<Model>> {
         return publisher.map { it.data.toList() }
                 .startWith(dataSet)
     }

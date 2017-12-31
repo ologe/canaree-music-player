@@ -59,7 +59,7 @@ class TabFragment : BaseFragment() {
         viewModel.getSmallPlayTypeLiveData.subscribe(this, { type ->
             val oldType = adapter.smallPlay
             adapter.smallPlay = type
-            if (oldType != null){
+            if (oldType != null && oldType != type){
                 adapter.notifyDataSetChanged()
             }
         })

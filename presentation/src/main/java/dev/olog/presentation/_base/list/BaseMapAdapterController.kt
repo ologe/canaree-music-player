@@ -4,10 +4,9 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.util.DiffUtil
 import dev.olog.presentation._base.BaseModel
-import dev.olog.shared.clearThenPut
-import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.assertBackgroundThread
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.PublishProcessor
@@ -15,40 +14,31 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
-        private val adapter: BaseMapAdapter<E, Model>,
-        enums: Array<E>
+        private val enums: Array<E>
 
-) : DefaultLifecycleObserver, AdapterController<Model>, TouchBehaviorCapabilities {
+) : DefaultLifecycleObserver,
+        AdapterController<MutableMap<E, MutableList<Model>>, Model>,
+        TouchBehaviorCapabilities {
+
+    lateinit var adapter: BaseMapAdapter<E, Model>
 
     private var dataSetDisposable: Disposable? = null
-    private val publisher = PublishProcessor.create<AdapterData<MutableMap<E, MutableList<Model>>>>()
+    private val publisher = PublishProcessor.create<AdapterData<BetterMap<E, Model>>>()
 
-    private val originalDataSet : MutableMap<E, MutableList<Model>> = mutableMapOf()
-    private val dataSet : MutableMap<E, MutableList<Model>> = mutableMapOf()
+    private val dataSet : BetterMap<E, Model> = BetterMap(enums)
 
     private var dataVersion = 0
 
-    init {
-        for (enum in enums) {
-            originalDataSet[enum] = mutableListOf()
-        }
-        dataSet.putAll(originalDataSet)
-    }
-
-    override operator fun get(position: Int): Model = getItem(dataSet, position)
+    override operator fun get(position: Int): Model = dataSet[position]
 
     override fun swap(from: Int, to: Int) {
         if (from < to){
             for (position in from until to){
-                val (list, realPosition1) = getItemPositionWithListWithin(position)
-                val (_, realPosition2) = getItemPositionWithListWithin(position + 1)
-                list.swap(realPosition1 , realPosition2)
+                dataSet.swap(position, position + 1)
             }
         } else {
             for (position in from downTo to + 1){
-                val (list, realPosition1) = getItemPositionWithListWithin(position)
-                val (_, realPosition2) = getItemPositionWithListWithin(position - 1)
-                list.swap(realPosition1 , realPosition2)
+                dataSet.swap(position, position - 1)
             }
         }
         adapter.notifyItemMoved(from, to)
@@ -59,18 +49,27 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
     }
 
     override fun headersWithinList(position: Int, viewType: Int): Int {
-        val (list, _) = getItemPositionWithListWithin(position)
+        val list = dataSet.getListAtPosition(position)
         return list.indexOfFirst { it.type == viewType }
     }
 
-    fun getSize(): Int = dataSet.values.sumBy { it.size }
+    override fun getSize(): Int = dataSet.size()
 
     private fun isEmpty(): Boolean = getSize() == 0
 
-    fun onNext(data: MutableMap<E, MutableList<Model>>) {
+    override fun setAdapter(adapter: BaseAdapter<*,*>) {
+        this.adapter = adapter as BaseMapAdapter<E, Model>
+    }
+
+    override fun onDataChanged(): Flowable<MutableMap<E, MutableList<Model>>> {
+        return publisher.map { it.data.wrappedValue() }
+                .startWith(dataSet.wrappedValue())
+    }
+
+    override fun onNext(data: MutableMap<E, MutableList<Model>>) {
         dataVersion++
-        this.originalDataSet.clearThenPut(data)
-        publisher.onNext(AdapterData(originalDataSet.toMutableMap(), dataVersion))
+        val newData = BetterMap(enums, data)
+        publisher.onNext(AdapterData(newData, dataVersion))
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -81,26 +80,26 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
                 .onBackpressureLatest()
                 .distinctUntilChanged { data -> data.data }
                 .filter { it.version == dataVersion }
-                .map {
-
-                    it to DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+                .map { newData ->
+                    newData to DiffUtil.calculateDiff(object : DiffUtil.Callback(){
 
                         init { assertBackgroundThread() }
 
-                        override fun getOldListSize(): Int = dataSet.values.sumBy { it.size }
+                        override fun getOldListSize(): Int = dataSet.size()
 
-                        override fun getNewListSize(): Int = it.data.values.sumBy { it.size }
+                        override fun getNewListSize(): Int = newData.data.size()
 
                         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                            val oldItem = getItem(dataSet, oldItemPosition)
-                            val newItem = getItem(it.data, newItemPosition)
+                            val oldItem : Model = dataSet[oldItemPosition]
+                            val newItem : Model = newData.data[newItemPosition]
                             return oldItem.mediaId == newItem.mediaId
                         }
 
                         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                            val oldItem = getItem(dataSet, oldItemPosition)
-                            val newItem = getItem(it.data, newItemPosition)
-                            return oldItem == newItem
+                            val oldItem : Model = dataSet[oldItemPosition]
+                            val newItem : Model = newData.data[newItemPosition]
+                            return oldItem == newItem && adapter.areContentTheSameExtension(
+                                    oldItemPosition, newItemPosition, oldItem, newItem)
                         }
                     })
                 }
@@ -110,9 +109,9 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
                 .subscribe { (newData, callback) ->
                     val wasEmpty = isEmpty()
 
-                    dataSet.clearThenPut(newData)
+                    dataSet.update(newData)
 
-                    if (wasEmpty || !adapter.hasGranularUpdate){
+                    if (wasEmpty || !adapter.hasGranularUpdate || newData.size() > 400){
                         adapter.notifyDataSetChanged()
                     } else{
                         callback.dispatchUpdatesTo(adapter)
@@ -125,33 +124,5 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
     override fun onStop(owner: LifecycleOwner) {
         dataSetDisposable.unsubscribe()
     }
-
-    private fun getItem(dataSet: Map<E, List<Model>>, position: Int): Model {
-        var totalSize = 0
-        for (value in dataSet.values) {
-            if (position in totalSize until (totalSize + value.size)){
-                val realPosition = position - totalSize
-                return value[realPosition]
-            } else{
-                totalSize += value.size
-            }
-        }
-        throw IllegalArgumentException("invalid position $position")
-    }
-
-    fun getItemPositionWithListWithin(position: Int): Pair<List<Model>, Int> {
-        var totalSize = 0
-        for (value in dataSet.values) {
-            if (position in totalSize until (totalSize + value.size)){
-                val realPosition = position - totalSize
-                return value to realPosition
-            } else{
-                totalSize += value.size
-            }
-        }
-        throw IllegalArgumentException("invalid position $position")
-    }
-
-    fun getDataSet() : MutableMap<E, MutableList<Model>> = dataSet
 
 }

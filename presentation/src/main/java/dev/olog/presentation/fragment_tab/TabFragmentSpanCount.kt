@@ -61,7 +61,7 @@ class AlbumSpanSizeLookup(
 
     override fun getSpanSize(position: Int): Int {
         adapter.get()?.let {
-            val itemType = it.getItem(position).type
+            val itemType = it.getItemAt(position).type
             if ((itemType == R.layout.item_tab_header ||
                     itemType == R.layout.item_tab_last_played_artist_horizontal_list ||
                     itemType == R.layout.item_tab_last_played_album_horizontal_list)){
@@ -83,7 +83,7 @@ class ArtistSpanSizeLookup(
 
     override fun getSpanSize(position: Int): Int {
         adapter.get()?.let {
-            val itemType = it.getItem(position).type
+            val itemType = it.getItemAt(position).type
             if ((itemType == R.layout.item_tab_header ||
                     itemType == R.layout.item_tab_last_played_artist_horizontal_list ||
                     itemType == R.layout.item_tab_last_played_album_horizontal_list)){

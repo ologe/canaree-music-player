@@ -12,6 +12,7 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation._base.list.OnDataChangedListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.*
@@ -68,7 +69,6 @@ class DetailFragment : BaseFragment() {
                 it[DetailFragmentDataType.HEADER]!!.clear()
             }
             adapter.updateDataSet(it)
-            startPostponedEnterTransition()
         })
     }
 
@@ -96,15 +96,6 @@ class DetailFragment : BaseFragment() {
 
         @Suppress("PLUGIN_WARNING")
         BindingsAdapter.loadBigAlbumImage(view!!.cover, item)
-
-//        GlideApp.with(context)
-//                .load(imageUri)
-//                .centerCrop()
-//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-//                .override(BindingsAdapter.OVERRIDE_BIG)
-//                .priority(Priority.IMMEDIATE)
-//                .error(CoverUtils.getGradient(context!!, id, source))
-//                .into(view!!.cover)
     }
 
     internal fun setLightButtons(){
@@ -127,6 +118,11 @@ class DetailFragment : BaseFragment() {
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
         view!!.search.setOnClickListener { navigator.get().toSearchFragment() }
+        adapter.setOnDataChangedListener(object : OnDataChangedListener{
+            override fun onChanged() {
+                startPostponedEnterTransition()
+            }
+        })
     }
 
     override fun onPause() {
