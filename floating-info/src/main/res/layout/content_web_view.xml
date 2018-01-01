@@ -27,13 +27,23 @@
             android:background="@android:color/white"
             android:elevation="4dp">
 
+
             <ImageButton
-                android:id="@+id/back"
+                android:id="@+id/navigateBack"
                 android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:padding="12dp"
                 android:src="@drawable/vd_back_arrow"/>
+
+            <ImageButton
+                android:id="@+id/navigateNext"
+                android:layout_width="48dp"
+                android:layout_gravity="end"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:padding="12dp"
+                android:src="@drawable/vd_forward_arrow"/>
 
             <ProgressBar
                 android:id="@+id/progressBar"

@@ -11,12 +11,12 @@ import dev.olog.presentation.BindingsAdapter
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
+import dev.olog.shared_android.extension.asLiveData
 import kotlinx.android.synthetic.main.fragment_edit_info.*
 import kotlinx.android.synthetic.main.fragment_edit_info.view.*
 import org.jetbrains.anko.toast
@@ -43,16 +43,14 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
-                .subscribe(this, {
-                    okButton.isEnabled = it
-                })
+                .subscribe(this, { okButton.isEnabled = it })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         presenter.getSong().subscribe({
-            setImage(view, it)
-            setTextViews(view, it)
-        }, Throwable::printStackTrace)
+                    setImage(view, it)
+                    setTextViews(view, it)
+                }, Throwable::printStackTrace)
     }
 
     override fun onResume() {

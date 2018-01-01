@@ -10,9 +10,9 @@ import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
+import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

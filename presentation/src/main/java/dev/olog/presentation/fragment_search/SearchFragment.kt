@@ -9,10 +9,10 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.animation.CircularReveal
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
+import dev.olog.shared_android.extension.asLiveData
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject

@@ -9,10 +9,10 @@ import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.activity_main.MainActivity
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.requestStoragePemission
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.extension.hasPermission
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +23,7 @@ import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 import java.util.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 class SplashActivity : BaseActivity() {
@@ -60,7 +61,8 @@ class SplashActivity : BaseActivity() {
                     rxPermissions.requestStoragePemission()
                 } else {
                     Observable.just(false)
-                }}.asLiveData()
+                }}
+                .asLiveData()
                 .subscribe(this, { success ->
                     if (success){
                         disposable = presenter.prefetchImages()
@@ -70,7 +72,14 @@ class SplashActivity : BaseActivity() {
                                 .subscribe({
                                     loader.pauseAnimation()
                                     toMainActivity()
-                                }, Throwable::printStackTrace)
+                                }, {
+                                    if (it is TimeoutException){
+                                        loader.pauseAnimation()
+                                        toMainActivity()
+                                    } else {
+                                        it.printStackTrace()
+                                    }
+                                })
                     } else if (viewPager.currentItem == 0){
                         viewPager.setCurrentItem(1, true)
                     }

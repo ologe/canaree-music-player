@@ -1,4 +1,4 @@
-package dev.olog.presentation
+package dev.olog.shared_android.rx
 
 import android.widget.SeekBar
 import com.jakewharton.rxbinding2.InitialValueObservable

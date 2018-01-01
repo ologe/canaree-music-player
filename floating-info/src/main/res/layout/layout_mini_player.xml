@@ -58,7 +58,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:thumbTint="@color/dark_grey"
         android:progressTint="@color/dark_grey"
-        tools:progress="40" />
+        tools:progress="40"
+        android:max="@integer/very_high_duration"/>
 
     <!-- bookmark -->
     <TextView
@@ -87,6 +88,6 @@
         android:layout_marginEnd="16dp"
         android:clickable="false"
         android:focusable="false"
-        android:translationY="-5dp"/>
+        android:translationY="-5dp" />
 
 </android.support.constraint.ConstraintLayout>

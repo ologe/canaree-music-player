@@ -11,19 +11,19 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
-import dev.olog.presentation.SeekBarObservable
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MusicController
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
+import dev.olog.shared_android.rx.SeekBarObservable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType
@@ -46,6 +46,7 @@ class PlayerFragment : BaseFragment() {
     lateinit var artist: TextView
     lateinit var isExplicit: View
     lateinit var isRemix: View
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

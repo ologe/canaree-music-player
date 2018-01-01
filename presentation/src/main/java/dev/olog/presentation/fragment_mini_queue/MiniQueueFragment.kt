@@ -6,8 +6,8 @@ import android.view.View
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.shared_android.extension.asLiveData
 import kotlinx.android.synthetic.main.fragment_mini_queue.view.*
 import javax.inject.Inject
 

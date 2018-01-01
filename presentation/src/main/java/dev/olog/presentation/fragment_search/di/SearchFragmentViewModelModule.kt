@@ -17,11 +17,11 @@ import dev.olog.presentation.dagger.PerFragment
 import dev.olog.presentation.fragment_search.SearchFragmentHeaders
 import dev.olog.presentation.fragment_search.SearchFragmentType
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared.RecentSearchesTypes
 import dev.olog.shared.groupMap
+import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables

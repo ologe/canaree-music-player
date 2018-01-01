@@ -18,8 +18,13 @@ object BindingsAdapter {
     const val OVERRIDE_MID = 300
     const val OVERRIDE_BIG = 500
 
-    private fun loadImageImpl(view: ImageView, item: DisplayableItem,
-                              override: Int, priority: Priority = Priority.HIGH, asPlaceholder: Boolean = false){
+    private fun loadImageImpl(
+            view: ImageView,
+            item: DisplayableItem,
+            override: Int,
+            priority: Priority = Priority.HIGH,
+            asPlaceholder: Boolean = false){
+
         val mediaId = item.mediaId
 
         val context = view.context

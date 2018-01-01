@@ -11,9 +11,9 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.toFlowable
 

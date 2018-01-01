@@ -3,9 +3,9 @@ package dev.olog.presentation.fragment_albums
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
+import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Flowable
 
 class AlbumsFragmentViewModel(

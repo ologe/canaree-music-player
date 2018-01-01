@@ -7,12 +7,13 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.expand
 import dev.olog.presentation.isCollapsed
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.service_music.MusicController
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_mini_player.view.*
@@ -83,11 +84,13 @@ class MiniPlayerFragment : BaseFragment(){
     override fun onResume() {
         super.onResume()
         getSlidingPanel()?.addPanelSlideListener(panelSlideListener)
+        view!!.setOnClickListener { getSlidingPanel()?.expand() }
     }
 
     override fun onPause() {
         super.onPause()
         getSlidingPanel()?.removePanelSlideListener(panelSlideListener)
+        view!!.setOnClickListener(null)
     }
 
     private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener() {

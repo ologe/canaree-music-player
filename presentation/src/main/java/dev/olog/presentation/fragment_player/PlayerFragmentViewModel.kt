@@ -12,10 +12,10 @@ import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.DurationModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.model.toPlayerMetadata
-import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
 import io.reactivex.functions.Predicate
 

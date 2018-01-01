@@ -75,6 +75,8 @@ dependencies {
     // reactive streams
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

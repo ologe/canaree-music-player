@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import dev.olog.floating_info.api.Content
 import kotlin.properties.Delegates
@@ -21,29 +20,21 @@ abstract class WebViewContent(
         webView.loadUrl(getUrl(new))
     })
 
-    val content = LayoutInflater.from(context).inflate(layoutRes, null)
+    val content : View = LayoutInflater.from(context).inflate(layoutRes, null)
 
     private val webView = content.findViewById<WebView>(R.id.webView)
     private val progressBar = content.findViewById<ProgressBar>(R.id.progressBar)
-    private val back = content.findViewById<View>(R.id.back)
+    private val back = content.findViewById<View>(R.id.navigateBack)
+    private val next = content.findViewById<View>(R.id.navigateNext)
 
     init {
-        webView.settings.javaScriptEnabled = true
+        webView.settings.javaScriptEnabled = true // enable yt content
         webView.webChromeClient = object : WebChromeClient(){
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 progressBar.progress = newProgress
-                progressBar.visibility = View.VISIBLE
+                progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
             }
 
-        }
-        webView.webViewClient = object : WebViewClient(){
-            override fun onPageFinished(view: WebView?, url: String?) {
-                progressBar.visibility = View.GONE
-            }
-
-        }
-        back.setOnClickListener {
-            webView.goBack()
         }
     }
 
@@ -52,9 +43,17 @@ abstract class WebViewContent(
     override fun isFullscreen(): Boolean = true
 
     override fun onShown() {
+        back.setOnClickListener {
+            if (webView.canGoBack()) { webView.goBack() }
+        }
+        next.setOnClickListener {
+            if (webView.canGoForward()) { webView.goForward() }
+        }
     }
 
     override fun onHidden() {
+        back.setOnClickListener(null)
+        next.setOnClickListener(null)
     }
 
     protected abstract fun getUrl(item: String): String
