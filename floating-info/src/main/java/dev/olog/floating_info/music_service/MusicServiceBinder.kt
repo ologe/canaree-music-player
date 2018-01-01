@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.floating_info.di.PerService
@@ -15,6 +16,7 @@ import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.music_service.MusicServiceConnectionState
 import dev.olog.shared_android.music_service.RxMusicServiceConnectionCallback
 import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
+import io.reactivex.Flowable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -112,6 +114,14 @@ class MusicServiceBinder @Inject constructor(
                 mediaController?.transportControls?.play()
             }
         }
+    }
+
+    fun onMetadataChanged() : Flowable<PlayerMetadata> {
+        return mediaControllerCallback.onMetadataChanged()
+                .map { PlayerMetadata(
+                        it.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
+                        it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+                ) }
     }
 
 }

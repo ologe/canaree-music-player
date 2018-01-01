@@ -37,14 +37,16 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/favorite"/>
+            app:layout_constraintEnd_toStartOf="@+id/favorite"
+            android:scaleX=".85"
+            android:scaleY=".85"/>
 
         <dev.olog.presentation.widgets.LottieFavorite
             android:id="@+id/favorite"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            tools:layout_width="48dp"
+            android:layout_height="0dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="48dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/playingQueue"/>

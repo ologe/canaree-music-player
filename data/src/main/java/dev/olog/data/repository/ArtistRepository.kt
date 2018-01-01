@@ -19,6 +19,7 @@ import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
@@ -68,7 +69,7 @@ class ArtistRepository @Inject constructor(
                         .toList()
 
             }.distinctUntilChanged()
-            .doOnNext { createImages() }
+            .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
             .doOnTerminate { imageDisposable.unsubscribe() }
@@ -76,11 +77,13 @@ class ArtistRepository @Inject constructor(
     private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
     private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
-    override fun createImages(){
-
+    private fun subscribeToImageCreation(){
         imageDisposable.unsubscribe()
+        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+    }
 
-        imageDisposable = songGateway.getAllForImageCreation()
+    override fun createImages() : Single<Any> {
+        return songGateway.getAllForImageCreation()
                 .map { it.groupBy { it.artistId } }
                 .flatMap { it.entries.toFlowable()
 //                        .parallel()
@@ -100,7 +103,7 @@ class ArtistRepository @Inject constructor(
                         .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
                         .toList()
 
-                }.subscribe({}, Throwable::printStackTrace)
+                }
     }
 
     override fun getAll(): Flowable<List<Artist>> {

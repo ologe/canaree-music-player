@@ -95,7 +95,7 @@ class PlaylistRepository @Inject constructor(
                 it.toPlaylist(context, playlistSize)
             }.toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
-            .doOnNext { createImages() }
+            .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
             .doOnTerminate { imageDisposable.unsubscribe() }
@@ -111,11 +111,13 @@ class PlaylistRepository @Inject constructor(
         return size
     }
 
-    override fun createImages(){
-
+    private fun subscribeToImageCreation(){
         imageDisposable.unsubscribe()
+        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+    }
 
-        imageDisposable = contentProviderObserver.firstOrError()
+    override fun createImages() : Single<Any> {
+        return contentProviderObserver.firstOrError()
                 .flatMap { it.toFlowable()
                         .parallel()
                         .runOn(Schedulers.io())
@@ -124,7 +126,7 @@ class PlaylistRepository @Inject constructor(
                         .sequential()
                         .toList()
                         .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                }.subscribe({}, Throwable::printStackTrace)
+                }
     }
 
     override fun getAll(): Flowable<List<Playlist>> {

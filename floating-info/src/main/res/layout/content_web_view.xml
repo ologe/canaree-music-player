@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    app:cardCornerRadius="10dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="16dp">
+    android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/webView"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
         android:background="@android:color/white"
-        android:elevation="4dp">
+        app:cardCornerRadius="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
 
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:padding="12dp"
-            android:src="@drawable/vd_back_arrow"/>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressTint="@color/accent"
-            tools:progress="40"
-            tools:max="100"
-            android:max="100"
-            android:elevation="4dp" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp"/>
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@android:color/white"
+            android:elevation="4dp">
 
-</android.support.v7.widget.CardView>
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:padding="12dp"
+                android:src="@drawable/vd_back_arrow"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:progressTint="@color/accent"
+                tools:progress="40"
+                tools:max="100"
+                android:max="100"
+                android:elevation="4dp" />
+
+        </FrameLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

@@ -26,6 +26,7 @@ class PlayerMetadata @Inject constructor(
         if (!isFromPrepare){
             currentSong.update(entity)
         }
+        currentSong.setFloatingInfoCurrentItem(entity)
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)

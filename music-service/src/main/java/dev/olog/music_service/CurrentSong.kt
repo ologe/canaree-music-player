@@ -66,11 +66,9 @@ class CurrentSong @Inject constructor(
         isFavoriteDisposable = isFavoriteSongUseCase
                 .execute(mediaEntity.id)
                 .subscribe()
-
-        setFloatingInfoCurrentItem(mediaEntity)
     }
 
-    private fun setFloatingInfoCurrentItem(mediaEntity: MediaEntity){
+    fun setFloatingInfoCurrentItem(mediaEntity: MediaEntity){
         var result = mediaEntity.title
         if (mediaEntity.artist != context.getString(R.string.unknown_artist)){
             result += " ${mediaEntity.artist}"

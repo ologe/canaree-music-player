@@ -18,6 +18,7 @@ class LyricsContent (
     private val next = content.findViewById<View>(R.id.next)
     private val playPause = content.findViewById<View>(R.id.playPause)
     private val previous = content.findViewById<View>(R.id.previous)
+    private val header = content.findViewById<View>(R.id.header)
 
     init {
         lifecycle.addObserver(this)

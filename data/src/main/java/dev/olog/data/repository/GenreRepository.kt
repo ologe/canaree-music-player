@@ -19,10 +19,7 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.assertBackgroundThread
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
+import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
@@ -73,7 +70,7 @@ class GenreRepository @Inject constructor(
             }.map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
-            .doOnNext { createImages() }
+            .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
             .doOnTerminate { imageDisposable.unsubscribe() }
@@ -91,11 +88,13 @@ class GenreRepository @Inject constructor(
         return size
     }
 
-    override fun createImages(){
-
+    private fun subscribeToImageCreation(){
         imageDisposable.unsubscribe()
+        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+    }
 
-        imageDisposable = contentProviderObserver.firstOrError().flatMap { it.toFlowable()
+    override fun createImages() : Single<Any> {
+        return contentProviderObserver.firstOrError().flatMap { it.toFlowable()
                 .parallel()
                 .runOn(Schedulers.io())
                 .map { Pair(it, getSongListAlbumsId(it.id)) }
@@ -103,8 +102,7 @@ class GenreRepository @Inject constructor(
                 .sequential()
                 .toList()
                 .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-
-        }.subscribe({}, Throwable::printStackTrace)
+        }
     }
 
     override fun getAll(): Flowable<List<Genre>> = contentProviderObserver

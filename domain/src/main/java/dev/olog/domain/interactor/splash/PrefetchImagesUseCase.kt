@@ -7,6 +7,8 @@ import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.interactor.base.CompletableUseCase
 import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.rxkotlin.Singles
 import javax.inject.Inject
 
 class PrefetchImagesUseCase @Inject constructor(
@@ -19,13 +21,13 @@ class PrefetchImagesUseCase @Inject constructor(
 ): CompletableUseCase(scheduler) {
 
     override fun buildUseCaseObservable(): Completable {
-        return Completable.fromCallable { createAll() }
+        return createAll().toCompletable()
     }
 
-    private fun createAll(){
-        folderGateway.createImages()
-        playlistGateway.createImages()
-        artistGateway.createImages()
-        genreGateway.createImages()
+    private fun createAll() : Single<Any> {
+        return Singles.zip(folderGateway.createImages(),
+                playlistGateway.createImages(),
+                artistGateway.createImages(),
+                genreGateway.createImages(), { _,_,_, _ -> Unit } )
     }
 }

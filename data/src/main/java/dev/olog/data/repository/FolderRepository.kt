@@ -18,6 +18,7 @@ import dev.olog.shared.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
@@ -53,16 +54,18 @@ class FolderRepository @Inject constructor(
                         }.sortedBy { it.title.toLowerCase() }
                     }
             }.distinctUntilChanged()
-            .doOnNext { createImages() }
+            .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
             .doOnTerminate { imageDisposable.unsubscribe() }
 
-    override fun createImages(){
-
+    private fun subscribeToImageCreation(){
         imageDisposable.unsubscribe()
+        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+    }
 
-        imageDisposable = songGateway.getAllForImageCreation()
+    override fun createImages() : Single<Any>{
+        return songGateway.getAllForImageCreation()
                 .map { it.groupBy { it.folderPath } }
                 .flatMap { it.entries.toFlowable()
                         .parallel()
@@ -72,7 +75,7 @@ class FolderRepository @Inject constructor(
                         .sequential()
                         .toList()
                         .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                }.subscribe({}, Throwable::printStackTrace)
+                }
     }
 
     override fun getAll(): Flowable<List<Folder>> {

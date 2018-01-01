@@ -64,7 +64,6 @@ class SplashActivity : BaseActivity() {
                 .subscribe(this, { success ->
                     if (success){
                         disposable = presenter.prefetchImages()
-                                .delay(2, TimeUnit.SECONDS)
                                 .doOnSubscribe { showLoader() }
                                 .timeout(6, TimeUnit.SECONDS)
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -99,8 +98,7 @@ class SplashActivity : BaseActivity() {
     private fun toMainActivity() {
         startActivity(intentFor<MainActivity>()
                 .clearTop()
-                .newTask()
-        )
+                .newTask())
         finish()
     }
 
