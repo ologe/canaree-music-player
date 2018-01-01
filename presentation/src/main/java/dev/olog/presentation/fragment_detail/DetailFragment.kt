@@ -15,8 +15,13 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation._base.list.OnDataChangedListener
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.utils.extension.*
+import dev.olog.presentation.utils.extension.removeLightStatusBar
+import dev.olog.presentation.utils.extension.setLightStatusBar
+import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
+import dev.olog.shared_android.extension.isLandscape
+import dev.olog.shared_android.extension.isPortrait
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
 import javax.inject.Inject

@@ -15,19 +15,20 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.jakewharton.rxbinding2.view.RxView
-import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.SeekBarObservable
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.asLiveData
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType
@@ -42,6 +43,7 @@ class PlayerFragment : BaseFragment() {
     @Inject lateinit var viewModel: PlayerFragmentViewModel
     @Inject lateinit var musicController: MusicController
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
 
     private var updateDisposable : Disposable? = null
 
@@ -145,6 +147,12 @@ class PlayerFragment : BaseFragment() {
         RxView.clicks(playingQueue)
                 .asLiveData()
                 .subscribe(this, { navigator.toPlayingQueueFragment() })
+
+        RxView.clicks(floatingWindow)
+                .asLiveData()
+                .subscribe(this, {
+                    FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder)
+                })
     }
 
     override fun onResume() {

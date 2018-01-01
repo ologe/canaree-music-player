@@ -1,11 +1,11 @@
-package dev.olog.presentation.widgets
+package dev.olog.shared_android.widget
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
-import dev.olog.presentation.R
+import dev.olog.shared_android.R
 import dev.olog.shared_android.isMarshmallow
 
 class AnimatedImageView @JvmOverloads constructor(

@@ -1,4 +1,4 @@
-package dev.olog.presentation.service_music
+package dev.olog.shared_android.music_service
 
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat

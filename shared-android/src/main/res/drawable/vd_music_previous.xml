@@ -4,7 +4,7 @@
   android:name="back"
   android:width="200dp"
   android:height="200dp"
-  android:tint="@color/button_primary_tint"
+  android:tint="@color/dark_grey"
   android:viewportHeight="200"
   android:viewportWidth="200">
   <group

@@ -60,6 +60,7 @@ dependencies {
     implementation "com.android.support:cardview-v7:$rootProject.support_library"
     implementation "com.android.support:appcompat-v7:$rootProject.support_library"
     implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
     // android lifecycle
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"

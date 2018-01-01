@@ -8,7 +8,7 @@
     android:id="@+id/root"
     android:background="@color/background">
 
-    <dev.olog.presentation.widgets.AnimatedImageView
+    <dev.olog.shared_android.widget.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <dev.olog.presentation.widgets.AnimatedPlayPauseImageView
+    <dev.olog.shared_android.widget.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="40dp"
         android:layout_height="0dp"
@@ -33,7 +33,7 @@
         android:scaleY="1.1"
         tools:rotation="90" />
 
-    <dev.olog.presentation.widgets.AnimatedImageView
+    <dev.olog.shared_android.widget.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"

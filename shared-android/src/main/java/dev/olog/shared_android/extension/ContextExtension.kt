@@ -1,4 +1,4 @@
-package dev.olog.presentation.utils.extension
+package dev.olog.shared_android.extension
 
 import android.content.Context
 import android.content.pm.PackageManager

@@ -28,4 +28,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="Floating window">
+
+        <SwitchPreference
+            android:title="Show at startup"
+            android:summary="Start floating window service at app's startup"
+            android:key="@string/prefs_start_floating_window_at_startup_key"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

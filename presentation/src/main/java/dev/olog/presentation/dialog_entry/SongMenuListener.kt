@@ -11,14 +11,11 @@ import dev.olog.domain.interactor.GetSongListByParamUseCase
 import dev.olog.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.domain.interactor.dialog.GetPlaylistBlockingUseCase
-import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.asHtml
 import dev.olog.shared.MediaId
-import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -29,8 +26,6 @@ class SongMenuListener @Inject constructor(
         private val navigator: Navigator,
         musicController: MusicController,
         private val getSongUseCase: GetSongUseCase,
-        private val floatingInfoServiceBinder: FloatingInfoServiceClass,
-        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
@@ -60,16 +55,6 @@ class SongMenuListener @Inject constructor(
                         .doOnSuccess { navigator.toDetailFragment(it) }
                         .toCompletable()
                         .subscribe()
-                return true
-            }
-            R.id.lyrics_video -> {
-                getSongUseCase.execute(item.mediaId)
-                        .firstOrError()
-                        .map { item.title } // todo vedere che dati prendere
-                        .doOnSuccess { setFloatingInfoRequestUseCase.execute(it) }
-                        .subscribe()
-
-                FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity, floatingInfoServiceBinder)
                 return true
             }
             R.id.share -> {

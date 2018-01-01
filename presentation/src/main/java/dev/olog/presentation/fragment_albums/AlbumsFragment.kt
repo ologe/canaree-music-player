@@ -5,10 +5,10 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.utils.extension.isPortrait
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
+import dev.olog.shared_android.extension.isPortrait
 import kotlinx.android.synthetic.main.fragment_albums.view.*
 import javax.inject.Inject
 

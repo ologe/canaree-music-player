@@ -2,11 +2,11 @@ package dev.olog.presentation.fragment_privacy_policy
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.R
+import dev.olog.presentation.utils.extension.asHtml
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_privacy_policy.view.*
 
@@ -23,7 +23,7 @@ class PrivacyPolicyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val privacyPolicy = readStringFromAssets("privacy_policy.html")
-        view.text.text = Html.fromHtml(privacyPolicy)
+        view.text.text = privacyPolicy.asHtml()
     }
 
     override fun onResume() {

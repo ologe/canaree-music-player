@@ -57,7 +57,6 @@ class InfoNotification @Inject constructor(
                 .setContentText("Tap to close") // todo string resource
                 .setColor(0xff1f86ef.toInt())
                 .setContentIntent(createContentIntent())
-//                .addAction(0, "Stop", createStopPendingIntent())
                 .build()
     }
 
@@ -67,15 +66,6 @@ class InfoNotification @Inject constructor(
 
         return PendingIntent.getService(service, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
-
-    private fun createStopPendingIntent() : PendingIntent{
-        val intent = Intent(service, FloatingInfoService::class.java)
-        intent.action = FloatingInfoService.ACTION_STOP
-
-        return PendingIntent.getService(service, 0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
 }

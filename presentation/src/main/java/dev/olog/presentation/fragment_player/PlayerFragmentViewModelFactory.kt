@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
+import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
 import javax.inject.Inject
 
 class PlayerFragmentViewModelFactory @Inject constructor(

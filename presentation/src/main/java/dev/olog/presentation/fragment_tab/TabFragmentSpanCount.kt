@@ -7,7 +7,7 @@ import dev.olog.presentation._base.list.BaseListAdapter
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.presentation.utils.extension.isPortrait
+import dev.olog.shared_android.extension.isPortrait
 import java.lang.ref.WeakReference
 
 private const val SPAN_COUNT = 12

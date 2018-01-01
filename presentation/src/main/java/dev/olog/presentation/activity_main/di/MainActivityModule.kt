@@ -14,9 +14,9 @@ import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.service_music.MediaControllerProvider
-import dev.olog.presentation.service_music.RxMusicServiceConnectionCallback
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared_android.interfaces.MusicServiceClass
+import dev.olog.shared_android.music_service.RxMusicServiceConnectionCallback
 
 @Module
 class MainActivityModule(
@@ -47,9 +47,15 @@ class MainActivityModule(
 
     @Provides
     @PerActivity
+    internal fun provideRxMusicServiceConnectionCallback() : RxMusicServiceConnectionCallback {
+        return RxMusicServiceConnectionCallback()
+    }
+
+    @Provides
+    @PerActivity
     internal fun provideMediaBrowser(
-            serviceBinder: MusicServiceClass,
             @ApplicationContext context: Context,
+            serviceBinder: MusicServiceClass,
             rxConnectionCallback: RxMusicServiceConnectionCallback): MediaBrowserCompat {
 
         return MediaBrowserCompat(context,

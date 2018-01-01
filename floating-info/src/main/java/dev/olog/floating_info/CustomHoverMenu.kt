@@ -12,6 +12,7 @@ import dev.olog.domain.interactor.floating_info.GetFloatingInfoRequestUseCase
 import dev.olog.floating_info.api.HoverMenu
 import dev.olog.floating_info.di.ServiceContext
 import dev.olog.floating_info.di.ServiceLifecycle
+import dev.olog.floating_info.music_service.MusicServiceBinder
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.dip
@@ -22,11 +23,12 @@ import kotlin.properties.Delegates
 class CustomHoverMenu @Inject constructor(
         @ServiceContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
-        getFloatingInfoRequestUseCase: GetFloatingInfoRequestUseCase
+        getFloatingInfoRequestUseCase: GetFloatingInfoRequestUseCase,
+        musicServiceBinder: MusicServiceBinder
 
 ) : HoverMenu(), DefaultLifecycleObserver {
 
-    private val lyricsContent = LyricsContent(context)
+    private val lyricsContent = LyricsContent(context, lifecycle, musicServiceBinder)
     private val videoContent = VideoContent(context)
 
     private var disposable: Disposable? = null
@@ -53,7 +55,7 @@ class CustomHoverMenu @Inject constructor(
             createTabView(R.drawable.vd_bird_singing), lyricsContent)
 
     private val videoSection = Section(SectionId("video"),
-            createTabView(R.drawable.vd_video), videoContent)
+            createTabView(R.drawable.vd_bird_singing), videoContent)
 
     private val sections: List<Section> = listOf(
         lyricsSection, videoSection

@@ -10,10 +10,10 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.utils.extension.asLiveData
-import dev.olog.presentation.utils.extension.hasPermission
 import dev.olog.presentation.utils.extension.requestStoragePemission
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.extension.hasPermission
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

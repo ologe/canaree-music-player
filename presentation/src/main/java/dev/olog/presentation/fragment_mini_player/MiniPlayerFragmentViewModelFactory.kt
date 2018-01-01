@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.domain.interactor.music_service.ToggleSkipToNextVisibilityUseCase
 import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUseCase
-import dev.olog.presentation.service_music.RxMusicServiceControllerCallback
+import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
 import javax.inject.Inject
 
 class MiniPlayerFragmentViewModelFactory @Inject constructor(

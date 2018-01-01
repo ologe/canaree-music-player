@@ -35,7 +35,6 @@ class FloatingInfoService : BaseFloatingService() {
     }
 
     override fun getContextForHoverMenu(): Context {
-//        return ContextThemeWrapper(this, R.style.AppTheme)
         return ContextThemeWrapper(this, 0)
     }
 

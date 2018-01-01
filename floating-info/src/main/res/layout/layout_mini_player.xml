@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@android:color/white"
+    android:elevation="4dp">
+
+    <dev.olog.shared_android.widget.AnimatedImageView
+        android:id="@+id/next"
+        app:avd="@drawable/avd_music_next"
+        tools:src="@drawable/vd_music_next"
+        android:background="@null"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/playPause"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar" />
+
+    <dev.olog.shared_android.widget.AnimatedPlayPauseImageView
+        android:id="@+id/playPause"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="40dp"
+        android:padding="10dp"
+        tools:src="@drawable/vd_playpause_play"
+        android:background="@null"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        tools:rotation="90"
+        app:layout_constraintStart_toEndOf="@+id/previous"
+        app:layout_constraintEnd_toStartOf="@+id/next"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"/>
+
+    <dev.olog.shared_android.widget.AnimatedImageView
+        android:id="@+id/previous"
+        app:avd="@drawable/avd_music_previous"
+        tools:src="@drawable/vd_music_previous"
+        android:background="@null"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playPause"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"/>
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:thumbTint="@color/dark_grey"
+        android:progressTint="@color/dark_grey"
+        tools:progress="40" />
+
+    <!-- bookmark -->
+    <TextView
+        android:id="@+id/bookmark"
+        tools:text="0:00"
+        android:textColor="@color/dark_grey"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toStartOf="@+id/duration"
+        android:translationY="-5dp"
+        android:clickable="false"
+        android:focusable="false" />
+
+    <!-- duration -->
+    <TextView
+        android:id="@+id/duration"
+        tools:text=" / 2:57"
+        android:textColor="@color/dark_grey"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:translationY="-5dp"/>
+
+</android.support.constraint.ConstraintLayout>

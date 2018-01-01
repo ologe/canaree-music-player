@@ -1,15 +1,15 @@
-package dev.olog.presentation.service_music
+package dev.olog.floating_info.music_service
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaControllerCompat
-import dev.olog.presentation.dagger.ActivityLifecycle
-import dev.olog.presentation.dagger.PerActivity
+import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.floating_info.di.PerService
+import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.music_service.MusicServiceConnectionState
@@ -19,10 +19,10 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-@PerActivity
-class MusicServiceBinderViewModel @Inject constructor(
+@PerService
+class MusicServiceBinder @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ActivityLifecycle lifecycle: Lifecycle,
+        @ServiceLifecycle lifecycle: Lifecycle,
         private var mediaBrowser: MediaBrowserCompat,
         private var connectionCallback: RxMusicServiceConnectionCallback,
         private var mediaControllerCallback: RxMusicServiceControllerCallback
@@ -31,35 +31,28 @@ class MusicServiceBinderViewModel @Inject constructor(
 
     private lateinit var connectionDisposable: Disposable
 
-    private val mediaControllerLiveData = MutableLiveData<MediaControllerCompat>()
     private var mediaController: MediaControllerCompat? = null
 
     init {
         lifecycle.addObserver(this)
+        connect()
     }
 
-    override fun onStart(owner: LifecycleOwner) {
+    override fun onDestroy(owner: LifecycleOwner) {
+        disconnect()
+    }
+
+    private fun connect(){
         connectionCallback.onConnectionChanged()
                 .subscribe(this)
 
         this.mediaBrowser.connect()
     }
 
-    override fun onStop(owner: LifecycleOwner) {
-        mediaBrowser.disconnect()
-
-        connectionCallback.setState(MusicServiceConnectionState.NONE)
-        if (mediaController != null) {
-            mediaControllerCallback.unregisterCallback(mediaController!!)
-            this.mediaController = null
-        }
-
-        mediaControllerLiveData.value = null
-
+    private fun disconnect(){
+        this.mediaBrowser.disconnect()
         connectionDisposable.unsubscribe()
     }
-
-    fun getMediaControllerLiveData() = mediaControllerLiveData
 
     override fun onSubscribe(d: Disposable) {
         connectionDisposable = d
@@ -76,7 +69,6 @@ class MusicServiceBinderViewModel @Inject constructor(
     private fun tryConnection() {
         try {
             mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken)
-            mediaControllerLiveData.value = mediaController
             mediaControllerCallback.registerCallback(mediaController!!)
             onConnectionSuccessful()
         } catch (e: RemoteException) {
@@ -94,7 +86,6 @@ class MusicServiceBinderViewModel @Inject constructor(
             mediaControllerCallback.unregisterCallback(mediaController!!)
             mediaController = null
         }
-        mediaControllerLiveData.value = null
     }
 
     override fun onError(e: Throwable) {
@@ -103,5 +94,24 @@ class MusicServiceBinderViewModel @Inject constructor(
     }
 
     override fun onComplete() {}
+
+    fun next(){
+        mediaController?.transportControls?.skipToNext()
+    }
+
+    fun previous(){
+        mediaController?.transportControls?.skipToPrevious()
+    }
+
+    fun playPause(){
+        val playbackState = mediaController?.playbackState
+        playbackState?.let {
+            if (it.state == PlaybackStateCompat.STATE_PLAYING){
+                mediaController?.transportControls?.pause()
+            } else {
+                mediaController?.transportControls?.play()
+            }
+        }
+    }
 
 }

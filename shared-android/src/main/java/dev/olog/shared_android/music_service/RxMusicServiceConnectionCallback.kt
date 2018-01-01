@@ -1,13 +1,11 @@
-package dev.olog.presentation.service_music
+package dev.olog.shared_android.music_service
 
 import android.support.v4.media.MediaBrowserCompat
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class RxMusicServiceConnectionCallback @Inject constructor() {
 
     private val connectionCallback = ConnectionCallback()

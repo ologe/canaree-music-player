@@ -1,6 +1,7 @@
 package dev.olog.floating_info
 
 import android.content.Context
+import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
@@ -11,7 +12,8 @@ import dev.olog.floating_info.api.Content
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
-        context: Context
+        context: Context,
+        @LayoutRes layoutRes: Int
 
 ) : Content {
 
@@ -19,8 +21,7 @@ abstract class WebViewContent(
         webView.loadUrl(getUrl(new))
     })
 
-    private val content = LayoutInflater.from(context)
-            .inflate(R.layout.content_web_view, null)
+    val content = LayoutInflater.from(context).inflate(layoutRes, null)
 
     private val webView = content.findViewById<WebView>(R.id.webView)
     private val progressBar = content.findViewById<ProgressBar>(R.id.progressBar)
