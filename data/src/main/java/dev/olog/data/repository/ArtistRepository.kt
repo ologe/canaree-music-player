@@ -86,20 +86,20 @@ class ArtistRepository @Inject constructor(
         return songGateway.getAllForImageCreation()
                 .map { it.groupBy { it.artistId } }
                 .flatMap { it.entries.toFlowable()
-//                        .parallel()
-//                        .runOn(Schedulers.io())
-//                        .map { map -> FileUtils.makeImages(context, map.value, "artist",
-//                                "${map.key}") }
-//                        .sequential()
-//                        .buffer(10)
+                        .parallel()
+                        .runOn(Schedulers.io())
+                        .map { map -> FileUtils.makeImages(context, map.value, "artist",
+                                "${map.key}") }
+                        .sequential()
                         .buffer(10)
-                        .subscribeOn(Schedulers.io())
-                        .map {
-                            for (map in it) {
-                                FileUtils.makeImages(context, map.value, "artist", "${map.key}")
-                            }
-                            ""
-                        }
+//                        .buffer(10)
+//                        .subscribeOn(Schedulers.io())
+//                        .map {
+//                            for (map in it) {
+//                                FileUtils.makeImages(context, map.value, "artist", "${map.key}")
+//                            }
+//                            ""
+//                        }
                         .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
                         .toList()
 

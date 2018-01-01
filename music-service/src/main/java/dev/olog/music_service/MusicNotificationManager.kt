@@ -66,15 +66,14 @@ class MusicNotificationManager @Inject constructor(
                 .filter { playbackState ->
                     val state = playbackState.state
                     state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED
-                }
-                .distinctUntilChanged()
+                }.distinctUntilChanged()
 
         notificationDisposable = Observables.combineLatest (
                 metadataObservable,
                 playbackStateObservable
         ) { metadataWithFavorite, playbackState -> update(playbackState, metadataWithFavorite) }
                 .debounce(NOTIFICATION_DEBOUNCE, TimeUnit.MILLISECONDS)
-                .map { notification.update().to(it) }
+                .map { notification.update() to it }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ pair ->
                     val state = pair.second

@@ -8,7 +8,6 @@ import android.content.Intent
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
-import android.util.Log
 import dagger.android.AndroidInjection
 import dev.olog.domain.interactor.favorite.ToggleLastFavoriteUseCase
 import dev.olog.music_service.interfaces.Player
@@ -63,16 +62,12 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             "activity.start_service" -> {
                 start()
                 appIsAlive = true
-                Log.i("music service", "app is alive, starting service")
             }
             "activity.stop_service" -> {
                 appIsAlive = false
 
                 if (!player.isPlaying()){
                     stop()
-                    Log.i("music service", "app destroyed, killing service")
-                } else {
-                    Log.i("music service", "app destroyed, keeping service alive")
                 }
             }
             MusicConstants.ACTION_TOGGLE_FAVORITE -> {
@@ -87,6 +82,8 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             val intent = Intent(this, this::class.java)
             intent.action = ACTION_KEEP_SERVICE_ALIVE
             ContextCompat.startForegroundService(this, intent)
+            // todo in oreo have to call context.startForeground whitin 5 secs
+
             serviceStarted = true
         }
     }
