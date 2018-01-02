@@ -56,6 +56,10 @@ abstract class BaseAdapter <DataType, Model: BaseModel>(
 
     fun getItemAt(position: Int): Model = dataController[position]
 
+    fun getItemPositionById(predicate: (Model) -> Boolean) : Int{
+        return dataController.getItemPosition(predicate)
+    }
+
     fun onDataChanged() : Flowable<DataType> = dataController.onDataChanged()
 
     fun updateDataSet(dataSet: DataType){

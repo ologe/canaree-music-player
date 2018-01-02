@@ -9,6 +9,8 @@ interface AdapterController <DataType, Model> : DefaultLifecycleObserver, TouchB
 
     operator fun get(position: Int): Model
 
+    fun getItemPosition(predicate: (Model) -> Boolean): Int
+
     fun getSize(): Int
 
     fun onDataChanged(): Flowable<DataType>

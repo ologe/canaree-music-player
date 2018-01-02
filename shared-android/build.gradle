@@ -49,6 +49,7 @@ dependencies {
     implementation "com.android.support:support-v4:$rootProject.support_library"
     implementation "com.android.support:appcompat-v7:$rootProject.support_library"
 
+    // lifecycle
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
     implementation "android.arch.lifecycle:reactivestreams:$rootProject.micro_architecture"
 
@@ -56,6 +57,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$rootProject.dagger"
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
 
+    // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"

@@ -1,9 +1,11 @@
 package dev.olog.presentation
 
 import android.databinding.BindingAdapter
+import android.graphics.Typeface
 import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.fragment_special_thanks.SpecialThanksModel
@@ -82,6 +84,13 @@ object BindingsAdapter {
                 .override(OVERRIDE_SMALL)
                 .placeholder(ContextCompat.getDrawable(view.context, item.image))
                 .into(view)
+    }
+
+    @BindingAdapter("setBoldIfTrue")
+    @JvmStatic
+    fun setBoldIfTrue(view: TextView, setBold: Boolean){
+        val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
+        view.setTypeface(null, style)
     }
 
     private fun resolveUri(imageAsString: String): Uri {

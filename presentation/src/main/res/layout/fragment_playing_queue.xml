@@ -57,34 +57,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/miniPlayer"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_playing_queue"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/scroll"
-        app:layout_constraintBottom_toTopOf="@+id/miniPlayer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:fabSize="normal"
-        android:layout_margin="16dp"
-        app:backgroundTint="@color/colorAccent"
-        android:src="@drawable/vd_expand"
-        android:tint="@android:color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <fragment
-        android:id="@+id/miniPlayer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/sliding_panel_peek"
-        android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
-        tools:layout="@layout/fragment_mini_player"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -32,6 +32,10 @@ class BaseListAdapterController<Model : BaseModel> :
 
     override operator fun get(position: Int): Model = dataSet[position]
 
+    override fun getItemPosition(predicate: (Model) -> Boolean): Int {
+        return dataSet.indexOfFirst(predicate)
+    }
+
     override fun remove(position: Int) {
         dataSet.removeAt(position)
         adapter.notifyItemRemoved(position)
@@ -125,6 +129,4 @@ class BaseListAdapterController<Model : BaseModel> :
     override fun onStop(owner: LifecycleOwner) {
         dataSetDisposable.unsubscribe()
     }
-
-    fun getDataSet(): List<Model> = dataSet
 }

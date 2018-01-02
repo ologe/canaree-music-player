@@ -43,6 +43,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.isCurrentSong, item.mediaId.leaf!! == PlayingQueueFragmentViewModel.songId)
     }
 
     override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(

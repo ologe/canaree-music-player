@@ -6,6 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
+        <variable name="isCurrentSong" type="boolean"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
     </data>
 
@@ -59,7 +60,8 @@
             style="@style/Song.MainText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"/>
+            android:layout_marginStart="16dp"
+            app:setBoldIfTrue="@{isCurrentSong}" />
 
         <TextView
             android:id="@+id/secondText"

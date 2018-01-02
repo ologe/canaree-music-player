@@ -14,6 +14,8 @@ interface AppPreferencesGateway : Sorting {
     fun getViewPagerLastVisitedPage(): Int
     fun setViewPagerLastVisitedPage(lastPage: Int)
 
+    fun isIconsDark(): Flowable<Boolean>
+
 }
 
 interface Sorting {

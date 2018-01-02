@@ -26,6 +26,19 @@ class BetterMap <K, Model> constructor(
         throw IllegalArgumentException("invalid position $position")
     }
 
+    fun indexOfFirst(predicate: (Model) -> Boolean) : Int {
+        var totalSize = 0
+        for (value in data.values) {
+            val result = value.indexOfFirst(predicate)
+            if (result != -1){
+                return result
+            } else {
+                totalSize += value.size
+            }
+        }
+        return -1
+    }
+
     fun size() = data.values.sumBy { it.size }
 
     fun wrappedValue() : MutableMap<K, MutableList<Model>> = data.toMutableMap() // pass a copy

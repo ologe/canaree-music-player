@@ -31,6 +31,10 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
 
     override operator fun get(position: Int): Model = dataSet[position]
 
+    override fun getItemPosition(predicate: (Model) -> Boolean): Int {
+        return dataSet.indexOfFirst(predicate)
+    }
+
     override fun swap(from: Int, to: Int) {
         if (from < to){
             for (position in from until to){

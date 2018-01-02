@@ -5,10 +5,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation._base.list.OnDataChangedListener
 import dev.olog.presentation.utils.animation.CircularReveal
 import dev.olog.presentation.utils.extension.subscribe
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
+import org.jetbrains.anko.dip
 import javax.inject.Inject
 
 class PlayingQueueFragment : BaseFragment() {
@@ -29,10 +31,10 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.data.subscribe(this, adapter::updateDataSet)
 
-        viewModel.data.subscribe(this, {
-            adapter.updateDataSet(it)
-            startPostponedEnterTransition()
+        viewModel.observeCurrentSongId.subscribe(this, {
+            adapter.notifyDataSetChanged()
         })
     }
 
@@ -42,6 +44,18 @@ class PlayingQueueFragment : BaseFragment() {
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
         adapter.touchHelper()!!.attachToRecyclerView(view.list)
+
+        adapter.onDataChangedListener = object : OnDataChangedListener {
+            override fun onChanged() {
+                adapter.onDataChangedListener = null
+                val songId = viewModel.getCurrentSongId()
+                val position = adapter.getItemPositionById { it ->
+                    it.mediaId.leaf!! == songId
+                }
+                layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
+                startPostponedEnterTransition()
+            }
+        }
     }
 
     override fun onResume() {
@@ -52,6 +66,11 @@ class PlayingQueueFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         view!!.back.setOnClickListener(null)
+    }
+
+    override fun onDestroy() {
+        adapter.onDataChangedListener = null
+        super.onDestroy()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

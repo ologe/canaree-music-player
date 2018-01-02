@@ -5,8 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:background="#FAFAFA"
-    android:elevation="4dp">
+    android:background="#FAFAFA">
 
     <dev.olog.shared_android.widget.AnimatedImageView
         android:id="@+id/next"
@@ -58,7 +57,9 @@
         android:thumbTint="@color/dark_grey"
         android:progressTint="@color/dark_grey"
         tools:progress="40"
-        android:max="@integer/very_high_duration"/>
+        android:max="@integer/very_high_duration"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <!-- bookmark -->
     <TextView
