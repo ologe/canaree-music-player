@@ -22,6 +22,7 @@ import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import javax.inject.Inject
 
@@ -33,9 +34,10 @@ class App : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        Constants.init(resources)
-
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
+
+        Constants.initialize(resources)
+        CoverUtils.initialize(this)
 
         if (BuildConfig.DEBUG) {
 //            initStrictMode()

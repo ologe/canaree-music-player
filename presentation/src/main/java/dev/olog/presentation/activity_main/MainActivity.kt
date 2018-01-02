@@ -1,5 +1,6 @@
 package dev.olog.presentation.activity_main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
@@ -10,6 +11,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
+import dev.olog.presentation.activity_preferences.PreferencesActivity
 import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
@@ -102,6 +104,11 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode){
+            PreferencesActivity.REQUEST_CODE -> {
+                if (resultCode == Activity.RESULT_OK){
+                    recreate()
+                }
+            }
             FloatingInfoServiceHelper.REQUEST_CODE_HOVER_PERMISSION -> {
                 presenter.startFloatingService(this, null)
             }

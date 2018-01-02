@@ -46,7 +46,7 @@
             android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:src="@drawable/placeholder_bird_singing"
+            tools:src="@drawable/placeholder_musical_note"
             android:clickable="true"
             android:focusable="true" />
 

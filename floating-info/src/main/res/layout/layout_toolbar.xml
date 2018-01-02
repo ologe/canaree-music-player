@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@android:color/white"
+    android:background="#FAFAFA"
     android:elevation="4dp">
 
     <ImageButton
@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:padding="12dp"
-        android:src="@drawable/vd_forward_arrow"/>
+        android:src="@drawable/vd_refresh"/>
 
     <TextView
         android:id="@+id/header"

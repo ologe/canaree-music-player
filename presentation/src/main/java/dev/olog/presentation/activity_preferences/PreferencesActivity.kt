@@ -8,6 +8,10 @@ import kotlinx.android.synthetic.main.activity_preferences.*
 
 class PreferencesActivity : PreferenceActivity() {
 
+    companion object {
+        const val REQUEST_CODE = 1221
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()

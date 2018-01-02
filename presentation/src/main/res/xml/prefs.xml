@@ -28,6 +28,13 @@
             android:entryValues="@array/detail_visible_items_values"
             android:defaultValue="@array/detail_visible_items_values_default"/>
 
+        <SwitchPreference
+            android:title="Images icon color"
+            android:key="@string/prefs_icon_color_key"
+            android:defaultValue="false"
+            android:summaryOff="Icons will be white"
+            android:summaryOn="Icons will be black"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

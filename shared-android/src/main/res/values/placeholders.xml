@@ -4,14 +4,14 @@
     <color name="placeholder_image_tint">@android:color/white</color>
     <color name="placeholder_background">#222326</color>
 
-    <dimen name="placeholder_player_padding">12dp</dimen>
-    <dimen name="placeholder_song_padding">62dp</dimen>
-    <dimen name="placeholder_folder_padding">65dp</dimen>
+    <dimen name="placeholder_player_padding">20dp</dimen>
+    <dimen name="placeholder_song_padding">25dp</dimen>
+    <dimen name="placeholder_folder_padding">90dp</dimen>
     <dimen name="placeholder_playlist_padding">15dp</dimen>
-    <dimen name="placeholder_album_padding">65dp</dimen>
-    <dimen name="placeholder_artist_padding">65dp</dimen>
-    <dimen name="placeholder_genre_padding">65dp</dimen>
+    <dimen name="placeholder_album_padding">90dp</dimen>
+    <dimen name="placeholder_artist_padding">90dp</dimen>
+    <dimen name="placeholder_genre_padding">85dp</dimen>
 
-    <dimen name="placeholder_padding_for_notification">30dp</dimen>
+    <dimen name="placeholder_padding_for_notification">40dp</dimen>
 
 </resources>

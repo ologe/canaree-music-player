@@ -82,8 +82,9 @@ class AlbumRepository @Inject constructor(
     override fun getLastPlayed(): Flowable<List<Album>> {
         return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
             lastPlayed.asSequence()
-                    .filter { lastPlayedAlbumEntity -> all.firstOrNull { it.id == lastPlayedAlbumEntity.id } != null }
-                    .map { it.toAlbum() }
+                    .map { lastPlayedAlbumEntity -> all.firstOrNull { it.id == lastPlayedAlbumEntity.id } }
+                    .filter { it != null }
+                    .map { it!! }
                     .take(10)
                     .toList()
         })

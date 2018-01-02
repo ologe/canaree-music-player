@@ -2,6 +2,7 @@
 <resources>
 
     <string name="prefs_remember_last_tab_key">key_remember_last_tab</string>
+    <string name="prefs_icon_color_key">key_icon_color</string>
     <string name="prefs_start_floating_window_at_startup_key">key_tart_floating_window_at_startup</string>
     <string name="prefs_small_play_key">key_small_play</string>
     <string name="prefs_detail_visible_items_key">key_detail_items</string>

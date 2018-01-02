@@ -92,14 +92,6 @@ class ArtistRepository @Inject constructor(
                                 "${map.key}") }
                         .sequential()
                         .buffer(10)
-//                        .buffer(10)
-//                        .subscribeOn(Schedulers.io())
-//                        .map {
-//                            for (map in it) {
-//                                FileUtils.makeImages(context, map.value, "artist", "${map.key}")
-//                            }
-//                            ""
-//                        }
                         .doOnNext { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
                         .toList()
 
@@ -152,8 +144,9 @@ class ArtistRepository @Inject constructor(
     override fun getLastPlayed(): Flowable<List<Artist>> {
         return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
             lastPlayed.asSequence()
-                    .filter { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } != null }
-                    .map { it.toArtist(context) }
+                    .map { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
+                    .filter { it != null }
+                    .map { it!! }
                     .take(10)
                     .toList()
         })

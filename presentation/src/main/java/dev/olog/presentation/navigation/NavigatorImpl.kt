@@ -153,7 +153,7 @@ class NavigatorImpl @Inject constructor(
             when (it.itemId){
                 R.id.about -> this.toAboutActivity()
                 R.id.equalizer -> this.toEqualizer()
-                R.id.settings -> this.toSettingsActivty()
+                R.id.settings -> this.toSettingsActivity()
             }
             true
         }
@@ -165,9 +165,9 @@ class NavigatorImpl @Inject constructor(
         activity.startActivity(intent)
     }
 
-    private fun toSettingsActivty(){
+    private fun toSettingsActivity(){
         val intent = Intent(activity, PreferencesActivity::class.java)
-        activity.startActivity(intent)
+        activity.startActivityForResult(intent, PreferencesActivity.REQUEST_CODE)
     }
 
     private fun toEqualizer(){

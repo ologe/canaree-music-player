@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import dev.olog.floating_info.api.Content
 import kotlin.properties.Delegates
@@ -17,7 +18,7 @@ abstract class WebViewContent(
 ) : Content {
 
     var item by Delegates.observable("", { _, _, new ->
-//        webView.stopLoading()
+        webView.stopLoading()
         webView.loadUrl(getUrl(new))
     })
 
@@ -35,6 +36,8 @@ abstract class WebViewContent(
                 progressBar.progress = newProgress
                 progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
             }
+        }
+        webView.webViewClient = object : WebViewClient() {
 
         }
     }

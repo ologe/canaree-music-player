@@ -23,8 +23,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:src="@drawable/vd_cancel"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
         android:layout_gravity="center_horizontal|bottom"/>
 
 </merge>

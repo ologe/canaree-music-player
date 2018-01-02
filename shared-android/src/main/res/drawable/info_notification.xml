@@ -15,7 +15,7 @@
 
     </item>
 
-    <item android:drawable="@drawable/vd_bird_not_singing"
+    <item android:drawable="@drawable/vd_bird_singing"
         android:top="10dp"
         android:bottom="10dp"
         android:left="10dp"
