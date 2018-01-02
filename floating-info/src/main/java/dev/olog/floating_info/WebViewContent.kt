@@ -17,7 +17,7 @@ abstract class WebViewContent(
 ) : Content {
 
     var item by Delegates.observable("", { _, _, new ->
-        webView.stopLoading()
+//        webView.stopLoading()
         webView.loadUrl(getUrl(new))
     })
 

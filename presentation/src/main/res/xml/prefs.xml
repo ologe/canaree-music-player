@@ -16,7 +16,9 @@
             android:entries="@array/small_play"
             android:entryValues="@array/small_play_values"
             android:defaultValue="@string/prefs_small_play_hide"
-            android:key="@string/prefs_small_play_key"/>
+            android:key="@string/prefs_small_play_key"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@string/popup_positive_ok"/>
 
         <MultiSelectListPreference
             android:title="Detail visible items"
@@ -33,7 +35,7 @@
 
         <SwitchPreference
             android:title="Show at startup"
-            android:summary="Start floating window service at app's startup"
+            android:summary="Start floating window service on launch"
             android:key="@string/prefs_start_floating_window_at_startup_key"
             android:defaultValue="false" />
 

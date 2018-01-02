@@ -8,7 +8,12 @@
                 android:topLeftRadius="1000dp"
                 android:topRightRadius="1000dp"/>
 
-            <solid android:color="#a000"/>
+            <gradient
+                android:angle="45"
+                android:endColor="#CC4d36e2"
+                android:startColor="#CC1f86ef"
+                android:type="linear" />
+
 
         </shape>
     </item>

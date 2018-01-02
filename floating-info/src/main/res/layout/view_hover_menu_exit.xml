@@ -10,17 +10,18 @@
         android:layout_height="200dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/gradient_black_to_transparent"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_gravity="bottom"/>
 
     <ImageView
         android:id="@+id/view_exit"
-        android:layout_width="@dimen/hover_exit_icon_size"
-        android:layout_height="@dimen/hover_exit_icon_size"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:tint="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/vd_cancel"
         android:scaleX="1.2"
         android:scaleY="1.2"

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:elevation="4dp">
+
+    <ImageButton
+        android:id="@+id/navigateBack"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:padding="12dp"
+        android:src="@drawable/vd_back_arrow"/>
+
+    <ImageButton
+        android:id="@+id/navigateNext"
+        android:layout_width="48dp"
+        android:layout_gravity="end"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:padding="12dp"
+        android:src="@drawable/vd_forward_arrow"/>
+
+    <ImageButton
+        android:id="@+id/refresh"
+        android:layout_marginStart="48dp"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:padding="12dp"
+        android:src="@drawable/vd_forward_arrow"/>
+
+    <TextView
+        android:id="@+id/header"
+        tools:text="@tools:sample/lorem"
+        android:maxLines="2"
+        android:textColor="@color/dark_grey"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="96dp"
+        android:layout_marginStart="96dp"
+        android:gravity="center"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressTint="@color/accent"
+        tools:progress="40"
+        tools:max="100"
+        android:max="100"
+        android:elevation="4dp" />
+
+</FrameLayout>

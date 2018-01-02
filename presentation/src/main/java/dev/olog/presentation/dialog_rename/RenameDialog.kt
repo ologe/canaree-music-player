@@ -15,7 +15,7 @@ class RenameDialog : BaseEditTextDialog() {
 
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId,
+                    ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }

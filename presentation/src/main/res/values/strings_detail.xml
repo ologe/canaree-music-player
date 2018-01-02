@@ -27,8 +27,8 @@
     <string name="detail_see_more">see more</string>
 
     <plurals name="song_count">
-        <item quantity="one">%d Song</item>
-        <item quantity="other">%d Songs</item>
+        <item quantity="one">%d Track</item>
+        <item quantity="other">%d Tracks</item>
     </plurals>
 
     <plurals name="album_count">

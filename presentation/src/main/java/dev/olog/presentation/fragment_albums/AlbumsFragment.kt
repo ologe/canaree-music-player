@@ -20,7 +20,8 @@ class AlbumsFragment : BaseFragment() {
 
         fun newInstance(mediaId: MediaId): AlbumsFragment {
             return AlbumsFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId)
+                    ARGUMENTS_MEDIA_ID to mediaId.toString()
+            )
         }
     }
 

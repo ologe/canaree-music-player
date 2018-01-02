@@ -20,7 +20,8 @@ class RecentlyAddedFragment : BaseFragment() {
 
         fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
             return RecentlyAddedFragment().withArguments(
-                    ARGUMENTS_MEDIA_ID to mediaId)
+                    ARGUMENTS_MEDIA_ID to mediaId.toString()
+            )
         }
     }
 
