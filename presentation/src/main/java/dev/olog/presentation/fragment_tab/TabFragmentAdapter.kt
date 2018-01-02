@@ -20,6 +20,7 @@ import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
+import dev.olog.shared_android.Constants
 import javax.inject.Inject
 
 class TabFragmentAdapter @Inject constructor(
@@ -64,14 +65,6 @@ class TabFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-//                viewHolder.setOnClickListener(R.id.smallButton, dataController) { item, _, view ->
-//                    if (view.isVisible && item.smallPlayType != null) {
-//                        when (item.smallPlayType.enum){
-//                            SmallPlayEnum.PLAY -> musicController.playFromMediaId(item.mediaId)
-//                            SmallPlayEnum.SHUFFLE -> musicController.playShuffle(item.mediaId)
-//                        }
-//                    }
-//                }
             }
             R.layout.item_tab_last_played_album_horizontal_list -> {
                 val view = viewHolder.itemView as RecyclerView
@@ -97,6 +90,7 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.quickAction, Constants.quickAction)
         binding.setVariable(BR.musicController, musicController)
     }
 

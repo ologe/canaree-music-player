@@ -62,6 +62,7 @@
         <item name="android:background">@drawable/faded_circle</item>
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:layout_margin">6dp</item>
+        <item name="android:tint">@color/dark_grey</item>
     </style>
 
     <dimen name="smallShuffleSize">30dp</dimen>

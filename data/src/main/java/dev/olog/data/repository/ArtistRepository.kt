@@ -143,12 +143,16 @@ class ArtistRepository @Inject constructor(
 
     override fun getLastPlayed(): Flowable<List<Artist>> {
         return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
-            lastPlayed.asSequence()
-                    .map { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
-                    .filter { it != null }
-                    .map { it!! }
-                    .take(10)
-                    .toList()
+            if (all.size < 3) {
+                listOf()
+            } else {
+                lastPlayed.asSequence()
+                        .map { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
+                        .filter { it != null }
+                        .map { it!! }
+                        .take(10)
+                        .toList()
+            }
         })
     }
 

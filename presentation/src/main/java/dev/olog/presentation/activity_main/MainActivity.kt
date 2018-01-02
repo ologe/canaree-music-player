@@ -20,7 +20,6 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinderViewModel
-import dev.olog.presentation.service_music.MusicServiceController
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.shared.constants.FloatingInfoConstants
@@ -33,8 +32,6 @@ import javax.inject.Inject
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
-    @Suppress("unused") // needed to maintain service alive on rotation changes
-    @Inject lateinit var musicServiceController : MusicServiceController
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
     private val innerPanelSlideListener by lazy(LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
 

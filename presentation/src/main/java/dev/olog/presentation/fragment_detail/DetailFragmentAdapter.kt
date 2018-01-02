@@ -27,6 +27,7 @@ import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
 import dev.olog.shared.MediaId
+import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
@@ -209,6 +210,7 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
+        binding.setVariable(BR.quickAction, Constants.quickAction)
         binding.setVariable(BR.musicController, musicController)
     }
 

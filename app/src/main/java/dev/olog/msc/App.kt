@@ -36,7 +36,7 @@ class App : DaggerApplication() {
 
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
 
-        Constants.initialize(resources)
+        Constants.initialize(this)
         CoverUtils.initialize(this)
 
         if (BuildConfig.DEBUG) {

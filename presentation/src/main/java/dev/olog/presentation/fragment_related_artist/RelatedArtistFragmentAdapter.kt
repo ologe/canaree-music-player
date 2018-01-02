@@ -12,6 +12,7 @@ import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.elevateAlbumOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
+import dev.olog.shared_android.Constants
 import javax.inject.Inject
 
 class RelatedArtistFragmentAdapter @Inject constructor(
@@ -35,6 +36,7 @@ class RelatedArtistFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.musicController, musicController)
+        binding.setVariable(BR.quickAction, Constants.quickAction)
     }
 
 

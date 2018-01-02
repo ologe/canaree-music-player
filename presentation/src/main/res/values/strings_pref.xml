@@ -3,16 +3,16 @@
 
     <string name="settings">Settings</string>
 
-    <string-array name="small_play">
-        <item>@string/prefs_small_play_hide</item>
-        <item>@string/prefs_small_play_play</item>
-        <item>@string/prefs_small_play_shuffle</item>
+    <string-array name="quick_action_entries">
+        <item>@string/prefs_quick_action_hide</item>
+        <item>@string/prefs_quick_action_play</item>
+        <item>@string/prefs_quick_action_shuffle</item>
     </string-array>
 
-    <string-array name="small_play_values">
-        <item>@string/prefs_small_play_hide</item>
-        <item>@string/prefs_small_play_play</item>
-        <item>@string/prefs_small_play_shuffle</item>
+    <string-array name="quick_action_values">
+        <item>@string/prefs_quick_action_hide</item>
+        <item>@string/prefs_quick_action_play</item>
+        <item>@string/prefs_quick_action_shuffle</item>
     </string-array>
 
     <string-array name="detail_visible_items">

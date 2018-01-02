@@ -6,8 +6,6 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.data.R
 import dev.olog.data.utils.edit
 import dev.olog.domain.SortArranging
-import dev.olog.domain.entity.SmallPlayEnum
-import dev.olog.domain.entity.SmallPlayType
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.shared.ApplicationContext
@@ -144,20 +142,6 @@ class AppPreferencesImpl @Inject constructor(
                             it.contains(context.getString(R.string.prefs_detail_visible_tabs_recently_added)),
                             it.contains(context.getString(R.string.prefs_detail_visible_tabs_related_artists))
                     )
-                }
-    }
-
-    override fun getSmallPlay(): Flowable<SmallPlayType> {
-        return rxPreferences.getString(context.getString(R.string.prefs_small_play_key))
-                .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
-                .map {
-                    val enum = when (it) {
-                        context.getString(R.string.prefs_small_play_hide) -> SmallPlayEnum.NONE
-                        context.getString(R.string.prefs_small_play_play) -> SmallPlayEnum.PLAY
-                        else ->  SmallPlayEnum.SHUFFLE
-                    }
-                    SmallPlayType(enum)
                 }
     }
 }

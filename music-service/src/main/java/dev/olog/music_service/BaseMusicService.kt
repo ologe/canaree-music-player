@@ -30,7 +30,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     @Inject lateinit var toggleLastFavoriteUseCase: ToggleLastFavoriteUseCase
 
     private var serviceStarted = false
-    private var appIsAlive = false
 
     @CallSuper
     override fun onCreate() {
@@ -59,17 +58,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         val action = intent.action
         when (action){
             null -> stop()
-            "activity.start_service" -> {
-                start()
-                appIsAlive = true
-            }
-            "activity.stop_service" -> {
-                appIsAlive = false
-
-                if (!player.isPlaying()){
-                    stop()
-                }
-            }
             MusicConstants.ACTION_TOGGLE_FAVORITE -> {
                 toggleLastFavoriteUseCase.execute()
             }
@@ -89,7 +77,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     }
 
     override fun stop() {
-        if (!appIsAlive && serviceStarted) {
+        if (serviceStarted) {
             serviceStarted = false
             stopSelf()
         }

@@ -1,6 +1,5 @@
 package dev.olog.presentation.model
 
-import dev.olog.domain.entity.SmallPlayType
 import dev.olog.presentation._base.BaseModel
 import dev.olog.shared.MediaId
 
@@ -13,7 +12,6 @@ data class DisplayableItem (
         val isPlayable: Boolean = false,
         val isRemix: Boolean = false,
         val isExplicit: Boolean = false,
-        val trackNumber: String = "",
-        val smallPlayType: SmallPlayType? = null
+        val trackNumber: String = ""
 
 ) : BaseModel

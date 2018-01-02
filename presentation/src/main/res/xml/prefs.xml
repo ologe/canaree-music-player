@@ -2,47 +2,47 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="General">
+        android:title="@string/prefs_category_general">
 
         <SwitchPreference
-            android:title="Remember last tab"
-            android:summary="Go to the last opened tab on launch"
+            android:title="@string/prefs_remember_last_tab_title"
+            android:summary="@string/prefs_remember_last_tab_summary"
             android:key="@string/prefs_remember_last_tab_key"
             android:defaultValue="true" />
 
         <ListPreference
-            android:title="Small icon"
-            android:summary="Change the action of the small icon next to images"
-            android:entries="@array/small_play"
-            android:entryValues="@array/small_play_values"
-            android:defaultValue="@string/prefs_small_play_hide"
-            android:key="@string/prefs_small_play_key"
+            android:title="@string/prefs_quick_action_title"
+            android:summary="@string/prefs_quick_action_summary"
+            android:entries="@array/quick_action_entries"
+            android:entryValues="@array/quick_action_values"
+            android:defaultValue="@string/prefs_quick_action_hide"
+            android:key="@string/prefs_quick_action_key"
             android:negativeButtonText="@null"
             android:positiveButtonText="@string/popup_positive_ok"/>
 
         <MultiSelectListPreference
-            android:title="Detail visible items"
-            android:summary="Change the visible items in the detail view"
+            android:title="@string/prefs_detail_visible_items_title"
+            android:summary="@string/prefs_detail_visible_items_summary"
             android:key="@string/prefs_detail_visible_items_key"
             android:entries="@array/detail_visible_items"
             android:entryValues="@array/detail_visible_items_values"
             android:defaultValue="@array/detail_visible_items_values_default"/>
 
         <SwitchPreference
-            android:title="Images icon color"
+            android:title="@string/prefs_icon_color_title"
             android:key="@string/prefs_icon_color_key"
             android:defaultValue="false"
-            android:summaryOff="Icons will be white"
-            android:summaryOn="Icons will be black"/>
+            android:summaryOff="@string/prefs_icon_color_summary_off"
+            android:summaryOn="@string/prefs_icon_color_summary_on"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Floating window">
+        android:title="@string/prefs_category_floating_window">
 
         <SwitchPreference
-            android:title="Show at startup"
-            android:summary="Start floating window service on launch"
+            android:title="@string/prefs_floating_window_at_startup_title"
+            android:summary="@string/prefs_floating_window_at_startup_summary"
             android:key="@string/prefs_start_floating_window_at_startup_key"
             android:defaultValue="false" />
 

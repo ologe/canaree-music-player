@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceFragment
 import dev.olog.presentation.R
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
 
 class PreferencesFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -29,6 +30,10 @@ class PreferencesFragment : PreferenceFragment(), SharedPreferences.OnSharedPref
         if (key == activity.getString(R.string.prefs_icon_color_key)){
             val isDark = sharedPreferences.getBoolean(key, false)
             CoverUtils.isIconDark = isDark
+            activity!!.setResult(Activity.RESULT_OK)
+        }
+        if (key == activity.getString(R.string.prefs_quick_action_key)){
+            Constants.updateQuickAction(activity)
             activity!!.setResult(Activity.RESULT_OK)
         }
     }
