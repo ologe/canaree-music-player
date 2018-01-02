@@ -20,10 +20,15 @@ import dev.olog.presentation.fragment_search.SearchFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
+import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
+import javax.inject.Inject
 
 
 class App : DaggerApplication() {
+
+    @Inject lateinit var floatingInfoClass : FloatingInfoServiceClass
 
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +43,7 @@ class App : DaggerApplication() {
 //            initRxJavaDebug()
         }
 
+        handleFloatingServiceStartOnLaunch()
     }
 
     private fun initRxJavaDebug(){
@@ -86,6 +92,14 @@ class App : DaggerApplication() {
 
                 .setClassInstanceLimit(Navigator::class.java, 1)
                 .build())
+    }
+
+    private fun handleFloatingServiceStartOnLaunch(){
+        val canLaunch = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(getString(R.string.prefs_start_floating_window_at_startup_key), false)
+        if (canLaunch){
+            FloatingInfoServiceHelper.startServiceIfHasOverlayPermission(this, floatingInfoClass)
+        }
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {

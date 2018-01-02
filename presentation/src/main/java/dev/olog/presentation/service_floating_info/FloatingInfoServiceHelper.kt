@@ -28,10 +28,10 @@ object FloatingInfoServiceHelper {
     }
 
     @SuppressLint("NewApi")
-    fun startServiceIfHasOverlayPermission(activity: Activity, serviceClass: FloatingInfoServiceClass){
-        if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, serviceClass.get())
-            ContextCompat.startForegroundService(activity, intent)
+    fun startServiceIfHasOverlayPermission(context: Context, serviceClass: FloatingInfoServiceClass){
+        if (hasOverlayPermission(context)){
+            val intent = Intent(context, serviceClass.get())
+            ContextCompat.startForegroundService(context, intent)
         }
     }
 
