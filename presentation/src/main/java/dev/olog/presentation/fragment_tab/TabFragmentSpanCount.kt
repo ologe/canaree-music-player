@@ -8,12 +8,13 @@ import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared_android.extension.isPortrait
+import org.jetbrains.anko.configuration
 import java.lang.ref.WeakReference
 
 private const val SPAN_COUNT = 12
 
 class TabSpanSpanSizeLookupFactory(
-        @ActivityContext context: Context,
+        @ActivityContext private val context: Context,
         private val source: Int,
         adapter: BaseListAdapter<DisplayableItem>
 
@@ -23,6 +24,11 @@ class TabSpanSpanSizeLookupFactory(
     private val isPortrait = context.isPortrait
 
     fun get() : GridLayoutManager.SpanSizeLookup {
+        val smallest = context.configuration.smallestScreenWidthDp
+        if (smallest == 600) {
+            return TabletSpanSizeLookup(isPortrait, source)
+        }
+
         return when (source){
             TabViewPagerAdapter.PLAYLIST -> PlaylistSpanSizeLookup(isPortrait)
             TabViewPagerAdapter.ALBUM -> AlbumSpanSizeLookup(isPortrait, adapter)
@@ -34,6 +40,19 @@ class TabSpanSpanSizeLookupFactory(
 
     fun getSpanSize() = SPAN_COUNT
 
+}
+
+class TabletSpanSizeLookup(
+        private val isPortrait: Boolean,
+        private val source: Int
+) : GridLayoutManager.SpanSizeLookup() {
+
+    override fun getSpanSize(position: Int): Int {
+        if (source == TabViewPagerAdapter.SONG){
+            return if (isPortrait) SPAN_COUNT else (SPAN_COUNT / 2)
+        }
+        return if (isPortrait) (SPAN_COUNT / 3) else (SPAN_COUNT / 3)
+    }
 }
 
 class PlaylistSpanSizeLookup(

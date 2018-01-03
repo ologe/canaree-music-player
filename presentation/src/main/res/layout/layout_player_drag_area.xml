@@ -16,9 +16,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+        android:layout_marginTop="@dimen/status_bar"
+        android:layout_marginStart="@dimen/player_title_margin_horizontal"
+        android:layout_marginEnd="@dimen/player_title_margin_horizontal">
 
         <!-- title -->
         <TextView
@@ -26,7 +26,7 @@
             tools:text="In Da Club"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/player_title_size"
+            android:textSize="@dimen/player_title_text_size"
             android:textColor="@color/text_color_primary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/player_title_margin_horizontal"
         android:layout_marginBottom="@dimen/player_artist_bottom_padding"
         android:layout_marginTop="4dp">
 
@@ -53,7 +53,7 @@
             tools:text="50 Cent - Qualche album"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/player_artist_size"
+            android:textSize="@dimen/player_artist_text_size"
             android:textColor="@color/text_color_secondary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/player_title_margin_horizontal"
         style="@style/ExplicitView"
         android:visibility="gone"
         tools:visibility="visible"/>

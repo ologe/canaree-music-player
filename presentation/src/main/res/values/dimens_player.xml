@@ -20,9 +20,9 @@
     <dimen name="player_bookmark_text_size">16sp</dimen>
 
     <!--metadata-->
-    <dimen name="player_title_size">23sp</dimen>
-    <dimen name="player_artist_size">16sp</dimen>
-
+    <dimen name="player_title_text_size">23sp</dimen>
+    <dimen name="player_title_margin_horizontal">20dp</dimen>
+    <dimen name="player_artist_text_size">16sp</dimen>
     <dimen name="player_artist_bottom_padding">10dp</dimen>
 
 </resources>
