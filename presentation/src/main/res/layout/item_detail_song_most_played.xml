@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingStart="16dp"
+        android:paddingStart="@dimen/detail_margin_horizontal"
         tools:ignore="RtlSymmetry"
         android:background="@color/background">
 

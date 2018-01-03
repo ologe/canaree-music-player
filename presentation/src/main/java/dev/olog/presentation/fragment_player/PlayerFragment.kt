@@ -205,7 +205,7 @@ class PlayerFragment : BaseFragment() {
         GlideApp.with(context)
                 .load(img)
                 .centerCrop()
-                .placeholder(placeholder)
+                .error(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .priority(Priority.IMMEDIATE)
                 .override(650)

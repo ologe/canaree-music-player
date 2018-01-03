@@ -19,20 +19,20 @@
 
     <style name="Song.SecondaryText">
         <item name="android:textColor">@color/text_color_secondary</item>
-        <item name="android:textSize">@dimen/item_song_artist</item>
+        <item name="android:textSize">@dimen/item_song_subtitle</item>
     </style>
 
 
     <style name="Album.MainText">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/item_album_title</item>
         <item name="android:textColor">@color/text_color_primary</item>
-        <item name="android:maxLines">1</item>
+        <item name="android:maxLines">2</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Album.SecondaryText">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/item_album_subtitle</item>
         <item name="android:textColor">@color/text_color_secondary</item>
         <item name="android:maxLines">1</item>
     </style>

@@ -15,7 +15,7 @@
     <dimen name="player_seekBar_padding_horizontal">48dp</dimen>
 
     <!--durations-->
-    <dimen name="player_bookmark_text_size">18sp</dimen>
+    <dimen name="player_bookmark_text_size">17sp</dimen>
 
     <!--metadata-->
     <dimen name="player_title_text_size">26sp</dimen>

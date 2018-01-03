@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="exit_height">250</dimen>
+    <dimen name="exit_height">250dp</dimen>
+    <dimen name="exit_margin_horizontal">64dp</dimen>
 
 </resources>

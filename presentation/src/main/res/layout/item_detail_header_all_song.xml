@@ -11,8 +11,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="8dp"
+        android:paddingStart="@dimen/detail_header_margin_start"
+        android:paddingEnd="@dimen/detail_header_margin_end"
         android:paddingTop="@dimen/item_detail_header_padding_top">
 
         <TextView
@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="@{item.title}"
             tools:text="Recently played"
-            android:textSize="@dimen/item_detail_header_text_size"
+            android:textSize="@dimen/item_header_text_size"
             android:textStyle="bold"
             android:textColor="@color/text_color_primary"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toStartOf="@+id/sortImage"
             android:text="@string/sort_by"
             tools:text="sort"
-            android:textSize="@dimen/item_detail_header_sec_text_size"
+            android:textSize="@dimen/item_header_sec_text_size"
             android:textColor="@color/item_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

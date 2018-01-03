@@ -5,8 +5,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="@dimen/detail_margin_horizontal"
+        android:paddingEnd="@dimen/detail_margin_horizontal"
         android:paddingBottom="8dp">
 
         <View

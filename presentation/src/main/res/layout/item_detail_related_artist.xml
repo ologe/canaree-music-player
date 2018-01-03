@@ -9,15 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="@dimen/detail_margin_horizontal"
+        android:paddingEnd="@dimen/detail_margin_horizontal"
         android:orientation="vertical"
         android:paddingTop="@dimen/item_detail_header_padding_top">
 
         <TextView
             android:text="@{item.subtitle}"
             tools:text="In this Folder"
-            android:textSize="@dimen/item_detail_header_text_size"
+            android:textSize="@dimen/item_header_text_size"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:textAlignment="center"
@@ -33,7 +33,7 @@
             android:text="@{item.title}"
             tools:text="@tools:sample/lorem/random"
             android:textColor="@color/dark_grey"
-            android:textSize="@dimen/item_detail_header_sec_text_size"
+            android:textSize="@dimen/item_header_sec_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"

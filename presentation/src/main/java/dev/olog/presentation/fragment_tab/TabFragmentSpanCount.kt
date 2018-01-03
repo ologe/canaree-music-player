@@ -24,14 +24,9 @@ class TabSpanSpanSizeLookupFactory(
     private val isPortrait = context.isPortrait
 
     fun get() : GridLayoutManager.SpanSizeLookup {
-        val smallest = context.configuration.smallestScreenWidthDp
-        if (smallest == 600) {
-            return TabletSpanSizeLookup(isPortrait, source)
-        }
-
         return when (source){
             TabViewPagerAdapter.PLAYLIST -> PlaylistSpanSizeLookup(isPortrait)
-            TabViewPagerAdapter.ALBUM -> AlbumSpanSizeLookup(isPortrait, adapter)
+            TabViewPagerAdapter.ALBUM -> AlbumSpanSizeLookup(context, isPortrait, adapter)
             TabViewPagerAdapter.ARTIST -> ArtistSpanSizeLookup(isPortrait, adapter)
             TabViewPagerAdapter.SONG -> SongSpanSizeLookup(isPortrait)
             else -> BaseSpanSizeLookup(isPortrait)
@@ -40,19 +35,6 @@ class TabSpanSpanSizeLookupFactory(
 
     fun getSpanSize() = SPAN_COUNT
 
-}
-
-class TabletSpanSizeLookup(
-        private val isPortrait: Boolean,
-        private val source: Int
-) : GridLayoutManager.SpanSizeLookup() {
-
-    override fun getSpanSize(position: Int): Int {
-        if (source == TabViewPagerAdapter.SONG){
-            return if (isPortrait) SPAN_COUNT else (SPAN_COUNT / 2)
-        }
-        return if (isPortrait) (SPAN_COUNT / 3) else (SPAN_COUNT / 3)
-    }
 }
 
 class PlaylistSpanSizeLookup(
@@ -73,12 +55,19 @@ class PlaylistSpanSizeLookup(
 }
 
 class AlbumSpanSizeLookup(
+        private val context: Context,
         private val isPortrait: Boolean,
         private val adapter: WeakReference<BaseListAdapter<DisplayableItem>>
 
 ) : GridLayoutManager.SpanSizeLookup() {
 
     override fun getSpanSize(position: Int): Int {
+        val smallest = context.configuration.smallestScreenWidthDp
+        if (smallest >= 600){
+            return if (isPortrait) SPAN_COUNT / 3 else SPAN_COUNT / 4
+        }
+
+
         adapter.get()?.let {
             val itemType = it.getItemAt(position).type
             if ((itemType == R.layout.item_tab_header ||
