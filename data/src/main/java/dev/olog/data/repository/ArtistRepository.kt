@@ -143,7 +143,7 @@ class ArtistRepository @Inject constructor(
 
     override fun getLastPlayed(): Flowable<List<Artist>> {
         return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
-            if (all.size < 3) {
+            if (all.size < 5) {
                 listOf()
             } else {
                 lastPlayed.asSequence()

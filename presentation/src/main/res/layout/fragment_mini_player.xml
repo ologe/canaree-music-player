@@ -91,12 +91,11 @@
         android:progressTint="@color/item_selected"
         android:progressBackgroundTint="@color/toolbar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/player_progress_bar_height"
+        android:layout_height="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:progress="40"
-        tools:max="100"
-        android:translationY="@dimen/player_progress_bar_translation"/>
+        tools:max="100" />
 
 </android.support.constraint.ConstraintLayout>

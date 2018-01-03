@@ -146,7 +146,7 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun isIconsDark(): Flowable<Boolean> {
-        return rxPreferences.getBoolean(context.getString(R.string.prefs_icon_color_key), false)
+        return rxPreferences.getBoolean(context.getString(R.string.prefs_icon_color_key), true)
                 .asObservable().toFlowable(BackpressureStrategy.LATEST)
     }
 }

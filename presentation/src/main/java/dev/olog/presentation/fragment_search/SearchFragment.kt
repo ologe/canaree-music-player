@@ -34,7 +34,9 @@ class SearchFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = CircularReveal(activity!!.search)
+        if (savedInstanceState == null){
+            enterTransition = CircularReveal(activity!!.search)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

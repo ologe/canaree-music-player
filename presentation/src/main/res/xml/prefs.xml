@@ -31,7 +31,7 @@
         <SwitchPreference
             android:title="@string/prefs_icon_color_title"
             android:key="@string/prefs_icon_color_key"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summaryOff="@string/prefs_icon_color_summary_off"
             android:summaryOn="@string/prefs_icon_color_summary_on"/>
 

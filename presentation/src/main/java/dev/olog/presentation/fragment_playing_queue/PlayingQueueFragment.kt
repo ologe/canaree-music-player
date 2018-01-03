@@ -25,8 +25,10 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postponeEnterTransition()
-        enterTransition = CircularReveal(activity!!.playingQueue)
+        if (savedInstanceState == null){
+            postponeEnterTransition()
+            enterTransition = CircularReveal(activity!!.playingQueue)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

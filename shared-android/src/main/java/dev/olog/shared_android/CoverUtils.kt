@@ -14,7 +14,7 @@ object CoverUtils {
 
     var isIconDark = false
 
-    private val LIGHT_COLORS = mutableListOf (
+    private val COLORS = mutableListOf (
             intArrayOf(0xff00c9ff.toInt(), 0xff92fe9d.toInt()),
             intArrayOf(0xfff54ea2.toInt(), 0xffff7676.toInt()),
             intArrayOf(0xff17ead9.toInt(), 0xff92fe9d.toInt()),
@@ -35,27 +35,19 @@ object CoverUtils {
             intArrayOf(0xFF1585cb.toInt(), 0xFF2a36b3.toInt()),
             intArrayOf(0xFF994fbb.toInt(), 0xFF3034b3.toInt()),
             intArrayOf(0xFF8300ff.toInt(), 0xFFdd00ff.toInt()),
-            intArrayOf(0xFFdf2674.toInt(), 0xFFfe4f32.toInt()) // this is too dark for dark icons
-    )
-
-    private val DARK_COLORS = mutableListOf (
+            intArrayOf(0xFFdf2674.toInt(), 0xFFfe4f32.toInt()),
             intArrayOf(0xFF840481.toInt(), 0xFFe26092.toInt()),
             intArrayOf(0xFFff6062.toInt(), 0xFFff9666.toInt()),
             intArrayOf(0xFFfc4e1b.toInt(), 0xFFf8b333.toInt()),
             intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
     )
 
-    private val COLORS = mutableListOf<IntArray>()
-
     fun initialize(context: Context){
         // on every launch apps covers will be different
         isIconDark = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(context.getString(R.string.prefs_icon_color_key), false)
+                .getBoolean(context.getString(R.string.prefs_icon_color_key), true)
 
-        Collections.shuffle(LIGHT_COLORS)
-        Collections.shuffle(DARK_COLORS)
-        COLORS.addAll(LIGHT_COLORS)
-        COLORS.addAll(DARK_COLORS)
+        Collections.shuffle(COLORS)
     }
 
     fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
@@ -75,7 +67,7 @@ object CoverUtils {
             DrawableCompat.setTint(icon, 0xFF262626.toInt())
         }
 
-        val pos = (position) % (if (isIconDark) COLORS.size else LIGHT_COLORS.size)
+        val pos = (position) % COLORS.size
         gradient.colors = COLORS[Math.abs(pos)]
         return drawable
     }
