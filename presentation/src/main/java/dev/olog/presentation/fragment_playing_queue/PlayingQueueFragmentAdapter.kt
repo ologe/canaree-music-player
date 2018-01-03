@@ -48,6 +48,8 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
             true, true,
-            draggableViewType = R.layout.item_playing_queue
+            draggableViewType = R.layout.item_playing_queue,
+            onDragAction = { from, to -> musicController.swap(from, to)},
+            onSwipeAction = { position -> }
     )
 }

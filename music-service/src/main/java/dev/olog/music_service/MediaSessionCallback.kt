@@ -114,6 +114,20 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
+        if (action != null){
+            when (action){
+                MusicConstants.ACTION_SWAP -> {
+                    queue.handleSwap(extras!!)
+                    return
+                }
+                MusicConstants.ACTION_SWAP_RELATIVE -> {
+                    queue.handleSwapRelative(extras!!)
+                    return
+                }
+            }
+        }
+
+
         val single = when (action) {
             MusicConstants.ACTION_PLAY_SHUFFLE -> {
                 val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)

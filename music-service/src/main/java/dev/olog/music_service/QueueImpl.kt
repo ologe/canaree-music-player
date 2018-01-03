@@ -37,11 +37,6 @@ class QueueImpl @Inject constructor(
 
     var currentSongPosition = -1
 
-//    fun updatePlayingQueue(songList: List<MediaEntity>) {
-//        playingQueue.clear()
-//        playingQueue.addAll(songList)
-//    }
-
     fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
         playingQueue.clear()
         playingQueue.addAll(songList)
@@ -156,4 +151,15 @@ class QueueImpl @Inject constructor(
         persist(playingQueue)
     }
 
+    fun handleSwap(from: Int, to: Int) {
+        playingQueue.swap(from, to)
+        // todo update current song position and
+        // check if current song is first/last ecc and update ui
+        // todo this queue may have multiple same songs, so is needed a
+        // in playlist id because the queue can have multiple songs with same ids
+    }
+
+    fun handleSwapRelative(from: Int, to: Int) {
+        handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
+    }
 }

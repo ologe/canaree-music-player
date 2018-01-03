@@ -12,6 +12,7 @@ import dev.olog.domain.interactor.music_service.GetPlayingQueueUseCase
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
 import dev.olog.shared.MediaId
+import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared.groupMap
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
@@ -121,6 +122,18 @@ class QueueManager @Inject constructor(
 
     override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun handleSwap(extras: Bundle) {
+        val from = extras.getInt(MusicConstants.ARGUMENT_SWAP_FROM, 0)
+        val to = extras.getInt(MusicConstants.ARGUMENT_SWAP_TO, 0)
+        queueImpl.handleSwap(from, to)
+    }
+
+    override fun handleSwapRelative(extras: Bundle) {
+        val from = extras.getInt(MusicConstants.ARGUMENT_SWAP_FROM, 0)
+        val to = extras.getInt(MusicConstants.ARGUMENT_SWAP_TO, 0)
+        queueImpl.handleSwapRelative(from, to)
     }
 
     override fun sort() {

@@ -17,7 +17,6 @@ class MusicController @Inject constructor(
         private val mediaControllerProvider: MediaControllerProvider
 ) {
 
-
     fun playPause() {
         val transportControls = getTransportControls() ?: return
 
@@ -93,6 +92,20 @@ class MusicController @Inject constructor(
         val bundle = Bundle()
         bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, songId.toString())
         transportControls.setRating(RatingCompat.newHeartRating(false), bundle)
+    }
+
+    fun swap(from: Int, to: Int){
+        val bundle = Bundle()
+        bundle.putInt(MusicConstants.ARGUMENT_SWAP_FROM, from)
+        bundle.putInt(MusicConstants.ARGUMENT_SWAP_TO, to)
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP, bundle)
+    }
+
+    fun swapRelative(from: Int, to: Int){
+        val bundle = Bundle()
+        bundle.putInt(MusicConstants.ARGUMENT_SWAP_FROM, from)
+        bundle.putInt(MusicConstants.ARGUMENT_SWAP_TO, to)
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP_RELATIVE, bundle)
     }
 
     private fun getTransportControls(): MediaControllerCompat.TransportControls? {
