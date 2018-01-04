@@ -15,6 +15,6 @@ interface PlayingQueueGateway {
     fun update(list: List<Pair<MediaId, Long>>): Completable
 
     fun observeMiniQueue() : Flowable<List<PlayingQueueSong>>
-    fun updateMiniQueue(data: List<Long>)
+    fun updateMiniQueue(data: List<PlayingQueueSong>)
 
 }

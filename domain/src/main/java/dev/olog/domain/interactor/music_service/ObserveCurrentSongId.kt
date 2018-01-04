@@ -10,9 +10,9 @@ class ObserveCurrentSongId @Inject constructor(
         scheduler: IoScheduler,
         private val gateway: MusicPreferencesGateway
 
-) : FlowableUseCase<Long>(scheduler) {
+) : FlowableUseCase<Int>(scheduler) {
 
-    override fun buildUseCaseObservable(): Flowable<Long> {
-        return gateway.observeCurrentSongId()
+    override fun buildUseCaseObservable(): Flowable<Int> {
+        return gateway.observeCurrentIdInPlaylist()
     }
 }

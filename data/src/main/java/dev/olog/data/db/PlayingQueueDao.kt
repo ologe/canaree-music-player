@@ -32,17 +32,14 @@ abstract class PlayingQueueDao {
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMapSingle { ids -> songList.flatMap { songs ->
-                    val result : List<PlayingQueueSong> = ids.asSequence()
+                    val result : List<PlayingQueueSong> = ids
                             .map { it.songId }
-                            .map { id -> songs.firstOrNull { it.id == id } }
-                            .filter { it != null }
-                            .map { it!! }
-                            .map { song ->
+                            .mapNotNull { id -> songs.firstOrNull { it.id == id } }
+                            .mapIndexed { index, song ->
                                 val pos = ids.indexOfFirst { it.songId == song.id }
                                 val item = ids[pos]
-                                song.toPlayingQueueSong(item.category, item.categoryValue)
+                                song.toPlayingQueueSong(index, item.category, item.categoryValue)
                             }
-                            .toList()
                     Single.just(result)
                 } }
     }
@@ -59,9 +56,10 @@ abstract class PlayingQueueDao {
                 } }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
     }
 
-    private fun Song.toPlayingQueueSong(category: String, categoryValue: String): PlayingQueueSong {
+    private fun Song.toPlayingQueueSong(progressive: Int, category: String, categoryValue: String): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
+                progressive,
                 MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
                 this.artistId,
                 this.albumId,
@@ -74,7 +72,6 @@ abstract class PlayingQueueDao {
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.folder,
                 this.trackNumber
         )
     }

@@ -6,10 +6,7 @@ import dagger.Lazy
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
 import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
-import dev.olog.domain.interactor.detail.sorting.GetSortArrangingUseCase
-import dev.olog.domain.interactor.detail.sorting.GetSortOrderUseCase
-import dev.olog.domain.interactor.detail.sorting.SetSortArrangingUseCase
-import dev.olog.domain.interactor.detail.sorting.SetSortOrderUseCase
+import dev.olog.domain.interactor.detail.sorting.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
@@ -28,7 +25,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
-        private val getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase
+        private val getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
+        private val getDetailSortDataUseCase: GetDetailSortDataUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -46,7 +44,8 @@ class DetailFragmentViewModelFactory @Inject constructor(
                 setSortArrangingUseCase,
                 getSortArrangingUseCase,
                 moveItemInPlaylistUseCase,
-                getVisibleTabsUseCase
+                getVisibleTabsUseCase,
+                getDetailSortDataUseCase
         ) as T
     }
 }

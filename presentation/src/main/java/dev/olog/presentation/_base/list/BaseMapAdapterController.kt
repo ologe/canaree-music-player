@@ -83,27 +83,33 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
                 .distinctUntilChanged { data -> data.data }
                 .filter { it.version == dataVersion }
                 .map { newData ->
-                    newData to DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+                    if (newData.data.size() > 400){
+                        newData to null
+                    } else {
+                        newData to DiffUtil.calculateDiff(object : DiffUtil.Callback(){
 
-                        init { assertBackgroundThread() }
+                            init { assertBackgroundThread() }
 
-                        override fun getOldListSize(): Int = dataSet.size()
+                            override fun getOldListSize(): Int = dataSet.size()
 
-                        override fun getNewListSize(): Int = newData.data.size()
+                            override fun getNewListSize(): Int = newData.data.size()
 
-                        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                            val oldItem : Model = dataSet[oldItemPosition]
-                            val newItem : Model = newData.data[newItemPosition]
-                            return oldItem.mediaId == newItem.mediaId
-                        }
+                            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                                val oldItem : Model = dataSet[oldItemPosition]
+                                val newItem : Model = newData.data[newItemPosition]
+                                return oldItem.mediaId == newItem.mediaId
+                            }
 
-                        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                            val oldItem : Model = dataSet[oldItemPosition]
-                            val newItem : Model = newData.data[newItemPosition]
-                            return oldItem == newItem && adapter.areContentTheSameExtension(
-                                    oldItemPosition, newItemPosition, oldItem, newItem)
-                        }
-                    })
+                            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                                val oldItem : Model = dataSet[oldItemPosition]
+                                val newItem : Model = newData.data[newItemPosition]
+                                return oldItem == newItem && adapter.areContentTheSameExtension(
+                                        oldItemPosition, newItemPosition, oldItem, newItem)
+                            }
+                        })
+                    }
+
+
                 }
                 .filter { it.first.version == dataVersion }
                 .map { (data, callback) -> Pair(data.data, callback) }
@@ -113,7 +119,7 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
 
                     dataSet.update(newData)
 
-                    if (wasEmpty || !adapter.hasGranularUpdate || dataSet.size() > 400){
+                    if (wasEmpty || !adapter.hasGranularUpdate || callback == null){
                         adapter.notifyDataSetChanged()
                     } else{
                         callback.dispatchUpdatesTo(adapter)

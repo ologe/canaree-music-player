@@ -1,6 +1,6 @@
 package dev.olog.domain.gateway.prefs
 
-import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import io.reactivex.Completable
 import io.reactivex.Flowable

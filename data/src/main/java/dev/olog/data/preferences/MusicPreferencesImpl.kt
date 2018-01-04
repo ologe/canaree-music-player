@@ -17,7 +17,7 @@ class MusicPreferencesImpl @Inject constructor(
     companion object {
         private const val TAG = "MusicPreferencesDataStoreImpl"
         private const val BOOKMARK = TAG + ".BOOKMARK"
-        private const val SONG_ID = TAG + ".SONG_ID"
+        private const val ID_IN_PLAYLIST = TAG + ".ID_IN_PLAYLIST"
         private const val SHUFFLE_MODE = TAG + ".SHUFFLE_MODE"
         private const val REPEAT_MODE = TAG + ".REPEAT_MODE"
 
@@ -33,16 +33,16 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putLong(BOOKMARK, bookmark) }
     }
 
-    override fun getCurrentSongId(): Long {
-        return preferences.getLong(SONG_ID, 0)
+    override fun getCurrentIdInPlaylist(): Int {
+        return preferences.getInt(ID_IN_PLAYLIST, 0)
     }
 
-    override fun setCurrentSongId(songId: Long) {
-        preferences.edit { putLong(SONG_ID, songId) }
+    override fun setCurrentIdInPlaylist(idInPlaylist: Int) {
+        preferences.edit { putInt(ID_IN_PLAYLIST, idInPlaylist) }
     }
 
-    override fun observeCurrentSongId(): Flowable<Long> {
-        return rxPreferences.getLong(SONG_ID)
+    override fun observeCurrentIdInPlaylist(): Flowable<Int> {
+        return rxPreferences.getInteger(ID_IN_PLAYLIST)
                 .asObservable().toFlowable(BackpressureStrategy.LATEST)
     }
 

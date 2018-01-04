@@ -9,7 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
 import com.jakewharton.rxbinding2.view.RxView
-import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
@@ -78,7 +78,10 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_drag_handle -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
-                    musicController.playFromMediaId(item.mediaId)
+                    viewModel.getDetailSortDataUseCase.execute(item.mediaId)
+                            .subscribe({
+                                musicController.playFromMediaId(item.mediaId, it)
+                            }, Throwable::printStackTrace)
                 }
                 viewHolder.setOnLongClickListener(dataController) { item, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
@@ -123,12 +126,12 @@ class DetailFragmentAdapter @Inject constructor(
             }
             R.layout.item_detail_header_all_song -> {
                 viewHolder.setOnClickListener(R.id.sort, dataController) { _, _, view ->
-                    DetailSortDialog().show(view.context, view, mediaId, viewModel.getSortOrder().firstOrError()) { sortType ->
+                    DetailSortDialog().show(view.context, view, mediaId, viewModel.observeSortOrder().firstOrError()) { sortType ->
                         viewModel.updateSortType(sortType).subscribe()
                     }
                 }
                 viewHolder.setOnClickListener(R.id.sortImage, dataController) { _, _, _ ->
-                    viewModel.getSortOrder()
+                    viewModel.observeSortOrder()
                             .firstOrError()
                             .filter { it != SortType.CUSTOM }
                             .flatMapCompletable { viewModel.toggleSortArranging() }
@@ -187,7 +190,7 @@ class DetailFragmentAdapter @Inject constructor(
                 val image = holder.itemView.sortImage
 
                 Flowables.combineLatest(
-                        viewModel.getSortOrder(),
+                        viewModel.observeSortOrder(),
                         viewModel.getSortArranging(), { sort, arranging ->
                     Pair(sort, arranging)
 

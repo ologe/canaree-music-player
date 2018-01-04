@@ -1,7 +1,7 @@
 package dev.olog.domain.interactor.detail.sorting
 
-import dev.olog.domain.SortArranging
 import dev.olog.domain.entity.Song
+import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.interactor.GetSongListByParamUseCase

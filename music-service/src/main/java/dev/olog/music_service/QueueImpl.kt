@@ -2,13 +2,9 @@ package dev.olog.music_service
 
 import android.support.annotation.CheckResult
 import android.support.v4.math.MathUtils
-import android.support.v4.media.MediaDescriptionCompat
-import dev.olog.domain.interactor.music_service.CurrentSongIdUseCase
+import dev.olog.domain.interactor.music_service.CurrentIdInPlaylistUseCase
 import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
-import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.music_service.model.MediaEntity
-import dev.olog.music_service.model.toMediaEntity
-import dev.olog.shared.MediaId
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
@@ -22,8 +18,7 @@ import javax.inject.Inject
 class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val repeatMode: RepeatMode,
-        private val currentSongIdUseCase: CurrentSongIdUseCase,
-        private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val currentSongIdUseCase: CurrentIdInPlaylistUseCase,
         private val queueMediaSession: QueueMediaSession
 ) {
 
@@ -48,7 +43,7 @@ class QueueImpl @Inject constructor(
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = songList.toFlowable()
                 .observeOn(Schedulers.io())
-                .map { it.mediaId.to(it.id) }
+                .map { it.mediaId to it.id }
                 .toList()
                 .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
@@ -56,18 +51,25 @@ class QueueImpl @Inject constructor(
 
     fun updateCurrentSongPosition(list: List<MediaEntity>, position: Int){
         val pos = ensurePosition(list, position)
-        val songId = list[pos].id
+        val idInPlaylist = list[pos].idInPlaylist
         currentSongPosition = pos
-        currentSongIdUseCase.set(songId)
+        currentSongIdUseCase.set(idInPlaylist)
 
-        queueMediaSession.onNext(list
-                .drop(pos + 1)
-                .take(51)
-                .toList())
+        queueMediaSession.onNext(
+                list.drop(pos + 1).take(51).toList())
     }
 
     fun getSongById(songId: Long) : MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.id == songId }
+        val position = ensurePosition(playingQueue, positionToTest)
+        val media = playingQueue[position]
+        updateCurrentSongPosition(playingQueue, position)
+
+        return media
+    }
+
+    fun getSongByIdInPlaylist(idInPlaylist: Int): MediaEntity {
+        val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist == idInPlaylist }
         val position = ensurePosition(playingQueue, positionToTest)
         val media = playingQueue[position]
         updateCurrentSongPosition(playingQueue, position)
@@ -103,21 +105,6 @@ class QueueImpl @Inject constructor(
         val media = playingQueue[newPosition]
         updateCurrentSongPosition(playingQueue, newPosition)
         return media
-    }
-
-    fun addItemToQueue(item: MediaDescriptionCompat) {
-        val split = item.mediaId!!.split(",")
-        split.toFlowable()
-                .observeOn(Schedulers.computation())
-                .map { it.toLong() }
-                .flatMapMaybe { songId -> getAllSongsUseCase.execute()
-                        .flatMapIterable { it }
-                        .filter { it.id == songId }
-                        .map { it.toMediaEntity(MediaId.headerId("")) }
-                        .firstElement()
-                }.toList()
-                .doOnSuccess { playingQueue.addAll(it) }
-                .doOnSuccess { persist(it) }
     }
 
     @Contract(pure = true)

@@ -5,6 +5,7 @@ import java.io.File
 
 data class PlayingQueueSong (
         val id: Long,
+        val idInPlaylist: Int,
         val parentMediaId: MediaId,
         val artistId: Long,
         val albumId: Long,
@@ -17,7 +18,6 @@ data class PlayingQueueSong (
         val isRemix: Boolean,
         val isExplicit: Boolean,
         val path: String,
-        val folder: String,
         val trackNumber: Int) {
 
     val folderPath: String

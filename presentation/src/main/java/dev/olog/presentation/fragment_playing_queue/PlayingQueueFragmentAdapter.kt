@@ -27,7 +27,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            musicController.skipToQueueItem(item.mediaId)
+            musicController.skipToQueueItemWithIdInPlaylist(item.mediaId)
         }
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
@@ -43,7 +43,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.isCurrentSong, item.mediaId.leaf!! == PlayingQueueFragmentViewModel.songId)
+        binding.setVariable(BR.isCurrentSong, item.mediaId.leaf!!.toInt() == PlayingQueueFragmentViewModel.idInPlaylist)
     }
 
     override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(

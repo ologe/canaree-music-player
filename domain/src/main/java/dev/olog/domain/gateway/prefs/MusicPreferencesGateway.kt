@@ -7,9 +7,9 @@ interface MusicPreferencesGateway {
     fun getBookmark(): Long
     fun setBookmark(bookmark: Long)
 
-    fun getCurrentSongId(): Long
-    fun setCurrentSongId(songId: Long)
-    fun observeCurrentSongId(): Flowable<Long>
+    fun getCurrentIdInPlaylist(): Int
+    fun setCurrentIdInPlaylist(idInPlaylist: Int)
+    fun observeCurrentIdInPlaylist(): Flowable<Int>
 
     fun getRepeatMode(): Int
     fun setRepeatMode(repeatMode: Int)

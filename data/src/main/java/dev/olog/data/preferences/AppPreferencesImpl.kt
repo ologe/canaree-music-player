@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.data.R
 import dev.olog.data.utils.edit
-import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.shared.ApplicationContext

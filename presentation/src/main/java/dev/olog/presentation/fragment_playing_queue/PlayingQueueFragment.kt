@@ -52,7 +52,7 @@ class PlayingQueueFragment : BaseFragment() {
                 adapter.onDataChangedListener = null
                 val songId = viewModel.getCurrentSongId()
                 val position = adapter.getItemPositionById { it ->
-                    it.mediaId.leaf!! == songId
+                    it.mediaId.leaf!!.toInt() == songId
                 }
                 layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
                 startPostponedEnterTransition()

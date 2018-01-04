@@ -5,11 +5,11 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
+import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.interactor.music_service.UpdateMiniQueueUseCase
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.MediaId
-import dev.olog.shared.groupMap
 import dev.olog.shared.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
@@ -32,7 +32,7 @@ class QueueMediaSession @Inject constructor(
         lifecycle.addObserver(this)
         miniQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
-                .groupMap { it.id }
+                .map { it.map { it.toPlayingQueueSong() } }
                 .subscribe(updateMiniQueueUseCase::execute, Throwable::printStackTrace)
 
         notificationQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
@@ -61,6 +61,26 @@ class QueueMediaSession @Inject constructor(
                 .build()
 
         return MediaSessionCompat.QueueItem(description, this.id)
+    }
+
+    private fun MediaEntity.toPlayingQueueSong(): PlayingQueueSong {
+        return PlayingQueueSong(
+                this.id,
+                this.idInPlaylist,
+                this.mediaId,
+                this.artistId,
+                this.albumId,
+                this.title,
+                this.artist,
+                this.album,
+                this.image,
+                this.duration,
+                -1,
+                this.isRemix,
+                this.isExplicit,
+                this.path,
+                this.trackNumber
+        )
     }
 
 }

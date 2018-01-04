@@ -1,7 +1,6 @@
 package dev.olog.music_service.interfaces
 
 import android.os.Bundle
-import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.MediaId
@@ -17,13 +16,15 @@ interface Queue {
 
     fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity
 
-    fun handlePlayFromMediaId(mediaId: MediaId): Single<PlayerMediaEntity>
+    fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity>
 
     fun handlePlayRecentlyPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handleSkipToQueueItem(id: Long): PlayerMediaEntity
+
+    fun handleSkipToQueueItemWithIdInPlaylist(idInPlaylist: Long): PlayerMediaEntity
 
     fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity>
 
@@ -38,7 +39,5 @@ interface Queue {
     fun sort()
 
     fun shuffle()
-
-    fun addItemToQueue(item: MediaDescriptionCompat)
 
 }

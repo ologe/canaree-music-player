@@ -3,7 +3,7 @@ package dev.olog.presentation.fragment_detail
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dagger.Lazy
-import dev.olog.domain.SortArranging
+import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
 import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
@@ -27,11 +27,12 @@ class DetailFragmentViewModel(
         private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
         private val setSortOrderUseCase: SetSortOrderUseCase,
-        private val getSortOrderUseCase: GetSortOrderUseCase,
+        private val observeSortOrderUseCase: GetSortOrderUseCase,
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
-        getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase
+        getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
+        val getDetailSortDataUseCase: GetDetailSortDataUseCase
 
 ) : ViewModel() {
 
@@ -146,8 +147,8 @@ class DetailFragmentViewModel(
         return setSortArrangingUseCase.execute()
     }
 
-    fun getSortOrder(): Flowable<SortType> {
-        return getSortOrderUseCase.execute(mediaId)
+    fun observeSortOrder(): Flowable<SortType> {
+        return observeSortOrderUseCase.execute(mediaId)
     }
 
     fun getSortArranging(): Flowable<SortArranging> {

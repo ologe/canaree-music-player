@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -56,23 +55,25 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onPlayFromMediaId(mediaIdAsString: String, extras: Bundle?) {
         if (extras != null){
-            val mid = MediaId.fromString(mediaIdAsString)
+            val mediaId = MediaId.fromString(mediaIdAsString)
 
             when {
-                extras.isEmpty -> {
-                    queue.handlePlayFromMediaId(mid)
+                extras.isEmpty ||
+                        extras.getString(MusicConstants.ARGUMENT_SORT_TYPE) != null ||
+                        extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING) != null -> {
+                    queue.handlePlayFromMediaId(mediaId, extras)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(player::play, Throwable::printStackTrace)
                             .addTo(subscriptions)
                 }
                 extras.getBoolean(MusicConstants.BUNDLE_MOST_PLAYED, false) -> {
-                    queue.handlePlayMostPlayed(mid)
+                    queue.handlePlayMostPlayed(mediaId)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(player::play, Throwable::printStackTrace)
                             .addTo(subscriptions)
                 }
                 extras.getBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, false) -> {
-                    queue.handlePlayRecentlyPlayed(mid)
+                    queue.handlePlayRecentlyPlayed(mediaId)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(player::play, Throwable::printStackTrace)
                             .addTo(subscriptions)
@@ -124,6 +125,14 @@ class MediaSessionCallback @Inject constructor(
                     queue.handleSwapRelative(extras!!)
                     return
                 }
+                MusicConstants.SKIP_TO_ITEM -> {
+                    val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                    val mediaId = MediaId.fromString(mediaIdAsString)
+                    val idInPlaylist = mediaId.leaf!!
+                    val mediaEntity = queue.handleSkipToQueueItemWithIdInPlaylist(idInPlaylist)
+                    player.play(mediaEntity)
+                    return
+                }
             }
         }
 
@@ -157,10 +166,6 @@ class MediaSessionCallback @Inject constructor(
         playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
     }
 
-    override fun onAddQueueItem(description: MediaDescriptionCompat) {
-        queue.addItemToQueue(description)
-    }
-
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
         val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
 
@@ -182,7 +187,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     /**
-     * DO NOT KILL service on pause
+     * this function DO NOT KILL service on pause
      */
     private fun handlePlayPause() {
         if (player.isPlaying()) {

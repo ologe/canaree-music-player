@@ -4,14 +4,14 @@ import dev.olog.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.domain.interactor.base.PrefsUseCase
 import javax.inject.Inject
 
-class CurrentSongIdUseCase @Inject constructor(
+class CurrentIdInPlaylistUseCase @Inject constructor(
         private val gateway: MusicPreferencesGateway
 
-) : PrefsUseCase<Long>() {
+) : PrefsUseCase<Int>() {
 
-    override fun get() = gateway.getCurrentSongId()
+    override fun get() = gateway.getCurrentIdInPlaylist()
 
-    override fun set(param: Long) {
-        gateway.setCurrentSongId(param)
+    override fun set(param: Int) {
+        gateway.setCurrentIdInPlaylist(param)
     }
 }

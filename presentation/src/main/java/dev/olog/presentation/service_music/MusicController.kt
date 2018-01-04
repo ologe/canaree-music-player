@@ -6,6 +6,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.domain.entity.DetailSort
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
@@ -51,8 +52,15 @@ class MusicController @Inject constructor(
         getTransportControls()?.seekTo(pos)
     }
 
-    fun playFromMediaId(mediaId: MediaId) {
-        getTransportControls()?.playFromMediaId(mediaId.toString(), null)
+    fun playFromMediaId(mediaId: MediaId, sort: DetailSort? = null) {
+        val bundle = if (sort != null){
+            Bundle().apply {
+                putString(MusicConstants.ARGUMENT_SORT_TYPE, sort.sortType.toString())
+                putString(MusicConstants.ARGUMENT_SORT_ARRANGING, sort.sortArranging.toString())
+            }
+        } else null
+
+        getTransportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
     fun playRecentlyPlayedFromMediaId(mediaId: MediaId){
@@ -73,8 +81,14 @@ class MusicController @Inject constructor(
         getTransportControls()?.sendCustomAction(ACTION_PLAY_SHUFFLE, bundle)
     }
 
-    fun skipToQueueItem(mediaId: MediaId) {
-        getTransportControls()?.skipToQueueItem(mediaId.leaf!!)
+//    fun skipToQueueItem(mediaId: MediaId) {
+//        getTransportControls()?.skipToQueueItem(mediaId.leaf!!)
+//    }
+
+    fun skipToQueueItemWithIdInPlaylist(mediaId: MediaId){
+        val bundle = Bundle()
+        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId.toString())
+        getTransportControls()?.sendCustomAction(MusicConstants.SKIP_TO_ITEM, bundle)
     }
 
     fun togglePlayerFavorite() {

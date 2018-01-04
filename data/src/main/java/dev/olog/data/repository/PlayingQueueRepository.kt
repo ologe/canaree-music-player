@@ -6,7 +6,6 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.MediaId
-import dev.olog.shared.groupMap
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -21,15 +20,15 @@ class PlayingQueueRepository @Inject constructor(
 
 ) : PlayingQueueGateway {
 
-    private val publisher = BehaviorProcessor.create<List<Long>>()
+    private val publisher = BehaviorProcessor.create<List<PlayingQueueSong>>()
     private val playingQueueDao = database.playingQueueDao()
 
     override fun getAll(): Single<List<PlayingQueueSong>> {
         return Single.concat(
                 playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError()).firstOrError(),
-                songGateway.getAll().firstOrError().groupMap { it.toPlayingQueueSong() }
-        ).filter { it.isNotEmpty() }
-                .firstOrError()
+                songGateway.getAll().firstOrError()
+                        .map { it.mapIndexed { index, song-> song.toPlayingQueueSong(index) } }
+        ).filter { it.isNotEmpty() }.firstOrError()
     }
 
     override fun observeAll(): Flowable<List<PlayingQueueSong>> {
@@ -40,7 +39,7 @@ class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.insert(list)
     }
 
-    override fun updateMiniQueue(data: List<Long>) {
+    override fun updateMiniQueue(data: List<PlayingQueueSong>) {
         publisher.onNext(data)
     }
 
@@ -49,28 +48,12 @@ class PlayingQueueRepository @Inject constructor(
                 .observeOn(Schedulers.computation())
                 .debounce(250, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
-                .flatMapSingle { ids -> songGateway.getAll().firstOrError().flatMap { songs ->
-                    val result : List<Song> = ids.asSequence()
-                            .map { id -> songs.firstOrNull { it.id == id } }
-                            .filter { it != null }
-                            .map { it!! }
-                            .toList()
-                    Single.just(result)
-                }}
-                .groupMap { it.toPlayingQueueSong() }
-//                .flatMapSingle { it.toFlowable()
-//                        .flatMapMaybe { songId ->
-//                            songGateway.getAll().firstOrError()
-//                                    .flattenAsObservable { it }
-//                                    .filter { it.id == songId }
-//                                    .firstElement()
-//                        }.toList()
-//                }
     }
 
-    private fun Song.toPlayingQueueSong(): PlayingQueueSong {
+    private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
+                progressive,
                 MediaId.songId(this.id),
                 this.artistId,
                 this.albumId,
@@ -83,7 +66,6 @@ class PlayingQueueRepository @Inject constructor(
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.folder,
                 this.trackNumber
         )
     }

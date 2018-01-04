@@ -62,7 +62,8 @@ class DetailFragmentModuleSongs {
             getSortOrderUseCase: GetSortOrderUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .flatMapSingle { songList -> getSortOrderUseCase.execute(mediaId).firstOrError()
+                .flatMapSingle { songList -> getSortOrderUseCase.execute(mediaId)
+                        .firstOrError()
                         .map { sort -> Triple(songList, songList.sumBy { it.duration.toInt() }, sort) }
                 }
                 .flatMapSingle { (songList, totalDuration, sort) ->
