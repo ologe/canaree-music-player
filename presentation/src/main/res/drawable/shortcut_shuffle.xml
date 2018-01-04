@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+
+            <size android:height="48dp"
+                android:width="48dp"/>
+
+            <gradient
+                android:angle="45"
+                android:endColor="#dd00ff"
+                android:startColor="#f8b333"
+                android:type="linear" />
+
+        </shape>
+
+    </item>
+
+    <item android:drawable="@drawable/vd_shuffle"
+        android:top="12dp"
+        android:bottom="12dp"
+        android:right="12dp"
+        android:left="12dp"/>
+
+</layer-list>
