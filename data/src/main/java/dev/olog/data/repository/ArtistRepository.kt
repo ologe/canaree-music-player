@@ -3,7 +3,7 @@ package dev.olog.data.repository
 import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
-import com.squareup.sqlbrite2.BriteContentResolver
+import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.mapper.toArtist
 import dev.olog.data.utils.FileUtils

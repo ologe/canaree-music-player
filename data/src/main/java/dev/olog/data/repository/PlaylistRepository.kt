@@ -5,7 +5,7 @@ import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.getContentUri
-import com.squareup.sqlbrite2.BriteContentResolver
+import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.data.R
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.PlaylistMostPlayedEntity

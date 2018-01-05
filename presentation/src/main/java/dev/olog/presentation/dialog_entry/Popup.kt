@@ -102,7 +102,6 @@ class Popup @Inject constructor(
         return when (mediaId.category){
             MediaIdCategory.FOLDER -> R.menu.dialog_folder
             MediaIdCategory.PLAYLIST -> R.menu.dialog_playlist
-//            MediaIdCategory.ALL -> R.menu.dialog_song
             MediaIdCategory.ALBUM -> R.menu.dialog_album
             MediaIdCategory.ARTIST -> R.menu.dialog_artist
             MediaIdCategory.GENRE -> R.menu.dialog_genre

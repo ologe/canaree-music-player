@@ -9,6 +9,7 @@ import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
 import dev.olog.presentation._base.list.DataBoundViewHolder
+import dev.olog.presentation._base.prova.MultiTouchRecyclerView
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
@@ -59,8 +60,10 @@ class TabFragmentAdapter @Inject constructor(
                         }
                     }
                 }
-                viewHolder.setOnLongClickListener(dataController) { item, _ ->
-                    navigator.toDialog(item, viewHolder.itemView)
+                viewHolder.setOnLongClickListener(dataController) { item, position ->
+//                    navigator.toDialog(item, viewHolder.itemView)
+                    val parent = viewHolder.itemView.parent as MultiTouchRecyclerView
+                    parent.enableMultiTouch(position)
                 }
                 viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
                     navigator.toDialog(item, view)

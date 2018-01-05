@@ -6,7 +6,7 @@ import android.provider.MediaStore
 import android.provider.MediaStore.Audio.AudioColumns.*
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
-import com.squareup.sqlbrite2.BriteContentResolver
+import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.data.mapper.toSong
 import dev.olog.data.mapper.toUneditedSong
 import dev.olog.domain.entity.Song

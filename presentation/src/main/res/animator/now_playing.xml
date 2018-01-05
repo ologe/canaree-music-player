@@ -5,7 +5,7 @@
 
         <objectAnimator
             android:propertyName="alpha"
-            android:valueFrom=".6"
+            android:valueFrom=".45"
             android:valueTo="1"
             android:valueType="floatType"
             android:duration="@android:integer/config_shortAnimTime"
@@ -19,7 +19,7 @@
         <objectAnimator
             android:propertyName="alpha"
             android:valueFrom="1"
-            android:valueTo=".6"
+            android:valueTo=".45"
             android:valueType="floatType"
             android:duration="@android:integer/config_shortAnimTime"
             android:interpolator="@android:interpolator/fast_out_slow_in"/>

@@ -93,7 +93,7 @@ dependencies {
 //    implementation "com.google.android.gms:play-services-cast-framework:$rootProject.play_services"
 
     // db
-    implementation "com.squareup.sqlbrite2:sqlbrite:$rootProject.sql_brite"
+    implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"
 
     // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"

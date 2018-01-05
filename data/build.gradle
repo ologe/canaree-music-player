@@ -59,8 +59,8 @@ dependencies {
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
-    implementation "com.squareup.sqlbrite2:sqlbrite:$rootProject.sql_brite"
-    implementation "com.squareup.sqlbrite2:sqlbrite-kotlin:$rootProject.sql_brite"
+    implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"
+    implementation "com.squareup.sqlbrite3:sqlbrite-kotlin:$rootProject.sql_brite"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
 

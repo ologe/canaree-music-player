@@ -15,7 +15,7 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingEnd="8dp"
-        android:background="@color/background">
+        android:background="@color/background_state">
 
         <View
             android:id="@+id/separator"

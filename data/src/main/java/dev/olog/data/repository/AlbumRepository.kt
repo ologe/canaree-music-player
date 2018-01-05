@@ -1,7 +1,7 @@
 package dev.olog.data.repository
 
 import android.provider.MediaStore
-import com.squareup.sqlbrite2.BriteContentResolver
+import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.mapper.toAlbum
 import dev.olog.domain.entity.Album

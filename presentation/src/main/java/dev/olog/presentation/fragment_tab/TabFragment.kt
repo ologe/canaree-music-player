@@ -9,6 +9,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_tab.di.TabFragmentViewModelModule
+import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.view.*
@@ -36,6 +37,7 @@ class TabFragment : BaseFragment() {
 
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
+    @Inject lateinit var navigator: Lazy<Navigator>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -80,6 +82,7 @@ class TabFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.setSectionIndexer(adapter)
     }
+
 
     override fun provideLayoutId(): Int = R.layout.fragment_tab
 }

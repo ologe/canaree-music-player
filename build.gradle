@@ -43,22 +43,22 @@ ext {
     micro_architecture = '1.0.0'
     constraint_layout = '1.1.0-beta4'
     glide = '4.4.0'
-    exo_player = '2.6.0'
+    exo_player = '2.6.1'
     jsoup = '1.10.3'
     sliding_panel = '3.4.0'
     lottie = '2.3.1'
-    sql_brite = '2.0.0'
-    hover = '0.9.8'
+    sql_brite = '3.1.0'
+//    hover = '0.9.8'
 
     // reactive
-    rx_java = '2.1.7'
+    rx_java = '2.1.8'
     rx_android = '2.0.1'
     rx_binding = '2.0.0'
     rx_preferences = '2.0.0-RC3'
     rx_kotlin = '2.2.0'
     rx_permission = '0.9.4@aar'
 
-    anko_version = '0.10.3'
+    anko_version = '0.10.4'
 
     // dependency injection
     dagger = '2.14.1'

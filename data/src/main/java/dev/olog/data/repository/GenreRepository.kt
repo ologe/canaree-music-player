@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import com.squareup.sqlbrite2.BriteContentResolver
+import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.entity.GenreMostPlayedEntity
 import dev.olog.data.mapper.extractId

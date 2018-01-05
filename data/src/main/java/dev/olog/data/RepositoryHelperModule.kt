@@ -2,8 +2,8 @@ package dev.olog.data
 
 import android.arch.persistence.room.Room
 import android.content.Context
-import com.squareup.sqlbrite2.BriteContentResolver
-import com.squareup.sqlbrite2.SqlBrite
+import com.squareup.sqlbrite3.BriteContentResolver
+import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import dev.olog.data.db.AppDatabase
