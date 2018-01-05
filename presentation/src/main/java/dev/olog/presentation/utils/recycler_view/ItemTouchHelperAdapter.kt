@@ -8,6 +8,4 @@ interface ItemTouchHelperAdapter {
 
     val draggableViewType: Int
 
-    val isSwipeEnabled: Boolean
-
 }

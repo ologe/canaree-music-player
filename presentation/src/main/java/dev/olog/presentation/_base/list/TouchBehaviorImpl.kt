@@ -11,7 +11,6 @@ class TouchBehaviorImpl(
 ) : ItemTouchHelperAdapter {
 
     override val draggableViewType: Int = touchCallbackConfig.draggableViewType
-    override val isSwipeEnabled: Boolean = touchCallbackConfig.canSwipe
 
     init {
         if (draggableViewType == TouchBehavior.UNSET) {

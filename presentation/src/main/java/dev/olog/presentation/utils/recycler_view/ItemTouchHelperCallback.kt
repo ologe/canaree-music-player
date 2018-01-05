@@ -5,6 +5,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 
 class ItemTouchHelperCallback(
         private val adapter: ItemTouchHelperAdapter
+
 ) : ItemTouchHelper.Callback() {
 
 
@@ -26,7 +27,7 @@ class ItemTouchHelperCallback(
         adapter.onItemDismiss(viewHolder.adapterPosition)
     }
 
-    override fun isItemViewSwipeEnabled(): Boolean = adapter.isSwipeEnabled
+    override fun isItemViewSwipeEnabled(): Boolean = true
 
     override fun isLongPressDragEnabled(): Boolean = false
 }
