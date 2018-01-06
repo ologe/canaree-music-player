@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.view.ViewPager
+import android.view.View
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.HasSlidingPanel
@@ -21,6 +22,7 @@ import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinderViewModel
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.extension.asLiveData
@@ -82,6 +84,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     override fun onResume() {
         super.onResume()
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
+        innerPanel.addPanelSlideListener(panelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment() }
         settings.setOnClickListener { navigator.toMainPopup(it) }
         viewPager.addOnPageChangeListener(onAdapterPageChangeListener)
@@ -90,6 +93,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     override fun onPause() {
         super.onPause()
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
+        innerPanel.removePanelSlideListener(panelSlideListener)
         search.setOnClickListener(null)
         settings.setOnClickListener(null)
         viewPager.removeOnPageChangeListener(onAdapterPageChangeListener)
@@ -134,12 +138,15 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
 
-    private val onAdapterPageChangeListener = object : ViewPager.OnPageChangeListener {
-        override fun onPageScrollStateChanged(state: Int) {
+    private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener(){
+        override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
+            drag_area.toggleVisibility(newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
         }
+    }
 
-        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        }
+    private val onAdapterPageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrollStateChanged(state: Int) {}
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
         override fun onPageSelected(position: Int) {
             presenter.setViewPagerLastPage(position)
