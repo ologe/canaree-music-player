@@ -6,8 +6,7 @@
     tools:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
-    tools:layout_marginBottom="@dimen/inner_panel_height">
+    android:id="@+id/container">
 
     <View
         app:layout_constraintTop_toTopOf="parent"
@@ -18,15 +17,6 @@
         android:layout_height="@dimen/status_bar"
         android:background="@color/status_bar_secondary"/>
 
-    <include
-        android:id="@+id/playerToolbar"
-        layout="@layout/layout_player_toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintStart_toEndOf="@+id/coverLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/tab" />
-
     <android.support.v7.widget.CardView
         android:id="@+id/coverLayout"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +26,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         android:stateListAnimator="@animator/elevate_on_activated">
@@ -69,94 +60,116 @@
         android:id="@+id/fakeNext"
         app:layout_constraintTop_toTopOf="@+id/coverLayout"
         app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/coverLayout"
         android:layout_width="64dp"
         android:layout_height="0dp"
         android:clickable="true"
         android:focusable="true"
         android:elevation="20dp"/>
 
-    <!-- bookmark -->
-    <TextView
-        android:id="@+id/bookmark"
-        tools:text="0:00"
-        android:textColor="@color/text_color_primary"
-        android:textSize="@dimen/player_bookmark_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/duration"
-        android:layout_marginStart="32dp"
-        android:clickable="false"
-        android:focusable="false" />
-
-    <!-- duration -->
-    <TextView
-        android:id="@+id/duration"
-        tools:text=" / 2:57"
-        android:textColor="@color/text_color_primary"
-        android:textSize="@dimen/player_bookmark_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="32dp"
-        android:clickable="false"
-        android:focusable="false" />
-
-    <!-- seekbar -->
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fragment_wrapper"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/coverLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        android:max="@integer/very_high_duration"
-        android:paddingBottom="@dimen/player_seekBar_padding_bottom"
-        android:paddingTop="@dimen/player_seekBar_padding_top"
-        android:paddingStart="@dimen/player_seekBar_padding_horizontal"
-        android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
-        android:progressTint="@color/progress_bar_tint"
-        android:thumbTint="@color/progress_bar_tint"
-        android:progressBackgroundTint="@color/progress_bar_secondary_tint"
-        tools:progress="40"
-        android:clickable="true"
-        android:focusable="true" />
+        android:layout_marginBottom="@dimen/inner_panel_height"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <include
+            android:id="@+id/playerToolbar"
+            layout="@layout/layout_player_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/tab" />
+
+        <!-- bookmark -->
+        <TextView
+            android:id="@+id/bookmark"
+            tools:text="0:00"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/player_bookmark_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            app:layout_constraintEnd_toStartOf="@+id/duration"
+            android:layout_marginStart="32dp"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <!-- duration -->
+        <TextView
+            android:id="@+id/duration"
+            tools:text=" / 2:57"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/player_bookmark_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <!-- seekbar -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:max="@integer/very_high_duration"
+            android:paddingBottom="@dimen/player_seekBar_padding_bottom"
+            android:paddingTop="@dimen/player_seekBar_padding_top"
+            android:paddingStart="@dimen/player_seekBar_padding_horizontal"
+            android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
+            android:progressTint="@color/progress_bar_tint"
+            android:thumbTint="@color/progress_bar_tint"
+            android:progressBackgroundTint="@color/progress_bar_secondary_tint"
+            tools:progress="40"
+            android:clickable="true"
+            android:focusable="true" />
 
 
-    <!-- shuffle -->
-    <ImageButton
-        android:id="@+id/shuffle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/vd_shuffle"
-        tools:tint="@color/item_selected"
-        app:layout_constraintStart_toEndOf="@+id/coverLayout"
-        app:layout_constraintEnd_toStartOf="@+id/repeat"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:elevation="2dp"
-        android:background="?attr/selectableItemBackgroundBorderless"/>
+        <!-- shuffle -->
+        <ImageButton
+            android:id="@+id/shuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/vd_shuffle"
+            tools:tint="@color/item_selected"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/repeat"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:elevation="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
-    <!-- repeat -->
-    <ImageButton
-        android:id="@+id/repeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/vd_repeat"
-        tools:src="@drawable/vd_repeat"
-        tools:tint="@color/button_secondary_tint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintStart_toEndOf="@+id/shuffle"
-        android:elevation="2dp"
-        android:background="?attr/selectableItemBackgroundBorderless"/>
+        <!-- repeat -->
+        <ImageButton
+            android:id="@+id/repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/vd_repeat"
+            tools:src="@drawable/vd_repeat"
+            tools:tint="@color/button_secondary_tint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintStart_toEndOf="@+id/shuffle"
+            android:elevation="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
