@@ -6,7 +6,6 @@ import dev.olog.shared.MediaId
 
 data class MediaEntity(
         val id: Long,
-        val idInPlaylist: Int,
         val mediaId: MediaId,
         val artistId: Long,
         val albumId: Long,
@@ -19,13 +18,13 @@ data class MediaEntity(
         val isRemix: Boolean,
         val isExplicit: Boolean,
         val path: String,
-        val trackNumber: Int
+        val trackNumber: Int,
+        val idInPlaylist: Int
 )
 
 fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
     return MediaEntity(
             this.id,
-            progressive,
             MediaId.playableItem(mediaId, this.id),
             this.artistId,
             this.albumId,
@@ -38,14 +37,14 @@ fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
             this.isRemix,
             this.isExplicit,
             this.path,
-            this.trackNumber
+            this.trackNumber,
+            progressive
     )
 }
 
-fun PlayingQueueSong.toMediaEntity(progressive: Int) : MediaEntity {
+fun PlayingQueueSong.toMediaEntity() : MediaEntity {
     return MediaEntity(
             this.id,
-            progressive,
             MediaId.playableItem(parentMediaId, this.id),
             this.artistId,
             this.albumId,
@@ -58,7 +57,8 @@ fun PlayingQueueSong.toMediaEntity(progressive: Int) : MediaEntity {
             this.isRemix,
             this.isExplicit,
             this.path,
-            this.trackNumber
+            this.trackNumber,
+            this.idInPlaylist
     )
 }
 

@@ -9,8 +9,8 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_tab.di.TabFragmentViewModelModule
-import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
@@ -24,8 +24,7 @@ class TabFragment : BaseFragment() {
         const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
 
         fun newInstance(source: Int): TabFragment {
-            return TabFragment().withArguments(
-                    ARGUMENTS_SOURCE to source)
+            return TabFragment().withArguments(ARGUMENTS_SOURCE to source)
         }
     }
 
@@ -37,13 +36,12 @@ class TabFragment : BaseFragment() {
 
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
-    @Inject lateinit var navigator: Lazy<Navigator>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.observeData(source)
                 .subscribe(this, { list ->
-                    handleEmpyStateVisibility(list.isEmpty())
+                    handleEmptyStateVisibility(list.isEmpty())
                     adapter.updateDataSet(list)
                 })
 
@@ -59,17 +57,12 @@ class TabFragment : BaseFragment() {
         }
     }
 
-    private fun handleEmpyStateVisibility(isEmpty: Boolean){
-        val visibility = if (isEmpty) View.VISIBLE else View.GONE
+    private fun handleEmptyStateVisibility(isEmpty: Boolean){
+        view!!.emptyStateText.toggleVisibility(isEmpty)
         if (isEmpty){
             val emptyText = context!!.resources.getStringArray(R.array.tab_empty_state)
-            val emptyImage = context!!.resources.obtainTypedArray(R.array.tab_empty_image)
             view!!.emptyStateText.text = emptyText[source]
-            view!!.emptyStateImage.setImageResource(emptyImage.getResourceId(source, -1))
-            emptyImage.recycle()
         }
-        view!!.emptyStateText.visibility = visibility
-        view!!.emptyStateImage.visibility = visibility
     }
 
     @CallSuper

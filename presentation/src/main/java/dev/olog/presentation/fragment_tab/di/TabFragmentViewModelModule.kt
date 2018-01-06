@@ -76,7 +76,7 @@ class TabFragmentViewModelModule {
                 .map { it.toTabDisplayableItem() }
                 .startWith(headers.shuffleHeader)
                 .toList()
-        }
+        }.map { if (it.size == 1) listOf() else it }
     }
 
     @Provides

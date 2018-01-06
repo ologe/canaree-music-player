@@ -61,8 +61,6 @@ class MiniQueueFragmentAdapter @Inject constructor(
             draggableViewType = R.layout.item_playing_queue,
             onDragAction = { from, to ->
                 musicController.swapRelative(from, to)
-            }, onSwipeAction = { position ->
-
-            }
+            }, onSwipeAction = { position -> }
     )
 }

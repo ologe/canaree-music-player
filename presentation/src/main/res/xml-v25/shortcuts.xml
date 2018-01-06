@@ -27,7 +27,7 @@
     </shortcut>
 
     <shortcut
-        android:shortcutId="shuffle"
+        android:shortcutId="search"
         android:shortcutShortLabel="@string/shortcut_search"
         android:icon="@drawable/shortcut_search">
 

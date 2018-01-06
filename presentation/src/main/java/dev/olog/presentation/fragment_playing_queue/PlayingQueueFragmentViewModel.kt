@@ -41,7 +41,7 @@ class PlayingQueueFragmentViewModel(
 
         return DisplayableItem(
                 R.layout.item_playing_queue,
-                MediaId.songId(idInPlaylist.toLong()),
+                MediaId.songId(this.idInPlaylist.toLong()),
                 title,
                 "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
                 image,

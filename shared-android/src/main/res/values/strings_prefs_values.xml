@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--categories-->
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_floating_window">Floating window</string>
+    <string name="prefs_category_audio">Audio</string>
 
+    <!--last tab-->
     <string name="prefs_remember_last_tab_title">Remember last tab</string>
     <string name="prefs_remember_last_tab_summary">Go to the last opened tab on launch</string>
 
+    <!--quick action-->
     <string name="prefs_quick_action_title">Quick action</string>
     <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
-
-    <string name="prefs_detail_visible_items_title">Detail visible items</string>
-    <string name="prefs_detail_visible_items_summary">Change the visible items in the detail view</string>
-
-    <string name="prefs_icon_color_title">Images dark icon color</string>
-    <string name="prefs_icon_color_summary_on">Icons will be black</string>
-    <string name="prefs_icon_color_summary_off">Icons will be white</string>
-
-    <string name="prefs_floating_window_at_startup_title">Show at startup</string>
-    <string name="prefs_floating_window_at_startup_summary">Start floating window service on launch</string>
-
-
     <string name="prefs_quick_action_hide">Hide</string>
     <string name="prefs_quick_action_play">Play</string>
     <string name="prefs_quick_action_shuffle">Shuffle</string>
 
+    <!--visible detail items-->
+    <string name="prefs_detail_visible_items_title">Detail visible items</string>
+    <string name="prefs_detail_visible_items_summary">Change the visible items in the detail view</string>
     <string name="prefs_detail_visible_tabs_most_played" translatable="false">Most Played</string>
     <string name="prefs_detail_visible_tabs_recently_added" translatable="false">Recently Added</string>
     <string name="prefs_detail_visible_tabs_related_artists" translatable="false">Related Artists</string>
+
+    <!--dark icon color-->
+    <string name="prefs_icon_color_title">Images dark icon color</string>
+    <string name="prefs_icon_color_summary_on">Icons will be black</string>
+    <string name="prefs_icon_color_summary_off">Icons will be white</string>
+
+    <!--show floating at startup-->
+    <string name="prefs_floating_window_at_startup_title">Show at startup</string>
+    <string name="prefs_floating_window_at_startup_summary">Start floating window service on launch</string>
+
+    <!--lower audio on night-->
+    <string name="prefs_lower_volume_on_night_title">Lowers the max volume the night</string>
+    <string name="prefs_lower_volume_on_night_summary"></string>
 
 </resources>

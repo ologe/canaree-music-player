@@ -11,8 +11,10 @@ import android.provider.MediaStore
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
+import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
@@ -21,13 +23,16 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
+import dev.olog.domain.interactor.GetLowerVolumeOnNightUseCase
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.ServiceLifecycleController
 import dev.olog.music_service.model.PlayerMediaEntity
+import dev.olog.music_service.utils.AudioFocusBehavior
 import dev.olog.music_service.utils.dispatchEvent
 import dev.olog.shared.ApplicationContext
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class PlayerImpl @Inject constructor(
@@ -38,7 +43,8 @@ class PlayerImpl @Inject constructor(
         private val playerMetadata: PlayerMetadata,
         private val playerState: PlayerState,
         private val noisy: Lazy<Noisy>,
-        private val serviceLifecycle: ServiceLifecycleController
+        private val serviceLifecycle: ServiceLifecycleController,
+        private val lowerVolumeOnNightUseCase: GetLowerVolumeOnNightUseCase
 
 ) : Player,
         DefaultLifecycleObserver,
@@ -46,8 +52,11 @@ class PlayerImpl @Inject constructor(
         ExoPlayerListenerWrapper {
 
     companion object {
-        private val VOLUME_DUCK = .2f
-        private val VOLUME_NORMAL = 1f
+        private const val VOLUME_DUCK = .2f
+        private const val VOLUME_NORMAL = 1f
+
+        private const val VOLUME_LOWERED_DUCK = 0.1f
+        private const val VOLUME_LOWERED_NORMAL = 0.65f
     }
 
     private val extractorsFactory = DefaultExtractorsFactory()
@@ -57,9 +66,18 @@ class PlayerImpl @Inject constructor(
     private val trackSelector = DefaultTrackSelector()
     private val exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector)
 
+    private var disposable: Disposable? = null
+
     init {
         lifecycle.addObserver(this)
         exoPlayer.addListener(this)
+        exoPlayer.audioAttributes = getAudioAttributes()
+
+        disposable = lowerVolumeOnNightUseCase.observe()
+                .subscribe({ lower ->
+                    val volume = if (lower) VOLUME_LOWERED_NORMAL else VOLUME_NORMAL
+                    exoPlayer.volume = volume
+                }, Throwable::printStackTrace)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -184,22 +202,35 @@ class PlayerImpl @Inject constructor(
 
     override fun onAudioFocusChange(focusChange: Int) {
         when (focusChange) {
-            AudioManager.AUDIOFOCUS_GAIN -> exoPlayer.volume = VOLUME_NORMAL
+            AudioManager.AUDIOFOCUS_GAIN -> {
+                val lower = lowerVolumeOnNightUseCase.get()
+                val volume = if (lower) VOLUME_LOWERED_NORMAL else VOLUME_NORMAL
+                exoPlayer.volume = volume
+            }
             AudioManager.AUDIOFOCUS_LOSS -> audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_PAUSE)
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_PAUSE)
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> exoPlayer.volume = VOLUME_DUCK
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                val lower = lowerVolumeOnNightUseCase.get()
+                val volume = if (lower) VOLUME_LOWERED_DUCK else VOLUME_DUCK
+                exoPlayer.volume = volume
+            }
         }
     }
 
-    private fun releaseFocus() {
-        audioManager.get().abandonAudioFocus(this)
+    private fun requestFocus(): Boolean {
+        return AudioFocusBehavior.requestFocus(audioManager.get(), this)
     }
 
+    private fun releaseFocus() {
+        AudioFocusBehavior.abandonFocus(audioManager.get(), this)
+    }
 
-
-    private fun requestFocus(): Boolean {
-        val focus = audioManager.get().requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
-        return focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
+    private fun getAudioAttributes(): AudioAttributes {
+        return AudioAttributes.Builder()
+                .setContentType(C.CONTENT_TYPE_MUSIC)
+                .setUsage(C.USAGE_MEDIA)
+                .setFlags(C.FLAG_AUDIBILITY_ENFORCED)
+                .build()
     }
 
 }

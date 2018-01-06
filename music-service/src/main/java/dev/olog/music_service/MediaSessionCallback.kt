@@ -128,8 +128,7 @@ class MediaSessionCallback @Inject constructor(
                 MusicConstants.SKIP_TO_ITEM -> {
                     val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
                     val mediaId = MediaId.fromString(mediaIdAsString)
-                    val idInPlaylist = mediaId.leaf!!
-                    val mediaEntity = queue.handleSkipToQueueItemWithIdInPlaylist(idInPlaylist)
+                    val mediaEntity = queue.handleSkipToQueueItemWithIdInPlaylist(mediaId.leaf!!)
                     player.play(mediaEntity)
                     return
                 }

@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item>
+    <item android:drawable="@drawable/shortcut_background"/>
 
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-            android:shape="oval">
-
-            <size android:height="48dp"
-                android:width="48dp"/>
-
-            <gradient
-                android:angle="45"
-                android:endColor="#df2674"
-                android:startColor="#fe4f32"
-                android:type="linear" />
-
-        </shape>
-
-    </item>
-
-    <item android:drawable="@drawable/vd_play"
+    <item android:drawable="@drawable/vd_colored_play"
         android:top="12dp"
         android:bottom="12dp"
         android:right="12dp"

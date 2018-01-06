@@ -48,4 +48,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/prefs_category_audio">
+
+        <SwitchPreference
+            android:title="@string/prefs_lower_volume_on_night_title"
+            android:summary="@string/prefs_lower_volume_on_night_summary"
+            android:key="@string/prefs_lower_volume_key"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -59,7 +59,6 @@ abstract class PlayingQueueDao {
     private fun Song.toPlayingQueueSong(progressive: Int, category: String, categoryValue: String): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
-                progressive,
                 MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
                 this.artistId,
                 this.albumId,
@@ -72,7 +71,8 @@ abstract class PlayingQueueDao {
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.trackNumber
+                this.trackNumber,
+                progressive
         )
     }
 

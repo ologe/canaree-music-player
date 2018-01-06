@@ -53,7 +53,6 @@ class PlayingQueueRepository @Inject constructor(
     private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
-                progressive,
                 MediaId.songId(this.id),
                 this.artistId,
                 this.albumId,
@@ -66,7 +65,8 @@ class PlayingQueueRepository @Inject constructor(
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.trackNumber
+                this.trackNumber,
+                progressive
         )
     }
 

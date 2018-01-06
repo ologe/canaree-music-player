@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <dev.olog.presentation._base.prova.MultiTouchRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -38,23 +38,9 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="16dp" />
 
-    <dev.olog.presentation.widgets.EmptyStateView
-        android:id="@+id/emptyStateImage"
-        tools:empty_state_src="@drawable/vd_folder"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/emptyStateText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-
     <TextView
         android:id="@+id/emptyStateText"
-        app:layout_constraintTop_toBottomOf="@+id/emptyStateImage"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

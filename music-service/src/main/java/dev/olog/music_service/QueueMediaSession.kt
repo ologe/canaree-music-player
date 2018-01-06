@@ -66,7 +66,6 @@ class QueueMediaSession @Inject constructor(
     private fun MediaEntity.toPlayingQueueSong(): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
-                this.idInPlaylist,
                 this.mediaId,
                 this.artistId,
                 this.albumId,
@@ -79,7 +78,8 @@ class QueueMediaSession @Inject constructor(
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.trackNumber
+                this.trackNumber,
+                this.idInPlaylist
         )
     }
 

@@ -67,6 +67,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     title.isSelected = canScroll
                     artist.isSelected = canScroll
                 })
+
     }
 
     override fun handleIntent(intent: Intent) {

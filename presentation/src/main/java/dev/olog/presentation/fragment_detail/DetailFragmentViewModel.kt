@@ -79,9 +79,9 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.HEADER to mutableListOf(item),
                         DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                         DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
-                        DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
                         DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList(), visibility[2]),
-                        DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList())
+                        DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
+                        DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList())
                 ) }
     ).asLiveData()
 

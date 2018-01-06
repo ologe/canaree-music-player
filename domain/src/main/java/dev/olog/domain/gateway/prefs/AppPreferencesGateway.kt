@@ -16,6 +16,10 @@ interface AppPreferencesGateway : Sorting {
 
     fun isIconsDark(): Flowable<Boolean>
 
+    fun getLowerVolumeOnNight(): Boolean
+    fun observeLowerVolumeOnNight(): Flowable<Boolean>
+
+
 }
 
 interface Sorting {

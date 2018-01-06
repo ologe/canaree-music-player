@@ -10,8 +10,8 @@ object Constants {
     var quickAction = QuickAction(QuickActionEnum.NONE)
 
     const val LAST_ADDED_ID: Long = -3000
-    const val FAVORITE_LIST_ID: Long = -4000
-    const val HISTORY_LIST_ID: Long = -5000
+    const val FAVORITE_LIST_ID: Long = -3002
+    const val HISTORY_LIST_ID: Long = -3004
 
     val autoPlaylists = listOf(
             LAST_ADDED_ID, FAVORITE_LIST_ID, HISTORY_LIST_ID

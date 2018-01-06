@@ -36,7 +36,7 @@ class QueueManager @Inject constructor(
 
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
-                .map { it.map { it.toMediaEntity(it.idInPlaylist) } }
+                .map { it.map { it.toMediaEntity() } }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { currentLastPlayedSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
@@ -105,7 +105,7 @@ class QueueManager @Inject constructor(
 
         return getRecentlyAddedUseCase.execute(mediaId)
                 .firstOrError()
-                .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
+                .map { it.mapIndexed { index, song-> song.toMediaEntity(index, mediaId) } }
                 .map { shuffleIfNeeded(songId).apply(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }

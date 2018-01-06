@@ -149,4 +149,13 @@ class AppPreferencesImpl @Inject constructor(
         return rxPreferences.getBoolean(context.getString(R.string.prefs_icon_color_key), true)
                 .asObservable().toFlowable(BackpressureStrategy.LATEST)
     }
+
+    override fun getLowerVolumeOnNight(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.prefs_lower_volume_key), false)
+    }
+
+    override fun observeLowerVolumeOnNight(): Flowable<Boolean> {
+        return rxPreferences.getBoolean(context.getString(R.string.prefs_lower_volume_key), false)
+                .asObservable().toFlowable(BackpressureStrategy.LATEST)
+    }
 }
