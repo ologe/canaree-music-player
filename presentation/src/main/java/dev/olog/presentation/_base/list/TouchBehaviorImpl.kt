@@ -30,9 +30,7 @@ class TouchBehaviorImpl(
     }
 
     override fun onItemDismiss(position: Int) {
+        touchCallbackConfig.onSwipeAction.invoke(position)
         dataController.remove(position)
-        val headers = dataController.headersWithinList(position, draggableViewType)
-        val realPosition = position - headers
-        touchCallbackConfig.onSwipeAction.invoke(realPosition)
     }
 }

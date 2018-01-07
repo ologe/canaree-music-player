@@ -238,8 +238,8 @@ class DetailFragmentAdapter @Inject constructor(
             true, false,
             draggableViewType = R.layout.item_detail_song_with_drag_handle,
             onDragAction = { from, to -> viewModel.moveItemInPlaylist(from, to) },
-            onSwipeAction = { position -> viewModel
-                    .removeFromPlaylist(dataController[position].trackNumber.toLong())
+            onSwipeAction = { position ->
+                viewModel.removeFromPlaylist(dataController[position].trackNumber.toLong())
                     .subscribe({}, Throwable::printStackTrace)
             }
     ) else super.touchCallbackConfig

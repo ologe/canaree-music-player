@@ -1,6 +1,5 @@
 package dev.olog.presentation.fragment_player
 
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -25,6 +24,7 @@ import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
+import dev.olog.shared_android.isOreo
 import dev.olog.shared_android.rx.SeekBarObservable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -200,35 +200,26 @@ class PlayerFragment : BaseFragment() {
         isRemix.visibility = if (metadata.isRemix) View.VISIBLE else View.GONE
     }
 
-    private var count = 0
-
     private fun setCover(coverModel: CoverModel){
         val (img, placeholder) = coverModel
 
-//        GlideApp.with(context!!).clear(cover)
+        GlideApp.with(context!!).clear(cover)
 
-        if (count % 2 == 0){
-            GlideApp.with(context!!)
-                    .load(img)
-                    .centerCrop()
-                    .error(placeholder)
-                    .transition(DrawableTransitionOptions().crossFade())
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .priority(Priority.IMMEDIATE)
-                    .override(650)
-                    .into(cover)
+        var request = GlideApp.with(context!!)
+                .load(img)
+                .centerCrop()
+                .transition(DrawableTransitionOptions().crossFade(250))
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .priority(Priority.IMMEDIATE)
+                .override(650)
+
+        if (isOreo()){
+            // weird blink in oreo when changing to another placeholder
+            request = request.placeholder(placeholder)
         } else {
-            GlideApp.with(context!!)
-                    .load(Uri.EMPTY)
-                    .centerCrop()
-                    .transition(DrawableTransitionOptions().crossFade())
-                    .error(placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .priority(Priority.IMMEDIATE)
-                    .override(650)
-                    .into(cover)
+            request = request.error(placeholder)
         }
-        count++
+        request.into(cover)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_player
