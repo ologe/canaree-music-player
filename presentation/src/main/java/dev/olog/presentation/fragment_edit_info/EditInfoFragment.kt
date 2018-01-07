@@ -75,9 +75,9 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
     }
 
     private fun setImage(view: View, song: UneditedSong){
-        GlideApp.with(context).clear(view)
+        GlideApp.with(context!!).clear(view)
 
-        GlideApp.with(context)
+        GlideApp.with(context!!)
                 .load(Uri.parse(song.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

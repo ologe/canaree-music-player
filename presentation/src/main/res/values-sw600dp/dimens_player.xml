@@ -19,7 +19,7 @@
 
     <!--metadata-->
     <dimen name="player_title_text_size">26sp</dimen>
-    <dimen name="player_title_margin_horizontal">36dp</dimen>
+    <dimen name="player_title_margin_horizontal">24dp</dimen>
     <dimen name="player_artist_text_size">18sp</dimen>
     <dimen name="player_artist_bottom_padding">10dp</dimen>
 

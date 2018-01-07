@@ -2,6 +2,6 @@
 <resources>
 
     <dimen name="exit_height">200dp</dimen>
-    <dimen name="exit_margin_horizontal">24dp</dimen>
+    <dimen name="exit_width">350dp</dimen>
 
 </resources>

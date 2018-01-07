@@ -27,7 +27,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="32dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         android:stateListAnimator="@animator/elevate_on_activated">
@@ -69,7 +69,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_wrapper"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintTop_toTopOf="@+id/coverLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/coverLayout"
         app:layout_constraintEnd_toEndOf="parent"

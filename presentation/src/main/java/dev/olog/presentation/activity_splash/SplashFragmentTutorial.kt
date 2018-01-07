@@ -79,7 +79,7 @@ class SplashFragmentTutorial : BaseFragment() {
     }
 
     private fun loadImage(view: ImageView, position: Int){
-        GlideApp.with(context)
+        GlideApp.with(context!!)
                 .load(Uri.EMPTY)
                 .centerCrop()
                 .placeholder(CoverUtils.getGradient(context!!, position = position))

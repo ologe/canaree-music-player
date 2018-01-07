@@ -31,7 +31,7 @@ object BindingsAdapter {
 
         val context = view.context
 
-//        GlideApp.with(context).clear(view)
+        GlideApp.with(context).clear(view)
 
         val source = mediaId.source
         val id = resolveId(mediaId)

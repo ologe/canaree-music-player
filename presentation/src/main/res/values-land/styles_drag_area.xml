@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DragAreaBackground">
+        <item name="android:layout_marginStart">8dp</item>
+    </style>
+
+    <style name="DragAreaText">
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

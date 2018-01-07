@@ -49,11 +49,6 @@ class DetailFragment : BaseFragment() {
     private lateinit var layoutManager : GridLayoutManager
     private val toolbarHeight by lazy(NONE) { context!!.dimen(R.dimen.status_bar) + context!!.dimen(R.dimen.toolbar) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        postponeEnterTransition()
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (context!!.isPortrait){

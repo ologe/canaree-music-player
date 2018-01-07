@@ -29,7 +29,6 @@ import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
-import kotlinx.android.synthetic.main.layout_player_drag_area.*
 import javax.inject.Inject
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
@@ -53,8 +52,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         tabLayout.setupWithViewPager(viewPager)
         viewPager.currentItem = presenter.getViewPagerLastPage()
 
-        title = titleWrapper.findViewById(R.id.title)
-        artist = artistWrapper.findViewById(R.id.artist)
+        title = wrapper.findViewById(R.id.title)
+        artist = wrapper.findViewById(R.id.artist)
 
         musicServiceBinder.getMediaControllerLiveData()
                 .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
