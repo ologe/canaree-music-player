@@ -35,7 +35,7 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
         return dataSet.indexOfFirst(predicate)
     }
 
-    override fun swap(from: Int, to: Int) {
+    override fun swap(from: Int, to: Int) : Pair<Int, Int>{
         if (from < to){
             for (position in from until to){
                 dataSet.swap(position, position + 1)
@@ -46,6 +46,9 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
             }
         }
         adapter.notifyItemMoved(from, to)
+        val realFrom = dataSet.getPositionInList(from)
+        val realTo = dataSet.getPositionInList(to)
+        return realFrom to realTo
     }
 
     override fun remove(position: Int) {

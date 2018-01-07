@@ -65,7 +65,7 @@ class BetterMap <K, Model> constructor(
         throw IllegalArgumentException("invalid position $position, total size is ${size()}")
     }
 
-    private fun getPositionInList(position: Int): Int {
+    fun getPositionInList(position: Int): Int {
         var totalSize = 0
         for (value in data.values) {
             if (position in totalSize until (totalSize + value.size)){

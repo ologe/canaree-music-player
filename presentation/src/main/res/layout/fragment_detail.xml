@@ -22,7 +22,7 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="32dp" />
 
     <View
         app:layout_constraintTop_toTopOf="parent"

@@ -22,11 +22,11 @@ class TouchBehaviorImpl(
     val touchHelper = ItemTouchHelper(callback)
 
     override fun onItemMove(from: Int, to: Int) {
-        dataController.swap(from, to)
+        val (realFrom, realTo) = dataController.swap(from, to)
         val headers = dataController.headersWithinList(from, draggableViewType)
-        val realFromPosition = from - headers
-        val realToPosition = to - headers
-        touchCallbackConfig.onDragAction.invoke(realFromPosition, realToPosition)
+        touchCallbackConfig.onDragAction.invoke(
+                realFrom - headers,
+                realTo - headers)
     }
 
     override fun onItemDismiss(position: Int) {

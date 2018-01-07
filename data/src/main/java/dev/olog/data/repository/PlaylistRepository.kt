@@ -27,6 +27,7 @@ import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -50,7 +51,7 @@ class PlaylistRepository @Inject constructor(
         )
         private val SELECTION: String? = null
         private val SELECTION_ARGS: Array<String>? = null
-        private val SORT_ORDER = MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER
+        private const val SORT_ORDER = "lower(${MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER})"
 
         private val SONG_PROJECTION = arrayOf(
                 MediaStore.Audio.Playlists.Members._ID,
@@ -58,7 +59,7 @@ class PlaylistRepository @Inject constructor(
         )
         private val SONG_SELECTION = null
         private val SONG_SELECTION_ARGS: Array<String>? = null
-        private val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
+        private const val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
     }
 
     private val resources = context.resources
@@ -198,13 +199,13 @@ class PlaylistRepository @Inject constructor(
     }
 
     private fun getPlaylistSongs(playlistId: Long) : Flowable<List<Song>> {
-        return rxContentResolver.createQuery(
+        val obs = rxContentResolver.createQuery(
                 getContentUri("external", playlistId),
                 SONG_PROJECTION,
                 SONG_SELECTION,
                 SONG_SELECTION_ARGS,
                 SONG_SORT_ORDER,
-                false
+                true
 
         ).mapToList { it.toPlaylistSong() }
                 .toFlowable(BackpressureStrategy.LATEST)
@@ -215,6 +216,11 @@ class PlaylistRepository @Inject constructor(
                                 song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
                             }.toList()
                 }}
+
+        return Flowable.merge(
+                obs.take(1),
+                obs.skip(1).debounce(500, TimeUnit.MILLISECONDS) // wrong updates in detail fragment
+        )
     }
 
     override fun getMostPlayed(mediaId: MediaId): Flowable<List<Song>> {

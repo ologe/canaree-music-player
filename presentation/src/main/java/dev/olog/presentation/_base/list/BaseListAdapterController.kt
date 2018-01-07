@@ -41,7 +41,7 @@ class BaseListAdapterController<Model : BaseModel> :
         adapter.notifyItemRemoved(position)
     }
 
-    override fun swap(from: Int, to: Int) {
+    override fun swap(from: Int, to: Int) : Pair<Int, Int>{
         if (from < to){
             for (position in from until to){
                 dataSet.swap(position , position + 1)
@@ -52,6 +52,7 @@ class BaseListAdapterController<Model : BaseModel> :
             }
         }
         adapter.notifyItemMoved(from, to)
+        return from to to
     }
 
     override fun headersWithinList(position: Int, viewType: Int): Int {
