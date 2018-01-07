@@ -44,12 +44,12 @@ class GenreRepository @Inject constructor(
         )
         private val SELECTION: String? = null
         private val SELECTION_ARGS: Array<String>? = null
-        private val SORT_ORDER = MediaStore.Audio.Genres.DEFAULT_SORT_ORDER
+        private const val SORT_ORDER = "lower(${MediaStore.Audio.Genres.NAME})"
 
         private val SONG_PROJECTION = arrayOf(BaseColumns._ID)
         private val SONG_SELECTION = null
         private val SONG_SELECTION_ARGS: Array<String>? = null
-        private val SONG_SORT_ORDER = MediaStore.Audio.Genres.Members.DEFAULT_SORT_ORDER
+        private const val SONG_SORT_ORDER = "lower(${MediaStore.Audio.Genres.Members.TITLE})"
     }
 
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
@@ -67,7 +67,9 @@ class GenreRepository @Inject constructor(
             ).mapToList {
                 val genreSize = getGenreSize(it.getLong(BaseColumns._ID))
                 it.toGenre(context, genreSize)
-            }.map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
+            }
+            .onErrorReturn { listOf() }
+            .map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .doOnNext { subscribeToImageCreation() }

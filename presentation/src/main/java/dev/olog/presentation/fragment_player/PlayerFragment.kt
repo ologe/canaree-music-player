@@ -1,5 +1,6 @@
 package dev.olog.presentation.fragment_player
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
@@ -198,20 +200,35 @@ class PlayerFragment : BaseFragment() {
         isRemix.visibility = if (metadata.isRemix) View.VISIBLE else View.GONE
     }
 
+    private var count = 0
+
     private fun setCover(coverModel: CoverModel){
         val (img, placeholder) = coverModel
 
-        GlideApp.with(context!!).clear(cover)
+//        GlideApp.with(context!!).clear(cover)
 
-        GlideApp.with(context!!)
-                .load(img)
-//                .load(Uri.EMPTY)
-                .centerCrop()
-                .error(placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .priority(Priority.IMMEDIATE)
-                .override(650)
-                .into(cover)
+        if (count % 2 == 0){
+            GlideApp.with(context!!)
+                    .load(img)
+                    .centerCrop()
+                    .error(placeholder)
+                    .transition(DrawableTransitionOptions().crossFade())
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .priority(Priority.IMMEDIATE)
+                    .override(650)
+                    .into(cover)
+        } else {
+            GlideApp.with(context!!)
+                    .load(Uri.EMPTY)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions().crossFade())
+                    .error(placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .priority(Priority.IMMEDIATE)
+                    .override(650)
+                    .into(cover)
+        }
+        count++
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_player

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.presentation.HasSlidingPanel
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
@@ -69,6 +70,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     artist.isSelected = canScroll
                 })
 
+        presenter.isRepositoryEmptyUseCase.execute()
+                .asLiveData()
+                .subscribe(this, this::handleEmptyRepository)
     }
 
     override fun handleIntent(intent: Intent) {
@@ -77,6 +81,14 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                 val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
                 presenter.startFloatingService(this, title)
             }
+        }
+    }
+
+    private fun handleEmptyRepository(isEmpty: Boolean){
+        if (isEmpty){
+            slidingPanel.panelState = HIDDEN
+        } else if (slidingPanel.panelState == HIDDEN){
+            slidingPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
     }
 

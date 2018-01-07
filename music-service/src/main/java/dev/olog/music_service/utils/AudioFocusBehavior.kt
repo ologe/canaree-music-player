@@ -20,7 +20,11 @@ object AudioFocusBehavior {
 
     fun abandonFocus(audioManager: AudioManager, listener: AudioManager.OnAudioFocusChangeListener){
         if (isOreo()){
-            audioManager.abandonAudioFocusRequest(lastFocusRequest)
+            if (lastFocusRequest != null){
+                // app killed without never requesting focus
+                audioManager.abandonAudioFocusRequest(lastFocusRequest)
+            }
+
         } else {
             audioManager.abandonAudioFocus(listener)
         }

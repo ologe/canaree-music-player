@@ -1,20 +1,22 @@
 package dev.olog.floating_info
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.annotation.TargetApi
+import android.app.*
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
+import android.os.Build
 import android.support.v4.app.NotificationCompat
 import dev.olog.domain.interactor.floating_info.GetFloatingInfoRequestUseCase
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.ImageUtils
+import dev.olog.shared_android.isOreo
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
+
+private const val CHANNEL_ID = "0xfff"
 
 class InfoNotification @Inject constructor(
         private val service: Service,
@@ -28,7 +30,7 @@ class InfoNotification @Inject constructor(
         const val NOTIFICATION_ID = 0xABC
     }
 
-    private val builder = NotificationCompat.Builder(service, "helper")
+    private val builder = NotificationCompat.Builder(service, CHANNEL_ID)
     private var disposable : Disposable? = null
 
     private var notificationTitle = ""
@@ -48,16 +50,34 @@ class InfoNotification @Inject constructor(
     }
 
     fun buildNotification(): Notification {
+        if (isOreo()){
+            createChannel()
+        }
+
         return builder
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setSmallIcon(R.drawable.vd_bird_singing)
                 .setContentTitle(notificationTitle)
                 .setLargeIcon(ImageUtils.getBitmapFromDrawable(service, R.drawable.info_notification))
-                .setContentText("Tap to close") // todo string resource
+                .setContentText(service.getString(R.string.notification_content_text))
                 .setColor(0xff1f86ef.toInt())
                 .setContentIntent(createContentIntent())
                 .build()
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun createChannel(){
+        // create notification channel
+        val name = service.getString(R.string.channel_id_notification)
+        val description = service.getString(R.string.channel_id_notification_description)
+
+        val importance = NotificationManager.IMPORTANCE_LOW
+        val channel = NotificationChannel(CHANNEL_ID, name, importance)
+        channel.description = description
+        channel.setShowBadge(false)
+        channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun createContentIntent() : PendingIntent {

@@ -51,7 +51,7 @@ class SongRepository @Inject constructor(
 
         private val SELECTION_ARGS = arrayOf("AUD%", "20000")
 
-        private val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
+        private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
     }
 
     private val contentProviderObserver = rxContentResolver
@@ -62,7 +62,9 @@ class SongRepository @Inject constructor(
                     SELECTION_ARGS,
                     SORT_ORDER,
                     true
-            ).mapToList { it.toSong() }
+            )
+            .mapToList { it.toSong() }
+            .onErrorReturn { listOf() }
             .toFlowable(BackpressureStrategy.LATEST)
             .replay(1)
             .refCount()

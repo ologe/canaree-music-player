@@ -229,7 +229,6 @@ class PlayerImpl @Inject constructor(
         return AudioAttributes.Builder()
                 .setContentType(C.CONTENT_TYPE_MUSIC)
                 .setUsage(C.USAGE_MEDIA)
-                .setFlags(C.FLAG_AUDIBILITY_ENFORCED)
                 .build()
     }
 

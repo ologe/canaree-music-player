@@ -93,7 +93,9 @@ class PlaylistRepository @Inject constructor(
             ).mapToList {
                 val playlistSize = getPlaylistSize(it.getLong(BaseColumns._ID))
                 it.toPlaylist(context, playlistSize)
-            }.toFlowable(BackpressureStrategy.LATEST)
+            }
+            .onErrorReturn { listOf() }
+            .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
             .doOnNext { subscribeToImageCreation() }
             .replay(1)

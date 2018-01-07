@@ -24,7 +24,9 @@ class NotificationImpl26 @Inject constructor(
 ) : NotificationImpl24(service, activityClass, token, notificationManager) {
 
     override fun extendInitialization() {
-       createChannel()
+        builder.setColorized(true)
+
+        createChannel()
     }
 
     private fun createChannel(){
