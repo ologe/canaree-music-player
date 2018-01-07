@@ -129,8 +129,8 @@
     <!-- shuffle -->
     <ImageButton
         android:id="@+id/shuffle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/player_shuffle_size"
+        android:layout_height="@dimen/player_shuffle_size"
         android:padding="@dimen/player_shuffle_padding"
         android:clickable="true"
         android:focusable="true"
@@ -146,8 +146,8 @@
     <!-- repeat -->
     <ImageButton
         android:id="@+id/repeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/player_shuffle_size"
+        android:layout_height="@dimen/player_shuffle_size"
         android:padding="@dimen/player_shuffle_padding"
         android:clickable="true"
         android:focusable="true"

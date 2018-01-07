@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--for the real panel height subtract 48(navbar height)-->
+    <dimen name="sliding_panel_peek">108dp</dimen>
+    <dimen name="sliding_panel_real_peek">60dp</dimen>
+
+    <!--for the real panel height subtract 48(navbar height)-->
+    <dimen name="inner_panel_height">165dp</dimen>
+
+</resources>

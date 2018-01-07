@@ -154,7 +154,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
             if(navigationBar == null){
                 navigationBar = window.decorView.findViewById(android.R.id.navigationBarBackground)
             }
-            navigationBar?.alpha = MathUtils.clamp(1 - slideOffset * 2f, .75f, 1f)
+            navigationBar?.alpha = MathUtils.clamp(1 - slideOffset * 2f, .5f, 1f)
         }
     }
 

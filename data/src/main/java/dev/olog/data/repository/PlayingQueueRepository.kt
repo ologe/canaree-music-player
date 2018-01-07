@@ -27,7 +27,7 @@ class PlayingQueueRepository @Inject constructor(
         return Single.concat(
                 playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError()).firstOrError(),
                 songGateway.getAll().firstOrError()
-                        .map { it.mapIndexed { index, song-> song.toPlayingQueueSong(index) } }
+                        .map { it.mapIndexed { index, song -> song.toPlayingQueueSong(index) } }
         ).filter { it.isNotEmpty() }.firstOrError()
     }
 

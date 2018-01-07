@@ -2,13 +2,13 @@
 <resources>
 
     <!--for the real panel height subtract 48(navbar height)-->
-    <dimen name="sliding_panel_peek">108dp</dimen>
-    <dimen name="sliding_panel_real_peek">60dp</dimen>
+    <dimen name="sliding_panel_peek">103dp</dimen>
+    <dimen name="sliding_panel_real_peek">55dp</dimen>
     <dimen name="sliding_panel_parallax">20dp</dimen>
     <dimen name="sliding_panel_shadow">2dp</dimen>
 
     <!--for the real panel height subtract 48(navbar height)-->
-    <dimen name="inner_panel_height">178dp</dimen>
+    <dimen name="inner_panel_height">160dp</dimen>
     <dimen name="inner_panel_shadow">0dp</dimen>
 
 </resources>
