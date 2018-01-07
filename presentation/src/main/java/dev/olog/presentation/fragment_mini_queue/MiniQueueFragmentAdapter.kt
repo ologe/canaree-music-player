@@ -30,7 +30,7 @@ class MiniQueueFragmentAdapter @Inject constructor(
         when (viewType){
             R.layout.item_playing_queue -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
-                    musicController.skipToQueueItemWithIdInPlaylist(item.mediaId)
+                    musicController.skipToQueueItemWithIdInPlaylist(item.mediaId, item.trackNumber.toInt())
                 }
                 viewHolder.setOnLongClickListener(dataController) { item, _ ->
                     navigator.toDialog(item, viewHolder.itemView)

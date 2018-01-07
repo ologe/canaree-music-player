@@ -4,11 +4,18 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.extension.asLiveData
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mini_queue.view.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MiniQueueFragment : BaseFragment() {
@@ -17,6 +24,8 @@ class MiniQueueFragment : BaseFragment() {
     @Inject lateinit var adapter : MiniQueueFragmentAdapter
 
     private lateinit var layoutManager: LinearLayoutManager
+
+    private var disposable : Disposable? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -43,13 +52,35 @@ class MiniQueueFragment : BaseFragment() {
                 })
     }
 
-    fun smoothScrollToTop(){
-        view?.list?.stopScroll()
-        view?.list?.smoothScrollToPosition(0)
+    override fun onResume() {
+        super.onResume()
+        activity!!.innerPanel.addPanelSlideListener(innerPanelSlideListener)
     }
 
-    fun cannotScrollUp(): Boolean {
-        return view?.list?.canScrollVertically(-1) == true
+    override fun onPause() {
+        super.onPause()
+        activity!!.innerPanel.removePanelSlideListener(innerPanelSlideListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        disposable.unsubscribe()
+    }
+
+    private val innerPanelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener() {
+        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+            if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                disposable.unsubscribe()
+                disposable = Observable.timer(500, TimeUnit.MILLISECONDS)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ smoothScrollToTop() }, Throwable::printStackTrace)
+            }
+        }
+    }
+
+    private fun smoothScrollToTop(){
+        view?.list?.stopScroll()
+        layoutManager.scrollToPositionWithOffset(0, 0)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_mini_queue

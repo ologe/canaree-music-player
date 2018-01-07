@@ -8,6 +8,7 @@
     <color name="background">@android:color/white</color>
     <color name="background_accent">@color/dark_grey</color>
 
+    <color name="nav_bar">@android:color/black</color>
     <color name="toolbar">#FAFAFA</color>
     <color name="status_bar">#BBB</color>
     <color name="status_bar_secondary">#BBB</color>

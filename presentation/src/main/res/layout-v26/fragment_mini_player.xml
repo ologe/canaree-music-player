@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/sliding_panel_peek"
+    android:layout_height="@dimen/sliding_panel_real_peek"
     android:id="@+id/root"
     android:background="@color/background">
 

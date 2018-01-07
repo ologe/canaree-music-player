@@ -72,7 +72,7 @@ class DetailFragmentViewModel(
             Flowable.merge(
                     item[currentCategory]!!.take(1),
                     item[currentCategory]!!.skip(1).debounce(500, TimeUnit.MILLISECONDS)
-            ),
+            ).distinctUntilChanged(),
             data[MOST_PLAYED]!!,
             data[RECENTLY_ADDED]!!,
             albums[currentCategory]!!.distinctUntilChanged(),

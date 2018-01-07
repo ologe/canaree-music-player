@@ -1,6 +1,7 @@
 package dev.olog.presentation.fragment_mini_player
 
 import android.os.Bundle
+import android.support.v4.math.MathUtils
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
@@ -109,7 +110,7 @@ class MiniPlayerFragment : BaseFragment(){
 
     private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener() {
         override fun onPanelSlide(panel: View?, slideOffset: Float) {
-            view!!.alpha = Math.max(0f, 1 - slideOffset * 2f)
+            view!!.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
             view!!.visibility = if (slideOffset > .8f) View.GONE else View.VISIBLE
         }
     }

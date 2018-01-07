@@ -42,7 +42,7 @@
 
             <fragment
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/sliding_panel_peek"
+                android:layout_height="@dimen/sliding_panel_real_peek"
                 android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
                 android:tag="@string/mini_player_fragment_tag" />
 

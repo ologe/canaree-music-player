@@ -29,17 +29,19 @@ class MiniQueueViewModel(
                 it
             }.asLiveData()
 
-}
 
-private fun PlayingQueueSong.toPlayingQueueDisplayableItem(): DisplayableItem{
-    return DisplayableItem(
-            R.layout.item_playing_queue,
-            MediaId.songId(this.idInPlaylist.toLong()),
-            title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
-            image,
-            true,
-            isRemix,
-            isExplicit
-    )
+    private fun PlayingQueueSong.toPlayingQueueDisplayableItem(): DisplayableItem{
+        return DisplayableItem(
+                R.layout.item_playing_queue,
+                MediaId.songId(this.id),
+                title,
+                "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+                image,
+                true,
+                isRemix,
+                isExplicit,
+                this.idInPlaylist.toString()
+        )
+    }
+
 }

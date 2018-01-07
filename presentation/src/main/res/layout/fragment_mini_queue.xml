@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingStart="@dimen/playing_queue_margin_horizontal"
     android:paddingEnd="@dimen/playing_queue_margin_horizontal"
-    android:paddingBottom="16dp"
+    android:paddingBottom="64dp"
     android:overScrollMode="never"
     android:clipChildren="false"
     android:clipToPadding="false"/>

@@ -42,9 +42,9 @@ class MediaId private constructor(
             return MediaId(category, categoryValue)
         }
 
-//        fun createId(category: MediaIdCategory, categoryValue: String, songId: Long): MediaId{
-//            return MediaId(category, categoryValue, songId)
-//        }
+        fun createId(category: MediaIdCategory, categoryValue: String, songId: Long): MediaId{
+            return MediaId(category, categoryValue, songId)
+        }
 
         fun folderId(value: String): MediaId {
             return MediaId(MediaIdCategory.FOLDER, value)

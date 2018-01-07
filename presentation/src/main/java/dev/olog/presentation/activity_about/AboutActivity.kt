@@ -26,6 +26,7 @@ class AboutActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
+
         layoutManager = LinearLayoutManager(this)
         list.layoutManager = layoutManager
         list.adapter = adapter

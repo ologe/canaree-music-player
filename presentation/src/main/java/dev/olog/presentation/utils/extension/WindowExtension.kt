@@ -11,7 +11,8 @@ fun Window.setLightStatusBar(){
 
     statusBarColor = Color.TRANSPARENT
 
-    var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
 
     if (isMarshmallow()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -30,7 +31,8 @@ fun Window.removeLightStatusBar(){
 
     statusBarColor = Color.TRANSPARENT
 
-    var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
 
     if (isOreo()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

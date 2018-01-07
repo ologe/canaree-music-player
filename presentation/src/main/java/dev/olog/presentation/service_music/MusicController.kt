@@ -85,9 +85,10 @@ class MusicController @Inject constructor(
 //        getTransportControls()?.skipToQueueItem(mediaId.leaf!!)
 //    }
 
-    fun skipToQueueItemWithIdInPlaylist(mediaId: MediaId){
+    fun skipToQueueItemWithIdInPlaylist(mediaId: MediaId, inInPlaylist: Int){
         val bundle = Bundle()
-        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mediaId.toString())
+        val id = MediaId.createId(mediaId.category, mediaId.categoryValue, inInPlaylist.toLong())
+        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, id.toString())
         getTransportControls()?.sendCustomAction(MusicConstants.SKIP_TO_ITEM, bundle)
     }
 

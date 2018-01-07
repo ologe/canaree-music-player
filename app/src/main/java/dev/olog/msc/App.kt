@@ -3,7 +3,6 @@ package dev.olog.msc
 import android.os.StrictMode
 import android.preference.PreferenceManager
 import com.akaita.java.rxjava2debug.RxJava2Debug
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.floating_info.FloatingInfoService
@@ -41,9 +40,9 @@ class App : DaggerApplication() {
         CoverUtils.initialize(this)
 
         if (BuildConfig.DEBUG) {
-            initStrictMode()
-            LeakCanary.install(this)
-            initRxJavaDebug()
+//            initStrictMode()
+//            LeakCanary.install(this)
+//            initRxJavaDebug()
         }
 
         handleFloatingServiceStartOnLaunch()

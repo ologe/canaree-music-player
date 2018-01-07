@@ -41,13 +41,14 @@ class PlayingQueueFragmentViewModel(
 
         return DisplayableItem(
                 R.layout.item_playing_queue,
-                MediaId.songId(this.idInPlaylist.toLong()),
+                MediaId.songId(this.id),
                 title,
                 "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
                 image,
                 true,
                 isRemix,
-                isExplicit
+                isExplicit,
+                this.idInPlaylist.toString()
         )
     }
 }

@@ -3,6 +3,7 @@ package dev.olog.presentation.activity_main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.view.ViewPager
@@ -15,7 +16,6 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.activity_preferences.PreferencesActivity
 import dev.olog.presentation.collapse
-import dev.olog.presentation.fragment_mini_queue.MiniQueueFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
@@ -43,6 +43,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     private lateinit var title: TextView
     private lateinit var artist: TextView
+
+    private var navigationBar : View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +96,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onResume() {
         super.onResume()
+        slidingPanel.addPanelSlideListener(outerPanelSlideListener)
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
         innerPanel.addPanelSlideListener(panelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment() }
@@ -103,6 +106,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onPause() {
         super.onPause()
+        slidingPanel.removePanelSlideListener(outerPanelSlideListener)
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
         innerPanel.removePanelSlideListener(panelSlideListener)
         search.setOnClickListener(null)
@@ -130,13 +134,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun onBackPressed() {
-        val miniQueue = findFragmentByTag<MiniQueueFragment>(getString(R.string.player_queue_fragment_tag))
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         when {
             playingQueue != null -> super.onBackPressed()
-            miniQueue?.cannotScrollUp() ?: false -> {
-                miniQueue?.smoothScrollToTop()
-            }
             innerPanel.isExpanded() -> innerPanel.collapse()
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
@@ -148,6 +148,15 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
+
+    private val outerPanelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener(){
+        override fun onPanelSlide(panel: View?, slideOffset: Float) {
+            if(navigationBar == null){
+                navigationBar = window.decorView.findViewById(android.R.id.navigationBarBackground)
+            }
+            navigationBar?.alpha = MathUtils.clamp(1 - slideOffset * 2f, .75f, 1f)
+        }
+    }
 
     private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener(){
         override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
