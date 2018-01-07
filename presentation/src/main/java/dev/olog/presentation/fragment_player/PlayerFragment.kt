@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
@@ -208,7 +207,7 @@ class PlayerFragment : BaseFragment() {
         var request = GlideApp.with(context!!)
                 .load(img)
                 .centerCrop()
-                .transition(DrawableTransitionOptions().crossFade(250))
+//                .transition(DrawableTransitionOptions().crossFade(250))
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .priority(Priority.IMMEDIATE)
                 .override(650)

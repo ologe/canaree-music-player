@@ -104,11 +104,10 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingBottom="16dp"
+        android:paddingBottom="32dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:background="@color/background"
-        android:scrollbars="vertical"/>
+        android:background="@color/background" />
 
 
     <dev.olog.presentation.widgets.fastscroller.RxFastScroller
