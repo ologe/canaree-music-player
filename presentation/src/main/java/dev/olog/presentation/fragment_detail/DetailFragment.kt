@@ -77,7 +77,7 @@ class DetailFragment : BaseFragment() {
         view.list.recycledViewPool = recycledViewPool
         layoutManager.spanSizeLookup = DetailFragmentSpanSizeLookup(view.list)
         view.list.setHasFixedSize(true)
-        adapter.touchHelper()!!.attachToRecyclerView(view.list)
+        adapter.touchHelper()?.attachToRecyclerView(view.list)
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.setSectionIndexer(adapter)
 

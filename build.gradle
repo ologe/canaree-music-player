@@ -4,14 +4,19 @@ buildscript {
 
     ext.kotlin_version = '1.1.51'
     ext.gradle_plugin = '3.0.1'
+    ext.google_services = '3.1.2'
+    ext.fabric = '1.24.4'
 
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.gms:google-services:$google_services"
+        classpath "io.fabric.tools:gradle:$fabric"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -40,6 +45,7 @@ ext {
     // App dependencies
     support_library = '27.0.2'
     play_services = '11.6.0'
+    firebase = '11.8.0'
     micro_architecture = '1.0.0'
     constraint_layout = '1.1.0-beta4'
     glide = '4.5.0'
@@ -62,6 +68,12 @@ ext {
 
     // dependency injection
     dagger = '2.14.1'
+
+    // debug
+    rxjava_debug = '1.2.1'
+    leak_canary = '1.5.4'
+    db_debug = '1.0.1'
+    crashlytics = '2.7.1@aar'
 
     // test
     junit = '4.12'

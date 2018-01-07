@@ -29,4 +29,6 @@ interface PlaylistGateway :
 
     fun moveItem(playlistId: Long, from: Int, to: Int): Boolean
 
+    fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable
+
 }

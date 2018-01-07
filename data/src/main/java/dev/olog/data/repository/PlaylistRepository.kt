@@ -245,8 +245,8 @@ class PlaylistRepository @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
-    private fun removeSongFromPlaylist(playlistId: Long, songId: Long){
-        return helper.removeSongFromPlaylist(playlistId, songId)
+    override fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) : Completable{
+        return helper.removeSongFromPlaylist(playlistId, idInPlaylist)
     }
 
     override fun createPlaylist(playlistName: String): Single<Long> {

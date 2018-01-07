@@ -10,7 +10,7 @@ import dev.olog.presentation.utils.touch.ElevateSongOnTouch
 
 fun <T> RecyclerView.ViewHolder.setOnClickListener(data: AdapterController<*,T>, func: (item: T, position: Int) -> Unit){
     itemView.setOnClickListener {
-        if (adapterPosition != RecyclerView.NO_POSITION && adapterPosition < data.getSize()){
+        if (adapterPosition != RecyclerView.NO_POSITION){
             func(data[adapterPosition], adapterPosition)
         }
     }

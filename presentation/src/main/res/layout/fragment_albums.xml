@@ -50,7 +50,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_tab_song"
-        android:padding="8dp"
+        android:paddingTop="@dimen/playing_queue_margin_vertical"
+        android:paddingBottom="@dimen/playing_queue_margin_vertical"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
         android:clipToPadding="false"
         android:clipChildren="false"/>
 

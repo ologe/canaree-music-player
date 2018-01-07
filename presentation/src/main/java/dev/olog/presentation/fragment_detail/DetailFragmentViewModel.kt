@@ -6,6 +6,7 @@ import dagger.Lazy
 import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.MoveItemInPlaylistUseCase
+import dev.olog.domain.interactor.RemoveFromPlaylistUseCase
 import dev.olog.domain.interactor.detail.GetDetailTabsVisibilityUseCase
 import dev.olog.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.domain.interactor.detail.sorting.*
@@ -32,7 +33,8 @@ class DetailFragmentViewModel(
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
         getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
-        val getDetailSortDataUseCase: GetDetailSortDataUseCase
+        val getDetailSortDataUseCase: GetDetailSortDataUseCase,
+        private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase
 
 ) : ViewModel() {
 
@@ -79,8 +81,8 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.HEADER to mutableListOf(item),
                         DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                         DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
-                        DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList(), visibility[2]),
                         DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
+                        DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList(), visibility[2]),
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList())
                 ) }
     ).asLiveData()
@@ -157,10 +159,17 @@ class DetailFragmentViewModel(
 
     fun moveItemInPlaylist(from: Int, to: Int){
         if (!mediaId.isPlaylist){
-            throw IllegalArgumentException("not a playlist")
+            throw IllegalStateException("not a playlist")
         }
         val playlistId = mediaId.categoryValue.toLong()
         moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
+    }
+
+    fun removeFromPlaylist(idInPlaylist: Long): Completable {
+        if (!mediaId.isPlaylist){
+            throw IllegalStateException("not a playlist")
+        }
+        return removeFromPlaylistUseCase.execute(mediaId.categoryValue.toLong() to idInPlaylist)
     }
 
 }

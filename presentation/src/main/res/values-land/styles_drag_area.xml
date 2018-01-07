@@ -2,11 +2,16 @@
 <resources>
 
     <style name="DragAreaBackground">
-        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginStart">12dp</item>
     </style>
 
     <style name="DragAreaText">
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DragAreaArtist" parent="DragAreaText">
+        <item name="android:paddingStart">50dp</item>
+        <item name="android:paddingEnd">50dp</item>
     </style>
 
 </resources>

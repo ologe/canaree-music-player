@@ -63,6 +63,11 @@
             android:name="android.max_aspect"
             android:value="2.1"/>
 
+        <!--disable crashlytics automatic initialization -->
+        <!--<meta-data-->
+            <!--android:name="firebase_crashlytics_collection_enabled"-->
+            <!--android:value="false" />-->
+
         <!--<meta-data-->
             <!--android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"-->
             <!--android:value="dev.olog.presentation.cast.CastOptionsProvider" />-->

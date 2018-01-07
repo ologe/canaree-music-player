@@ -77,6 +77,12 @@ class BetterMap <K, Model> constructor(
         throw IllegalArgumentException("invalid position $position")
     }
 
+    fun removeAt(position: Int){
+        val list = getListAtPosition(position)
+        val realPosition = getPositionInList(position)
+        list.removeAt(realPosition)
+    }
+
     fun isEmpty() = size() == 0
 
 }

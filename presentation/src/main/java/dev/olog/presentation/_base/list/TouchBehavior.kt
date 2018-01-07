@@ -1,15 +1,12 @@
 package dev.olog.presentation._base.list
 
 import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
 
 interface TouchBehavior {
 
     companion object {
         val UNSET = 0
     }
-
-    fun startDrag(viewHolder: RecyclerView.ViewHolder)
 
 }
 

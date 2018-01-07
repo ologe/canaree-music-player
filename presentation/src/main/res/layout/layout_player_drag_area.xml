@@ -45,12 +45,10 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:ellipsize="marquee"
         android:scrollHorizontally="true"
-        style="@style/DragAreaText"
+        style="@style/DragAreaArtist"
         android:layout_marginStart="@dimen/player_title_margin_horizontal"
         android:layout_marginEnd="@dimen/player_title_margin_horizontal"
         android:layout_marginBottom="@dimen/player_artist_bottom_padding"
-        android:paddingEnd="50dp"
-        android:paddingStart="50dp"
         android:layout_marginTop="4dp" />
 
     <TextView

@@ -85,9 +85,13 @@ class PlaylistRepositoryHelper @Inject constructor(
         contentResolver.delete(uri, null, null)
     }
 
-    fun removeSongFromPlaylist(playlistId: Long, songId: Long){
-        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-        contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members.AUDIO_ID} = ?", arrayOf("$songId"))
+    fun removeSongFromPlaylist(playlistId: Long, songId: Long): Completable {
+        return Completable.create { e ->
+            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+            contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members.AUDIO_ID} = ?", arrayOf("$songId"))
+
+            e.onComplete()
+        }
     }
 
     fun renamePlaylist(playlistId: Long, newTitle: String): Completable {

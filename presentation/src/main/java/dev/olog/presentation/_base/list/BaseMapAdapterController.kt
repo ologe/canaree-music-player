@@ -49,7 +49,8 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
     }
 
     override fun remove(position: Int) {
-        TODO("not supported")
+        dataSet.removeAt(position)
+        adapter.notifyItemRemoved(position)
     }
 
     override fun headersWithinList(position: Int, viewType: Int): Int {

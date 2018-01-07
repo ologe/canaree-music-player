@@ -53,7 +53,10 @@
         tools:listitem="@layout/item_related_artist"
         tools:layoutManager="android.support.v7.widget.GridLayoutManag‌​er"
         app:spanCount="3"
-        android:padding="8dp"
+        android:paddingTop="@dimen/playing_queue_margin_vertical"
+        android:paddingBottom="@dimen/playing_queue_margin_vertical"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
         android:clipToPadding="false"
         android:clipChildren="false"/>
 

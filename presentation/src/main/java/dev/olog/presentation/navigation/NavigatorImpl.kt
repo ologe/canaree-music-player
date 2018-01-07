@@ -36,6 +36,8 @@ import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider
 
+private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
+
 @PerActivity
 class NavigatorImpl @Inject constructor(
         private val activity: AppCompatActivity,
@@ -43,10 +45,6 @@ class NavigatorImpl @Inject constructor(
         private val popupFactory: Provider<Popup>
 
 ) : Navigator {
-
-    companion object {
-        private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
-    }
 
     private var lastRequest: Long = -1
 

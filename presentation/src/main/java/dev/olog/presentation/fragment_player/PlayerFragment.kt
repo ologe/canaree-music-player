@@ -1,6 +1,5 @@
 package dev.olog.presentation.fragment_player
 
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -205,8 +204,8 @@ class PlayerFragment : BaseFragment() {
         GlideApp.with(context!!).clear(cover)
 
         GlideApp.with(context!!)
-//                .load(img)
-                .load(Uri.EMPTY)
+                .load(img)
+//                .load(Uri.EMPTY)
                 .centerCrop()
                 .error(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

@@ -107,7 +107,7 @@ class DetailFragmentAdapter @Inject constructor(
 
             }
             R.layout.item_detail_related_artist -> {
-                viewHolder.setOnClickListener(dataController) { _, _ ->
+                viewHolder.setOnClickListener(R.id.clickableZone, dataController) { _, _, _ ->
                     navigator.toRelatedArtists(mediaId)
                 }
             }
@@ -231,9 +231,16 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
+    private val hasDragBehavior = mediaId.isPlaylist &&
+            !Constants.autoPlaylists.contains(mediaId.categoryValue.toLong())
+
+    override val touchCallbackConfig: TouchCallbackConfig = if (hasDragBehavior) TouchCallbackConfig(
             true, false,
             draggableViewType = R.layout.item_detail_song_with_drag_handle,
-            onDragAction = { from, to -> viewModel.moveItemInPlaylist(from, to) }
-    )
+            onDragAction = { from, to -> viewModel.moveItemInPlaylist(from, to) },
+            onSwipeAction = { position -> viewModel
+                    .removeFromPlaylist(dataController[position].trackNumber.toLong())
+                    .subscribe({}, Throwable::printStackTrace)
+            }
+    ) else super.touchCallbackConfig
 }

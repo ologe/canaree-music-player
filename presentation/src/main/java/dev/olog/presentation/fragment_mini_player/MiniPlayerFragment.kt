@@ -12,6 +12,7 @@ import dev.olog.presentation.isCollapsed
 import dev.olog.presentation.isExpanded
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Observable
@@ -23,7 +24,9 @@ import javax.inject.Inject
 class MiniPlayerFragment : BaseFragment(){
 
     companion object {
+        private const val TAG = "MiniPlayerFragment"
         private const val PROGRESS_BAR_INTERVAL = 250L
+        private const val BUNDLE_IS_VISIBLE = TAG + ".BUNDLE_IS_VISIBLE"
     }
 
     @Inject lateinit var viewModel: MiniPlayerFragmentViewModel
@@ -81,6 +84,12 @@ class MiniPlayerFragment : BaseFragment(){
                 .subscribe(this, view!!.previous::toggleVisibility)
     }
 
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        savedInstanceState?.let {
+            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE))
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         getSlidingPanel()?.addPanelSlideListener(panelSlideListener)
@@ -91,6 +100,11 @@ class MiniPlayerFragment : BaseFragment(){
         super.onPause()
         getSlidingPanel()?.removePanelSlideListener(panelSlideListener)
         view!!.setOnClickListener(null)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(BUNDLE_IS_VISIBLE, getSlidingPanel().isCollapsed())
     }
 
     private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener() {
