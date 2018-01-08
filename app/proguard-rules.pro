@@ -25,3 +25,7 @@
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }
+
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}

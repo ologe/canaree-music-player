@@ -17,24 +17,20 @@ class PlayerMetadata @Inject constructor(
         private val mediaSession: MediaSessionCompat,
         playerLifecycle: PlayerLifecycle
 
-) {
+) : PlayerLifecycle.Listener {
 
     private val builder = MediaMetadataCompat.Builder()
 
-
-    private val playerListener = object : PlayerLifecycle.Listener {
-
-        override fun onPrepare(entity: MediaEntity) {
-            update(entity)
-        }
-
-        override fun onPlay(entity: MediaEntity) {
-            update(entity)
-        }
+    init {
+        playerLifecycle.addListener(this)
     }
 
-    init {
-        playerLifecycle.addListener(playerListener)
+    override fun onPrepare(entity: MediaEntity) {
+        update(entity)
+    }
+
+    override fun onPlay(entity: MediaEntity) {
+        update(entity)
     }
 
     private fun update(entity: MediaEntity) {

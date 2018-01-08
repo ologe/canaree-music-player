@@ -49,6 +49,7 @@ class NavigatorImpl @Inject constructor(
     private var lastRequest: Long = -1
 
     override fun toDetailFragment(mediaId: MediaId) {
+
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
             activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED

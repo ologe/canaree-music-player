@@ -20,11 +20,16 @@ import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
 @Singleton
 class FolderRepository @Inject constructor(
@@ -35,15 +40,13 @@ class FolderRepository @Inject constructor(
 
 ): FolderGateway {
 
-    companion object {
-        private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-    }
-
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
     private var imageDisposable : Disposable? = null
 
     private val songMap : MutableMap<String, Flowable<List<Song>>> = mutableMapOf()
+
+    private val creatingImages = AtomicBoolean(false)
 
     private val listObservable = songGateway.getAll()
             .flatMapGroup { distinct { it.folderPath } }
@@ -57,30 +60,47 @@ class FolderRepository @Inject constructor(
             .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
-            .doOnTerminate { imageDisposable.unsubscribe() }
+            .doOnTerminate {
+                creatingImages.compareAndSet(true, false)
+                imageDisposable.unsubscribe()
+            }
 
     private fun subscribeToImageCreation(){
-        imageDisposable.unsubscribe()
-        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+        if (creatingImages.compareAndSet(false, true)){
+            imageDisposable.unsubscribe()
+            imageDisposable = createImages().subscribe({
+                creatingImages.compareAndSet(true, false)
+            }, Throwable::printStackTrace)
+        }
     }
 
     override fun createImages() : Single<Any>{
         return songGateway.getAllForImageCreation()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
                 .map { it.groupBy { it.folderPath } }
-                .flatMap { it.entries.toFlowable()
-                        .parallel()
-                        .runOn(Schedulers.io())
-                        .map { map -> FileUtils.makeImages(context, map.value, "folder",
-                                map.key.replace(File.separator, "")) }
-                        .sequential()
-                        .toList()
-                        .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                }
+                .flattenAsFlowable { it.entries }
+                .parallel()
+                .runOn(Schedulers.io())
+                .map { entry -> try {
+                    runBlocking { makeImage(this@FolderRepository.context, entry).await() }
+                } catch (ex: Exception){/*amen*/}
+                }.sequential()
+                .toList()
+                .map { it.contains(true) }
+                .onErrorReturnItem(false)
+                .doOnSuccess { created ->
+                    if (created) {
+                        contentResolver.notifyChange(MEDIA_STORE_URI, null)
+                    }
+                }.map { Unit }
     }
 
-    override fun getAll(): Flowable<List<Folder>> {
-        return listObservable
+    private fun makeImage(context: Context, map: Map.Entry<String, List<Song>>) : Deferred<Boolean> = async {
+        FileUtils.makeImages(context, map.value, "folder", map.key.replace(File.separator, ""))
     }
+
+    override fun getAll(): Flowable<List<Folder>> = listObservable
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(folderPath: String): Flowable<List<Song>> {

@@ -21,8 +21,11 @@ import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,6 +59,8 @@ class GenreRepository @Inject constructor(
 
     private var imageDisposable : Disposable? = null
 
+    private val creatingImages = AtomicBoolean(false)
+
     private val contentProviderObserver = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
@@ -75,7 +80,10 @@ class GenreRepository @Inject constructor(
             .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
-            .doOnTerminate { imageDisposable.unsubscribe() }
+            .doOnTerminate {
+                creatingImages.compareAndSet(true, false)
+                imageDisposable.unsubscribe()
+            }
 
     private val songsMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
@@ -91,21 +99,40 @@ class GenreRepository @Inject constructor(
     }
 
     private fun subscribeToImageCreation(){
-        imageDisposable.unsubscribe()
-        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+        if (creatingImages.compareAndSet(false, true)) {
+            imageDisposable.unsubscribe()
+            imageDisposable = createImages().subscribe({
+                creatingImages.compareAndSet(true, false)
+            }, Throwable::printStackTrace)
+        }
     }
 
     override fun createImages() : Single<Any> {
-        return contentProviderObserver.firstOrError().flatMap { it.toFlowable()
+        return contentProviderObserver.firstOrError()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flattenAsFlowable { it }
                 .parallel()
                 .runOn(Schedulers.io())
                 .map { Pair(it, getSongListAlbumsId(it.id)) }
-                .map { (genre, albumsId) -> FileUtils.makeImages2(context, albumsId, "genre", "${genre.id}") }
-                .sequential()
+                .map { (genre, albumsId) -> try {
+                    runBlocking { makeImage(this@GenreRepository.context, genre, albumsId).await() }
+                } catch (ex: Exception){/*amen*/}
+                }.sequential()
                 .toList()
-                .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-        }
+                .map { it.contains(true) }
+                .onErrorReturnItem(false)
+                .doOnSuccess { created ->
+                    if (created) {
+                        contentResolver.notifyChange(MEDIA_STORE_URI, null)
+                    }
+                }.map { Unit }
     }
+
+    private fun makeImage(context: Context, genre: Genre, albumsId: List<Long>) : Deferred<Boolean> = async {
+        FileUtils.makeImages2(context, albumsId, "genre", "${genre.id}")
+    }
+
 
     override fun getAll(): Flowable<List<Genre>> = contentProviderObserver
 

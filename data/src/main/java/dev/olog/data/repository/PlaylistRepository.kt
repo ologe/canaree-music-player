@@ -27,7 +27,11 @@ import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -71,6 +75,8 @@ class PlaylistRepository @Inject constructor(
 
     private val autoPlaylistTitles = resources.getStringArray(R.array.auto_playlists)
 
+    private val creatingImages = AtomicBoolean(false)
+
     private fun autoPlaylist() = listOf(
             createAutoPlaylist(Constants.LAST_ADDED_ID, autoPlaylistTitles[0]),
             createAutoPlaylist(Constants.FAVORITE_LIST_ID, autoPlaylistTitles[1]),
@@ -101,7 +107,10 @@ class PlaylistRepository @Inject constructor(
             .doOnNext { subscribeToImageCreation() }
             .replay(1)
             .refCount()
-            .doOnTerminate { imageDisposable.unsubscribe() }
+            .doOnTerminate {
+                creatingImages.compareAndSet(true, false)
+                imageDisposable.unsubscribe()
+            }
 
     private fun getPlaylistSize(playlistId: Long): Int {
         assertBackgroundThread()
@@ -115,21 +124,38 @@ class PlaylistRepository @Inject constructor(
     }
 
     private fun subscribeToImageCreation(){
-        imageDisposable.unsubscribe()
-        imageDisposable = createImages().subscribe({}, Throwable::printStackTrace)
+        if (creatingImages.compareAndSet(false, true)) {
+            imageDisposable.unsubscribe()
+            imageDisposable = createImages().subscribe({
+                creatingImages.compareAndSet(true, false)
+            }, Throwable::printStackTrace)
+        }
     }
 
     override fun createImages() : Single<Any> {
         return contentProviderObserver.firstOrError()
-                .flatMap { it.toFlowable()
-                        .parallel()
-                        .runOn(Schedulers.io())
-                        .map { Pair(it, getSongListAlbumsId(it.id)) }
-                        .map { (playlist, albumsId) -> FileUtils.makeImages2(context, albumsId, "playlist", "${playlist.id}") }
-                        .sequential()
-                        .toList()
-                        .doOnSuccess { contentResolver.notifyChange(MEDIA_STORE_URI, null) }
-                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flattenAsFlowable { it }
+                .parallel()
+                .runOn(Schedulers.io())
+                .map { Pair(it, getSongListAlbumsId(it.id)) }
+                .map { (playlist, albumsId) -> try {
+                    runBlocking { makeImage(this@PlaylistRepository.context, playlist, albumsId).await() }
+                } catch (ex: Exception){/*amen*/}
+                }.sequential()
+                .toList()
+                .map { it.contains(true) }
+                .onErrorReturnItem(false)
+                .doOnSuccess { created ->
+                    if (created) {
+                        contentResolver.notifyChange(MEDIA_STORE_URI, null)
+                    }
+                }.map { Unit }
+    }
+
+    private fun makeImage(context: Context, playlist: Playlist, albumsId: List<Long>) : Deferred<Boolean> = async {
+        FileUtils.makeImages2(context, albumsId, "playlist", "${playlist.id}")
     }
 
     override fun getAll(): Flowable<List<Playlist>> {

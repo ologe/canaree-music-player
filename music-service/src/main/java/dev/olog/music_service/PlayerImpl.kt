@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
 import dev.olog.domain.interactor.GetLowerVolumeOnNightUseCase
+import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.music_service.interfaces.Player
@@ -37,11 +38,12 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 private const val VOLUME_DUCK = .2f
-private const val VOLUME_NORMAL = 1f
-
 private const val VOLUME_LOWERED_DUCK = 0.1f
-private const val VOLUME_LOWERED_NORMAL = 0.65f
 
+private const val VOLUME_NORMAL = 1f
+private const val VOLUME_LOWERED_NORMAL = 0.5f
+
+@PerService
 class PlayerImpl @Inject constructor(
         @ApplicationContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,

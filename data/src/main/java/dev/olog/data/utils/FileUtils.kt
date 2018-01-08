@@ -27,17 +27,23 @@ object FileUtils {
         bitmap.recycle()
     }
 
-    fun makeImages(context: Context, songList: List<Song>, parentFolder: String, itemId: String) {
+    /**
+     * returns true if a new image is created
+     */
+    fun makeImages(context: Context, songList: List<Song>, parentFolder: String, itemId: String) : Boolean{
        return makeImages2(context, songList.map { it.albumId }, parentFolder, itemId)
     }
 
-    fun makeImages2(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) {
+    /**
+     * returns true if a new image is created
+     */
+    fun makeImages2(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) : Boolean {
         assertBackgroundThread()
 
         val imageName = "${context.applicationInfo.dataDir}${File.separator}$parentFolder${File.separator}$itemId"
         val file = File(imageName)
         if (file.exists()){
-            return
+            return false
         }
 
         val uris = albumIdList.asSequence()
@@ -53,15 +59,16 @@ object FileUtils {
                 .take(9)
                 .toList()
 
-        doSomething(context, uris, parentFolder, itemId)
+        return doSomething(context, uris, parentFolder, itemId)
     }
 
     private fun idToUri(albumId: Long): Uri {
         return ContentUris.withAppendedId(COVER_URI, albumId)
     }
 
-    private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String){
+    private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
         if (uris.isEmpty()) {
+            // new image is empty, delete old
             val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parentFolder")
             if (parentFile.exists()){
                 val alreadyExistingFile = parentFile
@@ -69,7 +76,7 @@ object FileUtils {
                 alreadyExistingFile?.delete()
             }
 
-            return
+            return false
         }
 
         val albumsId = uris.map { it.id }
@@ -93,7 +100,7 @@ object FileUtils {
             if (albumsId.sorted() == albumIdsInFilename.sorted()){
 //                Log.w("fileUtils", "same image, do nothing for $parentFolder $itemId")
                 // same image, abort
-                return
+                return false
             } else {
 //                Log.w("fileUtils", "images are diffrent, update for $parentFolder $itemId")
                 val progr = fileName.substring(
@@ -110,6 +117,7 @@ object FileUtils {
             // create new image
             prepareSaveThenSave(context, uris, parentFolder, itemId, albumsId, 1)
         }
+        return true
     }
 
     private fun prepareSaveThenSave(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String,
