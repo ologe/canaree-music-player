@@ -15,6 +15,7 @@ import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.INotification
+import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.utils.dispatchEvent
 import dev.olog.shared.unsubscribe
@@ -36,9 +37,10 @@ class MusicNotificationManager @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>,
-        private val notification: INotification,
+        private val notificationImpl: INotification,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase
+        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+        playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
 
@@ -51,8 +53,23 @@ class MusicNotificationManager @Inject constructor(
     private val metadataPublisher = BehaviorSubject.create<MediaEntity>()
     private val statePublisher = BehaviorSubject.create<PlaybackStateCompat>()
 
+    private val playerListener = object : PlayerLifecycle.Listener {
+        override fun onPrepare(entity: MediaEntity) {
+            onNextMetadata(entity)
+        }
+
+        override fun onPlay(entity: MediaEntity) {
+            onNextMetadata(entity)
+        }
+
+        override fun onStateChanged(state: PlaybackStateCompat) {
+            onNextState(state)
+        }
+    }
+
     init {
         lifecycle.addObserver(this)
+        playerLifecycle.addListener(playerListener)
 
         val metadataObservable = metadataPublisher
                 .observeOn(Schedulers.computation())
@@ -73,7 +90,7 @@ class MusicNotificationManager @Inject constructor(
                 playbackStateObservable
         ) { metadataWithFavorite, playbackState -> update(playbackState, metadataWithFavorite) }
                 .debounce(NOTIFICATION_DEBOUNCE, TimeUnit.MILLISECONDS)
-                .map { notification.update() to it }
+                .map { notificationImpl.update() to it }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ pair ->
                     val state = pair.second
@@ -87,7 +104,7 @@ class MusicNotificationManager @Inject constructor(
 
         observeFavoriteAnimationDisposable = observeFavoriteAnimationUseCase
                 .execute()
-                .subscribe({ notification.updateFavoriteState(it.animateTo == AnimateFavoriteEnum.TO_FAVORITE) },
+                .subscribe({ notificationImpl.updateFavoriteState(it.animateTo == AnimateFavoriteEnum.TO_FAVORITE) },
                         Throwable::printStackTrace)
 
     }
@@ -98,11 +115,11 @@ class MusicNotificationManager @Inject constructor(
         notificationDisposable.unsubscribe()
     }
 
-    fun onNextMetadata(metadata: MediaEntity) {
+    private fun onNextMetadata(metadata: MediaEntity) {
         metadataPublisher.onNext(metadata)
     }
 
-    fun onNextState(playbackState: PlaybackStateCompat) {
+    private fun onNextState(playbackState: PlaybackStateCompat) {
         statePublisher.onNext(playbackState)
     }
 
@@ -112,7 +129,7 @@ class MusicNotificationManager @Inject constructor(
         }
 
         service.stopForeground(true)
-        notification.cancel()
+        notificationImpl.cancel()
 
         isForeground = false
     }
@@ -151,9 +168,9 @@ class MusicNotificationManager @Inject constructor(
     private fun update(playbackState: PlaybackStateCompat,
                        metadataWithFavorite: Pair<MediaEntity, Boolean>): Int {
 
-        notification.createIfNeeded()
-        notification.updateState(playbackState)
-        notification.updateMetadata(metadataWithFavorite)
+        notificationImpl.createIfNeeded()
+        notificationImpl.updateState(playbackState)
+        notificationImpl.updateMetadata(metadataWithFavorite)
 
         return playbackState.state
     }

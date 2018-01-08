@@ -27,6 +27,7 @@ import dev.olog.domain.interactor.GetLowerVolumeOnNightUseCase
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.music_service.interfaces.Player
+import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.interfaces.ServiceLifecycleController
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.utils.AudioFocusBehavior
@@ -35,12 +36,16 @@ import dev.olog.shared.ApplicationContext
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
+private const val VOLUME_DUCK = .2f
+private const val VOLUME_NORMAL = 1f
+
+private const val VOLUME_LOWERED_DUCK = 0.1f
+private const val VOLUME_LOWERED_NORMAL = 0.65f
+
 class PlayerImpl @Inject constructor(
         @ApplicationContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>,
-        private val notification: Lazy<MusicNotificationManager>,
-        private val playerMetadata: PlayerMetadata,
         private val playerState: PlayerState,
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
@@ -49,15 +54,11 @@ class PlayerImpl @Inject constructor(
 ) : Player,
         DefaultLifecycleObserver,
         AudioManager.OnAudioFocusChangeListener,
-        ExoPlayerListenerWrapper {
+        ExoPlayerListenerWrapper,
+        PlayerLifecycle {
 
-    companion object {
-        private const val VOLUME_DUCK = .2f
-        private const val VOLUME_NORMAL = 1f
+    private val listeners = mutableListOf<PlayerLifecycle.Listener>()
 
-        private const val VOLUME_LOWERED_DUCK = 0.1f
-        private const val VOLUME_LOWERED_NORMAL = 0.65f
-    }
 
     private val extractorsFactory = DefaultExtractorsFactory()
     private val bandwidthMeter = DefaultBandwidthMeter()
@@ -81,6 +82,7 @@ class PlayerImpl @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
+        listeners.clear()
         releaseFocus()
         exoPlayer.removeListener(this)
         exoPlayer.release()
@@ -97,15 +99,13 @@ class PlayerImpl @Inject constructor(
         playerState.prepare(entity.id)
         playerState.toggleSkipToActions(positionInQueue)
 
-        playerMetadata.update(entity, true)
-        notification.get().onNextMetadata(entity)
+        listeners.forEach { it.onPrepare(entity) }
     }
 
     private fun createMediaSource(songId: Long): MediaSource {
         return ExtractorMediaSource(getTrackUri(songId),
                 dataSource, extractorsFactory, null, null)
     }
-
 
     private fun getTrackUri(id: Long): Uri {
         return ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
@@ -128,13 +128,16 @@ class PlayerImpl @Inject constructor(
         val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
                 0, entity.id)
 
+        listeners.forEach {
+            it.onPlay(entity)
+            it.onStateChanged(state)
+        }
+
         playerState.toggleSkipToActions(playerModel.positionInQueue)
-        playerMetadata.update(entity)
-        notification.get().onNextMetadata(entity)
-        notification.get().onNextState(state)
         noisy.get().register()
 
         serviceLifecycle.start()
+
     }
 
     override fun resume() {
@@ -142,7 +145,10 @@ class PlayerImpl @Inject constructor(
 
         exoPlayer.playWhenReady = true
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark())
-        notification.get().onNextState(playbackState)
+        listeners.forEach {
+            it.onResume()
+            it.onStateChanged(playbackState)
+        }
 
         serviceLifecycle.start()
         noisy.get().register()
@@ -151,7 +157,10 @@ class PlayerImpl @Inject constructor(
     override fun pause(stopService: Boolean) {
         exoPlayer.playWhenReady = false
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark())
-        notification.get().onNextState(playbackState)
+        listeners.forEach {
+            it.onPause()
+            it.onStateChanged(playbackState)
+        }
         noisy.get().unregister()
         releaseFocus()
 
@@ -164,7 +173,9 @@ class PlayerImpl @Inject constructor(
         exoPlayer.seekTo(millis)
         val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
         val playbackState = playerState.update(state, millis)
-        notification.get().onNextState(playbackState)
+        listeners.forEach {
+            it.onStateChanged(playbackState)
+        }
 
         if (isPlaying()) {
             serviceLifecycle.start()
@@ -232,4 +243,11 @@ class PlayerImpl @Inject constructor(
                 .build()
     }
 
+    override fun addListener(listener: PlayerLifecycle.Listener) {
+        listeners.add(listener)
+    }
+
+    override fun removeListener(listener: PlayerLifecycle.Listener) {
+        listeners.remove(listener)
+    }
 }

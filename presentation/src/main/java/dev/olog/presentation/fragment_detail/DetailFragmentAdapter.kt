@@ -25,7 +25,6 @@ import dev.olog.presentation.utils.extension.elevateAlbumOnTouch
 import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
-import dev.olog.presentation.widgets.fastscroller.FastScrollerSectionIndexer
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
@@ -45,8 +44,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums),
-        FastScrollerSectionIndexer {
+) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
@@ -218,18 +216,6 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
-
-    override fun getSectionText(position: Int): String? {
-        val item = dataController[position]
-        val itemType = item.type
-        if (itemType == R.layout.item_detail_song ||
-                itemType == R.layout.item_detail_song_with_drag_handle ||
-                itemType == R.layout.item_detail_song_with_track) {
-            return item.title[0].toString().toUpperCase()
-        } else {
-            return null
-        }
-    }
 
     private val hasDragBehavior = mediaId.isPlaylist &&
             !Constants.autoPlaylists.contains(mediaId.categoryValue.toLong())

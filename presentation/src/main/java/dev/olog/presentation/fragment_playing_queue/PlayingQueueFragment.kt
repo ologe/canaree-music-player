@@ -51,7 +51,7 @@ class PlayingQueueFragment : BaseFragment() {
             override fun onChanged() {
                 adapter.onDataChangedListener = null
                 val songId = viewModel.getCurrentSongId()
-                val position = adapter.getItemPositionById { it ->
+                val position = adapter.getItemPositionByPredicate {
                     it.trackNumber.toInt() == songId
                 }
                 layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))

@@ -60,7 +60,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
             android:id="@+id/fakeNext"
             android:layout_width="64dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:elevation="20dp"/>
 
         <View
             android:id="@+id/fakePrevious"
@@ -68,7 +69,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
             android:layout_width="64dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:elevation="20dp"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -42,7 +42,9 @@ class QueueManager @Inject constructor(
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
                 .map { (list, position) -> list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
                 .map {
-                    it to MathUtils.clamp(bookmarkUseCase.get().toInt(), 0, it.mediaEntity.duration.toInt()).toLong()
+                    it to MathUtils.clamp(
+                            bookmarkUseCase.get().toInt(), 0, it.mediaEntity.duration.toInt()
+                    ).toLong()
                 }
     }
 

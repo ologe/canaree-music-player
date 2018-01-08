@@ -1,10 +1,10 @@
 package dev.olog.music_service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
 import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.constants.MetadataConstants
@@ -15,18 +15,29 @@ import javax.inject.Inject
 class PlayerMetadata @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
-        private val currentSong: CurrentSong
+        playerLifecycle: PlayerLifecycle
 
-) : DefaultLifecycleObserver {
+) {
 
     private val builder = MediaMetadataCompat.Builder()
 
-    fun update(entity: MediaEntity, isFromPrepare: Boolean = false) {
 
-        if (!isFromPrepare){
-            currentSong.update(entity)
+    private val playerListener = object : PlayerLifecycle.Listener {
+
+        override fun onPrepare(entity: MediaEntity) {
+            update(entity)
         }
-        currentSong.setFloatingInfoCurrentItem(entity)
+
+        override fun onPlay(entity: MediaEntity) {
+            update(entity)
+        }
+    }
+
+    init {
+        playerLifecycle.addListener(playerListener)
+    }
+
+    private fun update(entity: MediaEntity) {
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)

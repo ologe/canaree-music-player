@@ -79,7 +79,6 @@ class DetailFragment : BaseFragment() {
         view.list.setHasFixedSize(true)
         adapter.touchHelper()?.attachToRecyclerView(view.list)
         view.fastScroller.attachRecyclerView(view.list)
-        view.fastScroller.setSectionIndexer(adapter)
 
         viewModel.itemLiveData.subscribe(this, {
             view.header.text = it.title

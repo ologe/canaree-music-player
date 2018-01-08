@@ -32,7 +32,7 @@ class BaseListAdapterController<Model : BaseModel> :
 
     override operator fun get(position: Int): Model = dataSet[position]
 
-    override fun getItemPosition(predicate: (Model) -> Boolean): Int {
+    override fun getItemPositionByPredicate(predicate: (Model) -> Boolean): Int {
         return dataSet.indexOfFirst(predicate)
     }
 

@@ -11,7 +11,7 @@
     </plurals>
 
     <string name="unknown_album">Album sconosciuto</string>
-    <string name="unknown_artist">Artista sconosciuti</string>
+    <string name="unknown_artist">Artista sconosciuto</string>
 
     <string-array name="auto_playlists">
         <item>Aggiunti di recente</item>

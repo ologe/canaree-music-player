@@ -17,7 +17,6 @@ class TabSpanSpanSizeLookupFactory(
         @ActivityContext private val context: Context,
         private val source: Int,
         adapter: BaseListAdapter<DisplayableItem>
-
 ){
 
     private val adapter = WeakReference<BaseListAdapter<DisplayableItem>>(adapter)
@@ -62,12 +61,6 @@ class AlbumSpanSizeLookup(
 ) : GridLayoutManager.SpanSizeLookup() {
 
     override fun getSpanSize(position: Int): Int {
-        val smallest = context.configuration.smallestScreenWidthDp
-        if (smallest >= 600){
-            return if (isPortrait) SPAN_COUNT / 3 else SPAN_COUNT / 4
-        }
-
-
         adapter.get()?.let {
             val itemType = it.getItemAt(position).type
             if ((itemType == R.layout.item_tab_header ||
@@ -75,9 +68,15 @@ class AlbumSpanSizeLookup(
                     itemType == R.layout.item_tab_last_played_album_horizontal_list)){
                 return SPAN_COUNT
             }
-            if (isPortrait){
-                return SPAN_COUNT / 2
-            }
+        }
+
+        val smallest = context.configuration.smallestScreenWidthDp
+        if (smallest >= 600){ // for tablets
+            return if (isPortrait) SPAN_COUNT / 3 else SPAN_COUNT / 4
+        }
+
+        if (isPortrait){
+            return SPAN_COUNT / 2
         }
         return SPAN_COUNT / 4
     }
@@ -97,10 +96,12 @@ class ArtistSpanSizeLookup(
                     itemType == R.layout.item_tab_last_played_album_horizontal_list)){
                 return SPAN_COUNT
             }
-            if (isPortrait){
-                return SPAN_COUNT / 3
-            }
         }
+
+        if (isPortrait){
+            return SPAN_COUNT / 3
+        }
+
         return SPAN_COUNT / 4
     }
 }

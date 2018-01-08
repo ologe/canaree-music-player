@@ -10,13 +10,16 @@ import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.domain.interactor.music_service.InsertHistorySongUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
+import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared.unsubscribe
 import io.reactivex.Maybe
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -27,14 +30,14 @@ class CurrentSong @Inject constructor(
         insertMostPlayedUseCase: InsertMostPlayedUseCase,
         insertHistorySongUseCase: InsertHistorySongUseCase,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase
+        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
+        playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
 
     private val publisher = BehaviorProcessor.create<MediaEntity>()
 
-    private var mostPlayedDisposable : Disposable? = null
-    private var historyDisposable : Disposable? = null
+    private val subscriptions = CompositeDisposable()
     private var isFavoriteDisposable : Disposable? = null
 
     private val insertToMostPlayedFlowable = publisher
@@ -46,29 +49,43 @@ class CurrentSong @Inject constructor(
             .observeOn(Schedulers.io())
             .flatMapCompletable { insertHistorySongUseCase.execute(it.id) }
 
+    private val playerListener = object : PlayerLifecycle.Listener {
+        override fun onPrepare(entity: MediaEntity) {
+            setFloatingInfoCurrentItem(entity)
+            updateFavorite(entity)
+        }
+
+        override fun onPlay(entity: MediaEntity) {
+            setFloatingInfoCurrentItem(entity)
+            publisher.onNext(entity)
+            updateFavorite(entity)
+        }
+    }
+
     init {
         lifecycle.addObserver(this)
 
-        mostPlayedDisposable = insertToMostPlayedFlowable.subscribe()
-        historyDisposable = insertHistorySongFlowable.subscribe()
+        playerLifecycle.addListener(playerListener)
+
+        insertToMostPlayedFlowable.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+        insertHistorySongFlowable.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        mostPlayedDisposable.unsubscribe()
-        historyDisposable.unsubscribe()
+        subscriptions.clear()
         isFavoriteDisposable.unsubscribe()
     }
 
-    fun update(mediaEntity: MediaEntity){
-        publisher.onNext(mediaEntity)
-
+    private fun updateFavorite(mediaEntity: MediaEntity){
         isFavoriteDisposable.unsubscribe()
         isFavoriteDisposable = isFavoriteSongUseCase
                 .execute(mediaEntity.id)
                 .subscribe()
     }
 
-    fun setFloatingInfoCurrentItem(mediaEntity: MediaEntity){
+    private fun setFloatingInfoCurrentItem(mediaEntity: MediaEntity){
         var result = mediaEntity.title
         if (mediaEntity.artist != context.getString(R.string.unknown_artist)){
             result += " ${mediaEntity.artist}"

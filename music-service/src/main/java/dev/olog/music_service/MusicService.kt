@@ -21,6 +21,10 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var mediaSession: MediaSessionCompat
     @Inject lateinit var callback: MediaSessionCallback
 
+    @Inject lateinit var currentSong : CurrentSong
+    @Inject lateinit var playerMetadata: PlayerMetadata
+    @Inject lateinit var notification: MusicNotificationManager
+
     override fun onCreate() {
         super.onCreate()
         sessionToken = mediaSession.sessionToken

@@ -8,12 +8,14 @@ import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
+
+private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
 class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
@@ -21,10 +23,6 @@ class QueueImpl @Inject constructor(
         private val currentSongIdUseCase: CurrentIdInPlaylistUseCase,
         private val queueMediaSession: QueueMediaSession
 ) {
-
-    companion object {
-        private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000
-    }
 
     private var savePlayingQueueDisposable: Disposable? = null
 
@@ -41,38 +39,41 @@ class QueueImpl @Inject constructor(
 
     private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueDisposable.unsubscribe()
-        savePlayingQueueDisposable = songList.toFlowable()
+        savePlayingQueueDisposable = Single.fromCallable { songList.toList() }
+                .flattenAsObservable { it }
+                .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map { it.mediaId to it.id }
                 .toList()
                 .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
+
     }
 
     fun updateCurrentSongPosition(list: List<MediaEntity>, position: Int){
-        val pos = ensurePosition(list, position)
-        val idInPlaylist = list[pos].idInPlaylist
-        currentSongPosition = pos
+        val safePosition = ensurePosition(list, position)
+        val idInPlaylist = list[safePosition].idInPlaylist
+        currentSongPosition = safePosition
         currentSongIdUseCase.set(idInPlaylist)
 
         queueMediaSession.onNext(
-                list.drop(pos + 1).take(51).toList())
+                list.drop(safePosition + 1).take(51).toList())
     }
 
     fun getSongById(songId: Long) : MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.id == songId }
-        val position = ensurePosition(playingQueue, positionToTest)
-        val media = playingQueue[position]
-        updateCurrentSongPosition(playingQueue, position)
+        val safePosition = ensurePosition(playingQueue, positionToTest)
+        val media = playingQueue[safePosition]
+        updateCurrentSongPosition(playingQueue, safePosition)
 
         return media
     }
 
     fun getSongByIdInPlaylist(idInPlaylist: Int): MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist == idInPlaylist }
-        val position = ensurePosition(playingQueue, positionToTest)
-        val media = playingQueue[position]
-        updateCurrentSongPosition(playingQueue, position)
+        val safePosition = ensurePosition(playingQueue, positionToTest)
+        val media = playingQueue[safePosition]
+        updateCurrentSongPosition(playingQueue, safePosition)
 
         return media
     }
@@ -84,10 +85,12 @@ class QueueImpl @Inject constructor(
 
         var newPosition = currentSongPosition + 1
         if (newPosition > playingQueue.lastIndex) {
-            newPosition = if (repeatMode.isRepeatAll()) 0 else playingQueue.lastIndex
+            newPosition = if (repeatMode.isRepeatAll()) 0
+                            else playingQueue.lastIndex
         }
 
-        val media = playingQueue[newPosition]
+        val safePosition = ensurePosition(playingQueue, newPosition)
+        val media = playingQueue[safePosition]
         updateCurrentSongPosition(playingQueue, newPosition)
         return media
     }
@@ -99,10 +102,12 @@ class QueueImpl @Inject constructor(
 
         var newPosition = currentSongPosition - 1
         if (newPosition < 0) {
-            newPosition = if (repeatMode.isRepeatAll()) playingQueue.lastIndex else 0
+            newPosition = if (repeatMode.isRepeatAll()) playingQueue.lastIndex
+                            else 0
         }
 
-        val media = playingQueue[newPosition]
+        val safePosition = ensurePosition(playingQueue, newPosition)
+        val media = playingQueue[safePosition]
         updateCurrentSongPosition(playingQueue, newPosition)
         return media
     }
@@ -140,10 +145,12 @@ class QueueImpl @Inject constructor(
 
     fun handleSwap(from: Int, to: Int) {
         playingQueue.swap(from, to)
-        // todo update current song position and
-        // check if current song is first/last ecc and update ui
-        // todo this queue may have multiple same songs, so is needed a
-        // in playlist id because the queue can have multiple songs with same ids
+        persist(playingQueue)
+        val currentInPlaylist = currentSongIdUseCase.get()
+        updateCurrentSongPosition(playingQueue, playingQueue
+                .indexOfFirst { it.idInPlaylist == currentInPlaylist }
+        )
+        // todo check if current song is first/last ecc and update ui
     }
 
     fun handleSwapRelative(from: Int, to: Int) {

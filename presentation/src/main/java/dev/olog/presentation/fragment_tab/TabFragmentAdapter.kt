@@ -98,7 +98,7 @@ class TabFragmentAdapter @Inject constructor(
         val item = dataController[position]
         val itemType = item.type
         if (itemType == R.layout.item_tab_song || itemType == R.layout.item_tab_album) {
-            return item.title[0].toString().toUpperCase()
+            return item.title[0].toString().capitalize()
         } else {
             return null
         }
