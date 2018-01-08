@@ -3,7 +3,6 @@ package dev.olog.presentation.activity_main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.view.ViewPager
@@ -43,8 +42,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     private lateinit var title: TextView
     private lateinit var artist: TextView
-
-    private var navigationBar : View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +93,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onResume() {
         super.onResume()
-        slidingPanel.addPanelSlideListener(outerPanelSlideListener)
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
         innerPanel.addPanelSlideListener(panelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment() }
@@ -106,7 +102,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onPause() {
         super.onPause()
-        slidingPanel.removePanelSlideListener(outerPanelSlideListener)
         innerPanel.removePanelSlideListener(innerPanelSlideListener)
         innerPanel.removePanelSlideListener(panelSlideListener)
         search.setOnClickListener(null)
@@ -148,15 +143,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
-
-    private val outerPanelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener(){
-        override fun onPanelSlide(panel: View?, slideOffset: Float) {
-            if(navigationBar == null){
-                navigationBar = window.decorView.findViewById(android.R.id.navigationBarBackground)
-            }
-            navigationBar?.alpha = MathUtils.clamp(1 - slideOffset * 2f, .5f, 1f)
-        }
-    }
 
     private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener(){
         override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {

@@ -1,9 +1,9 @@
 <vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="24dp"
     android:viewportHeight="104.06667"
     android:viewportWidth="104.0"
-    android:width="24dp" >
+    android:width="128dp"
+    android:height="128dp">
     <path
         android:fillAlpha="1"
         android:fillColor="@color/placeholder_image_tint"
