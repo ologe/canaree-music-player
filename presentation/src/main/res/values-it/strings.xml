@@ -16,7 +16,7 @@
 
     <string-array name="tab_empty_state">
         <item>Nessuna cartella</item>
-        <item>Not used</item>
+        <item>Nessuna playlist</item>
         <item>Nessun brano</item>
         <item>Nessun album</item>
         <item>Nessuna artista</item>

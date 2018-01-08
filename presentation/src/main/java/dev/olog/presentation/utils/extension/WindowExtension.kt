@@ -3,7 +3,6 @@ package dev.olog.presentation.utils.extension
 import android.graphics.Color
 import android.view.View
 import android.view.Window
-import dev.olog.shared_android.extension.isPortrait
 import dev.olog.shared_android.isMarshmallow
 import dev.olog.shared_android.isOreo
 
@@ -13,10 +12,6 @@ fun Window.setLightStatusBar(){
     statusBarColor = Color.TRANSPARENT
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-
-    if (context.isPortrait){
-        flags = flags or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-    }
 
     if (isMarshmallow()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
@@ -36,10 +31,6 @@ fun Window.removeLightStatusBar(){
     statusBarColor = Color.TRANSPARENT
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-
-    if (context.isPortrait){
-        flags = flags or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-    }
 
     if (isOreo()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

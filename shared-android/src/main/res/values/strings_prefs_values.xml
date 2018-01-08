@@ -25,9 +25,9 @@
     <string name="prefs_detail_visible_tabs_related_artists" translatable="false">Related Artists</string>
 
     <!--dark icon color-->
-    <string name="prefs_icon_color_title">Images dark icon color</string>
-    <string name="prefs_icon_color_summary_on">Icons will be black</string>
-    <string name="prefs_icon_color_summary_off">Icons will be white</string>
+    <string name="prefs_icon_color_title">Icon color</string>
+    <string name="prefs_icon_color_summary_on">Dark icons</string>
+    <string name="prefs_icon_color_summary_off">Light icons</string>
 
     <!--show floating at startup-->
     <string name="prefs_floating_window_at_startup_title">Show at startup</string>

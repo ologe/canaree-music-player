@@ -12,4 +12,10 @@
 
     <string name="header">Bibliothèque</string>
 
+    <string name="tab_auto_playlists">Playlists automatiques</string>
+    <string name="tab_all_playlists">Toutes les playlist</string>
+    <string name="tab_all_albums">Tous les albums</string>
+    <string name="tab_all_artists">Tous les artistes</string>
+    <string name="tab_recent">Récent</string>
+
 </resources>

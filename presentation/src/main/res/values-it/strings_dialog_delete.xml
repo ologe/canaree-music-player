@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_song_y"><![CDATA[Elimina <b>%1$s</b> dal dispositivo?]]></string>
+    <string name="delete_playlist_y"><![CDATA[Elimina la playlist <b>%1$s</b>?]]></string>
+
+    <string name="playlist_x_deleted">Playlist %1$s eliminata</string>
+    <string name="song_x_deleted">%1$s eliminata</string>
+
+    <plurals name="delete_xx_songs_from_y">
+        <item quantity="one"><![CDATA[Elimina <b>%1$d brano</b> da <b>%2$s</b>?]]></item>
+        <item quantity="other"><![CDATA[Elimina <b>%1$d brani</b> da <b>%2$s</b>?]]></item>
+    </plurals>
+
+    <plurals name="xx_songs_deleted_from_y">
+        <item quantity="one"><![CDATA[<b>%1$d brano</b> eliminato da <b>%2$s</b>?]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d brani</b> eliminati da <b>%2$s</b>?]]></item>
+    </plurals>
+
+    <string name="popup_positive_delete">Elimina</string>
+</resources>

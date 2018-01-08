@@ -15,11 +15,12 @@
 
     <string-array name="tab_empty_state">
         <item>Pas de dossiers</item>
-        <item>Not used</item>
+        <item>Pas de playlist</item>
         <item>Pas de titres</item>
         <item>Pas de albums</item>
         <item>Pas de artistes</item>
         <item>Pas de genres</item>
     </string-array>
+    <string name="settings">Paramètres</string>
 
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_song_x_to_queue"><![CDATA[Aggiungere <b>%1$s</b> alla Coda di Riproduzione?]]></string>
+
+    <plurals name="add_xx_songs_to_queue">
+        <item quantity="one"><![CDATA[Aggiungere <b>%1$d brano</b> alla Coda?]]></item>
+        <item quantity="other"><![CDATA[Aggiungere <b>%1$d brani</b> alla Coda?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_queue">%1$s aggiunto alla Coda</string>
+    <plurals name="xx_songs_added_to_queue">
+        <item quantity="one">%1$d brano aggiunto alla Coda</item>
+        <item quantity="other">%1$d brani aggiunti alla Coda</item>
+    </plurals>
+</resources>

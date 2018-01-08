@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="plurals_hours">
+        <item quantity="one">%d ora</item>
+        <item quantity="other">%d ore</item>
+    </plurals>
+
+    <plurals name="plurals_minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minuti</item>
+    </plurals>
+
+    <string name="unknown_album">Album sconosciuto</string>
+    <string name="unknown_artist">Artista sconosciuti</string>
+
+    <string-array name="auto_playlists">
+        <item>Aggiunti di recente</item>
+        <item>Preferiti</item>
+        <item>Cronologia</item>
+    </string-array>
+</resources>

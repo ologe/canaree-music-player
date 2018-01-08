@@ -18,8 +18,6 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 private const val GOOGLE_QUERY = "http://www.google.it/search?q="
-//private const val YOUTUBE_QUERY = "https://www.youtube.com/search?q="
-
 
 class AutoTag @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
@@ -92,20 +90,20 @@ class AutoTag @Inject constructor(
                     }
                     result
                 }
-                .map { it.replaceFirst("(?i)official audio", "")
-                            .replaceFirst("(?i)official video", "")
-                            .replaceFirst("(?i)official music", "")
-                            .replaceFirst("(?i)official lyric", "")
-                            .replaceFirst("(?i)official lyrics", "")
-                            .replaceFirst("(?i)music video", "")
-                            .replaceFirst("(?i)lyrics", "")
-                            .replaceFirst("(?i)explicit", "")
-                            .replaceFirst("(?i)explicit audio", "")
-                            .replaceFirst("(?i)(audio)", "")
-                            .replaceFirst("(?i)(video)", "")
-                            .replaceFirst("(?i)(lyrics)", "")
-                            .replaceFirst("(?i)(freestyle)", "")
-                    // todo not working very well
+                .map { it.replaceFirst("(?i)official audio".toRegex(), "")
+                            .replaceFirst("(?i)official video".toRegex(), "")
+                            .replaceFirst("(?i)official music".toRegex(), "")
+                            .replaceFirst("(?i)official lyric".toRegex(), "")
+                            .replaceFirst("(?i)official lyrics".toRegex(), "")
+                            .replaceFirst("(?i)music video".toRegex(), "")
+                            .replaceFirst("(?i)lyrics".toRegex(), "")
+                            .replaceFirst("(?i)explicit".toRegex(), "")
+                            .replaceFirst("(?i)explicit audio".toRegex(), "")
+                            .replaceFirst("(?i)(audio)".toRegex(), "")
+                            .replaceFirst("(?i)(video)".toRegex(), "")
+                            .replaceFirst("(?i)(lyrics)".toRegex(), "")
+                            .replaceFirst("(?i)(freestyle)".toRegex(), "")
+                            .replaceFirst("(?i)(hd)".toRegex(), "")
                 }.doOnSuccess { println(it) }
     }
 

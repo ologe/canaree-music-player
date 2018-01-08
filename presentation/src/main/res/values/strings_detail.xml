@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="detail_most_played">Most Played</string>
-    <string name="detail_recently_added">Recently Added</string>
+    <string name="detail_most_played">Most played</string>
+    <string name="detail_recently_added">Recently added</string>
     <string name="detail_albums">Albums</string>
     <string name="detail_songs">Songs</string>
 
     <string-array name="detail_album_header">
-        <item>Other Folders</item>
-        <item>Other Playlists</item>
+        <item>Other folders</item>
+        <item>Other playlists</item>
         <item>Unused</item>
-        <item>Other Albums</item>
+        <item>Other albums</item>
         <item>Albums</item>
-        <item>Other Genres</item>
+        <item>Other genres</item>
     </string-array>
 
     <string-array name="detail_in_this_item">
@@ -47,7 +47,7 @@
     </plurals>
 
     <string name="related_artists">Related artists</string>
-    <string name="recently_added">Recently Added</string>
+    <string name="recently_added">Recently added</string>
     <string name="albums">Albums</string>
 
 </resources>

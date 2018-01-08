@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from library?]]></string>
+    <string name="delete_song_y"><![CDATA[Delete <b>%1$s</b> from device?]]></string>
     <string name="delete_playlist_y"><![CDATA[Delete playlist <b>%1$s</b>?]]></string>
 
     <string name="playlist_x_deleted">Playlist %1$s deleted</string>

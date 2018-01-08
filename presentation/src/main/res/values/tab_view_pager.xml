@@ -12,6 +12,12 @@
 
     <string name="header">Library</string>
 
+    <string name="tab_auto_playlists">Auto playlists</string>
+    <string name="tab_all_playlists">All playlists</string>
+    <string name="tab_all_albums">All albums</string>
+    <string name="tab_all_artists">All artists</string>
+    <string name="tab_recent">Recent</string>
+
     <color name="tab_layout_selected">@color/dark_grey</color>
     <color name="tab_layout_unselected">@color/light_grey</color>
 

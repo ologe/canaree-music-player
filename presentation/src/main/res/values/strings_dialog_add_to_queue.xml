@@ -10,8 +10,8 @@
 
     <string name="song_x_added_to_queue">%1$s added to Queue</string>
     <plurals name="xx_songs_added_to_queue">
-        <item quantity="one">Added %1$d song to Queue</item>
-        <item quantity="other">Added %1$d songs to Queue</item>
+        <item quantity="one">%1$d song added to Queue</item>
+        <item quantity="other">%1$d songs added to Queue</item>
     </plurals>
 
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--categories-->
+    <string name="prefs_category_general">Generale</string>
+    <string name="prefs_category_floating_window">Floating window</string>
+    <string name="prefs_category_audio">Audio</string>
+
+    <!--last tab-->
+    <string name="prefs_remember_last_tab_title">Ricorda ultima scheda</string>
+    <string name="prefs_remember_last_tab_summary">All\'avvio vai all\'ultima scheda aperta</string>
+
+    <!--quick action-->
+    <string name="prefs_quick_action_title">Azione rapida</string>
+    <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
+    <string name="prefs_quick_action_hide">Nascondi</string>
+    <string name="prefs_quick_action_play">Riproduci</string>
+    <string name="prefs_quick_action_shuffle">Riproduzione casuale</string>
+
+    <!--visible detail items-->
+    <string name="prefs_detail_visible_items_title">Detail visible items</string>
+    <string name="prefs_detail_visible_items_summary">Change the visible items in the detail view</string>
+
+    <!--dark icon color-->
+    <string name="prefs_icon_color_title">Colore icone</string>
+    <string name="prefs_icon_color_summary_on">Icone scure</string>
+    <string name="prefs_icon_color_summary_off">Icone chiare</string>
+
+    <!--show floating at startup-->
+    <string name="prefs_floating_window_at_startup_title">Mostra all\'avvio</string>
+    <string name="prefs_floating_window_at_startup_summary">Avvia la floating window durante l\'avvio dell\'app</string>
+
+    <!--lower audio on night-->
+    <string name="prefs_lower_volume_on_night_title">Abbassa il volume nelle ore notturne</string>
+    <string name="prefs_lower_volume_on_night_summary"></string>
+</resources>

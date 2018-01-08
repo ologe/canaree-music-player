@@ -71,7 +71,7 @@ class MiniQueueFragment : BaseFragment() {
         override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
             if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED){
                 disposable.unsubscribe()
-                disposable = Observable.timer(500, TimeUnit.MILLISECONDS)
+                disposable = Observable.timer(250, TimeUnit.MILLISECONDS)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ smoothScrollToTop() }, Throwable::printStackTrace)
             }
