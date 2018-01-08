@@ -6,7 +6,7 @@ import dev.olog.shared_android.assertBackgroundThread
 
 object ImageUtils {
 
-    private const val IMAGE_SIZE = 1000
+    private const val IMAGE_SIZE = 1200
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()

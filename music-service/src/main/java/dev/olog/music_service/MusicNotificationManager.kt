@@ -75,7 +75,7 @@ class MusicNotificationManager @Inject constructor(
                 .observeOn(Schedulers.computation())
                 .debounce(METADATA_DEBOUNCE, TimeUnit.MILLISECONDS)
                 .flatMapSingle { mediaEntity ->
-                    isFavoriteSongUseCase.execute(mediaEntity.id).map { mediaEntity.to(it) }
+                    isFavoriteSongUseCase.execute(mediaEntity.id).map { mediaEntity to it }
                 }
 
         val playbackStateObservable = statePublisher

@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.presentation.utils.extension.setLightStatusBar
+import dev.olog.shared_android.isMarshmallow
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
@@ -13,7 +14,9 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.setLightStatusBar()
+        if (isMarshmallow()) {
+            window.setLightStatusBar()
+        }
 
         intent?.let { handleIntent(it) }
     }

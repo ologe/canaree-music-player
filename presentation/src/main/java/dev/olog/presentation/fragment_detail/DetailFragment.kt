@@ -22,6 +22,7 @@ import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.extension.isLandscape
 import dev.olog.shared_android.extension.isPortrait
+import dev.olog.shared_android.isMarshmallow
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
 import javax.inject.Inject
@@ -96,13 +97,17 @@ class DetailFragment : BaseFragment() {
     }
 
     internal fun setLightButtons(){
-        activity!!.window.removeLightStatusBar()
+        if (isMarshmallow()){
+            activity!!.window.removeLightStatusBar()
+        }
         view?.back?.setColorFilter(Color.WHITE)
         view?.search?.setColorFilter(Color.WHITE)
     }
 
     internal fun setDarkButtons(){
-        activity!!.window.setLightStatusBar()
+        if (isMarshmallow()){
+            activity!!.window.setLightStatusBar()
+        }
         view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
         view?.search?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }
@@ -134,7 +139,9 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onDestroyView() {
-        activity!!.window.setLightStatusBar()
+        if (isMarshmallow()){
+            activity!!.window.setLightStatusBar()
+        }
         super.onDestroyView()
     }
 

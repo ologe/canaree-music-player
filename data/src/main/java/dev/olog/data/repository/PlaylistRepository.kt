@@ -164,6 +164,8 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
+
+
         return Flowable.just(autoPlaylist())
                 .flatMapSingle { it.toFlowable().toSortedList(compareByDescending { it.id }) }
     }

@@ -2,7 +2,6 @@
 <resources>
 
     <dimen name="status_bar">24dp</dimen>
-    <dimen name="nav_bar">48dp</dimen>
     <dimen name="toolbar">48dp</dimen>
     <dimen name="tab">40dp</dimen>
     <dimen name="toolbar_elevation">2dp</dimen>

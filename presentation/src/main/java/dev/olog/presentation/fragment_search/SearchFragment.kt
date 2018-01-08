@@ -13,6 +13,7 @@ import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.shared_android.extension.asLiveData
+import dev.olog.shared_android.isOreo
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject
@@ -59,7 +60,9 @@ class SearchFragment : BaseFragment() {
             adapter.updateDataSet(map)
         })
 
-        activity!!.window.setLightStatusBar()
+        if (isOreo()){
+            activity!!.window.setLightStatusBar()
+        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

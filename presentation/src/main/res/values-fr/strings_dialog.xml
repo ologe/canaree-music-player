@@ -2,10 +2,10 @@
 <resources>
 
     <string name="popup_play">Jouer</string>
-    <string name="popup_play_shuffle">Lecture Aléatoire</string>
+    <string name="popup_play_shuffle">Lecture aléatoire</string>
     <string name="popup_add_to_playlist">Ajouter à la playlist</string>
-    <string name="popup_add_to_favorites">Ajouter aux Favoris</string>
-    <string name="popup_remove_from_favorites">Retirer dans les Favoris</string>
+    <string name="popup_add_to_favorites">Ajouter aux favoris</string>
+    <string name="popup_remove_from_favorites">Retirer dans les favoris</string>
     <string name="popup_add_to_queue">Ajouter à la file</string>
     <string name="popup_view_info">Voir information</string>
     <string name="popup_view_album">Voir l\'album</string>

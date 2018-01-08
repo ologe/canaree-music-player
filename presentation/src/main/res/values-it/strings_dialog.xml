@@ -4,14 +4,14 @@
     <string name="popup_play">Riproduci</string>
     <string name="popup_play_shuffle">Riproduzione casuale</string>
     <string name="popup_add_to_playlist">Aggiungi alla playlist..</string>
-    <string name="popup_add_to_favorites">Aggiungi ai Preferiti</string>
-    <string name="popup_remove_from_favorites">Rimuovi dai Preferiti</string>
-    <string name="popup_add_to_queue">Aggiungi alla Coda</string>
+    <string name="popup_add_to_favorites">Aggiungi ai preferiti</string>
+    <string name="popup_remove_from_favorites">Rimuovi dai preferiti</string>
+    <string name="popup_add_to_queue">Aggiungi alla coda</string>
     <string name="popup_view_info">Visualizza informazioni</string>
     <string name="popup_view_album">Visualizza album</string>
     <string name="popup_view_artist">Visualizza artista</string>
     <string name="popup_share">Condividi</string>
-    <string name="popup_set_as_ringtone">Imposta come suonerai</string>
+    <string name="popup_set_as_ringtone">Imposta come suoneria</string>
     <string name="popup_delete">Elimina</string>
     <string name="popup_rename">Rinomina</string>
     <string name="popup_clear_playlist">Rimuovi tutti i brani</string>
@@ -22,6 +22,7 @@
     <string name="popup_negative_cancel">Annulla</string>
 
     <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Salva</string>
     <string name="popup_positive_create">Crea</string>
 
     <string name="popup_error_message">Qualcosa è andato storto</string>

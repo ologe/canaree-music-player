@@ -2,16 +2,16 @@
 <resources>
 
     <string name="popup_play">Play</string>
-    <string name="popup_play_shuffle">Play Shuffle</string>
-    <string name="popup_add_to_playlist">Add to Playlist..</string>
-    <string name="popup_add_to_favorites">Add to Favorites</string>
-    <string name="popup_remove_from_favorites">Remove from Favorites</string>
-    <string name="popup_add_to_queue">Add to Queue</string>
-    <string name="popup_view_info">View Info</string>
-    <string name="popup_view_album">View Album</string>
-    <string name="popup_view_artist">View Artist</string>
+    <string name="popup_play_shuffle">Play shuffle</string>
+    <string name="popup_add_to_playlist">Add to playlist..</string>
+    <string name="popup_add_to_favorites">Add to favorites</string>
+    <string name="popup_remove_from_favorites">Remove from favorites</string>
+    <string name="popup_add_to_queue">Add to queue</string>
+    <string name="popup_view_info">View info</string>
+    <string name="popup_view_album">View album</string>
+    <string name="popup_view_artist">View artist</string>
     <string name="popup_share">Share</string>
-    <string name="popup_set_as_ringtone">Set as Ringtone</string>
+    <string name="popup_set_as_ringtone">Set as ringtone</string>
     <string name="popup_delete">Delete</string>
     <string name="popup_rename">Rename</string>
     <string name="popup_clear_playlist">Clear playlist</string>
@@ -22,6 +22,7 @@
     <string name="popup_negative_cancel">Cancel</string>
 
     <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_save">Save</string>
     <string name="popup_positive_create">Create</string>
 
     <string name="popup_error_message">Something went wrong</string>
