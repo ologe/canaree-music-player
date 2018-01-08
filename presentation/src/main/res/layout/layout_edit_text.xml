@@ -8,7 +8,8 @@
         android:id="@+id/editTextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_marginEnd="48dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/editText"
@@ -16,9 +17,17 @@
             android:textColor="@color/text_color_primary"
             android:textSize="16sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/vd_clear"/>
+            android:layout_height="wrap_content" />
 
     </android.support.design.widget.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/clear"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/vd_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:layout_gravity="end"/>
 
 </FrameLayout>

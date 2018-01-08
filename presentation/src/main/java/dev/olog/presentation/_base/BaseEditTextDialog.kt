@@ -15,6 +15,7 @@ import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.layout_edit_text.view.*
 import java.util.concurrent.TimeUnit
 
 abstract class BaseEditTextDialog : BaseDialogFragment() {
@@ -79,6 +80,16 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
     }
 
     abstract fun onValidData(string: String)
+
+    override fun onResume() {
+        super.onResume()
+        view!!.clear.setOnClickListener { view!!.editText.setText("") }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        view!!.clear.setOnClickListener(null)
+    }
 
     override fun onStop() {
         super.onStop()

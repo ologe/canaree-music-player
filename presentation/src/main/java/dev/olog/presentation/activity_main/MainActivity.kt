@@ -25,6 +25,7 @@ import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.shared.constants.FloatingInfoConstants
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
@@ -75,11 +76,14 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun handleIntent(intent: Intent) {
-        if (intent.action == FloatingInfoConstants.ACTION_START_SERVICE){
-            musicServiceBinder.getMediaControllerLiveData().value?.let {
-                val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
-                presenter.startFloatingService(this, title)
+        when (intent.action){
+            FloatingInfoConstants.ACTION_START_SERVICE -> {
+                musicServiceBinder.getMediaControllerLiveData().value?.let {
+                    val title = it.metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
+                    presenter.startFloatingService(this, title)
+                }
             }
+            Constants.SHORTCUT_SEARCH -> { navigator.toSearchFragment() }
         }
     }
 

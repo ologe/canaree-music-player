@@ -13,6 +13,7 @@ import dev.olog.domain.interactor.favorite.ToggleLastFavoriteUseCase
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.ServiceLifecycleController
 import dev.olog.shared.constants.MusicConstants
+import dev.olog.shared_android.Constants
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
@@ -63,9 +64,14 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             MusicConstants.ACTION_TOGGLE_FAVORITE -> {
                 toggleLastFavoriteUseCase.execute()
             }
+            Constants.SHORTCUT_SHUFFLE -> handleAppShortcutShuffle(intent)
+            Constants.SHORTCUT_PLAY -> handleAppShortcutPlay(intent)
             else -> handleMediaButton(intent)
         }
     }
+
+    abstract protected fun handleAppShortcutPlay(intent: Intent)
+    abstract protected fun handleAppShortcutShuffle(intent: Intent)
 
     override fun start() {
         if (!serviceStarted) {

@@ -46,6 +46,7 @@ class App : DaggerApplication() {
         }
 
         handleFloatingServiceStartOnLaunch()
+        AppShortcuts.setup(this)
     }
 
     private fun initRxJavaDebug(){

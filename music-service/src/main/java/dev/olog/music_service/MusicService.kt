@@ -4,10 +4,12 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.shared.MediaId
+import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
@@ -48,6 +50,17 @@ class MusicService : BaseMusicService() {
         mediaSession.setCallback(null)
         mediaSession.isActive = false
         mediaSession.release()
+    }
+
+    override fun handleAppShortcutPlay(intent: Intent) {
+        mediaSession.controller.transportControls.play()
+    }
+
+    override fun handleAppShortcutShuffle(intent: Intent) {
+        val bundle = Bundle()
+        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId.shuffleAllId().toString())
+        mediaSession.controller.transportControls.sendCustomAction(
+                MusicConstants.ACTION_PLAY_SHUFFLE, bundle)
     }
 
     override fun handleMediaButton(intent: Intent) {

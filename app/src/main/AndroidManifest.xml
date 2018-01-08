@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".App">
-
+        
         <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
             android:theme="@style/Splash"
             android:screenOrientation="portrait">
@@ -29,8 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data android:name="android.app.shortcuts"
-                android:resource="@xml/shortcuts"/>
+            <!--<meta-data android:name="android.app.shortcuts"-->
+                <!--android:resource="@xml/shortcuts"/>-->
 
         </activity>
 

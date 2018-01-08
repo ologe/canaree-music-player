@@ -7,6 +7,10 @@ import dev.olog.shared_android.entity.QuickActionEnum
 
 object Constants {
 
+    const val SHORTCUT_SEARCH = "SHORTCUT_SEARCH"
+    const val SHORTCUT_PLAY = "SHORTCUT_PLAY"
+    const val SHORTCUT_SHUFFLE = "SHORTCUT_SHUFFLE"
+
     var quickAction = QuickAction(QuickActionEnum.NONE)
 
     const val LAST_ADDED_ID: Long = -3000
