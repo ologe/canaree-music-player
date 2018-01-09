@@ -12,8 +12,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_marginStart="32dp"
-        tools:layout_marginEnd="32dp">
+        tools:layout_marginStart="64dp"
+        tools:layout_marginEnd="64dp">
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -26,7 +26,7 @@
             android:checked="@{item.enabled}"/>
 
         <ImageButton
-            android:id="@+id/more"
+            android:id="@+id/dragHandle"
             android:layout_gravity="end|center_vertical"
             android:src="@drawable/vd_drag_handle"
             android:padding="12dp"

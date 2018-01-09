@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import com.android.databinding.library.baseAdapters.BR
 import dev.olog.domain.entity.LibraryCategoryBehavior
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
@@ -39,7 +40,8 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
     private lateinit var adapter: DraggableAdapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view : View = layoutInflater.inflate(R.layout.dialog_list, null, false)
+        val inflater = LayoutInflater.from(activity!!)
+        val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
         val builder = AlertDialog.Builder(context)
                 .setTitle("Library categories")
@@ -74,6 +76,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         override fun getItemViewType(position: Int): Int = R.layout.dialog_list_multi_choice_item
 
         override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
+            holder.binding.setVariable(BR.item, data[position])
             holder.binding.executePendingBindings()
         }
 

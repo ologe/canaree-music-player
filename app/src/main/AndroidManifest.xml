@@ -38,7 +38,8 @@
 
         <activity android:name="dev.olog.presentation.activity_about.AboutActivity"/>
 
-        <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"/>
+        <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"
+            android:theme="@style/SettingsTheme"/>
 
         <activity android:name="dev.olog.presentation.activity_shortcuts.ShortcutsActivity"/>
 

@@ -14,9 +14,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     private lateinit var libraryCategories : Preference
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
-        libraryCategories = preferenceScreen.findPreference(R.string.prefs_library_categories_key)
+        libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
     }
 
     override fun onResume() {

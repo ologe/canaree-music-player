@@ -15,4 +15,8 @@
 
     <style name="AppTheme" parent="BaseTheme"/>
 
+    <style name="SettingsTheme" parent="AppTheme">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+
 </resources>
