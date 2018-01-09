@@ -14,6 +14,9 @@ abstract class FavoriteDao {
     @Query("SELECT songId FROM favorite_songs")
     internal abstract fun getAllImpl(): Flowable<List<Long>>
 
+    @Query("DELETE FROM favorite_songs")
+    abstract fun deleteAll()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertGroupImpl(item: List<FavoriteEntity>)
 

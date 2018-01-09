@@ -5,6 +5,8 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import dev.olog.data.db.AppDatabase
+import dev.olog.shared_android.Constants
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -13,9 +15,13 @@ import javax.inject.Inject
 private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
 
 class PlaylistRepositoryHelper @Inject constructor(
-        private val contentResolver: ContentResolver
+        private val contentResolver: ContentResolver,
+        appDatabase: AppDatabase
 
 ){
+
+    private val historyDao = appDatabase.historyDao()
+    private val favoriteDao = appDatabase.favoriteDao()
 
     fun createPlaylist(playlistName: String): Single<Long> {
         return Single.create<Long> { e ->
@@ -81,6 +87,13 @@ class PlaylistRepositoryHelper @Inject constructor(
     }
 
     fun clearPlaylist(playlistId: Long){
+        if (Constants.autoPlaylists.contains(playlistId)){
+            when (playlistId){
+                Constants.FAVORITE_LIST_ID -> favoriteDao.deleteAll()
+                Constants.HISTORY_LIST_ID -> historyDao.deleteAll()
+            }
+            return
+        }
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
         contentResolver.delete(uri, null, null)
     }

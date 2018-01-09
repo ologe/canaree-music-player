@@ -3,9 +3,8 @@ package dev.olog.presentation.dialog_entry
 import android.app.Application
 import android.arch.lifecycle.Lifecycle
 import android.content.Intent
-import android.net.Uri
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.MenuItem
 import dev.olog.domain.entity.Song
 import dev.olog.domain.interactor.GetSongListByParamUseCase
@@ -20,6 +19,8 @@ import dev.olog.shared.MediaId
 import dev.olog.shared.ProcessLifecycle
 import io.reactivex.Completable
 import io.reactivex.rxkotlin.addTo
+import org.jetbrains.anko.toast
+import java.io.File
 import javax.inject.Inject
 
 class SongMenuListener @Inject constructor(
@@ -106,13 +107,15 @@ class SongMenuListener @Inject constructor(
     private fun shareImpl(song: Song){
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://${song.path}"))
+        intent.putExtra(Intent.EXTRA_STREAM,
+                FileProvider.getUriForFile(activity, activity.applicationContext.packageName, File(song.path)))
         intent.type = "audio/*"
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         if (intent.resolveActivity(activity.packageManager) != null){
             val string = activity.getString(R.string.share_song_x, song.title)
             activity.startActivity(Intent.createChooser(intent, string.asHtml()))
         } else {
-            Log.e("DialogItem", "share failed, null package manager")
+            activity.toast("Could not share this file")
         }
     }
 

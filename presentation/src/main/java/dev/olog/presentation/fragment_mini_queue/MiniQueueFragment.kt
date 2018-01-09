@@ -30,7 +30,17 @@ class MiniQueueFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.data.subscribe(this, adapter::updateDataSet)
+        viewModel.data.subscribe(this, {
+            adapter.updateDataSet(it)
+
+//            val innerPanel = activity!!.innerPanel // todo
+//            if (it.isEmpty()){
+//                innerPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+//                innerPanel.isEnabled = false
+//            } else {
+//                innerPanel.isEnabled = true
+//            }
+        })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

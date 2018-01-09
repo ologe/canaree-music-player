@@ -19,6 +19,9 @@ abstract class HistoryDao {
     @Query("SELECT * FROM song_history ORDER BY dateAdded DESC LIMIT 200")
     internal abstract fun getAllImpl(): Flowable<List<HistoryEntity>>
 
+    @Query("DELETE FROM song_history")
+    abstract fun deleteAll()
+
     fun getAllAsSongs(songList: Single<List<Song>>): Flowable<List<Song>> {
         return getAllImpl()
                 .subscribeOn(Schedulers.io())

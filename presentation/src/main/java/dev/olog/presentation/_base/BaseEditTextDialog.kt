@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
+import android.view.View
 import android.view.animation.AnimationUtils
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.ImeUtils
@@ -15,12 +16,14 @@ import dev.olog.shared.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.layout_edit_text.view.*
 import java.util.concurrent.TimeUnit
 
 abstract class BaseEditTextDialog : BaseDialogFragment() {
 
     private var showKeyboardDisposable : Disposable? = null
+
+    private lateinit var clearButton : View
+    private lateinit var editText : TextInputEditText
 
     protected abstract fun provideDialogTitle(): Int
 
@@ -42,8 +45,9 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
                 .setPositiveButton(providePositiveMessage(), null)
 
         val dialog = builder.makeDialog()
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)
+        editText = dialog.findViewById(R.id.editText)
         val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
+        clearButton = dialog.findViewById(R.id.clear)
 
         editText.setText(provideStartEditTextValue())
 
@@ -83,12 +87,12 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        view!!.clear.setOnClickListener { view!!.editText.setText("") }
+        clearButton.setOnClickListener { editText.setText("") }
     }
 
     override fun onPause() {
         super.onPause()
-        view!!.clear.setOnClickListener(null)
+        clearButton.setOnClickListener(null)
     }
 
     override fun onStop() {

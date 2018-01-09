@@ -29,9 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!--<meta-data android:name="android.app.shortcuts"-->
-                <!--android:resource="@xml/shortcuts"/>-->
-
         </activity>
 
         <activity
@@ -74,6 +71,16 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget"/>
         </receiver>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
         <!--<meta-data-->
             <!--android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"-->
