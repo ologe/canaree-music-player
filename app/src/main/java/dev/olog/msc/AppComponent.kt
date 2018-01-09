@@ -10,6 +10,7 @@ import dev.olog.floating_info.di.FloatingInfoServiceInjector
 import dev.olog.music_service.di.MusicServiceInjector
 import dev.olog.presentation.activity_about.di.AboutActivityInjector
 import dev.olog.presentation.activity_main.di.MainActivityInjector
+import dev.olog.presentation.activity_shortcuts.di.ShortcutsActivityInjector
 import dev.olog.presentation.activity_splash.di.SplashActivityInjector
 import javax.inject.Singleton
 
@@ -27,6 +28,7 @@ import javax.inject.Singleton
         SplashActivityInjector::class,
         MainActivityInjector::class,
         AboutActivityInjector::class,
+        ShortcutsActivityInjector::class,
 
         // music service
         MusicServiceInjector::class,

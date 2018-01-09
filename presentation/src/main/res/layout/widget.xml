@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_height="@dimen/app_widget_one_cell"
+    tools:layout_width="@dimen/app_widget_four_cell">
+
+    <ImageView
+        android:src="@drawable/placeholder_musical_note"
+        android:layout_width="@dimen/app_widget_one_cell"
+        android:layout_height="@dimen/app_widget_one_cell"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"/>
+
+</RelativeLayout>

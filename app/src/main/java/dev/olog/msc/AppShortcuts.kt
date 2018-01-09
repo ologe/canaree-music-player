@@ -8,6 +8,7 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import dev.olog.presentation.activity_main.MainActivity
+import dev.olog.presentation.activity_shortcuts.ShortcutsActivity
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.isNougat_MR1
 
@@ -54,13 +55,13 @@ object AppShortcuts {
     }
 
     private fun createPlayIntent(context: Context): Intent{
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, ShortcutsActivity::class.java)
         intent.action = Constants.SHORTCUT_PLAY
         return intent
     }
 
     private fun createShuffleIntent(context: Context): Intent{
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context, ShortcutsActivity::class.java)
         intent.action = Constants.SHORTCUT_SHUFFLE
         return intent
     }

@@ -43,6 +43,8 @@
 
         <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"/>
 
+        <activity android:name="dev.olog.presentation.activity_shortcuts.ShortcutsActivity"/>
+
         <service android:name="dev.olog.music_service.MusicService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
@@ -63,10 +65,15 @@
             android:name="android.max_aspect"
             android:value="2.1"/>
 
-        <!--disable crashlytics automatic initialization -->
-        <!--<meta-data-->
-            <!--android:name="firebase_crashlytics_collection_enabled"-->
-            <!--android:value="false" />-->
+        <!--widgets-->
+        <receiver android:name="dev.olog.presentation.home_screen_widget.HomeScreenWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget"/>
+        </receiver>
 
         <!--<meta-data-->
             <!--android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"-->
