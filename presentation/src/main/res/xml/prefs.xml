@@ -35,8 +35,8 @@
         android:title="@string/prefs_category_library">
 
         <Preference
-            android:title="Library categories"
-            android:summary="Configure visibility and order of library categories"
+            android:title="@string/prefs_library_categories_title"
+            android:summary="@string/prefs_library_categories_summary"
             android:key="@string/prefs_library_categories_key"/>
 
         <SwitchPreference

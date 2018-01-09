@@ -41,7 +41,7 @@ class App : DaggerApplication() {
         if (BuildConfig.DEBUG) {
 //            initStrictMode()
 //            LeakCanary.install(this)
-//            initRxJavaDebug()
+            initRxJavaDebug()
         }
 
         handleFloatingServiceStartOnLaunch()
@@ -49,7 +49,16 @@ class App : DaggerApplication() {
     }
 
     private fun initRxJavaDebug(){
-        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("dev.olog"))
+        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf(
+                "dev.olog.msc",
+                "dev.olog.data",
+                "dev.olog.domain",
+                "dev.olog.floating_info",
+                "dev.olog.music_service",
+                "dev.olog.presentation",
+                "dev.olog.shared",
+                "dev.olog.shared_android"
+        ))
     }
 
     private fun initStrictMode() {

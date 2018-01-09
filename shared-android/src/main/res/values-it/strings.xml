@@ -18,4 +18,9 @@
         <item>Preferiti</item>
         <item>Cronologia</item>
     </string-array>
+
+    <string name="quick_action_hide">Nascondi</string>
+    <string name="quick_action_play">Riproduci</string>
+    <string name="quick_action_shuffle">Riproduzione casuale</string>
+
 </resources>

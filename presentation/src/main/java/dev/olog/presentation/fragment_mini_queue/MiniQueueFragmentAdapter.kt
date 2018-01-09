@@ -15,7 +15,7 @@ import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
-import kotlinx.android.synthetic.main.item_playing_queue.view.*
+import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import javax.inject.Inject
 
 class MiniQueueFragmentAdapter @Inject constructor(
@@ -28,7 +28,7 @@ class MiniQueueFragmentAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
 
         when (viewType){
-            R.layout.item_playing_queue -> {
+            R.layout.item_mini_queue -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     musicController.skipToQueueItemWithIdInPlaylist(item.mediaId, item.trackNumber.toInt())
                 }
@@ -58,7 +58,7 @@ class MiniQueueFragmentAdapter @Inject constructor(
 
     override val touchCallbackConfig = TouchCallbackConfig(
             true, true,
-            draggableViewType = R.layout.item_playing_queue,
+            draggableViewType = R.layout.item_mini_queue,
             onDragAction = { from, to ->
                 musicController.swapRelative(from, to)
             }, onSwipeAction = { position -> }

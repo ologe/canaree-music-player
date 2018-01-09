@@ -20,18 +20,15 @@ import dev.olog.domain.gateway.PlaylistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
-import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -43,7 +40,8 @@ class PlaylistRepository @Inject constructor(
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
         appDatabase: AppDatabase,
-        private val helper: PlaylistRepositoryHelper
+        private val helper: PlaylistRepositoryHelper,
+        imagesCreator: ImagesCreator
 
 ) : PlaylistGateway {
 
@@ -68,14 +66,10 @@ class PlaylistRepository @Inject constructor(
 
     private val resources = context.resources
 
-    private var imageDisposable : Disposable? = null
-
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
 
     private val autoPlaylistTitles = resources.getStringArray(R.array.auto_playlists)
-
-    private val creatingImages = AtomicBoolean(false)
 
     private fun autoPlaylist() = listOf(
             createAutoPlaylist(Constants.LAST_ADDED_ID, autoPlaylistTitles[0]),
@@ -104,13 +98,10 @@ class PlaylistRepository @Inject constructor(
             .onErrorReturn { listOf() }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
-            .doOnNext { subscribeToImageCreation() }
+            .doOnNext { imagesCreator.subscribe(createImages()) }
             .replay(1)
             .refCount()
-            .doOnTerminate {
-                creatingImages.compareAndSet(true, false)
-                imageDisposable.unsubscribe()
-            }
+            .doOnTerminate { imagesCreator.unsubscribe() }
 
     private fun getPlaylistSize(playlistId: Long): Int {
         assertBackgroundThread()
@@ -121,15 +112,6 @@ class PlaylistRepository @Inject constructor(
         val size = cursor.getInt(0)
         cursor.close()
         return size
-    }
-
-    private fun subscribeToImageCreation(){
-        if (creatingImages.compareAndSet(false, true)) {
-            imageDisposable.unsubscribe()
-            imageDisposable = createImages().subscribe({
-                creatingImages.compareAndSet(true, false)
-            }, Throwable::printStackTrace)
-        }
     }
 
     override fun createImages() : Single<Any> {

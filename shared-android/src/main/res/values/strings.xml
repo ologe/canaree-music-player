@@ -20,4 +20,8 @@
         <item>History</item>
     </string-array>
 
+    <string name="quick_action_hide">Hide</string>
+    <string name="quick_action_play">Play</string>
+    <string name="quick_action_shuffle">Shuffle</string>
+
 </resources>

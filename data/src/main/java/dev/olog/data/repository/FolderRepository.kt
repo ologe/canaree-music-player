@@ -11,18 +11,19 @@ import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.shared.*
+import dev.olog.shared.ApplicationContext
+import dev.olog.shared.MediaId
+import dev.olog.shared.flatMapGroup
+import dev.olog.shared.groupMap
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,17 +34,14 @@ class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        imagesCreator: ImagesCreator
 
 ): FolderGateway {
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    private var imageDisposable : Disposable? = null
-
     private val songMap : MutableMap<String, Flowable<List<Song>>> = mutableMapOf()
-
-    private val creatingImages = AtomicBoolean(false)
 
     private val listObservable = songGateway.getAll()
             .flatMapGroup { distinct { it.folderPath } }
@@ -54,22 +52,11 @@ class FolderRepository @Inject constructor(
                         }.sortedBy { it.title.toLowerCase() }
                     }
             }.distinctUntilChanged()
-            .doOnNext { subscribeToImageCreation() }
+            .doOnNext { imagesCreator.subscribe(createImages()) }
             .replay(1)
             .refCount()
-            .doOnTerminate {
-                creatingImages.compareAndSet(true, false)
-                imageDisposable.unsubscribe()
-            }
+            .doOnTerminate { imagesCreator.unsubscribe() }
 
-    private fun subscribeToImageCreation(){
-        if (creatingImages.compareAndSet(false, true)){
-            imageDisposable.unsubscribe()
-            imageDisposable = createImages().subscribe({
-                creatingImages.compareAndSet(true, false)
-            }, Throwable::printStackTrace)
-        }
-    }
 
     override fun createImages() : Single<Any>{
         return songGateway.getAllForImageCreation()
@@ -134,7 +121,7 @@ class FolderRepository @Inject constructor(
     }
 
     override fun getAllUnfiltered(): Flowable<List<Folder>> {
-        return songGateway.getAll()
+        return songGateway.getAllUnfiltered()
                 .flatMapGroup { distinct { it.folderPath } }
                 .groupMap { it.toFolder(context, -1) }
     }

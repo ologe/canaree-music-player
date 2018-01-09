@@ -13,9 +13,7 @@
     <!--quick action-->
     <string name="prefs_quick_action_title">Azione rapida</string>
     <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
-    <string name="prefs_quick_action_hide">Nascondi</string>
-    <string name="prefs_quick_action_play">Riproduci</string>
-    <string name="prefs_quick_action_shuffle">Riproduzione casuale</string>
+
 
     <!--visible detail items-->
     <string name="prefs_detail_visible_items_title">Detail visible items</string>

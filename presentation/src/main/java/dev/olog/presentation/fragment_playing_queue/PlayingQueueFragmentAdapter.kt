@@ -44,6 +44,14 @@ class PlayingQueueFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.isCurrentSong, item.trackNumber.toInt() == PlayingQueueFragmentViewModel.idInPlaylist)
+        when {
+            item.trackNumber.toInt() == PlayingQueueFragmentViewModel.idInPlaylist -> {
+                binding.setVariable(BR.index, "-")
+            }
+            else -> binding.setVariable(BR.index, (PlayingQueueFragmentViewModel.idInPlaylist - item.trackNumber.toInt()).toString())
+        }
+
+
     }
 
     override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(

@@ -8,7 +8,6 @@
         <import type="android.view.View"/>
         <variable name="isCurrentSong" type="boolean"/>
         <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
-        <variable name="index" type="String"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -51,23 +50,9 @@
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:id="@+id/index"
-            tools:text="+1"
-            tools:layout_marginStart="8dp"
-            android:textStyle="bold"
-            android:textColor="@color/dark_grey"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="@+id/firstText"
-            app:layout_constraintBottom_toBottomOf="@+id/firstText"
-            app:layout_constraintStart_toEndOf="@+id/coverLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"/>
-
-        <TextView
             android:id="@+id/firstText"
             app:layout_constraintTop_toTopOf="@+id/coverLayout"
-            app:layout_constraintStart_toEndOf="@+id/index"
+            app:layout_constraintStart_toEndOf="@+id/coverLayout"
             app:layout_constraintBottom_toTopOf="@+id/secondText"
             app:layout_constraintEnd_toStartOf="@+id/dragHandle"
             android:text="@{item.title}"
@@ -80,7 +65,7 @@
 
         <TextView
             android:id="@+id/secondText"
-            app:layout_constraintStart_toEndOf="@+id/index"
+            app:layout_constraintStart_toEndOf="@id/coverLayout"
             app:layout_constraintTop_toBottomOf="@+id/firstText"
             app:layout_constraintEnd_toStartOf="@+id/remix"
             app:layout_constraintBottom_toBottomOf="@+id/coverLayout"

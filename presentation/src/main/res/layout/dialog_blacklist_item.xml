@@ -15,7 +15,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        tools:layout_width="200dp"
+        tools:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
@@ -38,16 +38,22 @@
                 app:imageAlbum="@{item}"
                 tools:src="@android:color/holo_red_dark"/>
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#8000"
-                android:src="@drawable/vd_lock"
-                android:padding="70dp"
-                android:tint="#FAFAFA"
-                android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"/>
+                android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/vd_lock"
+                    android:tint="#FAFAFA"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
+
+            </FrameLayout>
 
         </android.support.v7.widget.CardView>
 

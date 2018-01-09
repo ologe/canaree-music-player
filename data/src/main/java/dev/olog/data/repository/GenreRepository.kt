@@ -17,15 +17,12 @@ import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
-import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,7 +32,8 @@ class GenreRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        imagesCreator: ImagesCreator
 
 ) : GenreGateway {
 
@@ -57,10 +55,6 @@ class GenreRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
-    private var imageDisposable : Disposable? = null
-
-    private val creatingImages = AtomicBoolean(false)
-
     private val contentProviderObserver = rxContentResolver
             .createQuery(
                     MEDIA_STORE_URI,
@@ -77,13 +71,10 @@ class GenreRepository @Inject constructor(
             .map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
             .toFlowable(BackpressureStrategy.LATEST)
             .distinctUntilChanged()
-            .doOnNext { subscribeToImageCreation() }
+            .doOnNext { imagesCreator.subscribe(createImages()) }
             .replay(1)
             .refCount()
-            .doOnTerminate {
-                creatingImages.compareAndSet(true, false)
-                imageDisposable.unsubscribe()
-            }
+            .doOnTerminate { imagesCreator.unsubscribe() }
 
     private val songsMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
 
@@ -96,15 +87,6 @@ class GenreRepository @Inject constructor(
         val size = cursor.getInt(0)
         cursor.close()
         return size
-    }
-
-    private fun subscribeToImageCreation(){
-        if (creatingImages.compareAndSet(false, true)) {
-            imageDisposable.unsubscribe()
-            imageDisposable = createImages().subscribe({
-                creatingImages.compareAndSet(true, false)
-            }, Throwable::printStackTrace)
-        }
     }
 
     override fun createImages() : Single<Any> {

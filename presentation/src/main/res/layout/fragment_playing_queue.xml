@@ -66,6 +66,6 @@
         android:paddingEnd="@dimen/playing_queue_margin_horizontal"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_playing_queue"/>
+        tools:listitem="@layout/item_mini_queue"/>
 
 </android.support.constraint.ConstraintLayout>

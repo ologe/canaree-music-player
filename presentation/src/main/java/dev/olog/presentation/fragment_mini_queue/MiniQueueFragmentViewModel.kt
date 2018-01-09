@@ -32,7 +32,7 @@ class MiniQueueViewModel(
 
     private fun PlayingQueueSong.toPlayingQueueDisplayableItem(): DisplayableItem{
         return DisplayableItem(
-                R.layout.item_playing_queue,
+                R.layout.item_mini_queue,
                 MediaId.songId(this.id),
                 title,
                 "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",

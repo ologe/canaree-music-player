@@ -42,9 +42,7 @@ abstract class WebViewContent(
                 progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
             }
         }
-        webView.webViewClient = object : WebViewClient() {
-
-        }
+        webView.webViewClient = object : WebViewClient() {}
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

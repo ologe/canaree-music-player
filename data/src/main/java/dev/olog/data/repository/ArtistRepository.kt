@@ -14,19 +14,16 @@ import dev.olog.domain.gateway.AlbumGateway
 import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,18 +36,15 @@ class ArtistRepository @Inject constructor(
         rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val albumGateway: AlbumGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        imagesCreator: ImagesCreator
 
 ) : ArtistGateway {
 
     private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
 
-    private var imageDisposable : Disposable? = null
-
     private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
     private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
-
-    private val creatingImages = AtomicBoolean(false)
 
     private val contentProviderObserver : Flowable<List<Artist>> = rxContentResolver
             .createQuery(
@@ -75,22 +69,10 @@ class ArtistRepository @Inject constructor(
                         .toList()
 
             }.distinctUntilChanged()
-            .doOnNext { subscribeToImageCreation() }
+            .doOnNext { imagesCreator.subscribe(createImages()) }
             .replay(1)
             .refCount()
-            .doOnTerminate {
-                creatingImages.compareAndSet(true, false)
-                imageDisposable.unsubscribe()
-            }
-
-    private fun subscribeToImageCreation(){
-        if (creatingImages.compareAndSet(false, true)) {
-            imageDisposable.unsubscribe()
-            imageDisposable = createImages().subscribe({
-                creatingImages.compareAndSet(true, false)
-            }, Throwable::printStackTrace)
-        }
-    }
+            .doOnTerminate { imagesCreator.unsubscribe() }
 
     override fun createImages() : Single<Any> {
         return songGateway.getAllForImageCreation()

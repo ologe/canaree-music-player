@@ -19,4 +19,6 @@
 
     <string name="popup_positive_delete">Delete</string>
 
+    <string name="popup_neutral_reset">Reset</string>
+
 </resources>

@@ -77,16 +77,21 @@ class SongRepository @Inject constructor(
 
     override fun getAll(): Flowable<List<Song>> = contentProviderObserver
 
-    override fun getAllForImageCreation(): Single<List<Song>> {
+    override fun getAllUnfiltered(): Flowable<List<Song>> {
         return rxContentResolver.createQuery(
-                        MEDIA_STORE_URI,
-                        PROJECTION,
-                        SELECTION,
-                        SELECTION_ARGS,
-                        SORT_ORDER,
-                        false
-                ).mapToList { it.toSong() }
-                .firstOrError()
+                MEDIA_STORE_URI,
+                PROJECTION,
+                SELECTION,
+                SELECTION_ARGS,
+                SORT_ORDER,
+                false
+        ).mapToList { it.toSong() }
+                .toFlowable(BackpressureStrategy.LATEST)
+                .onErrorReturn { listOf() }
+    }
+
+    override fun getAllForImageCreation(): Single<List<Song>> {
+        return getAllUnfiltered().firstOrError()
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

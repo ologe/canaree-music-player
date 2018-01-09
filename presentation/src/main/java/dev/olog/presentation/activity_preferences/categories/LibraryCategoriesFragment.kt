@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
-import dev.olog.presentation.utils.extension.makeDialog
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : BaseDialogFragment() {
@@ -32,14 +32,11 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
         val builder = AlertDialog.Builder(context)
-                .setTitle("Library categories") // todo resources
+                .setTitle(R.string.prefs_library_categories_title)
                 .setView(view)
-                .setNeutralButton("Reset", null)
+                .setNeutralButton(R.string.popup_neutral_reset, null)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_save, { _, _ ->
-                    presenter.setDataSet(adapter.data)
-                    activity!!.setResult(Activity.RESULT_OK)
-                })
+                .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
         adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet().toMutableList())
@@ -54,7 +51,22 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                     adapter.updateDataSet(defaultData)
                 }
 
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+                    val allDisabled = adapter.data.all { !it.enabled }
+                    if (allDisabled){
+                        showErrorMessage()
+                    } else {
+                        presenter.setDataSet(adapter.data)
+                        activity!!.setResult(Activity.RESULT_OK)
+                        dismiss()
+                    }
+                }
+
         return dialog
+    }
+
+    private fun showErrorMessage(){
+        activity!!.toast(R.string.prefs_library_categories_error)
     }
 
 }

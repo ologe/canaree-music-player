@@ -14,13 +14,13 @@
     <!--quick action-->
     <string name="prefs_quick_action_title">Quick action</string>
     <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
-    <string name="prefs_quick_action_hide">Hide</string>
-    <string name="prefs_quick_action_play">Play</string>
-    <string name="prefs_quick_action_shuffle">Shuffle</string>
+    <string name="prefs_quick_action_hide" translatable="false">Hide</string>
+    <string name="prefs_quick_action_play" translatable="false">Play</string>
+    <string name="prefs_quick_action_shuffle" translatable="false">Shuffle</string>
 
     <!--visible detail items-->
-    <string name="prefs_detail_visible_items_title">Detail visible items</string>
-    <string name="prefs_detail_visible_items_summary">Change the visible items in the detail view</string>
+    <string name="prefs_detail_visible_items_title">Visible sections</string>
+    <string name="prefs_detail_visible_items_summary">Configure the visible sections in the detail view</string>
     <string name="prefs_detail_visible_tabs_most_played" translatable="false">Most Played</string>
     <string name="prefs_detail_visible_tabs_recently_added" translatable="false">Recently Added</string>
     <string name="prefs_detail_visible_tabs_related_artists" translatable="false">Related Artists</string>
@@ -40,6 +40,13 @@
 
     <!--blacklist-->
     <string name="prefs_blacklist_title">Blacklist</string>
-    <string name="prefs_blacklist_summary">Hide folders from the library
-    </string>
+    <string name="prefs_blacklist_description">Click to show/hide</string>
+    <string name="prefs_blacklist_error">Can not blacklist all folders</string>
+    <string name="prefs_blacklist_summary">Hide folders from the library</string>
+
+    <!--library categories-->
+    <string name="prefs_library_categories_title">Library categories</string>
+    <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
+    <string name="prefs_library_categories_error">At least one category has to be selected</string>
+
 </resources>
