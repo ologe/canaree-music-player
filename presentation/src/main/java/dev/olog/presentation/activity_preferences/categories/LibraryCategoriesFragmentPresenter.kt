@@ -13,7 +13,7 @@ class LibraryCategoriesFragmentPresenter @Inject constructor(
         return categoriesBehaviorUseCase.getDefault()
     }
 
-    fun getDataSet() : List<LibraryCategoryBehavior> = categoriesBehaviorUseCase.get()
+    fun getDataSet() = categoriesBehaviorUseCase.get()
             .sortedBy { it.order }
 
     fun setDataSet(list: List<LibraryCategoryBehavior>){

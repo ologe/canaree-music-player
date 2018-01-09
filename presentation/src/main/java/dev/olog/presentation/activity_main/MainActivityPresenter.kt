@@ -1,6 +1,7 @@
 package dev.olog.presentation.activity_main
 
 import android.app.Activity
+import android.support.v4.math.MathUtils
 import dev.olog.domain.interactor.IsRepositoryEmptyUseCase
 import dev.olog.domain.interactor.floating_info.SetFloatingInfoRequestUseCase
 import dev.olog.domain.interactor.tab.ViewPagerLastPageUseCase
@@ -21,7 +22,9 @@ class MainActivityPresenter @Inject constructor(
         FloatingInfoServiceHelper.startServiceIfHasOverlayPermission(activity, floatingInfoClass)
     }
 
-    fun getViewPagerLastPage() = viewPagerLastPageUseCase.get()
+    fun getViewPagerLastPage(totalPages: Int) = MathUtils.clamp(
+            viewPagerLastPageUseCase.get(), 0, totalPages)
+
     fun setViewPagerLastPage(page: Int) = viewPagerLastPageUseCase.set(page)
 
 }

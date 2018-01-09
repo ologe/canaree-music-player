@@ -3,7 +3,7 @@ package dev.olog.presentation.activity_main
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import dev.olog.domain.interactor.CategoriesBehaviorUseCase
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.shared.ApplicationContext
@@ -15,7 +15,7 @@ class TabViewPagerAdapter @Inject constructor(
         categoriesBehaviorUseCase: CategoriesBehaviorUseCase,
         fragmentManager: FragmentManager
 
-) : FragmentPagerAdapter(fragmentManager) {
+) : FragmentStatePagerAdapter(fragmentManager) {
 
     private val data = categoriesBehaviorUseCase.get()
             .filter { it.enabled }

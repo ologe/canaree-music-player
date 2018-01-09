@@ -7,7 +7,6 @@ import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
 import android.widget.TextView
-import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.floating_info.music_service.MusicServiceBinder
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
@@ -22,11 +21,11 @@ import io.reactivex.rxkotlin.ofType
 import java.util.concurrent.TimeUnit
 
 class LyricsContent (
+        lifecycle: Lifecycle,
         context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
         private val musicServiceBinder: MusicServiceBinder
 
-) : WebViewContent(context, R.layout.content_web_view_with_player), DefaultLifecycleObserver {
+) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player), DefaultLifecycleObserver {
 
     private val next = content.findViewById<AnimatedImageView>(R.id.next)
     private val playPause = content.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)

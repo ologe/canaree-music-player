@@ -1,5 +1,8 @@
 package dev.olog.floating_info
 
+import android.arch.lifecycle.DefaultLifecycleObserver
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
@@ -12,10 +15,11 @@ import dev.olog.floating_info.api.Content
 import kotlin.properties.Delegates
 
 abstract class WebViewContent(
+        lifecycle: Lifecycle,
         context: Context,
         @LayoutRes layoutRes: Int
 
-) : Content {
+) : Content, DefaultLifecycleObserver {
 
     var item by Delegates.observable("", { _, _, new ->
         webView.stopLoading()
@@ -30,6 +34,7 @@ abstract class WebViewContent(
     private val next = content.findViewById<View>(R.id.navigateNext)
 
     init {
+        lifecycle.addObserver(this)
         webView.settings.javaScriptEnabled = true // enable yt content
         webView.webChromeClient = object : WebChromeClient(){
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
@@ -40,6 +45,10 @@ abstract class WebViewContent(
         webView.webViewClient = object : WebViewClient() {
 
         }
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        webView.destroy()
     }
 
     override fun getView(): View = content

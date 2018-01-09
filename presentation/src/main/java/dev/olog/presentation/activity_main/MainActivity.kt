@@ -51,7 +51,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 4
         tabLayout.setupWithViewPager(viewPager)
-        viewPager.currentItem = presenter.getViewPagerLastPage()
+        viewPager.currentItem = presenter.getViewPagerLastPage(adapter.count)
 
         title = wrapper.findViewById(R.id.title)
         artist = wrapper.findViewById(R.id.artist)
