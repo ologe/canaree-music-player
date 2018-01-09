@@ -21,3 +21,7 @@ fun isNougat_MR1(): Boolean {
 fun isOreo(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 }
+
+fun isOreo_MR1(): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
+}

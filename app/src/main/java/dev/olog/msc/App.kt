@@ -17,7 +17,6 @@ import dev.olog.presentation.fragment_player.PlayerFragment
 import dev.olog.presentation.fragment_player.PlayerFragmentViewModel
 import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.fragment_search.SearchFragmentViewModel
-import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
@@ -69,7 +68,6 @@ class App : DaggerApplication() {
                 .setClassInstanceLimit(MusicService::class.java, 1)
                 .setClassInstanceLimit(FloatingInfoService::class.java, 1)
 
-                .setClassInstanceLimit(TabFragment::class.java, TabViewPagerAdapter.ITEM_COUNT)
                 .setClassInstanceLimit(TabFragmentViewModel::class.java, 1)
 
                 .setClassInstanceLimit(PlayerFragment::class.java, 1)

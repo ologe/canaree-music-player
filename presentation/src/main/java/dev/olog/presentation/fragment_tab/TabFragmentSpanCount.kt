@@ -4,9 +4,9 @@ import android.content.Context
 import android.support.v7.widget.GridLayoutManager
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared_android.entity.TabCategory
 import dev.olog.shared_android.extension.isPortrait
 import org.jetbrains.anko.configuration
 import java.lang.ref.WeakReference
@@ -15,7 +15,7 @@ private const val SPAN_COUNT = 12
 
 class TabSpanSpanSizeLookupFactory(
         @ActivityContext private val context: Context,
-        private val source: Int,
+        private val category: TabCategory,
         adapter: BaseListAdapter<DisplayableItem>
 ){
 
@@ -23,11 +23,11 @@ class TabSpanSpanSizeLookupFactory(
     private val isPortrait = context.isPortrait
 
     fun get() : GridLayoutManager.SpanSizeLookup {
-        return when (source){
-            TabViewPagerAdapter.PLAYLIST -> PlaylistSpanSizeLookup(isPortrait)
-            TabViewPagerAdapter.ALBUM -> AlbumSpanSizeLookup(context, isPortrait, adapter)
-            TabViewPagerAdapter.ARTIST -> ArtistSpanSizeLookup(isPortrait, adapter)
-            TabViewPagerAdapter.SONG -> SongSpanSizeLookup(isPortrait)
+        return when (category){
+            TabCategory.PLAYLISTS -> PlaylistSpanSizeLookup(isPortrait)
+            TabCategory.ALBUMS -> AlbumSpanSizeLookup(context, isPortrait, adapter)
+            TabCategory.ARTISTS -> ArtistSpanSizeLookup(isPortrait, adapter)
+            TabCategory.SONGS -> SongSpanSizeLookup(isPortrait)
             else -> BaseSpanSizeLookup(isPortrait)
         }
     }

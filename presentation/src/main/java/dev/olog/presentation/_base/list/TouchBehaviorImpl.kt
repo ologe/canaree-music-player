@@ -6,7 +6,8 @@ import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 
 class TouchBehaviorImpl(
         private val dataController: TouchBehaviorCapabilities,
-        private val touchCallbackConfig: TouchCallbackConfig
+        private val touchCallbackConfig: TouchCallbackConfig,
+        canSwipe: Boolean
 
 ) : ItemTouchHelperAdapter {
 
@@ -18,7 +19,7 @@ class TouchBehaviorImpl(
         }
     }
 
-    val callback = ItemTouchHelperCallback(this)
+    val callback = ItemTouchHelperCallback(this, canSwipe)
     val touchHelper = ItemTouchHelper(callback)
 
     override fun onItemMove(from: Int, to: Int) {

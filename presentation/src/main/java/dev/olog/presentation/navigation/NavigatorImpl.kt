@@ -65,11 +65,11 @@ class NavigatorImpl @Inject constructor(
         }
     }
 
-    override fun toSearchFragment() {
+    override fun toSearchFragment(showKeyboard: Boolean) {
         if (allowed()){
             activity.supportFragmentManager.transaction {
                 add(R.id.viewPagerLayout,
-                        SearchFragment.newInstance(),
+                        SearchFragment.newInstance(showKeyboard),
                         SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
             }

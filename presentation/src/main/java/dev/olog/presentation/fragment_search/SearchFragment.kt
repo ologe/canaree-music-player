@@ -12,6 +12,7 @@ import dev.olog.presentation.utils.animation.CircularReveal
 import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
+import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.isOreo
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -22,8 +23,13 @@ class SearchFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SearchFragment"
+        private const val ARGUMENT_SHOW_KEYBOARD = TAG + ".arguments.show_keyboard"
 
-        fun newInstance(): SearchFragment = SearchFragment()
+        fun newInstance(showKeyboard: Boolean): SearchFragment {
+            return SearchFragment().withArguments(
+                    ARGUMENT_SHOW_KEYBOARD to showKeyboard
+            )
+        }
     }
 
     @Inject lateinit var adapter : SearchFragmentAdapter
@@ -76,6 +82,13 @@ class SearchFragment : BaseFragment() {
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .asLiveData()
                 .subscribe(this, viewModel::setNewQuery)
+
+        if (savedInstanceState == null){
+            val mustShowKeyboard = arguments!!.getBoolean(ARGUMENT_SHOW_KEYBOARD)
+            if (mustShowKeyboard){
+                showKeyboard()
+            }
+        }
     }
 
     override fun onResume() {
@@ -88,10 +101,7 @@ class SearchFragment : BaseFragment() {
             ImeUtils.hideIme(view!!.editText)
             activity!!.onBackPressed()
         }
-        view!!.root.setOnClickListener {
-            view!!.editText.requestFocus()
-            ImeUtils.showIme(view!!.editText)
-        }
+        view!!.root.setOnClickListener { showKeyboard() }
     }
 
     override fun onPause() {
@@ -104,6 +114,11 @@ class SearchFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         view!!.editText.clearFocus()
+    }
+
+    private fun showKeyboard(){
+        view!!.editText.requestFocus()
+        ImeUtils.showIme(view!!.editText)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search

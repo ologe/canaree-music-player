@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="category_folders">Dossiers</string>
+    <string name="category_playlists">Playlists</string>
+    <string name="category_songs">Titres</string>
+    <string name="category_albums">Albums</string>
+    <string name="category_artists">Artistes</string>
+    <string name="category_genres">Genres</string>
+
+</resources>

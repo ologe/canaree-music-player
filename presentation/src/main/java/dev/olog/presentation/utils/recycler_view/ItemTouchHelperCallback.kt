@@ -4,7 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 
 class ItemTouchHelperCallback(
-        private val adapter: ItemTouchHelperAdapter
+        private val adapter: ItemTouchHelperAdapter,
+        private val canSwipe: Boolean
 
 ) : ItemTouchHelper.Callback() {
 
@@ -27,7 +28,7 @@ class ItemTouchHelperCallback(
         adapter.onItemDismiss(viewHolder.adapterPosition)
     }
 
-    override fun isItemViewSwipeEnabled(): Boolean = true
+    override fun isItemViewSwipeEnabled(): Boolean = canSwipe
 
     override fun isLongPressDragEnabled(): Boolean = false
 }

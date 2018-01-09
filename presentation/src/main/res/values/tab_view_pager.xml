@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="view_pager_tabs">
-        <item>Folders</item>
-        <item>Playlists</item>
-        <item>Songs</item>
-        <item>Albums</item>
-        <item>Artists</item>
-        <item>Genres</item>
-    </string-array>
+    <!--<string-array name="view_pager_tabs">-->
+        <!--<item>@string/category_folders</item>-->
+        <!--<item>@string/category_playlists</item>-->
+        <!--<item>@string/category_songs</item>-->
+        <!--<item>@string/category_albums</item>-->
+        <!--<item>@string/category_artists</item>-->
+        <!--<item>@string/category_genres</item>-->
+    <!--</string-array>-->
 
     <string name="header">Library</string>
 

@@ -2,6 +2,7 @@
 <resources>
     <!--categories-->
     <string name="prefs_category_general">Generale</string>
+    <string name="prefs_category_library">Libreria</string>
     <string name="prefs_category_floating_window">Floating window</string>
     <string name="prefs_category_audio">Audio</string>
 

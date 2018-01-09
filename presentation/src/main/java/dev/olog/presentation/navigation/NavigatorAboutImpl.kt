@@ -13,15 +13,13 @@ import dev.olog.presentation.fragment_special_thanks.SpecialThanksFragment
 import dev.olog.presentation.utils.extension.transaction
 import javax.inject.Inject
 
+private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
+
 @PerActivity
 class NavigatorAboutImpl @Inject constructor(
         private val activity: AppCompatActivity
 
 ) : NavigatorAbout {
-
-    companion object {
-        private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
-    }
 
     private var lastRequest: Long = -1
 

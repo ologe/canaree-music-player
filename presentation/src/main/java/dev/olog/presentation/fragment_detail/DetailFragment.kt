@@ -119,7 +119,7 @@ class DetailFragment : BaseFragment() {
             view!!.list.addOnScrollListener(recyclerOnScrollListener)
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
-        view!!.search.setOnClickListener { navigator.get().toSearchFragment() }
+        view!!.search.setOnClickListener { navigator.get().toSearchFragment(false) }
         adapter.onDataChangedListener = object : OnDataChangedListener{
             override fun onChanged() {
                 startPostponedEnterTransition()

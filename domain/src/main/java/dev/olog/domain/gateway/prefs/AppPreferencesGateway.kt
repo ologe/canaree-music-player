@@ -1,5 +1,6 @@
 package dev.olog.domain.gateway.prefs
 
+import dev.olog.domain.entity.LibraryCategoryBehavior
 import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import io.reactivex.Completable
@@ -19,6 +20,9 @@ interface AppPreferencesGateway : Sorting {
     fun getLowerVolumeOnNight(): Boolean
     fun observeLowerVolumeOnNight(): Flowable<Boolean>
 
+    fun getLibraryCategoriesBehavior() : List<LibraryCategoryBehavior>
+    fun getDefaultLibraryCategoriesBehavior() : List<LibraryCategoryBehavior>
+    fun setLibraryCategoriesBehavior(behavior: List<LibraryCategoryBehavior>)
 
 }
 

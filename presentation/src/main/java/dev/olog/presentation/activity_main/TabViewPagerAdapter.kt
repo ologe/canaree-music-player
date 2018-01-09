@@ -1,38 +1,32 @@
 package dev.olog.presentation.activity_main
 
-import android.content.res.Resources
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import dev.olog.presentation.R
+import dev.olog.domain.interactor.CategoriesBehaviorUseCase
 import dev.olog.presentation.fragment_tab.TabFragment
+import dev.olog.shared.ApplicationContext
+import dev.olog.shared_android.entity.TabCategory
 import javax.inject.Inject
 
 class TabViewPagerAdapter @Inject constructor(
-        resources: Resources,
+        @ApplicationContext private val context: Context,
+        categoriesBehaviorUseCase: CategoriesBehaviorUseCase,
         fragmentManager: FragmentManager
 
 ) : FragmentPagerAdapter(fragmentManager) {
 
-    companion object {
-        val ITEM_COUNT = 6
-
-        const val FOLDER = 0
-        const val PLAYLIST = 1
-        const val SONG = 2
-        const val ALBUM = 3
-        const val ARTIST = 4
-        const val GENRE = 5
-    }
-
-    private val titles = resources.getStringArray(R.array.view_pager_tabs)
+    private val data = categoriesBehaviorUseCase.get()
+            .filter { it.enabled }
 
     override fun getItem(position: Int): Fragment {
-        return TabFragment.newInstance(position)
+        val category = TabCategory.mapStringToCategory(context, data[position].category)
+        return TabFragment.newInstance(category)
     }
 
-    override fun getCount(): Int = ITEM_COUNT
+    override fun getCount(): Int = data.size
 
-    override fun getPageTitle(position: Int): CharSequence = titles[position]
+    override fun getPageTitle(position: Int): CharSequence = data[position].category
 
 }

@@ -25,7 +25,7 @@ abstract class BaseAdapter <DataType, Model: BaseModel>(
     }
 
     private val draggableBehavior by lazy { if (touchCallbackConfig.canDrag) {
-        TouchBehaviorImpl(dataController, touchCallbackConfig)
+        TouchBehaviorImpl(dataController, touchCallbackConfig, touchCallbackConfig.canSwipe)
     } else null }
 
     fun touchHelper() : ItemTouchHelper? = draggableBehavior?.touchHelper

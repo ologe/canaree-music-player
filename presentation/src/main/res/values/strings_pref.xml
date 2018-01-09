@@ -35,6 +35,8 @@
 
     <string-array name="empty_values"/>
 
-
+    <string-array name="prefs_tab_categories">
+        <item>@string/folder</item>
+    </string-array>
 
 </resources>

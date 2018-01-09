@@ -3,17 +3,17 @@ package dev.olog.presentation.fragment_tab.di
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
-import dagger.multibindings.IntKey
 import dagger.multibindings.IntoMap
 import dev.olog.domain.entity.*
 import dev.olog.domain.interactor.tab.*
 import dev.olog.presentation.R
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
 import dev.olog.presentation.fragment_tab.TabFragmentHeaders
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.MediaId
 import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.entity.TabCategory
+import dev.olog.shared_android.entity.TabCategoryKey
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
@@ -22,14 +22,9 @@ import io.reactivex.rxkotlin.withLatestFrom
 @Module
 class TabFragmentViewModelModule {
 
-    companion object {
-        const val LAST_PLAYED_ARTIST = 50
-        const val LAST_PLAYED_ALBUM = 60
-    }
-
     @Provides
     @IntoMap
-    @IntKey(TabViewPagerAdapter.FOLDER)
+    @TabCategoryKey(TabCategory.FOLDERS)
     internal fun provideFolderData(
             resources: Resources,
             useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
@@ -39,7 +34,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(TabViewPagerAdapter.PLAYLIST)
+    @TabCategoryKey(TabCategory.PLAYLISTS)
     internal fun providePlaylistData(
             resources: Resources,
             useCase: GetAllPlaylistsUseCase,
@@ -67,7 +62,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(TabViewPagerAdapter.SONG)
+    @TabCategoryKey(TabCategory.SONGS)
     internal fun provideSongData(
             useCase: GetAllSongsUseCase,
             headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
@@ -81,7 +76,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(TabViewPagerAdapter.ALBUM)
+    @TabCategoryKey(TabCategory.ALBUMS)
     internal fun provideAlbumData(
             useCase: GetAllAlbumsUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
@@ -103,7 +98,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(TabViewPagerAdapter.ARTIST)
+    @TabCategoryKey(TabCategory.ARTISTS)
     internal fun provideArtistData(
             resources: Resources,
             useCase: GetAllArtistsUseCase,
@@ -128,7 +123,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(TabViewPagerAdapter.GENRE)
+    @TabCategoryKey(TabCategory.GENRES)
     internal fun provideGenreData(
             resources: Resources,
             useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
@@ -138,7 +133,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(LAST_PLAYED_ALBUM)
+    @TabCategoryKey(TabCategory.RECENT_ALBUMS)
     internal fun provideLastPlayedAlbumData(
             useCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
 
@@ -147,7 +142,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @IntKey(LAST_PLAYED_ARTIST)
+    @TabCategoryKey(TabCategory.RECENT_ARTISTS)
     internal fun provideLastPlayedArtistData(
             useCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
 

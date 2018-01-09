@@ -8,7 +8,7 @@ interface Navigator {
 
     fun toDetailFragment(mediaId: MediaId)
 
-    fun toSearchFragment()
+    fun toSearchFragment(showKeyboard: Boolean)
 
     fun toRelatedArtists(mediaId: MediaId)
 

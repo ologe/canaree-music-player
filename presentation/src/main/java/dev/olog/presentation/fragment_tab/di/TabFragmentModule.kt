@@ -9,6 +9,7 @@ import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.presentation.fragment_tab.TabFragmentViewModel
 import dev.olog.presentation.fragment_tab.TabFragmentViewModelFactory
+import dev.olog.shared_android.entity.TabCategory
 
 @Module
 class TabFragmentModule(
@@ -16,8 +17,9 @@ class TabFragmentModule(
 ) {
 
     @Provides
-    internal fun provideSource(): Int {
-        return fragment.arguments!!.getInt(TabFragment.ARGUMENTS_SOURCE)
+    internal fun provideSource(): TabCategory {
+        val ordinalCategory = fragment.arguments!!.getInt(TabFragment.ARGUMENTS_SOURCE)
+        return TabCategory.values()[ordinalCategory]
     }
 
     @Provides

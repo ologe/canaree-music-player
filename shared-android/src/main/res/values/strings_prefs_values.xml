@@ -3,6 +3,7 @@
 
     <!--categories-->
     <string name="prefs_category_general">General</string>
+    <string name="prefs_category_library">Library</string>
     <string name="prefs_category_floating_window">Floating window</string>
     <string name="prefs_category_audio">Audio</string>
 

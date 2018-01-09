@@ -7,11 +7,10 @@ import android.view.View
 import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.activity_main.TabViewPagerAdapter
-import dev.olog.presentation.fragment_tab.di.TabFragmentViewModelModule
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared_android.entity.TabCategory
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -23,15 +22,15 @@ class TabFragment : BaseFragment() {
         private const val TAG = "TabFragment"
         const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
 
-        fun newInstance(source: Int): TabFragment {
-            return TabFragment().withArguments(ARGUMENTS_SOURCE to source)
+        fun newInstance(category: TabCategory): TabFragment {
+            return TabFragment().withArguments(ARGUMENTS_SOURCE to category.ordinal)
         }
     }
 
     @Inject lateinit var adapter: TabFragmentAdapter
     @Inject lateinit var viewModel: TabFragmentViewModel
-    @Inject @JvmField var source: Int = 0
-    private val spanSizeLookup by lazy (NONE) { TabSpanSpanSizeLookupFactory(context!!, source, adapter) }
+    @Inject lateinit var category: TabCategory
+    private val spanSizeLookup by lazy (NONE) { TabSpanSpanSizeLookupFactory(context!!, category, adapter) }
     private lateinit var layoutManager: GridLayoutManager
 
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
@@ -39,19 +38,19 @@ class TabFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.observeData(source)
+        viewModel.observeData(category)
                 .subscribe(this, { list ->
                     handleEmptyStateVisibility(list.isEmpty())
                     adapter.updateDataSet(list)
                 })
 
-        when (source){
-            TabViewPagerAdapter.ALBUM -> {
-                viewModel.observeData(TabFragmentViewModelModule.LAST_PLAYED_ALBUM)
+        when (category){
+            TabCategory.ALBUMS -> {
+                viewModel.observeData(TabCategory.RECENT_ALBUMS)
                         .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
             }
-            TabViewPagerAdapter.ARTIST -> {
-                viewModel.observeData(TabFragmentViewModelModule.LAST_PLAYED_ARTIST)
+            TabCategory.ARTISTS -> {
+                viewModel.observeData(TabCategory.RECENT_ALBUMS)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }
@@ -61,7 +60,7 @@ class TabFragment : BaseFragment() {
         view!!.emptyStateText.toggleVisibility(isEmpty)
         if (isEmpty){
             val emptyText = context!!.resources.getStringArray(R.array.tab_empty_state)
-            view!!.emptyStateText.text = emptyText[source]
+            view!!.emptyStateText.text = emptyText[category.ordinal]
         }
     }
 

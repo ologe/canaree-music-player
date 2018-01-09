@@ -83,7 +83,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                     presenter.startFloatingService(this, title)
                 }
             }
-            Constants.SHORTCUT_SEARCH -> { navigator.toSearchFragment() }
+            Constants.SHORTCUT_SEARCH -> { navigator.toSearchFragment(true) }
         }
     }
 
@@ -99,7 +99,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         super.onResume()
         innerPanel.addPanelSlideListener(innerPanelSlideListener)
         innerPanel.addPanelSlideListener(panelSlideListener)
-        search.setOnClickListener { navigator.toSearchFragment() }
+        search.setOnClickListener { navigator.toSearchFragment(false) }
         settings.setOnClickListener { navigator.toMainPopup(it) }
         viewPager.addOnPageChangeListener(onAdapterPageChangeListener)
     }
