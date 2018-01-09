@@ -23,7 +23,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
-import dev.olog.domain.interactor.GetLowerVolumeOnNightUseCase
+import dev.olog.domain.interactor.prefs.GetLowerVolumeOnNightUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper

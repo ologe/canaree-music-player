@@ -1,7 +1,7 @@
 package dev.olog.presentation.activity_preferences.categories
 
 import dev.olog.domain.entity.LibraryCategoryBehavior
-import dev.olog.domain.interactor.CategoriesBehaviorUseCase
+import dev.olog.domain.interactor.prefs.CategoriesBehaviorUseCase
 import javax.inject.Inject
 
 class LibraryCategoriesFragmentPresenter @Inject constructor(

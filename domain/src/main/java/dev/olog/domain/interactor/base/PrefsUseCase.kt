@@ -1,9 +1,9 @@
 package dev.olog.domain.interactor.base
 
-abstract class PrefsUseCase<Result> {
+abstract class PrefsUseCase<Model> {
 
-    abstract fun get(): Result
+    abstract fun get(): Model
 
-    abstract fun set(param: Result)
+    abstract fun set(param: Model)
 
 }

@@ -16,10 +16,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp">
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackground" >
 
             <CheckBox
                 android:id="@+id/checkBox"
@@ -31,7 +29,8 @@
                 android:paddingEnd="8dp"
                 android:checked="@{item.enabled}"
                 android:textSize="16sp"
-                android:background="?attr/selectableItemBackground" />
+                android:clickable="false"
+                android:focusable="false"/>
 
             <ImageButton
                 android:id="@+id/dragHandle"

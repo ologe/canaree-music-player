@@ -51,6 +51,8 @@ class AppPreferencesImpl @Inject constructor(
         private const val CATEGORY_ALBUM_VISIBILITY = TAG + ".CATEGORY_ALBUM_VISIBILITY"
         private const val CATEGORY_ARTIST_VISIBILITY = TAG + ".CATEGORY_ARTIST_VISIBILITY"
         private const val CATEGORY_GENRE_VISIBILITY = TAG + ".CATEGORY_GENRE_VISIBILITY"
+
+        private const val BLACKLIST = TAG + ".BLACKLIST"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -245,5 +247,13 @@ class AppPreferencesImpl @Inject constructor(
             putInt(CATEGORY_GENRE_ORDER, genre.order)
             putBoolean(CATEGORY_GENRE_VISIBILITY, genre.enabled)
         }
+    }
+
+    override fun getBlackList(): Set<String> {
+        return preferences.getStringSet(BLACKLIST, setOf())
+    }
+
+    override fun setBlackList(set: Set<String>) {
+        preferences.edit { putStringSet(BLACKLIST, set) }
     }
 }

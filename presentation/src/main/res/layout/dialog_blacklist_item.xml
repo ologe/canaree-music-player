@@ -8,12 +8,14 @@
         <variable
             name="item"
             type="dev.olog.presentation.model.DisplayableItem"/>
+        <variable name="isBlacklisted" type="boolean"/>
 
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
         <android.support.v7.widget.CardView
             android:id="@+id/coverLayout"
@@ -33,6 +35,12 @@
                 android:layout_height="match_parent"
                 app:imageAlbum="@{item}"
                 tools:src="@android:color/holo_red_dark"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#8000"
+                android:src="@drawable/vd_lock"/>
 
         </android.support.v7.widget.CardView>
 
@@ -63,7 +71,8 @@
             android:text="@{item.subtitle}"
 
             tools:text="@tools:sample/lorem"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            android:ellipsize="start"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor
+package dev.olog.domain.interactor.prefs
 
 import dev.olog.domain.entity.LibraryCategoryBehavior
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway

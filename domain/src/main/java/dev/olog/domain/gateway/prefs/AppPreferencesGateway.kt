@@ -24,6 +24,9 @@ interface AppPreferencesGateway : Sorting {
     fun getDefaultLibraryCategoriesBehavior() : List<LibraryCategoryBehavior>
     fun setLibraryCategoriesBehavior(behavior: List<LibraryCategoryBehavior>)
 
+    fun getBlackList(): Set<String>
+    fun setBlackList(set: Set<String>)
+
 }
 
 interface Sorting {

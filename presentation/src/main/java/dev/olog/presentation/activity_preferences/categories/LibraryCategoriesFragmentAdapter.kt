@@ -16,7 +16,7 @@ import dev.olog.presentation.utils.recycler_view.ItemTouchHelperAdapter
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.clearThenAdd
 import dev.olog.shared.swap
-import kotlinx.android.synthetic.main.dialog_list_multi_choice_item.view.*
+import kotlinx.android.synthetic.main.dialog_tab_category_item.view.*
 import javax.inject.Inject
 
 class LibraryCategoriesFragmentAdapter @Inject constructor(
@@ -31,7 +31,7 @@ class LibraryCategoriesFragmentAdapter @Inject constructor(
 
     override fun getItemCount(): Int = data.size
 
-    override fun getItemViewType(position: Int): Int = R.layout.dialog_list_multi_choice_item
+    override fun getItemViewType(position: Int): Int = R.layout.dialog_tab_category_item
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
         holder.binding.setVariable(BR.item, data[position])
@@ -53,7 +53,7 @@ class LibraryCategoriesFragmentAdapter @Inject constructor(
                 true
             } else false
         }
-        viewHolder.itemView.findViewById<View>(R.id.checkBox).setOnClickListener {
+        viewHolder.itemView.setOnClickListener {
             val item = data[viewHolder.adapterPosition]
             item.enabled = !item.enabled
             viewHolder.itemView.checkBox.isChecked = item.enabled
@@ -77,7 +77,7 @@ class LibraryCategoriesFragmentAdapter @Inject constructor(
         throw IllegalStateException("operation not supported")
     }
 
-    override val draggableViewType = R.layout.dialog_list_multi_choice_item
+    override val draggableViewType = R.layout.dialog_tab_category_item
 
 
 }

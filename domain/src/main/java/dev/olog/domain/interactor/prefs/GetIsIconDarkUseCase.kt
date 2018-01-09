@@ -1,4 +1,4 @@
-package dev.olog.domain.interactor
+package dev.olog.domain.interactor.prefs
 
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway

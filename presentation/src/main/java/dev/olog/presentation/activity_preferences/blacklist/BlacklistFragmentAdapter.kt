@@ -7,21 +7,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.android.databinding.library.baseAdapters.BR
 import dev.olog.presentation._base.list.DataBoundViewHolder
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.clearThenAdd
 import javax.inject.Inject
 
 class BlacklistFragmentAdapter @Inject constructor()
     : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    private val data: MutableList<DisplayableItem> = mutableListOf()
+    private val data: MutableList<BlacklistModel> = mutableListOf()
 
     override fun getItemCount(): Int = data.size
 
-    override fun getItemViewType(position: Int): Int = data[position].type
+    override fun getItemViewType(position: Int): Int = data[position].displayableItem.type
 
     override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
-        holder.binding.setVariable(BR.item, data[position])
+        holder.binding.setVariable(BR.item, data[position].displayableItem)
+        holder.binding.setVariable(BR.isBlacklisted, data[position].isBlacklisted)
         holder.binding.executePendingBindings()
     }
 
@@ -37,7 +37,7 @@ class BlacklistFragmentAdapter @Inject constructor()
 
     }
 
-    fun updateDataSet(list: List<DisplayableItem>){
+    fun updateDataSet(list: List<BlacklistModel>){
         data.clearThenAdd(list)
         notifyDataSetChanged()
     }

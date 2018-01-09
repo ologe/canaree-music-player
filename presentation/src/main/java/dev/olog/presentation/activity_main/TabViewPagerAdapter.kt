@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import dev.olog.domain.interactor.CategoriesBehaviorUseCase
+import dev.olog.domain.interactor.prefs.CategoriesBehaviorUseCase
 import dev.olog.presentation.fragment_tab.TabFragment
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared_android.entity.TabCategory

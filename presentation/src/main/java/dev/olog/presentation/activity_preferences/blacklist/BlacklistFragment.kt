@@ -40,6 +40,7 @@ class BlacklistFragment : BaseDialogFragment() {
 
         val builder = AlertDialog.Builder(context)
                 .setTitle("Blacklist") // todo resources
+                .setMessage("Click to show/hide")
                 .setView(view)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_save, { _, _ ->
