@@ -31,8 +31,11 @@ class BlacklistFragmentPresenter @Inject constructor(
         )
     }
 
-    fun setDataSet(set: List<BlacklistModel>){
-
+    fun setDataSet(data: List<BlacklistModel>){
+        val blacklisted = data.filter { it.isBlacklisted }
+                .mapNotNull { it.displayableItem.subtitle }
+                .toSet()
+        blackListUseCase.set(blacklisted)
     }
 
 
@@ -40,5 +43,5 @@ class BlacklistFragmentPresenter @Inject constructor(
 
 class BlacklistModel(
         val displayableItem: DisplayableItem,
-        val isBlacklisted: Boolean
+        var isBlacklisted: Boolean
 )

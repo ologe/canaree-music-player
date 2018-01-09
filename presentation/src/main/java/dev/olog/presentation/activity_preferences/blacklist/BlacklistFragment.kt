@@ -44,7 +44,7 @@ class BlacklistFragment : BaseDialogFragment() {
                 .setView(view)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_save, { _, _ ->
-                    // todo
+                    presenter.setDataSet(adapter.data)
                     activity!!.setResult(Activity.RESULT_OK)
                 })
 

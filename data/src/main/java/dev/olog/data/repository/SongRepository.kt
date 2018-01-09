@@ -12,6 +12,7 @@ import dev.olog.data.mapper.toUneditedSong
 import dev.olog.domain.entity.Song
 import dev.olog.domain.entity.UneditedSong
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.prefs.BlackListUseCase
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -24,7 +25,8 @@ import javax.inject.Singleton
 @Singleton
 class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
-        private val rxContentResolver: BriteContentResolver
+        private val rxContentResolver: BriteContentResolver,
+        private val blackListUseCase: BlackListUseCase
 
 ) : SongGateway {
 
@@ -64,6 +66,10 @@ class SongRepository @Inject constructor(
                     true
             )
             .mapToList { it.toSong() }
+            .map {
+                val blackListed = blackListUseCase.get()
+                it.filter { !blackListed.contains(it.folderPath) }
+            }
             .onErrorReturn { listOf() }
             .toFlowable(BackpressureStrategy.LATEST)
             .replay(1)

@@ -13,7 +13,7 @@ import javax.inject.Inject
 class BlacklistFragmentAdapter @Inject constructor()
     : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
 
-    private val data: MutableList<BlacklistModel> = mutableListOf()
+    val data: MutableList<BlacklistModel> = mutableListOf()
 
     override fun getItemCount(): Int = data.size
 
@@ -34,7 +34,12 @@ class BlacklistFragmentAdapter @Inject constructor()
     }
 
     private fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>) {
-
+        viewHolder.itemView.setOnClickListener {
+            val position = viewHolder.adapterPosition
+            val item = data[position]
+            item.isBlacklisted = !item.isBlacklisted
+            notifyItemChanged(position)
+        }
     }
 
     fun updateDataSet(list: List<BlacklistModel>){

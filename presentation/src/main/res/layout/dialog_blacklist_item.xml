@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="item"
             type="dev.olog.presentation.model.DisplayableItem"/>
@@ -14,6 +15,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        tools:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
@@ -40,7 +42,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#8000"
-                android:src="@drawable/vd_lock"/>
+                android:src="@drawable/vd_lock"
+                android:padding="70dp"
+                android:tint="#FAFAFA"
+                android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"/>
 
         </android.support.v7.widget.CardView>
 
