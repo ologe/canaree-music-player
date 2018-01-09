@@ -140,7 +140,9 @@ class DetailFragmentViewModel(
     }
 
     private fun handleSongsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-        list.addAll(0, headers.songs)
+        if (list.isNotEmpty()) {
+            list.addAll(0, headers.songs)
+        }
         return list
     }
 

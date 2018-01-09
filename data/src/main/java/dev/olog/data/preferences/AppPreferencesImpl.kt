@@ -208,7 +208,7 @@ class AppPreferencesImpl @Inject constructor(
                         preferences.getBoolean(CATEGORY_GENRE_VISIBILITY, true),
                         preferences.getInt(CATEGORY_GENRE_ORDER, 5)
                 )
-        )
+        ).sortedBy { it.order }
     }
 
     override fun getDefaultLibraryCategoriesBehavior(): List<LibraryCategoryBehavior> {
@@ -221,27 +221,27 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun setLibraryCategoriesBehavior(behavior: List<LibraryCategoryBehavior>) {
         preferences.edit {
-            val folder = behavior[0]
+            val folder = behavior.first { it.category == context.getString(R.string.category_folders) }
             putInt(CATEGORY_FOLDER_ORDER, folder.order)
             putBoolean(CATEGORY_FOLDER_VISIBILITY, folder.enabled)
 
-            val playlist = behavior[1]
+            val playlist = behavior.first { it.category == context.getString(R.string.category_playlists) }
             putInt(CATEGORY_PLAYLIST_ORDER, playlist.order)
             putBoolean(CATEGORY_PLAYLIST_VISIBILITY, playlist.enabled)
 
-            val song = behavior[2]
+            val song = behavior.first { it.category == context.getString(R.string.category_songs) }
             putInt(CATEGORY_SONG_ORDER, song.order)
             putBoolean(CATEGORY_SONG_VISIBILITY, song.enabled)
 
-            val album = behavior[3]
+            val album = behavior.first { it.category == context.getString(R.string.category_albums) }
             putInt(CATEGORY_ALBUM_ORDER, album.order)
             putBoolean(CATEGORY_ALBUM_VISIBILITY, album.enabled)
 
-            val artist = behavior[4]
+            val artist = behavior.first { it.category == context.getString(R.string.category_artists) }
             putInt(CATEGORY_ARTIST_ORDER, artist.order)
             putBoolean(CATEGORY_ARTIST_VISIBILITY, artist.enabled)
 
-            val genre = behavior[5]
+            val genre = behavior.first { it.category == context.getString(R.string.category_genres) }
             putInt(CATEGORY_GENRE_ORDER, genre.order)
             putBoolean(CATEGORY_GENRE_VISIBILITY, genre.enabled)
         }

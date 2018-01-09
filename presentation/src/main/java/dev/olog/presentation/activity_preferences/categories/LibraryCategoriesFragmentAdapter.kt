@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import com.android.databinding.library.baseAdapters.BR
 import dev.olog.domain.entity.LibraryCategoryBehavior
+import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.DataBoundViewHolder
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperAdapter
@@ -53,7 +53,7 @@ class LibraryCategoriesFragmentAdapter @Inject constructor(
                 true
             } else false
         }
-        viewHolder.itemView.setOnClickListener {
+        viewHolder.itemView.findViewById<View>(R.id.checkBox).setOnClickListener {
             val item = data[viewHolder.adapterPosition]
             item.enabled = !item.enabled
             viewHolder.itemView.checkBox.isChecked = item.enabled
@@ -70,6 +70,7 @@ class LibraryCategoriesFragmentAdapter @Inject constructor(
         data.forEachIndexed { index, item ->
             item.order = index
         }
+        notifyItemMoved(from, to)
     }
 
     override fun onItemDismiss(position: Int) {

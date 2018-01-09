@@ -14,7 +14,6 @@ class LibraryCategoriesFragmentPresenter @Inject constructor(
     }
 
     fun getDataSet() = categoriesBehaviorUseCase.get()
-            .sortedBy { it.order }
 
     fun setDataSet(list: List<LibraryCategoryBehavior>){
         categoriesBehaviorUseCase.set(list)

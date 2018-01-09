@@ -3,6 +3,7 @@ package dev.olog.presentation.activity_preferences.categories
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -33,10 +34,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val builder = AlertDialog.Builder(context)
                 .setTitle("Library categories") // todo resources
                 .setView(view)
-                .setNeutralButton("Reset", { _, _ ->
-                    val defaultData = presenter.getDefaultDataSet()
-                    adapter.updateDataSet(defaultData)
-                })
+                .setNeutralButton("Reset", null)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_save, { _, _ ->
                     presenter.setDataSet(adapter.data)
@@ -49,7 +47,14 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         list.layoutManager = LinearLayoutManager(context)
         adapter.touchHelper.attachToRecyclerView(list)
 
-        return builder.makeDialog()
+        val dialog = builder.makeDialog()
+
+        dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
+                    val defaultData = presenter.getDefaultDataSet()
+                    adapter.updateDataSet(defaultData)
+                }
+
+        return dialog
     }
 
 }

@@ -29,15 +29,15 @@
             android:summaryOff="@string/prefs_icon_color_summary_off"
             android:summaryOn="@string/prefs_icon_color_summary_on"/>
 
-        <Preference
-            android:title="@string/prefs_blacklist_title"
-            android:summary="@string/prefs_blacklist_summary"
-            android:key="@string/prefs_blacklist_key"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/prefs_category_library">
+
+        <Preference
+            android:title="Library categories"
+            android:summary="Configure visibility and order of library categories"
+            android:key="@string/prefs_library_categories_key"/>
 
         <SwitchPreference
             android:title="@string/prefs_remember_last_tab_title"
@@ -46,9 +46,9 @@
             android:defaultValue="true"/>
 
         <Preference
-            android:title="Library categories"
-            android:summary="Configure visibility and order of library categories"
-            android:key="@string/prefs_library_categories_key"/>
+            android:title="@string/prefs_blacklist_title"
+            android:summary="@string/prefs_blacklist_summary"
+            android:key="@string/prefs_blacklist_key"/>
 
     </PreferenceCategory>
 
