@@ -2,6 +2,7 @@ package dev.olog.presentation.dagger
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dev.olog.presentation.activity_preferences.blacklist.BlacklistFragment
 import dev.olog.presentation.activity_preferences.categories.LibraryCategoriesFragment
 import dev.olog.presentation.activity_splash.SplashFragment
 import dev.olog.presentation.activity_splash.SplashFragmentTutorial
@@ -17,5 +18,8 @@ abstract class AndroidBindingModule {
 
     @ContributesAndroidInjector
     abstract fun provideLibraryCategoriesFragment() : LibraryCategoriesFragment
+
+    @ContributesAndroidInjector
+    abstract fun provideBlacklistFragment() : BlacklistFragment
 
 }

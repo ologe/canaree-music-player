@@ -38,4 +38,8 @@
     <string name="prefs_lower_volume_on_night_title">Lowers the max volume the night</string>
     <string name="prefs_lower_volume_on_night_summary"></string>
 
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">Blacklist</string>
+    <string name="prefs_blacklist_summary">Hide folders from the library
+    </string>
 </resources>

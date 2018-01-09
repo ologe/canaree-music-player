@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_preferences.blacklist.BlacklistFragment
 import dev.olog.presentation.activity_preferences.categories.LibraryCategoriesFragment
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
@@ -13,14 +14,12 @@ import dev.olog.shared_android.CoverUtils
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var libraryCategories : Preference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var blacklist : Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
+        blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
     }
 
     override fun onResume() {
@@ -31,12 +30,18 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                     LibraryCategoriesFragment.TAG)
             true
         }
+        blacklist.setOnPreferenceClickListener {
+            BlacklistFragment.newInstance().show(activity!!.supportFragmentManager,
+                    BlacklistFragment.TAG)
+            true
+        }
     }
 
     override fun onPause() {
         super.onPause()
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
+        blacklist.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

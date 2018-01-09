@@ -11,10 +11,7 @@ import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.FolderGateway
 import dev.olog.domain.gateway.SongGateway
-import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaId
-import dev.olog.shared.flatMapGroup
-import dev.olog.shared.unsubscribe
+import dev.olog.shared.*
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
@@ -134,5 +131,11 @@ class FolderRepository @Inject constructor(
                 .flatMapCompletable { song ->
                     CompletableSource { mostPlayedDao.insertOne(FolderMostPlayedEntity(0, song.id, song.folderPath)) }
                 }
+    }
+
+    override fun getAllUnfiltered(): Flowable<List<Folder>> {
+        return songGateway.getAll()
+                .flatMapGroup { distinct { it.folderPath } }
+                .groupMap { it.toFolder(context, -1) }
     }
 }

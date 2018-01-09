@@ -17,9 +17,13 @@ import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.clearThenAdd
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.dialog_list_multi_choice_item.view.*
+import javax.inject.Inject
 
-class DraggableAdapter(val data: MutableList<LibraryCategoryBehavior>)
-    : RecyclerView.Adapter<DataBoundViewHolder<*>>(),
+class LibraryCategoriesFragmentAdapter @Inject constructor(
+
+        val data: MutableList<LibraryCategoryBehavior>
+
+) : RecyclerView.Adapter<DataBoundViewHolder<*>>(),
         ItemTouchHelperAdapter {
 
     private val callback = ItemTouchHelperCallback(this, false)
