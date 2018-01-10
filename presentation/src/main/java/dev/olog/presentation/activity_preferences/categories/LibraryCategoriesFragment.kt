@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
+import dev.olog.presentation.utils.extension.makeDialog
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 

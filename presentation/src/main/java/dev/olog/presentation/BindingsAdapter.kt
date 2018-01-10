@@ -37,8 +37,8 @@ object BindingsAdapter {
         val id = resolveId(mediaId)
 
         var request = GlideApp.with(context)
-                .load(resolveUri(item.image))
-//                .load(Uri.EMPTY)
+//                .load(resolveUri(item.image))
+                .load(Uri.EMPTY)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(override)
