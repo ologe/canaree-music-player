@@ -3,6 +3,7 @@ package dev.olog.shared_android
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
 import android.support.annotation.DrawableRes
@@ -11,12 +12,15 @@ import org.jetbrains.anko.dip
 
 object ImageUtils {
 
-    fun getBitmapFromDrawable(context: Context, @DrawableRes drawableRes: Int): Bitmap{
+    fun getBitmapFromDrawable(context: Context, @DrawableRes drawableRes: Int): Bitmap {
         val drawable = ContextCompat.getDrawable(context, drawableRes)
+        return getBitmapFromDrawable(drawable!!)
+    }
 
+    fun getBitmapFromDrawable(drawable: Drawable): Bitmap {
         val bitmap: Bitmap
 
-        if (drawable!!.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
             bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
         } else {
             bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)

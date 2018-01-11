@@ -1,6 +1,9 @@
 package dev.olog.music_service
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.music_service.di.PerService
@@ -9,13 +12,16 @@ import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.constants.MetadataConstants
 import dev.olog.shared_android.ImageUtils
+import dev.olog.shared_android.WidgetConstants
+import dev.olog.shared_android.interfaces.WidgetClasses
 import javax.inject.Inject
 
 @PerService
 class PlayerMetadata @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
-        playerLifecycle: PlayerLifecycle
+        playerLifecycle: PlayerLifecycle,
+        private val widgetClasses: WidgetClasses
 
 ) : PlayerLifecycle.Listener {
 
@@ -47,6 +53,25 @@ class PlayerMetadata @Inject constructor(
                 .build()
 
         mediaSession.setMetadata(builder.build())
+
+        notifyWidgets(entity)
+    }
+
+    private fun notifyWidgets(entity: MediaEntity){
+        for (clazz in widgetClasses.get()) {
+            val intent = Intent(context, clazz)
+            intent.action = WidgetConstants.METADATA_CHANGED
+            intent.putExtra(WidgetConstants.ARGUMENT_SONG_ID, entity.id)
+            intent.putExtra(WidgetConstants.ARGUMENT_TITLE, entity.title)
+            intent.putExtra(WidgetConstants.ARGUMENT_SUBTITLE, entity.artist)
+            intent.putExtra(WidgetConstants.ARGUMENT_IMAGE, entity.image)
+
+            val ids = AppWidgetManager.getInstance(context).getAppWidgetIds(
+                    ComponentName(context, clazz))
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(intent)
+        }
+
     }
 
 }

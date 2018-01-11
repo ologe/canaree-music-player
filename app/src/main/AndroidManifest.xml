@@ -64,13 +64,13 @@
             android:value="2.1"/>
 
         <!--widgets-->
-        <receiver android:name="dev.olog.presentation.home_screen_widget.HomeScreenWidget">
+        <receiver android:name="dev.olog.presentation.home_screen_widget.WidgetApp">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget"/>
+                android:resource="@xml/widget_app"/>
         </receiver>
 
         <provider
