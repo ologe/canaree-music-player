@@ -32,7 +32,7 @@ private const val SCROLL_BAR_ANIMATION_DURATION = 300
 private const val SCROLL_BAR_HIDE_DELAY = 1000
 private const val TRACK_SNAP_RANGE = 5
 private const val TEXT_THROTTLE = 100L
-private const val SCROLL_THROTTLE = 100L
+private const val SCROLL_THROTTLE = 50L
 
 class RxFastScroller @JvmOverloads constructor(
         context: Context,
@@ -92,7 +92,7 @@ class RxFastScroller @JvmOverloads constructor(
 
     private var mHeight: Int = 0
     private var mHideScrollbar: Boolean = false
-    private lateinit var mSectionIndexer: FastScrollerSectionIndexer
+    private var mSectionIndexer: FastScrollerSectionIndexer? = null
     private var mScrollbarAnimator: ViewPropertyAnimator? = null
     private var mBubbleAnimator: ViewPropertyAnimator? = null
     private var mRecyclerView: RecyclerView? = null
@@ -198,7 +198,7 @@ class RxFastScroller @JvmOverloads constructor(
         }
     }
 
-    fun setSectionIndexer(sectionIndexer: FastScrollerSectionIndexer) {
+    fun setSectionIndexer(sectionIndexer: FastScrollerSectionIndexer?) {
         mSectionIndexer = sectionIndexer
     }
 
@@ -397,7 +397,7 @@ class RxFastScroller @JvmOverloads constructor(
             val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
             scrollPublisher.onNext(targetPos)
 
-            val letter = mSectionIndexer.getSectionText(targetPos)
+            val letter = mSectionIndexer?.getSectionText(targetPos)
             letter?.let { bubbleTextPublisher.onNext(it) }
         }
     }

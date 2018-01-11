@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".App">
-        
+
+        <!--splash activity-->
         <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
             android:theme="@style/Splash"
             android:screenOrientation="portrait">
@@ -31,34 +32,44 @@
 
         </activity>
 
+        <!--main activity-->
         <activity
             android:name="dev.olog.presentation.activity_main.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan"/>
 
+        <!--about activity-->
         <activity android:name="dev.olog.presentation.activity_about.AboutActivity"/>
 
+        <!--settings activity-->
         <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"
             android:theme="@style/SettingsTheme"/>
 
+        <!--dummy shortcuts activity-->
         <activity android:name="dev.olog.presentation.activity_shortcuts.ShortcutsActivity"/>
 
+        <!--debug configuration-->
+        <activity android:name="dev.olog.presentation.debug.DebugConfigurationActivity"/>
+
+        <!--music service-->
         <service android:name="dev.olog.music_service.MusicService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
 
+        <!--floating window service-->
         <service android:name="dev.olog.floating_info.FloatingInfoService"
                  android:exported="false"/>
 
+        <!--media button receiver-->
         <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
 
-        <!-- to support 2:1 screens -->
+        <!-- support to 2:1 screens -->
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1"/>
@@ -73,6 +84,7 @@
                 android:resource="@xml/widget_app"/>
         </receiver>
 
+        <!--provide storage permission to share intents-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}"
@@ -83,6 +95,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
+        <!--google cast-->
         <!--<meta-data-->
             <!--android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"-->
             <!--android:value="dev.olog.presentation.cast.CastOptionsProvider" />-->

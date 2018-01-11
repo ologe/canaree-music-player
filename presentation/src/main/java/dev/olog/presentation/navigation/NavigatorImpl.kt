@@ -5,14 +5,17 @@ import android.media.audiofx.AudioEffect
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
+import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
+import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_about.AboutActivity
 import dev.olog.presentation.activity_preferences.PreferencesActivity
 import dev.olog.presentation.dagger.PerActivity
+import dev.olog.presentation.debug.DebugConfigurationActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
 import dev.olog.presentation.dialog_add_queue.AddQueueDialog
 import dev.olog.presentation.dialog_clear_playlist.ClearPlaylistDialog
@@ -148,15 +151,26 @@ class NavigatorImpl @Inject constructor(
     override fun toMainPopup(anchor: View) {
         val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
         popup.inflate(R.menu.main)
+
+        if (BuildConfig.DEBUG){
+            popup.menu.add(Menu.NONE, -123, Menu.NONE, "configuration")
+        }
+
         popup.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.about -> this.toAboutActivity()
                 R.id.equalizer -> this.toEqualizer()
                 R.id.settings -> this.toSettingsActivity()
+                -123 -> this.toDebugConfiguration()
             }
             true
         }
         popup.show()
+    }
+
+    private fun toDebugConfiguration(){
+        val intent = Intent(activity, DebugConfigurationActivity::class.java)
+        activity.startActivity(intent)
     }
 
     override fun toAboutActivity() {

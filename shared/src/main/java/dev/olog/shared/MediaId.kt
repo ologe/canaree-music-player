@@ -140,7 +140,4 @@ class MediaId private constructor(
     val isArtist : Boolean = category == MediaIdCategory.ARTIST
     val isGenre : Boolean = category == MediaIdCategory.GENRE
 
-    val extractSafeCategoryValue: Int
-        get() = if (isFolder){ categoryValue.hashCode() } else categoryValue.toInt()
-
 }
