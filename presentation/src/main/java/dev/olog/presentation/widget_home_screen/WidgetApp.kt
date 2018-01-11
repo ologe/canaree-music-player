@@ -1,5 +1,6 @@
-package dev.olog.presentation.home_screen_widget
+package dev.olog.presentation.widget_home_screen
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -25,7 +26,8 @@ class WidgetApp : BaseWidgetApp() {
 
     private var paletteDisposable : Disposable? = null
 
-    override fun onMetadataChanged(context: Context, metadata: Metadata, appWidgetIds: IntArray) {
+    override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
+
         val remoteViews = RemoteViews(context.packageName, R.layout.widget_app)
         remoteViews.setTextViewText(R.id.title, metadata.title)
         remoteViews.setTextViewText(R.id.subtitle, metadata.subtitle)
@@ -39,6 +41,7 @@ class WidgetApp : BaseWidgetApp() {
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         remoteViews.setImageViewBitmap(R.id.cover, resource)
+                        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
                     }
                 })
 
@@ -63,8 +66,13 @@ class WidgetApp : BaseWidgetApp() {
                     remoteViews.setImageViewBitmap(R.id.alphaBackground,
                             ImageUtils.getBitmapFromDrawable(hGradient))
 
+                    remoteViews.setInt(R.id.background, "setBackgroundColor", it.background)
+
+                    AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+
                 }, Throwable::printStackTrace)
 
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
     private fun getPalette(bitmap: Bitmap): PaletteUtil.ColorsPalette {

@@ -1,4 +1,4 @@
-package dev.olog.presentation.home_screen_widget
+package dev.olog.presentation.widget_home_screen
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -8,9 +8,6 @@ import dev.olog.shared_android.WidgetConstants
 
 abstract class BaseWidgetApp : AppWidgetProvider() {
 
-    companion object {
-
-    }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
@@ -24,7 +21,7 @@ abstract class BaseWidgetApp : AppWidgetProvider() {
                     val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)
                     val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)
                     val image = intent.getStringExtra(WidgetConstants.ARGUMENT_IMAGE)
-                    val metadata = BaseWidgetApp.Metadata(id, title, subtitle, image)
+                    val metadata = WidgetMetadata(id, title, subtitle, image)
                     onMetadataChanged(context, metadata, appWidgetIds)
                 }
             }
@@ -38,11 +35,13 @@ abstract class BaseWidgetApp : AppWidgetProvider() {
         }
     }
 
-    protected abstract fun onMetadataChanged(context: Context, metadata: Metadata, appWidgetIds: IntArray)
+
+
+    protected abstract fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray)
 
     protected abstract fun onPlaybackStateChanged(context: Context, isPlaying: Boolean, appWidgetIds: IntArray)
 
-    protected data class Metadata(
+    data class WidgetMetadata(
             val id: Long,
             val title: String,
             val subtitle: String,

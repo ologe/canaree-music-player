@@ -22,12 +22,12 @@
 
         <!--splash activity-->
         <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
-            android:theme="@style/Splash"
-            android:screenOrientation="portrait">
+            android:theme="@style/Splash">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.APP_MUSIC" />
             </intent-filter>
 
         </activity>
@@ -75,7 +75,8 @@
             android:value="2.1"/>
 
         <!--widgets-->
-        <receiver android:name="dev.olog.presentation.home_screen_widget.WidgetApp">
+        <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetApp"
+            android:label="Colorized">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

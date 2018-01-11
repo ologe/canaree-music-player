@@ -4,6 +4,6 @@
     <dimen name="app_widget_one_cell">40dp</dimen>
     <dimen name="app_widget_two_cell">110dp</dimen>
     <dimen name="app_widget_three_cell">180dp</dimen>
-    <dimen name="app_widget_four_cell">250</dimen>
+    <dimen name="app_widget_four_cell">250dp</dimen>
 
 </resources>
