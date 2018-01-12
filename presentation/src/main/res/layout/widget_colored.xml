@@ -48,7 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="16dp">
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp">
 
                 <Chronometer
                     android:id="@+id/bookmark"
@@ -83,7 +84,8 @@
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:layout_marginEnd="72dp"/>
 
                 <TextView
                     android:id="@+id/subtitle"
@@ -100,58 +102,61 @@
             </LinearLayout>
 
         </FrameLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/media_actions"
-            android:orientation="horizontal"
-            android:layoutDirection="ltr"
-            style="@style/WidgetMediaActionContainer"
-            android:layout_marginEnd="@dimen/widget_content_margin_end">
+    <LinearLayout
+        android:id="@+id/media_actions"
+        android:orientation="horizontal"
+        android:layoutDirection="ltr"
+        style="@style/WidgetMediaActionContainer"
+        android:layout_marginEnd="@dimen/widget_content_margin_end"
+        android:layout_gravity="bottom"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp">
 
-            <ImageButton
-                android:id="@+id/floatingWindow"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="12sp"
-                android:background="@null"
-                android:src="@drawable/vd_bird_singing_24dp" />
+        <ImageButton
+            android:id="@+id/floatingWindow"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="12sp"
+            android:background="@null"
+            android:src="@drawable/vd_bird_singing_24dp" />
 
-            <ImageButton
-                android:id="@+id/favorite"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_not_favorite"/>
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_not_favorite"/>
 
-            <ImageButton
-                android:id="@+id/previous"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_skip_previous"/>
-
-
-            <ImageButton
-                android:id="@+id/play"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_play_big"/>
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_skip_previous"/>
 
 
-            <ImageButton
-                android:id="@+id/next"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_skip_next"/>
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_play_big"/>
 
-        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_skip_next"/>
 
     </LinearLayout>
+
 
 </FrameLayout>

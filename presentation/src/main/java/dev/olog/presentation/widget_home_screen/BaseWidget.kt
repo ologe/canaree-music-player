@@ -49,6 +49,7 @@ abstract class BaseWidget : AbsWidgetApp() {
                 .asBitmap()
                 .load(metadata.image)
                 .priority(Priority.IMMEDIATE)
+                .error(CoverUtils.getGradient(context, metadata.id.toInt()))
                 .override(200)
                 .placeholder(CoverUtils.getGradient(context, metadata.id.toInt()))
                 .into(object : SimpleTarget<Bitmap>() {
