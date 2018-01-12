@@ -55,7 +55,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
-    override fun onActionVisibilityChanged(context: Context, showPrevious: Boolean, showNext: Boolean, appWidgetIds: IntArray) {
+    override fun onActionVisibilityChanged(context: Context, actions: WidgetActions, appWidgetIds: IntArray) {
+        val (showPrevious, showNext) = actions
+
         val remoteViews = RemoteViews(context.packageName, layoutId)
 
         val previousVisibility = if (showPrevious) View.VISIBLE else View.INVISIBLE
