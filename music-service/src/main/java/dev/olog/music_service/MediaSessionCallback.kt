@@ -83,7 +83,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPlay() {
-        player.resume()
+        queue.doWhenReady { player.resume() }
     }
 
     override fun onPause() {
@@ -91,13 +91,17 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToNext() {
-        val metadata = queue.handleSkipToNext()
-        player.playNext(metadata, true)
+        queue.doWhenReady {
+            val metadata = queue.handleSkipToNext()
+            player.playNext(metadata, true)
+        }
     }
 
     override fun onSkipToPrevious() {
-        val metadata = queue.handleSkipToPrevious(player.getBookmark())
-        player.playNext(metadata, false)
+        queue.doWhenReady {
+            val metadata = queue.handleSkipToPrevious(player.getBookmark())
+            player.playNext(metadata, false)
+        }
     }
 
     override fun onSkipToQueueItem(id: Long) {

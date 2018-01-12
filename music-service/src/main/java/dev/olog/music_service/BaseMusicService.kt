@@ -70,8 +70,8 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         }
     }
 
-    abstract protected fun handleAppShortcutPlay(intent: Intent)
-    abstract protected fun handleAppShortcutShuffle(intent: Intent)
+    protected abstract fun handleAppShortcutPlay(intent: Intent)
+    protected abstract fun handleAppShortcutShuffle(intent: Intent)
 
     override fun start() {
         if (!serviceStarted) {

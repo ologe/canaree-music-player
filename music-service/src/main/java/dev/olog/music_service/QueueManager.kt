@@ -19,6 +19,7 @@ import dev.olog.shared.swap
 import io.reactivex.Single
 import io.reactivex.functions.Function
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 class QueueManager @Inject constructor(
@@ -34,6 +35,23 @@ class QueueManager @Inject constructor(
 
 ) : Queue {
 
+    private var atomicBoolean = AtomicBoolean(false)
+    private var action : (() -> Unit)? = null
+
+    private fun setReady(){
+        if (atomicBoolean.compareAndSet(false, true)) {
+            action?.let { it() }
+        }
+    }
+
+    override fun doWhenReady(func: () -> Unit) {
+        if (atomicBoolean.get()) {
+            func()
+        } else {
+            action = func
+        }
+    }
+
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
                 .map { it.map { it.toMediaEntity() } }
@@ -45,7 +63,7 @@ class QueueManager @Inject constructor(
                     it to MathUtils.clamp(
                             bookmarkUseCase.get().toInt(), 0, it.mediaEntity.duration.toInt()
                     ).toLong()
-                }
+                }.doOnSuccess { setReady() }
     }
 
     override fun handleSkipToQueueItem(id: Long): PlayerMediaEntity {
