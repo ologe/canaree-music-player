@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.SystemClock
 import android.support.v4.content.ContextCompat
@@ -43,18 +44,24 @@ abstract class BaseWidget : AbsWidgetApp() {
         val remoteViews = RemoteViews(context.packageName, layoutId)
         remoteViews.setTextViewText(R.id.title, metadata.title)
         remoteViews.setTextViewText(R.id.subtitle, metadata.subtitle)
-        remoteViews.setTextViewText(R.id.duration, TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
+        remoteViews.setTextViewText(R.id.duration, " " + TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
 
         GlideApp.with(context)
                 .asBitmap()
                 .load(metadata.image)
                 .priority(Priority.IMMEDIATE)
-                .error(CoverUtils.getGradient(context, metadata.id.toInt()))
                 .override(200)
                 .placeholder(CoverUtils.getGradient(context, metadata.id.toInt()))
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         remoteViews.setImageViewBitmap(R.id.cover, resource)
+                        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+                    }
+
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                        val drawable = CoverUtils.getGradient(context, metadata.id.toInt())
+                        val bitmap = ImageUtils.getBitmapFromDrawable(drawable)
+                        remoteViews.setImageViewBitmap(R.id.cover, bitmap)
                         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
                     }
                 })

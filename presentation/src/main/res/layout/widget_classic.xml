@@ -47,7 +47,6 @@
                     android:textAppearance="@style/WidgetSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
                     android:textSize="11sp"/>
 
                 <TextView
@@ -56,7 +55,8 @@
                     android:textAppearance="@style/WidgetSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"/>
+                    android:textSize="11sp"
+                    android:layout_marginEnd="8dp"/>
 
             </LinearLayout>
 
@@ -73,7 +73,8 @@
                     android:singleLine="true"
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
-                    android:textAlignment="viewStart" />
+                    android:textAlignment="viewStart"
+                    android:layout_marginEnd="85dp"/>
 
                 <TextView
                     android:id="@+id/subtitle"
@@ -92,56 +93,60 @@
 
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/media_actions"
-            android:orientation="horizontal"
-            android:layoutDirection="ltr"
-            style="@style/WidgetMediaActionContainer"
-            android:layout_marginEnd="@dimen/widget_content_margin_end">
-
-            <ImageButton
-                android:id="@+id/floatingWindow"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="12sp"
-                android:background="@null"
-                android:src="@drawable/vd_bird_singing_24dp" />
-
-            <ImageButton
-                android:id="@+id/favorite"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_not_favorite"/>
-
-            <ImageButton
-                android:id="@+id/previous"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_skip_previous"/>
+    </LinearLayout>
 
 
-            <ImageButton
-                android:id="@+id/play"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_play_big" />
+    <LinearLayout
+        android:id="@+id/media_actions"
+        android:orientation="horizontal"
+        android:layoutDirection="ltr"
+        style="@style/WidgetMediaActionContainer"
+        android:layout_marginEnd="@dimen/widget_content_margin_end"
+        android:layout_gravity="bottom"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageButton
+            android:id="@+id/floatingWindow"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="12sp"
+            android:background="@null"
+            android:src="@drawable/vd_bird_singing_24dp" />
+
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_not_favorite"/>
+
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_skip_previous"/>
 
 
-            <ImageButton
-                android:id="@+id/next"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_skip_next"/>
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_play_big"/>
 
-        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="36dp"
+            android:background="@null"
+            android:src="@drawable/vd_skip_next"/>
 
     </LinearLayout>
 

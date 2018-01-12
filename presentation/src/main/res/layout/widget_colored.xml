@@ -57,7 +57,6 @@
                     android:textAppearance="@style/WidgetSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
                     android:textSize="11sp"/>
 
                 <TextView
@@ -66,7 +65,8 @@
                     android:textAppearance="@style/WidgetSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"/>
+                    android:textSize="11sp"
+                    android:layout_marginEnd="8dp"/>
 
             </LinearLayout>
 
@@ -85,7 +85,7 @@
                     android:ellipsize="marquee"
                     android:fadingEdge="horizontal"
                     android:textAlignment="viewStart"
-                    android:layout_marginEnd="72dp"/>
+                    android:layout_marginEnd="85dp"/>
 
                 <TextView
                     android:id="@+id/subtitle"
