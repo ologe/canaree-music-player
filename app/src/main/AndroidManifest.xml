@@ -74,15 +74,26 @@
             android:name="android.max_aspect"
             android:value="2.1"/>
 
-        <!--widgets-->
-        <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetApp"
+        <!--widget colored-->
+        <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetColored"
             android:label="Colorized">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_app"/>
+                android:resource="@xml/widget_colored"/>
+        </receiver>
+
+        <!--widget classic-->
+        <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetClassic"
+            android:label="Classic">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_classic"/>
         </receiver>
 
         <!--provide storage permission to share intents-->

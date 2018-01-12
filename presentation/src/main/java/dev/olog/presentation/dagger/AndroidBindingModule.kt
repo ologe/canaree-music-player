@@ -6,6 +6,7 @@ import dev.olog.presentation.activity_preferences.blacklist.BlacklistFragment
 import dev.olog.presentation.activity_preferences.categories.LibraryCategoriesFragment
 import dev.olog.presentation.activity_splash.SplashFragment
 import dev.olog.presentation.activity_splash.SplashFragmentTutorial
+import dev.olog.presentation.widget_home_screen.WidgetColored
 
 @Module
 abstract class AndroidBindingModule {
@@ -21,5 +22,8 @@ abstract class AndroidBindingModule {
 
     @ContributesAndroidInjector
     abstract fun provideBlacklistFragment() : BlacklistFragment
+
+    @ContributesAndroidInjector
+    abstract fun provideAppWidget() : WidgetColored
 
 }

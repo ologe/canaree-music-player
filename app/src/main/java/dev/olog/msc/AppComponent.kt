@@ -13,11 +13,13 @@ import dev.olog.presentation.activity_main.di.MainActivityInjector
 import dev.olog.presentation.activity_preferences.di.PreferencesActivityInjector
 import dev.olog.presentation.activity_shortcuts.di.ShortcutsActivityInjector
 import dev.olog.presentation.activity_splash.di.SplashActivityInjector
+import dev.olog.presentation.dagger.AndroidBindingModule
 import javax.inject.Singleton
 
 @Component(modules = arrayOf(
         AppModule::class,
         SchedulersModule::class,
+        AndroidBindingModule::class,
 
         // data
         RepositoryModule::class,

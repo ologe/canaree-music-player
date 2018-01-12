@@ -4,12 +4,13 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import dagger.android.AndroidInjection
 import dev.olog.shared_android.WidgetConstants
 
-abstract class BaseWidgetApp : AppWidgetProvider() {
-
+abstract class AbsWidgetApp : AppWidgetProvider() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        AndroidInjection.inject(this, context)
         super.onReceive(context, intent)
         when (intent.action){
             WidgetConstants.METADATA_CHANGED -> {
@@ -32,20 +33,24 @@ abstract class BaseWidgetApp : AppWidgetProvider() {
                     onPlaybackStateChanged(context, isPlaying, appWidgetIds)
                 }
             }
+            WidgetConstants.ACTION_CHANGED -> {
+                val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
+                    val showPrevious = intent.getBooleanExtra(WidgetConstants.ARGUMENT_SHOW_PREVIOUS, true)
+                    val showNext = intent.getBooleanExtra(WidgetConstants.ARGUMENT_SHOW_NEXT, true)
+                    onActionVisibilityChanged(context, showPrevious, showNext, appWidgetIds)
+                }
+            }
         }
     }
 
-
+    protected abstract fun onActionVisibilityChanged(context: Context, showPrevious: Boolean,
+                                          showNext: Boolean, appWidgetIds: IntArray)
 
     protected abstract fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray)
 
     protected abstract fun onPlaybackStateChanged(context: Context, isPlaying: Boolean, appWidgetIds: IntArray)
 
-    data class WidgetMetadata(
-            val id: Long,
-            val title: String,
-            val subtitle: String,
-            val image: String
-    )
 
 }
+

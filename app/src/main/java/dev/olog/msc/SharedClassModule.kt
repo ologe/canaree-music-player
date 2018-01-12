@@ -9,7 +9,7 @@ import dagger.Provides
 import dev.olog.floating_info.FloatingInfoService
 import dev.olog.music_service.MusicService
 import dev.olog.presentation.activity_main.MainActivity
-import dev.olog.presentation.widget_home_screen.WidgetApp
+import dev.olog.presentation.widget_home_screen.WidgetColored
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import dev.olog.shared_android.interfaces.MainActivityClass
 import dev.olog.shared_android.interfaces.MusicServiceClass
@@ -50,7 +50,7 @@ class SharedClassModule {
         return object : WidgetClasses {
             override fun get(): List<Class<out AppWidgetProvider>> {
                 return listOf(
-                        WidgetApp::class.java
+                        WidgetColored::class.java
                 )
             }
         }

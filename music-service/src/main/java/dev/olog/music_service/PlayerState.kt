@@ -1,5 +1,8 @@
 package dev.olog.music_service
 
+import android.appwidget.AppWidgetManager
+import android.content.Context
+import android.content.Intent
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.domain.interactor.music_service.BookmarkUseCase
@@ -7,14 +10,20 @@ import dev.olog.domain.interactor.music_service.ToggleSkipToNextVisibilityUseCas
 import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.PositionInQueue
+import dev.olog.shared.ApplicationContext
+import dev.olog.shared_android.WidgetConstants
+import dev.olog.shared_android.extension.getAppWidgetsIdsFor
+import dev.olog.shared_android.interfaces.WidgetClasses
 import javax.inject.Inject
 
 @PerService
 class PlayerState @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
         private val bookmarkUseCase: BookmarkUseCase,
         private val toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase,
-        private val toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase
+        private val toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase,
+        private val widgetClasses: WidgetClasses
 
 ){
 
@@ -30,6 +39,8 @@ class PlayerState @Inject constructor(
     fun prepare(id: Long) {
         builder.setActiveQueueItemId(id)
         mediaSession.setPlaybackState(builder.build())
+
+        notifyWidgetsOfStateChanged(false)
     }
 
     fun update(state: Int, bookmark: Long): PlaybackStateCompat {
@@ -53,6 +64,9 @@ class PlayerState @Inject constructor(
 
         val playbackState = builder.build()
         mediaSession.setPlaybackState(playbackState)
+
+        notifyWidgetsOfStateChanged(isPlaying)
+
         return playbackState
     }
 
@@ -62,18 +76,22 @@ class PlayerState @Inject constructor(
             positionInQueue === PositionInQueue.FIRST -> {
                 toggleSkipToNextVisibilityUseCase.set(true)
                 toggleSkipToPreviousVisibilityUseCase.set(false)
+                notifyWidgetsActionChanged(false, true)
             }
             positionInQueue === PositionInQueue.LAST -> {
                 toggleSkipToNextVisibilityUseCase.set(false)
                 toggleSkipToPreviousVisibilityUseCase.set(true)
+                notifyWidgetsActionChanged(true, false)
             }
             positionInQueue === PositionInQueue.IN_MIDDLE -> {
                 toggleSkipToNextVisibilityUseCase.set(true)
                 toggleSkipToPreviousVisibilityUseCase.set(true)
+                notifyWidgetsActionChanged(true, true)
             }
             positionInQueue == PositionInQueue.BOTH -> {
                 toggleSkipToNextVisibilityUseCase.set(false)
                 toggleSkipToPreviousVisibilityUseCase.set(false)
+                notifyWidgetsActionChanged(false, false)
             }
         }
 
@@ -103,6 +121,35 @@ class PlayerState @Inject constructor(
                 PlaybackStateCompat.ACTION_SET_RATING or
                 PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
+    }
+
+    private fun notifyWidgetsOfStateChanged(isPlaying: Boolean){
+        for (clazz in widgetClasses.get()) {
+            val ids = context.getAppWidgetsIdsFor(clazz)
+
+            val intent = Intent(context, clazz).apply {
+                action = WidgetConstants.STATE_CHANGED
+                putExtra(WidgetConstants.ARGUMENT_IS_PLAYING, isPlaying)
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            }
+
+            context.sendBroadcast(intent)
+        }
+    }
+
+    private fun notifyWidgetsActionChanged(showPrevious: Boolean, showNext: Boolean){
+        for (clazz in widgetClasses.get()) {
+            val ids = context.getAppWidgetsIdsFor(clazz)
+
+            val intent = Intent(context, clazz).apply {
+                action = WidgetConstants.ACTION_CHANGED
+                putExtra(WidgetConstants.ARGUMENT_SHOW_PREVIOUS, showPrevious)
+                putExtra(WidgetConstants.ARGUMENT_SHOW_NEXT, showNext)
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            }
+
+            context.sendBroadcast(intent)
+        }
     }
 
 }

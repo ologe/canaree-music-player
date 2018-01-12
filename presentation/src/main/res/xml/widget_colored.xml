@@ -6,6 +6,6 @@
     android:minResizeWidth="@dimen/app_widget_four_cell"
     android:minResizeHeight="@dimen/app_widget_one_cell"
     android:updatePeriodMillis="0"
-    android:initialLayout="@layout/widget_app"
+    android:initialLayout="@layout/widget_colored"
     android:resizeMode="none"
     android:widgetCategory="home_screen"/>
