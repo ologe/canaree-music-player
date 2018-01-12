@@ -154,7 +154,7 @@ abstract class BaseWidget : AbsWidgetApp() {
         val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false)
 
         return Palette.from(scaledBitmap)
-                .maximumColorCount(20)
+                .maximumColorCount(16)
                 .generate()
     }
 

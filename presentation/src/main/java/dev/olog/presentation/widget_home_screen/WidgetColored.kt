@@ -1,6 +1,5 @@
 package dev.olog.presentation.widget_home_screen
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.graphics.ColorUtils
@@ -22,7 +21,6 @@ class WidgetColored : BaseWidget() {
     }
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
-        super.onMetadataChanged(context, metadata, appWidgetIds)
 
         paletteDisposable.unsubscribe()
         paletteDisposable = Single.fromCallable { generatePaletteColors(context, metadata) }
@@ -39,7 +37,8 @@ class WidgetColored : BaseWidget() {
 
                     setMediaButtonColors(context, remoteViews, it)
 
-                    AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+                    super.onMetadataChanged(context, metadata, appWidgetIds)
+//                    AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
 
                 }, Throwable::printStackTrace)
     }
