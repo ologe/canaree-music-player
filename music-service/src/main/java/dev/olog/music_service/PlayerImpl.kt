@@ -11,10 +11,8 @@ import android.provider.MediaStore
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
-import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
@@ -74,7 +72,6 @@ class PlayerImpl @Inject constructor(
     init {
         lifecycle.addObserver(this)
         exoPlayer.addListener(this)
-        exoPlayer.audioAttributes = getAudioAttributes()
 
         disposable = lowerVolumeOnNightUseCase.observe()
                 .subscribe({ lower ->
@@ -98,7 +95,7 @@ class PlayerImpl @Inject constructor(
         exoPlayer.playWhenReady = false
         exoPlayer.seekTo(bookmark)
 
-        playerState.prepare(entity.id)
+        playerState.prepare(entity.id, bookmark)
         playerState.toggleSkipToActions(positionInQueue)
 
         listeners.forEach { it.onPrepare(entity) }
@@ -236,13 +233,6 @@ class PlayerImpl @Inject constructor(
 
     private fun releaseFocus() {
         AudioFocusBehavior.abandonFocus(audioManager.get(), this)
-    }
-
-    private fun getAudioAttributes(): AudioAttributes {
-        return AudioAttributes.Builder()
-                .setContentType(C.CONTENT_TYPE_MUSIC)
-                .setUsage(C.USAGE_MEDIA)
-                .build()
     }
 
     override fun addListener(listener: PlayerLifecycle.Listener) {

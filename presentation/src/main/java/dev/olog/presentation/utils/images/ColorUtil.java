@@ -10,10 +10,21 @@ public class ColorUtil {
     private static final String TAG = "ColorUtil";
     private static final ThreadLocal<double[]> TEMP_ARRAY = new ThreadLocal<>();
 
+    /**
+     * Returns the luminance of a color as a float between {@code 0.0} and {@code 1.0}.
+     * <p>Defined as the Y component in the XYZ representation of {@code color}.</p>
+     */
     public static double calculateLuminance(int backgroundColor) {
         return ColorUtils.calculateLuminance(backgroundColor);
     }
 
+    /**
+     * Returns the contrast ratio between {@code foreground} and {@code background}.
+     * {@code background} must be opaque.
+     * <p>
+     * Formula defined
+     * <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef">here</a>.
+     */
     public static double calculateContrast(@ColorInt int foreground, @ColorInt int background) {
         if (Color.alpha(background) != 255) {
             Log.wtf(TAG, "background can not be translucent: #"
@@ -29,6 +40,9 @@ public class ColorUtil {
         return Math.max(luminance1, luminance2) / Math.min(luminance1, luminance2);
     }
 
+    /**
+     * Composite two potentially translucent colors over each other and returns the result.
+     */
     public static int compositeColors(@ColorInt int foreground, @ColorInt int background) {
         int bgAlpha = Color.alpha(background);
         int fgAlpha = Color.alpha(foreground);
@@ -55,6 +69,16 @@ public class ColorUtil {
         return calculateContrast(foregroundColor, backgroundColor) >= 4.5;
     }
 
+    /**
+     * Finds a suitable color such that there's enough contrast.
+     *
+     * @param color the color to start searching from.
+     * @param other the color to ensure contrast against. Assumed to be lighter than {@param color}
+     * @param findFg if true, we assume {@param color} is a foreground, otherwise a background.
+     * @param minRatio the minimum contrast ratio required.
+     * @return a color with the same hue as {@param color}, potentially darkened to meet the
+     *          contrast ratio.
+     */
     public static int findContrastColor(int color, int other, boolean findFg, double minRatio) {
         int fg = findFg ? color : other;
         int bg = findFg ? other : color;
@@ -81,6 +105,14 @@ public class ColorUtil {
         return ColorUtils.LABToColor(low, a, b);
     }
 
+    /**
+     * Change a color by a specified value
+     * @param baseColor the base color to lighten
+     * @param amount the amount to lighten the color from 0 to 100. This corresponds to the L
+     *               increase in the LAB color space. A negative value will darken the color and
+     *               a positive will lighten it.
+     * @return the changed color
+     */
     public static int changeColorLightness(int baseColor, int amount) {
         final double[] result = getTempDouble3Array();
         ColorUtils.colorToLAB(baseColor, result);
@@ -97,6 +129,16 @@ public class ColorUtil {
         return result;
     }
 
+    /**
+     * Finds a suitable color such that there's enough contrast.
+     *
+     * @param color the color to start searching from.
+     * @param other the color to ensure contrast against. Assumed to be darker than {@param color}
+     * @param findFg if true, we assume {@param color} is a foreground, otherwise a background.
+     * @param minRatio the minimum contrast ratio required.
+     * @return a color with the same hue as {@param color}, potentially darkened to meet the
+     *          contrast ratio.
+     */
     public static int findContrastColorAgainstDark(int color, int other, boolean findFg,
                                                    double minRatio) {
         int fg = findFg ? color : other;

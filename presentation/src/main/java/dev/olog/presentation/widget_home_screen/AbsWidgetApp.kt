@@ -22,7 +22,8 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                     val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)
                     val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)
                     val image = intent.getStringExtra(WidgetConstants.ARGUMENT_IMAGE)
-                    val metadata = WidgetMetadata(id, title, subtitle, image)
+                    val duration = intent.getLongExtra(WidgetConstants.ARGUMENT_DURATION, 0)
+                    val metadata = WidgetMetadata(id, title, subtitle, image, duration)
                     onMetadataChanged(context, metadata, appWidgetIds)
                 }
             }
@@ -30,7 +31,9 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
                     val isPlaying = intent.getBooleanExtra(WidgetConstants.ARGUMENT_IS_PLAYING, false)
-                    onPlaybackStateChanged(context, isPlaying, appWidgetIds)
+                    val bookmark = intent.getLongExtra(WidgetConstants.ARGUMENT_BOOKMARK, 0)
+                    val state = WidgetState(isPlaying, bookmark)
+                    onPlaybackStateChanged(context, state, appWidgetIds)
                 }
             }
             WidgetConstants.ACTION_CHANGED -> {
@@ -49,7 +52,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
 
     protected abstract fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray)
 
-    protected abstract fun onPlaybackStateChanged(context: Context, isPlaying: Boolean, appWidgetIds: IntArray)
+    protected abstract fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray)
 
 
 }

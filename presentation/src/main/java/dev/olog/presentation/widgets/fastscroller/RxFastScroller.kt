@@ -107,8 +107,6 @@ class RxFastScroller @JvmOverloads constructor(
     private var bubbleTextDisposable : Disposable? = null
     private var scrollDisposable : Disposable? = null
 
-    private var mFastScrollStateChangeListener: FastScrollStateChangeListener? = null
-
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
     private val mScrollListener = object : RecyclerView.OnScrollListener() {
@@ -140,6 +138,8 @@ class RxFastScroller @JvmOverloads constructor(
             }
         }
     }
+
+    private var showBubble = false
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
         params.width = LinearLayout.LayoutParams.WRAP_CONTENT
@@ -202,8 +202,13 @@ class RxFastScroller @JvmOverloads constructor(
         mSectionIndexer = sectionIndexer
     }
 
+    fun showBubble(show: Boolean){
+        showBubble = show
+    }
+
     fun attachRecyclerView(recyclerView: RecyclerView) {
         mRecyclerView = recyclerView
+
 
         if (mRecyclerView != null) {
             mRecyclerView!!.addOnScrollListener(mScrollListener)
@@ -214,18 +219,20 @@ class RxFastScroller @JvmOverloads constructor(
         super.onAttachedToWindow()
 
         if (!isInEditMode){
-            bubbleTextDisposable = bubbleTextPublisher
-                    .onBackpressureLatest()
-                    .throttleLast(TEXT_THROTTLE, TimeUnit.MILLISECONDS)
-                    .distinctUntilChanged()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map {
-                        when {
-                            it < "A" -> "#"
-                            it > "Z" -> "?"
-                            else -> it
-                        }
-                    }.subscribe({ mBubbleView!!.text = it }, Throwable::printStackTrace)
+            if (showBubble){
+                bubbleTextDisposable = bubbleTextPublisher
+                        .onBackpressureLatest()
+                        .throttleLast(TEXT_THROTTLE, TimeUnit.MILLISECONDS)
+                        .distinctUntilChanged()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .map {
+                            when {
+                                it < "A" -> "#"
+                                it > "Z" -> "?"
+                                else -> it
+                            }
+                        }.subscribe({ mBubbleView!!.text = it }, Throwable::printStackTrace)
+            }
 
             scrollDisposable = scrollPublisher
                     .onBackpressureLatest()
@@ -305,15 +312,6 @@ class RxFastScroller @JvmOverloads constructor(
         mBubbleView!!.setTextColor(color)
     }
 
-    /**
-     * Set the fast scroll state change listener.
-     *
-     * @param fastScrollStateChangeListener The interface that will listen to fastscroll state change events
-     */
-    fun setFastScrollStateChangeListener(fastScrollStateChangeListener: FastScrollStateChangeListener) {
-        mFastScrollStateChangeListener = fastScrollStateChangeListener
-    }
-
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
         visibility = if (enabled) View.VISIBLE else View.GONE
@@ -336,13 +334,10 @@ class RxFastScroller @JvmOverloads constructor(
                     showScrollbar()
                 }
 
-                if (!isViewVisible(mBubbleView)) {
+                if (!isViewVisible(mBubbleView) && showBubble) {
                     showBubble()
                 }
 
-                if (mFastScrollStateChangeListener != null) {
-                    mFastScrollStateChangeListener!!.onFastScrollStart()
-                }
                 val y = event.y
                 setViewPositions(y)
                 setRecyclerViewPosition(y)
@@ -361,12 +356,8 @@ class RxFastScroller @JvmOverloads constructor(
                     handler.postDelayed(mScrollbarHider, SCROLL_BAR_HIDE_DELAY.toLong())
                 }
 
-                if (isViewVisible(mBubbleView)) {
+                if (isViewVisible(mBubbleView) && showBubble) {
                     hideBubble()
-                }
-
-                if (mFastScrollStateChangeListener != null) {
-                    mFastScrollStateChangeListener!!.onFastScrollStop()
                 }
 
                 return true

@@ -36,11 +36,11 @@ class PlayerState @Inject constructor(
 //        mediaSession.setPlaybackState(builder.build())
     }
 
-    fun prepare(id: Long) {
+    fun prepare(id: Long, bookmark: Long) {
         builder.setActiveQueueItemId(id)
         mediaSession.setPlaybackState(builder.build())
 
-        notifyWidgetsOfStateChanged(false)
+        notifyWidgetsOfStateChanged(false, bookmark)
     }
 
     fun update(state: Int, bookmark: Long): PlaybackStateCompat {
@@ -65,7 +65,7 @@ class PlayerState @Inject constructor(
         val playbackState = builder.build()
         mediaSession.setPlaybackState(playbackState)
 
-        notifyWidgetsOfStateChanged(isPlaying)
+        notifyWidgetsOfStateChanged(isPlaying, bookmark)
 
         return playbackState
     }
@@ -74,13 +74,13 @@ class PlayerState @Inject constructor(
 
         when {
             positionInQueue === PositionInQueue.FIRST -> {
-                toggleSkipToNextVisibilityUseCase.set(true)
                 toggleSkipToPreviousVisibilityUseCase.set(false)
+                toggleSkipToNextVisibilityUseCase.set(true)
                 notifyWidgetsActionChanged(false, true)
             }
             positionInQueue === PositionInQueue.LAST -> {
-                toggleSkipToNextVisibilityUseCase.set(false)
                 toggleSkipToPreviousVisibilityUseCase.set(true)
+                toggleSkipToNextVisibilityUseCase.set(false)
                 notifyWidgetsActionChanged(true, false)
             }
             positionInQueue === PositionInQueue.IN_MIDDLE -> {
@@ -123,13 +123,14 @@ class PlayerState @Inject constructor(
                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
     }
 
-    private fun notifyWidgetsOfStateChanged(isPlaying: Boolean){
+    private fun notifyWidgetsOfStateChanged(isPlaying: Boolean, bookmark: Long){
         for (clazz in widgetClasses.get()) {
             val ids = context.getAppWidgetsIdsFor(clazz)
 
             val intent = Intent(context, clazz).apply {
                 action = WidgetConstants.STATE_CHANGED
                 putExtra(WidgetConstants.ARGUMENT_IS_PLAYING, isPlaying)
+                putExtra(WidgetConstants.ARGUMENT_BOOKMARK, bookmark)
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             }
 
