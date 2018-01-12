@@ -6,9 +6,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.SystemClock
 import android.support.v4.content.ContextCompat
@@ -17,18 +14,12 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
 import android.view.View
 import android.widget.RemoteViews
-import com.bumptech.glide.Priority
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
-import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_main.MainActivity
-import dev.olog.presentation.utils.images.PaletteUtil
+import dev.olog.presentation.utils.images.ImageProcessorResult
 import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared.constants.MusicConstants
-import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.ImageUtils
-import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.interfaces.MusicServiceClass
 import javax.inject.Inject
 
@@ -40,35 +31,6 @@ abstract class BaseWidget : AbsWidgetApp() {
 
     @Inject lateinit var musicServiceClass: MusicServiceClass
 
-    override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
-        val remoteViews = RemoteViews(context.packageName, layoutId)
-        remoteViews.setTextViewText(R.id.title, metadata.title)
-        remoteViews.setTextViewText(R.id.subtitle, metadata.subtitle)
-        remoteViews.setTextViewText(R.id.duration, " " + TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
-
-        GlideApp.with(context)
-                .asBitmap()
-                .load(metadata.image)
-                .priority(Priority.IMMEDIATE)
-                .override(200)
-                .placeholder(CoverUtils.getGradient(context, metadata.id.toInt()))
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        remoteViews.setImageViewBitmap(R.id.cover, resource)
-                        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
-                    }
-
-                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                        val drawable = CoverUtils.getGradient(context, metadata.id.toInt())
-                        val bitmap = ImageUtils.getBitmapFromDrawable(drawable)
-                        remoteViews.setImageViewBitmap(R.id.cover, bitmap)
-                        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
-                    }
-                })
-
-        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
-    }
-
     override fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray) {
         BaseWidget.IS_PLAYING = state.isPlaying
 
@@ -78,9 +40,6 @@ abstract class BaseWidget : AbsWidgetApp() {
             ContextCompat.getDrawable(context, R.drawable.vd_pause_big)!!
         } else ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!
 
-        val buttonColor = getColorPalette()?.primaryText ?: Color.BLACK
-
-        playPauseIcon.setColorFilter(buttonColor, PorterDuff.Mode.SRC_ATOP)
         remoteViews.setImageViewBitmap(R.id.play, ImageUtils.getBitmapFromDrawable(playPauseIcon))
 
         remoteViews.setOnClickPendingIntent(R.id.floatingWindow, buildFloatingInfoPendingIntent(context))
@@ -138,49 +97,29 @@ abstract class BaseWidget : AbsWidgetApp() {
                 Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    protected fun generatePaletteColors(context: Context, metadata: WidgetMetadata): PaletteUtil.ColorsPalette {
-        val palette = generatePalette(context, metadata)
-
-        val background = palette.getDominantColor(palette.getDarkMutedColor(palette.getMutedColor(palette.getLightMutedColor(Color.BLACK))))
-        val foreground = palette.getLightVibrantColor(palette.getVibrantColor(palette.getDarkVibrantColor(Color.WHITE)))
-
-        return PaletteUtil.ensureColors(background, foreground)
-    }
-
     protected fun generatePalette(context: Context, metadata: WidgetMetadata): Palette {
         val uri = Uri.parse(metadata.image)
 
         val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, uri, metadata.id)
         val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false)
 
-        return Palette.from(scaledBitmap)
-                .maximumColorCount(16)
-                .generate()
+        return Palette.from(scaledBitmap).generate()
     }
 
-    protected fun setMediaButtonColors(context: Context, remoteViews: RemoteViews, palette: PaletteUtil.ColorsPalette){
-        val button = listOf(
-                R.id.floatingWindow to ContextCompat.getDrawable(context, R.drawable.vd_bird_singing_24dp)!!,
-                R.id.favorite to ContextCompat.getDrawable(context, R.drawable.vd_not_favorite)!!,
-                R.id.previous to ContextCompat.getDrawable(context, R.drawable.vd_skip_previous)!!,
-                R.id.play to ContextCompat.getDrawable(context,
-                        if (IS_PLAYING) R.drawable.vd_pause_big else R.drawable.vd_play_big)!! ,
-                R.id.next to ContextCompat.getDrawable(context, R.drawable.vd_skip_next)!!
-        )
-        for ((id, drawable) in button) {
-            drawable.setColorFilter(palette.primaryText, PorterDuff.Mode.SRC_ATOP)
-            remoteViews.setImageViewBitmap(id, ImageUtils.getBitmapFromDrawable(drawable))
-        }
+    protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){
+        remoteViews.setInt(R.id.floatingWindow, "setColorFilter", color)
+        remoteViews.setInt(R.id.favorite, "setColorFilter", color)
+        remoteViews.setInt(R.id.previous, "setColorFilter", color)
+        remoteViews.setInt(R.id.play, "setColorFilter", color)
+        remoteViews.setInt(R.id.next, "setColorFilter", color)
     }
 
-    protected fun updateTextColor(remoteViews: RemoteViews, palette: PaletteUtil.ColorsPalette){
-        remoteViews.setTextColor(R.id.title, palette.primaryText)
-        remoteViews.setTextColor(R.id.subtitle, palette.secondaryText)
-        remoteViews.setTextColor(R.id.bookmark, palette.secondaryText)
-        remoteViews.setTextColor(R.id.duration, palette.secondaryText)
+    protected fun updateTextColor(remoteViews: RemoteViews, palette: ImageProcessorResult){
+        remoteViews.setTextColor(R.id.title, palette.primaryTextColor)
+        remoteViews.setTextColor(R.id.subtitle, palette.secondaryTextColor)
+        remoteViews.setTextColor(R.id.bookmark, palette.secondaryTextColor)
+        remoteViews.setTextColor(R.id.duration, palette.secondaryTextColor)
     }
-
-    protected open fun getColorPalette() : PaletteUtil.ColorsPalette? = null
 
     protected abstract val layoutId : Int
 

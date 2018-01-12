@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/background"
@@ -18,28 +18,33 @@
         android:src="@drawable/placeholder_musical_note"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:layout_gravity="top|end"
-        tools:layout_height="90dp" />
+        tools:layout_height="100dp"
+        tools:layout_width="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/cover"
+        android:layout_alignBottom="@+id/cover">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/widget_min_content_height"
             android:layout_marginTop="@dimen/widget_content_margin_top"
             android:layout_marginStart="@dimen/widget_content_margin_start"
-            android:layout_marginEnd="@dimen/widget_content_margin_end"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp"
+            android:minHeight="@dimen/widget_min_content_height">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="2dp">
 
                 <Chronometer
@@ -61,6 +66,7 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,15 +82,14 @@
                     android:fadingEdge="horizontal"
                     android:textAlignment="viewStart"
                     android:layout_marginEnd="85dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/subtitle"
                     android:layout_marginTop="0.5dp"
                     android:text="An awesome artist"
                     android:ellipsize="end"
-                    android:textColor="@android:color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fadingEdge="horizontal"
@@ -95,62 +100,71 @@
             </LinearLayout>
 
         </FrameLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/media_actions"
-            android:orientation="horizontal"
-            android:layoutDirection="ltr"
-            style="@style/WidgetMediaActionContainer"
-            android:layout_marginEnd="@dimen/widget_content_margin_end"
-            android:layout_gravity="bottom"
-            android:layout_height="36dp"
-            android:layout_marginBottom="8dp">
+    <LinearLayout
+        android:id="@+id/media_actions"
+        android:orientation="horizontal"
+        android:layoutDirection="ltr"
+        style="@style/WidgetMediaActionContainer"
+        android:layout_height="36dp"
+        android:layout_alignBottom="@+id/cover"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/cover">
 
-            <ImageButton
-                android:id="@+id/floatingWindow"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="12sp"
-                android:background="@null"
-                android:src="@drawable/vd_bird_singing_24dp" />
+        <ImageButton
+            android:id="@+id/floatingWindow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12sp"
+            android:background="@null"
+            android:scaleX=".9"
+            android:scaleY=".9"
+            android:src="@drawable/vd_bird_singing_24dp" />
 
-            <ImageButton
-                android:id="@+id/favorite"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_not_favorite"/>
+        <ImageButton
+            android:id="@+id/favorite"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleX=".9"
+            android:scaleY=".9"
+            android:src="@drawable/vd_not_favorite"/>
 
-            <ImageButton
-                android:id="@+id/previous"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_skip_previous"/>
-
-
-            <ImageButton
-                android:id="@+id/play"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_play_big"/>
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleX=".8"
+            android:scaleY=".8"
+            android:src="@drawable/vd_skip_previous"/>
 
 
-            <ImageButton
-                android:id="@+id/next"
-                android:layout_width="0dp"
-                android:layout_weight=".8"
-                android:layout_height="36dp"
-                android:background="@null"
-                android:src="@drawable/vd_skip_next"/>
+        <ImageButton
+            android:id="@+id/play"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleX=".9"
+            android:scaleY=".9"
+            android:src="@drawable/vd_play_big"/>
 
-        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_weight=".8"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleX=".8"
+            android:scaleY=".8"
+            android:src="@drawable/vd_skip_next"/>
 
     </LinearLayout>
 
 
-</FrameLayout>
+</RelativeLayout>

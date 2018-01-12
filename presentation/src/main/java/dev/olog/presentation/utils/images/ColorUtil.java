@@ -166,5 +166,8 @@ public class ColorUtil {
         return findFg ? fg : bg;
     }
 
+    public static boolean isColorLight(int backgroundColor) {
+        return calculateLuminance(backgroundColor) > 0.5f;
+    }
 
 }

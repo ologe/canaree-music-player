@@ -9,7 +9,7 @@ object PaletteUtil {
     private const val LIGHTNESS_TEXT_DIFFERENCE_LIGHT = 20
     private const val LIGHTNESS_TEXT_DIFFERENCE_DARK = -10
 
-    fun ensureColors(background: Int, foreground: Int) : ColorsPalette {
+    fun ensureColors(background: Int, foreground: Int) : Triple<Int, Int, Int> {
         var primaryTextColor = COLOR_INVALID
         var secondaryTextColor = COLOR_INVALID
 
@@ -71,13 +71,8 @@ object PaletteUtil {
                 }
             }
         }
-        return ColorsPalette(background, primaryTextColor, secondaryTextColor)
-    }
 
-    data class ColorsPalette(
-        val background: Int,
-        val primaryText: Int,
-        val secondaryText: Int
-    )
+        return Triple(background, primaryTextColor, secondaryTextColor)
+    }
 
 }
