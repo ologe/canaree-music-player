@@ -1,6 +1,7 @@
 package dev.olog.music_service
 
 import android.support.annotation.CheckResult
+import android.support.annotation.MainThread
 import android.support.v4.math.MathUtils
 import dev.olog.domain.interactor.music_service.CurrentIdInPlaylistUseCase
 import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
@@ -8,6 +9,7 @@ import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.assertMainThread
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -37,7 +39,8 @@ class QueueImpl @Inject constructor(
         persist(songList)
     }
 
-    private fun persist(songList: List<MediaEntity>) {
+    private fun persist(songList: List<MediaEntity>,
+                        onSuccess: () -> Unit = { /*do nothing on default*/ }) {
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = Single.fromCallable { songList.toList() }
                 .flattenAsObservable { it }
@@ -45,21 +48,25 @@ class QueueImpl @Inject constructor(
                 .observeOn(Schedulers.io())
                 .map { it.mediaId to it.id }
                 .toList()
+                .doOnSuccess { onSuccess() }
                 .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
 
     }
 
     fun updateCurrentSongPosition(list: List<MediaEntity>, position: Int){
-        val safePosition = ensurePosition(list, position)
-        val idInPlaylist = list[safePosition].idInPlaylist
+        val copy = list.toList()
+
+        val safePosition = ensurePosition(copy, position)
+        val idInPlaylist = copy[safePosition].idInPlaylist
         currentSongPosition = safePosition
         currentSongIdUseCase.set(idInPlaylist)
 
         queueMediaSession.onNext(
-                list.drop(safePosition + 1).take(51).toList())
+                copy.drop(safePosition + 1).take(51).toList())
     }
 
+    @CheckResult
     fun getSongById(songId: Long) : MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.id == songId }
         val safePosition = ensurePosition(playingQueue, positionToTest)
@@ -69,6 +76,7 @@ class QueueImpl @Inject constructor(
         return media
     }
 
+    @CheckResult
     fun getSongByIdInPlaylist(idInPlaylist: Int): MediaEntity {
         val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist == idInPlaylist }
         val safePosition = ensurePosition(playingQueue, positionToTest)
@@ -78,7 +86,11 @@ class QueueImpl @Inject constructor(
         return media
     }
 
+    @CheckResult
+    @MainThread
     fun getNextSong() : MediaEntity {
+        assertMainThread()
+
         if (repeatMode.isRepeatOne()){
             return playingQueue[currentSongPosition]
         }
@@ -95,15 +107,18 @@ class QueueImpl @Inject constructor(
         return media
     }
 
+    @CheckResult
+    @MainThread
     fun getPreviousSong(playerBookmark: Long) : MediaEntity {
+        assertMainThread()
+
         if (repeatMode.isRepeatOne() || playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD){
             return playingQueue[currentSongPosition]
         }
 
         var newPosition = currentSongPosition - 1
         if (newPosition < 0) {
-            newPosition = if (repeatMode.isRepeatAll()) playingQueue.lastIndex
-                            else 0
+            newPosition = if (repeatMode.isRepeatAll()) playingQueue.lastIndex else 0
         }
 
         val safePosition = ensurePosition(playingQueue, newPosition)
@@ -118,39 +133,56 @@ class QueueImpl @Inject constructor(
         return MathUtils.clamp(position, 0, list.lastIndex)
     }
 
+    @MainThread
     fun shuffle(){
-        val item = playingQueue[currentSongPosition]
+        assertMainThread()
 
         playingQueue.shuffle()
 
-        val songPosition = playingQueue.indexOf(item)
+        val currentIdInPlaylist = currentSongIdUseCase.get()
+        val songPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
         if (songPosition != 0){
             playingQueue.swap(0, songPosition)
         }
 
-        currentSongPosition = 0
-        updateCurrentSongPosition(playingQueue, currentSongPosition)
-        persist(playingQueue)
+        val copy = playingQueue.toList()
+
+        persist(copy, onSuccess = {
+            updateCurrentSongPosition(copy, 0)
+            // todo check if current song is first/last ecc and update ui
+        })
     }
 
+    @MainThread
     fun sort(){
-        val playingSong = playingQueue[currentSongPosition]
-        // todo proper sorting in detail
-        playingQueue.sortBy { it.title }
+        assertMainThread()
 
-        currentSongPosition = playingQueue.indexOf(playingSong)
-        updateCurrentSongPosition(playingQueue, currentSongPosition)
-        persist(playingQueue)
+        // todo proper sorting in detail
+        playingQueue.sortBy { it.title.toLowerCase() }
+
+        val copy = playingQueue.toList()
+
+        persist(copy, onSuccess = {
+            val currentIdInPlaylist = currentSongIdUseCase.get()
+            val newPosition = copy.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
+            updateCurrentSongPosition(copy, newPosition)
+            // todo check if current song is first/last ecc and update ui
+        })
     }
 
     fun handleSwap(from: Int, to: Int) {
+        assertMainThread()
+
         playingQueue.swap(from, to)
-        persist(playingQueue)
-        val currentInPlaylist = currentSongIdUseCase.get()
-        updateCurrentSongPosition(playingQueue, playingQueue
-                .indexOfFirst { it.idInPlaylist == currentInPlaylist }
-        )
-        // todo check if current song is first/last ecc and update ui
+
+        val copy = playingQueue.toList()
+
+        persist(copy, onSuccess = {
+            val currentInIdPlaylist = currentSongIdUseCase.get() //id remains the same
+            updateCurrentSongPosition(copy, copy
+                    .indexOfFirst { it.idInPlaylist == currentInIdPlaylist })
+            // todo check if current song is first/last ecc and update ui
+        })
     }
 
     fun handleSwapRelative(from: Int, to: Int) {

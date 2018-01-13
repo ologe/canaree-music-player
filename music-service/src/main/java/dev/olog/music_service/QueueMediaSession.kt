@@ -35,13 +35,16 @@ class QueueMediaSession @Inject constructor(
                 .map { it.map { it.toPlayingQueueSong() } }
                 .subscribe(updateMiniQueueUseCase::execute, Throwable::printStackTrace)
 
-        notificationQueueDisposable = publisher.debounce(50, TimeUnit.MILLISECONDS)
+        notificationQueueDisposable = publisher
+                .debounce(50, TimeUnit.MILLISECONDS)
                 .delay(100, TimeUnit.MILLISECONDS)
                 .flatMapSingle { it.toFlowable()
                         .take(6)
                         .map { it.toQueueItem() }
                         .toList()
                 }.subscribe(mediaSession::setQueue, Throwable::printStackTrace)
+
+
     }
 
     fun onNext(list: List<MediaEntity>){
