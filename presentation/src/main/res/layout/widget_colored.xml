@@ -118,8 +118,8 @@
             android:layout_height="match_parent"
             android:padding="12sp"
             android:background="@null"
-            android:scaleX=".9"
-            android:scaleY=".9"
+            android:scaleX=".8"
+            android:scaleY=".8"
             android:src="@drawable/vd_bird_singing_24dp" />
 
         <ImageButton
@@ -128,8 +128,8 @@
             android:layout_weight=".8"
             android:layout_height="match_parent"
             android:background="@null"
-            android:scaleX=".9"
-            android:scaleY=".9"
+            android:scaleX=".8"
+            android:scaleY=".8"
             android:src="@drawable/vd_not_favorite"/>
 
         <ImageButton
