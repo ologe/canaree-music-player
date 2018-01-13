@@ -6,6 +6,7 @@ import android.support.v4.math.MathUtils
 import dev.olog.domain.interactor.music_service.CurrentIdInPlaylistUseCase
 import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
 import dev.olog.music_service.model.MediaEntity
+import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import dev.olog.shared.unsubscribe
@@ -188,4 +189,19 @@ class QueueImpl @Inject constructor(
     fun handleSwapRelative(from: Int, to: Int) {
         handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
     }
+
+    fun computePositionInQueue(list: List<MediaEntity>, position: Int): PositionInQueue {
+        return when {
+            repeatMode.isRepeatAll() || repeatMode.isRepeatOne() -> PositionInQueue.IN_MIDDLE
+            position == 0 && position == list.lastIndex -> PositionInQueue.BOTH
+            position == 0 -> PositionInQueue.FIRST
+            position == list.lastIndex -> PositionInQueue.LAST
+            else -> PositionInQueue.IN_MIDDLE
+        }
+    }
+
+    fun currentPositionInQueue(): PositionInQueue{
+        return computePositionInQueue(playingQueue, currentSongPosition)
+    }
+
 }

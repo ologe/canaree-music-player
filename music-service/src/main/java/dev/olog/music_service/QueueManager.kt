@@ -27,7 +27,6 @@ class QueueManager @Inject constructor(
         private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
         private val currentSongIdUseCase: CurrentIdInPlaylistUseCase,
         private val bookmarkUseCase: BookmarkUseCase,
-        private val repeatMode: RepeatMode,
         private val shuffleMode: ShuffleMode,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
@@ -56,38 +55,37 @@ class QueueManager @Inject constructor(
         return getPlayingQueueUseCase.execute()
                 .map { it.map { it.toMediaEntity() } }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
-                .map { currentLastPlayedSong.apply(it) }
+                .map { lastSessionSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
-                .map { (list, position) -> list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
-                .map {
-                    it to MathUtils.clamp(
-                            bookmarkUseCase.get().toInt(), 0, it.mediaEntity.duration.toInt()
-                    ).toLong()
-                }.doOnSuccess { setReady() }
+                .map { (list, position) -> list[position].toPlayerMediaEntity(
+                        queueImpl.computePositionInQueue(list, position)) }
+                .map { it to getLastSessionBookmark(it.mediaEntity) }
+                .doOnSuccess { setReady() }
+    }
+
+    private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long {
+        return MathUtils.clamp(bookmarkUseCase.get().toInt(), 0,
+                mediaEntity.duration.toInt()).toLong()
     }
 
     override fun handleSkipToQueueItem(id: Long): PlayerMediaEntity {
-        return queueImpl.getSongById(id).toPlayerMediaEntity(
-                computePositionInQueue(queueImpl.currentSongPosition, queueImpl.playingQueue)
-        )
+        val mediaEntity = queueImpl.getSongById(id)
+        return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
     override fun handleSkipToQueueItemWithIdInPlaylist(idInPlaylist: Long): PlayerMediaEntity {
-        return queueImpl.getSongByIdInPlaylist(idInPlaylist.toInt()).toPlayerMediaEntity(
-                computePositionInQueue(queueImpl.currentSongPosition, queueImpl.playingQueue)
-        )
+        val mediaEntity = queueImpl.getSongByIdInPlaylist(idInPlaylist.toInt())
+        return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
     override fun handleSkipToNext(): PlayerMediaEntity {
-        return queueImpl.getNextSong().toPlayerMediaEntity(
-                computePositionInQueue(queueImpl.currentSongPosition, queueImpl.playingQueue)
-        )
+        val mediaEntity = queueImpl.getNextSong()
+        return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
     override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity {
-        return queueImpl.getPreviousSong(playerBookmark).toPlayerMediaEntity(
-                computePositionInQueue(queueImpl.currentSongPosition, queueImpl.playingQueue)
-        )
+        val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
+        return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
     override fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity> {
@@ -101,7 +99,8 @@ class QueueManager @Inject constructor(
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
                 .doOnSuccess { (list , position) -> queueImpl.updateCurrentSongPosition(list, position) }
-                .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
+                .map { (list, position) ->  list[position].toPlayerMediaEntity(
+                        queueImpl.computePositionInQueue(list, position)) }
     }
 
     private fun sortOnDemand(list: List<MediaEntity>, extras: Bundle?): List<MediaEntity> {
@@ -130,7 +129,8 @@ class QueueManager @Inject constructor(
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
                 .doOnSuccess { (list , position) -> queueImpl.updateCurrentSongPosition(list, position) }
-                .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
+                .map { (list, position) ->  list[position].toPlayerMediaEntity(
+                        queueImpl.computePositionInQueue(list, position)) }
     }
 
     override fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity> {
@@ -143,7 +143,8 @@ class QueueManager @Inject constructor(
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { getCurrentSongOnPlayFromId(songId).apply(it) }
                 .doOnSuccess { (list , position) -> queueImpl.updateCurrentSongPosition(list, position) }
-                .map { (list, position) ->  list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
+                .map { (list, position) ->  list[position].toPlayerMediaEntity(
+                        queueImpl.computePositionInQueue(list, position)) }
     }
 
     override fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity> {
@@ -154,7 +155,8 @@ class QueueManager @Inject constructor(
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }
-                .map { (list, position) -> list[position].toPlayerMediaEntity(computePositionInQueue(position, list)) }
+                .map { (list, position) -> list[position].toPlayerMediaEntity(
+                        queueImpl.computePositionInQueue(list, position)) }
                 .doOnSuccess { shuffleMode.setEnabled(true) }
     }
 
@@ -186,11 +188,7 @@ class QueueManager @Inject constructor(
         queueImpl.shuffle()
     }
 
-    override fun getCurrentPositionInQueue(): PositionInQueue {
-        return computePositionInQueue(queueImpl.currentSongPosition, queueImpl.playingQueue)
-    }
-
-    private val currentLastPlayedSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
+    private val lastSessionSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
         val idInPlaylist = currentSongIdUseCase.get()
         val currentPosition = MathUtils.clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
         Pair(list, currentPosition)
@@ -217,14 +215,8 @@ class QueueManager @Inject constructor(
         list
     }
 
-    private fun computePositionInQueue(position: Int, list: List<MediaEntity>): PositionInQueue {
-        return when {
-            repeatMode.isRepeatAll() || repeatMode.isRepeatOne() -> PositionInQueue.IN_MIDDLE
-            position == 0 && position == list.lastIndex -> PositionInQueue.BOTH
-            position == 0 -> PositionInQueue.FIRST
-            position == list.lastIndex -> PositionInQueue.LAST
-            else -> PositionInQueue.IN_MIDDLE
-        }
+    override fun getCurrentPositionInQueue(): PositionInQueue {
+        return queueImpl.currentPositionInQueue()
     }
 }
 
