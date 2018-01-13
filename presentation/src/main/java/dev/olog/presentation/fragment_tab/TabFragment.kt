@@ -50,7 +50,7 @@ class TabFragment : BaseFragment() {
                         .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
             }
             TabCategory.ARTISTS -> {
-                viewModel.observeData(TabCategory.RECENT_ALBUMS)
+                viewModel.observeData(TabCategory.RECENT_ARTISTS)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }
