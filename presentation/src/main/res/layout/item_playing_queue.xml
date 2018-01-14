@@ -52,6 +52,7 @@
 
         <TextView
             android:id="@+id/index"
+            android:text="@{index}"
             tools:text="+1"
             tools:layout_marginStart="8dp"
             android:textStyle="bold"

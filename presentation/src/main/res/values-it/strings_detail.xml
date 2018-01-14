@@ -27,13 +27,13 @@
     <string name="detail_see_more">vedi tutti</string>
 
     <plurals name="song_count">
-        <item quantity="one">%d Brano</item>
-        <item quantity="other">%d Brani</item>
+        <item quantity="one">%d brano</item>
+        <item quantity="other">%d brani</item>
     </plurals>
 
     <plurals name="album_count">
-        <item quantity="one">%d Album</item>
-        <item quantity="other">%d Album</item>
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d album</item>
     </plurals>
 
     <plurals name="plurals_hours">
