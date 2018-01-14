@@ -18,6 +18,9 @@ class MiniPlayerFragmentViewModel(
 
 ) : ViewModel() {
 
+    val isPlayingSingle = controllerCallback.onPlaybackStateChanged()
+            .map { it.playbackState == PlaybackStateCompat.STATE_PLAYING }
+            .firstOrError()
 
     val onMetadataChangedLiveData: LiveData<MiniPlayerMedatata> = controllerCallback
             .onMetadataChanged()

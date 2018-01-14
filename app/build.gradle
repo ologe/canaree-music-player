@@ -32,9 +32,9 @@ android {
         debug {
             minifyEnabled true
             useProguard false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
 //            applicationIdSuffix = ".debug"
         }
     }
@@ -112,9 +112,9 @@ dependencies {
     implementation "org.jsoup:jsoup:$rootProject.jsoup"
 
     // debug
-    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
-    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.db_debug"
+//    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
+//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
+//    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.db_debug"
 
     // crashlytics
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {

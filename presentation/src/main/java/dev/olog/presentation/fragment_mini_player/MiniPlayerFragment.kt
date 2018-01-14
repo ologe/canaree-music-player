@@ -88,6 +88,10 @@ class MiniPlayerFragment : BaseFragment(){
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE))
+//            viewModel.isPlayingSingle.subscribe({ isPlaying ->
+//                view.playPause.setupBackground(!isPlaying)
+//            }, Throwable::printStackTrace)
+
         }
     }
 
