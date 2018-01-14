@@ -12,5 +12,6 @@ data class PlayingQueueEntity(
         val progressive: Int = 0,
         val category: String,
         val categoryValue: String,
-        val songId: Long
+        val songId: Long,
+        val idInPlaylist: Int
 )

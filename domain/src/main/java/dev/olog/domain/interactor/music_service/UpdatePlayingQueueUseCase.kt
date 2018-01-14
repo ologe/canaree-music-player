@@ -11,9 +11,16 @@ class UpdatePlayingQueueUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val gateway: PlayingQueueGateway
 
-) : CompletableUseCaseWithParam<List<Pair<MediaId, Long>>>(schedulers) {
+) : CompletableUseCaseWithParam<List<UpdatePlayingQueueUseCaseRequest>>(schedulers) {
 
-    override fun buildUseCaseObservable(param: List<Pair<MediaId, Long>>): Completable {
+    override fun buildUseCaseObservable(param: List<UpdatePlayingQueueUseCaseRequest>): Completable {
         return gateway.update(param)
     }
+
 }
+
+data class UpdatePlayingQueueUseCaseRequest(
+        val mediaId: MediaId,
+        val songId: Long,
+        val idInPlaylist: Int
+)

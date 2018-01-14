@@ -5,6 +5,7 @@ import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.PlayingQueueGateway
 import dev.olog.domain.gateway.SongGateway
+import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.shared.MediaId
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -35,7 +36,7 @@ class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError())
     }
 
-    override fun update(list: List<Pair<MediaId, Long>>): Completable {
+    override fun update(list: List<UpdatePlayingQueueUseCaseRequest>): Completable {
         return playingQueueDao.insert(list)
     }
 

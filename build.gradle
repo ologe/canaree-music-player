@@ -72,7 +72,7 @@ ext {
     // debug
     rxjava_debug = '1.2.1'
     leak_canary = '1.5.4'
-    db_debug = '1.0.1'
+    db_debug = '1.0.2'
     crashlytics = '2.7.1@aar'
 
     // test

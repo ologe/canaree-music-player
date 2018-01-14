@@ -5,6 +5,7 @@ import android.support.annotation.MainThread
 import android.support.v4.math.MathUtils
 import dev.olog.domain.interactor.music_service.CurrentIdInPlaylistUseCase
 import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCase
+import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.shuffle
@@ -29,9 +30,9 @@ class QueueImpl @Inject constructor(
 
     private var savePlayingQueueDisposable: Disposable? = null
 
-    val playingQueue = Vector<MediaEntity>()
+    private val playingQueue = Vector<MediaEntity>()
 
-    var currentSongPosition = -1
+    private var currentSongPosition = -1
 
     fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
         playingQueue.clear()
@@ -40,16 +41,14 @@ class QueueImpl @Inject constructor(
         persist(songList)
     }
 
-    private fun persist(songList: List<MediaEntity>,
-                        onSuccess: () -> Unit = { /*do nothing on default*/ }) {
+    private fun persist(songList: List<MediaEntity>) {
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = Single.fromCallable { songList.toList() }
                 .flattenAsObservable { it }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
-                .map { it.mediaId to it.id }
+                .map { UpdatePlayingQueueUseCaseRequest(it.mediaId, it.id, it.idInPlaylist) }
                 .toList()
-                .doOnSuccess { onSuccess() }
                 .flatMapCompletable { updatePlayingQueueUseCase.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
 
@@ -146,12 +145,10 @@ class QueueImpl @Inject constructor(
             playingQueue.swap(0, songPosition)
         }
 
-        val copy = playingQueue.toList()
+        updateCurrentSongPosition(playingQueue, 0)
+        // todo check if current song is first/last ecc and update ui
 
-        persist(copy, onSuccess = {
-            updateCurrentSongPosition(copy, 0)
-            // todo check if current song is first/last ecc and update ui
-        })
+        persist(playingQueue)
     }
 
     @MainThread
@@ -159,33 +156,31 @@ class QueueImpl @Inject constructor(
         assertMainThread()
 
         // todo proper sorting in detail
-        playingQueue.sortBy { it.title.toLowerCase() }
+        playingQueue.sortBy { it.idInPlaylist }
 
-        val copy = playingQueue.toList()
+        val currentIdInPlaylist = currentSongIdUseCase.get()
+        val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
+        updateCurrentSongPosition(playingQueue, newPosition)
+        // todo check if current song is first/last ecc and update ui
 
-        persist(copy, onSuccess = {
-            val currentIdInPlaylist = currentSongIdUseCase.get()
-            val newPosition = copy.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
-            updateCurrentSongPosition(copy, newPosition)
-            // todo check if current song is first/last ecc and update ui
-        })
+        persist(playingQueue)
     }
 
+    @MainThread
     fun handleSwap(from: Int, to: Int) {
         assertMainThread()
 
         playingQueue.swap(from, to)
 
-        val copy = playingQueue.toList()
+        val currentInIdPlaylist = currentSongIdUseCase.get() //id remains the same
+        val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentInIdPlaylist }
+        updateCurrentSongPosition(playingQueue, newPosition)
+        // todo check if current song is first/last ecc and update ui
 
-        persist(copy, onSuccess = {
-            val currentInIdPlaylist = currentSongIdUseCase.get() //id remains the same
-            updateCurrentSongPosition(copy, copy
-                    .indexOfFirst { it.idInPlaylist == currentInIdPlaylist })
-            // todo check if current song is first/last ecc and update ui
-        })
+        persist(playingQueue)
     }
 
+    @MainThread
     fun handleSwapRelative(from: Int, to: Int) {
         handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
     }

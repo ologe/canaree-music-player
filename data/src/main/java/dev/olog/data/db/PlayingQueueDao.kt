@@ -6,6 +6,7 @@ import android.arch.persistence.room.Query
 import dev.olog.data.entity.PlayingQueueEntity
 import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.entity.Song
+import dev.olog.domain.interactor.music_service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
@@ -35,28 +36,30 @@ abstract class PlayingQueueDao {
                     val result : List<PlayingQueueSong> = ids
                             .map { it.songId }
                             .mapNotNull { id -> songs.firstOrNull { it.id == id } }
-                            .mapIndexed { index, song ->
+                            .map { song ->
                                 val pos = ids.indexOfFirst { it.songId == song.id }
                                 val item = ids[pos]
-                                song.toPlayingQueueSong(index, item.category, item.categoryValue)
+                                song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
                             }
                     Single.just(result)
                 } }
     }
 
-    fun insert(list: List<Pair<MediaId, Long>>) : Completable {
+    fun insert(list: List<UpdatePlayingQueueUseCaseRequest>) : Completable {
 
         return Single.fromCallable { deleteAllImpl() }
                 .map { list.map {
-                    val (mediaId, songId) = it
+                    val (mediaId, songId, idInPlaylist) = it
                     PlayingQueueEntity(
                             songId = songId,
                             category = mediaId.category.toString(),
-                            categoryValue = mediaId.categoryValue)
-                } }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
+                            categoryValue = mediaId.categoryValue,
+                            idInPlaylist = idInPlaylist
+                    ) }
+                }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
     }
 
-    private fun Song.toPlayingQueueSong(progressive: Int, category: String, categoryValue: String): PlayingQueueSong {
+    private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
                 MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
@@ -72,7 +75,7 @@ abstract class PlayingQueueDao {
                 this.isExplicit,
                 this.path,
                 this.trackNumber,
-                progressive
+                idInPlaylist
         )
     }
 
