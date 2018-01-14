@@ -81,7 +81,7 @@ class AlbumRepository @Inject constructor(
 
     override fun getLastPlayed(): Flowable<List<Album>> {
         return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
-            if (all.size < 5) {
+            if (all.size < 10) {
                 listOf() // too few album to show recents
             } else {
                 lastPlayed.asSequence()

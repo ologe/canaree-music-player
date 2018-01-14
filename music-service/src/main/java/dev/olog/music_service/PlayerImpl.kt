@@ -217,8 +217,8 @@ class PlayerImpl @Inject constructor(
                 val volume = if (lower) VOLUME_LOWERED_NORMAL else VOLUME_NORMAL
                 exoPlayer.volume = volume
             }
-            AudioManager.AUDIOFOCUS_LOSS -> audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_PAUSE)
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_PAUSE)
+            AudioManager.AUDIOFOCUS_LOSS -> pause(false)
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> pause(false)
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
                 val lower = lowerVolumeOnNightUseCase.get()
                 val volume = if (lower) VOLUME_LOWERED_DUCK else VOLUME_DUCK
