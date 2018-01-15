@@ -9,11 +9,9 @@ import dev.olog.domain.interactor.tab.*
 import dev.olog.presentation.R
 import dev.olog.presentation.fragment_tab.TabFragmentHeaders
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategoryKey
 import dev.olog.shared.groupMap
 import dev.olog.shared_android.TextUtils
-import dev.olog.shared_android.entity.TabCategory
-import dev.olog.shared_android.entity.TabCategoryKey
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
@@ -24,7 +22,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.FOLDERS)
+    @MediaIdCategoryKey(MediaIdCategory.FOLDER)
     internal fun provideFolderData(
             resources: Resources,
             useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
@@ -34,7 +32,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.PLAYLISTS)
+    @MediaIdCategoryKey(MediaIdCategory.PLAYLIST)
     internal fun providePlaylistData(
             resources: Resources,
             useCase: GetAllPlaylistsUseCase,
@@ -62,7 +60,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.SONGS)
+    @MediaIdCategoryKey(MediaIdCategory.SONGS)
     internal fun provideSongData(
             useCase: GetAllSongsUseCase,
             headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
@@ -76,7 +74,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.ALBUMS)
+    @MediaIdCategoryKey(MediaIdCategory.ALBUM)
     internal fun provideAlbumData(
             useCase: GetAllAlbumsUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
@@ -98,7 +96,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.ARTISTS)
+    @MediaIdCategoryKey(MediaIdCategory.ARTIST)
     internal fun provideArtistData(
             resources: Resources,
             useCase: GetAllArtistsUseCase,
@@ -123,7 +121,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.GENRES)
+    @MediaIdCategoryKey(MediaIdCategory.GENRE)
     internal fun provideGenreData(
             resources: Resources,
             useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
@@ -133,7 +131,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.RECENT_ALBUMS)
+    @MediaIdCategoryKey(MediaIdCategory.RECENT_ALBUMS)
     internal fun provideLastPlayedAlbumData(
             useCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
 
@@ -142,7 +140,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @TabCategoryKey(TabCategory.RECENT_ARTISTS)
+    @MediaIdCategoryKey(MediaIdCategory.RECENT_ARTISTS)
     internal fun provideLastPlayedArtistData(
             useCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
 

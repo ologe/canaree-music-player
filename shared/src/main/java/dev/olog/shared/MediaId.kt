@@ -3,11 +3,16 @@ package dev.olog.shared
 enum class MediaIdCategory {
     FOLDER,
     PLAYLIST,
-    ALL,
+    SONGS,
     ALBUM,
     ARTIST,
     GENRE,
-    HEADER
+    RECENT_ALBUMS,
+    RECENT_ARTISTS,
+    HEADER;
+
+
+
 }
 
 class MediaId private constructor(
@@ -20,7 +25,7 @@ class MediaId private constructor(
         get() = when (category){
             MediaIdCategory.FOLDER -> 0
             MediaIdCategory.PLAYLIST -> 1
-            MediaIdCategory.ALL -> 2
+            MediaIdCategory.SONGS -> 2
             MediaIdCategory.ALBUM -> 3
             MediaIdCategory.ARTIST -> 4
             MediaIdCategory.GENRE -> 5
@@ -34,15 +39,15 @@ class MediaId private constructor(
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
 
-        fun headerId(value: String): MediaId{
+        fun headerId(value: String): MediaId {
             return MediaId(MediaIdCategory.HEADER, value)
         }
 
-        fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId{
+        fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(category, categoryValue)
         }
 
-        fun createId(category: MediaIdCategory, categoryValue: String, songId: Long): MediaId{
+        fun createId(category: MediaIdCategory, categoryValue: String, songId: Long): MediaId {
             return MediaId(category, categoryValue, songId)
         }
 
@@ -55,7 +60,7 @@ class MediaId private constructor(
         }
 
         fun songId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.ALL, "", value)
+            return MediaId(MediaIdCategory.SONGS, "", value)
         }
 
         fun albumId(value: Long): MediaId {
@@ -70,12 +75,12 @@ class MediaId private constructor(
             return MediaId(MediaIdCategory.GENRE, value.toString())
         }
 
-        fun playableItem(parentId: MediaId, songId: Long): MediaId{
+        fun playableItem(parentId: MediaId, songId: Long): MediaId {
             return MediaId(parentId.category, parentId.categoryValue, songId)
         }
 
         fun shuffleAllId(): MediaId {
-            return MediaId(MediaIdCategory.ALL, "")
+            return MediaId(MediaIdCategory.SONGS, "")
         }
 
         fun fromString(mediaId: String): MediaId {
@@ -135,7 +140,7 @@ class MediaId private constructor(
 
     val isFolder : Boolean = category == MediaIdCategory.FOLDER
     val isPlaylist: Boolean = category == MediaIdCategory.PLAYLIST
-    val isAll: Boolean = category == MediaIdCategory.ALL
+    val isAll: Boolean = category == MediaIdCategory.SONGS
     val isAlbum : Boolean = category == MediaIdCategory.ALBUM
     val isArtist : Boolean = category == MediaIdCategory.ARTIST
     val isGenre : Boolean = category == MediaIdCategory.GENRE

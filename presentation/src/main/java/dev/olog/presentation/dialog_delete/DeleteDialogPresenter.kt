@@ -3,8 +3,6 @@ package dev.olog.presentation.dialog_delete
 import android.app.Application
 import dev.olog.domain.interactor.dialog.DeleteUseCase
 import dev.olog.presentation.R
-import dev.olog.shared.MediaId
-import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
 import javax.inject.Inject
@@ -27,7 +25,7 @@ class DeleteDialogPresenter @Inject constructor(
     private fun createSuccessMessage(){
         val message = when (mediaId.category) {
             MediaIdCategory.PLAYLIST -> application.getString(R.string.playlist_x_deleted, itemTitle)
-            MediaIdCategory.ALL -> application.getString(R.string.song_x_deleted, itemTitle)
+            MediaIdCategory.SONGS -> application.getString(R.string.song_x_deleted, itemTitle)
             else -> application.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, listSize, listSize, itemTitle)
         }
         application.toast(message)

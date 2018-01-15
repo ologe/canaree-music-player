@@ -7,14 +7,12 @@ import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaId
-import dev.olog.shared_android.entity.TabCategory
 import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
 class TabFragmentViewModel constructor(
-        private val data: Map<TabCategory, Flowable<List<DisplayableItem>>>,
+        private val data: Map<MediaIdCategory, Flowable<List<DisplayableItem>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
         private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
         private val getAlbumUseCase: GetAlbumUseCase,
@@ -22,9 +20,9 @@ class TabFragmentViewModel constructor(
 
 ) : ViewModel() {
 
-    private val liveDataList: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
+    private val liveDataList: MutableMap<MediaIdCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
 
-    fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
+    fun observeData(category: MediaIdCategory): LiveData<List<DisplayableItem>> {
         var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
         if (liveData == null) {
             liveData = data[category]!!.asLiveData()

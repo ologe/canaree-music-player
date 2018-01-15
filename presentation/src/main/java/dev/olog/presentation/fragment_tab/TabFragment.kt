@@ -10,7 +10,6 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.extension.withArguments
-import dev.olog.shared_android.entity.TabCategory
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -22,14 +21,14 @@ class TabFragment : BaseFragment() {
         private const val TAG = "TabFragment"
         const val ARGUMENTS_SOURCE = "$TAG.argument.dataSource"
 
-        fun newInstance(category: TabCategory): TabFragment {
+        fun newInstance(category: MediaIdCategory): TabFragment {
             return TabFragment().withArguments(ARGUMENTS_SOURCE to category.ordinal)
         }
     }
 
     @Inject lateinit var adapter: TabFragmentAdapter
     @Inject lateinit var viewModel: TabFragmentViewModel
-    @Inject lateinit var category: TabCategory
+    @Inject lateinit var category: MediaIdCategory
     private val spanSizeLookup by lazy (NONE) { TabSpanSpanSizeLookupFactory(context!!, category, adapter) }
     private lateinit var layoutManager: GridLayoutManager
 
@@ -45,12 +44,12 @@ class TabFragment : BaseFragment() {
                 })
 
         when (category){
-            TabCategory.ALBUMS -> {
-                viewModel.observeData(TabCategory.RECENT_ALBUMS)
+            MediaIdCategory.ALBUM -> {
+                viewModel.observeData(MediaIdCategory.RECENT_ALBUMS)
                         .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
             }
-            TabCategory.ARTISTS -> {
-                viewModel.observeData(TabCategory.RECENT_ARTISTS)
+            MediaIdCategory.ARTIST -> {
+                viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
         }

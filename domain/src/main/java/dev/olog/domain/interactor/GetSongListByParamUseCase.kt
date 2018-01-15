@@ -4,8 +4,6 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.*
 import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
-import dev.olog.shared.MediaId
-import dev.olog.shared.MediaIdCategory
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -30,7 +28,7 @@ class GetSongListByParamUseCase @Inject constructor(
         return when (mediaId.category) {
             MediaIdCategory.FOLDER -> folderDataStore.observeSongListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLIST -> playlistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
-            MediaIdCategory.ALL -> songDataStore.getAll()
+            MediaIdCategory.SONGS -> songDataStore.getAll()
             MediaIdCategory.ALBUM -> albumDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.ARTIST -> artistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.GENRE -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
