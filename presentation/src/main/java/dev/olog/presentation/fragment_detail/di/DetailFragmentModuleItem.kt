@@ -8,6 +8,8 @@ import dev.olog.domain.entity.*
 import dev.olog.domain.interactor.detail.item.*
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import dev.olog.shared.MediaIdCategoryKey
 import dev.olog.shared_android.TextUtils
 import io.reactivex.Flowable

@@ -8,6 +8,8 @@ import android.support.v7.preference.PreferenceFragmentCompat
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_preferences.blacklist.BlacklistFragment
 import dev.olog.presentation.activity_preferences.categories.LibraryCategoriesFragment
+import dev.olog.presentation.activity_preferences.neural_network.NeuralNetworkFragment
+import dev.olog.presentation.utils.extension.transaction
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
 
@@ -15,11 +17,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
+    private lateinit var neural: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
+        neural = preferenceScreen.findPreference("neural")
     }
 
     override fun onResume() {
@@ -35,6 +39,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                     BlacklistFragment.TAG)
             true
         }
+        neural.setOnPreferenceClickListener {
+            activity!!.supportFragmentManager.transaction {
+                add(android.R.id.content, NeuralNetworkFragment.newInstance())
+                addToBackStack(NeuralNetworkFragment.TAG)
+            }
+            true
+        }
     }
 
     override fun onPause() {
@@ -42,6 +53,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
+        neural.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

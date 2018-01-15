@@ -1,6 +1,7 @@
 package dev.olog.data.repository
 
 import android.content.ContentResolver
+import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.AudioColumns.*
@@ -13,6 +14,7 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.entity.UneditedSong
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.domain.interactor.prefs.BlackListUseCase
+import dev.olog.shared.ApplicationContext
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -24,6 +26,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SongRepository @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val blackListUseCase: BlackListUseCase
@@ -65,7 +68,7 @@ class SongRepository @Inject constructor(
                     SORT_ORDER,
                     true
             )
-            .mapToList { it.toSong() }
+            .mapToList { it.toSong(context) }
             .map {
                 val blackListed = blackListUseCase.get()
                 it.filter { !blackListed.contains(it.folderPath) }
@@ -85,7 +88,7 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS,
                 SORT_ORDER,
                 false
-        ).mapToList { it.toSong() }
+        ).mapToList { it.toSong(context) }
                 .toFlowable(BackpressureStrategy.LATEST)
                 .onErrorReturn { listOf() }
     }

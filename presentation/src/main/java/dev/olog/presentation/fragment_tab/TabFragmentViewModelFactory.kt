@@ -7,6 +7,7 @@ import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Flowable
 import javax.inject.Inject
 

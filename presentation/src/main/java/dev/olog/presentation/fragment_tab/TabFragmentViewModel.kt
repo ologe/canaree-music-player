@@ -7,6 +7,8 @@ import dev.olog.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable

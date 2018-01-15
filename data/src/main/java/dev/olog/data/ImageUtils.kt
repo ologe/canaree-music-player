@@ -1,12 +1,82 @@
 package dev.olog.data
 
+import android.content.Context
 import android.graphics.*
 import dev.olog.shared.shuffle
 import dev.olog.shared_android.assertBackgroundThread
+import java.io.File
+
+
 
 object ImageUtils {
 
     private const val IMAGE_SIZE = 1200
+
+    // folder images
+    fun getFolderImage(context: Context, folderPath: String): String {
+        return getFolderImageImpl(context, "folder", folderPath) ?: ""
+    }
+
+    fun getFolderNeuralImage(context: Context, folderPath: String): String? {
+        return getFolderImageImpl(context, "folder_neural", folderPath)
+    }
+
+    fun getPlaylistImage(context: Context, playlistId: Long): String {
+        return getImageImplById(context, "playlist", playlistId) ?: ""
+    }
+
+    fun getPlaylistNeuralImage(context: Context, playlistId: Long): String?{
+        return getImageImplById(context, "playlist_neural", playlistId)
+    }
+
+    fun getAlbumNeuralImage(context: Context, albumId: Long): String?{
+       return getImageImplById(context, "album_neural", albumId)
+    }
+
+    fun getArtistImage(context: Context, artistId: Long): String {
+        return getImageImplById(context, "artist", artistId) ?: ""
+    }
+
+    fun getArtistNeuralImage(context: Context, artistId: Long): String?{
+        return getImageImplById(context, "artist_neural", artistId)
+    }
+
+    fun getGenreImage(context: Context, genreId: Long): String {
+        return getImageImplById(context, "genre", genreId) ?: ""
+    }
+
+    fun getGenreNeuralImage(context: Context, genreId: Long): String?{
+        return getImageImplById(context, "genre_neural", genreId)
+    }
+
+    private fun getImagesFolder(context: Context, entity: String): File {
+        val folder = File("${context.applicationInfo.dataDir}${File.separator}$entity")
+        if (!folder.exists()){
+            folder.mkdir()
+        }
+        return folder
+    }
+
+    private fun getFolderImageImpl(context: Context, imageFolder: String, folderPath: String) : String? {
+        val folder = getImagesFolder(context, imageFolder)
+        if (folder.exists()){
+            return folder.listFiles().firstOrNull {
+                val normalizedPath = folderPath.replace(File.separator, "")
+                it.name.substring(0, it.name.indexOf("_")) == normalizedPath
+            }?.path
+        }
+        return null
+    }
+
+    private fun getImageImplById(context: Context, imageFolder: String, id: Long): String? {
+        val folder = getImagesFolder(context, imageFolder)
+        if (folder.exists()){
+            return folder.listFiles().firstOrNull {
+                it.name.substring(0, it.name.indexOf("_")) == id.toString()
+            }?.path
+        }
+        return null
+    }
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()

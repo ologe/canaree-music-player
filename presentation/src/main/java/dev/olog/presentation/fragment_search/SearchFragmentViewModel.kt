@@ -6,6 +6,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import dev.olog.domain.interactor.search.*
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 
 class SearchFragmentViewModel(

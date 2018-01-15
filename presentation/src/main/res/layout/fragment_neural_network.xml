@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="4dp"
+    android:background="#8000">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:layout_margin="64dp">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/coverlayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/neuralFilterLayout"
+            app:layout_constraintDimensionRatio="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/neuralFilterLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/coverlayout"
+            app:layout_constraintDimensionRatio="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/neuralFilter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#aaa" />
+
+            <ImageView
+                android:id="@+id/addFilter"
+                android:layout_gravity="center"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/vd_add"
+                android:tint="@android:color/white"/>
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

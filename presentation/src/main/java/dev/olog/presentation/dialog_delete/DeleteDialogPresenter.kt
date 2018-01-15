@@ -3,6 +3,8 @@ package dev.olog.presentation.dialog_delete
 import android.app.Application
 import dev.olog.domain.interactor.dialog.DeleteUseCase
 import dev.olog.presentation.R
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Completable
 import org.jetbrains.anko.toast
 import javax.inject.Inject

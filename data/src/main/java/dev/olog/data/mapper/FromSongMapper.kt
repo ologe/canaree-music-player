@@ -1,27 +1,30 @@
 package dev.olog.data.mapper
 
 import android.content.Context
+import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
-import java.io.File
+import dev.olog.shared_android.Constants
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
-
-    val image = "${context.applicationInfo.dataDir}${File.separator}folder"
-    val file = File(image)
-    val imageFile = if (file.exists()){
-        val itemId = this.folderPath.replace(File.separator, "")
-        file.listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
-    } else null
-
     return Folder(
             this.folder,
             this.folderPath,
             songCount,
-            if (imageFile != null) imageFile.path else ""
+            getFolderImage(context, this.folderPath)
     )
+}
+
+private fun getFolderImage(context: Context, folderPath: String): String{
+    if (Constants.useNeuralImages){
+        val neuralImage = ImageUtils.getFolderNeuralImage(context, folderPath)
+        if (neuralImage != null){
+            return neuralImage
+        }
+    }
+    return ImageUtils.getFolderImage(context, folderPath)
 }
 
 fun Song.toAlbum(songCount: Int) : Album {
@@ -36,17 +39,21 @@ fun Song.toAlbum(songCount: Int) : Album {
 }
 
 fun Song.toArtist(context: Context, songCount: Int, albumsCount: Int) : Artist {
-    val image = "${context.applicationInfo.dataDir}${File.separator}artist"
-    val file = File(image)
-    val imageFile = if (file.exists()){
-        file.listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == "${this.artistId}" }
-    } else null
-
     return Artist(
             this.artistId,
             this.artist,
             songCount,
             albumsCount,
-            if (imageFile != null) imageFile.path else ""
+            getArtistImage(context, this.artistId)
     )
+}
+
+private fun getArtistImage(context: Context, artistId: Long): String{
+    if (Constants.useNeuralImages){
+        val neuralImage = ImageUtils.getArtistNeuralImage(context, artistId)
+        if (neuralImage != null){
+            return neuralImage
+        }
+    }
+    return ImageUtils.getArtistImage(context, artistId)
 }

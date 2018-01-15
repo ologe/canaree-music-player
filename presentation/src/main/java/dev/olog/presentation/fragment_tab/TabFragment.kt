@@ -10,6 +10,7 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared.MediaIdCategory
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE

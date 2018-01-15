@@ -4,6 +4,8 @@ import dev.olog.domain.entity.Song
 import dev.olog.domain.executor.IoScheduler
 import dev.olog.domain.gateway.*
 import dev.olog.domain.interactor.base.FlowableUseCaseWithParam
+import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import io.reactivex.Flowable
 import javax.inject.Inject
 

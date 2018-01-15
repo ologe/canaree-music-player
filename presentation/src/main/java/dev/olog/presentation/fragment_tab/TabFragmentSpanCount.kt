@@ -6,6 +6,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.MediaIdCategory
 import dev.olog.shared_android.extension.isPortrait
 import org.jetbrains.anko.configuration
 import java.lang.ref.WeakReference

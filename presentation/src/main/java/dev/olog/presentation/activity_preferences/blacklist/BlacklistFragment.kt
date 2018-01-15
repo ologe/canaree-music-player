@@ -41,7 +41,7 @@ class BlacklistFragment : BaseDialogFragment() {
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
         val builder = AlertDialog.Builder(context)
-                .setTitle(R.string.prefs_blacklist_title) // todo resources
+                .setTitle(R.string.prefs_blacklist_title)
                 .setMessage(R.string.prefs_blacklist_description)
                 .setView(view)
                 .setNegativeButton(R.string.popup_negative_cancel, null)

@@ -2,6 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="Images">
+
+        <Preference
+            android:title="Neural network styling"
+            android:summary="Blend images"
+            android:key="neural"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/prefs_category_general">
 
         <ListPreference

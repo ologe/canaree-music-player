@@ -12,6 +12,7 @@ object Constants {
     const val SHORTCUT_SHUFFLE = "SHORTCUT_SHUFFLE"
 
     var quickAction = QuickAction(QuickActionEnum.NONE)
+    var useNeuralImages: Boolean = false
 
     const val LAST_ADDED_ID: Long = -3000
     const val FAVORITE_LIST_ID: Long = -3002

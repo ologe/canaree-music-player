@@ -23,7 +23,6 @@ import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
-import dev.olog.shared_android.isOreo
 import dev.olog.shared_android.rx.SeekBarObservable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -204,21 +203,14 @@ class PlayerFragment : BaseFragment() {
 
         GlideApp.with(context!!).clear(cover)
 
-        var request = GlideApp.with(context!!)
+        GlideApp.with(context!!)
                 .load(img)
                 .centerCrop()
-//                .transition(DrawableTransitionOptions().crossFade(250))
+                .placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .priority(Priority.IMMEDIATE)
-                .override(650)
-
-        if (isOreo()){
-            // weird blink in oreo when changing to another placeholder
-            request = request.placeholder(placeholder)
-        } else {
-            request = request.error(placeholder)
-        }
-        request.into(cover)
+                .override(500)
+                .into(cover)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_player
