@@ -20,6 +20,14 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi-v8a'
+            universalApk false
+        }
+    }
 
     buildTypes {
 
@@ -49,6 +57,7 @@ android {
     dexOptions {
         preDexLibraries true
     }
+
 
 }
 

@@ -58,6 +58,10 @@
             </intent-filter>
         </service>
 
+        <!--neural newtwork service-->
+        <service android:name="dev.olog.presentation.activity_preferences.neural_network.service.NeuralNetworkService"
+            android:exported="false"/>
+
         <!--floating window service-->
         <service android:name="dev.olog.floating_info.FloatingInfoService"
                  android:exported="false"/>

@@ -7,6 +7,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dev.olog.floating_info.FloatingInfoService
+import dev.olog.shared_android.extension.notificationManager
 
 @Module
 class FloatingInfoServiceModule(
@@ -26,7 +27,7 @@ class FloatingInfoServiceModule(
 
     @Provides
     internal fun provideNotificationManager(): NotificationManager {
-        return service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return service.notificationManager
     }
 
 }

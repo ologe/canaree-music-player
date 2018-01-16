@@ -1,14 +1,17 @@
 package dev.olog.presentation.activity_preferences.neural_network
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.activity_preferences.neural_network.service.NeuralNetworkService
 import dev.olog.presentation.activity_preferences.neural_network.style_chooser.NeuralNetworkImageChooser
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
@@ -101,11 +104,17 @@ class NeuralNetworkFragment : BaseFragment() {
             NeuralNetworkImageChooser.newInstance().show(activity!!.supportFragmentManager,
                             NeuralNetworkImageChooser.TAG)
         }
+        view!!.stylize.setOnClickListener {
+            ContextCompat.startForegroundService(activity!!,
+                    Intent(activity!!, NeuralNetworkService::class.java))
+            activity!!.onBackPressed()
+        }
     }
 
     override fun onPause() {
         super.onPause()
         view!!.style.setOnClickListener(null)
+        view!!.stylize.setOnClickListener(null)
     }
 
     override fun onStop() {

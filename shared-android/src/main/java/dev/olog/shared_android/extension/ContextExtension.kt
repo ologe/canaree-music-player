@@ -1,5 +1,6 @@
 package dev.olog.shared_android.extension
 
+import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -21,3 +22,6 @@ fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDraw
 fun Context.hasPermission(permission: String) : Boolean {
     return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 }
+
+val Context.notificationManager: NotificationManager
+        get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

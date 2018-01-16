@@ -19,6 +19,7 @@ import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.interfaces.ServiceLifecycleController
+import dev.olog.shared_android.extension.notificationManager
 
 @Module
 class MusicServiceModule(
@@ -64,7 +65,7 @@ class MusicServiceModule(
     @Provides
     @PerService
     internal fun provideNotificationManager(): NotificationManager {
-        return service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return service.notificationManager
     }
 
     @Provides

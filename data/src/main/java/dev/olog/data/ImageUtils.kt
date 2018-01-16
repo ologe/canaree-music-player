@@ -49,33 +49,45 @@ object ImageUtils {
         return getImageImplById(context, "genre_neural", genreId)
     }
 
-    private fun getImagesFolder(context: Context, entity: String): File {
-        val folder = File("${context.applicationInfo.dataDir}${File.separator}$entity")
-        if (!folder.exists()){
-            folder.mkdir()
-        }
-        return folder
-    }
-
     private fun getFolderImageImpl(context: Context, imageFolder: String, folderPath: String) : String? {
-        val folder = getImagesFolder(context, imageFolder)
+        val folder = getImagesFolderFor(context, imageFolder)
         if (folder.exists()){
-            return folder.listFiles().firstOrNull {
-                val normalizedPath = folderPath.replace(File.separator, "")
-                it.name.substring(0, it.name.indexOf("_")) == normalizedPath
-            }?.path
+            val files = folder.listFiles()
+            val normalizedPath = folderPath.replace(File.separator, "")
+            for (file in files) {
+                val indexOfUnderscore = file.name.indexOf("_")
+                if (indexOfUnderscore != -1){
+                    if (file.name.substring(0, indexOfUnderscore) == normalizedPath) {
+                        return file.path
+                    }
+                }
+            }
         }
         return null
     }
 
     private fun getImageImplById(context: Context, imageFolder: String, id: Long): String? {
-        val folder = getImagesFolder(context, imageFolder)
+        val folder = getImagesFolderFor(context, imageFolder)
         if (folder.exists()){
-            return folder.listFiles().firstOrNull {
-                it.name.substring(0, it.name.indexOf("_")) == id.toString()
-            }?.path
+            val files = folder.listFiles()
+            for (file in files) {
+                val indexOfUnderscore = file.name.indexOf("_")
+                if (indexOfUnderscore != -1){
+                    if (file.name.substring(0, indexOfUnderscore) == id.toString()) {
+                        return file.path
+                    }
+                }
+            }
         }
         return null
+    }
+
+    private fun getImagesFolderFor(context: Context, entity: String): File {
+        val folder = File("${context.applicationInfo.dataDir}${File.separator}$entity")
+        if (!folder.exists()){
+            folder.mkdir()
+        }
+        return folder
     }
 
     fun joinImages(list: List<Bitmap>) : Bitmap {

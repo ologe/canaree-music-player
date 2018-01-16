@@ -29,3 +29,11 @@
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
 }
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+
+# keep everything in this package from being removed or renamed
+-keep class org.tensorflow.contrib.android.** { *; }
