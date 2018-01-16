@@ -26,10 +26,9 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
         }
     }
 
@@ -49,7 +48,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
 
     // support
     implementation "com.android.support:support-v4:$rootProject.support_library"
@@ -68,9 +70,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
 
-    // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
+    implementation 'org.tensorflow:tensorflow-android:1.5.0-rc1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

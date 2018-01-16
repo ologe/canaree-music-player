@@ -103,19 +103,35 @@
             android:visibility="gone"
             tools:visibility="visible"/>
 
-        <TextView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/emptyState"
+            android:layout_gravity="center"
+            app:lottie_fileName="empty_box.json"
+            app:lottie_loop="false"
+            app:lottie_progress="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/emptyStateText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/emptyStateText"
             android:text="@string/search_no_results"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/text_color_primary"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/emptyState"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
     </android.support.constraint.ConstraintLayout>
 

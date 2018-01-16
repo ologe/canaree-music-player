@@ -58,14 +58,22 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         if (key == activity!!.getString(R.string.prefs_icon_color_key)){
-            val isDark = sharedPreferences.getBoolean(key, false)
+            val isDark = sharedPreferences.getBoolean(key, true)
             CoverUtils.isIconDark = isDark
-            activity!!.setResult(Activity.RESULT_OK)
+            requestMainActivityToRecreate()
         }
         if (key == activity!!.getString(R.string.prefs_quick_action_key)){
             Constants.updateQuickAction(activity!!)
-            activity!!.setResult(Activity.RESULT_OK)
+            requestMainActivityToRecreate()
         }
+        if (key == "use_stylized_images"){
+            Constants.useNeuralImages = sharedPreferences.getBoolean(key, false)
+            requestMainActivityToRecreate()
+        }
+    }
+
+    private fun requestMainActivityToRecreate(){
+        activity!!.setResult(Activity.RESULT_OK)
     }
 
 }

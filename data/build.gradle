@@ -24,10 +24,9 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
         }
     }
 
@@ -48,8 +47,6 @@ dependencies {
     // kotlin
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx2:0.21'
-
 
     // room
     implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture"

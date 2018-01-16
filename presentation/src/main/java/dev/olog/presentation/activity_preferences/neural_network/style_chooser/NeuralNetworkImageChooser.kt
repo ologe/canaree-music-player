@@ -1,4 +1,4 @@
-package dev.olog.presentation.activity_preferences.neural_network
+package dev.olog.presentation.activity_preferences.neural_network.style_chooser
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -9,19 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
+import dev.olog.presentation.activity_preferences.neural_network.NeuralNetworkFragmentViewModel
 import dev.olog.presentation.utils.extension.makeDialog
+import javax.inject.Inject
 
-class NeuralNetworkImageChoiser : BaseDialogFragment() {
+class NeuralNetworkImageChooser : BaseDialogFragment() {
 
     companion object {
         const val TAG = "NeuralNetworkImageChoiser"
 
-        fun newInstance(): NeuralNetworkImageChoiser {
-            return NeuralNetworkImageChoiser()
+        fun newInstance(): NeuralNetworkImageChooser {
+            return NeuralNetworkImageChooser()
         }
     }
 
-    private lateinit var adapter : NeuralNetworkImageChoiserAdapter
+    private lateinit var adapter : NeuralNetworkImageChooserAdapter
+    @Inject lateinit var viewModel: NeuralNetworkFragmentViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
@@ -34,11 +37,14 @@ class NeuralNetworkImageChoiser : BaseDialogFragment() {
                 .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
-        adapter = NeuralNetworkImageChoiserAdapter()
+
+        val dialog = builder.makeDialog()
+
+        adapter = NeuralNetworkImageChooserAdapter(dialog, viewModel)
         list.adapter = adapter
         list.layoutManager = GridLayoutManager(context, 2)
 
-        return builder.makeDialog()
+        return dialog
     }
 
 }

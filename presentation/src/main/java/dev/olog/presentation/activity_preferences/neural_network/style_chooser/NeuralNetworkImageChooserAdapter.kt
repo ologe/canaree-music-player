@@ -1,18 +1,21 @@
-package dev.olog.presentation.activity_preferences.neural_network
+package dev.olog.presentation.activity_preferences.neural_network.style_chooser
 
-import android.net.Uri
+import android.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_preferences.neural_network.NeuralNetworkFragmentViewModel
 import dev.olog.shared_android.neural.NeuralImages
 import kotlinx.android.synthetic.main.item_neural_network_preview.view.*
-import javax.inject.Inject
 
-class NeuralNetworkImageChoiserAdapter @Inject constructor()
-    : RecyclerView.Adapter<NeuralNetworkImageChoiserAdapter.Holder>() {
+class NeuralNetworkImageChooserAdapter (
+        private val dialog: AlertDialog,
+        private val viewModel: NeuralNetworkFragmentViewModel
+
+) : RecyclerView.Adapter<NeuralNetworkImageChooserAdapter.Holder>() {
 
     private val data = mutableListOf<Int>()
 
@@ -28,7 +31,7 @@ class NeuralNetworkImageChoiserAdapter @Inject constructor()
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        val uri = Uri.parse("file:///android_asset/thumbnails/style$position.webp")
+        val uri = NeuralImages.getThumbnail(position)
 
         GlideApp.with(holder.itemView.context)
                 .load(uri)
@@ -40,7 +43,13 @@ class NeuralNetworkImageChoiserAdapter @Inject constructor()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(viewType, parent, false)
-        return Holder(view)
+        val holder = Holder(view)
+        view.setOnClickListener {
+            val position = holder.adapterPosition
+            viewModel.updateCurrentNeuralStyle(position)
+            dialog.dismiss()
+        }
+        return holder
     }
 
     class Holder(view: View) : RecyclerView.ViewHolder(view)

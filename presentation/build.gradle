@@ -26,10 +26,9 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
         }
     }
 
@@ -38,10 +37,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
     }
 
 }
@@ -60,6 +55,8 @@ dependencies {
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx2:0.21'
 
     // data binding
     kapt "com.android.databinding:compiler:$gradle_plugin"

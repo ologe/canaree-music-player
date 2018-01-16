@@ -32,6 +32,8 @@ object Constants {
         UNKNOWN_ARTIST = context.getString(R.string.unknown_artist)
 
         quickAction = getQuickAction(context)
+        useNeuralImages = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean("use_stylized_images", false)
     }
 
     fun updateQuickAction(context: Context){
