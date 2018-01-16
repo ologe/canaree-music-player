@@ -22,31 +22,38 @@ object ImageUtils {
     }
 
     fun getPlaylistImage(context: Context, playlistId: Long): String {
-        return getImageImplById(context, "playlist", playlistId) ?: ""
+        return getMultipleImageImplById(context, "playlist", playlistId) ?: ""
     }
 
     fun getPlaylistNeuralImage(context: Context, playlistId: Long): String?{
-        return getImageImplById(context, "playlist_neural", playlistId)
+        return getMultipleImageImplById(context, "playlist_neural", playlistId)
     }
 
     fun getAlbumNeuralImage(context: Context, albumId: Long): String?{
-       return getImageImplById(context, "album_neural", albumId)
+        val folder = getImagesFolderFor(context, "album_neural")
+        if (folder.exists()){
+            val neuralImage = folder.listFiles().firstOrNull { it.name == albumId.toString() }
+            if (neuralImage != null){
+                return neuralImage.path
+            }
+        }
+        return null
     }
 
     fun getArtistImage(context: Context, artistId: Long): String {
-        return getImageImplById(context, "artist", artistId) ?: ""
+        return getMultipleImageImplById(context, "artist", artistId) ?: ""
     }
 
     fun getArtistNeuralImage(context: Context, artistId: Long): String?{
-        return getImageImplById(context, "artist_neural", artistId)
+        return getMultipleImageImplById(context, "artist_neural", artistId)
     }
 
     fun getGenreImage(context: Context, genreId: Long): String {
-        return getImageImplById(context, "genre", genreId) ?: ""
+        return getMultipleImageImplById(context, "genre", genreId) ?: ""
     }
 
     fun getGenreNeuralImage(context: Context, genreId: Long): String?{
-        return getImageImplById(context, "genre_neural", genreId)
+        return getMultipleImageImplById(context, "genre_neural", genreId)
     }
 
     private fun getFolderImageImpl(context: Context, imageFolder: String, folderPath: String) : String? {
@@ -66,7 +73,7 @@ object ImageUtils {
         return null
     }
 
-    private fun getImageImplById(context: Context, imageFolder: String, id: Long): String? {
+    private fun getMultipleImageImplById(context: Context, imageFolder: String, id: Long): String? {
         val folder = getImagesFolderFor(context, imageFolder)
         if (folder.exists()){
             val files = folder.listFiles()

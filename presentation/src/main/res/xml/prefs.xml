@@ -14,7 +14,8 @@
         <Preference
             android:title="Neural network styling"
             android:summary="Blend images"
-            android:key="neural"/>
+            android:key="neural"
+            android:dependency="use_stylized_images"/>
 
     </PreferenceCategory>
 

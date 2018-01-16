@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat
 import dagger.android.DaggerService
 import dev.olog.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.presentation.R
+import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.notificationManager
 import dev.olog.shared_android.neural.NeuralImages
@@ -46,16 +47,19 @@ class NeuralNetworkService : DaggerService() {
 
         disposable = getAllSongsUseCase.execute()
                 .subscribeOn(Schedulers.computation())
-                .doOnNext {
-                    size = it.size
-                    notificationManager.notify(789, builder.setProgress(size, 0, false).build())
-                }
                 .firstOrError()
-                .map { it.asSequence()
+                .map {
+                    val result = it.asSequence()
                         .filter { it.album != Constants.UNKNOWN_ALBUM }
                         .distinctBy { it.albumId }
                         .toList()
-                }.flattenAsFlowable { it }
+
+                    size = result.size
+                    notificationManager.notify(789, builder.setProgress(size, 0, false).build())
+
+                    result
+                }
+                .flattenAsFlowable { it }
                 .parallel()
                 .runOn(Schedulers.computation())
                 .map {
@@ -81,6 +85,12 @@ class NeuralNetworkService : DaggerService() {
                     notificationManager.cancel(789)
                     stopSelf()
                 })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.unsubscribe()
+        notificationManager.cancel(789)
     }
 
     private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap) : Deferred<Bitmap> = async {

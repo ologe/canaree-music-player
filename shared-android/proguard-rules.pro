@@ -23,3 +23,5 @@
 -keepclasseswithmembernames class * {
     native <methods>;
 }
+
+-keep class org.tensorflow.** { *; }

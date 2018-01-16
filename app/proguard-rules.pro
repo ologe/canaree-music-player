@@ -34,6 +34,4 @@
     native <methods>;
 }
 
-
-# keep everything in this package from being removed or renamed
--keep class org.tensorflow.contrib.android.** { *; }
+-keep class org.tensorflow.** { *; }
