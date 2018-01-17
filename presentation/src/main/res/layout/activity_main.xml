@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/slidingPanel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,68 +16,70 @@
         android:id="@+id/viewPagerLayout"
         layout="@layout/fragment_tab_view_pager" />
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+    <FrameLayout
+        android:id="@+id/playerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/innerPanel"
-        android:gravity="bottom"
-        sothree:umanoShadowHeight="@dimen/inner_panel_shadow"
-        sothree:umanoPanelHeight="@dimen/inner_panel_height"
-        sothree:umanoDragView="@+id/drag_area"
-        sothree:umanoInitialState="collapsed"
-        sothree:umanoFadeColor="@android:color/transparent">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/playerLayout"
+        <fragment
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:name="dev.olog.presentation.fragment_player.PlayerFragment"
+            android:tag="@string/player_fragment_tag" />
 
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="dev.olog.presentation.fragment_player.PlayerFragment"
-                android:tag="@string/player_fragment_tag" />
-
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sliding_panel_peek"
-                android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
-                android:tag="@string/mini_player_fragment_tag" />
-
-        </FrameLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/playingQueueLayout"
+        <fragment
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/sliding_panel_peek"
+            android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
+            android:tag="@string/mini_player_fragment_tag" />
 
-            <include
-                android:id="@+id/wrapper"
-                layout="@layout/layout_player_drag_area"/>
+    </FrameLayout>
 
-            <fragment
-                app:layout_constraintTop_toBottomOf="@+id/wrapper"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:name="dev.olog.presentation.fragment_mini_queue.MiniQueueFragment"
-                android:tag="@string/player_queue_fragment_tag"
-                tools:layout="@layout/fragment_mini_queue"/>
+    <!--<com.sothree.slidinguppanel.SlidingUpPanelLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/innerPanel"-->
+        <!--android:gravity="bottom"-->
+        <!--sothree:umanoShadowHeight="@dimen/inner_panel_shadow"-->
+        <!--sothree:umanoPanelHeight="@dimen/inner_panel_height"-->
+        <!--sothree:umanoDragView="@+id/drag_area"-->
+        <!--sothree:umanoInitialState="collapsed"-->
+        <!--sothree:umanoFadeColor="@android:color/transparent">-->
 
-            <View
-                android:id="@+id/drag_area"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:background="@android:color/transparent"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/inner_panel_height"/>
+     <!---->
 
-        </android.support.constraint.ConstraintLayout>
+        <!--<android.support.constraint.ConstraintLayout-->
+            <!--android:id="@+id/playingQueueLayout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<include-->
+                <!--android:id="@+id/wrapper"-->
+                <!--layout="@layout/layout_player_drag_area"/>-->
+
+            <!--<fragment-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/wrapper"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:name="dev.olog.presentation.fragment_mini_queue.MiniQueueFragment"-->
+                <!--android:tag="@string/player_queue_fragment_tag"-->
+                <!--tools:layout="@layout/fragment_mini_queue"/>-->
+
+            <!--<View-->
+                <!--android:id="@+id/drag_area"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--android:background="@android:color/transparent"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="@dimen/inner_panel_height"/>-->
+
+        <!--</android.support.constraint.ConstraintLayout>-->
 
 
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    <!--</com.sothree.slidinguppanel.SlidingUpPanelLayout>-->
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

@@ -6,13 +6,14 @@ import android.arch.lifecycle.LiveData
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.domain.entity.AnimateFavoriteEnum
+import dev.olog.domain.entity.PlayingQueueSong
 import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.presentation.model.CoverModel
-import dev.olog.presentation.model.DurationModel
-import dev.olog.presentation.model.PlayerFragmentMetadata
-import dev.olog.presentation.model.toPlayerMetadata
+import dev.olog.domain.interactor.music_service.GetMiniPlayingQueueUseCase
+import dev.olog.presentation.R
+import dev.olog.presentation.model.*
 import dev.olog.shared.MediaId
+import dev.olog.shared.groupMap
 import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.extension.asLiveData
@@ -23,9 +24,23 @@ class PlayerFragmentViewModel(
         application: Application,
         controllerCallback: RxMusicServiceControllerCallback,
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-        isFavoriteSongUseCase: IsFavoriteSongUseCase
+        isFavoriteSongUseCase: IsFavoriteSongUseCase,
+        getMiniPlayingQueueUseCase: GetMiniPlayingQueueUseCase
 
 ) : AndroidViewModel(application) {
+
+    private val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, MediaId.headerId("load more"), "")
+
+    val miniQueue: LiveData<MutableList<DisplayableItem>> = getMiniPlayingQueueUseCase
+            .execute()
+            .groupMap { it.toPlayingQueueDisplayableItem() }
+            .map { it.toMutableList() }
+            .map {
+                if (it.size > 50) {
+                    it[50] = footerLoadMore
+                }
+                it
+            }.asLiveData()
 
     private val filterPlaybackState : Predicate<Int> = Predicate { state ->
         state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
@@ -87,5 +102,19 @@ class PlayerFragmentViewModel(
             .execute()
             .map { it.animateTo == AnimateFavoriteEnum.TO_FAVORITE }
             .asLiveData()
+
+    private fun PlayingQueueSong.toPlayingQueueDisplayableItem(): DisplayableItem{
+        return DisplayableItem(
+                R.layout.item_mini_queue,
+                MediaId.songId(this.id),
+                title,
+                "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+                image,
+                true,
+                isRemix,
+                isExplicit,
+                this.idInPlaylist.toString()
+        )
+    }
 
 }

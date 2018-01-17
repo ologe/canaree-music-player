@@ -2,13 +2,17 @@ package dev.olog.presentation.fragment_player
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.math.MathUtils
 import android.support.v4.media.session.PlaybackStateCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -18,6 +22,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
@@ -27,9 +32,11 @@ import dev.olog.shared_android.rx.SeekBarObservable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
+import org.jetbrains.anko.find
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -39,22 +46,18 @@ class PlayerFragment : BaseFragment() {
     @Inject lateinit var musicController: MusicController
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
+    @Inject lateinit var adapter : MiniQueueFragmentAdapter
+
+    private lateinit var layoutManager: LinearLayoutManager
 
     private var updateDisposable : Disposable? = null
 
-    lateinit var title: TextView
-    lateinit var artist: TextView
-    lateinit var isExplicit: View
-    lateinit var isRemix: View
-
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val container = activity!!.findViewById<ViewGroup>(R.id.playingQueueLayout)
-        title = container.findViewById(R.id.title)
-        artist = container.findViewById(R.id.artist)
-        isExplicit = container.findViewById(R.id.explicit)
-        isRemix = container.findViewById(R.id.remix)
+
+        viewModel.miniQueue.subscribe(this, {
+            adapter.updateDataSet(it)
+        })
 
         viewModel.onMetadataChangedLiveData
                 .subscribe(this, this::setMetadata)
@@ -149,6 +152,29 @@ class PlayerFragment : BaseFragment() {
                 .subscribe(this, {
                     FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder)
                 })
+
+        RxSlidingUpPanel.panelStateEvents(activity!!.slidingPanel)
+                .map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED  }
+                .asLiveData()
+                .subscribe(this, {
+                    view!!.slidingView.artist.isSelected = it
+                    view!!.slidingView.find<TextView>(R.id.title).isSelected = it
+                })
+    }
+
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        view.slidingView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener{
+            override fun onPreDraw(): Boolean {
+                view.slidingView.viewTreeObserver.removeOnPreDrawListener(this)
+                view.list.setPadding(0, view.slidingView.bottom, 0, 0)
+                layoutManager = LinearLayoutManager(context)
+                view.list.setHasFixedSize(true)
+                view.list.layoutManager = layoutManager
+                view.list.adapter = adapter
+                adapter.touchHelper()!!.attachToRecyclerView(view.list)
+                return false
+            }
+        })
     }
 
     override fun onResume() {
@@ -167,11 +193,14 @@ class PlayerFragment : BaseFragment() {
                 musicController.playPause()
             }
         })
+        view!!.list.addOnScrollListener(listener)
+        activity!!.slidingPanel.setScrollableView(view!!.list)
     }
 
     override fun onPause() {
         super.onPause()
         cover.setOnSwipeListener(null)
+        view!!.list.removeOnScrollListener(listener)
     }
 
     override fun onStop() {
@@ -192,10 +221,10 @@ class PlayerFragment : BaseFragment() {
     }
 
     private fun setMetadata(metadata: PlayerFragmentMetadata){
-        title.text = metadata.title
-        artist.text = metadata.artist
-        isExplicit.visibility = if (metadata.isExplicit) View.VISIBLE else View.GONE
-        isRemix.visibility = if (metadata.isRemix) View.VISIBLE else View.GONE
+        view!!.slidingView.findViewById<TextView>(R.id.title).text = metadata.title
+        view!!.slidingView.artist.text = metadata.artist
+        view!!.explicit.visibility = if (metadata.isExplicit) View.VISIBLE else View.GONE
+        view!!.remix.visibility = if (metadata.isRemix) View.VISIBLE else View.GONE
     }
 
     private fun setCover(coverModel: CoverModel){
@@ -211,6 +240,20 @@ class PlayerFragment : BaseFragment() {
                 .priority(Priority.IMMEDIATE)
                 .override(500)
                 .into(cover)
+    }
+
+    private val listener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val child = recyclerView.getChildAt(0)
+            val top = MathUtils.clamp(child.top, 0, Int.MAX_VALUE)
+            val translation = view!!.slidingView.bottom - top
+
+            val notToTranslate = (view?.metadataBackground?.height ?: 0)
+            val realTranslation = MathUtils.clamp(translation, 0, view!!.slidingView.bottom -
+                    notToTranslate).toFloat()
+
+            view!!.slidingView.translationY = -realTranslation
+        }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_player

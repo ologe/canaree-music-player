@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.view.ViewPager
-import android.view.View
-import android.widget.TextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.presentation.HasSlidingPanel
@@ -22,12 +20,9 @@ import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinderViewModel
 import dev.olog.presentation.utils.extension.subscribe
-import dev.olog.presentation.utils.extension.toggleVisibility
-import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.asLiveData
-import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject
@@ -35,14 +30,10 @@ import javax.inject.Inject
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     @Inject lateinit var musicServiceBinder: MusicServiceBinderViewModel
-    private val innerPanelSlideListener by lazy(LazyThreadSafetyMode.NONE) { InnerPanelSlideListener(this) }
 
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var navigator: Navigator
-
-    private lateinit var title: TextView
-    private lateinit var artist: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,26 +44,14 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         tabLayout.setupWithViewPager(viewPager)
         viewPager.currentItem = presenter.getViewPagerLastPage(adapter.count)
 
-        title = wrapper.findViewById(R.id.title)
-        artist = wrapper.findViewById(R.id.artist)
-
         musicServiceBinder.getMediaControllerLiveData()
                 .subscribe(this, { MediaControllerCompat.setMediaController(this, it) })
-
-        Observables.combineLatest(
-                RxSlidingUpPanel.panelStateEvents(slidingPanel).map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED },
-                RxSlidingUpPanel.panelStateEvents(innerPanel).map { it.newState == SlidingUpPanelLayout.PanelState.COLLAPSED },
-                { outerIsExpanded, innerIsCollapsed -> outerIsExpanded && innerIsCollapsed }
-        ).distinctUntilChanged()
-                .asLiveData()
-                .subscribe(this, { canScroll ->
-                    title.isSelected = canScroll
-                    artist.isSelected = canScroll
-                })
 
         presenter.isRepositoryEmptyUseCase.execute()
                 .asLiveData()
                 .subscribe(this, this::handleEmptyRepository)
+
+        slidingPanel.setScrollableViewHelper(NestedScrollHelper())
     }
 
     override fun handleIntent(intent: Intent) {
@@ -97,8 +76,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onResume() {
         super.onResume()
-        innerPanel.addPanelSlideListener(innerPanelSlideListener)
-        innerPanel.addPanelSlideListener(panelSlideListener)
         search.setOnClickListener { navigator.toSearchFragment(false) }
         settings.setOnClickListener { navigator.toMainPopup(it) }
         viewPager.addOnPageChangeListener(onAdapterPageChangeListener)
@@ -106,8 +83,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
 
     override fun onPause() {
         super.onPause()
-        innerPanel.removePanelSlideListener(innerPanelSlideListener)
-        innerPanel.removePanelSlideListener(panelSlideListener)
         search.setOnClickListener(null)
         settings.setOnClickListener(null)
         viewPager.removeOnPageChangeListener(onAdapterPageChangeListener)
@@ -136,7 +111,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         when {
             playingQueue != null -> super.onBackPressed()
-            innerPanel.isExpanded() -> innerPanel.collapse()
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
         }
@@ -147,12 +121,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
-
-    private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener(){
-        override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
-            drag_area.toggleVisibility(newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
-        }
-    }
 
     private val onAdapterPageChangeListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {}

@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_mini_queue
+package dev.olog.presentation.fragment_player
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding

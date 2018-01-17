@@ -55,7 +55,6 @@ class NavigatorImpl @Inject constructor(
 
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
-            activity.findViewById<SlidingUpPanelLayout>(R.id.innerPanel).panelState = COLLAPSED
 
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)

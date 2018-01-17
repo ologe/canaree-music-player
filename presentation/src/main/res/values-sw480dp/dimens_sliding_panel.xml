@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!--for the real panel height subtract 48(navbar height)-->
-    <dimen name="inner_panel_height">178dp</dimen>
-
-</resources>
