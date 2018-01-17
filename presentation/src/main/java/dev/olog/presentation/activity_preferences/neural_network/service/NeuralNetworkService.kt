@@ -99,8 +99,12 @@ class NeuralNetworkService : DaggerService() {
         val list = listOf(
                 "genre_neural", "playlist_neural", "album_neural", "artist_neural", "genre_neural"
         )
-        list.map { File("${applicationInfo.dataDir}${File.separator}$it") }
-                .forEach { folder -> folder.listFiles().forEach { it.delete() } }
+        for (s in list) {
+            val folder = File("${applicationInfo.dataDir}${File.separator}$s")
+            if(folder.exists()){
+                folder.listFiles().forEach { it.delete() }
+            }
+        }
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

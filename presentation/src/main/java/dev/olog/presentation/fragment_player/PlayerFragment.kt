@@ -166,7 +166,8 @@ class PlayerFragment : BaseFragment() {
         view.slidingView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener{
             override fun onPreDraw(): Boolean {
                 view.slidingView.viewTreeObserver.removeOnPreDrawListener(this)
-                view.list.setPadding(0, view.slidingView.bottom, 0, 0)
+                view.list.setPadding(view.list.paddingLeft, view.slidingView.bottom,
+                        view.list.paddingRight, view.list.paddingBottom)
                 layoutManager = LinearLayoutManager(context)
                 view.list.setHasFixedSize(true)
                 view.list.layoutManager = layoutManager

@@ -19,29 +19,30 @@
         android:clipChildren="false"
         android:clipToPadding="false"/>
 
+    <View
+        android:id="@+id/statusBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/status_bar_secondary"
+        android:clickable="true"
+        android:focusable="true"/>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/slidingView"
+        android:layout_marginTop="@dimen/status_bar"
         tools:background="@color/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
         android:focusable="false">
 
-        <View
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/statusBar"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/status_bar"
-            android:background="@color/status_bar_secondary"
-            android:clickable="true"
-            android:focusable="true"/>
-
         <include
             android:id="@+id/playerToolbar"
             layout="@layout/layout_player_toolbar"
-            app:layout_constraintTop_toBottomOf="@+id/statusBar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
@@ -182,90 +183,88 @@
             android:elevation="2dp"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
-        <View
-            android:id="@+id/metadataBackground"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/background"
-            android:clickable="false"
-            android:focusable="false"/>
-
-        <!-- title -->
-        <TextView
-            android:id="@+id/title"
-            tools:text="In Da Club"
+        <!--title and artist need a wrapper in order to horizontal scroll-->
+        <android.support.constraint.ConstraintLayout
             app:layout_constraintTop_toBottomOf="@+id/repeat"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_title_text_size"
-            android:textColor="@color/text_color_primary"
-            android:singleLine="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:scrollHorizontally="true"
-            android:textStyle="bold"
-            android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
-            android:clickable="false"
-            android:focusable="false"/>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/artist"
-            tools:text="50 Cent - Qualche album"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/player_artist_text_size"
-            android:textColor="@color/text_color_secondary"
-            android:singleLine="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:ellipsize="marquee"
-            android:scrollHorizontally="true"
-            android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
-            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
-            android:layout_marginTop="4dp"
-            android:clickable="false"
-            android:focusable="false"/>
+            <!-- title -->
+            <TextView
+                android:id="@+id/title"
+                tools:text="In Da Club"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_title_text_size"
+                android:textColor="@color/text_color_primary"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/player_title_margin_horizontal"
+                android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+                android:clickable="false"
+                android:focusable="false"/>
 
-        <TextView
-            android:id="@+id/explicit"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
-            style="@style/ExplicitView"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:clickable="false"
-            android:focusable="false"/>
+            <TextView
+                android:id="@+id/artist"
+                tools:text="50 Cent - Qualche album"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/player_artist_text_size"
+                android:textColor="@color/text_color_secondary"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:ellipsize="marquee"
+                android:scrollHorizontally="true"
+                android:layout_marginStart="@dimen/player_title_margin_horizontal"
+                android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+                android:layout_marginBottom="@dimen/player_artist_bottom_padding"
+                android:layout_marginTop="4dp"
+                android:clickable="false"
+                android:focusable="false"/>
 
-        <TextView
-            android:id="@+id/remix"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toStartOf="@+id/explicit"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RemixView"
-            app:layout_goneMarginEnd="16dp"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:clickable="false"
-            android:focusable="false"/>
+            <TextView
+                android:id="@+id/explicit"
+                app:layout_constraintTop_toTopOf="@+id/artist"
+                app:layout_constraintBottom_toBottomOf="@+id/artist"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+                style="@style/ExplicitView"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:clickable="false"
+                android:focusable="false"/>
+
+            <TextView
+                android:id="@+id/remix"
+                app:layout_constraintTop_toTopOf="@+id/artist"
+                app:layout_constraintBottom_toBottomOf="@+id/artist"
+                app:layout_constraintEnd_toStartOf="@+id/explicit"
+                android:layout_marginEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/RemixView"
+                app:layout_goneMarginEnd="16dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:clickable="false"
+                android:focusable="false"/>
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

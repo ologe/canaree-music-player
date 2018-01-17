@@ -13,7 +13,7 @@
         android:textSize="@dimen/player_now_playing_size"
         android:text="@string/player_now_playing"
         android:textStyle="bold"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
         android:stateListAnimator="@animator/now_playing"
         android:textColor="@color/text_color_primary"
         android:layout_width="wrap_content"
