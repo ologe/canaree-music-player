@@ -15,6 +15,7 @@ import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared.flatMapGroup
 import dev.olog.shared.groupMap
+import dev.olog.shared_android.Constants
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
@@ -81,7 +82,8 @@ class FolderRepository @Inject constructor(
     }
 
     private fun makeImage(context: Context, map: Map.Entry<String, List<Song>>) : Deferred<Boolean> = async {
-        FileUtils.makeImages(context, map.value, "folder", map.key.replace(File.separator, ""))
+        val folderName = if (Constants.useNeuralImages) "folder_neural" else "folder"
+        FileUtils.makeImages(context, map.value, folderName, map.key.replace(File.separator, ""))
     }
 
     override fun getAll(): Flowable<List<Folder>> = listObservable

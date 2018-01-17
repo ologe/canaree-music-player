@@ -97,7 +97,8 @@ class ArtistRepository @Inject constructor(
     }
 
     private fun makeImage(context: Context, map: Map.Entry<Long, List<Song>>) : Deferred<Boolean> = async {
-        FileUtils.makeImages(context, map.value, "artist", "${map.key}")
+        val folderName = if (Constants.useNeuralImages) "artist_neural" else "artist"
+        FileUtils.makeImages(context, map.value, folderName, "${map.key}")
     }
 
     override fun getAll(): Flowable<List<Artist>> = contentProviderObserver

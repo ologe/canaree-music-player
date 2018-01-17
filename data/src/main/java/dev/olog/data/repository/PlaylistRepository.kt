@@ -137,7 +137,8 @@ class PlaylistRepository @Inject constructor(
     }
 
     private fun makeImage(context: Context, playlist: Playlist, albumsId: List<Long>) : Deferred<Boolean> = async {
-        FileUtils.makeImages2(context, albumsId, "playlist", "${playlist.id}")
+        val folderName = if (Constants.useNeuralImages) "playlist_neural" else "playlist"
+        FileUtils.makeImages2(context, albumsId, folderName, "${playlist.id}")
     }
 
     override fun getAll(): Flowable<List<Playlist>> {

@@ -245,14 +245,15 @@ class PlayerFragment : BaseFragment() {
     private val listener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val child = recyclerView.getChildAt(0)
-            val top = MathUtils.clamp(child.top, 0, Int.MAX_VALUE)
-            val translation = view!!.slidingView.bottom - top
+            child?.let {
+                val top = MathUtils.clamp(it.top, 0, Int.MAX_VALUE)
+                val translation = view!!.slidingView.bottom - top
 
-            val notToTranslate = (view?.metadataBackground?.height ?: 0)
-            val realTranslation = MathUtils.clamp(translation, 0, view!!.slidingView.bottom -
-                    notToTranslate).toFloat()
+                val realTranslation = MathUtils.clamp(translation, 0, view!!.slidingView.bottom).toFloat()
 
-            view!!.slidingView.translationY = -realTranslation
+                view!!.slidingView.translationY = -realTranslation
+            }
+
         }
     }
 

@@ -1,5 +1,7 @@
 package dev.olog.presentation.activity_preferences.neural_network.service
 
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -8,7 +10,7 @@ import android.os.IBinder
 import android.provider.MediaStore
 import android.support.v4.app.NotificationCompat
 import dagger.android.DaggerService
-import dev.olog.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.domain.interactor.GetAllSongsForImagesUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
@@ -31,7 +33,7 @@ class NeuralNetworkService : DaggerService() {
 
     private var builder = NotificationCompat.Builder(this, "id")
 
-    @Inject lateinit var getAllSongsUseCase: GetAllSongsUseCase
+    @Inject lateinit var getAllSongsUseCase: GetAllSongsForImagesUseCase
     private var disposable: Disposable? = null
     private var count = 0
     private var size = 1
@@ -41,13 +43,16 @@ class NeuralNetworkService : DaggerService() {
         builder = builder.setContentTitle("Stylize")
                 .setContentText("")
                 .setProgress(1, 0, true)
+                .setDeleteIntent(PendingIntent.getService(this, 0,
+                        Intent(this, this::class.java).setAction("stop"),
+                        PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.vd_bird_singing_24dp)
 
         notificationManager.notify(789, builder.build())
 
         disposable = getAllSongsUseCase.execute()
                 .subscribeOn(Schedulers.computation())
-                .firstOrError()
+                .doOnSubscribe { deleteAll() }
                 .map {
                     val result = it.asSequence()
                         .filter { it.album != Constants.UNKNOWN_ALBUM }
@@ -78,6 +83,9 @@ class NeuralNetworkService : DaggerService() {
                 }
                 .toList()
                 .subscribe({
+                    contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+                    contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
+                    contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
                     notificationManager.cancel(789)
                     stopSelf()
                 }, {
@@ -85,6 +93,24 @@ class NeuralNetworkService : DaggerService() {
                     notificationManager.cancel(789)
                     stopSelf()
                 })
+    }
+
+    private fun deleteAll(){
+        val list = listOf(
+                "genre_neural", "playlist_neural", "album_neural", "artist_neural", "genre_neural"
+        )
+        list.map { File("${applicationInfo.dataDir}${File.separator}$it") }
+                .forEach { folder -> folder.listFiles().forEach { it.delete() } }
+    }
+
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        val action = intent.action
+
+        if (action == "stop"){
+            stopSelf()
+        }
+
+        return Service.START_NOT_STICKY
     }
 
     override fun onDestroy() {
@@ -100,7 +126,7 @@ class NeuralNetworkService : DaggerService() {
         parentFile.mkdirs()
         val dest = File(parentFile, albumId.toString())
         val out = FileOutputStream(dest)
-        result.compress(Bitmap.CompressFormat.WEBP, 85, out)
+        result.compress(Bitmap.CompressFormat.WEBP, 90, out)
         out.close()
 
         result
