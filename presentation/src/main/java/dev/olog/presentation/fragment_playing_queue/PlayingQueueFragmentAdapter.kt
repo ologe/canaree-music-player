@@ -1,6 +1,7 @@
 package dev.olog.presentation.fragment_playing_queue
 
 import android.arch.lifecycle.Lifecycle
+import android.content.Context
 import android.databinding.ViewDataBinding
 import android.view.MotionEvent
 import dev.olog.presentation.BR
@@ -15,15 +16,17 @@ import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
+import dev.olog.shared.ApplicationContext
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
 
 class PlayingQueueFragmentAdapter @Inject constructor(
+        @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
         private val musicController: MusicController,
         private val navigator: Navigator
 
-) : BaseListAdapter<DisplayableItem>(lifecycle) {
+) : BaseListAdapter<DisplayableItem>(lifecycle, context) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->

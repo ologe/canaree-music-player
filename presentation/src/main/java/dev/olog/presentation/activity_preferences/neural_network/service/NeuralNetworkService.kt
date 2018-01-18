@@ -18,9 +18,6 @@ import dev.olog.shared_android.extension.notificationManager
 import dev.olog.shared_android.neural.NeuralImages
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -53,12 +50,12 @@ class NeuralNetworkService : DaggerService() {
         deleteAll()
 
         disposable = getAllSongsUseCase.execute()
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .map {
                     val result = it.asSequence()
-                        .filter { it.album != Constants.UNKNOWN_ALBUM }
-                        .distinctBy { it.albumId }
-                        .toList()
+                            .filter { it.album != Constants.UNKNOWN_ALBUM }
+                            .distinctBy { it.albumId }
+                            .toList()
 
                     size = result.size
                     notificationManager.notify(789, builder.setProgress(size, 0, false).build())
@@ -66,18 +63,12 @@ class NeuralNetworkService : DaggerService() {
                     result
                 }
                 .flattenAsFlowable { it }
-                .parallel()
-                .runOn(Schedulers.computation())
                 .map {
-                    runBlocking {
-                        try {
-                            val ctx = this@NeuralNetworkService
-                            val bitmap = MediaStore.Images.Media.getBitmap(ctx.contentResolver, Uri.parse(it.image))
-                            makeFilteredImage(ctx, it.albumId, bitmap).await()
-                        } catch (ex: Exception){}
-                    }
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
+                        makeFilteredImage(this, it.albumId, bitmap)
+                    } catch (ex: Exception){}
                 }
-                .sequential()
                 .doOnNext {
                     count++
                     notificationManager.notify(789, builder.setProgress(size, count, false).build())
@@ -124,17 +115,15 @@ class NeuralNetworkService : DaggerService() {
         notificationManager.cancel(789)
     }
 
-    private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap) : Deferred<Bitmap> = async {
+    private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap){
         val result = NeuralImages.stylizeTensorFlow(context, bitmap)
 
         val parentFile = File("${context.applicationInfo.dataDir}${File.separator}album_neural")
         parentFile.mkdirs()
         val dest = File(parentFile, albumId.toString())
         val out = FileOutputStream(dest)
-        result.compress(Bitmap.CompressFormat.WEBP, 90, out)
+        result.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()
-
-        result
     }
 
 }

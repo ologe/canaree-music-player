@@ -9,13 +9,15 @@ object NeuralImages {
 
     const val NUM_STYLES = 26
 
-    private const val desiredSize = 768
+    private const val desiredSize = 1024
     private const val MODEL_FILE = "file:///android_asset/stylize_quantized.pb"
-    private val INPUT_NODE = "input"
-    private val STYLE_NODE = "style_num"
-    private val OUTPUT_NODE = "transformer/expand/conv3/conv/Sigmoid"
+    private const val INPUT_NODE = "input"
+    private const val STYLE_NODE = "style_num"
+    private const val OUTPUT_NODE = "transformer/expand/conv3/conv/Sigmoid"
 
     private var styleVals = FloatArray(NUM_STYLES)
+
+    private var inferenceInterface : TensorFlowInferenceInterface? = null
 
     fun setStyle(stylePosition: Int){
         styleVals.forEachIndexed { index, _ ->
@@ -28,7 +30,9 @@ object NeuralImages {
     }
 
     fun stylizeTensorFlow(context: Context, bitmap: Bitmap): Bitmap {
-        val inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
+        if (inferenceInterface == null){
+            inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
+        }
 
         val intValues = IntArray(desiredSize * desiredSize)
         val floatValues = FloatArray(desiredSize * desiredSize * 3)
@@ -47,15 +51,15 @@ object NeuralImages {
         // TODO: Process the image in TensorFlow here.
 
         // Copy the input data into TensorFlow.
-        inferenceInterface.feed(INPUT_NODE, floatValues,
+        inferenceInterface!!.feed(INPUT_NODE, floatValues,
                 1, scaledBitmap.width.toLong(), scaledBitmap.height.toLong(), 3)
-        inferenceInterface.feed(STYLE_NODE, styleVals, NUM_STYLES.toLong())
+        inferenceInterface!!.feed(STYLE_NODE, styleVals, NUM_STYLES.toLong())
 
         // Execute the output node's dependency sub-graph.
-        inferenceInterface.run(arrayOf(OUTPUT_NODE), false)
+        inferenceInterface!!.run(arrayOf(OUTPUT_NODE), false)
 
         // Copy the data from TensorFlow back into our array.
-        inferenceInterface.fetch(OUTPUT_NODE, floatValues)
+        inferenceInterface!!.fetch(OUTPUT_NODE, floatValues)
 
         for (i in intValues.indices) {
             intValues[i] = (-0x1000000

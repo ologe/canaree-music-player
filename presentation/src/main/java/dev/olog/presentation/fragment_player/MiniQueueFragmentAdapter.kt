@@ -1,6 +1,7 @@
 package dev.olog.presentation.fragment_player
 
 import android.arch.lifecycle.Lifecycle
+import android.content.Context
 import android.databinding.ViewDataBinding
 import android.view.MotionEvent
 import dev.olog.presentation.BR
@@ -15,15 +16,19 @@ import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
+import dev.olog.shared.ApplicationContext
 import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import javax.inject.Inject
 
 class MiniQueueFragmentAdapter @Inject constructor(
+        @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
         private val musicController: MusicController,
         private val navigator: Navigator
 
-): BaseListAdapter<DisplayableItem>(lifecycle) {
+): BaseListAdapter<DisplayableItem>(lifecycle, context) {
+
+    var hasGranularUpdate: Boolean = false
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
 
@@ -54,7 +59,7 @@ class MiniQueueFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    override val hasGranularUpdate: Boolean = false
+    override fun hasGranularUpdate(): Boolean = hasGranularUpdate
 
     override val touchCallbackConfig = TouchCallbackConfig(
             true, true,

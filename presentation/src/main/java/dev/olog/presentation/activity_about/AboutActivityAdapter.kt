@@ -1,13 +1,11 @@
 package dev.olog.presentation.activity_about
 
 import android.arch.lifecycle.Lifecycle
-import android.content.Context
 import android.databinding.ViewDataBinding
 import dagger.Lazy
 import dev.olog.presentation.BR
 import dev.olog.presentation._base.list.BaseListAdapter
 import dev.olog.presentation._base.list.DataBoundViewHolder
-import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.NavigatorAbout
@@ -16,7 +14,6 @@ import javax.inject.Inject
 
 
 class AboutActivityAdapter @Inject constructor(
-        @ActivityContext private val context: Context,
         @ActivityLifecycle lifecycle: Lifecycle,
         private val navigator: Lazy<NavigatorAbout>
 

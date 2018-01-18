@@ -123,7 +123,7 @@ class BaseMapAdapterController <E : Enum<E>, Model: BaseModel> (
 
                     dataSet.update(newData)
 
-                    if (wasEmpty || !adapter.hasGranularUpdate || callback == null){
+                    if (wasEmpty || !adapter.hasGranularUpdate() || callback == null){
                         adapter.notifyDataSetChanged()
                     } else{
                         callback.dispatchUpdatesTo(adapter)

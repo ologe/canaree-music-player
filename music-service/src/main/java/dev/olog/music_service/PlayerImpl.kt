@@ -21,7 +21,6 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
-import dev.olog.domain.interactor.prefs.GetLowerVolumeOnNightUseCase
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
@@ -32,14 +31,7 @@ import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.utils.AudioFocusBehavior
 import dev.olog.music_service.utils.dispatchEvent
 import dev.olog.shared.ApplicationContext
-import io.reactivex.disposables.Disposable
 import javax.inject.Inject
-
-private const val VOLUME_DUCK = .2f
-private const val VOLUME_LOWERED_DUCK = 0.1f
-
-private const val VOLUME_NORMAL = 1f
-private const val VOLUME_LOWERED_NORMAL = 0.5f
 
 @PerService
 class PlayerImpl @Inject constructor(
@@ -49,7 +41,7 @@ class PlayerImpl @Inject constructor(
         private val playerState: PlayerState,
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
-        private val lowerVolumeOnNightUseCase: GetLowerVolumeOnNightUseCase
+        private val volume: PlayerVolume
 
 ) : Player,
         DefaultLifecycleObserver,
@@ -59,7 +51,6 @@ class PlayerImpl @Inject constructor(
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
 
-
     private val extractorsFactory = DefaultExtractorsFactory()
     private val bandwidthMeter = DefaultBandwidthMeter()
     private val userAgent = Util.getUserAgent(context, "Msc")
@@ -67,17 +58,14 @@ class PlayerImpl @Inject constructor(
     private val trackSelector = DefaultTrackSelector()
     private val exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector)
 
-    private var disposable: Disposable? = null
-
     init {
         lifecycle.addObserver(this)
         exoPlayer.addListener(this)
-
-        disposable = lowerVolumeOnNightUseCase.observe()
-                .subscribe({ lower ->
-                    val volume = if (lower) VOLUME_LOWERED_NORMAL else VOLUME_NORMAL
-                    exoPlayer.volume = volume
-                }, Throwable::printStackTrace)
+        volume.listener = object : PlayerVolume.Listener {
+            override fun onVolumeChanged(volume: Float) {
+                exoPlayer.volume = volume
+            }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -213,16 +201,12 @@ class PlayerImpl @Inject constructor(
     override fun onAudioFocusChange(focusChange: Int) {
         when (focusChange) {
             AudioManager.AUDIOFOCUS_GAIN -> {
-                val lower = lowerVolumeOnNightUseCase.get()
-                val volume = if (lower) VOLUME_LOWERED_NORMAL else VOLUME_NORMAL
-                exoPlayer.volume = volume
+                exoPlayer.volume = this.volume.getNormalVolume()
             }
             AudioManager.AUDIOFOCUS_LOSS -> pause(false)
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> pause(false)
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                val lower = lowerVolumeOnNightUseCase.get()
-                val volume = if (lower) VOLUME_LOWERED_DUCK else VOLUME_DUCK
-                exoPlayer.volume = volume
+                exoPlayer.volume = this.volume.getDuckingVolume()
             }
         }
     }

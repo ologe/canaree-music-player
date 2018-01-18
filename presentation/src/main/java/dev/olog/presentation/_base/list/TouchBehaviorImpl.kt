@@ -1,10 +1,12 @@
 package dev.olog.presentation._base.list
 
+import android.content.Context
 import android.support.v7.widget.helper.ItemTouchHelper
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperAdapter
 import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 
 class TouchBehaviorImpl(
+        context: Context?,
         private val dataController: TouchBehaviorCapabilities,
         private val touchCallbackConfig: TouchCallbackConfig,
         canSwipe: Boolean
@@ -14,12 +16,12 @@ class TouchBehaviorImpl(
     override val draggableViewType: Int = touchCallbackConfig.draggableViewType
 
     init {
-        if (draggableViewType == TouchBehavior.UNSET) {
+        if (draggableViewType == 0) {
             throw IllegalStateException("try with a valid viewType")
         }
     }
 
-    val callback = ItemTouchHelperCallback(this, canSwipe)
+    val callback = ItemTouchHelperCallback(context, this, canSwipe)
     val touchHelper = ItemTouchHelper(callback)
 
     override fun onItemMove(from: Int, to: Int) {

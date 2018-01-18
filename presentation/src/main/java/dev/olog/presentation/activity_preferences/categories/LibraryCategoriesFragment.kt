@@ -40,7 +40,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
-        adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet().toMutableList())
+        adapter = LibraryCategoriesFragmentAdapter(activity!!, presenter.getDataSet().toMutableList())
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
         adapter.touchHelper.attachToRecyclerView(list)

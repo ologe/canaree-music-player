@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
+import kotlinx.android.synthetic.main.layout_player_toolbar.view.*
 import org.jetbrains.anko.find
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -60,19 +61,19 @@ class PlayerFragment : BaseFragment() {
         SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.skipToPrevious() }) }
 
     private val floatingWindowTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakePrevious, { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder) }) }
+        SimpleViewClickInterceptor(view!!.floatingWindow, { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder) }) }
 
     private val favoriteTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.togglePlayerFavorite() }) }
+        SimpleViewClickInterceptor(view!!.favorite, { musicController.togglePlayerFavorite() }) }
 
     private val playingQueueTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakePrevious, { navigator.toPlayingQueueFragment() }) }
+        SimpleViewClickInterceptor(view!!.playingQueue, { navigator.toPlayingQueueFragment() }) }
 
     private val shuffleTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.toggleShuffleMode() }) }
+        SimpleViewClickInterceptor(view!!.shuffle, { musicController.toggleShuffleMode() }) }
 
     private val repeatTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.toggleRepeatMode() }) }
+        SimpleViewClickInterceptor(view!!.repeat, { musicController.toggleRepeatMode() }) }
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -272,6 +273,8 @@ class PlayerFragment : BaseFragment() {
 
     private val listener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            adapter.hasGranularUpdate = recyclerView.canScrollVertically(-1)
+
             val child = recyclerView.getChildAt(0)
             val translation = child?.let {
                 val top = MathUtils.clamp(it.top, 0, Int.MAX_VALUE)
@@ -281,7 +284,15 @@ class PlayerFragment : BaseFragment() {
 
                 -realTranslation
             } ?: 0f
-            view!!.slidingView.translationY = translation
+
+            if (recyclerView.adapter.itemCount == 0){
+                view!!.slidingView.animate()
+                        .translationY(translation)
+                        .start()
+            } else {
+                view!!.slidingView.translationY = translation
+            }
+
         }
     }
 

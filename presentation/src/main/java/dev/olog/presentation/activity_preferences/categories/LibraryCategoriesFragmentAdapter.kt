@@ -1,5 +1,6 @@
 package dev.olog.presentation.activity_preferences.categories
 
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
@@ -17,16 +18,15 @@ import dev.olog.presentation.utils.recycler_view.ItemTouchHelperCallback
 import dev.olog.shared.clearThenAdd
 import dev.olog.shared.swap
 import kotlinx.android.synthetic.main.dialog_tab_category_item.view.*
-import javax.inject.Inject
 
-class LibraryCategoriesFragmentAdapter @Inject constructor(
-
+class LibraryCategoriesFragmentAdapter (
+        context: Context,
         val data: MutableList<LibraryCategoryBehavior>
 
 ) : RecyclerView.Adapter<DataBoundViewHolder<*>>(),
         ItemTouchHelperAdapter {
 
-    private val callback = ItemTouchHelperCallback(this, false)
+    private val callback = ItemTouchHelperCallback(context, this, false)
     val touchHelper = ItemTouchHelper(callback)
 
     override fun getItemCount(): Int = data.size

@@ -106,7 +106,7 @@ class BaseListAdapterController<Model : BaseModel> :
 
                     this.dataSet.clearThenAdd(newData)
 
-                    if (wasEmpty || !adapter.hasGranularUpdate) {
+                    if (wasEmpty || !adapter.hasGranularUpdate()) {
                         adapter.notifyDataSetChanged()
                     } else {
                         callback.dispatchUpdatesTo(adapter)

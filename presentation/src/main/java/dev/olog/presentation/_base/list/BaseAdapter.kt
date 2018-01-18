@@ -1,6 +1,7 @@
 package dev.olog.presentation._base.list
 
 import android.arch.lifecycle.Lifecycle
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import dev.olog.presentation._base.BaseModel
 import io.reactivex.Flowable
 
 abstract class BaseAdapter <DataType, Model: BaseModel>(
+        context: Context?,
         lifecycle: Lifecycle,
         protected val dataController: AdapterController<DataType, Model>
 
@@ -25,7 +27,7 @@ abstract class BaseAdapter <DataType, Model: BaseModel>(
     }
 
     private val draggableBehavior by lazy { if (touchCallbackConfig.canDrag) {
-        TouchBehaviorImpl(dataController, touchCallbackConfig, touchCallbackConfig.canSwipe)
+        TouchBehaviorImpl(context, dataController, touchCallbackConfig, touchCallbackConfig.canSwipe)
     } else null }
 
     fun touchHelper() : ItemTouchHelper? = draggableBehavior?.touchHelper
@@ -52,7 +54,7 @@ abstract class BaseAdapter <DataType, Model: BaseModel>(
 
     override fun getItemViewType(position: Int) = dataController[position].type
 
-    open val hasGranularUpdate : Boolean = true
+    open fun hasGranularUpdate() : Boolean = true
 
     fun getItemAt(position: Int): Model = dataController[position]
 

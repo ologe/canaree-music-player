@@ -1,6 +1,7 @@
 package dev.olog.presentation.fragment_detail
 
 import android.arch.lifecycle.Lifecycle
+import android.content.Context
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearSnapHelper
@@ -25,6 +26,7 @@ import dev.olog.presentation.utils.extension.elevateAlbumOnTouch
 import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
+import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
@@ -34,6 +36,7 @@ import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import javax.inject.Inject
 
 class DetailFragmentAdapter @Inject constructor(
+        @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
         enums: Array<DetailFragmentDataType>,
         private val mediaId: MediaId,
@@ -44,7 +47,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums) {
+) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums, context) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
         when (viewType) {
