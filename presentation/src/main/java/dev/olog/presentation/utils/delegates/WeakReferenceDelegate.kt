@@ -9,6 +9,11 @@ class WeakReferenceDelegate<out T>(ref: T): ReadOnlyProperty<Any, T> {
     private val value = WeakReference<T>(ref)
 
     override fun getValue(thisRef: Any, property: KProperty<*>): T = value.get()!!
+
+    fun clear(){
+        value.clear()
+    }
+
 }
 
 fun <T> weakRef(value: T): WeakReferenceDelegate<T> = WeakReferenceDelegate(value)

@@ -50,9 +50,10 @@ class NeuralNetworkService : DaggerService() {
 
         notificationManager.notify(789, builder.build())
 
+        deleteAll()
+
         disposable = getAllSongsUseCase.execute()
                 .subscribeOn(Schedulers.computation())
-                .doOnSubscribe { deleteAll() }
                 .map {
                     val result = it.asSequence()
                         .filter { it.album != Constants.UNKNOWN_ALBUM }

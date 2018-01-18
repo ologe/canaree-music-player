@@ -13,7 +13,6 @@ import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.TextUtils
-import dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
@@ -47,7 +46,7 @@ open class NotificationImpl24 @Inject constructor(
 
         builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
                 .setContentTitle(title)
-                .setContentText(artist + MIDDLE_DOT_SPACED + album)
+                .setContentText(artist)
 
         val isFavoriteAction = builder.mActions[1]
         isFavoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite

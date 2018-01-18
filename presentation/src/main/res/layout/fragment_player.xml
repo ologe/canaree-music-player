@@ -6,30 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:paddingTop="650dp"
-        tools:listitem="@layout/item_mini_queue"
-        android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
-        android:paddingBottom="24dp"
-        android:overScrollMode="never"
-        android:clipChildren="false"
-        android:clipToPadding="false"/>
-
-    <View
-        android:id="@+id/statusBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/status_bar"
-        android:background="@color/status_bar_secondary"
-        android:clickable="true"
-        android:focusable="true"/>
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/slidingView"
         android:layout_marginTop="@dimen/status_bar"
@@ -144,9 +120,7 @@
             android:progressTint="@color/progress_bar_tint"
             android:thumbTint="@color/progress_bar_tint"
             android:progressBackgroundTint="@color/progress_bar_secondary_tint"
-            tools:progress="40"
-            android:clickable="true"
-            android:focusable="true" />
+            tools:progress="40"/>
 
 
         <!-- shuffle -->
@@ -214,7 +188,7 @@
 
             <TextView
                 android:id="@+id/artist"
-                tools:text="50 Cent - Qualche album"
+                tools:text="50 Cent"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -267,5 +241,26 @@
         </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:paddingTop="650dp"
+        tools:listitem="@layout/item_mini_queue"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
+        android:paddingBottom="24dp"
+        android:overScrollMode="never"
+        android:clipChildren="false"
+        android:clipToPadding="false"/>
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/status_bar_secondary"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </FrameLayout>

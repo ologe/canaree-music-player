@@ -5,6 +5,8 @@ import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.view.MotionEvent
 
+private const val DEFAULT_SWIPED_THRESHOLD = 100
+
 class SwipeableImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -12,15 +14,11 @@ class SwipeableImageView @JvmOverloads constructor(
 
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
 
-    companion object {
-        private val DEFAULT_SWIPED_THRESHOLD = 100
-    }
-
-    private val swipedThreshold: Int = DEFAULT_SWIPED_THRESHOLD
-    private var xDown: Float = 0.toFloat()
-    private var xUp: Float = 0.toFloat()
-    private var yDown: Float = 0.toFloat()
-    private var yUp: Float = 0.toFloat()
+    private val swipedThreshold = DEFAULT_SWIPED_THRESHOLD
+    private var xDown = 0f
+    private var xUp = 0f
+    private var yDown = 0f
+    private var yUp = 0f
     private var swipeListener: SwipeListener? = null
 
     fun setOnSwipeListener(swipeListener: SwipeListener?) {
@@ -28,20 +26,20 @@ class SwipeableImageView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.action) {
+        return when (event.action) {
             MotionEvent.ACTION_DOWN -> onActionDown(event)
             MotionEvent.ACTION_UP  -> onActionUp(event)
-            else -> { }
+            else -> super.onTouchEvent(event)
         }
-        return super.onTouchEvent(event)
     }
 
-    private fun onActionDown(event: MotionEvent) {
+    private fun onActionDown(event: MotionEvent) : Boolean{
         xDown = event.x
         yDown = event.y
+        return true
     }
 
-    private fun onActionUp(event: MotionEvent) {
+    private fun onActionUp(event: MotionEvent) : Boolean {
         xUp = event.x
         yUp = event.y
         val swipedHorizontally = Math.abs(xUp - xDown) > swipedThreshold
@@ -56,11 +54,13 @@ class SwipeableImageView @JvmOverloads constructor(
             if (swipedRight) {
                 if (swipeListener != null) {
                     swipeListener!!.onSwipedRight()
+                    return true
                 }
             }
             if (swipedLeft) {
                 if (swipeListener != null) {
                     swipeListener!!.onSwipedLeft()
+                    return true
                 }
             }
         }
@@ -68,8 +68,10 @@ class SwipeableImageView @JvmOverloads constructor(
         if (!swipedHorizontally && !swipedVertically) {
             if (swipeListener != null) {
                 swipeListener!!.onClick()
+                return true
             }
         }
+        return false
     }
 
     interface SwipeListener {

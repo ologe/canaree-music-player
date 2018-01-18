@@ -9,7 +9,7 @@ object NeuralImages {
 
     const val NUM_STYLES = 26
 
-    private const val desiredSize = 1024
+    private const val desiredSize = 768
     private const val MODEL_FILE = "file:///android_asset/stylize_quantized.pb"
     private val INPUT_NODE = "input"
     private val STYLE_NODE = "style_num"

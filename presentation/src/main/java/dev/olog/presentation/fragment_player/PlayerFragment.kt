@@ -11,7 +11,6 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
@@ -27,6 +26,7 @@ import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.extension.asLiveData
+import dev.olog.shared_android.extension.isPortrait
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import dev.olog.shared_android.rx.SeekBarObservable
 import io.reactivex.Observable
@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import org.jetbrains.anko.find
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.LazyThreadSafetyMode.NONE
 
 class PlayerFragment : BaseFragment() {
 
@@ -47,6 +48,31 @@ class PlayerFragment : BaseFragment() {
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
     @Inject lateinit var adapter : MiniQueueFragmentAdapter
+
+    private val seekBarTouchInterceptor by lazy(NONE) { SeekBarTouchInterceptor(view!!.seekBar) }
+
+    private val imageTouchInterceptor by lazy(NONE) { ImageTouchInterceptor(view!!.cover) }
+
+    private val skipNextTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakeNext, { musicController.skipToNext() }) }
+
+    private val skipPreviousTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.skipToPrevious() }) }
+
+    private val floatingWindowTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakePrevious, { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder) }) }
+
+    private val favoriteTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.togglePlayerFavorite() }) }
+
+    private val playingQueueTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakePrevious, { navigator.toPlayingQueueFragment() }) }
+
+    private val shuffleTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.toggleShuffleMode() }) }
+
+    private val repeatTouchInterceptor by lazy(NONE) {
+        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.toggleRepeatMode() }) }
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -105,7 +131,6 @@ class PlayerFragment : BaseFragment() {
         viewModel.onFavoriteAnimateRequestObservable
                 .subscribe(this, { favorite.animateFavorite(it) })
 
-
         val seekBarObservable = SeekBarObservable(seekBar).share()
 
         seekBarObservable
@@ -122,36 +147,6 @@ class PlayerFragment : BaseFragment() {
                 .map { (_, progress) -> progress.toLong() }
                 .asLiveData()
                 .subscribe(this, musicController::seekTo)
-
-        RxView.clicks(repeat)
-                .asLiveData()
-                .subscribe(this, { musicController.toggleRepeatMode() })
-
-        RxView.clicks(shuffle)
-                .asLiveData()
-                .subscribe(this, { musicController.toggleShuffleMode() })
-
-        RxView.clicks(fakeNext)
-                .asLiveData()
-                .subscribe(this, { musicController.skipToNext() })
-
-        RxView.clicks(fakePrevious)
-                .asLiveData()
-                .subscribe(this, { musicController.skipToPrevious() })
-
-        RxView.clicks(favorite)
-                .asLiveData()
-                .subscribe(this, { musicController.togglePlayerFavorite() })
-
-        RxView.clicks(playingQueue)
-                .asLiveData()
-                .subscribe(this, { navigator.toPlayingQueueFragment() })
-
-        RxView.clicks(floatingWindow)
-                .asLiveData()
-                .subscribe(this, {
-                    FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder)
-                })
 
         RxSlidingUpPanel.panelStateEvents(activity!!.slidingPanel)
                 .map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED  }
@@ -196,12 +191,44 @@ class PlayerFragment : BaseFragment() {
         })
         view!!.list.addOnScrollListener(listener)
         activity!!.slidingPanel.setScrollableView(view!!.list)
+        if (activity!!.isPortrait){
+            view!!.list.addOnItemTouchListener(seekBarTouchInterceptor)
+            view!!.list.addOnItemTouchListener(imageTouchInterceptor)
+            view!!.list.addOnItemTouchListener(skipNextTouchInterceptor)
+            view!!.list.addOnItemTouchListener(skipPreviousTouchInterceptor)
+            view!!.list.addOnItemTouchListener(repeatTouchInterceptor)
+            view!!.list.addOnItemTouchListener(shuffleTouchInterceptor)
+        } else {
+            view!!.fakeNext.setOnClickListener { musicController.skipToNext() }
+            view!!.fakePrevious.setOnClickListener { musicController.skipToPrevious() }
+            view!!.shuffle.setOnClickListener { musicController.toggleShuffleMode() }
+            view!!.repeat.setOnClickListener { musicController.toggleRepeatMode() }
+        }
+        view!!.list.addOnItemTouchListener(floatingWindowTouchInterceptor)
+        view!!.list.addOnItemTouchListener(favoriteTouchInterceptor)
+        view!!.list.addOnItemTouchListener(playingQueueTouchInterceptor)
     }
 
     override fun onPause() {
         super.onPause()
         cover.setOnSwipeListener(null)
         view!!.list.removeOnScrollListener(listener)
+        if (activity!!.isPortrait){
+            view!!.list.removeOnItemTouchListener(seekBarTouchInterceptor)
+            view!!.list.removeOnItemTouchListener(imageTouchInterceptor)
+            view!!.list.removeOnItemTouchListener(skipNextTouchInterceptor)
+            view!!.list.removeOnItemTouchListener(skipPreviousTouchInterceptor)
+            view!!.list.removeOnItemTouchListener(repeatTouchInterceptor)
+            view!!.list.removeOnItemTouchListener(shuffleTouchInterceptor)
+        } else {
+            view!!.fakeNext.setOnClickListener(null)
+            view!!.fakePrevious.setOnClickListener(null)
+            view!!.shuffle.setOnClickListener(null)
+            view!!.repeat.setOnClickListener(null)
+        }
+        view!!.list.removeOnItemTouchListener(floatingWindowTouchInterceptor)
+        view!!.list.removeOnItemTouchListener(favoriteTouchInterceptor)
+        view!!.list.removeOnItemTouchListener(playingQueueTouchInterceptor)
     }
 
     override fun onStop() {
@@ -246,15 +273,15 @@ class PlayerFragment : BaseFragment() {
     private val listener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val child = recyclerView.getChildAt(0)
-            child?.let {
+            val translation = child?.let {
                 val top = MathUtils.clamp(it.top, 0, Int.MAX_VALUE)
                 val translation = view!!.slidingView.bottom - top
 
                 val realTranslation = MathUtils.clamp(translation, 0, view!!.slidingView.bottom).toFloat()
 
-                view!!.slidingView.translationY = -realTranslation
-            }
-
+                -realTranslation
+            } ?: 0f
+            view!!.slidingView.translationY = translation
         }
     }
 
