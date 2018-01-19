@@ -90,7 +90,7 @@ class MiniPlayerFragment : BaseFragment(){
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE))
 //            viewModel.isPlayingSingle.subscribe({ isPlaying ->
 //                view.playPause.setupBackground(!isPlaying)
-//            }, Throwable::printStackTrace)
+//            }, Throwable::printStackTrace) todo
 
         }
     }
@@ -105,6 +105,11 @@ class MiniPlayerFragment : BaseFragment(){
         super.onPause()
         getSlidingPanel()?.removePanelSlideListener(panelSlideListener)
         view!!.setOnClickListener(null)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        seekBarDisposable.unsubscribe()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -223,8 +223,10 @@ class DetailFragmentAdapter @Inject constructor(
     private val hasDragBehavior = mediaId.isPlaylist &&
             !Constants.autoPlaylists.contains(mediaId.categoryValue.toLong())
 
+    private val canSwipe = mediaId.isPlaylist && Constants.LAST_ADDED_ID != mediaId.categoryValue.toLong()
+
     override val touchCallbackConfig: TouchCallbackConfig = if (hasDragBehavior) TouchCallbackConfig(
-            true, false,
+            true, canSwipe,
             draggableViewType = R.layout.item_detail_song_with_drag_handle,
             onDragAction = { from, to -> viewModel.moveItemInPlaylist(from, to) },
             onSwipeAction = { position ->
