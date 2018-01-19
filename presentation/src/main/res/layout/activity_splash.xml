@@ -52,7 +52,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loader"
         android:layout_gravity="center"
-        app:lottie_fileName="loader2.json"
+        app:lottie_fileName="loader.json"
         app:lottie_loop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

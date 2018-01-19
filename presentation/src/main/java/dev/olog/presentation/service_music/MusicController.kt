@@ -123,6 +123,18 @@ class MusicController @Inject constructor(
         getTransportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP_RELATIVE, bundle)
     }
 
+    fun remove(position: Int){
+        val bundle = Bundle()
+        bundle.putInt(MusicConstants.ARGUMENT_REMOVE_POSITION, position)
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE, bundle)
+    }
+
+    fun removeRelative(position: Int){
+        val bundle = Bundle()
+        bundle.putInt(MusicConstants.ARGUMENT_REMOVE_POSITION, position)
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE_RELATIVE, bundle)
+    }
+
     private fun getTransportControls(): MediaControllerCompat.TransportControls? {
         return mediaControllerProvider.getSupportMediaController()?.transportControls
     }

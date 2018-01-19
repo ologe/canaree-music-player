@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.assertBackgroundThread
 import dev.olog.shared_android.extractImageName
@@ -37,7 +38,7 @@ object FileUtils {
     }
 
     private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
-        val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, itemId)
+        val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, parentFolder)
 
         if (uris.isEmpty()) {
             // new requested image has no childs, delete old if exists
@@ -54,40 +55,39 @@ object FileUtils {
                 .listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
 
         if (oldImage != null){ // image found
-            val fileName = oldImage.extractImageName()
+            val fileImageName = oldImage.extractImageName()
 
-            val albumIdsInFilename = fileName.containedAlbums()
+            val albumIdsInFilename = fileImageName.containedAlbums()
 
             if (albumsId.sorted() == albumIdsInFilename.sorted()){
                 // same image, exit
                 return false
             } else {
                 // images are different
-                val progr = fileName.progressive()
+                val progr = fileImageName.progressive()
 
                 // image already exist, create new with a new progr
                 oldImage.delete() // first delete old
-                prepareSaveThenSave(context, uris, parentFolder, itemId, albumsId, progr + 1)
+                prepareSaveThenSave(uris, imageDirectory, itemId, albumsId, progr + 1)
             }
         } else {
             // create new image
-            prepareSaveThenSave(context, uris, parentFolder, itemId, albumsId, 1)
+            prepareSaveThenSave(uris, imageDirectory, itemId, albumsId, 1)
         }
         return true
     }
 
-    private fun prepareSaveThenSave(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String,
+    private fun prepareSaveThenSave(uris: List<IdWithBitmap>, directory: File, itemId: String,
                                     albumsId: List<Long>, progr: Int){
         val bitmap = ImageUtils.joinImages(uris.map { it.bitmap })
-        val newFileName = ImagesFolderUtils.createFileName(itemId, progr, albumsId)
-        FileUtils.saveFile(context, parentFolder, newFileName, bitmap)
+        val child = ImagesFolderUtils.createFileName(itemId, progr, albumsId)
+        saveFile(directory, child, bitmap)
     }
 
-    private fun saveFile(context: Context, parentFolder: String, childName: String, bitmap: Bitmap)  {
+    private fun saveFile(directory: File, child: String, bitmap: Bitmap)  {
         assertBackgroundThread()
 
-        val parentFile = ImagesFolderUtils.getImageFolderFor(context, parentFolder)
-        val dest = File(parentFile, childName)
+        val dest = File(directory, child)
         val out = FileOutputStream(dest)
         bitmap.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()
@@ -99,16 +99,20 @@ object FileUtils {
 private class IdWithBitmap(
         private val context: Context,
         val id: Long,
-        private val uri: String
+        private val image: String
 ) {
 
     val bitmap : Bitmap
         get() {
-            val file = File(uri)
-            val uri = if (file.exists()){
-                Uri.fromFile(file)
-            } else Uri.parse(uri)
-            return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+            if (Constants.useNeuralImages){
+                if (image.startsWith(context.applicationInfo.dataDir)){
+                    val file = File(image)
+                    if (file.exists()){
+                        return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.fromFile(file))
+                    }
+                }
+            }
+            return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(image))
         }
 
     companion object {

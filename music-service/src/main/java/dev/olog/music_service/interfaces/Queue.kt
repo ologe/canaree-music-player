@@ -33,8 +33,10 @@ interface Queue {
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
 
     fun handleSwap(extras: Bundle)
-
     fun handleSwapRelative(extras: Bundle)
+
+    fun handleRemove(extras: Bundle)
+    fun handleRemoveRelative(extras: Bundle)
 
     fun sort()
 

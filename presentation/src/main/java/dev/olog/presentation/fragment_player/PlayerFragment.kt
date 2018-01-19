@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.view.*
+import org.jetbrains.anko.dip
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -159,7 +160,7 @@ class PlayerFragment : BaseFragment() {
         view.slidingView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener{
             override fun onPreDraw(): Boolean {
                 view.slidingView.viewTreeObserver.removeOnPreDrawListener(this)
-                view.list.setPadding(view.list.paddingLeft, view.slidingView.bottom,
+                view.list.setPadding(view.list.paddingLeft, view.slidingView.bottom + activity!!.dip(8),
                         view.list.paddingRight, view.list.paddingBottom)
                 layoutManager = LinearLayoutManager(context)
                 view.list.setHasFixedSize(true)

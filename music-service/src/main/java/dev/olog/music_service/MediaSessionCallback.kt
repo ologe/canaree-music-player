@@ -129,6 +129,14 @@ class MediaSessionCallback @Inject constructor(
                     queue.handleSwapRelative(extras!!)
                     return
                 }
+                MusicConstants.ACTION_REMOVE -> {
+                    queue.handleRemove(extras!!)
+                    return
+                }
+                MusicConstants.ACTION_REMOVE_RELATIVE -> {
+                    queue.handleRemoveRelative(extras!!)
+                    return
+                }
                 MusicConstants.SKIP_TO_ITEM -> {
                     val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
                     val mediaId = MediaId.fromString(mediaIdAsString)

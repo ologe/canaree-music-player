@@ -2,24 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Images">
-
-        <SwitchPreference
-            android:title="Use stylized images"
-            android:key="use_stylized_images"
-            android:defaultValue="false"
-            android:summaryOff="Will be used normal images"
-            android:summaryOn="Will be used stylized images"/>
-
-        <Preference
-            android:title="Neural network styling"
-            android:summary="Blend images"
-            android:key="neural"
-            android:dependency="use_stylized_images"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/prefs_category_general">
 
         <ListPreference
@@ -89,6 +71,24 @@
             android:summary="@string/prefs_lower_volume_on_night_summary"
             android:key="@string/prefs_lower_volume_key"
             android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Images">
+
+        <SwitchPreference
+            android:title="Use stylized images"
+            android:key="use_stylized_images"
+            android:defaultValue="false"
+            android:summaryOff="Will be used normal images"
+            android:summaryOn="Will be used stylized images"/>
+
+        <Preference
+            android:title="Neural network styling"
+            android:summary="Blend images"
+            android:key="neural"
+            android:dependency="use_stylized_images"/>
 
     </PreferenceCategory>
 

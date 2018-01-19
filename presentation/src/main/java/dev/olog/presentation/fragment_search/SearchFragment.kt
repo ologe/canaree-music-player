@@ -60,11 +60,12 @@ class SearchFragment : BaseFragment() {
             val showEmptyState = isEmpty && query.length >= 2
             view!!.emptyStateText.toggleVisibility(showEmptyState)
             view!!.emptyState.toggleVisibility(showEmptyState)
-            view!!.emptyState.progress = 0f
-            if (showEmptyState){
+            if(showEmptyState && !view!!.emptyState.isAnimating){
+                view!!.emptyState.progress = 0f
                 view!!.emptyState.playAnimation()
+            } else {
+                view!!.emptyState.progress = 0f
             }
-
 
             val albums = map[SearchFragmentType.ALBUMS]!!
             val artists = map[SearchFragmentType.ARTISTS]!!

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="welcome_to_app">Benvenuto su Next</string>
+    <string name="splash_player_controls">Controlli</string>
+    <string name="splash_player_tutorial_1">Premi sull\'immagine per riprodurre o mettere in pausa</string>
+    <string name="splash_player_tutorial_2">Premi sui bordi dell\'immagine oppure fai uno swipe per cambiare brano</string>
+
+    <string name="splash_hiding_text">Shhh. Mi sto nascondendo</string>
+
+    <string-array name="splash_loading_messages">
+        <item>Alla ricerca di unicorni..</item>
+        <item>E se stessi solo sprecando il tuo tempo?</item>
+        <item>Salvando la principessa dal drago..</item>
+    </string-array>
+
+</resources>

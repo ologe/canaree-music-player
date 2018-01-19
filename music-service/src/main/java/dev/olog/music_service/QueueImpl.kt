@@ -185,6 +185,23 @@ class QueueImpl @Inject constructor(
         handleSwap(from + currentSongPosition + 1, to + currentSongPosition + 1)
     }
 
+    @MainThread
+    fun handleRemove(position: Int) {
+        assertMainThread()
+        if (position >= 0 || position < playingQueue.size){
+            // todo case removing current
+            // todo case only one song
+            playingQueue.removeAt(position)
+            persist(playingQueue)
+        }
+
+    }
+
+    @MainThread
+    fun handleRemoveRelative(position: Int) {
+        handleRemove(position + currentSongPosition + 1)
+    }
+
     fun computePositionInQueue(list: List<MediaEntity>, position: Int): PositionInQueue {
         return when {
             repeatMode.isRepeatAll() || repeatMode.isRepeatOne() -> PositionInQueue.IN_MIDDLE

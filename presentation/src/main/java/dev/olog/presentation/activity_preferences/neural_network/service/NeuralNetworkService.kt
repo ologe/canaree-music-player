@@ -14,6 +14,7 @@ import dev.olog.domain.interactor.GetAllSongsForImagesUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.extension.notificationManager
 import dev.olog.shared_android.neural.NeuralImages
 import io.reactivex.disposables.Disposable
@@ -47,10 +48,10 @@ class NeuralNetworkService : DaggerService() {
 
         notificationManager.notify(789, builder.build())
 
-        deleteAll()
-
         disposable = getAllSongsUseCase.execute()
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnSubscribe { deleteAll() }
                 .map {
                     val result = it.asSequence()
                             .filter { it.album != Constants.UNKNOWN_ALBUM }
@@ -118,8 +119,7 @@ class NeuralNetworkService : DaggerService() {
     private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap){
         val result = NeuralImages.stylizeTensorFlow(context, bitmap)
 
-        val parentFile = File("${context.applicationInfo.dataDir}${File.separator}album_neural")
-        parentFile.mkdirs()
+        val parentFile = ImagesFolderUtils.getImageFolderFor(context, "${ImagesFolderUtils.ALBUM}_neural")
         val dest = File(parentFile, "$albumId")
         val out = FileOutputStream(dest)
         result.compress(Bitmap.CompressFormat.WEBP, 85, out)

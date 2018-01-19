@@ -11,6 +11,7 @@ import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUs
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.ApplicationContext
+import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.WidgetConstants
 import dev.olog.shared_android.extension.getAppWidgetsIdsFor
 import dev.olog.shared_android.interfaces.WidgetClasses
@@ -33,7 +34,12 @@ class PlayerState @Inject constructor(
     init {
         builder.setState(PlaybackStateCompat.STATE_PAUSED, bookmarkUseCase.get(), 0f)
                 .setActions(getActions())
-//        mediaSession.setPlaybackState(builder.build())
+                .addCustomAction(MusicConstants.ACTION_PLAY_SHUFFLE, "play shuffle", 0)
+                .addCustomAction(MusicConstants.ACTION_TOGGLE_FAVORITE, "toggle favorite", 0)
+                .addCustomAction(MusicConstants.ACTION_SWAP, "swap", 0)
+                .addCustomAction(MusicConstants.ACTION_SWAP_RELATIVE, "swap relative", 0)
+                .addCustomAction(MusicConstants.ACTION_REMOVE, "remove", 0)
+                .addCustomAction(MusicConstants.ACTION_REMOVE_RELATIVE, "remove relative", 0)
     }
 
     fun prepare(id: Long, bookmark: Long) {

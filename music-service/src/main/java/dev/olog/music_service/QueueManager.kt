@@ -180,6 +180,16 @@ class QueueManager @Inject constructor(
         queueImpl.handleSwapRelative(from, to)
     }
 
+    override fun handleRemove(extras: Bundle) {
+        val position = extras.getInt(MusicConstants.ARGUMENT_REMOVE_POSITION)
+        queueImpl.handleRemove(position)
+    }
+
+    override fun handleRemoveRelative(extras: Bundle) {
+        val position = extras.getInt(MusicConstants.ARGUMENT_REMOVE_POSITION)
+        queueImpl.handleRemoveRelative(position)
+    }
+
     override fun sort() {
         queueImpl.sort()
     }

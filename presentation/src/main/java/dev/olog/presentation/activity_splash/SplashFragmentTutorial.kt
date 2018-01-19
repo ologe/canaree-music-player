@@ -9,33 +9,21 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared_android.CoverUtils
+import dev.olog.shared_android.TextUtils
 
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.view.*
-import kotlinx.android.synthetic.main.layout_player_toolbar.view.*
 
 class SplashFragmentTutorial : BaseFragment() {
-
-    private var isFavorite = false
 
     private var progressive = 0
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         loadImage(view.cover, progressive)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        view!!.favorite.setMinProgress(0f)
-        view!!.favorite.toggleFavorite(false)
+        view.title.text = getString(R.string.splash_hiding_text) + " "+ TextUtils.HIDING_FACE // hiding monkey
     }
 
     override fun onResume() {
         super.onResume()
-        view!!.favorite.setOnClickListener {
-            view!!.favorite.setMinProgress(.35f)
-            isFavorite = !isFavorite
-            view!!.favorite.animateFavorite(isFavorite)
-        }
 
         view!!.cover.setOnSwipeListener(object : SwipeableImageView.SwipeListener {
 
@@ -62,7 +50,6 @@ class SplashFragmentTutorial : BaseFragment() {
     override fun onPause() {
         super.onPause()
         view!!.coverLayout.setOnClickListener(null)
-        view!!.favorite.setOnClickListener(null)
         view!!.cover.setOnSwipeListener(null)
         view!!.fakeNext.setOnClickListener(null)
         view!!.fakePrevious.setOnClickListener(null)

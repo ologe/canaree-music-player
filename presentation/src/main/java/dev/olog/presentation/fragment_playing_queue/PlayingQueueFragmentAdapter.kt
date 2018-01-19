@@ -61,6 +61,6 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             true, true,
             draggableViewType = R.layout.item_playing_queue,
             onDragAction = { from, to -> musicController.swap(from, to)},
-            onSwipeAction = { position -> }
+            onSwipeAction = { position -> musicController.remove(position) }
     )
 }
