@@ -12,7 +12,7 @@ android {
         applicationId "dev.olog.msc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 27001 // android(27) - version code(001)
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -25,6 +25,16 @@ android {
             reset()
             include 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
             universalApk false
+        }
+    }
+
+    project.ext.versionCodes = ['armeabi-v7a' : 1, 'arm64-v8a' : 2, 'x86' : 3, 'x86_64' : 4]
+
+    android.applicationVariants.all { variant ->
+        // assign different version code for each output
+        variant.outputs.each { output ->
+            output.versionCodeOverride = project.ext.versionCodes.get(
+                    output.getFilter(com.android.build.OutputFile.ABI), 0) * 1000000 + android.defaultConfig.versionCode
         }
     }
 

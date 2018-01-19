@@ -11,7 +11,6 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -21,7 +20,6 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.subscribe
-import dev.olog.presentation.utils.rx.RxSlidingUpPanel
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
@@ -37,7 +35,6 @@ import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.view.*
-import org.jetbrains.anko.find
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -149,13 +146,13 @@ class PlayerFragment : BaseFragment() {
                 .asLiveData()
                 .subscribe(this, musicController::seekTo)
 
-        RxSlidingUpPanel.panelStateEvents(activity!!.slidingPanel)
-                .map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED  }
-                .asLiveData()
-                .subscribe(this, {
-                    view!!.slidingView.artist.isSelected = it
-                    view!!.slidingView.find<TextView>(R.id.title).isSelected = it
-                })
+//        RxSlidingUpPanel.panelStateEvents(activity!!.slidingPanel)
+//                .map { it.newState == SlidingUpPanelLayout.PanelState.EXPANDED  }
+//                .asLiveData()
+//                .subscribe(this, {
+//                    view!!.slidingView.artist.isSelected = it
+//                    view!!.slidingView.find<TextView>(R.id.title).isSelected = it
+//                }) todo horizontal scroll is bugged
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
