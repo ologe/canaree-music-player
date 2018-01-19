@@ -23,8 +23,8 @@ class SpecialThanksPresenter @Inject constructor(
 
             SpecialThanksModel(R.layout.item_special_thanks,
                     MediaId.headerId("music not img id"),
-                    context.getString(R.string.icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
-                    R.drawable.vd_musical_note), // album icon //todo update who made it
+                    context.getString(R.string.icon_made_by_x_from_y, "Popcic", "www.flaticon.com "),
+                    R.drawable.vd_musical_note), // song icon
 
             SpecialThanksModel(R.layout.item_special_thanks,
                     MediaId.headerId("album img id"),
