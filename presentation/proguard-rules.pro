@@ -27,6 +27,8 @@
   public *;
 }
 
+-dontwarn
+
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }

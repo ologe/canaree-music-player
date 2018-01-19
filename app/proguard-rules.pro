@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -dontwarn
+-ignorewarnings
 
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
