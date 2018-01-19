@@ -16,7 +16,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
-        resConfigs "en", "xxxhdpi"
     }
 
     buildTypes {
