@@ -19,17 +19,20 @@ interface HasSlidingPanel {
 
 }
 
-fun SlidingUpPanelLayout?.isCollapsed() = this != null && panelState == SlidingUpPanelLayout.PanelState.COLLAPSED
-fun SlidingUpPanelLayout?.isExpanded() = this != null && panelState != SlidingUpPanelLayout.PanelState.COLLAPSED
+fun SlidingUpPanelLayout?.isCollapsed() = this != null &&
+        panelState == SlidingUpPanelLayout.PanelState.COLLAPSED
+fun SlidingUpPanelLayout?.isExpanded() = this != null &&
+        panelState != SlidingUpPanelLayout.PanelState.COLLAPSED &&
+        panelState != SlidingUpPanelLayout.PanelState.HIDDEN
 
 fun SlidingUpPanelLayout?.collapse() {
-    if (this != null){
+    if (this != null && panelState != SlidingUpPanelLayout.PanelState.HIDDEN){
         panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
 
 }
 fun SlidingUpPanelLayout?.expand() {
-    if (this != null){
+    if (this != null && panelState != SlidingUpPanelLayout.PanelState.HIDDEN){
         panelState = SlidingUpPanelLayout.PanelState.EXPANDED
     }
 }

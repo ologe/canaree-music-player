@@ -75,7 +75,7 @@
             tools:visibility="gone"/>
 
         <ImageView
-            android:id="@+id/search"
+            android:id="@+id/searchImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
 
         <TextView
             android:id="@+id/searchText"
-            app:layout_constraintTop_toBottomOf="@+id/search"
+            app:layout_constraintTop_toBottomOf="@+id/searchImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center"
@@ -104,7 +104,7 @@
             tools:visibility="visible"/>
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/emptyState"
+            android:id="@+id/emptyStateImage"
             android:layout_gravity="center"
             app:lottie_fileName="empty_box.json"
             app:lottie_loop="false"
@@ -124,7 +124,7 @@
             android:textSize="20sp"
             android:textColor="@color/text_color_primary"
             android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/emptyState"
+            app:layout_constraintTop_toBottomOf="@+id/emptyStateImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"

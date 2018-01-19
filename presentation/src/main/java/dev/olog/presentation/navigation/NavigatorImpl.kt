@@ -9,11 +9,11 @@ import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.activity_about.AboutActivity
 import dev.olog.presentation.activity_preferences.PreferencesActivity
+import dev.olog.presentation.collapse
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.debug.DebugConfigurationActivity
 import dev.olog.presentation.dialog_add_favorite.AddFavoriteDialog
@@ -54,7 +54,7 @@ class NavigatorImpl @Inject constructor(
     override fun toDetailFragment(mediaId: MediaId) {
 
         if (allowed()){
-            activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).panelState = COLLAPSED
+            activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).collapse()
 
             activity.supportFragmentManager.transaction {
                 setReorderingAllowed(true)

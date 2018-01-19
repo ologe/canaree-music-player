@@ -18,6 +18,7 @@ class AboutActivityPresenter @Inject constructor(
         val THIRD_SW_ID = MediaId.headerId("third sw")
         val SPECIAL_THANKS_ID = MediaId.headerId("special thanks to")
         val RATE_ID = MediaId.headerId("rate")
+        val REPORT_BUGS = MediaId.headerId("report bugs dev id")
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
         val WEBSITE_ID = MediaId.headerId("website")
     }
@@ -29,17 +30,10 @@ class AboutActivityPresenter @Inject constructor(
             DisplayableItem(R.layout.item_about, THIRD_SW_ID, context.getString(R.string.about_third_sw), context.getString(R.string.about_third_sw_description)),
             DisplayableItem(R.layout.item_about, SPECIAL_THANKS_ID, context.getString(R.string.about_special_thanks_to), "Click to see"),
 
-            DisplayableItem(R.layout.item_about, MediaId.headerId("report bugs dev id"),
-                    context.getString(R.string.about_support_report_bug), context.getString(R.string.about_support_report_bug_description)),
-            DisplayableItem(R.layout.item_about, RATE_ID, context.getString(R.string.about_support_rate),
-                    context.getString(R.string.about_support_rate_description)),
-            DisplayableItem(R.layout.item_about, WEBSITE_ID,
-                    context.getString(R.string.about_website),
-                    context.getString(R.string.about_website_description)),
-            DisplayableItem(R.layout.item_about, PRIVACY_POLICY,
-                    context.getString(R.string.about_privacy_policy),
-                    context.getString(R.string.about_privacy_policy_description)
-            )
+            DisplayableItem(R.layout.item_about, REPORT_BUGS, context.getString(R.string.about_support_report_bug), context.getString(R.string.about_support_report_bug_description)),
+            DisplayableItem(R.layout.item_about, RATE_ID, context.getString(R.string.about_support_rate), context.getString(R.string.about_support_rate_description)),
+            DisplayableItem(R.layout.item_about, WEBSITE_ID, context.getString(R.string.about_website), context.getString(R.string.about_website_description)),
+            DisplayableItem(R.layout.item_about, PRIVACY_POLICY, context.getString(R.string.about_privacy_policy), context.getString(R.string.about_privacy_policy_description))
     )
 
 }

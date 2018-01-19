@@ -39,9 +39,13 @@ class DetailFragmentHeaders @Inject constructor(
             context.resources.getStringArray(R.array.detail_album_header)[mediaId.source],
             context.getString(R.string.detail_see_more))
 
+    val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
+
     val songs = listOf(
             DisplayableItem(R.layout.item_detail_header_all_song, MediaId.headerId("detail songs header"), context.getString(R.string.detail_songs)),
-            DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
+            shuffle
     )
+
+    val no_songs = DisplayableItem(R.layout.item_detail_empty_state, MediaId.headerId("detail empty state"), "")
 
 }

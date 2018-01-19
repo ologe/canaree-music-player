@@ -59,6 +59,15 @@ class NavigatorAboutImpl @Inject constructor(
         }
     }
 
+    override fun reportBugs() {
+        if (allowed()){
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("dev.eugeniu.olog@gmail.com"))
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Next bug report")
+            activity.startActivity(intent)
+        }
+    }
+
     override fun toPrivacyPolicy() {
         if (allowed()){
             val intent = Intent(Intent.ACTION_VIEW)

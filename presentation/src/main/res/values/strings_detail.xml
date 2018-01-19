@@ -50,4 +50,6 @@
     <string name="recently_added">Recently added</string>
     <string name="albums">Albums</string>
 
+    <string name="detail_no_tracks">No tracks</string>
+
 </resources>

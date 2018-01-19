@@ -8,6 +8,8 @@ interface NavigatorAbout {
 
     fun toMarket()
 
+    fun reportBugs()
+
     fun toPrivacyPolicy()
 
     fun toWebsite()

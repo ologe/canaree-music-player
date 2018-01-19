@@ -9,12 +9,10 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.utils.ImeUtils
 import dev.olog.presentation.utils.animation.CircularReveal
-import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared_android.extension.asLiveData
-import dev.olog.shared_android.isOreo
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject
@@ -52,19 +50,17 @@ class SearchFragment : BaseFragment() {
         viewModel.searchData.subscribe(this, { (map, query) ->
             val itemCount = map.values.sumBy { it.size }
             val isEmpty = itemCount == 0
-            view!!.searchText.toggleVisibility(isEmpty)
-            view!!.search.toggleVisibility(isEmpty && query.length < 2)
+            view!!.searchImage.toggleVisibility(isEmpty && query.length < 2)
             view!!.searchText.toggleVisibility(isEmpty && query.length < 2)
             view!!.list.toggleVisibility(!isEmpty)
 
             val showEmptyState = isEmpty && query.length >= 2
             view!!.emptyStateText.toggleVisibility(showEmptyState)
-            view!!.emptyState.toggleVisibility(showEmptyState)
-            if(showEmptyState && !view!!.emptyState.isAnimating){
-                view!!.emptyState.progress = 0f
-                view!!.emptyState.playAnimation()
+            view!!.emptyStateImage.toggleVisibility(showEmptyState)
+            if(showEmptyState){
+                view!!.emptyStateImage.resumeAnimation()
             } else {
-                view!!.emptyState.progress = 0f
+                view!!.emptyStateImage.progress = 0f
             }
 
             val albums = map[SearchFragmentType.ALBUMS]!!
@@ -74,10 +70,6 @@ class SearchFragment : BaseFragment() {
             viewModel.adjustDataMap(map)
             adapter.updateDataSet(map)
         })
-
-        if (isOreo()){
-            activity!!.window.setLightStatusBar()
-        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

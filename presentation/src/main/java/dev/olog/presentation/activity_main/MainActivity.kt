@@ -67,9 +67,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     private fun handleEmptyRepository(isEmpty: Boolean){
-        if (isEmpty){
+        if (isEmpty && slidingPanel.panelState != HIDDEN){
             slidingPanel.panelState = HIDDEN
-        } else if (slidingPanel.panelState == HIDDEN){
+        } else if (!isEmpty && slidingPanel.panelState == HIDDEN){
             slidingPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
     }

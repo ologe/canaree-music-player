@@ -50,5 +50,6 @@
     <string name="recently_added">Aggiunti di recente</string>
     <string name="albums">Album</string>
 
+    <string name="detail_no_tracks">Nessun brano</string>
 
 </resources>

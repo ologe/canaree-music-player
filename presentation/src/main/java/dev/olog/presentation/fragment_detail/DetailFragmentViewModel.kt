@@ -82,7 +82,7 @@ class DetailFragmentViewModel(
             { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
                 mutableMapOf(
-                        DetailFragmentDataType.HEADER to mutableListOf(item),
+                        DetailFragmentDataType.HEADER to handleItemHeader(item),
                         DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                         DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                         DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
@@ -90,6 +90,10 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList())
                 ) }
     ).asLiveData()
+
+    private fun handleItemHeader(item: DisplayableItem): MutableList<DisplayableItem>{
+        return mutableListOf(item)
+    }
 
     private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (list.isNotEmpty() && isEnabled){
@@ -142,6 +146,8 @@ class DetailFragmentViewModel(
     private fun handleSongsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
         if (list.isNotEmpty()) {
             list.addAll(0, headers.songs)
+        } else {
+            list.add(headers.no_songs)
         }
         return list
     }

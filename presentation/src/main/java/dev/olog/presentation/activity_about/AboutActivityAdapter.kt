@@ -26,6 +26,7 @@ class AboutActivityAdapter @Inject constructor(
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
                 AboutActivityPresenter.RATE_ID -> navigator.get().toMarket()
+                AboutActivityPresenter.REPORT_BUGS -> navigator.get().reportBugs()
                 AboutActivityPresenter.WEBSITE_ID -> navigator.get().toWebsite()
                 AboutActivityPresenter.PRIVACY_POLICY -> navigator.get().toPrivacyPolicy()
             }
