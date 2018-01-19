@@ -10,4 +10,8 @@ interface NavigatorAbout {
 
     fun toPrivacyPolicy()
 
+    fun toWebsite()
+
+    fun toFacebook()
+
 }

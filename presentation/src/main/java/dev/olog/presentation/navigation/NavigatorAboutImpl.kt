@@ -8,7 +8,6 @@ import android.util.Log
 import dev.olog.presentation.R
 import dev.olog.presentation.dagger.PerActivity
 import dev.olog.presentation.fragment_licenses.LicensesFragment
-import dev.olog.presentation.fragment_privacy_policy.PrivacyPolicyFragment
 import dev.olog.presentation.fragment_special_thanks.SpecialThanksFragment
 import dev.olog.presentation.utils.extension.transaction
 import javax.inject.Inject
@@ -62,12 +61,25 @@ class NavigatorAboutImpl @Inject constructor(
 
     override fun toPrivacyPolicy() {
         if (allowed()){
-            activity.supportFragmentManager.transaction {
-                setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.fragment_container, PrivacyPolicyFragment(), PrivacyPolicyFragment.TAG)
-                addToBackStack(PrivacyPolicyFragment.TAG)
-            }
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next/about")
+            activity.startActivity(intent)
+        }
+    }
+
+    override fun toWebsite() {
+        if (allowed()){
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next")
+            activity.startActivity(intent)
+        }
+    }
+
+    override fun toFacebook() {
+        if (allowed()){
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://www.facebook.com/eugeniu.olog")
+            activity.startActivity(intent)
         }
     }
 

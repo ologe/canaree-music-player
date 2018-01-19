@@ -4,6 +4,8 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.util.SparseArray
+import collections.forEach
 import dev.olog.domain.interactor.prefs.CategoriesBehaviorUseCase
 import dev.olog.presentation.R
 import dev.olog.presentation.fragment_tab.TabFragment
@@ -14,7 +16,7 @@ import javax.inject.Inject
 class TabViewPagerAdapter @Inject constructor(
         @ApplicationContext private val context: Context,
         categoriesBehaviorUseCase: CategoriesBehaviorUseCase,
-        fragmentManager: FragmentManager
+        private val fragmentManager: FragmentManager
 
 ) : FragmentStatePagerAdapter(fragmentManager) {
 
@@ -32,12 +34,25 @@ class TabViewPagerAdapter @Inject constructor(
         }
     }
 
+    private val fragments = SparseArray<Fragment>()
+
     private val data = categoriesBehaviorUseCase.get()
             .filter { it.enabled }
 
     override fun getItem(position: Int): Fragment {
         val category = mapStringToCategory(context, data[position].category)
-        return TabFragment.newInstance(category)
+        val fragment = TabFragment.newInstance(category)
+        fragments.put(position, fragment)
+        return fragment
+    }
+
+    fun removeAll(){
+        val transaction = fragmentManager.beginTransaction()
+        fragments.forEach { _, fragment ->
+            transaction.remove(fragment)
+        }
+        fragments.clear()
+        transaction.commitNowAllowingStateLoss()
     }
 
     override fun getCount(): Int = data.size

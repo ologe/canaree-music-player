@@ -97,6 +97,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         when (requestCode){
             PreferencesActivity.REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK){
+                    adapter.removeAll()
                     recreate()
                 }
             }
