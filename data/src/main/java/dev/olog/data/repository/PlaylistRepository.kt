@@ -21,6 +21,7 @@ import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
@@ -137,7 +138,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     private fun makeImage(context: Context, playlist: Playlist, albumsId: List<Long>) : Deferred<Boolean> = async {
-        val folderName = if (Constants.useNeuralImages) "playlist_neural" else "playlist"
+        val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.PLAYLIST)
         FileUtils.makeImages2(context, albumsId, folderName, "${playlist.id}")
     }
 

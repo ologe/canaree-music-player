@@ -17,7 +17,7 @@ import dev.olog.domain.gateway.GenreGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
-import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
@@ -113,7 +113,7 @@ class GenreRepository @Inject constructor(
     }
 
     private fun makeImage(context: Context, genre: Genre, albumsId: List<Long>) : Deferred<Boolean> = async {
-        val folderName = if (Constants.useNeuralImages) "genre_neural" else "genre"
+        val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)
         FileUtils.makeImages2(context, albumsId, folderName, "${genre.id}")
     }
 

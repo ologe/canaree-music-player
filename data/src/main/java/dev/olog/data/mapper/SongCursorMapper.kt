@@ -1,20 +1,17 @@
 package dev.olog.data.mapper
 
-import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.data.ImageUtils
 import dev.olog.data.utils.getInt
 import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.domain.entity.Song
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import java.io.File
 
-private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
 
 fun Cursor.toSong(context: Context): Song {
 
@@ -36,20 +33,12 @@ fun Cursor.toSong(context: Context): Song {
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
 
     return Song(
-            id, artistId, albumId, title, artist, album, getImages(context, albumId),
+            id, artistId, albumId, title, artist, album,
+            ImagesFolderUtils.forAlbum(context, albumId),
             duration, dateAdded, isRemix, isExplicit, path, folder,
             trackNumber)
 }
 
-private fun getImages(context: Context, albumId: Long): String {
-    if (Constants.useNeuralImages){
-        val neuralImage = ImageUtils.getAlbumNeuralImage(context, albumId)
-        if (neuralImage != null){
-            return neuralImage
-        }
-    }
-    return ContentUris.withAppendedId(COVER_URI, albumId).toString()
-}
 
 private fun extractFolder(path: String): String {
     val lastSep = path.lastIndexOf(File.separator)

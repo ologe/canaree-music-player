@@ -15,6 +15,7 @@ import dev.olog.domain.gateway.ArtistGateway
 import dev.olog.domain.gateway.SongGateway
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -97,7 +98,7 @@ class ArtistRepository @Inject constructor(
     }
 
     private fun makeImage(context: Context, map: Map.Entry<Long, List<Song>>) : Deferred<Boolean> = async {
-        val folderName = if (Constants.useNeuralImages) "artist_neural" else "artist"
+        val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.ARTIST)
         FileUtils.makeImages(context, map.value, folderName, "${map.key}")
     }
 

@@ -1,32 +1,18 @@
 package dev.olog.data.utils
 
-import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
-import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.assertBackgroundThread
+import dev.olog.shared_android.extractImageName
 import java.io.File
 import java.io.FileOutputStream
 
 object FileUtils {
-
-    private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
-
-    fun saveFile(context: Context, parentFolder: String, fileName: String, bitmap: Bitmap)  {
-        assertBackgroundThread()
-
-        val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parentFolder")
-        parentFile.mkdirs()
-        val dest = File(parentFile, fileName)
-        val out = FileOutputStream(dest)
-        bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
-        out.close()
-        bitmap.recycle()
-    }
 
     /**
      * returns true if a new image is created
@@ -41,86 +27,49 @@ object FileUtils {
     fun makeImages2(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) : Boolean {
         assertBackgroundThread()
 
-        val imageName = "${context.applicationInfo.dataDir}${File.separator}$parentFolder${File.separator}$itemId"
-        val file = File(imageName)
-        if (file.exists()){
-            return false
-        }
-
         val uris = albumIdList.asSequence()
                 .distinctBy { it }
-                .map { idToUri(context, it) }
-                .map { try {
-                    IdWithBitmap(context, it)
-                } catch (ex: Exception){
-                    null
-                } }
-                .filter { it != null }
-                .map { it!! }
+                .mapNotNull { IdWithBitmap.from(context, it) }
                 .take(9)
                 .toList()
 
         return doSomething(context, uris, parentFolder, itemId)
     }
 
-    private fun idToUri(context: Context, albumId: Long): Uri {
-        if (Constants.useNeuralImages){
-            val neural = ImageUtils.getAlbumNeuralImage(context, albumId)
-            if (neural != null){
-                return Uri.fromFile(File(neural))
-            }
-        }
-        return ContentUris.withAppendedId(COVER_URI, albumId)
-    }
-
     private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
-        if (uris.isEmpty()) {
-            // new image is empty, delete old
-            val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parentFolder")
-            if (parentFile.exists()){
-                val alreadyExistingFile = parentFile
-                        .listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
-                alreadyExistingFile?.delete()
-            }
+        val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, itemId)
 
+        if (uris.isEmpty()) {
+            // new requested image has no childs, delete old if exists
+            imageDirectory.listFiles()
+                    .firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
+                    ?.delete()
             return false
         }
 
         val albumsId = uris.map { it.id }
-        // ref to cartella con le immagini
-        val parentFile = File("${context.applicationInfo.dataDir}${File.separator}$parentFolder")
-        parentFile.mkdirs()
 
-        // cerco se esiste gia un file
-        val alreadyExistingFile = parentFile
+        // search for old image
+        val oldImage = imageDirectory
                 .listFiles().firstOrNull { it.name.substring(0, it.name.indexOf("_")) == itemId }
 
-        if (alreadyExistingFile != null){ // esiste
-//            Log.w("fileUtils", "image found for $parentFolder $itemId")
-            val fileName = alreadyExistingFile.name
+        if (oldImage != null){ // image found
+            val fileName = oldImage.extractImageName()
 
-            val albumIdsInFilename = fileName.substring(
-                    fileName.indexOf("(") + 1,
-                    fileName.indexOf(")")
-            ).split("_").map { it.toLong() }
+            val albumIdsInFilename = fileName.containedAlbums()
 
             if (albumsId.sorted() == albumIdsInFilename.sorted()){
-//                Log.w("fileUtils", "same image, do nothing for $parentFolder $itemId")
-                // same image, abort
+                // same image, exit
                 return false
             } else {
-//                Log.w("fileUtils", "images are diffrent, update for $parentFolder $itemId")
-                val progr = fileName.substring(
-                        fileName.indexOf("_") + 1,
-                        fileName.indexOf("(")
-                ).toInt()
+                // images are different
+                val progr = fileName.progressive()
 
-                // image already exist, create new with new progr
-                alreadyExistingFile.delete() // first delete old
+                // image already exist, create new with a new progr
+                oldImage.delete() // first delete old
                 prepareSaveThenSave(context, uris, parentFolder, itemId, albumsId, progr + 1)
             }
         } else {
-//            Log.w("fileUtils", "create brand new image for $parentFolder $itemId")
             // create new image
             prepareSaveThenSave(context, uris, parentFolder, itemId, albumsId, 1)
         }
@@ -130,18 +79,50 @@ object FileUtils {
     private fun prepareSaveThenSave(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String,
                                     albumsId: List<Long>, progr: Int){
         val bitmap = ImageUtils.joinImages(uris.map { it.bitmap })
-        val newFileName = "${itemId}_$progr${albumsId.joinToString(separator = "_", prefix = "(", postfix = ")")}"
+        val newFileName = ImagesFolderUtils.createFileName(itemId, progr, albumsId)
         FileUtils.saveFile(context, parentFolder, newFileName, bitmap)
+    }
+
+    private fun saveFile(context: Context, parentFolder: String, childName: String, bitmap: Bitmap)  {
+        assertBackgroundThread()
+
+        val parentFile = ImagesFolderUtils.getImageFolderFor(context, parentFolder)
+        val dest = File(parentFile, childName)
+        val out = FileOutputStream(dest)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 85, out)
+        out.close()
+        bitmap.recycle()
     }
 
 }
 
 private class IdWithBitmap(
-        context: Context,
-        uri: Uri
+        private val context: Context,
+        val id: Long,
+        private val uri: String
 ) {
 
-    val id : Long = ContentUris.parseId(uri)
-    val bitmap : Bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+    val bitmap : Bitmap
+        get() {
+            val file = File(uri)
+            val uri = if (file.exists()){
+                Uri.fromFile(file)
+            } else Uri.parse(uri)
+            return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+        }
+
+    companion object {
+        private fun idToUri(context: Context, albumId: Long): String {
+            return ImagesFolderUtils.forAlbum(context, albumId)
+        }
+        fun from(context: Context, albumId: Long): IdWithBitmap? {
+            val uri = idToUri(context, albumId)
+            return try {
+                IdWithBitmap(context, albumId, uri)
+            } catch (ex: Exception){
+                null
+            }
+        }
+    }
 
 }

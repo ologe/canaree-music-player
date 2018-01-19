@@ -120,7 +120,7 @@ class NeuralNetworkService : DaggerService() {
 
         val parentFile = File("${context.applicationInfo.dataDir}${File.separator}album_neural")
         parentFile.mkdirs()
-        val dest = File(parentFile, "$albumId.webp")
+        val dest = File(parentFile, "$albumId")
         val out = FileOutputStream(dest)
         result.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()

@@ -1,30 +1,19 @@
 package dev.olog.data.mapper
 
 import android.content.Context
-import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Artist
 import dev.olog.domain.entity.Folder
 import dev.olog.domain.entity.Song
-import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
     return Folder(
             this.folder,
             this.folderPath,
             songCount,
-            getFolderImage(context, this.folderPath)
+            ImagesFolderUtils.forFolder(context, this.folderPath)
     )
-}
-
-private fun getFolderImage(context: Context, folderPath: String): String{
-    if (Constants.useNeuralImages){
-        val neuralImage = ImageUtils.getFolderNeuralImage(context, folderPath)
-        if (neuralImage != null){
-            return neuralImage
-        }
-    }
-    return ImageUtils.getFolderImage(context, folderPath)
 }
 
 fun Song.toAlbum(songCount: Int) : Album {
@@ -44,16 +33,6 @@ fun Song.toArtist(context: Context, songCount: Int, albumsCount: Int) : Artist {
             this.artist,
             songCount,
             albumsCount,
-            getArtistImage(context, this.artistId)
+            ImagesFolderUtils.forArtist(context, this.artistId)
     )
-}
-
-private fun getArtistImage(context: Context, artistId: Long): String{
-    if (Constants.useNeuralImages){
-        val neuralImage = ImageUtils.getArtistNeuralImage(context, artistId)
-        if (neuralImage != null){
-            return neuralImage
-        }
-    }
-    return ImageUtils.getArtistImage(context, artistId)
 }
