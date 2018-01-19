@@ -30,7 +30,12 @@ object FileUtils {
 
         val uris = albumIdList.asSequence()
                 .distinctBy { it }
-                .mapNotNull { IdWithBitmap.from(context, it) }
+                .mapNotNull {
+                    try {
+                        val bitmap = getBitmap(context, it)
+                        IdWithBitmap(it, bitmap)
+                    } catch (ex: Exception) { null }
+                }
                 .take(9)
                 .toList()
 
@@ -94,39 +99,48 @@ object FileUtils {
         bitmap.recycle()
     }
 
+    private fun getBitmap(context: Context, albumId: Long): Bitmap {
+        val image = ImagesFolderUtils.forAlbum(context, albumId)
+        if (Constants.useNeuralImages){
+            if (image.startsWith(context.applicationInfo.dataDir)){
+                val file = File(image)
+                if (file.exists()){
+                    return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.fromFile(file))
+                }
+            }
+        }
+        return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(image))
+    }
+
 }
 
 private class IdWithBitmap(
-        private val context: Context,
         val id: Long,
-        private val image: String
+        val bitmap: Bitmap
 ) {
 
-    val bitmap : Bitmap
-        get() {
-            if (Constants.useNeuralImages){
-                if (image.startsWith(context.applicationInfo.dataDir)){
-                    val file = File(image)
-                    if (file.exists()){
-                        return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.fromFile(file))
-                    }
-                }
-            }
-            return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(image))
-        }
+//    val bitmap : Bitmap
+//        get() {
+//            if (Constants.useNeuralImages){
+//                if (image.startsWith(context.applicationInfo.dataDir)){
+//                    val file = File(image)
+//                    if (file.exists()){
+//                        return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.fromFile(file))
+//                    }
+//                }
+//            }
+//            return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(image))
+//        }
 
-    companion object {
-        private fun idToUri(context: Context, albumId: Long): String {
-            return ImagesFolderUtils.forAlbum(context, albumId)
-        }
-        fun from(context: Context, albumId: Long): IdWithBitmap? {
-            val uri = idToUri(context, albumId)
-            return try {
-                IdWithBitmap(context, albumId, uri)
-            } catch (ex: Exception){
-                null
-            }
-        }
-    }
+//    companion object {
+//        fun from(context: Context, albumId: Long): IdWithBitmap? {
+//            val uri = idToUri(context, albumId)
+//            return try {
+//                IdWithBitmap(context, albumId, uri)
+//            } catch (ex: Exception){
+//                null
+//            }
+//        }
+//    }
 
 }

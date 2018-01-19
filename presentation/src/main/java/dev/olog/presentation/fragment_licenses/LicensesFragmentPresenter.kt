@@ -49,6 +49,12 @@ class LicensesFragmentPresenter @Inject constructor() {
             "RxPermissions", "https://github.com/tbruyelle/RxPermissions",
             Licenses.apache("2015", "Thomas Bruyelle"))
 
+    private val RX_PREFERENCES = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("rxPreferences"),
+            "Rx Preferences", "https://github.com/f2prateek/rx-preferences",
+            Licenses.apache("2014 ", "Prateek Srivastava"))
+
     private val SQL_BRITE = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("sqlbrite"),
@@ -85,6 +91,24 @@ class LicensesFragmentPresenter @Inject constructor() {
             "Glide", "https://github.com/bumptech/glide",
             Licenses.glide())
 
+    private val JSOUP = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("jsoup"),
+            "jsoup", "https://jsoup.org/",
+            Licenses.jsoupMit())
+
+    private val ANKO = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("anko"),
+            "Anko", "https://github.com/Kotlin/anko",
+            Licenses.apacheLong())
+
+    private val TENSOR_FLOW = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("tensorflow"),
+            "TensorFlow ", "https://github.com/tensorflow/tensorflow",
+            Licenses.apacheLong())
+
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
             ANDROID_SUPPORT_LIBRARIES,
@@ -92,13 +116,17 @@ class LicensesFragmentPresenter @Inject constructor() {
             RX_JAVA,
             RX_ANDROID,
             RX_PERMISSION,
+            RX_PREFERENCES,
             RX_BINDING,
             SQL_BRITE,
             SLIDING_PANEL,
             EXO_PLAYER,
             HOVER,
             LOTTIE,
-            GLIDE
+            GLIDE,
+            JSOUP,
+            ANKO,
+            TENSOR_FLOW
     )
 
 }
@@ -149,7 +177,18 @@ private object Licenses {
                     "authors and should not be interpreted as representing official policies, either expressed\n" +
                     "or implied, of Google, Inc."
 
-    fun apacheLong() =
+    fun jsoupMit() = "The jsoup code-base (including source and compiled packages) are distributed under the open source MIT license as described below.\n" +
+            "\n" +
+            "The MIT License\n" +
+            "Copyright © 2009 - 2017 Jonathan Hedley (jonathan@hedley.net)\n" +
+            "\n" +
+            "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n" +
+            "\n" +
+            "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n" +
+            "\n" +
+            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+
+    fun apacheLong(year: String = "yyyy", owner: String = "name of copyright owner") =
             "                       Apache License\n" +
                     "                           Version 2.0, January 2004\n" +
                     "                        http://www.apache.org/licenses/\n" +
@@ -338,7 +377,7 @@ private object Licenses {
                     "      same \"printed page\" as the copyright notice for easier\n" +
                     "      identification within third-party archives.\n" +
                     "\n" +
-                    "   Copyright [yyyy] [name of copyright owner]\n" +
+                    "   Copyright [$year] [$owner]\n" +
                     "\n" +
                     "   Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
                     "   you may not use this file except in compliance with the License.\n" +
