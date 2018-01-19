@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
+import com.crashlytics.android.Crashlytics
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
@@ -173,10 +174,22 @@ class PlayerImpl @Inject constructor(
 
     override fun onPlayerError(error: ExoPlaybackException) {
         val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
-            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
-            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: " + error
+            ExoPlaybackException.TYPE_SOURCE -> {
+                Crashlytics.logException(error.sourceException)
+                error.sourceException.message
+            }
+            ExoPlaybackException.TYPE_RENDERER -> {
+                Crashlytics.logException(error.rendererException)
+                error.rendererException.message
+            }
+            ExoPlaybackException.TYPE_UNEXPECTED -> {
+                Crashlytics.logException(error.unexpectedException)
+                error.unexpectedException.message
+            }
+            else -> {
+                Crashlytics.log("unexpected onPlayerError")
+                "Unknown: " + error
+            }
         }
 
         if (BuildConfig.DEBUG) {

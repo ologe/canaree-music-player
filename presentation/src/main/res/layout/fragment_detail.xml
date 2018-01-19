@@ -120,4 +120,17 @@
         android:elevation="@dimen/toolbar_elevation"
         android:stateListAnimator="@animator/fade_on_activated" />
 
+    <ImageView
+        android:id="@+id/cover"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1.3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        tools:src="@android:color/holo_red_dark" />
+
+
 </android.support.constraint.ConstraintLayout>

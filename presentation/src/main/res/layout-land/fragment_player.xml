@@ -24,6 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
         android:stateListAnimator="@animator/elevate_on_activated"

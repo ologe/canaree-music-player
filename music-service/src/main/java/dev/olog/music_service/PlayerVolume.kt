@@ -4,6 +4,7 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import dev.olog.domain.interactor.prefs.GetLowerVolumeOnNightUseCase
+import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.shared.unsubscribe
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +20,7 @@ private const val VOLUME_NORMAL = 1f
 private const val VOLUME_LOWERED_NORMAL = 0.4f
 
 class PlayerVolume @Inject constructor(
-        lifecycle: Lifecycle,
+        @ServiceLifecycle lifecycle: Lifecycle,
         lowerVolumeOnNightUseCase: GetLowerVolumeOnNightUseCase
 
 ) : DefaultLifecycleObserver {

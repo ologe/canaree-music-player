@@ -7,6 +7,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.assertBackgroundThread
 import java.io.File
 import java.io.FileOutputStream
@@ -48,7 +49,7 @@ object FileUtils {
 
         val uris = albumIdList.asSequence()
                 .distinctBy { it }
-                .map { idToUri(it) }
+                .map { idToUri(context, it) }
                 .map { try {
                     IdWithBitmap(context, it)
                 } catch (ex: Exception){
@@ -62,7 +63,13 @@ object FileUtils {
         return doSomething(context, uris, parentFolder, itemId)
     }
 
-    private fun idToUri(albumId: Long): Uri {
+    private fun idToUri(context: Context, albumId: Long): Uri {
+        if (Constants.useNeuralImages){
+            val neural = ImageUtils.getAlbumNeuralImage(context, albumId)
+            if (neural != null){
+                return Uri.fromFile(File(neural))
+            }
+        }
         return ContentUris.withAppendedId(COVER_URI, albumId)
     }
 
