@@ -92,6 +92,7 @@ class NeuralNetworkService : DaggerService() {
                 .subscribe({
                     deleteAllChildsImages()
                     contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+                    contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
                     contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
                     contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
                     stopForeground(true)
@@ -113,8 +114,6 @@ class NeuralNetworkService : DaggerService() {
                 folder.listFiles().forEach { it.delete() }
             }
         }
-        // also delete glide cache
-//        GlideApp.get(this).clearDiskCache()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
