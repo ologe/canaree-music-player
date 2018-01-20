@@ -7,18 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!--<View-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--android:id="@+id/statusBar"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/status_bar"-->
-        <!--android:background="@color/status_bar_secondary"/>-->
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,12 +18,12 @@
 
     <dev.olog.presentation.widgets.InkPageIndicator
         android:id="@+id/inkIndicator"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
         app:currentPageIndicatorColor="@color/dark_grey"
         app:pageIndicatorColor="@color/light_grey" />
 

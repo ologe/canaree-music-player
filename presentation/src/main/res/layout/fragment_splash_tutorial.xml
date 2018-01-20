@@ -9,8 +9,14 @@
     android:orientation="vertical"
     android:clipChildren="false"
     android:clickable="false"
-    android:background="@drawable/splash_tutorial_gradient"
     android:paddingTop="24dp">
+
+    <View
+        android:id="@+id/scrim"
+        android:background="@drawable/splash_tutorial_gradient"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="0"/>
 
     <TextView
         android:id="@+id/text1"

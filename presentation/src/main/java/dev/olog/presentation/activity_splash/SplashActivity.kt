@@ -1,6 +1,7 @@
 package dev.olog.presentation.activity_splash
 
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
@@ -25,12 +26,15 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
+import kotlin.LazyThreadSafetyMode.NONE
 
 class SplashActivity : BaseActivity() {
 
     @Inject lateinit var presenter: SplashActivityPresenter
     @Inject lateinit var adapter : Lazy<SplashActivityViewPagerAdapter>
     @Inject lateinit var rxPermissions: RxPermissions
+    private val onPageChangeListenerGradientBackground by lazy(NONE) { OnPageChangeListenerGradientBackground(
+            viewPager, Color.WHITE, intArrayOf(0xfff79f32.toInt(), 0xfffcca1c.toInt())) }
 
     private var disposable : Disposable? = null
 
@@ -48,6 +52,16 @@ class SplashActivity : BaseActivity() {
             toMainActivity()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewPager.addOnPageChangeListener(onPageChangeListenerGradientBackground)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewPager.removeOnPageChangeListener(onPageChangeListenerGradientBackground)
     }
 
     override fun onStop() {
