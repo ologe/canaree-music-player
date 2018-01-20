@@ -2,7 +2,7 @@
 <resources>
 
     <string name="neural_service_title">Stylizing your images</string>
-    <string name="neural_service_subtitle">This will take a while, please be patient</string>
+    <string name="neural_service_subtitle">Awesomeness in progress</string>
     <string name="neural_notification_channel_title">Stylize images service</string>
 
 </resources>
