@@ -2,7 +2,6 @@ package dev.olog.data.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
@@ -93,7 +92,7 @@ object FileUtils {
     private fun saveFile(directory: File, child: String, bitmap: Bitmap)  {
         assertBackgroundThread()
 
-        val dest = File(directory, child)
+        val dest = File(directory, "$child.webp")
         val out = FileOutputStream(dest)
         bitmap.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()
@@ -101,16 +100,12 @@ object FileUtils {
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
-        val image = ImagesFolderUtils.forAlbum(context, albumId)
         if (Constants.useNeuralImages){
-            if (image.startsWith(context.applicationInfo.dataDir)){
-                val file = File(image)
-                if (file.exists()){
-                    return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.fromFile(file))
-                }
-            }
+            val image = ImagesFolderUtils.getNeuralAlbumCover(context, albumId)
+            return MediaStore.Images.Media.getBitmap(context.contentResolver, image)
         }
-        return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(image))
+        val uri = ImagesFolderUtils.getOriginalAlbumCover(albumId)
+        return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
     }
 
 }

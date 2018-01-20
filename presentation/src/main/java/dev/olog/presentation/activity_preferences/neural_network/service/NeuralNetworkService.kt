@@ -68,7 +68,7 @@ class NeuralNetworkService : DaggerService() {
 
         disposable = getAllAlbums.execute()
                 .firstOrError()
-                .observeOn(Schedulers.computation())
+                .observeOn(Schedulers.io())
                 .map {
                     size = it.size
                     notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, 0, false).build())
@@ -76,7 +76,7 @@ class NeuralNetworkService : DaggerService() {
                 }
                 .flattenAsFlowable { it }
                 .parallel()
-                .runOn(Schedulers.computation())
+                .runOn(Schedulers.io())
                 .map {
                     try {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
@@ -131,6 +131,9 @@ class NeuralNetworkService : DaggerService() {
         disposable.unsubscribe()
     }
 
+    /*
+        album neural structure - albumId_progressive.webp
+     */
     private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap){
         val result = NeuralImages.stylizeTensorFlow(context, bitmap)
 
@@ -142,14 +145,14 @@ class NeuralNetworkService : DaggerService() {
             if (indexOf != -1){
                 val id = name.substring(0, indexOf)
                 if (albumId == id.toLong()){
-                    progressive = name.substring(indexOf + 1).toInt() + 1
+                    progressive = name.substring(indexOf + 1, name.indexOf(".webp")).toInt() + 1
                     listFile.delete()
                     break
                 }
             }
         }
 
-        val dest = File(imageDirectory, "${albumId}_$progressive")
+        val dest = File(imageDirectory, "${albumId}_$progressive.webp")
         val out = FileOutputStream(dest)
         result.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()

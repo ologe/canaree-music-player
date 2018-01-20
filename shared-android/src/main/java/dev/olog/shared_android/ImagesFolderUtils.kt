@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import java.io.File
+import java.io.FileNotFoundException
 
 object ImagesFolderUtils {
 
@@ -18,6 +19,15 @@ object ImagesFolderUtils {
 
     fun getOriginalAlbumCover(albumId: Long) : Uri {
         return ContentUris.withAppendedId(COVER_URI, albumId)
+    }
+
+    fun getNeuralAlbumCover(context: Context, albumId: Long): Uri{
+        val neuralFolder = getImageFolderFor(context, ALBUM + NEURAL)
+        val image = findImage(neuralFolder, albumId.toString())
+        if (image != null){
+            return Uri.fromFile(File(image))
+        }
+        throw FileNotFoundException()
     }
 
     fun getFolderName(folderName: String): String {
@@ -114,7 +124,7 @@ fun File.extractImageName(): ImageName {
 }
 
 /**
- * File name structure -> artistId_progressive(albumsIdSeparatedByUnderscores)
+ * File name structure -> artistId_progressive(albumsIdSeparatedByUnderscores).webp
  */
 class ImageName(file: File) {
 

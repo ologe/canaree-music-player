@@ -65,7 +65,7 @@ class AlbumRepository @Inject constructor(
     }
 
     override fun getAllAlbumsForUtils(): Flowable<List<Album>> {
-        return songGateway.getAll()
+        return songGateway.getAllUnfiltered()
                 .map { songList -> songList.asSequence()
                         .filter { it.album != Constants.UNKNOWN_ALBUM }
                         .distinctBy { it.albumId }
