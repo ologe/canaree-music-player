@@ -1,6 +1,5 @@
 package dev.olog.music_service.notification
 
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -73,20 +72,11 @@ open class NotificationImpl21 @Inject constructor(
 
     protected open fun extendInitialization(){}
 
-    override fun getNotification(): Notification {
-        val notification = builder
-                .setContentTitle("")
-                .setContentText("")
-                .build()
-        notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
-        return notification
-    }
-
     override fun updateState(playbackState: PlaybackStateCompat) {
         val state = playbackState.state
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
-        val action = builder.mActions[3]
+        val action = builder.mActions[2]
         action.actionIntent = buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
         action.icon = if (isPlaying) R.drawable.vd_pause_big else R.drawable.vd_play_big
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
@@ -114,15 +104,15 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     @CallSuper
-    override fun updateMetadata(mediaEntity: MediaEntity) {
-        val title = mediaEntity.title
-        val artist = mediaEntity.artist
-        val album = mediaEntity.album
+    override fun updateMetadata(metadata: MediaEntity) {
+        val title = metadata.title
+        val artist = metadata.artist
+        val album = metadata.album
 
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
 
-        updateMetadataImpl(mediaEntity.id, spannableTitle, artist, album, Uri.parse(mediaEntity.image))
+        updateMetadataImpl(metadata.id, spannableTitle, artist, album, Uri.parse(metadata.image))
     }
 
     protected open fun updateMetadataImpl (

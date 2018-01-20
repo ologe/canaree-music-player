@@ -17,6 +17,4 @@ interface INotification {
     fun update(): Notification
     fun cancel()
 
-    fun getNotification(): Notification
-
 }
