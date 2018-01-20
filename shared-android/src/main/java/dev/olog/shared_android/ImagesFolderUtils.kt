@@ -47,9 +47,12 @@ object ImagesFolderUtils {
     private fun getAlbumImageImpl(context: Context, albumId: String): String {
         if (Constants.useNeuralImages){
             val neuralFolder = getImageFolderFor(context, ALBUM + NEURAL)
-            return neuralFolder.listFiles()
+            val path = neuralFolder.listFiles()
                     .firstOrNull { it.name == albumId }
-                    ?.path ?: ""
+                    ?.path
+            if (path != null){
+                return path
+            }
         }
         return ContentUris.withAppendedId(COVER_URI, albumId.toLong()).toString()
     }
@@ -57,13 +60,16 @@ object ImagesFolderUtils {
     private fun getImageImpl(context: Context, parent: String, child: String): String {
         if (Constants.useNeuralImages){
             val neuralFolder = getImageFolderFor(context, parent + NEURAL)
-            return findImage(neuralFolder, child)
+            val image = findImage(neuralFolder, child)
+            if (image != null){
+                return image
+            }
         }
         val folder = getImageFolderFor(context, parent)
-        return findImage(folder, child)
+        return findImage(folder, child) ?: ""
     }
 
-    private fun findImage(directory: File, childId: String): String {
+    private fun findImage(directory: File, childId: String): String? {
         for (child in directory.listFiles()) {
             val indexOfUnderscore = child.name.indexOf("_")
             if (indexOfUnderscore != -1){
@@ -73,7 +79,7 @@ object ImagesFolderUtils {
                 }
             }
         }
-        return ""
+        return null
     }
 
     fun getImageFolderFor(context: Context, entity: String): File {

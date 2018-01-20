@@ -87,7 +87,7 @@
         <Preference
             android:title="@string/prefs_neural_network_style_title"
             android:summary="@string/prefs_neural_network_style_summary"
-            android:key="@string/prefs_neural_style_key"
+            android:key="@string/prefs_neural_network_style_key"
             android:dependency="@string/prefs_use_neural_images_key"/>
 
     </PreferenceCategory>

@@ -9,7 +9,6 @@ import dev.olog.shared_android.ImagesFolderUtils
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
     val folderImage = ImagesFolderUtils.forFolder(context, this.folderPath)
-    println("folder image $folderImage")
 
     return Folder(
             this.folder,

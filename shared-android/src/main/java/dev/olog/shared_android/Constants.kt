@@ -33,7 +33,7 @@ object Constants {
 
         quickAction = getQuickAction(context)
         useNeuralImages = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean("use_stylized_images", false)
+                .getBoolean(context.getString(R.string.prefs_use_neural_images_key), false)
     }
 
     fun updateQuickAction(context: Context){

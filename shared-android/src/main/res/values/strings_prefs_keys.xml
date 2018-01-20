@@ -19,6 +19,6 @@
 
     <!--images-->
     <string name="prefs_use_neural_images_key">key_use_stylized_images</string>
-    <string name="prefs_neural_style_key">key_neural_style</string>
+    <string name="prefs_neural_network_style_key">key_neural_style</string>
 
 </resources>

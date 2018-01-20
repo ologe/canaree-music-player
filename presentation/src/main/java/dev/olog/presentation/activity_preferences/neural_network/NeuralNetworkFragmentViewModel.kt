@@ -6,25 +6,25 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.provider.MediaStore
 import dev.olog.domain.entity.Album
-import dev.olog.domain.interactor.tab.GetAllAlbumsUseCase
+import dev.olog.domain.interactor.GetAllAlbumsForUtilsUseCase
 import dev.olog.shared_android.neural.NeuralImages
 import io.reactivex.Single
 
 class NeuralNetworkFragmentViewModel (
         private val contentResolver: ContentResolver,
-        getAllAlbumsUseCase: GetAllAlbumsUseCase
+        getAllAlbumsForUtilsUseCase: GetAllAlbumsForUtilsUseCase
 
 ) : ViewModel() {
 
     val currentNeuralStyle = MutableLiveData<Int>()
 
-    val getImagesAlbum: Single<List<Album>> = getAllAlbumsUseCase.execute()
+    val getImagesAlbum: Single<List<Album>> = getAllAlbumsForUtilsUseCase.execute()
             .firstOrError()
             .map {
                 val result = mutableListOf<Album>()
                 for (album in it) {
                     try {
-                        MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(album.image)) // todo can return an already neural image
+                        MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(album.image))
                         result.add(album)
                         break
                     } catch (ex: Exception){/*no image */}

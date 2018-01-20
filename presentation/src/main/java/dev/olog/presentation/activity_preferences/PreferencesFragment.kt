@@ -17,13 +17,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
-    private lateinit var neural: Preference
+    private lateinit var neuralStyle: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
-        neural = preferenceScreen.findPreference("neural")
+        neuralStyle = preferenceScreen.findPreference(getString(R.string.prefs_neural_network_style_key))
     }
 
     override fun onResume() {
@@ -39,7 +39,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                     BlacklistFragment.TAG)
             true
         }
-        neural.setOnPreferenceClickListener {
+        neuralStyle.setOnPreferenceClickListener {
             activity!!.supportFragmentManager.transaction {
                 add(android.R.id.content, NeuralNetworkFragment.newInstance())
                 addToBackStack(NeuralNetworkFragment.TAG)
@@ -53,7 +53,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
-        neural.onPreferenceClickListener = null
+        neuralStyle.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -66,7 +66,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             Constants.updateQuickAction(activity!!)
             requestMainActivityToRecreate()
         }
-        if (key == "use_stylized_images"){
+        if (key == getString(dev.olog.shared_android.R.string.prefs_use_neural_images_key)){
             Constants.useNeuralImages = sharedPreferences.getBoolean(key, false)
             requestMainActivityToRecreate()
         }

@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AlbumRepository @Inject constructor(
-        rxContentResolver: BriteContentResolver,
+        private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
@@ -51,7 +51,8 @@ class AlbumRepository @Inject constructor(
                     }.sortedBy { it.title.toLowerCase() }
                     .toList()
 
-            }.distinctUntilChanged()
+            }
+            .distinctUntilChanged()
             .replay(1)
             .refCount()
 
@@ -60,6 +61,26 @@ class AlbumRepository @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun getByParam(albumId: Long): Flowable<Album> {
         return getAll().map { it.first { it.id == albumId } }
+    }
+
+    override fun getAllAlbumsForUtils(): Flowable<List<Album>> {
+        return rxContentResolver
+                .createQuery(
+                        MEDIA_STORE_URI,
+                        arrayOf("count(*)"),
+                        null, null, null,
+                        false
+                ).mapToOne { 0 }
+                .toFlowable(BackpressureStrategy.LATEST)
+                .flatMap { songGateway.getAll() }
+                .map { songList -> songList.asSequence()
+                        .filter { it.album != Constants.UNKNOWN_ALBUM }
+                        .distinctBy { it.albumId }
+                        .map { it.toAlbum(-1) }
+                        .sortedBy { it.title.toLowerCase() }
+                        .toList()
+
+                }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

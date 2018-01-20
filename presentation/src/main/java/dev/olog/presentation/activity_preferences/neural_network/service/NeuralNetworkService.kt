@@ -90,7 +90,7 @@ class NeuralNetworkService : DaggerService() {
 
     private fun deleteAll(){
         val list = listOf(
-                "genre_neural", "playlist_neural", "album_neural", "artist_neural", "genre_neural"
+                "folder_neural", "playlist_neural", "album_neural", "artist_neural", "genre_neural"
         )
         for (s in list) {
             val folder = File("${applicationInfo.dataDir}${File.separator}$s")
