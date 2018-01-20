@@ -34,22 +34,9 @@ class QueueManager @Inject constructor(
 
 ) : Queue {
 
-    private var atomicBoolean = AtomicBoolean(false)
-    private var action : (() -> Unit)? = null
+    private val isReady = AtomicBoolean(false)
 
-    private fun setReady(){
-        if (atomicBoolean.compareAndSet(false, true)) {
-            action?.let { it() }
-        }
-    }
-
-    override fun doWhenReady(func: () -> Unit) {
-        if (atomicBoolean.get()) {
-            func()
-        } else {
-            action = func
-        }
-    }
+    override fun isReady(): Boolean = isReady.get()
 
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
@@ -60,7 +47,7 @@ class QueueManager @Inject constructor(
                 .map { (list, position) -> list[position].toPlayerMediaEntity(
                         queueImpl.computePositionInQueue(list, position)) }
                 .map { it to getLastSessionBookmark(it.mediaEntity) }
-                .doOnSuccess { setReady() }
+                .doOnSuccess { isReady.compareAndSet(false, true) }
     }
 
     private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long {

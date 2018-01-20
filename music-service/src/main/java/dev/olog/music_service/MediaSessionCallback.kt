@@ -16,9 +16,10 @@ import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
-import io.reactivex.Single
+import dev.olog.shared.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
@@ -36,6 +37,7 @@ class MediaSessionCallback @Inject constructor(
 ): MediaSessionCompat.Callback(), DefaultLifecycleObserver {
 
     private val subscriptions = CompositeDisposable()
+    private var prepareDisposable: Disposable? = null
 
     init {
         lifecycle.addObserver(this)
@@ -44,13 +46,13 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         subscriptions.clear()
+        prepareDisposable.unsubscribe()
     }
 
     override fun onPrepare() {
-        queue.prepare()
+        prepareDisposable = queue.prepare()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(player::prepare, Throwable::printStackTrace)
-                .addTo(subscriptions)
     }
 
     override fun onPlayFromMediaId(mediaIdAsString: String, extras: Bundle?) {
@@ -83,7 +85,9 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPlay() {
-        queue.doWhenReady { player.resume() }
+        doWhenReady {
+            player.resume()
+        }
     }
 
     override fun onPause() {
@@ -91,16 +95,31 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToNext() {
-        queue.doWhenReady {
+        doWhenReady {
             val metadata = queue.handleSkipToNext()
-            player.playNext(metadata, true)
+            player.playNext(metadata, false)
         }
     }
 
     override fun onSkipToPrevious() {
-        queue.doWhenReady {
+        doWhenReady {
             val metadata = queue.handleSkipToPrevious(player.getBookmark())
             player.playNext(metadata, false)
+        }
+    }
+
+    private fun doWhenReady(action: () -> Unit){
+        prepareDisposable.unsubscribe()
+        if (queue.isReady()){
+            action()
+        } else {
+            prepareDisposable = queue.prepare()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        player.prepare(it)
+                        action()
+                    }, Throwable::printStackTrace)
+                    .addTo(subscriptions)
         }
     }
 
@@ -144,22 +163,18 @@ class MediaSessionCallback @Inject constructor(
                     player.play(mediaEntity)
                     return
                 }
+                MusicConstants.ACTION_PLAY_SHUFFLE -> {
+                    doWhenReady {
+                        val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                        val mediaId = MediaId.fromString(mediaIdAsString)
+                        queue.handlePlayShuffle(mediaId)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(player::play, Throwable::printStackTrace)
+                                .addTo(subscriptions)
+                    }
+                }
             }
         }
-
-
-        val single = when (action) {
-            MusicConstants.ACTION_PLAY_SHUFFLE -> {
-                val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-                val mediaId = MediaId.fromString(mediaIdAsString)
-                queue.handlePlayShuffle(mediaId)
-            }
-            else -> Single.error(Throwable())
-        }
-
-        single.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(player::play, Throwable::printStackTrace)
-                .addTo(subscriptions)
     }
 
     override fun onSetRepeatMode(repeatMode: Int) {

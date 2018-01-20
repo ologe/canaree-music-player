@@ -1,5 +1,6 @@
 package dev.olog.music_service.notification
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -74,6 +75,15 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     protected open fun extendInitialization(){}
+
+    override fun getNotification(): Notification {
+        val notification = builder
+                .setContentTitle("")
+                .setContentText("")
+                .build()
+        notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
+        return notification
+    }
 
     override fun updateState(playbackState: PlaybackStateCompat) {
         val state = playbackState.state

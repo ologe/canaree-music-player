@@ -18,5 +18,6 @@ interface INotification {
     fun cancel()
 
     fun updateFavoriteState(isFavorite: Boolean)
+    fun getNotification(): Notification
 
 }

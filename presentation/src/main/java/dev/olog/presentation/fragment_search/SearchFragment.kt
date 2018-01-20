@@ -83,7 +83,9 @@ class SearchFragment : BaseFragment() {
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .asLiveData()
                 .subscribe(this, viewModel::setNewQuery)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (savedInstanceState == null){
             val mustShowKeyboard = arguments!!.getBoolean(ARGUMENT_SHOW_KEYBOARD)
             if (mustShowKeyboard){

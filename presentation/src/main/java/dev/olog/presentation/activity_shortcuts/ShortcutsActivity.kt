@@ -28,12 +28,12 @@ class ShortcutsActivity : DaggerAppCompatActivity(){
         when (action){
             Constants.SHORTCUT_PLAY -> {
                 val serviceIntent = Intent(this, serviceClass.get())
-                intent.action = Constants.SHORTCUT_PLAY
+                serviceIntent.action = Constants.SHORTCUT_PLAY
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
             Constants.SHORTCUT_SHUFFLE -> {
                 val serviceIntent = Intent(this, serviceClass.get())
-                intent.action = Constants.SHORTCUT_SHUFFLE
+                serviceIntent.action = Constants.SHORTCUT_SHUFFLE
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
         }

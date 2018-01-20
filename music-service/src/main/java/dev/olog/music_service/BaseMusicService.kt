@@ -57,7 +57,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
         if (intent == null) return
 
         val action = intent.action
-//        println("action $action")
 
         when (action){
             null -> stop()

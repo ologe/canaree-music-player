@@ -8,6 +8,8 @@ import io.reactivex.Single
 
 interface Queue {
 
+    fun isReady() : Boolean
+
     fun getCurrentPositionInQueue(): PositionInQueue
 
     fun prepare(): Single<Pair<PlayerMediaEntity, Long>>
@@ -41,7 +43,5 @@ interface Queue {
     fun sort()
 
     fun shuffle()
-
-    fun doWhenReady(func: () -> Unit)
 
 }
