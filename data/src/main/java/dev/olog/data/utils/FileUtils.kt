@@ -73,17 +73,17 @@ object FileUtils {
 
                 // image already exist, create new with a new progr
                 oldImage.delete() // first delete old
-                prepareSaveThenSave(uris, imageDirectory, itemId, albumsId, progr + 1)
+                prepareSaveThenSave(uris, imageDirectory, itemId, albumsId, progr + 1L)
             }
         } else {
             // create new image
-            prepareSaveThenSave(uris, imageDirectory, itemId, albumsId, 1)
+            prepareSaveThenSave(uris, imageDirectory, itemId, albumsId, System.currentTimeMillis())
         }
         return true
     }
 
     private fun prepareSaveThenSave(uris: List<IdWithBitmap>, directory: File, itemId: String,
-                                    albumsId: List<Long>, progr: Int){
+                                    albumsId: List<Long>, progr: Long){
         val bitmap = ImageUtils.joinImages(uris.map { it.bitmap })
         val child = ImagesFolderUtils.createFileName(itemId, progr, albumsId)
         saveFile(directory, child, bitmap)

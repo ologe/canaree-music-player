@@ -113,6 +113,8 @@ class NeuralNetworkService : DaggerService() {
                 folder.listFiles().forEach { it.delete() }
             }
         }
+        // also delete glide cache
+//        GlideApp.get(this).clearDiskCache()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -138,14 +140,14 @@ class NeuralNetworkService : DaggerService() {
         val result = NeuralImages.stylizeTensorFlow(context, bitmap)
 
         val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, "${ImagesFolderUtils.ALBUM}_neural")
-        var progressive = 1
+        var progressive = System.currentTimeMillis()
         for (listFile in imageDirectory.listFiles()) {
             val name = listFile.name
             val indexOf = name.indexOf("_")
             if (indexOf != -1){
                 val id = name.substring(0, indexOf)
                 if (albumId == id.toLong()){
-                    progressive = name.substring(indexOf + 1, name.indexOf(".webp")).toInt() + 1
+                    progressive = name.substring(indexOf + 1, name.indexOf(".webp")).toLong() + 1
                     listFile.delete()
                     break
                 }

@@ -102,7 +102,7 @@ object ImagesFolderUtils {
         return folder
     }
 
-    fun createFileName(itemId: String, progressive: Int, albumsId: List<Long>): String {
+    fun createFileName(itemId: String, progressive: Long, albumsId: List<Long>): String {
         val albumsIdAsString = albumsId.joinToString(
                 separator = "_",
                 prefix = "(",
@@ -138,10 +138,10 @@ class ImageName(file: File) {
                 .map { it.toLong() }
     }
 
-    fun progressive(): Int {
+    fun progressive(): Long {
         val indexOfStart = name.indexOf("_") + 1
         val indexOfEnd = name.indexOf("(")
-        return name.substring(indexOfStart, indexOfEnd).toInt()
+        return name.substring(indexOfStart, indexOfEnd).toLong()
     }
 
 }
