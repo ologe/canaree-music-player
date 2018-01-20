@@ -69,6 +69,21 @@
         android:clickable="true"
         android:focusable="true" />
 
+    <ImageButton
+        android:id="@+id/floatingWindow"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintEnd_toStartOf="@+id/search"
+        android:layout_width="@dimen/tab"
+        android:layout_height="@dimen/toolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:src="@drawable/vd_bird_singing_24dp"
+        android:tint="@color/button_primary_tint"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleX=".85"
+        android:scaleY=".85"/>
+
     <!--<android.support.v7.app.MediaRouteButton-->
         <!--android:id="@+id/cast"-->
         <!--app:layout_constraintTop_toBottomOf="@+id/statusBar"-->

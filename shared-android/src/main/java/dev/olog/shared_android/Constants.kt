@@ -10,6 +10,9 @@ object Constants {
     const val SHORTCUT_SEARCH = "SHORTCUT_SEARCH"
     const val SHORTCUT_PLAY = "SHORTCUT_PLAY"
     const val SHORTCUT_SHUFFLE = "SHORTCUT_SHUFFLE"
+    const val WIDGET_ACTION_PLAY_PAUSE = "WIDGET_ACTION_PLAY"
+    const val WIDGET_ACTION_SKIP_NEXT = "WIDGET_ACTION_SKIP_NEXT"
+    const val WIDGET_ACTION_SKIP_PREVIOUS = "WIDGET_ACTION_SKIP_PREVIOUS"
 
     var quickAction = QuickAction(QuickActionEnum.NONE)
     var useNeuralImages: Boolean = false

@@ -9,7 +9,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import dagger.Lazy
-import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.TextUtils
@@ -41,14 +40,10 @@ open class NotificationImpl24 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            image: Uri,
-            isFavorite: Boolean) {
+            image: Uri) {
 
         builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
                 .setContentTitle(title)
                 .setContentText(artist)
-
-        val isFavoriteAction = builder.mActions[1]
-        isFavoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
     }
 }

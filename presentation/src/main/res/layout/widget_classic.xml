@@ -123,16 +123,6 @@
             android:src="@drawable/vd_bird_singing_24dp" />
 
         <ImageButton
-            android:id="@+id/favorite"
-            android:layout_width="0dp"
-            android:layout_weight=".8"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:scaleX=".9"
-            android:scaleY=".9"
-            android:src="@drawable/vd_not_favorite"/>
-
-        <ImageButton
             android:id="@+id/previous"
             android:layout_width="0dp"
             android:layout_weight=".8"

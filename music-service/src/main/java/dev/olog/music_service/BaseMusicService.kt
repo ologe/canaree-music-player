@@ -65,12 +65,18 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             }
             Constants.SHORTCUT_SHUFFLE -> handleAppShortcutShuffle(intent)
             Constants.SHORTCUT_PLAY -> handleAppShortcutPlay(intent)
+            Constants.WIDGET_ACTION_PLAY_PAUSE -> handlePlayPause(intent)
+            Constants.WIDGET_ACTION_SKIP_NEXT -> handleSkipNext(intent)
+            Constants.WIDGET_ACTION_SKIP_PREVIOUS -> handleSkipPrevious(intent)
             else -> handleMediaButton(intent)
         }
     }
 
     protected abstract fun handleAppShortcutPlay(intent: Intent)
     protected abstract fun handleAppShortcutShuffle(intent: Intent)
+    protected abstract fun handlePlayPause(intent: Intent)
+    protected abstract fun handleSkipNext(intent: Intent)
+    protected abstract fun handleSkipPrevious(intent: Intent)
 
     override fun start() {
         if (!serviceStarted) {

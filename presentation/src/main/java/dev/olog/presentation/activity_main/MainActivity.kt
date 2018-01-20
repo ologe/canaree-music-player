@@ -23,6 +23,7 @@ import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.asLiveData
+import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject
@@ -34,6 +35,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var navigator: Navigator
+    @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +81,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         search.setOnClickListener { navigator.toSearchFragment(false) }
         settings.setOnClickListener { navigator.toMainPopup(it) }
         viewPager.addOnPageChangeListener(onAdapterPageChangeListener)
+        floatingWindow.setOnClickListener { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(this, floatingInfoServiceBinder) }
     }
 
     override fun onPause() {
@@ -86,6 +89,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         search.setOnClickListener(null)
         settings.setOnClickListener(null)
         viewPager.removeOnPageChangeListener(onAdapterPageChangeListener)
+        floatingWindow.setOnClickListener(null)
     }
 
     override fun onDestroy() {

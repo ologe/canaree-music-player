@@ -215,7 +215,7 @@ class MediaSessionCallback @Inject constructor(
     /**
      * this function DO NOT KILL service on pause
      */
-    private fun handlePlayPause() {
+    fun handlePlayPause() {
         if (player.isPlaying()) {
             player.pause(false)
         } else {

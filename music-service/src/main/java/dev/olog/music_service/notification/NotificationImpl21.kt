@@ -17,13 +17,11 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import dagger.Lazy
-import dev.olog.music_service.MusicService
 import dev.olog.music_service.R
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.constants.FloatingInfoConstants
-import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
@@ -52,7 +50,7 @@ open class NotificationImpl21 @Inject constructor(
 
         val mediaStyle = android.support.v4.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(token)
-                .setShowActionsInCompactView(2, 3, 4)
+                .setShowActionsInCompactView(1, 2, 3)
 
         builder.setSmallIcon(R.drawable.vd_bird_not_singing)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -64,7 +62,6 @@ open class NotificationImpl21 @Inject constructor(
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
                 .addAction(R.drawable.vd_bird_singing_24dp, "floating info", buildFloatingInfoPendingIntent())
-                .addAction(R.drawable.vd_not_favorite, "favorite", buildUpdateFavoriteIntent())
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause_big, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
                 .addAction(R.drawable.vd_skip_next, "Next", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT))
@@ -117,8 +114,7 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     @CallSuper
-    override fun updateMetadata(metadataWithFavorite: Pair<MediaEntity, Boolean>) {
-        val (mediaEntity, isFavorite) = metadataWithFavorite
+    override fun updateMetadata(mediaEntity: MediaEntity) {
         val title = mediaEntity.title
         val artist = mediaEntity.artist
         val album = mediaEntity.album
@@ -126,7 +122,7 @@ open class NotificationImpl21 @Inject constructor(
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
 
-        updateMetadataImpl(mediaEntity.id, spannableTitle, artist, album, Uri.parse(mediaEntity.image), isFavorite)
+        updateMetadataImpl(mediaEntity.id, spannableTitle, artist, album, Uri.parse(mediaEntity.image))
     }
 
     protected open fun updateMetadataImpl (
@@ -134,29 +130,18 @@ open class NotificationImpl21 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            image: Uri,
-            isFavorite: Boolean){
+            image: Uri){
 
         builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
                 .setContentTitle(title)
                 .setContentText(artist)
                 .setSubText(album)
-
-        val isFavoriteAction = builder.mActions[1]
-        isFavoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
     }
 
     private fun buildFloatingInfoPendingIntent(): PendingIntent {
         val intent = Intent(service, activityClass.get())
         intent.action = FloatingInfoConstants.ACTION_START_SERVICE
         return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
-
-    private fun buildUpdateFavoriteIntent(): PendingIntent {
-        val intent = Intent(service, MusicService::class.java)
-        intent.action = MusicConstants.ACTION_TOGGLE_FAVORITE
-        return PendingIntent.getService(service, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildContentIntent(): PendingIntent {
@@ -177,13 +162,5 @@ open class NotificationImpl21 @Inject constructor(
 
     override fun cancel() {
         notificationManager.get().cancel(INotification.NOTIFICATION_ID)
-    }
-
-    override fun updateFavoriteState(isFavorite: Boolean) {
-        if (isCreated){
-            val isFavoriteAction = builder.mActions[1]
-            isFavoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
-            notificationManager.get().notify(INotification.NOTIFICATION_ID, builder.build())
-        }
     }
 }

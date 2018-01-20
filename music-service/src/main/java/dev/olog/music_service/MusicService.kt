@@ -63,6 +63,18 @@ class MusicService : BaseMusicService() {
                 MusicConstants.ACTION_PLAY_SHUFFLE, bundle)
     }
 
+    override fun handlePlayPause(intent: Intent) {
+        callback.handlePlayPause()
+    }
+
+    override fun handleSkipNext(intent: Intent) {
+        callback.onSkipToNext()
+    }
+
+    override fun handleSkipPrevious(intent: Intent) {
+        callback.onSkipToPrevious()
+    }
+
     override fun handleMediaButton(intent: Intent) {
         MediaButtonReceiver.handleIntent(mediaSession, intent)
     }

@@ -12,12 +12,11 @@ interface INotification {
 
     fun createIfNeeded()
     fun updateState(playbackState: PlaybackStateCompat)
-    fun updateMetadata(metadataWithFavorite: Pair<MediaEntity, Boolean>)
+    fun updateMetadata(metadata: MediaEntity)
 
     fun update(): Notification
     fun cancel()
 
-    fun updateFavoriteState(isFavorite: Boolean)
     fun getNotification(): Notification
 
 }
