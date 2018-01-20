@@ -6,6 +6,7 @@
     <string name="prefs_category_library">Library</string>
     <string name="prefs_category_floating_window">Floating window</string>
     <string name="prefs_category_audio">Audio</string>
+    <string name="prefs_category_images">Images</string>
 
     <!--last tab-->
     <string name="prefs_remember_last_tab_title">Remember last tab</string>
@@ -48,5 +49,12 @@
     <string name="prefs_library_categories_title">Library categories</string>
     <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
     <string name="prefs_library_categories_error">At least one category has to be selected</string>
+
+    <!--neural images-->
+    <string name="prefs_use_neural_images_title">Use stylized images</string>
+    <string name="prefs_use_neural_images_summary_on">Will be used stylized images</string>
+    <string name="prefs_use_neural_images_summary_off">Will be used normal images</string>
+    <string name="prefs_neural_network_style_title">Choose your style</string>
+    <string name="prefs_neural_network_style_summary">Experimental feature. Previous (if any) stylized image will be deleted</string>
 
 </resources>

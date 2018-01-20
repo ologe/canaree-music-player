@@ -75,20 +75,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Images">
+        android:title="@string/prefs_category_images">
 
         <SwitchPreference
-            android:title="Use stylized images"
-            android:key="use_stylized_images"
+            android:title="@string/prefs_use_neural_images_title"
+            android:key="@string/prefs_use_neural_images_key"
             android:defaultValue="false"
-            android:summaryOff="Will be used normal images"
-            android:summaryOn="Will be used stylized images"/>
+            android:summaryOff="@string/prefs_use_neural_images_summary_off"
+            android:summaryOn="@string/prefs_use_neural_images_summary_on"/>
 
         <Preference
-            android:title="Neural network styling"
-            android:summary="Blend images"
-            android:key="neural"
-            android:dependency="use_stylized_images"/>
+            android:title="@string/prefs_neural_network_style_title"
+            android:summary="@string/prefs_neural_network_style_summary"
+            android:key="@string/prefs_neural_style_key"
+            android:dependency="@string/prefs_use_neural_images_key"/>
 
     </PreferenceCategory>
 

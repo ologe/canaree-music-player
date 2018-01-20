@@ -17,4 +17,8 @@
     <!--audio-->
     <string name="prefs_lower_volume_key">key_lower_volume</string>
 
+    <!--images-->
+    <string name="prefs_use_neural_images_key">key_use_stylized_images</string>
+    <string name="prefs_neural_style_key">key_neural_style</string>
+
 </resources>
