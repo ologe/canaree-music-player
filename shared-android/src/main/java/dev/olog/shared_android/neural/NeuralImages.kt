@@ -17,8 +17,6 @@ object NeuralImages {
 
     private var styleVals = FloatArray(NUM_STYLES)
 
-    private var inferenceInterface : TensorFlowInferenceInterface? = null
-
     fun setStyle(stylePosition: Int){
         styleVals.forEachIndexed { index, _ ->
             styleVals[index] = if (index == stylePosition) 1f else 0f
@@ -30,9 +28,7 @@ object NeuralImages {
     }
 
     fun stylizeTensorFlow(context: Context, bitmap: Bitmap): Bitmap {
-        if (inferenceInterface == null){
-            inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
-        }
+        val inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
 
         val intValues = IntArray(desiredSize * desiredSize)
         val floatValues = FloatArray(desiredSize * desiredSize * 3)
@@ -51,15 +47,15 @@ object NeuralImages {
         // TODO: Process the image in TensorFlow here.
 
         // Copy the input data into TensorFlow.
-        inferenceInterface!!.feed(INPUT_NODE, floatValues,
+        inferenceInterface.feed(INPUT_NODE, floatValues,
                 1, scaledBitmap.width.toLong(), scaledBitmap.height.toLong(), 3)
-        inferenceInterface!!.feed(STYLE_NODE, styleVals, NUM_STYLES.toLong())
+        inferenceInterface.feed(STYLE_NODE, styleVals, NUM_STYLES.toLong())
 
         // Execute the output node's dependency sub-graph.
-        inferenceInterface!!.run(arrayOf(OUTPUT_NODE), false)
+        inferenceInterface.run(arrayOf(OUTPUT_NODE), false)
 
         // Copy the data from TensorFlow back into our array.
-        inferenceInterface!!.fetch(OUTPUT_NODE, floatValues)
+        inferenceInterface.fetch(OUTPUT_NODE, floatValues)
 
         for (i in intValues.indices) {
             intValues[i] = (-0x1000000

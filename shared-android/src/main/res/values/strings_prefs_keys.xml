@@ -2,23 +2,23 @@
 <resources>
 
     <!--general-->
-    <string name="prefs_icon_color_key">key_icon_color</string>
-    <string name="prefs_quick_action_key">key_quick_action</string>
-    <string name="prefs_detail_visible_items_key">key_detail_items</string>
-    <string name="prefs_blacklist_key">key_blacklist</string>
+    <string name="prefs_icon_color_key" translatable="false">key_icon_color</string>
+    <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
+    <string name="prefs_detail_visible_items_key" translatable="false">key_detail_items</string>
+    <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
 
     <!--library-->
-    <string name="prefs_remember_last_tab_key">key_remember_last_tab</string>
-    <string name="prefs_library_categories_key">key_library_categories</string>
+    <string name="prefs_remember_last_tab_key" translatable="false">key_remember_last_tab</string>
+    <string name="prefs_library_categories_key" translatable="false">key_library_categories</string>
 
     <!--floating window-->
-    <string name="prefs_start_floating_window_at_startup_key">key_tart_floating_window_at_startup</string>
+    <string name="prefs_start_floating_window_at_startup_key" translatable="false">key_tart_floating_window_at_startup</string>
 
     <!--audio-->
-    <string name="prefs_lower_volume_key">key_lower_volume</string>
+    <string name="prefs_lower_volume_key" translatable="false">key_lower_volume</string>
 
     <!--images-->
-    <string name="prefs_use_neural_images_key">key_use_stylized_images</string>
-    <string name="prefs_neural_network_style_key">key_neural_style</string>
+    <string name="prefs_use_neural_images_key" translatable="false">key_use_stylized_images</string>
+    <string name="prefs_neural_network_style_key" translatable="false">key_neural_style</string>
 
 </resources>

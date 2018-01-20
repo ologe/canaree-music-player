@@ -123,6 +123,8 @@ class SongRepository @Inject constructor(
                 .flatMapCompletable { deleteSingle(it).subscribeOn(Schedulers.io()) }
     }
 
+
+
     override fun getByParamUnedited(songId: Long): Flowable<UneditedSong> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, null,"${MediaStore.Audio.Media._ID} = ?",

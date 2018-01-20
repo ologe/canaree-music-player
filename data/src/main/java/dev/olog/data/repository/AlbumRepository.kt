@@ -4,6 +4,7 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.data.db.AppDatabase
 import dev.olog.data.mapper.toAlbum
+import dev.olog.data.mapper.toNotNeuralAlbum
 import dev.olog.domain.entity.Album
 import dev.olog.domain.entity.Song
 import dev.olog.domain.gateway.AlbumGateway
@@ -64,22 +65,13 @@ class AlbumRepository @Inject constructor(
     }
 
     override fun getAllAlbumsForUtils(): Flowable<List<Album>> {
-        return rxContentResolver
-                .createQuery(
-                        MEDIA_STORE_URI,
-                        arrayOf("count(*)"),
-                        null, null, null,
-                        false
-                ).mapToOne { 0 }
-                .toFlowable(BackpressureStrategy.LATEST)
-                .flatMap { songGateway.getAll() }
+        return songGateway.getAll()
                 .map { songList -> songList.asSequence()
                         .filter { it.album != Constants.UNKNOWN_ALBUM }
                         .distinctBy { it.albumId }
-                        .map { it.toAlbum(-1) }
+                        .map { it.toNotNeuralAlbum() }
                         .sortedBy { it.title.toLowerCase() }
                         .toList()
-
                 }
     }
 

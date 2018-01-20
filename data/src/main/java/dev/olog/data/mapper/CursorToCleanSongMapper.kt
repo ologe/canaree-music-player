@@ -1,6 +1,5 @@
 package dev.olog.data.mapper
 
-import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
@@ -9,6 +8,7 @@ import dev.olog.data.utils.getLong
 import dev.olog.data.utils.getString
 import dev.olog.domain.entity.UneditedSong
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.ImagesFolderUtils
 import java.io.File
 
 private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
@@ -30,7 +30,7 @@ fun Cursor.toUneditedSong(): UneditedSong {
             path,
             getInt(MediaStore.Audio.Media.TRACK),
             getInt(MediaStore.Audio.Media.YEAR),
-            ContentUris.withAppendedId(COVER_URI, albumId).toString(),
+            ImagesFolderUtils.getOriginalAlbumCover(albumId).toString(),
             getLong(MediaStore.Audio.Media.DURATION),
             getLong(MediaStore.Audio.Media.SIZE)
     )

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="neural_service_title">Stylizing your images</string>
+    <string name="neural_service_subtitle">This will take a while, please be patient</string>
+    <string name="neural_notification_channel_title">Stylize images service</string>
+
+</resources>

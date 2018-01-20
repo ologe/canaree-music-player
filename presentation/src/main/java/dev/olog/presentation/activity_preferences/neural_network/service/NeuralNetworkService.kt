@@ -1,5 +1,8 @@
 package dev.olog.presentation.activity_preferences.neural_network.service
 
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
@@ -10,12 +13,12 @@ import android.os.IBinder
 import android.provider.MediaStore
 import android.support.v4.app.NotificationCompat
 import dagger.android.DaggerService
-import dev.olog.domain.interactor.GetAllSongsForImagesUseCase
+import dev.olog.domain.interactor.GetAllAlbumsForUtilsUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.unsubscribe
-import dev.olog.shared_android.Constants
 import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.extension.notificationManager
+import dev.olog.shared_android.isOreo
 import dev.olog.shared_android.neural.NeuralImages
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -23,74 +26,86 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
+private const val NOTIFICATION_ID = 789
+private const val TAG = "NeuralNetworkService"
+private const val ACTION_STOP = TAG + ".ACTION_STOP"
+private const val NOTIFICATION_CHANNEL_ID = "neural_network_id"
+
 class NeuralNetworkService : DaggerService() {
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent?) : IBinder? = null
 
-    private var builder = NotificationCompat.Builder(this, "id")
+    private var builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
 
-    @Inject lateinit var getAllSongsUseCase: GetAllSongsForImagesUseCase
+    @Inject lateinit var getAllAlbums: GetAllAlbumsForUtilsUseCase
     private var disposable: Disposable? = null
     private var count = 0
     private var size = 1
 
+    @SuppressLint("NewApi")
     override fun onCreate() {
         super.onCreate()
-        builder = builder.setContentTitle("Stylize")
-                .setContentText("")
+        builder = builder.setContentTitle(getString(R.string.neural_service_title))
+                .setContentText(getString(R.string.neural_service_subtitle))
                 .setProgress(1, 0, true)
                 .setDeleteIntent(PendingIntent.getService(this, 0,
-                        Intent(this, this::class.java).setAction("stop"),
+                        Intent(this, this::class.java).setAction(ACTION_STOP),
                         PendingIntent.FLAG_UPDATE_CURRENT))
                 .setSmallIcon(R.drawable.vd_bird_singing_24dp)
 
-        notificationManager.notify(789, builder.build())
+        val notification = builder.build()
+        val importance = NotificationManager.IMPORTANCE_LOW
+        if (isOreo()){
+            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                    getString(R.string.neural_notification_channel_title), importance)
+            channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
+            notificationManager.createNotificationChannel(channel)
 
-        disposable = getAllSongsUseCase.execute()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .doOnSubscribe { deleteAll() }
+        }
+
+        startForeground(NOTIFICATION_ID, notification)
+        notificationManager.notify(NOTIFICATION_ID, notification)
+
+        disposable = getAllAlbums.execute()
+                .firstOrError()
+                .observeOn(Schedulers.computation())
                 .map {
-                    val result = it.asSequence()
-                            .filter { it.album != Constants.UNKNOWN_ALBUM }
-                            .distinctBy { it.albumId }
-                            .toList()
-
-                    size = result.size
-                    notificationManager.notify(789, builder.setProgress(size, 0, false).build())
-
-                    result
+                    size = it.size
+                    notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, 0, false).build())
+                    it
                 }
                 .flattenAsFlowable { it }
+                .parallel()
+                .runOn(Schedulers.computation())
                 .map {
                     try {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
-                        makeFilteredImage(this, it.albumId, bitmap)
+                        makeFilteredImage(this, it.id, bitmap)
                     } catch (ex: Exception){}
                 }
+                .sequential()
                 .doOnNext {
                     count++
-                    notificationManager.notify(789, builder.setProgress(size, count, false).build())
+                    notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, count, false).build())
                 }
                 .toList()
                 .subscribe({
+                    deleteAllChildsImages()
                     contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
                     contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
                     contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-                    notificationManager.cancel(789)
+                    stopForeground(true)
                     stopSelf()
                 }, {
                     it.printStackTrace()
-                    notificationManager.cancel(789)
+                    stopForeground(true)
                     stopSelf()
                 })
     }
 
-    private fun deleteAll(){
+    private fun deleteAllChildsImages(){
         val list = listOf(
-                "folder_neural", "playlist_neural", "album_neural", "artist_neural", "genre_neural"
+                "folder_neural", "playlist_neural", "artist_neural", "genre_neural"
         )
         for (s in list) {
             val folder = File("${applicationInfo.dataDir}${File.separator}$s")
@@ -103,7 +118,7 @@ class NeuralNetworkService : DaggerService() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
 
-        if (action == "stop"){
+        if (action == ACTION_STOP){
             stopSelf()
         }
 
@@ -112,15 +127,29 @@ class NeuralNetworkService : DaggerService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        stopForeground(true)
         disposable.unsubscribe()
-        notificationManager.cancel(789)
     }
 
     private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap){
         val result = NeuralImages.stylizeTensorFlow(context, bitmap)
 
-        val parentFile = ImagesFolderUtils.getImageFolderFor(context, "${ImagesFolderUtils.ALBUM}_neural")
-        val dest = File(parentFile, "$albumId")
+        val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, "${ImagesFolderUtils.ALBUM}_neural")
+        var progressive = 1
+        for (listFile in imageDirectory.listFiles()) {
+            val name = listFile.name
+            val indexOf = name.indexOf("_")
+            if (indexOf != -1){
+                val id = name.substring(0, indexOf)
+                if (albumId == id.toLong()){
+                    progressive = name.substring(indexOf + 1).toInt() + 1
+                    listFile.delete()
+                    break
+                }
+            }
+        }
+
+        val dest = File(imageDirectory, "${albumId}_$progressive")
         val out = FileOutputStream(dest)
         result.compress(Bitmap.CompressFormat.WEBP, 85, out)
         out.close()

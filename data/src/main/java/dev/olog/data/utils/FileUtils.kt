@@ -64,7 +64,8 @@ object FileUtils {
 
             val albumIdsInFilename = fileImageName.containedAlbums()
 
-            if (albumsId.sorted() == albumIdsInFilename.sorted()){
+            val sameImages = albumsId.sorted() == albumIdsInFilename.sorted()
+            if (sameImages){
                 // same image, exit
                 return false
             } else {
@@ -117,30 +118,4 @@ object FileUtils {
 private class IdWithBitmap(
         val id: Long,
         val bitmap: Bitmap
-) {
-
-//    val bitmap : Bitmap
-//        get() {
-//            if (Constants.useNeuralImages){
-//                if (image.startsWith(context.applicationInfo.dataDir)){
-//                    val file = File(image)
-//                    if (file.exists()){
-//                        return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.fromFile(file))
-//                    }
-//                }
-//            }
-//            return MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(image))
-//        }
-
-//    companion object {
-//        fun from(context: Context, albumId: Long): IdWithBitmap? {
-//            val uri = idToUri(context, albumId)
-//            return try {
-//                IdWithBitmap(context, albumId, uri)
-//            } catch (ex: Exception){
-//                null
-//            }
-//        }
-//    }
-
-}
+)

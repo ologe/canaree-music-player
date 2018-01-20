@@ -16,6 +16,10 @@ object ImagesFolderUtils {
     const val GENRE = "genre"
     private const val NEURAL = "_neural"
 
+    fun getOriginalAlbumCover(albumId: Long) : Uri {
+        return ContentUris.withAppendedId(COVER_URI, albumId)
+    }
+
     fun getFolderName(folderName: String): String {
         if (Constants.useNeuralImages){
             return folderName + NEURAL
@@ -47,14 +51,12 @@ object ImagesFolderUtils {
     private fun getAlbumImageImpl(context: Context, albumId: String): String {
         if (Constants.useNeuralImages){
             val neuralFolder = getImageFolderFor(context, ALBUM + NEURAL)
-            val path = neuralFolder.listFiles()
-                    .firstOrNull { it.name == albumId }
-                    ?.path
-            if (path != null){
-                return path
+            val image = findImage(neuralFolder, albumId)
+            if (image != null){
+                return image
             }
         }
-        return ContentUris.withAppendedId(COVER_URI, albumId.toLong()).toString()
+        return getOriginalAlbumCover(albumId.toLong()).toString()
     }
 
     private fun getImageImpl(context: Context, parent: String, child: String): String {
