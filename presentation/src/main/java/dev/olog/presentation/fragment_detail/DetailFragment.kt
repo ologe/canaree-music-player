@@ -89,9 +89,9 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun setImage(item: DisplayableItem){
-        if (context!!.isPortrait){
-            return
-        }
+//        if (context!!.isPortrait){
+//            return
+//        }
 
         @Suppress("PLUGIN_WARNING")
         BindingsAdapter.loadBigAlbumImage(view!!.cover, item)
@@ -151,6 +151,9 @@ class DetailFragment : BaseFragment() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val child = recyclerView.getChildAt(0)
             val holder = recyclerView.getChildViewHolder(child)
+
+            view!!.cover.translationY = child.bottom.toFloat()
+            view!!.search.translationY = child.bottom.toFloat()
 
             if (holder.itemViewType == R.layout.item_detail_item_info) {
                 val bottom = child.bottom
