@@ -39,7 +39,15 @@ class SpecialThanksPresenter @Inject constructor(
             SpecialThanksModel(R.layout.item_special_thanks,
                     MediaId.headerId("genre img id"),
                     context.getString(R.string.icon_made_by_x_from_y, "Nikita Golubev", "www.flaticon.com "),
-                    R.drawable.vd_genre) // genre icon
+                    R.drawable.vd_genre), // genre icon
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("video img id"),
+                    context.getString(R.string.icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
+                    R.drawable.vd_video), // video
+            SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("lyrics img id"),
+                    context.getString(R.string.icon_made_by_x_from_y, "Icomoon", "www.flaticon.com "),
+                    R.drawable.vd_lyrics)
     )
 
 }

@@ -71,9 +71,6 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$rootProject.dagger"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
-    // other
-    implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
-
     // reactive streams
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"

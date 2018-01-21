@@ -11,9 +11,7 @@ import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.utils.extension.requestStoragePemission
-import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
-import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.extension.hasPermission
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,6 +35,7 @@ class SplashActivity : BaseActivity() {
             viewPager, Color.WHITE, intArrayOf(0xfff79f32.toInt(), 0xfffcca1c.toInt())) }
 
     private var disposable : Disposable? = null
+    private var clickDisposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +46,6 @@ class SplashActivity : BaseActivity() {
             setContentView(R.layout.activity_splash)
             viewPager.adapter = adapter.get()
             inkIndicator.setViewPager(viewPager)
-            setupStorageRequestListener()
         } else {
             toMainActivity()
         }
@@ -57,11 +55,13 @@ class SplashActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListenerGradientBackground)
+        setupStorageRequestListener()
     }
 
     override fun onPause() {
         super.onPause()
         viewPager.removeOnPageChangeListener(onPageChangeListenerGradientBackground)
+        clickDisposable.unsubscribe()
     }
 
     override fun onStop() {
@@ -70,14 +70,13 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun setupStorageRequestListener(){
-        RxView.clicks(next)
+        clickDisposable = RxView.clicks(next)
                 .flatMap { if (viewPager.currentItem != 0) {
                     rxPermissions.requestStoragePemission()
                 } else {
                     Observable.just(false)
                 }}
-                .asLiveData()
-                .subscribe(this, { success ->
+                .subscribe({ success ->
                     if (success){
                         disposable = presenter.prefetchImages()
                                 .doOnSubscribe { showLoader() }
@@ -97,7 +96,7 @@ class SplashActivity : BaseActivity() {
                     } else if (viewPager.currentItem == 0){
                         viewPager.setCurrentItem(1, true)
                     }
-                })
+                }, Throwable::printStackTrace)
     }
 
     private fun showLoader(){

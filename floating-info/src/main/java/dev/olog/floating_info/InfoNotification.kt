@@ -11,7 +11,6 @@ import android.support.v4.app.NotificationCompat
 import dev.olog.domain.interactor.floating_info.GetFloatingInfoRequestUseCase
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.unsubscribe
-import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.isOreo
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -59,7 +58,6 @@ class InfoNotification @Inject constructor(
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setSmallIcon(R.drawable.vd_bird_singing)
                 .setContentTitle(notificationTitle)
-                .setLargeIcon(ImageUtils.getBitmapFromDrawable(service, R.drawable.info_notification))
                 .setContentText(service.getString(R.string.notification_content_text))
                 .setColor(0xff1f86ef.toInt())
                 .setContentIntent(createContentIntent())

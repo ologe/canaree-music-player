@@ -8,6 +8,7 @@ import android.preference.PreferenceManager
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
+import java.util.*
 
 object CoverUtils {
 
@@ -69,6 +70,14 @@ object CoverUtils {
         val pos = (position) % COLORS.size
         gradient.colors = COLORS[Math.abs(pos)]
         return drawable
+    }
+
+    fun getOnlyGradient(context: Context): Drawable {
+        val gradient = ContextCompat.getDrawable(context, R.drawable.gradient)!!.mutate() as GradientDrawable
+
+        val pos = (Random().nextInt()) % COLORS.size
+        gradient.colors = COLORS[Math.abs(pos)]
+        return gradient
     }
 
     @DrawableRes

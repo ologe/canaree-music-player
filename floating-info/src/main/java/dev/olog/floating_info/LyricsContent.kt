@@ -6,10 +6,8 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
-import android.widget.TextView
 import dev.olog.floating_info.music_service.MusicServiceBinder
 import dev.olog.shared.unsubscribe
-import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.rx.SeekBarObservable
 import dev.olog.shared_android.widget.AnimatedImageView
 import dev.olog.shared_android.widget.AnimatedPlayPauseImageView
@@ -30,10 +28,7 @@ class LyricsContent (
     private val next = content.findViewById<AnimatedImageView>(R.id.next)
     private val playPause = content.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
     private val previous = content.findViewById<AnimatedImageView>(R.id.previous)
-    private val header = content.findViewById<TextView>(R.id.header)
     private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
-    private val bookmark = content.findViewById<TextView>(R.id.bookmark)
-    private val duration = content.findViewById<TextView>(R.id.duration)
 
     private val subscriptions = CompositeDisposable()
     private var updateDisposable : Disposable? = null
@@ -43,17 +38,6 @@ class LyricsContent (
         next.setOnClickListener { musicServiceBinder.next() }
         playPause.setOnClickListener { musicServiceBinder.playPause() }
         previous.setOnClickListener { musicServiceBinder.previous() }
-
-        musicServiceBinder.onMetadataChanged
-                .subscribe({ header.text = it.get() }, Throwable::printStackTrace)
-                .addTo(subscriptions)
-
-        musicServiceBinder.onMaxChangedObservable
-                .subscribe({
-                    duration.text = it.asString
-                    seekBar.max = it.asInt
-                }, Throwable::printStackTrace)
-                .addTo(subscriptions)
 
         musicServiceBinder.animatePlayPauseLiveData
                 .subscribe({
@@ -103,13 +87,6 @@ class LyricsContent (
 
     private fun setupSeekBar(){
         val seekBarObservable = SeekBarObservable(seekBar).share()
-
-        seekBarObservable
-                .ofType<Int>()
-                .map { it.toLong() }
-                .map { TextUtils.getReadableSongLength(it) }
-                .subscribe({ bookmark.text = it }, Throwable::printStackTrace)
-                .addTo(subscriptions)
 
         seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
                 .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }

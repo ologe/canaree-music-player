@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,6 +14,7 @@ import dev.olog.floating_info.api.HoverMenu
 import dev.olog.floating_info.di.ServiceContext
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.floating_info.music_service.MusicServiceBinder
+import dev.olog.shared_android.CoverUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import org.jetbrains.anko.dip
@@ -67,8 +69,10 @@ class CustomHoverMenu @Inject constructor(
         imageView.layoutParams = ViewGroup.LayoutParams(
             context.dip(48), context.dip(48)
         )
-        imageView.setBackgroundResource(R.drawable.gradient)
-        imageView.setImageResource(icon)
+        imageView.background = CoverUtils.getOnlyGradient(context)
+        val drawable = ContextCompat.getDrawable(context, icon)!!
+        drawable.setTint(ContextCompat.getColor(context, R.color.dark_grey))
+        imageView.setImageDrawable(drawable)
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.adjustViewBounds = true
         val padding = context.dip(14)

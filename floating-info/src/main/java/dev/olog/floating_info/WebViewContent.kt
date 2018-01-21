@@ -32,6 +32,7 @@ abstract class WebViewContent(
     private val progressBar = content.findViewById<ProgressBar>(R.id.progressBar)
     private val back = content.findViewById<View>(R.id.navigateBack)
     private val next = content.findViewById<View>(R.id.navigateNext)
+    private val refresh = content.findViewById<View>(R.id.refresh)
 
     init {
         lifecycle.addObserver(this)
@@ -60,11 +61,13 @@ abstract class WebViewContent(
         next.setOnClickListener {
             if (webView.canGoForward()) { webView.goForward() }
         }
+        refresh.setOnClickListener { webView.reload() }
     }
 
     override fun onHidden() {
         back.setOnClickListener(null)
         next.setOnClickListener(null)
+        refresh.setOnClickListener(null)
     }
 
     protected abstract fun getUrl(item: String): String
