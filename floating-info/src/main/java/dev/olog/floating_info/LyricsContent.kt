@@ -71,7 +71,23 @@ class LyricsContent (
                 .subscribe(previous::toggleVisibility, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
+        musicServiceBinder.onBookmarkChangedLiveData
+                .subscribe(this::updateProgressBarProgress, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
+        musicServiceBinder.onMaxChangedLiveData
+                .subscribe(this::updateProgressBarMax, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
         setupSeekBar()
+    }
+
+    private fun updateProgressBarProgress(progress: Long) {
+        seekBar.progress = progress.toInt()
+    }
+
+    private fun updateProgressBarMax(max: Long) {
+        seekBar.max = max.toInt()
     }
 
     private fun handleSeekbarState(isPlaying: Boolean){

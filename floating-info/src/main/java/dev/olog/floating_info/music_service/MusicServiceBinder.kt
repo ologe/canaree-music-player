@@ -147,4 +147,14 @@ class MusicServiceBinder @Inject constructor(
                         it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
             }
 
+    val onBookmarkChangedLiveData: Flowable<Long> = mediaControllerCallback.onPlaybackStateChanged()
+            .filter { playbackState ->
+                val state = playbackState.state
+                state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
+            }.map { it.position }
+
+    val onMaxChangedLiveData: Flowable<Long> = mediaControllerCallback
+            .onMetadataChanged()
+            .map { metadata -> metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION) }
+
 }
