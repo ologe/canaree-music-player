@@ -17,12 +17,12 @@ import dev.olog.shared.groupMap
 import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.extension.asLiveData
-import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
+import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 import io.reactivex.functions.Predicate
 
 class PlayerFragmentViewModel(
         application: Application,
-        controllerCallback: RxMusicServiceControllerCallback,
+        controllerCallback: IRxMusicServiceControllerCallback,
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
         isFavoriteSongUseCase: IsFavoriteSongUseCase,
         getMiniPlayingQueueUseCase: GetMiniPlayingQueueUseCase

@@ -15,9 +15,9 @@ import dev.olog.floating_info.di.PerService
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.music_service.IRxMusicServiceConnectionCallback
+import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 import dev.olog.shared_android.music_service.MusicServiceConnectionState
-import dev.olog.shared_android.music_service.RxMusicServiceConnectionCallback
-import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
 import io.reactivex.Flowable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -28,8 +28,8 @@ class MusicServiceBinder @Inject constructor(
         @ApplicationContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         private var mediaBrowser: MediaBrowserCompat,
-        private var connectionCallback: RxMusicServiceConnectionCallback,
-        private var mediaControllerCallback: RxMusicServiceControllerCallback,
+        private var connectionCallback: IRxMusicServiceConnectionCallback,
+        private var mediaControllerCallback: IRxMusicServiceControllerCallback,
         toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase,
         toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase
 

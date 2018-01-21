@@ -6,12 +6,12 @@ import android.arch.lifecycle.ViewModelProvider
 import dev.olog.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.domain.interactor.music_service.GetMiniPlayingQueueUseCase
-import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
+import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 import javax.inject.Inject
 
 class PlayerFragmentViewModelFactory @Inject constructor(
         private val application: Application,
-        private val controllerCallback: RxMusicServiceControllerCallback,
+        private val controllerCallback: IRxMusicServiceControllerCallback,
         private val observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
         private val getMiniPlayingQueueUseCase: GetMiniPlayingQueueUseCase

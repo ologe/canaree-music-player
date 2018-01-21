@@ -9,10 +9,10 @@ import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUs
 import dev.olog.presentation.fragment_mini_player.model.MiniPlayerMedatata
 import dev.olog.presentation.fragment_mini_player.model.toMiniPlayerMetadata
 import dev.olog.shared_android.extension.asLiveData
-import dev.olog.shared_android.music_service.RxMusicServiceControllerCallback
+import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 
 class MiniPlayerFragmentViewModel(
-        controllerCallback: RxMusicServiceControllerCallback,
+        controllerCallback: IRxMusicServiceControllerCallback,
         toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase,
         toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase
 

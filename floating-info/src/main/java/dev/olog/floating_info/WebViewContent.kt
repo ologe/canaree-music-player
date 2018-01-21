@@ -22,6 +22,7 @@ abstract class WebViewContent(
 ) : Content, DefaultLifecycleObserver {
 
     var item by Delegates.observable("", { _, _, new ->
+        webView.clearHistory()
         webView.stopLoading()
         webView.loadUrl(getUrl(new))
     })

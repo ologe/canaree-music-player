@@ -7,10 +7,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import io.reactivex.Flowable
 import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class RxMusicServiceControllerCallback @Inject constructor() {
+class RxMusicServiceControllerCallback @Inject constructor() : IRxMusicServiceControllerCallback {
 
     private var listener = Listener()
 
@@ -20,12 +18,12 @@ class RxMusicServiceControllerCallback @Inject constructor() {
     private val shuffleModePublisher = BehaviorProcessor.create<Int>()
     private val extrasPublisher = BehaviorProcessor.create<Bundle>()
 
-    fun registerCallback(controller: MediaControllerCompat) {
+    override fun registerCallback(controller: MediaControllerCompat) {
         initializePublishers(controller)
         controller.registerCallback(listener)
     }
 
-    fun unregisterCallback(controller: MediaControllerCompat) {
+    override fun unregisterCallback(controller: MediaControllerCompat) {
         controller.unregisterCallback(listener)
     }
 
@@ -49,23 +47,23 @@ class RxMusicServiceControllerCallback @Inject constructor() {
         shuffleModePublisher.onNext(controller.shuffleMode)
     }
 
-    fun onPlaybackStateChanged(): Flowable<PlaybackStateCompat> {
+    override fun onPlaybackStateChanged(): Flowable<PlaybackStateCompat> {
         return playbackStatePublisher.share()
     }
 
-    fun onMetadataChanged(): Flowable<MediaMetadataCompat> {
+    override fun onMetadataChanged(): Flowable<MediaMetadataCompat> {
         return metadataPublisher.share()
     }
 
-    fun onRepeatModeChanged(): Flowable<Int> {
+    override fun onRepeatModeChanged(): Flowable<Int> {
         return repeatModePublisher.share()
     }
 
-    fun onShuffleModeChanged(): Flowable<Int> {
+    override fun onShuffleModeChanged(): Flowable<Int> {
         return shuffleModePublisher.share()
     }
 
-    fun onExtrasChanged(): Flowable<Bundle> {
+    override fun onExtrasChanged(): Flowable<Bundle> {
         return extrasPublisher.share()
     }
 

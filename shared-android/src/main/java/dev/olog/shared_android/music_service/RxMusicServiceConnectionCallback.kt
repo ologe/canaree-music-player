@@ -6,20 +6,20 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
-class RxMusicServiceConnectionCallback @Inject constructor() {
+class RxMusicServiceConnectionCallback @Inject constructor() : IRxMusicServiceConnectionCallback {
 
     private val connectionCallback = ConnectionCallback()
     private val connectionPublisher = BehaviorSubject.createDefault(MusicServiceConnectionState.NONE)
 
-    fun onConnectionChanged(): Observable<MusicServiceConnectionState> {
+    override fun onConnectionChanged(): Observable<MusicServiceConnectionState> {
         return connectionPublisher
     }
 
-    fun get(): ConnectionCallback {
+    override fun get(): ConnectionCallback {
         return connectionCallback
     }
 
-    fun setState(state: MusicServiceConnectionState) {
+    override fun setState(state: MusicServiceConnectionState) {
         connectionPublisher.onNext(state)
     }
 

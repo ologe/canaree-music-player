@@ -24,7 +24,9 @@
             android:padding="5dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <dev.olog.shared_android.widget.AnimatedPlayPauseImageView
             android:id="@+id/playPause"
@@ -38,7 +40,9 @@
             tools:rotation="90"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/next"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <dev.olog.shared_android.widget.AnimatedImageView
             android:id="@+id/previous"
@@ -50,7 +54,9 @@
             android:padding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/playPause"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/title"
