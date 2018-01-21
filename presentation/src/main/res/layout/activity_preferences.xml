@@ -5,6 +5,12 @@
     android:orientation="vertical"
     android:id="@+id/root">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/colorPrimaryDark"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar"

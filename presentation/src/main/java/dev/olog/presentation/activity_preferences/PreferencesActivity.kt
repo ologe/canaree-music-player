@@ -6,7 +6,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.extension.setLightStatusBar
-import dev.olog.shared_android.isOreo
+import dev.olog.shared_android.isMarshmallow
 import kotlinx.android.synthetic.main.activity_preferences.*
 
 class PreferencesActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector {
@@ -18,7 +18,7 @@ class PreferencesActivity : DaggerAppCompatActivity(), HasSupportFragmentInjecto
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        if (isOreo()){
+        if (isMarshmallow()){
             window.setLightStatusBar()
         }
         setContentView(R.layout.activity_preferences)
