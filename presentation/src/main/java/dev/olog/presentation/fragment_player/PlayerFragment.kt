@@ -166,7 +166,7 @@ class PlayerFragment : BaseFragment() {
                 view.list.setHasFixedSize(true)
                 view.list.layoutManager = layoutManager
                 view.list.adapter = adapter
-                adapter.touchHelper()!!.attachToRecyclerView(view.list)
+//                adapter.touchHelper()!!.attachToRecyclerView(view.list)
                 return false
             }
         })

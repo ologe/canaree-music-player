@@ -3,12 +3,10 @@ package dev.olog.presentation.fragment_player
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.databinding.ViewDataBinding
-import android.view.MotionEvent
 import dev.olog.presentation.BR
 import dev.olog.presentation.R
 import dev.olog.presentation._base.list.BaseListAdapter
 import dev.olog.presentation._base.list.DataBoundViewHolder
-import dev.olog.presentation._base.list.TouchCallbackConfig
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.navigation.Navigator
@@ -17,7 +15,6 @@ import dev.olog.presentation.utils.extension.elevateSongOnTouch
 import dev.olog.presentation.utils.extension.setOnClickListener
 import dev.olog.presentation.utils.extension.setOnLongClickListener
 import dev.olog.shared.ApplicationContext
-import kotlinx.android.synthetic.main.item_mini_queue.view.*
 import javax.inject.Inject
 
 class MiniQueueFragmentAdapter @Inject constructor(
@@ -44,12 +41,12 @@ class MiniQueueFragmentAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
 
-                viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
-                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        touchHelper()?.startDrag(viewHolder)
-                        true
-                    } else false
-                }
+//                viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
+//                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
+//                        touchHelper()?.startDrag(viewHolder)
+//                        true
+//                    } else false
+//                }
                 viewHolder.elevateSongOnTouch()
             }
         }
@@ -61,11 +58,11 @@ class MiniQueueFragmentAdapter @Inject constructor(
 
     override fun hasGranularUpdate(): Boolean = hasGranularUpdate
 
-    override val touchCallbackConfig = TouchCallbackConfig(
-            true, true,
-            draggableViewType = R.layout.item_mini_queue,
-            onDragAction = { from, to ->
-                musicController.swapRelative(from, to)
-            }, onSwipeAction = { position -> musicController.removeRelative(position) }
-    )
+//    override val touchCallbackConfig = TouchCallbackConfig(
+//            true, true,
+//            draggableViewType = R.layout.item_mini_queue,
+//            onDragAction = { from, to ->
+//                musicController.swapRelative(from, to)
+//            }, onSwipeAction = { position -> musicController.removeRelative(position) }
+//    )
 }

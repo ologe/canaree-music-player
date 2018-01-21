@@ -36,6 +36,7 @@ class PlayingQueueFragment : BaseFragment() {
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
         viewModel.observeCurrentSongId.subscribe(this, {
+            adapter.updateCurrentPosition(it)
             adapter.notifyDataSetChanged()
         })
     }
@@ -54,6 +55,7 @@ class PlayingQueueFragment : BaseFragment() {
                 val position = adapter.getItemPositionByPredicate {
                     it.trackNumber.toInt() == songId
                 }
+                adapter.updateCurrentPosition(position + 1)
                 layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
                 startPostponedEnterTransition()
             }

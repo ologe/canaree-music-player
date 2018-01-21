@@ -28,6 +28,8 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle, context) {
 
+    private var currentPosition : Int = -1
+
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
             musicController.skipToQueueItemWithIdInPlaylist(item.mediaId, item.trackNumber.toInt())
@@ -48,13 +50,14 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.isCurrentSong, item.trackNumber.toInt() == PlayingQueueFragmentViewModel.idInPlaylist)
         when {
-            item.trackNumber.toInt() == PlayingQueueFragmentViewModel.idInPlaylist -> {
-                binding.setVariable(BR.index, "-")
-            }
-            else -> binding.setVariable(BR.index, (PlayingQueueFragmentViewModel.idInPlaylist - item.trackNumber.toInt()).toString())
+            position > currentPosition -> binding.setVariable(BR.index, "+${position - currentPosition}")
+            position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
+            else -> binding.setVariable(BR.index, "-")
         }
+    }
 
-
+    fun updateCurrentPosition(trackNumber: Int) {
+        currentPosition = dataController.getItemPositionByPredicate { it.trackNumber.toInt() == trackNumber }
     }
 
     override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
