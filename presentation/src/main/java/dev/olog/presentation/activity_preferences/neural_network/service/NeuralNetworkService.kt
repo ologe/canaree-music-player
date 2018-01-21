@@ -26,12 +26,16 @@ import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
 
-private const val NOTIFICATION_ID = 789
-private const val TAG = "NeuralNetworkService"
-private const val ACTION_STOP = TAG + ".ACTION_STOP"
-private const val NOTIFICATION_CHANNEL_ID = "neural_network_id"
-
 class NeuralNetworkService : DaggerService() {
+
+    companion object {
+        const val NOTIFICATION_ID = 789
+        const val TAG = "NeuralNetworkService"
+        const val ACTION_STOP = TAG + ".ACTION_STOP"
+        const val ACTION_START = TAG + ".ACTION_START"
+        const val EXTRA_STYLE = TAG + ".EXTRA_STYLE"
+        const val NOTIFICATION_CHANNEL_ID = "neural_network_id"
+    }
 
     override fun onBind(intent: Intent?) : IBinder? = null
 
@@ -66,40 +70,6 @@ class NeuralNetworkService : DaggerService() {
 
         startForeground(NOTIFICATION_ID, notification)
         notificationManager.notify(NOTIFICATION_ID, notification)
-
-        disposable = getAllAlbums.execute()
-                .firstOrError()
-                .observeOn(Schedulers.io())
-                .map {
-                    size = it.size
-                    notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, 0, false).build())
-                    it
-                }
-                .flattenAsFlowable { it }
-                .map {
-                    try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
-                        makeFilteredImage(this, it.id, bitmap)
-                    } catch (ex: Exception){}
-                }
-                .doOnNext {
-                    count++
-                    notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, count, false).build())
-                }
-                .toList()
-                .subscribe({
-                    deleteAllChildsImages()
-                    contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-                    contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
-                    contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
-                    contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-                    stopForeground(true)
-                    stopSelf()
-                }, {
-                    it.printStackTrace()
-                    stopForeground(true)
-                    stopSelf()
-                })
     }
 
     private fun deletePendingIntent(): PendingIntent {
@@ -123,11 +93,51 @@ class NeuralNetworkService : DaggerService() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
 
-        if (action == ACTION_STOP){
-            stopSelf()
+        when (action){
+            ACTION_START -> {
+                val styles = intent.getFloatArrayExtra(EXTRA_STYLE)
+                start(styles)
+            }
+            ACTION_STOP -> stopSelf()
         }
 
         return Service.START_NOT_STICKY
+    }
+
+    private fun start(styles: FloatArray){
+        disposable = getAllAlbums.execute()
+                .firstOrError()
+                .observeOn(Schedulers.io())
+                .map {
+                    size = it.size
+                    notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, 0, false).build())
+                    it
+                }
+                .flattenAsFlowable { it }
+                .map {
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
+                        makeFilteredImage(this, it.id, bitmap, styles)
+                    } catch (ex: Exception){}
+                }
+                .doOnNext {
+                    count++
+                    notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, count, false).build())
+                }
+                .toList()
+                .subscribe({
+                    deleteAllChildsImages()
+                    contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+                    contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
+                    contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
+                    contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
+                    stopForeground(true)
+                    stopSelf()
+                }, {
+                    it.printStackTrace()
+                    stopForeground(true)
+                    stopSelf()
+                })
     }
 
     override fun onDestroy() {
@@ -139,8 +149,8 @@ class NeuralNetworkService : DaggerService() {
     /*
         album neural structure - albumId_progressive.webp
      */
-    private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap){
-        val result = NeuralImages.stylizeTensorFlow(context, bitmap)
+    private fun makeFilteredImage(context: Context, albumId: Long, bitmap: Bitmap, styles: FloatArray){
+        val result = NeuralImages.stylizeTensorFlow(context, bitmap, styles)
 
         val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, "${ImagesFolderUtils.ALBUM}_neural")
         var progressive = System.currentTimeMillis()

@@ -23,11 +23,15 @@ object NeuralImages {
         }
     }
 
+    fun getCurrentStyle(): FloatArray {
+        return styleVals.copyOf()
+    }
+
     fun getThumbnail(position: Int): Uri {
         return Uri.parse("file:///android_asset/thumbnails/style$position.webp")
     }
 
-    fun stylizeTensorFlow(context: Context, bitmap: Bitmap): Bitmap {
+    fun stylizeTensorFlow(context: Context, bitmap: Bitmap, style: FloatArray = styleVals): Bitmap {
         val inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
         inferenceInterface.close()
 

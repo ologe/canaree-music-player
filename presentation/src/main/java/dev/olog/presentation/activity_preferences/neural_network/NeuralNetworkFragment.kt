@@ -105,8 +105,10 @@ class NeuralNetworkFragment : BaseFragment() {
                             NeuralNetworkImageChooser.TAG)
         }
         view!!.stylize.setOnClickListener {
-            ContextCompat.startForegroundService(activity!!,
-                    Intent(activity!!, NeuralNetworkService::class.java))
+            val intent = Intent(activity!!, NeuralNetworkService::class.java)
+            intent.action = NeuralNetworkService.ACTION_START
+            intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
+            ContextCompat.startForegroundService(activity!!, intent)
             activity!!.onBackPressed()
         }
     }
