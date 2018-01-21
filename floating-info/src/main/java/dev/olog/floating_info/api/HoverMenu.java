@@ -19,10 +19,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import dev.olog.floating_info.api.view.TabView;
 
 /**
  * A {@code HoverMenu} models the structure of a menu that appears within a {@link HoverView}.
@@ -110,10 +111,10 @@ public abstract class HoverMenu {
     public static class Section {
 
         private final SectionId mId;
-        private final View mTabView;
+        private final TabView mTabView;
         private final Content mContent;
 
-        public Section(@NonNull SectionId id, @NonNull View tabView, @NonNull Content content) {
+        public Section(@NonNull SectionId id, @NonNull TabView tabView, @NonNull Content content) {
             mId = id;
             mTabView = tabView;
             mContent = content;
@@ -125,7 +126,7 @@ public abstract class HoverMenu {
         }
 
         @NonNull
-        public View getTabView() {
+        public TabView getTabView() {
             return mTabView;
         }
 

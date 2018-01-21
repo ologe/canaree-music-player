@@ -29,6 +29,7 @@ object NeuralImages {
 
     fun stylizeTensorFlow(context: Context, bitmap: Bitmap): Bitmap {
         val inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
+        inferenceInterface.close()
 
         val intValues = IntArray(desiredSize * desiredSize)
         val floatValues = FloatArray(desiredSize * desiredSize * 3)
@@ -65,6 +66,8 @@ object NeuralImages {
         }
 
         scaledBitmap.setPixels(intValues, 0, scaledBitmap.width, 0, 0, scaledBitmap.width, scaledBitmap.height)
+
+        inferenceInterface.close()
 
         return scaledBitmap
     }

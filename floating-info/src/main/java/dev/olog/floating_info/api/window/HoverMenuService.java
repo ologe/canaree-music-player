@@ -60,10 +60,8 @@ public abstract class HoverMenuService extends Service {
     public void onCreate() {
         Log.d(TAG, "onCreate()");
         Notification foregroundNotification = getForegroundNotification();
-        if (null != foregroundNotification) {
-            int notificationId = getForegroundNotificationId();
-            startForeground(notificationId, foregroundNotification);
-        }
+        int notificationId = getForegroundNotificationId();
+        startForeground(notificationId, foregroundNotification);
     }
 
     @Override
@@ -118,32 +116,15 @@ public abstract class HoverMenuService extends Service {
         onHoverMenuLaunched(intent, mHoverView);
     }
 
-    /**
-     * Hook for subclasses to return a custom Context to be used in the creation of the {@code HoverMenu}.
-     * For example, subclasses might choose to provide a ContextThemeWrapper.
-     *
-     * @return context for HoverMenu initialization
-     */
-    protected Context getContextForHoverMenu() {
-        return this;
-    }
-
     @NonNull
     protected HoverView getHoverView() {
         return mHoverView;
     }
 
-    protected int getForegroundNotificationId() {
-        // Subclasses should provide their own notification ID if using a notification.
-        return 123456789;
-    }
+    protected abstract int getForegroundNotificationId();
 
-    @Nullable
-    protected Notification getForegroundNotification() {
-        // If subclass returns a non-null Notification then the Service will be run in
-        // the foreground.
-        return null;
-    }
+    @NonNull
+    protected abstract Notification getForegroundNotification();
 
     protected void onHoverMenuLaunched(@NonNull Intent intent, @NonNull HoverView hoverView) {
         // Hook for subclasses.

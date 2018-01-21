@@ -45,12 +45,13 @@ class NeuralNetworkService : DaggerService() {
     @SuppressLint("NewApi")
     override fun onCreate() {
         super.onCreate()
+
         builder = builder.setContentTitle(getString(R.string.neural_service_title))
                 .setContentText(getString(R.string.neural_service_subtitle))
                 .setProgress(1, 0, true)
-                .setDeleteIntent(PendingIntent.getService(this, 0,
-                        Intent(this, this::class.java).setAction(ACTION_STOP),
-                        PendingIntent.FLAG_UPDATE_CURRENT))
+                .setDeleteIntent(deletePendingIntent())
+                .setContentIntent(deletePendingIntent())
+                .setOngoing(true)
                 .setSmallIcon(R.drawable.vd_bird_singing_24dp)
 
         val notification = builder.build()
@@ -75,15 +76,12 @@ class NeuralNetworkService : DaggerService() {
                     it
                 }
                 .flattenAsFlowable { it }
-                .parallel()
-                .runOn(Schedulers.io())
                 .map {
                     try {
                         val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
                         makeFilteredImage(this, it.id, bitmap)
                     } catch (ex: Exception){}
                 }
-                .sequential()
                 .doOnNext {
                     count++
                     notificationManager.notify(NOTIFICATION_ID, builder.setProgress(size, count, false).build())
@@ -102,6 +100,12 @@ class NeuralNetworkService : DaggerService() {
                     stopForeground(true)
                     stopSelf()
                 })
+    }
+
+    private fun deletePendingIntent(): PendingIntent {
+        return PendingIntent.getService(this, 0,
+                Intent(this, this::class.java).setAction(ACTION_STOP),
+                PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun deleteAllChildsImages(){

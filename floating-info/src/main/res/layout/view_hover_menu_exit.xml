@@ -9,7 +9,7 @@
         android:layout_width="@dimen/exit_width"
         android:translationY="20dp"
         android:layout_height="@dimen/exit_height"
-        android:background="@drawable/gradient_black_to_transparent"
+        android:background="@drawable/gradient_exit"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
@@ -18,7 +18,7 @@
         android:id="@+id/view_exit"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:tint="@android:color/white"
+        android:tint="@color/dark_grey"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"

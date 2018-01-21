@@ -2,10 +2,7 @@ package dev.olog.floating_info
 
 import android.app.Notification
 import android.app.Service
-import android.content.Context
 import android.content.Intent
-import android.view.ContextThemeWrapper
-import android.widget.ImageView
 import dev.olog.floating_info.api.HoverMenu
 import dev.olog.floating_info.api.HoverView
 import javax.inject.Inject
@@ -34,10 +31,6 @@ class FloatingInfoService : BaseFloatingService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    override fun getContextForHoverMenu(): Context {
-        return ContextThemeWrapper(this, 0)
-    }
-
     override fun onHoverMenuLaunched(intent: Intent, hoverView: HoverView) {
         hoverView.setMenu(createHoverMenu())
         hoverView.collapse()
@@ -52,17 +45,11 @@ class FloatingInfoService : BaseFloatingService() {
 
     private val onExpansionListener = object : HoverView.Listener {
         override fun onCollapsing() {
-            val lyrics = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
-            val video = hoverMenu.getSection(HoverMenu.SectionId("video"))
-            (video?.tabView as ImageView?)?.setImageResource(R.drawable.vd_bird_singing)
-            (lyrics?.tabView as ImageView?)?.setImageResource(R.drawable.vd_bird_singing)
+            hoverMenu.sections.forEach { it.tabView.setHidden(true) }
         }
 
         override fun onExpanding() {
-            val lyrics = hoverMenu.getSection(HoverMenu.SectionId("lyrics"))
-            val video = hoverMenu.getSection(HoverMenu.SectionId("video"))
-            (lyrics?.tabView as ImageView?)?.setImageResource(R.drawable.vd_lyrics)
-            (video?.tabView as ImageView?)?.setImageResource(R.drawable.vd_video)
+            hoverMenu.sections.forEach { it.tabView.setExpanded() }
         }
 
         override fun onExpanded() {
@@ -80,7 +67,7 @@ class FloatingInfoService : BaseFloatingService() {
 
     override fun getForegroundNotificationId(): Int = InfoNotification.NOTIFICATION_ID
 
-    override fun getForegroundNotification(): Notification? {
+    override fun getForegroundNotification(): Notification {
         return notification.buildNotification()
     }
 
