@@ -1,62 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:layout_height="96dp"
-    android:background="#FAFAFA"
-    android:elevation="2dp">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:elevation="2dp"
+    android:background="#FAFAFA">
 
-    <dev.olog.shared_android.widget.AnimatedImageView
-        android:id="@+id/next"
-        app:avd="@drawable/avd_music_next"
-        tools:src="@drawable/vd_music_next"
-        android:background="@null"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/playPause"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        android:layout_marginEnd="48dp"/>
 
-    <dev.olog.shared_android.widget.AnimatedPlayPauseImageView
-        android:id="@+id/playPause"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:padding="10dp"
-        tools:src="@drawable/vd_playpause_play"
-        android:background="@null"
-        android:scaleX="1.1"
-        android:scaleY="1.1"
-        tools:rotation="90"
-        app:layout_constraintStart_toEndOf="@+id/previous"
-        app:layout_constraintEnd_toStartOf="@+id/next"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
 
-    <dev.olog.shared_android.widget.AnimatedImageView
-        android:id="@+id/previous"
-        app:avd="@drawable/avd_music_previous"
-        tools:src="@drawable/vd_music_previous"
-        android:background="@null"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/playPause"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        android:layout_marginStart="48dp"/>
+        <dev.olog.shared_android.widget.AnimatedImageView
+            android:id="@+id/next"
+            app:avd="@drawable/avd_music_next"
+            tools:src="@drawable/vd_music_next"
+            android:background="@null"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <dev.olog.shared_android.widget.AnimatedPlayPauseImageView
+            android:id="@+id/playPause"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            tools:src="@drawable/vd_playpause_play"
+            android:background="@null"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            tools:rotation="90"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/next"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <dev.olog.shared_android.widget.AnimatedImageView
+            android:id="@+id/previous"
+            app:avd="@drawable/avd_music_previous"
+            tools:src="@drawable/vd_music_previous"
+            android:background="@null"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            app:layout_constraintEnd_toStartOf="@+id/playPause"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/title"
+            tools:text="@tools:sample/lorem/random"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textColor="@color/dark_grey"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/artist"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/previous"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:scrollHorizontally="true" />
+
+        <TextView
+            android:id="@+id/artist"
+            tools:text="@tools:sample/lorem/random"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textColor="@color/grey600"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/previous"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:gravity="top"
+            android:layout_marginTop="2dp"
+            android:scrollHorizontally="true"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
+        android:paddingBottom="20dp"
         android:paddingTop="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:thumbTint="@color/dark_grey"
         android:progressTint="@color/dark_grey"
         tools:progress="40"
@@ -64,4 +106,4 @@
         android:clickable="true"
         android:focusable="true" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

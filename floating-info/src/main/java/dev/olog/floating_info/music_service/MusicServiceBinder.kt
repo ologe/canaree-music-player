@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.RemoteException
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.domain.interactor.music_service.ToggleSkipToNextVisibilityUseCase
@@ -138,5 +139,12 @@ class MusicServiceBinder @Inject constructor(
             .map { it.state }
             .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT || state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
             .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+
+    val onMetadataChanged : Flowable<Pair<String, String>> = mediaControllerCallback
+            .onMetadataChanged()
+            .map {
+                it.getString(MediaMetadataCompat.METADATA_KEY_TITLE) to
+                        it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+            }
 
 }

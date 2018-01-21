@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.SeekBar
+import android.widget.TextView
 import dev.olog.floating_info.music_service.MusicServiceBinder
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.rx.SeekBarObservable
@@ -29,6 +30,8 @@ class LyricsContent (
     private val playPause = content.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
     private val previous = content.findViewById<AnimatedImageView>(R.id.previous)
     private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
+    private val title = content.findViewById<TextView>(R.id.title)
+    private val artist = content.findViewById<TextView>(R.id.artist)
 
     private val subscriptions = CompositeDisposable()
     private var updateDisposable : Disposable? = null
@@ -49,6 +52,12 @@ class LyricsContent (
                     }
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
+
+        musicServiceBinder.onMetadataChanged
+                .subscribe({
+                    title.text = it.first
+                    artist.text = it.second
+                }, Throwable::printStackTrace)
 
         musicServiceBinder.animateSkipToLiveData
                 .subscribe(this::animateSkipTo, Throwable::printStackTrace)

@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:padding="12dp"
-        android:src="@drawable/vd_back_arrow"/>
+        android:src="@drawable/vd_back_arrow" />
 
     <ImageButton
         android:id="@+id/navigateNext"

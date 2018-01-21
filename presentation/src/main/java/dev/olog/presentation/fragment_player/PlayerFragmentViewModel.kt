@@ -40,7 +40,9 @@ class PlayerFragmentViewModel(
                     it[50] = footerLoadMore
                 }
                 it
-            }.asLiveData()
+            }
+            .distinctUntilChanged()
+            .asLiveData()
 
     private val filterPlaybackState : Predicate<Int> = Predicate { state ->
         state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
