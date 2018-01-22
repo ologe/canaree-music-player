@@ -35,10 +35,8 @@ class NeuralNetworkImageChooser : BaseDialogFragment() {
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
         val builder = AlertDialog.Builder(context)
-                .setTitle("choice an image to blend") // todo resources
+                .setTitle(R.string.neural_pick_image)
                 .setView(view)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
 
@@ -48,7 +46,7 @@ class NeuralNetworkImageChooser : BaseDialogFragment() {
         list.adapter = adapter
         list.layoutManager = GridLayoutManager(context, 2)
 
-        disposable = viewModel.getImagesAlbum
+        disposable = viewModel.getImagesAlbum()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(adapter::updateData, Throwable::printStackTrace)
 

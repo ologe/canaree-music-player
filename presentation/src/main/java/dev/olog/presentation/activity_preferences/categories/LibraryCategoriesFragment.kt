@@ -53,14 +53,16 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                    val allDisabled = adapter.data.all { !it.enabled }
-                    if (allDisabled){
-                        showErrorMessage()
-                    } else {
-                        presenter.setDataSet(adapter.data)
-                        activity!!.setResult(Activity.RESULT_OK)
-                        dismiss()
-                    }
+//                    val allDisabled = adapter.data.all { !it.enabled }
+//                    if (allDisabled){
+//                        showErrorMessage()
+//                    } else {
+//                        presenter.setDataSet(adapter.data)
+//                        activity!!.setResult(Activity.RESULT_OK)
+//                        dismiss()
+//                    }
+                    activity!!.setResult(Activity.RESULT_OK)
+                    dismiss()
                 }
 
         return dialog

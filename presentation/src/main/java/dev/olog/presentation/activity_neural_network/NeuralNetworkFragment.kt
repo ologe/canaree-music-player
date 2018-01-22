@@ -1,19 +1,29 @@
 package dev.olog.presentation.activity_neural_network
 
+import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.Toast
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_neural_network.image_chooser.NeuralNetworkImageChooser
+import dev.olog.presentation.activity_neural_network.service.NeuralNetworkService
 import dev.olog.presentation.activity_neural_network.style_chooser.NeuralNetworkStyleChooser
-import dev.olog.presentation.activity_preferences.neural_network.service.NeuralNetworkService
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.ImageUtils
@@ -24,12 +34,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_neural_network_result_chooser.view.*
+import org.jetbrains.anko.toast
+import java.lang.ref.WeakReference
 import javax.inject.Inject
+
+private const val HIGHLIGHT_STYLIZE_ALL = "HIGHLIGHT_STYLIZE_ALL"
 
 class NeuralNetworkFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: NeuralNetworkActivityViewModel
     private var stylezedImageDisposable: Disposable? = null
+    private var toastRef : WeakReference<Toast>? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -71,7 +86,7 @@ class NeuralNetworkFragment : BaseFragment() {
             stylezedImageDisposable = Single.create<Bitmap> { emitter ->
 
                 val bitmap = NeuralImages.stylizeTensorFlow(activity!!,
-                        ImageUtils.getBitmapFromUri(activity!!, image)!!, size = 1024)
+                        ImageUtils.getBitmapFromUri(activity!!, image)!!, size = 768)
                 emitter.onSuccess(bitmap)
 
             }.subscribeOn(Schedulers.io())
@@ -85,11 +100,72 @@ class NeuralNetworkFragment : BaseFragment() {
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                 .priority(Priority.IMMEDIATE)
+                                .listener(object : RequestListener<Drawable>{
+                                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                        return false
+                                    }
+
+                                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                        highlightStylizeAll()
+                                        return false
+                                    }
+                                })
                                 .into(view!!.preview)
 
                     }, Throwable::printStackTrace)
 
         })
+    }
+
+    private fun highlightStylizeAll(){
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+            return
+        }
+        val preferences = PreferenceManager.getDefaultSharedPreferences(activity!!)
+        val hightlight = preferences.getBoolean(HIGHLIGHT_STYLIZE_ALL, true)
+        if (!hightlight){
+            return
+        }
+
+        val text = getString(R.string.neural_stylize_all_description)
+        val tapTarget = TapTarget.forView(view!!.stylize, text)
+
+        TapTargetView.showFor(activity, tapTarget, object : TapTargetView.Listener(){
+            override fun onTargetLongClick(view: TapTargetView?) {
+                super.onTargetLongClick(view)
+                updateHighlightPrefs()
+            }
+
+            override fun onOuterCircleClick(view: TapTargetView?) {
+                super.onTargetLongClick(view)
+                updateHighlightPrefs()
+            }
+
+            override fun onTargetCancel(view: TapTargetView?) {
+                super.onTargetLongClick(view)
+                updateHighlightPrefs()
+            }
+
+            override fun onTargetDismissed(view: TapTargetView?, userInitiated: Boolean) {
+                super.onTargetLongClick(view)
+                updateHighlightPrefs()
+            }
+
+            override fun onTargetClick(view: TapTargetView?) {
+                super.onTargetLongClick(view)
+                updateHighlightPrefs()
+            }
+        })
+    }
+
+    private fun updateHighlightPrefs(){
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+            return
+        }
+        PreferenceManager.getDefaultSharedPreferences(activity!!)
+                .edit()
+                .putBoolean(HIGHLIGHT_STYLIZE_ALL, false)
+                .apply()
     }
 
     override fun onResume() {
@@ -103,11 +179,16 @@ class NeuralNetworkFragment : BaseFragment() {
                             NeuralNetworkImageChooser.TAG)
         }
         view!!.stylize.setOnClickListener {
-            val intent = Intent(activity, NeuralNetworkService::class.java)
-            intent.action = NeuralNetworkService.ACTION_START
-            intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
-            ContextCompat.startForegroundService(activity!!, intent)
-            activity!!.onBackPressed()
+            if (viewModel.currentNeuralStyle.value != null){
+                val intent = Intent(activity, NeuralNetworkService::class.java)
+                intent.action = NeuralNetworkService.ACTION_START
+                intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
+                ContextCompat.startForegroundService(activity!!, intent)
+                activity!!.onBackPressed()
+            } else {
+                toastRef?.get()?.cancel() // delete previous
+                toastRef = WeakReference(activity!!.toast("First choose a style"))
+            }
         }
     }
 

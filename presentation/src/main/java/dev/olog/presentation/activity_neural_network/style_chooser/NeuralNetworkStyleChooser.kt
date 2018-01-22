@@ -33,10 +33,8 @@ class NeuralNetworkStyleChooser : BaseDialogFragment() {
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
         val builder = AlertDialog.Builder(context)
-                .setTitle("choice an image to blend") // todo resources
+                .setTitle(R.string.neural_pick_style)
                 .setView(view)
-                .setNegativeButton(R.string.popup_negative_cancel, null)
-                .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
 

@@ -59,4 +59,6 @@ class TabViewPagerAdapter @Inject constructor(
 
     override fun getPageTitle(position: Int): CharSequence = data[position].category
 
+    fun isEmpty() = data.isEmpty()
+
 }

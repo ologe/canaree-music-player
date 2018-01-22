@@ -21,6 +21,7 @@ import dev.olog.music_service.di.PerService
 import dev.olog.music_service.interfaces.INotification
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.constants.FloatingInfoConstants
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
@@ -135,8 +136,10 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     private fun buildContentIntent(): PendingIntent {
+        val intent = Intent(service, activityClass.get())
+        intent.action = Constants.ACTION_CONTENT_VIEW
         return PendingIntent.getActivity(service, 0,
-                Intent(service, activityClass.get()), PendingIntent.FLAG_UPDATE_CURRENT)
+                intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildPendingIntent(action: Long): PendingIntent? {

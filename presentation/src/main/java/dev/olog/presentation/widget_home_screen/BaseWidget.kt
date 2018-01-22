@@ -100,8 +100,10 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     private fun buildContentIntent(context: Context): PendingIntent {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.action = Constants.ACTION_CONTENT_VIEW
         return PendingIntent.getActivity(context, 0,
-                Intent(context, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT)
+                intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     protected fun generatePalette(context: Context, metadata: WidgetMetadata): Palette {

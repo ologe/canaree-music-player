@@ -7,6 +7,8 @@ import dev.olog.shared_android.entity.QuickActionEnum
 
 object Constants {
 
+    const val ACTION_CONTENT_VIEW = "ACTION_CONTENT_VIEW"
+
     const val SHORTCUT_SEARCH = "SHORTCUT_SEARCH"
     const val SHORTCUT_PLAY = "SHORTCUT_PLAY"
     const val SHORTCUT_SHUFFLE = "SHORTCUT_SHUFFLE"

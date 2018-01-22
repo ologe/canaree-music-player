@@ -20,6 +20,7 @@
     <string name="popup_settings">Impostazioni</string>
 
     <string name="popup_negative_cancel">Annulla</string>
+    <string name="popup_negative_no">No</string>
 
     <string name="popup_positive_ok">OK</string>
     <string name="popup_positive_save">Salva</string>

@@ -97,7 +97,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
     implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rx_binding"
-    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rx_permission"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
@@ -105,6 +104,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "org.jsoup:jsoup:$rootProject.jsoup"
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
 
     // crashlytics
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {

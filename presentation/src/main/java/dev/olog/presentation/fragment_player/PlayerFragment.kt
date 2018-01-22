@@ -38,7 +38,6 @@ import kotlinx.android.synthetic.main.layout_player_toolbar.view.*
 import org.jetbrains.anko.dip
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.LazyThreadSafetyMode.NONE
 
 class PlayerFragment : BaseFragment() {
 
@@ -48,30 +47,15 @@ class PlayerFragment : BaseFragment() {
     @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
     @Inject lateinit var adapter : MiniQueueFragmentAdapter
 
-    private val seekBarTouchInterceptor by lazy(NONE) { SeekBarTouchInterceptor(view!!.seekBar) }
-
-    private val imageTouchInterceptor by lazy(NONE) { ImageTouchInterceptor(view!!.cover) }
-
-    private val skipNextTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakeNext, { musicController.skipToNext() }) }
-
-    private val skipPreviousTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.fakePrevious, { musicController.skipToPrevious() }) }
-
-    private val floatingWindowTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.floatingWindow, { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder) }) }
-
-    private val favoriteTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.favorite, { musicController.togglePlayerFavorite() }) }
-
-    private val playingQueueTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.playingQueue, { navigator.toPlayingQueueFragment() }) }
-
-    private val shuffleTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.shuffle, { musicController.toggleShuffleMode() }) }
-
-    private val repeatTouchInterceptor by lazy(NONE) {
-        SimpleViewClickInterceptor(view!!.repeat, { musicController.toggleRepeatMode() }) }
+    private lateinit var seekBarTouchInterceptor : SeekBarTouchInterceptor
+    private lateinit var imageTouchInterceptor : ImageTouchInterceptor
+    private lateinit var skipNextTouchInterceptor : SimpleViewClickInterceptor
+    private lateinit var skipPreviousTouchInterceptor : SimpleViewClickInterceptor
+    private lateinit var floatingWindowTouchInterceptor : SimpleViewClickInterceptor
+    private lateinit var favoriteTouchInterceptor : SimpleViewClickInterceptor
+    private lateinit var playingQueueTouchInterceptor : SimpleViewClickInterceptor
+    private lateinit var shuffleTouchInterceptor : SimpleViewClickInterceptor
+    private lateinit var repeatTouchInterceptor : SimpleViewClickInterceptor
 
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -157,6 +141,8 @@ class PlayerFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        initializeInterceptors(view)
+
         view.slidingView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener{
             override fun onPreDraw(): Boolean {
                 view.slidingView.viewTreeObserver.removeOnPreDrawListener(this)
@@ -170,6 +156,19 @@ class PlayerFragment : BaseFragment() {
                 return false
             }
         })
+    }
+
+    private fun initializeInterceptors(view: View){
+        seekBarTouchInterceptor = SeekBarTouchInterceptor(view.seekBar)
+        imageTouchInterceptor = ImageTouchInterceptor(view.cover)
+        skipNextTouchInterceptor = SimpleViewClickInterceptor(view.fakeNext, { musicController.skipToNext() })
+        skipPreviousTouchInterceptor = SimpleViewClickInterceptor(view.fakePrevious, { musicController.skipToPrevious() })
+        floatingWindowTouchInterceptor = SimpleViewClickInterceptor(view.floatingWindow,
+                { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder) })
+        favoriteTouchInterceptor = SimpleViewClickInterceptor(view.favorite, { musicController.togglePlayerFavorite() })
+        playingQueueTouchInterceptor = SimpleViewClickInterceptor(view.playingQueue, { navigator.toPlayingQueueFragment() })
+        shuffleTouchInterceptor = SimpleViewClickInterceptor(view.shuffle, { musicController.toggleShuffleMode() })
+        repeatTouchInterceptor = SimpleViewClickInterceptor(view.repeat, { musicController.toggleRepeatMode() })
     }
 
     override fun onResume() {

@@ -14,4 +14,6 @@
         <item>Saving the princess from the dragon..</item>
     </string-array>
 
+    <string name="splash_storage_permission_disabled">Please accept storage permission to use the app</string>
+
 </resources>

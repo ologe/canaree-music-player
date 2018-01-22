@@ -14,4 +14,6 @@
         <item>Salvando la principessa dal drago..</item>
     </string-array>
 
+    <string name="splash_storage_permission_disabled">Per poter utilizzare l\app consenti di accedere ai contenuti multimediali</string>
+
 </resources>

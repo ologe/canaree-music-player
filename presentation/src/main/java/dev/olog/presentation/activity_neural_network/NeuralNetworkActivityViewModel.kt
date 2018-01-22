@@ -25,7 +25,17 @@ class NeuralNetworkActivityViewModel(
     val currentNeuralStyle = MutableLiveData<Int>()
     val currentNeuralImage = MutableLiveData<String>()
 
-    val getImagesAlbum: Single<List<Album>> = getAllAlbumsForUtilsUseCase.execute()
+    private val cachedImages = mutableListOf<Album>()
+
+    fun getImagesAlbum(): Single<List<Album>> {
+        if (cachedImages.isNotEmpty()){
+            return Single.just(cachedImages)
+        } else {
+            return getImagesAlbum
+        }
+    }
+
+    private val getImagesAlbum: Single<List<Album>> = getAllAlbumsForUtilsUseCase.execute()
             .observeOn(Schedulers.computation())
             .firstOrError()
             .map {
@@ -36,6 +46,7 @@ class NeuralNetworkActivityViewModel(
                         result.add(album)
                     } catch (ex: Exception){/*no image */}
                 }
+                cachedImages.addAll(result)
                 result
             }
 

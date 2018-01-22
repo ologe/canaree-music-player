@@ -43,11 +43,11 @@ class LicensesFragmentPresenter @Inject constructor() {
             "RxBinding", "https://github.com/JakeWharton/RxBinding",
             Licenses.apache("2015", "Jake Wharton"))
 
-    private val RX_PERMISSION = LicenseModel(
-            R.layout.item_license,
-            MediaId.headerId("rxPermission"),
-            "RxPermissions", "https://github.com/tbruyelle/RxPermissions",
-            Licenses.apache("2015", "Thomas Bruyelle"))
+//    private val RX_PERMISSION = LicenseModel(
+//            R.layout.item_license,
+//            MediaId.headerId("rxPermission"),
+//            "RxPermissions", "https://github.com/tbruyelle/RxPermissions",
+//            Licenses.apache("2015", "Thomas Bruyelle"))
 
     private val RX_PREFERENCES = LicenseModel(
             R.layout.item_license,
@@ -109,13 +109,19 @@ class LicensesFragmentPresenter @Inject constructor() {
             "TensorFlow ", "https://github.com/tensorflow/tensorflow",
             Licenses.apacheLong())
 
+    private val TARGET_VIEW = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("tensorflow"),
+            "TensorFlow ", "https://github.com/tensorflow/tensorflow",
+            Licenses.apache("2016", "Keepsafe Software Inc."))
+
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
             ANDROID_SUPPORT_LIBRARIES,
             DAGGER,
             RX_JAVA,
             RX_ANDROID,
-            RX_PERMISSION,
+//            RX_PERMISSION,
             RX_PREFERENCES,
             RX_BINDING,
             SQL_BRITE,
@@ -126,7 +132,8 @@ class LicensesFragmentPresenter @Inject constructor() {
             GLIDE,
             JSOUP,
             ANKO,
-            TENSOR_FLOW
+            TENSOR_FLOW,
+            TARGET_VIEW
     )
 
 }

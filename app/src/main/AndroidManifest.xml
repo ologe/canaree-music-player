@@ -22,7 +22,8 @@
 
         <!--splash activity-->
         <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
-            android:theme="@style/Splash">
+            android:theme="@style/Splash"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,14 +40,17 @@
             android:windowSoftInputMode="adjustPan"/>
 
         <!--about activity-->
-        <activity android:name="dev.olog.presentation.activity_about.AboutActivity"/>
+        <activity android:name="dev.olog.presentation.activity_about.AboutActivity"
+            android:screenOrientation="portrait"/>
 
         <!--settings activity-->
         <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"
-            android:theme="@style/SettingsTheme"/>
+            android:theme="@style/SettingsTheme"
+            android:screenOrientation="portrait"/>
 
         <!--settings activity-->
-        <activity android:name="dev.olog.presentation.activity_neural_network.NeuralNetworkActivity" />
+        <activity android:name="dev.olog.presentation.activity_neural_network.NeuralNetworkActivity"
+            android:screenOrientation="portrait"/>
 
         <!--dummy shortcuts activity-->
         <activity android:name="dev.olog.presentation.activity_shortcuts.ShortcutsActivity"/>
@@ -62,7 +66,7 @@
         </service>
 
         <!--neural newtwork service-->
-        <service android:name="dev.olog.presentation.activity_preferences.neural_network.service.NeuralNetworkService"
+        <service android:name="dev.olog.presentation.activity_neural_network.service.NeuralNetworkService"
             android:exported="false"/>
 
         <!--floating window service-->

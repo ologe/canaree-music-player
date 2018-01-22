@@ -121,7 +121,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
-    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rootProject.rx_permission"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"

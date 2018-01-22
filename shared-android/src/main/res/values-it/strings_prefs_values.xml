@@ -13,12 +13,12 @@
 
     <!--quick action-->
     <string name="prefs_quick_action_title">Azione rapida</string>
-    <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
+    <string name="prefs_quick_action_summary">Cambia la funzione della piccola icona vicino all\'immagine</string>
 
 
     <!--visible detail items-->
-    <string name="prefs_detail_visible_items_title">Detail visible items</string>
-    <string name="prefs_detail_visible_items_summary">Change the visible items in the detail view</string>
+    <string name="prefs_detail_visible_items_title">Sezioni visibili</string>
+    <string name="prefs_detail_visible_items_summary">Cambia le sezioni visibili nella schermata dettagliata</string>
 
     <!--dark icon color-->
     <string name="prefs_icon_color_title">Colore icone</string>
@@ -33,11 +33,22 @@
     <string name="prefs_lower_volume_on_night_title">Abbassa il volume nelle ore notturne</string>
     <string name="prefs_lower_volume_on_night_summary"></string>
 
+    <!--blacklist-->
+    <string name="prefs_blacklist_title">Nascondi cartelle</string>
+    <string name="prefs_blacklist_description">Premi per nascondere/mostrare</string>
+    <string name="prefs_blacklist_error">Non puoi nascondere tutte le cartelle</string>
+    <string name="prefs_blacklist_summary">Nascondi le cartelle dalla libreria</string>
+
+    <!--library categories-->
+    <string name="prefs_library_categories_title">Categorie libreria</string>
+    <string name="prefs_library_categories_summary">Configura visibilità e ordine delle categorie della libreria</string>
+    <string name="prefs_library_categories_error">Deve essere selezionata almeno una categoria</string>
+
     <!--neural images-->
     <string name="prefs_use_neural_images_title">Usa immagini stilizzate</string>
     <string name="prefs_use_neural_images_summary_on">Verranno usate immagini stilizzate</string>
     <string name="prefs_use_neural_images_summary_off">Verranno usate immagini normali</string>
     <string name="prefs_neural_network_style_title">Scegli lo stile</string>
-    <string name="prefs_neural_network_style_summary">Experimental feature. Le vecchie immagini stilizzate verrano eliminate</string>
+    <string name="prefs_neural_network_style_summary">Le vecchie immagini stilizzate verrano eliminate</string>
 
 </resources>

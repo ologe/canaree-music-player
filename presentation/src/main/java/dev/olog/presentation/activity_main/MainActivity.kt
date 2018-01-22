@@ -8,18 +8,16 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.view.ViewPager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
-import dev.olog.presentation.HasSlidingPanel
-import dev.olog.presentation.R
+import dev.olog.presentation.*
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.activity_preferences.PreferencesActivity
-import dev.olog.presentation.collapse
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
-import dev.olog.presentation.isExpanded
 import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinderViewModel
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.asLiveData
@@ -54,6 +52,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                 .subscribe(this, this::handleEmptyRepository)
 
         slidingPanel.setScrollableViewHelper(NestedScrollHelper())
+
+        pagerEmptyState.toggleVisibility(adapter.isEmpty())
     }
 
     override fun handleIntent(intent: Intent) {
@@ -65,6 +65,9 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
                 }
             }
             Constants.SHORTCUT_SEARCH -> { navigator.toSearchFragment(true) }
+            Constants.ACTION_CONTENT_VIEW -> {
+                slidingPanel.expand()
+            }
         }
     }
 

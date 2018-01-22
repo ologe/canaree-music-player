@@ -1,4 +1,4 @@
-package dev.olog.presentation.activity_preferences.neural_network.service
+package dev.olog.presentation.activity_neural_network.service
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -54,8 +54,9 @@ class NeuralNetworkService : DaggerService() {
                 .setContentText(getString(R.string.neural_service_subtitle))
                 .setProgress(1, 0, true)
                 .setDeleteIntent(deletePendingIntent())
-                .setContentIntent(deletePendingIntent())
+//                .setContentIntent(deletePendingIntent())
                 .setOngoing(true)
+                .addAction(0, "Stop the awesomeness", deletePendingIntent())
                 .setSmallIcon(R.drawable.vd_bird_singing_24dp)
 
         val notification = builder.build()
@@ -64,6 +65,7 @@ class NeuralNetworkService : DaggerService() {
             val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID,
                     getString(R.string.neural_notification_channel_title), importance)
             channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
+            channel.setShowBadge(false)
             notificationManager.createNotificationChannel(channel)
 
         }
