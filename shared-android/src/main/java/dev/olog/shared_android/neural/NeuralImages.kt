@@ -31,14 +31,13 @@ object NeuralImages {
         return Uri.parse("file:///android_asset/thumbnails/style$position.webp")
     }
 
-    fun stylizeTensorFlow(context: Context, bitmap: Bitmap, style: FloatArray = styleVals): Bitmap {
+    fun stylizeTensorFlow(context: Context, bitmap: Bitmap, style: FloatArray = styleVals, size: Int = desiredSize): Bitmap {
         val inferenceInterface = TensorFlowInferenceInterface(context.assets, MODEL_FILE)
-        inferenceInterface.close()
 
-        val intValues = IntArray(desiredSize * desiredSize)
-        val floatValues = FloatArray(desiredSize * desiredSize * 3)
+        val intValues = IntArray(size * size)
+        val floatValues = FloatArray(size * size * 3)
 
-        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, desiredSize, desiredSize, false)
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, size, size, false)
 
         scaledBitmap.getPixels(intValues, 0, scaledBitmap.width, 0, 0, scaledBitmap.width, scaledBitmap.height)
 
@@ -54,7 +53,7 @@ object NeuralImages {
         // Copy the input data into TensorFlow.
         inferenceInterface.feed(INPUT_NODE, floatValues,
                 1, scaledBitmap.width.toLong(), scaledBitmap.height.toLong(), 3)
-        inferenceInterface.feed(STYLE_NODE, styleVals, NUM_STYLES.toLong())
+        inferenceInterface.feed(STYLE_NODE, style, NUM_STYLES.toLong())
 
         // Execute the output node's dependency sub-graph.
         inferenceInterface.run(arrayOf(OUTPUT_NODE), false)

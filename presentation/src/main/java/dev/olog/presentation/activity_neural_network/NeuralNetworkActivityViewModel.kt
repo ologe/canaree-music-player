@@ -19,8 +19,8 @@ class NeuralNetworkActivityViewModel(
 
 ) : ViewModel() {
 
-    private val stylePublisher = BehaviorSubject.createDefault(false)
-    private val imagePublisher = BehaviorSubject.createDefault(false)
+    private val stylePublisher = BehaviorSubject.createDefault(-1)
+    private val imagePublisher = BehaviorSubject.createDefault("")
 
     val currentNeuralStyle = MutableLiveData<Int>()
     val currentNeuralImage = MutableLiveData<String>()
@@ -42,17 +42,17 @@ class NeuralNetworkActivityViewModel(
     fun updateCurrentNeuralStyle(stylePosition: Int){
         NeuralImages.setStyle(stylePosition)
         currentNeuralStyle.value = stylePosition
-        stylePublisher.onNext(true)
+        stylePublisher.onNext(stylePosition)
     }
 
     fun updateCurrentNeuralImage(image: String){
         currentNeuralImage.value = image
-        stylePublisher.onNext(true)
+        imagePublisher.onNext(image)
     }
 
     val observeImageLoadedSuccesfully = Observables.combineLatest(
-            stylePublisher, imagePublisher, { a, b -> a && b })
-            .distinctUntilChanged()
+            stylePublisher.filter { it != -1 }, imagePublisher.filter { it != "" },
+            { style, image -> image to style })
             .observeOn(AndroidSchedulers.mainThread())
 
 }

@@ -17,6 +17,7 @@ import dev.olog.presentation.activity_preferences.neural_network.service.NeuralN
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.ImageUtils
+import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.neural.NeuralImages
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -61,13 +62,16 @@ class NeuralNetworkFragment : BaseFragment() {
                     .into(view!!.style)
         })
 
-        viewModel.currentNeuralStyle.subscribe(this, {
+        viewModel.observeImageLoadedSuccesfully
+                .asLiveData()
+                .subscribe(this, { pair ->
+                    val (image, style) = pair
 
             stylezedImageDisposable.unsubscribe()
             stylezedImageDisposable = Single.create<Bitmap> { emitter ->
 
                 val bitmap = NeuralImages.stylizeTensorFlow(activity!!,
-                        ImageUtils.getBitmapFromUri(activity!!, viewModel.currentNeuralImage.value!!)!!)
+                        ImageUtils.getBitmapFromUri(activity!!, image)!!, size = 512)
                 emitter.onSuccess(bitmap)
 
             }.subscribeOn(Schedulers.io())
