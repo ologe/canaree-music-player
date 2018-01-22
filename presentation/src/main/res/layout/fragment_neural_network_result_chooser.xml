@@ -132,7 +132,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:visibility="gone"
-            android:indeterminateTint="@color/button_primary_tint"/>
+            android:indeterminateTint="@color/item_selected"/>
 
     </android.support.v7.widget.CardView>
 
