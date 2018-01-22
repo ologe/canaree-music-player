@@ -5,6 +5,8 @@ import android.app.Service
 import android.content.Intent
 import dev.olog.floating_info.api.HoverMenu
 import dev.olog.floating_info.api.HoverView
+import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import javax.inject.Inject
 
 class FloatingInfoService : BaseFloatingService() {
@@ -12,9 +14,16 @@ class FloatingInfoService : BaseFloatingService() {
     @Inject lateinit var hoverMenu: CustomHoverMenu
     @Inject lateinit var notification : InfoNotification
 
+    private var creationTime : Long? = null
+
     companion object {
         const val TAG = "FloatingInfoService"
         const val ACTION_STOP = "$TAG.ACTION_STOP"
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        creationTime = System.currentTimeMillis()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -29,6 +38,15 @@ class FloatingInfoService : BaseFloatingService() {
         }
 
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        creationTime?.let {
+            val lifeMillis = System.currentTimeMillis() - it
+            val life = TextUtils.getReadableSongLength(lifeMillis)
+            FirebaseAnalytics.trackFloatingServiceLife(life)
+        }
     }
 
     override fun onHoverMenuLaunched(intent: Intent, hoverView: HoverView) {

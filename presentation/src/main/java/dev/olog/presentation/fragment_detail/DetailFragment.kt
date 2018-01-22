@@ -20,6 +20,7 @@ import dev.olog.presentation.utils.extension.setLightStatusBar
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.withArguments
 import dev.olog.shared.MediaId
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.extension.isLandscape
 import dev.olog.shared_android.extension.isPortrait
 import dev.olog.shared_android.isMarshmallow
@@ -52,6 +53,7 @@ class DetailFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        FirebaseAnalytics.trackFragment(activity!!, TAG)
         if (context!!.isPortrait){
             setLightButtons()
         }

@@ -1,5 +1,6 @@
 package dev.olog.presentation.activity_neural_network
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Lifecycle
 import android.content.Intent
 import android.graphics.Bitmap
@@ -24,6 +25,7 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.activity_neural_network.image_chooser.NeuralNetworkImageChooser
 import dev.olog.presentation.activity_neural_network.service.NeuralNetworkService
 import dev.olog.presentation.activity_neural_network.style_chooser.NeuralNetworkStyleChooser
+import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.ImageUtils
@@ -137,22 +139,22 @@ class NeuralNetworkFragment : BaseFragment() {
             }
 
             override fun onOuterCircleClick(view: TapTargetView?) {
-                super.onTargetLongClick(view)
+                super.onOuterCircleClick(view)
                 updateHighlightPrefs()
             }
 
             override fun onTargetCancel(view: TapTargetView?) {
-                super.onTargetLongClick(view)
+                super.onTargetCancel(view)
                 updateHighlightPrefs()
             }
 
             override fun onTargetDismissed(view: TapTargetView?, userInitiated: Boolean) {
-                super.onTargetLongClick(view)
+                super.onTargetDismissed(view, userInitiated)
                 updateHighlightPrefs()
             }
 
             override fun onTargetClick(view: TapTargetView?) {
-                super.onTargetLongClick(view)
+                super.onTargetClick(view)
                 updateHighlightPrefs()
             }
         })
@@ -180,11 +182,7 @@ class NeuralNetworkFragment : BaseFragment() {
         }
         view!!.stylize.setOnClickListener {
             if (viewModel.currentNeuralStyle.value != null){
-                val intent = Intent(activity, NeuralNetworkService::class.java)
-                intent.action = NeuralNetworkService.ACTION_START
-                intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
-                ContextCompat.startForegroundService(activity!!, intent)
-                activity!!.onBackPressed()
+                createNeuralStartServiceRequestDialog()
             } else {
                 toastRef?.get()?.cancel() // delete previous
                 toastRef = WeakReference(activity!!.toast("First choose a style"))
@@ -202,6 +200,21 @@ class NeuralNetworkFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         stylezedImageDisposable.unsubscribe()
+    }
+
+    private fun createNeuralStartServiceRequestDialog(){
+        AlertDialog.Builder(activity)
+                .setTitle(R.string.neural_stylize_all)
+                .setMessage(R.string.neural_stylize_all_message)
+                .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
+                    val intent = Intent(activity, NeuralNetworkService::class.java)
+                    intent.action = NeuralNetworkService.ACTION_START
+                    intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
+                    ContextCompat.startForegroundService(activity!!, intent)
+                    activity!!.onBackPressed()
+                })
+                .setNegativeButton(R.string.popup_negative_no, null)
+                .makeDialog()
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_neural_network_result_chooser

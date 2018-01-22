@@ -8,6 +8,7 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation._base.list.OnDataChangedListener
 import dev.olog.presentation.utils.animation.CircularReveal
 import dev.olog.presentation.utils.extension.subscribe
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import org.jetbrains.anko.dip
@@ -33,6 +34,9 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        FirebaseAnalytics.trackFragment(activity!!, TAG)
+
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
         viewModel.observeCurrentSongId.subscribe(this, {

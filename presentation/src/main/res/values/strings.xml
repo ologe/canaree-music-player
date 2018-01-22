@@ -24,4 +24,6 @@
         <item>No genres</item>
     </string-array>
 
+    <string name="pager_empty_state">And now?</string>
+
 </resources>

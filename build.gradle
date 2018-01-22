@@ -55,6 +55,8 @@ ext {
     lottie = '2.3.1'
     sql_brite = '3.1.0'
 //    hover = '0.9.8'
+    target_view = '1.11.0'
+    tensor_flow = '1.5.0-rc1'
 
     // reactive
     rx_java = '2.1.8'

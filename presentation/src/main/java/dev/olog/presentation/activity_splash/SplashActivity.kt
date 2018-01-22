@@ -14,6 +14,7 @@ import dagger.Lazy
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseActivity
 import dev.olog.presentation.activity_main.MainActivity
+import dev.olog.presentation.utils.extension.makeDialog
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.extension.hasPermission
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,7 +36,7 @@ class SplashActivity : BaseActivity() {
     @Inject lateinit var presenter: SplashActivityPresenter
     @Inject lateinit var adapter : Lazy<SplashActivityViewPagerAdapter>
     private val onPageChangeListenerGradientBackground by lazy(NONE) { OnPageChangeListenerGradientBackground(
-            viewPager, Color.WHITE, intArrayOf(0xffff5d5d.toInt(), 0xffff9468.toInt())) }
+            viewPager, Color.WHITE, intArrayOf(0xfff79f32.toInt(), 0xfffcca1c.toInt())) }
 
     private var disposable : Disposable? = null
     private var permissionDisposable: Disposable? = null
@@ -103,7 +104,7 @@ class SplashActivity : BaseActivity() {
                                         startActivity(intent)
                                     })
                                     .setNegativeButton(R.string.popup_negative_no, null)
-                                    .show()
+                                    .makeDialog()
                         }
                     }
                 }

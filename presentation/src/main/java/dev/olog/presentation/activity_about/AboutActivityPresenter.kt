@@ -32,7 +32,7 @@ class AboutActivityPresenter @Inject constructor(
 
             DisplayableItem(R.layout.item_about, REPORT_BUGS, context.getString(R.string.about_support_report_bug), context.getString(R.string.about_support_report_bug_description)),
             DisplayableItem(R.layout.item_about, RATE_ID, context.getString(R.string.about_support_rate), context.getString(R.string.about_support_rate_description)),
-            DisplayableItem(R.layout.item_about, WEBSITE_ID, context.getString(R.string.about_website), context.getString(R.string.about_website_description)),
+//            DisplayableItem(R.layout.item_about, WEBSITE_ID, context.getString(R.string.about_website), context.getString(R.string.about_website_description)),
             DisplayableItem(R.layout.item_about, PRIVACY_POLICY, context.getString(R.string.about_privacy_policy), context.getString(R.string.about_privacy_policy_description))
     )
 

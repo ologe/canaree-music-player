@@ -20,7 +20,7 @@ class OnPageChangeListenerGradientBackground (
 
         val startColor = argbEvaluator.evaluate(offset, startColor, endColors[0]) as Int
         val endColor = argbEvaluator.evaluate(offset, startColor, endColors[1]) as Int
-        gradient.colors = intArrayOf(startColor, endColor)
+        gradient.colors = intArrayOf(endColor, startColor)
         viewPager.background = gradient
     }
 

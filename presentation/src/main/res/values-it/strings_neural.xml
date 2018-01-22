@@ -3,8 +3,9 @@
 
     <string name="neural_pick_image">Scegli un\'immagine</string>
     <string name="neural_pick_style">Scegli uno stile</string>
-    <string name="neural_see_preview">Guarda l\anteprima</string>
-    <string name="neural_stylize_all">Stylizza tutto</string>
+    <string name="neural_see_preview">Guarda l\'anteprima</string>
+    <string name="neural_stylize_all">Stilizza tutto</string>
+    <string name="neural_stylize_all_message">Potrebbe volerci un po\', sui 10/15 secondi per immagine</string>
 
     <string name="neural_stylize_all_description">Premi qui per iniziare a stilizzare tutte le cover degli album</string>
 

@@ -2,7 +2,8 @@
 <resources>
 
     <string name="neural_service_title">Stylizing your images</string>
-    <string name="neural_service_subtitle">Tap to stop</string>
+    <string name="neural_service_subtitle">Awesomeness in progress</string>
+    <string name="neural_service_cancel">Stop the awesomeness</string>
     <string name="neural_notification_channel_title">Stylize images</string>
 
 </resources>

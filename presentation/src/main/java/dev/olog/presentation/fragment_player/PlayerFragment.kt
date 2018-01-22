@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
@@ -23,6 +24,7 @@ import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.TextUtils
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.extension.isPortrait
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
@@ -205,6 +207,8 @@ class PlayerFragment : BaseFragment() {
         view!!.list.addOnItemTouchListener(floatingWindowTouchInterceptor)
         view!!.list.addOnItemTouchListener(favoriteTouchInterceptor)
         view!!.list.addOnItemTouchListener(playingQueueTouchInterceptor)
+
+        activity!!.slidingPanel.addPanelSlideListener(panelSlideListener)
     }
 
     override fun onPause() {
@@ -227,6 +231,8 @@ class PlayerFragment : BaseFragment() {
         view!!.list.removeOnItemTouchListener(floatingWindowTouchInterceptor)
         view!!.list.removeOnItemTouchListener(favoriteTouchInterceptor)
         view!!.list.removeOnItemTouchListener(playingQueueTouchInterceptor)
+
+        activity!!.slidingPanel.removePanelSlideListener(panelSlideListener)
     }
 
     override fun onStop() {
@@ -290,6 +296,15 @@ class PlayerFragment : BaseFragment() {
                 view!!.slidingView.translationY = translation
             }
 
+        }
+    }
+
+    private val panelSlideListener = object : SlidingUpPanelLayout.SimplePanelSlideListener() {
+        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
+            when (newState){
+                SlidingUpPanelLayout.PanelState.EXPANDED -> FirebaseAnalytics.onPlayerVisibilityChanged(true)
+                SlidingUpPanelLayout.PanelState.COLLAPSED -> FirebaseAnalytics.onPlayerVisibilityChanged(false)
+            }
         }
     }
 

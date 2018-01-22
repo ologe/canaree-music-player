@@ -19,6 +19,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import javax.inject.Inject
 
@@ -34,6 +35,7 @@ class App : DaggerApplication() {
 
         Constants.initialize(this)
         CoverUtils.initialize(this)
+        FirebaseAnalytics.initialize(this)
 
         if (BuildConfig.DEBUG) {
 //            initStrictMode()

@@ -12,11 +12,13 @@ import android.net.Uri
 import android.os.IBinder
 import android.provider.MediaStore
 import android.support.v4.app.NotificationCompat
+import com.crashlytics.android.Crashlytics
 import dagger.android.DaggerService
 import dev.olog.domain.interactor.GetAllAlbumsForUtilsUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.ImagesFolderUtils
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.extension.notificationManager
 import dev.olog.shared_android.isOreo
 import dev.olog.shared_android.neural.NeuralImages
@@ -56,7 +58,7 @@ class NeuralNetworkService : DaggerService() {
                 .setDeleteIntent(deletePendingIntent())
 //                .setContentIntent(deletePendingIntent())
                 .setOngoing(true)
-                .addAction(0, "Stop the awesomeness", deletePendingIntent())
+                .addAction(0, getString(R.string.neural_service_cancel), deletePendingIntent())
                 .setSmallIcon(R.drawable.vd_bird_singing_24dp)
 
         val notification = builder.build()
@@ -128,6 +130,8 @@ class NeuralNetworkService : DaggerService() {
                 }
                 .toList()
                 .subscribe({
+                    FirebaseAnalytics.trackNeuralSuccess(true)
+
                     deleteAllChildsImages()
                     contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
                     contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
@@ -136,6 +140,8 @@ class NeuralNetworkService : DaggerService() {
                     stopForeground(true)
                     stopSelf()
                 }, {
+                    Crashlytics.logException(it)
+                    FirebaseAnalytics.trackNeuralSuccess(false)
                     it.printStackTrace()
                     stopForeground(true)
                     stopSelf()

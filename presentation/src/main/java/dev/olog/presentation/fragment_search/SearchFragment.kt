@@ -12,6 +12,7 @@ import dev.olog.presentation.utils.animation.CircularReveal
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
 import dev.olog.presentation.utils.extension.withArguments
+import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.extension.asLiveData
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
@@ -46,6 +47,8 @@ class SearchFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        FirebaseAnalytics.trackFragment(activity!!, TAG)
 
         viewModel.searchData.subscribe(this, { (map, query) ->
             val itemCount = map.values.sumBy { it.size }

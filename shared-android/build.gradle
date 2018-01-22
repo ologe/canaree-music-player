@@ -72,7 +72,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
 
-    implementation 'org.tensorflow:tensorflow-android:1.5.0-rc1'
+    implementation "org.tensorflow:tensorflow-android:$rootProject.tensor_flow"
+    implementation "com.google.firebase:firebase-core:$rootProject.firebase"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

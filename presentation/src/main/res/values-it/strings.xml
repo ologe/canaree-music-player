@@ -23,4 +23,6 @@
         <item>Nessun genere</item>
     </string-array>
 
+    <string name="pager_empty_state">E adesso?</string>
+
 </resources>

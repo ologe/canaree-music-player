@@ -12,7 +12,6 @@ import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseDialogFragment
 import dev.olog.presentation.utils.extension.makeDialog
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : BaseDialogFragment() {
@@ -61,6 +60,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
 //                        activity!!.setResult(Activity.RESULT_OK)
 //                        dismiss()
 //                    }
+                    presenter.setDataSet(adapter.data)
                     activity!!.setResult(Activity.RESULT_OK)
                     dismiss()
                 }
@@ -68,8 +68,8 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         return dialog
     }
 
-    private fun showErrorMessage(){
-        activity!!.toast(R.string.prefs_library_categories_error)
-    }
+//    private fun showErrorMessage(){
+//        activity!!.toast(R.string.prefs_library_categories_error)
+//    }
 
 }

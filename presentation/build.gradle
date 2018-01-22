@@ -104,7 +104,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "org.jsoup:jsoup:$rootProject.jsoup"
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
+    implementation "com.getkeepsafe.taptargetview:taptargetview:$rootProject.target_view"
 
     // crashlytics
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
