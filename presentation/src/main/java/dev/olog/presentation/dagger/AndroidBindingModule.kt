@@ -33,4 +33,5 @@ abstract class AndroidBindingModule {
 
     @ContributesAndroidInjector
     abstract fun provideNeuralService() : NeuralNetworkService
+
 }

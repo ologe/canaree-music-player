@@ -1,15 +1,15 @@
 package dev.olog.presentation.activity_preferences
 
 import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import dev.olog.presentation.R
+import dev.olog.presentation.activity_neural_network.NeuralNetworkActivity
 import dev.olog.presentation.activity_preferences.blacklist.BlacklistFragment
 import dev.olog.presentation.activity_preferences.categories.LibraryCategoriesFragment
-import dev.olog.presentation.activity_preferences.neural_network.NeuralNetworkFragment
-import dev.olog.presentation.utils.extension.transaction
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
 
@@ -40,10 +40,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             true
         }
         neuralStyle.setOnPreferenceClickListener {
-            activity!!.supportFragmentManager.transaction {
-                add(android.R.id.content, NeuralNetworkFragment.newInstance())
-                addToBackStack(NeuralNetworkFragment.TAG)
-            }
+            val intent = Intent(activity!!, NeuralNetworkActivity::class.java)
+            activity!!.startActivity(intent)
             true
         }
     }

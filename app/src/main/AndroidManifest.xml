@@ -45,6 +45,9 @@
         <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"
             android:theme="@style/SettingsTheme"/>
 
+        <!--settings activity-->
+        <activity android:name="dev.olog.presentation.activity_neural_network.NeuralNetworkActivity" />
+
         <!--dummy shortcuts activity-->
         <activity android:name="dev.olog.presentation.activity_shortcuts.ShortcutsActivity"/>
 

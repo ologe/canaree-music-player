@@ -1,4 +1,4 @@
-package dev.olog.presentation.activity_preferences.neural_network
+package dev.olog.presentation.activity_neural_network
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,8 +11,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.activity_neural_network.image_chooser.NeuralNetworkImageChooser
+import dev.olog.presentation.activity_neural_network.style_chooser.NeuralNetworkStyleChooser
 import dev.olog.presentation.activity_preferences.neural_network.service.NeuralNetworkService
-import dev.olog.presentation.activity_preferences.neural_network.style_chooser.NeuralNetworkImageChooser
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.ImageUtils
@@ -21,91 +22,84 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_neural_network.view.*
+import kotlinx.android.synthetic.main.fragment_neural_network_result_chooser.view.*
 import javax.inject.Inject
 
 class NeuralNetworkFragment : BaseFragment() {
 
-    companion object {
-        const val TAG = "NeuralNetworkFragment"
-
-        fun newInstance(): NeuralNetworkFragment {
-            return NeuralNetworkFragment()
-        }
-    }
-
-    @Inject lateinit var viewModel: NeuralNetworkFragmentViewModel
-    private var disposable: Disposable? = null
-    private var currentImage: String? = null
-    private var stylezedImageDisposable : Disposable? = null
-
+    @Inject lateinit var viewModel: NeuralNetworkActivityViewModel
+    private var stylezedImageDisposable: Disposable? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.currentNeuralImage.subscribe(this, {
+
+            view!!.chooseImage.visibility = View.GONE
+
+            GlideApp.with(this)
+                    .load(Uri.parse(it))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .override(300)
+                    .priority(Priority.IMMEDIATE)
+                    .into(view!!.cover)
+
+        })
+
         viewModel.currentNeuralStyle.subscribe(this, {
 
             val uri = NeuralImages.getThumbnail(it)
 
-            view!!.addFilter.visibility = View.GONE
+            view!!.chooseStyle.visibility = View.GONE
 
-            GlideApp.with(context!!)
+            GlideApp.with(this)
                     .load(uri)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .override(300)
                     .priority(Priority.IMMEDIATE)
                     .into(view!!.style)
+        })
+
+        viewModel.currentNeuralStyle.subscribe(this, {
 
             stylezedImageDisposable.unsubscribe()
             stylezedImageDisposable = Single.create<Bitmap> { emitter ->
 
-                val bitmap = NeuralImages.stylizeTensorFlow(activity!!, ImageUtils.getBitmapFromUri(activity!!, currentImage)!!)
+                val bitmap = NeuralImages.stylizeTensorFlow(activity!!,
+                        ImageUtils.getBitmapFromUri(activity!!, viewModel.currentNeuralImage.value!!)!!)
                 emitter.onSuccess(bitmap)
 
             }.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnSubscribe { view!!.progressBar.visibility = View.VISIBLE }
-                    .doOnEvent { _,_ ->view!!.progressBar.visibility = View.GONE }
+                    .doOnEvent {  _,_ -> view!!.progressBar.visibility = View.GONE }
                     .subscribe({ bitmap ->
 
-                        GlideApp.with(activity!!)
+                        GlideApp.with(this)
                                 .load(bitmap)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                                 .priority(Priority.IMMEDIATE)
-                                .into(view!!.previewNeuralImage)
+                                .into(view!!.preview)
 
                     }, Throwable::printStackTrace)
 
-
         })
-    }
-
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        disposable = viewModel.getImagesAlbum.subscribe({
-            val first = it[0]
-
-            currentImage = first.image
-
-            GlideApp.with(context!!)
-                    .load(Uri.parse(first.image))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .override(300)
-                    .priority(Priority.IMMEDIATE)
-                    .into(view.cover)
-
-        }, Throwable::printStackTrace)
     }
 
     override fun onResume() {
         super.onResume()
         view!!.style.setOnClickListener {
+            NeuralNetworkStyleChooser.newInstance().show(activity!!.supportFragmentManager,
+                            NeuralNetworkStyleChooser.TAG)
+        }
+        view!!.cover.setOnClickListener {
             NeuralNetworkImageChooser.newInstance().show(activity!!.supportFragmentManager,
                             NeuralNetworkImageChooser.TAG)
         }
         view!!.stylize.setOnClickListener {
-            val intent = Intent(activity!!, NeuralNetworkService::class.java)
+            val intent = Intent(activity, NeuralNetworkService::class.java)
             intent.action = NeuralNetworkService.ACTION_START
             intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
             ContextCompat.startForegroundService(activity!!, intent)
@@ -116,14 +110,14 @@ class NeuralNetworkFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         view!!.style.setOnClickListener(null)
+        view!!.cover.setOnClickListener(null)
         view!!.stylize.setOnClickListener(null)
     }
 
     override fun onStop() {
         super.onStop()
         stylezedImageDisposable.unsubscribe()
-        disposable.unsubscribe()
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_neural_network
+    override fun provideLayoutId(): Int = R.layout.fragment_neural_network_result_chooser
 }

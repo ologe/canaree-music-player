@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".5"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/originalHeader"
+        android:text="Choose an image"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_primary"
+        app:layout_constraintTop_toTopOf="@+id/coverLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/coverLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/styleLayout"
+        app:layout_constraintDimensionRatio="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="4dp"
+        android:layout_marginEnd="4dp">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/neural_gradient_1"/>
+
+        <ImageView
+            android:id="@+id/chooseImage"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/vd_add"
+            android:tint="@color/button_primary_tint"
+            android:clickable="false"
+            android:focusable="false"/>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/styleHeader"
+        android:layout_marginTop="8dp"
+        android:text="Choose a style"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_primary"
+        app:layout_constraintTop_toTopOf="@+id/styleLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/styleLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/styleLayout"
+        app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintBottom_toTopOf="@+id/previewHeader"
+        app:layout_constraintDimensionRatio="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp">
+
+        <ImageView
+            android:id="@+id/style"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/neural_gradient_2" />
+
+        <ImageView
+            android:id="@+id/chooseStyle"
+            android:layout_gravity="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/vd_add"
+            android:tint="@color/button_primary_tint"
+            android:clickable="false"
+            android:focusable="false"/>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/previewLayout"
+        app:layout_constraintTop_toBottomOf="@+id/styleLayout"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp">
+
+        <ImageView
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/neural_gradient_3" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"
+            tools:visibility="visible"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:indeterminateTint="@color/button_primary_tint"/>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/previewHeader"
+        android:layout_marginTop="8dp"
+        android:text="See the preview"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_color_primary"
+        app:layout_constraintTop_toTopOf="@+id/previewLayout"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/previewLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/stylize"
+        android:text="Stylize all"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:textColor="@color/item_selected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
+
+
+</android.support.constraint.ConstraintLayout>

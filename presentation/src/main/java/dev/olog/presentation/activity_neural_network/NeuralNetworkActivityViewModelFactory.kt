@@ -1,4 +1,4 @@
-package dev.olog.presentation.activity_preferences.neural_network
+package dev.olog.presentation.activity_neural_network
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
@@ -8,7 +8,7 @@ import dev.olog.presentation.dagger.PerActivity
 import javax.inject.Inject
 
 @PerActivity
-class NeuralNetworkFragmentViewModelFactory @Inject constructor(
+class NeuralNetworkActivityViewModelFactory @Inject constructor(
         private val contentResolver: ContentResolver,
         private val getAllAlbumsUseCase: GetAllAlbumsForUtilsUseCase
 
@@ -17,7 +17,7 @@ class NeuralNetworkFragmentViewModelFactory @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return NeuralNetworkFragmentViewModel(
+        return NeuralNetworkActivityViewModel(
                 contentResolver, getAllAlbumsUseCase
         ) as T
     }

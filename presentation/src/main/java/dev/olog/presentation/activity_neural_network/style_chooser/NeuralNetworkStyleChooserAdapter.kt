@@ -1,4 +1,4 @@
-package dev.olog.presentation.activity_preferences.neural_network.style_chooser
+package dev.olog.presentation.activity_neural_network.style_chooser
 
 import android.app.AlertDialog
 import android.support.v7.widget.RecyclerView
@@ -7,15 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
-import dev.olog.presentation.activity_preferences.neural_network.NeuralNetworkFragmentViewModel
+import dev.olog.presentation.activity_neural_network.NeuralNetworkActivityViewModel
 import dev.olog.shared_android.neural.NeuralImages
 import kotlinx.android.synthetic.main.item_neural_network_preview.view.*
 
-class NeuralNetworkImageChooserAdapter (
+class NeuralNetworkStyleChooserAdapter(
         private val dialog: AlertDialog,
-        private val viewModel: NeuralNetworkFragmentViewModel
+        private val viewModel: NeuralNetworkActivityViewModel
 
-) : RecyclerView.Adapter<NeuralNetworkImageChooserAdapter.Holder>() {
+) : RecyclerView.Adapter<NeuralNetworkStyleChooserAdapter.Holder>() {
 
     private val data = mutableListOf<Int>()
 
