@@ -114,7 +114,13 @@ open class NotificationImpl21 @Inject constructor(
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
 
-        updateMetadataImpl(metadata.id, spannableTitle, artist, album, metadata.image)
+        val uri = if (metadata.image.endsWith(".webp")){
+            Uri.fromFile(File(metadata.image))
+        } else {
+            Uri.parse(metadata.image)
+        }
+
+        updateMetadataImpl(metadata.id, spannableTitle, artist, album, uri)
     }
 
     protected open fun updateMetadataImpl (
@@ -122,13 +128,7 @@ open class NotificationImpl21 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            image: String){
-
-        val uri = if (image.endsWith(".webp")){
-            Uri.fromFile(File(image))
-        } else {
-            Uri.parse(image)
-        }
+            uri: Uri){
 
         builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri , id))
                 .setContentTitle(title)
