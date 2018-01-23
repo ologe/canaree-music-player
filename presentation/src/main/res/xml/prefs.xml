@@ -18,7 +18,7 @@
             android:title="@string/prefs_detail_visible_items_title"
             android:summary="@string/prefs_detail_visible_items_summary"
             android:key="@string/prefs_detail_visible_items_key"
-            android:entries="@array/detail_visible_items"
+            android:entries="@array/detail_visible_items_entries"
             android:entryValues="@array/detail_visible_items_values"
             android:defaultValue="@array/detail_visible_items_values_default"/>
 

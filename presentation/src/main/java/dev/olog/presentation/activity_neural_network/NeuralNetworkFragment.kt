@@ -88,7 +88,7 @@ class NeuralNetworkFragment : BaseFragment() {
             stylezedImageDisposable = Single.create<Bitmap> { emitter ->
 
                 val bitmap = NeuralImages.stylizeTensorFlow(activity!!,
-                        ImageUtils.getBitmapFromUri(activity!!, image)!!, size = 768)
+                        ImageUtils.getBitmapFromUri(activity!!, Uri.parse(image))!!, size = 768)
                 emitter.onSuccess(bitmap)
 
             }.subscribeOn(Schedulers.io())
@@ -185,7 +185,7 @@ class NeuralNetworkFragment : BaseFragment() {
                 createNeuralStartServiceRequestDialog()
             } else {
                 toastRef?.get()?.cancel() // delete previous
-                toastRef = WeakReference(activity!!.toast("First choose a style"))
+                toastRef = WeakReference(activity!!.toast(R.string.neural_stylize_all_missing_style))
             }
         }
     }

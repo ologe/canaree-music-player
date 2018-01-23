@@ -33,9 +33,9 @@ object ImageUtils {
         return bitmap
     }
 
-    fun getBitmapFromUri(context: Context, uri: String?): Bitmap? {
+    fun getBitmapFromUri(context: Context, uri: Uri?): Bitmap? {
         return try {
-            MediaStore.Images.Media.getBitmap(context.contentResolver, Uri.parse(uri))
+            MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
         } catch (ex: Exception) {
             null
         }

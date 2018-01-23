@@ -270,13 +270,14 @@ class PlayerFragment : BaseFragment() {
                 .placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .priority(Priority.IMMEDIATE)
-                .override(500)
+                .override(800)
                 .into(cover)
     }
 
     private val listener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            adapter.hasGranularUpdate = recyclerView.canScrollVertically(-1)
+//            adapter.hasGranularUpdate = recyclerView.canScrollVertically(-1)
+//            adapter.hasGranularUpdate = recyclerView.canScrollVertically(-1)
 
             val child = recyclerView.getChildAt(0)
             val translation = child?.let {

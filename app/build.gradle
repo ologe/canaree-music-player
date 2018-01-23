@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
+
 
 android {
 
@@ -138,6 +140,7 @@ dependencies {
         transitive = true
     }
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"
+    implementation "com.google.firebase:firebase-perf:$rootProject.firebase"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

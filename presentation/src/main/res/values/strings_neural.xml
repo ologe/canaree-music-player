@@ -9,4 +9,6 @@
 
     <string name="neural_stylize_all_description">Click here to start stylizing all your album covers</string>
 
+    <string name="neural_stylize_all_missing_style">First choose a style</string>
+
 </resources>

@@ -111,8 +111,8 @@ class LicensesFragmentPresenter @Inject constructor() {
 
     private val TARGET_VIEW = LicenseModel(
             R.layout.item_license,
-            MediaId.headerId("tensorflow"),
-            "TensorFlow ", "https://github.com/tensorflow/tensorflow",
+            MediaId.headerId("tapTargetView"),
+            "TapTargetView ", "https://github.com/KeepSafe/TapTargetView",
             Licenses.apache("2016", "Keepsafe Software Inc."))
 
     val data : List<LicenseModel> = listOf(
