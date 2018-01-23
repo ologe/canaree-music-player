@@ -14,8 +14,8 @@ android {
         applicationId "dev.olog.msc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 27002 // android(27) - version code(001)
-        versionName "0.11" //update presentation module as well , to mirror effect on aboutActivity
+        versionCode 27020 // android(27) - version code(001)
+        versionName "0.2" //update presentation module as well , to mirror effect on aboutActivity
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
