@@ -94,7 +94,7 @@ object FileUtils {
 
         val dest = File(directory, "$child.webp")
         val out = FileOutputStream(dest)
-        bitmap.compress(Bitmap.CompressFormat.WEBP, 85, out)
+        bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
         out.close()
         bitmap.recycle()
     }

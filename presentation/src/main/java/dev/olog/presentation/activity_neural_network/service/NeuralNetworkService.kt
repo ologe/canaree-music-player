@@ -179,7 +179,7 @@ class NeuralNetworkService : DaggerService() {
 
         val dest = File(imageDirectory, "${albumId}_$progressive.webp")
         val out = FileOutputStream(dest)
-        result.compress(Bitmap.CompressFormat.WEBP, 85, out)
+        result.compress(Bitmap.CompressFormat.WEBP, 90, out)
         out.close()
     }
 
