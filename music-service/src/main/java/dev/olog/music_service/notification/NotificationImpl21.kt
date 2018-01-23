@@ -24,6 +24,7 @@ import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.interfaces.MainActivityClass
+import java.io.File
 import javax.inject.Inject
 
 @PerService
@@ -113,7 +114,7 @@ open class NotificationImpl21 @Inject constructor(
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
 
-        updateMetadataImpl(metadata.id, spannableTitle, artist, album, Uri.parse(metadata.image))
+        updateMetadataImpl(metadata.id, spannableTitle, artist, album, metadata.image)
     }
 
     protected open fun updateMetadataImpl (
@@ -121,9 +122,15 @@ open class NotificationImpl21 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            image: Uri){
+            image: String){
 
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
+        val uri = if (image.endsWith(".webp")){
+            Uri.fromFile(File(image))
+        } else {
+            Uri.parse(image)
+        }
+
+        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri , id))
                 .setContentTitle(title)
                 .setContentText(artist)
                 .setSubText(album)

@@ -7,14 +7,16 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 object FirebaseAnalytics {
 
-    private const val PLAYER_PANEL_STATE = "PLAYER_STATE"
-    private const val PLAYER_PANEL_STATE_VISIBILITY = "PLAYER_PANEL_STATE_VISIBILITY"
+    private const val PLAYER_PANEL_STATE = "player_state"
+    private const val PLAYER_PANEL_STATE_VISIBILITY = "player_state_visible"
 
-    private const val FLOATING_LIFE = "FLOATING_LIFE"
-    private const val FLOATING_LIFE_MILLIS = "FLOATING_LIFE_MILLIS"
+    private const val FLOATING_LIFE = "floating_life"
+    private const val FLOATING_LIFE_MILLIS = "floating_life_time"
 
-    private const val NEURAL_SUCCESS = "NEURAL_SUCCESS"
-    private const val NEURAL_SUCCESS_VALUE = "NEURAL_SUCCESS_VALUE"
+    private const val NEURAL_START = "neural_start"
+
+    private const val NEURAL_SUCCESS = "neural_end"
+    private const val NEURAL_SUCCESS_VALUE = "neural_end_value"
 
     private var INSTANCE : FirebaseAnalytics? = null
 
@@ -42,6 +44,12 @@ object FirebaseAnalytics {
         val bundle = Bundle()
         bundle.putBoolean(NEURAL_SUCCESS_VALUE, success)
         INSTANCE?.logEvent(NEURAL_SUCCESS, bundle)
+    }
+
+    fun trackNeuralStart(){
+        val bundle = Bundle()
+        bundle.putBoolean(NEURAL_START, true)
+        INSTANCE?.logEvent(NEURAL_START, bundle)
     }
 
 }

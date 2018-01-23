@@ -52,6 +52,8 @@ class NeuralNetworkService : DaggerService() {
     override fun onCreate() {
         super.onCreate()
 
+        FirebaseAnalytics.trackNeuralStart()
+
         builder = builder.setContentTitle(getString(R.string.neural_service_title))
                 .setContentText(getString(R.string.neural_service_subtitle))
                 .setProgress(1, 0, true)
