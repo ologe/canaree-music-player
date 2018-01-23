@@ -25,6 +25,7 @@ import dev.olog.presentation.dialog_entry.Popup
 import dev.olog.presentation.dialog_new_playlist.NewPlaylistDialog
 import dev.olog.presentation.dialog_rename.RenameDialog
 import dev.olog.presentation.dialog_set_ringtone.SetRingtoneDialog
+import dev.olog.presentation.dialog_sleep_timer.SleepTimerDialog
 import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_edit_info.EditInfoFragment
@@ -160,6 +161,7 @@ class NavigatorImpl @Inject constructor(
                 R.id.about -> this.toAboutActivity()
                 R.id.equalizer -> this.toEqualizer()
                 R.id.settings -> this.toSettingsActivity()
+                R.id.sleepTimer -> this.toSleepTimer()
                 -123 -> this.toDebugConfiguration()
             }
             true
@@ -180,6 +182,10 @@ class NavigatorImpl @Inject constructor(
     private fun toSettingsActivity(){
         val intent = Intent(activity, PreferencesActivity::class.java)
         activity.startActivityForResult(intent, PreferencesActivity.REQUEST_CODE)
+    }
+
+    private fun toSleepTimer(){
+        SleepTimerDialog.show(activity.supportFragmentManager)
     }
 
     private fun toEqualizer(){

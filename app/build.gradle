@@ -45,15 +45,17 @@ android {
         release {
             minifyEnabled true
             useProguard true
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         debug {
-            minifyEnabled true
+            minifyEnabled false
             useProguard false
+            multiDexEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable false
+            debuggable true
 //            applicationIdSuffix = ".debug"
         }
     }

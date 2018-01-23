@@ -106,7 +106,7 @@ public class SleepTimerDialog extends TimePickerDialog {
                 enableButtonUi();
                 positiveButton.setText(R.string.sleep_timer_positive);
                 isActive = false;
-            } else  {
+            } else {
                 // set new timer and dismiss
                 int hours = mPicker.getHours();
                 int minutes = mPicker.getMinutes();
@@ -116,7 +116,7 @@ public class SleepTimerDialog extends TimePickerDialog {
                         TimeUnit.SECONDS.toMillis(seconds);
                 sleepTimerUseCase.set(nextSleep);
                 alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextSleep, getSleepTimerPendingIntent());
-                Toast.makeText(getActivity(), "Timer set", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.sleep_timer_set, Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });
@@ -185,6 +185,14 @@ public class SleepTimerDialog extends TimePickerDialog {
 
     private void setCountdownTime(long nextSleep){
         long current = nextSleep - SystemClock.elapsedRealtime();
+
+        if (current <= 0L){
+            timeDisposable.dispose();
+            enableButtonUi();
+            positiveButton.setText(R.string.sleep_timer_positive);
+            return;
+        }
+
         setTime(Math.max(0, extractHours(current)),
                 Math.max(0, extractMinutes(current)),
                 Math.max(0, extractSeconds(current)));

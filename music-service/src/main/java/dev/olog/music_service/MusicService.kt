@@ -88,7 +88,6 @@ class MusicService : BaseMusicService() {
     override fun handleSleepTimerEnd(intent: Intent) {
         sleepTimerUseCase.reset()
         mediaSession.controller.transportControls.pause()
-        stop()
     }
 
     private fun resetSleepTimer(){
