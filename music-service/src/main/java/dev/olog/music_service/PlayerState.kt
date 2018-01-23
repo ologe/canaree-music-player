@@ -35,7 +35,6 @@ class PlayerState @Inject constructor(
         builder.setState(PlaybackStateCompat.STATE_PAUSED, bookmarkUseCase.get(), 0f)
                 .setActions(getActions())
                 .addCustomAction(MusicConstants.ACTION_PLAY_SHUFFLE, "play shuffle", R.drawable.vd_bird_singing_24dp)
-                .addCustomAction(MusicConstants.ACTION_TOGGLE_FAVORITE, "toggle favorite", R.drawable.vd_bird_singing_24dp)
                 .addCustomAction(MusicConstants.ACTION_SWAP, "swap", R.drawable.vd_bird_singing_24dp)
                 .addCustomAction(MusicConstants.ACTION_SWAP_RELATIVE, "swap relative", R.drawable.vd_bird_singing_24dp)
                 .addCustomAction(MusicConstants.ACTION_REMOVE, "remove", R.drawable.vd_bird_singing_24dp)

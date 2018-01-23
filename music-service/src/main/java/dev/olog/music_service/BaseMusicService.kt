@@ -9,11 +9,10 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
-import dev.olog.domain.interactor.favorite.ToggleLastFavoriteUseCase
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.ServiceLifecycleController
-import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.PendingIntents
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
@@ -28,7 +27,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     private val dispatcher = ServiceLifecycleDispatcher(this)
 
     @Inject lateinit var player: Player
-    @Inject lateinit var toggleLastFavoriteUseCase: ToggleLastFavoriteUseCase
 
     private var serviceStarted = false
 
@@ -60,14 +58,12 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
 
         when (action){
             null -> stop()
-            MusicConstants.ACTION_TOGGLE_FAVORITE -> {
-                toggleLastFavoriteUseCase.execute()
-            }
             Constants.SHORTCUT_SHUFFLE -> handleAppShortcutShuffle(intent)
             Constants.SHORTCUT_PLAY -> handleAppShortcutPlay(intent)
             Constants.WIDGET_ACTION_PLAY_PAUSE -> handlePlayPause(intent)
             Constants.WIDGET_ACTION_SKIP_NEXT -> handleSkipNext(intent)
             Constants.WIDGET_ACTION_SKIP_PREVIOUS -> handleSkipPrevious(intent)
+            PendingIntents.ACTION_STOP_SLEEP_END -> handleSleepTimerEnd(intent)
             else -> handleMediaButton(intent)
         }
     }
@@ -77,6 +73,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     protected abstract fun handlePlayPause(intent: Intent)
     protected abstract fun handleSkipNext(intent: Intent)
     protected abstract fun handleSkipPrevious(intent: Intent)
+    protected abstract fun handleSleepTimerEnd(intent: Intent)
 
     override fun start() {
         if (!serviceStarted) {

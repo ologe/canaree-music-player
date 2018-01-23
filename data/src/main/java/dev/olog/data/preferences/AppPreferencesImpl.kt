@@ -30,6 +30,8 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val VIEW_PAGER_LAST_PAGE = TAG + ".VIEW_PAGER_LAST_PAGE"
 
+        private const val NEXT_SLEEP = TAG + ".NEXT_SLEEP"
+
         private const val DETAIL_SORT_FOLDER_ORDER = TAG + ".DETAIL_SORT_FOLDER_ORDER"
         private const val DETAIL_SORT_PLAYLIST_ORDER = TAG + ".DETAIL_SORT_PLAYLIST_ORDER"
         private const val DETAIL_SORT_ALBUM_ORDER = TAG + ".DETAIL_SORT_ALBUM_ORDER"
@@ -255,5 +257,17 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun setBlackList(set: Set<String>) {
         preferences.edit { putStringSet(BLACKLIST, set) }
+    }
+
+    override fun resetSleepTimer() {
+        setSleepTimer(-1L)
+    }
+
+    override fun setSleepTimer(millis: Long) {
+        preferences.edit { putLong(NEXT_SLEEP, millis) }
+    }
+
+    override fun getSleepTimer(): Long {
+        return preferences.getLong(NEXT_SLEEP, -1L)
     }
 }

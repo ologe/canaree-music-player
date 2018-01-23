@@ -1,6 +1,8 @@
 package dev.olog.music_service
 
+import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -8,8 +10,10 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
+import dev.olog.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
+import dev.olog.shared_android.PendingIntents
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
@@ -26,6 +30,7 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var currentSong : CurrentSong
     @Inject lateinit var playerMetadata: PlayerMetadata
     @Inject lateinit var notification: MusicNotificationManager
+    @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -46,6 +51,7 @@ class MusicService : BaseMusicService() {
 
     override fun onDestroy() {
         super.onDestroy()
+        resetSleepTimer()
         mediaSession.setMediaButtonReceiver(null)
         mediaSession.setCallback(null)
         mediaSession.isActive = false
@@ -77,6 +83,18 @@ class MusicService : BaseMusicService() {
 
     override fun handleMediaButton(intent: Intent) {
         MediaButtonReceiver.handleIntent(mediaSession, intent)
+    }
+
+    override fun handleSleepTimerEnd(intent: Intent) {
+        sleepTimerUseCase.reset()
+        mediaSession.controller.transportControls.pause()
+        stop()
+    }
+
+    private fun resetSleepTimer(){
+        sleepTimerUseCase.reset()
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(PendingIntents.stopServiceIntent(this, this::class.java))
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {

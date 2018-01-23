@@ -27,6 +27,10 @@ interface AppPreferencesGateway : Sorting {
     fun getBlackList(): Set<String>
     fun setBlackList(set: Set<String>)
 
+    fun resetSleepTimer()
+    fun setSleepTimer(millis: Long)
+    fun getSleepTimer() : Long
+
 }
 
 interface Sorting {

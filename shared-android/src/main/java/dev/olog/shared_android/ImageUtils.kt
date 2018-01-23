@@ -53,7 +53,7 @@ object ImageUtils {
         val size = context.dip(128)
         val drawable = CoverUtils.getGradientForNotification(context, id)
 
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
+        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, size, size)
         drawable.draw(canvas)

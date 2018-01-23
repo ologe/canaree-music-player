@@ -43,12 +43,6 @@ class LicensesFragmentPresenter @Inject constructor() {
             "RxBinding", "https://github.com/JakeWharton/RxBinding",
             Licenses.apache("2015", "Jake Wharton"))
 
-//    private val RX_PERMISSION = LicenseModel(
-//            R.layout.item_license,
-//            MediaId.headerId("rxPermission"),
-//            "RxPermissions", "https://github.com/tbruyelle/RxPermissions",
-//            Licenses.apache("2015", "Thomas Bruyelle"))
-
     private val RX_PREFERENCES = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("rxPreferences"),
@@ -115,13 +109,18 @@ class LicensesFragmentPresenter @Inject constructor() {
             "TapTargetView ", "https://github.com/KeepSafe/TapTargetView",
             Licenses.apache("2016", "Keepsafe Software Inc."))
 
+    private val BETTER_PICKERS = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("betterPickers"),
+            "BetterPickers", "https://github.com/code-troopers/android-betterpickers",
+            Licenses.apache("2013", "Derek Brameyer, Code-Troopers"))
+
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
             ANDROID_SUPPORT_LIBRARIES,
             DAGGER,
             RX_JAVA,
             RX_ANDROID,
-//            RX_PERMISSION,
             RX_PREFERENCES,
             RX_BINDING,
             SQL_BRITE,
@@ -133,7 +132,8 @@ class LicensesFragmentPresenter @Inject constructor() {
             JSOUP,
             ANKO,
             TENSOR_FLOW,
-            TARGET_VIEW
+            TARGET_VIEW,
+            BETTER_PICKERS
     )
 
 }

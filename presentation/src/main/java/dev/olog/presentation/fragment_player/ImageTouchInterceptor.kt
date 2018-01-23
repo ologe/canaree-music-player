@@ -57,7 +57,7 @@ class ImageTouchInterceptor (
                     }
                 }
             }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+            MotionEvent.ACTION_UP -> {
                 if (imageClicked){
                     imageClicked = false
                     val yDiff = Math.abs(downY - y)
@@ -66,19 +66,25 @@ class ImageTouchInterceptor (
                         // notifying click
                         view.onTouchEvent(e)
                     } else if (xDiff > swipeThreshold){
+                        // notifying swipe
                         return true
                     }
                 }
+            }
+            MotionEvent.ACTION_CANCEL -> {
+                imageClicked = false
             }
         }
 
         return super.onInterceptTouchEvent(rv, e)
     }
 
-    override fun onTouchEvent(rv: RecyclerView?, e: MotionEvent?) {
+    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
         // notifying swipe, for some reason this method do not call
         // on click in SwipeableImageView, so is called in the onInterceptTouchEvent()
-        view.dispatchTouchEvent(e)
+        if (e.action == MotionEvent.ACTION_UP){
+            view.dispatchTouchEvent(e)
+        }
     }
 
 }

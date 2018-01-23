@@ -1,5 +1,7 @@
 package dev.olog.msc
 
+import android.app.AlarmManager
+import android.content.Context
 import android.os.StrictMode
 import android.preference.PreferenceManager
 import dagger.android.AndroidInjector
@@ -8,6 +10,7 @@ import dev.olog.floating_info.FloatingInfoService
 import dev.olog.music_service.MusicService
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.activity_main.TabViewPagerAdapter
+import dev.olog.presentation.dialog_sleep_timer.SleepTimerDialog
 import dev.olog.presentation.fragment_mini_player.MiniPlayerFragment
 import dev.olog.presentation.fragment_mini_player.MiniPlayerFragmentViewModel
 import dev.olog.presentation.fragment_player.PlayerFragment
@@ -19,6 +22,7 @@ import dev.olog.presentation.navigation.Navigator
 import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
+import dev.olog.shared_android.PendingIntents
 import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import javax.inject.Inject
@@ -37,6 +41,8 @@ class App : DaggerApplication() {
         CoverUtils.initialize(this)
         FirebaseAnalytics.initialize(this)
 
+        resetSleepTimer()
+
         if (BuildConfig.DEBUG) {
 //            initStrictMode()
 //            LeakCanary.install(this)
@@ -45,6 +51,12 @@ class App : DaggerApplication() {
 
         handleFloatingServiceStartOnLaunch()
         AppShortcuts.setup(this)
+    }
+
+    private fun resetSleepTimer(){
+        SleepTimerDialog.resetTimer(this)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(PendingIntents.stopServiceIntent(this, this::class.java))
     }
 
     private fun initRxJavaDebug(){

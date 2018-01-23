@@ -4,6 +4,9 @@
     <item android:id="@+id/equalizer"
         android:title="@string/popup_equalizer"/>
 
+    <item android:id="@+id/sleepTimer"
+        android:title="@string/popup_sleep_timer"/>
+
     <item android:id="@+id/settings"
           android:title="@string/popup_settings"/>
 
