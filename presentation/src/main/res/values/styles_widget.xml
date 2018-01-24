@@ -30,7 +30,7 @@
     <dimen name="widget_content_margin_top">8dp</dimen>
     <dimen name="widget_content_margin_start">16dp</dimen>
     <dimen name="widget_content_margin_bottom">16dp</dimen>
-    <dimen name="widget_content_margin_end">80dp</dimen>
+    <dimen name="widget_content_margin_end">16dp</dimen>
 
     <!-- The minimum height of the content if there are at least two lines or a picture-->
     <dimen name="widget_min_content_height">41dp</dimen>

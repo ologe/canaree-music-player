@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import dagger.android.AndroidInjection
 import dev.olog.shared_android.WidgetConstants
 
@@ -38,8 +39,8 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
                     val isPlaying = intent.getBooleanExtra(WidgetConstants.ARGUMENT_IS_PLAYING, false)
-                    val bookmark = intent.getLongExtra(WidgetConstants.ARGUMENT_BOOKMARK, 0)
-                    state = WidgetState(isPlaying, bookmark)
+//                    val bookmark = intent.getLongExtra(WidgetConstants.ARGUMENT_BOOKMARK, 0)
+                    state = WidgetState(isPlaying/*, bookmark*/)
                     onPlaybackStateChanged(context, state!!, appWidgetIds)
                 }
             }
@@ -82,6 +83,31 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
 
     protected abstract fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray)
 
+    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions)
+
+        val minWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+        val maxWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
+        val minHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
+        val maxHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
+
+        val newSize = WidgetSize(minWidth, maxWidth, minHeight, maxHeight)
+
+        onSizeChanged(context, appWidgetManager, appWidgetId, newSize)
+    }
+
+    /**
+     * height:  tiles   min max
+     *          1 tile  58  100
+     *          2 tile  133 216
+     *          3 tile  208  332
+     *
+     * width:  tiles   min max
+     *         4 tile  395 612
+     *         3 tile  313 486
+     *         2 tile  58  100
+     */
+    protected abstract fun onSizeChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, size: WidgetSize)
 
 }
 

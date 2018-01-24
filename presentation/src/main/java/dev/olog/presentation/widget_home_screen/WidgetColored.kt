@@ -2,12 +2,14 @@ package dev.olog.presentation.widget_home_screen
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.RemoteViews
 import dev.olog.presentation.R
 import dev.olog.presentation.utils.images.ImageProcessor
+import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.ImageUtils
-import dev.olog.shared_android.TextUtils
+import java.util.*
 
 class WidgetColored : BaseWidget() {
 
@@ -15,10 +17,20 @@ class WidgetColored : BaseWidget() {
         val remoteViews = RemoteViews(context.packageName, layoutId)
         remoteViews.setTextViewText(R.id.title, metadata.title)
         remoteViews.setTextViewText(R.id.subtitle, metadata.subtitle)
-        remoteViews.setTextViewText(R.id.duration, " " + TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
+//        remoteViews.setTextViewText(R.id.duration, " " + TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
 
-        val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context,
-                Uri.parse(metadata.image), metadata.id)
+        val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, Uri.parse(metadata.image), metadata.id)
+        colorize(context, remoteViews, bitmap)
+
+        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+    }
+
+    override fun initializeColors(context: Context, remoteViews: RemoteViews, appWidgetIds: IntArray) {
+        val bitmap = ImageUtils.getBitmapFromDrawable(CoverUtils.getGradient(context, Random().nextInt()))
+        colorize(context, remoteViews, bitmap)
+    }
+
+    private fun colorize(context: Context, remoteViews: RemoteViews, bitmap: Bitmap){
 
         val result = ImageProcessor(context).processImage(bitmap)
         remoteViews.setImageViewBitmap(R.id.cover, result.bitmap)
@@ -28,8 +40,6 @@ class WidgetColored : BaseWidget() {
         remoteViews.setInt(R.id.background, "setBackgroundColor", result.background)
 
         setMediaButtonColors(remoteViews, result.primaryTextColor)
-
-        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
     override val layoutId: Int = R.layout.widget_colored

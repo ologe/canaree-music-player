@@ -41,7 +41,7 @@ object ImageUtils {
         }
     }
 
-    fun getBitmapFromUriWithPlaceholder(context: Context, uri: Uri, id: Long): Bitmap? {
+    fun getBitmapFromUriWithPlaceholder(context: Context, uri: Uri, id: Long): Bitmap {
         return try {
             MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
         } catch (ex: Exception) {
