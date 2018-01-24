@@ -19,7 +19,10 @@ import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.extension.asLiveData
 import kotlinx.android.synthetic.main.fragment_edit_info.*
 import kotlinx.android.synthetic.main.fragment_edit_info.view.*
+import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.tag.FieldKey
 import org.jetbrains.anko.toast
+import java.io.File
 import javax.inject.Inject
 
 class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
@@ -39,7 +42,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        RxTextView.afterTextChangeEvents(first)
+        RxTextView.afterTextChangeEvents(title)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
@@ -57,9 +60,13 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         super.onResume()
         view!!.okButton.setOnClickListener {
             presenter.updateMediaStore(
-                    view!!.first.text.toString(),
-                    view!!.second.text.toString(),
-                    view!!.third.text.toString()
+                    view!!.title.text.toString(),
+                    view!!.artist.text.toString(),
+                    view!!.album.text.toString(),
+                    view!!.year.text.toString(),
+                    view!!.genre.text.toString(),
+                    view!!.disc.text.toString(),
+                    view!!.trackNumber.text.toString()
             )
             activity!!.onBackPressed()
         }
@@ -88,15 +95,34 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
     }
 
     private fun setTextViews(view: View, song: UneditedSong){
-        view.first.append(song.title)
-        val artist = song.artist
+        val file = File(song.path)
+        val audioFile = AudioFileIO.read(file)
+        val tag = audioFile.tagOrCreateAndSetDefault
+
+        val title = tag.getFirst(FieldKey.TITLE)
+        view.title.setText(title)
+
+        val artist = tag.getFirst(FieldKey.ARTIST)
         if (artist != Constants.UNKNOWN){
-            view.second.append(artist)
+            view.artist.setText(artist)
         }
-        val album = song.album
+
+        val album = tag.getFirst(FieldKey.ALBUM)
         if (album != Constants.UNKNOWN){
-            view.third.append(album)
+            view.album.append(album)
         }
+
+        val year = tag.getFirst(FieldKey.YEAR)
+        view.year.setText(year)
+
+        val genre = tag.getFirst(FieldKey.GENRE)
+        view.genre.setText(genre)
+
+        val discNumber = tag.getFirst(FieldKey.DISC_NO)
+        view.disc.setText(discNumber)
+
+        val trackNumber = tag.getFirst(FieldKey.TRACK)
+        view.trackNumber.setText(trackNumber)
     }
 
     override fun toggleLoading(show: Boolean) {
@@ -109,18 +135,18 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
     }
 
     override fun setTitle(title: String) {
-        view!!.first.text.clear()
-        view!!.first.append(title)
+        view!!.title.text.clear()
+        view!!.title.setText(title)
     }
 
     override fun setArtist(artist: String) {
-        view!!.second.text.clear()
-        view!!.second.append(artist)
+        view!!.artist.text.clear()
+        view!!.artist.setText(artist)
     }
 
     override fun setAlbum(album: String) {
-        view!!.third.text.clear()
-        view!!.third.append(album)
+        view!!.album.text.clear()
+        view!!.album.setText(album)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_info

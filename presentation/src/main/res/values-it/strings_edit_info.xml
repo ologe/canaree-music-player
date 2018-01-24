@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_title">Nome della traccia</string>
+    <string name="edit_info_year">Anno</string>
+    <string name="edit_info_disc"># disco</string>
+    <string name="edit_info_track"># traccia</string>
+
+</resources>

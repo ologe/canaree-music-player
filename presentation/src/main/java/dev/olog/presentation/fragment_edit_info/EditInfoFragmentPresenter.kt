@@ -40,27 +40,46 @@ class EditInfoFragmentPresenter @Inject constructor(
                 .firstOrError()
     }
 
-    fun updateMediaStore(newTitle: String, newArtist: String, newAlbum: String){
+    fun updateMediaStore(newTitle: String,
+                         newArtist: String,
+                         newAlbum: String,
+                         newYear: String,
+                         newGenre: String,
+                         newDiskNumber: String,
+                         newTrackNumber: String){
+
         updateDisposable.unsubscribe()
 
         updateDisposable = getSong()
-                .doOnSuccess { updateTag(it.path, newTitle, newArtist, newAlbum) }
+                .doOnSuccess { updateTag(it.path, newTitle, newArtist, newAlbum,
+                        newYear, newGenre, newDiskNumber, newTrackNumber) }
                 .doOnSuccess { notifyMediaStore(it) }
                 .subscribe({ }, {
                     it.printStackTrace()
-                    context.toast("someting went wrong")
+                    context.toast("something went wrong")
                 })
     }
 
-    private fun updateTag(songPath: String, newTitle: String, newArtist: String, newAlbum: String){
+    private fun updateTag(songPath: String,
+                          newTitle: String,
+                          newArtist: String,
+                          newAlbum: String,
+                          newYear: String,
+                          newGenre: String,
+                          newDiskNumber: String,
+                          newTrackNumber: String){
+
         TagOptionSingleton.getInstance().isAndroid = true
         val file = File(songPath)
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault
         tag.setField(FieldKey.TITLE, newTitle)
-
         tag.setField(FieldKey.ARTIST, newArtist)
         tag.setField(FieldKey.ALBUM, newAlbum)
+        tag.setField(FieldKey.YEAR, newYear)
+        tag.setField(FieldKey.GENRE, newGenre)
+        tag.setField(FieldKey.DISC_NO, newDiskNumber)
+        tag.setField(FieldKey.TRACK, newTrackNumber)
 
         audioFile.commit()
     }
