@@ -46,10 +46,10 @@
                 android:textAppearance="@style/WidgetTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:ellipsize="marquee"
+                android:ellipsize="end"
                 android:fadingEdge="horizontal"
                 android:textAlignment="viewStart"
+                android:maxLines="1"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
 
@@ -57,11 +57,11 @@
                 android:id="@+id/subtitle"
                 android:layout_marginTop="0.5dp"
                 android:text="An awesome artist"
+                android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fadingEdge="horizontal"
-                android:singleLine="true"
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/WidgetSubtitle" />
 
