@@ -9,4 +9,10 @@
     <string name="edit_info_disc">Disc #</string>
     <string name="edit_info_track">Track #</string>
 
+    <string name="edit_info_auto_tag_no_results">No results found</string>
+    <string name="edit_info_error">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">Disc # must be only digits</string>
+    <string name="edit_info_track_number_not_digits">Track # must be only digits</string>
+
 </resources>

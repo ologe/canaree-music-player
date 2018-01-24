@@ -58,6 +58,8 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun handleIntent(intent: Intent) {
+        println("main intent ${intent.action}")
+
         when (intent.action){
             FloatingInfoConstants.ACTION_START_SERVICE -> {
                 musicServiceBinder.getMediaControllerLiveData().value?.let {

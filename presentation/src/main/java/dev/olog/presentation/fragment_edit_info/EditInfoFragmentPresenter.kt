@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import dev.olog.domain.entity.UneditedSong
 import dev.olog.domain.interactor.GetUneditedSongUseCase
+import dev.olog.presentation.R
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.MediaId
 import dev.olog.shared.ProcessLifecycle
@@ -56,7 +57,7 @@ class EditInfoFragmentPresenter @Inject constructor(
                 .doOnSuccess { notifyMediaStore(it) }
                 .subscribe({ }, {
                     it.printStackTrace()
-                    context.toast("something went wrong")
+                    context.toast(R.string.edit_info_error)
                 })
     }
 

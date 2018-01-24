@@ -2,6 +2,7 @@ package dev.olog.presentation.dialog_entry
 
 import android.content.Context
 import android.graphics.Typeface
+import android.os.Environment
 import android.support.annotation.MenuRes
 import android.text.SpannableString
 import android.text.style.StyleSpan
@@ -87,6 +88,13 @@ class Popup @Inject constructor(
                         }
                     }
                 }
+//                MediaIdCategory.FOLDER -> { todo not working
+//                    val folderPath = item.mediaId.categoryValue
+//                    val externalStorage = Environment.getExternalStorageDirectory()
+//                    if (folderPath == externalStorage.path){
+//                        menu.removeItem(R.id.rename)
+//                    }
+//                }
             }
         }
 

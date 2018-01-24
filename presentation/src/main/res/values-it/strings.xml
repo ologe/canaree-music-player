@@ -25,4 +25,6 @@
 
     <string name="pager_empty_state">E adesso?</string>
 
+    <string name="network_not_available">Verifica la tua connessione di rete</string>
+
 </resources>

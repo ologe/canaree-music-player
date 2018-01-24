@@ -15,6 +15,7 @@ import dev.olog.floating_info.di.PerService
 import dev.olog.floating_info.di.ServiceLifecycle
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.music_service.IRxMusicServiceConnectionCallback
 import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 import dev.olog.shared_android.music_service.MusicServiceConnectionState
@@ -143,8 +144,12 @@ class MusicServiceBinder @Inject constructor(
     val onMetadataChanged : Flowable<Pair<String, String>> = mediaControllerCallback
             .onMetadataChanged()
             .map {
-                it.getString(MediaMetadataCompat.METADATA_KEY_TITLE) to
-                        it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+                var artist = it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+                if (artist == Constants.UNKNOWN){
+                    artist = Constants.UNKNOWN_ARTIST
+                }
+
+                it.getString(MediaMetadataCompat.METADATA_KEY_TITLE) to artist
             }
 
     val onBookmarkChangedLiveData: Flowable<Long> = mediaControllerCallback.onPlaybackStateChanged()

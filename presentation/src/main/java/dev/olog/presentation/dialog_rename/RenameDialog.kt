@@ -22,14 +22,27 @@ class RenameDialog : BaseEditTextDialog() {
     }
 
     @Inject lateinit var presenter: RenameDialogPresenter
+    @Inject lateinit var mediaId: MediaId
 
     override fun provideDialogTitle(): Int = R.string.popup_rename
 
     override fun providePositiveMessage(): Int = R.string.popup_positive_rename
 
-    override fun provideErrorMessageForEmptyString(): Int = R.string.popup_playlist_name_not_valid
+    override fun provideErrorMessageForBlankForm(): Int {
+        return when {
+            mediaId.isPlaylist -> R.string.popup_playlist_name_not_valid
+            mediaId.isFolder -> R.string.folder_name_not_valid
+            else -> throw IllegalArgumentException("invalid media id category $mediaId")
+        }
+    }
 
-    override fun provideErrorMessageForInvalidString(string: String): Int = R.string.popup_playlist_name_already_exist
+    override fun provideErrorMessageForInvalidForm(string: String): Int {
+        return when {
+            mediaId.isPlaylist -> R.string.popup_playlist_name_already_exist
+            mediaId.isFolder -> R.string.folder_name_already_exist
+            else -> throw IllegalArgumentException("invalid media id category $mediaId")
+        }
+    }
 
     override fun onValidData(string: String) {
         val oldTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)

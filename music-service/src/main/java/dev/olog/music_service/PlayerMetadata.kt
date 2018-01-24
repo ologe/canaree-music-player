@@ -11,6 +11,7 @@ import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.constants.MetadataConstants
+import dev.olog.shared_android.Constants
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.WidgetConstants
 import dev.olog.shared_android.extension.getAppWidgetsIdsFor
@@ -49,10 +50,18 @@ class PlayerMetadata @Inject constructor(
             Uri.parse(entity.image)
         }
 
+        val artist = if (entity.artist == Constants.UNKNOWN_ARTIST){
+            Constants.UNKNOWN
+        } else entity.artist
+
+        val album = if (entity.album == Constants.UNKNOWN_ALBUM){
+            Constants.UNKNOWN
+        } else entity.album
+
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, entity.artist)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, entity.album)
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, uri))

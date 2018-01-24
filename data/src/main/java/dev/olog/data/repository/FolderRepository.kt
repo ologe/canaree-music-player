@@ -128,4 +128,13 @@ class FolderRepository @Inject constructor(
                 .flatMapGroup { distinct { it.folderPath } }
                 .groupMap { it.toFolder(context, -1) }
     }
+
+    override fun renameFolder(oldPath: String, newFolderName: String): Completable {
+        return Completable.fromCallable {
+            val file = File(oldPath)
+            val parent = file.parent
+            val newName = File(parent + File.separator + newFolderName)
+            file.renameTo(newName)
+        }
+    }
 }

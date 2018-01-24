@@ -1,6 +1,7 @@
 package dev.olog.presentation.model
 
 import android.support.v4.media.MediaMetadataCompat
+import dev.olog.shared_android.Constants
 
 data class PlayerFragmentMetadata (
         val title: String,
@@ -10,9 +11,14 @@ data class PlayerFragmentMetadata (
 )
 
 fun MediaMetadataCompat.toPlayerMetadata(): PlayerFragmentMetadata{
+    var artist = this.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+    if (artist == Constants.UNKNOWN){
+        artist = Constants.UNKNOWN_ARTIST
+    }
+
     return PlayerFragmentMetadata(
             this.getString(MediaMetadataCompat.METADATA_KEY_TITLE),
-            this.getString(MediaMetadataCompat.METADATA_KEY_ARTIST),
+            artist,
             this.getLong(dev.olog.shared.constants.MetadataConstants.IS_EXPLICIT) != 0L,
             this.getLong(dev.olog.shared.constants.MetadataConstants.IS_REMIX) != 0L
     )

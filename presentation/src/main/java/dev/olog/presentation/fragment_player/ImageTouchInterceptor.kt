@@ -53,7 +53,7 @@ class ImageTouchInterceptor (
                     val xDiff = Math.abs(downX - x)
                     if (xDiff > swipeThreshold){
                         // if is swiping on x axis, disable list scroll
-                        return true
+//                        return true
                     }
                 }
             }
@@ -65,8 +65,10 @@ class ImageTouchInterceptor (
                     if (yDiff < swipeThreshold && xDiff < swipeThreshold){
                         // notifying click
                         view.onTouchEvent(e)
+                        return true
                     } else if (xDiff > swipeThreshold){
                         // notifying swipe
+                        view.onTouchEvent(e)
                         return true
                     }
                 }
@@ -77,14 +79,6 @@ class ImageTouchInterceptor (
         }
 
         return super.onInterceptTouchEvent(rv, e)
-    }
-
-    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        // notifying swipe, for some reason this method do not call
-        // on click in SwipeableImageView, so is called in the onInterceptTouchEvent()
-        if (e.action == MotionEvent.ACTION_UP){
-            view.dispatchTouchEvent(e)
-        }
     }
 
 }

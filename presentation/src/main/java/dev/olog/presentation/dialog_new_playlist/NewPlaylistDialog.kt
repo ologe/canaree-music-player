@@ -24,9 +24,9 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
     override fun providePositiveMessage(): Int = R.string.popup_positive_create
 
-    override fun provideErrorMessageForEmptyString(): Int = R.string.popup_playlist_name_not_valid
+    override fun provideErrorMessageForBlankForm(): Int = R.string.popup_playlist_name_not_valid
 
-    override fun provideErrorMessageForInvalidString(string: String): Int = R.string.popup_playlist_name_already_exist
+    override fun provideErrorMessageForInvalidForm(string: String): Int = R.string.popup_playlist_name_already_exist
 
     override fun onValidData(string: String) {
         presenter.execute(string)

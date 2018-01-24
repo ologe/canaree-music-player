@@ -26,4 +26,6 @@
 
     <string name="pager_empty_state">And now?</string>
 
+    <string name="network_not_available">Please check your network connection</string>
+
 </resources>

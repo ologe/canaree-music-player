@@ -4,9 +4,11 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.net.ConnectivityManager
+import dev.olog.presentation.R
 import dev.olog.presentation.dagger.FragmentLifecycle
 import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.extension.isNetworkAvailable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -40,6 +42,11 @@ class AutoTag @Inject constructor(
     }
 
     fun getTags(){
+        if (!connectivityManager.isNetworkAvailable()){
+            view.showToast(R.string.network_not_available)
+            return
+        }
+
         if (queryInProgress){
             return
         }
@@ -62,21 +69,9 @@ class AutoTag @Inject constructor(
                     val emptyArtist = result.artist.isBlank()
                     val emptyAlbum = result.album.isBlank()
 
-                    if (emptyArtist && emptyAlbum){
-                        view.showToast("no results found")
+                    if (emptyTitle && emptyArtist && emptyAlbum){
+                        view.showToast(R.string.edit_info_auto_tag_no_results)
                     }
-
-                    if (!emptyAlbum){
-                        view.setAlbum(result.album)
-                    } else view.showToast("no album")
-
-                    if (!emptyArtist){
-                        view.setArtist(result.artist)
-                    } else view.showToast("no artist")
-
-                    if (!emptyTitle){
-                        view.setTitle(result.title)
-                    } else view.showToast("no title")
 
                 }, Throwable::printStackTrace)
     }
@@ -104,7 +99,7 @@ class AutoTag @Inject constructor(
                             .replaceFirst("(?i)(lyrics)".toRegex(), "")
                             .replaceFirst("(?i)(freestyle)".toRegex(), "")
                             .replaceFirst("(?i)(hd)".toRegex(), "")
-                }//.doOnSuccess { println(it) }
+                }
     }
 
     private fun makeObservable(baseQuery: String, artistOrAlbum: String) : Single<AutoTagQueryResult>{

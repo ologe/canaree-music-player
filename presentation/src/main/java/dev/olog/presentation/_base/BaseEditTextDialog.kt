@@ -32,10 +32,10 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
     protected open fun providePositiveMessage() : Int = R.string.popup_positive_ok
 
     @StringRes
-    protected abstract fun provideErrorMessageForEmptyString() : Int
+    protected abstract fun provideErrorMessageForBlankForm() : Int
 
     @StringRes
-    protected abstract fun provideErrorMessageForInvalidString(string: String) : Int
+    protected abstract fun provideErrorMessageForInvalidForm(string: String) : Int
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(context)
@@ -55,9 +55,9 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
                     val editTextString = editText.text.toString()
 
                     if (editTextString.isBlank()){
-                        showError(editTextLayout, provideErrorMessageForEmptyString())
+                        showError(editTextLayout, provideErrorMessageForBlankForm())
                     } else if (!isStringValid(editTextString)){
-                        showError(editTextLayout, provideErrorMessageForInvalidString(editTextString))
+                        showError(editTextLayout, provideErrorMessageForInvalidForm(editTextString))
                     } else {
                         onValidData(editTextString)
                         dismiss()

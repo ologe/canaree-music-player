@@ -2,6 +2,7 @@ package dev.olog.presentation.fragment_edit_info
 
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -59,16 +60,24 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
     override fun onResume() {
         super.onResume()
         view!!.okButton.setOnClickListener {
-            presenter.updateMediaStore(
-                    view!!.title.text.toString(),
-                    view!!.artist.text.toString(),
-                    view!!.album.text.toString(),
-                    view!!.year.text.toString(),
-                    view!!.genre.text.toString(),
-                    view!!.disc.text.toString(),
-                    view!!.trackNumber.text.toString()
-            )
-            activity!!.onBackPressed()
+            if (isDataValid()){
+                presenter.updateMediaStore(
+                        view!!.title.text.toString(),
+                        view!!.artist.text.toString(),
+                        view!!.album.text.toString(),
+                        view!!.year.text.toString(),
+                        view!!.genre.text.toString(),
+                        view!!.disc.text.toString(),
+                        view!!.trackNumber.text.toString()
+                )
+                activity!!.onBackPressed()
+            } else {
+                if (!TextUtils.isDigitsOnly(view!!.disc.text)){
+                    showToast(R.string.edit_info_disc_number_not_digits)
+                } else if (!TextUtils.isDigitsOnly(view!!.trackNumber.text)) {
+                    showToast(R.string.edit_info_track_number_not_digits)
+                }
+            }
         }
         view!!.cancelButton.setOnClickListener { activity!!.onBackPressed() }
         view!!.autoTag.setOnClickListener { autoTag.getTags() }
@@ -79,6 +88,12 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         view!!.okButton.setOnClickListener(null)
         view!!.cancelButton.setOnClickListener(null)
         view!!.autoTag.setOnClickListener(null)
+    }
+
+    private fun isDataValid(): Boolean {
+        return view!!.title.text.isNotBlank() &&
+                TextUtils.isDigitsOnly(view!!.disc.text) &&
+                TextUtils.isDigitsOnly(view!!.trackNumber.text)
     }
 
     private fun setImage(view: View, song: UneditedSong){
@@ -132,6 +147,10 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
 
     override fun showToast(message: String) {
         activity!!.toast(message)
+    }
+
+    override fun showToast(stringRes: Int) {
+        showToast(getString(stringRes))
     }
 
     override fun setTitle(title: String) {
