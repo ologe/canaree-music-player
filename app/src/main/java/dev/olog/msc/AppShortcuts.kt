@@ -9,6 +9,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.activity_shortcuts.ShortcutsActivity
+import dev.olog.shared_android.AppShortcutInfo
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.isNougat_MR1
 
@@ -27,43 +28,12 @@ object AppShortcuts {
             return
         }
 
-        val search = ShortcutInfo.Builder(context, "search")
-                .setShortLabel(context.getString(R.string.shortcut_search))
-                .setIcon(Icon.createWithResource(context, R.drawable.shortcut_search))
-                .setIntent(createSearchIntent(context))
-                .build()
-
-        val play = ShortcutInfo.Builder(context, "play")
-                .setShortLabel(context.getString(R.string.shortcut_play))
-                .setIcon(Icon.createWithResource(context, R.drawable.shortcut_play))
-                .setIntent(createPlayIntent(context))
-                .build()
-
-        val shuffle = ShortcutInfo.Builder(context, "shuffle")
-                .setShortLabel(context.getString(R.string.shortcut_shuffle))
-                .setIcon(Icon.createWithResource(context, R.drawable.shortcut_shuffle))
-                .setIntent(createShuffleIntent(context))
-                .build()
+        val search = AppShortcutInfo.search(context, MainActivity::class.java)
+        val play = AppShortcutInfo.play(context, ShortcutsActivity::class.java)
+        val shuffle = AppShortcutInfo.shuffle(context, ShortcutsActivity::class.java)
 
         shortcutManager.dynamicShortcuts = listOf(search, play, shuffle)
     }
 
-    private fun createSearchIntent(context: Context): Intent{
-        val intent = Intent(context, MainActivity::class.java)
-        intent.action = Constants.SHORTCUT_SEARCH
-        return intent
-    }
-
-    private fun createPlayIntent(context: Context): Intent{
-        val intent = Intent(context, ShortcutsActivity::class.java)
-        intent.action = Constants.SHORTCUT_PLAY
-        return intent
-    }
-
-    private fun createShuffleIntent(context: Context): Intent{
-        val intent = Intent(context, ShortcutsActivity::class.java)
-        intent.action = Constants.SHORTCUT_SHUFFLE
-        return intent
-    }
 
 }

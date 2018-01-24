@@ -1,8 +1,10 @@
 package dev.olog.music_service
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ShortcutManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.domain.interactor.music_service.BookmarkUseCase
@@ -12,9 +14,12 @@ import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.constants.MusicConstants
+import dev.olog.shared_android.AppShortcutInfo
 import dev.olog.shared_android.WidgetConstants
 import dev.olog.shared_android.extension.getAppWidgetsIdsFor
+import dev.olog.shared_android.interfaces.ShortcutActivityClass
 import dev.olog.shared_android.interfaces.WidgetClasses
+import dev.olog.shared_android.isNougat_MR1
 import javax.inject.Inject
 
 @PerService
@@ -24,9 +29,14 @@ class PlayerState @Inject constructor(
         private val bookmarkUseCase: BookmarkUseCase,
         private val toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase,
         private val toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase,
-        private val widgetClasses: WidgetClasses
+        private val widgetClasses: WidgetClasses,
+        private val shortcutActivityClass: ShortcutActivityClass
 
 ){
+
+    private val shortcutManager: ShortcutManager by lazy {
+        context.getSystemService(ShortcutManager::class.java) as ShortcutManager
+    }
 
     private val builder = PlaybackStateCompat.Builder()
     private var activeQueueId = MediaSessionCompat.QueueItem.UNKNOWN_ID.toLong()
@@ -57,6 +67,12 @@ class PlayerState @Inject constructor(
      */
     fun update(state: Int, bookmark: Long, id: Long?): PlaybackStateCompat {
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
+
+        if (isPlaying){
+            disablePlayShortcut()
+        } else {
+            enablePlayShortcut()
+        }
 
         builder.setState(state, bookmark, (if (isPlaying) 1 else 0).toFloat())
 
@@ -155,6 +171,22 @@ class PlayerState @Inject constructor(
             }
 
             context.sendBroadcast(intent)
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun disablePlayShortcut(){
+        if (isNougat_MR1()){
+            val dynamicShortcuts = shortcutManager.dynamicShortcuts
+            dynamicShortcuts.remove(AppShortcutInfo.play(context, shortcutActivityClass.get()))
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun enablePlayShortcut(){
+        if (isNougat_MR1()){
+            val dynamicShortcuts = shortcutManager.dynamicShortcuts
+            dynamicShortcuts.add(0, AppShortcutInfo.play(context, shortcutActivityClass.get()))
         }
     }
 

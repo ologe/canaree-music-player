@@ -9,12 +9,10 @@ import dagger.Provides
 import dev.olog.floating_info.FloatingInfoService
 import dev.olog.music_service.MusicService
 import dev.olog.presentation.activity_main.MainActivity
+import dev.olog.presentation.activity_shortcuts.ShortcutsActivity
 import dev.olog.presentation.widget_home_screen.WidgetClassic
 import dev.olog.presentation.widget_home_screen.WidgetColored
-import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
-import dev.olog.shared_android.interfaces.MainActivityClass
-import dev.olog.shared_android.interfaces.MusicServiceClass
-import dev.olog.shared_android.interfaces.WidgetClasses
+import dev.olog.shared_android.interfaces.*
 
 @Module
 class SharedClassModule {
@@ -42,6 +40,15 @@ class SharedClassModule {
         return object : FloatingInfoServiceClass {
             override fun get(): Class<out Service> {
                 return FloatingInfoService::class.java
+            }
+        }
+    }
+
+    @Provides
+    internal fun provideShortcutActivityClass(): ShortcutActivityClass {
+        return object : ShortcutActivityClass {
+            override fun get(): Class<out AppCompatActivity> {
+                return ShortcutsActivity::class.java
             }
         }
     }

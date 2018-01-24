@@ -30,6 +30,7 @@ class AutoTag @Inject constructor(
 ) : DefaultLifecycleObserver {
 
     private var queryInProgress = false
+    private var autoTagQueryResult : AutoTagQueryResult? = null
 
     init {
         lifecycle.addObserver(this)
@@ -42,12 +43,17 @@ class AutoTag @Inject constructor(
     }
 
     fun getTags(){
-        if (!connectivityManager.isNetworkAvailable()){
-            view.showToast(R.string.network_not_available)
+        if (queryInProgress){
             return
         }
 
-        if (queryInProgress){
+        if (autoTagQueryResult != null){
+            showData(autoTagQueryResult!!)
+            return
+        }
+
+        if (!connectivityManager.isNetworkAvailable()){
+            view.showToast(R.string.network_not_available)
             return
         }
         queryInProgress = true
@@ -65,15 +71,37 @@ class AutoTag @Inject constructor(
                 .doAfterTerminate { queryInProgress = false }
                 .subscribe({ result ->
 
+                    autoTagQueryResult = result
+
                     val emptyTitle = result.title.isBlank()
                     val emptyArtist = result.artist.isBlank()
                     val emptyAlbum = result.album.isBlank()
 
                     if (emptyTitle && emptyArtist && emptyAlbum){
                         view.showToast(R.string.edit_info_auto_tag_no_results)
+                    } else {
+                       showData(result)
                     }
 
                 }, Throwable::printStackTrace)
+    }
+
+    private fun showData(result: AutoTagQueryResult){
+        val emptyTitle = result.title.isBlank()
+        val emptyArtist = result.artist.isBlank()
+        val emptyAlbum = result.album.isBlank()
+
+        if (!emptyAlbum){
+            view.setAlbum(result.album)
+        }
+
+        if (!emptyArtist){
+            view.setArtist(result.artist)
+        }
+
+        if (!emptyTitle){
+            view.setTitle(result.title)
+        }
     }
 
     private fun getBaseQuery(): Single<String> {

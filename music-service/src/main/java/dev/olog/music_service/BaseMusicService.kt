@@ -80,7 +80,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             val intent = Intent(this, this::class.java)
             intent.action = ACTION_KEEP_SERVICE_ALIVE
             ContextCompat.startForegroundService(this, intent)
-            // todo in oreo have to call context.startForeground whitin 5 secs
 
             serviceStarted = true
         }

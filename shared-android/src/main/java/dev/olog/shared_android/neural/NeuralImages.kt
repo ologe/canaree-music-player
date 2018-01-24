@@ -48,8 +48,6 @@ object NeuralImages {
             floatValues[i * 3 + 2] = (`val` and 0xFF) / 255.0f
         }
 
-        // TODO: Process the image in TensorFlow here.
-
         // Copy the input data into TensorFlow.
         inferenceInterface.feed(INPUT_NODE, floatValues,
                 1, scaledBitmap.width.toLong(), scaledBitmap.height.toLong(), 3)
