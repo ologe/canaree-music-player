@@ -177,16 +177,15 @@ class PlayerState @Inject constructor(
     @SuppressLint("NewApi")
     private fun disablePlayShortcut(){
         if (isNougat_MR1()){
-            val dynamicShortcuts = shortcutManager.dynamicShortcuts
-            dynamicShortcuts.remove(AppShortcutInfo.play(context, shortcutActivityClass.get()))
+            shortcutManager.removeDynamicShortcuts(listOf(AppShortcutInfo.SHORTCUT_PLAY))
         }
     }
 
     @SuppressLint("NewApi")
     private fun enablePlayShortcut(){
         if (isNougat_MR1()){
-            val dynamicShortcuts = shortcutManager.dynamicShortcuts
-            dynamicShortcuts.add(0, AppShortcutInfo.play(context, shortcutActivityClass.get()))
+            shortcutManager.addDynamicShortcuts(
+                    listOf(AppShortcutInfo.play(context, shortcutActivityClass.get())))
         }
     }
 
