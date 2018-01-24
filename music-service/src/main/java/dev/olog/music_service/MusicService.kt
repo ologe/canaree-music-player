@@ -11,10 +11,15 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.domain.interactor.prefs.SleepTimerUseCase
+import dev.olog.music_service.helper.MediaIdHelper
 import dev.olog.shared.MediaId
+import dev.olog.shared.MediaIdCategory
 import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.PendingIntents
 import dev.olog.shared_android.interfaces.MainActivityClass
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
 class MusicService : BaseMusicService() {
@@ -31,6 +36,8 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var playerMetadata: PlayerMetadata
     @Inject lateinit var notification: MusicNotificationManager
     @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
+
+    private val subsriptions = CompositeDisposable()
 
     override fun onCreate() {
         super.onCreate()
@@ -52,6 +59,7 @@ class MusicService : BaseMusicService() {
     override fun onDestroy() {
         super.onDestroy()
         resetSleepTimer()
+        subsriptions.clear()
         mediaSession.setMediaButtonReceiver(null)
         mediaSession.setCallback(null)
         mediaSession.isActive = false
@@ -96,12 +104,28 @@ class MusicService : BaseMusicService() {
         alarmManager.cancel(PendingIntents.stopServiceIntent(this, this::class.java))
     }
 
-    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
-
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
+        return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
     }
 
-    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        return BrowserRoot(MediaId.MEDIA_ID_ROOT, null)
+    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
+        if (parentId == MediaIdHelper.MEDIA_ID_ROOT){
+            result.sendResult(MediaIdHelper.getLibraryCategories(this))
+            return
+        }
+        val mediaIdCategory = MediaIdCategory.values()
+                .toList()
+                .firstOrNull { it.toString() == parentId }
+
+        if (mediaIdCategory != null){
+            result.detach()
+            val category = mediaIdCategory.toString()
+            callback.getParentChilds(category)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result::sendResult, Throwable::printStackTrace)
+                    .addTo(subsriptions)
+
+        }
     }
 
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {

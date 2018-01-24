@@ -10,9 +10,6 @@ enum class MediaIdCategory {
     RECENT_ALBUMS,
     RECENT_ARTISTS,
     HEADER;
-
-
-
 }
 
 class MediaId private constructor(
@@ -33,9 +30,6 @@ class MediaId private constructor(
         }
 
     companion object {
-        private const val MEDIA_ID_EMPTY = "__EMPTY__"
-        const val MEDIA_ID_ROOT = "__ROOT__"
-
         private const val CATEGORY_SEPARATOR = '/'
         private const val LEAF_SEPARATOR = '|'
 

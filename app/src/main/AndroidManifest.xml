@@ -69,11 +69,19 @@
         <activity android:name="dev.olog.presentation.debug.DebugConfigurationActivity"/>
 
         <!--music service-->
-        <service android:name="dev.olog.music_service.MusicService">
+        <service android:name="dev.olog.music_service.MusicService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
         </service>
+
+        <!--media button receiver-->
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
 
         <!--neural newtwork service-->
         <service android:name="dev.olog.presentation.activity_neural_network.service.NeuralNetworkService"
@@ -83,17 +91,6 @@
         <service android:name="dev.olog.floating_info.FloatingInfoService"
                  android:exported="false"/>
 
-        <!--media button receiver-->
-        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-            </intent-filter>
-        </receiver>
-
-        <!-- support to 2:1 screens -->
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1"/>
 
         <!--widget colored-->
         <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetColored"
@@ -132,6 +129,15 @@
         <!--<meta-data-->
             <!--android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"-->
             <!--android:value="dev.olog.presentation.cast.CastOptionsProvider" />-->
+
+        <!--car support-->
+        <meta-data android:name="com.google.android.gms.car.application"
+            android:resource="@xml/automotive_app_desc"/>
+
+        <!-- support to 2:1 screens -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
 
     </application>
 

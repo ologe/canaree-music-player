@@ -2,6 +2,9 @@ package dev.olog.music_service
 
 import android.os.Bundle
 import android.support.v4.math.MathUtils
+import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaDescriptionCompat
+import dev.olog.domain.entity.Song
 import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.GetSongListByParamUseCase
@@ -14,6 +17,7 @@ import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
 import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
+import dev.olog.shared.groupMap
 import dev.olog.shared.shuffle
 import dev.olog.shared.swap
 import io.reactivex.Single
@@ -215,6 +219,14 @@ class QueueManager @Inject constructor(
     override fun getCurrentPositionInQueue(): PositionInQueue {
         return queueImpl.currentPositionInQueue()
     }
+
+    override fun getParentChilds(mediaId: MediaId): Single<MutableList<MediaBrowserCompat.MediaItem>> {
+        return getSongListByParamUseCase.execute(mediaId)
+                .firstOrError()
+                .groupMap { it.toMediaItem(mediaId) }
+                .map { it.toMutableList() }
+
+    }
 }
 
 private fun getAscendingComparator(sortType: SortType): Comparator<MediaEntity> {
@@ -239,4 +251,14 @@ private fun getDescendingComparator(sortType: SortType): Comparator<MediaEntity>
         SortType.TRACK_NUMBER -> compareByDescending { it.trackNumber }
         SortType.CUSTOM -> compareByDescending { 0 }
     }
+}
+
+private fun Song.toMediaItem(parentId: MediaId) : MediaBrowserCompat.MediaItem {
+    val description = MediaDescriptionCompat.Builder()
+            .setMediaId(MediaId.playableItem(parentId, this.id).toString())
+            .setTitle(this.title)
+            .setSubtitle(this.artist)
+            .setDescription(this.album)
+            .build()
+    return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_PLAYABLE)
 }

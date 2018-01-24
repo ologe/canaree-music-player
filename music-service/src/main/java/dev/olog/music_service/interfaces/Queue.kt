@@ -1,6 +1,7 @@
 package dev.olog.music_service.interfaces
 
 import android.os.Bundle
+import android.support.v4.media.MediaBrowserCompat
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.MediaId
@@ -39,6 +40,8 @@ interface Queue {
 
     fun handleRemove(extras: Bundle)
     fun handleRemoveRelative(extras: Bundle)
+
+    fun getParentChilds(mediaId: MediaId) : Single<MutableList<MediaBrowserCompat.MediaItem>>
 
     fun sort()
 
