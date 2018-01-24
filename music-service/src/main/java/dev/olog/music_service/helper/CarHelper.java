@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 public class CarHelper {
 
-    private static final String AUTO_APP_PACKAGE_NAME = "com.google.android.projection.gearhead";
+    public static final String AUTO_APP_PACKAGE_NAME = "com.google.android.projection.gearhead";
 
     // Use these extras to reserve space for the corresponding actions, even when they are disabled
     // in the playbackstate, so the custom actions don't reflow.

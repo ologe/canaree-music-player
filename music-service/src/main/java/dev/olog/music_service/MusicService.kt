@@ -4,14 +4,18 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
+import dagger.Lazy
 import dev.olog.domain.interactor.prefs.SleepTimerUseCase
+import dev.olog.music_service.helper.CarHelper
 import dev.olog.music_service.helper.MediaIdHelper
+import dev.olog.music_service.helper.MediaItemGenerator
 import dev.olog.shared.MediaId
 import dev.olog.shared.MediaIdCategory
 import dev.olog.shared.constants.MusicConstants
@@ -36,6 +40,7 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var playerMetadata: PlayerMetadata
     @Inject lateinit var notification: MusicNotificationManager
     @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
+    @Inject lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
 
     private val subsriptions = CompositeDisposable()
 
@@ -105,11 +110,21 @@ class MusicService : BaseMusicService() {
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-        return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
+        if (clientPackageName == packageName){
+            return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
+        }
+
+        if (CarHelper.isValidCarPackage(clientPackageName)){
+            return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
+        }
+        return null
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         if (parentId == MediaIdHelper.MEDIA_ID_ROOT){
+            grantUriPermission(CarHelper.AUTO_APP_PACKAGE_NAME,
+                    Uri.parse("content://media/external/audio/albumart"),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
             result.sendResult(MediaIdHelper.getLibraryCategories(this))
             return
         }
@@ -119,13 +134,22 @@ class MusicService : BaseMusicService() {
 
         if (mediaIdCategory != null){
             result.detach()
-            val category = mediaIdCategory.toString()
-            callback.getParentChilds(category)
+            mediaItemGenerator.get().getCategoryChilds(mediaIdCategory)
+                    .map { it.toMutableList() }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(result::sendResult, Throwable::printStackTrace)
                     .addTo(subsriptions)
-
+            return
         }
+        val mediaId = MediaId.fromString(parentId)
+        result.detach()
+
+        mediaItemGenerator.get().getCategoryValueChilds(mediaId)
+                .map { it.toMutableList() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result::sendResult, Throwable::printStackTrace)
+                .addTo(subsriptions)
+
     }
 
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {

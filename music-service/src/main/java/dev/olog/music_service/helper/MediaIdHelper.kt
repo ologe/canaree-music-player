@@ -20,6 +20,7 @@ object MediaIdHelper {
 
     fun getLibraryCategories(context: Context): MutableList<MediaBrowserCompat.MediaItem> {
         return mutableListOf(
+                // todo pensare a quali categorie usare, mini queue, recents, ecc
                 createBrowsableMediaItem(context, FOLDERS, R.string.category_folders),
                 createBrowsableMediaItem(context, PLAYLISTS, R.string.category_playlists),
                 createBrowsableMediaItem(context, SONGS, R.string.category_songs),

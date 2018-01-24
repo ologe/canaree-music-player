@@ -41,8 +41,6 @@ interface Queue {
     fun handleRemove(extras: Bundle)
     fun handleRemoveRelative(extras: Bundle)
 
-    fun getParentChilds(mediaId: MediaId) : Single<MutableList<MediaBrowserCompat.MediaItem>>
-
     fun sort()
 
     fun shuffle()

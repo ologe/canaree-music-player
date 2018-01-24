@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -18,7 +17,6 @@ import dev.olog.music_service.interfaces.Queue
 import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared.unsubscribe
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -227,11 +225,6 @@ class MediaSessionCallback @Inject constructor(
         } else {
             onPlay()
         }
-    }
-
-    fun getParentChilds(mediaIdAsString: String): Single<MutableList<MediaBrowserCompat.MediaItem>>{
-        val mediaId = MediaId.fromString(mediaIdAsString)
-        return queue.getParentChilds(mediaId)
     }
 
 }

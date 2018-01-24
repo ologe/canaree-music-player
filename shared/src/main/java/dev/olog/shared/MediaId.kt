@@ -9,7 +9,7 @@ enum class MediaIdCategory {
     GENRE,
     RECENT_ALBUMS,
     RECENT_ARTISTS,
-    HEADER;
+    HEADER
 }
 
 class MediaId private constructor(

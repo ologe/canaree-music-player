@@ -12,6 +12,7 @@ import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.constants.MetadataConstants
 import dev.olog.shared_android.Constants
+import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.WidgetConstants
 import dev.olog.shared_android.extension.getAppWidgetsIdsFor
@@ -62,9 +63,15 @@ class PlayerMetadata @Inject constructor(
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, entity.title)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
+                .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, uri.toString())
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, uri))
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, ImageUtils.getBitmapFromDrawable(
+                        CoverUtils.getGradient(context, entity.id.toInt())
+                ))
                 .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
                 .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
                 .build()
