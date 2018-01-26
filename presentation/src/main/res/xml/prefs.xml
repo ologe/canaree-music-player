@@ -66,13 +66,13 @@
     <PreferenceCategory
         android:title="@string/prefs_category_audio">
 
-        <!--<SwitchPreference-->
-            <!--android:title="@string/prefs_used_equalizer_title"-->
-            <!--android:summary=""-->
-            <!--android:defaultValue="true"-->
-            <!--android:key="@string/prefs_used_equalizer_key"-->
-            <!--android:summaryOn="@string/prefs_used_equalizer_summary_on"-->
-            <!--android:summaryOff="@string/prefs_used_equalizer_summary_off"/>-->
+        <SwitchPreference
+            android:title="@string/prefs_used_equalizer_title"
+            android:summary=""
+            android:defaultValue="true"
+            android:key="@string/prefs_used_equalizer_key"
+            android:summaryOn="@string/prefs_used_equalizer_summary_on"
+            android:summaryOff="@string/prefs_used_equalizer_summary_off"/>
 
         <SwitchPreference
             android:title="@string/prefs_lower_volume_on_night_title"

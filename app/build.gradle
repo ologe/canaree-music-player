@@ -14,8 +14,9 @@ android {
         applicationId "dev.olog.msc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 27020 // android(27) - version code(001)
-        versionName "0.2" //update presentation module as well , to mirror effect on aboutActivity
+        versionCode 27020 // android(27) - version code(020)
+        versionName "0.2" //update presentation module as well , remember to mirror effect on aboutActivity
+                            // remember to activate firebase metadata in manifest
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
@@ -55,7 +56,7 @@ android {
             multiDexEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
+            debuggable true
 //            applicationIdSuffix = ".debug"
         }
     }
