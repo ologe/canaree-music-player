@@ -37,7 +37,7 @@ public class SleepTimerDialog extends TimePickerDialog {
     @Inject MusicServiceClass serviceClass;
     @Inject SleepTimerUseCase sleepTimerUseCase;
 
-    private static String NEXT_SLEEP = "NEXT_SLEEP";
+    private static String NEXT_SLEEP = "AppPreferencesDataStoreImpl.NEXT_SLEEP";
     private boolean isActive = false;
 
     public static SleepTimerDialog newInstance(){
@@ -62,6 +62,7 @@ public class SleepTimerDialog extends TimePickerDialog {
     }
 
     public static void resetTimer(Context context){
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs.edit().putLong(NEXT_SLEEP, -1L).apply();
     }

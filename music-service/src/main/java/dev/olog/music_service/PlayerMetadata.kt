@@ -1,38 +1,73 @@
 package dev.olog.music_service
 
 import android.appwidget.AppWidgetManager
+import android.arch.lifecycle.DefaultLifecycleObserver
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.model.MediaEntity
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.constants.MetadataConstants
+import dev.olog.shared.unsubscribe
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.CoverUtils
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.WidgetConstants
 import dev.olog.shared_android.extension.getAppWidgetsIdsFor
 import dev.olog.shared_android.interfaces.WidgetClasses
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+private const val IMAGE_SIZE = 300
 
 @PerService
 class PlayerMetadata @Inject constructor(
         @ApplicationContext private val context: Context,
+        @ServiceLifecycle lifecycle: Lifecycle,
         private val mediaSession: MediaSessionCompat,
         playerLifecycle: PlayerLifecycle,
         private val widgetClasses: WidgetClasses
 
-) : PlayerLifecycle.Listener {
+) : PlayerLifecycle.Listener, DefaultLifecycleObserver {
+
+    private val bitmapPublisher = PublishProcessor.create<MediaEntity>()
+
+    private var bitmapDisposable : Disposable? = null
 
     private val builder = MediaMetadataCompat.Builder()
 
     init {
         playerLifecycle.addListener(this)
+        lifecycle.addObserver(this)
+
+        bitmapDisposable = bitmapPublisher
+                .subscribeOn(Schedulers.io())
+                .debounce(1, TimeUnit.SECONDS)
+                .map {
+                    val uri = getUri(it.image)
+                    val bitmap = createBitmap(uri)
+                    val backgroundDrawable = ImageUtils.getBitmapFromDrawable(CoverUtils.getGradient(context, it.id.toInt()))
+                    bitmap to backgroundDrawable
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ (bitmap, backgroundDrawable) ->
+                    builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ART, bitmap)
+                            .putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, backgroundDrawable)
+                    mediaSession.setMetadata(builder.build())
+                }, Throwable::printStackTrace)
     }
 
     override fun onPrepare(entity: MediaEntity) {
@@ -43,13 +78,13 @@ class PlayerMetadata @Inject constructor(
         update(entity)
     }
 
+    override fun onDestroy(owner: LifecycleOwner) {
+        bitmapDisposable.unsubscribe()
+    }
+
     private fun update(entity: MediaEntity) {
 
-        val uri = if (entity.image.endsWith(".webp")){
-            Uri.fromFile(File(entity.image))
-        } else {
-            Uri.parse(entity.image)
-        }
+        val uri = getUri(entity.image)
 
         val artist = if (entity.artist == Constants.UNKNOWN_ARTIST){
             Constants.UNKNOWN
@@ -68,10 +103,6 @@ class PlayerMetadata @Inject constructor(
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, uri.toString())
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, ImageUtils.getBitmapFromUri(context, uri))
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, ImageUtils.getBitmapFromDrawable(
-                        CoverUtils.getGradient(context, entity.id.toInt())
-                ))
                 .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
                 .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
                 .build()
@@ -79,6 +110,20 @@ class PlayerMetadata @Inject constructor(
         mediaSession.setMetadata(builder.build())
 
         notifyWidgets(entity)
+
+        bitmapPublisher.onNext(entity)
+    }
+
+    private fun getUri(imageString: String): Uri {
+        return if (imageString.endsWith(".webp")){
+            Uri.fromFile(File(imageString))
+        } else {
+            Uri.parse(imageString)
+        }
+    }
+
+    private fun createBitmap(uri: Uri): Bitmap? {
+        return ImageUtils.getBitmapFromUriOrNull(context, uri, IMAGE_SIZE, IMAGE_SIZE)
     }
 
     private fun notifyWidgets(entity: MediaEntity){

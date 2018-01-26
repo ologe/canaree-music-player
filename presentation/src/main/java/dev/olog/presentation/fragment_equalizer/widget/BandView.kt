@@ -76,6 +76,8 @@ class BandView (
         currentLevel.visibility = View.GONE
         currentLevel.setSingleLine(true)
         currentLevel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+
+        addView(currentLevel)
     }
 
     private fun createBand(){

@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clipChildren="false"
-    android:background="@drawable/gradient">
+    android:clipChildren="false">
 
     <TextView
         android:id="@+id/presetName"

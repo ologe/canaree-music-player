@@ -10,6 +10,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.music_service.di.PerService
+import dev.olog.music_service.interfaces.INotification
 import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.interfaces.MainActivityClass
@@ -42,7 +43,8 @@ open class NotificationImpl24 @Inject constructor(
             album: String,
             image: Uri) {
 
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id))
+        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id,
+                                INotification.IMAGE_SIZE, INotification.IMAGE_SIZE))
                 .setContentTitle(title)
                 .setContentText(artist)
     }

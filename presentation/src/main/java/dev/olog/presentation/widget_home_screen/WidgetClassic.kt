@@ -2,7 +2,6 @@ package dev.olog.presentation.widget_home_screen
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.support.v7.graphics.Palette
@@ -21,6 +20,7 @@ class WidgetClassic : BaseWidget() {
 
     companion object {
         private var paletteDisposable : Disposable? = null
+        private const val IMAGE_SIZE = 300
     }
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
@@ -30,7 +30,7 @@ class WidgetClassic : BaseWidget() {
 //        remoteViews.setTextViewText(R.id.duration, " " + TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
 
         val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context,
-                Uri.parse(metadata.image) ,metadata.id)
+                Uri.parse(metadata.image) ,metadata.id, IMAGE_SIZE, IMAGE_SIZE)
 
         remoteViews.setImageViewBitmap(R.id.cover, bitmap)
 
@@ -42,7 +42,6 @@ class WidgetClassic : BaseWidget() {
     }
 
     override fun initializeColors(context: Context, remoteViews: RemoteViews, appWidgetIds: IntArray) {
-//        val bitmap = ImageUtils.getBitmapFromDrawable(CoverUtils.getGradient(context, Random().nextInt()))
         colorize(context, remoteViews, appWidgetIds, {
             val bitmap = ImageUtils.getBitmapFromDrawable(CoverUtils.getGradient(context, Random().nextInt()))
             remoteViews.setImageViewBitmap(R.id.cover, bitmap)

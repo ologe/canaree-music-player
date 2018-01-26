@@ -2,7 +2,6 @@ package dev.olog.data.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.provider.MediaStore
 import dev.olog.data.ImageUtils
 import dev.olog.domain.entity.Song
 import dev.olog.shared_android.Constants
@@ -102,10 +101,10 @@ object FileUtils {
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
         if (Constants.useNeuralImages){
             val image = ImagesFolderUtils.getNeuralAlbumCover(context, albumId)
-            return MediaStore.Images.Media.getBitmap(context.contentResolver, image)
+            return dev.olog.shared_android.ImageUtils.getBitmapFromUriOrNull(context, image, 500, 500)!!
         }
         val uri = ImagesFolderUtils.getOriginalAlbumCover(albumId)
-        return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+        return dev.olog.shared_android.ImageUtils.getBitmapFromUriOrNull(context, uri, 500, 500)!!
     }
 
 }

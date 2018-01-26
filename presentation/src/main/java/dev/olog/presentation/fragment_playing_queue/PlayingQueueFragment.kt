@@ -59,7 +59,7 @@ class PlayingQueueFragment : BaseFragment() {
                 val position = adapter.getItemPositionByPredicate {
                     it.trackNumber.toInt() == songId
                 }
-                adapter.updateCurrentPosition(position + 1)
+                adapter.updateCurrentPosition(position)
                 layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
                 startPostponedEnterTransition()
             }

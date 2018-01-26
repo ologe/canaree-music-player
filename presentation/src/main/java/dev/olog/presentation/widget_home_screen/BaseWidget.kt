@@ -24,6 +24,7 @@ abstract class BaseWidget : AbsWidgetApp() {
 
     companion object {
         private var IS_PLAYING = false
+        private const val PALETTE_SIZE = 120
     }
 
     @Inject lateinit var musicServiceClass: MusicServiceClass
@@ -110,12 +111,12 @@ abstract class BaseWidget : AbsWidgetApp() {
 
     protected fun generatePalette(context: Context, metadata: WidgetMetadata): Palette {
         val uri = Uri.parse(metadata.image)
-        val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, uri, metadata.id)
+        val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, uri, metadata.id, PALETTE_SIZE, PALETTE_SIZE)
         return Palette.from(bitmap).generate()
     }
 
     protected fun generatePalette(bitmap: Bitmap): Palette {
-        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 120, 120, false)
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, PALETTE_SIZE, PALETTE_SIZE, false)
         return Palette.from(scaledBitmap).generate()
     }
 

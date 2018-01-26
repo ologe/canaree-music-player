@@ -2,6 +2,7 @@ package dev.olog.music_service.equalizer
 
 import android.media.audiofx.BassBoost
 import dev.olog.domain.interactor.prefs.EqualizerPrefsUseCase
+import dev.olog.shared_android.RootUtils
 import dev.olog.shared_android.interfaces.equalizer.IBassBoost
 import javax.inject.Inject
 
@@ -13,9 +14,13 @@ class BassBoostImpl @Inject constructor(
     private var bassBoost = BassBoost(0, 1)
 
     init {
-        val settings = equalizerPrefsUseCase.getBassBoostSettings()
-        if (settings.isNotBlank()){
-            bassBoost.properties = BassBoost.Settings(settings)
+        if (!RootUtils.isDeviceRooted()){
+            val settings = equalizerPrefsUseCase.getBassBoostSettings()
+            if (settings.isNotBlank()){
+                bassBoost.properties = BassBoost.Settings(settings)
+            }
+        } else {
+            bassBoost.release()
         }
     }
 

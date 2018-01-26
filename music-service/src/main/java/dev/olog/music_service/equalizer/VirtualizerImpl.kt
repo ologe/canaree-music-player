@@ -2,6 +2,7 @@ package dev.olog.music_service.equalizer
 
 import android.media.audiofx.Virtualizer
 import dev.olog.domain.interactor.prefs.EqualizerPrefsUseCase
+import dev.olog.shared_android.RootUtils
 import dev.olog.shared_android.interfaces.equalizer.IVirtualizer
 import javax.inject.Inject
 
@@ -13,9 +14,13 @@ class VirtualizerImpl @Inject constructor(
     private var virtualizer = Virtualizer(0, 1)
 
     init {
-        val settings = equalizerPrefsUseCase.getVirtualizerSettings()
-        if (settings.isNotBlank()){
-            virtualizer.properties = Virtualizer.Settings(settings)
+        if (!RootUtils.isDeviceRooted()){
+            val settings = equalizerPrefsUseCase.getVirtualizerSettings()
+            if (settings.isNotBlank()){
+                virtualizer.properties = Virtualizer.Settings(settings)
+            }
+        } else {
+            virtualizer.release()
         }
     }
 

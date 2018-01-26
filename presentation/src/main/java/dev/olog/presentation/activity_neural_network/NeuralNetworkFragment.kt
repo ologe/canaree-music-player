@@ -87,8 +87,10 @@ class NeuralNetworkFragment : BaseFragment() {
             stylezedImageDisposable.unsubscribe()
             stylezedImageDisposable = Single.create<Bitmap> { emitter ->
 
+                val size = 768
+
                 val bitmap = NeuralImages.stylizeTensorFlow(activity!!,
-                        ImageUtils.getBitmapFromUri(activity!!, Uri.parse(image))!!, size = 768)
+                        ImageUtils.getBitmapFromUriOrNull(activity!!, Uri.parse(image), size, size)!!, size = size)
                 emitter.onSuccess(bitmap)
 
             }.subscribeOn(Schedulers.io())

@@ -2,6 +2,7 @@ package dev.olog.music_service.equalizer
 
 import android.media.audiofx.Equalizer
 import dev.olog.domain.interactor.prefs.EqualizerPrefsUseCase
+import dev.olog.shared_android.RootUtils
 import dev.olog.shared_android.interfaces.equalizer.IEqualizer
 import javax.inject.Inject
 
@@ -14,9 +15,13 @@ class EqualizerImpl @Inject constructor(
     private val listeners = mutableListOf<IEqualizer.Listener>()
 
     init {
-        val settings = equalizerPrefsUseCase.getEqualizerSettings()
-        if (settings.isNotBlank()){
-            equalizer.properties = Equalizer.Settings(settings)
+        if (!RootUtils.isDeviceRooted()){
+            val settings = equalizerPrefsUseCase.getEqualizerSettings()
+            if (settings.isNotBlank()){
+                equalizer.properties = Equalizer.Settings(settings)
+            }
+        } else {
+            equalizer.release()
         }
     }
 

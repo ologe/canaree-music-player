@@ -8,6 +8,7 @@ interface INotification {
 
     companion object {
         const val NOTIFICATION_ID : Int = 0x6d7363
+        const val IMAGE_SIZE = 200
     }
 
     fun createIfNeeded()

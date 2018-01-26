@@ -12,6 +12,6 @@
     <dimen name="placeholder_artist_padding">90dp</dimen>
     <dimen name="placeholder_genre_padding">80dp</dimen>
 
-    <dimen name="placeholder_padding_for_notification">40dp</dimen>
+    <dimen name="placeholder_padding_for_notification">18dp</dimen>
 
 </resources>

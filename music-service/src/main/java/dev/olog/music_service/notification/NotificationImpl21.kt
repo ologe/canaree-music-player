@@ -130,7 +130,8 @@ open class NotificationImpl21 @Inject constructor(
             album: String,
             uri: Uri){
 
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri , id))
+        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri , id,
+                                    INotification.IMAGE_SIZE, INotification.IMAGE_SIZE))
                 .setContentTitle(title)
                 .setContentText(artist)
                 .setSubText(album)

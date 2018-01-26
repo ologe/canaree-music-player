@@ -5,13 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
-    tools:background="#fcca1c">
+    android:background="#fcca1c"
+    android:elevation="4dp">
 
     <View
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"
-        android:background="@color/dark_grey"
+        android:background="@android:color/transparent"
         android:alpha=".8"/>
 
     <dev.olog.presentation.fragment_equalizer.widget.InfiniteViewPager
@@ -36,21 +37,10 @@
         app:dotGap="5dp"
         android:layout_marginTop="8dp"/>
 
-    <View
-        android:id="@+id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:background="@color/dark_grey"
-        android:alpha=".6"/>
-
     <Switch
         android:id="@+id/powerSwitch"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
@@ -115,14 +105,14 @@
 
     <dev.olog.presentation.fragment_equalizer.widget.BandView
         android:id="@+id/band3"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
         app:layout_constraintBottom_toTopOf="@+id/presetName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="@dimen/eq_bar_width"
         android:layout_height="0dp"
         android:layout_marginBottom="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         tools:background="@color/colorAccent"
         app:bandIndex="2" />
 

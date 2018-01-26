@@ -17,6 +17,7 @@ import dagger.android.DaggerService
 import dev.olog.domain.interactor.GetAllAlbumsForUtilsUseCase
 import dev.olog.presentation.R
 import dev.olog.shared.unsubscribe
+import dev.olog.shared_android.ImageUtils
 import dev.olog.shared_android.ImagesFolderUtils
 import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.extension.notificationManager
@@ -122,8 +123,8 @@ class NeuralNetworkService : DaggerService() {
                 .flattenAsFlowable { it }
                 .map {
                     try {
-                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, Uri.parse(it.image))
-                        makeFilteredImage(this, it.id, bitmap, styles)
+                        val bitmap = ImageUtils.getBitmapFromUriOrNull(applicationContext, Uri.parse(it.image), 768, 768)
+                        makeFilteredImage(this, it.id, bitmap!!, styles)
                     } catch (ex: Exception){}
                 }
                 .doOnNext {
