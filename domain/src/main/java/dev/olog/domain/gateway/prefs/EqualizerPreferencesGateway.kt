@@ -12,4 +12,8 @@ interface EqualizerPreferencesGateway {
     fun saveBassBoostSettings(settings: String)
     fun saveVirtualizerSettings(settings: String)
 
+    fun getEqualizerSettings(): String
+    fun getVirtualizerSettings(): String
+    fun getBassBoostSettings(): String
+
 }

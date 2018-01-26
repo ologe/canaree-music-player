@@ -7,6 +7,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dev.olog.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.domain.gateway.prefs.EqualizerPreferencesGateway
 import dev.olog.domain.gateway.prefs.FloatingInfoPreferencesGateway
 import dev.olog.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.shared.ApplicationContext
@@ -45,6 +46,10 @@ class PreferenceModule{
         return RxSharedPreferences.create(preferences)
     }
 
-
+    @Provides
+    @Singleton
+    fun provideEqualizerPreferences(dataStore: EqualizerPreferenceImpl): EqualizerPreferencesGateway {
+        return dataStore
+    }
 
 }

@@ -12,10 +12,21 @@ class BassBoostImpl @Inject constructor(
 
     private var bassBoost = BassBoost(0, 1)
 
+    init {
+        val settings = equalizerPrefsUseCase.getBassBoostSettings()
+        if (settings.isNotBlank()){
+            bassBoost.properties = BassBoost.Settings(settings)
+        }
+    }
+
     override fun getStrength(): Int = bassBoost.roundedStrength.toInt()
 
     override fun setStrength(value: Int) {
         bassBoost.setStrength(value.toShort())
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        bassBoost.enabled = enabled
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {

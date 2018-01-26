@@ -20,6 +20,18 @@ class EqualizerPrefsUseCase @Inject constructor(
         gateway.setReplayGainEnabled(enabled)
     }
 
+    fun getEqualizerSettings(): String {
+        return gateway.getEqualizerSettings()
+    }
+
+    fun getBassBoostSettings(): String {
+        return gateway.getBassBoostSettings()
+    }
+
+    fun getVirtualizerSettings(): String {
+        return gateway.getVirtualizerSettings()
+    }
+
     fun saveEqualizerSettings(settings: String){
         gateway.saveEqualizerSettings(settings)
     }

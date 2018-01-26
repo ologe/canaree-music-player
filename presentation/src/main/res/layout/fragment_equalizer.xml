@@ -5,7 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
-    tools:background="@drawable/gradient">
+    tools:background="#fcca1c">
+
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/dark_grey"
+        android:alpha=".8"/>
 
     <dev.olog.presentation.fragment_equalizer.widget.InfiniteViewPager
         android:id="@+id/pager"
@@ -31,22 +38,25 @@
 
     <View
         android:id="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/dark_grey"
+        android:alpha=".6"/>
 
     <Switch
         android:id="@+id/powerSwitch"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checked="true"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:thumbTint="@color/dark_grey"
+        android:buttonTint="@android:color/white" />
 
     <View
         android:id="@+id/dottedLine"
@@ -252,6 +262,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/replayGain"
         app:layout_constraintBottom_toBottomOf="@+id/replayGain"
-        android:layout_marginStart="8dp"/>
+        android:layout_marginStart="8dp"
+        android:thumbTint="@color/dark_grey"/>
 
 </android.support.constraint.ConstraintLayout>

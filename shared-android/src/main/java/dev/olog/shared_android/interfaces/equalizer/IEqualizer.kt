@@ -16,6 +16,8 @@ interface IEqualizer {
 
     fun getCurrentPreset(): Int
 
+    fun setEnabled(enabled: Boolean)
+
     fun onAudioSessionIdChanged(audioSessionId: Int)
 
     fun release()

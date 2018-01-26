@@ -38,6 +38,7 @@ import javax.inject.Singleton
 
         // music service
         MusicServiceInjector::class,
+        EqualizerModule::class,
 
         // floating info service
         FloatingInfoServiceInjector::class,

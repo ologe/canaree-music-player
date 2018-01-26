@@ -26,6 +26,9 @@ class EqualizerFragmentPresenter @Inject constructor(
     fun isEqualizerEnabled(): Boolean = equalizerPrefsUseCase.isEqualizerEnabled()
 
     fun setEqualizerEnabled(enabled: Boolean){
+        equalizer.setEnabled(enabled)
+        virtualizer.setEnabled(enabled)
+        bassBoost.setEnabled(enabled)
         equalizerPrefsUseCase.setEqualizerEnabled(enabled)
     }
 
@@ -35,9 +38,12 @@ class EqualizerFragmentPresenter @Inject constructor(
         equalizer.setBandLevel(band, level * 100)
     }
 
-    fun isReplayGainEnabled(): Boolean = equalizerPrefsUseCase.isReplayGainEnabled()
+    fun isReplayGainEnabled(): Boolean {
+        return replayGain.isImplementedByDevice() && equalizerPrefsUseCase.isReplayGainEnabled()
+    }
 
     fun setReplayGainEnabled(enabled: Boolean) {
+        replayGain.setEnabled(enabled)
         equalizerPrefsUseCase.setReplayGainEnabled(enabled)
     }
 

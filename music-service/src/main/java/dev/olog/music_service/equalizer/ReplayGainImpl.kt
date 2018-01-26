@@ -12,14 +12,21 @@ class ReplayGainImpl @Inject constructor(
 
     private var automaticGainControl : AutomaticGainControl? = null
 
+
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        if (AutomaticGainControl.isAvailable()) {
+        if (isImplementedByDevice()) {
             if (automaticGainControl != null){
                 automaticGainControl?.release()
             }
             automaticGainControl = AutomaticGainControl.create(audioSessionId)
             automaticGainControl?.enabled = equalizerPrefsUseCase.isReplayGainEnabled()
         }
+    }
+
+    override fun isImplementedByDevice(): Boolean = AutomaticGainControl.isAvailable()
+
+    override fun setEnabled(enabled: Boolean) {
+        automaticGainControl?.enabled = enabled
     }
 
     override fun release() {

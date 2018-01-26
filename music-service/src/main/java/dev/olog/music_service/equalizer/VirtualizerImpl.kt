@@ -12,10 +12,21 @@ class VirtualizerImpl @Inject constructor(
 
     private var virtualizer = Virtualizer(0, 1)
 
+    init {
+        val settings = equalizerPrefsUseCase.getVirtualizerSettings()
+        if (settings.isNotBlank()){
+            virtualizer.properties = Virtualizer.Settings(settings)
+        }
+    }
+
     override fun getStrength(): Int = virtualizer.roundedStrength.toInt()
 
     override fun setStrength(value: Int) {
         virtualizer.setStrength(value.toShort())
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        virtualizer.enabled = enabled
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
@@ -27,7 +38,7 @@ class VirtualizerImpl @Inject constructor(
     }
 
     override fun release() {
-        equalizerPrefsUseCase.saveBassBoostSettings(virtualizer.properties.toString())
+        equalizerPrefsUseCase.saveVirtualizerSettings(virtualizer.properties.toString())
         virtualizer.release()
     }
 }

@@ -7,6 +7,8 @@ interface IBassBoost {
 
     fun onAudioSessionIdChanged(audioSessionId: Int)
 
+    fun setEnabled(enabled: Boolean)
+
     fun release()
 
 }
