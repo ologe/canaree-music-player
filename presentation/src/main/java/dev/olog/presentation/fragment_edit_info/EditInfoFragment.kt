@@ -114,8 +114,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault
 
-        val title = tag.getFirst(FieldKey.TITLE)
-        view.title.setText(title)
+        view.title.setText(song.title)
 
         val artist = tag.getFirst(FieldKey.ARTIST)
         if (artist != Constants.UNKNOWN){

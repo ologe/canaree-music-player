@@ -35,6 +35,12 @@
     <string name="prefs_floating_window_at_startup_title">Show at startup</string>
     <string name="prefs_floating_window_at_startup_summary">Start floating window service on launch</string>
 
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_title">Equalizer</string>
+    <string name="prefs_used_equalizer_summary_on">Use Next equalizer</string>
+    <string name="prefs_used_equalizer_summary_off">Use system equalizer (if any)</string>
+    <string name="prefs_used_equalizer_not_found">Built-in equalizer not available on rooted device</string>
+
     <!--lower audio on night-->
     <string name="prefs_lower_volume_on_night_title">Lowers the max volume the night</string>
     <string name="prefs_lower_volume_on_night_summary"></string>

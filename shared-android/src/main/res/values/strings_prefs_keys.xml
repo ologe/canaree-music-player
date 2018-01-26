@@ -16,6 +16,7 @@
 
     <!--audio-->
     <string name="prefs_lower_volume_key" translatable="false">key_lower_volume</string>
+    <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
 
     <!--images-->
     <string name="prefs_use_neural_images_key" translatable="false">key_use_stylized_images</string>
