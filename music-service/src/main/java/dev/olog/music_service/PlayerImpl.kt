@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
+import dev.olog.music_service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.PlayerLifecycle
@@ -42,7 +43,8 @@ class PlayerImpl @Inject constructor(
         private val playerState: PlayerState,
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
-        private val volume: PlayerVolume
+        private val volume: PlayerVolume,
+        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ) : Player,
         DefaultLifecycleObserver,
@@ -67,10 +69,14 @@ class PlayerImpl @Inject constructor(
                 exoPlayer.volume = volume
             }
         }
+
+        exoPlayer.addAudioDebugListener(onAudioSessionIdChangeListener)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
+        onAudioSessionIdChangeListener.release()
+        exoPlayer.removeAudioDebugListener(onAudioSessionIdChangeListener)
         releaseFocus()
         exoPlayer.removeListener(this)
         exoPlayer.release()

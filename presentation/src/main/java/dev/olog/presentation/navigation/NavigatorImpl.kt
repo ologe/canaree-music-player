@@ -1,7 +1,6 @@
 package dev.olog.presentation.navigation
 
 import android.content.Intent
-import android.media.audiofx.AudioEffect
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -29,6 +28,7 @@ import dev.olog.presentation.dialog_sleep_timer.SleepTimerDialog
 import dev.olog.presentation.fragment_albums.AlbumsFragment
 import dev.olog.presentation.fragment_detail.DetailFragment
 import dev.olog.presentation.fragment_edit_info.EditInfoFragment
+import dev.olog.presentation.fragment_equalizer.EqualizerFragment
 import dev.olog.presentation.fragment_playing_queue.PlayingQueueFragment
 import dev.olog.presentation.fragment_recently_added.RecentlyAddedFragment
 import dev.olog.presentation.fragment_related_artist.RelatedArtistFragment
@@ -36,7 +36,6 @@ import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import dev.olog.shared.MediaId
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -189,12 +188,19 @@ class NavigatorImpl @Inject constructor(
     }
 
     private fun toEqualizer(){
-        val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
-        if (intent.resolveActivity(activity.packageManager) != null){
-            activity.startActivity(intent)
-        } else {
-            activity.toast(R.string.equalizer_not_found)
+        activity.supportFragmentManager.transaction {
+            setReorderingAllowed(true)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            add(R.id.viewPagerLayout, EqualizerFragment(), EqualizerFragment.TAG)
+            addToBackStack(EqualizerFragment.TAG)
         }
+
+//        val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+//        if (intent.resolveActivity(activity.packageManager) != null){
+//            activity.startActivity(intent)
+//        } else {
+//            activity.toast(R.string.equalizer_not_found)
+//        }
     }
 
     private fun allowed(): Boolean {

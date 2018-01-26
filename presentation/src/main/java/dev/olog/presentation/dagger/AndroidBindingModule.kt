@@ -8,6 +8,7 @@ import dev.olog.presentation.activity_preferences.categories.LibraryCategoriesFr
 import dev.olog.presentation.activity_splash.SplashFragment
 import dev.olog.presentation.activity_splash.SplashFragmentTutorial
 import dev.olog.presentation.dialog_sleep_timer.SleepTimerDialog
+import dev.olog.presentation.fragment_equalizer.EqualizerFragment
 import dev.olog.presentation.widget_home_screen.WidgetClassic
 import dev.olog.presentation.widget_home_screen.WidgetColored
 
@@ -37,5 +38,8 @@ abstract class AndroidBindingModule {
 
     @ContributesAndroidInjector
     abstract fun provideSleetTimerDialog() : SleepTimerDialog
+
+    @ContributesAndroidInjector
+    abstract fun provideEqualizerFragment(): EqualizerFragment
 
 }

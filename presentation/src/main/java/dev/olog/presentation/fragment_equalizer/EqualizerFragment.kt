@@ -1,94 +1,115 @@
 package dev.olog.presentation.fragment_equalizer
 
-import android.media.audiofx.BassBoost
-import android.media.audiofx.Equalizer
-import android.media.audiofx.PresetReverb
-import android.media.audiofx.Virtualizer
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.view.View
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
-import dev.olog.presentation.widgets.vertical_seek_bar.VerticalSeekBar
+import dev.olog.presentation.fragment_equalizer.widget.InfinitePagerAdapter
+import dev.olog.presentation.fragment_equalizer.widget.RadialKnob
+import dev.olog.shared_android.interfaces.equalizer.IEqualizer
+import kotlinx.android.synthetic.main.activity_splash.view.*
 import kotlinx.android.synthetic.main.fragment_equalizer.view.*
+import javax.inject.Inject
 
-class EqualizerFragment : BaseFragment() {
+class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
 
-    private val audioSessionId = 1
+    companion object {
+        const val TAG = "EqualizerFragment"
+    }
 
-    private val equalizer by lazy { Equalizer(0, audioSessionId) }
-    private val virtualizer by lazy { Virtualizer(0, audioSessionId) }
-    private val bassBoost by lazy { BassBoost(0, audioSessionId) }
-    private val presetRever by lazy { PresetReverb(0, audioSessionId) }
-
-    private val lowerEqLevel by lazy { equalizer.bandLevelRange[0] }
-    private val upperEqLevel by lazy { equalizer.bandLevelRange[1] }
+    @Inject lateinit var presenter: EqualizerFragmentPresenter
+    private lateinit var adapter : InfinitePagerAdapter
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        adapter = InfinitePagerAdapter(PresetPagerAdapter(
+                activity!!.supportFragmentManager, presenter.getPresets()))
 
-        view.bar1.max = upperEqLevel - lowerEqLevel
-        view.bar1.progress = equalizer.getBandLevel(0).toInt()
+        view.pager.adapter = adapter
+        view.pager.currentItem = presenter.getCurrentPreset()
+        view.inkIndicator.setViewPager(view.pager)
 
-        view.bar2.max = upperEqLevel - lowerEqLevel
-        view.bar2.progress = equalizer.getBandLevel(1).toInt()
+        view.powerSwitch.isChecked = presenter.isEqualizerEnabled()
+        view.replayGainSwitch.isChecked = presenter.isReplayGainEnabled()
 
-        view.bar3.max = upperEqLevel - lowerEqLevel
-        view.bar3.progress = equalizer.getBandLevel(2).toInt()
+        view.bassKnob.progress = presenter.getBassStrength().toFloat()
+        view.virtualizerKnob.progress = presenter.getBassStrength().toFloat()
 
-        view.bar4.max = upperEqLevel - lowerEqLevel
-        view.bar4.progress = equalizer.getBandLevel(3).toInt()
+        if (!presenter.isReplayGainEnabled()){
+            view.replayGainSwitch.visibility = View.GONE
+            view.replayGain.visibility = View.GONE
+        }
 
-        view.bar5.max = upperEqLevel - lowerEqLevel
-        view.bar5.progress = equalizer.getBandLevel(4).toInt()
+        view.band1.initializeBandHeight(presenter.getBandLevel(0))
+        view.band2.initializeBandHeight(presenter.getBandLevel(1))
+        view.band3.initializeBandHeight(presenter.getBandLevel(2))
+        view.band4.initializeBandHeight(presenter.getBandLevel(3))
+        view.band5.initializeBandHeight(presenter.getBandLevel(4))
     }
 
     override fun onResume() {
         super.onResume()
-        view!!.bar1.setOnSeekBarChangeListener(object : SeekbarWrapper{
-            override fun onProgressChanged(seekBar: VerticalSeekBar?, progress: Int, fromUser: Boolean) {
-                equalizer.setBandLevel(0, ((progress + lowerEqLevel).toShort()))
-                println(progress)
-            }
-        })
-        view!!.bar2.setOnSeekBarChangeListener(object : SeekbarWrapper{
-            override fun onProgressChanged(seekBar: VerticalSeekBar?, progress: Int, fromUser: Boolean) {
-                equalizer.setBandLevel(1, ((progress + lowerEqLevel).toShort()))
-                println(progress)
-            }
-        })
-        view!!.bar3.setOnSeekBarChangeListener(object : SeekbarWrapper{
-            override fun onProgressChanged(seekBar: VerticalSeekBar?, progress: Int, fromUser: Boolean) {
-                equalizer.setBandLevel(2, ((progress + lowerEqLevel).toShort()))
-                println(progress)
-            }
-        })
-        view!!.bar4.setOnSeekBarChangeListener(object : SeekbarWrapper{
-            override fun onProgressChanged(seekBar: VerticalSeekBar?, progress: Int, fromUser: Boolean) {
-                equalizer.setBandLevel(3, ((progress + lowerEqLevel).toShort()))
-                println(progress)
-            }
-        })
-        view!!.bar5.setOnSeekBarChangeListener(object : SeekbarWrapper{
-            override fun onProgressChanged(seekBar: VerticalSeekBar?, progress: Int, fromUser: Boolean) {
-                equalizer.setBandLevel(4, ((progress + lowerEqLevel).toShort()))
-                println(progress)
-            }
-        })
+        view!!.powerSwitch.setOnCheckedChangeListener { _, isChecked -> presenter.setEqualizerEnabled(isChecked) }
+        view!!.replayGainSwitch.setOnCheckedChangeListener { _, isChecked -> presenter.setReplayGainEnabled(isChecked) }
+        view!!.bassKnob.setOnKnobChangeListener(onBassKnobChangeListener)
+        view!!.virtualizerKnob.setOnKnobChangeListener(onVirtualizerKnobChangeListener)
+        view!!.pager.addOnPageChangeListener(onPageChangeListener)
+        presenter.addEqualizerListener(this)
+
+        view!!.band1.setLevel = onBandLevelChange
+        view!!.band2.setLevel = onBandLevelChange
+        view!!.band3.setLevel = onBandLevelChange
+        view!!.band4.setLevel = onBandLevelChange
+        view!!.band5.setLevel = onBandLevelChange
     }
 
     override fun onPause() {
         super.onPause()
-        view!!.bar1.setOnSeekBarChangeListener(null)
-        view!!.bar2.setOnSeekBarChangeListener(null)
-        view!!.bar3.setOnSeekBarChangeListener(null)
-        view!!.bar4.setOnSeekBarChangeListener(null)
-        view!!.bar5.setOnSeekBarChangeListener(null)
+        view!!.powerSwitch.setOnCheckedChangeListener(null)
+        view!!.replayGainSwitch.setOnCheckedChangeListener(null)
+        view!!.bassKnob.setOnKnobChangeListener(null)
+        view!!.virtualizerKnob.setOnKnobChangeListener(null)
+        view!!.pager.removeOnPageChangeListener(onPageChangeListener)
+        presenter.removeEqualizerListener(this)
+
+        view!!.band1.setLevel = null
+        view!!.band2.setLevel = null
+        view!!.band3.setLevel = null
+        view!!.band4.setLevel = null
+        view!!.band5.setLevel = null
+    }
+
+    private val onBassKnobChangeListener = object : RadialKnob.OnKnobChangeListener {
+        override fun onValueChanged(knob: RadialKnob?, value: Int, fromUser: Boolean) {
+            presenter.setBassStrength(value)
+        }
+
+        override fun onSwitchChanged(knob: RadialKnob?, on: Boolean): Boolean = false
+    }
+
+    private val onVirtualizerKnobChangeListener = object : RadialKnob.OnKnobChangeListener {
+        override fun onValueChanged(knob: RadialKnob?, value: Int, fromUser: Boolean) {
+            presenter.setVirtualizerStrength(value)
+        }
+
+        override fun onSwitchChanged(knob: RadialKnob?, on: Boolean): Boolean = false
+    }
+
+    private val onPageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
+        override fun onPageSelected(position: Int) {
+            presenter.setPreset(position % adapter.realCount)
+        }
+    }
+
+    private val onBandLevelChange = { band: Int, level : Float -> presenter.setBandLevel(band, level) }
+
+    override fun onPresetChange(band: Int, level: Float) {
+        view!!.band1.onPresetChange(band, level)
+        view!!.band2.onPresetChange(band, level)
+        view!!.band3.onPresetChange(band, level)
+        view!!.band4.onPresetChange(band, level)
+        view!!.band5.onPresetChange(band, level)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_equalizer
-
-    interface SeekbarWrapper: VerticalSeekBar.OnSeekBarChangeListener{
-        override fun onStartTrackingTouch(seekBar: VerticalSeekBar?) {}
-        override fun onStopTrackingTouch(seekBar: VerticalSeekBar?) {}
-    }
-
 }
