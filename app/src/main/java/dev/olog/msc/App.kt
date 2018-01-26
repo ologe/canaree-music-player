@@ -35,6 +35,8 @@ class App : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
 
+        FirebasePerformance.initialize()
+
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
 
         Constants.initialize(this)

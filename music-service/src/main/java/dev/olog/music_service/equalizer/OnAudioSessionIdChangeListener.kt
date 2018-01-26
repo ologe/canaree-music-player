@@ -7,8 +7,9 @@ import dev.olog.shared_android.interfaces.equalizer.IBassBoost
 import dev.olog.shared_android.interfaces.equalizer.IEqualizer
 import dev.olog.shared_android.interfaces.equalizer.IReplayGain
 import dev.olog.shared_android.interfaces.equalizer.IVirtualizer
+import javax.inject.Inject
 
-class OnAudioSessionIdChangeListener(
+class OnAudioSessionIdChangeListener @Inject constructor(
         private val equalizer: IEqualizer,
         private val virtualizer: IVirtualizer,
         private val bassBoost: IBassBoost,

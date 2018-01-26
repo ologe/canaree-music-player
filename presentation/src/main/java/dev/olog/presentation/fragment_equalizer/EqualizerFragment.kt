@@ -8,7 +8,6 @@ import dev.olog.presentation._base.BaseFragment
 import dev.olog.presentation.fragment_equalizer.widget.InfinitePagerAdapter
 import dev.olog.presentation.fragment_equalizer.widget.RadialKnob
 import dev.olog.shared_android.interfaces.equalizer.IEqualizer
-import kotlinx.android.synthetic.main.activity_splash.view.*
 import kotlinx.android.synthetic.main.fragment_equalizer.view.*
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
 
         view.pager.adapter = adapter
         view.pager.currentItem = presenter.getCurrentPreset()
-        view.inkIndicator.setViewPager(view.pager)
+        view.pageIndicator.setViewPager(view.pager)
 
         view.powerSwitch.isChecked = presenter.isEqualizerEnabled()
         view.replayGainSwitch.isChecked = presenter.isReplayGainEnabled()
