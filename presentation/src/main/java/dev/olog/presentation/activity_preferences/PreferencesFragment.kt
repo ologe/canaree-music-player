@@ -22,21 +22,21 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var neuralStyle: Preference
-    private lateinit var used_equalizer: SwitchPreference
+    private lateinit var usedEqualizer: SwitchPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         neuralStyle = preferenceScreen.findPreference(getString(R.string.prefs_neural_network_style_key))
-        used_equalizer = preferenceScreen.findPreference(getString(R.string.prefs_used_equalizer_key)) as SwitchPreference
+        usedEqualizer = preferenceScreen.findPreference(getString(R.string.prefs_used_equalizer_key)) as SwitchPreference
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        if (RootUtils.isDeviceRooted()){
-//            used_equalizer.isChecked = false
-//            used_equalizer.isEnabled = false
-//        }
+        if (RootUtils.isDeviceRooted()){
+            usedEqualizer.isChecked = false
+            usedEqualizer.isEnabled = false
+        }
     }
 
     override fun onResume() {
@@ -57,7 +57,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             activity!!.startActivity(intent)
             true
         }
-        used_equalizer.setOnPreferenceClickListener {
+        usedEqualizer.setOnPreferenceClickListener {
             if (RootUtils.isDeviceRooted()){
                 activity!!.toast(R.string.prefs_used_equalizer_not_found)
             }
@@ -71,7 +71,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
         neuralStyle.onPreferenceClickListener = null
-        used_equalizer.onPreferenceClickListener = null
+        usedEqualizer.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
