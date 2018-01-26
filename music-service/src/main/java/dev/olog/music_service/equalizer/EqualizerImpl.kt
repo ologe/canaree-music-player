@@ -3,6 +3,7 @@ package dev.olog.music_service.equalizer
 import android.media.audiofx.Equalizer
 import dev.olog.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.shared_android.interfaces.equalizer.IEqualizer
+import java.util.ArrayList
 import javax.inject.Inject
 
 class EqualizerImpl @Inject constructor(
@@ -28,22 +29,32 @@ class EqualizerImpl @Inject constructor(
     }
 
     override fun setPreset(position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        equalizer.usePreset(position.toShort())
+        listeners.forEach {
+            for (band in 0 until equalizer.numberOfBands){
+                val level = equalizer.getBandLevel(band.toShort()) / 100
+                it.onPresetChange(band, level.toFloat())
+            }
+        }
     }
 
     override fun getPresets(): List<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return (0 until equalizer.numberOfPresets)
+                .map { equalizer.getPresetName(it.toShort()) }
     }
 
-    override fun getCurrentPreset(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getCurrentPreset(): Int = equalizer.currentPreset.toInt()
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val settings = equalizer.properties
+        equalizer.release()
+        equalizer = Equalizer(0, audioSessionId)
+        equalizer.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
+        settings?.let { equalizer.properties = it }
     }
 
     override fun release() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        equalizerPrefsUseCase.saveEqualizerSettings(equalizer.properties.toString())
+        equalizer.release()
     }
 }
