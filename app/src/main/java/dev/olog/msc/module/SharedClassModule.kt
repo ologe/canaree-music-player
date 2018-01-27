@@ -1,4 +1,4 @@
-package dev.olog.msc
+package dev.olog.msc.module
 
 import android.app.Service
 import android.appwidget.AppWidgetProvider

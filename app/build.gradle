@@ -4,7 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.firebase-perf'
 
-
 android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -14,9 +13,9 @@ android {
         applicationId "dev.olog.msc"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 27020 // android(27) - version code(020)
-        versionName "0.2" //update presentation module as well , remember to mirror effect on aboutActivity
-                            // remember to activate firebase metadata in manifest
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
@@ -87,6 +86,9 @@ dependencies {
     implementation project(':data')
     implementation project(':floating-info')
     implementation project(':shared-android')
+    implementation project(':licensing')
+
+    implementation "com.android.billingclient:billing:$rootProject.billing"
 
     // data binding
     kapt "com.android.databinding:compiler:$gradle_plugin"

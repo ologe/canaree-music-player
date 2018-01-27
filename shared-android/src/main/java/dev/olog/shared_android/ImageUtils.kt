@@ -18,6 +18,7 @@ object ImageUtils {
         } else {
             bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
         }
+        println("intrinsicWidth ${drawable.intrinsicWidth}, height ${drawable.intrinsicHeight}")
 
         val canvas = Canvas(bitmap)
 

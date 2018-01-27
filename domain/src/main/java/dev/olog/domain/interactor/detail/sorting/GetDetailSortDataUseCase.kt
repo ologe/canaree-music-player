@@ -15,6 +15,7 @@ class GetDetailSortDataUseCase @Inject constructor(
 
 ) : SingleUseCaseWithParam<DetailSort, MediaId>(scheduler){
 
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Single<DetailSort> {
         val arranging = getSortArrangingUseCase.execute().firstOrError()
         val sortOrder = getSortOrderUseCase.execute(mediaId).firstOrError()

@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.content.Context
 import android.os.StrictMode
 import android.preference.PreferenceManager
+import com.google.android.vending.licensing.LicenseCheckerCallback
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.floating_info.FloatingInfoService
@@ -28,9 +29,10 @@ import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import javax.inject.Inject
 
 
-class App : DaggerApplication() {
+class App : DaggerApplication(), LicenseCheckerCallback {
 
     @Inject lateinit var floatingInfoClass : FloatingInfoServiceClass
+//    @Inject lateinit var licensing: ILicensing
 
     override fun onCreate() {
         super.onCreate()
@@ -53,6 +55,8 @@ class App : DaggerApplication() {
 
         handleFloatingServiceStartOnLaunch()
         AppShortcuts.setup(this)
+
+//        licensing.check(this)
     }
 
     private fun resetSleepTimer(){
@@ -115,5 +119,17 @@ class App : DaggerApplication() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {
         return DaggerAppComponent.builder().create(this)
+    }
+
+    override fun allow(reason: Int) {
+        println("allow $reason")
+    }
+
+    override fun dontAllow(reason: Int) {
+        println("dontAllow $reason")
+    }
+
+    override fun applicationError(errorCode: Int) {
+        println("applicationError $errorCode")
     }
 }

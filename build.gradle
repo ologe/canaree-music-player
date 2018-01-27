@@ -44,6 +44,11 @@ ext {
     compileSdkVersion = 27
     buildToolsVersion = '27.0.3'
 
+    // app versioning
+    // remember to activate firebase metadata in manifest in release build
+    versionCode = 27021 // android(27) - version code(020)
+    versionName = '0.21'
+
     // App dependencies
     support_library = '27.0.2'
     play_services = '11.8.0'
@@ -60,6 +65,7 @@ ext {
     target_view = '1.11.0'
     tensor_flow = '1.5.0-rc1'
     better_pickers = '3.1.0'
+    billing = '1.0'
 
     // reactive
     rx_java = '2.1.8'

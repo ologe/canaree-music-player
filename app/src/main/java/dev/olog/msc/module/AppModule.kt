@@ -1,4 +1,4 @@
-package dev.olog.msc
+package dev.olog.msc.module
 
 import android.app.Application
 import android.arch.lifecycle.Lifecycle
@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
+import dev.olog.msc.App
 import dev.olog.shared.ApplicationContext
 import dev.olog.shared.ProcessLifecycle
 

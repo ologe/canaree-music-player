@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/floating-info" />
+            <option value="$PROJECT_DIR$/licensing" />
             <option value="$PROJECT_DIR$/music-service" />
             <option value="$PROJECT_DIR$/presentation" />
             <option value="$PROJECT_DIR$/shared" />
