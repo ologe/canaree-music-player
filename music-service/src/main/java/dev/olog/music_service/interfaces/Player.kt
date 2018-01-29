@@ -16,4 +16,6 @@ interface Player {
     fun seekTo(millis: Long)
 
     fun stopService()
+
+    fun setVolume(volume: Float)
 }

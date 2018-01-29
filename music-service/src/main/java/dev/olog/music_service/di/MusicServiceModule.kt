@@ -13,15 +13,17 @@ import android.support.v4.media.session.MediaSessionCompat
 import dagger.Module
 import dagger.Provides
 import dev.olog.music_service.MusicService
-import dev.olog.music_service.PlayerImpl
 import dev.olog.music_service.QueueManager
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.interfaces.ServiceLifecycleController
+import dev.olog.music_service.player.PlayerImpl
+import dev.olog.music_service.player.PlayerVolume
+import dev.olog.music_service.volume.IPlayerVolume
 import dev.olog.shared_android.extension.notificationManager
 
-@Module
+@Module(includes = arrayOf(MusicServiceModule.Binds::class))
 class MusicServiceModule(
         private val service: MusicService
 ) {
@@ -78,23 +80,25 @@ class MusicServiceModule(
         return mediaSession.controller
     }
 
+    @Module
+    abstract class Binds {
 
-    @Provides
-    @PerService
-    internal fun provideQueue(queue: QueueManager): Queue {
-        return queue
-    }
+        @dagger.Binds
+        @PerService
+        abstract fun provideQueue(queue: QueueManager): Queue
 
-    @Provides
-    @PerService
-    internal fun providePlayer(player: PlayerImpl): Player {
-        return player
-    }
+        @dagger.Binds
+        @PerService
+        abstract fun providePlayer(player: PlayerImpl): Player
 
-    @Provides
-    @PerService
-    internal fun providePlayerLifecycle(player: PlayerImpl): PlayerLifecycle {
-        return player
+        @dagger.Binds
+        @PerService
+        abstract fun providePlayerLifecycle(player: PlayerImpl): PlayerLifecycle
+
+        @dagger.Binds
+        @PerService
+        abstract fun providePlayerVolume(volume: PlayerVolume): IPlayerVolume
+
     }
 
 }

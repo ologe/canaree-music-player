@@ -1,37 +1,32 @@
-package dev.olog.music_service
+package dev.olog.music_service.player
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.content.ContentUris
 import android.content.Context
 import android.media.AudioManager
-import android.net.Uri
-import android.provider.MediaStore
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
 import com.crashlytics.android.Crashlytics
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
 import dagger.Lazy
+import dev.olog.music_service.BuildConfig
+import dev.olog.music_service.Noisy
+import dev.olog.music_service.PlayerState
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.di.ServiceLifecycle
 import dev.olog.music_service.equalizer.OnAudioSessionIdChangeListener
+import dev.olog.music_service.focus.AudioFocusBehavior
 import dev.olog.music_service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.music_service.interfaces.Player
 import dev.olog.music_service.interfaces.PlayerLifecycle
 import dev.olog.music_service.interfaces.ServiceLifecycleController
 import dev.olog.music_service.model.PlayerMediaEntity
-import dev.olog.music_service.utils.AudioFocusBehavior
 import dev.olog.music_service.utils.dispatchEvent
+import dev.olog.music_service.volume.IPlayerVolume
 import dev.olog.shared.ApplicationContext
 import javax.inject.Inject
 
@@ -43,28 +38,24 @@ class PlayerImpl @Inject constructor(
         private val playerState: PlayerState,
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
-        private val volume: PlayerVolume,
-        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
+        volume: IPlayerVolume,
+        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener,
+        private val mediaSourceFactory: MediaSourceFactory,
+        private val audioFocus : AudioFocusBehavior
 
 ) : Player,
         DefaultLifecycleObserver,
-        AudioManager.OnAudioFocusChangeListener,
         ExoPlayerListenerWrapper,
         PlayerLifecycle {
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
-
-    private val extractorsFactory = DefaultExtractorsFactory()
-    private val bandwidthMeter = DefaultBandwidthMeter()
-    private val userAgent = Util.getUserAgent(context, "Msc")
-    private val dataSource = DefaultDataSourceFactory(context, userAgent, bandwidthMeter)
     private val trackSelector = DefaultTrackSelector()
     private val exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector)
 
     init {
         lifecycle.addObserver(this)
         exoPlayer.addListener(this)
-        volume.listener = object : PlayerVolume.Listener {
+        volume.listener = object : IPlayerVolume.Listener {
             override fun onVolumeChanged(volume: Float) {
                 exoPlayer.volume = volume
             }
@@ -85,7 +76,7 @@ class PlayerImpl @Inject constructor(
     override fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>) {
         val (entity, positionInQueue) = pairSongBookmark.first
         val bookmark = pairSongBookmark.second
-        val mediaSource = createMediaSource(entity.id)
+        val mediaSource = mediaSourceFactory.get(entity.id)
         exoPlayer.prepare(mediaSource)
         exoPlayer.playWhenReady = false
         exoPlayer.seekTo(bookmark)
@@ -94,15 +85,6 @@ class PlayerImpl @Inject constructor(
         playerState.toggleSkipToActions(positionInQueue)
 
         listeners.forEach { it.onPrepare(entity) }
-    }
-
-    private fun createMediaSource(songId: Long): MediaSource {
-        return ExtractorMediaSource(getTrackUri(songId),
-                dataSource, extractorsFactory, null, null)
-    }
-
-    private fun getTrackUri(id: Long): Uri {
-        return ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id)
     }
 
     override fun playNext(playerModel: PlayerMediaEntity, nextTo: Boolean) {
@@ -115,7 +97,7 @@ class PlayerImpl @Inject constructor(
 
         val entity = playerModel.mediaEntity
 
-        val mediaSource = createMediaSource(entity.id)
+        val mediaSource = mediaSourceFactory.get(entity.id)
         exoPlayer.prepare(mediaSource, true, true)
         exoPlayer.playWhenReady = hasFocus
 
@@ -131,7 +113,6 @@ class PlayerImpl @Inject constructor(
         noisy.get().register()
 
         serviceLifecycle.start()
-
     }
 
     override fun resume() {
@@ -217,25 +198,12 @@ class PlayerImpl @Inject constructor(
         serviceLifecycle.stop()
     }
 
-    override fun onAudioFocusChange(focusChange: Int) {
-        when (focusChange) {
-            AudioManager.AUDIOFOCUS_GAIN -> {
-                exoPlayer.volume = this.volume.getNormalVolume()
-            }
-            AudioManager.AUDIOFOCUS_LOSS -> pause(false)
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> pause(false)
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                exoPlayer.volume = this.volume.getDuckingVolume()
-            }
-        }
-    }
-
     private fun requestFocus(): Boolean {
-        return AudioFocusBehavior.requestFocus(audioManager.get(), this)
+        return audioFocus.requestFocus()
     }
 
     private fun releaseFocus() {
-        AudioFocusBehavior.abandonFocus(audioManager.get(), this)
+        audioFocus.abandonFocus()
     }
 
     override fun addListener(listener: PlayerLifecycle.Listener) {
@@ -244,5 +212,9 @@ class PlayerImpl @Inject constructor(
 
     override fun removeListener(listener: PlayerLifecycle.Listener) {
         listeners.remove(listener)
+    }
+
+    override fun setVolume(volume: Float) {
+        exoPlayer.volume = volume
     }
 }

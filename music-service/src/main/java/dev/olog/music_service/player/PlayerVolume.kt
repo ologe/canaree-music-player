@@ -1,10 +1,12 @@
-package dev.olog.music_service
+package dev.olog.music_service.player
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import dev.olog.domain.interactor.prefs.GetLowerVolumeOnNightUseCase
 import dev.olog.music_service.di.ServiceLifecycle
+import dev.olog.music_service.volume.IPlayerVolume
+import dev.olog.music_service.volume.IVolume
 import dev.olog.shared.unsubscribe
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,9 +25,9 @@ class PlayerVolume @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         lowerVolumeOnNightUseCase: GetLowerVolumeOnNightUseCase
 
-) : DefaultLifecycleObserver {
+) : IPlayerVolume, DefaultLifecycleObserver {
 
-    var listener: Listener? = null
+    override var listener: IPlayerVolume.Listener? = null
     private var disposable: Disposable? = null
     private var intervalDisposable: Disposable? = null
 
@@ -35,9 +37,10 @@ class PlayerVolume @Inject constructor(
     init {
         lifecycle.addObserver(this)
 
+        // observe to preferences
         disposable = lowerVolumeOnNightUseCase.observe()
                 .subscribe({ lowerAtNight ->
-                    if (!lowerAtNight){
+                    if (!lowerAtNight) {
                         volume = provideVolumeManager(false)
                     } else {
                         volume = provideVolumeManager(isNight())
@@ -46,6 +49,8 @@ class PlayerVolume @Inject constructor(
                     listener?.onVolumeChanged(getVolume())
                 }, Throwable::printStackTrace)
 
+        // observe at interval of 15 mins to detect if is day or night when
+        // settigs is on
         intervalDisposable = lowerVolumeOnNightUseCase.observe()
                 .filter { it }
                 .flatMap { Flowable.interval(15, TimeUnit.MINUTES) }
@@ -58,17 +63,21 @@ class PlayerVolume @Inject constructor(
                 }, Throwable::printStackTrace)
     }
 
-    private fun isNight(): Boolean{
+    private fun isNight(): Boolean {
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
         return hour <= 6 || hour >= 21
     }
 
-    private fun getVolume(): Float{
+    private fun getVolume(): Float {
         return if (isDucking) volume.duck else volume.normal
     }
 
-    private fun provideVolumeManager(isNight: Boolean): IVolume{
-        return if (isNight){ NightVolume() } else { Volume() }
+    private fun provideVolumeManager(isNight: Boolean): IVolume {
+        return if (isNight) {
+            NightVolume()
+        } else {
+            Volume()
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -77,26 +86,15 @@ class PlayerVolume @Inject constructor(
         listener = null
     }
 
-    fun getNormalVolume(): Float{
+    override fun normal(): Float {
         isDucking = false
         return volume.normal
     }
 
-    fun getDuckingVolume(): Float {
+    override fun ducked(): Float {
         isDucking = true
         return volume.duck
     }
-
-    @FunctionalInterface
-    interface Listener {
-        fun onVolumeChanged(volume: Float)
-    }
-
-}
-
-private interface IVolume {
-    val normal: Float
-    val duck: Float
 }
 
 private class Volume : IVolume {

@@ -148,28 +148,15 @@ class MediaSessionCallback @Inject constructor(
     override fun onCustomAction(action: String?, extras: Bundle?) {
         if (action != null){
             when (action){
-                MusicConstants.ACTION_SWAP -> {
-                    queue.handleSwap(extras!!)
-                    return
-                }
-                MusicConstants.ACTION_SWAP_RELATIVE -> {
-                    queue.handleSwapRelative(extras!!)
-                    return
-                }
-                MusicConstants.ACTION_REMOVE -> {
-                    queue.handleRemove(extras!!)
-                    return
-                }
-                MusicConstants.ACTION_REMOVE_RELATIVE -> {
-                    queue.handleRemoveRelative(extras!!)
-                    return
-                }
+                MusicConstants.ACTION_SWAP -> queue.handleSwap(extras!!)
+                MusicConstants.ACTION_SWAP_RELATIVE -> queue.handleSwapRelative(extras!!)
+                MusicConstants.ACTION_REMOVE -> queue.handleRemove(extras!!)
+                MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
                 MusicConstants.SKIP_TO_ITEM -> {
                     val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
                     val mediaId = MediaId.fromString(mediaIdAsString)
                     val mediaEntity = queue.handleSkipToQueueItemWithIdInPlaylist(mediaId.leaf!!)
                     player.play(mediaEntity)
-                    return
                 }
                 MusicConstants.ACTION_PLAY_SHUFFLE -> {
                     doWhenReady {
