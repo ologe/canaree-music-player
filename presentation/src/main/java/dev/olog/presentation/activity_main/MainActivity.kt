@@ -2,8 +2,9 @@ package dev.olog.presentation.activity_main
 
 import android.app.Activity
 import android.content.Intent
-import android.media.AudioManager
 import android.os.Bundle
+import android.provider.MediaStore
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.view.ViewPager
@@ -23,6 +24,7 @@ import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
+import dev.olog.shared_android.interfaces.MusicServiceClass
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject
@@ -35,6 +37,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var adapter: TabViewPagerAdapter
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
+    @Inject lateinit var musicServiceClass: MusicServiceClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +73,11 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
             Constants.SHORTCUT_SEARCH -> { navigator.toSearchFragment(true) }
             Constants.ACTION_CONTENT_VIEW -> {
                 slidingPanel.expand()
+            }
+            MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
+                val serviceIntent = Intent(this, musicServiceClass.get())
+                serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
+                ContextCompat.startForegroundService(this, serviceIntent)
             }
         }
     }

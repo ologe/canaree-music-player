@@ -31,20 +31,20 @@ class OnAudioSessionIdChangeListener @Inject constructor(
     override fun onAudioDisabled(counters: DecoderCounters?) {}
 
     override fun onAudioSessionId(audioSessionId: Int) {
-        if (!isRooted){
-            equalizer.onAudioSessionIdChanged(audioSessionId)
-            virtualizer.onAudioSessionIdChanged(audioSessionId)
-            bassBoost.onAudioSessionIdChanged(audioSessionId)
-            replayGain.onAudioSessionIdChanged(audioSessionId)
-        }
+//        if (!isRooted){
+//            equalizer.onAudioSessionIdChanged(audioSessionId)
+//            virtualizer.onAudioSessionIdChanged(audioSessionId)
+//            bassBoost.onAudioSessionIdChanged(audioSessionId)
+//            replayGain.onAudioSessionIdChanged(audioSessionId)
+//        }
     }
 
     fun release(){
-        if (!isRooted){
-            equalizer.release()
-            virtualizer.release()
-            bassBoost.release()
-            replayGain.release()
-        }
+//        if (!isRooted){
+//            equalizer.release()
+//            virtualizer.release()
+//            bassBoost.release()
+//            replayGain.release()
+//        }
     }
 }

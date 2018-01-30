@@ -37,7 +37,6 @@ import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import dev.olog.shared.MediaId
-import dev.olog.shared_android.RootUtils
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider
@@ -191,11 +190,12 @@ class NavigatorImpl @Inject constructor(
     }
 
     private fun toEqualizer(){
-        if (!RootUtils.isDeviceRooted()){
-            toBuiltInEqualizer()
-        } else {
-            searchEqualizer()
-        }
+//        if (!RootUtils.isDeviceRooted()){
+//            toBuiltInEqualizer()
+//        } else {
+//            searchEqualizer()
+//        }
+        searchEqualizer()
     }
 
     private fun toBuiltInEqualizer(){

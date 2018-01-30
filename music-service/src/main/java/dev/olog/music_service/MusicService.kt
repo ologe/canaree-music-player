@@ -2,6 +2,7 @@ package dev.olog.music_service
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -101,6 +102,12 @@ class MusicService : BaseMusicService() {
     override fun handleSleepTimerEnd(intent: Intent) {
         sleepTimerUseCase.reset()
         mediaSession.controller.transportControls.pause()
+    }
+
+    override fun handlePlayFromVoiceSearch(intent: Intent) {
+        val voiceParams = intent.extras
+        val query = voiceParams.getString(SearchManager.QUERY)
+        callback.onPlayFromSearch(query, voiceParams)
     }
 
     private fun resetSleepTimer(){

@@ -1,7 +1,6 @@
 package dev.olog.music_service.interfaces
 
 import android.os.Bundle
-import android.support.v4.media.MediaBrowserCompat
 import dev.olog.music_service.model.PlayerMediaEntity
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.MediaId
@@ -30,8 +29,6 @@ interface Queue {
     fun handleSkipToQueueItemWithIdInPlaylist(idInPlaylist: Long): PlayerMediaEntity
 
     fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity>
-
-    fun handlePlayFromSearch(extras: Bundle): Single<PlayerMediaEntity>
 
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
 

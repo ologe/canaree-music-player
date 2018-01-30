@@ -48,6 +48,7 @@ class PlayerMetadata @Inject constructor(
     private fun update(entity: MediaEntity) {
 
         val uri = getUri(entity.image)
+        val uriExist = File(uri.path).exists()
 
         val artist = if (entity.artist == Constants.UNKNOWN_ARTIST){
             Constants.UNKNOWN
@@ -66,11 +67,10 @@ class PlayerMetadata @Inject constructor(
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, createBitmap(uri))
-                .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, uri.toString())
+                .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, if (uriExist) uri.toString() else null)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, uri.toString())
                 .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
                 .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
-                .build()
 
         mediaSession.setMetadata(builder.build())
 

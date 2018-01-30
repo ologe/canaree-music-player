@@ -2,6 +2,7 @@ package dev.olog.music_service
 
 import android.os.Bundle
 import android.support.v4.math.MathUtils
+import android.util.Log
 import dev.olog.domain.entity.SortArranging
 import dev.olog.domain.entity.SortType
 import dev.olog.domain.interactor.GetSongListByParamUseCase
@@ -12,6 +13,8 @@ import dev.olog.domain.interactor.music_service.CurrentIdInPlaylistUseCase
 import dev.olog.domain.interactor.music_service.GetPlayingQueueUseCase
 import dev.olog.music_service.interfaces.Queue
 import dev.olog.music_service.model.*
+import dev.olog.music_service.voice.VoiceSearch
+import dev.olog.music_service.voice.VoiceSearchParams
 import dev.olog.shared.MediaId
 import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared.shuffle
@@ -147,12 +150,33 @@ class QueueManager @Inject constructor(
                 .doOnSuccess { shuffleMode.setEnabled(true) }
     }
 
-    override fun handlePlayFromSearch(extras: Bundle): Single<PlayerMediaEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("VoiceSearch", "Creating playing queue for musics from search: $query, params=$extras")
+
+        val params = VoiceSearchParams(query, extras)
+
+        val mediaId = MediaId.songId(-1)
+
+        var songList = if (params.isUnstructured){
+            VoiceSearch.search(getSongListByParamUseCase.execute(mediaId), query)
+        } else if(params.isAlbumFocus){
+            VoiceSearch.filterByAlbum(getSongListByParamUseCase.execute(mediaId), params.album)
+        } else if(params.isArtistFocus){
+            VoiceSearch.filterByArtist(getSongListByParamUseCase.execute(mediaId), params.artist)
+        } else if(params.isSongFocus){
+            VoiceSearch.filterByTitle(getSongListByParamUseCase.execute(mediaId), params.song)
+        } else {
+            VoiceSearch.noFilter(getSongListByParamUseCase.execute(mediaId))
+        }
+        return songList
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
+                .map { Pair(it, 0) }
+                .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }
+                .map { (list, position) -> list[position].toPlayerMediaEntity(
+                        queueImpl.computePositionInQueue(list, position)) }
+                .doOnSuccess { shuffleMode.setEnabled(false) }
+
     }
 
     override fun handleSwap(extras: Bundle) {

@@ -20,9 +20,7 @@ import dev.olog.shared_android.extension.hasPermission
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
-import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -53,7 +51,6 @@ class SplashActivity : BaseActivity() {
         } else {
             toMainActivity()
         }
-
     }
 
     override fun onResume() {
@@ -149,9 +146,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun toMainActivity() {
-        startActivity(intentFor<MainActivity>()
-                .clearTop()
-                .newTask())
+        startActivity(intentFor<MainActivity>()/*.clearTop().newTask()*/)
         finish()
     }
 

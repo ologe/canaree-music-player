@@ -39,6 +39,7 @@
                 <category android:name="android.intent.category.APP_MUSIC" />
             </intent-filter>
 
+
         </activity>
 
         <!--main activity-->

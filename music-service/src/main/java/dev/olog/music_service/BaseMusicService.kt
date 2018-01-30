@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.ServiceLifecycleDispatcher
 import android.content.Intent
+import android.provider.MediaStore
 import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
@@ -64,6 +65,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             Constants.WIDGET_ACTION_SKIP_NEXT -> handleSkipNext(intent)
             Constants.WIDGET_ACTION_SKIP_PREVIOUS -> handleSkipPrevious(intent)
             PendingIntents.ACTION_STOP_SLEEP_END -> handleSleepTimerEnd(intent)
+            MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> handlePlayFromVoiceSearch(intent)
             else -> handleMediaButton(intent)
         }
     }
@@ -74,6 +76,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     protected abstract fun handleSkipNext(intent: Intent)
     protected abstract fun handleSkipPrevious(intent: Intent)
     protected abstract fun handleSleepTimerEnd(intent: Intent)
+    protected abstract fun handlePlayFromVoiceSearch(intent: Intent)
 
     override fun start() {
         if (!serviceStarted) {

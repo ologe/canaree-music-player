@@ -182,4 +182,5 @@ class GenreRepository @Inject constructor(
                     CompletableSource { mostPlayedDao.insertOne(GenreMostPlayedEntity(0, song.id, genreId)) }
                 }
     }
+
 }

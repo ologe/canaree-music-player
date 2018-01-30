@@ -91,6 +91,16 @@ class MediaSessionCallback @Inject constructor(
         }
     }
 
+    override fun onPlayFromSearch(query: String, extras: Bundle) {
+        queue.handlePlayFromGoogleSearch(query, extras)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(player::play, {
+                    playerState.setEmptyQueue()
+                    it.printStackTrace()
+                })
+                .addTo(subscriptions)
+    }
+
     override fun onPause() {
         player.pause(true)
     }
@@ -103,7 +113,7 @@ class MediaSessionCallback @Inject constructor(
         measureTimeMillis {
             doWhenReady {
                 val metadata = queue.handleSkipToNext()
-                player.playNext(metadata, false)
+                player.playNext(metadata, true)
             }
         }
 

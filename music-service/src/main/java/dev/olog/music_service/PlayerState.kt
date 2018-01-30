@@ -13,7 +13,6 @@ import dev.olog.domain.interactor.music_service.ToggleSkipToPreviousVisibilityUs
 import dev.olog.music_service.di.PerService
 import dev.olog.music_service.model.PositionInQueue
 import dev.olog.shared.ApplicationContext
-import dev.olog.shared.constants.MusicConstants
 import dev.olog.shared_android.AppShortcutInfo
 import dev.olog.shared_android.WidgetConstants
 import dev.olog.shared_android.extension.getAppWidgetsIdsFor
@@ -124,17 +123,26 @@ class PlayerState @Inject constructor(
         mediaSession.setPlaybackState(builder.build())
     }
 
+    fun setEmptyQueue(){
+        val localBuilder = PlaybackStateCompat.Builder(builder.build())
+        localBuilder.setState(PlaybackStateCompat.STATE_ERROR, 0, 0f)
+                .setErrorMessage(PlaybackStateCompat.ERROR_CODE_UNKNOWN_ERROR, context.getString(R.string.error_empty_queue))
+
+        mediaSession.setPlaybackState(localBuilder.build())
+    }
+
     private fun getActions(): Long {
         return PlaybackStateCompat.ACTION_PLAY_PAUSE or
                 PlaybackStateCompat.ACTION_PLAY or
                 PlaybackStateCompat.ACTION_PAUSE or
+                PlaybackStateCompat.ACTION_STOP or
                 PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or
                 PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH or
                 PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM or
                 PlaybackStateCompat.ACTION_SEEK_TO or
                 PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE or
                 PlaybackStateCompat.ACTION_SET_REPEAT_MODE or
-                PlaybackStateCompat.ACTION_SET_RATING or
+//                PlaybackStateCompat.ACTION_SET_RATING or
                 PlaybackStateCompat.ACTION_SKIP_TO_NEXT or
                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
     }
