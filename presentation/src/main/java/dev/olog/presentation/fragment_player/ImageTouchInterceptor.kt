@@ -60,17 +60,20 @@ class ImageTouchInterceptor (
             MotionEvent.ACTION_UP -> {
                 if (imageClicked){
                     imageClicked = false
-                    val yDiff = Math.abs(downY - y)
-                    val xDiff = Math.abs(downX - x)
-                    if (yDiff < swipeThreshold && xDiff < swipeThreshold){
-                        // notifying click
-                        view.onTouchEvent(e)
-                        return true
-                    } else if (xDiff > swipeThreshold){
-                        // notifying swipe
-                        view.onTouchEvent(e)
-                        return true
+                    if (imageRect.contains(x.toInt(), y.toInt())){
+                        val yDiff = Math.abs(downY - y)
+                        val xDiff = Math.abs(downX - x)
+                        if (yDiff < swipeThreshold && xDiff < swipeThreshold){
+                            // notifying click
+                            view.onTouchEvent(e)
+                            return true
+                        } else if (xDiff > swipeThreshold){
+                            // notifying swipe
+                            view.onTouchEvent(e)
+                            return true
+                        }
                     }
+
                 }
             }
             MotionEvent.ACTION_CANCEL -> {

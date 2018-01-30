@@ -38,24 +38,26 @@ class SeekBarTouchInterceptor (
             MotionEvent.ACTION_DOWN -> {
                 if (seekBarRect.contains(x.toInt(), y.toInt())){
                     seekBarClicked = true
+                    seekBar.dispatchTouchEvent(e)
                     return true
                 }
             }
+            MotionEvent.ACTION_MOVE -> {
+                if (seekBarClicked){
+                    seekBar.dispatchTouchEvent(e)
+                }
+            }
             MotionEvent.ACTION_UP,
-            MotionEvent.ACTION_MOVE,
             MotionEvent.ACTION_CANCEL -> {
                 if (seekBarClicked){
                     seekBarClicked = false
+                    seekBar.dispatchTouchEvent(e)
                     return true
                 }
             }
         }
 
         return super.onInterceptTouchEvent(rv, e)
-    }
-
-    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        seekBar.dispatchTouchEvent(e)
     }
 
 }

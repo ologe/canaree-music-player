@@ -48,7 +48,7 @@ class PlayerMetadata @Inject constructor(
     private fun update(entity: MediaEntity) {
 
         val uri = getUri(entity.image)
-        val uriExist = File(uri.path).exists()
+        val uriExist = File(uri.path).exists() // not working, then check if inputStream is empty
 
         val artist = if (entity.artist == Constants.UNKNOWN_ARTIST){
             Constants.UNKNOWN
