@@ -15,10 +15,10 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.presentation.GlideApp
 import dev.olog.presentation.R
 import dev.olog.presentation._base.BaseFragment
+import dev.olog.presentation.activity_main.MainActivity
 import dev.olog.presentation.model.CoverModel
 import dev.olog.presentation.model.PlayerFragmentMetadata
 import dev.olog.presentation.navigation.Navigator
-import dev.olog.presentation.service_floating_info.FloatingInfoServiceHelper
 import dev.olog.presentation.service_music.MusicController
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.widgets.SwipeableImageView
@@ -27,7 +27,6 @@ import dev.olog.shared_android.TextUtils
 import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.extension.isPortrait
-import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import dev.olog.shared_android.rx.SeekBarObservable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -46,7 +45,6 @@ class PlayerFragment : BaseFragment() {
     @Inject lateinit var viewModel: PlayerFragmentViewModel
     @Inject lateinit var musicController: MusicController
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
     @Inject lateinit var adapter : MiniQueueFragmentAdapter
 
     private lateinit var seekBarTouchInterceptor : SeekBarTouchInterceptor
@@ -166,7 +164,7 @@ class PlayerFragment : BaseFragment() {
         skipNextTouchInterceptor = SimpleViewClickInterceptor(view.fakeNext, { musicController.skipToNext() })
         skipPreviousTouchInterceptor = SimpleViewClickInterceptor(view.fakePrevious, { musicController.skipToPrevious() })
         floatingWindowTouchInterceptor = SimpleViewClickInterceptor(view.floatingWindow,
-                { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!, floatingInfoServiceBinder) })
+                { (activity!! as MainActivity).startServiceOrRequestOverlayPermission() })
         favoriteTouchInterceptor = SimpleViewClickInterceptor(view.favorite, { musicController.togglePlayerFavorite() })
         playingQueueTouchInterceptor = SimpleViewClickInterceptor(view.playingQueue, { navigator.toPlayingQueueFragment() })
         shuffleTouchInterceptor = SimpleViewClickInterceptor(view.shuffle, { musicController.toggleShuffleMode() })

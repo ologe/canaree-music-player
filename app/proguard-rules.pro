@@ -36,3 +36,5 @@
 }
 
 -keep class org.tensorflow.** { *; }
+
+-keep class com.android.vending.billing.**

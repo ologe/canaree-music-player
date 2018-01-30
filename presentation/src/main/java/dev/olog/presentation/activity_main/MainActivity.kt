@@ -25,8 +25,10 @@ import dev.olog.shared_android.Constants
 import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import dev.olog.shared_android.interfaces.MusicServiceClass
+import dev.olog.shared_android.interfaces.pro.IBilling
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
@@ -38,6 +40,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var floatingInfoServiceBinder: FloatingInfoServiceClass
     @Inject lateinit var musicServiceClass: MusicServiceClass
+    @Inject lateinit var billing : IBilling
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +64,6 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun handleIntent(intent: Intent) {
-        println("main intent ${intent.action}")
-
         when (intent.action){
             FloatingInfoConstants.ACTION_START_SERVICE -> {
                 musicServiceBinder.getMediaControllerLiveData().value?.let {
@@ -95,7 +96,7 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
         search.setOnClickListener { navigator.toSearchFragment(false) }
         settings.setOnClickListener { navigator.toMainPopup(it) }
         viewPager.addOnPageChangeListener(onAdapterPageChangeListener)
-        floatingWindow.setOnClickListener { FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(this, floatingInfoServiceBinder) }
+        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 
     override fun onPause() {
@@ -140,6 +141,15 @@ class MainActivity: BaseActivity(), MediaControllerProvider, HasSlidingPanel {
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
+
+    fun startServiceOrRequestOverlayPermission(){
+        if (billing.isPremium()){
+            FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(this, floatingInfoServiceBinder)
+        } else {
+            toast("floating window is a premium feature")
+            // todo open purchase activity
+        }
+    }
 
     private val onAdapterPageChangeListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {}

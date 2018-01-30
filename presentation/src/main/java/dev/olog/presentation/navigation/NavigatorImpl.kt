@@ -1,7 +1,9 @@
 package dev.olog.presentation.navigation
 
+import android.content.Context
 import android.content.Intent
 import android.media.audiofx.AudioEffect
+import android.preference.PreferenceManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -37,6 +39,7 @@ import dev.olog.presentation.fragment_search.SearchFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.presentation.utils.extension.transaction
 import dev.olog.shared.MediaId
+import dev.olog.shared_android.RootUtils
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider
@@ -160,7 +163,7 @@ class NavigatorImpl @Inject constructor(
         popup.setOnMenuItemClickListener {
             when (it.itemId){
                 R.id.about -> this.toAboutActivity()
-                R.id.equalizer -> this.toEqualizer()
+                R.id.equalizer -> this.toEqualizer(anchor.context)
                 R.id.settings -> this.toSettingsActivity()
                 R.id.sleepTimer -> this.toSleepTimer()
                 -123 -> this.toDebugConfiguration()
@@ -189,13 +192,15 @@ class NavigatorImpl @Inject constructor(
         SleepTimerDialog.show(activity.supportFragmentManager)
     }
 
-    private fun toEqualizer(){
-//        if (!RootUtils.isDeviceRooted()){
-//            toBuiltInEqualizer()
-//        } else {
-//            searchEqualizer()
-//        }
-        searchEqualizer()
+    private fun toEqualizer(context: Context){
+        val useAppEqualizer = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(context.getString(R.string.prefs_used_equalizer_key), true)
+
+        if (!RootUtils.isDeviceRooted() && useAppEqualizer){
+            toBuiltInEqualizer()
+        } else {
+            searchEqualizer()
+        }
     }
 
     private fun toBuiltInEqualizer(){

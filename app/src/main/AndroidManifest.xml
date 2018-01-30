@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
 
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
 
@@ -146,14 +145,14 @@
             android:value="2.1"/>
 
         <!--disable firebase analytics for build time, can enable at runtime-->
-        <!--<meta-data-->
-            <!--android:name="firebase_crashlytics_collection_enabled"-->
-            <!--android:value="false" />-->
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
 
-        <!--&lt;!&ndash;disable firebase perf for build time, can enable at runtime&ndash;&gt;-->
-        <!--<meta-data-->
-            <!--android:name="firebase_performance_collection_enabled"-->
-            <!--android:value="false" />-->
+        <!--disable firebase perf for build time, can enable at runtime-->
+        <meta-data
+            android:name="firebase_performance_collection_enabled"
+            android:value="false" />
 
 
 

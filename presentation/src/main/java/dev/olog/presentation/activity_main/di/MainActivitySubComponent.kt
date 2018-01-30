@@ -22,10 +22,12 @@ import dev.olog.presentation.fragment_related_artist.di.RelatedArtistFragmentInj
 import dev.olog.presentation.fragment_search.di.SearchFragmentInjector
 import dev.olog.presentation.fragment_tab.di.TabFragmentInjector
 import dev.olog.presentation.navigation.NavigatorModule
+import dev.olog.presentation.pro.ProModule
 
 @Subcomponent(modules = arrayOf(
         MainActivityModule::class,
         NavigatorModule::class,
+        ProModule::class,
 
         // fragments
         TabFragmentInjector::class,

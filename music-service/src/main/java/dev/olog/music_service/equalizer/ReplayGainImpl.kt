@@ -9,16 +9,15 @@ import javax.inject.Inject
 class ReplayGainImpl @Inject constructor(
         private val equalizerPrefsUseCase: EqualizerPrefsUseCase
 
-) : IReplayGain {
+) : SafeAudioFx(), IReplayGain {
 
     private var automaticGainControl : AutomaticGainControl? = null
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
         if (!RootUtils.isDeviceRooted() && isImplementedByDevice()) {
-            if (automaticGainControl != null){
-                automaticGainControl?.release()
-            }
+            release()
             automaticGainControl = AutomaticGainControl.create(audioSessionId)
+            isReleased = false
             automaticGainControl?.enabled = equalizerPrefsUseCase.isReplayGainEnabled()
         }
     }
@@ -30,6 +29,8 @@ class ReplayGainImpl @Inject constructor(
     }
 
     override fun release() {
-        automaticGainControl?.release()
+        automaticGainControl?.let {
+            super.release(it)
+        }
     }
 }

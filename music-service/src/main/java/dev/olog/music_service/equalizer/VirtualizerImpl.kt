@@ -9,41 +9,60 @@ import javax.inject.Inject
 class VirtualizerImpl @Inject constructor(
         private val equalizerPrefsUseCase: EqualizerPrefsUseCase
 
-) : IVirtualizer {
+) : SafeAudioFx(), IVirtualizer {
 
     private var virtualizer = Virtualizer(0, 1)
+    private var virtualizerSettings = Virtualizer.Settings()
 
     init {
         if (!RootUtils.isDeviceRooted()){
             val settings = equalizerPrefsUseCase.getVirtualizerSettings()
             if (settings.isNotBlank()){
-                virtualizer.properties = Virtualizer.Settings(settings)
+                virtualizerSettings = Virtualizer.Settings(settings)
+            } else {
+                virtualizerSettings = virtualizer.properties
             }
         } else {
             virtualizer.release()
+            isReleased = true
         }
     }
 
-    override fun getStrength(): Int = virtualizer.roundedStrength.toInt()
+    override fun getStrength(): Int {
+        return try {
+            virtualizer.roundedStrength.toInt()
+        } catch (ex: Exception){ 0 }
+    }
 
     override fun setStrength(value: Int) {
-        virtualizer.setStrength(value.toShort())
+        safeEdit {
+            virtualizerSettings.strength = value.toShort()
+            virtualizer.setStrength(value.toShort())
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        virtualizer.enabled = enabled
+        safeEdit {
+            virtualizer.enabled = enabled
+        }
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        val settings = virtualizer.properties
-        virtualizer.release()
+        release()
+
         virtualizer = Virtualizer(0, audioSessionId)
+        isReleased = false
         virtualizer.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-        settings?.let { virtualizer.properties = it }
+        if (virtualizerSettings.toString().isNotBlank()){
+            virtualizer.properties = virtualizerSettings
+        }
     }
 
     override fun release() {
-        equalizerPrefsUseCase.saveVirtualizerSettings(virtualizer.properties.toString())
-        virtualizer.release()
+        equalizerPrefsUseCase.saveVirtualizerSettings(virtualizerSettings.toString())
+        super.release(virtualizer)
     }
+
+
+
 }

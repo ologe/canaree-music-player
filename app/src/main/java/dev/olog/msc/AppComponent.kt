@@ -7,7 +7,10 @@ import dev.olog.data.RepositoryHelperModule
 import dev.olog.data.RepositoryModule
 import dev.olog.data.preferences.PreferenceModule
 import dev.olog.floating_info.di.FloatingInfoServiceInjector
-import dev.olog.msc.module.*
+import dev.olog.msc.module.AppModule
+import dev.olog.msc.module.EqualizerModule
+import dev.olog.msc.module.SchedulersModule
+import dev.olog.msc.module.SharedClassModule
 import dev.olog.music_service.di.MusicServiceInjector
 import dev.olog.presentation.activity_about.di.AboutActivityInjector
 import dev.olog.presentation.activity_main.di.MainActivityInjector
@@ -22,7 +25,6 @@ import javax.inject.Singleton
         AppModule::class,
         SchedulersModule::class,
         AndroidBindingModule::class,
-        ProModule::class,
 
         // data
         RepositoryModule::class,

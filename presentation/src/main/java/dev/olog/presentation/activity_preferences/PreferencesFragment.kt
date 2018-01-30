@@ -33,9 +33,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (RootUtils.isDeviceRooted()){
             usedEqualizer.isChecked = false
-            usedEqualizer.isEnabled = false
+            preferenceScreen.sharedPreferences.edit()
+                    .putBoolean(getString(R.string.prefs_used_equalizer_key), false).apply()
         }
     }
 
@@ -60,6 +62,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         usedEqualizer.setOnPreferenceClickListener {
             if (RootUtils.isDeviceRooted()){
                 activity!!.toast(R.string.prefs_used_equalizer_not_found)
+                usedEqualizer.isChecked = false
             }
             false
         }

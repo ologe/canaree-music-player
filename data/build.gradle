@@ -50,9 +50,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
 
     // room
-    implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture"
-    kapt "android.arch.persistence.room:compiler:$rootProject.micro_architecture"
-    implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture"
+    implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture_room"
+    kapt "android.arch.persistence.room:compiler:$rootProject.micro_architecture_room"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture_room"
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"

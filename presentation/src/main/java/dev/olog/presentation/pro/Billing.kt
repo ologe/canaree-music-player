@@ -3,15 +3,11 @@ package dev.olog.presentation.pro
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
-import android.os.IBinder
 import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
-import com.android.vending.billing.IInAppBillingService
 import dev.olog.presentation.dagger.ActivityContext
 import dev.olog.presentation.dagger.ActivityLifecycle
 import dev.olog.shared_android.interfaces.pro.IBilling
@@ -22,38 +18,79 @@ class Billing @Inject constructor (
         @ActivityContext private val context: Context,
         @ActivityLifecycle lifecycle: Lifecycle
 
-): IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {
+): IBilling, BillingClientStateListener, PurchasesUpdatedListener, DefaultLifecycleObserver {
+
+    private var state : State = State.NOT_CONNECTED
 
     private val billingClient = BillingClient.newBuilder(context)
             .setListener(this)
             .build()
 
-    private var inAppBillingService: IInAppBillingService? = null
-
-    private val serviceConnection = object : ServiceConnection {
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            inAppBillingService = IInAppBillingService.Stub.asInterface(service)
-        }
-        override fun onServiceDisconnected(name: ComponentName?) {
-            inAppBillingService = null
-        }
-    }
 
     init {
         lifecycle.addObserver(this)
-    }
-
-    override fun bindToService(){
-        val serviceIntent = Intent("com.android.vending.billing.InAppBillingService.BIND")
-        serviceIntent.setPackage("com.android.vending")
-        context.bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
+        connect()
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        inAppBillingService?.let { context.unbindService(serviceConnection) }
+        if (billingClient.isReady){
+            billingClient.endConnection()
+        }
+    }
+
+    private fun connect(){
+        if (state == State.NOT_CONNECTED){
+            state = State.CONNECTING
+            billingClient.startConnection(this)
+        }
+    }
+
+    override fun onBillingSetupFinished(responseCode: Int) {
+        if (responseCode == BillingClient.BillingResponse.OK){
+            // The billing client is ready. You can query purchases here.
+            state = State.CONNECTED
+        }
+    }
+
+
+    override fun onBillingServiceDisconnected() {
+        println("onBillingServiceDisconnected")
+        state = State.ERROR
+        // Try to restart the connection on the next request to
+        // Google Play by calling the startConnection() method.
+    }
+
+    override fun isPremium(): Boolean {
+        val queryPurchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
+        if (queryPurchases.responseCode == BillingClient.BillingResponse.OK && queryPurchases.purchasesList != null){
+            for (purchase in queryPurchases.purchasesList) {
+                val sku = purchase.sku
+                return sku == "pro_version"
+            }
+        }
+        return false
     }
 
     override fun onPurchasesUpdated(responseCode: Int, purchases: MutableList<Purchase>?) {
+        println("onPurchasesUpdated")
+        when (responseCode){
+            BillingClient.BillingResponse.OK -> {
+//                purchases?.let {
+//                    for (purchase in it) {
+//                        println(purchase)
+//                    }
+//                }
+            }
+            BillingClient.BillingResponse.USER_CANCELED -> {
+                // Handle an error caused by a user cancelling the purchase flow.
+            }
+            else -> {
+                // Handle any other error codes.
+            }
+        }
+    }
 
+    private enum class State {
+        NOT_CONNECTED, CONNECTING, CONNECTED, ERROR
     }
 }

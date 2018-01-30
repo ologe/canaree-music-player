@@ -33,8 +33,8 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
 
         view.bassKnob.setMax(100)
         view.virtualizerKnob.setMax(100)
-        view.bassKnob.progress = presenter.getBassStrength().toFloat()
-        view.virtualizerKnob.progress = presenter.getVirtualizerStrength().toFloat()
+        view.bassKnob.setValue(presenter.getBassStrength())
+        view.virtualizerKnob.setValue(presenter.getVirtualizerStrength())
 
         if (!presenter.isReplayGainEnabled()){
             view.replayGainSwitch.visibility = View.GONE

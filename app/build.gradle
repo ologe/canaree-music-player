@@ -50,12 +50,12 @@ android {
         }
 
         debug {
-            minifyEnabled true
-            useProguard true
-            multiDexEnabled false
+            minifyEnabled false
+            useProguard false
+            multiDexEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+//            debuggable true
 //            applicationIdSuffix = ".debug"
         }
     }
@@ -86,7 +86,6 @@ dependencies {
     implementation project(':data')
     implementation project(':floating-info')
     implementation project(':shared-android')
-    implementation project(':licensing')
 
     implementation "com.android.billingclient:billing:$rootProject.billing"
 
@@ -97,7 +96,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     // google architecture components
-    implementation "android.arch.lifecycle:runtime:1.0.3"
+    implementation "android.arch.lifecycle:runtime:$rootProject.micro_architecture_runtime"
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
     implementation "android.arch.lifecycle:common-java8:$rootProject.micro_architecture"
 

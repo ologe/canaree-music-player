@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
-    android:background="#fcca1c"
+    android:background="@android:color/white"
     android:elevation="4dp">
 
     <View

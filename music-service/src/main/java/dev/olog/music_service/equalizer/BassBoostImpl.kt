@@ -9,44 +9,58 @@ import javax.inject.Inject
 class BassBoostImpl @Inject constructor(
         private val equalizerPrefsUseCase: EqualizerPrefsUseCase
 
-) : IBassBoost {
+) : SafeAudioFx(), IBassBoost {
 
     private var bassBoost = BassBoost(0, 1)
+    private var bassSettings = BassBoost.Settings()
 
     init {
         if (!RootUtils.isDeviceRooted()){
             val settings = equalizerPrefsUseCase.getBassBoostSettings()
             if (settings.isNotBlank()){
-                bassBoost.properties = BassBoost.Settings(settings)
+                bassSettings = BassBoost.Settings(settings)
+            } else {
+                bassSettings = bassBoost.properties
             }
         } else {
             bassBoost.release()
+            isReleased = true
         }
     }
 
-    override fun getStrength(): Int = bassBoost.roundedStrength.toInt()
+    override fun getStrength(): Int {
+        return try {
+            bassBoost.roundedStrength.toInt()
+        } catch (ex: Exception){ 0 }
+    }
 
     override fun setStrength(value: Int) {
-        bassBoost.setStrength(value.toShort())
+        safeEdit {
+            bassSettings.strength = value.toShort()
+            bassBoost.setStrength(value.toShort())
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        bassBoost.enabled = enabled
+        safeEdit {
+            bassBoost.enabled = enabled
+        }
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
-        val settings = bassBoost.properties
-        bassBoost.release()
+        release()
+
         bassBoost = BassBoost(0, audioSessionId)
+        isReleased = false
         bassBoost.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-        settings?.let { bassBoost.properties = it }
+        if (bassSettings.toString().isNotBlank()){
+            bassBoost.properties = bassSettings
+        }
     }
 
     override fun release() {
-        equalizerPrefsUseCase.saveBassBoostSettings(bassBoost.properties.toString())
-        bassBoost.release()
+        equalizerPrefsUseCase.saveBassBoostSettings(bassSettings.toString())
+        super.release(bassBoost)
     }
-
-
 
 }
