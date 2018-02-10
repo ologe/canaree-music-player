@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="progress_bar_size">6dp</dimen>
-    <dimen name="progress_bar_translation">-6dp</dimen>
-
-</resources>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="channel_id_notification">Riproduzione musica</string>
-    <string name="channel_id_notification_description">Controlli riproduzione musica</string>
-
-    <string name="error_empty_queue">Nessun risultato trovato</string>
-
-</resources>

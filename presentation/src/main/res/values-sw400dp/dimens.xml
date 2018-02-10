@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="toolbar">56dp</dimen>
-    <dimen name="tab">48dp</dimen>
-
-</resources>

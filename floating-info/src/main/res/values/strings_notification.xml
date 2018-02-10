@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="channel_id_notification">Floating window</string>
-    <string name="channel_id_notification_description">Floating window</string>
-    <string name="notification_content_text">Tap to close</string>
-
-</resources>
