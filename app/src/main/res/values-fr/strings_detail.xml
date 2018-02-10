@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="detail_most_played">Le Plus Jouè</string>
+    <string name="detail_recently_added">Récemment Ajouté</string>
+    <string name="detail_albums">Albums</string>
+    <string name="detail_songs">Titres</string>
+
+    <string-array name="detail_album_header">
+        <item>Autres dossiers</item>
+        <item>Autres Playlists</item>
+        <item>Unused</item>
+        <item>Autres Albums</item>
+        <item>Albums</item>
+        <item>Autres Genres</item>
+    </string-array>
+
+    <string-array name="detail_in_this_item">
+        <item>Dans ce dossier</item>
+        <item>Dans cette playlist</item>
+        <item>Unused</item>
+        <item>Unused</item>
+        <item>Unused</item>
+        <item>Dans ce genre</item>
+    </string-array>
+
+    <string name="detail_see_more">voir tout</string>
+
+    <plurals name="song_count">
+        <item quantity="one">%d Titre</item>
+        <item quantity="other">%d Titres</item>
+    </plurals>
+
+    <plurals name="album_count">
+        <item quantity="one">%d Album</item>
+        <item quantity="other">%d Albums</item>
+    </plurals>
+
+
+
+    <string name="related_artists">Artistes similaires</string>
+    <string name="recently_added">Récemment Ajouté</string>
+    <string name="albums">Albums</string>
+
+</resources>

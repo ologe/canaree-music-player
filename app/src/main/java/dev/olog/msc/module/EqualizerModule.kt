@@ -2,10 +2,10 @@ package dev.olog.msc.module
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.music_service.equalizer.BassBoostImpl
-import dev.olog.music_service.equalizer.EqualizerImpl
-import dev.olog.music_service.equalizer.ReplayGainImpl
-import dev.olog.music_service.equalizer.VirtualizerImpl
+import dev.olog.msc.music.service.equalizer.BassBoostImpl
+import dev.olog.msc.music.service.equalizer.EqualizerImpl
+import dev.olog.msc.music.service.equalizer.ReplayGainImpl
+import dev.olog.msc.music.service.equalizer.VirtualizerImpl
 import dev.olog.shared_android.interfaces.equalizer.IBassBoost
 import dev.olog.shared_android.interfaces.equalizer.IEqualizer
 import dev.olog.shared_android.interfaces.equalizer.IReplayGain

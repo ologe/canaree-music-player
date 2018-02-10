@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="player_fragment_tag" translatable="false">PlayerFragment</string>
+    <string name="player_queue_fragment_tag" translatable="false">PlayerQueueFragment</string>
+    <string name="mini_player_fragment_tag" translatable="false">MiniPlayerFragment</string>
+
+</resources>

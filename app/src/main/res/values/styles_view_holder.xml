@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Song">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Album">
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Song.MainText">
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textSize">@dimen/item_song_title</item>
+    </style>
+
+    <style name="Song.SecondaryText">
+        <item name="android:textColor">@color/text_color_secondary</item>
+        <item name="android:textSize">@dimen/item_song_subtitle</item>
+    </style>
+
+
+    <style name="Album.MainText">
+        <item name="android:textSize">@dimen/item_album_title</item>
+        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Album.SecondaryText">
+        <item name="android:textSize">@dimen/item_album_subtitle</item>
+        <item name="android:textColor">@color/text_color_secondary</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="InfoView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@drawable/rounded_dark_background</item>
+        <item name="android:textColor">@color/background</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingStart">3dp</item>
+        <item name="android:paddingEnd">3dp</item>
+    </style>
+
+    <style name="ExplicitView" parent="InfoView">
+        <item name="android:text">@string/song_info_explicit</item>
+    </style>
+
+    <style name="RemixView" parent="InfoView">
+        <item name="android:text">@string/song_info_remix</item>
+    </style>
+
+    <style name="SmallShufflePlay">
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/faded_circle</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">6dp</item>
+        <item name="android:tint">@color/dark_grey</item>
+    </style>
+
+    <dimen name="smallShuffleSize">30dp</dimen>
+
+</resources>

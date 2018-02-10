@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="RtlSymmetry">
+
+        <ImageView
+            android:id="@+id/cover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1.3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:imageBigAlbum="@{item}"
+            tools:src="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            android:text="@{item.title}"
+            tools:text="Animal Ambition: An Untamed Desire to Win"
+            android:textSize="@dimen/item_detail_main_header_title_size"
+            android:textColor="@color/text_color_primary"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:layout_marginStart="@dimen/detail_header_margin_start"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:scrollHorizontally="true"/>
+
+        <TextView
+            android:id="@+id/subtitle"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="@+id/title"
+            android:text="@{item.subtitle}"
+            tools:text="50 Cent"
+            android:textSize="@dimen/item_detail_main_header_subtitle_size"
+            android:textColor="@color/item_selected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:paddingBottom="12dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:scrollHorizontally="true" />
+
+        <View
+            android:id="@+id/clickableArtist"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/subtitle"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <ImageButton
+            android:id="@+id/more"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/vd_more"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="12dp"/>
+
+        
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

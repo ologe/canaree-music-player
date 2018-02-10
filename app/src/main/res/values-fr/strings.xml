@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="shuffle_all">Lecture Aléatoire</string>
+
+    <string name="folder">Dossier</string>
+    <!--<string name="playlist">Playlist</string>-->
+    <string name="song">Titre</string>
+    <!--<string name="album">Album</string>-->
+    <string name="artist">Artiste</string>
+    <!--<string name="genre">Genre</string>-->
+
+    <string name="about">À propos</string>
+    <string name="equalizer_not_found">Égaliseur non trouvè</string>
+
+    <string-array name="tab_empty_state">
+        <item>Pas de dossiers</item>
+        <item>Pas de playlist</item>
+        <item>Pas de titres</item>
+        <item>Pas de albums</item>
+        <item>Pas de artistes</item>
+        <item>Pas de genres</item>
+    </string-array>
+    <string name="settings">Paramètres</string>
+
+</resources>

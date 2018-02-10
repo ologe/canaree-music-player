@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingStart="@dimen/detail_margin_horizontal"
+        android:paddingEnd="@dimen/detail_margin_horizontal"
+        android:background="@color/background">
+
+        <View
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/coverLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            style="@style/Divider"
+            android:layout_marginStart="12dp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/coverLayout"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="@dimen/item_song_cover_size"
+            android:layout_height="@dimen/item_song_cover_size"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="4dp"
+            android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+            android:layout_marginBottom="@dimen/item_song_cover_margin_vertical">
+
+            <ImageView
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@drawable/placeholder_folder"
+                app:imageSong="@{item}"/>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/index"
+            android:text="@{item.trackNumber}"
+            tools:text="1"
+            tools:layout_marginStart="8dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="@+id/firstText"
+            app:layout_constraintBottom_toBottomOf="@+id/firstText"
+            app:layout_constraintStart_toEndOf="@+id/coverLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"/>
+
+        <TextView
+            android:id="@+id/firstText"
+            app:layout_constraintTop_toTopOf="@+id/coverLayout"
+            app:layout_constraintStart_toEndOf="@+id/index"
+            app:layout_constraintBottom_toTopOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            android:text="@{item.title}"
+            tools:text="@tools:sample/lorem"
+            style="@style/Song.MainText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"/>
+
+        <TextView
+            android:id="@+id/secondText"
+            app:layout_constraintStart_toEndOf="@+id/index"
+            app:layout_constraintTop_toBottomOf="@+id/firstText"
+            app:layout_constraintEnd_toStartOf="@+id/remix"
+            app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
+            android:text="@{item.subtitle}"
+            tools:text="@tools:sample/lorem"
+            style="@style/Song.SecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/explicit"
+            app:layout_constraintTop_toTopOf="@+id/secondText"
+            app:layout_constraintBottom_toBottomOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            style="@style/ExplicitView"
+            android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}"/>
+
+        <TextView
+            android:id="@+id/remix"
+            app:layout_constraintTop_toTopOf="@+id/secondText"
+            app:layout_constraintBottom_toBottomOf="@+id/secondText"
+            app:layout_constraintEnd_toStartOf="@+id/explicit"
+            style="@style/RemixView"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{item.isRemix ? View.VISIBLE : View.GONE}"/>
+
+
+        <ImageButton
+            android:id="@+id/more"
+            app:layout_constraintTop_toTopOf="@id/coverLayout"
+            app:layout_constraintBottom_toBottomOf="@id/coverLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/vd_more"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</layout>

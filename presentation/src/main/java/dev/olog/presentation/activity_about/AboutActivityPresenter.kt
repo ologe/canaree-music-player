@@ -4,8 +4,6 @@ import android.content.Context
 import dev.olog.presentation.BuildConfig
 import dev.olog.presentation.R
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.ApplicationContext
-import dev.olog.shared.MediaId
 import javax.inject.Inject
 
 class AboutActivityPresenter @Inject constructor(

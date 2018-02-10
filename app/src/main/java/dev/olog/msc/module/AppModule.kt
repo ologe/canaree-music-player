@@ -9,8 +9,8 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.App
-import dev.olog.shared.ApplicationContext
-import dev.olog.shared.ProcessLifecycle
+import dev.olog.msc.dagger.ApplicationContext
+import dev.olog.msc.dagger.ProcessLifecycle
 
 @Module
 class AppModule(
@@ -36,6 +36,5 @@ class AppModule(
     fun provideAppLifecycle(): Lifecycle {
         return ProcessLifecycleOwner.get().lifecycle
     }
-
 
 }

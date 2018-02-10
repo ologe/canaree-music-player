@@ -61,7 +61,7 @@
         android:paddingStart="8dp"
         android:scaleX="1.05"/>
 
-    <dev.olog.presentation.fragment_equalizer.widget.BandView
+    <dev.olog.msc.presentation.equalizer.widget.BandView
         android:id="@+id/band1"
         app:layout_constraintTop_toTopOf="@+id/band3"
         app:layout_constraintEnd_toStartOf="@+id/band2"
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <dev.olog.presentation.fragment_equalizer.widget.BandView
+    <dev.olog.msc.presentation.equalizer.widget.BandView
         android:id="@+id/band2"
         app:layout_constraintTop_toTopOf="@+id/band3"
         app:layout_constraintEnd_toStartOf="@+id/band3"
@@ -103,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <dev.olog.presentation.fragment_equalizer.widget.BandView
+    <dev.olog.msc.presentation.equalizer.widget.BandView
         android:id="@+id/band3"
         app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
         app:layout_constraintBottom_toTopOf="@+id/presetName"
@@ -126,7 +126,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <dev.olog.presentation.fragment_equalizer.widget.BandView
+    <dev.olog.msc.presentation.equalizer.widget.BandView
         android:id="@+id/band4"
         app:layout_constraintTop_toTopOf="@+id/band3"
         app:layout_constraintStart_toEndOf="@+id/band3"
@@ -147,7 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <dev.olog.presentation.fragment_equalizer.widget.BandView
+    <dev.olog.msc.presentation.equalizer.widget.BandView
         android:id="@+id/band5"
         app:layout_constraintTop_toTopOf="@+id/band3"
         app:layout_constraintStart_toEndOf="@+id/band4"

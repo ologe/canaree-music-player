@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/background"
+    android:elevation="2dp"
+    android:id="@+id/root">
+
+    <View
+        android:id="@+id/statusBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/status_bar"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="@dimen/toolbar_elevation"/>
+
+    <FrameLayout
+        android:id="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/toolbar">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/vd_back_arrow"
+            android:padding="12dp"/>
+
+        <TextView
+            android:id="@+id/header"
+            android:text="@string/player_playing_queue"
+            android:textColor="@color/dark_grey"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="@dimen/playing_queue_margin_vertical"
+        android:paddingBottom="@dimen/playing_queue_margin_vertical"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_mini_queue"/>
+
+</android.support.constraint.ConstraintLayout>

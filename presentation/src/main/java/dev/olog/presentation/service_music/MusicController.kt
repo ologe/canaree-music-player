@@ -6,11 +6,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.domain.entity.DetailSort
 import dev.olog.presentation.dagger.PerActivity
-import dev.olog.shared.MediaId
-import dev.olog.shared.constants.MusicConstants
-import dev.olog.shared.constants.MusicConstants.ACTION_PLAY_SHUFFLE
 import javax.inject.Inject
 
 @PerActivity

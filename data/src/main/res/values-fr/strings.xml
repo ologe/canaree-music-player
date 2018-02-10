@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="auto_playlists">
-        <item>Dernier Ajouté</item>
-        <item>Favoris</item>
-        <item>Titres écoutés récemment</item>
-    </string-array>
+
 </resources>

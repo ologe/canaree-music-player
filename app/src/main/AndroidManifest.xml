@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
 
     <uses-permission android:name="com.android.vending.BILLING" />
 
@@ -26,7 +28,7 @@
         android:name=".App">
 
         <!--splash activity-->
-        <activity android:name="dev.olog.presentation.activity_splash.SplashActivity"
+        <activity android:name=".presentation.splash.SplashActivity"
             android:theme="@style/Splash"
             android:screenOrientation="portrait">
 
@@ -43,7 +45,7 @@
 
         <!--main activity-->
         <activity
-            android:name="dev.olog.presentation.activity_main.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
 
@@ -55,26 +57,26 @@
         </activity>
 
         <!--about activity-->
-        <activity android:name="dev.olog.presentation.activity_about.AboutActivity"
+        <activity android:name=".presentation.about.AboutActivity"
             android:screenOrientation="portrait"/>
 
         <!--settings activity-->
-        <activity android:name="dev.olog.presentation.activity_preferences.PreferencesActivity"
+        <activity android:name=".presentation.preferences.PreferencesActivity"
             android:theme="@style/SettingsTheme"
             android:screenOrientation="portrait"/>
 
         <!--settings activity-->
-        <activity android:name="dev.olog.presentation.activity_neural_network.NeuralNetworkActivity"
+        <activity android:name=".presentation.neural.network.NeuralNetworkActivity"
             android:screenOrientation="portrait"/>
 
         <!--dummy shortcuts activity-->
-        <activity android:name="dev.olog.presentation.activity_shortcuts.ShortcutsActivity"/>
+        <activity android:name=".presentation.shortcuts.ShortcutsActivity"/>
 
         <!--debug configuration-->
-        <activity android:name="dev.olog.presentation.debug.DebugConfigurationActivity"/>
+        <activity android:name=".presentation.debug.DebugConfigurationActivity"/>
 
         <!--music service-->
-        <service android:name="dev.olog.music_service.MusicService"
+        <service android:name=".music.service.MusicService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
@@ -89,16 +91,16 @@
         </receiver>
 
         <!--neural newtwork service-->
-        <service android:name="dev.olog.presentation.activity_neural_network.service.NeuralNetworkService"
+        <service android:name=".presentation.neural.network.service.NeuralNetworkService"
             android:exported="false"/>
 
         <!--floating window service-->
-        <service android:name="dev.olog.floating_info.FloatingInfoService"
+        <service android:name=".floating.window.FloatingInfoService"
                  android:exported="false"/>
 
 
         <!--widget colored-->
-        <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetColored"
+        <receiver android:name=".presentation.app.widget.WidgetColored"
             android:label="Colorized">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -109,7 +111,7 @@
         </receiver>
 
         <!--widget classic-->
-        <receiver android:name="dev.olog.presentation.widget_home_screen.WidgetClassic"
+        <receiver android:name=".presentation.app.widget.WidgetClassic"
             android:label="Classic">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

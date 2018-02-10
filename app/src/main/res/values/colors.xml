@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">@color/dark_grey</color>-->
-    <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorPrimary">@color/dark_grey</color>
+    <color name="colorPrimaryDark">@color/status_bar</color>
+    <color name="colorAccent">@color/dark_grey</color>
+
+    <color name="background">@android:color/white</color>
+    <color name="background_accent">@color/dark_grey</color>
+
+    <color name="nav_bar">@android:color/black</color>
+    <color name="toolbar">#FAFAFA</color>
+    <color name="status_bar">#999</color>
+    <color name="status_bar_secondary">#999</color>
+
+    <color name="text_color_primary">@color/dark_grey</color>
+    <color name="text_color_secondary">@color/grey600</color>
+
+    <color name="button_primary_tint">@color/dark_grey</color>
+    <color name="button_secondary_tint">@color/button_primary_tint</color>
+
+    <!--<color name="item_selected">#FF1744</color>-->
+    <color name="item_selected">@color/accent</color>
+
+    <color name="progress_bar_tint">@color/dark_grey</color>
+    <color name="progress_bar_secondary_tint">@color/grey600</color>
+
+    <!-- Colors for the Hover menu itself -->
+    <color name="hover_selector_color">@android:color/white</color>
+    <!--<color name="hover_navigator_color">@android:color/white</color>-->
+    <color name="hover_shade_color">#CC000000</color>
+
+    <!-- Colors for drill-down menus that can appear in Hover's content area -->
+    <color name="hover_content_menu_divider_color">#CCCCCC</color>
+    <color name="hover_content_menu_title_color">#AAAAAA</color>
+    <color name="hover_content_menu_item_title_color">#666666</color>
+
 </resources>

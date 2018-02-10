@@ -20,9 +20,7 @@ import dev.olog.presentation.service_music.MediaControllerProvider
 import dev.olog.presentation.service_music.MusicServiceBinderViewModel
 import dev.olog.presentation.utils.extension.subscribe
 import dev.olog.presentation.utils.extension.toggleVisibility
-import dev.olog.shared.constants.FloatingInfoConstants
 import dev.olog.shared_android.Constants
-import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import dev.olog.shared_android.interfaces.MusicServiceClass
 import dev.olog.shared_android.interfaces.pro.IBilling

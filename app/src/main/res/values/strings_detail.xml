@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="detail_most_played">Most played</string>
+    <string name="detail_recently_added">Recently added</string>
+    <string name="detail_albums">Albums</string>
+    <string name="detail_songs">Songs</string>
+
+    <string-array name="detail_album_header">
+        <item>Other folders</item>
+        <item>Other playlists</item>
+        <item>Unused</item>
+        <item>Other albums</item>
+        <item>Albums</item>
+        <item>Other genres</item>
+    </string-array>
+
+    <string-array name="detail_in_this_item">
+        <item>In this folder</item>
+        <item>In this playlist</item>
+        <item>Unused</item>
+        <item>Unused</item>
+        <item>Unused</item>
+        <item>In this genre</item>
+    </string-array>
+
+    <string name="detail_see_more">see more</string>
+
+    <plurals name="song_count">
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+
+    <plurals name="album_count">
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+
+    <plurals name="plurals_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="plurals_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <string name="related_artists">Related artists</string>
+    <string name="recently_added">Recently added</string>
+    <string name="albums">Albums</string>
+
+    <string name="detail_no_tracks">No tracks</string>
+
+</resources>

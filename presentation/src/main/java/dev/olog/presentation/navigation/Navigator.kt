@@ -2,7 +2,6 @@ package dev.olog.presentation.navigation
 
 import android.view.View
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.MediaId
 
 interface Navigator {
 

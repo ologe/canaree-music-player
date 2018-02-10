@@ -29,7 +29,6 @@ class SplashFragmentTutorial : BaseFragment() {
 
             override fun onSwipedLeft() {
                 loadNextImage()
-
             }
 
             override fun onSwipedRight() {

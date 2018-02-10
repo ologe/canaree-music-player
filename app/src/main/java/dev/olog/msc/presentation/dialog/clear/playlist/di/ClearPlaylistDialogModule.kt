@@ -1,0 +1,35 @@
+package dev.olog.msc.presentation.dialog.clear.playlist.di
+
+import android.arch.lifecycle.Lifecycle
+import dagger.Module
+import dagger.Provides
+import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
+import dev.olog.msc.utils.MediaId
+
+@Module
+class ClearPlaylistDialogModule(
+        private val fragment: ClearPlaylistDialog
+) {
+
+    @Provides
+    @FragmentLifecycle
+    fun provideLifecycle(): Lifecycle = fragment.lifecycle
+
+    @Provides
+    fun provideMediaId(): MediaId {
+        val mediaId = fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_MEDIA_ID)
+        return MediaId.fromString(mediaId)
+    }
+
+    @Provides
+    fun provideItemTitle(): String {
+        return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_ITEM_TITLE)
+    }
+
+    @Provides
+    fun provideListSize(): Int {
+        return fragment.arguments!!.getInt(ClearPlaylistDialog.ARGUMENTS_LIST_SIZE)
+    }
+
+}

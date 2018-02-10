@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="exit_height">200dp</dimen>
+    <dimen name="exit_width">350dp</dimen>
+
+</resources>

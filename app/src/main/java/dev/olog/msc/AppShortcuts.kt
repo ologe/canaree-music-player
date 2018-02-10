@@ -4,8 +4,8 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.pm.ShortcutManager
 import android.os.Build
-import dev.olog.presentation.activity_main.MainActivity
-import dev.olog.presentation.activity_shortcuts.ShortcutsActivity
+import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.shared_android.AppShortcutInfo
 import dev.olog.shared_android.isNougat_MR1
 

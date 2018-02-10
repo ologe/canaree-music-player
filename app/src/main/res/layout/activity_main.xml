@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/slidingPanel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoShadowHeight="@dimen/sliding_panel_shadow"
+    sothree:umanoPanelHeight="@dimen/sliding_panel_peek"
+    sothree:umanoParallaxOffset="@dimen/sliding_panel_parallax"
+    sothree:umanoScrollableView="@+id/innerPanel"
+    sothree:umanoInitialState="collapsed">
+
+    <include
+        android:id="@+id/viewPagerLayout"
+        layout="@layout/fragment_tab_view_pager" />
+
+    <FrameLayout
+        android:id="@+id/playerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="dev.olog.msc.presentation.player.PlayerFragment"
+            android:tag="@string/player_fragment_tag" />
+
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sliding_panel_peek"
+            android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
+            android:tag="@string/mini_player_fragment_tag" />
+
+    </FrameLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

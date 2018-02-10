@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="shuffle_all">Riproduzione Casuale</string>
+
+    <string name="folder">Cartella</string>
+    <string name="playlist">Playlist</string>
+    <string name="song">Brano</string>
+    <string name="album">Album</string>
+    <string name="artist">Artista</string>
+    <string name="genre">Genere</string>
+
+    <string name="about">Info</string>
+
+    <string name="equalizer_not_found">Equalizzatore non trovato</string>
+
+    <string-array name="tab_empty_state">
+        <item>Nessuna cartella</item>
+        <item>Nessuna playlist</item>
+        <item>Nessun brano</item>
+        <item>Nessun album</item>
+        <item>Nessuna artista</item>
+        <item>Nessun genere</item>
+    </string-array>
+
+    <string name="pager_empty_state">E adesso?</string>
+
+    <string name="network_not_available">Verifica la tua connessione di rete</string>
+
+</resources>

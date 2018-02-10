@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="neural_service_title">Stilizzando le immagini</string>
+    <string name="neural_service_subtitle">Magia in corso</string>
+    <string name="neural_service_cancel">Ferma la magia</string>
+    <string name="neural_notification_channel_title">Stilizza immagini</string>
+
+</resources>

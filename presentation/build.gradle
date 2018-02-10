@@ -50,8 +50,6 @@ dependencies {
     implementation files('libs/jaudiotagger-android-2.2.3.jar')
 
     // modules
-    implementation project(':domain')
-    implementation project(':shared')
     implementation project(':shared-android')
 
     // kotlin

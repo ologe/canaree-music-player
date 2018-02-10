@@ -6,12 +6,12 @@ import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
-import dev.olog.floating_info.FloatingInfoService
-import dev.olog.music_service.MusicService
-import dev.olog.presentation.activity_main.MainActivity
-import dev.olog.presentation.activity_shortcuts.ShortcutsActivity
-import dev.olog.presentation.widget_home_screen.WidgetClassic
-import dev.olog.presentation.widget_home_screen.WidgetColored
+import dev.olog.msc.floating.window.FloatingInfoService
+import dev.olog.msc.music.service.MusicService
+import dev.olog.msc.presentation.app.widget.WidgetClassic
+import dev.olog.msc.presentation.app.widget.WidgetColored
+import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.shared_android.interfaces.*
 
 @Module

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search_hint">Recherche</string>
+
+    <string name="search_songs">Titres</string>
+    <string name="search_albums">Albums</string>
+    <string name="search_artists">Artistes</string>
+
+    <string name="search_type_song">Titre</string>
+    <string name="search_type_album">Album</string>
+    <string name="search_type_artist">Artiste</string>
+
+    <string name="search_recent_searches">Recherches récentes</string>
+    <string name="search_clear_recent_searches">Effacer recherches récentes</string>
+    <string name="search_recent_empty_state">Rechercher dans votre bibliothèque..</string>
+
+    <string name="search_no_results">Aucun résultat</string>
+
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s résultat</item>
+        <item quantity="other">%1$s résultats</item>
+    </plurals>
+
+</resources>

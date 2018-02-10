@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/sliding_panel_peek"
+    android:id="@+id/root"
+    android:background="@color/background">
+
+    <dev.olog.shared_android.widget.AnimatedImageView
+        android:id="@+id/next"
+        app:avd="@drawable/avd_music_next"
+        tools:src="@drawable/vd_music_next"
+        android:background="@null"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/mini_player_margin_end"/>
+
+    <dev.olog.shared_android.widget.AnimatedPlayPauseImageView
+        android:id="@+id/playPause"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        tools:src="@drawable/vd_playpause_play"
+        android:background="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        tools:rotation="90" />
+
+    <dev.olog.shared_android.widget.AnimatedImageView
+        android:id="@+id/previous"
+        app:avd="@drawable/avd_music_previous"
+        tools:src="@drawable/vd_music_previous"
+        android:background="@null"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/playPause"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        tools:text="@tools:sample/lorem/random"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/text_color_primary"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/artist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/previous"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:gravity="bottom"
+        android:layout_marginBottom="2dp"
+        android:scrollHorizontally="true" />
+
+    <TextView
+        android:id="@+id/artist"
+        tools:text="@tools:sample/lorem/random"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/text_color_secondary"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/previous"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:gravity="top"
+        android:layout_marginTop="2dp"
+        android:scrollHorizontally="true"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="@integer/very_high_duration"
+        android:progressTint="@color/item_selected"
+        android:progressBackgroundTint="@color/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:progress="40"
+        tools:max="100" />
+
+</android.support.constraint.ConstraintLayout>

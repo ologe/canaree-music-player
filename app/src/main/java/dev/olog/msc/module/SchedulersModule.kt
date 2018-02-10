@@ -2,8 +2,8 @@ package dev.olog.msc.module
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.domain.executor.ComputationScheduler
-import dev.olog.domain.executor.IoScheduler
+import dev.olog.msc.domain.executors.ComputationScheduler
+import dev.olog.msc.domain.executors.IoScheduler
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_song_x_to_queue"><![CDATA[Ajouter <b>%1$s</b> à la File?]]></string>
+
+    <plurals name="add_xx_songs_to_queue">
+        <item quantity="one"><![CDATA[Ajouter <b>%1$d titre</b> à la File?]]></item>
+        <item quantity="other"><![CDATA[Ajouter <b>%1$d titres</b> à la File?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_queue">%1$s ajouté à la File</string>
+    <plurals name="xx_songs_added_to_queue">
+        <item quantity="one">%1$d titre ajouté a là File</item>
+        <item quantity="other">%1$d titres à la File</item>
+    </plurals>
+
+</resources>

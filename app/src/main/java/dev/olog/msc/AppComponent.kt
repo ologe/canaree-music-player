@@ -3,22 +3,22 @@ package dev.olog.msc
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
-import dev.olog.data.RepositoryHelperModule
-import dev.olog.data.RepositoryModule
-import dev.olog.data.preferences.PreferenceModule
-import dev.olog.floating_info.di.FloatingInfoServiceInjector
+import dev.olog.msc.dagger.AndroidBindingModule
+import dev.olog.msc.data.RepositoryHelperModule
+import dev.olog.msc.data.RepositoryModule
+import dev.olog.msc.data.prefs.PreferenceModule
+import dev.olog.msc.floating.window.di.FloatingInfoServiceInjector
 import dev.olog.msc.module.AppModule
 import dev.olog.msc.module.EqualizerModule
 import dev.olog.msc.module.SchedulersModule
 import dev.olog.msc.module.SharedClassModule
-import dev.olog.music_service.di.MusicServiceInjector
-import dev.olog.presentation.activity_about.di.AboutActivityInjector
-import dev.olog.presentation.activity_main.di.MainActivityInjector
-import dev.olog.presentation.activity_neural_network.di.NeuralNetworkActivityInjector
-import dev.olog.presentation.activity_preferences.di.PreferencesActivityInjector
-import dev.olog.presentation.activity_shortcuts.di.ShortcutsActivityInjector
-import dev.olog.presentation.activity_splash.di.SplashActivityInjector
-import dev.olog.presentation.dagger.AndroidBindingModule
+import dev.olog.msc.music.service.di.MusicServiceInjector
+import dev.olog.msc.presentation.about.di.AboutActivityInjector
+import dev.olog.msc.presentation.main.di.MainActivityInjector
+import dev.olog.msc.presentation.neural.network.di.NeuralNetworkActivityInjector
+import dev.olog.msc.presentation.preferences.di.PreferencesActivityInjector
+import dev.olog.msc.presentation.shortcuts.di.ShortcutsActivityInjector
+import dev.olog.msc.presentation.splash.di.SplashActivityInjector
 import javax.inject.Singleton
 
 @Component(modules = arrayOf(
@@ -26,12 +26,12 @@ import javax.inject.Singleton
         SchedulersModule::class,
         AndroidBindingModule::class,
 
-        // data
+//        // data
         RepositoryModule::class,
         RepositoryHelperModule::class,
         PreferenceModule::class,
-
-        // presentation
+//
+//        // presentation
         AndroidSupportInjectionModule::class,
         SplashActivityInjector::class,
         MainActivityInjector::class,
@@ -40,11 +40,11 @@ import javax.inject.Singleton
         PreferencesActivityInjector::class,
         NeuralNetworkActivityInjector::class,
 
-        // music service
+//        // music service
         MusicServiceInjector::class,
         EqualizerModule::class,
 
-        // floating info service
+//        // floating info service
         FloatingInfoServiceInjector::class,
         SharedClassModule::class
 ))

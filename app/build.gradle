@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.firebase-perf'
@@ -55,7 +56,7 @@ android {
             multiDexEnabled true
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable true
+//            debuggable false
 //            applicationIdSuffix = ".debug"
         }
     }
@@ -71,6 +72,16 @@ android {
         preDexLibraries true
     }
 
+//    gradle.projectsEvaluated {
+//        tasks.withType(JavaCompile) {
+//            options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
+//        }
+//    }
+
+    lintOptions{
+        disable 'MissingTranslation'
+    }
+
 }
 
 
@@ -78,15 +89,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // modules
-    implementation project(':domain')
-    implementation project(':shared')
-    implementation project(':presentation')
-    implementation project(':music-service')
-    implementation project(':shared')
-    implementation project(':data')
-    implementation project(':floating-info')
     implementation project(':shared-android')
-
     implementation "com.android.billingclient:billing:$rootProject.billing"
 
     // data binding
@@ -94,6 +97,8 @@ dependencies {
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.1'
 
     // google architecture components
     implementation "android.arch.lifecycle:runtime:$rootProject.micro_architecture_runtime"
@@ -104,16 +109,25 @@ dependencies {
     implementation "com.android.support:support-v4:$rootProject.support_library"
     implementation "com.android.support:appcompat-v7:$rootProject.support_library"
     implementation "com.android.support:mediarouter-v7:$rootProject.support_library"
+    implementation "com.android.support:support-media-compat:$rootProject.support_library"
     implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
     implementation "com.android.support:cardview-v7:$rootProject.support_library"
     implementation "com.android.support:design:$rootProject.support_library"
+    implementation "com.android.support:preference-v7:$rootProject.support_library"
+    implementation "com.android.support:preference-v14:$rootProject.support_library"
+    implementation "com.android.support:palette-v7:$rootProject.support_library"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
     // play service
-//    implementation "com.google.android.gms:play-services-cast-framework:$rootProject.play_services"
+
+    //    implementation "com.google.android.gms:play-services-cast-framework:$rootProject.play_services"
 
     // db
     implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"
+    implementation "com.squareup.sqlbrite3:sqlbrite-kotlin:$rootProject.sql_brite"
+    implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture_room"
+    kapt "android.arch.persistence.room:compiler:$rootProject.micro_architecture_room"
+    implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture_room"
 
     // di
     implementation "com.google.dagger:dagger:$rootProject.dagger"
@@ -125,18 +139,29 @@ dependencies {
     // reactive streams
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
+    implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rx_binding"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "org.jsoup:jsoup:$rootProject.jsoup"
+    implementation "com.github.bumptech.glide:glide:$rootProject.glide"
+    kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
+    implementation "com.airbnb.android:lottie:$rootProject.lottie"
+    implementation "com.getkeepsafe.taptargetview:taptargetview:$rootProject.target_view"
+    implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
 
     // debug
-//    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
-//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
-//    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.db_debug"
+
+    //    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
+
+    //    debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
+
+    //    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.db_debug"
 
     // crashlytics
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
@@ -144,10 +169,10 @@ dependencies {
     }
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"
     implementation "com.google.firebase:firebase-perf:$rootProject.firebase"
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation files('libs/jaudiotagger-android-2.2.3.jar')
 }
 
 // leave at bottom

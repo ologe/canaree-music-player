@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <dimen name="item_header_text_size">26sp</dimen>
+
+
+    <!--item album-->
+    <dimen name="item_album_title">16sp</dimen>
+    <dimen name="item_album_subtitle">13sp</dimen>
+
+
+</resources>
