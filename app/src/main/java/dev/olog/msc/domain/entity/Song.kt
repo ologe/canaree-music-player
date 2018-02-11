@@ -16,6 +16,7 @@ data class Song (
         val isExplicit: Boolean,
         val path: String,
         val folder: String,
+        val discNumber: Int,
         val trackNumber: Int) {
 
     val folderPath: String

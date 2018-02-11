@@ -31,7 +31,7 @@ import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Flowables
+import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import javax.inject.Inject
 
@@ -190,12 +190,12 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage
 
-                Flowables.combineLatest(
+                Observables.combineLatest(
                         viewModel.observeSortOrder(),
                         viewModel.getSortArranging(), { sort, arranging ->
                     Pair(sort, arranging)
 
-                }).takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
+                }).takeUntil(RxView.detaches(holder.itemView))
                         .subscribe({ (sort, arranging) ->
                             if (sort == SortType.CUSTOM){
                                 image.setImageResource(R.drawable.vd_remove)

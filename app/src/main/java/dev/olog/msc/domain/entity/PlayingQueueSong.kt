@@ -5,6 +5,7 @@ import java.io.File
 
 data class PlayingQueueSong (
         val id: Long,
+        val idInPlaylist: Int,
         val parentMediaId: MediaId,
         val artistId: Long,
         val albumId: Long,
@@ -17,8 +18,9 @@ data class PlayingQueueSong (
         val isRemix: Boolean,
         val isExplicit: Boolean,
         val path: String,
-        val trackNumber: Int,
-        val idInPlaylist: Int) {
+        val folder: String,
+        val discNumber: Int,
+        val trackNumber: Int) {
 
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))

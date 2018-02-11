@@ -2,11 +2,11 @@ package dev.olog.msc.domain.gateway
 
 import dev.olog.msc.domain.entity.SearchResult
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 interface RecentSearchesGateway {
 
-    fun getAll() : Flowable<List<SearchResult>>
+    fun getAll() : Observable<List<SearchResult>>
 
     fun insertSong(songId: Long): Completable
     fun insertAlbum(albumId: Long): Completable

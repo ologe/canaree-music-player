@@ -11,10 +11,10 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 class TabFragmentViewModel constructor(
-        private val data: Map<MediaIdCategory, Flowable<List<DisplayableItem>>>,
+        private val data: Map<MediaIdCategory, Observable<List<DisplayableItem>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
         private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
         private val getAlbumUseCase: GetAlbumUseCase,

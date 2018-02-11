@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.albums.di
+package dev.olog.msc.presentation.albums.di
 
 import android.support.v4.app.Fragment
 import dagger.Binds
@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.domain.interactor.albums.AlbumsFragment
+import dev.olog.msc.presentation.albums.AlbumsFragment
 
 @Module(subcomponents = arrayOf(AlbumsFragmentSubComponent::class))
 abstract class AlbumsFragmentInjector {

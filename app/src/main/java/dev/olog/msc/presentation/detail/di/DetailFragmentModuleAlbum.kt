@@ -15,7 +15,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 @Module
 class DetailFragmentModuleAlbum {
@@ -26,7 +26,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideFolderData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
     }
@@ -37,7 +37,7 @@ class DetailFragmentModuleAlbum {
     internal fun providePlaylistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetPlaylistSiblingsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
     }
@@ -49,7 +49,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideAlbumData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
     }
@@ -61,7 +61,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideArtistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
     }
@@ -72,7 +72,7 @@ class DetailFragmentModuleAlbum {
     internal fun provideGenreData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetGenreSiblingsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
     }

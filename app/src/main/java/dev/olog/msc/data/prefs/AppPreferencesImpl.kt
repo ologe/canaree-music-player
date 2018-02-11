@@ -11,9 +11,8 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
@@ -78,38 +77,33 @@ class AppPreferencesImpl @Inject constructor(
         preferences.edit { putInt(VIEW_PAGER_LAST_PAGE, lastPage) }
     }
 
-    override fun getFolderSortOrder(): Flowable<SortType> {
+    override fun getFolderSortOrder(): Observable<SortType> {
         return rxPreferences.getInteger(DETAIL_SORT_FOLDER_ORDER, SortType.TITLE.ordinal)
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map { ordinal -> SortType.values()[ordinal] }
     }
 
-    override fun getPlaylistSortOrder(): Flowable<SortType> {
+    override fun getPlaylistSortOrder(): Observable<SortType> {
         return rxPreferences.getInteger(DETAIL_SORT_PLAYLIST_ORDER, SortType.CUSTOM.ordinal)
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map { ordinal -> SortType.values()[ordinal] }
     }
 
-    override fun getAlbumSortOrder(): Flowable<SortType> {
+    override fun getAlbumSortOrder(): Observable<SortType> {
         return rxPreferences.getInteger(DETAIL_SORT_ALBUM_ORDER, SortType.TITLE.ordinal)
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map { ordinal -> SortType.values()[ordinal] }
     }
 
-    override fun getArtistSortOrder(): Flowable<SortType> {
+    override fun getArtistSortOrder(): Observable<SortType> {
         return rxPreferences.getInteger(DETAIL_SORT_ARTIST_ORDER, SortType.TITLE.ordinal)
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map { ordinal -> SortType.values()[ordinal] }
     }
 
-    override fun getGenreSortOrder(): Flowable<SortType> {
+    override fun getGenreSortOrder(): Observable<SortType> {
         return rxPreferences.getInteger(DETAIL_SORT_GENRE_ORDER, SortType.TITLE.ordinal)
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map { ordinal -> SortType.values()[ordinal] }
     }
 
@@ -133,10 +127,9 @@ class AppPreferencesImpl @Inject constructor(
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_GENRE_ORDER, sortType.ordinal) } }
     }
 
-    override fun getSortArranging(): Flowable<SortArranging> {
+    override fun getSortArranging(): Observable<SortArranging> {
         return rxPreferences.getInteger(DETAIL_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map { ordinal -> SortArranging.values()[ordinal] }
     }
 
@@ -150,10 +143,9 @@ class AppPreferencesImpl @Inject constructor(
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_ARRANGING, newArranging.ordinal) } }
     }
 
-    override fun getVisibleTabs(): Flowable<BooleanArray> {
+    override fun getVisibleTabs(): Observable<BooleanArray> {
         return rxPreferences.getStringSet(context.getString(R.string.prefs_detail_visible_items_key))
                 .asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
                 .map {
                     booleanArrayOf(
                             it.contains(context.getString(R.string.prefs_detail_visible_tabs_most_played)),

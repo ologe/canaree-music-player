@@ -29,17 +29,6 @@ fun Song.toAlbum(songCount: Int) : Album {
     )
 }
 
-fun Song.toNotNeuralAlbum() : Album {
-    return Album(
-            this.albumId,
-            this.artistId,
-            this.album,
-            this.artist,
-            ImagesFolderUtils.getOriginalAlbumCover(this.albumId).toString(),
-            -1
-    )
-}
-
 fun Song.toArtist(context: Context, songCount: Int, albumsCount: Int) : Artist {
     return Artist(
             this.artistId,

@@ -8,7 +8,7 @@ import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.RecentSearchesGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +23,7 @@ class RecentSearchesRepository @Inject constructor(
 
     private val dao : RecentSearchesDao = appDatabase.recentSearchesDao()
 
-    override fun getAll(): Flowable<List<SearchResult>> {
+    override fun getAll(): Observable<List<SearchResult>> {
         return dao.getAll(songGateway.getAll().firstOrError(),
                 albumGateway.getAll().firstOrError(),
                 artistGateway.getAll().firstOrError())

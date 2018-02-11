@@ -5,6 +5,7 @@ import dev.olog.msc.data.entity.FavoriteEntity
 import dev.olog.msc.domain.entity.Song
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
@@ -44,7 +45,7 @@ abstract class FavoriteDao {
     }
 
     open fun removeFromFavorite(songId: List<Long>): Completable {
-        return Flowable.fromIterable(songId)
+        return Observable.fromIterable(songId)
                 .observeOn(Schedulers.io())
                 .map { FavoriteEntity(it) }
                 .toList()

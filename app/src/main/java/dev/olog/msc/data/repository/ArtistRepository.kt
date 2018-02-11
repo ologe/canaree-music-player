@@ -9,18 +9,16 @@ import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.data.FileUtils
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
-import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import io.reactivex.BackpressureStrategy
+import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.Flowables
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -34,49 +32,42 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 class ArtistRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
-        rxContentResolver: BriteContentResolver,
+        private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        private val albumGateway: AlbumGateway,
         appDatabase: AppDatabase,
-        imagesCreator: ImagesCreator
+        private val imagesCreator: ImagesCreator
 
-) : ArtistGateway {
+) : BaseRepository<Artist, Long>(), ArtistGateway {
 
     private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
 
-    private val albumsMap : MutableMap<Long, Flowable<List<Album>>> = mutableMapOf()
-    private val songMap : MutableMap<Long, Flowable<List<Song>>> = mutableMapOf()
+    override fun queryAllData(): Observable<List<Artist>> {
+        return rxContentResolver.createQuery(
+                MEDIA_STORE_URI, arrayOf("count(*)"), null,
+                null, null, false
+        ).mapToOne { 0 }
+                .flatMap { songGateway.getAll() }
+                .map { songList ->
+                    songList.asSequence()
+                            .filter { it.artist != AppConstants.UNKNOWN }
+                            .distinctBy { it.artistId }
+                            .map { song ->
+                                val albums = songList.asSequence()
+                                        .distinctBy { it.albumId }
+                                        .count { it.artistId == song.artistId }
+                                val songs = songList.count { it.artistId == song.artistId }
 
-    private val contentProviderObserver : Flowable<List<Artist>> = rxContentResolver
-            .createQuery(
-                    MEDIA_STORE_URI,
-                    arrayOf("count(*)"),
-                    null, null, null,
-                    false
-            ).mapToOne { 0 }
-            .toFlowable(BackpressureStrategy.LATEST)
-            .flatMap { songGateway.getAll() }
-            .map { songList -> songList.asSequence()
-                        .filter { it.artist != AppConstants.UNKNOWN_ARTIST }
-                        .distinctBy { it.artistId }
-                        .map { song ->
-                            val albums = songList.asSequence()
-                                    .distinctBy { it.albumId }
-                                    .count { it.artistId == song.artistId }
-                            val songs = songList.count { it.artistId == song.artistId }
-
-                            song.toArtist(context, songs, albums)
-                        }.sortedBy { it.name.toLowerCase() }
-                        .toList()
-
-            }.distinctUntilChanged()
-            .doOnNext { imagesCreator.subscribe(createImages()) }
-            .replay(1)
-            .refCount()
-            .doOnTerminate { imagesCreator.unsubscribe() }
+                                song.toArtist(context, songs, albums)
+                            }.sortedBy { it.name.toLowerCase() }
+                            .toList()
+                }.onErrorReturn { listOf() }
+                .doOnNext { imagesCreator.subscribe(createImages()) }
+                .doOnTerminate { imagesCreator.unsubscribe() }
+    }
 
     override fun createImages() : Single<Any> {
-        return songGateway.getAllForImageCreation()
+        return songGateway.getAll()
+                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map { it.groupBy { it.artistId } }
@@ -102,59 +93,35 @@ class ArtistRepository @Inject constructor(
         FileUtils.makeImages(context, map.value, folderName, "${map.key}")
     }
 
-    override fun getAll(): Flowable<List<Artist>> = contentProviderObserver
-
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun getByParam(artistId: Long): Flowable<Artist> {
-        return getAll().map { it.first { it.id == artistId } }
+    override fun getByParamImpl(list: List<Artist>, param: Long): Artist {
+        return list.first { it.id == param }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(artistId: Long): Flowable<List<Song>> {
-        var flowable = songMap[artistId]
+    override fun observeSongListByParam(artistId: Long): Observable<List<Song>> {
+        val observable = songGateway.getAll().map {
+            it.asSequence().filter { it.artistId == artistId }.toList()
+        }.distinctUntilChanged()
 
-        if (flowable == null){
-            flowable = songGateway.getAll().map {
-                it.asSequence().filter { it.artistId == artistId }.toList()
-            }.distinctUntilChanged()
-                    .replay(1)
-                    .refCount()
-
-            songMap[artistId] = flowable
-        }
-
-        return flowable
+        return observable.emitThenDebounce()
     }
 
-    override fun getAlbums(artistId: Long): Flowable<List<Album>> {
-        var flowable = albumsMap[artistId]
+    override fun getLastPlayed(): Observable<List<Artist>> {
+        val observable = Observables.combineLatest(
+                getAll(),
+                lastPlayedDao.getAll().toObservable(),
+                { all, lastPlayed ->
 
-        if (flowable == null){
-            flowable = albumGateway.getAll()
-                    .map { it.filter { it.artistId == artistId } }
-                    .distinctUntilChanged()
-                    .replay(1)
-                    .refCount()
-
-            albumsMap[artistId] = flowable
-        }
-
-        return flowable
-    }
-
-    override fun getLastPlayed(): Flowable<List<Artist>> {
-        return Flowables.combineLatest(getAll(), lastPlayedDao.getAll(), { all, lastPlayed ->
             if (all.size < 10) {
                 listOf()
             } else {
                 lastPlayed.asSequence()
-                        .map { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
-                        .filter { it != null }
-                        .map { it!! }
+                        .mapNotNull { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
                         .take(10)
                         .toList()
             }
         })
+        return observable.emitThenDebounce()
     }
 
     override fun addLastPlayed(item: Artist): Completable = lastPlayedDao.insertOne(item)

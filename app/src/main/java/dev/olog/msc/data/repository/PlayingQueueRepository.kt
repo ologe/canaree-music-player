@@ -8,11 +8,8 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.processors.BehaviorProcessor
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayingQueueRepository @Inject constructor(
@@ -21,7 +18,6 @@ class PlayingQueueRepository @Inject constructor(
 
 ) : PlayingQueueGateway {
 
-    private val publisher = BehaviorProcessor.create<List<PlayingQueueSong>>()
     private val playingQueueDao = database.playingQueueDao()
 
     override fun getAll(): Single<List<PlayingQueueSong>> {
@@ -32,7 +28,7 @@ class PlayingQueueRepository @Inject constructor(
         ).filter { it.isNotEmpty() }.firstOrError()
     }
 
-    override fun observeAll(): Flowable<List<PlayingQueueSong>> {
+    override fun observeAll(): Observable<List<PlayingQueueSong>> {
         return playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError())
     }
 
@@ -40,20 +36,10 @@ class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.insert(list)
     }
 
-    override fun updateMiniQueue(data: List<PlayingQueueSong>) {
-        publisher.onNext(data)
-    }
-
-    override fun observeMiniQueue(): Flowable<List<PlayingQueueSong>> {
-        return publisher
-                .observeOn(Schedulers.computation())
-                .debounce(250, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
-    }
-
     private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
+                progressive,
                 MediaId.songId(this.id),
                 this.artistId,
                 this.albumId,
@@ -66,8 +52,9 @@ class PlayingQueueRepository @Inject constructor(
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.trackNumber,
-                progressive
+                this.folder,
+                this.discNumber,
+                this.trackNumber
         )
     }
 

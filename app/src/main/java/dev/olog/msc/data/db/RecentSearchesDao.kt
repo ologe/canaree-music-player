@@ -12,9 +12,9 @@ import dev.olog.msc.utils.RecentSearchesTypes.ARTIST
 import dev.olog.msc.utils.RecentSearchesTypes.SONG
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
 
 @Dao
 abstract class RecentSearchesDao {
@@ -27,11 +27,10 @@ abstract class RecentSearchesDao {
 
     fun getAll(songList: Single<List<Song>>,
                albumList: Single<List<Album>>,
-               artistList: Single<List<Artist>>) : Flowable<List<SearchResult>> {
+               artistList: Single<List<Artist>>) : Observable<List<SearchResult>> {
 
         return getAllImpl()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .toObservable()
                 .flatMapSingle {  it.toFlowable().flatMapMaybe { recentEntity ->
                         when (recentEntity.dataType){
                             SONG -> songList.flattenAsFlowable { it }
@@ -65,40 +64,33 @@ abstract class RecentSearchesDao {
 
     open fun deleteSong(itemId: Long): Completable {
         return Completable.fromCallable { deleteImpl(SONG, itemId) }
-                .subscribeOn(Schedulers.io())
     }
 
     open fun deleteAlbum(itemId: Long): Completable {
         return Completable.fromCallable { deleteImpl(ALBUM, itemId) }
-                .subscribeOn(Schedulers.io())
     }
 
     open fun deleteArtist(itemId: Long): Completable {
         return Completable.fromCallable { deleteImpl(ARTIST, itemId) }
-                .subscribeOn(Schedulers.io())
     }
 
     open fun deleteAll(): Completable {
         return Completable.fromCallable { deleteAllImpl() }
-                .subscribeOn(Schedulers.io())
     }
 
     open fun insertSong(songId: Long): Completable{
         return deleteSong(songId)
                 .andThen { insertImpl(RecentSearchesEntity(dataType = SONG, itemId = songId)) }
-                .subscribeOn(Schedulers.io())
     }
 
     open fun insertAlbum(albumId: Long): Completable{
         return deleteAlbum(albumId)
                 .andThen { insertImpl(RecentSearchesEntity(dataType = ALBUM, itemId = albumId)) }
-                .subscribeOn(Schedulers.io())
     }
 
     open fun insertArtist(artistId: Long): Completable{
         return deleteArtist(artistId)
                 .andThen { insertImpl(RecentSearchesEntity(dataType = ARTIST, itemId = artistId)) }
-                .subscribeOn(Schedulers.io())
     }
 
     private fun searchSongMapper(recentSearch: RecentSearchesEntity, song: Song) : SearchResult {

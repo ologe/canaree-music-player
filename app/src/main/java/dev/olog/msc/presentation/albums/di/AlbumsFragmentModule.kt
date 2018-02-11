@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.albums.di
+package dev.olog.msc.presentation.albums.di
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProviders
@@ -13,15 +13,15 @@ import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.interactor.albums.AlbumsFragment
-import dev.olog.msc.domain.interactor.albums.AlbumsFragmentViewModel
-import dev.olog.msc.domain.interactor.albums.AlbumsFragmentViewModelFactory
 import dev.olog.msc.domain.interactor.detail.siblings.*
+import dev.olog.msc.presentation.albums.AlbumsFragment
+import dev.olog.msc.presentation.albums.AlbumsFragmentViewModel
+import dev.olog.msc.presentation.albums.AlbumsFragmentViewModelFactory
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 @Module
 class AlbumsFragmentModule(
@@ -50,7 +50,7 @@ class AlbumsFragmentModule(
     internal fun provideFolderData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
@@ -61,7 +61,7 @@ class AlbumsFragmentModule(
     internal fun providePlaylistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetPlaylistSiblingsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
@@ -72,7 +72,7 @@ class AlbumsFragmentModule(
     internal fun provideAlbumData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
@@ -83,7 +83,7 @@ class AlbumsFragmentModule(
     internal fun provideArtistData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
@@ -94,7 +94,7 @@ class AlbumsFragmentModule(
     internal fun provideGenreData(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetGenreSiblingsUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }

@@ -9,7 +9,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.UneditedSong
+import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
@@ -96,7 +96,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
                 TextUtils.isDigitsOnly(view!!.trackNumber.text)
     }
 
-    private fun setImage(view: View, song: UneditedSong){
+    private fun setImage(view: View, song: Song){
         GlideApp.with(context!!).clear(view)
 
         GlideApp.with(context!!)
@@ -109,7 +109,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
                 .into(view.cover)
     }
 
-    private fun setTextViews(view: View, song: UneditedSong){
+    private fun setTextViews(view: View, song: Song){
         val file = File(song.path)
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault

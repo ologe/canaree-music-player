@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.albums
+package dev.olog.msc.presentation.albums
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding

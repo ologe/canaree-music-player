@@ -4,13 +4,13 @@ import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 interface AppPreferencesGateway : Sorting {
 
     fun isFirstAccess(): Boolean
 
-    fun getVisibleTabs(): Flowable<BooleanArray>
+    fun getVisibleTabs(): Observable<BooleanArray>
 
     fun getViewPagerLastVisitedPage(): Int
     fun setViewPagerLastVisitedPage(lastPage: Int)
@@ -30,11 +30,11 @@ interface AppPreferencesGateway : Sorting {
 
 interface Sorting {
 
-    fun getFolderSortOrder() : Flowable<SortType>
-    fun getPlaylistSortOrder() : Flowable<SortType>
-    fun getAlbumSortOrder() : Flowable<SortType>
-    fun getArtistSortOrder() : Flowable<SortType>
-    fun getGenreSortOrder() : Flowable<SortType>
+    fun getFolderSortOrder() : Observable<SortType>
+    fun getPlaylistSortOrder() : Observable<SortType>
+    fun getAlbumSortOrder() : Observable<SortType>
+    fun getArtistSortOrder() : Observable<SortType>
+    fun getGenreSortOrder() : Observable<SortType>
 
     fun setFolderSortOrder(sortType: SortType) : Completable
     fun setPlaylistSortOrder(sortType: SortType) : Completable
@@ -42,7 +42,7 @@ interface Sorting {
     fun setArtistSortOrder(sortType: SortType) : Completable
     fun setGenreSortOrder(sortType: SortType) : Completable
 
-    fun getSortArranging(): Flowable<SortArranging>
+    fun getSortArranging(): Observable<SortArranging>
     fun toggleSortArranging(): Completable
 
 }

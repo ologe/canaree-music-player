@@ -21,7 +21,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.mapToList
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.rxkotlin.toFlowable
 
 @Module
@@ -32,7 +32,7 @@ class DetailFragmentModuleSongs {
     @StringKey(DetailFragmentViewModel.RECENTLY_ADDED)
     internal fun provideRecentlyAdded(
             mediaId: MediaId,
-            useCase: GetRecentlyAddedUseCase) : Flowable<List<DisplayableItem>> {
+            useCase: GetRecentlyAddedUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .flatMapSingle { it.toFlowable()
@@ -47,7 +47,7 @@ class DetailFragmentModuleSongs {
     @StringKey(DetailFragmentViewModel.MOST_PLAYED)
     internal fun provideMostPlayed(
             mediaId: MediaId,
-            useCase: GetMostPlayedSongsUseCase) : Flowable<List<DisplayableItem>> {
+            useCase: GetMostPlayedSongsUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toMostPlayedDetailDisplayableItem(mediaId) }
     }
@@ -59,7 +59,7 @@ class DetailFragmentModuleSongs {
             @ApplicationContext context: Context,
             mediaId: MediaId,
             useCase: GetSortedSongListByParamUseCase,
-            getSortOrderUseCase: GetSortOrderUseCase) : Flowable<List<DisplayableItem>> {
+            getSortOrderUseCase: GetSortOrderUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .flatMapSingle { songList -> getSortOrderUseCase.execute(mediaId)
@@ -88,7 +88,7 @@ class DetailFragmentModuleSongs {
     internal fun provideRelatedArtists(
             @ApplicationContext context: Context,
             mediaId: MediaId,
-            useCase: GetSongListByParamUseCase): Flowable<List<DisplayableItem>> {
+            useCase: GetSongListByParamUseCase): Observable<List<DisplayableItem>> {
 
         val unknownArtist = context.getString(R.string.unknown_artist)
         val inThisItemHeader = context.resources.getStringArray(R.array.detail_in_this_item)[mediaId.source]

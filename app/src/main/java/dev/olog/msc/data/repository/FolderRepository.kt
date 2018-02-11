@@ -14,10 +14,10 @@ import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
@@ -35,31 +35,34 @@ class FolderRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase,
-        imagesCreator: ImagesCreator
+        private val imagesCreator: ImagesCreator
 
-): FolderGateway {
+): BaseRepository<Folder, String>(), FolderGateway {
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    private val songMap : MutableMap<String, Flowable<List<Song>>> = mutableMapOf()
+    override fun queryAllData(): Observable<List<Folder>> {
+        return songGateway.getAll()
+                .map { songList ->
+                    songList.asSequence()
+                            .distinctBy { it.folderPath }
+                            .map { song ->
+                                song.toFolder(context,
+                                        songList.count { it.folderPath == song.folderPath }) // count song for all folder
+                            }.sortedBy { it.title }
+                            .toList()
+                }.onErrorReturn { listOf() }
+                .doOnNext { imagesCreator.subscribe(createImages()) }
+                .doOnTerminate { imagesCreator.unsubscribe() }
+    }
 
-    private val listObservable = songGateway.getAll()
-            .map { it.distinctBy { it.folderPath } }
-            .flatMapSingle { songsToFolder -> songGateway.getAll().firstOrError()
-                    .map { songList ->
-                        songsToFolder.map { song -> song.toFolder(context,
-                                songList.count { it.folderPath == song.folderPath })
-                        }.sortedBy { it.title.toLowerCase() }
-                    }
-            }.distinctUntilChanged()
-            .doOnNext { imagesCreator.subscribe(createImages()) }
-            .replay(1)
-            .refCount()
-            .doOnTerminate { imagesCreator.unsubscribe() }
-
+    override fun getByParamImpl(list: List<Folder>, param: String): Folder {
+        return list.first { it.path == param }
+    }
 
     override fun createImages() : Single<Any>{
-        return songGateway.getAllForImageCreation()
+        return songGateway.getAll()
+                .firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .map { it.groupBy { it.folderPath } }
@@ -86,32 +89,20 @@ class FolderRepository @Inject constructor(
         FileUtils.makeImages(context, map.value, folderName, normalizedPath)
     }
 
-    override fun getAll(): Flowable<List<Folder>> = listObservable
-
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(folderPath: String): Flowable<List<Song>> {
-        var flowable = songMap[folderPath]
+    override fun observeSongListByParam(path: String): Observable<List<Song>> {
+        val observable = songGateway.getAll().map {
+            it.asSequence().filter { it.folderPath == path}.toList()
+        }.distinctUntilChanged()
 
-        if (flowable == null){
-            flowable = songGateway.getAll().map {
-                it.asSequence().filter { it.folderPath == folderPath}.toList()
-            }.distinctUntilChanged()
-                    .replay(1)
-                    .refCount()
-
-            songMap[folderPath] = flowable
-        }
-
-        return flowable
+        return observable.emitThenDebounce()
     }
 
-    override fun getByParam(param: String): Flowable<Folder> {
-        return getAll().map { it.first { it.path == param } }
-    }
-
-    override fun getMostPlayed(mediaId: MediaId): Flowable<List<Song>> {
+    override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {
         val folderPath = mediaId.categoryValue
-        return mostPlayedDao.getAll(folderPath, songGateway.getAll())
+        val observable = mostPlayedDao.getAll(folderPath, songGateway.getAll())
+
+        return observable.emitThenDebounce()
     }
 
     override fun insertMostPlayed(mediaId: MediaId): Completable {
@@ -122,10 +113,17 @@ class FolderRepository @Inject constructor(
                 }
     }
 
-    override fun getAllUnfiltered(): Flowable<List<Folder>> {
+    override fun getAllUnfiltered(): Observable<List<Folder>> {
         return songGateway.getAllUnfiltered()
-                .map { it.distinctBy { it.folderPath } }
-                .mapToList { it.toFolder(context, -1) }
+                .map { songList ->
+                    songList.asSequence()
+                            .distinctBy { it.folderPath }
+                            .map { song ->
+                                song.toFolder(context,
+                                        songList.count { it.folderPath == song.folderPath }) // count song for all folder
+                            }.sortedBy { it.title }
+                            .toList()
+                }
     }
 
     override fun renameFolder(oldPath: String, newFolderName: String): Completable {

@@ -14,8 +14,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.dagger.PerActivity
-import dev.olog.msc.domain.interactor.albums.AlbumsFragment
 import dev.olog.msc.presentation.about.AboutActivity
+import dev.olog.msc.presentation.albums.AlbumsFragment
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.MenuListenerFactory

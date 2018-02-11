@@ -16,7 +16,7 @@ import com.crashlytics.android.Crashlytics
 import dagger.android.DaggerService
 import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
-import dev.olog.msc.domain.interactor.GetAllAlbumsForUtilsUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.msc.presentation.utils.images.NeuralImages
 import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
@@ -43,7 +43,7 @@ class StylizeImageService : DaggerService() {
 
     private var builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
 
-    @Inject lateinit var getAllAlbums: GetAllAlbumsForUtilsUseCase
+    @Inject lateinit var getAllAlbums: GetAllAlbumsUseCase
     @Inject lateinit var notificationManager : NotificationManager
     private var disposable: Disposable? = null
     private var count = 0

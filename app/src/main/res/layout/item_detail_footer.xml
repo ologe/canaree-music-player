@@ -12,7 +12,8 @@
         android:orientation="vertical"
         android:paddingTop="36dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:background="@color/background">
 
         <View
             android:layout_width="match_parent"

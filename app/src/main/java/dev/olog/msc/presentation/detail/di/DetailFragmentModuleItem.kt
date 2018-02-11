@@ -12,7 +12,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 @Module
 class DetailFragmentModuleItem {
@@ -23,7 +23,7 @@ class DetailFragmentModuleItem {
     internal fun provideFolderItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetFolderUseCase) : Flowable<DisplayableItem> {
+            useCase: GetFolderUseCase) : Observable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
     }
@@ -34,7 +34,7 @@ class DetailFragmentModuleItem {
     internal fun providePlaylistItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetPlaylistUseCase) : Flowable<DisplayableItem> {
+            useCase: GetPlaylistUseCase) : Observable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
     }
@@ -44,7 +44,7 @@ class DetailFragmentModuleItem {
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumItem(
             mediaId: MediaId,
-            useCase: GetAlbumUseCase) : Flowable<DisplayableItem> {
+            useCase: GetAlbumUseCase) : Observable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem() }
     }
@@ -55,7 +55,7 @@ class DetailFragmentModuleItem {
     internal fun provideArtistItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetArtistUseCase) : Flowable<DisplayableItem> {
+            useCase: GetArtistUseCase) : Observable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
     }
@@ -66,7 +66,7 @@ class DetailFragmentModuleItem {
     internal fun provideGenreItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetGenreUseCase) : Flowable<DisplayableItem> {
+            useCase: GetGenreUseCase) : Observable<DisplayableItem> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
     }

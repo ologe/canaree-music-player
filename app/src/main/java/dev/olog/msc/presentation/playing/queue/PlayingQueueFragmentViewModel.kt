@@ -10,7 +10,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 
 class PlayingQueueFragmentViewModel(
@@ -23,7 +23,7 @@ class PlayingQueueFragmentViewModel(
         var idInPlaylist = -1
     }
 
-    val data = Flowable.merge(
+    val data = Observable.merge(
             observePlayingQueueUseCase.execute().take(1),
             observePlayingQueueUseCase.execute().skip(1)
                     .debounce(500, TimeUnit.MILLISECONDS))

@@ -3,13 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:elevation="4dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusable="true"
-    android:background="@color/background">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/cover"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1.15"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        tools:src="@drawable/placeholder_folder" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
@@ -22,7 +29,8 @@
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:paddingBottom="32dp" />
+        android:paddingBottom="8dp"
+        tools:paddingTop="350dp"/>
 
     <View
         app:layout_constraintTop_toTopOf="parent"
@@ -104,7 +112,7 @@
         android:elevation="@dimen/toolbar_elevation" />
 
     <TextView
-        android:id="@+id/header"
+        android:id="@+id/headerText"
         tools:text="Selena Gomez"
         android:textColor="@color/dark_grey"
         android:textStyle="bold"
@@ -119,18 +127,5 @@
         tools:alpha="1"
         android:elevation="@dimen/toolbar_elevation"
         android:stateListAnimator="@animator/fade_on_activated" />
-
-    <!--<ImageView-->
-        <!--android:id="@+id/cover"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintDimensionRatio="1.3"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--tools:src="@android:color/holo_red_dark" />-->
-
 
 </android.support.constraint.ConstraintLayout>

@@ -8,7 +8,6 @@ import dev.olog.msc.data.entity.LastPlayedArtistEntity
 import dev.olog.msc.domain.entity.Artist
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.schedulers.Schedulers
 
 @Dao
 abstract class LastPlayedArtistDao {
@@ -27,8 +26,6 @@ abstract class LastPlayedArtistDao {
                 .andThen { insertImpl(LastPlayedArtistEntity(
                         artist.id, artist.name
                 )) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
     }
 
 }

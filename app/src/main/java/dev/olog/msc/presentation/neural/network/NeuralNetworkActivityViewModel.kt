@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.ContentResolver
 import android.net.Uri
 import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.domain.interactor.GetAllAlbumsForUtilsUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.msc.presentation.utils.images.NeuralImages
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,7 +15,7 @@ import io.reactivex.subjects.BehaviorSubject
 
 class NeuralNetworkActivityViewModel(
         private val contentResolver: ContentResolver,
-        getAllAlbumsForUtilsUseCase: GetAllAlbumsForUtilsUseCase
+        getAllAlbumsForUseCase: GetAllAlbumsUseCase
 
 ) : ViewModel() {
 
@@ -35,7 +35,7 @@ class NeuralNetworkActivityViewModel(
         }
     }
 
-    private val getImagesAlbum: Single<List<Album>> = getAllAlbumsForUtilsUseCase.execute()
+    private val getImagesAlbum: Single<List<Album>> = getAllAlbumsForUseCase.execute()
             .observeOn(Schedulers.computation())
             .firstOrError()
             .map {

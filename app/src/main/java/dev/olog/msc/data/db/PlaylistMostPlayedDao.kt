@@ -6,9 +6,9 @@ import android.arch.persistence.room.Query
 import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
 import dev.olog.msc.data.entity.SongMostTimesPlayedEntity
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
-import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Observable
 
 @Dao
 abstract class PlaylistMostPlayedDao {
@@ -25,19 +25,17 @@ abstract class PlaylistMostPlayedDao {
     @Insert
     abstract fun insertOne(item: PlaylistMostPlayedEntity)
 
-    fun getAll(playlistId: Long, songList: Flowable<List<Song>>): Flowable<List<Song>> {
+    fun getAll(playlistId: Long, songList: Observable<List<Song>>): Observable<List<Song>> {
         return this.query(playlistId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .flatMapSingle { it.toFlowable()
-                        .flatMapMaybe { song ->
-                            songList.flatMapIterable { it }
-                                    .filter { it.id == song.songId }
-                                    .firstElement()
-                                    .map { it.to(song.timesPlayed) }
-                        }.toSortedList { (_, time1), (_, time2) -> (time2 - time1) }
+                .toObservable()
+                .flatMap { mostPlayedSongs -> songList.map { songList ->
+                    mostPlayedSongs.mapNotNull { mostPlayed ->
+                        val song = songList.firstOrNull { it.id == mostPlayed.songId }
+                        if (song != null) song to mostPlayed.timesPlayed
+                        else null
+                    }.sortedWith(compareByDescending { it.second })
+                }.mapToList { it.first }
                 }
-                .flatMapSingle { it.toFlowable().map { it.first }.toList() }
     }
 
 }

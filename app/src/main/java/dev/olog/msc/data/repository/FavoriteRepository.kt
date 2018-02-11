@@ -7,11 +7,10 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.processors.PublishProcessor
-import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class FavoriteRepository @Inject constructor(
@@ -24,18 +23,16 @@ class FavoriteRepository @Inject constructor(
 
     private val favoriteDao = appDatabase.favoriteDao()
 
-    private val toggleFavoritePublisher = PublishProcessor.create<AnimateFavoriteEntity>()
+    private val toggleFavoritePublisher = PublishSubject.create<AnimateFavoriteEntity>()
 
-    override fun getAll(): Flowable<List<Song>> = favoriteDao.getAllImpl()
-            .subscribeOn(Schedulers.io())
-            .flatMapSingle { it.toFlowable()
-                    .flatMapMaybe { songId ->
-                        songGateway.getAll().flatMapIterable { it }
-                                .filter { (id) -> id == songId }
-                                .firstElement()
-                    }.toSortedList { o1, o2 -> String.CASE_INSENSITIVE_ORDER.compare(o1.title, o2.title) }
-
-            }
+    override fun getAll(): Observable<List<Song>> {
+        return favoriteDao.getAllImpl()
+                .toObservable()
+                .flatMap { favorites -> songGateway.getAll().map { songList ->
+                    favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
+                            .sortedBy { it.title.toLowerCase() }
+                } }
+    }
 
     override fun addSingle(songId: Long): Single<String> {
         return songGateway.getByParam(songId)
@@ -116,5 +113,5 @@ class FavoriteRepository @Inject constructor(
         ))
     }
 
-    override fun observeToggleFavorite(): Flowable<AnimateFavoriteEntity> = toggleFavoritePublisher
+    override fun observeToggleFavorite(): Observable<AnimateFavoriteEntity> = toggleFavoritePublisher
 }

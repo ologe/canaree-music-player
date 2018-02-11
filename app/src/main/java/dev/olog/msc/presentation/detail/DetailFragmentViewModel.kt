@@ -15,17 +15,17 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.rxkotlin.Flowables
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.toFlowable
 import java.util.concurrent.TimeUnit
 
 class DetailFragmentViewModel(
         private val mediaId: MediaId,
-        item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<DisplayableItem>>,
-        albums: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        data: Map<String, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        item: Map<MediaIdCategory, @JvmSuppressWildcards Observable<DisplayableItem>>,
+        albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
+        data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
         private val setSortOrderUseCase: SetSortOrderUseCase,
@@ -68,8 +68,8 @@ class DetailFragmentViewModel(
             .flatMapSingle { it.toFlowable().take(10).toList() }
             .asLiveData()
 
-    val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Flowables.combineLatest(
-            Flowable.merge(
+    val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
+            Observable.merge(
                     item[currentCategory]!!.take(1),
                     item[currentCategory]!!.skip(1).debounce(500, TimeUnit.MILLISECONDS)
             ).distinctUntilChanged(),
@@ -161,11 +161,11 @@ class DetailFragmentViewModel(
         return setSortArrangingUseCase.execute()
     }
 
-    fun observeSortOrder(): Flowable<SortType> {
+    fun observeSortOrder(): Observable<SortType> {
         return observeSortOrderUseCase.execute(mediaId)
     }
 
-    fun getSortArranging(): Flowable<SortArranging> {
+    fun getSortArranging(): Observable<SortArranging> {
         return getSortArrangingUseCase.execute()
     }
 

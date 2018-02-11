@@ -9,11 +9,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.*
 
 @Dao
 abstract class PlayingQueueDao {
@@ -27,11 +23,10 @@ abstract class PlayingQueueDao {
     @Insert
     internal abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
 
-    fun getAllAsSongs(songList: Single<List<Song>>): Flowable<List<PlayingQueueSong>> {
+    fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<PlayingQueueSong>> {
 
         return this.getAllImpl()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .toObservable()
                 .flatMapSingle { ids -> songList.flatMap { songs ->
                     val result : List<PlayingQueueSong> = ids
                             .map { it.songId }
@@ -62,6 +57,7 @@ abstract class PlayingQueueDao {
     private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,
+                idInPlaylist,
                 MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
                 this.artistId,
                 this.albumId,
@@ -74,8 +70,9 @@ abstract class PlayingQueueDao {
                 this.isRemix,
                 this.isExplicit,
                 this.path,
-                this.trackNumber,
-                idInPlaylist
+                this.folder,
+                this.discNumber,
+                this.trackNumber
         )
     }
 

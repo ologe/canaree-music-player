@@ -8,8 +8,8 @@ import dev.olog.msc.data.entity.HistoryEntity
 import dev.olog.msc.domain.entity.Song
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 
 @Dao
 abstract class HistoryDao {
@@ -24,19 +24,16 @@ abstract class HistoryDao {
     @Query("DELETE FROM song_history WHERE id = :songId")
     abstract fun deleteSingle(songId: Long)
 
-    fun getAllAsSongs(songList: Single<List<Song>>): Flowable<List<Song>> {
+    fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<Song>> {
         return getAllImpl()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
+                .toObservable()
                 .flatMapSingle { ids -> songList.flatMap { songs ->
-                    val result : List<Song> = ids.asSequence()
-                            .map { historyEntity ->
+                    val result : List<Song> = ids
+                            .asSequence()
+                            .mapNotNull { historyEntity ->
                                 val song = songs.firstOrNull { it.id == historyEntity.songId }
                                 song?.copy(trackNumber = historyEntity.id)
-                            }
-                            .filter { it != null }
-                            .map { it!! }
-                            .toList()
+                            }.toList()
                     Single.just(result)
                 } }
     }
@@ -46,7 +43,6 @@ abstract class HistoryDao {
 
     fun insert(id: Long): Completable {
         return Completable.fromCallable{ insertImpl(HistoryEntity(songId = id)) }
-                .subscribeOn(Schedulers.io())
     }
 
 }

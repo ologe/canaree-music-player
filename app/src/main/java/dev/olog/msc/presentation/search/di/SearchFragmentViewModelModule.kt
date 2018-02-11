@@ -25,9 +25,9 @@ import dev.olog.msc.utils.RecentSearchesTypes
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Flowables
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 
@@ -63,7 +63,7 @@ class SearchFragmentViewModelModule {
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             } else {
-                Flowables.zip(
+                Observables.zip(
                         provideSearchByArtist(getAllArtistsUseCase, input),
                         provideSearchByAlbum(getAllAlbumsUseCase, input),
                         provideSearchBySong(getAllSongsUseCase, input),
@@ -83,7 +83,7 @@ class SearchFragmentViewModelModule {
 
     private fun provideSearchBySong(
             getAllSongsUseCase: GetAllSongsUseCase,
-            query: String): Flowable<MutableList<DisplayableItem>> {
+            query: String): Observable<MutableList<DisplayableItem>> {
 
         return getAllSongsUseCase.execute()
                 .flatMapSingle { it.toFlowable()
@@ -97,7 +97,7 @@ class SearchFragmentViewModelModule {
 
     private fun provideSearchByAlbum(
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
-            query: String): Flowable<MutableList<DisplayableItem>> {
+            query: String): Observable<MutableList<DisplayableItem>> {
 
         return getAllAlbumsUseCase.execute()
                 .flatMapSingle { it.toFlowable()
@@ -110,7 +110,7 @@ class SearchFragmentViewModelModule {
 
     private fun provideSearchByArtist(
             getAllArtistsUseCase: GetAllArtistsUseCase,
-            query: String): Flowable<MutableList<DisplayableItem>> {
+            query: String): Observable<MutableList<DisplayableItem>> {
 
         return getAllArtistsUseCase.execute()
                 .flatMapSingle { it.toFlowable()
@@ -123,7 +123,7 @@ class SearchFragmentViewModelModule {
     private fun provideRecents(
             context: Context,
             getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
-            searchHeaders: SearchFragmentHeaders): Flowable<MutableList<DisplayableItem>> {
+            searchHeaders: SearchFragmentHeaders): Observable<MutableList<DisplayableItem>> {
 
         return getAllRecentSearchesUseCase.execute()
                 .mapToList { it.toSearchDisplayableItem(context) }

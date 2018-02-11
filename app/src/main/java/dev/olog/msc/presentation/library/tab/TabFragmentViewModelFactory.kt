@@ -8,11 +8,11 @@ import dev.olog.msc.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class TabFragmentViewModelFactory @Inject constructor(
-        private val data: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        private val data: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
         private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
         private val getAlbumUseCase: GetAlbumUseCase,

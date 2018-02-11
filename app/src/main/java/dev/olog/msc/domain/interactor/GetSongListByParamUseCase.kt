@@ -3,10 +3,10 @@ package dev.olog.msc.domain.interactor
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.*
-import dev.olog.msc.domain.interactor.base.FlowableUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 
@@ -19,10 +19,10 @@ class GetSongListByParamUseCase @Inject constructor(
         private val folderDataStore: FolderGateway,
         private val songDataStore: SongGateway
 
-) : FlowableUseCaseWithParam<List<Song>, MediaId>(schedulers) {
+) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(schedulers) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: MediaId): Flowable<List<Song>> {
+    override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {
         if (mediaId.isAll){
             return songDataStore.getAll()
         }

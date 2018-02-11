@@ -1,13 +1,13 @@
 package dev.olog.msc.domain.gateway
 
-import io.reactivex.Flowable
+import io.reactivex.Observable
 
 
 interface BaseGateway<T, in Params> {
 
-    fun getAll(): Flowable<List<T>>
+    fun getAll(): Observable<List<T>>
 
-    fun getByParam(param: Params): Flowable<T>
+    fun getByParam(param: Params): Observable<T>
 
 }
 

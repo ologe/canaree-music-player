@@ -1,9 +1,9 @@
-package dev.olog.msc.domain.interactor.albums.di
+package dev.olog.msc.presentation.albums.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.msc.dagger.PerFragment
-import dev.olog.msc.domain.interactor.albums.AlbumsFragment
+import dev.olog.msc.presentation.albums.AlbumsFragment
 
 
 @Subcomponent(modules = arrayOf(

@@ -3,17 +3,17 @@ package dev.olog.msc.domain.interactor.tab
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.PlaylistGateway
-import dev.olog.msc.domain.interactor.base.FlowableUseCase
-import io.reactivex.Flowable
+import dev.olog.msc.domain.interactor.base.ObservableUseCase
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetAllAutoPlaylistUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val gateway: PlaylistGateway
 
-) : FlowableUseCase<List<Playlist>>(schedulers) {
+) : ObservableUseCase<List<Playlist>>(schedulers) {
 
-    override fun buildUseCaseObservable(): Flowable<List<Playlist>> {
+    override fun buildUseCaseObservable(): Observable<List<Playlist>> {
         return gateway.getAllAutoPlaylists()
     }
 }

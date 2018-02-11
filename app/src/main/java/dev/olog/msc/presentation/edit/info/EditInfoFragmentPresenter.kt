@@ -9,8 +9,8 @@ import android.net.Uri
 import dev.olog.msc.R
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.ProcessLifecycle
-import dev.olog.msc.domain.entity.UneditedSong
-import dev.olog.msc.domain.interactor.GetUneditedSongUseCase
+import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
@@ -26,7 +26,7 @@ class EditInfoFragmentPresenter @Inject constructor(
         @ApplicationContext private val context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
         private val mediaId: MediaId,
-        private val getSongUseCase: GetUneditedSongUseCase
+        private val getSongUseCase: GetSongUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -36,7 +36,7 @@ class EditInfoFragmentPresenter @Inject constructor(
 
     private var updateDisposable : Disposable? = null
 
-    fun getSong(): Single<UneditedSong>{
+    fun getSong(): Single<Song>{
         return getSongUseCase.execute(mediaId)
                 .firstOrError()
     }
@@ -85,7 +85,7 @@ class EditInfoFragmentPresenter @Inject constructor(
         audioFile.commit()
     }
 
-    private fun notifyMediaStore(song: UneditedSong){
+    private fun notifyMediaStore(song: Song){
         val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
         intent.data = Uri.fromFile(File(song.path))
         context.sendBroadcast(intent)

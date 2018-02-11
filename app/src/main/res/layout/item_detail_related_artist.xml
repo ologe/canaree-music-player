@@ -13,7 +13,8 @@
         android:paddingStart="@dimen/detail_margin_horizontal"
         android:paddingEnd="@dimen/detail_margin_horizontal"
         android:orientation="vertical"
-        android:paddingTop="@dimen/item_detail_header_padding_top">
+        android:paddingTop="@dimen/item_detail_header_padding_top"
+        android:background="@color/background">
 
         <TextView
             android:id="@+id/header"

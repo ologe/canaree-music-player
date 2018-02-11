@@ -14,7 +14,6 @@ import java.io.File
 
 
 fun Cursor.toSong(context: Context): Song {
-
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -24,21 +23,33 @@ fun Cursor.toSong(context: Context): Song {
 
     val (title, isExplicit, isRemix) = adjustTitle(getString(MediaStore.MediaColumns.TITLE))
 
-    val artist = adjustArtist(getString(MediaStore.Audio.AudioColumns.ARTIST))
+    val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
     val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
+    val track = extractTrackNumber(trackNumber)
+    val disc = extractDiscNumber(trackNumber, track)
 
     return Song(
             id, artistId, albumId, title, artist, album,
             ImagesFolderUtils.forAlbum(context, albumId),
-            duration, dateAdded, isRemix, isExplicit, path, folder,
-            trackNumber)
+            duration, dateAdded, isRemix, isExplicit, path,
+            folder.capitalize(), disc, trackNumber)
 }
 
+private fun extractTrackNumber(originalTrackNumber: Int) : Int {
+    return originalTrackNumber % 1000
+}
+
+private fun extractDiscNumber(originalTrackNumber: Int, realTrackNumber: Int): Int {
+    if (originalTrackNumber > 1000){
+        return (originalTrackNumber - realTrackNumber) / 1000
+    }
+    return 0
+}
 
 private fun extractFolder(path: String): String {
     val lastSep = path.lastIndexOf(File.separator)
@@ -47,20 +58,11 @@ private fun extractFolder(path: String): String {
 }
 
 private fun adjustAlbum(album: String, folder: String): String {
-    val hasUnknownAlbum = album == AppConstants.UNKNOWN || album == folder
+    val hasUnknownAlbum = album == folder
     return if (hasUnknownAlbum) {
-        AppConstants.UNKNOWN_ALBUM
+        AppConstants.UNKNOWN
     } else {
         album
-    }
-}
-
-private fun adjustArtist(artist: String): String {
-    val hasUnknownArtist = artist == AppConstants.UNKNOWN
-    return if (hasUnknownArtist) {
-        AppConstants.UNKNOWN_ARTIST
-    } else {
-        artist
     }
 }
 

@@ -5,7 +5,7 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,11 +38,11 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setBlackList(set)
     }
 
-    fun getFolderSortOrder() : Flowable<SortType> = gateway.getFolderSortOrder()
-    fun getPlaylistSortOrder() : Flowable<SortType> = gateway.getPlaylistSortOrder()
-    fun getAlbumSortOrder() : Flowable<SortType> = gateway.getAlbumSortOrder()
-    fun getArtistSortOrder() : Flowable<SortType> = gateway.getArtistSortOrder()
-    fun getGenreSortOrder() : Flowable<SortType> = gateway.getGenreSortOrder()
+    fun getFolderSortOrder() : Observable<SortType> = gateway.getFolderSortOrder()
+    fun getPlaylistSortOrder() : Observable<SortType> = gateway.getPlaylistSortOrder()
+    fun getAlbumSortOrder() : Observable<SortType> = gateway.getAlbumSortOrder()
+    fun getArtistSortOrder() : Observable<SortType> = gateway.getArtistSortOrder()
+    fun getGenreSortOrder() : Observable<SortType> = gateway.getGenreSortOrder()
 
     fun setFolderSortOrder(sortType: SortType) : Completable = gateway.setFolderSortOrder(sortType)
     fun setPlaylistSortOrder(sortType: SortType) : Completable = gateway.setPlaylistSortOrder(sortType)
@@ -50,7 +50,7 @@ class AppPreferencesUseCase @Inject constructor(
     fun setArtistSortOrder(sortType: SortType) : Completable = gateway.setArtistSortOrder(sortType)
     fun setGenreSortOrder(sortType: SortType) : Completable = gateway.setGenreSortOrder(sortType)
 
-    fun getSortArranging(): Flowable<SortArranging> = gateway.getSortArranging()
+    fun getSortArranging(): Observable<SortArranging> = gateway.getSortArranging()
     fun toggleSortArranging(): Completable = gateway.toggleSortArranging()
 
 }

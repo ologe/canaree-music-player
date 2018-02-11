@@ -2,7 +2,7 @@ package dev.olog.msc.domain.gateway
 
 import dev.olog.msc.domain.entity.Playlist
 import io.reactivex.Completable
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 interface PlaylistGateway :
@@ -11,7 +11,7 @@ interface PlaylistGateway :
         HasMostPlayed,
         HasCreatedImages {
 
-    fun getAllAutoPlaylists() : Flowable<List<Playlist>>
+    fun getAllAutoPlaylists() : Observable<List<Playlist>>
 
     fun createPlaylist(playlistName: String): Single<Long>
 

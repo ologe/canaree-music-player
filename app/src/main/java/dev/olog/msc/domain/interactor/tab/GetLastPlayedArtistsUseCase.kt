@@ -3,17 +3,17 @@ package dev.olog.msc.domain.interactor.tab
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.ArtistGateway
-import dev.olog.msc.domain.interactor.base.FlowableUseCase
-import io.reactivex.Flowable
+import dev.olog.msc.domain.interactor.base.ObservableUseCase
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetLastPlayedArtistsUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val artistGateway: ArtistGateway
 
-): FlowableUseCase<List<Artist>>(schedulers) {
+): ObservableUseCase<List<Artist>>(schedulers) {
 
-    override fun buildUseCaseObservable(): Flowable<List<Artist>> {
+    override fun buildUseCaseObservable(): Observable<List<Artist>> {
         return artistGateway.getLastPlayed()
     }
 }

@@ -4,18 +4,18 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.msc.utils.MediaId
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 object VoiceSearch {
 
-    fun noFilter(flowable: Flowable<List<Song>>): Single<List<MediaEntity>> {
+    fun noFilter(flowable: Observable<List<Song>>): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError()
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
     }
 
-    fun filterByAlbum(flowable: Flowable<List<Song>>, album: String): Single<List<MediaEntity>> {
+    fun filterByAlbum(flowable: Observable<List<Song>>, album: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError().map {
                     it.filter { it.album.toLowerCase() == album }
@@ -23,7 +23,7 @@ object VoiceSearch {
                 }
     }
 
-    fun filterByArtist(flowable: Flowable<List<Song>>, artist: String): Single<List<MediaEntity>> {
+    fun filterByArtist(flowable: Observable<List<Song>>, artist: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError().map {
             it.filter { it.artist.toLowerCase() == artist }
@@ -31,7 +31,7 @@ object VoiceSearch {
         }
     }
 
-    fun filterByTitle(flowable: Flowable<List<Song>>, title: String): Single<List<MediaEntity>> {
+    fun filterByTitle(flowable: Observable<List<Song>>, title: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError().map {
             it.filter { it.title.toLowerCase() == title }
@@ -39,7 +39,7 @@ object VoiceSearch {
         }
     }
 
-    fun search(flowable: Flowable<List<Song>>, param: String): Single<List<MediaEntity>> {
+    fun search(flowable: Observable<List<Song>>, param: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError().map {
             it.filter { it.title.toLowerCase() == param ||

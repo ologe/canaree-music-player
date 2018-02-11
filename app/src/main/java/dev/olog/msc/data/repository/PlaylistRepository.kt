@@ -2,10 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.content.ContentResolver
 import android.content.Context
-import android.provider.BaseColumns
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Playlists.Members.getContentUri
-import androidx.database.getLong
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
@@ -13,6 +10,7 @@ import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.data.FileUtils
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
+import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toPlaylist
 import dev.olog.msc.data.mapper.toPlaylistSong
 import dev.olog.msc.domain.entity.Playlist
@@ -21,17 +19,36 @@ import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import io.reactivex.*
+import dev.olog.msc.utils.k.extension.emitThenDebounce
+import io.reactivex.Completable
+import io.reactivex.CompletableSource
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
+private val PROJECTION = arrayOf(
+        MediaStore.Audio.Playlists._ID,
+        MediaStore.Audio.Playlists.NAME
+)
+private val SELECTION: String? = null
+private val SELECTION_ARGS: Array<String>? = null
+private const val SORT_ORDER = "lower(${MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER})"
+
+private val SONG_PROJECTION = arrayOf(
+        MediaStore.Audio.Playlists.Members._ID,
+        MediaStore.Audio.Playlists.Members.AUDIO_ID
+)
+private val SONG_SELECTION = null
+private val SONG_SELECTION_ARGS: Array<String>? = null
+private const val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
 
 @Singleton
 class PlaylistRepository @Inject constructor(
@@ -42,28 +59,9 @@ class PlaylistRepository @Inject constructor(
         private val favoriteGateway: FavoriteGateway,
         appDatabase: AppDatabase,
         private val helper: PlaylistRepositoryHelper,
-        imagesCreator: ImagesCreator
+        private val imagesCreator: ImagesCreator
 
-) : PlaylistGateway {
-
-    companion object {
-        private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-        private val PROJECTION = arrayOf(
-                MediaStore.Audio.Playlists._ID,
-                MediaStore.Audio.Playlists.NAME
-        )
-        private val SELECTION: String? = null
-        private val SELECTION_ARGS: Array<String>? = null
-        private const val SORT_ORDER = "lower(${MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER})"
-
-        private val SONG_PROJECTION = arrayOf(
-                MediaStore.Audio.Playlists.Members._ID,
-                MediaStore.Audio.Playlists.Members.AUDIO_ID
-        )
-        private val SONG_SELECTION = null
-        private val SONG_SELECTION_ARGS: Array<String>? = null
-        private const val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
-    }
+) : BaseRepository<Playlist, Long>(), PlaylistGateway {
 
     private val resources = context.resources
 
@@ -84,45 +82,32 @@ class PlaylistRepository @Inject constructor(
         return Playlist(id, title, -1, "")
     }
 
-    private val contentProviderObserver : Flowable<List<Playlist>> = rxContentResolver
-            .createQuery(
-                    MEDIA_STORE_URI,
-                    PROJECTION,
-                    SELECTION,
-                    SELECTION_ARGS,
-                    SORT_ORDER,
-                    false
-            ).mapToList {
-                val playlistSize = getPlaylistSize(it.getLong(BaseColumns._ID))
-                it.toPlaylist(context, playlistSize)
-            }
-            .onErrorReturn { listOf() }
-            .toFlowable(BackpressureStrategy.LATEST)
-            .distinctUntilChanged()
-            .doOnNext { imagesCreator.subscribe(createImages()) }
-            .replay(1)
-            .refCount()
-            .doOnTerminate { imagesCreator.unsubscribe() }
-
-    private fun getPlaylistSize(playlistId: Long): Int {
-        assertBackgroundThread()
-
-        val cursor = contentResolver.query(getContentUri("external", playlistId),
-                arrayOf("count(*)"), null, null, null)
-        cursor.moveToFirst()
-        val size = cursor.getInt(0)
-        cursor.close()
-        return size
+    override fun queryAllData(): Observable<List<Playlist>> {
+        return rxContentResolver.createQuery(
+                MEDIA_STORE_URI, PROJECTION, SELECTION,
+                SELECTION_ARGS, SORT_ORDER, false
+        ).mapToList {
+            val id = it.extractId()
+            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
+            val size = CommonQuery.getSize(contentResolver, uri)
+            it.toPlaylist(context, size)
+        }
+                .onErrorReturn { listOf() }
+                .doOnNext { imagesCreator.subscribe(createImages()) }
+                .doOnTerminate { imagesCreator.unsubscribe() }
     }
 
     override fun createImages() : Single<Any> {
-        return contentProviderObserver.firstOrError()
+        return getAll().firstOrError()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flattenAsFlowable { it }
                 .parallel()
                 .runOn(Schedulers.io())
-                .map { Pair(it, getSongListAlbumsId(it.id)) }
+                .map {
+                    val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", it.id)
+                    Pair(it, CommonQuery.extractAlbumIdsFromSongs(contentResolver, uri))
+                }
                 .map { (playlist, albumsId) -> try {
                     runBlocking { makeImage(this@PlaylistRepository.context, playlist, albumsId).await() }
                 } catch (ex: Exception){/*amen*/}
@@ -142,13 +127,8 @@ class PlaylistRepository @Inject constructor(
         FileUtils.makeImages2(context, albumsId, folderName, "${playlist.id}")
     }
 
-    override fun getAll(): Flowable<List<Playlist>> {
-        return contentProviderObserver
-                .map { it.sortedWith(compareBy { it.title.toLowerCase() }) }
-    }
-
-    override fun getAllAutoPlaylists(): Flowable<List<Playlist>> {
-        return Flowable.just(autoPlaylist())
+    override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
+        return Observable.just(autoPlaylist())
                 .flatMapSingle { it.toFlowable().toSortedList(compareByDescending { it.id }) }
     }
 
@@ -168,19 +148,20 @@ class PlaylistRepository @Inject constructor(
         return list
     }
 
-    override fun getByParam(param: Long): Flowable<Playlist> {
+    override fun getByParam(param: Long): Observable<Playlist> {
         val result = if (PlaylistConstants.isAutoPlaylist(param)){
             getAllAutoPlaylists()
         } else getAll()
 
-        return result.flatMapSingle { it.toFlowable()
-                .filter { it.id == param }
-                .firstOrError()
-        }
+        return result.map { getByParamImpl(it, param) }
+    }
+
+    override fun getByParamImpl(list: List<Playlist>, param: Long): Playlist {
+        return list.first { it.id == param }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
+    override fun observeSongListByParam(playlistId: Long): Observable<List<Song>> {
         return when (playlistId){
             PlaylistConstants.LAST_ADDED_ID -> getLastAddedSongs()
             PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
@@ -189,56 +170,39 @@ class PlaylistRepository @Inject constructor(
         }
     }
 
-    private fun getSongListAlbumsId(playlistId: Long): List<Long> {
-        val result = mutableListOf<Long>()
-
-        val cursor = contentResolver.query(
-                MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
-                arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null, null, null)
-        while (cursor.moveToNext()){
-            result.add(cursor.getLong(0))
-        }
-        cursor.close()
-        return result
-    }
-
-    private fun getLastAddedSongs() : Flowable<List<Song>>{
+    private fun getLastAddedSongs() : Observable<List<Song>>{
         return songGateway.getAll().flatMapSingle {
             it.toFlowable().toSortedList { o1, o2 ->  (o2.dateAdded - o1.dateAdded).toInt() }
         }
     }
 
-    private fun getPlaylistSongs(playlistId: Long) : Flowable<List<Song>> {
-        val obs = rxContentResolver.createQuery(
-                getContentUri("external", playlistId),
-                SONG_PROJECTION,
-                SONG_SELECTION,
-                SONG_SELECTION_ARGS,
-                SONG_SORT_ORDER,
-                true
+    private fun getPlaylistSongs(playlistId: Long) : Observable<List<Song>> {
+        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+
+        val observable = rxContentResolver.createQuery(
+                uri, SONG_PROJECTION, SONG_SELECTION,
+                SONG_SELECTION_ARGS, SONG_SORT_ORDER, true
 
         ).mapToList { it.toPlaylistSong() }
-                .toFlowable(BackpressureStrategy.LATEST)
                 .flatMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
-                            playlistSongs.asSequence()
+                    playlistSongs.asSequence()
                             .mapNotNull { playlistSong ->
                                 val song = songs.firstOrNull { it.id == playlistSong.songId }
                                 song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
                             }.toList()
                 }}
 
-        return Flowable.merge(
-                obs.take(1),
-                obs.skip(1).debounce(500, TimeUnit.MILLISECONDS) // wrong updates in detail fragment
-        )
+        return observable.emitThenDebounce()
     }
 
-    override fun getMostPlayed(mediaId: MediaId): Flowable<List<Song>> {
+    override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {
         val playlistId = mediaId.categoryValue.toLong()
         if (PlaylistConstants.isAutoPlaylist(playlistId)){
-            return Flowable.just(listOf())
+            return Observable.just(listOf())
         }
-        return mostPlayedDao.getAll(playlistId, songGateway.getAll())
+        val observable = mostPlayedDao.getAll(playlistId, songGateway.getAll())
+
+        return observable.emitThenDebounce()
     }
 
     override fun insertMostPlayed(mediaId: MediaId): Completable {

@@ -5,10 +5,10 @@ import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
-import dev.olog.msc.domain.interactor.base.FlowableUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class GetMostPlayedSongsUseCase @Inject constructor(
@@ -17,10 +17,10 @@ class GetMostPlayedSongsUseCase @Inject constructor(
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway
 
-) : FlowableUseCaseWithParam<List<Song>, MediaId>(scheduler) {
+) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: MediaId): Flowable<List<Song>> {
+    override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {
 
         return when (mediaId.category) {
             MediaIdCategory.GENRES -> return genreGateway.getMostPlayed(mediaId)
@@ -29,7 +29,7 @@ class GetMostPlayedSongsUseCase @Inject constructor(
                     .distinctUntilChanged()
             MediaIdCategory.FOLDERS -> folderGateway.getMostPlayed(mediaId)
                     .distinctUntilChanged()
-            else -> Flowable.just(listOf())
+            else -> Observable.just(listOf())
         }
     }
 }
