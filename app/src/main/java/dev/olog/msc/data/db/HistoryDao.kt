@@ -25,8 +25,7 @@ abstract class HistoryDao {
     abstract fun deleteSingle(songId: Long)
 
     fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<Song>> {
-        return getAllImpl()
-                .toObservable()
+        return getAllImpl().toObservable()
                 .flatMapSingle { ids -> songList.flatMap { songs ->
                     val result : List<Song> = ids
                             .asSequence()

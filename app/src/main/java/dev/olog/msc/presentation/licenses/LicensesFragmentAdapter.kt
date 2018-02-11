@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import android.text.method.LinkMovementMethod
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.databinding.ItemLicenseBinding
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder

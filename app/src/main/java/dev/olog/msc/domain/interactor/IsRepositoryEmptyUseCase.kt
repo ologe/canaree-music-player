@@ -1,13 +1,13 @@
 package dev.olog.msc.domain.interactor
 
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class IsRepositoryEmptyUseCase @Inject constructor(
-        scheduler: IoScheduler,
+        scheduler: ComputationScheduler,
         private val allSongsUseCase: GetAllSongsUseCase
 
 ): ObservableUseCase<Boolean>(scheduler) {

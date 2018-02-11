@@ -3,7 +3,7 @@ package dev.olog.msc.music.service.notification
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.PerService
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.utils.isNougat
 import dev.olog.msc.utils.isOreo

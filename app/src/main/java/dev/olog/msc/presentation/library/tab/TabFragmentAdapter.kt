@@ -7,13 +7,14 @@ import android.support.v7.widget.RecyclerView
 import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
-import dev.olog.msc.presentation.widget.fast.scroller.FastScrollerSectionIndexer
+import dev.olog.msc.presentation.widget.RxFastScroller
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
@@ -22,6 +23,7 @@ import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import javax.inject.Inject
 
+@PerFragment
 class TabFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
@@ -30,7 +32,7 @@ class TabFragmentAdapter @Inject constructor(
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
 
-) : BaseListAdapter<DisplayableItem>(lifecycle), FastScrollerSectionIndexer {
+) : BaseListAdapter<DisplayableItem>(lifecycle), RxFastScroller.SectionIndexer {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         when (viewType) {
@@ -89,8 +91,6 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-//        binding.setVariable(BR.quickAction, Constants.quickAction)
-//        binding.setVariable(BR.musicController, musicController)
     }
 
     override fun getSectionText(position: Int): String? {

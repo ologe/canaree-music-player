@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.detail
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject

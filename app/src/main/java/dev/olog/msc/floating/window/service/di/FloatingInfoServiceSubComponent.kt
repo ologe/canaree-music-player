@@ -2,7 +2,7 @@ package dev.olog.msc.floating.window.service.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerService
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 @Subcomponent(modules = arrayOf(

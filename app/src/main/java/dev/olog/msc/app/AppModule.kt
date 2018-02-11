@@ -9,8 +9,8 @@ import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.ProcessLifecycle
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.presentation.app.widget.WidgetClassic
 import dev.olog.msc.presentation.app.widget.WidgetColored

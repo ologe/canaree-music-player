@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.dialog.delete.di
 import android.arch.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.dialog.delete.DeleteDialog
 import dev.olog.msc.utils.MediaId
 

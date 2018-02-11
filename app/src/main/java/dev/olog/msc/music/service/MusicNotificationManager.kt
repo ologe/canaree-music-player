@@ -9,8 +9,8 @@ import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import dagger.Lazy
-import dev.olog.msc.dagger.PerService
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity

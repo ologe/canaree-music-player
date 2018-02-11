@@ -7,10 +7,11 @@ import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.dagger.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
+import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.detail.sorting.GetSortOrderUseCase
@@ -22,7 +23,7 @@ import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.toFlowable
+import io.reactivex.rxkotlin.withLatestFrom
 
 @Module
 class DetailFragmentModuleSongs {
@@ -35,11 +36,8 @@ class DetailFragmentModuleSongs {
             useCase: GetRecentlyAddedUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .flatMapSingle { it.toFlowable()
-                        .map { it.toRecentDetailDisplayableItem(mediaId) }
-                        .take(11)
-                        .toList()
-                }
+                .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
+                .map { it.take(11) }
     }
 
     @Provides
@@ -59,27 +57,16 @@ class DetailFragmentModuleSongs {
             @ApplicationContext context: Context,
             mediaId: MediaId,
             useCase: GetSortedSongListByParamUseCase,
-            getSortOrderUseCase: GetSortOrderUseCase) : Observable<List<DisplayableItem>> {
+            sortOrderUseCase: GetSortOrderUseCase,
+            songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId)
-                .flatMapSingle { songList -> getSortOrderUseCase.execute(mediaId)
-                        .firstOrError()
-                        .map { sort -> Triple(songList, songList.sumBy { it.duration.toInt() }, sort) }
+        return useCase.execute(mediaId).withLatestFrom(sortOrderUseCase.execute(mediaId)) { songs, order ->
+            songs.map { it.toDetailDisplayableItem(mediaId, order) }
+
+        }.flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
+                        .map { createDurationFooter(context, songList.size, it) }
+                        .map { songList.plus(it) }
                 }
-                .flatMapSingle { (songList, totalDuration, sort) ->
-                    songList.toFlowable().map { it.toDetailDisplayableItem(mediaId, sort) }.toList()
-                            .map { it to totalDuration }
-                }.map { createSongFooter(context, it) }
-    }
-
-    private fun createSongFooter(context: Context, pair: Pair<MutableList<DisplayableItem>, Int>): List<DisplayableItem> {
-        val (list, duration) = pair
-        if (duration > 0){
-            list.add(DisplayableItem(R.layout.item_detail_footer, MediaId.headerId("song footer"),
-                    context.resources.getQuantityString(R.plurals.song_count, list.size, list.size) + TextUtils.MIDDLE_DOT_SPACED +
-                            TimeUtils.formatMillis(context, duration.toLong())))
-        }
-        return list
     }
 
     @Provides
@@ -88,24 +75,23 @@ class DetailFragmentModuleSongs {
     internal fun provideRelatedArtists(
             @ApplicationContext context: Context,
             mediaId: MediaId,
-            useCase: GetSongListByParamUseCase): Observable<List<DisplayableItem>> {
+            useCase: GetRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
 
-        val unknownArtist = context.getString(R.string.unknown_artist)
         val inThisItemHeader = context.resources.getStringArray(R.array.detail_in_this_item)[mediaId.source]
 
         return useCase.execute(mediaId)
-                .map {
-                    if (!mediaId.isAlbum && !mediaId.isArtist){
-                        it.asSequence().filter { it.artist != unknownArtist }
-                                .map { it.artist }
-                                .distinct()
-                                .joinToString()
-                    } else ""
-                }
                 .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it, inThisItemHeader) }
                 .map { listOf(it) }
     }
 
+}
+
+private fun createDurationFooter(context: Context, songCount: Int, duration: Int): DisplayableItem {
+    val songs = DisplayableItem.handleSongListSize(context.resources, songCount)
+    val time = TimeUtils.formatMillis(context, duration)
+
+    return DisplayableItem(R.layout.item_detail_footer, MediaId.headerId("duration footer"),
+            songs + TextUtils.MIDDLE_DOT_SPACED + time)
 }
 
 private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {

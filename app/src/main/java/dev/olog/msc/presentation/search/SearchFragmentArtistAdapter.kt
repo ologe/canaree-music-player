@@ -3,11 +3,10 @@ package dev.olog.msc.presentation.search
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.FragmentLifecycle
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
@@ -19,8 +18,7 @@ import javax.inject.Inject
 class SearchFragmentArtistAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
-        private val viewModel: SearchFragmentViewModel,
-        private val mediaProvider: MediaProvider
+        private val viewModel: SearchFragmentViewModel
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
@@ -38,8 +36,6 @@ class SearchFragmentArtistAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-//        binding.setVariable(BR.musicController, musicController)
-//        binding.setVariable(BR.quickAction, Constants.quickAction)
     }
 
 }

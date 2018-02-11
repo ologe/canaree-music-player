@@ -19,7 +19,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.toFlowable
-import java.util.concurrent.TimeUnit
 
 class DetailFragmentViewModel(
         private val mediaId: MediaId,
@@ -69,14 +68,11 @@ class DetailFragmentViewModel(
             .asLiveData()
 
     val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
-            Observable.merge(
-                    item[currentCategory]!!.take(1),
-                    item[currentCategory]!!.skip(1).debounce(500, TimeUnit.MILLISECONDS)
-            ).distinctUntilChanged(),
+            item[currentCategory]!!,
             data[MOST_PLAYED]!!,
             data[RECENTLY_ADDED]!!,
-            albums[currentCategory]!!.distinctUntilChanged(),
-            data[RELATED_ARTISTS]!!.distinctUntilChanged(),
+            albums[currentCategory]!!,
+            data[RELATED_ARTISTS]!!,
             data[SONGS]!!,
             getVisibleTabsUseCase.execute(),
             { item, mostPlayed, recent, albums, artists, songs, visibility ->

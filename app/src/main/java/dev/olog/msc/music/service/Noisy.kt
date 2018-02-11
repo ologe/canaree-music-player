@@ -10,9 +10,9 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.view.KeyEvent.KEYCODE_MEDIA_PAUSE
 import dagger.Lazy
-import dev.olog.msc.dagger.PerService
-import dev.olog.msc.dagger.ServiceContext
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceContext
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import javax.inject.Inject
 

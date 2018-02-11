@@ -5,8 +5,7 @@ import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.data.FileUtils
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.GenreMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
@@ -17,6 +16,7 @@ import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.img.MergedImagesCreator
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -97,7 +97,7 @@ class GenreRepository @Inject constructor(
 
     private fun makeImage(context: Context, genre: Genre, albumsId: List<Long>) : Deferred<Boolean> = async {
         val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)
-        FileUtils.makeImages2(context, albumsId, folderName, "${genre.id}")
+        MergedImagesCreator.makeImages2(context, albumsId, folderName, "${genre.id}")
     }
 
     override fun getByParamImpl(list: List<Genre>, param: Long): Genre {

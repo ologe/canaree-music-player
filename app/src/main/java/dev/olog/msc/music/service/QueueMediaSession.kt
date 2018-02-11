@@ -6,7 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.net.Uri
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.mapToList

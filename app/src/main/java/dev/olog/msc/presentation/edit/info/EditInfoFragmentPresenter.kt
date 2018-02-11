@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.ProcessLifecycle
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.utils.MediaId

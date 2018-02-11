@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType

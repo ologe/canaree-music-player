@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.playing.queue
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.OnDataChangedListener
@@ -34,8 +33,6 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        FirebaseAnalytics.trackFragment(activity!!, TAG)
 
         viewModel.data.subscribe(this, adapter::updateDataSet)
 

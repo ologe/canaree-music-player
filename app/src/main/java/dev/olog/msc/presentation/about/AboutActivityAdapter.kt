@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dagger.Lazy
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.ActivityLifecycle
+import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.model.DisplayableItem

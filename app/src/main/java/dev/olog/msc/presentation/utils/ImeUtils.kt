@@ -17,6 +17,7 @@ object ImeUtils {
     fun hideIme(editText: TextView) {
         val context = editText.context
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        editText.clearFocus()
         inputManager.hideSoftInputFromWindow(editText.windowToken, 0)
 
     }

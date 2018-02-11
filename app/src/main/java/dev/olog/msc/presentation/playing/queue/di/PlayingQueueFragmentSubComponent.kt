@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.playing.queue.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 
 @Subcomponent(modules = arrayOf(

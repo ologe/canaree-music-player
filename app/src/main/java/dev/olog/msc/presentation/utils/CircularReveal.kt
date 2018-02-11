@@ -33,26 +33,6 @@ class CircularReveal(
 
     override fun onDisappear(sceneRoot: ViewGroup, view: View,
                              startValues: TransitionValues?, endValues: TransitionValues?): Animator {
-
-//        val set = AnimatorSet()
-//        set.playTogether(
-//                createCircularReveal(view, false),
-//                animateBackgroundColor(view, toColor, fromColor) // invert colors
-//        )
-//        set.duration = 250
-//        set.addListener(object : Animator.AnimatorListener{
-//            override fun onAnimationRepeat(animation: Animator?) {}
-//
-//            override fun onAnimationEnd(animation: Animator?) {
-//                view.visibility = View.INVISIBLE
-//            }
-//
-//            override fun onAnimationCancel(animation: Animator?) {}
-//
-//            override fun onAnimationStart(animation: Animator?) {}
-//        })
-//
-//        return set
         return super.onDisappear(sceneRoot, view, startValues, endValues)
     }
 

@@ -13,9 +13,9 @@ import android.support.v4.media.session.MediaSessionCompat
 import androidx.content.systemService
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.PerService
-import dev.olog.msc.dagger.ServiceContext
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceContext
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.music.service.QueueManager
 import dev.olog.msc.music.service.interfaces.Player

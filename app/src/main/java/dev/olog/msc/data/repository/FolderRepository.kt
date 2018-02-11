@@ -3,8 +3,7 @@ package dev.olog.msc.data.repository
 import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.data.FileUtils
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.FolderMostPlayedEntity
 import dev.olog.msc.data.mapper.toFolder
@@ -14,6 +13,7 @@ import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.img.MergedImagesCreator
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -86,7 +86,7 @@ class FolderRepository @Inject constructor(
     private fun makeImage(context: Context, map: Map.Entry<String, List<Song>>) : Deferred<Boolean> = async {
         val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)
         val normalizedPath = map.key.replace(File.separator, "")
-        FileUtils.makeImages(context, map.value, folderName, normalizedPath)
+        MergedImagesCreator.makeImages(context, map.value, folderName, normalizedPath)
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

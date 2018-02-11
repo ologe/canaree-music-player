@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.ActivityContext
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.ActivityContext
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.edit.info.EditInfoFragment
 import dev.olog.msc.presentation.edit.info.EditInfoFragmentView
 import dev.olog.msc.utils.MediaId

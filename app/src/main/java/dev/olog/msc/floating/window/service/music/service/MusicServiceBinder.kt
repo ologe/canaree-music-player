@@ -10,9 +10,9 @@
 //import android.support.v4.media.session.MediaControllerCompat
 //import android.support.v4.media.session.PlaybackStateCompat
 //import dev.olog.msc.constants.AppConstants
-//import dev.olog.msc.dagger.ApplicationContext
-//import dev.olog.msc.dagger.PerService
-//import dev.olog.msc.dagger.ServiceLifecycle
+//import dev.olog.msc.dagger.qualifier.ApplicationContext
+//import dev.olog.msc.dagger.scope.PerService
+//import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 //import dev.olog.msc.domain.interactor.music.service.ToggleSkipToNextVisibilityUseCase
 //import dev.olog.msc.domain.interactor.music.service.ToggleSkipToPreviousVisibilityUseCase
 //import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState

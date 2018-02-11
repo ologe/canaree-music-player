@@ -5,8 +5,7 @@ import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.data.FileUtils
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.domain.entity.Artist
@@ -14,6 +13,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.img.MergedImagesCreator
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -90,7 +90,7 @@ class ArtistRepository @Inject constructor(
 
     private fun makeImage(context: Context, map: Map.Entry<Long, List<Song>>) : Deferred<Boolean> = async {
         val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.ARTIST)
-        FileUtils.makeImages(context, map.value, folderName, "${map.key}")
+        MergedImagesCreator.makeImages(context, map.value, folderName, "${map.key}")
     }
 
     override fun getByParamImpl(list: List<Artist>, param: Long): Artist {

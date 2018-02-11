@@ -3,8 +3,8 @@ package dev.olog.msc.music.service
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import dev.olog.msc.dagger.PerService
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.detail.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.msc.domain.interactor.music.service.InsertHistorySongUseCase

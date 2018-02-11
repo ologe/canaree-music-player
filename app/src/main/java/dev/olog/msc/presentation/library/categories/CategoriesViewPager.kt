@@ -9,9 +9,9 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
 import collections.forEach
-import dev.olog.msc.dagger.ActivityLifecycle
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.ChildFragmentManager
+import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ChildFragmentManager
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.presentation.library.tab.TabFragment
 import javax.inject.Inject

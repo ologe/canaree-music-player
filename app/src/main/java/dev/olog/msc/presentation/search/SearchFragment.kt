@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
-import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.utils.CircularReveal
@@ -50,8 +49,6 @@ class SearchFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        FirebaseAnalytics.trackFragment(activity!!, TAG)
 
         viewModel.searchData.subscribe(this, { (map, query) ->
             val itemCount = map.values.sumBy { it.size }

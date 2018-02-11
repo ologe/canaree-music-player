@@ -2,7 +2,7 @@ package dev.olog.msc.music.service.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerService
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.music.service.notification.NotificationModule
 

@@ -18,6 +18,10 @@ object TimeUtils {
         return millis / 1000 % 60
     }
 
+    fun formatMillis(context: Context, millis: Int): String {
+        return formatMillis(context, millis.toLong())
+    }
+
     fun formatMillis(context: Context, millis: Long): String {
         val hours = TimeUnit.MILLISECONDS.toHours(millis)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis))

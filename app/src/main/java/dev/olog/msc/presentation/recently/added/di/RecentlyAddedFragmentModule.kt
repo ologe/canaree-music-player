@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragmentViewModel
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragmentViewModelFactory

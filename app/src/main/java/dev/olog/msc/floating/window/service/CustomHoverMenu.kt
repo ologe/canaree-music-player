@@ -6,8 +6,8 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.DrawableRes
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ServiceContext
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceContext
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView

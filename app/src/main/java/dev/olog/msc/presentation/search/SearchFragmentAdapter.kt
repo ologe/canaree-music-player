@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.BaseMapAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder

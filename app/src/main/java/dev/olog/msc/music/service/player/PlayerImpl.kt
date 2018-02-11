@@ -14,8 +14,8 @@ import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dagger.Lazy
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.music.service.Noisy
 import dev.olog.msc.music.service.PlayerState
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener

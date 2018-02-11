@@ -10,8 +10,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.constants.WidgetConstants
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.PerService
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.app.widget.WidgetClasses

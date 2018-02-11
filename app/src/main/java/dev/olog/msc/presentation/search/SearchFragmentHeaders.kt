@@ -2,8 +2,8 @@ package dev.olog.msc.presentation.search
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject

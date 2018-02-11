@@ -7,8 +7,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.SearchResult

@@ -23,6 +23,10 @@
 #-dontwarn
 #-ignorewarnings
 
+-dontwarn java.nio.**
+-dontwarn org.jaudiotagger.**
+-dontwarn com.google.errorprone.annotations.*
+
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }

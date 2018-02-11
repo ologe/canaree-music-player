@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.neural.network
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.ContentResolver
-import dev.olog.msc.dagger.PerActivity
+import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
 import javax.inject.Inject
 

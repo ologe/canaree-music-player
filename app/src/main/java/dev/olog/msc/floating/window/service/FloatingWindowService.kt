@@ -3,11 +3,9 @@ package dev.olog.msc.floating.window.service
 import android.app.Notification
 import android.app.Service
 import android.content.Intent
-import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.HoverView
 import dev.olog.msc.floating.window.service.notification.FloatingWindowNotification
-import dev.olog.msc.utils.TextUtils
 import javax.inject.Inject
 
 class FloatingWindowService : BaseFloatingService() {
@@ -15,16 +13,9 @@ class FloatingWindowService : BaseFloatingService() {
     @Inject lateinit var hoverMenu: CustomHoverMenu
     @Inject lateinit var notification : FloatingWindowNotification
 
-    private var creationTime : Long? = null
-
     companion object {
         const val TAG = "FloatingInfoService"
-        const val ACTION_STOP = "${TAG}.ACTION_STOP"
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        creationTime = System.currentTimeMillis()
+        const val ACTION_STOP = "$TAG.ACTION_STOP"
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -39,15 +30,6 @@ class FloatingWindowService : BaseFloatingService() {
         }
 
         return super.onStartCommand(intent, flags, startId)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        creationTime?.let {
-            val lifeMillis = System.currentTimeMillis() - it
-            val life = TextUtils.getReadableSongLength(lifeMillis)
-            FirebaseAnalytics.trackFloatingServiceLife(life)
-        }
     }
 
     override fun onHoverMenuLaunched(intent: Intent, hoverView: HoverView) {

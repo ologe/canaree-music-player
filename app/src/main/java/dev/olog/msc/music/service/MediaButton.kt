@@ -9,8 +9,8 @@ import android.os.Handler
 import android.view.KeyEvent
 import android.view.KeyEvent.*
 import dagger.Lazy
-import dev.olog.msc.dagger.PerService
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import javax.inject.Inject
 

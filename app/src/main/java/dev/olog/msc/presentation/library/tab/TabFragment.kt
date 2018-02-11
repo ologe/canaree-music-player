@@ -13,7 +13,7 @@ import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
-import kotlin.LazyThreadSafetyMode.NONE
+import javax.inject.Provider
 
 class TabFragment : BaseFragment() {
 
@@ -30,11 +30,9 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var adapter: TabFragmentAdapter
     @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject lateinit var category: MediaIdCategory
-    private val spanSizeLookup by lazy (NONE) { TabSpanSpanSizeLookupFactory(context!!, category, adapter) }
-    private lateinit var layoutManager: GridLayoutManager
-
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
+    private lateinit var layoutManager: Provider<GridLayoutManager>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -66,11 +64,10 @@ class TabFragment : BaseFragment() {
 
     @CallSuper
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = GridLayoutManager(context, spanSizeLookup.getSpanSize())
-        layoutManager.spanSizeLookup = spanSizeLookup.get()
-        view.list.layoutManager = layoutManager
+        view.list.layoutManager = layoutManager.get()
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
+
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(true)
         view.fastScroller.setSectionIndexer(adapter)

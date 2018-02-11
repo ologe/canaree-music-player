@@ -6,7 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.net.ConnectivityManager
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single

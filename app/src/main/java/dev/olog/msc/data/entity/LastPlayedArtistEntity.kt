@@ -9,6 +9,5 @@ import android.arch.persistence.room.PrimaryKey
 )
 data class LastPlayedArtistEntity(
         @PrimaryKey var id: Long,
-        var name: String,
         var dateAdded: Long = System.currentTimeMillis()
 )

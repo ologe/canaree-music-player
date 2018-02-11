@@ -2,11 +2,11 @@ package dev.olog.msc.presentation.about.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerActivity
+import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.licenses.di.LicensesFragmentInjector
 import dev.olog.msc.presentation.navigator.NavigatorModule
-import dev.olog.msc.presentation.thanks.di.SpecialThanksFragmentInjector
+import dev.olog.msc.presentation.special.thanks.di.SpecialThanksFragmentInjector
 
 @Subcomponent(modules = arrayOf(
         AboutActivityModule::class,

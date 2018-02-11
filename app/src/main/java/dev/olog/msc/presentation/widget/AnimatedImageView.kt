@@ -2,12 +2,14 @@ package dev.olog.msc.presentation.widget
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.support.annotation.Keep
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
 import dev.olog.msc.R
 import dev.olog.msc.utils.isMarshmallow
 
+@Keep
 class AnimatedImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,

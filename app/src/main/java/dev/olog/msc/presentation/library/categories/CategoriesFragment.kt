@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.library.categories
 import android.os.Bundle
 import android.view.View
 import dev.olog.msc.R
-import dev.olog.msc.presentation.FloatingInfoServiceHelper
+import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import kotlinx.android.synthetic.main.fragment_library_categories.*
@@ -49,13 +49,8 @@ class CategoriesFragment : BaseFragment() {
         floatingWindow.setOnClickListener(null)
     }
 
-    fun startServiceOrRequestOverlayPermission(){
-//        if (billing.isPremium()){
-        FloatingInfoServiceHelper.startServiceOrRequestOverlayPermission(activity!!)
-//        } else {
-//            toast("floating window is a premium feature")
-//             todo open purchase activity
-//        }
+    private fun startServiceOrRequestOverlayPermission(){
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_library_categories

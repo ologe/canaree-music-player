@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor
 
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.*
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.utils.MediaId
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 
 class GetSongListByParamUseCase @Inject constructor(
-        schedulers: IoScheduler,
+        schedulers: ComputationScheduler,
         private val genreDataStore: GenreGateway,
         private val playlistDataStore: PlaylistGateway,
         private val albumDataStore: AlbumGateway,

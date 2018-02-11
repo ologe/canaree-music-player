@@ -4,7 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragmentViewModel
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragmentViewModelFactory

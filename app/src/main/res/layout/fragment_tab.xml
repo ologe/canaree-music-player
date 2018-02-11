@@ -22,7 +22,7 @@
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song" />
 
-    <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
+    <dev.olog.msc.presentation.widget.RxFastScroller
         android:id="@+id/fastScroller"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

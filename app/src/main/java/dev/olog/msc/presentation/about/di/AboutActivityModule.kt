@@ -5,8 +5,8 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.ActivityContext
-import dev.olog.msc.dagger.ActivityLifecycle
+import dev.olog.msc.dagger.qualifier.ActivityContext
+import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.presentation.about.AboutActivity
 
 @Module

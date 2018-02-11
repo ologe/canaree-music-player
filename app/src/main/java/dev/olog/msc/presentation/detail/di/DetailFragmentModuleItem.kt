@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
-import dev.olog.msc.dagger.MediaIdCategoryKey
+import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.detail.item.*
 import dev.olog.msc.presentation.model.DisplayableItem

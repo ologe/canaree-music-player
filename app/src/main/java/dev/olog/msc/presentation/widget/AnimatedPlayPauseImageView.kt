@@ -2,11 +2,13 @@ package dev.olog.msc.presentation.widget
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.support.annotation.Keep
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 
+@Keep
 class AnimatedPlayPauseImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,

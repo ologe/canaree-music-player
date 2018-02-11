@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.main.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerActivity
+import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.albums.di.AlbumsFragmentInjector
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.edit.info.di.EditInfoFragmentInjector

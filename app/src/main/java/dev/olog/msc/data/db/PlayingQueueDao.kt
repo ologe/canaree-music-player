@@ -24,7 +24,6 @@ abstract class PlayingQueueDao {
     internal abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
 
     fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<PlayingQueueSong>> {
-
         return this.getAllImpl()
                 .toObservable()
                 .flatMapSingle { ids -> songList.flatMap { songs ->

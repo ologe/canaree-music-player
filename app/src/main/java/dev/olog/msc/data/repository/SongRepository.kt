@@ -8,7 +8,7 @@ import android.provider.MediaStore.Audio.AudioColumns.*
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
-import dev.olog.msc.dagger.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway

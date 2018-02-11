@@ -8,7 +8,7 @@ import android.text.TextUtils
 import android.view.MenuItem
 import android.widget.PopupMenu
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ProcessLifecycle
+import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase

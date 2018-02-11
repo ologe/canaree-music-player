@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.RecyclerView
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.FragmentLifecycle
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.msc.presentation.search.SearchFragmentViewModel

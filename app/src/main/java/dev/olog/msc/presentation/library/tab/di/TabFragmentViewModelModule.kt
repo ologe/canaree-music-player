@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
-import dev.olog.msc.dagger.MediaIdCategoryKey
+import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.tab.*
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
@@ -14,6 +14,8 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.msc.utils.k.extension.startWith
+import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.withLatestFrom
@@ -42,24 +44,14 @@ class TabFragmentViewModelModule {
 
         val playlistObs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
-                .map {
-                    val list = it.toMutableList()
-                    list.add(0, headers.allPlaylistHeader)
-                    list
-                }
+                .map { it.startWithIfNotEmpty(headers.allPlaylistHeader) }
 
         val autoPlaylistObs = autoPlaylistUseCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
-                .map {
-                    val list = it.toMutableList()
-                    list.add(0, headers.autoPlaylistHeader)
-                    list
-                }
+                .map { it.startWith(headers.autoPlaylistHeader) }
 
         return playlistObs.withLatestFrom(autoPlaylistObs, { playlist, autoPlaylist ->
-            val result = autoPlaylist.toMutableList()
-            result.addAll(if (playlist.size == 1) listOf() else playlist)
-            result
+            autoPlaylist.plus(playlist)
         })
     }
 
@@ -72,15 +64,7 @@ class TabFragmentViewModelModule {
 
         return useCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
-                .map {
-                    if (it.isNotEmpty()){
-                        val list = it.toMutableList()
-                        list.add(0, headers.shuffleHeader)
-                        list
-                    } else {
-                        listOf<DisplayableItem>()
-                    }
-                }
+                .map { it.startWithIfNotEmpty(headers.shuffleHeader) }
     }
 
     @Provides
@@ -91,18 +75,16 @@ class TabFragmentViewModelModule {
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
             headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
 
-        val allObs = useCase.execute().mapToList { it.toTabDisplayableItem() }
+        val allObs = useCase.execute()
+                .mapToList { it.toTabDisplayableItem() }
                 .map { it.toMutableList() }
 
         val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
-                .map { if (it.isNotEmpty()) headers.albumHeaders else listOf() }
+                .map { it.startWithIfNotEmpty(headers.albumHeaders) }
                 .distinctUntilChanged()
 
-        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent ->
-            all.addAll(0, recent)
-            all
-        })
+        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
     }
 
     @Provides
@@ -120,13 +102,10 @@ class TabFragmentViewModelModule {
 
         val lastPlayedObs = lastPlayedArtistsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
-                .map { if (it.isNotEmpty()) headers.artistHeaders else listOf() }
+                .map { it.startWithIfNotEmpty(headers.artistHeaders) }
                 .distinctUntilChanged()
 
-        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent ->
-            all.addAll(0, recent)
-            all
-        })
+        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
     }
 
 
@@ -160,31 +139,27 @@ class TabFragmentViewModelModule {
 
 }
 
-private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.folderId(path),
-            title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            title,
+            DisplayableItem.handleSongListSize(resources, size),
             this.image
     )
 }
 
-private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem{
-    val listSize = if (this.size == -1){ "" } else {
-        resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
-    }
-
+private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.playlistId(id),
-            title.capitalize(),
-            listSize,
+            title,
+            DisplayableItem.handleSongListSize(resources, size),
             this.image
     )
 }
 
-private fun Song.toTabDisplayableItem(): DisplayableItem{
+private fun Song.toTabDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_tab_song,
             MediaId.songId(id),
@@ -208,16 +183,15 @@ private fun Album.toTabDisplayableItem(): DisplayableItem{
 }
 
 private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
-    val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
-    val albums = if (this.albums == 0) "" else {
-        "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
-    }
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.artistId(id),
             name,
-            "$albums$songs".toLowerCase(),
+            albums + songs,
             this.image
     )
 }
@@ -227,7 +201,7 @@ private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
             R.layout.item_tab_album,
             MediaId.genreId(id),
             name,
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            DisplayableItem.handleSongListSize(resources, size),
             this.image
     )
 }

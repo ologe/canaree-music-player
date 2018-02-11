@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.neural.network.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerActivity
+import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.neural.network.NeuralNetworkActivity
 
 @Subcomponent(modules = arrayOf(

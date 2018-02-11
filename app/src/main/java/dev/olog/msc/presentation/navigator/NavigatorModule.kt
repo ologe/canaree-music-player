@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.navigator
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.msc.dagger.PerActivity
+import dev.olog.msc.dagger.scope.PerActivity
 
 @Module
 abstract class NavigatorModule {

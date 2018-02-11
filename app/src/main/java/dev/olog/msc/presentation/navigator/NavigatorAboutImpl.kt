@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import dev.olog.msc.R
-import dev.olog.msc.dagger.PerActivity
+import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.licenses.LicensesFragment
-import dev.olog.msc.presentation.thanks.SpecialThanksFragment
+import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import javax.inject.Inject
 

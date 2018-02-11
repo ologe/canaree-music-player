@@ -10,8 +10,8 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import dev.olog.msc.constants.MusicConstants
-import dev.olog.msc.dagger.PerService
-import dev.olog.msc.dagger.ServiceLifecycle
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.favorite.ToggleFavoriteUseCase
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue

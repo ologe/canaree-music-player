@@ -9,7 +9,8 @@ import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.thanks.SpecialThanksModel
+import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
+import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import java.io.File
@@ -38,7 +39,6 @@ object BindingsAdapter {
 
         var request = GlideApp.with(context)
                 .load(resolveUri(item.image))
-//                .load(Uri.EMPTY)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(override)
@@ -111,6 +111,12 @@ object BindingsAdapter {
             return mediaId.categoryValue.hashCode()
         }
         return mediaId.categoryValue.toInt()
+    }
+
+    @BindingAdapter("quickActionItem")
+    @JvmStatic
+    fun quickActionItem(view: QuickActionView, item: DisplayableItem){
+        view.setId(item.mediaId)
     }
 
 }

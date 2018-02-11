@@ -2,8 +2,6 @@ package dev.olog.msc.presentation.library.tab
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.msc.domain.interactor.detail.item.GetAlbumUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -16,9 +14,7 @@ import io.reactivex.Observable
 class TabFragmentViewModel constructor(
         private val data: Map<MediaIdCategory, Observable<List<DisplayableItem>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
-        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
-        private val getAlbumUseCase: GetAlbumUseCase,
-        private val getArtistUseCase: GetArtistUseCase
+        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase
 
 ) : ViewModel() {
 
@@ -35,15 +31,13 @@ class TabFragmentViewModel constructor(
     }
 
     fun insertAlbumLastPlayed(mediaId: MediaId): Completable{
-        return getAlbumUseCase.execute(mediaId)
-                .firstOrError()
-                .flatMapCompletable { insertLastPlayedAlbumUseCase.execute(it) }
+        val albumId = mediaId.categoryValue.toLong()
+        return insertLastPlayedAlbumUseCase.execute(albumId)
     }
 
     fun insertArtistLastPlayed(mediaId: MediaId): Completable{
-        return getArtistUseCase.execute(mediaId)
-                .firstOrError()
-                .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it) }
+        val artistId = mediaId.categoryValue.toLong()
+        return insertLastPlayedArtistUseCase.execute(artistId)
     }
 
 

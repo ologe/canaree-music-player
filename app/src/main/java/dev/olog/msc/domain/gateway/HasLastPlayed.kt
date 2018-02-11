@@ -7,6 +7,6 @@ interface HasLastPlayed<T> {
 
     fun getLastPlayed(): Observable<List<T>>
 
-    fun addLastPlayed(item: T): Completable
+    fun addLastPlayed(id: Long): Completable
 
 }

@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.Lifecycle
 import android.view.MenuItem
 import dev.olog.msc.R
-import dev.olog.msc.dagger.ProcessLifecycle
+import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase

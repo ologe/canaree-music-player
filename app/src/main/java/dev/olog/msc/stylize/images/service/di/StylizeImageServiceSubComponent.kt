@@ -2,7 +2,7 @@ package dev.olog.msc.stylize.images.service.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerService
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.stylize.images.service.StylizeImageService
 
 @Subcomponent(modules = arrayOf(

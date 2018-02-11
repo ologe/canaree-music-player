@@ -1,22 +1,18 @@
 package dev.olog.msc.music.service
 
-import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ShortcutManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.content.systemService
 import dev.olog.msc.R
+import dev.olog.msc.app.AppShortcuts
 import dev.olog.msc.constants.WidgetConstants
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.PerService
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.presentation.app.widget.WidgetClasses
-import dev.olog.msc.utils.AppShortcutInfo
-import dev.olog.msc.utils.isNougat_MR1
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
@@ -25,11 +21,10 @@ class PlayerState @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val appShortcuts: AppShortcuts,
         private val widgetClasses: WidgetClasses
 
 ){
-
-    private val shortcutManager: ShortcutManager by lazy { context.systemService<ShortcutManager>() }
 
     private val builder = PlaybackStateCompat.Builder()
     private var activeQueueId = MediaSessionCompat.QueueItem.UNKNOWN_ID.toLong()
@@ -171,18 +166,13 @@ class PlayerState @Inject constructor(
         }
     }
 
-    @SuppressLint("NewApi")
     private fun disablePlayShortcut(){
-        if (isNougat_MR1()){
-            shortcutManager.removeDynamicShortcuts(listOf(AppShortcutInfo.SHORTCUT_PLAY))
-        }
+        appShortcuts.disablePlay()
     }
 
-    @SuppressLint("NewApi")
+
     private fun enablePlayShortcut(){
-        if (isNougat_MR1()){
-            shortcutManager.addDynamicShortcuts(listOf(AppShortcutInfo.play(context)))
-        }
+        appShortcuts.enablePlay()
     }
 
 }

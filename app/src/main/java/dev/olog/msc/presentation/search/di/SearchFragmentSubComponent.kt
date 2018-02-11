@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.search.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.presentation.fragment_search.di.SearchFragmentViewModelModule
 

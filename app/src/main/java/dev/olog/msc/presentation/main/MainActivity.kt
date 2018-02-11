@@ -11,8 +11,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
+import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
-import dev.olog.msc.presentation.FloatingInfoServiceHelper
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.navigator.Navigator
@@ -28,7 +28,6 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
 
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var navigator: Navigator
-//    @Inject lateinit var billing : IBilling
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,12 +52,10 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
     override fun handleIntent(intent: Intent) {
         when (intent.action){
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
-                presenter.startFloatingService(this)
+                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
             AppConstants.SHORTCUT_SEARCH -> { navigator.toSearchFragment() }
-            AppConstants.ACTION_CONTENT_VIEW -> {
-                slidingPanel.expand()
-            }
+            AppConstants.ACTION_CONTENT_VIEW -> slidingPanel.expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, MusicService::class.java)
                 serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
@@ -83,8 +80,8 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
 //                    adapter.removeAll() todo
 //                    recreate()
                 }
-                FloatingInfoServiceHelper.REQUEST_CODE_HOVER_PERMISSION -> {
-                    presenter.startFloatingService(this)
+                FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION -> {
+                    FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
                 }
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }

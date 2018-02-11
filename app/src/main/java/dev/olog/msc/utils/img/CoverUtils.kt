@@ -26,7 +26,6 @@ object CoverUtils {
             intArrayOf(0xff43cea2.toInt(), 0xff185a9d.toInt()),
             intArrayOf(0xffB650DB.toInt(), 0xff2873E1.toInt()),
             intArrayOf(0xff17ead9.toInt(), 0xff6098ea.toInt()),
-//            intArrayOf(0xFF402873.toInt(), 0xFF1c0e3b.toInt()),   too dark
             intArrayOf(0xFF38ee7e.toInt(), 0xFF139c8e.toInt()),
             intArrayOf(0xFF38cedc.toInt(), 0xFF5a89e5.toInt()),
             intArrayOf(0xFF1585cb.toInt(), 0xFF2a36b3.toInt()),

@@ -2,8 +2,8 @@ package dev.olog.msc.data.db
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
+import android.arch.persistence.room.Transaction
 import dev.olog.msc.data.entity.LastPlayedAlbumEntity
 import dev.olog.msc.domain.entity.Album
 import io.reactivex.Completable
@@ -15,17 +15,17 @@ abstract class LastPlayedAlbumDao {
     @Query("SELECT * FROM last_played_albums ORDER BY dateAdded DESC LIMIT 10")
     abstract fun getAll(): Flowable<List<LastPlayedAlbumEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     internal abstract fun insertImpl(entity: LastPlayedAlbumEntity)
 
     @Query("DELETE FROM last_played_albums WHERE id = :albumId")
     internal abstract fun deleteImpl(albumId: Long)
 
+    @Transaction
     open fun insertOne(album: Album) : Completable {
-        return Completable.fromCallable{ deleteImpl(album.id) }
-                .andThen { insertImpl(LastPlayedAlbumEntity(
-                        album.id, album.artistId, album.title, album.artist, album.image
-                )) }
+        return Completable
+                .fromCallable{ deleteImpl(album.id) }
+                .andThen { insertImpl(LastPlayedAlbumEntity(album.id)) }
     }
 
 }

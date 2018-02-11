@@ -14,7 +14,6 @@ import android.provider.MediaStore
 import android.support.v4.app.NotificationCompat
 import com.crashlytics.android.Crashlytics
 import dagger.android.DaggerService
-import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
 import dev.olog.msc.presentation.utils.images.NeuralImages
@@ -52,8 +51,6 @@ class StylizeImageService : DaggerService() {
     @SuppressLint("NewApi")
     override fun onCreate() {
         super.onCreate()
-
-        FirebaseAnalytics.trackNeuralStart()
 
         builder = builder.setContentTitle(getString(R.string.neural_service_title))
                 .setContentText(getString(R.string.neural_service_subtitle))
@@ -133,8 +130,6 @@ class StylizeImageService : DaggerService() {
                 }
                 .toList()
                 .subscribe({
-                    FirebaseAnalytics.trackNeuralSuccess(true)
-
                     deleteAllChildsImages()
                     contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
                     contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
@@ -144,7 +139,6 @@ class StylizeImageService : DaggerService() {
                     stopSelf()
                 }, {
                     Crashlytics.logException(it)
-                    FirebaseAnalytics.trackNeuralSuccess(false)
                     it.printStackTrace()
                     stopForeground(true)
                     stopSelf()

@@ -4,8 +4,8 @@ import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.databinding.ViewDataBinding
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.ApplicationContext
-import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider

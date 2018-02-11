@@ -7,8 +7,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
-import dev.olog.msc.dagger.FragmentLifecycle
-import dev.olog.msc.dagger.MediaIdCategoryKey
+import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Genre

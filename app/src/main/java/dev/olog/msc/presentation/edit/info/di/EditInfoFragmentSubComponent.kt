@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.edit.info.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.PerFragment
+import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.edit.info.EditInfoFragment
 
 @Subcomponent(modules = arrayOf(

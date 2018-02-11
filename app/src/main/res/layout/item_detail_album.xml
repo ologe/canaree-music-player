@@ -39,15 +39,11 @@
                 app:imageAlbum="@{item}"
                 tools:src="@drawable/placeholder_folder"/>
 
-            <!--<ImageView-->
-                <!--android:id="@+id/quickAction"-->
-                <!--style="@style/SmallShufflePlay"-->
-                <!--android:layout_width="@dimen/smallShuffleSize"-->
-                <!--android:layout_height="@dimen/smallShuffleSize"-->
-                <!--android:src="@{quickAction.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"-->
-                <!--android:visibility="@{quickAction.isNone ? View.GONE : View.VISIBLE}"-->
-                <!--app:item="@{item}"-->
-                <!--app:musicController="@{musicController}"/>-->
+            <dev.olog.msc.presentation.widget.QuickActionView
+                style="@style/SmallShufflePlay"
+                android:layout_width="@dimen/smallShuffleSize"
+                android:layout_height="@dimen/smallShuffleSize"
+                app:quickActionItem="@{item}"/>
 
         </android.support.v7.widget.CardView>
 

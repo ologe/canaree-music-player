@@ -13,7 +13,6 @@ import dev.olog.msc.presentation.app.widget.WidgetBindingModule
 import dev.olog.msc.presentation.main.di.MainActivityInjector
 import dev.olog.msc.presentation.neural.network.di.NeuralNetworkActivityInjector
 import dev.olog.msc.presentation.preferences.di.PreferencesActivityInjector
-import dev.olog.msc.presentation.shortcuts.di.ShortcutsActivityInjector
 import dev.olog.msc.presentation.splash.di.SplashActivityInjector
 import dev.olog.msc.stylize.images.service.di.StylizeImageServiceInjector
 import javax.inject.Singleton
@@ -21,7 +20,6 @@ import javax.inject.Singleton
 @Component(modules = arrayOf(
         AppModule::class,
         SchedulersModule::class,
-        WidgetBindingModule::class,
 
 //        // data
         RepositoryModule::class,
@@ -29,11 +27,12 @@ import javax.inject.Singleton
         PreferenceModule::class,
 //
 //        // presentation
+        AndroidBindingModule::class,
+        WidgetBindingModule::class,
         AndroidSupportInjectionModule::class,
         SplashActivityInjector::class,
         MainActivityInjector::class,
         AboutActivityInjector::class,
-        ShortcutsActivityInjector::class,
         PreferencesActivityInjector::class,
         NeuralNetworkActivityInjector::class,
 

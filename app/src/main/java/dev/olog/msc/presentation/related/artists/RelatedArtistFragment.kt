@@ -16,7 +16,7 @@ class RelatedArtistFragment: BaseFragment() {
 
     companion object {
         const val TAG = "RelatedArtistFragment"
-        const val ARGUMENTS_MEDIA_ID = "${TAG}.arguments.media_id"
+        const val ARGUMENTS_MEDIA_ID = TAG + ".arguments.media_id"
 
 
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
