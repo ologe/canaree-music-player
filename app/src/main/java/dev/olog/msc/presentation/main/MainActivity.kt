@@ -76,17 +76,20 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode){
-            PreferencesActivity.REQUEST_CODE -> {
-                if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK){
+            when (requestCode){
+                SPLASH_REQUEST_CODE -> navigator.toLibraryCategories()
+                PreferencesActivity.REQUEST_CODE -> {
 //                    adapter.removeAll() todo
 //                    recreate()
                 }
+                FloatingInfoServiceHelper.REQUEST_CODE_HOVER_PERMISSION -> {
+                    presenter.startFloatingService(this)
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
             }
-            FloatingInfoServiceHelper.REQUEST_CODE_HOVER_PERMISSION -> {
-                presenter.startFloatingService(this)
-            }
-            else -> super.onActivityResult(requestCode, resultCode, data)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 

@@ -6,6 +6,7 @@ import dev.olog.msc.dagger.PerActivity
 import dev.olog.msc.domain.interactor.albums.di.AlbumsFragmentInjector
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.edit.info.di.EditInfoFragmentInjector
+import dev.olog.msc.presentation.library.categories.di.CategoriesFragmentInjector
 import dev.olog.msc.presentation.library.tab.di.TabFragmentInjector
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.navigator.NavigatorModule
@@ -22,6 +23,7 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
 ////        ProModule::class,
 //
 //        // fragments
+        CategoriesFragmentInjector::class,
         TabFragmentInjector::class,
         DetailFragmentInjector::class,
         PlayerFragmentInjector::class,
