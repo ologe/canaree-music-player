@@ -18,10 +18,10 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.music.service.helper.CarHelper
 import dev.olog.msc.music.service.helper.MediaIdHelper
 import dev.olog.msc.music.service.helper.MediaItemGenerator
+import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
-import dev.olog.shared_android.interfaces.MainActivityClass
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -33,7 +33,6 @@ class MusicService : BaseMusicService() {
         const val TAG = "MusicService"
     }
 
-    @Inject lateinit var activityClass : MainActivityClass
     @Inject lateinit var mediaSession: MediaSessionCompat
     @Inject lateinit var callback: MediaSessionCallback
 
@@ -80,7 +79,7 @@ class MusicService : BaseMusicService() {
         val bundle = Bundle()
         bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId.shuffleAllId().toString())
         mediaSession.controller.transportControls.sendCustomAction(
-                MusicConstants.ACTION_PLAY_SHUFFLE, bundle)
+                MusicConstants.ACTION_SHUFFLE, bundle)
     }
 
     override fun handlePlayPause(intent: Intent) {
@@ -113,7 +112,7 @@ class MusicService : BaseMusicService() {
     private fun resetSleepTimer(){
         sleepTimerUseCase.reset()
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(PendingIntents.stopServiceIntent(this, this::class.java))
+        alarmManager.cancel(PendingIntents.stopServiceIntent(this))
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
@@ -169,6 +168,6 @@ class MusicService : BaseMusicService() {
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {
         return PendingIntent.getActivity(this, 0,
-                Intent(this, activityClass.get()), PendingIntent.FLAG_CANCEL_CURRENT)
+                Intent(this, MainActivity::class.java), PendingIntent.FLAG_CANCEL_CURRENT)
     }
 }

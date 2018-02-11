@@ -1,4 +1,4 @@
-package dev.olog.shared_android.entity
+package dev.olog.msc
 
 data class QuickAction(
         val enum: QuickActionEnum

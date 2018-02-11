@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:background="@android:color/darker_gray">
 
-    <dev.olog.msc.floating.window.api.TabSelectorView
+    <dev.olog.msc.floating.window.service.api.TabSelectorView
         android:id="@+id/tabselector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

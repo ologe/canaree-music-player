@@ -6,9 +6,9 @@ import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.FragmentLifecycle
 import dev.olog.msc.dagger.PerFragment
-import dev.olog.msc.presentation.MusicController
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
@@ -20,13 +20,13 @@ import javax.inject.Inject
 class DetailMostPlayedAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
-        private val musicController: MusicController
+        private val mediaProvider: MediaProvider
 
 ) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         viewHolder.setOnClickListener(dataController) { item, _ ->
-            musicController.playMostPlayedFromMediaId(item.mediaId)
+            mediaProvider.playMostPlayed(item.mediaId)
         }
 
         viewHolder.setOnLongClickListener(dataController) { item, _ ->

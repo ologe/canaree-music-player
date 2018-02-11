@@ -162,13 +162,7 @@ class MediaSessionCallback @Inject constructor(
                 MusicConstants.ACTION_SWAP_RELATIVE -> queue.handleSwapRelative(extras!!)
                 MusicConstants.ACTION_REMOVE -> queue.handleRemove(extras!!)
                 MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
-                MusicConstants.SKIP_TO_ITEM -> {
-                    val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-                    val mediaId = MediaId.fromString(mediaIdAsString)
-                    val mediaEntity = queue.handleSkipToQueueItemWithIdInPlaylist(mediaId.leaf!!)
-                    player.play(mediaEntity)
-                }
-                MusicConstants.ACTION_PLAY_SHUFFLE -> {
+                MusicConstants.ACTION_SHUFFLE -> {
                     doWhenReady {
                         val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
                         val mediaId = MediaId.fromString(mediaIdAsString)

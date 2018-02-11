@@ -5,7 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.net.ConnectivityManager
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.FragmentLifecycle
 import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -108,7 +108,7 @@ class AutoTag @Inject constructor(
         return editInfoFragmentPresenter.getSong()
                 .map {
                     var result = it.title
-                    if (it.artist != Constants.UNKNOWN){
+                    if (it.artist != AppConstants.UNKNOWN){
                        result += it.artist
                     }
                     result

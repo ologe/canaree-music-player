@@ -1,8 +1,8 @@
 package dev.olog.msc.data.mapper
 
 import android.database.Cursor
+import androidx.database.getLong
 import dev.olog.msc.data.entity.PlaylistSongEntity
-import dev.olog.msc.utils.k.extension.getLong
 
 fun Cursor.toPlaylistSong() : PlaylistSongEntity {
     return PlaylistSongEntity(

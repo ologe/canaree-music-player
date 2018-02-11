@@ -3,7 +3,7 @@ package dev.olog.msc.utils.img
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.AppConstants
 import java.io.File
 import java.io.FileNotFoundException
 
@@ -32,7 +32,7 @@ object ImagesFolderUtils {
     }
 
     fun getFolderName(folderName: String): String {
-        if (Constants.useNeuralImages){
+        if (AppConstants.useNeuralImages){
             return folderName + NEURAL
         }
         return folderName
@@ -60,7 +60,7 @@ object ImagesFolderUtils {
     }
 
     private fun getAlbumImageImpl(context: Context, albumId: String): String {
-        if (Constants.useNeuralImages){
+        if (AppConstants.useNeuralImages){
             val neuralFolder = getImageFolderFor(context, ALBUM + NEURAL)
             val image = findImage(neuralFolder, albumId)
             if (image != null){
@@ -71,7 +71,7 @@ object ImagesFolderUtils {
     }
 
     private fun getImageImpl(context: Context, parent: String, child: String): String {
-        if (Constants.useNeuralImages){
+        if (AppConstants.useNeuralImages){
             val neuralFolder = getImageFolderFor(context, parent + NEURAL)
             val image = findImage(neuralFolder, child)
             if (image != null){

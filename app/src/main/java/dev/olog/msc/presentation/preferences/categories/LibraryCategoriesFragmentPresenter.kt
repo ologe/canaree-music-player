@@ -1,22 +1,23 @@
 package dev.olog.msc.presentation.preferences.categories
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
-import dev.olog.msc.domain.interactor.prefs.CategoriesBehaviorUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import javax.inject.Inject
 
 class LibraryCategoriesFragmentPresenter @Inject constructor(
-        private val categoriesBehaviorUseCase: CategoriesBehaviorUseCase
-
+        private val appPreferencesUseCase: AppPreferencesUseCase
 ){
 
     fun getDefaultDataSet(): List<LibraryCategoryBehavior>{
-        return categoriesBehaviorUseCase.getDefault()
+        return appPreferencesUseCase.getDefaultLibraryCategories()
     }
 
-    fun getDataSet() = categoriesBehaviorUseCase.get()
+    fun getDataSet() : List<LibraryCategoryBehavior> {
+        return appPreferencesUseCase.getLibraryCategories()
+    }
 
     fun setDataSet(list: List<LibraryCategoryBehavior>){
-        categoriesBehaviorUseCase.set(list)
+        appPreferencesUseCase.setLibraryCategories(list)
     }
 
 

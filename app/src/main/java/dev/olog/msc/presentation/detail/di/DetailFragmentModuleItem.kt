@@ -19,7 +19,7 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.FOLDER)
+    @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
     internal fun provideFolderItem(
             resources: Resources,
             mediaId: MediaId,
@@ -30,7 +30,7 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.PLAYLIST)
+    @MediaIdCategoryKey(MediaIdCategory.PLAYLISTS)
     internal fun providePlaylistItem(
             resources: Resources,
             mediaId: MediaId,
@@ -41,7 +41,7 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.ALBUM)
+    @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumItem(
             mediaId: MediaId,
             useCase: GetAlbumUseCase) : Flowable<DisplayableItem> {
@@ -51,7 +51,7 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.ARTIST)
+    @MediaIdCategoryKey(MediaIdCategory.ARTISTS)
     internal fun provideArtistItem(
             resources: Resources,
             mediaId: MediaId,
@@ -62,7 +62,7 @@ class DetailFragmentModuleItem {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.GENRE)
+    @MediaIdCategoryKey(MediaIdCategory.GENRES)
     internal fun provideGenreItem(
             resources: Resources,
             mediaId: MediaId,

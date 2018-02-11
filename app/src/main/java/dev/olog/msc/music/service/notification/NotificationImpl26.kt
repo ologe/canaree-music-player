@@ -9,17 +9,15 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
 import dev.olog.msc.R
-import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
 class NotificationImpl26 @Inject constructor(
         service: Service,
-        activityClass: MainActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
 
-) : NotificationImpl24(service, activityClass, token, notificationManager) {
+) : NotificationImpl24(service, token, notificationManager) {
 
     override fun extendInitialization() {
         builder.setColorized(true)

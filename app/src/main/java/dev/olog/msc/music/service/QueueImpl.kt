@@ -3,9 +3,9 @@ package dev.olog.msc.music.service
 import android.support.annotation.CheckResult
 import android.support.annotation.MainThread
 import android.support.v4.math.MathUtils
-import dev.olog.msc.domain.interactor.music.service.CurrentIdInPlaylistUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.utils.assertMainThread
@@ -24,7 +24,7 @@ private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val repeatMode: RepeatMode,
-        private val currentSongIdUseCase: CurrentIdInPlaylistUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val queueMediaSession: QueueMediaSession
 ) {
 
@@ -54,34 +54,28 @@ class QueueImpl @Inject constructor(
 
     }
 
-    fun updateCurrentSongPosition(list: List<MediaEntity>, position: Int){
+    fun updateCurrentSongPosition(list: List<MediaEntity>, position: Int, immediate: Boolean = false){
         val copy = list.toList()
 
         val safePosition = ensurePosition(copy, position)
         val idInPlaylist = copy[safePosition].idInPlaylist
         currentSongPosition = safePosition
-        currentSongIdUseCase.set(idInPlaylist)
+        musicPreferencesUseCase.setLastIdInPlaylist(idInPlaylist)
 
-        queueMediaSession.onNext(
-                copy.drop(safePosition + 1).take(51).toList())
+        val miniQueue = copy.drop(safePosition + 1).take(51).toList()
+        if (immediate){
+            queueMediaSession.onNextImmediate(miniQueue)
+        } else {
+            queueMediaSession.onNext(miniQueue)
+        }
     }
 
     @CheckResult
-    fun getSongById(songId: Long) : MediaEntity {
-        val positionToTest = playingQueue.indexOfFirst { it.id == songId }
+    fun getSongById(idInPlaylist: Long) : MediaEntity {
+        val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist.toLong() == idInPlaylist }
         val safePosition = ensurePosition(playingQueue, positionToTest)
         val media = playingQueue[safePosition]
-        updateCurrentSongPosition(playingQueue, safePosition)
-
-        return media
-    }
-
-    @CheckResult
-    fun getSongByIdInPlaylist(idInPlaylist: Int): MediaEntity {
-        val positionToTest = playingQueue.indexOfFirst { it.idInPlaylist == idInPlaylist }
-        val safePosition = ensurePosition(playingQueue, positionToTest)
-        val media = playingQueue[safePosition]
-        updateCurrentSongPosition(playingQueue, safePosition)
+        updateCurrentSongPosition(playingQueue, safePosition, true)
 
         return media
     }
@@ -139,7 +133,7 @@ class QueueImpl @Inject constructor(
 
         playingQueue.shuffle()
 
-        val currentIdInPlaylist = currentSongIdUseCase.get()
+        val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val songPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
         if (songPosition != 0){
             playingQueue.swap(0, songPosition)
@@ -158,7 +152,7 @@ class QueueImpl @Inject constructor(
         // todo proper sorting in detail
         playingQueue.sortBy { it.idInPlaylist }
 
-        val currentIdInPlaylist = currentSongIdUseCase.get()
+        val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
         updateCurrentSongPosition(playingQueue, newPosition)
         // todo check if current song is first/last ecc and update ui
@@ -172,7 +166,7 @@ class QueueImpl @Inject constructor(
 
         playingQueue.swap(from, to)
 
-        val currentInIdPlaylist = currentSongIdUseCase.get() //id remains the same
+        val currentInIdPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentInIdPlaylist }
         updateCurrentSongPosition(playingQueue, newPosition)
         // todo check if current song is first/last ecc and update ui

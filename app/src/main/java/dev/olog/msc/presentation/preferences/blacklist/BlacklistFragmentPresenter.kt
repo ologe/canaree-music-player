@@ -2,22 +2,22 @@ package dev.olog.msc.presentation.preferences.blacklist
 
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Folder
-import dev.olog.msc.domain.interactor.prefs.BlackListUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.GetAllFoldersUnfiltered
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
         getAllFoldersUnfiltered: GetAllFoldersUnfiltered,
-        private val blackListUseCase: BlackListUseCase
+        private val appPreferencesUseCase: AppPreferencesUseCase
 ) {
 
     val data = getAllFoldersUnfiltered.execute()
-            .groupMap { it.toDisplayableItem() }
+            .mapToList { it.toDisplayableItem() }
             .map {
-                val blacklisted = blackListUseCase.get().map { it.toLowerCase() }
+                val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
                 it.map { BlacklistModel(it, blacklisted.contains(it.subtitle!!.toLowerCase())) }
             }
 
@@ -35,7 +35,7 @@ class BlacklistFragmentPresenter @Inject constructor(
         val blacklisted = data.filter { it.isBlacklisted }
                 .mapNotNull { it.displayableItem.subtitle }
                 .toSet()
-        blackListUseCase.set(blacklisted)
+        appPreferencesUseCase.setBlackList(blacklisted)
     }
 
 

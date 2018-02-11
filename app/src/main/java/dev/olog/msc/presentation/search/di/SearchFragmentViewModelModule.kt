@@ -24,7 +24,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.RecentSearchesTypes
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
@@ -126,7 +126,7 @@ class SearchFragmentViewModelModule {
             searchHeaders: SearchFragmentHeaders): Flowable<MutableList<DisplayableItem>> {
 
         return getAllRecentSearchesUseCase.execute()
-                .groupMap { it.toSearchDisplayableItem(context) }
+                .mapToList { it.toSearchDisplayableItem(context) }
                 .map { it.toMutableList() }
                 .map {
                     if (it.isNotEmpty()){

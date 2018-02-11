@@ -4,12 +4,12 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.msc.constants.Constants
+import androidx.database.getInt
+import androidx.database.getLong
+import androidx.database.getString
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.getInt
-import dev.olog.msc.utils.k.extension.getLong
-import dev.olog.msc.utils.k.extension.getString
 import java.io.File
 
 
@@ -47,18 +47,18 @@ private fun extractFolder(path: String): String {
 }
 
 private fun adjustAlbum(album: String, folder: String): String {
-    val hasUnknownAlbum = album == Constants.UNKNOWN || album == folder
+    val hasUnknownAlbum = album == AppConstants.UNKNOWN || album == folder
     return if (hasUnknownAlbum) {
-        Constants.UNKNOWN_ALBUM
+        AppConstants.UNKNOWN_ALBUM
     } else {
         album
     }
 }
 
 private fun adjustArtist(artist: String): String {
-    val hasUnknownArtist = artist == Constants.UNKNOWN
+    val hasUnknownArtist = artist == AppConstants.UNKNOWN
     return if (hasUnknownArtist) {
-        Constants.UNKNOWN_ARTIST
+        AppConstants.UNKNOWN_ARTIST
     } else {
         artist
     }

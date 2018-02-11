@@ -13,7 +13,6 @@
 
     <style name="AppTheme" parent="BaseTheme"/>
 
-    <style name="Splash" parent="AppTheme"/>
 
     <style name="SettingsTheme" parent="AppTheme">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>

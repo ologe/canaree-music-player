@@ -19,11 +19,11 @@ class GetSortOrderUseCase @Inject constructor(
     override fun buildUseCaseObservable(mediaId: MediaId): Flowable<SortType> {
         val category = mediaId.category
         return when (category){
-            MediaIdCategory.FOLDER -> gateway.getFolderSortOrder()
-            MediaIdCategory.PLAYLIST -> gateway.getPlaylistSortOrder()
-            MediaIdCategory.ALBUM -> gateway.getAlbumSortOrder()
-            MediaIdCategory.ARTIST -> gateway.getArtistSortOrder()
-            MediaIdCategory.GENRE -> gateway.getGenreSortOrder()
+            MediaIdCategory.FOLDERS -> gateway.getFolderSortOrder()
+            MediaIdCategory.PLAYLISTS -> gateway.getPlaylistSortOrder()
+            MediaIdCategory.ALBUMS -> gateway.getAlbumSortOrder()
+            MediaIdCategory.ARTISTS -> gateway.getArtistSortOrder()
+            MediaIdCategory.GENRES -> gateway.getGenreSortOrder()
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }

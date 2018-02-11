@@ -9,12 +9,11 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.neural.network.NeuralNetworkActivity
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.utils.RootUtils
-import dev.olog.msc.utils.img.CoverUtils
 import org.jetbrains.anko.toast
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -78,17 +77,12 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == activity!!.getString(R.string.prefs_icon_color_key)){
-            val isDark = sharedPreferences.getBoolean(key, true)
-            CoverUtils.isIconDark = isDark
-            requestMainActivityToRecreate()
-        }
         if (key == activity!!.getString(R.string.prefs_quick_action_key)){
-            Constants.updateQuickAction(activity!!)
+            AppConstants.updateQuickAction(activity!!)
             requestMainActivityToRecreate()
         }
         if (key == getString(R.string.prefs_use_neural_images_key)){
-            Constants.useNeuralImages = sharedPreferences.getBoolean(key, false)
+            AppConstants.useNeuralImages = sharedPreferences.getBoolean(key, false)
             requestMainActivityToRecreate()
         }
     }

@@ -22,13 +22,6 @@
             android:entryValues="@array/detail_visible_items_values"
             android:defaultValue="@array/detail_visible_items_values_default"/>
 
-        <SwitchPreference
-            android:title="@string/prefs_icon_color_title"
-            android:key="@string/prefs_icon_color_key"
-            android:defaultValue="true"
-            android:summaryOff="@string/prefs_icon_color_summary_off"
-            android:summaryOn="@string/prefs_icon_color_summary_on"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -53,17 +46,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/prefs_category_floating_window">
-
-        <SwitchPreference
-            android:title="@string/prefs_floating_window_at_startup_title"
-            android:summary="@string/prefs_floating_window_at_startup_summary"
-            android:key="@string/prefs_start_floating_window_at_startup_key"
-            android:defaultValue="false" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/prefs_category_audio">
 
         <SwitchPreference
@@ -77,7 +59,7 @@
         <SwitchPreference
             android:title="@string/prefs_lower_volume_on_night_title"
             android:summary="@string/prefs_lower_volume_on_night_summary"
-            android:key="@string/prefs_lower_volume_key"
+            android:key="@string/prefs_midnight_mode_key"
             android:defaultValue="false" />
 
     </PreferenceCategory>

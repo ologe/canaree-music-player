@@ -50,8 +50,8 @@ class DetailSortDialog {
     @MenuRes
     private fun getLayout(mediaId: MediaId) : Int{
         return when (mediaId.category){
-            MediaIdCategory.PLAYLIST -> R.menu.sort_mode_playlist
-            MediaIdCategory.ALBUM -> R.menu.sort_mode_album
+            MediaIdCategory.PLAYLISTS -> R.menu.sort_mode_playlist
+            MediaIdCategory.ALBUMS -> R.menu.sort_mode_album
             else -> R.menu.sort_mode
         }
     }

@@ -9,7 +9,7 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.PerActivity
 import dev.olog.msc.presentation.licenses.LicensesFragment
 import dev.olog.msc.presentation.thanks.SpecialThanksFragment
-import dev.olog.msc.utils.k.extension.transaction
+import dev.olog.msc.utils.k.extension.fragmentTransaction
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
@@ -24,7 +24,7 @@ class NavigatorAboutImpl @Inject constructor(
 
     override fun toLicensesFragment() {
         if (allowed()) {
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.fragment_container, LicensesFragment(), LicensesFragment.TAG)
@@ -35,7 +35,7 @@ class NavigatorAboutImpl @Inject constructor(
 
     override fun toSpecialThanksFragment() {
         if (allowed()) {
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.fragment_container, SpecialThanksFragment(), SpecialThanksFragment.TAG)

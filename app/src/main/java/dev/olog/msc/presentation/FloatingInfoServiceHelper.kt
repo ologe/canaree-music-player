@@ -10,16 +10,16 @@ import android.provider.Settings
 import android.support.annotation.CheckResult
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
-import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
+import dev.olog.msc.floating.window.service.FloatingWindowService
 
 object FloatingInfoServiceHelper {
 
     const val REQUEST_CODE_HOVER_PERMISSION = 1000
 
     @SuppressLint("NewApi")
-    fun startServiceOrRequestOverlayPermission(activity: Activity, serviceClass: FloatingInfoServiceClass){
+    fun startServiceOrRequestOverlayPermission(activity: Activity){
         if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, serviceClass.get())
+            val intent = Intent(activity, FloatingWindowService::class.java)
             ContextCompat.startForegroundService(activity, intent)
         } else {
             val intent = createIntentToRequestOverlayPermission(activity)
@@ -28,9 +28,9 @@ object FloatingInfoServiceHelper {
     }
 
     @SuppressLint("NewApi")
-    fun startServiceIfHasOverlayPermission(context: Context, serviceClass: FloatingInfoServiceClass){
+    fun startServiceIfHasOverlayPermission(context: Context){
         if (hasOverlayPermission(context)){
-            val intent = Intent(context, serviceClass.get())
+            val intent = Intent(context, FloatingWindowService::class.java)
             ContextCompat.startForegroundService(context, intent)
         }
     }

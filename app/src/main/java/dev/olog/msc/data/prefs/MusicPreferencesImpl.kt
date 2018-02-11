@@ -1,29 +1,35 @@
 package dev.olog.msc.data.prefs
 
+import android.content.Context
 import android.content.SharedPreferences
+import androidx.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import dev.olog.msc.R
+import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
-import dev.olog.msc.utils.k.extension.edit
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import javax.inject.Inject
 
+private const val TAG = "MusicPreferencesImpl"
+
+private const val BOOKMARK = TAG + ".bookmark"
+private const val SHUFFLE_MODE = TAG + ".mode.shuffle"
+private const val REPEAT_MODE = TAG + ".mode.repeat"
+
+private const val ID_IN_PLAYLIST = TAG + ".id.in.playlist"
+
+private const val SKIP_PREVIOUS = TAG + ".skip.previous"
+private const val SKIP_NEXT = TAG + ".skip.next"
+
+private const val LAST_TITLE = TAG + ".last.title"
+private const val LAST_SUBTITLE = TAG + ".last.subtitle"
+
 class MusicPreferencesImpl @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val preferences: SharedPreferences,
         private val rxPreferences: RxSharedPreferences
 
 ): MusicPreferencesGateway {
-
-    companion object {
-        private const val TAG = "MusicPreferencesDataStoreImpl"
-        private const val BOOKMARK = TAG + ".BOOKMARK"
-        private const val ID_IN_PLAYLIST = TAG + ".ID_IN_PLAYLIST"
-        private const val SHUFFLE_MODE = TAG + ".SHUFFLE_MODE"
-        private const val REPEAT_MODE = TAG + ".REPEAT_MODE"
-
-        private const val SKIP_PREVIOUS = TAG + ".SKIP_PREVIOUS"
-        private const val SKIP_NEXT = TAG + ".SKIP_NEXT"
-    }
 
     override fun getBookmark(): Long {
         return preferences.getLong(BOOKMARK, 0)
@@ -33,17 +39,16 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putLong(BOOKMARK, bookmark) }
     }
 
-    override fun getCurrentIdInPlaylist(): Int {
+    override fun getLastIdInPlaylist(): Int {
         return preferences.getInt(ID_IN_PLAYLIST, 0)
     }
 
-    override fun setCurrentIdInPlaylist(idInPlaylist: Int) {
+    override fun setLastIdInPlaylist(idInPlaylist: Int) {
         preferences.edit { putInt(ID_IN_PLAYLIST, idInPlaylist) }
     }
 
-    override fun observeCurrentIdInPlaylist(): Flowable<Int> {
-        return rxPreferences.getInteger(ID_IN_PLAYLIST)
-                .asObservable().toFlowable(BackpressureStrategy.LATEST)
+    override fun observeLastIdInPlaylist(): Observable<Int> {
+        return rxPreferences.getInteger(ID_IN_PLAYLIST).asObservable()
     }
 
     override fun getRepeatMode(): Int {
@@ -66,17 +71,48 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putBoolean(SKIP_PREVIOUS, visible) }
     }
 
-    override fun observeSkipToPreviousVisibility(): Flowable<Boolean> {
+    override fun observeSkipToPreviousVisibility(): Observable<Boolean> {
         return rxPreferences.getBoolean(SKIP_PREVIOUS, true).asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
     }
 
     override fun setSkipToNextVisibility(visible: Boolean) {
         preferences.edit { putBoolean(SKIP_NEXT, visible) }
     }
 
-    override fun observeSkipToNextVisibility(): Flowable<Boolean> {
+    override fun observeSkipToNextVisibility(): Observable<Boolean> {
         return rxPreferences.getBoolean(SKIP_NEXT, true).asObservable()
-                .toFlowable(BackpressureStrategy.LATEST)
     }
+
+    override fun isMidnightMode(): Observable<Boolean> {
+        val key = context.getString(R.string.prefs_midnight_mode_key)
+        return rxPreferences.getBoolean(key, false)
+                .asObservable()
+    }
+
+    override fun setMidnightMode(enabled: Boolean) {
+        val key = context.getString(R.string.prefs_midnight_mode_key)
+        preferences.edit { putBoolean(key, enabled) }
+    }
+
+    override fun getLastTitle(): String {
+        return preferences.getString(LAST_TITLE, "")
+    }
+
+    override fun setLastTitle(title: String) {
+        preferences.edit { putString(LAST_TITLE, title) }
+    }
+
+    override fun getLastSubtitle(): String {
+        return preferences.getString(LAST_SUBTITLE, "")
+    }
+
+    override fun setLastSubtitle(subtitle: String) {
+        preferences.edit { putString(LAST_SUBTITLE, subtitle) }
+    }
+
+    override fun observeLastMetadata(): Observable<String> {
+        return rxPreferences.getString(LAST_TITLE + "|" + LAST_SUBTITLE)
+                .asObservable()
+    }
+
 }

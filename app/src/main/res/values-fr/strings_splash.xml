@@ -5,11 +5,4 @@
     <string name="splash_player_tutorial_1">Cliquez sur l\'image pour jouer/pause</string>
     <string name="splash_player_tutorial_2">Cliquez sur les bords de l\'image or swipe to sauter le titre</string>
 
-
-    <string-array name="splash_loading_messages">
-        <item>À la recherche de licornes..</item>
-        <item>À la recherche de licornes..</item>
-        <item>Sauver la princesse du dragon..</item>
-    </string-array>
-
 </resources>

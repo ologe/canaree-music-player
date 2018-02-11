@@ -20,12 +20,11 @@ import com.bumptech.glide.request.target.Target
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.msc.R
-import dev.olog.msc.presentation.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.neural.network.image.chooser.NeuralNetworkImageChooser
-import dev.olog.msc.presentation.neural.network.service.NeuralNetworkService
 import dev.olog.msc.presentation.neural.network.style.chooser.NeuralNetworkStyleChooser
 import dev.olog.msc.presentation.utils.images.NeuralImages
+import dev.olog.msc.stylize.images.service.StylizeImageService
 import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.makeDialog
@@ -209,9 +208,9 @@ class NeuralNetworkFragment : BaseFragment() {
                 .setTitle(R.string.neural_stylize_all)
                 .setMessage(R.string.neural_stylize_all_message)
                 .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
-                    val intent = Intent(activity, NeuralNetworkService::class.java)
-                    intent.action = NeuralNetworkService.ACTION_START
-                    intent.putExtra(NeuralNetworkService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
+                    val intent = Intent(activity, StylizeImageService::class.java)
+                    intent.action = StylizeImageService.ACTION_START
+                    intent.putExtra(StylizeImageService.EXTRA_STYLE, NeuralImages.getCurrentStyle())
                     ContextCompat.startForegroundService(activity!!, intent)
                     activity!!.onBackPressed()
                 })

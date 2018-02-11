@@ -21,9 +21,9 @@ class InsertMostPlayedUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Completable {
         return when (mediaId.category){
-            MediaIdCategory.FOLDER -> folderGateway.insertMostPlayed(mediaId)
-            MediaIdCategory.PLAYLIST -> playlistGateway.insertMostPlayed(mediaId)
-            MediaIdCategory.GENRE -> genreGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.FOLDERS -> folderGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.PLAYLISTS -> playlistGateway.insertMostPlayed(mediaId)
+            MediaIdCategory.GENRES -> genreGateway.insertMostPlayed(mediaId)
             else -> Completable.complete()
         }
     }

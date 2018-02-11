@@ -26,7 +26,7 @@ class DeleteDialogPresenter @Inject constructor(
 
     private fun createSuccessMessage(){
         val message = when (mediaId.category) {
-            MediaIdCategory.PLAYLIST -> application.getString(R.string.playlist_x_deleted, itemTitle)
+            MediaIdCategory.PLAYLISTS -> application.getString(R.string.playlist_x_deleted, itemTitle)
             MediaIdCategory.SONGS -> application.getString(R.string.song_x_deleted, itemTitle)
             else -> application.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, listSize, listSize, itemTitle)
         }

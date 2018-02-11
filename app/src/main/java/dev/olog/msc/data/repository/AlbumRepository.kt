@@ -2,7 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
 import dev.olog.msc.data.mapper.toNotNeuralAlbum
@@ -43,7 +43,7 @@ class AlbumRepository @Inject constructor(
             .toFlowable(BackpressureStrategy.LATEST)
             .flatMap { songGateway.getAll() }
             .map { songList -> songList.asSequence()
-                    .filter { it.album != Constants.UNKNOWN_ALBUM }
+                    .filter { it.album != AppConstants.UNKNOWN_ALBUM }
                     .distinctBy { it.albumId }
                     .map { song ->
                         val songs = songList.count { it.albumId == song.albumId }
@@ -67,7 +67,7 @@ class AlbumRepository @Inject constructor(
     override fun getAllAlbumsForUtils(): Flowable<List<Album>> {
         return songGateway.getAllUnfiltered()
                 .map { songList -> songList.asSequence()
-                        .filter { it.album != Constants.UNKNOWN_ALBUM }
+                        .filter { it.album != AppConstants.UNKNOWN_ALBUM }
                         .distinctBy { it.albumId }
                         .map { it.toNotNeuralAlbum() }
                         .sortedBy { it.title.toLowerCase() }

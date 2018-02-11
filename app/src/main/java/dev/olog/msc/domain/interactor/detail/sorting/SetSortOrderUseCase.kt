@@ -18,11 +18,11 @@ class SetSortOrderUseCase @Inject constructor(
     override fun buildUseCaseObservable(param: SetSortOrderRequestModel): Completable {
         val category = param.mediaId.category
         return when (category){
-            MediaIdCategory.FOLDER -> gateway.setFolderSortOrder(param.sortType)
-            MediaIdCategory.PLAYLIST -> gateway.setPlaylistSortOrder(param.sortType)
-            MediaIdCategory.ALBUM -> gateway.setAlbumSortOrder(param.sortType)
-            MediaIdCategory.ARTIST -> gateway.setArtistSortOrder(param.sortType)
-            MediaIdCategory.GENRE -> gateway.setGenreSortOrder(param.sortType)
+            MediaIdCategory.FOLDERS -> gateway.setFolderSortOrder(param.sortType)
+            MediaIdCategory.PLAYLISTS -> gateway.setPlaylistSortOrder(param.sortType)
+            MediaIdCategory.ALBUMS -> gateway.setAlbumSortOrder(param.sortType)
+            MediaIdCategory.ARTISTS -> gateway.setArtistSortOrder(param.sortType)
+            MediaIdCategory.GENRES -> gateway.setGenreSortOrder(param.sortType)
             else -> throw IllegalArgumentException("invalid param $param")
         }
     }

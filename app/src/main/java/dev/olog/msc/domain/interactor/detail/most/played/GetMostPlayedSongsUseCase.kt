@@ -23,11 +23,11 @@ class GetMostPlayedSongsUseCase @Inject constructor(
     override fun buildUseCaseObservable(mediaId: MediaId): Flowable<List<Song>> {
 
         return when (mediaId.category) {
-            MediaIdCategory.GENRE -> return genreGateway.getMostPlayed(mediaId)
+            MediaIdCategory.GENRES -> return genreGateway.getMostPlayed(mediaId)
                     .distinctUntilChanged()
-            MediaIdCategory.PLAYLIST -> return playlistGateway.getMostPlayed(mediaId)
+            MediaIdCategory.PLAYLISTS -> return playlistGateway.getMostPlayed(mediaId)
                     .distinctUntilChanged()
-            MediaIdCategory.FOLDER -> folderGateway.getMostPlayed(mediaId)
+            MediaIdCategory.FOLDERS -> folderGateway.getMostPlayed(mediaId)
                     .distinctUntilChanged()
             else -> Flowable.just(listOf())
         }

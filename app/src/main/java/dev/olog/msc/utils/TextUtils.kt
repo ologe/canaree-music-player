@@ -6,7 +6,10 @@ object TextUtils {
 
     const val MIDDLE_DOT = "\u00B7"
     const val MIDDLE_DOT_SPACED = " \u00B7 "
-    const val HIDING_FACE = "\uD83D\uDE48"
+
+    fun getReadableSongLength(millis: Int): String {
+        return getReadableSongLength(millis.toLong())
+    }
 
     fun getReadableSongLength(millis: Long): String {
         val sec = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))

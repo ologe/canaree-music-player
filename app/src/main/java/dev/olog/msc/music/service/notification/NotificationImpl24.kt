@@ -12,17 +12,15 @@ import dagger.Lazy
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.img.ImageUtils
-import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
 open class NotificationImpl24 @Inject constructor(
         service: Service,
-        activityClass: MainActivityClass,
         token: MediaSessionCompat.Token,
         notificationManager: Lazy<NotificationManager>
 
-) : NotificationImpl21(service, activityClass, token, notificationManager) {
+) : NotificationImpl21(service, token, notificationManager) {
 
     override fun startChronometer(playbackState: PlaybackStateCompat) {
         super.startChronometer(playbackState)

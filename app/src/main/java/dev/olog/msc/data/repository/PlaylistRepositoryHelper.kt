@@ -5,7 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -87,10 +87,10 @@ class PlaylistRepositoryHelper @Inject constructor(
     }
 
     fun clearPlaylist(playlistId: Long){
-        if (Constants.autoPlaylists.contains(playlistId)){
+        if (PlaylistConstants.isAutoPlaylist(playlistId)){
             when (playlistId){
-                Constants.FAVORITE_LIST_ID -> favoriteDao.deleteAll()
-                Constants.HISTORY_LIST_ID -> historyDao.deleteAll()
+                PlaylistConstants.FAVORITE_LIST_ID -> favoriteDao.deleteAll()
+                PlaylistConstants.HISTORY_LIST_ID -> historyDao.deleteAll()
             }
             return
         }
@@ -100,7 +100,7 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     fun removeSongFromPlaylist(playlistId: Long, songId: Long): Completable {
         return Completable.create { e ->
-            if (Constants.autoPlaylists.contains(playlistId)){
+            if (PlaylistConstants.isAutoPlaylist(playlistId)){
                 removeFromAutoPlaylist(playlistId, songId)
             } else {
                 val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
@@ -113,8 +113,8 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long){
         when(playlistId){
-            Constants.FAVORITE_LIST_ID -> favoriteDao.removeFromFavorite(listOf(songId))
-            Constants.HISTORY_LIST_ID -> historyDao.deleteSingle(songId)
+            PlaylistConstants.FAVORITE_LIST_ID -> favoriteDao.removeFromFavorite(listOf(songId))
+            PlaylistConstants.HISTORY_LIST_ID -> historyDao.deleteSingle(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
     }

@@ -45,11 +45,11 @@ class TabFragment : BaseFragment() {
                 })
 
         when (category){
-            MediaIdCategory.ALBUM -> {
+            MediaIdCategory.ALBUMS -> {
                 viewModel.observeData(MediaIdCategory.RECENT_ALBUMS)
                         .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
             }
-            MediaIdCategory.ARTIST -> {
+            MediaIdCategory.ARTISTS -> {
                 viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }

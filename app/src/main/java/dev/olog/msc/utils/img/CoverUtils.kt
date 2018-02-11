@@ -4,15 +4,12 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
-import android.preference.PreferenceManager
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import dev.olog.msc.R
 
 object CoverUtils {
-
-    var isIconDark = false
 
     private val COLORS = mutableListOf (
             intArrayOf(0xff00c9ff.toInt(), 0xff92fe9d.toInt()),
@@ -42,11 +39,7 @@ object CoverUtils {
             intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
     )
 
-    fun initialize(context: Context){
-        // on every launch apps covers will be different
-        isIconDark = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(context.getString(R.string.prefs_icon_color_key), true)
-
+    fun initialize(){
         COLORS.shuffle()
     }
 
@@ -62,10 +55,8 @@ object CoverUtils {
         val drawable = ContextCompat.getDrawable(context, drawableRes)!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
 
-        if (isIconDark){
-            val icon = drawable.getDrawable(1) as Drawable
-            DrawableCompat.setTint(icon, 0xFF262626.toInt())
-        }
+        val icon = drawable.getDrawable(1) as Drawable
+        DrawableCompat.setTint(icon, 0xFF262626.toInt())
 
         val pos = (position) % COLORS.size
         gradient.colors = COLORS[Math.abs(pos)]

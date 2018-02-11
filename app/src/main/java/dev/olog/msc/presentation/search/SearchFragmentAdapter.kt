@@ -8,10 +8,10 @@ import android.support.v7.widget.RecyclerView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.FragmentLifecycle
-import dev.olog.msc.presentation.MusicController
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.BaseMapAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
@@ -25,7 +25,7 @@ class SearchFragmentAdapter @Inject constructor(
         private val albumAdapter: SearchFragmentAlbumAdapter,
         private val artistAdapter: SearchFragmentArtistAdapter,
         private val recycledViewPool: RecyclerView.RecycledViewPool,
-        private val musicController: MusicController,
+        private val mediaProvider: MediaProvider,
         private val navigator: Navigator,
         private val viewModel: SearchFragmentViewModel
 
@@ -43,7 +43,7 @@ class SearchFragmentAdapter @Inject constructor(
             }
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
-                    musicController.playFromMediaId(item.mediaId)
+                    mediaProvider.playFromMediaId(item.mediaId)
                     viewModel.insertSongToRecent(item.mediaId)
                             .subscribe({}, Throwable::printStackTrace)
 
@@ -65,7 +65,7 @@ class SearchFragmentAdapter @Inject constructor(
             R.layout.item_search_recent -> {
                 viewHolder.setOnClickListener(dataController) { item, _  ->
                     if (item.isPlayable){
-                        musicController.playFromMediaId(item.mediaId)
+                        mediaProvider.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
                     }

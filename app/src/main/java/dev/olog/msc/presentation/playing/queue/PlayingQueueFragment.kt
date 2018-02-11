@@ -9,8 +9,8 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.OnDataChangedListener
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.utils.k.extension.subscribe
+import kotlinx.android.synthetic.main.fragment_player_toolbar.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
-import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import org.jetbrains.anko.dip
 import javax.inject.Inject
 

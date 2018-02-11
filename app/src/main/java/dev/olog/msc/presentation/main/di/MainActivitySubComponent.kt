@@ -8,7 +8,6 @@ import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.edit.info.di.EditInfoFragmentInjector
 import dev.olog.msc.presentation.library.tab.di.TabFragmentInjector
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.msc.presentation.mini.player.di.MiniPlayerFragmentInjector
 import dev.olog.msc.presentation.navigator.NavigatorModule
 import dev.olog.msc.presentation.player.di.PlayerFragmentInjector
 import dev.olog.msc.presentation.playing.queue.di.PlayingQueueFragmentInjector
@@ -18,6 +17,7 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
 
 @Subcomponent(modules = arrayOf(
         MainActivityModule::class,
+        MainActivityFragmentsModule::class,
         NavigatorModule::class,
 ////        ProModule::class,
 //
@@ -28,7 +28,6 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         RecentlyAddedFragmentInjector::class,
         RelatedArtistFragmentInjector::class,
         AlbumsFragmentInjector::class,
-        MiniPlayerFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
         EditInfoFragmentInjector::class

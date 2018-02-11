@@ -8,10 +8,9 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.UneditedSong
 import dev.olog.msc.presentation.BindingsAdapter
-import dev.olog.msc.presentation.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
@@ -117,12 +116,12 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         view.title.setText(song.title)
 
         val artist = tag.getFirst(FieldKey.ARTIST)
-        if (artist != Constants.UNKNOWN){
+        if (artist != AppConstants.UNKNOWN){
             view.artist.setText(artist)
         }
 
         val album = tag.getFirst(FieldKey.ALBUM)
-        if (album != Constants.UNKNOWN){
+        if (album != AppConstants.UNKNOWN){
             view.album.append(album)
         }
 

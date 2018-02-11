@@ -6,7 +6,6 @@ import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.utils.assertBackgroundThread
-import dev.olog.msc.utils.k.extension.clearThenAdd
 import dev.olog.msc.utils.k.extension.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Flowable
@@ -104,7 +103,8 @@ class BaseListAdapterController<Model : BaseModel> :
 
                     val wasEmpty = this.dataSet.isEmpty()
 
-                    this.dataSet.clearThenAdd(newData)
+                    this.dataSet.clear()
+                    this.dataSet.addAll(newData)
 
                     if (wasEmpty || !adapter.hasGranularUpdate()) {
                         adapter.notifyDataSetChanged()

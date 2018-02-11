@@ -13,7 +13,7 @@ import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
-import dev.olog.msc.presentation.MusicController
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
@@ -29,13 +29,13 @@ class SongMenuListener @Inject constructor(
         private val activity: AppCompatActivity,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
-        musicController: MusicController,
+        mediaProvider: MediaProvider,
         private val getSongUseCase: GetSongUseCase,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : BaseMenuListener(lifecycle,application, getSongListByParamUseCase, navigator,
-        musicController, getPlaylistBlockingUseCase, addToPlaylistUseCase) {
+        mediaProvider, getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId

@@ -92,11 +92,11 @@ class SearchFragmentViewModel(
 
     fun deleteFromRecent(mediaId: MediaId): Completable{
         return when (mediaId.category) {
-            MediaIdCategory.ALBUM -> {
+            MediaIdCategory.ALBUMS -> {
                 val albumId = mediaId.categoryValue.toLong()
                 deleteRecentSearchAlbumUseCase.execute(albumId)
             }
-            MediaIdCategory.ARTIST -> {
+            MediaIdCategory.ARTISTS -> {
                 val artistId = mediaId.categoryValue.toLong()
                 deleteRecentSearchArtistUseCase.execute(artistId)
             }

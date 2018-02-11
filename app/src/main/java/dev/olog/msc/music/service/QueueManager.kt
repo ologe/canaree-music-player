@@ -9,9 +9,8 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
-import dev.olog.msc.domain.interactor.music.service.BookmarkUseCase
-import dev.olog.msc.domain.interactor.music.service.CurrentIdInPlaylistUseCase
 import dev.olog.msc.domain.interactor.music.service.GetPlayingQueueUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*
 import dev.olog.msc.music.service.voice.VoiceSearch
@@ -28,8 +27,7 @@ import javax.inject.Inject
 class QueueManager @Inject constructor(
         private val queueImpl: QueueImpl,
         private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
-        private val currentSongIdUseCase: CurrentIdInPlaylistUseCase,
-        private val bookmarkUseCase: BookmarkUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val shuffleMode: ShuffleMode,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
@@ -54,17 +52,13 @@ class QueueManager @Inject constructor(
     }
 
     private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long {
-        return MathUtils.clamp(bookmarkUseCase.get().toInt(), 0,
+        val bookmark = musicPreferencesUseCase.getBookmark().toInt()
+        return MathUtils.clamp(bookmark, 0,
                 mediaEntity.duration.toInt()).toLong()
     }
 
-    override fun handleSkipToQueueItem(id: Long): PlayerMediaEntity {
-        val mediaEntity = queueImpl.getSongById(id)
-        return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
-    }
-
-    override fun handleSkipToQueueItemWithIdInPlaylist(idInPlaylist: Long): PlayerMediaEntity {
-        val mediaEntity = queueImpl.getSongByIdInPlaylist(idInPlaylist.toInt())
+    override fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity {
+        val mediaEntity = queueImpl.getSongById(idInPlaylist)
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
@@ -210,7 +204,7 @@ class QueueManager @Inject constructor(
     }
 
     private val lastSessionSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
-        val idInPlaylist = currentSongIdUseCase.get()
+        val idInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val currentPosition = MathUtils.clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
         Pair(list, currentPosition)
     }

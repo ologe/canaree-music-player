@@ -2,14 +2,13 @@ package dev.olog.msc.presentation.splash.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
-import dev.olog.msc.dagger.AndroidBindingModule
 import dev.olog.msc.dagger.PerActivity
 import dev.olog.msc.presentation.splash.SplashActivity
 
 
 @Subcomponent(modules = arrayOf(
         SplashActivityModule::class,
-        AndroidBindingModule::class
+        SplashActivityFragmentsModule::class
 ))
 @PerActivity
 interface SplashActivitySubComponent : AndroidInjector<SplashActivity> {

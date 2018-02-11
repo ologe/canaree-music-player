@@ -3,21 +3,19 @@ package dev.olog.msc.presentation.playing.queue
 import android.arch.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.interactor.music.service.CurrentIdInPlaylistUseCase
-import dev.olog.msc.domain.interactor.music.service.ObserveCurrentSongId
 import dev.olog.msc.domain.interactor.music.service.ObservePlayingQueueUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 import java.util.concurrent.TimeUnit
 
 class PlayingQueueFragmentViewModel(
-        observePlayingQueueUseCase: ObservePlayingQueueUseCase,
-        private val currentSongIdUseCase: CurrentIdInPlaylistUseCase,
-        observeCurrentSongId: ObserveCurrentSongId
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        observePlayingQueueUseCase: ObservePlayingQueueUseCase
 
 ) : ViewModel() {
 
@@ -30,17 +28,17 @@ class PlayingQueueFragmentViewModel(
             observePlayingQueueUseCase.execute().skip(1)
                     .debounce(500, TimeUnit.MILLISECONDS))
             .distinctUntilChanged()
-            .groupMap { it.toPlayingQueueDisplayableItem() }
+            .mapToList { it.toPlayingQueueDisplayableItem() }
             .asLiveData()
 
-    val observeCurrentSongId  = observeCurrentSongId.execute()
+    val observeCurrentSongId  = musicPreferencesUseCase.observeLastIdInPlaylist()
             .map {
                 idInPlaylist = it
                 it
             }.skip(1)
             .asLiveData()
 
-    fun getCurrentSongId(): Int = currentSongIdUseCase.get()
+    fun getCurrentSongId(): Int = musicPreferencesUseCase.getLastIdInPlaylist()
 
 
     private fun PlayingQueueSong.toPlayingQueueDisplayableItem(): DisplayableItem {

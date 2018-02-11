@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
-apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
 
@@ -161,6 +160,7 @@ dependencies {
     implementation "com.getkeepsafe.taptargetview:taptargetview:$rootProject.target_view"
     implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
     implementation "org.tensorflow:tensorflow-android:$rootProject.tensor_flow"
+    implementation 'androidx.core:core-ktx:0.1'
 
     // debug
 
@@ -175,7 +175,7 @@ dependencies {
         transitive = true
     }
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"
-    implementation "com.google.firebase:firebase-perf:$rootProject.firebase"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'

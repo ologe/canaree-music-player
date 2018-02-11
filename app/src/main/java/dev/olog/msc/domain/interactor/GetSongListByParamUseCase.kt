@@ -28,12 +28,12 @@ class GetSongListByParamUseCase @Inject constructor(
         }
 
         return when (mediaId.category) {
-            MediaIdCategory.FOLDER -> folderDataStore.observeSongListByParam(mediaId.categoryValue)
-            MediaIdCategory.PLAYLIST -> playlistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.FOLDERS -> folderDataStore.observeSongListByParam(mediaId.categoryValue)
+            MediaIdCategory.PLAYLISTS -> playlistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.SONGS -> songDataStore.getAll()
-            MediaIdCategory.ALBUM -> albumDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
-            MediaIdCategory.ARTIST -> artistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
-            MediaIdCategory.GENRE -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.ALBUMS -> albumDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.ARTISTS -> artistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
+            MediaIdCategory.GENRES -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             else -> throw AssertionError("invalid media id " + mediaId)
         }
     }

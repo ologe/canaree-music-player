@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.msc.BR
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.msc.utils.k.extension.clearThenAdd
 import javax.inject.Inject
 
 class BlacklistFragmentAdapter @Inject constructor()
@@ -43,7 +42,8 @@ class BlacklistFragmentAdapter @Inject constructor()
     }
 
     fun updateDataSet(list: List<BlacklistModel>){
-        data.clearThenAdd(list)
+        this.data.clear()
+        this.data.addAll(list)
         notifyDataSetChanged()
     }
 

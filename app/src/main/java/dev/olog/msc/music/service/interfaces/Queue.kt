@@ -24,9 +24,7 @@ interface Queue {
 
     fun handlePlayMostPlayed(mediaId: MediaId): Single<PlayerMediaEntity>
 
-    fun handleSkipToQueueItem(id: Long): PlayerMediaEntity
-
-    fun handleSkipToQueueItemWithIdInPlaylist(idInPlaylist: Long): PlayerMediaEntity
+    fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity
 
     fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity>
 

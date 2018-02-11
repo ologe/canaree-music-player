@@ -7,11 +7,10 @@ import android.support.v7.widget.RecyclerView
 import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.FragmentLifecycle
-import dev.olog.msc.presentation.MusicController
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.fast.scroller.FastScrollerSectionIndexer
@@ -26,7 +25,7 @@ import javax.inject.Inject
 class TabFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator,
-        private val musicController: MusicController,
+        private val mediaProvider: MediaProvider,
         private val viewModel: TabFragmentViewModel,
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
@@ -37,22 +36,22 @@ class TabFragmentAdapter @Inject constructor(
         when (viewType) {
             R.layout.item_tab_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
-                    musicController.playShuffle(MediaId.shuffleAllId())
+                    mediaProvider.shuffle(MediaId.shuffleAllId())
                 }
             }
             R.layout.item_tab_album,
             R.layout.item_tab_song -> {
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     if (item.isPlayable){
-                        musicController.playFromMediaId(item.mediaId)
+                        mediaProvider.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
                         when (item.mediaId.category){
-                            MediaIdCategory.ARTIST -> {
+                            MediaIdCategory.ARTISTS -> {
                                 viewModel.insertArtistLastPlayed(item.mediaId)
                                         .subscribe({}, Throwable::printStackTrace)
                             }
-                            MediaIdCategory.ALBUM -> {
+                            MediaIdCategory.ALBUMS -> {
                                 viewModel.insertAlbumLastPlayed(item.mediaId)
                                         .subscribe({}, Throwable::printStackTrace)
                             }
@@ -90,8 +89,8 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.quickAction, Constants.quickAction)
-        binding.setVariable(BR.musicController, musicController)
+//        binding.setVariable(BR.quickAction, Constants.quickAction)
+//        binding.setVariable(BR.musicController, musicController)
     }
 
     override fun getSectionText(position: Int): String? {

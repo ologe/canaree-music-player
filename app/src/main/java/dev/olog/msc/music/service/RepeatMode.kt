@@ -4,20 +4,22 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v4.media.session.PlaybackStateCompat.*
 import dev.olog.msc.dagger.PerService
-import dev.olog.msc.domain.interactor.music.service.RepeatModeUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import javax.inject.Inject
 
 
 @PerService
 class RepeatMode @Inject constructor(
         private val mediaSession: MediaSessionCompat,
-        private val repeatModeUseCase: RepeatModeUseCase) {
+        private val musicPreferencesUseCase: MusicPreferencesUseCase
+
+) {
 
     init {
         mediaSession.setRepeatMode(getState())
     }
 
-    private fun getState(): Int = repeatModeUseCase.get()
+    private fun getState(): Int = musicPreferencesUseCase.getRepeatMode()
 
     fun isRepeatNone(): Boolean = getState() == REPEAT_MODE_NONE
 
@@ -26,17 +28,15 @@ class RepeatMode @Inject constructor(
     fun isRepeatAll(): Boolean = getState() == REPEAT_MODE_ALL
 
     fun update() {
-        val repeatMode = repeatModeUseCase.get()
+        val repeatMode = getState()
 
-        val newState: Int
-
-        newState = when (repeatMode){
+        val newState = when (repeatMode){
             REPEAT_MODE_NONE -> REPEAT_MODE_ALL
             REPEAT_MODE_ALL -> REPEAT_MODE_ONE
             else -> REPEAT_MODE_NONE
         }
 
-        repeatModeUseCase.set(newState)
+        musicPreferencesUseCase.setRepeatMode(newState)
         mediaSession.setRepeatMode(newState)
     }
 

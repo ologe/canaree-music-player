@@ -14,7 +14,7 @@ import dev.olog.msc.data.mapper.toUneditedSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.UneditedSong
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.interactor.prefs.BlackListUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -29,7 +29,7 @@ class SongRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
-        private val blackListUseCase: BlackListUseCase
+        private val appPreferencesUseCase: AppPreferencesUseCase
 
 ) : SongGateway {
 
@@ -70,7 +70,7 @@ class SongRepository @Inject constructor(
             )
             .mapToList { it.toSong(context) }
             .map {
-                val blackListed = blackListUseCase.get()
+                val blackListed = appPreferencesUseCase.getBlackList()
                 it.filter { !blackListed.contains(it.folderPath) }
             }
             .onErrorReturn { listOf() }

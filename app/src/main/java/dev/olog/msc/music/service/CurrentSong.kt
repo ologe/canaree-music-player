@@ -3,15 +3,12 @@ package dev.olog.msc.music.service
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
-import dev.olog.msc.R
-import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.PerService
 import dev.olog.msc.dagger.ServiceLifecycle
 import dev.olog.msc.domain.interactor.detail.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
-import dev.olog.msc.domain.interactor.floating.window.SetFloatingInfoRequestUseCase
 import dev.olog.msc.domain.interactor.music.service.InsertHistorySongUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.MediaId
@@ -26,12 +23,12 @@ import javax.inject.Inject
 
 @PerService
 class CurrentSong @Inject constructor(
-        @ApplicationContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         insertMostPlayedUseCase: InsertMostPlayedUseCase,
         insertHistorySongUseCase: InsertHistorySongUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
+//        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
         playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
@@ -52,14 +49,14 @@ class CurrentSong @Inject constructor(
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
-            setFloatingInfoCurrentItem(entity)
             updateFavorite(entity)
+            saveLastMetadata(entity)
         }
 
         override fun onPlay(entity: MediaEntity) {
-            setFloatingInfoCurrentItem(entity)
             publisher.onNext(entity)
             updateFavorite(entity)
+            saveLastMetadata(entity)
         }
     }
 
@@ -86,12 +83,9 @@ class CurrentSong @Inject constructor(
                 .subscribe()
     }
 
-    private fun setFloatingInfoCurrentItem(mediaEntity: MediaEntity){
-        var result = mediaEntity.title
-        if (mediaEntity.artist != context.getString(R.string.unknown_artist)){
-            result += " ${mediaEntity.artist}"
-        }
-        setFloatingInfoRequestUseCase.execute(mediaEntity.title)
+    private fun saveLastMetadata(entity: MediaEntity){
+        musicPreferencesUseCase.setLastTitle(entity.title)
+        musicPreferencesUseCase.setLastSubtitle(entity.artist)
     }
 
     private fun createMostPlayedId(entity: MediaEntity): Maybe<MediaId> {

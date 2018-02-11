@@ -20,8 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontwarn
--ignorewarnings
+#-dontwarn
+#-ignorewarnings
 
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }

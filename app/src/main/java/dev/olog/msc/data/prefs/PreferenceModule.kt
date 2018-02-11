@@ -9,7 +9,6 @@ import dagger.Provides
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
-import dev.olog.msc.domain.gateway.prefs.FloatingInfoPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import javax.inject.Singleton
 
@@ -25,12 +24,6 @@ class PreferenceModule{
     @Provides
     @Singleton
     fun provideMusicPreferences(dataStore: MusicPreferencesImpl): MusicPreferencesGateway {
-        return dataStore
-    }
-
-    @Provides
-    @Singleton
-    fun provideFloatingInfoPreferences(dataStore: FloatingInfoPreferencesImpl): FloatingInfoPreferencesGateway {
         return dataStore
     }
 

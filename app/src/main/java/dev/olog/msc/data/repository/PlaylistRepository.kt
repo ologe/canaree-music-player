@@ -5,9 +5,10 @@ import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.getContentUri
+import androidx.database.getLong
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.data.FileUtils
 import dev.olog.msc.data.db.AppDatabase
@@ -22,7 +23,6 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.getLong
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
@@ -73,9 +73,9 @@ class PlaylistRepository @Inject constructor(
     private val autoPlaylistTitles = resources.getStringArray(R.array.auto_playlists)
 
     private fun autoPlaylist() = listOf(
-            createAutoPlaylist(Constants.LAST_ADDED_ID, autoPlaylistTitles[0]),
-            createAutoPlaylist(Constants.FAVORITE_LIST_ID, autoPlaylistTitles[1]),
-            createAutoPlaylist(Constants.HISTORY_LIST_ID, autoPlaylistTitles[2])
+            createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0]),
+            createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1]),
+            createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2])
     )
 
     private fun createAutoPlaylist(id: Long, title: String) : Playlist {
@@ -169,7 +169,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Flowable<Playlist> {
-        val result = if (Constants.autoPlaylists.contains(param)){
+        val result = if (PlaylistConstants.isAutoPlaylist(param)){
             getAllAutoPlaylists()
         } else getAll()
 
@@ -182,9 +182,9 @@ class PlaylistRepository @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(playlistId: Long): Flowable<List<Song>> {
         return when (playlistId){
-            Constants.LAST_ADDED_ID -> getLastAddedSongs()
-            Constants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
-            Constants.HISTORY_LIST_ID -> historyDao.getAllAsSongs(songGateway.getAll().firstOrError())
+            PlaylistConstants.LAST_ADDED_ID -> getLastAddedSongs()
+            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.getAll()
+            PlaylistConstants.HISTORY_LIST_ID -> historyDao.getAllAsSongs(songGateway.getAll().firstOrError())
             else -> getPlaylistSongs(playlistId)
         }
     }
@@ -235,7 +235,7 @@ class PlaylistRepository @Inject constructor(
 
     override fun getMostPlayed(mediaId: MediaId): Flowable<List<Song>> {
         val playlistId = mediaId.categoryValue.toLong()
-        if (Constants.autoPlaylists.contains(playlistId)){
+        if (PlaylistConstants.isAutoPlaylist(playlistId)){
             return Flowable.just(listOf())
         }
         return mostPlayedDao.getAll(playlistId, songGateway.getAll())

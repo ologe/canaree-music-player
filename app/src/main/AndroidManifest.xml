@@ -25,12 +25,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".App">
+        android:name=".app.App">
 
-        <!--splash activity-->
-        <activity android:name=".presentation.splash.SplashActivity"
-            android:theme="@style/Splash"
-            android:screenOrientation="portrait">
+        <!--main activity-->
+        <activity
+            android:name=".presentation.main.MainActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
+            android:rotationAnimation="rotate"
+            android:colorMode="wideColorGamut">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,21 +43,15 @@
                 <category android:name="android.intent.category.APP_MUSIC" />
             </intent-filter>
 
-
-        </activity>
-
-        <!--main activity-->
-        <activity
-            android:name=".presentation.main.MainActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
+
+        <!--splash activity-->
+        <activity android:name=".presentation.splash.SplashActivity"/>
 
         <!--about activity-->
         <activity android:name=".presentation.about.AboutActivity"
@@ -91,11 +88,11 @@
         </receiver>
 
         <!--neural newtwork service-->
-        <service android:name=".presentation.neural.network.service.NeuralNetworkService"
+        <service android:name=".stylize.images.service.StylizeImageService"
             android:exported="false"/>
 
         <!--floating window service-->
-        <service android:name=".floating.window.FloatingInfoService"
+        <service android:name=".floating.window.service.FloatingWindowService"
                  android:exported="false"/>
 
 
@@ -150,13 +147,6 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
-
-        <!--disable firebase perf for build time, can enable at runtime-->
-        <meta-data
-            android:name="firebase_performance_collection_enabled"
-            android:value="false" />
-
-
 
     </application>
 

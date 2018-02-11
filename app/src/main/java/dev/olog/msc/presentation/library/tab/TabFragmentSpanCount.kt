@@ -24,9 +24,9 @@ class TabSpanSpanSizeLookupFactory(
 
     fun get() : GridLayoutManager.SpanSizeLookup {
         return when (category){
-            MediaIdCategory.PLAYLIST -> PlaylistSpanSizeLookup(isPortrait)
-            MediaIdCategory.ALBUM -> AlbumSpanSizeLookup(context, isPortrait, adapter)
-            MediaIdCategory.ARTIST -> ArtistSpanSizeLookup(isPortrait, adapter)
+            MediaIdCategory.PLAYLISTS -> PlaylistSpanSizeLookup(isPortrait)
+            MediaIdCategory.ALBUMS -> AlbumSpanSizeLookup(context, isPortrait, adapter)
+            MediaIdCategory.ARTISTS -> ArtistSpanSizeLookup(isPortrait, adapter)
             MediaIdCategory.SONGS -> SongSpanSizeLookup(isPortrait)
             else -> BaseSpanSizeLookup(isPortrait)
         }

@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.base.adapter
 
-import dev.olog.msc.utils.k.extension.clearThenPut
 import dev.olog.msc.utils.k.extension.swap
 
 class BetterMap <K, Model> constructor(
@@ -44,7 +43,8 @@ class BetterMap <K, Model> constructor(
     fun wrappedValue() : MutableMap<K, MutableList<Model>> = data.toMutableMap() // pass a copy
 
     fun update(data: BetterMap<K, Model>) {
-        this.data.clearThenPut(data.wrappedValue())
+        this.data.clear()
+        this.data.putAll(data.wrappedValue())
     }
 
     fun swap(from: Int, to: Int){

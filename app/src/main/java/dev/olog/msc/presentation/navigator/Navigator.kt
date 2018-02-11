@@ -6,9 +6,13 @@ import dev.olog.msc.utils.MediaId
 
 interface Navigator {
 
+    fun toFirstAccess(requestCode: Int)
+
+    fun toLibraryCategories()
+
     fun toDetailFragment(mediaId: MediaId)
 
-    fun toSearchFragment(showKeyboard: Boolean)
+    fun toSearchFragment()
 
     fun toRelatedArtists(mediaId: MediaId)
 

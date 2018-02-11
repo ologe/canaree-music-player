@@ -10,6 +10,7 @@ import android.media.AudioManager
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.content.systemService
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.PerService
@@ -24,7 +25,6 @@ import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.player.PlayerImpl
 import dev.olog.msc.music.service.player.PlayerVolume
 import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.msc.utils.k.extension.notificationManager
 
 @Module(includes = arrayOf(MusicServiceModule.Binds::class))
 class MusicServiceModule(
@@ -70,7 +70,7 @@ class MusicServiceModule(
     @Provides
     @PerService
     internal fun provideNotificationManager(): NotificationManager {
-        return service.notificationManager
+        return service.systemService()
     }
 
     @Provides

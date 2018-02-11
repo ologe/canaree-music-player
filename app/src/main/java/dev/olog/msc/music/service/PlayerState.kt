@@ -7,42 +7,35 @@ import android.content.Intent
 import android.content.pm.ShortcutManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.content.systemService
 import dev.olog.msc.R
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.PerService
-import dev.olog.msc.domain.interactor.music.service.BookmarkUseCase
-import dev.olog.msc.domain.interactor.music.service.ToggleSkipToNextVisibilityUseCase
-import dev.olog.msc.domain.interactor.music.service.ToggleSkipToPreviousVisibilityUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.PositionInQueue
+import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.utils.AppShortcutInfo
 import dev.olog.msc.utils.isNougat_MR1
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
-import dev.olog.shared_android.interfaces.ShortcutActivityClass
-import dev.olog.shared_android.interfaces.WidgetClasses
 import javax.inject.Inject
 
 @PerService
 class PlayerState @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
-        private val bookmarkUseCase: BookmarkUseCase,
-        private val toggleSkipToNextVisibilityUseCase: ToggleSkipToNextVisibilityUseCase,
-        private val toggleSkipToPreviousVisibilityUseCase: ToggleSkipToPreviousVisibilityUseCase,
-        private val widgetClasses: WidgetClasses,
-        private val shortcutActivityClass: ShortcutActivityClass
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val widgetClasses: WidgetClasses
 
 ){
 
-    private val shortcutManager: ShortcutManager by lazy {
-        context.getSystemService(ShortcutManager::class.java) as ShortcutManager
-    }
+    private val shortcutManager: ShortcutManager by lazy { context.systemService<ShortcutManager>() }
 
     private val builder = PlaybackStateCompat.Builder()
     private var activeQueueId = MediaSessionCompat.QueueItem.UNKNOWN_ID.toLong()
 
     init {
-        builder.setState(PlaybackStateCompat.STATE_PAUSED, bookmarkUseCase.get(), 0f)
+        builder.setState(PlaybackStateCompat.STATE_PAUSED, musicPreferencesUseCase.getBookmark(), 0f)
                 .setActions(getActions())
     }
 
@@ -71,7 +64,7 @@ class PlayerState @Inject constructor(
 
         builder.setState(state, bookmark, (if (isPlaying) 1 else 0).toFloat())
 
-        bookmarkUseCase.set(bookmark)
+        musicPreferencesUseCase.setBookmark(bookmark)
 
         if (id != null) {
             activeQueueId = id
@@ -90,23 +83,23 @@ class PlayerState @Inject constructor(
 
         when {
             positionInQueue === PositionInQueue.FIRST -> {
-                toggleSkipToPreviousVisibilityUseCase.set(false)
-                toggleSkipToNextVisibilityUseCase.set(true)
+                musicPreferencesUseCase.setSkipToPreviousVisibility(false)
+                musicPreferencesUseCase.setSkipToNextVisibility(true)
                 notifyWidgetsActionChanged(false, true)
             }
             positionInQueue === PositionInQueue.LAST -> {
-                toggleSkipToPreviousVisibilityUseCase.set(true)
-                toggleSkipToNextVisibilityUseCase.set(false)
+                musicPreferencesUseCase.setSkipToPreviousVisibility(true)
+                musicPreferencesUseCase.setSkipToNextVisibility(false)
                 notifyWidgetsActionChanged(true, false)
             }
             positionInQueue === PositionInQueue.IN_MIDDLE -> {
-                toggleSkipToNextVisibilityUseCase.set(true)
-                toggleSkipToPreviousVisibilityUseCase.set(true)
+                musicPreferencesUseCase.setSkipToPreviousVisibility(true)
+                musicPreferencesUseCase.setSkipToNextVisibility(true)
                 notifyWidgetsActionChanged(true, true)
             }
             positionInQueue == PositionInQueue.BOTH -> {
-                toggleSkipToNextVisibilityUseCase.set(false)
-                toggleSkipToPreviousVisibilityUseCase.set(false)
+                musicPreferencesUseCase.setSkipToPreviousVisibility(false)
+                musicPreferencesUseCase.setSkipToNextVisibility(false)
                 notifyWidgetsActionChanged(false, false)
             }
         }
@@ -188,8 +181,7 @@ class PlayerState @Inject constructor(
     @SuppressLint("NewApi")
     private fun enablePlayShortcut(){
         if (isNougat_MR1()){
-            shortcutManager.addDynamicShortcuts(
-                    listOf(AppShortcutInfo.play(context, shortcutActivityClass.get())))
+            shortcutManager.addDynamicShortcuts(listOf(AppShortcutInfo.play(context)))
         }
     }
 

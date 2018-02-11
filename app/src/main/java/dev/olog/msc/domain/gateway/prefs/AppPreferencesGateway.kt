@@ -15,14 +15,9 @@ interface AppPreferencesGateway : Sorting {
     fun getViewPagerLastVisitedPage(): Int
     fun setViewPagerLastVisitedPage(lastPage: Int)
 
-    fun isIconsDark(): Flowable<Boolean>
-
-    fun getLowerVolumeOnNight(): Boolean
-    fun observeLowerVolumeOnNight(): Flowable<Boolean>
-
-    fun getLibraryCategoriesBehavior() : List<LibraryCategoryBehavior>
-    fun getDefaultLibraryCategoriesBehavior() : List<LibraryCategoryBehavior>
-    fun setLibraryCategoriesBehavior(behavior: List<LibraryCategoryBehavior>)
+    fun getLibraryCategories() : List<LibraryCategoryBehavior>
+    fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior>
+    fun setLibraryCategories(behavior: List<LibraryCategoryBehavior>)
 
     fun getBlackList(): Set<String>
     fun setBlackList(set: Set<String>)

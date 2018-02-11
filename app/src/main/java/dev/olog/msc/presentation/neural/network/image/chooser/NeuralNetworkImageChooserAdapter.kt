@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.presentation.GlideApp
 import dev.olog.msc.presentation.neural.network.NeuralNetworkActivityViewModel
-import dev.olog.msc.utils.k.extension.clearThenAdd
 import kotlinx.android.synthetic.main.item_neural_network_preview.view.*
 
 class NeuralNetworkImageChooserAdapter(
@@ -47,7 +45,8 @@ class NeuralNetworkImageChooserAdapter(
     }
 
     fun updateData(list: List<Album>){
-        data.clearThenAdd(list)
+        this.data.clear()
+        this.data.addAll(list)
         notifyDataSetChanged()
     }
 

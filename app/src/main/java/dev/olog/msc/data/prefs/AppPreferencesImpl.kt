@@ -2,6 +2,7 @@ package dev.olog.msc.data.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
 import dev.olog.msc.dagger.ApplicationContext
@@ -9,7 +10,7 @@ import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.utils.k.extension.edit
+import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -162,90 +163,72 @@ class AppPreferencesImpl @Inject constructor(
                 }
     }
 
-    override fun isIconsDark(): Flowable<Boolean> {
-        return rxPreferences.getBoolean(context.getString(R.string.prefs_icon_color_key), true)
-                .asObservable().toFlowable(BackpressureStrategy.LATEST)
-    }
-
-    override fun getLowerVolumeOnNight(): Boolean {
-        return preferences.getBoolean(context.getString(R.string.prefs_lower_volume_key), false)
-    }
-
-    override fun observeLowerVolumeOnNight(): Flowable<Boolean> {
-        return rxPreferences.getBoolean(context.getString(R.string.prefs_lower_volume_key), false)
-                .asObservable().toFlowable(BackpressureStrategy.LATEST)
-    }
-
-    override fun getLibraryCategoriesBehavior(): List<LibraryCategoryBehavior> {
-        val categories = context.resources.getStringArray(R.array.categories)
-
+    override fun getLibraryCategories(): List<LibraryCategoryBehavior> {
         return listOf(
                 LibraryCategoryBehavior(
-                        categories[0],
+                        MediaIdCategory.FOLDERS,
                         preferences.getBoolean(CATEGORY_FOLDER_VISIBILITY, true),
                         preferences.getInt(CATEGORY_FOLDER_ORDER, 0)
                 ),
                 LibraryCategoryBehavior(
-                        categories[1],
+                        MediaIdCategory.PLAYLISTS,
                         preferences.getBoolean(CATEGORY_PLAYLIST_VISIBILITY, true),
                         preferences.getInt(CATEGORY_PLAYLIST_ORDER, 1)
                 ),
                 LibraryCategoryBehavior(
-                        categories[2],
+                        MediaIdCategory.SONGS,
                         preferences.getBoolean(CATEGORY_SONG_VISIBILITY, true),
                         preferences.getInt(CATEGORY_SONG_ORDER, 2)
                 ),
                 LibraryCategoryBehavior(
-                        categories[3],
+                        MediaIdCategory.ALBUMS,
                         preferences.getBoolean(CATEGORY_ALBUM_VISIBILITY, true),
                         preferences.getInt(CATEGORY_ALBUM_ORDER, 3)
                 ),
                 LibraryCategoryBehavior(
-                        categories[4],
+                        MediaIdCategory.ARTISTS,
                         preferences.getBoolean(CATEGORY_ARTIST_VISIBILITY, true),
                         preferences.getInt(CATEGORY_ARTIST_ORDER, 4)
                 ),
                 LibraryCategoryBehavior(
-                        categories[5],
+                        MediaIdCategory.GENRES,
                         preferences.getBoolean(CATEGORY_GENRE_VISIBILITY, true),
                         preferences.getInt(CATEGORY_GENRE_ORDER, 5)
                 )
         ).sortedBy { it.order }
     }
 
-    override fun getDefaultLibraryCategoriesBehavior(): List<LibraryCategoryBehavior> {
-        val categories = context.resources.getStringArray(R.array.categories)
-
-        return categories.mapIndexed { index, category ->
-            LibraryCategoryBehavior(category, true, index)
-        }
+    override fun getDefaultLibraryCategories(): List<LibraryCategoryBehavior> {
+        return MediaIdCategory.values()
+                .take(6)
+                .mapIndexed { index, category -> LibraryCategoryBehavior(category, true, index) }
     }
 
-    override fun setLibraryCategoriesBehavior(behavior: List<LibraryCategoryBehavior>) {
+    override fun setLibraryCategories(behavior: List<LibraryCategoryBehavior>) {
         preferences.edit {
-            val folder = behavior.first { it.category == context.getString(R.string.category_folders) }
+            val folder = behavior.first { it.category == MediaIdCategory.FOLDERS }
             putInt(CATEGORY_FOLDER_ORDER, folder.order)
-            putBoolean(CATEGORY_FOLDER_VISIBILITY, folder.enabled)
+            putBoolean(CATEGORY_FOLDER_VISIBILITY, folder.visible)
 
-            val playlist = behavior.first { it.category == context.getString(R.string.category_playlists) }
+            val playlist = behavior.first { it.category == MediaIdCategory.PLAYLISTS }
             putInt(CATEGORY_PLAYLIST_ORDER, playlist.order)
-            putBoolean(CATEGORY_PLAYLIST_VISIBILITY, playlist.enabled)
+            putBoolean(CATEGORY_PLAYLIST_VISIBILITY, playlist.visible)
 
-            val song = behavior.first { it.category == context.getString(R.string.category_songs) }
+            val song = behavior.first { it.category == MediaIdCategory.SONGS }
             putInt(CATEGORY_SONG_ORDER, song.order)
-            putBoolean(CATEGORY_SONG_VISIBILITY, song.enabled)
+            putBoolean(CATEGORY_SONG_VISIBILITY, song.visible)
 
-            val album = behavior.first { it.category == context.getString(R.string.category_albums) }
+            val album = behavior.first { it.category == MediaIdCategory.ALBUMS }
             putInt(CATEGORY_ALBUM_ORDER, album.order)
-            putBoolean(CATEGORY_ALBUM_VISIBILITY, album.enabled)
+            putBoolean(CATEGORY_ALBUM_VISIBILITY, album.visible)
 
-            val artist = behavior.first { it.category == context.getString(R.string.category_artists) }
+            val artist = behavior.first { it.category == MediaIdCategory.ARTISTS }
             putInt(CATEGORY_ARTIST_ORDER, artist.order)
-            putBoolean(CATEGORY_ARTIST_VISIBILITY, artist.enabled)
+            putBoolean(CATEGORY_ARTIST_VISIBILITY, artist.visible)
 
-            val genre = behavior.first { it.category == context.getString(R.string.category_genres) }
+            val genre = behavior.first { it.category == MediaIdCategory.GENRES }
             putInt(CATEGORY_GENRE_ORDER, genre.order)
-            putBoolean(CATEGORY_GENRE_VISIBILITY, genre.enabled)
+            putBoolean(CATEGORY_GENRE_VISIBILITY, genre.visible)
         }
     }
 

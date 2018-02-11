@@ -8,12 +8,7 @@
 
     <string name="splash_hiding_text">Shhh. I\'m hiding</string>
 
-    <string-array name="splash_loading_messages">
-        <item>Looking for unicorns..</item>
-        <item>Just wasting your time..</item>
-        <item>Saving the princess from the dragon..</item>
-    </string-array>
-
+    <string name="splash_storage_permission">Storage permission</string>
     <string name="splash_storage_permission_disabled">Please accept storage permission to use the app</string>
 
 </resources>

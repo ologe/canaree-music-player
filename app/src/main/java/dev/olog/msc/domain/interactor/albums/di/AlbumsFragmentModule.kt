@@ -20,7 +20,7 @@ import dev.olog.msc.domain.interactor.detail.siblings.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 
 @Module
@@ -46,57 +46,57 @@ class AlbumsFragmentModule(
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.FOLDER)
+    @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
     internal fun provideFolderData(
             resources: Resources,
             mediaId: MediaId,
             useCase: GetFolderSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
+        return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.PLAYLIST)
+    @MediaIdCategoryKey(MediaIdCategory.PLAYLISTS)
     internal fun providePlaylistData(
             resources: Resources,
             mediaId: MediaId,
             useCase: GetPlaylistSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
+        return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.ALBUM)
+    @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumData(
             resources: Resources,
             mediaId: MediaId,
             useCase: GetAlbumSiblingsByAlbumUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
+        return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.ARTIST)
+    @MediaIdCategoryKey(MediaIdCategory.ARTISTS)
     internal fun provideArtistData(
             resources: Resources,
             mediaId: MediaId,
             useCase: GetAlbumSiblingsByArtistUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
+        return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.GENRE)
+    @MediaIdCategoryKey(MediaIdCategory.GENRES)
     internal fun provideGenreData(
             resources: Resources,
             mediaId: MediaId,
             useCase: GetGenreSiblingsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toAlbumsDetailDisplayableItem(resources) }
+        return useCase.execute(mediaId).mapToList { it.toAlbumsDetailDisplayableItem(resources) }
     }
 }
 

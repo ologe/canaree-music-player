@@ -8,7 +8,7 @@ import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 
 class RecentlyAddedFragmentViewModel(
         mediaId: MediaId,
@@ -17,7 +17,7 @@ class RecentlyAddedFragmentViewModel(
 ) : ViewModel() {
 
     val data : LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
-            .groupMap { it.toRecentDetailDisplayableItem(mediaId) }
+            .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
             .asLiveData()
 
 }

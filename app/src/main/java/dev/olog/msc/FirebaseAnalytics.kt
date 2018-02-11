@@ -9,9 +9,6 @@ import io.reactivex.schedulers.Schedulers
 
 object FirebaseAnalytics {
 
-    private const val PLAYER_PANEL_STATE = "player_state"
-    private const val PLAYER_PANEL_STATE_VISIBILITY = "player_state_visible"
-
     private const val FLOATING_LIFE = "floating_life"
     private const val FLOATING_LIFE_MILLIS = "floating_life_time"
 
@@ -29,14 +26,6 @@ object FirebaseAnalytics {
     fun trackFragment(activity: Activity, fragmentTag: String){
         wrapInCompletable {
             INSTANCE?.setCurrentScreen(activity, fragmentTag, fragmentTag)
-        }
-    }
-
-    fun onPlayerVisibilityChanged(visible: Boolean){
-        wrapInCompletable {
-            val bundle = Bundle()
-            bundle.putBoolean(PLAYER_PANEL_STATE_VISIBILITY, visible)
-            INSTANCE?.logEvent(PLAYER_PANEL_STATE, bundle)
         }
     }
 

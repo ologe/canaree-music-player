@@ -7,16 +7,16 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import dev.olog.msc.constants.Constants
-import dev.olog.msc.constants.MetadataConstants
+import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
-import dev.olog.shared_android.interfaces.WidgetClasses
 import java.io.File
 import javax.inject.Inject
 
@@ -50,12 +50,12 @@ class PlayerMetadata @Inject constructor(
         val uri = getUri(entity.image)
         val uriExist = File(uri.path).exists() // not working, then check if inputStream is empty
 
-        val artist = if (entity.artist == Constants.UNKNOWN_ARTIST){
-            Constants.UNKNOWN
+        val artist = if (entity.artist == AppConstants.UNKNOWN_ARTIST){
+            AppConstants.UNKNOWN
         } else entity.artist
 
-        val album = if (entity.album == Constants.UNKNOWN_ALBUM){
-            Constants.UNKNOWN
+        val album = if (entity.album == AppConstants.UNKNOWN_ALBUM){
+            AppConstants.UNKNOWN
         } else entity.album
 
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
@@ -69,8 +69,8 @@ class PlayerMetadata @Inject constructor(
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, createBitmap(uri))
                 .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, if (uriExist) uri.toString() else null)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, uri.toString())
-                .putLong(MetadataConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
-                .putLong(MetadataConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
+                .putLong(MusicConstants.IS_EXPLICIT, if(entity.isExplicit) 1L else 0L)
+                .putLong(MusicConstants.IS_REMIX, if(entity.isRemix) 1L else 0L)
 
         mediaSession.setMetadata(builder.build())
 

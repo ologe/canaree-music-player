@@ -13,7 +13,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable
@@ -24,17 +24,17 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.FOLDER)
+    @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
     internal fun provideFolderData(
             resources: Resources,
             useCase: GetAllFoldersUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().groupMap { it.toTabDisplayableItem(resources) }
+        return useCase.execute().mapToList { it.toTabDisplayableItem(resources) }
     }
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.PLAYLIST)
+    @MediaIdCategoryKey(MediaIdCategory.PLAYLISTS)
     internal fun providePlaylistData(
             resources: Resources,
             useCase: GetAllPlaylistsUseCase,
@@ -76,17 +76,17 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.ALBUM)
+    @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumData(
             useCase: GetAllAlbumsUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
             headers: TabFragmentHeaders): Flowable<List<DisplayableItem>> {
 
-        val allObs = useCase.execute().groupMap { it.toTabDisplayableItem() }
+        val allObs = useCase.execute().mapToList { it.toTabDisplayableItem() }
                 .map { it.toMutableList() }
 
         val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
-                .groupMap { it.toTabDisplayableItem() }
+                .mapToList { it.toTabDisplayableItem() }
                 .map { if (it.isNotEmpty()) headers.albumHeaders else listOf() }
                 .distinctUntilChanged()
 
@@ -98,7 +98,7 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.ARTIST)
+    @MediaIdCategoryKey(MediaIdCategory.ARTISTS)
     internal fun provideArtistData(
             resources: Resources,
             useCase: GetAllArtistsUseCase,
@@ -106,11 +106,11 @@ class TabFragmentViewModelModule {
             headers: TabFragmentHeaders) : Flowable<List<DisplayableItem>> {
 
         val allObs = useCase.execute()
-                .groupMap { it.toTabDisplayableItem(resources) }
+                .mapToList { it.toTabDisplayableItem(resources) }
                 .map { it.toMutableList() }
 
         val lastPlayedObs = lastPlayedArtistsUseCase.execute()
-                .groupMap { it.toTabDisplayableItem(resources) }
+                .mapToList { it.toTabDisplayableItem(resources) }
                 .map { if (it.isNotEmpty()) headers.artistHeaders else listOf() }
                 .distinctUntilChanged()
 
@@ -123,12 +123,12 @@ class TabFragmentViewModelModule {
 
     @Provides
     @IntoMap
-    @MediaIdCategoryKey(MediaIdCategory.GENRE)
+    @MediaIdCategoryKey(MediaIdCategory.GENRES)
     internal fun provideGenreData(
             resources: Resources,
             useCase: GetAllGenresUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().groupMap { it.toTabDisplayableItem(resources) }
+        return useCase.execute().mapToList { it.toTabDisplayableItem(resources) }
     }
 
     @Provides
@@ -137,7 +137,7 @@ class TabFragmentViewModelModule {
     internal fun provideLastPlayedAlbumData(
             useCase: GetLastPlayedAlbumsUseCase): Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().groupMap { it.toTabLastPlayedDisplayableItem() }
+        return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem() }
     }
 
     @Provides
@@ -146,7 +146,7 @@ class TabFragmentViewModelModule {
     internal fun provideLastPlayedArtistData(
             useCase: GetLastPlayedArtistsUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute().groupMap { it.toTabLastPlayedDisplayableItem() }
+        return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem() }
     }
 
 }

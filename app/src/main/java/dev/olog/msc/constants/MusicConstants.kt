@@ -3,8 +3,12 @@ package dev.olog.msc.constants
 object MusicConstants {
 
     private const val TAG = "MusicConstants."
-    const val ACTION_PLAY_SHUFFLE = TAG + "action.play_shuffle"
-    const val SKIP_TO_ITEM = TAG + "action.skip_to_item"
+    const val ACTION_PLAY = TAG + ".shortcut.play"
+    const val ACTION_SHUFFLE = TAG + "action.play_shuffle"
+    const val ACTION_PLAY_PAUSE = TAG + ".action.play"
+    const val ACTION_SKIP_NEXT = TAG + "action.skip.next"
+    const val ACTION_SKIP_PREVIOUS = TAG + "action.skip.previous"
+
     const val ACTION_SWAP = TAG + "action.swap"
     const val ACTION_SWAP_RELATIVE = TAG + "action.swap_relative"
     const val ACTION_REMOVE = TAG + "action.remove"
@@ -15,10 +19,13 @@ object MusicConstants {
 
     const val ARGUMENT_REMOVE_POSITION = TAG + "argument.remove_position"
 
-    const val BUNDLE_RECENTLY_PLAYED = TAG + "RECENTLY_PLAYED"
-    const val BUNDLE_MOST_PLAYED = TAG + "BUNDLE_MOST_PLAYED"
+    const val BUNDLE_RECENTLY_PLAYED = TAG + ".bundle.recently.added"
+    const val BUNDLE_MOST_PLAYED = TAG + ".bundle.most.played"
 
-    const val ARGUMENT_SORT_TYPE = TAG + "ARGUMENT_SORT_TYPE"
-    const val ARGUMENT_SORT_ARRANGING = TAG + "ARGUMENT_SORT_ARRANGING"
+    const val ARGUMENT_SORT_TYPE = TAG + ".argument.sort.type"
+    const val ARGUMENT_SORT_ARRANGING = TAG + ".argument.sort.arranging"
+
+    const val IS_EXPLICIT = "IS_EXPLICIT"
+    const val IS_REMIX = "IS_EXPLICIT"
 
 }

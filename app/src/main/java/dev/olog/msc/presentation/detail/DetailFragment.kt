@@ -113,11 +113,11 @@ class DetailFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         if (context!!.isPortrait){
-            (activity as HasSlidingPanel).addSlidingPanel(slidingPanelListener)
+            (activity as HasSlidingPanel).addPanelSlideListener(slidingPanelListener)
             view!!.list.addOnScrollListener(recyclerOnScrollListener)
         }
         view!!.back.setOnClickListener { activity!!.onBackPressed() }
-        view!!.search.setOnClickListener { navigator.get().toSearchFragment(false) }
+        view!!.search.setOnClickListener { navigator.get().toSearchFragment() }
         adapter.onDataChangedListener = object : OnDataChangedListener {
             override fun onChanged() {
                 startPostponedEnterTransition()
@@ -128,7 +128,7 @@ class DetailFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         if (context!!.isPortrait){
-            (activity as HasSlidingPanel).removeSlidingPanel(slidingPanelListener)
+            (activity as HasSlidingPanel).removePanelSlideListener(slidingPanelListener)
             view!!.list.removeOnScrollListener(recyclerOnScrollListener)
         }
         view!!.back.setOnClickListener(null)

@@ -4,11 +4,11 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.GetLowerVolumeOnNightUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.music.service.volume.IVolume
 import dev.olog.msc.utils.k.extension.unsubscribe
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.util.*
@@ -23,7 +23,7 @@ private const val VOLUME_LOWERED_NORMAL = 0.4f
 
 class PlayerVolume @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
-        lowerVolumeOnNightUseCase: GetLowerVolumeOnNightUseCase
+        musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : IPlayerVolume, DefaultLifecycleObserver {
 
@@ -38,7 +38,7 @@ class PlayerVolume @Inject constructor(
         lifecycle.addObserver(this)
 
         // observe to preferences
-        disposable = lowerVolumeOnNightUseCase.observe()
+        disposable = musicPreferencesUseCase.isMidnightMode()
                 .subscribe({ lowerAtNight ->
                     if (!lowerAtNight) {
                         volume = provideVolumeManager(false)
@@ -51,9 +51,9 @@ class PlayerVolume @Inject constructor(
 
         // observe at interval of 15 mins to detect if is day or night when
         // settigs is on
-        intervalDisposable = lowerVolumeOnNightUseCase.observe()
+        intervalDisposable = musicPreferencesUseCase.isMidnightMode()
                 .filter { it }
-                .flatMap { Flowable.interval(15, TimeUnit.MINUTES) }
+                .flatMap { Observable.interval(15, TimeUnit.MINUTES) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { isNight() }
                 .subscribe({ isNight ->

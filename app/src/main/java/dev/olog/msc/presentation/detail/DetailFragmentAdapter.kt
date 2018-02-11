@@ -11,16 +11,16 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.FragmentLifecycle
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.presentation.MusicController
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.BaseMapAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.adapter.TouchCallbackConfig
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
@@ -43,7 +43,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val navigator: Navigator,
-        private val musicController: MusicController,
+        private val mediaProvider: MediaProvider,
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
@@ -81,7 +81,7 @@ class DetailFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(dataController) { item, _ ->
                     viewModel.getDetailSortDataUseCase.execute(item.mediaId)
                             .subscribe({
-                                musicController.playFromMediaId(item.mediaId, it)
+                                mediaProvider.playFromMediaId(item.mediaId, it)
                             }, Throwable::printStackTrace)
                 }
                 viewHolder.setOnLongClickListener(dataController) { item, _ ->
@@ -114,7 +114,7 @@ class DetailFragmentAdapter @Inject constructor(
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
-                    musicController.playShuffle(mediaId)
+                    mediaProvider.shuffle(mediaId)
                 }
             }
             R.layout.item_detail_header -> {
@@ -214,16 +214,17 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int){
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.quickAction, Constants.quickAction)
-        binding.setVariable(BR.musicController, musicController)
+//        binding.setVariable(BR.quickAction, Constants.quickAction)
+//        binding.setVariable(BR.musicController, musicController)
     }
 
     override fun getItemViewType(position: Int): Int = dataController[position].type
 
     private val hasDragBehavior = mediaId.isPlaylist &&
-            !Constants.autoPlaylists.contains(mediaId.categoryValue.toLong())
+            !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
 
-    private val canSwipe = mediaId.isPlaylist && Constants.LAST_ADDED_ID != mediaId.categoryValue.toLong()
+    private val canSwipe = mediaId.isPlaylist &&
+            !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
 
     override val touchCallbackConfig: TouchCallbackConfig = if (hasDragBehavior) TouchCallbackConfig(
             true, canSwipe,

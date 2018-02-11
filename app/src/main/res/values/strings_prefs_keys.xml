@@ -2,7 +2,6 @@
 <resources>
 
     <!--general-->
-    <string name="prefs_icon_color_key" translatable="false">key_icon_color</string>
     <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
     <string name="prefs_detail_visible_items_key" translatable="false">key_detail_items</string>
     <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
@@ -15,7 +14,7 @@
     <string name="prefs_start_floating_window_at_startup_key" translatable="false">key_tart_floating_window_at_startup</string>
 
     <!--audio-->
-    <string name="prefs_lower_volume_key" translatable="false">key_lower_volume</string>
+    <string name="prefs_midnight_mode_key" translatable="false">key_lower_volume</string>
     <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
 
     <!--images-->

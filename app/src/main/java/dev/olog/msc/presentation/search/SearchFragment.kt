@@ -13,21 +13,22 @@ import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.toggleVisibility
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_library_categories.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
-import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SearchFragment"
-        private const val ARGUMENT_SHOW_KEYBOARD = TAG + ".arguments.show_keyboard"
 
-        fun newInstance(showKeyboard: Boolean): SearchFragment {
-            return SearchFragment().withArguments(
-                    ARGUMENT_SHOW_KEYBOARD to showKeyboard
-            )
+        fun newInstance(): SearchFragment {
+            return SearchFragment()
         }
     }
 
@@ -37,6 +38,8 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var viewModel: SearchFragmentViewModel
     @Inject lateinit var recycledViewPool: RecyclerView.RecycledViewPool
     private lateinit var layoutManager: LinearLayoutManager
+
+    private var showKeyboardDisposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +76,12 @@ class SearchFragment : BaseFragment() {
             viewModel.adjustDataMap(map)
             adapter.updateDataSet(map)
         })
+
+        if (savedInstanceState == null){
+            showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ showKeyboard() }, Throwable::printStackTrace)
+        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -86,15 +95,6 @@ class SearchFragment : BaseFragment() {
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .asLiveData()
                 .subscribe(this, viewModel::setNewQuery)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (savedInstanceState == null){
-            val mustShowKeyboard = arguments!!.getBoolean(ARGUMENT_SHOW_KEYBOARD)
-            if (mustShowKeyboard){
-                showKeyboard()
-            }
-        }
     }
 
     override fun onResume() {
@@ -120,6 +120,7 @@ class SearchFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         view!!.editText.clearFocus()
+        showKeyboardDisposable.unsubscribe()
     }
 
     private fun showKeyboard(){

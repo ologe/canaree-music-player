@@ -16,7 +16,6 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.PerActivity
 import dev.olog.msc.domain.interactor.albums.AlbumsFragment
 import dev.olog.msc.presentation.about.AboutActivity
-import dev.olog.msc.presentation.base.collapse
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.MenuListenerFactory
@@ -31,15 +30,18 @@ import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
 import dev.olog.msc.presentation.edit.info.EditInfoFragment
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
+import dev.olog.msc.presentation.splash.SplashActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.RootUtils
-import dev.olog.msc.utils.k.extension.transaction
+import dev.olog.msc.utils.k.extension.collapse
+import dev.olog.msc.utils.k.extension.fragmentTransaction
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider
@@ -56,27 +58,44 @@ class NavigatorImpl @Inject constructor(
 
     private var lastRequest: Long = -1
 
+    override fun toFirstAccess(requestCode: Int) {
+        val intent = Intent(activity, SplashActivity::class.java)
+        activity.startActivityForResult(intent, requestCode)
+    }
+
+    override fun toLibraryCategories() {
+        activity.fragmentTransaction {
+            replace(R.id.fragmentContainer, CategoriesFragment.newInstance(), CategoriesFragment.TAG)
+        }
+    }
+
     override fun toDetailFragment(mediaId: MediaId) {
 
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).collapse()
 
-            activity.supportFragmentManager.transaction {
+            val categoriesFragment = activity.supportFragmentManager
+                    .findFragmentByTag(CategoriesFragment.TAG)
+
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.viewPagerLayout,
-                            DetailFragment.newInstance(mediaId),
-                            DetailFragment.TAG)
+                if (!categoriesFragment.isDetached){
+                    detach(categoriesFragment)
+                    add(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
+                } else {
+                    replace(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
+                }
                 addToBackStack(DetailFragment.TAG)
             }
         }
     }
 
-    override fun toSearchFragment(showKeyboard: Boolean) {
+    override fun toSearchFragment() {
         if (allowed()){
-            activity.supportFragmentManager.transaction {
-                add(R.id.viewPagerLayout,
-                        SearchFragment.newInstance(showKeyboard),
+            activity.fragmentTransaction {
+                add(R.id.fragmentContainer,
+                        SearchFragment.newInstance(),
                         SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
             }
@@ -85,12 +104,10 @@ class NavigatorImpl @Inject constructor(
 
     override fun toRelatedArtists(mediaId: MediaId) {
         if (allowed()){
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.viewPagerLayout,
-                        RelatedArtistFragment.newInstance(mediaId),
-                        RelatedArtistFragment.TAG)
+                add(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
             }
         }
@@ -98,12 +115,10 @@ class NavigatorImpl @Inject constructor(
 
     override fun toRecentlyAdded(mediaId: MediaId) {
         if (allowed()){
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.viewPagerLayout,
-                        RecentlyAddedFragment.newInstance(mediaId),
-                        RecentlyAddedFragment.TAG)
+                add(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
             }
         }
@@ -111,12 +126,10 @@ class NavigatorImpl @Inject constructor(
 
     override fun toAlbums(mediaId: MediaId) {
         if (allowed()){
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.viewPagerLayout,
-                        AlbumsFragment.newInstance(mediaId),
-                        AlbumsFragment.TAG)
+                add(R.id.fragmentContainer, AlbumsFragment.newInstance(mediaId), AlbumsFragment.TAG)
                 addToBackStack(AlbumsFragment.TAG)
             }
         }
@@ -124,7 +137,7 @@ class NavigatorImpl @Inject constructor(
 
     override fun toPlayingQueueFragment() {
         if (allowed()) {
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, PlayingQueueFragment(),
@@ -136,7 +149,7 @@ class NavigatorImpl @Inject constructor(
 
     override fun toEditInfoFragment(mediaId: MediaId) {
         if (allowed()) {
-            activity.supportFragmentManager.transaction {
+            activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 add(android.R.id.content, EditInfoFragment.newInstance(mediaId),
@@ -204,10 +217,10 @@ class NavigatorImpl @Inject constructor(
     }
 
     private fun toBuiltInEqualizer(){
-        activity.supportFragmentManager.transaction {
+        activity.fragmentTransaction {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            add(R.id.viewPagerLayout, EqualizerFragment(), EqualizerFragment.TAG)
+            add(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
             addToBackStack(EqualizerFragment.TAG)
         }
     }

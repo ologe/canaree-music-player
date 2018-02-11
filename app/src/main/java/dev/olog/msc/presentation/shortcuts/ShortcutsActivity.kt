@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.WindowManager
 import dagger.android.support.DaggerAppCompatActivity
-import dev.olog.msc.constants.Constants
-import dev.olog.shared_android.interfaces.MusicServiceClass
-import javax.inject.Inject
+import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.music.service.MusicService
 
 class ShortcutsActivity : DaggerAppCompatActivity(){
-
-    @Inject lateinit var serviceClass: MusicServiceClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +23,14 @@ class ShortcutsActivity : DaggerAppCompatActivity(){
     private fun handleIntent(intent: Intent){
         val action = intent.action
         when (action){
-            Constants.SHORTCUT_PLAY -> {
-                val serviceIntent = Intent(this, serviceClass.get())
-                serviceIntent.action = Constants.SHORTCUT_PLAY
+            MusicConstants.ACTION_PLAY -> {
+                val serviceIntent = Intent(this, MusicService::class.java)
+                serviceIntent.action = MusicConstants.ACTION_PLAY
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
-            Constants.SHORTCUT_SHUFFLE -> {
-                val serviceIntent = Intent(this, serviceClass.get())
-                serviceIntent.action = Constants.SHORTCUT_SHUFFLE
+            MusicConstants.ACTION_SHUFFLE -> {
+                val serviceIntent = Intent(this, MusicService::class.java)
+                serviceIntent.action = MusicConstants.ACTION_SHUFFLE
                 ContextCompat.startForegroundService(this, serviceIntent)
             }
         }

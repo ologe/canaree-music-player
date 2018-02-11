@@ -1,12 +1,12 @@
 package dev.olog.msc.utils
 
 enum class MediaIdCategory {
-    FOLDER,
-    PLAYLIST,
+    FOLDERS,
+    PLAYLISTS,
     SONGS,
-    ALBUM,
-    ARTIST,
-    GENRE,
+    ALBUMS,
+    ARTISTS,
+    GENRES,
     RECENT_ALBUMS,
     RECENT_ARTISTS,
     HEADER
@@ -20,12 +20,12 @@ class MediaId private constructor(
 
     val source : Int
         get() = when (category){
-            MediaIdCategory.FOLDER -> 0
-            MediaIdCategory.PLAYLIST -> 1
+            MediaIdCategory.FOLDERS -> 0
+            MediaIdCategory.PLAYLISTS -> 1
             MediaIdCategory.SONGS -> 2
-            MediaIdCategory.ALBUM -> 3
-            MediaIdCategory.ARTIST -> 4
-            MediaIdCategory.GENRE -> 5
+            MediaIdCategory.ALBUMS -> 3
+            MediaIdCategory.ARTISTS -> 4
+            MediaIdCategory.GENRES -> 5
             else -> throw IllegalStateException("invalid category $category")
         }
 
@@ -46,11 +46,11 @@ class MediaId private constructor(
         }
 
         fun folderId(value: String): MediaId {
-            return MediaId(MediaIdCategory.FOLDER, value)
+            return MediaId(MediaIdCategory.FOLDERS, value)
         }
 
         fun playlistId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.PLAYLIST, value.toString())
+            return MediaId(MediaIdCategory.PLAYLISTS, value.toString())
         }
 
         fun songId(value: Long): MediaId {
@@ -58,15 +58,15 @@ class MediaId private constructor(
         }
 
         fun albumId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.ALBUM, value.toString())
+            return MediaId(MediaIdCategory.ALBUMS, value.toString())
         }
 
         fun artistId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.ARTIST, value.toString())
+            return MediaId(MediaIdCategory.ARTISTS, value.toString())
         }
 
         fun genreId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.GENRE, value.toString())
+            return MediaId(MediaIdCategory.GENRES, value.toString())
         }
 
         fun playableItem(parentId: MediaId, songId: Long): MediaId {
@@ -132,11 +132,11 @@ class MediaId private constructor(
         return result
     }
 
-    val isFolder : Boolean = category == MediaIdCategory.FOLDER
-    val isPlaylist: Boolean = category == MediaIdCategory.PLAYLIST
+    val isFolder : Boolean = category == MediaIdCategory.FOLDERS
+    val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
     val isAll: Boolean = category == MediaIdCategory.SONGS
-    val isAlbum : Boolean = category == MediaIdCategory.ALBUM
-    val isArtist : Boolean = category == MediaIdCategory.ARTIST
-    val isGenre : Boolean = category == MediaIdCategory.GENRE
+    val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
+    val isArtist : Boolean = category == MediaIdCategory.ARTISTS
+    val isGenre : Boolean = category == MediaIdCategory.GENRES
 
 }

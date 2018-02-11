@@ -10,7 +10,7 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.utils.PendingIntents
@@ -59,11 +59,11 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
 
         when (action){
             null -> stop()
-            Constants.SHORTCUT_SHUFFLE -> handleAppShortcutShuffle(intent)
-            Constants.SHORTCUT_PLAY -> handleAppShortcutPlay(intent)
-            Constants.WIDGET_ACTION_PLAY_PAUSE -> handlePlayPause(intent)
-            Constants.WIDGET_ACTION_SKIP_NEXT -> handleSkipNext(intent)
-            Constants.WIDGET_ACTION_SKIP_PREVIOUS -> handleSkipPrevious(intent)
+            MusicConstants.ACTION_SHUFFLE -> handleAppShortcutShuffle(intent)
+            MusicConstants.ACTION_PLAY -> handleAppShortcutPlay(intent)
+            MusicConstants.ACTION_PLAY_PAUSE -> handlePlayPause(intent)
+            MusicConstants.ACTION_SKIP_NEXT -> handleSkipNext(intent)
+            MusicConstants.ACTION_SKIP_PREVIOUS -> handleSkipPrevious(intent)
             PendingIntents.ACTION_STOP_SLEEP_END -> handleSleepTimerEnd(intent)
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> handlePlayFromVoiceSearch(intent)
             else -> handleMediaButton(intent)

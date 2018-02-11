@@ -4,13 +4,14 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_ALL
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_NONE
 import dev.olog.msc.dagger.PerService
-import dev.olog.msc.domain.interactor.music.service.ShuffleModeUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import javax.inject.Inject
 
 @PerService
 class ShuffleMode @Inject constructor(
         private val mediaSession: MediaSessionCompat,
-        private val shuffleModeUseCase: ShuffleModeUseCase) {
+        private val musicPreferencesUseCase: MusicPreferencesUseCase
+) {
 
     init {
         mediaSession.setShuffleMode(getState())
@@ -20,11 +21,11 @@ class ShuffleMode @Inject constructor(
 
     fun setEnabled(enabled: Boolean){
         val shuffleMode = if (enabled) SHUFFLE_MODE_ALL else SHUFFLE_MODE_NONE
-        shuffleModeUseCase.set(shuffleMode)
+        musicPreferencesUseCase.setShuffleMode(shuffleMode)
         mediaSession.setShuffleMode(shuffleMode)
     }
 
-    fun getState(): Int = shuffleModeUseCase.get()
+    fun getState(): Int = musicPreferencesUseCase.getShuffleMode()
 
     /**
      * @return true if new shuffle state is enabled
@@ -32,15 +33,13 @@ class ShuffleMode @Inject constructor(
     fun update(): Boolean {
         val shuffleMode = getState()
 
-        val newState: Int
-
-        if (shuffleMode == SHUFFLE_MODE_NONE) {
-            newState = SHUFFLE_MODE_ALL
+        val newState = if (shuffleMode == SHUFFLE_MODE_NONE) {
+            SHUFFLE_MODE_ALL
         } else {
-            newState = SHUFFLE_MODE_NONE
+            SHUFFLE_MODE_NONE
         }
 
-        shuffleModeUseCase.set(newState)
+        musicPreferencesUseCase.setShuffleMode(newState)
         mediaSession.setShuffleMode(newState)
 
         return newState != SHUFFLE_MODE_NONE

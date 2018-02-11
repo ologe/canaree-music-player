@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -65,21 +65,17 @@ class Popup @Inject constructor(
             }
         } else {
             when (item.mediaId.category){
-                MediaIdCategory.PLAYLIST -> {
+                MediaIdCategory.PLAYLISTS -> {
                     val playlistId = item.mediaId.categoryValue.toLong()
-                    when (playlistId){
-                        Constants.FAVORITE_LIST_ID,
-                        Constants.HISTORY_LIST_ID,
-                        Constants.LAST_ADDED_ID -> {
-                            menu.removeItem(R.id.rename)
-                            menu.removeItem(R.id.delete)
-                        }
+                    if (PlaylistConstants.isAutoPlaylist(playlistId)){
+                        menu.removeItem(R.id.rename)
+                        menu.removeItem(R.id.delete)
                     }
                     when (playlistId){
-                        Constants.LAST_ADDED_ID -> menu.removeItem(R.id.clear)
+                        PlaylistConstants.LAST_ADDED_ID -> menu.removeItem(R.id.clear)
                     }
                 }
-                MediaIdCategory.ALBUM -> {
+                MediaIdCategory.ALBUMS -> {
                     item.subtitle?.let {
                         val unknownArtist = context.getString(R.string.unknown_artist)
                         if (it.contains(unknownArtist)){
@@ -106,11 +102,11 @@ class Popup @Inject constructor(
         }
 
         return when (mediaId.category){
-            MediaIdCategory.FOLDER -> R.menu.dialog_folder
-            MediaIdCategory.PLAYLIST -> R.menu.dialog_playlist
-            MediaIdCategory.ALBUM -> R.menu.dialog_album
-            MediaIdCategory.ARTIST -> R.menu.dialog_artist
-            MediaIdCategory.GENRE -> R.menu.dialog_genre
+            MediaIdCategory.FOLDERS -> R.menu.dialog_folder
+            MediaIdCategory.PLAYLISTS -> R.menu.dialog_playlist
+            MediaIdCategory.ALBUMS -> R.menu.dialog_album
+            MediaIdCategory.ARTISTS -> R.menu.dialog_artist
+            MediaIdCategory.GENRES -> R.menu.dialog_genre
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }

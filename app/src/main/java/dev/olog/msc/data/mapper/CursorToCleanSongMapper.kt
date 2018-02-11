@@ -3,12 +3,12 @@ package dev.olog.msc.data.mapper
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import dev.olog.msc.constants.Constants
+import androidx.database.getInt
+import androidx.database.getLong
+import androidx.database.getString
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.UneditedSong
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.getInt
-import dev.olog.msc.utils.k.extension.getLong
-import dev.olog.msc.utils.k.extension.getString
 import java.io.File
 
 private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
@@ -43,8 +43,8 @@ private fun extractFolder(path: String): String {
 }
 
 private fun adjustAlbum(album: String, folder: String): String {
-    val hasUnknownAlbum = album == Constants.UNKNOWN || album == folder
+    val hasUnknownAlbum = album == AppConstants.UNKNOWN || album == folder
     return if (hasUnknownAlbum){
-        Constants.UNKNOWN
+        AppConstants.UNKNOWN
     } else album
 }

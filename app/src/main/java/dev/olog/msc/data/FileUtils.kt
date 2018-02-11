@@ -2,7 +2,7 @@ package dev.olog.msc.data
 
 import android.content.Context
 import android.graphics.Bitmap
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
@@ -98,7 +98,7 @@ object FileUtils {
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
-        if (Constants.useNeuralImages){
+        if (AppConstants.useNeuralImages){
             val image = ImagesFolderUtils.getNeuralAlbumCover(context, albumId)
             return dev.olog.msc.utils.img.ImageUtils.getBitmapFromUriOrNull(context, image, 500, 500)!!
         }

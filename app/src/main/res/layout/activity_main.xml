@@ -12,9 +12,10 @@
     sothree:umanoScrollableView="@+id/innerPanel"
     sothree:umanoInitialState="collapsed">
 
-    <include
-        android:id="@+id/viewPagerLayout"
-        layout="@layout/fragment_tab_view_pager" />
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/playerLayout"
@@ -30,7 +31,7 @@
         <fragment
             android:layout_width="match_parent"
             android:layout_height="@dimen/sliding_panel_peek"
-            android:name="dev.olog.presentation.fragment_mini_player.MiniPlayerFragment"
+            android:name="dev.olog.msc.presentation.mini.player.MiniPlayerFragment"
             android:tag="@string/mini_player_fragment_tag" />
 
     </FrameLayout>

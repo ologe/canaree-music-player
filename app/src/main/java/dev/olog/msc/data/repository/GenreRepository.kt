@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import androidx.database.getLong
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.data.FileUtils
@@ -18,7 +19,6 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.getLong
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred

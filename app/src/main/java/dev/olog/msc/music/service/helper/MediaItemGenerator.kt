@@ -7,7 +7,7 @@ import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.tab.*
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -24,18 +24,18 @@ class MediaItemGenerator @Inject constructor(
 
     fun getCategoryChilds(category: MediaIdCategory): Single<List<MediaBrowserCompat.MediaItem>> {
         return when (category){
-            MediaIdCategory.FOLDER -> getAllFoldersUseCase.execute().firstOrError()
-                    .groupMap { it.toMediaItem() }
-            MediaIdCategory.PLAYLIST -> getAllPlaylistsUseCase.execute().firstOrError()
-                    .groupMap { it.toMediaItem() }
+            MediaIdCategory.FOLDERS -> getAllFoldersUseCase.execute().firstOrError()
+                    .mapToList { it.toMediaItem() }
+            MediaIdCategory.PLAYLISTS -> getAllPlaylistsUseCase.execute().firstOrError()
+                    .mapToList { it.toMediaItem() }
             MediaIdCategory.SONGS -> getAllSongsUseCase.execute().firstOrError()
-                    .groupMap { it.toMediaItem() }
-            MediaIdCategory.ALBUM -> getAllAlbumsUseCase.execute().firstOrError()
-                    .groupMap { it.toMediaItem() }
-            MediaIdCategory.ARTIST -> getAllArtistsUseCase.execute().firstOrError()
-                    .groupMap { it.toMediaItem() }
-            MediaIdCategory.GENRE -> getAllGenresUseCase.execute().firstOrError()
-                    .groupMap { it.toMediaItem() }
+                    .mapToList { it.toMediaItem() }
+            MediaIdCategory.ALBUMS -> getAllAlbumsUseCase.execute().firstOrError()
+                    .mapToList { it.toMediaItem() }
+            MediaIdCategory.ARTISTS -> getAllArtistsUseCase.execute().firstOrError()
+                    .mapToList { it.toMediaItem() }
+            MediaIdCategory.GENRES -> getAllGenresUseCase.execute().firstOrError()
+                    .mapToList { it.toMediaItem() }
             else -> Single.error(IllegalArgumentException("invalid category $category"))
         }
     }
@@ -43,7 +43,7 @@ class MediaItemGenerator @Inject constructor(
     fun getCategoryValueChilds(parentId: MediaId): Single<MutableList<MediaBrowserCompat.MediaItem>>{
         return getSongListByParamUseCase.execute(parentId)
                 .firstOrError()
-                .groupMap { it.toChildMediaItem(parentId) }
+                .mapToList { it.toChildMediaItem(parentId) }
                 .map { it.toMutableList() }
 
     }

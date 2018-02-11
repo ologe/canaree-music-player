@@ -13,7 +13,7 @@ import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
-import dev.olog.msc.presentation.MusicController
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
@@ -28,7 +28,7 @@ open class BaseMenuListener @Inject constructor(
         private val application: Application,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
-        private val musicController: MusicController,
+        private val mediaProvider: MediaProvider,
         private val getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase
 
@@ -82,11 +82,11 @@ open class BaseMenuListener @Inject constructor(
     }
 
     private fun playFromMediaId(){
-        musicController.playFromMediaId(item.mediaId)
+        mediaProvider.playFromMediaId(item.mediaId)
     }
 
     private fun playShuffle(){
-        musicController.playShuffle(item.mediaId)
+        mediaProvider.shuffle(item.mediaId)
     }
 
     private fun addToFavorite(){

@@ -4,7 +4,6 @@
     <!--categories-->
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_library">Library</string>
-    <string name="prefs_category_floating_window">Floating window</string>
     <string name="prefs_category_audio">Audio</string>
     <string name="prefs_category_images">Images</string>
 
@@ -25,15 +24,6 @@
     <string name="prefs_detail_visible_tabs_most_played" translatable="false">Most Played</string>
     <string name="prefs_detail_visible_tabs_recently_added" translatable="false">Recently Added</string>
     <string name="prefs_detail_visible_tabs_related_artists" translatable="false">Related Artists</string>
-
-    <!--dark icon color-->
-    <string name="prefs_icon_color_title">Icon color</string>
-    <string name="prefs_icon_color_summary_on">Dark icons</string>
-    <string name="prefs_icon_color_summary_off">Light icons</string>
-
-    <!--show floating at startup-->
-    <string name="prefs_floating_window_at_startup_title">Show at startup</string>
-    <string name="prefs_floating_window_at_startup_summary">Start floating window service on launch</string>
 
     <!--used equalizer-->
     <string name="prefs_used_equalizer_title">Equalizer</string>

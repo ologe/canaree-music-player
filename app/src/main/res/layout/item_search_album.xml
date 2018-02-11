@@ -7,10 +7,6 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
-        <variable name="quickAction" type="dev.olog.shared_android.entity.QuickAction"/>
-        <variable
-            name="musicController"
-            type="dev.olog.msc.presentation.MusicController"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -39,15 +35,15 @@
                 app:imageAlbum="@{item}"
                 tools:src="@drawable/placeholder_folder"/>
 
-            <ImageView
-                android:id="@+id/quickAction"
-                style="@style/SmallShufflePlay"
-                android:layout_width="@dimen/smallShuffleSize"
-                android:layout_height="@dimen/smallShuffleSize"
-                android:src="@{quickAction.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"
-                android:visibility="@{quickAction.isNone ? View.GONE : View.VISIBLE}"
-                app:item="@{item}"
-                app:musicController="@{musicController}"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/quickAction"-->
+                <!--style="@style/SmallShufflePlay"-->
+                <!--android:layout_width="@dimen/smallShuffleSize"-->
+                <!--android:layout_height="@dimen/smallShuffleSize"-->
+                <!--android:src="@{quickAction.isPlay ? @drawable/vd_play : @drawable/vd_shuffle}"-->
+                <!--android:visibility="@{quickAction.isNone ? View.GONE : View.VISIBLE}"-->
+                <!--app:item="@{item}"-->
+                <!--app:musicController="@{musicController}"/>-->
 
         </android.support.v7.widget.CardView>
 

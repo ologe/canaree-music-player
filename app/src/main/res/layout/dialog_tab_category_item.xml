@@ -25,10 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:text="Songs"
-                android:text="@{item.category}"
+                android:text="@{item.asString(context)}"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:checked="@{item.enabled}"
+                android:checked="@{item.visible}"
                 android:textSize="16sp"
                 android:clickable="false"
                 android:focusable="false"/>

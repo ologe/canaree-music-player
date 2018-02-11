@@ -14,8 +14,7 @@ import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.flatMapGroup
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable
@@ -45,7 +44,7 @@ class FolderRepository @Inject constructor(
     private val songMap : MutableMap<String, Flowable<List<Song>>> = mutableMapOf()
 
     private val listObservable = songGateway.getAll()
-            .flatMapGroup { distinct { it.folderPath } }
+            .map { it.distinctBy { it.folderPath } }
             .flatMapSingle { songsToFolder -> songGateway.getAll().firstOrError()
                     .map { songList ->
                         songsToFolder.map { song -> song.toFolder(context,
@@ -125,8 +124,8 @@ class FolderRepository @Inject constructor(
 
     override fun getAllUnfiltered(): Flowable<List<Folder>> {
         return songGateway.getAllUnfiltered()
-                .flatMapGroup { distinct { it.folderPath } }
-                .groupMap { it.toFolder(context, -1) }
+                .map { it.distinctBy { it.folderPath } }
+                .mapToList { it.toFolder(context, -1) }
     }
 
     override fun renameFolder(oldPath: String, newFolderName: String): Completable {

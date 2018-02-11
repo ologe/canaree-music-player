@@ -24,7 +24,6 @@ import javax.inject.Inject;
 import dev.olog.msc.R;
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase;
 import dev.olog.msc.utils.PendingIntents;
-import dev.olog.shared_android.interfaces.MusicServiceClass;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -34,7 +33,6 @@ import io.reactivex.disposables.Disposable;
  */
 public class SleepTimerDialog extends TimePickerDialog {
 
-    @Inject MusicServiceClass serviceClass;
     @Inject SleepTimerUseCase sleepTimerUseCase;
 
     private static String NEXT_SLEEP = "AppPreferencesDataStoreImpl.NEXT_SLEEP";
@@ -200,7 +198,7 @@ public class SleepTimerDialog extends TimePickerDialog {
     }
 
     private PendingIntent getSleepTimerPendingIntent(){
-        return PendingIntents.INSTANCE.stopServiceIntent(getContext(), serviceClass);
+        return PendingIntents.INSTANCE.stopServiceIntent(getContext());
     }
 
     private int extractHours(long millis) {

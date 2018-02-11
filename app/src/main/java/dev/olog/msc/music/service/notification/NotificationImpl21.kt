@@ -17,18 +17,17 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import dagger.Lazy
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
-import dev.olog.msc.constants.FloatingInfoConstants
+import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.img.ImageUtils
-import dev.olog.shared_android.interfaces.MainActivityClass
 import java.io.File
 import javax.inject.Inject
 
 open class NotificationImpl21 @Inject constructor(
         protected val service: Service,
-        private val activityClass: MainActivityClass,
         private val token: MediaSessionCompat.Token,
         protected val notificationManager: Lazy<NotificationManager>
 
@@ -136,14 +135,14 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     private fun buildFloatingInfoPendingIntent(): PendingIntent {
-        val intent = Intent(service, activityClass.get())
-        intent.action = FloatingInfoConstants.ACTION_START_SERVICE
+        val intent = Intent(service, MainActivity::class.java)
+        intent.action = FloatingWindowsConstants.ACTION_START_SERVICE
         return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildContentIntent(): PendingIntent {
-        val intent = Intent(service, activityClass.get())
-        intent.action = Constants.ACTION_CONTENT_VIEW
+        val intent = Intent(service, MainActivity::class.java)
+        intent.action = AppConstants.ACTION_CONTENT_VIEW
         return PendingIntent.getActivity(service, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }

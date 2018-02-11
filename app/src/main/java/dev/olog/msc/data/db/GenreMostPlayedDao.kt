@@ -6,7 +6,7 @@ import android.arch.persistence.room.Query
 import dev.olog.msc.data.entity.GenreMostPlayedEntity
 import dev.olog.msc.data.entity.SongMostTimesPlayedEntity
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers
@@ -35,9 +35,9 @@ abstract class GenreMostPlayedDao {
                             songList.flatMapIterable { it }
                                     .filter { it.id == song.songId }
                                     .firstElement()
-                                    .map { it.to(song.timesPlayed) }
+                                    .map { it to song.timesPlayed }
                         }.toSortedList { (_, time1), (_, time2) -> (time2 - time1) }
-                }.groupMap { it.first }
+                }.mapToList { it.first }
     }
 
 }

@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.msc.R
-import dev.olog.msc.constants.Constants
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
@@ -20,7 +20,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.TimeUtils
-import dev.olog.msc.utils.k.extension.groupMap
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 
@@ -49,7 +49,7 @@ class DetailFragmentModuleSongs {
             mediaId: MediaId,
             useCase: GetMostPlayedSongsUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).groupMap { it.toMostPlayedDetailDisplayableItem(mediaId) }
+        return useCase.execute(mediaId).mapToList { it.toMostPlayedDetailDisplayableItem(mediaId) }
     }
 
     @Provides
@@ -113,7 +113,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
         parentId.isAlbum -> R.layout.item_detail_song_with_track
         parentId.isPlaylist && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
-            if (Constants.autoPlaylists.contains(playlistId)) {
+            if (PlaylistConstants.isAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
