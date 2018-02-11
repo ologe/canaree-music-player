@@ -6,9 +6,9 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
-import dev.olog.shared_android.extension.isPortrait
 import kotlinx.android.synthetic.main.fragment_albums.view.*
 import javax.inject.Inject
 

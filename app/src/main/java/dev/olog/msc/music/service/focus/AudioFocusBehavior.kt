@@ -7,7 +7,7 @@ import android.os.Build
 import dagger.Lazy
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.shared_android.isOreo
+import dev.olog.msc.utils.isOreo
 import javax.inject.Inject
 
 class AudioFocusBehavior @Inject constructor(

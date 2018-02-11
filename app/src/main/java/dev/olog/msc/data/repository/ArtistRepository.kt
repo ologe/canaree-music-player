@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.data.FileUtils
 import dev.olog.msc.data.db.AppDatabase
@@ -14,8 +15,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImagesFolderUtils
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable

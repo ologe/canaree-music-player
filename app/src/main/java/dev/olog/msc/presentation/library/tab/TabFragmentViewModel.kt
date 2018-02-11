@@ -9,7 +9,7 @@ import dev.olog.msc.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.shared_android.extension.asLiveData
+import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 

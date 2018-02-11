@@ -22,8 +22,9 @@ import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.RecentSearchesTypes
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.groupMap
-import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables
@@ -143,7 +144,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
             R.layout.item_search_song,
             MediaId.songId(id),
             title,
-            "$artist${dev.olog.shared_android.TextUtils.MIDDLE_DOT_SPACED}$album",
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
             true,
             isRemix,

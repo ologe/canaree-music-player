@@ -10,8 +10,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.msc.music.service.interfaces.INotification
-import dev.olog.shared_android.ImageUtils
-import dev.olog.shared_android.TextUtils
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.shared_android.interfaces.MainActivityClass
 import javax.inject.Inject
 

@@ -1,6 +1,10 @@
 package dev.olog.msc.utils.k.extension
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.LiveDataReactiveStreams
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
@@ -10,6 +14,18 @@ fun Disposable?.unsubscribe(){
             dispose()
         }
     }
+}
+
+fun <T> Flowable<T>.asLiveData() : LiveData<T> {
+    return LiveDataReactiveStreams.fromPublisher(this)
+}
+
+fun <T> Observable<T>.asLiveData(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
+        : LiveData<T> {
+
+    return LiveDataReactiveStreams.fromPublisher(
+            this.toFlowable(backpressureStrategy)
+    )
 }
 
 fun <T, R> Flowable<List<T>>.groupMap(mapper: ((T) -> R)): Flowable<List<R>> {

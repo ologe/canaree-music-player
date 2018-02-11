@@ -1,1 +1,1 @@
-include ':app', ':shared-android'
+include ':app'

@@ -12,8 +12,8 @@ import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.groupMap
-import dev.olog.shared_android.TextUtils
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.toFlowable

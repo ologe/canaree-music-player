@@ -9,12 +9,12 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.presentation.neural.network.NeuralNetworkActivity
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.CoverUtils
-import dev.olog.shared_android.RootUtils
+import dev.olog.msc.utils.RootUtils
+import dev.olog.msc.utils.img.CoverUtils
 import org.jetbrains.anko.toast
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -87,7 +87,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             Constants.updateQuickAction(activity!!)
             requestMainActivityToRecreate()
         }
-        if (key == getString(dev.olog.shared_android.R.string.prefs_use_neural_images_key)){
+        if (key == getString(R.string.prefs_use_neural_images_key)){
             Constants.useNeuralImages = sharedPreferences.getBoolean(key, false)
             requestMainActivityToRecreate()
         }

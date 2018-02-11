@@ -2,6 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
 import dev.olog.msc.data.mapper.toNotNeuralAlbum
@@ -9,7 +10,6 @@ import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.Flowable

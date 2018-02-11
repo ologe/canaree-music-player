@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.constants.FloatingInfoConstants
 import dev.olog.msc.presentation.FloatingInfoServiceHelper
 import dev.olog.msc.presentation.MediaControllerProvider
@@ -19,10 +20,9 @@ import dev.olog.msc.presentation.base.*
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.toggleVisibility
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import dev.olog.shared_android.interfaces.MusicServiceClass
 import kotlinx.android.synthetic.main.activity_main.*

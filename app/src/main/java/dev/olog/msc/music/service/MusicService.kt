@@ -20,7 +20,7 @@ import dev.olog.msc.music.service.helper.MediaIdHelper
 import dev.olog.msc.music.service.helper.MediaItemGenerator
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.shared_android.PendingIntents
+import dev.olog.msc.utils.PendingIntents
 import dev.olog.shared_android.interfaces.MainActivityClass
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

@@ -78,6 +78,12 @@ android {
 //        }
 //    }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
     lintOptions{
         disable 'MissingTranslation'
     }
@@ -89,7 +95,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     // modules
-    implementation project(':shared-android')
     implementation "com.android.billingclient:billing:$rootProject.billing"
 
     // data binding
@@ -104,6 +109,7 @@ dependencies {
     implementation "android.arch.lifecycle:runtime:$rootProject.micro_architecture_runtime"
     implementation "android.arch.lifecycle:extensions:$rootProject.micro_architecture"
     implementation "android.arch.lifecycle:common-java8:$rootProject.micro_architecture"
+    implementation "android.arch.lifecycle:reactivestreams:$rootProject.micro_architecture"
 
     // support
     implementation "com.android.support:support-v4:$rootProject.support_library"
@@ -154,6 +160,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "com.getkeepsafe.taptargetview:taptargetview:$rootProject.target_view"
     implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
+    implementation "org.tensorflow:tensorflow-android:$rootProject.tensor_flow"
 
     // debug
 

@@ -24,7 +24,7 @@ import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.player.PlayerImpl
 import dev.olog.msc.music.service.player.PlayerVolume
 import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.shared_android.extension.notificationManager
+import dev.olog.msc.utils.k.extension.notificationManager
 
 @Module(includes = arrayOf(MusicServiceModule.Binds::class))
 class MusicServiceModule(

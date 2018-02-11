@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.model
 
 import android.support.v4.media.MediaMetadataCompat
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.constants.MetadataConstants
-import dev.olog.shared_android.Constants
 
 data class PlayerFragmentMetadata (
         val title: String,

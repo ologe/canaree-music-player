@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.app.Fragment
 import dagger.android.support.DaggerAppCompatActivity
+import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.setLightStatusBar
-import dev.olog.shared_android.isMarshmallow
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 

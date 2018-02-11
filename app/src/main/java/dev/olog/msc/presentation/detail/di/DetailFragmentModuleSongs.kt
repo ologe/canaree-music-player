@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
@@ -17,10 +18,9 @@ import dev.olog.msc.domain.interactor.detail.sorting.GetSortedSongListByParamUse
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.groupMap
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.TextUtils
-import dev.olog.shared_android.TimeUtils
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
 

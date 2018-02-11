@@ -38,8 +38,8 @@ import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.transaction
-import dev.olog.shared_android.RootUtils
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 import javax.inject.Provider

@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import dagger.Lazy
+import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
@@ -16,14 +17,8 @@ import dev.olog.msc.presentation.base.adapter.OnDataChangedListener
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.removeLightStatusBar
-import dev.olog.msc.utils.k.extension.setLightStatusBar
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.withArguments
-import dev.olog.shared_android.analitycs.FirebaseAnalytics
-import dev.olog.shared_android.extension.isLandscape
-import dev.olog.shared_android.extension.isPortrait
-import dev.olog.shared_android.isMarshmallow
+import dev.olog.msc.utils.isMarshmallow
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
 import javax.inject.Inject

@@ -10,8 +10,8 @@ import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
-import dev.olog.shared_android.TextUtils
-import dev.olog.shared_android.extension.asLiveData
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.rxkotlin.toFlowable
 
 class RelatedArtistViewModel(

@@ -8,10 +8,10 @@ import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
+import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.shuffle
 import dev.olog.msc.utils.k.extension.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.assertMainThread
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers

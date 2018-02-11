@@ -7,7 +7,7 @@ import dev.olog.msc.dagger.ActivityContext
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.shared_android.extension.isPortrait
+import dev.olog.msc.utils.k.extension.isPortrait
 import org.jetbrains.anko.configuration
 import java.lang.ref.WeakReference
 

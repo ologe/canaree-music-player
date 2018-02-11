@@ -6,7 +6,7 @@ import android.content.ContentResolver
 import android.net.Uri
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.interactor.GetAllAlbumsForUtilsUseCase
-import dev.olog.shared_android.neural.NeuralImages
+import dev.olog.msc.presentation.utils.images.NeuralImages
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables

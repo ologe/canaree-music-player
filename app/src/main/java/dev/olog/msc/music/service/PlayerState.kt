@@ -8,18 +8,18 @@ import android.content.pm.ShortcutManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.msc.R
+import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.PerService
 import dev.olog.msc.domain.interactor.music.service.BookmarkUseCase
 import dev.olog.msc.domain.interactor.music.service.ToggleSkipToNextVisibilityUseCase
 import dev.olog.msc.domain.interactor.music.service.ToggleSkipToPreviousVisibilityUseCase
 import dev.olog.msc.music.service.model.PositionInQueue
-import dev.olog.shared_android.AppShortcutInfo
-import dev.olog.shared_android.WidgetConstants
-import dev.olog.shared_android.extension.getAppWidgetsIdsFor
+import dev.olog.msc.utils.AppShortcutInfo
+import dev.olog.msc.utils.isNougat_MR1
+import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.shared_android.interfaces.ShortcutActivityClass
 import dev.olog.shared_android.interfaces.WidgetClasses
-import dev.olog.shared_android.isNougat_MR1
 import javax.inject.Inject
 
 @PerService

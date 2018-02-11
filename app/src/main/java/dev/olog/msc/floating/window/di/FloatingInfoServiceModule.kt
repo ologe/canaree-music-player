@@ -9,7 +9,7 @@ import dagger.Provides
 import dev.olog.msc.dagger.ServiceContext
 import dev.olog.msc.dagger.ServiceLifecycle
 import dev.olog.msc.floating.window.FloatingInfoService
-import dev.olog.shared_android.extension.notificationManager
+import dev.olog.msc.utils.k.extension.notificationManager
 
 @Module
 class FloatingInfoServiceModule(

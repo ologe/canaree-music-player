@@ -5,7 +5,7 @@ import android.os.Build
 import android.support.annotation.RequiresApi
 import android.view.View
 import android.view.Window
-import dev.olog.shared_android.isOreo
+import dev.olog.msc.utils.isOreo
 
 @RequiresApi(Build.VERSION_CODES.M)
 fun Window.setLightStatusBar(){

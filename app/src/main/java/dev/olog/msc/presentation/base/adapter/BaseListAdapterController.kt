@@ -5,10 +5,10 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.annotation.CallSuper
 import android.support.v7.util.DiffUtil
 import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.k.extension.clearThenAdd
 import dev.olog.msc.utils.k.extension.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

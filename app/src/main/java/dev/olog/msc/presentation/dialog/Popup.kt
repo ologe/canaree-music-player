@@ -9,11 +9,11 @@ import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.shared_android.Constants
 import javax.inject.Inject
 
 class Popup @Inject constructor(

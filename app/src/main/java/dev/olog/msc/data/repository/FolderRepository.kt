@@ -13,9 +13,9 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.flatMapGroup
 import dev.olog.msc.utils.k.extension.groupMap
-import dev.olog.shared_android.ImagesFolderUtils
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Flowable

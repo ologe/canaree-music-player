@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import dev.olog.msc.R
 import dev.olog.msc.presentation.GlideApp
 import dev.olog.msc.presentation.neural.network.NeuralNetworkActivityViewModel
-import dev.olog.shared_android.neural.NeuralImages
+import dev.olog.msc.presentation.utils.images.NeuralImages
 import kotlinx.android.synthetic.main.item_neural_network_preview.view.*
 
 class NeuralNetworkStyleChooserAdapter(

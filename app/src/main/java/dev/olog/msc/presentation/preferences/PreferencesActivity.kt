@@ -5,8 +5,8 @@ import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import dev.olog.msc.R
+import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.setLightStatusBar
-import dev.olog.shared_android.isMarshmallow
 import kotlinx.android.synthetic.main.activity_preferences.*
 
 class PreferencesActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector {

@@ -13,10 +13,10 @@ import dev.olog.msc.presentation.base.expand
 import dev.olog.msc.presentation.base.isCollapsed
 import dev.olog.msc.presentation.base.isExpanded
 import dev.olog.msc.presentation.mini.player.MiniPlayerFragmentViewModel
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.extension.asLiveData
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_mini_player.view.*

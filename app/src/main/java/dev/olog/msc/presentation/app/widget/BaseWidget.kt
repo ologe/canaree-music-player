@@ -11,11 +11,11 @@ import android.support.v7.graphics.Palette
 import android.view.View
 import android.widget.RemoteViews
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.constants.FloatingInfoConstants
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImageUtils
+import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.shared_android.interfaces.MusicServiceClass
 import org.jetbrains.anko.dip
 import javax.inject.Inject

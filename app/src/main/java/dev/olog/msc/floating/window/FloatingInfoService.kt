@@ -3,10 +3,10 @@ package dev.olog.msc.floating.window
 import android.app.Notification
 import android.app.Service
 import android.content.Intent
+import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.floating.window.api.HoverMenu
 import dev.olog.msc.floating.window.api.HoverView
-import dev.olog.shared_android.TextUtils
-import dev.olog.shared_android.analitycs.FirebaseAnalytics
+import dev.olog.msc.utils.TextUtils
 import javax.inject.Inject
 
 class FloatingInfoService : BaseFloatingService() {

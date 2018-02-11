@@ -16,9 +16,9 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.getLong
-import dev.olog.shared_android.ImagesFolderUtils
-import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Deferred

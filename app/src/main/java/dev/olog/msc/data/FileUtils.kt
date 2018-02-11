@@ -2,11 +2,11 @@ package dev.olog.msc.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.domain.entity.Song
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImagesFolderUtils
-import dev.olog.shared_android.assertBackgroundThread
-import dev.olog.shared_android.extractImageName
+import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.img.extractImageName
 import java.io.File
 import java.io.FileOutputStream
 
@@ -100,10 +100,10 @@ object FileUtils {
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
         if (Constants.useNeuralImages){
             val image = ImagesFolderUtils.getNeuralAlbumCover(context, albumId)
-            return dev.olog.shared_android.ImageUtils.getBitmapFromUriOrNull(context, image, 500, 500)!!
+            return dev.olog.msc.utils.img.ImageUtils.getBitmapFromUriOrNull(context, image, 500, 500)!!
         }
         val uri = ImagesFolderUtils.getOriginalAlbumCover(albumId)
-        return dev.olog.shared_android.ImageUtils.getBitmapFromUriOrNull(context, uri, 500, 500)!!
+        return dev.olog.msc.utils.img.ImageUtils.getBitmapFromUriOrNull(context, uri, 500, 500)!!
     }
 
 }

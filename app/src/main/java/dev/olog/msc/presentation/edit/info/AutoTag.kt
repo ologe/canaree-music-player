@@ -5,10 +5,10 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.net.ConnectivityManager
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.FragmentLifecycle
+import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.extension.isNetworkAvailable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

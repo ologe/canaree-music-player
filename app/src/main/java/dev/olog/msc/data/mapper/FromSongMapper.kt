@@ -1,14 +1,11 @@
 package dev.olog.msc.data.mapper
 
 import android.content.Context
-import android.net.Uri
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Song
-import dev.olog.shared_android.ImagesFolderUtils
-
-private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
+import dev.olog.msc.utils.img.ImagesFolderUtils
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
     val folderImage = ImagesFolderUtils.forFolder(context, this.folderPath)

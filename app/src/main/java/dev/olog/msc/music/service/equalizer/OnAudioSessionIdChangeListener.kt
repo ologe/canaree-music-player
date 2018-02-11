@@ -3,7 +3,7 @@ package dev.olog.msc.music.service.equalizer
 import com.google.android.exoplayer2.Format
 import com.google.android.exoplayer2.audio.AudioRendererEventListener
 import com.google.android.exoplayer2.decoder.DecoderCounters
-import dev.olog.shared_android.RootUtils
+import dev.olog.msc.utils.RootUtils
 import dev.olog.shared_android.interfaces.equalizer.IBassBoost
 import dev.olog.shared_android.interfaces.equalizer.IEqualizer
 import dev.olog.shared_android.interfaces.equalizer.IReplayGain

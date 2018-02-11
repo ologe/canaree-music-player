@@ -14,8 +14,8 @@ import android.support.v7.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.makeDialog
-import dev.olog.shared_android.isMarshmallow
 import io.reactivex.Single
 import org.jetbrains.anko.toast
 import javax.inject.Inject

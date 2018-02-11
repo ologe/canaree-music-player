@@ -4,12 +4,12 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.getInt
 import dev.olog.msc.utils.k.extension.getLong
 import dev.olog.msc.utils.k.extension.getString
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImagesFolderUtils
 import java.io.File
 
 

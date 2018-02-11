@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import dagger.android.AndroidInjection
-import dev.olog.shared_android.WidgetConstants
+import dev.olog.msc.constants.WidgetConstants
 
 abstract class AbsWidgetApp : AppWidgetProvider() {
 

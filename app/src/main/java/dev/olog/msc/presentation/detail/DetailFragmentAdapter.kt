@@ -11,6 +11,7 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.FragmentLifecycle
 import dev.olog.msc.domain.entity.SortArranging
@@ -28,7 +29,6 @@ import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.shared_android.Constants
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Flowables

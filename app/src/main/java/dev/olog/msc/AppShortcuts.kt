@@ -6,8 +6,8 @@ import android.content.pm.ShortcutManager
 import android.os.Build
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
-import dev.olog.shared_android.AppShortcutInfo
-import dev.olog.shared_android.isNougat_MR1
+import dev.olog.msc.utils.AppShortcutInfo
+import dev.olog.msc.utils.isNougat_MR1
 
 object AppShortcuts {
 

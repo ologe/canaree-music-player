@@ -5,8 +5,8 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.data.db.AppDatabase
-import dev.olog.shared_android.Constants
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

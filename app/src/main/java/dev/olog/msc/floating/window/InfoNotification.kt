@@ -11,8 +11,8 @@ import android.support.v4.app.NotificationCompat
 import dev.olog.msc.R
 import dev.olog.msc.dagger.ServiceLifecycle
 import dev.olog.msc.domain.interactor.floating.window.GetFloatingInfoRequestUseCase
+import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.isOreo
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

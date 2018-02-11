@@ -25,12 +25,12 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.neural.network.image.chooser.NeuralNetworkImageChooser
 import dev.olog.msc.presentation.neural.network.service.NeuralNetworkService
 import dev.olog.msc.presentation.neural.network.style.chooser.NeuralNetworkStyleChooser
+import dev.olog.msc.presentation.utils.images.NeuralImages
+import dev.olog.msc.utils.img.ImageUtils
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.ImageUtils
-import dev.olog.shared_android.extension.asLiveData
-import dev.olog.shared_android.neural.NeuralImages
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

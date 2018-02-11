@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.mini.player.model
 
 import android.support.v4.media.MediaMetadataCompat
-import dev.olog.shared_android.Constants
+import dev.olog.msc.constants.Constants
 
 data class MiniPlayerMedatata(
         val title: String,

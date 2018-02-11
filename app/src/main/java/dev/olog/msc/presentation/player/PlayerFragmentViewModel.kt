@@ -13,10 +13,10 @@ import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.music.service.GetMiniPlayingQueueUseCase
 import dev.olog.msc.presentation.model.*
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.groupMap
-import dev.olog.shared_android.CoverUtils
-import dev.olog.shared_android.TextUtils
-import dev.olog.shared_android.extension.asLiveData
 import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 import io.reactivex.functions.Predicate
 

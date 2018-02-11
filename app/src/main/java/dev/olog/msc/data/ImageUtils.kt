@@ -1,8 +1,8 @@
 package dev.olog.msc.data
 
 import android.graphics.*
+import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.k.extension.shuffle
-import dev.olog.shared_android.assertBackgroundThread
 
 
 object ImageUtils {

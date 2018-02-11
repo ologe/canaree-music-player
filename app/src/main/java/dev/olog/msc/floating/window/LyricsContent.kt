@@ -9,10 +9,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.floating.window.music.service.MusicServiceBinder
+import dev.olog.msc.presentation.SeekBarObservable
+import dev.olog.msc.presentation.widget.AnimatedImageView
+import dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.rx.SeekBarObservable
-import dev.olog.shared_android.widget.AnimatedImageView
-import dev.olog.shared_android.widget.AnimatedPlayPauseImageView
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

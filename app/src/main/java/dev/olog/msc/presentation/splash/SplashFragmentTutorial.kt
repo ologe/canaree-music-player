@@ -8,8 +8,8 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.widget.SwipeableImageView
-import dev.olog.shared_android.CoverUtils
-import dev.olog.shared_android.TextUtils
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.img.CoverUtils
 import kotlinx.android.synthetic.main.fragment_splash_tutorial.view.*
 
 class SplashFragmentTutorial : BaseFragment() {

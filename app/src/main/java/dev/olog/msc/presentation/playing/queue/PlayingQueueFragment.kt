@@ -3,12 +3,12 @@ package dev.olog.msc.presentation.playing.queue
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.OnDataChangedListener
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import kotlinx.android.synthetic.main.layout_player_toolbar.*
 import org.jetbrains.anko.dip

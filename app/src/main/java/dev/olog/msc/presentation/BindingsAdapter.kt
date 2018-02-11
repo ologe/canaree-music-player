@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.thanks.SpecialThanksModel
 import dev.olog.msc.utils.MediaId
-import dev.olog.shared_android.CoverUtils
+import dev.olog.msc.utils.img.CoverUtils
 import java.io.File
 
 object BindingsAdapter {

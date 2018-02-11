@@ -36,16 +36,6 @@
         <item quantity="other">%d albums</item>
     </plurals>
 
-    <plurals name="plurals_hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-
-    <plurals name="plurals_minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
-    </plurals>
-
     <string name="related_artists">Related artists</string>
     <string name="recently_added">Recently added</string>
     <string name="albums">Albums</string>

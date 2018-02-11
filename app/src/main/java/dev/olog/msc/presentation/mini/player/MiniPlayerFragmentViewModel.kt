@@ -8,7 +8,7 @@ import dev.olog.msc.domain.interactor.music.service.ToggleSkipToNextVisibilityUs
 import dev.olog.msc.domain.interactor.music.service.ToggleSkipToPreviousVisibilityUseCase
 import dev.olog.msc.presentation.mini.player.model.MiniPlayerMedatata
 import dev.olog.msc.presentation.mini.player.model.toMiniPlayerMetadata
-import dev.olog.shared_android.extension.asLiveData
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 
 class MiniPlayerFragmentViewModel(

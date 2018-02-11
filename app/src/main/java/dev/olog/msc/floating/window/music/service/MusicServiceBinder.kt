@@ -9,13 +9,13 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.dagger.PerService
 import dev.olog.msc.dagger.ServiceLifecycle
 import dev.olog.msc.domain.interactor.music.service.ToggleSkipToNextVisibilityUseCase
 import dev.olog.msc.domain.interactor.music.service.ToggleSkipToPreviousVisibilityUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.Constants
 import dev.olog.shared_android.music_service.IRxMusicServiceConnectionCallback
 import dev.olog.shared_android.music_service.IRxMusicServiceControllerCallback
 import dev.olog.shared_android.music_service.MusicServiceConnectionState

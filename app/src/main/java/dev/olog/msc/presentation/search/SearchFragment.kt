@@ -5,15 +5,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
+import dev.olog.msc.FirebaseAnalytics
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.presentation.utils.ImeUtils
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.withArguments
-import dev.olog.shared_android.analitycs.FirebaseAnalytics
-import dev.olog.shared_android.extension.asLiveData
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_tab_view_pager.*
 import javax.inject.Inject

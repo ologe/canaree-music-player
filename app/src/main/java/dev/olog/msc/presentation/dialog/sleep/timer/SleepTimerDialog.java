@@ -23,7 +23,7 @@ import javax.inject.Inject;
 
 import dev.olog.msc.R;
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase;
-import dev.olog.shared_android.PendingIntents;
+import dev.olog.msc.utils.PendingIntents;
 import dev.olog.shared_android.interfaces.MusicServiceClass;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

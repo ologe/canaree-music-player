@@ -10,10 +10,10 @@ import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.PendingIntents
+import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),

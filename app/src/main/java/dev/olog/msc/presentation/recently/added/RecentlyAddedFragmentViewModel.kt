@@ -7,8 +7,8 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.groupMap
-import dev.olog.shared_android.extension.asLiveData
 
 class RecentlyAddedFragmentViewModel(
         mediaId: MediaId,

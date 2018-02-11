@@ -3,12 +3,12 @@ package dev.olog.msc.data.mapper
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.domain.entity.UneditedSong
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.getInt
 import dev.olog.msc.utils.k.extension.getLong
 import dev.olog.msc.utils.k.extension.getString
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImagesFolderUtils
 import java.io.File
 
 private val COVER_URI = Uri.parse("content://media/external/audio/albumart")

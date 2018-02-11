@@ -7,9 +7,9 @@ import android.net.Uri
 import android.support.v7.graphics.Palette
 import android.widget.RemoteViews
 import dev.olog.msc.R
+import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.shared_android.CoverUtils
-import dev.olog.shared_android.ImageUtils
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

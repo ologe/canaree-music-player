@@ -11,7 +11,7 @@ import dev.olog.msc.domain.interactor.detail.item.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.shared_android.TextUtils
+import dev.olog.msc.utils.TextUtils
 import io.reactivex.Flowable
 
 @Module

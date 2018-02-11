@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Playlists.Members.getContentUri
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.dagger.ApplicationContext
 import dev.olog.msc.data.FileUtils
 import dev.olog.msc.data.db.AppDatabase
@@ -19,10 +20,9 @@ import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.getLong
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImagesFolderUtils
-import dev.olog.shared_android.assertBackgroundThread
 import io.reactivex.*
 import io.reactivex.rxkotlin.toFlowable
 import io.reactivex.schedulers.Schedulers

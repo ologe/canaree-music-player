@@ -2,8 +2,8 @@ package dev.olog.msc.presentation
 
 import android.databinding.BindingAdapter
 import android.view.View
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.shared_android.Constants
 import dev.olog.shared_android.entity.QuickActionEnum
 
 object BindinsAdapterPresenter {

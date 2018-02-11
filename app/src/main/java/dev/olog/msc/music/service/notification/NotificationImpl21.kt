@@ -17,11 +17,11 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import dagger.Lazy
 import dev.olog.msc.R
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.constants.FloatingInfoConstants
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.ImageUtils
+import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.shared_android.interfaces.MainActivityClass
 import java.io.File
 import javax.inject.Inject

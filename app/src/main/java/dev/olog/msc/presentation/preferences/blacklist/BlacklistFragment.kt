@@ -11,9 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
+import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.shared_android.extension.asLiveData
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 

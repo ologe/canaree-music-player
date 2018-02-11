@@ -7,8 +7,8 @@ import android.net.Uri
 import android.widget.RemoteViews
 import dev.olog.msc.R
 import dev.olog.msc.presentation.utils.images.ImageProcessor
-import dev.olog.shared_android.CoverUtils
-import dev.olog.shared_android.ImageUtils
+import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.img.ImageUtils
 import java.util.*
 
 class WidgetColored : BaseWidget() {

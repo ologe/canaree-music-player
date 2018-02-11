@@ -6,6 +6,7 @@ import android.os.StrictMode
 import android.preference.PreferenceManager
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import dev.olog.msc.constants.Constants
 import dev.olog.msc.floating.window.FloatingInfoService
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.FloatingInfoServiceHelper
@@ -19,11 +20,9 @@ import dev.olog.msc.presentation.player.PlayerFragment
 import dev.olog.msc.presentation.player.PlayerFragmentViewModel
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.search.SearchFragmentViewModel
+import dev.olog.msc.utils.PendingIntents
+import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.presentation.fragment_mini_player.MiniPlayerFragment
-import dev.olog.shared_android.Constants
-import dev.olog.shared_android.CoverUtils
-import dev.olog.shared_android.PendingIntents
-import dev.olog.shared_android.analitycs.FirebaseAnalytics
 import dev.olog.shared_android.interfaces.FloatingInfoServiceClass
 import javax.inject.Inject
 
