@@ -5,6 +5,12 @@ import dagger.android.AndroidInjector
 import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.albums.di.AlbumsFragmentInjector
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
+import dev.olog.msc.presentation.dialog.add.favorite.di.AddFavoriteDialogInjector
+import dev.olog.msc.presentation.dialog.add.queue.di.AddQueueDialogInjector
+import dev.olog.msc.presentation.dialog.clear.playlist.di.ClearPlaylistDialogInjector
+import dev.olog.msc.presentation.dialog.delete.di.DeleteDialogInjector
+import dev.olog.msc.presentation.dialog.rename.di.RenameDialogInjector
+import dev.olog.msc.presentation.dialog.set.ringtone.di.SetRingtoneDialogInjector
 import dev.olog.msc.presentation.edit.info.di.EditInfoFragmentInjector
 import dev.olog.msc.presentation.library.categories.di.CategoriesFragmentInjector
 import dev.olog.msc.presentation.library.tab.di.TabFragmentInjector
@@ -32,16 +38,16 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         AlbumsFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
-        EditInfoFragmentInjector::class
+        EditInfoFragmentInjector::class,
 
         // dialogs
-//        AddFavoriteDialogInjector::class,
-//        NewPlaylistDialogInjector::class,
-//        AddQueueDialogInjector::class,
-//        SetRingtoneDialogInjector::class,
-//        RenameDialogInjector::class,
-//        ClearPlaylistDialogInjector::class,
-//        DeleteDialogInjector::class
+        AddFavoriteDialogInjector::class,
+        AddQueueDialogInjector::class,
+        SetRingtoneDialogInjector::class,
+        RenameDialogInjector::class,
+        ClearPlaylistDialogInjector::class,
+        DeleteDialogInjector::class
+//        NewPlaylistDialogInjector::class
 ))
 @PerActivity
 interface MainActivitySubComponent : AndroidInjector<MainActivity> {
