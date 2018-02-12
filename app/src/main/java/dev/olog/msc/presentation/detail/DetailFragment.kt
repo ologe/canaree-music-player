@@ -29,6 +29,7 @@ class DetailFragment : BaseFragment() {
         const val TAG = "DetailFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
+        @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
             return DetailFragment().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString())

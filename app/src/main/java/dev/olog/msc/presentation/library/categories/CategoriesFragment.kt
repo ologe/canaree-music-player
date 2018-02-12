@@ -16,6 +16,7 @@ class CategoriesFragment : BaseFragment() {
     companion object {
         const val TAG = "CategoriesFragment"
 
+        @JvmStatic
         fun newInstance(): CategoriesFragment {
             return CategoriesFragment()
         }

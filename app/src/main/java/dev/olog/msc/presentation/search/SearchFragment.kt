@@ -26,6 +26,7 @@ class SearchFragment : BaseFragment() {
     companion object {
         const val TAG = "SearchFragment"
 
+        @JvmStatic
         fun newInstance(): SearchFragment {
             return SearchFragment()
         }

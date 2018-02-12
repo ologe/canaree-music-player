@@ -62,7 +62,7 @@ object MergedImageUtils {
         val onePartSize = imageSize / parts
 
         images.forEachIndexed { i, bitmap ->
-            val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, false)
+            val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, true)
             canvas.drawBitmap(bit, (onePartSize * (i % parts)).toFloat(), (onePartSize * (i / parts)).toFloat(), paint)
         }
 

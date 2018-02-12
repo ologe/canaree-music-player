@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog
+package dev.olog.msc.presentation.popup.menu.listener
 
 import android.app.Application
 import android.arch.lifecycle.DefaultLifecycleObserver
@@ -14,6 +14,7 @@ import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.dialog.Popup
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId

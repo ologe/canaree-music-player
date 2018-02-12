@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog
+package dev.olog.msc.presentation.popup.menu.listener
 
 import android.app.Application
 import android.arch.lifecycle.Lifecycle

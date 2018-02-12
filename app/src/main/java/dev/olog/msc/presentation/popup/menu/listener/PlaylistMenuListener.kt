@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog
+package dev.olog.msc.presentation.popup.menu.listener
 
 import android.app.Application
 import android.arch.lifecycle.Lifecycle
@@ -14,10 +14,10 @@ import io.reactivex.Completable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 
-class FolderMenuListener @Inject constructor(
+class PlaylistMenuListener @Inject constructor(
         @ProcessLifecycle lifecycle: Lifecycle,
         application: Application,
-        getSongListByParamUseCase: GetSongListByParamUseCase,
+        private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val navigator: Navigator,
         mediaProvider: MediaProvider,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
@@ -33,12 +33,25 @@ class FolderMenuListener @Inject constructor(
                 rename()
                 return true
             }
+            R.id.clear -> {
+                clearPlaylist()
+                return true
+            }
         }
         return super.onMenuItemClick(menuItem)
     }
 
     private fun rename(){
         Completable.fromCallable { navigator.toRenameDialog(item.mediaId, item.title) }
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+    }
+
+    private fun clearPlaylist(){
+        getSongListByParamUseCase.execute(item.mediaId)
+                .firstOrError()
+                .doOnSuccess { navigator.toClearPlaylistDialog(item.mediaId, it.size, item.title) }
+                .toCompletable()
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
     }

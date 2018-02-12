@@ -18,7 +18,6 @@ import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.albums.AlbumsFragment
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.msc.presentation.dialog.MenuListenerFactory
 import dev.olog.msc.presentation.dialog.Popup
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.add.queue.AddQueueDialog
@@ -33,6 +32,7 @@ import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
+import dev.olog.msc.presentation.popup.menu.listener.MenuListenerFactory
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment

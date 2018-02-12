@@ -37,7 +37,7 @@ object NeuralImages {
         val intValues = IntArray(size * size)
         val floatValues = FloatArray(size * size * 3)
 
-        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, size, size, false)
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, size, size, true)
 
         scaledBitmap.getPixels(intValues, 0, scaledBitmap.width, 0, 0, scaledBitmap.width, scaledBitmap.height)
 
