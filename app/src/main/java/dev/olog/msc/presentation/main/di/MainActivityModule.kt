@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.main.di
 
+import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.support.v4.app.FragmentActivity
@@ -25,7 +26,10 @@ class MainActivityModule(
     internal fun provideLifecycle() : Lifecycle = activity.lifecycle
 
     @Provides
-    internal fun provideActivity(): AppCompatActivity = activity
+    internal fun provideActivity(): Activity = activity
+
+    @Provides
+    internal fun provideSupportActivity(): AppCompatActivity = activity
 
     @Provides
     internal fun provideFragmentActivity() : FragmentActivity = activity

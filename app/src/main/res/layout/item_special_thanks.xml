@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="item" type="dev.olog.msc.presentation.thanks.SpecialThanksModel"/>
+        <variable name="item" type="dev.olog.msc.presentation.special.thanks.SpecialThanksModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

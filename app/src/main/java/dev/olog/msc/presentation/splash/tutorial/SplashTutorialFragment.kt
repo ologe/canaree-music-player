@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
-import dev.olog.msc.presentation.GlideApp
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.widget.StoppingViewPager
 import dev.olog.msc.presentation.widget.SwipeableView

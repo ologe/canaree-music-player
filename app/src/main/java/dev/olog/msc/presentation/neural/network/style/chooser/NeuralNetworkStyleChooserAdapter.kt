@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.msc.R
-import dev.olog.msc.presentation.GlideApp
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.neural.network.NeuralNetworkActivityViewModel
 import dev.olog.msc.presentation.utils.images.NeuralImages
 import kotlinx.android.synthetic.main.item_neural_network_preview.view.*

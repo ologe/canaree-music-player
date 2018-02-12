@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.player
 
+import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import android.net.Uri
@@ -11,8 +12,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.GlideApp
+import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
@@ -38,9 +40,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerFragmentAdapter @Inject constructor(
+        private val activity: Activity,
         @FragmentLifecycle lifecycle: Lifecycle,
         private val mediaProvider: MediaProvider,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val viewModel: PlayerFragmentViewModel
 
 ): BaseListAdapter<DisplayableItem>(lifecycle) {
 
@@ -81,6 +85,16 @@ class PlayerFragmentAdapter @Inject constructor(
                     updateImage(view, it)
                 }, Throwable::printStackTrace)
 
+        mediaProvider.onMetadataChanged()
+                .map { it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) }
+                .map { MediaId.fromString(it) }
+                .map { it.leaf!! }
+                .distinctUntilChanged()
+                .flatMapSingle { viewModel.isFavoriteSongUseCase.execute(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(RxView.detaches(view))
+                .subscribe({ updateFavorite(view, it) }, Throwable::printStackTrace)
+
         mediaProvider.onStateChanged()
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -109,6 +123,22 @@ class PlayerFragmentAdapter @Inject constructor(
                     .takeUntil(RxView.detaches(view))
                     .subscribe({ mediaProvider.toggleShuffleMode() }, Throwable::printStackTrace)
         }
+
+        RxView.clicks(view.floatingWindow)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({
+                    FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity)
+                }, Throwable::printStackTrace)
+
+        RxView.clicks(view.favorite)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({
+                    mediaProvider.togglePlayerFavorite()
+                }, Throwable::printStackTrace)
+
+        RxView.clicks(view.playingQueue)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({ navigator.toPlayingQueueFragment() }, Throwable::printStackTrace)
 
         val seekBarObservable = SeekBarObservable(view.seekBar)
                 .takeUntil(RxView.detaches(view))
@@ -144,6 +174,11 @@ class PlayerFragmentAdapter @Inject constructor(
                 mediaProvider.skipToNext()
             }
         })
+
+        viewModel.onFavoriteAnimateRequestObservable
+                .takeUntil(RxView.detaches(view))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(view.favorite::animateFavorite, Throwable::printStackTrace)
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
@@ -154,6 +189,10 @@ class PlayerFragmentAdapter @Inject constructor(
         val durationAsString = TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(duration)
         view.duration.text = durationAsString
         view.seekBar.max = duration.toInt()
+    }
+
+    private fun updateFavorite(view: View, isFavorite: Boolean){
+        view.favorite.toggleFavorite(isFavorite)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

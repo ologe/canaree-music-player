@@ -15,6 +15,7 @@ import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
@@ -45,8 +46,6 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
         presenter.isRepositoryEmptyUseCase.execute()
                 .asLiveData()
                 .subscribe(this, this::handleEmptyRepository)
-
-//        pagerEmptyState.toggleVisibility(adapter.isEmpty())
     }
 
     override fun handleIntent(intent: Intent) {
@@ -76,10 +75,7 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
         if (resultCode == Activity.RESULT_OK){
             when (requestCode){
                 SPLASH_REQUEST_CODE -> navigator.toLibraryCategories()
-                PreferencesActivity.REQUEST_CODE -> {
-//                    adapter.removeAll() todo
-//                    recreate()
-                }
+                PreferencesActivity.REQUEST_CODE -> recreateActivity()
                 FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION -> {
                     FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
                 }
@@ -88,6 +84,12 @@ class MainActivity: MusicGlueActivity(), HasSlidingPanel {
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun recreateActivity(){
+        val fragment = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
+        fragment?.pagerAdapter?.clearFragments()
+        recreate()
     }
 
     override fun onBackPressed() {

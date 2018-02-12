@@ -37,7 +37,7 @@
                 tools:src="@drawable/placeholder_folder"/>
 
             <dev.olog.msc.presentation.widget.QuickActionView
-                style="@style/SmallShufflePlay"
+                style="@style/QuickActionStyle"
                 android:layout_width="@dimen/smallShuffleSize"
                 android:layout_height="@dimen/smallShuffleSize"
                 app:quickActionItem="@{item}"/>

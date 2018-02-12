@@ -20,8 +20,8 @@ class App : DaggerApplication() {
     @Inject lateinit var appShortcuts: AppShortcuts
 
     override fun onCreate() {
-        strictMode.initialize()
         super.onCreate()
+        strictMode.initialize()
 
         if (BuildConfig.DEBUG) {
 //            LeakCanary.install(this)

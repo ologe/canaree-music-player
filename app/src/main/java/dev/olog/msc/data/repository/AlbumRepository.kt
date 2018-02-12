@@ -79,7 +79,7 @@ class AlbumRepository @Inject constructor(
         return observable.emitThenDebounce()
     }
 
-    override fun addLastPlayed(item: Album): Completable {
-        return lastPlayedDao.insertOne(item)
+    override fun addLastPlayed(id: Long): Completable {
+        return lastPlayedDao.insertOne(id)
     }
 }

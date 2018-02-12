@@ -50,7 +50,7 @@ class CategoriesViewPager @Inject constructor(
         return data[position].asString(context)
     }
 
-    private fun clearFragments(){
+    fun clearFragments(){
         val transaction = fragmentManager.beginTransaction()
         fragments.forEach { _, fragment ->
             transaction.remove(fragment)

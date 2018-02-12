@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.support.annotation.MenuRes
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
@@ -27,7 +28,7 @@ class Popup @Inject constructor(
     fun create(context: Context, anchor: View, item: DisplayableItem,
                listener: PopupMenu.OnMenuItemClickListener){
 
-        val popup = PopupMenu(context, anchor)
+        val popup = PopupMenu(context, anchor, Gravity.END)
         popup.inflate(provideMenuRes(item.mediaId))
         popup.setOnMenuItemClickListener(listener)
         adjustMenu(context, item, popup.menu)

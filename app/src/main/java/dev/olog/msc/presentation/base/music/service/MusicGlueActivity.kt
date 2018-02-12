@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -190,6 +191,14 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
 
     override fun toggleRepeatMode() {
         getTransportControls()?.setRepeatMode(-1)
+    }
+
+    override fun togglePlayerFavorite() {
+        val songId = statePublisher.value.activeQueueItemId
+        val bundle = Bundle()
+        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, songId.toString())
+        getTransportControls()?.setRating(RatingCompat.newHeartRating(false), bundle)
+
     }
 
     override fun onQueueChanged(): Observable<List<MediaSessionCompat.QueueItem>> {

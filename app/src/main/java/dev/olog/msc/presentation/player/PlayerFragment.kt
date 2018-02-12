@@ -10,7 +10,7 @@ import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.R
-import dev.olog.msc.presentation.GlideApp
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -98,16 +98,6 @@ class PlayerFragment : BaseFragment() {
                 .filter { activity!!.isLandscape }
                 .asLiveData()
                 .subscribe(this, { shuffle.cycle(it) })
-
-//        bookmark textView will automatically updated
-//        viewModel.onBookmarkChangedObservable
-//                .subscribe(this, { seekBar.progress = it })
-//
-//        viewModel.onFavoriteStateChangedObservable
-//                .subscribe(this, { favorite.toggleFavorite(it) })
-//
-//        viewModel.onFavoriteAnimateRequestObservable
-//                .subscribe(this, { favorite.animateFavorite(it) })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

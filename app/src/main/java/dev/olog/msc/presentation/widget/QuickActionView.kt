@@ -25,7 +25,7 @@ class QuickActionView @JvmOverloads constructor(
 
     init {
         setupImage()
-        setBackgroundResource(R.drawable.faded_circle)
+        setBackgroundResource(R.drawable.background_quick_action)
     }
 
     private fun setupImage(){

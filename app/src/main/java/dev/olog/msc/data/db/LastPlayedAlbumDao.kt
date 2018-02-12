@@ -5,9 +5,9 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import android.arch.persistence.room.Transaction
 import dev.olog.msc.data.entity.LastPlayedAlbumEntity
-import dev.olog.msc.domain.entity.Album
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
 
 @Dao
 abstract class LastPlayedAlbumDao {
@@ -22,10 +22,11 @@ abstract class LastPlayedAlbumDao {
     internal abstract fun deleteImpl(albumId: Long)
 
     @Transaction
-    open fun insertOne(album: Album) : Completable {
+    open fun insertOne(id: Long) : Completable {
         return Completable
-                .fromCallable{ deleteImpl(album.id) }
-                .andThen { insertImpl(LastPlayedAlbumEntity(album.id)) }
+                .fromCallable{ deleteImpl(id) }
+                .andThen { insertImpl(LastPlayedAlbumEntity(id)) }
+                .subscribeOn(Schedulers.io())
     }
 
 }

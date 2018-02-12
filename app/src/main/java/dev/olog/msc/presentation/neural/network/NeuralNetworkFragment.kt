@@ -20,7 +20,7 @@ import com.bumptech.glide.request.target.Target
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.msc.R
-import dev.olog.msc.presentation.GlideApp
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.neural.network.image.chooser.NeuralNetworkImageChooser
 import dev.olog.msc.presentation.neural.network.style.chooser.NeuralNetworkStyleChooser

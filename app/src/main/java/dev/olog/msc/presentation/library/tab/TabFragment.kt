@@ -32,7 +32,7 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var category: MediaIdCategory
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
-    private lateinit var layoutManager: Provider<GridLayoutManager>
+    @Inject lateinit var layoutManager: Provider<GridLayoutManager>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

@@ -57,11 +57,11 @@
         <item name="android:text">@string/song_info_remix</item>
     </style>
 
-    <style name="SmallShufflePlay">
+    <style name="QuickActionStyle">
         <item name="android:padding">6dp</item>
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:layout_margin">6dp</item>
-        <item name="android:tint">@color/dark_grey</item>
+        <item name="android:tint">#797979</item>
         <item name="android:gravity">bottom|end</item>
     </style>
 

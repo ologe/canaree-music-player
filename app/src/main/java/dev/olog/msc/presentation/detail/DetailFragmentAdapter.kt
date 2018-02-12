@@ -198,6 +198,7 @@ class DetailFragmentAdapter @Inject constructor(
                     Pair(sort, arranging)
 
                 }).takeUntil(RxView.detaches(holder.itemView))
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ (sort, arranging) ->
                             if (sort == SortType.CUSTOM){
                                 image.setImageResource(R.drawable.vd_remove)

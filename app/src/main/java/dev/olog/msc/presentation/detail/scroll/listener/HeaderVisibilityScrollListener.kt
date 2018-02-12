@@ -33,6 +33,11 @@ class HeaderVisibilityScrollListener(
             } else {
                 fragment.setLightButtons()
             }
+        } else {
+            view.statusBar.isActivated = true
+            view.toolbar.isActivated = true
+            view.headerText.isActivated = true
+            fragment.setDarkButtons()
         }
     }
 

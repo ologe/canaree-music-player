@@ -28,4 +28,6 @@ interface MediaProvider {
     fun toggleShuffleMode()
     fun toggleRepeatMode()
 
+    fun togglePlayerFavorite()
+
 }
