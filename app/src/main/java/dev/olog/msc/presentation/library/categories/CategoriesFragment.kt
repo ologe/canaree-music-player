@@ -33,6 +33,7 @@ class CategoriesFragment : BaseFragment() {
         view.viewPager.adapter = pagerAdapter
         view.tabLayout.setupWithViewPager(view.viewPager)
         view.viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count)
+        view.viewPager.offscreenPageLimit = 2
 
         view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty())
     }

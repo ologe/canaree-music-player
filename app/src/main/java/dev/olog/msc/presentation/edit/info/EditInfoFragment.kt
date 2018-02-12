@@ -18,6 +18,7 @@ import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_edit_info.*
 import kotlinx.android.synthetic.main.fragment_edit_info.view.*
 import org.jaudiotagger.audio.AudioFileIO
@@ -51,7 +52,9 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        presenter.getSong().subscribe({
+        presenter.getSong()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
                     setImage(view, it)
                     setTextViews(view, it)
                 }, Throwable::printStackTrace)

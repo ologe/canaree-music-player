@@ -15,7 +15,7 @@ abstract class BaseRepository<T, Param> : BaseGateway<T, Param> {
     }
 
     override fun getAll(): Observable<List<T>> {
-        if (cachedDataStore.getAll().isEmpty()){
+        if (cachedDataStore.isEmpty()){
             return Observable.concat(
                     queryAndCache().take(1),
                     queryAndCache().skip(1).debounce(1, TimeUnit.SECONDS)
@@ -23,8 +23,7 @@ abstract class BaseRepository<T, Param> : BaseGateway<T, Param> {
         }
 
         return Observable.concat(
-                Observable.just(cachedDataStore.getAll()),
-                queryAndCache().take(1),
+                cachedDataStore.getAll(),
                 queryAndCache().skip(1).debounce(1, TimeUnit.SECONDS)
         ).distinctUntilChanged()
     }

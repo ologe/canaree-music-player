@@ -20,7 +20,7 @@ object BindingsAdapter {
 
     const val OVERRIDE_SMALL = 150
     const val OVERRIDE_MID = 300
-    const val OVERRIDE_BIG = 500
+    const val OVERRIDE_BIG = 600
 
     private fun loadImageImpl(
             view: ImageView,
@@ -44,6 +44,7 @@ object BindingsAdapter {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(override)
                 .priority(priority)
+                .thumbnail(.4f)
 
         if (asPlaceholder){
             request = request.placeholder(CoverUtils.getGradient(context, position = id))

@@ -12,6 +12,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.msc.utils.isNougat_MR1
 import javax.inject.Inject
@@ -76,7 +77,7 @@ class AppShortcuts @Inject constructor(
     }
 
     private fun createSearchIntent(context: Context): Intent {
-        val intent = Intent(context, ShortcutsActivity::class.java)
+        val intent = Intent(context, MainActivity::class.java)
         intent.action = AppConstants.SHORTCUT_SEARCH
         return intent
     }

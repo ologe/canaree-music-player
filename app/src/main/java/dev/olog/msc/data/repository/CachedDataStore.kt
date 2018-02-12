@@ -1,19 +1,22 @@
 package dev.olog.msc.data.repository
 
-import java.util.*
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 
 class CachedDataStore<T> {
 
-    private val cache = Vector<T>()
+    private val publisher = BehaviorSubject.createDefault<List<T>>(listOf())
 
-    @Synchronized
     fun updateCache(list: List<T>) {
-        if (this.cache != list){
-            this.cache.clear()
-            this.cache.addAll(list)
+        if (list != publisher.value){
+            publisher.onNext(list)
         }
     }
 
-    fun getAll(): List<T> = cache.toList()
+    fun isEmpty() = publisher.value.isEmpty()
+
+    fun getAll(): Observable<List<T>> = publisher
+            .take(1)
+            .map { it.toList() }
 
 }

@@ -3,11 +3,13 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.Context
 import android.preference.PreferenceManager
+import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.CoverUtils
@@ -16,6 +18,7 @@ import javax.inject.Inject
 
 class App : DaggerApplication() {
 
+    @Inject lateinit var getAllSongsUseCase: GetAllSongsUseCase
     @Inject lateinit var strictMode: StrictMode
     @Inject lateinit var appShortcuts: AppShortcuts
 
@@ -23,8 +26,11 @@ class App : DaggerApplication() {
         super.onCreate()
         strictMode.initialize()
 
+        getAllSongsUseCase.execute()
+                .subscribe({}, Throwable::printStackTrace)
+
         if (BuildConfig.DEBUG) {
-//            LeakCanary.install(this)
+            LeakCanary.install(this)
 //            initRxJavaDebug()
         }
 

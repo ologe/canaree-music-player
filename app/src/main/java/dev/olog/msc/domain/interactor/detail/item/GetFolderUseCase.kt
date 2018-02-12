@@ -17,7 +17,6 @@ class GetFolderUseCase @Inject internal constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<Folder> {
         val folderPath = mediaId.categoryValue
-
         return gateway.getByParam(folderPath)
     }
 }
