@@ -19,8 +19,8 @@
     <string name="prefs_detail_visible_items_summary">Cambia le sezioni visibili nella schermata dettagliata</string>
 
     <!--lower audio on night-->
-    <string name="prefs_lower_volume_on_night_title">Abbassa il volume nelle ore notturne</string>
-    <string name="prefs_lower_volume_on_night_summary"></string>
+    <string name="prefs_lower_volume_on_night_title">Modalità mezzanotte</string>
+    <string name="prefs_lower_volume_on_night_summary">Abbassa il volume nelle ore notturne</string>
 
     <!--blacklist-->
     <string name="prefs_blacklist_title">Nascondi cartelle</string>

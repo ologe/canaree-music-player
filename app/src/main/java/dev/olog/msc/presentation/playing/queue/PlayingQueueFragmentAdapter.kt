@@ -3,17 +3,21 @@ package dev.olog.msc.presentation.playing.queue
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.databinding.ViewDataBinding
+import android.view.MotionEvent
 import dev.olog.msc.BR
+import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.BaseListAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.TouchCallbackConfig
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
 
 class PlayingQueueFragmentAdapter @Inject constructor(
@@ -33,12 +37,12 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         viewHolder.setOnLongClickListener(dataController) { item, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
-//        viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
-//            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-//                touchHelper()?.startDrag(viewHolder)
-//                true
-//            } else false
-//        }
+        viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
+            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
+                touchHelper()?.startDrag(viewHolder)
+                true
+            } else false
+        }
         viewHolder.elevateSongOnTouch()
     }
 
@@ -56,10 +60,10 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         currentPosition = dataController.getItemPositionByPredicate { it.trackNumber.toInt() == trackNumber }
     }
 
-//    override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
-//            true, true,
-//            draggableViewType = R.layout.item_playing_queue,
-//            onDragAction = { from, to -> musicController.swap(from, to)},
-//            onSwipeAction = { position -> musicController.remove(position) }
-//    )
+    override val touchCallbackConfig: TouchCallbackConfig = TouchCallbackConfig(
+            true, true,
+            draggableViewType = R.layout.item_playing_queue,
+            onDragAction = { from, to -> /*musicController.swap(from, to)*/},
+            onSwipeAction = { position -> /*musicController.remove(position) */}
+    )
 }

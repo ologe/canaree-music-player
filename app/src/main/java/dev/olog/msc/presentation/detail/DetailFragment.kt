@@ -20,6 +20,7 @@ import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
+import javax.inject.Provider
 import kotlin.LazyThreadSafetyMode.NONE
 
 class DetailFragment : BaseFragment() {
@@ -40,7 +41,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var layoutManager: GridLayoutManager
+    @Inject lateinit var layoutManager: Provider<GridLayoutManager>
     private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
 
     private val parallaxOnScrollListener: ParallaxScrollListener
@@ -73,7 +74,7 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = layoutManager
+        view.list.layoutManager = layoutManager.get()
         view.list.adapter = adapter
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)

@@ -9,11 +9,9 @@ object CommonQuery {
     fun getSize(contentResolver: ContentResolver, uri: Uri): Int {
 
         val cursor = contentResolver.query(uri, arrayOf("count(*)"), null, null, null)
-        var size = 0
-        cursor.use {
-            cursor.moveToFirst()
-            size = cursor.getInt(0)
-        }
+        cursor.moveToFirst()
+        val size = cursor.getInt(0)
+        cursor.close()
 
         return size
 

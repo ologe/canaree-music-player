@@ -23,10 +23,10 @@ abstract class LastPlayedArtistDao {
 
     @Transaction
     open fun insertOne(id: Long) : Completable {
-        return Completable
-                .fromCallable{ deleteImpl(id) }
-                .andThen { insertImpl(LastPlayedArtistEntity(id)) }
+        return Completable.fromCallable{ deleteImpl(id) }
                 .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .andThen { insertImpl(LastPlayedArtistEntity(id)) }
     }
 
 }

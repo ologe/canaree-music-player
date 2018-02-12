@@ -32,8 +32,8 @@
     <string name="prefs_used_equalizer_not_found">Built-in equalizer not available on rooted device</string>
 
     <!--lower audio on night-->
-    <string name="prefs_lower_volume_on_night_title">Lowers the max volume the night</string>
-    <string name="prefs_lower_volume_on_night_summary"></string>
+    <string name="prefs_lower_volume_on_night_title">Midnight mode</string>
+    <string name="prefs_lower_volume_on_night_summary">Lowers the max volume the night</string>
 
     <!--blacklist-->
     <string name="prefs_blacklist_title">Blacklist</string>
