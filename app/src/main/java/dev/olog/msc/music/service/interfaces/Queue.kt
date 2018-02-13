@@ -40,4 +40,6 @@ interface Queue {
 
     fun shuffle()
 
+    fun onRepeatModeChanged()
+
 }

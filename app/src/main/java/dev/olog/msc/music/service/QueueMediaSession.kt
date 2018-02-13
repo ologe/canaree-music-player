@@ -12,20 +12,19 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
-import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class QueueMediaSession @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         mediaSession: MediaSessionCompat
-//        updateMiniQueueUseCase: UpdateMiniQueueUseCase
 
 ) : DefaultLifecycleObserver {
 
-    private val publisher : BehaviorProcessor<List<MediaEntity>> = BehaviorProcessor.create()
-    private val immediatePublisher : BehaviorProcessor<List<MediaEntity>> = BehaviorProcessor.create()
+    private val publisher : PublishSubject<List<MediaEntity>> = PublishSubject.create()
+    private val immediatePublisher : PublishSubject<List<MediaEntity>> = PublishSubject.create()
     private var miniQueueDisposable : Disposable? = null
     private var immediateMiniQueueDisposable : Disposable? = null
 

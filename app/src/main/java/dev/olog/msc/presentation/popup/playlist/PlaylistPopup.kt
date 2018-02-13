@@ -19,7 +19,7 @@ class PlaylistPopup(
 
     init {
         if (song == null){
-            inflate(R.menu.dialog_genre)
+            inflate(R.menu.dialog_playlist)
         } else {
             inflate(R.menu.dialog_song)
         }

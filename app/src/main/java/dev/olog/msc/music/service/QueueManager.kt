@@ -233,6 +233,10 @@ class QueueManager @Inject constructor(
     override fun getCurrentPositionInQueue(): PositionInQueue {
         return queueImpl.currentPositionInQueue()
     }
+
+    override fun onRepeatModeChanged() {
+        queueImpl.onRepeatModeChanged()
+    }
 }
 
 private fun getAscendingComparator(sortType: SortType): Comparator<MediaEntity> {

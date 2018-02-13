@@ -19,7 +19,7 @@ class RepeatMode @Inject constructor(
         mediaSession.setRepeatMode(getState())
     }
 
-    private fun getState(): Int = musicPreferencesUseCase.getRepeatMode()
+    fun getState(): Int = musicPreferencesUseCase.getRepeatMode()
 
     fun isRepeatNone(): Boolean = getState() == REPEAT_MODE_NONE
 

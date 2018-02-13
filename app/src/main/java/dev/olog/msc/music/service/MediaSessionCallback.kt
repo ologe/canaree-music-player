@@ -179,6 +179,7 @@ class MediaSessionCallback @Inject constructor(
     override fun onSetRepeatMode(repeatMode: Int) {
         this.repeatMode.update()
         playerState.toggleSkipToActions(queue.getCurrentPositionInQueue())
+        queue.onRepeatModeChanged()
     }
 
     override fun onSetShuffleMode(unused: Int) {

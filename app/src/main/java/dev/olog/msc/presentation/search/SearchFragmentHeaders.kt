@@ -19,13 +19,13 @@ class SearchFragmentHeaders @Inject constructor(
     fun songsHeaders(size: Int) = DisplayableItem(R.layout.item_search_header, MediaId.headerId("songs header id"),
             context.getString(R.string.search_songs), context.resources.getQuantityString(R.plurals.search_xx_results, size, size))
 
-    fun albumsHeaders(size: Int) = listOf(
+    fun albumsHeaders(size: Int) = mutableListOf(
             DisplayableItem(R.layout.item_search_header, MediaId.headerId("albums header id"),
                     context.getString(R.string.search_albums), context.resources.getQuantityString(R.plurals.search_xx_results, size, size)),
             DisplayableItem(R.layout.item_search_albums_horizontal_list, MediaId.headerId("albums list id"), "")
     )
 
-    fun artistsHeaders(size: Int) = listOf(
+    fun artistsHeaders(size: Int) = mutableListOf(
             DisplayableItem(R.layout.item_search_header, MediaId.headerId("artists header id"),
                     context.getString(R.string.search_artists), context.resources.getQuantityString(R.plurals.search_xx_results, size, size)),
             DisplayableItem(R.layout.item_search_artists_horizontal_list, MediaId.headerId("artists list id"), "")

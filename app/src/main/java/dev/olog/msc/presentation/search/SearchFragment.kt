@@ -11,7 +11,10 @@ import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.utils.k.extension.fragmentTransaction
+import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -36,8 +39,10 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var albumAdapter: SearchFragmentAlbumAdapter
     @Inject lateinit var artistAdapter: SearchFragmentArtistAdapter
     @Inject lateinit var viewModel: SearchFragmentViewModel
-    @Inject lateinit var recycledViewPool: RecyclerView.RecycledViewPool
+    @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     private lateinit var layoutManager: LinearLayoutManager
+
+    private var queryDisposable : Disposable? = null
 
     private var showKeyboardDisposable : Disposable? = null
 
@@ -69,6 +74,7 @@ class SearchFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.searchData.subscribe(this, { (map, query) ->
+
             val itemCount = map.values.sumBy { it.size }
             val isEmpty = itemCount == 0
             view!!.searchImage.toggleVisibility(isEmpty && query.length < 2)
@@ -88,8 +94,7 @@ class SearchFragment : BaseFragment() {
             val artists = map[SearchFragmentType.ARTISTS]!!.toList()
             albumAdapter.updateDataSet(albums)
             artistAdapter.updateDataSet(artists)
-            viewModel.adjustDataMap(map)
-            adapter.updateDataSet(map)
+            adapter.updateDataSet(viewModel.adjustDataMap(map))
         })
 
         if (savedInstanceState == null){
@@ -105,12 +110,6 @@ class SearchFragment : BaseFragment() {
         view.list.layoutManager = layoutManager
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
-
-        RxTextView.afterTextChangeEvents(view.editText)
-                .map { it.editable()!!.toString() }
-                .filter { it.isBlank() || it.trim().length >= 2 }
-                .asLiveData()
-                .subscribe(this, viewModel::setNewQuery)
     }
 
     override fun onResume() {
@@ -124,6 +123,12 @@ class SearchFragment : BaseFragment() {
             activity!!.onBackPressed()
         }
         root.setOnClickListener { showKeyboard() }
+
+        queryDisposable = RxTextView.afterTextChangeEvents(editText)
+                .map { it.editable()!!.toString() }
+                .filter { it.isBlank() || it.trim().length >= 2 }
+                .subscribe(viewModel::setNewQuery, Throwable::printStackTrace)
+
     }
 
     override fun onPause() {
@@ -131,6 +136,7 @@ class SearchFragment : BaseFragment() {
         clear.setOnClickListener(null)
         back.setOnClickListener(null)
         root.setOnClickListener(null)
+        queryDisposable.unsubscribe()
     }
 
     override fun onStop() {

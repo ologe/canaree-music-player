@@ -63,16 +63,18 @@ class SearchFragmentViewModelModule {
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             } else {
-                Observables.zip(
-                        provideSearchByArtist(getAllArtistsUseCase, input),
-                        provideSearchByAlbum(getAllAlbumsUseCase, input),
-                        provideSearchBySong(getAllSongsUseCase, input),
-                        { artists, albums, songs -> mutableMapOf(
-                                SearchFragmentType.RECENT to mutableListOf(),
-                                SearchFragmentType.ARTISTS to artists.toMutableList(),
-                                SearchFragmentType.ALBUMS to albums.toMutableList(),
-                                SearchFragmentType.SONGS to songs.toMutableList())
-                        })
+                getAllSongsUseCase.execute()
+                        .flatMap { Observables.combineLatest(
+                                provideSearchByArtist(getAllArtistsUseCase, input),
+                                provideSearchByAlbum(getAllAlbumsUseCase, input),
+                                provideSearchBySong(getAllSongsUseCase, input),
+                                { artists, albums, songs -> mutableMapOf(
+                                        SearchFragmentType.RECENT to mutableListOf(),
+                                        SearchFragmentType.ARTISTS to artists.toMutableList(),
+                                        SearchFragmentType.ALBUMS to albums.toMutableList(),
+                                        SearchFragmentType.SONGS to songs.toMutableList())
+                                })
+                        }
                         .map { it to input }
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())

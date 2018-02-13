@@ -62,7 +62,9 @@ class QueueImpl @Inject constructor(
         currentSongPosition = safePosition
         musicPreferencesUseCase.setLastIdInPlaylist(idInPlaylist)
 
-        val miniQueue = copy.drop(safePosition + 1).take(51).toList()
+        var miniQueue = copy.drop(safePosition + 1).take(51).toMutableList()
+        miniQueue = handleQueueOnRepeatMode(miniQueue, copy[safePosition])
+
         if (immediate){
             queueMediaSession.onNextImmediate(miniQueue)
         } else {
@@ -158,6 +160,29 @@ class QueueImpl @Inject constructor(
         // todo check if current song is first/last ecc and update ui
 
         persist(playingQueue)
+    }
+
+    @MainThread
+    fun onRepeatModeChanged(){
+        assertMainThread()
+        handleQueueOnRepeatMode(playingQueue, playingQueue[currentSongPosition])
+    }
+
+    private fun handleQueueOnRepeatMode(list: MutableList<MediaEntity>, current: MediaEntity)
+            : MutableList<MediaEntity>{
+
+        if (list.size < 51){
+            if (repeatMode.isRepeatOne()){
+                list.clear()
+                list.add(current) //add itself as next item
+            } else if (repeatMode.isRepeatAll()){
+                while (list.size <= 51){
+                    list.addAll(playingQueue.take(51))
+                }
+            }
+            return list.take(51).toMutableList()
+        }
+        return list
     }
 
     @MainThread

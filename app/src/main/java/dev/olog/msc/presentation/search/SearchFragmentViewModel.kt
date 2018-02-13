@@ -1,9 +1,8 @@
 package dev.olog.msc.presentation.search
 
-import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import dev.olog.msc.domain.interactor.search.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -11,7 +10,6 @@ import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
 
 class SearchFragmentViewModel(
-        application: Application,
         private val queryText: MutableLiveData<String>,
         val searchData: LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>,
         private val searchHeaders: SearchFragmentHeaders,
@@ -23,36 +21,42 @@ class SearchFragmentViewModel(
         private val deleteRecentSearchArtistUseCase: DeleteRecentSearchArtistUseCase,
         private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
 
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     fun setNewQuery(newQuery: String){
         queryText.value = newQuery
     }
 
-    fun adjustDataMap(data: MutableMap<SearchFragmentType, MutableList<DisplayableItem>>) {
-        adjustAlbums(data[SearchFragmentType.ALBUMS]!!)
-        adjustArtists(data[SearchFragmentType.ARTISTS]!!)
-        adjustSongs(data[SearchFragmentType.SONGS]!!)
+    fun adjustDataMap(data: MutableMap<SearchFragmentType, MutableList<DisplayableItem>>)
+            : MutableMap<SearchFragmentType, MutableList<DisplayableItem>>{
+
+        val map = data.toMutableMap()
+        map[SearchFragmentType.ALBUMS] = adjustAlbums(data[SearchFragmentType.ALBUMS]!!)
+        map[SearchFragmentType.ARTISTS] = adjustArtists(data[SearchFragmentType.ARTISTS]!!)
+        map[SearchFragmentType.SONGS] = adjustSongs(data[SearchFragmentType.SONGS]!!)
+        return map
     }
 
-    private fun adjustAlbums(list: MutableList<DisplayableItem>){
-        if (list.isNotEmpty()){
-            list.clear()
-            list.addAll(searchHeaders.albumsHeaders(list.size))
-        }
+    private fun adjustAlbums(list: MutableList<DisplayableItem>): MutableList<DisplayableItem> {
+        return if (list.isNotEmpty()){
+            val size = list.size
+            return searchHeaders.albumsHeaders(size)
+        } else mutableListOf()
     }
 
-    private fun adjustArtists(list: MutableList<DisplayableItem>){
-        if (list.isNotEmpty()){
-            list.clear()
-            list.addAll(searchHeaders.artistsHeaders(list.size))
-        }
+    private fun adjustArtists(list: MutableList<DisplayableItem>): MutableList<DisplayableItem>{
+        return if (list.isNotEmpty()){
+            val size = list.size
+            searchHeaders.artistsHeaders(size)
+        } else mutableListOf()
     }
 
-    private fun adjustSongs(list: MutableList<DisplayableItem>){
-        if (list.isNotEmpty()){
-            list.add(0, searchHeaders.songsHeaders(list.size))
-        }
+    private fun adjustSongs(list: MutableList<DisplayableItem>): MutableList<DisplayableItem>{
+        return if (list.isNotEmpty()){
+            val copy = list.toMutableList()
+            copy.add(0, searchHeaders.songsHeaders(list.size))
+            copy
+        } else mutableListOf()
     }
 
     fun insertSongToRecent(mediaId: MediaId): Completable {

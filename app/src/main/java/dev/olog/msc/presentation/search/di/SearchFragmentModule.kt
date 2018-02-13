@@ -13,9 +13,7 @@ import dev.olog.msc.presentation.search.SearchFragmentViewModel
 import dev.olog.msc.presentation.search.SearchFragmentViewModelFactory
 
 @Module
-class SearchFragmentModule(
-        private val fragment: SearchFragment
-) {
+class SearchFragmentModule(private val fragment: SearchFragment) {
 
     @Provides
     @FragmentLifecycle
