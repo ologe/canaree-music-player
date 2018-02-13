@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.detail.scroll.listener
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.msc.utils.k.extension.toggleVisibility
 
 class ParallaxScrollListener (
         private val view: View
@@ -19,11 +20,13 @@ class ParallaxScrollListener (
                 height = child.top
             }
             val firstHolder = recyclerView.findChildViewUnder(0f,0f)
+            view.toggleVisibility(firstHolder == null)
+
             if (firstHolder == null){
                 val translation = height - child.top
                 view.translationY = Math.min(0f, -translation.toFloat() * .4f)
             } else {
-                view.translationY = -height.toFloat()
+//                view.translationY = -height.toFloat()
             }
         }
     }

@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.detail.scroll.listener
 import android.support.v7.widget.RecyclerView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
 import kotlin.LazyThreadSafetyMode.NONE
@@ -24,19 +25,22 @@ class HeaderVisibilityScrollListener(
             val bottom = child.bottom
             val needDarkLayout = bottom - toolbarHeight * 2 < 0
 
-            view.statusBar.isActivated = needDarkLayout
-            view.toolbar.isActivated = needDarkLayout
-            view.headerText.isActivated = needDarkLayout
+            view.statusBar.toggleVisibility(needDarkLayout)
+            view.toolbar.toggleVisibility(needDarkLayout)
+            view.headerText.toggleVisibility(needDarkLayout)
+            view.fade?.toggleVisibility(!needDarkLayout)
 
             if (needDarkLayout) {
                 fragment.setDarkButtons()
             } else {
                 fragment.setLightButtons()
             }
+
         } else {
-            view.statusBar.isActivated = true
-            view.toolbar.isActivated = true
-            view.headerText.isActivated = true
+            view.statusBar.toggleVisibility(true)
+            view.toolbar.toggleVisibility(true)
+            view.headerText.toggleVisibility(true)
+            view.fade?.toggleVisibility(false)
             fragment.setDarkButtons()
         }
     }

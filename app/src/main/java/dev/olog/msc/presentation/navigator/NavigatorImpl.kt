@@ -13,7 +13,6 @@ import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.albums.AlbumsFragment
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
@@ -44,10 +43,9 @@ import dev.olog.msc.utils.k.extension.fragmentTransaction
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
-private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
+private const val NEXT_REQUEST_THRESHOLD : Long = 600 // ms
 
-@PerActivity
-class NavigatorImpl @Inject constructor(
+class NavigatorImpl @Inject internal constructor(
         private val activity: AppCompatActivity,
         private val popupFactory: PopupMenuFactory
 
@@ -77,8 +75,8 @@ class NavigatorImpl @Inject constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                if (!categoriesFragment.isDetached){
-                    detach(categoriesFragment)
+                if (categoriesFragment.isVisible){
+                    hide(categoriesFragment)
                     add(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
                 } else {
                     replace(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
@@ -90,10 +88,17 @@ class NavigatorImpl @Inject constructor(
 
     override fun toSearchFragment() {
         if (allowed()){
+            val categoriesFragment = activity.supportFragmentManager
+                    .findFragmentByTag(CategoriesFragment.TAG)
+
+            val detailFragment = activity.supportFragmentManager
+                    .findFragmentByTag(DetailFragment.TAG)
+
             activity.fragmentTransaction {
-                add(R.id.fragmentContainer,
-                        SearchFragment.newInstance(),
-                        SearchFragment.TAG)
+                setReorderingAllowed(true)
+                categoriesFragment?.let { hide(it) }
+                detailFragment?.let { hide(it) }
+                add(R.id.fragmentContainer, SearchFragment.newInstance(), SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
             }
         }
@@ -104,7 +109,7 @@ class NavigatorImpl @Inject constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
+                replace(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
             }
         }
@@ -115,7 +120,7 @@ class NavigatorImpl @Inject constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
+                replace(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
             }
         }
@@ -126,7 +131,7 @@ class NavigatorImpl @Inject constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.fragmentContainer, AlbumsFragment.newInstance(mediaId), AlbumsFragment.TAG)
+                replace(R.id.fragmentContainer, AlbumsFragment.newInstance(mediaId), AlbumsFragment.TAG)
                 addToBackStack(AlbumsFragment.TAG)
             }
         }

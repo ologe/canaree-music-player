@@ -4,12 +4,11 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background"
-    android:elevation="4dp"
     android:orientation="vertical"
     android:clickable="true"
     android:focusable="true"
-    android:id="@+id/root">
+    android:id="@+id/root"
+    android:background="@color/background">
 
     <View
         android:layout_width="match_parent"

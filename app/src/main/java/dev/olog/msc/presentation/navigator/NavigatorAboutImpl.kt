@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import dev.olog.msc.R
-import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.licenses.LicensesFragment
 import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
 import dev.olog.msc.utils.k.extension.fragmentTransaction
@@ -14,8 +13,7 @@ import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
 
-@PerActivity
-class NavigatorAboutImpl @Inject constructor(
+class NavigatorAboutImpl @Inject internal constructor(
         private val activity: AppCompatActivity
 
 ) : NavigatorAbout {

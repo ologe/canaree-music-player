@@ -37,6 +37,7 @@ class DetailFragment : BaseFragment() {
     }
 
     @Inject lateinit var viewModel: DetailFragmentViewModel
+    @Inject lateinit var mediaId: MediaId
     @Inject lateinit var adapter: DetailFragmentAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
