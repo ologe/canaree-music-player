@@ -85,10 +85,10 @@ class SongRepository @Inject constructor(
     }
 
     override fun deleteSingle(songId: Long): Completable {
-        return Single.fromCallable { contentResolver.delete(MEDIA_STORE_URI,
-                "${BaseColumns._ID} = ?",
-                arrayOf("$songId"))
-        }.filter { it > 0 }
+        return Single.fromCallable {
+            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$songId"))
+        }
+                .filter { it > 0 }
                 .flatMapSingle { getByParam(songId).firstOrError() }
                 .map { File(it.path) }
                 .filter { it.exists() }

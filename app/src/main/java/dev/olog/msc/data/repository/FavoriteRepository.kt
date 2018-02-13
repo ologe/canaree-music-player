@@ -34,22 +34,14 @@ class FavoriteRepository @Inject constructor(
                 } }
     }
 
-    override fun addSingle(songId: Long): Single<String> {
-        return songGateway.getByParam(songId)
-                .firstOrError()
-                .flatMap { favoriteDao.addToFavoriteSingle(it) }
-                .flatMap { string ->
-                    updateFavoriteState(songId).map { string }
-                }
+    override fun addSingle(songId: Long): Completable {
+        return favoriteDao.addToFavoriteSingle(songId)
+                .andThen { updateFavoriteState(songId) }
     }
 
-    override fun addGroup(songListId: List<Long>): Single<String> {
+    override fun addGroup(songListId: List<Long>): Completable {
         return favoriteDao.addToFavorite(songListId)
-                .flatMap { string ->
-                    if (lastFavoriteId != null){
-                        updateFavoriteState(lastFavoriteId!!).map { string }
-                    } else Single.just(string)
-                }
+                .andThen { updateFavoriteState(lastFavoriteId!!) }
     }
 
     override fun deleteSingle(songId: Long): Completable {
@@ -96,7 +88,6 @@ class FavoriteRepository @Inject constructor(
                         favoriteDao.removeFromFavorite(listOf(songId))
                     } else {
                         favoriteDao.addToFavorite(listOf(songId))
-                                .toCompletable()
                     }
                 }.subscribe({}, Throwable::printStackTrace)
     }

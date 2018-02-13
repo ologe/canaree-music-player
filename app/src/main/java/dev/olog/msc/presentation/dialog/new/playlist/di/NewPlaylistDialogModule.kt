@@ -23,4 +23,12 @@ class NewPlaylistDialogModule(
         return MediaId.fromString(mediaId)
     }
 
+    @Provides
+    fun provideListSize(): Int {
+        return fragment.arguments!!.getInt(NewPlaylistDialog.ARGUMENTS_LIST_SIZE)
+    }
+
+    @Provides
+    fun provideTitle(): String = fragment.arguments!!.getString(NewPlaylistDialog.ARGUMENTS_ITEM_TITLE)
+
 }

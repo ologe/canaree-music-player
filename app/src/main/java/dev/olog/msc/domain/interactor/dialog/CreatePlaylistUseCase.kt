@@ -12,7 +12,8 @@ class CreatePlaylistUseCase @Inject constructor(
 
 ) : SingleUseCaseWithParam<Long, String>(scheduler) {
 
-    override fun buildUseCaseObservable(param: String): Single<Long> {
-        return playlistGateway.createPlaylist(param)
+    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+    override fun buildUseCaseObservable(playlistName: String): Single<Long> {
+        return playlistGateway.createPlaylist(playlistName)
     }
 }

@@ -23,4 +23,9 @@ class RenameDialogModule(
         return MediaId.fromString(mediaId)
     }
 
+    @Provides
+    fun provideTitle() : String {
+        return fragment.arguments!!.getString(RenameDialog.ARGUMENTS_ITEM_TITLE)
+    }
+
 }

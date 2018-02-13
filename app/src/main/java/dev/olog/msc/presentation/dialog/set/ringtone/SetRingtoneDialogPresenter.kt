@@ -7,47 +7,43 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import dev.olog.msc.R
-import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.makeDialog
+import io.reactivex.Completable
 import io.reactivex.Single
-import org.jetbrains.anko.toast
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class SetRingtoneDialogPresenter @Inject constructor(
         private val application: Application,
         private val activity: AppCompatActivity,
-        private val mediaId: MediaId,
-        private val itemTitle: String,
-        private val scheduler: IoScheduler
+        private val mediaId: MediaId
+
 ) {
 
-    fun execute() {
-
-        if (isMarshmallow()) {
-            if (Settings.System.canWrite(application)) {
-                setRingtone()
-            } else {
-                requestWritingSettingsPermission()
-            }
-        } else {
-            setRingtone()
-        }
+    @TargetApi(Build.VERSION_CODES.M)
+    fun execute() : Completable {
+        return Single.just(isMarshmallow())
+                .flatMapCompletable { m ->
+                    if (!m || (m && Settings.System.canWrite(application))) {
+                        setRingtone()
+                    } else {
+                        requestWritingSettingsPermission()
+                        Completable.never()
+                    }
+                }
     }
 
-    private fun setRingtone(){
-        Single.fromCallable(this::writeSettings)
-                .subscribeOn(scheduler.worker)
-                .observeOn(scheduler.ui)
-                .doOnSuccess { createSuccessMessage() }
-                .doOnError { createErrorMessage() }
-                .subscribe({}, Throwable::printStackTrace)
+    private fun setRingtone(): Completable{
+        return Completable.fromCallable(this::writeSettings)
+                .subscribeOn(Schedulers.io())
     }
 
     @TargetApi(23)
@@ -61,15 +57,6 @@ class SetRingtoneDialogPresenter @Inject constructor(
                     val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName"))
                     activity.startActivity(intent)
                 }).makeDialog()
-    }
-
-    private fun createSuccessMessage(){
-        val message = application.getString(R.string.song_x_set_as_ringtone, itemTitle)
-        application.toast(message)
-    }
-
-    private fun createErrorMessage(){
-        application.toast(application.getString(R.string.popup_error_message))
     }
 
     private fun writeSettings() : Boolean {

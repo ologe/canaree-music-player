@@ -218,13 +218,12 @@ class PlaylistRepository @Inject constructor(
         return helper.deletePlaylist(playlistId)
     }
 
-    override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String> {
-        return helper.addSongsToPlaylist(playlistId, songIds)
+    override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Completable {
+        return Completable.fromCallable { helper.addSongsToPlaylist(playlistId, songIds) }
     }
 
     override fun clearPlaylist(playlistId: Long): Completable {
         return Completable.fromCallable { helper.clearPlaylist(playlistId) }
-                .subscribeOn(Schedulers.io())
     }
 
     override fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) : Completable{

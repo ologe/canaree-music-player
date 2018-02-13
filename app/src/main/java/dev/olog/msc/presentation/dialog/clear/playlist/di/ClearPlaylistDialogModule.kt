@@ -23,7 +23,7 @@ class ClearPlaylistDialogModule(
     }
 
     @Provides
-    fun provideItemTitle(): String {
+    fun provideTitle(): String {
         return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_ITEM_TITLE)
     }
 

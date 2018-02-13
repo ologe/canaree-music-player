@@ -22,7 +22,7 @@ class RenameUseCase @Inject constructor(
             mediaId.isFolder -> folderGateway.renameFolder(mediaId.categoryValue, newTitle)
             mediaId.isPlaylist -> playlistGateway.renamePlaylist(
                     mediaId.categoryValue.toLong(), newTitle)
-            else -> Completable.complete()
+            else -> Completable.error(IllegalArgumentException("not a folder nor a playlist, $mediaId"))
         }
     }
 }

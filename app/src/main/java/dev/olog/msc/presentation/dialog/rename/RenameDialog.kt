@@ -1,17 +1,19 @@
 package dev.olog.msc.presentation.dialog.rename
 
+import android.content.Context
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseEditTextDialog
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.withArguments
+import io.reactivex.Completable
 import javax.inject.Inject
 
 class RenameDialog : BaseEditTextDialog() {
 
     companion object {
         const val TAG = "DeleteDialog"
-        const val ARGUMENTS_MEDIA_ID = "${TAG}.arguments.media_id"
-        const val ARGUMENTS_ITEM_TITLE = "${TAG}.arguments.item_title"
+        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         fun newInstance(mediaId: MediaId, itemTitle: String): RenameDialog {
             return RenameDialog().withArguments(
@@ -23,12 +25,19 @@ class RenameDialog : BaseEditTextDialog() {
 
     @Inject lateinit var presenter: RenameDialogPresenter
     @Inject lateinit var mediaId: MediaId
+    @Inject lateinit var title: String
 
-    override fun provideDialogTitle(): Int = R.string.popup_rename
+    override fun title(): Int = R.string.popup_rename
 
-    override fun providePositiveMessage(): Int = R.string.popup_positive_rename
+    override fun negativeButtonMessage(context: Context): Int {
+        return R.string.popup_negative_cancel
+    }
 
-    override fun provideErrorMessageForBlankForm(): Int {
+    override fun positiveButtonMessage(context: Context): Int {
+        return R.string.popup_positive_rename
+    }
+
+    override fun errorMessageForBlankForm(): Int {
         return when {
             mediaId.isPlaylist -> R.string.popup_playlist_name_not_valid
             mediaId.isFolder -> R.string.folder_name_not_valid
@@ -36,7 +45,7 @@ class RenameDialog : BaseEditTextDialog() {
         }
     }
 
-    override fun provideErrorMessageForInvalidForm(string: String): Int {
+    override fun errorMessageForInvalidForm(currentValue: String): Int {
         return when {
             mediaId.isPlaylist -> R.string.popup_playlist_name_already_exist
             mediaId.isFolder -> R.string.folder_name_already_exist
@@ -44,15 +53,25 @@ class RenameDialog : BaseEditTextDialog() {
         }
     }
 
-    override fun onValidData(string: String) {
-        val oldTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        presenter.execute(oldTitle, string)
-                .subscribe({}, Throwable::printStackTrace)
+    override fun positiveAction(currentValue: String): Completable {
+        return presenter.execute(currentValue)
+    }
+
+    override fun successMessage(context: Context, currentValue: String): CharSequence {
+        return when {
+            mediaId.isPlaylist -> context.getString(R.string.playlist_x_renamed_to_y)
+            mediaId.isFolder -> context.getString(R.string.folder_x_renamed_to_y)
+            else -> throw IllegalStateException("not a folder nor a playlist, $mediaId")
+        }
+    }
+
+    override fun negativeMessage(context: Context, currentValue: String): CharSequence {
+        return context.getString(R.string.popup_error_message)
     }
 
     override fun isStringValid(string: String): Boolean = presenter.checkData(string)
 
-    override fun provideStartEditTextValue(): String {
+    override fun initialTextFieldValue(): String {
         return arguments!!.getString(ARGUMENTS_ITEM_TITLE)
     }
 }

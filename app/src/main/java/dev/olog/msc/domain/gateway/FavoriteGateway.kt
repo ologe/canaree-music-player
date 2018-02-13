@@ -10,8 +10,8 @@ interface FavoriteGateway {
 
     fun getAll(): Observable<List<Song>>
 
-    fun addSingle(songId: Long): Single<String>
-    fun addGroup(songListId: List<Long>): Single<String>
+    fun addSingle(songId: Long): Completable
+    fun addGroup(songListId: List<Long>): Completable
 
     fun deleteSingle(songId: Long): Completable
     fun deleteGroup(songListId: List<Long>): Completable

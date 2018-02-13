@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.FileProvider
-import android.text.TextUtils
 import android.widget.PopupMenu
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Playlist
@@ -23,23 +22,22 @@ abstract class AbsPopupListener(
 
 ) : PopupMenu.OnMenuItemClickListener {
 
-    protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId){
+    protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId, listSize: Int, title: String){
         playlists.firstOrNull { it.id == itemId.toLong() }?.run {
             addToPlaylistUseCase.execute(this to mediaId)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSuccess { createSuccessMessage(context, it) }
+                    .doOnComplete { createSuccessMessage(context, itemId.toLong(), mediaId, listSize, title) }
                     .doOnError { createErrorMessage(context) }
                     .subscribe()
         }
     }
 
-    private fun createSuccessMessage(context: Context, pairStringPlaylistName: Pair<String, String>){
-        val (string, playlistTitle) = pairStringPlaylistName
-        val message = if (TextUtils.isDigitsOnly(string)){
-            val size = string.toInt()
-            context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, size, size, playlistTitle)
+    private fun createSuccessMessage(context: Context, playlistId: Long, mediaId: MediaId, listSize: Int, title: String){
+        val playlist = playlists.first { it.id == playlistId }.title
+        val message = if (mediaId.isLeaf){
+            context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, listSize, listSize, playlist)
         } else {
-            context.getString(R.string.added_song_x_to_playlist_y, string, playlistTitle)
+            context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
         }
         context.toast(message)
     }

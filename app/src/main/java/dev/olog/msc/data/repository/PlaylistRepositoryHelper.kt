@@ -40,49 +40,34 @@ class PlaylistRepositoryHelper @Inject constructor(
             } catch (exception: Exception){
                 e.onError(exception)
             }
-        }.subscribeOn(Schedulers.io())
+        }
     }
 
-    fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Single<String> {
-        return Single.create<String> { e ->
+    fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
+        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+        val cursor = contentResolver.query(uri, arrayOf("max(${MediaStore.Audio.Playlists.Members.PLAY_ORDER})"),
+                null, null, null)
 
-            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-            val cursor = contentResolver.query(uri, arrayOf("max(${MediaStore.Audio.Playlists.Members.PLAY_ORDER})"),
-                    null, null, null)
+        if (cursor.moveToFirst()) {
+            var maxId = cursor.getInt(0) + 1
 
-            var itemInserted = 0
-
-            cursor.use {
-                if (cursor.moveToFirst()){
-                    var maxId = it.getInt(0) + 1
-
-                    val arrayOf = mutableListOf<ContentValues>()
-                    for (songId in songIds) {
-                        val values = ContentValues(2)
-                        values.put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, maxId++)
-                        values.put(MediaStore.Audio.Playlists.Members.AUDIO_ID, songId)
-                        arrayOf.add(values)
-                    }
-
-                    itemInserted = contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
-
-                    contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-
-                } else {
-                    e.onError(IllegalArgumentException("invalid playlist id $playlistId"))
-                }
+            val arrayOf = mutableListOf<ContentValues>()
+            for (songId in songIds) {
+                val values = ContentValues(2)
+                values.put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, maxId++)
+                values.put(MediaStore.Audio.Playlists.Members.AUDIO_ID, songId)
+                arrayOf.add(values)
             }
 
-            e.onSuccess(itemInserted.toString())
+            contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+            contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
         }
+        cursor.close()
     }
 
     fun deletePlaylist(playlistId: Long): Completable {
         return Completable.fromCallable{
-            contentResolver.delete(
-                    MEDIA_STORE_URI,
-                    "${BaseColumns._ID} = ?",
-                    arrayOf("$playlistId"))
+            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
         }
     }
 

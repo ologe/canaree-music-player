@@ -43,7 +43,7 @@ class FolderPopupListener @Inject constructor(
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId())
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), folder.size, folder.title)
 
         when (itemId){
             Popup.NEW_PLAYLIST_ID -> toCreatePlaylist()
@@ -64,7 +64,11 @@ class FolderPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist(){
-        navigator.toCreatePlaylistDialog(getMediaId())
+        if (song == null){
+            navigator.toCreatePlaylistDialog(getMediaId(), folder.size, folder.title)
+        } else {
+            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+        }
     }
 
     private fun playFromMediaId(){

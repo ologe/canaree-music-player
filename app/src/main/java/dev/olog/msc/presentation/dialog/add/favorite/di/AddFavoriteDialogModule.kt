@@ -27,4 +27,7 @@ class AddFavoriteDialogModule(
         return fragment.arguments!!.getInt(AddFavoriteDialog.ARGUMENTS_LIST_SIZE)
     }
 
+    @Provides
+    fun provideTitle(): String = fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_ITEM_TITLE)
+
 }

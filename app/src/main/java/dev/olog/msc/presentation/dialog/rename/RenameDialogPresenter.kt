@@ -1,17 +1,13 @@
 package dev.olog.msc.presentation.dialog.rename
 
-import android.app.Application
-import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
-import org.jetbrains.anko.toast
 import java.io.File
 import javax.inject.Inject
 
 class RenameDialogPresenter @Inject constructor(
-        private val application: Application,
         private val mediaId: MediaId,
         getPlaylistSiblingsUseCase: GetPlaylistBlockingUseCase,
         private val renameUseCase: RenameUseCase
@@ -22,26 +18,8 @@ class RenameDialogPresenter @Inject constructor(
             .map { it.title }
             .map { it.toLowerCase() }
 
-    fun execute(oldTitle: String, newTitle: String) : Completable {
+    fun execute(newTitle: String) : Completable {
         return renameUseCase.execute(Pair(mediaId, newTitle))
-                .doOnComplete { createSuccessMessage(oldTitle, newTitle) }
-                .doOnError { createErrorMessage() }
-    }
-
-    private fun createSuccessMessage(oldTitle: String, newTitle: String){
-        val stringId = when {
-            mediaId.isPlaylist -> R.string.playlist_x_renamed_to_y
-            mediaId.isFolder -> R.string.folder_x_renamed_to_y
-            else -> 0
-        }
-        if (stringId != 0){
-            val message = application.getString(stringId, oldTitle, newTitle)
-            application.toast(message)
-        }
-    }
-
-    private fun createErrorMessage(){
-        application.toast(application.getString(R.string.popup_error_message))
     }
 
     /**

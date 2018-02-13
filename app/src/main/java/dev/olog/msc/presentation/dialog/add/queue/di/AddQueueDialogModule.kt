@@ -27,4 +27,7 @@ class AddQueueDialogModule(
         return fragment.arguments!!.getInt(AddQueueDialog.ARGUMENTS_LIST_SIZE)
     }
 
+    @Provides
+    fun provideTitle(): String = fragment.arguments!!.getString(AddQueueDialog.ARGUMENTS_ITEM_TITLE)
+
 }

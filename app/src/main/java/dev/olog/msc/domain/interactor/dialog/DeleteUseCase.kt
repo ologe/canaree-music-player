@@ -19,7 +19,7 @@ class DeleteUseCase @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Completable {
-        if (mediaId.isAll || mediaId.isLeaf) {
+        if (mediaId.isLeaf) {
             return songGateway.deleteSingle(mediaId.leaf!!)
         }
 

@@ -261,8 +261,8 @@ class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, DeleteDialog.TAG)
     }
 
-    override fun toCreatePlaylistDialog(mediaId: MediaId) {
-        val fragment = NewPlaylistDialog.newInstance(mediaId)
+    override fun toCreatePlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
+        val fragment = NewPlaylistDialog.newInstance(mediaId, listSize, itemTitle)
         fragment.show(activity.supportFragmentManager, NewPlaylistDialog.TAG)
     }
 
