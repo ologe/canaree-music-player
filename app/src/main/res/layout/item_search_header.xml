@@ -15,7 +15,7 @@
 
         <TextView
             android:text="@{item.title}"
-            tools:text="Recently played"
+            tools:text="Songs"
             android:textSize="@dimen/item_header_text_size"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -27,9 +27,9 @@
 
         <TextView
             android:text="@{item.subtitle}"
-            tools:text="@string/detail_see_more"
+            tools:text="9 results"
             android:textSize="@dimen/item_header_sec_text_size"
-            android:textColor="@android:color/black"
+            android:textColor="@color/item_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"

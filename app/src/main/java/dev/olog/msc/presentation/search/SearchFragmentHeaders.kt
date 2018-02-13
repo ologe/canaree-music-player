@@ -16,8 +16,8 @@ class SearchFragmentHeaders @Inject constructor(
     val recents = listOf(DisplayableItem(R.layout.item_search_recent_header, MediaId.headerId("recent searches header id"),
             context.getString(R.string.search_recent_searches)))
 
-    fun songsHeaders(size: Int) = listOf(DisplayableItem(R.layout.item_search_header, MediaId.headerId("songs header id"),
-            context.getString(R.string.search_songs), context.resources.getQuantityString(R.plurals.search_xx_results, size, size)))
+    fun songsHeaders(size: Int) = DisplayableItem(R.layout.item_search_header, MediaId.headerId("songs header id"),
+            context.getString(R.string.search_songs), context.resources.getQuantityString(R.plurals.search_xx_results, size, size))
 
     fun albumsHeaders(size: Int) = listOf(
             DisplayableItem(R.layout.item_search_header, MediaId.headerId("albums header id"),

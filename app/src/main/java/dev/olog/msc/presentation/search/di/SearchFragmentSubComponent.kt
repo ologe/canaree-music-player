@@ -4,7 +4,6 @@ import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.search.SearchFragment
-import dev.olog.presentation.fragment_search.di.SearchFragmentViewModelModule
 
 @Subcomponent(modules = arrayOf(
         SearchFragmentModule::class,

@@ -88,16 +88,9 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toSearchFragment() {
         if (allowed()){
-            val categoriesFragment = activity.supportFragmentManager
-                    .findFragmentByTag(CategoriesFragment.TAG)
-
-            val detailFragment = activity.supportFragmentManager
-                    .findFragmentByTag(DetailFragment.TAG)
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                categoriesFragment?.let { hide(it) }
-                detailFragment?.let { hide(it) }
                 add(R.id.fragmentContainer, SearchFragment.newInstance(), SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
             }
@@ -223,7 +216,7 @@ class NavigatorImpl @Inject internal constructor(
         activity.fragmentTransaction {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            add(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
+            replace(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
             addToBackStack(EqualizerFragment.TAG)
         }
     }

@@ -1,4 +1,4 @@
-package dev.olog.presentation.fragment_search.di
+package dev.olog.msc.presentation.search.di
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -54,7 +54,7 @@ class SearchFragmentViewModelModule {
             if (input.isBlank()){
                 provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
                         .map { mutableMapOf(
-                        SearchFragmentType.RECENT to it,
+                        SearchFragmentType.RECENT to it.toMutableList(),
                         SearchFragmentType.ARTISTS to mutableListOf(),
                         SearchFragmentType.ALBUMS to mutableListOf(),
                         SearchFragmentType.SONGS to mutableListOf())
@@ -69,9 +69,9 @@ class SearchFragmentViewModelModule {
                         provideSearchBySong(getAllSongsUseCase, input),
                         { artists, albums, songs -> mutableMapOf(
                                 SearchFragmentType.RECENT to mutableListOf(),
-                                SearchFragmentType.ARTISTS to artists,
-                                SearchFragmentType.ALBUMS to albums,
-                                SearchFragmentType.SONGS to songs)
+                                SearchFragmentType.ARTISTS to artists.toMutableList(),
+                                SearchFragmentType.ALBUMS to albums.toMutableList(),
+                                SearchFragmentType.SONGS to songs.toMutableList())
                         })
                         .map { it to input }
                         .subscribeOn(Schedulers.computation())

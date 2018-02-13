@@ -1,9 +1,9 @@
 package dev.olog.msc.utils.k.extension
 
+import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AppCompatActivity
 
-fun AppCompatActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
+fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
     supportFragmentManager
             .beginTransaction()
             .func()

@@ -37,42 +37,21 @@ class SearchFragmentViewModel(
 
     private fun adjustAlbums(list: MutableList<DisplayableItem>){
         if (list.isNotEmpty()){
-            val albumsHeaders = searchHeaders.albumsHeaders(list.size)
-            if (list[0].mediaId == albumsHeaders[0].mediaId){
-                albumsHeaders.forEachIndexed { index, displayableItem ->
-                    list[index] = displayableItem
-                }
-            } else {
-                list.clear()
-                list.addAll(0, albumsHeaders)
-            }
+            list.clear()
+            list.addAll(searchHeaders.albumsHeaders(list.size))
         }
     }
 
     private fun adjustArtists(list: MutableList<DisplayableItem>){
         if (list.isNotEmpty()){
-            val artistsHeaders = searchHeaders.artistsHeaders(list.size)
-            if (list[0].mediaId == artistsHeaders[0].mediaId){
-                artistsHeaders.forEachIndexed { index, displayableItem ->
-                    list[index] = displayableItem
-                }
-            } else {
-                list.clear()
-                list.addAll(0, artistsHeaders)
-            }
+            list.clear()
+            list.addAll(searchHeaders.artistsHeaders(list.size))
         }
     }
 
     private fun adjustSongs(list: MutableList<DisplayableItem>){
         if (list.isNotEmpty()){
-            val songHeaders = searchHeaders.songsHeaders(list.size)
-            if (list[0].mediaId == songHeaders[0].mediaId){
-                songHeaders.forEachIndexed { index, displayableItem ->
-                    list[index] = displayableItem
-                }
-            } else {
-                list.addAll(0, songHeaders)
-            }
+            list.add(0, searchHeaders.songsHeaders(list.size))
         }
     }
 

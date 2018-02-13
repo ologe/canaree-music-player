@@ -105,7 +105,7 @@ abstract class RecentSearchesDao {
 
     private fun searchArtistMapper(recentSearch: RecentSearchesEntity, artist: Artist) : SearchResult {
         return SearchResult(MediaId.artistId(artist.id), recentSearch.dataType,
-                artist.name, "")
+                artist.name, artist.image)
     }
 
 }

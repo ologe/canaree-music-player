@@ -7,16 +7,16 @@ import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.toggleVisibility
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_library_categories.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -44,8 +44,25 @@ class SearchFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null){
-            enterTransition = CircularReveal(activity!!.search)
+            enterTransition = CircularReveal(activity!!.search, onAppearFinished = {
+                val fragmentManager = activity?.supportFragmentManager
+
+                activity?.fragmentTransaction {
+                    fragmentManager?.findFragmentByTag(CategoriesFragment.TAG)?.let { hide(it) }
+                    fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { hide(it) }
+                    setReorderingAllowed(true)
+                }
+            })
         }
+    }
+
+    override fun onDetach() {
+        activity!!.fragmentTransaction {
+            fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { show(it) }
+                    ?: fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }
+            setReorderingAllowed(true)
+        }
+        super.onDetach()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -67,8 +84,8 @@ class SearchFragment : BaseFragment() {
                 view!!.emptyStateImage.progress = 0f
             }
 
-            val albums = map[SearchFragmentType.ALBUMS]!!
-            val artists = map[SearchFragmentType.ARTISTS]!!
+            val albums = map[SearchFragmentType.ALBUMS]!!.toList()
+            val artists = map[SearchFragmentType.ARTISTS]!!.toList()
             albumAdapter.updateDataSet(albums)
             artistAdapter.updateDataSet(artists)
             viewModel.adjustDataMap(map)
@@ -87,6 +104,7 @@ class SearchFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.recycledViewPool = recycledViewPool
+        view.list.setHasFixedSize(true)
 
         RxTextView.afterTextChangeEvents(view.editText)
                 .map { it.editable()!!.toString() }
@@ -97,33 +115,32 @@ class SearchFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        view!!.clear.setOnClickListener {
+        clear.setOnClickListener {
             viewModel.setNewQuery("")
             view!!.editText.setText("")
         }
-        view!!.back.setOnClickListener {
+        back.setOnClickListener {
             ImeUtils.hideIme(view!!.editText)
             activity!!.onBackPressed()
         }
-        view!!.root.setOnClickListener { showKeyboard() }
+        root.setOnClickListener { showKeyboard() }
     }
 
     override fun onPause() {
         super.onPause()
-        view!!.clear.setOnClickListener(null)
-        view!!.back.setOnClickListener(null)
-        view!!.root.setOnClickListener(null)
+        clear.setOnClickListener(null)
+        back.setOnClickListener(null)
+        root.setOnClickListener(null)
     }
 
     override fun onStop() {
         super.onStop()
-        view!!.editText.clearFocus()
+        ImeUtils.hideIme(editText)
         showKeyboardDisposable.unsubscribe()
     }
 
     private fun showKeyboard(){
-        view!!.editText.requestFocus()
-        ImeUtils.showIme(view!!.editText)
+        ImeUtils.showIme(editText)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search

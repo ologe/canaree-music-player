@@ -10,11 +10,13 @@ import android.support.transition.TransitionValues
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
+import androidx.animation.addListener
 
 class CircularReveal(
         private val icon: View,
         private val fromColor: Int = 0xfff0f0f0.toInt(), // grey
-        private val toColor: Int = Color.WHITE
+        private val toColor: Int = Color.WHITE,
+        private val onAppearFinished: (() -> Unit)? = null
 
 ) : Fade() {
 
@@ -27,13 +29,9 @@ class CircularReveal(
                 createCircularReveal(view, true),
                 animateBackgroundColor(view, fromColor, toColor)
         )
+        set.addListener(onEnd = { onAppearFinished?.invoke() })
         set.duration = 350
         return set
-    }
-
-    override fun onDisappear(sceneRoot: ViewGroup, view: View,
-                             startValues: TransitionValues?, endValues: TransitionValues?): Animator {
-        return super.onDisappear(sceneRoot, view, startValues, endValues)
     }
 
     private fun createCircularReveal(view: View, isAppearing: Boolean) : Animator{
