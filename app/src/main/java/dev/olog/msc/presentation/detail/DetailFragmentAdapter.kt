@@ -175,7 +175,11 @@ class DetailFragmentAdapter @Inject constructor(
                         .map { it.size }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ size ->
-                            layoutManager.spanCount = if (size < 5) size else 5
+                            layoutManager.spanCount = when {
+                                size == 0 -> 1
+                                size < 5 -> size
+                                else -> 5
+                            }
                         }, Throwable::printStackTrace)
             }
             R.layout.item_detail_recently_added_list -> {

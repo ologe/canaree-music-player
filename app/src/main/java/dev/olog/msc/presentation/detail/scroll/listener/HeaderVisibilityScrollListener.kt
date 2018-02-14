@@ -6,7 +6,6 @@ import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.jetbrains.anko.dimen
-import kotlin.LazyThreadSafetyMode.NONE
 
 class HeaderVisibilityScrollListener(
         private val fragment: DetailFragment
@@ -14,12 +13,14 @@ class HeaderVisibilityScrollListener(
 ) : RecyclerView.OnScrollListener() {
 
     private val context = fragment.context!!
-    private val view = fragment.view!!
-    private val toolbarHeight by lazy(NONE) { context.dimen(R.dimen.status_bar) + context.dimen(R.dimen.toolbar) }
+    private val toolbarHeight = context.dimen(R.dimen.status_bar) + context.dimen(R.dimen.toolbar)
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val child = recyclerView.getChildAt(0)
         val holder = recyclerView.getChildViewHolder(child)
+
+        val view = fragment.view!!
+
 
         if (holder.itemViewType == R.layout.item_detail_item_info) {
             val bottom = child.bottom

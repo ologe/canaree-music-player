@@ -21,10 +21,6 @@ class StatusBarColorBehavior @Inject constructor(
         activity.lifecycle.addObserver(this)
     }
 
-    override fun onCreate(owner: LifecycleOwner) {
-        activity.window.setLightStatusBar()
-    }
-
     override fun onResume(owner: LifecycleOwner) {
         activity.addPanelSlideListener(this)
         activity.supportFragmentManager.addOnBackStackChangedListener(this)
@@ -59,10 +55,12 @@ class StatusBarColorBehavior @Inject constructor(
         if (activity.isPortrait){
             val fm = activity.supportFragmentManager
             val backStackEntryCount = fm.backStackEntryCount - 1
-            val entry = fm.getBackStackEntryAt(backStackEntryCount)
-            val fragment = fm.findFragmentByTag(entry.name)
-            if (fragment is DetailFragment){
-                return fragment
+            if (backStackEntryCount > -1){
+                val entry = fm.getBackStackEntryAt(backStackEntryCount)
+                val fragment = fm.findFragmentByTag(entry.name)
+                if (fragment is DetailFragment){
+                    return fragment
+                }
             }
         }
         return null

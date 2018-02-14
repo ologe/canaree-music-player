@@ -28,7 +28,6 @@ class DetailFragment : BaseFragment() {
     companion object {
         const val TAG = "DetailFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val BUNDLE_SHOW_TOOLBAR = "$TAG.bundle.show.toolbar"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
@@ -45,6 +44,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
+    @Inject lateinit var detailListMargin: DetailListMargin
     private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
 
     internal var hasLightStatusBarColor by Delegates.observable(false, { _, _, new ->
@@ -90,13 +90,6 @@ class DetailFragment : BaseFragment() {
             view.doOnPreDraw {
                 view.list.setPadding(view.list.paddingLeft, view.cover.bottom, view.list.paddingRight, view.list.paddingBottom)
             }
-            if (savedInstanceState != null){
-                val show = savedInstanceState.getBoolean(BUNDLE_SHOW_TOOLBAR, false)
-                view.statusBar.toggleVisibility(show)
-                view.toolbar.toggleVisibility(show)
-                view.headerText.toggleVisibility(show)
-                view.fade?.toggleVisibility(!show)
-            }
         }
     }
 
@@ -105,6 +98,7 @@ class DetailFragment : BaseFragment() {
         if (context!!.isPortrait){
             list.addOnScrollListener(recyclerOnScrollListener)
             list.addOnScrollListener(parallaxOnScrollListener)
+            list.addItemDecoration(detailListMargin)
         }
         back.setOnClickListener { activity!!.onBackPressed() }
         search.setOnClickListener { navigator.toSearchFragment() }
@@ -115,14 +109,10 @@ class DetailFragment : BaseFragment() {
         if (context!!.isPortrait){
             list.removeOnScrollListener(recyclerOnScrollListener)
             list.removeOnScrollListener(parallaxOnScrollListener)
+            list.removeItemDecoration(detailListMargin)
         }
         back.setOnClickListener(null)
         search.setOnClickListener(null)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(BUNDLE_SHOW_TOOLBAR, toolbar.visibility == View.VISIBLE)
     }
 
     internal fun adjustStatusBarColor(lightStatusBar: Boolean = hasLightStatusBarColor){

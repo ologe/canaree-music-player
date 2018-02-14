@@ -78,7 +78,8 @@
         android:layout_height="@dimen/toolbar"
         android:background="@color/toolbar"
         android:elevation="@dimen/toolbar_elevation"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <ImageButton
         android:id="@+id/back"
