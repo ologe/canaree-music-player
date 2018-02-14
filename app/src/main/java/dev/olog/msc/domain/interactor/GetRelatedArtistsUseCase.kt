@@ -20,8 +20,8 @@ class GetRelatedArtistsUseCase @Inject constructor(
                     if (!mediaId.isAlbum && !mediaId.isArtist){
                         it.asSequence()
                                 .filter { it.artist != AppConstants.UNKNOWN }
-                                .distinct()
                                 .map { it.artist }
+                                .distinct()
                                 .joinToString()
                     } else ""
                 }

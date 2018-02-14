@@ -30,18 +30,14 @@ class HeaderVisibilityScrollListener(
             view.headerText.toggleVisibility(needDarkLayout)
             view.fade?.toggleVisibility(!needDarkLayout)
 
-            if (needDarkLayout) {
-                fragment.setDarkButtons()
-            } else {
-                fragment.setLightButtons()
-            }
+            fragment.hasLightStatusBarColor = needDarkLayout
 
         } else {
             view.statusBar.toggleVisibility(true)
             view.toolbar.toggleVisibility(true)
             view.headerText.toggleVisibility(true)
             view.fade?.toggleVisibility(false)
-            fragment.setDarkButtons()
+            fragment.hasLightStatusBarColor = true
         }
     }
 

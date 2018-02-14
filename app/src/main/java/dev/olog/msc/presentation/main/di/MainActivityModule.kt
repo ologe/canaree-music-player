@@ -18,12 +18,15 @@ class MainActivityModule(
 ) {
 
     @Provides
+    fun provideInstance() = activity
+
+    @Provides
     @ActivityContext
     internal fun provideContext(): Context = activity
 
     @Provides
     @ActivityLifecycle
-    internal fun provideLifecycle() : Lifecycle = activity.lifecycle
+    internal fun provideLifecycle(): Lifecycle = activity.lifecycle
 
     @Provides
     internal fun provideActivity(): Activity = activity
@@ -32,7 +35,7 @@ class MainActivityModule(
     internal fun provideSupportActivity(): AppCompatActivity = activity
 
     @Provides
-    internal fun provideFragmentActivity() : FragmentActivity = activity
+    internal fun provideFragmentActivity(): FragmentActivity = activity
 
     @Provides
     internal fun provideMusicGlue(): MediaProvider = activity

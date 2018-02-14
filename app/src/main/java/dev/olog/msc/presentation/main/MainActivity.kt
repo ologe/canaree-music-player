@@ -25,10 +25,12 @@ import javax.inject.Inject
 
 private const val SPLASH_REQUEST_CODE = 0
 
-class MainActivity: MusicGlueActivity(), HasSlidingPanel {
+class MainActivity : MusicGlueActivity(), HasSlidingPanel {
 
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var navigator: Navigator
+    @Suppress("unused") // false alarm
+    @Inject lateinit var statusBarColorBehavior: StatusBarColorBehavior
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

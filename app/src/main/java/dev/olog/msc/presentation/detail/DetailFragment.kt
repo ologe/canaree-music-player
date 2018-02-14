@@ -15,19 +15,20 @@ import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollLi
 import dev.olog.msc.presentation.detail.scroll.listener.ParallaxScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.LazyThreadSafetyMode.NONE
+import kotlin.properties.Delegates
 
 class DetailFragment : BaseFragment() {
 
     companion object {
         const val TAG = "DetailFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        const val BUNDLE_SHOW_TOOLBAR = "$TAG.bundle.show.toolbar"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
@@ -46,14 +47,15 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
     private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
 
+    internal var hasLightStatusBarColor by Delegates.observable(false, { _, _, new ->
+        adjustStatusBarColor(new)
+    })
+
     private val parallaxOnScrollListener: ParallaxScrollListener
             by lazy { ParallaxScrollListener(view!!.cover) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (context!!.isPortrait){
-            setLightButtons()
-        }
 
         viewModel.mostPlayedFlowable
                 .subscribe(this, mostPlayedAdapter::updateDataSet)
@@ -88,6 +90,13 @@ class DetailFragment : BaseFragment() {
             view.doOnPreDraw {
                 view.list.setPadding(view.list.paddingLeft, view.cover.bottom, view.list.paddingRight, view.list.paddingBottom)
             }
+            if (savedInstanceState != null){
+                val show = savedInstanceState.getBoolean(BUNDLE_SHOW_TOOLBAR, false)
+                view.statusBar.toggleVisibility(show)
+                view.toolbar.toggleVisibility(show)
+                view.headerText.toggleVisibility(show)
+                view.fade?.toggleVisibility(!show)
+            }
         }
     }
 
@@ -111,23 +120,27 @@ class DetailFragment : BaseFragment() {
         search.setOnClickListener(null)
     }
 
-    override fun onDestroyView() {
-        setDarkButtons()
-        super.onDestroyView()
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(BUNDLE_SHOW_TOOLBAR, toolbar.visibility == View.VISIBLE)
     }
 
-    internal fun setLightButtons(){
-        if (isMarshmallow()){
-            activity!!.window.removeLightStatusBar()
+    internal fun adjustStatusBarColor(lightStatusBar: Boolean = hasLightStatusBarColor){
+        if (lightStatusBar){
+            setLightStatusBar()
+        } else {
+            removeLightStatusBar()
         }
+    }
+
+    private fun removeLightStatusBar(){
+        activity!!.window.removeLightStatusBar()
         view?.back?.setColorFilter(Color.WHITE)
         view?.search?.setColorFilter(Color.WHITE)
     }
 
-    internal fun setDarkButtons(){
-        if (isMarshmallow()){
-            activity!!.window.setLightStatusBar()
-        }
+    private fun setLightStatusBar(){
+        activity!!.window.setLightStatusBar()
         view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
         view?.search?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
     }

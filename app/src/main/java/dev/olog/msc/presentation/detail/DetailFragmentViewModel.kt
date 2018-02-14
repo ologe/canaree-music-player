@@ -103,12 +103,13 @@ class DetailFragmentViewModel(
 
     private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (list.isNotEmpty() && isEnabled){
+            val size = list.size
             if (list.size > 10){
                 list.clear()
-                list.addAll(0, headers.recentWithSeeAll)
+                list.addAll(0, headers.recentWithSeeAll(size))
             } else {
                 list.clear()
-                list.addAll(0, headers.recent)
+                list.addAll(0, headers.recent(size))
             }
         } else {
             list.clear()

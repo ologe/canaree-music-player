@@ -25,8 +25,6 @@ class ParallaxScrollListener (
             if (firstHolder == null){
                 val translation = height - child.top
                 view.translationY = Math.min(0f, -translation.toFloat() * .4f)
-            } else {
-//                view.translationY = -height.toFloat()
             }
         }
     }

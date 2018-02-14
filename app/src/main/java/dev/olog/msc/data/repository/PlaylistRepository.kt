@@ -128,8 +128,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
-        return Observable.just(autoPlaylist())
-                .flatMapSingle { it.toFlowable().toSortedList(compareByDescending { it.id }) }
+        return Observable.just(autoPlaylist().sortedWith(compareByDescending { it.id }))
     }
 
     override fun insertSongToHistory(songId: Long): Completable {

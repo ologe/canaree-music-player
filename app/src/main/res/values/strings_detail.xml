@@ -42,4 +42,9 @@
 
     <string name="detail_no_tracks">No tracks</string>
 
+    <plurals name="xx_new_songs">
+        <item quantity="one">%d new song</item>
+        <item quantity="other">%d new songs</item>
+    </plurals>
+
 </resources>
