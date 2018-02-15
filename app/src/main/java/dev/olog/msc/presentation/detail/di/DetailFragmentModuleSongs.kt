@@ -22,7 +22,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.mapToList
-import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.withLatestFrom
 
@@ -66,7 +65,13 @@ class DetailFragmentModuleSongs {
 
         }.flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
                         .map { createDurationFooter(context, songList.size, it) }
-                        .map { songList.startWithIfNotEmpty(it) }
+                        .map {
+                            if (songList.isNotEmpty()){
+                                val list = songList.toMutableList()
+                                list.add(it)
+                                list
+                            } else mutableListOf()
+                        }
                 }
     }
 

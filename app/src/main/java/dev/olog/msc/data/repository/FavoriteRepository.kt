@@ -46,22 +46,20 @@ class FavoriteRepository @Inject constructor(
 
     override fun deleteSingle(songId: Long): Completable {
         return favoriteDao.removeFromFavorite(listOf(songId))
-                .toSingleDefault("")
-                .flatMap { string ->
+                .andThen {
                     if (lastFavoriteId != null){
-                        updateFavoriteState(lastFavoriteId!!).map { string }
-                    } else Single.just(string)
-                }.toCompletable()
+                        updateFavoriteState(lastFavoriteId!!).toCompletable()
+                    } else Completable.complete()
+                }
     }
 
     override fun deleteGroup(songListId: List<Long>): Completable {
         return favoriteDao.removeFromFavorite(songListId)
-                .toSingleDefault("")
-                .flatMap { string ->
+                .andThen {
                     if (lastFavoriteId != null){
-                        updateFavoriteState(lastFavoriteId!!).map { string }
-                    } else Single.just(string)
-                }.toCompletable()
+                        updateFavoriteState(lastFavoriteId!!).toCompletable()
+                    } else Completable.complete()
+                }
     }
 
     override fun deleteAll(): Completable {

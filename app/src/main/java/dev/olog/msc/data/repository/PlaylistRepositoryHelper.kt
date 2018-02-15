@@ -72,16 +72,19 @@ class PlaylistRepositoryHelper @Inject constructor(
         }
     }
 
-    fun clearPlaylist(playlistId: Long){
+    fun clearPlaylist(playlistId: Long): Completable {
         if (PlaylistConstants.isAutoPlaylist(playlistId)){
             when (playlistId){
-                PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteAll()
-                PlaylistConstants.HISTORY_LIST_ID -> historyDao.deleteAll()
+                PlaylistConstants.FAVORITE_LIST_ID -> return favoriteGateway.deleteAll()
+                PlaylistConstants.HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAll() }
             }
-            return
         }
-        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-        contentResolver.delete(uri, null, null)
+        return Completable.create {
+            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+            contentResolver.delete(uri, null, null)
+
+            it.onComplete()
+        }
     }
 
     fun removeSongFromPlaylist(playlistId: Long, songId: Long): Completable {

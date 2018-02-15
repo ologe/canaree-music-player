@@ -222,7 +222,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun clearPlaylist(playlistId: Long): Completable {
-        return Completable.fromCallable { helper.clearPlaylist(playlistId) }
+        return helper.clearPlaylist(playlistId)
     }
 
     override fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) : Completable{

@@ -28,16 +28,16 @@ abstract class AbsPopupListener(
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnComplete { createSuccessMessage(context, itemId.toLong(), mediaId, listSize, title) }
                     .doOnError { createErrorMessage(context) }
-                    .subscribe()
+                    .subscribe({}, Throwable::printStackTrace)
         }
     }
 
     private fun createSuccessMessage(context: Context, playlistId: Long, mediaId: MediaId, listSize: Int, title: String){
         val playlist = playlists.first { it.id == playlistId }.title
         val message = if (mediaId.isLeaf){
-            context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, listSize, listSize, playlist)
-        } else {
             context.getString(R.string.added_song_x_to_playlist_y, title, playlist)
+        } else {
+            context.resources.getQuantityString(R.plurals.xx_songs_added_to_playlist_y, listSize, listSize, playlist)
         }
         context.toast(message)
     }
@@ -57,7 +57,7 @@ abstract class AbsPopupListener(
             val string = activity.getString(R.string.share_song_x, song.title)
             activity.startActivity(Intent.createChooser(intent, string.asHtml()))
         } else {
-            activity.toast("Could not share this file")
+            activity.toast("Could not share this song")
         }
     }
 
