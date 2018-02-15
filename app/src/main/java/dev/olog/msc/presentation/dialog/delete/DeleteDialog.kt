@@ -64,7 +64,7 @@ class DeleteDialog: BaseDialog() {
     }
 
     override fun positiveAction(dialogInterface: DialogInterface, which: Int): Completable {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return presenter.execute()
     }
 
     private fun createMessage() : String {

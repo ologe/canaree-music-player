@@ -59,8 +59,8 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun successMessage(context: Context, currentValue: String): CharSequence {
         return when {
-            mediaId.isPlaylist -> context.getString(R.string.playlist_x_renamed_to_y)
-            mediaId.isFolder -> context.getString(R.string.folder_x_renamed_to_y)
+            mediaId.isPlaylist -> context.getString(R.string.playlist_x_renamed_to_y, title, currentValue)
+            mediaId.isFolder -> context.getString(R.string.folder_x_renamed_to_y, title, currentValue)
             else -> throw IllegalStateException("not a folder nor a playlist, $mediaId")
         }
     }

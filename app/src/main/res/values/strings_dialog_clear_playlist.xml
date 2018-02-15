@@ -2,9 +2,6 @@
 <resources>
 
     <string name="playlist_x_cleared">Playlist %1$s cleared</string>
-    <plurals name="remove_xx_songs_from_playlist_y">
-        <item quantity="one"><![CDATA[Remove <b>%1$d song</b> from playlist <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Remove <b>%1$d songs</b> from playlist <b>%2$s</b>?]]></item>
-    </plurals>
+    <string name="remove_songs_from_playlist_y"><![CDATA[Remove all songs from playlist <b>%1$s</b>?]]></string>
 
 </resources>

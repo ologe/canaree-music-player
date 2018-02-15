@@ -40,7 +40,7 @@ interface Navigator {
 
     fun toRenameDialog(mediaId: MediaId, itemTitle: String)
 
-    fun toClearPlaylistDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
+    fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String)
 
     fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 

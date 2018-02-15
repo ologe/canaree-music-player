@@ -111,7 +111,7 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun clearPlaylist(){
-        navigator.toClearPlaylistDialog(getMediaId(), playlist.size, playlist.title)
+        navigator.toClearPlaylistDialog(getMediaId(), playlist.title)
     }
 
 

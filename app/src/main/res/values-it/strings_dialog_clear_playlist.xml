@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="playlist_x_cleared">Rimossi tutti i brani dalla playlist %1$s</string>
-    <plurals name="remove_xx_songs_from_playlist_y">
-        <item quantity="one"><![CDATA[Rimuovi <b>%1$d brano</b> dalla playlist <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Rimuovi <b>%1$d brani</b> dalla playlist <b>%2$s</b>?]]></item>
-    </plurals>
+    <string name="remove_songs_from_playlist_y"><![CDATA[Rimuovere tutti i brani dalla playlist <b>%2$s</b>?]]></string>
 
 </resources>

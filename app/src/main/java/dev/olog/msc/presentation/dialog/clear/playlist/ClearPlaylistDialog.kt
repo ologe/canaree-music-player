@@ -15,14 +15,12 @@ class ClearPlaylistDialog : BaseDialog() {
     companion object {
         const val TAG = "ClearPlaylistDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): ClearPlaylistDialog {
+        fun newInstance(mediaId: MediaId, itemTitle: String): ClearPlaylistDialog {
             return ClearPlaylistDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
             )
         }
@@ -61,8 +59,7 @@ class ClearPlaylistDialog : BaseDialog() {
     }
 
     private fun createMessage() : String {
-        val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        return context!!.resources.getQuantityString(R.plurals.remove_xx_songs_from_playlist_y, listSize, listSize, itemTitle)
+        return context!!.getString(R.string.remove_songs_from_playlist_y, title)
     }
 
 }

@@ -237,6 +237,10 @@ class QueueManager @Inject constructor(
     override fun onRepeatModeChanged() {
         queueImpl.onRepeatModeChanged()
     }
+
+    override fun addQueueItem(songIds: List<Long>) {
+        queueImpl.addQueueItem(songIds)
+    }
 }
 
 private fun getAscendingComparator(sortType: SortType): Comparator<MediaEntity> {

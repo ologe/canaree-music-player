@@ -4,16 +4,21 @@ import android.support.annotation.CheckResult
 import android.support.annotation.MainThread
 import android.support.v4.math.MathUtils
 import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
+import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
+import dev.olog.msc.music.service.model.toMediaEntity
+import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.shuffle
 import dev.olog.msc.utils.k.extension.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.jetbrains.annotations.Contract
@@ -26,7 +31,8 @@ class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val repeatMode: RepeatMode,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
-        private val queueMediaSession: QueueMediaSession
+        private val queueMediaSession: QueueMediaSession,
+        private val getSongUseCase: GetSongUseCase
 ) {
 
     private var savePlayingQueueDisposable: Disposable? = null
@@ -35,6 +41,7 @@ class QueueImpl @Inject constructor(
 
     private var currentSongPosition = -1
 
+    @MainThread
     fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {
         playingQueue.clear()
         playingQueue.addAll(songList)
@@ -242,6 +249,26 @@ class QueueImpl @Inject constructor(
 
     fun currentPositionInQueue(): PositionInQueue{
         return computePositionInQueue(playingQueue, currentSongPosition)
+    }
+
+    fun addQueueItem(songIds: List<Long>) {
+        var maxProgressive = playingQueue.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
+        maxProgressive += 1
+
+        Single.just(songIds)
+                .observeOn(Schedulers.computation())
+                .map { assertBackgroundThread(); it }
+                .flattenAsObservable { it }
+                .flatMapSingle { getSongUseCase.execute(MediaId.songId(it)).firstOrError() }
+                .map { it.toMediaEntity(maxProgressive, MediaId.songId(it.id)) }
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val copy = playingQueue.toMutableList()
+                    copy.addAll(it)
+                    updatePlayingQueueAndPersist(copy)
+                    onRepeatModeChanged() // not really but updates mini queue
+                }, Throwable::printStackTrace)
     }
 
 }

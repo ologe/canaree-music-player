@@ -52,8 +52,8 @@ class AddQueueDialog : BaseDialog() {
 
     override fun successMessage(context: Context): CharSequence {
         return if (mediaId.isLeaf){
-            context.resources.getQuantityString(R.plurals.xx_songs_added_to_queue, listSize, listSize)
-        } else context.getString(R.string.song_x_added_to_queue, title)
+            context.getString(R.string.song_x_added_to_queue, title)
+        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_queue, listSize, listSize)
     }
 
     override fun failMessage(context: Context): CharSequence {

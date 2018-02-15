@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -210,6 +211,11 @@ class MediaSessionCallback @Inject constructor(
         }
 
         return true
+    }
+
+    override fun onAddQueueItem(description: MediaDescriptionCompat) {
+        val split = description.mediaId!!.split(",")
+        queue.addQueueItem(split.map { it.toLong() })
     }
 
     /**
