@@ -64,6 +64,11 @@ class FavoriteRepository @Inject constructor(
                 }.toCompletable()
     }
 
+    override fun deleteAll(): Completable {
+        return Completable.fromCallable { favoriteDao.deleteAll() }
+                .andThen { handleAnimation(false) }
+    }
+
     override fun isFavorite(songId: Long): Single<Boolean> {
         lastFavoriteId = songId
         return Single.fromCallable { favoriteDao.isFavorite(songId) != null }

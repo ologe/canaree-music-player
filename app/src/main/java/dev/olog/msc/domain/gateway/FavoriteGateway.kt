@@ -16,6 +16,8 @@ interface FavoriteGateway {
     fun deleteSingle(songId: Long): Completable
     fun deleteGroup(songListId: List<Long>): Completable
 
+    fun deleteAll(): Completable
+
     fun isFavorite(songId: Long): Single<Boolean>
 
     fun observeToggleFavorite(): Observable<AnimateFavoriteEntity>

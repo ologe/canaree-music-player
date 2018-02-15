@@ -7,6 +7,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.domain.gateway.FavoriteGateway
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -16,12 +17,12 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
 
 class PlaylistRepositoryHelper @Inject constructor(
         private val contentResolver: ContentResolver,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val favoriteGateway: FavoriteGateway
 
 ){
 
     private val historyDao = appDatabase.historyDao()
-    private val favoriteDao = appDatabase.favoriteDao()
 
     fun createPlaylist(playlistName: String): Single<Long> {
         return Single.create<Long> { e ->
@@ -74,7 +75,7 @@ class PlaylistRepositoryHelper @Inject constructor(
     fun clearPlaylist(playlistId: Long){
         if (PlaylistConstants.isAutoPlaylist(playlistId)){
             when (playlistId){
-                PlaylistConstants.FAVORITE_LIST_ID -> favoriteDao.deleteAll()
+                PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteAll()
                 PlaylistConstants.HISTORY_LIST_ID -> historyDao.deleteAll()
             }
             return
@@ -98,7 +99,7 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long){
         when(playlistId){
-            PlaylistConstants.FAVORITE_LIST_ID -> favoriteDao.removeFromFavorite(listOf(songId))
+            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(songId)
             PlaylistConstants.HISTORY_LIST_ID -> historyDao.deleteSingle(songId)
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
