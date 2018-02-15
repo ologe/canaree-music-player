@@ -19,7 +19,8 @@
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:alpha=".4"/>
 
     <ImageButton
         android:id="@+id/floatingWindow"
