@@ -24,13 +24,11 @@ abstract class FavoriteDao {
     @Delete
     internal abstract fun deleteGroupImpl(item: List<FavoriteEntity>)
 
-    @Transaction
-    open fun addToFavoriteSingle(id: Long): Completable {
+    fun addToFavoriteSingle(id: Long): Completable {
         return Completable.fromCallable { insertOneImpl(FavoriteEntity(id)) }
     }
 
-    @Transaction
-    open fun addToFavorite(songIds: List<Long>): Completable {
+    fun addToFavorite(songIds: List<Long>): Completable {
         return Completable.fromCallable {
             insertGroupImpl(songIds.map { FavoriteEntity(it) })
         }

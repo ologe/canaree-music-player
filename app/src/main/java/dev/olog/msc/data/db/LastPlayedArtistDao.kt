@@ -7,7 +7,6 @@ import android.arch.persistence.room.Transaction
 import dev.olog.msc.data.entity.LastPlayedArtistEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.schedulers.Schedulers
 
 @Dao
 abstract class LastPlayedArtistDao {
@@ -24,8 +23,6 @@ abstract class LastPlayedArtistDao {
     @Transaction
     open fun insertOne(id: Long) : Completable {
         return Completable.fromCallable{ deleteImpl(id) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
                 .andThen { insertImpl(LastPlayedArtistEntity(id)) }
     }
 
