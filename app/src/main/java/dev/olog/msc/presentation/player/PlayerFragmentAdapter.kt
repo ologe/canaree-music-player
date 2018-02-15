@@ -10,6 +10,7 @@ import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
+import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
@@ -87,8 +88,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
         mediaProvider.onMetadataChanged()
                 .map { it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) }
-                .map { MediaId.fromString(it) }
-                .map { it.leaf!! }
+                .map { MediaId.fromString(it).leaf!! }
                 .distinctUntilChanged()
                 .flatMapSingle { viewModel.isFavoriteSongUseCase.execute(it) }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -132,23 +132,22 @@ class PlayerFragmentAdapter @Inject constructor(
 
         RxView.clicks(view.favorite)
                 .takeUntil(RxView.detaches(view))
-                .subscribe({
-                    mediaProvider.togglePlayerFavorite()
-                }, Throwable::printStackTrace)
+                .subscribe({ mediaProvider.togglePlayerFavorite() }, Throwable::printStackTrace)
 
         RxView.clicks(view.playingQueue)
                 .takeUntil(RxView.detaches(view))
                 .subscribe({ navigator.toPlayingQueueFragment(view.playingQueue) }, Throwable::printStackTrace)
 
         val seekBarObservable = SeekBarObservable(view.seekBar)
-                .takeUntil(RxView.detaches(view))
                 .share()
 
         seekBarObservable.ofType<Int>()
+                .takeUntil(RxView.detaches(view))
                 .map { TextUtils.getReadableSongLength(it) }
                 .subscribe(view.bookmark::setText, Throwable::printStackTrace)
 
         seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
+                .takeUntil(RxView.detaches(view))
                 .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
                 .map { (_, progress) -> progress.toLong() }
                 .subscribe(mediaProvider::seekTo, Throwable::printStackTrace)

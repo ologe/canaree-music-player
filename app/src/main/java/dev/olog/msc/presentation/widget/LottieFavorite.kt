@@ -13,9 +13,8 @@ class LottieFavorite @JvmOverloads constructor(
 
     init {
         setAnimation("favorite.json")
-        scaleX = 1.1f
-        scaleY = 1.1f
-        setMinProgress(.35f)
+        scaleX = 1.15f
+        scaleY = 1.15f
     }
 
     fun toggleFavorite(isFavorite: Boolean) {
@@ -30,7 +29,8 @@ class LottieFavorite @JvmOverloads constructor(
     fun animateFavorite(toFavorite: Boolean) {
         cancelAnimation()
         if (toFavorite) {
-            playAnimation()
+            progress = .35f
+            resumeAnimation()
         } else {
             progress = 0f
         }
