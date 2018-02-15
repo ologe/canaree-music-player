@@ -7,6 +7,7 @@ import android.content.Context
 import android.widget.SeekBar
 import android.widget.TextView
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -94,8 +95,8 @@ class LyricsContent (
     }
 
     private fun resumeSeekBar(){
-        updateDisposable = Observable.interval(250, TimeUnit.MILLISECONDS)
-                .subscribe({ seekBar.incrementProgressBy(250) }, Throwable::printStackTrace)
+        updateDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
+                .subscribe({ seekBar.incrementProgressBy(PROGRESS_BAR_INTERVAL) }, Throwable::printStackTrace)
     }
 
     private fun animateSkipTo(toNext: Boolean) {

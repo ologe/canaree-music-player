@@ -3,6 +3,7 @@ package dev.olog.msc.music.service
 import android.support.annotation.CheckResult
 import android.support.annotation.MainThread
 import android.support.v4.math.MathUtils
+import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
@@ -62,7 +63,7 @@ class QueueImpl @Inject constructor(
         currentSongPosition = safePosition
         musicPreferencesUseCase.setLastIdInPlaylist(idInPlaylist)
 
-        var miniQueue = copy.drop(safePosition + 1).take(51).toMutableList()
+        var miniQueue = copy.drop(safePosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
         miniQueue = handleQueueOnRepeatMode(miniQueue, copy[safePosition])
 
         if (immediate){
@@ -165,7 +166,7 @@ class QueueImpl @Inject constructor(
     @MainThread
     fun onRepeatModeChanged(){
         assertMainThread()
-        var list = playingQueue.drop(currentSongPosition + 1).take(51).toMutableList()
+        var list = playingQueue.drop(currentSongPosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
         list = handleQueueOnRepeatMode(list, playingQueue[currentSongPosition])
         queueMediaSession.onNext(list)
     }
@@ -176,14 +177,19 @@ class QueueImpl @Inject constructor(
 
         val copy = list.toMutableList()
 
-        if (copy.size < 51){
+        if (copy.size < MINI_QUEUE_SIZE){
             if (repeatMode.isRepeatOne()){
                 copy.clear()
-                copy.add(current) //add itself as next item
+                while (copy.size <= MINI_QUEUE_SIZE){
+                    copy.add(current) //add itself for n times
+                }
             } else if (repeatMode.isRepeatAll()){
-                copy.addAll(playingQueue.take(51))
+                while (copy.size <= MINI_QUEUE_SIZE){
+                    // add all list for n times
+                    copy.addAll(playingQueue.take(MINI_QUEUE_SIZE))
+                }
             }
-            return copy.take(51).toMutableList()
+            return copy.take(MINI_QUEUE_SIZE).toMutableList()
         }
         return copy
     }

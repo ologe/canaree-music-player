@@ -11,6 +11,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -49,7 +50,7 @@ class PlayerFragment : BaseFragment() {
                 .asLiveData()
                 .subscribe(this, {
                     val queue = it.toMutableList()
-                    if (queue.size > 50){
+                    if (queue.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
                         queue.add(viewModel.footerLoadMore)
                     }
                     queue.add(0, viewModel.playerControls)

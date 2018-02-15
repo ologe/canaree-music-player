@@ -15,6 +15,8 @@ object AppConstants {
     lateinit var QUICK_ACTION: QuickActionView.Type
     var useNeuralImages: Boolean = false
 
+    const val PROGRESS_BAR_INTERVAL = 250
+
     const val UNKNOWN = "<unknown>"
     lateinit var UNKNOWN_ALBUM: String
     lateinit var UNKNOWN_ARTIST: String

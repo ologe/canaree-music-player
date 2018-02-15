@@ -6,6 +6,8 @@ object PlaylistConstants {
     const val FAVORITE_LIST_ID: Long = -3002
     const val HISTORY_LIST_ID: Long = -3004
 
+    const val MINI_QUEUE_SIZE = 50
+
     private val autoPlaylists = listOf(
             LAST_ADDED_ID, FAVORITE_LIST_ID, HISTORY_LIST_ID
     )

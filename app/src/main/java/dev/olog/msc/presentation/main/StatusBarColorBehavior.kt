@@ -8,6 +8,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.setLightStatusBar
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class StatusBarColorBehavior @Inject constructor(
@@ -36,7 +37,11 @@ class StatusBarColorBehavior @Inject constructor(
         if (fragment == null){
             activity.window.setLightStatusBar()
         } else {
-            fragment.adjustStatusBarColor()
+            if (activity.slidingPanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED){
+                activity.window.setLightStatusBar()
+            } else {
+                fragment.adjustStatusBarColor()
+            }
         }
     }
 
