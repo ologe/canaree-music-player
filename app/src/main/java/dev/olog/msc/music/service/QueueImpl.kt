@@ -165,24 +165,27 @@ class QueueImpl @Inject constructor(
     @MainThread
     fun onRepeatModeChanged(){
         assertMainThread()
-        handleQueueOnRepeatMode(playingQueue, playingQueue[currentSongPosition])
+        var list = playingQueue.drop(currentSongPosition + 1).take(51).toMutableList()
+        list = handleQueueOnRepeatMode(list, playingQueue[currentSongPosition])
+        queueMediaSession.onNext(list)
     }
 
+    @CheckResult
     private fun handleQueueOnRepeatMode(list: MutableList<MediaEntity>, current: MediaEntity)
             : MutableList<MediaEntity>{
 
-        if (list.size < 51){
+        val copy = list.toMutableList()
+
+        if (copy.size < 51){
             if (repeatMode.isRepeatOne()){
-                list.clear()
-                list.add(current) //add itself as next item
+                copy.clear()
+                copy.add(current) //add itself as next item
             } else if (repeatMode.isRepeatAll()){
-                while (list.size <= 51){
-                    list.addAll(playingQueue.take(51))
-                }
+                copy.addAll(playingQueue.take(51))
             }
-            return list.take(51).toMutableList()
+            return copy.take(51).toMutableList()
         }
-        return list
+        return copy
     }
 
     @MainThread

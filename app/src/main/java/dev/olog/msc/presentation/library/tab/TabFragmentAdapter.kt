@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import dagger.Lazy
-import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
@@ -90,7 +89,7 @@ class TabFragmentAdapter @Inject constructor(
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(BR.item, item)
+        binding.setVariable(dev.olog.msc.BR.item, item)
     }
 
     override fun getSectionText(position: Int): String? {

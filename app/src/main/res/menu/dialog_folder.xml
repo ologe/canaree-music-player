@@ -25,9 +25,6 @@
 
     </group>
 
-    <!--<item android:id="@+id/rename"-->
-        <!--android:title="@string/popup_rename"/>-->
-
     <item android:id="@+id/delete"
         android:title="@string/popup_delete"/>
 

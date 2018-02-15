@@ -24,7 +24,7 @@
         <item>In this genre</item>
     </string-array>
 
-    <string name="detail_see_more">see more</string>
+    <string name="detail_see_all">see all</string>
 
     <plurals name="song_count">
         <item quantity="one">%d track</item>

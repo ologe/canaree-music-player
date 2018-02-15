@@ -124,6 +124,8 @@ class ArtistRepository @Inject constructor(
         return observable.emitThenDebounce()
     }
 
-    override fun addLastPlayed(id: Long): Completable = lastPlayedDao.insertOne(id)
+    override fun addLastPlayed(id: Long): Completable {
+        return lastPlayedDao.insertOne(id)
+    }
 
 }

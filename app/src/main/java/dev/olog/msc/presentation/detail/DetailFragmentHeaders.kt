@@ -23,15 +23,13 @@ class DetailFragmentHeaders @Inject constructor(
     )
 
     fun recent(listSize: Int) = listOf(
-            DisplayableItem(R.layout.item_detail_header, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added)),
-            DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "",
-                    trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize))
+            DisplayableItem(R.layout.item_detail_header, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
+            DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
     fun recentWithSeeAll(listSize: Int) = listOf(
-            DisplayableItem(R.layout.item_detail_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_more)),
-            DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "",
-                    trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize))
+            DisplayableItem(R.layout.item_detail_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_all), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
+            DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
     val albums : DisplayableItem = DisplayableItem(R.layout.item_detail_header, MediaId.headerId("detail albums"),
@@ -39,7 +37,7 @@ class DetailFragmentHeaders @Inject constructor(
 
     val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_detail_header, ALBUMS_ID,
             context.resources.getStringArray(R.array.detail_album_header)[mediaId.source],
-            context.getString(R.string.detail_see_more))
+            context.getString(R.string.detail_see_all))
 
     val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
 

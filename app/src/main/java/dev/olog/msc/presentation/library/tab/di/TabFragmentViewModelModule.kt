@@ -81,7 +81,9 @@ class TabFragmentViewModelModule {
 
         val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
-                .map { it.startWithIfNotEmpty(headers.albumHeaders) }
+                .map {
+                    if (it.isNotEmpty()) headers.albumHeaders else it
+                }
                 .distinctUntilChanged()
 
         return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
@@ -102,7 +104,9 @@ class TabFragmentViewModelModule {
 
         val lastPlayedObs = lastPlayedArtistsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
-                .map { it.startWithIfNotEmpty(headers.artistHeaders) }
+                .map {
+                    if (it.isNotEmpty()) headers.artistHeaders else it
+                }
                 .distinctUntilChanged()
 
         return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
