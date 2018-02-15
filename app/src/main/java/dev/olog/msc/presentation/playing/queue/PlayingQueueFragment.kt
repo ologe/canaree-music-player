@@ -8,7 +8,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.OnDataChangedListener
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.utils.k.extension.subscribe
-import kotlinx.android.synthetic.main.fragment_player_toolbar.*
+import dev.olog.msc.utils.k.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import org.jetbrains.anko.dip
 import javax.inject.Inject
@@ -17,17 +17,31 @@ class PlayingQueueFragment : BaseFragment() {
 
     companion object {
         const val TAG = "PlayingQueueFragment"
+        private const val ARGUMENT_ICON_POS_X = TAG + ".argument.pos.x"
+        private const val ARGUMENT_ICON_POS_Y = TAG + ".argument.pos.y"
+
+        @JvmStatic
+        fun newInstance(icon: View): PlayingQueueFragment {
+            val x = (icon.x + icon.width / 2).toInt()
+            val y = (icon.y + icon.height / 2).toInt()
+            return PlayingQueueFragment().withArguments(
+                    ARGUMENT_ICON_POS_X to x,
+                    ARGUMENT_ICON_POS_Y to y
+            )
+        }
     }
 
+    @Inject lateinit var viewModel : PlayingQueueFragmentViewModel
     @Inject lateinit var adapter: PlayingQueueFragmentAdapter
     private lateinit var layoutManager : LinearLayoutManager
-    @Inject lateinit var viewModel : PlayingQueueFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null){
             postponeEnterTransition()
-            enterTransition = CircularReveal(activity!!.playingQueue)
+            val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
+            val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
+            enterTransition = CircularReveal(x, y)
         }
     }
 

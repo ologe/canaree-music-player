@@ -47,7 +47,7 @@
         android:id="@+id/settings"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="40dp"
+        android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/toolbar"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="@dimen/toolbar_elevation"
@@ -60,7 +60,7 @@
         android:id="@+id/search"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toStartOf="@+id/settings"
-        android:layout_width="@dimen/tab"
+        android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -73,7 +73,7 @@
         android:id="@+id/floatingWindow"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toStartOf="@+id/search"
-        android:layout_width="@dimen/tab"
+        android:layout_width="@dimen/common_icon_size"
         android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
         android:src="@drawable/vd_bird_singing_24dp"
@@ -102,14 +102,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="@dimen/tab"
-
         android:elevation="@dimen/toolbar_elevation"
         app:tabSelectedTextColor="@color/tab_layout_selected"
         app:tabTextColor="@color/tab_layout_unselected"
         app:tabIndicatorColor="@color/tab_layout_selected"
         app:tabMode="scrollable"
         app:tabGravity="center"
-        android:overScrollMode="never"/>
+        android:overScrollMode="never" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

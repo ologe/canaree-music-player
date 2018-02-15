@@ -13,7 +13,8 @@ import android.view.ViewGroup
 import androidx.animation.addListener
 
 class CircularReveal(
-        private val icon: View,
+        private val x: Int,
+        private val y: Int,
         private val fromColor: Int = 0xfff0f0f0.toInt(), // grey
         private val toColor: Int = Color.WHITE,
         private val onAppearFinished: (() -> Unit)? = null
@@ -35,8 +36,8 @@ class CircularReveal(
     }
 
     private fun createCircularReveal(view: View, isAppearing: Boolean) : Animator{
-        val cx = (icon.x + icon.width / 2).toInt()
-        val cy = (icon.y + icon.height / 2).toInt()
+        val cx = x
+        val cy = y
         val width = view.width
         val height = view.height
 

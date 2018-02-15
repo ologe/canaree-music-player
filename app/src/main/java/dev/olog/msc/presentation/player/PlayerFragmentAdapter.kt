@@ -12,7 +12,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
@@ -138,7 +137,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
         RxView.clicks(view.playingQueue)
                 .takeUntil(RxView.detaches(view))
-                .subscribe({ navigator.toPlayingQueueFragment() }, Throwable::printStackTrace)
+                .subscribe({ navigator.toPlayingQueueFragment(view.playingQueue) }, Throwable::printStackTrace)
 
         val seekBarObservable = SeekBarObservable(view.seekBar)
                 .takeUntil(RxView.detaches(view))

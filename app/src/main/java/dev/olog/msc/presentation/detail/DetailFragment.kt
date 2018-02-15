@@ -101,7 +101,7 @@ class DetailFragment : BaseFragment() {
             list.addItemDecoration(detailListMargin)
         }
         back.setOnClickListener { activity!!.onBackPressed() }
-        search.setOnClickListener { navigator.toSearchFragment() }
+        search.setOnClickListener { navigator.toSearchFragment(search) }
     }
 
     override fun onPause() {

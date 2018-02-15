@@ -1,22 +1,23 @@
 package dev.olog.msc.presentation.utils
 
-import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.content.systemService
 
 object ImeUtils {
 
     fun showIme(editText: TextView) {
-        val context = editText.context
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         editText.isFocusable = true
-        editText.requestFocus()
-        inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+        if (editText.requestFocus()){
+            val context = editText.context
+            val inputManager = context.systemService<InputMethodManager>()
+            inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     fun hideIme(editText: TextView) {
         val context = editText.context
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager = context.systemService<InputMethodManager>()
         editText.clearFocus()
         inputManager.hideSoftInputFromWindow(editText.windowToken, 0)
 

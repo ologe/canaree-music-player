@@ -41,7 +41,7 @@ class CategoriesFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
-        search.setOnClickListener { navigator.toSearchFragment() }
+        search.setOnClickListener { navigator.toSearchFragment(search) }
         settings.setOnClickListener { navigator.toMainPopup(it) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }

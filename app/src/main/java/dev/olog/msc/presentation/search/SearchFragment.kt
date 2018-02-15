@@ -11,14 +11,10 @@ import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.toggleVisibility
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_library_categories.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.util.concurrent.TimeUnit
@@ -28,10 +24,17 @@ class SearchFragment : BaseFragment() {
 
     companion object {
         const val TAG = "SearchFragment"
+        private const val ARGUMENT_ICON_POS_X = TAG + ".argument.pos.x"
+        private const val ARGUMENT_ICON_POS_Y = TAG + ".argument.pos.y"
 
         @JvmStatic
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
+        fun newInstance(icon: View?): SearchFragment {
+            val x = icon?.let { (it.x + icon.width / 2).toInt() } ?: 0
+            val y = icon?.let { (it.y + icon.height / 2).toInt() } ?: 0
+            return SearchFragment().withArguments(
+                    ARGUMENT_ICON_POS_X to x,
+                    ARGUMENT_ICON_POS_Y to y
+            )
         }
     }
 
@@ -49,7 +52,9 @@ class SearchFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null){
-            enterTransition = CircularReveal(activity!!.search, onAppearFinished = {
+            val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
+            val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
+            enterTransition = CircularReveal(x, y, onAppearFinished = {
                 val fragmentManager = activity?.supportFragmentManager
 
                 activity?.fragmentTransaction {
@@ -114,12 +119,9 @@ class SearchFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        clear.setOnClickListener {
-            viewModel.setNewQuery("")
-            view!!.editText.setText("")
-        }
+        clear.setOnClickListener { editText.setText("") }
         back.setOnClickListener {
-            ImeUtils.hideIme(view!!.editText)
+            ImeUtils.hideIme(editText)
             activity!!.onBackPressed()
         }
         root.setOnClickListener { showKeyboard() }

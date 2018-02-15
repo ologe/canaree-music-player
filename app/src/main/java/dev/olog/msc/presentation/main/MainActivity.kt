@@ -55,7 +55,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
-            AppConstants.SHORTCUT_SEARCH -> { navigator.toSearchFragment() }
+            AppConstants.SHORTCUT_SEARCH -> { navigator.toSearchFragment(null) }
             AppConstants.ACTION_CONTENT_VIEW -> slidingPanel.expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, MusicService::class.java)

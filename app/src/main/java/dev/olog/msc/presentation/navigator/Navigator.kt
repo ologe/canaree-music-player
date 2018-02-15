@@ -12,7 +12,7 @@ interface Navigator {
 
     fun toDetailFragment(mediaId: MediaId)
 
-    fun toSearchFragment()
+    fun toSearchFragment(icon: View?)
 
     fun toRelatedArtists(mediaId: MediaId)
 
@@ -20,7 +20,7 @@ interface Navigator {
 
     fun toAlbums(mediaId: MediaId)
 
-    fun toPlayingQueueFragment()
+    fun toPlayingQueueFragment(icon: View)
 
     fun toEditInfoFragment(mediaId: MediaId)
 

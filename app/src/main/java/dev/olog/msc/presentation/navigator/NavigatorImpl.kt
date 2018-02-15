@@ -86,12 +86,12 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toSearchFragment() {
+    override fun toSearchFragment(icon: View?) {
         if (allowed()){
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                add(R.id.fragmentContainer, SearchFragment.newInstance(), SearchFragment.TAG)
+                add(R.id.fragmentContainer, SearchFragment.newInstance(icon), SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
             }
         }
@@ -130,12 +130,12 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toPlayingQueueFragment() {
+    override fun toPlayingQueueFragment(icon: View) {
         if (allowed()) {
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, PlayingQueueFragment(),
+                add(android.R.id.content, PlayingQueueFragment.newInstance(icon),
                         PlayingQueueFragment.TAG)
                 addToBackStack(PlayingQueueFragment.TAG)
             }
