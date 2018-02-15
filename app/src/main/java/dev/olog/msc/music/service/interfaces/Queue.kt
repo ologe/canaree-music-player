@@ -42,6 +42,6 @@ interface Queue {
 
     fun onRepeatModeChanged()
 
-    fun addQueueItem(songIds: List<Long>)
+    fun addQueueItem(songIds: List<Long>) : PositionInQueue
 
 }

@@ -98,9 +98,7 @@ class PlayerFragmentAdapter @Inject constructor(
         mediaProvider.onStateChanged()
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    onPlaybackStateChanged(view, it)
-                }, Throwable::printStackTrace)
+                .subscribe({ onPlaybackStateChanged(view, it) }, Throwable::printStackTrace)
 
         if (view.repeat != null){
             mediaProvider.onRepeatModeChanged()

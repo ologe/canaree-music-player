@@ -215,7 +215,8 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onAddQueueItem(description: MediaDescriptionCompat) {
         val split = description.mediaId!!.split(",")
-        queue.addQueueItem(split.map { it.toLong() })
+        val position = queue.addQueueItem(split.map { it.toLong() })
+        playerState.toggleSkipToActions(position)
     }
 
     /**

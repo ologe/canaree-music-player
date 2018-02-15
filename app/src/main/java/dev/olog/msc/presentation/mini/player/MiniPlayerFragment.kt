@@ -53,9 +53,17 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .asLiveData()
                 .subscribe(this, {
                     val state = it.state
-
                     updateProgressBarProgress(it.position)
                     handleProgressBar(state == PlaybackStateCompat.STATE_PLAYING)
+                })
+
+        media.onStateChanged()
+                .map { it.state }
+                .filter { it == PlaybackStateCompat.STATE_PLAYING ||
+                        it == PlaybackStateCompat.STATE_PAUSED
+                }.distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, { state ->
 
                     if (state == PlaybackStateCompat.STATE_PLAYING){
                         playAnimation(true)
@@ -101,13 +109,13 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()?.addPanelSlideListener(this)
+        getSlidingPanel()!!.addPanelSlideListener(this)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()?.removePanelSlideListener(this)
+        getSlidingPanel()!!.removePanelSlideListener(this)
         view?.setOnClickListener(null)
     }
 

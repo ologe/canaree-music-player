@@ -20,8 +20,8 @@ import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.add.queue.AddQueueDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
+import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
 import dev.olog.msc.presentation.dialog.delete.DeleteDialog
-import dev.olog.msc.presentation.dialog.new.playlist.NewPlaylistDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog

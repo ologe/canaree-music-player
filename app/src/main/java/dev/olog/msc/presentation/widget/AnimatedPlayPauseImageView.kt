@@ -16,21 +16,23 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs, defStyleAttr) {
 
-    private val playAnimation: AnimatedVectorDrawable = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
-    private val pauseAnimation: AnimatedVectorDrawable = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)
+    private val playAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
+    private val pauseAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)
 
     init {
         setupBackground(false)
     }
 
-    fun setupBackground(play: Boolean) {
+    private fun setupBackground(play: Boolean) {
         val drawable = if (play) playAnimation else pauseAnimation
         setImageDrawable(drawable)
         drawable.jumpToCurrentState()
     }
 
     fun animationPlay(animate: Boolean) {
-        setupAndAnimate(animate, playAnimation)
+        if (playAnimation != drawable){
+            setupAndAnimate(animate, playAnimation)
+        }
     }
 
     fun animationPause(animate: Boolean) {

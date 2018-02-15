@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.new.playlist.di
+package dev.olog.msc.presentation.dialog.create.playlist.di
 
 import android.support.v4.app.Fragment
 import dagger.Binds
@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.presentation.dialog.new.playlist.NewPlaylistDialog
+import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
 
 @Module(subcomponents = arrayOf(NewPlaylistDialogSubComponent::class))
 abstract class NewPlaylistDialogInjector {

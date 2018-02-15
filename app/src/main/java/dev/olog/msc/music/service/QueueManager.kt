@@ -238,8 +238,13 @@ class QueueManager @Inject constructor(
         queueImpl.onRepeatModeChanged()
     }
 
-    override fun addQueueItem(songIds: List<Long>) {
+    override fun addQueueItem(songIds: List<Long>): PositionInQueue {
+        val currentPositionInQueue = getCurrentPositionInQueue()
         queueImpl.addQueueItem(songIds)
+        return when (currentPositionInQueue){
+            PositionInQueue.BOTH -> PositionInQueue.FIRST
+            else -> PositionInQueue.IN_MIDDLE
+        }
     }
 }
 

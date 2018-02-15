@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.new.playlist
+package dev.olog.msc.presentation.dialog.create.playlist
 
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase

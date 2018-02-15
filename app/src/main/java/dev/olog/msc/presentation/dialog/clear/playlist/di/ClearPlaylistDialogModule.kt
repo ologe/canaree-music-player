@@ -27,9 +27,4 @@ class ClearPlaylistDialogModule(
         return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_ITEM_TITLE)
     }
 
-    @Provides
-    fun provideListSize(): Int {
-        return fragment.arguments!!.getInt(ClearPlaylistDialog.ARGUMENTS_LIST_SIZE)
-    }
-
 }

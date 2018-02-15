@@ -26,7 +26,6 @@ class ClearPlaylistDialog : BaseDialog() {
         }
     }
 
-    @Inject @JvmField var listSize: Int = 0
     @Inject lateinit var title: String
     @Inject lateinit var presenter: ClearPlaylistDialogPresenter
 

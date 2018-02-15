@@ -1,9 +1,9 @@
-package dev.olog.msc.presentation.dialog.new.playlist.di
+package dev.olog.msc.presentation.dialog.create.playlist.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.presentation.dialog.new.playlist.NewPlaylistDialog
+import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
 
 
 @Subcomponent(modules = arrayOf(
