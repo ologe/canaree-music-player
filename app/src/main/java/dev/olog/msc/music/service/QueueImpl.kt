@@ -184,17 +184,17 @@ class QueueImpl @Inject constructor(
 
         val copy = list.toMutableList()
 
-        if (copy.size < MINI_QUEUE_SIZE){
-            if (repeatMode.isRepeatOne()){
-                copy.clear()
-                while (copy.size <= MINI_QUEUE_SIZE){
-                    copy.add(current) //add itself for n times
-                }
-            } else if (repeatMode.isRepeatAll()){
-                while (copy.size <= MINI_QUEUE_SIZE){
-                    // add all list for n times
-                    copy.addAll(playingQueue.take(MINI_QUEUE_SIZE))
-                }
+        if (repeatMode.isRepeatOne()){
+            copy.clear()
+            while (copy.size <= MINI_QUEUE_SIZE){
+                copy.add(current) //add itself for n times
+            }
+        }
+
+        if (copy.size < MINI_QUEUE_SIZE && repeatMode.isRepeatAll()){
+            while (copy.size <= MINI_QUEUE_SIZE){
+                // add all list for n times
+                copy.addAll(playingQueue.take(MINI_QUEUE_SIZE))
             }
             return copy.take(MINI_QUEUE_SIZE).toMutableList()
         }
