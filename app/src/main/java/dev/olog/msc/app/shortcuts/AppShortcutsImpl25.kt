@@ -52,7 +52,7 @@ open class AppShortcutsImpl25(
         intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
         intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, getBitmap(context, mediaId, image))
         context.sendBroadcast(intent)
-        // todo notify shortcut added
+        onAddedSuccess(context)
     }
 
     private fun search(): ShortcutInfo {

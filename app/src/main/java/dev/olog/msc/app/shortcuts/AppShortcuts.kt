@@ -3,8 +3,10 @@ package dev.olog.msc.app.shortcuts
 import android.content.Context
 import android.graphics.*
 import android.net.Uri
+import dev.olog.msc.R
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImageUtils
+import org.jetbrains.anko.toast
 import java.io.File
 
 interface AppShortcuts {
@@ -41,6 +43,18 @@ interface AppShortcuts {
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(bitmap, rect, rect, paint)
         return output
+    }
+
+    fun onAddedSuccess(context: Context){
+        context.toast(R.string.app_shortcut_added_to_home_screen)
+    }
+
+    fun onAddedNotSupported(context: Context){
+        context.toast(R.string.app_shortcut_add_to_home_screen_not_supported)
+    }
+
+    fun onAddedFailed(context: Context){
+        context.toast(R.string.app_shortcut_not_added_to_home_screen)
     }
 
 }

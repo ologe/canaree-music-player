@@ -31,9 +31,11 @@ class AppShortcutsImpl26(
                     .setIntent(intent)
                     .build()
             shortcutManager.requestPinShortcut(shortcut, null)
-            // todo notify shortcut added
+
+            onAddedSuccess(context)
+
         } else {
-            // todo notify pin not added
+            onAddedNotSupported(context)
         }
     }
 

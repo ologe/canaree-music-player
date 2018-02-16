@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_shortcut_added_to_home_screen">Shortcut added to Home Screen</string>
+    <string name="app_shortcut_add_to_home_screen_not_supported">Your launcher does not support adding shortcuts</string>
+    <string name="app_shortcut_not_added_to_home_screen">@string/popup_error_message</string>
+
+</resources>

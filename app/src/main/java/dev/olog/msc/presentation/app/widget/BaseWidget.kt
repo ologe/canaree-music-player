@@ -14,11 +14,13 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
 import dev.olog.msc.utils.img.ImageUtils
 import org.jetbrains.anko.dip
+import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
 
@@ -26,6 +28,8 @@ abstract class BaseWidget : AbsWidgetApp() {
         private var IS_PLAYING = false
         private const val PALETTE_SIZE = 120
     }
+
+    @Inject lateinit var musicPrefsUseCase: MusicPreferencesUseCase
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         val remoteViews = RemoteViews(context.packageName, layoutId)
@@ -37,6 +41,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicConstants.ACTION_PLAY_PAUSE))
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
+
+        remoteViews.setTextViewText(R.id.title, musicPrefsUseCase.getLastTitle())
+        remoteViews.setTextViewText(R.id.subtitle, musicPrefsUseCase.getLastSubtitle())
 
         initializeColors(context, remoteViews, appWidgetIds)
 
