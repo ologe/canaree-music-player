@@ -15,14 +15,7 @@
         <item>Altri generi</item>
     </string-array>
 
-    <string-array name="detail_in_this_item">
-        <item>In questa cartella</item>
-        <item>In questa playlist</item>
-        <item>Unused</item>
-        <item>Unused</item>
-        <item>Unused</item>
-        <item>In questo genere</item>
-    </string-array>
+    <string name="detail_related_artists">Artist correlati</string>
 
     <plurals name="song_count">
         <item quantity="one">%d brano</item>

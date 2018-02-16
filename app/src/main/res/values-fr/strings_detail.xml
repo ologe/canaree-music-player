@@ -16,15 +16,6 @@
         <item>Autres Genres</item>
     </string-array>
 
-    <string-array name="detail_in_this_item">
-        <item>Dans ce dossier</item>
-        <item>Dans cette playlist</item>
-        <item>Unused</item>
-        <item>Unused</item>
-        <item>Unused</item>
-        <item>Dans ce genre</item>
-    </string-array>
-
     <plurals name="song_count">
         <item quantity="one">%d Titre</item>
         <item quantity="other">%d Titres</item>

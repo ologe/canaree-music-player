@@ -82,15 +82,15 @@ class DetailFragmentModuleSongs {
             mediaId: MediaId,
             useCase: GetRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
 
-        val inThisItemHeader = context.resources.getStringArray(R.array.detail_in_this_item)[mediaId.source]
-
         return useCase.execute(mediaId)
                 .map {
                     if (!mediaId.isAlbum || !mediaId.isArtist){
-                        it.distinctBy { it.id }.map { it.name }.joinToString() }
+                        it.distinctBy { it.id }.joinToString { it.name }
+                    }
                     else ""
                 }
-                .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it, inThisItemHeader) }
+                .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it,
+                        context.getString(R.string.detail_related_artists), isExplicit = it.isNotBlank()) }
                 .map { listOf(it) }
     }
 
