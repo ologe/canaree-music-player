@@ -115,12 +115,6 @@ class SearchFragment : BaseFragment() {
             artistAdapter.updateDataSet(artists)
             adapter.updateDataSet(viewModel.adjustDataMap(map))
         })
-
-        if (savedInstanceState == null){
-            showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ showKeyboard() }, Throwable::printStackTrace)
-        }
     }
 
     private fun searchForBestMatch(query: String){
@@ -139,6 +133,12 @@ class SearchFragment : BaseFragment() {
         view.list.layoutManager = layoutManager
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
+
+        if (savedInstanceState == null){
+            showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ ImeUtils.showIme(view.editText) }, Throwable::printStackTrace)
+        }
     }
 
     override fun onResume() {
@@ -148,7 +148,7 @@ class SearchFragment : BaseFragment() {
             ImeUtils.hideIme(editText)
             activity!!.onBackPressed()
         }
-        root.setOnClickListener { showKeyboard() }
+        root.setOnClickListener { ImeUtils.showIme(editText) }
         didYouMean.setOnClickListener { editText.setText(didYouMean.text.toString()) }
 
         queryDisposable = RxTextView.afterTextChangeEvents(editText)
@@ -171,10 +171,6 @@ class SearchFragment : BaseFragment() {
         ImeUtils.hideIme(editText)
         showKeyboardDisposable.unsubscribe()
         bestMatchDisposable.unsubscribe()
-    }
-
-    private fun showKeyboard(){
-        ImeUtils.showIme(editText)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_search

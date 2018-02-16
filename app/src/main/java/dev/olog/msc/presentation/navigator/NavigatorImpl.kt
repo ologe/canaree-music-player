@@ -74,7 +74,7 @@ class NavigatorImpl @Inject internal constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                if (categoriesFragment.isVisible){
+                if (categoriesFragment != null && categoriesFragment.isVisible){
                     hide(categoriesFragment)
                     add(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
                 } else {
