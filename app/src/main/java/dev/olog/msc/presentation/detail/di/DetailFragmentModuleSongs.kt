@@ -85,7 +85,11 @@ class DetailFragmentModuleSongs {
         val inThisItemHeader = context.resources.getStringArray(R.array.detail_in_this_item)[mediaId.source]
 
         return useCase.execute(mediaId)
-                .map { it.distinctBy { it.id }.map { it.name }.joinToString() }
+                .map {
+                    if (!mediaId.isAlbum || !mediaId.isArtist){
+                        it.distinctBy { it.id }.map { it.name }.joinToString() }
+                    else ""
+                }
                 .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it, inThisItemHeader) }
                 .map { listOf(it) }
     }
@@ -115,18 +119,18 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
     val secondText = when {
         parentId.isAlbum -> this.artist
         parentId.isArtist -> this.album
-        else -> "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
+        else -> artist
     }
 
     return DisplayableItem(
             viewType,
             MediaId.playableItem(parentId, id),
-            title,
+            this.title,
             secondText,
-            image,
+            this.image,
             true,
-            isRemix,
-            isExplicit,
+            this.isRemix,
+            this.isExplicit,
             this.trackNumber.toString()
     )
 }
@@ -135,12 +139,12 @@ private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): Displayab
     return DisplayableItem(
             R.layout.item_detail_song_most_played,
             MediaId.playableItem(parentId, id),
-            title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
-            image,
+            this.title,
+            this.artist,
+            this.image,
             true,
-            isRemix,
-            isExplicit
+            this.isRemix,
+            this.isExplicit
     )
 }
 
@@ -148,11 +152,11 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
     return DisplayableItem(
             R.layout.item_detail_song_recent,
             MediaId.playableItem(parentId, id),
-            title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
-            image,
+            this.title,
+            this.artist,
+            this.image,
             true,
-            isRemix,
-            isExplicit
+            this.isRemix,
+            this.isExplicit
     )
 }

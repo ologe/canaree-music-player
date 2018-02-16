@@ -9,7 +9,4 @@ abstract class WidgetBindingModule {
     @ContributesAndroidInjector
     abstract fun provideWidgetColored() : WidgetColored
 
-    @ContributesAndroidInjector
-    abstract fun provideWidgetClassic() : WidgetClassic
-
 }

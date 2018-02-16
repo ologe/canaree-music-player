@@ -24,8 +24,6 @@
         <item>In questo genere</item>
     </string-array>
 
-    <string name="detail_see_all">vedi tutti</string>
-
     <plurals name="song_count">
         <item quantity="one">%d brano</item>
         <item quantity="other">%d brani</item>
