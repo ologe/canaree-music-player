@@ -85,6 +85,7 @@ class DetailFragmentModuleSongs {
         val inThisItemHeader = context.resources.getStringArray(R.array.detail_in_this_item)[mediaId.source]
 
         return useCase.execute(mediaId)
+                .map { it.distinctBy { it.id }.map { it.name }.joinToString() }
                 .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it, inThisItemHeader) }
                 .map { listOf(it) }
     }
@@ -117,17 +118,6 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
         else -> "$artist${TextUtils.MIDDLE_DOT_SPACED}$album"
     }
 
-    var trackAsString = trackNumber.toString()
-    if (trackAsString.length > 3){
-        trackAsString = trackAsString.substring(1)
-    }
-    val trackResult = trackAsString.toInt()
-    trackAsString = if (trackResult == 0){
-        "-"
-    } else {
-        trackResult.toString()
-    }
-
     return DisplayableItem(
             viewType,
             MediaId.playableItem(parentId, id),
@@ -137,7 +127,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
             true,
             isRemix,
             isExplicit,
-            trackAsString
+            this.trackNumber.toString()
     )
 }
 

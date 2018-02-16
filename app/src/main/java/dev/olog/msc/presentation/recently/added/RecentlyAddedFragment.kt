@@ -8,6 +8,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
+import kotlinx.android.synthetic.main.fragment_recently_added.*
 import kotlinx.android.synthetic.main.fragment_recently_added.view.*
 import javax.inject.Inject
 
@@ -15,7 +16,7 @@ class RecentlyAddedFragment : BaseFragment() {
 
     companion object {
         const val TAG = "RecentlyAddedFragment"
-        const val ARGUMENTS_MEDIA_ID = "${TAG}.arguments.media_id"
+        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
 
         fun newInstance(mediaId: MediaId): RecentlyAddedFragment {
@@ -30,23 +31,23 @@ class RecentlyAddedFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         viewModel.data.subscribe(this, adapter::updateDataSet)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.adapter = adapter
-        view.list.layoutManager = LinearLayoutManager(context!!)
+        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.setHasFixedSize(true)
     }
 
     override fun onResume() {
         super.onResume()
-        view!!.back.setOnClickListener { activity!!.onBackPressed() }
+        back.setOnClickListener { activity!!.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        view!!.back.setOnClickListener(null)
+        back.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_recently_added

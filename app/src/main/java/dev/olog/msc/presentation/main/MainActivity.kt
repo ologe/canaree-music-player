@@ -49,9 +49,16 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
         presenter.isRepositoryEmptyUseCase.execute()
                 .asLiveData()
                 .subscribe(this, this::handleEmptyRepository)
+
+        intent?.let { handleIntent(it) }
     }
 
-    override fun handleIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.let { handleIntent(it) }
+    }
+
+    private fun handleIntent(intent: Intent) {
         when (intent.action){
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)

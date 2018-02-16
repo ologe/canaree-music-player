@@ -7,8 +7,8 @@ import dagger.Provides
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragmentViewModelFactory
+import dev.olog.msc.presentation.related.artists.RelatedArtistViewModel
 import dev.olog.msc.utils.MediaId
-import dev.olog.presentation.fragment_related_artist.RelatedArtistViewModel
 
 @Module
 class RelatedArtistFragmentModule(

@@ -8,7 +8,6 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
-import dev.olog.presentation.fragment_related_artist.RelatedArtistViewModel
 import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
 

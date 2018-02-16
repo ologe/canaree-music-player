@@ -1,40 +1,28 @@
-package dev.olog.presentation.fragment_related_artist
+package dev.olog.msc.presentation.related.artists
 
-import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetArtistUseCase
+import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
-import io.reactivex.rxkotlin.toFlowable
+import dev.olog.msc.utils.k.extension.mapToList
 
 class RelatedArtistViewModel(
-        application: Application,
+        resources: Resources,
         mediaId: MediaId,
-        getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val getArtistUseCase: GetArtistUseCase
-): AndroidViewModel(application) {
+        useCase: GetRelatedArtistsUseCase
 
-    private val resources = application.resources
+): ViewModel() {
 
-    private val unknownArtist = application.getString(R.string.unknown_artist)
-
-    val data: LiveData<List<DisplayableItem>> = getSongListByParamUseCase
-            .execute(mediaId)
-            .flatMapSingle { it.toFlowable()
-                    .distinct { it.artist }
-                    .filter { it.artist != unknownArtist }
-                    .flatMapSingle { song -> getArtistUseCase.execute(MediaId.artistId(song.artistId))
-                            .map { it.toRelatedArtist(resources) }
-                            .firstOrError()
-                    }.toSortedList(compareBy { it.title.toLowerCase() })
-            }.asLiveData()
+    val data: LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
+            .mapToList { it.toRelatedArtist(resources) }
+            .map { it.sortedBy { it.title.toLowerCase() } }
+            .asLiveData()
 
 }
 
@@ -48,7 +36,7 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
             R.layout.item_related_artist,
             MediaId.artistId(id),
             this.name,
-            "$albums$songs".toLowerCase(),
+            "$albums$songs",
             this.image
     )
 }

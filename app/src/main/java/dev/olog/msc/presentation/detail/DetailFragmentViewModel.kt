@@ -15,8 +15,8 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
 
 class DetailFragmentViewModel(
@@ -51,13 +51,13 @@ class DetailFragmentViewModel(
 
     val itemLiveData: LiveData<DisplayableItem> = item[currentCategory]!!.asLiveData()
 
-    fun artistMediaId(mediaId: MediaId) : Single<MediaId> {
-        return if (mediaId.isAlbum){
-            getArtistFromAlbumUseCase.execute(mediaId)
-                    .firstOrError()
+    fun artistMediaId(mediaId: MediaId) : Maybe<MediaId> {
+        if (mediaId.isAlbum){
+            return getArtistFromAlbumUseCase.execute(mediaId)
+                    .firstElement()
                     .map { MediaId.artistId(it.id) }
         } else {
-            Single.error(Throwable("not an album"))
+            return Maybe.empty()
         }
 
     }

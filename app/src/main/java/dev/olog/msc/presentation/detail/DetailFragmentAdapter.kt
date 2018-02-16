@@ -120,7 +120,7 @@ class DetailFragmentAdapter @Inject constructor(
                     mediaProvider.shuffle(mediaId)
                 }
             }
-            R.layout.item_detail_header -> {
+            R.layout.item_detail_recently_added_header -> {
                 viewHolder.setOnClickListener(R.id.seeAll, dataController) { item, _, _ ->
                     when (item.mediaId) {
                         DetailFragmentHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
