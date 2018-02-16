@@ -14,6 +14,7 @@ import dev.olog.msc.presentation.neural.network.NeuralNetworkActivity
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.utils.RootUtils
+import dev.olog.msc.utils.k.extension.fragmentTransaction
 import org.jetbrains.anko.toast
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -49,8 +50,10 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             true
         }
         blacklist.setOnPreferenceClickListener {
-            BlacklistFragment.newInstance().show(activity!!.supportFragmentManager,
-                    BlacklistFragment.TAG)
+            activity!!.fragmentTransaction {
+                add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
+                setReorderingAllowed(true)
+            }
             true
         }
         neuralStyle.setOnPreferenceClickListener {

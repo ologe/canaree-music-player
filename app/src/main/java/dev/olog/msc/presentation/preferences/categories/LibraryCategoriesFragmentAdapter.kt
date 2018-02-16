@@ -67,9 +67,7 @@ class LibraryCategoriesFragmentAdapter (
 
     override fun onItemMove(from: Int, to: Int) {
         data.swap(from, to)
-        data.forEachIndexed { index, item ->
-            item.order = index
-        }
+        data.forEachIndexed { index, item -> item.order = index }
         notifyItemMoved(from, to)
     }
 

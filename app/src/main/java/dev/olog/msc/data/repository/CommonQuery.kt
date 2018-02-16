@@ -24,8 +24,7 @@ object CommonQuery {
         val result = mutableListOf<Long>()
 
         val cursor = contentResolver.query(
-                uri,
-                arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null,
+                uri, arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null,
                 null, null, CancellationSignal())
         while (cursor.moveToNext()){
             result.add(cursor.getLong(0))

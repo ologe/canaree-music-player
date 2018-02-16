@@ -7,6 +7,7 @@ import dev.olog.msc.domain.interactor.prefs.GetAllFoldersUnfiltered
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.mapToList
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class BlacklistFragmentPresenter @Inject constructor(
@@ -14,7 +15,7 @@ class BlacklistFragmentPresenter @Inject constructor(
         private val appPreferencesUseCase: AppPreferencesUseCase
 ) {
 
-    val data = getAllFoldersUnfiltered.execute()
+    val data : Observable<List<BlacklistModel>> = getAllFoldersUnfiltered.execute()
             .mapToList { it.toDisplayableItem() }
             .map {
                 val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
@@ -25,7 +26,7 @@ class BlacklistFragmentPresenter @Inject constructor(
         return DisplayableItem(
                 R.layout.dialog_blacklist_item,
                 MediaId.folderId(this.path),
-                this.title.capitalize(),
+                this.title,
                 this.path,
                 this.image
         )

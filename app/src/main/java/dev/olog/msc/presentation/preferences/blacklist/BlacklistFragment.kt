@@ -30,10 +30,18 @@ class BlacklistFragment : BaseDialogFragment() {
     @Inject lateinit var presenter: BlacklistFragmentPresenter
     private lateinit var adapter : BlacklistFragmentAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         presenter.data.asLiveData()
-                .subscribe(this, adapter::updateDataSet)
+                .subscribe(this, {
+                    startPostponedEnterTransition()
+                    adapter.updateDataSet(it)
+                })
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

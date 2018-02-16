@@ -52,14 +52,6 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-//                    val allDisabled = adapter.data.all { !it.enabled }
-//                    if (allDisabled){
-//                        showErrorMessage()
-//                    } else {
-//                        presenter.setDataSet(adapter.data)
-//                        activity!!.setResult(Activity.RESULT_OK)
-//                        dismiss()
-//                    }
                     presenter.setDataSet(adapter.data)
                     activity!!.setResult(Activity.RESULT_OK)
                     dismiss()
@@ -67,9 +59,5 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
 
         return dialog
     }
-
-//    private fun showErrorMessage(){
-//        activity!!.toast(R.string.prefs_library_categories_error)
-//    }
 
 }

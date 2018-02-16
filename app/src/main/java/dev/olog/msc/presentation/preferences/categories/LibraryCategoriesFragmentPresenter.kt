@@ -20,5 +20,4 @@ class LibraryCategoriesFragmentPresenter @Inject constructor(
         appPreferencesUseCase.setLibraryCategories(list)
     }
 
-
 }
