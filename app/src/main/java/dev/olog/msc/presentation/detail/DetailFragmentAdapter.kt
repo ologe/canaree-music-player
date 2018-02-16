@@ -129,16 +129,20 @@ class DetailFragmentAdapter @Inject constructor(
             }
             R.layout.item_detail_header_all_song -> {
                 viewHolder.setOnClickListener(R.id.sort, dataController) { _, _, view ->
-                    DetailSortDialog().show(view.context, view, mediaId, viewModel.observeSortOrder().firstOrError()) { sortType ->
-                        viewModel.updateSortType(sortType).subscribe()
-                    }
+                    viewModel.observeSortOrder().firstOrError()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                DetailSortDialog().show(view.context, view, mediaId, it) { sortType ->
+                                    viewModel.updateSortType(sortType).subscribe({}, Throwable::printStackTrace)
+                                }
+                            }, Throwable::printStackTrace)
                 }
                 viewHolder.setOnClickListener(R.id.sortImage, dataController) { _, _, _ ->
                     viewModel.observeSortOrder()
                             .firstOrError()
                             .filter { it != SortType.CUSTOM }
                             .flatMapCompletable { viewModel.toggleSortArranging() }
-                            .subscribe()
+                            .subscribe({}, Throwable::printStackTrace)
                 }
             }
         }

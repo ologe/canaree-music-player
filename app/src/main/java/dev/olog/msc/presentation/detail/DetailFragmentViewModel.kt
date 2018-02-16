@@ -44,7 +44,7 @@ class DetailFragmentViewModel(
         const val SONGS = "SONGS"
 
         const val NESTED_SPAN_COUNT = 4
-        const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 2
+        const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
     }
 
     private val currentCategory = mediaId.category

@@ -10,41 +10,34 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
 class DetailSortDialog {
 
-    fun show(context: Context, view: View, mediaId: MediaId, sortTypeSingle: Single<SortType>, updateUseCase: (SortType) -> Disposable) {
-        sortTypeSingle.subscribe({ sortType ->
+    fun show(context: Context, view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Disposable) {
+        val popup = PopupMenu(context, view, Gravity.BOTTOM)
+        popup.inflate(getLayout(mediaId))
 
-            val popup = PopupMenu(context, view, Gravity.BOTTOM)
-            popup.inflate(getLayout(mediaId))
+        setChecked(popup.menu, sortType)
 
-            setChecked(popup.menu, sortType)
-
-            popup.setOnMenuItemClickListener { menu ->
-                val newSortType = when (menu.itemId){
-                    R.id.by_title -> SortType.TITLE
-                    R.id.by_artist -> SortType.ARTIST
-                    R.id.by_album -> SortType.ALBUM
-                    R.id.by_duration -> SortType.DURATION
-                    R.id.by_recently_added -> SortType.RECENTLY_ADDED
-                    R.id.by_custom -> SortType.CUSTOM
-                    R.id.by_track_number -> SortType.TRACK_NUMBER
-                    else -> throw IllegalArgumentException("sort type not exist")
-                }
-
-                updateUseCase(newSortType)
-
-                true
+        popup.setOnMenuItemClickListener { menu ->
+            val newSortType = when (menu.itemId){
+                R.id.by_title -> SortType.TITLE
+                R.id.by_artist -> SortType.ARTIST
+                R.id.by_album -> SortType.ALBUM
+                R.id.by_duration -> SortType.DURATION
+                R.id.by_recently_added -> SortType.RECENTLY_ADDED
+                R.id.by_custom -> SortType.CUSTOM
+                R.id.by_track_number -> SortType.TRACK_NUMBER
+                else -> throw IllegalArgumentException("sort type not exist")
             }
 
-            popup.show()
+            updateUseCase(newSortType)
 
-        })
+            true
+        }
 
-
+        popup.show()
     }
 
     @MenuRes
