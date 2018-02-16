@@ -15,8 +15,6 @@ class CachedDataStore<T> {
 
     fun isEmpty() = publisher.value.isEmpty()
 
-    fun getAll(): Observable<List<T>> = publisher
-            .take(1)
-            .map { it.toList() }
+    fun getAll(): Observable<List<T>> = Observable.just(publisher.value)
 
 }

@@ -2,13 +2,16 @@ package dev.olog.msc.data.repository
 
 import android.content.ContentResolver
 import android.net.Uri
+import android.os.CancellationSignal
 import android.provider.MediaStore
 
 object CommonQuery {
 
     fun getSize(contentResolver: ContentResolver, uri: Uri): Int {
 
-        val cursor = contentResolver.query(uri, arrayOf("count(*)"), null, null, null)
+        val cursor = contentResolver.query(uri, arrayOf("count(*)"), null,
+                null, null, CancellationSignal())
+
         cursor.moveToFirst()
         val size = cursor.getInt(0)
         cursor.close()
@@ -22,7 +25,8 @@ object CommonQuery {
 
         val cursor = contentResolver.query(
                 uri,
-                arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null, null, null)
+                arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null,
+                null, null, CancellationSignal())
         while (cursor.moveToNext()){
             result.add(cursor.getLong(0))
         }

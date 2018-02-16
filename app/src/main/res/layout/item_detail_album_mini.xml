@@ -46,6 +46,12 @@
                 tools:src="@android:color/holo_red_dark"
                 app:imageAlbum="@{item}"/>
 
+            <dev.olog.msc.presentation.widget.QuickActionView
+                style="@style/QuickActionStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:quickActionItem="@{item}"/>
+
         </android.support.v7.widget.CardView>
 
         <TextView

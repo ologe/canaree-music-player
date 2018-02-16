@@ -139,11 +139,10 @@ class PlaylistRepository @Inject constructor(
         val cursor = contentResolver.query(MEDIA_STORE_URI, PROJECTION,
                 SELECTION, SELECTION_ARGS, SORT_ORDER)
         val list = mutableListOf<Playlist>()
-        cursor.use {
-            while (it.moveToNext()){
-                list.add(cursor.toPlaylist(context, -1))
-            }
+        while (cursor.moveToNext()){
+            list.add(cursor.toPlaylist(context, -1))
         }
+        cursor.close()
         return list
     }
 
