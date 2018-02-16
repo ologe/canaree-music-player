@@ -11,6 +11,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
+import dev.olog.msc.floating.window.service.service.MusicServiceBinder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import java.net.URLEncoder
@@ -20,7 +21,7 @@ import kotlin.properties.Delegates
 class CustomHoverMenu @Inject constructor(
         @ServiceContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
-//        musicServiceBinder: MusicServiceBinder,
+        musicServiceBinder: MusicServiceBinder,
         musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : HoverMenu(), DefaultLifecycleObserver {
@@ -28,7 +29,7 @@ class CustomHoverMenu @Inject constructor(
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
 
-    private val lyricsContent = LyricsContent(lifecycle, context/*, musicServiceBinder*/)
+    private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder)
     private val videoContent = VideoContent(lifecycle, context)
 
     private val subscriptions = CompositeDisposable()

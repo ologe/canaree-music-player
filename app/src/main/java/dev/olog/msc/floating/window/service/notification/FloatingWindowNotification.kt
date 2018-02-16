@@ -23,7 +23,7 @@ class FloatingWindowNotification @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val notificationManager: NotificationManager,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase
+        musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : DefaultLifecycleObserver {
 
