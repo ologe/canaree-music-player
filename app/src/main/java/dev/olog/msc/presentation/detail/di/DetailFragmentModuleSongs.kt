@@ -84,8 +84,8 @@ class DetailFragmentModuleSongs {
 
         return useCase.execute(mediaId)
                 .map {
-                    if (!mediaId.isAlbum || !mediaId.isArtist){
-                        it.distinctBy { it.id }.joinToString { it.name }
+                    if (!mediaId.isAlbum && !mediaId.isArtist){
+                        it.joinToString { it.name }
                     }
                     else ""
                 }

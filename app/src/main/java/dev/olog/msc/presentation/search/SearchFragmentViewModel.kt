@@ -49,7 +49,7 @@ class SearchFragmentViewModel(
                 .map { extractBest(query, it) }
                 .sequential()
                 .toList()
-                .map { it.filter { it.score >= 50 }.maxBy { it.score }?.string ?: ""}
+                .map { it.filter { it.score >= 75 }.maxBy { it.score }?.string ?: ""}
                 .observeOn(AndroidSchedulers.mainThread())
     }
 
