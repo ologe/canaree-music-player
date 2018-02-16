@@ -39,7 +39,7 @@ class SearchFragmentViewModelModule {
     internal fun provideQueryLiveData(): MutableLiveData<String> = MutableLiveData()
 
     @Provides
-    fun provideSearchData(
+    internal fun provideSearchData(
             @ApplicationContext context: Context,
             getAllArtistsUseCase: GetAllArtistsUseCase,
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
@@ -47,33 +47,35 @@ class SearchFragmentViewModelModule {
             getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
             searchHeaders: SearchFragmentHeaders,
             queryLiveData: MutableLiveData<String>)
-            : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>{
+            : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>> {
 
         return Transformations.switchMap(queryLiveData, { input ->
 
-            if (input.isBlank()){
+            if (input.isBlank()) {
                 provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
-                        .map { mutableMapOf(
-                        SearchFragmentType.RECENT to it.toMutableList(),
-                        SearchFragmentType.ARTISTS to mutableListOf(),
-                        SearchFragmentType.ALBUMS to mutableListOf(),
-                        SearchFragmentType.SONGS to mutableListOf())
-                }.map { Pair(it, input) }
-                .subscribeOn(Schedulers.computation())
+                        .map {
+                            mutableMapOf(
+                                    SearchFragmentType.RECENT to it.toMutableList(),
+                                    SearchFragmentType.ARTISTS to mutableListOf(),
+                                    SearchFragmentType.ALBUMS to mutableListOf(),
+                                    SearchFragmentType.SONGS to mutableListOf())
+                        }.map { Pair(it, input) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             } else {
                 getAllSongsUseCase.execute()
-                        .flatMap { Observables.combineLatest(
-                                provideSearchByArtist(getAllArtistsUseCase, input),
-                                provideSearchByAlbum(getAllAlbumsUseCase, input),
-                                provideSearchBySong(getAllSongsUseCase, input),
-                                { artists, albums, songs -> mutableMapOf(
-                                        SearchFragmentType.RECENT to mutableListOf(),
-                                        SearchFragmentType.ARTISTS to artists.toMutableList(),
-                                        SearchFragmentType.ALBUMS to albums.toMutableList(),
-                                        SearchFragmentType.SONGS to songs.toMutableList())
-                                })
+                        .flatMap {
+                            Observables.combineLatest(
+                                    provideSearchByArtist(getAllArtistsUseCase, input),
+                                    provideSearchByAlbum(getAllAlbumsUseCase, input),
+                                    provideSearchBySong(getAllSongsUseCase, input),
+                                    { artists, albums, songs ->
+                                        mutableMapOf(
+                                                SearchFragmentType.RECENT to mutableListOf(),
+                                                SearchFragmentType.ARTISTS to artists.toMutableList(),
+                                                SearchFragmentType.ALBUMS to albums.toMutableList(),
+                                                SearchFragmentType.SONGS to songs.toMutableList())
+                                    })
                         }
                         .map { it to input }
                         .subscribeOn(Schedulers.computation())

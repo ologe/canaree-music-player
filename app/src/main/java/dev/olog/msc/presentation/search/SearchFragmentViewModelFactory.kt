@@ -5,6 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.msc.domain.interactor.search.*
+import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllArtistsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import javax.inject.Inject
 
@@ -18,7 +20,9 @@ class SearchFragmentViewModelFactory @Inject constructor(
         private val deleteRecentSearchSongUseCase: DeleteRecentSearchSongUseCase,
         private val deleteRecentSearchAlbumUseCase: DeleteRecentSearchAlbumUseCase,
         private val deleteRecentSearchArtistUseCase: DeleteRecentSearchArtistUseCase,
-        private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
+        private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
+        private val getAllArtistsUseCase: GetAllArtistsUseCase,
+        private val getAllAlbumsUseCase: GetAllAlbumsUseCase
 
 ) : ViewModelProvider.Factory {
 
@@ -34,7 +38,9 @@ class SearchFragmentViewModelFactory @Inject constructor(
                 deleteRecentSearchSongUseCase,
                 deleteRecentSearchAlbumUseCase,
                 deleteRecentSearchArtistUseCase,
-                clearRecentSearchesUseCase
+                clearRecentSearchesUseCase,
+                getAllArtistsUseCase,
+                getAllAlbumsUseCase
         ) as T
     }
 }

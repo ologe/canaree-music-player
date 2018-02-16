@@ -4,10 +4,17 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.msc.domain.interactor.search.*
+import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllArtistsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Singles
+import me.xdrop.fuzzywuzzy.FuzzySearch
+import me.xdrop.fuzzywuzzy.model.ExtractedResult
 
 class SearchFragmentViewModel(
         private val queryText: MutableLiveData<String>,
@@ -19,12 +26,35 @@ class SearchFragmentViewModel(
         private val deleteRecentSearchSongUseCase: DeleteRecentSearchSongUseCase,
         private val deleteRecentSearchAlbumUseCase: DeleteRecentSearchAlbumUseCase,
         private val deleteRecentSearchArtistUseCase: DeleteRecentSearchArtistUseCase,
-        private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase
+        private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
+        private val getAllArtistsUseCase: GetAllArtistsUseCase,
+        private val getAllAlbumsUseCase: GetAllAlbumsUseCase
 
 ) : ViewModel() {
 
     fun setNewQuery(newQuery: String){
-        queryText.value = newQuery
+        queryText.value = newQuery.trim()
+    }
+
+    fun getBestMatch(query: String): Single<String> {
+        return Singles.zip(
+                getAllArtistsUseCase.execute().firstOrError(),
+                getAllAlbumsUseCase.execute().firstOrError(),
+                { artists, albums -> listOf(
+                        artists.map { it.name },
+                        albums.map { it.title }
+                ) })
+                .flattenAsFlowable { it }
+                .parallel()
+                .map { extractBest(query, it) }
+                .sequential()
+                .toList()
+                .map { it.maxBy { it.score }!!.string }
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    private fun extractBest(query: String, list: List<String>): ExtractedResult {
+        return FuzzySearch.extractOne(query, list)
     }
 
     fun adjustDataMap(data: MutableMap<SearchFragmentType, MutableList<DisplayableItem>>)

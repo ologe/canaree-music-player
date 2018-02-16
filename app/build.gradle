@@ -162,6 +162,7 @@ dependencies {
     implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
     implementation "org.tensorflow:tensorflow-android:$rootProject.tensor_flow"
     implementation "androidx.core:core-ktx:$rootProject.android_ktx"
+    implementation 'me.xdrop:fuzzywuzzy:1.1.9'
 
     // debug
 

@@ -44,6 +44,7 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var viewModel: SearchFragmentViewModel
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     private lateinit var layoutManager: LinearLayoutManager
+    private var bestMatchDisposable : Disposable? = null
 
     private var queryDisposable : Disposable? = null
 
@@ -80,6 +81,19 @@ class SearchFragment : BaseFragment() {
 
         viewModel.searchData.subscribe(this, { (map, query) ->
 
+            didYouMean.setGone()
+            didYouMeanHeader.setGone()
+
+            if (query.isNotBlank()){
+                val isEmpty = map.map { it.value }
+                        .map { it.isEmpty() }
+                        .reduce { all, current -> all && current }
+                if (isEmpty){
+                    searchForBestMatch(query)
+                }
+
+            }
+
             val itemCount = map.values.sumBy { it.size }
             val isEmpty = itemCount == 0
             view!!.searchImage.toggleVisibility(isEmpty && query.length < 2)
@@ -109,6 +123,16 @@ class SearchFragment : BaseFragment() {
         }
     }
 
+    private fun searchForBestMatch(query: String){
+        bestMatchDisposable.unsubscribe()
+        bestMatchDisposable = viewModel.getBestMatch(query)
+                .subscribe({
+                    didYouMean.text = it
+                    didYouMeanHeader.toggleVisibility(it.isNotBlank())
+                    didYouMean.toggleVisibility(it.isNotBlank())
+                }, Throwable::printStackTrace)
+    }
+
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         layoutManager = LinearLayoutManager(context!!)
         view.list.adapter = adapter
@@ -125,12 +149,12 @@ class SearchFragment : BaseFragment() {
             activity!!.onBackPressed()
         }
         root.setOnClickListener { showKeyboard() }
+        didYouMean.setOnClickListener { editText.setText(didYouMean.text.toString()) }
 
         queryDisposable = RxTextView.afterTextChangeEvents(editText)
                 .map { it.editable()!!.toString() }
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .subscribe(viewModel::setNewQuery, Throwable::printStackTrace)
-
     }
 
     override fun onPause() {
@@ -138,6 +162,7 @@ class SearchFragment : BaseFragment() {
         clear.setOnClickListener(null)
         back.setOnClickListener(null)
         root.setOnClickListener(null)
+        didYouMean.setOnClickListener(null)
         queryDisposable.unsubscribe()
     }
 
@@ -145,6 +170,7 @@ class SearchFragment : BaseFragment() {
         super.onStop()
         ImeUtils.hideIme(editText)
         showKeyboardDisposable.unsubscribe()
+        bestMatchDisposable.unsubscribe()
     }
 
     private fun showKeyboard(){

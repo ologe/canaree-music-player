@@ -115,6 +115,12 @@ class LicensesFragmentPresenter @Inject constructor() {
             "BetterPickers", "https://github.com/code-troopers/android-betterpickers",
             Licenses.apache("2013", "Derek Brameyer, Code-Troopers"))
 
+    private val ANDROID_KTX = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("android ktx"),
+            "Android KTX", "https://github.com/android/android-ktx",
+            Licenses.apache("2018", "The Android Open Source Project"))
+
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
             ANDROID_SUPPORT_LIBRARIES,
@@ -133,7 +139,8 @@ class LicensesFragmentPresenter @Inject constructor() {
             ANKO,
             TENSOR_FLOW,
             TARGET_VIEW,
-            BETTER_PICKERS
+            BETTER_PICKERS,
+            ANDROID_KTX
     )
 
 }
@@ -397,4 +404,5 @@ private object Licenses {
                     "   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
                     "   See the License for the specific language governing permissions and\n" +
                     "   limitations under the License."
+
 }

@@ -9,3 +9,7 @@ fun View.toggleVisibility(visible: Boolean){
         this.visibility = View.GONE
     }
 }
+
+fun View.setGone(){
+    this.visibility = View.GONE
+}
