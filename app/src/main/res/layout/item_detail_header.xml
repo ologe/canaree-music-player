@@ -40,11 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintStart_toEndOf="@+id/title"
-            android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}"
-            android:layout_marginStart="8dp"/>
+            android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}" />
 
     </android.support.constraint.ConstraintLayout>
 

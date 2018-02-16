@@ -22,7 +22,7 @@ class DetailFragmentHeaders @Inject constructor(
     )
 
     fun recent(listSize: Int) = listOf(
-            DisplayableItem(R.layout.item_detail_recently_added_header, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
+            DisplayableItem(R.layout.item_detail_header_recently_added, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
@@ -30,7 +30,7 @@ class DetailFragmentHeaders @Inject constructor(
         isExplicit is used to show/hide arrow in the layout
      */
     fun recentWithSeeAll(listSize: Int) = listOf(
-            DisplayableItem(R.layout.item_detail_recently_added_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize), isExplicit = true),
+            DisplayableItem(R.layout.item_detail_header_recently_added, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize), isExplicit = true),
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
