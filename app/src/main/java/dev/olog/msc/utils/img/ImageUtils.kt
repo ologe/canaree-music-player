@@ -54,7 +54,7 @@ object ImageUtils {
         return bitmap
     }
 
-    fun decodeSampledBitmap(
+    private fun decodeSampledBitmap(
             context: Context, url: Uri, reqWidth: Int, reqHeight: Int): Bitmap {
 
         // First decode with inJustDecodeBounds=true to check dimensions

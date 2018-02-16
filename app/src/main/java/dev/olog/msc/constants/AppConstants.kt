@@ -11,6 +11,8 @@ object AppConstants {
     const val ACTION_CONTENT_VIEW = TAG + ".action.content.view"
 
     const val SHORTCUT_SEARCH = TAG + ".shortcut.search"
+    const val SHORTCUT_DETAIL = TAG + ".shortcut.detail"
+    const val SHORTCUT_DETAIL_MEDIA_ID = TAG + ".shortcut.detail.media.id"
 
     lateinit var QUICK_ACTION: QuickActionView.Type
     var useNeuralImages: Boolean = false

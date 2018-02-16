@@ -13,15 +13,16 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isNougat_MR1
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
-class AppShortcutsImpl (
-        private val context: Context
+open class AppShortcutsImpl25(
+        protected val context: Context
 
 ) : AppShortcuts {
 
-    private val shortcutManager = context.systemService<ShortcutManager>()
+    protected val shortcutManager : ShortcutManager = context.systemService<ShortcutManager>()
 
     init {
         shortcutManager.removeAllDynamicShortcuts()
@@ -39,6 +40,19 @@ class AppShortcutsImpl (
         if (isNougat_MR1()){
             shortcutManager.addDynamicShortcuts(listOf(play()))
         }
+    }
+
+    override fun addDetailShortcut(mediaId: MediaId, title: String, image: String) {
+        val shortcutIntent = Intent(context, MainActivity::class.java)
+        shortcutIntent.action = AppConstants.SHORTCUT_DETAIL
+        shortcutIntent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
+
+        val intent = Intent("com.android.launcher.action.INSTALL_SHORTCUT")
+        intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, title)
+        intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
+        intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, getBitmap(context, mediaId, image))
+        context.sendBroadcast(intent)
+        // todo notify shortcut added
     }
 
     private fun search(): ShortcutInfo {

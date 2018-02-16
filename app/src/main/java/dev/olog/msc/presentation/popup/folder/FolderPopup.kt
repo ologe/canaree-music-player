@@ -36,5 +36,6 @@ class FolderPopup (
                 menu.removeItem(R.id.viewAlbum)
             }
         }
+
     }
 }

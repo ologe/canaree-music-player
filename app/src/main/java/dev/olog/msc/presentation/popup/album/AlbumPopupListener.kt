@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.popup.album
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
+import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
@@ -19,7 +20,8 @@ class AlbumPopupListener @Inject constructor(
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
-        addToPlaylistUseCase: AddToPlaylistUseCase
+        addToPlaylistUseCase: AddToPlaylistUseCase,
+        private val appShortcuts: AppShortcuts
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase.execute(), addToPlaylistUseCase) {
 
@@ -57,6 +59,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), album.title, album.image)
         }
 
         return true

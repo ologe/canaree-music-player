@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.popup.genre
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
+import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
@@ -19,7 +20,8 @@ class GenrePopupListener @Inject constructor(
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
-        addToPlaylistUseCase: AddToPlaylistUseCase
+        addToPlaylistUseCase: AddToPlaylistUseCase,
+        private val appShortcuts: AppShortcuts
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase.execute(), addToPlaylistUseCase) {
 
@@ -57,6 +59,7 @@ class GenrePopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), genre.name, genre.image)
         }
 
         return true

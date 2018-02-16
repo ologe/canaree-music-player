@@ -19,6 +19,7 @@ import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -61,6 +62,11 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
                 val serviceIntent = Intent(this, MusicService::class.java)
                 serviceIntent.action = MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH
                 ContextCompat.startForegroundService(this, serviceIntent)
+            }
+            AppConstants.SHORTCUT_DETAIL -> {
+                val string = intent.getStringExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID)
+                val mediaId = MediaId.fromString(string)
+                navigator.toDetailFragment(mediaId)
             }
         }
     }
