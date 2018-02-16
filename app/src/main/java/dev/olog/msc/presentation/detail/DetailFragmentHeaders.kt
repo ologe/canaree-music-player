@@ -22,12 +22,12 @@ class DetailFragmentHeaders @Inject constructor(
     )
 
     fun recent(listSize: Int) = listOf(
-            DisplayableItem(R.layout.item_detail_header, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
+            DisplayableItem(R.layout.item_detail_recently_added_header, MediaId.headerId("recent header"), context.getString(R.string.detail_recently_added), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
     fun recentWithSeeAll(listSize: Int) = listOf(
-            DisplayableItem(R.layout.item_detail_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_all), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
+            DisplayableItem(R.layout.item_detail_recently_added_header, RECENTLY_ADDED_ID, context.getString(R.string.detail_recently_added), context.getString(R.string.detail_see_all), trackNumber = context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize)),
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
