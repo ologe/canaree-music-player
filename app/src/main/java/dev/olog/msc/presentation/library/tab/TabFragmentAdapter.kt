@@ -13,7 +13,6 @@ import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
-import dev.olog.msc.presentation.widget.RxFastScroller
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
@@ -31,7 +30,7 @@ class TabFragmentAdapter @Inject constructor(
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
 
-) : BaseListAdapter<DisplayableItem>(lifecycle), RxFastScroller.SectionIndexer {
+) : BaseListAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
         when (viewType) {
@@ -92,14 +91,8 @@ class TabFragmentAdapter @Inject constructor(
         binding.setVariable(dev.olog.msc.BR.item, item)
     }
 
-    override fun getSectionText(position: Int): String? {
-        val item = dataController[position]
-        val itemType = item.type
-        if (itemType == R.layout.item_tab_song || itemType == R.layout.item_tab_album) {
-            return item.title[0].toString().capitalize()
-        } else {
-            return null
-        }
+    fun indexOf(predicate : (DisplayableItem) -> Boolean): Int {
+        return dataController.getItemPositionByPredicate(predicate)
     }
 
 }

@@ -18,7 +18,6 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.rxkotlin.toFlowable
 
 class DetailFragmentViewModel(
         private val mediaId: MediaId,
@@ -43,6 +42,9 @@ class DetailFragmentViewModel(
         const val MOST_PLAYED = "MOST_PLAYED"
         const val RELATED_ARTISTS = "RELATED_ARTISTS"
         const val SONGS = "SONGS"
+
+        const val NESTED_SPAN_COUNT = 4
+        const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 2
     }
 
     private val currentCategory = mediaId.category
@@ -64,7 +66,7 @@ class DetailFragmentViewModel(
             .asLiveData()
 
     val recentlyAddedFlowable: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
-            .flatMapSingle { it.toFlowable().take(10).toList() }
+            .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
     val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
@@ -104,7 +106,7 @@ class DetailFragmentViewModel(
     private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (list.isNotEmpty() && isEnabled){
             val size = list.size
-            if (list.size > 10){
+            if (list.size > VISIBLE_RECENTLY_ADDED_PAGES){
                 list.clear()
                 list.addAll(0, headers.recentWithSeeAll(size))
             } else {
@@ -118,13 +120,9 @@ class DetailFragmentViewModel(
     }
 
     private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-        val albumsList = list.take(4).toMutableList()
+        val albumsList = list.toMutableList()
         if (albumsList.isNotEmpty()){
-            if (list.size > 4){
-                albumsList.add(0, headers.albumsWithSeeAll)
-            } else {
-                albumsList.add(0, headers.albums)
-            }
+            albumsList.add(0, headers.albums)
         }
 
         return albumsList

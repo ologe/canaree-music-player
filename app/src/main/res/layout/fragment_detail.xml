@@ -41,7 +41,7 @@
         android:layout_height="120dp"
         android:background="@drawable/vd_fade"/>
 
-    <dev.olog.msc.presentation.widget.RxFastScroller
+    <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.widget
+package dev.olog.msc.presentation.widget.fast.scroller
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter

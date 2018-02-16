@@ -37,7 +37,6 @@ class DetailFragmentModuleSongs {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
-                .map { it.take(11) }
     }
 
     @Provides

@@ -2,7 +2,6 @@ package dev.olog.msc.music.service.di
 
 import android.app.NotificationManager
 import android.app.Service
-import android.app.UiModeManager
 import android.arch.lifecycle.Lifecycle
 import android.content.ComponentName
 import android.content.Context
@@ -10,7 +9,6 @@ import android.media.AudioManager
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.content.systemService
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ServiceContext
@@ -63,14 +61,8 @@ class MusicServiceModule(
 
     @Provides
     @PerService
-    internal fun provideUiModeManager(): UiModeManager {
-        return service.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-    }
-
-    @Provides
-    @PerService
     internal fun provideNotificationManager(): NotificationManager {
-        return service.systemService()
+        return service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     @Provides

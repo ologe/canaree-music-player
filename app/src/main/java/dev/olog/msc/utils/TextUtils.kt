@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit
 
 object TextUtils {
 
+    const val MIDDLE_DOT = "\u00B7"
     const val MIDDLE_DOT_SPACED = " \u00B7 "
 
     fun getReadableSongLength(millis: Int): String {

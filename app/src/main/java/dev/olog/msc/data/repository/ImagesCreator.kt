@@ -1,6 +1,5 @@
 package dev.olog.msc.data.repository
 
-import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.atomic.AtomicBoolean
@@ -13,17 +12,17 @@ class ImagesCreator @Inject constructor(){
     private var imageDisposable : Disposable? = null
 
     fun subscribe(createImages: Single<Any>){
-        if (creatingImages.compareAndSet(false, true)){
-            imageDisposable.unsubscribe()
-            imageDisposable = createImages.subscribe({
-                creatingImages.compareAndSet(true, false)
-            }, Throwable::printStackTrace)
-        }
+//        if (creatingImages.compareAndSet(false, true)){
+//            imageDisposable.unsubscribe()
+//            imageDisposable = createImages.subscribe({
+//                creatingImages.compareAndSet(true, false)
+//            }, Throwable::printStackTrace)
+//        }
     }
 
     fun unsubscribe(){
-        creatingImages.compareAndSet(true, false)
-        imageDisposable.unsubscribe()
+//        creatingImages.compareAndSet(true, false)
+//        imageDisposable.unsubscribe()
     }
 
 }

@@ -2,15 +2,19 @@ package dev.olog.msc.presentation.library.tab
 
 import android.os.Bundle
 import android.support.annotation.CallSuper
+import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.withArguments
+import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
 import javax.inject.Provider
@@ -34,6 +38,7 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
+    @Inject lateinit var onAppBarScrollListener: TabOnAppBarScrollListener
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -41,6 +46,7 @@ class TabFragment : BaseFragment() {
                 .subscribe(this, { list ->
                     handleEmptyStateVisibility(list.isEmpty())
                     adapter.updateDataSet(list)
+                    sidebar.onDataChanged(list)
                 })
 
         when (category){
@@ -69,11 +75,39 @@ class TabFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
 
-        view.fastScroller.attachRecyclerView(view.list)
-        view.fastScroller.showBubble(true)
-        view.fastScroller.setSectionIndexer(adapter)
+        view.sidebar.scrollableLayoutId = if (category == MediaIdCategory.SONGS)
+            R.layout.item_tab_song else R.layout.item_tab_album
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity!!.findViewById<AppBarLayout>(R.id.appBar).addOnOffsetChangedListener(onAppBarScrollListener)
+        sidebar.setListener(letterTouchListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity!!.findViewById<AppBarLayout>(R.id.appBar).removeOnOffsetChangedListener(onAppBarScrollListener)
+        sidebar.setListener(null)
+    }
+
+    private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->
+        list.stopScroll()
+
+        val position = when (letter){
+            TextUtils.MIDDLE_DOT -> -1
+            "#" -> 0
+            "?" -> adapter.itemCount - 1
+            else -> adapter.indexOf {
+                if (it.title.isBlank()) false
+                else it.title[0].toUpperCase().toString() == letter
+            }
+        }
+        if (position != -1){
+            val layoutManager = list.layoutManager as GridLayoutManager
+            layoutManager.scrollToPositionWithOffset(position, 0)
+        }
+    }
 
     override fun provideLayoutId(): Int = R.layout.fragment_tab
 }

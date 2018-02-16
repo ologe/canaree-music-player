@@ -20,20 +20,20 @@ class AppModule(private val app: App) {
 
     @Provides
     @ApplicationContext
-    fun provideContext() : Context = app
+    internal fun provideContext() : Context = app
 
     @Provides
-    fun provideResources(): Resources = app.resources
+    internal fun provideResources(): Resources = app.resources
 
     @Provides
-    fun provideApplication(): Application = app
+    internal fun provideApplication(): Application = app
 
     @Provides
-    fun provideContentResolver(): ContentResolver = app.contentResolver
+    internal fun provideContentResolver(): ContentResolver = app.contentResolver
 
     @Provides
     @ProcessLifecycle
-    fun provideAppLifecycle(): Lifecycle {
+    internal fun provideAppLifecycle(): Lifecycle {
         return ProcessLifecycleOwner.get().lifecycle
     }
 

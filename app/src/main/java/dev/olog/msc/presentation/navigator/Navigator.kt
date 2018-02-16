@@ -18,8 +18,6 @@ interface Navigator {
 
     fun toRecentlyAdded(mediaId: MediaId)
 
-    fun toAlbums(mediaId: MediaId)
-
     fun toPlayingQueueFragment(icon: View)
 
     fun toEditInfoFragment(mediaId: MediaId)

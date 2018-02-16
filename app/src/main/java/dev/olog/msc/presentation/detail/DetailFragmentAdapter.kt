@@ -22,6 +22,7 @@ import dev.olog.msc.presentation.base.adapter.BaseMapAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.adapter.TouchCallbackConfig
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
@@ -123,7 +124,6 @@ class DetailFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.seeAll, dataController) { item, _, _ ->
                     when (item.mediaId) {
                         DetailFragmentHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
-                        DetailFragmentHeaders.ALBUMS_ID -> navigator.toAlbums(mediaId)
                     }
                 }
             }
@@ -154,9 +154,9 @@ class DetailFragmentAdapter @Inject constructor(
 
     private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
         val layoutManager = GridLayoutManager(list.context,
-                5, GridLayoutManager.HORIZONTAL, false)
+                NESTED_SPAN_COUNT, GridLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
-        layoutManager.initialPrefetchItemCount = 10
+        layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
         list.adapter = adapter
         list.recycledViewPool = recycledViewPool
@@ -174,13 +174,7 @@ class DetailFragmentAdapter @Inject constructor(
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
                         .map { it.size }
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ size ->
-                            layoutManager.spanCount = when {
-                                size == 0 -> 1
-                                size < 5 -> size
-                                else -> 5
-                            }
-                        }, Throwable::printStackTrace)
+                        .subscribe({ size -> setNestedSpanCount(layoutManager, size) }, Throwable::printStackTrace)
             }
             R.layout.item_detail_recently_added_list -> {
                 val list = holder.itemView as RecyclerView
@@ -189,9 +183,7 @@ class DetailFragmentAdapter @Inject constructor(
                         .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
                         .map { it.size }
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ size ->
-                            layoutManager.spanCount = if (size < 5) size else 5
-                        }, Throwable::printStackTrace)
+                        .subscribe({ size -> setNestedSpanCount(layoutManager, size) }, Throwable::printStackTrace)
             }
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage
@@ -216,6 +208,14 @@ class DetailFragmentAdapter @Inject constructor(
 
                         }, Throwable::printStackTrace)
             }
+        }
+    }
+
+    private fun setNestedSpanCount(layoutManager: GridLayoutManager, size: Int){
+        layoutManager.spanCount = when {
+            size == 0 -> 1
+            size < NESTED_SPAN_COUNT -> size
+            else -> NESTED_SPAN_COUNT
         }
     }
 

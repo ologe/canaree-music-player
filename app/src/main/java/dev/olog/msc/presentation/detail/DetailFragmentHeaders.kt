@@ -14,7 +14,6 @@ class DetailFragmentHeaders @Inject constructor(
 
     companion object {
         val RECENTLY_ADDED_ID = MediaId.headerId("recent header with see all")
-        val ALBUMS_ID = MediaId.headerId("albums header with see all")
     }
 
     val mostPlayed = listOf(
@@ -34,10 +33,6 @@ class DetailFragmentHeaders @Inject constructor(
 
     val albums : DisplayableItem = DisplayableItem(R.layout.item_detail_header, MediaId.headerId("detail albums"),
             context.resources.getStringArray(R.array.detail_album_header)[mediaId.source])
-
-    val albumsWithSeeAll : DisplayableItem = DisplayableItem(R.layout.item_detail_header, ALBUMS_ID,
-            context.resources.getStringArray(R.array.detail_album_header)[mediaId.source],
-            context.getString(R.string.detail_see_all))
 
     val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
 

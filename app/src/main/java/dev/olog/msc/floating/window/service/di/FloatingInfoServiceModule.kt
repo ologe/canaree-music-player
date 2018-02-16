@@ -4,7 +4,6 @@ import android.app.NotificationManager
 import android.app.Service
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
-import androidx.content.systemService
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ServiceContext
@@ -29,7 +28,7 @@ class FloatingInfoServiceModule(
 
     @Provides
     internal fun provideNotificationManager(): NotificationManager {
-        return service.systemService()
+        return service.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
 }

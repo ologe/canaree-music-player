@@ -15,16 +15,17 @@ class ParallaxScrollListener (
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         if (isPortrait){
-            val child = recyclerView.getChildAt(0)
-            if (height == -1){
-                height = child.top
-            }
-            val firstHolder = recyclerView.findChildViewUnder(0f,0f)
-            view.toggleVisibility(firstHolder == null)
+            recyclerView.getChildAt(0)?.let { child ->
+                if (height == -1){
+                    height = child.top
+                }
+                val firstHolder = recyclerView.findChildViewUnder(0f,0f)
+                view.toggleVisibility(firstHolder == null)
 
-            if (firstHolder == null){
-                val translation = height - child.top
-                view.translationY = Math.min(0f, -translation.toFloat() * .4f)
+                if (firstHolder == null){
+                    val translation = height - child.top
+                    view.translationY = Math.min(0f, -translation.toFloat() * .4f)
+                }
             }
         }
     }

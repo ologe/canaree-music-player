@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.main.di
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.msc.dagger.scope.PerActivity
-import dev.olog.msc.presentation.albums.di.AlbumsFragmentInjector
 import dev.olog.msc.presentation.detail.di.DetailFragmentInjector
 import dev.olog.msc.presentation.dialog.add.favorite.di.AddFavoriteDialogInjector
 import dev.olog.msc.presentation.dialog.add.queue.di.AddQueueDialogInjector
@@ -36,7 +35,6 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         PlayerFragmentInjector::class,
         RecentlyAddedFragmentInjector::class,
         RelatedArtistFragmentInjector::class,
-        AlbumsFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
         EditInfoFragmentInjector::class,

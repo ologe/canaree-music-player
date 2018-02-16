@@ -21,6 +21,9 @@ class TabFragmentModule(
 ) {
 
     @Provides
+    fun provideInstance() = fragment
+
+    @Provides
     internal fun provideSource(): MediaIdCategory {
         val ordinalCategory = fragment.arguments!!.getInt(TabFragment.ARGUMENTS_SOURCE)
         return MediaIdCategory.values()[ordinalCategory]

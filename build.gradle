@@ -56,7 +56,7 @@ ext {
     micro_architecture = '1.1.0'
     micro_architecture_runtime = '1.1.0'
     micro_architecture_room = '1.0.0'
-    constraint_layout = '1.1.0-beta4'
+    constraint_layout = '1.1.0-beta5'
     glide = '4.6.1'
     exo_player = '2.6.1'
     jsoup = '1.10.3'

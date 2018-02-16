@@ -14,7 +14,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.presentation.about.AboutActivity
-import dev.olog.msc.presentation.albums.AlbumsFragment
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
@@ -115,17 +114,6 @@ class NavigatorImpl @Inject internal constructor(
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
-            }
-        }
-    }
-
-    override fun toAlbums(mediaId: MediaId) {
-        if (allowed()){
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.fragmentContainer, AlbumsFragment.newInstance(mediaId), AlbumsFragment.TAG)
-                addToBackStack(AlbumsFragment.TAG)
             }
         }
     }

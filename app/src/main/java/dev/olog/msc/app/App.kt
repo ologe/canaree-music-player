@@ -8,8 +8,8 @@ import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
+import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.CoverUtils
@@ -18,16 +18,13 @@ import javax.inject.Inject
 
 class App : DaggerApplication() {
 
-    @Inject lateinit var getAllSongsUseCase: GetAllSongsUseCase
     @Inject lateinit var strictMode: StrictMode
+    @Suppress("unused")
     @Inject lateinit var appShortcuts: AppShortcuts
 
     override fun onCreate() {
         super.onCreate()
         strictMode.initialize()
-
-        getAllSongsUseCase.execute()
-                .subscribe({}, Throwable::printStackTrace)
 
         if (BuildConfig.DEBUG) {
             LeakCanary.install(this)

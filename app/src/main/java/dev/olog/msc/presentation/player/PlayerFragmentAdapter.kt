@@ -14,6 +14,7 @@ import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
@@ -26,10 +27,7 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.msc.utils.k.extension.setOnClickListener
-import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -186,6 +184,8 @@ class PlayerFragmentAdapter @Inject constructor(
         val durationAsString = TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(duration)
         view.duration.text = durationAsString
         view.seekBar.max = duration.toInt()
+        view.remix.toggleVisibility(metadata.getLong(MusicConstants.IS_EXPLICIT) == 1L)
+        view.explicit.toggleVisibility(metadata.getLong(MusicConstants.IS_EXPLICIT) == 1L)
     }
 
     private fun updateFavorite(view: View, isFavorite: Boolean){
