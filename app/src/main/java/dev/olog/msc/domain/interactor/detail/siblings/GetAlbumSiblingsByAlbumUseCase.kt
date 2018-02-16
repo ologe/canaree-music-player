@@ -20,11 +20,12 @@ class GetAlbumSiblingsByAlbumUseCase @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Album>> {
+        val albumId = mediaId.categoryValue.toLong()
         return getAlbumUseCase.execute(mediaId)
                 .map { it.artistId }
                 .flatMap { artistId ->
                     albumGateway.observeByArtist(artistId)
-                            .map { it.filter { it.artistId != artistId } }
+                            .map { it.filter { it.id != albumId } }
                 }
     }
 
