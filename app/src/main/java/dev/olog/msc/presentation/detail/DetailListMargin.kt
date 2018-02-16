@@ -19,7 +19,7 @@ class DetailListMargin @Inject constructor(
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
         val holder = parent.getChildViewHolder(view)
-        if (holder.itemViewType == R.layout.item_detail_album){
+        if (holder != null && holder.itemViewType == R.layout.item_detail_album){
             val position = parent.getChildAdapterPosition(view)
             searchForAlbumsHeader(outRect, parent, position)
         }

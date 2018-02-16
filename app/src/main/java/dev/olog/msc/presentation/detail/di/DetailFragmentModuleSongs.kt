@@ -131,7 +131,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
             true,
             this.isRemix,
             this.isExplicit,
-            this.trackNumber.toString()
+            if (trackNumber == 0) "-" else this.trackNumber.toString()
     )
 }
 

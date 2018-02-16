@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(
         @ApplicationContext private val context: Context,
-        mediaId: MediaId
+        private val mediaId: MediaId
 ) {
 
     companion object {
@@ -34,8 +34,14 @@ class DetailFragmentHeaders @Inject constructor(
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
-    val albums : DisplayableItem = DisplayableItem(R.layout.item_detail_header, MediaId.headerId("detail albums"),
-            context.resources.getStringArray(R.array.detail_album_header)[mediaId.source])
+    fun albums(artistName: String?) : DisplayableItem {
+        if (artistName != null){
+            return DisplayableItem(R.layout.item_detail_header_albums, MediaId.headerId("detail albums"),
+                    context.getString(R.string.detail_more_albums_by, artistName))
+        }
+        return DisplayableItem(R.layout.item_detail_header_albums, MediaId.headerId("detail albums"),
+                context.resources.getStringArray(R.array.detail_album_header)[mediaId.source])
+    }
 
     val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
 

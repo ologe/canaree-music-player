@@ -9,11 +9,13 @@
     <string-array name="detail_album_header">
         <item>Other folders</item>
         <item>Other playlists</item>
-        <item>Unused</item>
-        <item>Other albums</item>
+        <item/>
+        <item/>
         <item>Albums</item>
         <item>Other genres</item>
     </string-array>
+
+    <string name="detail_more_albums_by">More by %s</string>
 
     <string name="detail_related_artists">Related artists</string>
 

@@ -52,7 +52,7 @@ class DetailFragment : BaseFragment() {
     })
 
     private val parallaxOnScrollListener: ParallaxScrollListener
-            by lazy { ParallaxScrollListener(view!!.cover) }
+            by lazy(NONE) { ParallaxScrollListener(this) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

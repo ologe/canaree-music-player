@@ -85,7 +85,7 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                         DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
                         DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList(), visibility[2]),
-                        DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList())
+                        DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
                 ) }
     ).asLiveData()
 
@@ -119,10 +119,14 @@ class DetailFragmentViewModel(
         return list
     }
 
-    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: DisplayableItem) : MutableList<DisplayableItem>{
         val albumsList = list.toMutableList()
         if (albumsList.isNotEmpty()){
-            albumsList.add(0, headers.albums)
+            val artist = when {
+                mediaId.isAlbum -> item.subtitle
+                else -> null
+            }
+            albumsList.add(0, headers.albums(artist))
         }
 
         return albumsList

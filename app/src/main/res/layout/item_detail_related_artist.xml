@@ -15,7 +15,8 @@
         android:paddingEnd="@dimen/detail_margin_horizontal"
         android:orientation="vertical"
         android:paddingTop="@dimen/item_detail_header_padding_top"
-        android:background="@color/background">
+        android:background="@color/background"
+        android:paddingBottom="12dp">
 
         <TextView
             android:id="@+id/header"

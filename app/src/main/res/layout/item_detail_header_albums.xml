@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+        <variable name="can_see_all" type="boolean"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/item_detail_header_padding_top"
+        android:background="@color/background"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_grey"
+            android:alpha=".2"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:text="@{item.title}"
+            tools:text="More by 50 Cent"
+            android:textSize="@dimen/item_header_text_size"
+            android:textStyle="bold"
+            android:textColor="@color/text_color_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="@dimen/detail_header_margin_start"
+            android:paddingEnd="@dimen/detail_header_margin_end"
+            android:background="#EFEFF4"/>
+
+    </LinearLayout>
+
+</layout>
