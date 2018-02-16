@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- The style for the container of media actions in a notification. -->
-    <style name="WidgetMediaActionContainer">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:clipChildren">false</item>
-        <item name="android:clipToPadding">false</item>
-    </style>
+    <item name="widget_classic" type="layout">@layout/widget_classic</item>
 
     <style name="WidgetTitle">
         <item name="android:textColor">#de000000</item>

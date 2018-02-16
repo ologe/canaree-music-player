@@ -96,26 +96,15 @@
                  android:exported="false"/>
 
 
-        <!--widget colored-->
+        <!--widget -->
         <receiver android:name=".presentation.app.widget.WidgetColored"
-            android:label="Colorized">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_colored"/>
-        </receiver>
-
-        <!--widget classic-->
-        <receiver android:name=".presentation.app.widget.WidgetClassic"
-            android:label="Classic">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_classic"/>
         </receiver>
 
         <!--provide storage permission to share intents-->

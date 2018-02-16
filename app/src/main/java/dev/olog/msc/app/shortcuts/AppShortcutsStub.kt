@@ -17,6 +17,7 @@ class AppShortcutsStub(
     override fun enablePlay() {
     }
 
+    @Suppress("DEPRECATION")
     override fun addDetailShortcut(mediaId: MediaId, title: String, image: String) {
         val shortcutIntent = Intent(context, MainActivity::class.java)
         shortcutIntent.action = AppConstants.SHORTCUT_DETAIL

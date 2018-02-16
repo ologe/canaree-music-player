@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.view.View
@@ -67,9 +66,6 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
-//        remoteViews.setChronometer(R.id.bookmark, SystemClock.elapsedRealtime() - state.bookmark,
-//                null, state.isPlaying)
-
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
@@ -114,12 +110,6 @@ abstract class BaseWidget : AbsWidgetApp() {
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    protected fun generatePalette(context: Context, metadata: WidgetMetadata): Palette {
-        val uri = Uri.parse(metadata.image)
-        val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, uri, metadata.id, PALETTE_SIZE, PALETTE_SIZE)
-        return Palette.from(bitmap).generate()
-    }
-
     protected fun generatePalette(bitmap: Bitmap): Palette {
         val scaledBitmap = Bitmap.createScaledBitmap(bitmap, PALETTE_SIZE, PALETTE_SIZE, false)
         return Palette.from(scaledBitmap).generate()
@@ -136,8 +126,6 @@ abstract class BaseWidget : AbsWidgetApp() {
     protected fun updateTextColor(remoteViews: RemoteViews, palette: ImageProcessorResult){
         remoteViews.setTextColor(R.id.title, palette.primaryTextColor)
         remoteViews.setTextColor(R.id.subtitle, palette.secondaryTextColor)
-//        remoteViews.setTextColor(R.id.bookmark, palette.secondaryTextColor)
-//        remoteViews.setTextColor(R.id.duration, palette.secondaryTextColor)
     }
 
     protected abstract val layoutId : Int
@@ -149,6 +137,7 @@ abstract class BaseWidget : AbsWidgetApp() {
             remoteViews.setInt(R.id.title, "setMaxLines", Int.MAX_VALUE)
             remoteViews.setInt(R.id.subtitle, "setMaxLines", 2)
             remoteViews.setViewPadding(R.id.media_actions, 0, 0, 0, context.dip(8))
+
         } else {
             remoteViews.setInt(R.id.title, "setMaxLines", 1)
             remoteViews.setInt(R.id.subtitle, "setMaxLines", 1)

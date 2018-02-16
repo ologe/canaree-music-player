@@ -11,17 +11,14 @@ import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImageUtils
 import java.util.*
 
-class WidgetColored : BaseWidget() {
+private const val IMAGE_SIZE = 300
 
-    companion object {
-        private const val IMAGE_SIZE = 300
-    }
+class WidgetColored : BaseWidget() {
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
         val remoteViews = RemoteViews(context.packageName, layoutId)
         remoteViews.setTextViewText(R.id.title, metadata.title)
         remoteViews.setTextViewText(R.id.subtitle, metadata.subtitle)
-//        remoteViews.setTextViewText(R.id.duration, " " + TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(metadata.duration))
 
         val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, Uri.parse(metadata.image), metadata.id, IMAGE_SIZE, IMAGE_SIZE)
         colorize(context, remoteViews, bitmap)

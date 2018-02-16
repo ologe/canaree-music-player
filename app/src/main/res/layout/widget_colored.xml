@@ -8,8 +8,14 @@
     android:background="@android:color/white"
     android:orientation="horizontal"
     android:clipToPadding="false"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    android:layoutDirection="ltr">
 
+    <FrameLayout
+        android:id="@+id/guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerHorizontal="true"/>
 
     <ImageView
         android:id="@+id/cover"
@@ -23,70 +29,61 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"/>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/widget_content_margin_top"
+        android:layout_marginStart="@dimen/widget_content_margin_start"
+        android:layout_marginBottom="24dp"
+        android:minHeight="@dimen/widget_min_content_height"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/cover"
-        android:layout_alignBottom="@+id/cover">
+        android:layout_toStartOf="@+id/guideline">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/title"
+            android:text="@string/common_placeholder_title"
+            android:textAppearance="@style/WidgetTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/widget_content_margin_top"
-            android:layout_marginStart="@dimen/widget_content_margin_start"
-            android:layout_marginEnd="@dimen/widget_content_margin_end"
-            android:layout_marginBottom="24dp"
-            android:minHeight="@dimen/widget_min_content_height">
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:textAlignment="viewStart"
+            android:maxLines="1"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
 
-            <TextView android:id="@+id/title"
-                android:text="An awesome song"
-                android:textAppearance="@style/WidgetTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fadingEdge="horizontal"
-                android:textAlignment="viewStart"
-                android:maxLines="1"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_marginTop="0.5dp"
+            android:text="@string/common_placeholder_title"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fadingEdge="horizontal"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/WidgetSubtitle" />
 
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_marginTop="0.5dp"
-                android:text="An awesome artist"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fadingEdge="horizontal"
-                android:textAlignment="viewStart"
-                android:textAppearance="@style/WidgetSubtitle" />
-
-        </LinearLayout>
-
-
-    </FrameLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/media_actions"
         android:orientation="horizontal"
         android:layoutDirection="ltr"
-        style="@style/WidgetMediaActionContainer"
-        android:layout_height="36dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_alignBottom="@+id/cover"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/cover"
-        android:paddingBottom="8dp"
-        android:paddingRight="48dp">
+        android:paddingStart="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <ImageButton
             android:id="@+id/floatingWindow"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="12sp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
             android:scaleX=".8"
             android:scaleY=".8"
@@ -94,9 +91,8 @@
 
         <ImageButton
             android:id="@+id/previous"
-            android:layout_width="0dp"
-            android:layout_weight=".8"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
             android:scaleX=".8"
             android:scaleY=".8"
@@ -105,26 +101,21 @@
 
         <ImageButton
             android:id="@+id/play"
-            android:layout_width="0dp"
-            android:layout_weight=".8"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
-            android:scaleX=".9"
-            android:scaleY=".9"
             android:src="@drawable/vd_play_big"/>
 
 
         <ImageButton
             android:id="@+id/next"
-            android:layout_width="0dp"
-            android:layout_weight=".8"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@null"
             android:scaleX=".8"
             android:scaleY=".8"
             android:src="@drawable/vd_skip_next"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>

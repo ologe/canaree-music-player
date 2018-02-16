@@ -31,10 +31,12 @@ class AudioFocusBehavior @Inject constructor(
         if (isOreo() && lastFocusRequest != null){
             audioManager.get().abandonAudioFocusRequest(lastFocusRequest)
         } else {
+            @Suppress("DEPRECATION")
             audioManager.get().abandonAudioFocus(this)
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun requestFocusPreOreo() : Boolean{
         val focus = audioManager.get().requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
         return focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
