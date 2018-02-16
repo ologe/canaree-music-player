@@ -42,7 +42,7 @@ public class SleepTimerDialog extends TimePickerDialog {
         final SleepTimerDialog frag = new SleepTimerDialog();
         Bundle args = new Bundle();
         args.putInt(REFERENCE_KEY, 0);
-        args.putInt(THEME_RES_ID_KEY, R.style.BetterPickersDialogFragment_Light);
+        args.putInt(THEME_RES_ID_KEY, R.style.SleepTimerTheme);
         frag.setArguments(args);
         return frag;
     }

@@ -184,7 +184,7 @@ class PlayerFragmentAdapter @Inject constructor(
         val durationAsString = TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(duration)
         view.duration.text = durationAsString
         view.seekBar.max = duration.toInt()
-        view.remix.toggleVisibility(metadata.getLong(MusicConstants.IS_EXPLICIT) == 1L)
+        view.remix.toggleVisibility(metadata.getLong(MusicConstants.IS_REMIX) == 1L)
         view.explicit.toggleVisibility(metadata.getLong(MusicConstants.IS_EXPLICIT) == 1L)
     }
 
