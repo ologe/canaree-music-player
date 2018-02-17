@@ -6,13 +6,10 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.repository.CommonQuery
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.gateway.GenreGateway
+import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.MergedImagesCreator
 import io.reactivex.Maybe
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI
@@ -26,18 +23,15 @@ class GenreImagesCreator @Inject constructor(
     fun execute() : Maybe<*> {
         return genreGateway.getAll()
                 .firstOrError()
-                .flattenAsFlowable { it }
-                .parallel()
-                .runOn(Schedulers.io())
+                .flattenAsObservable { it }
                 .map {
                     val uri = MediaStore.Audio.Genres.Members.getContentUri("external", it.id)
                     Pair(it, CommonQuery.extractAlbumIdsFromSongs(ctx.contentResolver, uri))
                 }
                 .map { (genre, albumsId) -> try {
-                    runBlocking { makeImage(genre, albumsId).await() }
+                    makeImage(genre, albumsId)
                 } catch (ex: Exception){ false }
                 }
-                .sequential()
                 .reduce { acc: Boolean, curr: Boolean -> acc || curr }
                 .filter { it }
                 .doOnSuccess {
@@ -45,9 +39,10 @@ class GenreImagesCreator @Inject constructor(
                 }
     }
 
-    private fun makeImage(genre: Genre, albumsId: List<Long>) : Deferred<Boolean> = async {
+    private fun makeImage(genre: Genre, albumsId: List<Long>) : Boolean {
+        assertBackgroundThread()
         val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)
-        MergedImagesCreator.makeImages2(ctx, albumsId, folderName, "${genre.id}")
+        return MergedImagesCreator.makeImages2(ctx, albumsId, folderName, "${genre.id}")
     }
 
 }
