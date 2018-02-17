@@ -53,10 +53,10 @@ class CustomHoverMenu @Inject constructor(
                 .filter { it.contains("|") }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    val title = it.substring(0, it.indexOf("|") - 1)
+                    val title = it.substring(0, it.indexOf("|"))
                     val artist = it.substring(it.indexOf("|") + 1)
                     var result = title
-                    if (artist != AppConstants.UNKNOWN) result += " $artist"
+                    if (artist != AppConstants.UNKNOWN) result += " $artist" // todo not null artist not showting
                     item = result
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)

@@ -10,6 +10,7 @@ class SplashActivityPresenter @Inject constructor(
 ) {
 
     fun prefetchImages(): Completable {
+        // todo handle rotation change
         return prefetchImagesUseCase.execute()
     }
 

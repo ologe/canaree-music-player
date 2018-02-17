@@ -25,7 +25,8 @@ class PrefetchImagesUseCase @Inject constructor(
     }
 
     private fun createAll() : Single<Any> {
-        return Singles.zip(folderGateway.createImages(),
+        return Singles.zip(
+                folderGateway.createImages(),
                 playlistGateway.createImages(),
                 artistGateway.createImages(),
                 genreGateway.createImages(), { _,_,_, _ -> Unit } )
