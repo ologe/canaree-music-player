@@ -31,7 +31,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
 
     companion object {
         const val TAG = "EditInfoFragment"
-        const val ARGUMENTS_MEDIA_ID = "${TAG}.arguments.media_id"
+        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         fun newInstance(mediaId: MediaId): EditInfoFragment {
             return EditInfoFragment().withArguments(
@@ -41,6 +41,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
 
     @Inject lateinit var presenter: EditInfoFragmentPresenter
     @Inject lateinit var autoTag: AutoTag
+    private var song: Song? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -55,6 +56,7 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
         presenter.getSong()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    song = it
                     setImage(view, it)
                     setTextViews(view, it)
                 }, Throwable::printStackTrace)
@@ -83,7 +85,9 @@ class EditInfoFragment : BaseFragment(), EditInfoFragmentView {
             }
         }
         view!!.cancelButton.setOnClickListener { activity!!.onBackPressed() }
-        view!!.autoTag.setOnClickListener { autoTag.getTags() }
+        view!!.autoTag.setOnClickListener {
+            autoTag.getTags()
+        }
     }
 
     override fun onPause() {

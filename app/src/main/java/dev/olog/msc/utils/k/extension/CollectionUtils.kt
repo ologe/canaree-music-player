@@ -37,3 +37,13 @@ fun <T> List<T>.startWithIfNotEmpty(list: List<T>): List<T> {
     }
     return this
 }
+
+fun <K, V> mapOfNotNulls(vararg pairs: Pair<K, V?>): MutableMap<K, V> {
+    val map = mutableMapOf<K,V>()
+    for (pair in pairs) {
+        pair.second?.let {
+            map.put(pair.first, it)
+        }
+    }
+    return map
+}

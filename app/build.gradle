@@ -103,7 +103,6 @@ dependencies {
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutines"
 
     // google architecture components
     implementation "android.arch.lifecycle:runtime:$rootProject.micro_architecture_runtime"
@@ -162,11 +161,16 @@ dependencies {
     implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
     implementation "org.tensorflow:tensorflow-android:$rootProject.tensor_flow"
     implementation "androidx.core:core-ktx:$rootProject.android_ktx"
-    implementation 'me.xdrop:fuzzywuzzy:1.1.9'
+    implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
+    implementation "com.google.code.gson:gson:$rootProject.gson"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
+
+
 
     // debug
-
-    //    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
+        implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
 

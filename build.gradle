@@ -68,8 +68,10 @@ ext {
     tensor_flow = '1.5.0-rc1'
     better_pickers = '3.1.0'
     billing = '1.0'
-    coroutines = '0.22.1'
     android_ktx = '0.1'
+    retrofit = '2.3.0'
+    fuzzywuzzy = '1.1.9'
+    gson = '2.8.2'
 
     // reactive
     rx_java = '2.1.9'
