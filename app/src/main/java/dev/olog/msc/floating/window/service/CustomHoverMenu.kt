@@ -6,12 +6,14 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.DrawableRes
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
-import dev.olog.msc.floating.window.service.service.MusicServiceBinder
+import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import java.net.URLEncoder
@@ -22,7 +24,7 @@ class CustomHoverMenu @Inject constructor(
         @ServiceContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         musicServiceBinder: MusicServiceBinder,
-        musicPreferencesUseCase: MusicPreferencesUseCase
+        private val musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : HoverMenu(), DefaultLifecycleObserver {
 
@@ -34,17 +36,6 @@ class CustomHoverMenu @Inject constructor(
 
     private val subscriptions = CompositeDisposable()
 
-    init {
-        lifecycle.addObserver(this)
-        musicPreferencesUseCase.observeLastMetadata()
-                .subscribe({ item = it }, Throwable::printStackTrace)
-                .addTo(subscriptions)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        subscriptions.clear()
-    }
-
     private var item by Delegates.observable("", { _, _, new ->
         sections.forEach {
             if (it.content is WebViewContent){
@@ -52,6 +43,28 @@ class CustomHoverMenu @Inject constructor(
             }
         }
     })
+
+    init {
+        lifecycle.addObserver(this)
+    }
+
+    fun startObserving(){
+        musicPreferencesUseCase.observeLastMetadata()
+                .filter { it.contains("|") }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val title = it.substring(0, it.indexOf("|") - 1)
+                    val artist = it.substring(it.indexOf("|") + 1)
+                    var result = title
+                    if (artist != AppConstants.UNKNOWN) result += " $artist"
+                    item = result
+                }, Throwable::printStackTrace)
+                .addTo(subscriptions)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        subscriptions.clear()
+    }
 
     private val lyricsSection = Section(
             SectionId("lyrics"),

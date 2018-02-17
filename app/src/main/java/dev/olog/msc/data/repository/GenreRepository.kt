@@ -72,8 +72,6 @@ class GenreRepository @Inject constructor(
 
     override fun createImages() : Single<Any> {
         return getAll().firstOrError()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
                 .flattenAsFlowable { it }
                 .parallel()
                 .runOn(Schedulers.io())

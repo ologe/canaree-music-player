@@ -68,6 +68,58 @@ class ExitView extends RelativeLayout {
         );
     }
 
+    public void show(){
+        setVisibility(View.VISIBLE); // todo animation
+//        setVisibility(View.GONE);
+//        setScaleX(.7f);
+//        setScaleY(.8f);
+//
+//        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_out);
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//                setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//        startAnimation(animation);
+    }
+
+    public void hide(){
+        setVisibility(View.GONE); // todo animation
+//        setVisibility(View.VISIBLE);
+//        setScaleX(1f);
+//        setScaleY(1f);
+//
+//        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_in);
+//        animation.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//        startAnimation(animation);
+    }
+
     private double calculateDistance(@NonNull Point p1, @NonNull Point p2) {
         return Math.sqrt(
                 Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)

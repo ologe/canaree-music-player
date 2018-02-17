@@ -4,7 +4,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.msc.floating.window.service.service.MusicServiceBinder
 
 class FloatingMusicCallback(
         private val binder: MusicServiceBinder

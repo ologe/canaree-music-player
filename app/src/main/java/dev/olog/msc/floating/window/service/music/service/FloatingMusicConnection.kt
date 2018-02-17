@@ -1,7 +1,6 @@
 package dev.olog.msc.floating.window.service.music.service
 
 import android.support.v4.media.MediaBrowserCompat
-import dev.olog.msc.floating.window.service.service.MusicServiceBinder
 import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState
 
 class FloatingMusicConnection(

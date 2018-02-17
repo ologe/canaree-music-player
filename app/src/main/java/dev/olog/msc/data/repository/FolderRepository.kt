@@ -63,8 +63,6 @@ class FolderRepository @Inject constructor(
     override fun createImages() : Single<Any>{
         return songGateway.getAll()
                 .firstOrError()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
                 .map { it.groupBy { it.folderPath } }
                 .flattenAsFlowable { it.entries }
                 .parallel()

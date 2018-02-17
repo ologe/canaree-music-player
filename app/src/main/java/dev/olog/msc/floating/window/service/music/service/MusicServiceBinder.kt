@@ -1,4 +1,4 @@
-package dev.olog.msc.floating.window.service.service
+package dev.olog.msc.floating.window.service.music.service
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
@@ -16,8 +16,6 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
-import dev.olog.msc.floating.window.service.music.service.FloatingMusicCallback
-import dev.olog.msc.floating.window.service.music.service.FloatingMusicConnection
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -68,7 +66,8 @@ class MusicServiceBinder @Inject constructor(
     private fun onConnected() {
         try {
             mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken)
-            mediaController?.registerCallback(callback)
+            mediaController!!.registerCallback(callback)
+            initialize(mediaController!!)
         } catch (e: RemoteException) {
             e.printStackTrace()
             onConnectionFailed()
@@ -81,6 +80,14 @@ class MusicServiceBinder @Inject constructor(
 
     internal fun updateConnectionState(state: MusicServiceConnectionState){
         publisher.onNext(state)
+    }
+
+    private fun initialize(mediaController : MediaControllerCompat){
+        callback.onMetadataChanged(mediaController.metadata)
+        callback.onPlaybackStateChanged(mediaController.playbackState)
+        callback.onRepeatModeChanged(mediaController.repeatMode)
+        callback.onShuffleModeChanged(mediaController.shuffleMode)
+        callback.onQueueChanged(mediaController.queue)
     }
 
     fun next(){

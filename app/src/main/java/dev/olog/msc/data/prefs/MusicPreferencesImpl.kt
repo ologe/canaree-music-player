@@ -111,8 +111,9 @@ class MusicPreferencesImpl @Inject constructor(
     }
 
     override fun observeLastMetadata(): Observable<String> {
-        return rxPreferences.getString(LAST_TITLE + "|" + LAST_SUBTITLE)
+        return rxPreferences.getString(LAST_TITLE)
                 .asObservable()
+                .map { it.plus("|").plus(preferences.getString(LAST_SUBTITLE, "")) }
     }
 
 }

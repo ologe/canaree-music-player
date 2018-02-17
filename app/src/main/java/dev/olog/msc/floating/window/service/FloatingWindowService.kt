@@ -37,12 +37,16 @@ class FloatingWindowService : BaseFloatingService() {
         hoverView.collapse()
 
         hoverView.addOnExpandAndCollapseListener(onExpansionListener)
+        notification.startObserving()
+        hoverMenu.startObserving()
     }
 
     override fun onHoverMenuExitingByUserRequest() {
         super.onHoverMenuExitingByUserRequest()
         hoverView.removeOnExpandAndCollapseListener(onExpansionListener)
     }
+
+
 
     private val onExpansionListener = object : HoverView.Listener {
         override fun onCollapsing() {

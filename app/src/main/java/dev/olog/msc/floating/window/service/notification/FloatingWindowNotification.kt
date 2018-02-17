@@ -23,7 +23,7 @@ class FloatingWindowNotification @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val notificationManager: NotificationManager,
-        musicPreferencesUseCase: MusicPreferencesUseCase
+        private val musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -38,16 +38,21 @@ class FloatingWindowNotification @Inject constructor(
 
     init {
         lifecycle.addObserver(this)
+
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        disposable.unsubscribe()
+    }
+
+    fun startObserving() {
         disposable = musicPreferencesUseCase.observeLastMetadata()
+                .filter { it.contains("|") }
                 .subscribe({
                     notificationTitle = it
                     val notification = builder.setContentTitle(notificationTitle).build()
                     notificationManager.notify(NOTIFICATION_ID, notification)
                 }, Throwable::printStackTrace)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        disposable.unsubscribe()
     }
 
     fun buildNotification(): Notification {
@@ -60,7 +65,7 @@ class FloatingWindowNotification @Inject constructor(
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setSmallIcon(R.drawable.vd_bird_singing)
                 .setContentTitle(notificationTitle)
-                .setContentText(service.getString(R.string.notification_content_text))
+                .setContentText(service.getString(R.string.floating_window_notification_content_text))
                 .setColor(0xff1f86ef.toInt())
                 .setContentIntent(createContentIntent())
                 .build()
@@ -69,13 +74,12 @@ class FloatingWindowNotification @Inject constructor(
     @TargetApi(Build.VERSION_CODES.O)
     private fun createChannel(){
         // create notification channel
-        val name = service.getString(R.string.channel_id_notification)
-        val description = service.getString(R.string.channel_id_notification_description)
+        val name = service.getString(R.string.floating_window_notification_channel_title)
+        val description = service.getString(R.string.floating_window_notification_channel_description)
 
         val importance = NotificationManager.IMPORTANCE_LOW
         val channel = NotificationChannel(CHANNEL_ID, name, importance)
         channel.description = description
-        channel.setShowBadge(false)
         channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
         notificationManager.createNotificationChannel(channel)
     }

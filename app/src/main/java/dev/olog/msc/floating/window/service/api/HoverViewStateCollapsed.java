@@ -239,14 +239,14 @@ class HoverViewStateCollapsed extends BaseHoverViewState {
 
     private void onPickedUpByUser() {
         mIsDocked = false;
-        mHoverView.mScreen.getExitView().setVisibility(VISIBLE);
+        mHoverView.mScreen.getExitView().show();
         if (null != mListener) {
             mListener.onDragStart();
         }
     }
 
     private void onDroppedByUser() {
-        mHoverView.mScreen.getExitView().setVisibility(GONE);
+        mHoverView.mScreen.getExitView().hide();
         if (null != mListener) {
             mListener.onDragEnd();
         }

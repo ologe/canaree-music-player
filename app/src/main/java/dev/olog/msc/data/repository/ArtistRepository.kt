@@ -68,8 +68,6 @@ class ArtistRepository @Inject constructor(
     override fun createImages() : Single<Any> {
         return songGateway.getAll()
                 .firstOrError()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
                 .map { it.groupBy { it.artistId } }
                 .flattenAsFlowable { it.entries }
                 .parallel()

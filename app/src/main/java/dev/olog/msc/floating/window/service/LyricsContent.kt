@@ -9,7 +9,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
-import dev.olog.msc.floating.window.service.service.MusicServiceBinder
+import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.presentation.SeekBarObservable
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
@@ -60,6 +60,7 @@ class LyricsContent (
                     title.text = it.first
                     artist.text = it.second
                 }, Throwable::printStackTrace)
+                .addTo(subscriptions)
 
         musicServiceBinder.animateSkipToLiveData
                 .subscribe(this::animateSkipTo, Throwable::printStackTrace)
@@ -82,6 +83,14 @@ class LyricsContent (
                 .addTo(subscriptions)
 
         setupSeekBar()
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        next.setOnClickListener(null)
+        playPause.setOnClickListener(null)
+        previous.setOnClickListener(null)
+        subscriptions.clear()
+        updateDisposable.unsubscribe()
     }
 
     private fun updateProgressBarProgress(progress: Long) {
@@ -113,21 +122,11 @@ class LyricsContent (
     }
 
     private fun setupSeekBar(){
-        val seekBarObservable = SeekBarObservable(seekBar).share()
-
-        seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
+        SeekBarObservable(seekBar).ofType<Pair<SeekBarObservable.Notification, Int>>()
                 .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
                 .map { (_, progress) -> progress.toLong() }
                 .subscribe(musicServiceBinder::seekTo, Throwable::printStackTrace)
                 .addTo(subscriptions)
-    }
-
-    override fun onDestroy(owner: LifecycleOwner) {
-        next.setOnClickListener(null)
-        playPause.setOnClickListener(null)
-        previous.setOnClickListener(null)
-        subscriptions.clear()
-        updateDisposable.unsubscribe()
     }
 
     override fun getUrl(item: String): String {
