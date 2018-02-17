@@ -11,6 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
+import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.CoverUtils
 import javax.inject.Inject
@@ -21,6 +22,8 @@ class App : DaggerApplication() {
     @Inject lateinit var strictMode: StrictMode
     @Suppress("unused")
     @Inject lateinit var appShortcuts: AppShortcuts
+
+    @Inject lateinit var imagesCreator: ImagesCreator
 
     override fun onCreate() {
         super.onCreate()

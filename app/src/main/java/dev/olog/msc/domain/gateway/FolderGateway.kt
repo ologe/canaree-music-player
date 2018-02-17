@@ -6,8 +6,7 @@ import io.reactivex.Observable
 interface FolderGateway :
         BaseGateway<Folder, String>,
         ChildsHasSongs<String>,
-        HasMostPlayed,
-        HasCreatedImages {
+        HasMostPlayed {
 
     fun getAllUnfiltered(): Observable<List<Folder>>
 

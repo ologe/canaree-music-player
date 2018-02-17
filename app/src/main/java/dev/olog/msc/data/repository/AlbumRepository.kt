@@ -14,11 +14,9 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 
-@Singleton
 class AlbumRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
@@ -43,7 +41,7 @@ class AlbumRepository @Inject constructor(
                                 song.toAlbum(songList.count { it.albumId == song.albumId })
                             }.sortedBy { it.title.toLowerCase() }
                             .toList()
-                }.onErrorReturn { listOf() }
+                }
     }
 
     override fun getByParamImpl(list: List<Album>, param: Long): Album {

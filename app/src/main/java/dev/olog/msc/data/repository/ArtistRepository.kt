@@ -12,30 +12,20 @@ import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.img.MergedImagesCreator
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
-@Singleton
 class ArtistRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase,
-        private val imagesCreator: ImagesCreator
+        appDatabase: AppDatabase
 
 ) : BaseRepository<Artist, Long>(), ArtistGateway {
 
@@ -60,36 +50,10 @@ class ArtistRepository @Inject constructor(
                                 song.toArtist(context, songs, albums)
                             }.sortedBy { it.name.toLowerCase() }
                             .toList()
-                }.onErrorReturn { listOf() }
-                .doOnNext { imagesCreator.subscribe(createImages()) }
-                .doOnTerminate { imagesCreator.unsubscribe() }
+                }
     }
 
-    override fun createImages() : Single<Any> {
-        return songGateway.getAll()
-                .firstOrError()
-                .map { it.groupBy { it.artistId } }
-                .flattenAsFlowable { it.entries }
-                .parallel()
-                .runOn(Schedulers.io())
-                .map { entry -> try {
-                        runBlocking { makeImage(this@ArtistRepository.context, entry).await() }
-                    } catch (ex: Exception){/*amen*/}
-                }.sequential()
-                .toList()
-                .map { it.contains(true) }
-                .onErrorReturnItem(false)
-                .doOnSuccess { created ->
-                    if (created) {
-                        contentResolver.notifyChange(MEDIA_STORE_URI, null)
-                    }
-                }.map { Unit }
-    }
 
-    private fun makeImage(context: Context, map: Map.Entry<Long, List<Song>>) : Deferred<Boolean> = async {
-        val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.ARTIST)
-        MergedImagesCreator.makeImages(context, map.value, folderName, "${map.key}")
-    }
 
     override fun getByParamImpl(list: List<Artist>, param: Long): Artist {
         return list.first { it.id == param }

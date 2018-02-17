@@ -15,19 +15,11 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.img.MergedImagesCreator
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI
 private val PROJECTION = arrayOf(
@@ -43,14 +35,12 @@ private val SONG_SELECTION = null
 private val SONG_SELECTION_ARGS: Array<String>? = null
 private const val SONG_SORT_ORDER = "lower(${MediaStore.Audio.Genres.Members.TITLE})"
 
-@Singleton
 class GenreRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase,
-        private val imagesCreator: ImagesCreator
+        appDatabase: AppDatabase
 
 ) : BaseRepository<Genre, Long>(), GenreGateway {
 
@@ -66,37 +56,8 @@ class GenreRepository @Inject constructor(
             val size = CommonQuery.getSize(contentResolver, uri)
             it.toGenre(context, size)
         }.onErrorReturn { listOf() }
-                .doOnNext { imagesCreator.subscribe(createImages()) }
-                .doOnTerminate { imagesCreator.unsubscribe() }
     }
 
-    override fun createImages() : Single<Any> {
-        return getAll().firstOrError()
-                .flattenAsFlowable { it }
-                .parallel()
-                .runOn(Schedulers.io())
-                .map {
-                    val uri = MediaStore.Audio.Genres.Members.getContentUri("external", it.id)
-                    Pair(it, CommonQuery.extractAlbumIdsFromSongs(contentResolver, uri))
-                }
-                .map { (genre, albumsId) -> try {
-                    runBlocking { makeImage(this@GenreRepository.context, genre, albumsId).await() }
-                } catch (ex: Exception){/*amen*/}
-                }.sequential()
-                .toList()
-                .map { it.contains(true) }
-                .onErrorReturnItem(false)
-                .doOnSuccess { created ->
-                    if (created) {
-                        contentResolver.notifyChange(MEDIA_STORE_URI, null)
-                    }
-                }.map { Unit }
-    }
-
-    private fun makeImage(context: Context, genre: Genre, albumsId: List<Long>) : Deferred<Boolean> = async {
-        val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)
-        MergedImagesCreator.makeImages2(context, albumsId, folderName, "${genre.id}")
-    }
 
     override fun getByParamImpl(list: List<Genre>, param: Long): Genre {
         return list.first { it.id == param }

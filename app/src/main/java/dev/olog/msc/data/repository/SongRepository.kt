@@ -64,8 +64,7 @@ class SongRepository @Inject constructor(
                     } else {
                         it.filter { !blackListed.contains(it.folderPath) }
                     }
-                }
-                .onErrorReturn { listOf() }
+                }.onErrorReturn { listOf() }
     }
 
     override fun getByParamImpl(list: List<Song>, param: Long): Song {

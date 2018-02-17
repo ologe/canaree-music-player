@@ -18,20 +18,13 @@ import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.img.MergedImagesCreator
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.toFlowable
-import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
 import javax.inject.Inject
-import javax.inject.Singleton
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
 private val PROJECTION = arrayOf(
@@ -50,7 +43,6 @@ private val SONG_SELECTION = null
 private val SONG_SELECTION_ARGS: Array<String>? = null
 private const val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
 
-@Singleton
 class PlaylistRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
@@ -58,8 +50,7 @@ class PlaylistRepository @Inject constructor(
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
         appDatabase: AppDatabase,
-        private val helper: PlaylistRepositoryHelper,
-        private val imagesCreator: ImagesCreator
+        private val helper: PlaylistRepositoryHelper
 
 ) : BaseRepository<Playlist, Long>(), PlaylistGateway {
 
@@ -91,39 +82,10 @@ class PlaylistRepository @Inject constructor(
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
             val size = CommonQuery.getSize(contentResolver, uri)
             it.toPlaylist(context, size)
-        }
-                .onErrorReturn { listOf() }
-                .doOnNext { imagesCreator.subscribe(createImages()) }
-                .doOnTerminate { imagesCreator.unsubscribe() }
+        }.onErrorReturn { listOf() }
     }
 
-    override fun createImages() : Single<Any> {
-        return getAll().firstOrError()
-                .flattenAsFlowable { it }
-                .parallel()
-                .runOn(Schedulers.io())
-                .map {
-                    val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", it.id)
-                    Pair(it, CommonQuery.extractAlbumIdsFromSongs(contentResolver, uri))
-                }
-                .map { (playlist, albumsId) -> try {
-                    runBlocking { makeImage(this@PlaylistRepository.context, playlist, albumsId).await() }
-                } catch (ex: Exception){/*amen*/}
-                }.sequential()
-                .toList()
-                .map { it.contains(true) }
-                .onErrorReturnItem(false)
-                .doOnSuccess { created ->
-                    if (created) {
-                        contentResolver.notifyChange(MEDIA_STORE_URI, null)
-                    }
-                }.map { Unit }
-    }
 
-    private fun makeImage(context: Context, playlist: Playlist, albumsId: List<Long>) : Deferred<Boolean> = async {
-        val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.PLAYLIST)
-        MergedImagesCreator.makeImages2(context, albumsId, folderName, "${playlist.id}")
-    }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
         return Observable.just(autoPlaylist().sortedWith(compareByDescending { it.id }))

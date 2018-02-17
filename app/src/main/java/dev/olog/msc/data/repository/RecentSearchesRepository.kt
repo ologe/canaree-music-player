@@ -10,9 +10,7 @@ import dev.olog.msc.domain.gateway.SongGateway
 import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class RecentSearchesRepository @Inject constructor(
         appDatabase: AppDatabase,
         private val songGateway: SongGateway,

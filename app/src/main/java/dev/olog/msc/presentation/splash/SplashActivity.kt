@@ -12,21 +12,19 @@ import android.support.v4.app.ActivityCompat
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
+import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
 private const val STORAGE_PERMISSION_CODE = 56891
 
 class SplashActivity : BaseActivity(), View.OnClickListener {
 
-    @Inject lateinit var presenter: SplashActivityPresenter
     @Inject lateinit var adapter : SplashActivityViewPagerAdapter
+    @Inject lateinit var imagesCreator: ImagesCreator
     private var disposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,27 +82,14 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+    private fun onStoragePermissionGranted(){
+        imagesCreator.createImages()
+        finishActivity()
+    }
+
     private fun finishActivity(){
         setResult(Activity.RESULT_OK)
         finish()
-    }
-
-    private fun onStoragePermissionGranted(){
-        disposable = presenter.prefetchImages()
-                .doOnSubscribe { showLoader() }
-                .timeout(6, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    loader.pauseAnimation()
-                    finishActivity()
-                }, {
-                    if (it is TimeoutException){
-                        loader.pauseAnimation()
-                        finishActivity()
-                    } else {
-                        throw RuntimeException("something went very wrong", it)
-                    }
-                })
     }
 
     private fun onStoragePermissionDenied(){
@@ -124,15 +109,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.fromParts("package", packageName, null))
         startActivity(intent)
-    }
-
-    private fun showLoader(){
-        viewPager.visibility = View.GONE
-        inkIndicator.visibility = View.GONE
-        next.visibility = View.GONE
-
-        loader.visibility = View.VISIBLE
-        loader.playAnimation()
     }
 
 }

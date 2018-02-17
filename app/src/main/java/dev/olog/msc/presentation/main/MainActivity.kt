@@ -89,7 +89,9 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK){
             when (requestCode){
-                SPLASH_REQUEST_CODE -> navigator.toLibraryCategories()
+                SPLASH_REQUEST_CODE -> {
+                    navigator.toLibraryCategories()
+                }
                 PreferencesActivity.REQUEST_CODE -> recreateActivity()
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }
