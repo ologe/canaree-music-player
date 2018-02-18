@@ -66,9 +66,8 @@ class EditSongFragmentViewModel(
 
     fun fetchSongInfo(){
         if (connectivityManager.isNetworkAvailable()){
-            // todo check connection
             val song = this.originalSong
-            fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.title, song.artist)
+            fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.id, song.title, song.artist)
                     .subscribe({ newValue ->
                         val oldValue = displayedSong.value!!
                         displayedSong.postValue(oldValue.copy(
@@ -87,8 +86,9 @@ class EditSongFragmentViewModel(
 
     fun fetchAlbumArt() {
         if (connectivityManager.isNetworkAvailable()){
+            val song = this.originalSong
             fetchAlbumImageDisposable = lastFmService
-                    .fetchAlbumArt(originalSong.title, originalSong.artist, originalSong.album)
+                    .fetchAlbumArt(song.id, song.title, song.artist, song.album)
                     .subscribe({
                         displayedImage.postValue(it)
                     }, {

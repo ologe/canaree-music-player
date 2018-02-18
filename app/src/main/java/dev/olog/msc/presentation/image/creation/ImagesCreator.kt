@@ -9,10 +9,10 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
-import dev.olog.msc.domain.gateway.ArtistGateway
-import dev.olog.msc.domain.gateway.FolderGateway
-import dev.olog.msc.domain.gateway.GenreGateway
-import dev.olog.msc.domain.gateway.PlaylistGateway
+import dev.olog.msc.domain.interactor.tab.GetAllArtistsUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllFoldersUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllGenresUseCase
+import dev.olog.msc.domain.interactor.tab.GetAllPlaylistsUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -24,13 +24,13 @@ import javax.inject.Singleton
 class ImagesCreator @Inject constructor(
         @ApplicationContext context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
-        private val folderGateway: FolderGateway,
+        private val getAllFoldersUseCase: GetAllFoldersUseCase,
         private val folderImagesCreator: FolderImagesCreator,
-        private val playlistGateway: PlaylistGateway,
+        private val getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
         private val playlistImagesCreator: PlaylistImagesCreator,
-        private val artistGateway: ArtistGateway,
+        private val getAllArtistsUseCase: GetAllArtistsUseCase,
         private val artistImagesCreator: ArtistImagesCreator,
-        private val genreGateway: GenreGateway,
+        private val getAllGenresUseCase: GetAllGenresUseCase,
         private val genreImagesCreator: GenreImagesCreator
 
 
@@ -66,7 +66,7 @@ class ImagesCreator @Inject constructor(
     fun createImages() {
         subscriptions.clear()
 
-        folderGateway.getAll()
+        getAllFoldersUseCase.execute()
                 .doOnNext {
                     folderDisposable.unsubscribe()
                     folderDisposable = folderImagesCreator.execute()
@@ -75,7 +75,7 @@ class ImagesCreator @Inject constructor(
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        playlistGateway.getAll()
+        getAllPlaylistsUseCase.execute()
                 .doOnNext {
                     playlistDisposable.unsubscribe()
                     playlistDisposable = playlistImagesCreator.execute()
@@ -84,7 +84,7 @@ class ImagesCreator @Inject constructor(
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        artistGateway.getAll()
+        getAllArtistsUseCase.execute()
                 .doOnNext {
                     artistDisposable.unsubscribe()
                     artistDisposable = artistImagesCreator.execute()
@@ -93,7 +93,7 @@ class ImagesCreator @Inject constructor(
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        genreGateway.getAll()
+        getAllGenresUseCase.execute()
                 .doOnNext {
                     genreDisposable.unsubscribe()
                     genreDisposable = genreImagesCreator.execute()

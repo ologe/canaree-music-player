@@ -33,10 +33,9 @@ class LastFmService @Inject constructor(
                                 .map { it.toSearchSong(id) }
                                 .onErrorReturn { result }
                         }
-                }.flatMap {
-                    // cache and return
-                    insertLastFmTrackUseCase.execute(it).toSingle { it }
                 }
+                // cache and return
+                .flatMap { insertLastFmTrackUseCase.execute(it).toSingle { it } }
 
         return cached.onErrorResumeNext(fetch)
     }
