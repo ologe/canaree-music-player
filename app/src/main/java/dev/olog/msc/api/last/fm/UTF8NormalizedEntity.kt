@@ -2,7 +2,7 @@ package dev.olog.msc.api.last.fm
 
 import java.net.URLEncoder
 
-class NormalizedEntity(
+class UTF8NormalizedEntity(
         value: String
 ) {
 

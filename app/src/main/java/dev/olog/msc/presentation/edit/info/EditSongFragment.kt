@@ -17,9 +17,8 @@ import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_edit_info.*
-import kotlinx.android.synthetic.main.fragment_edit_info.view.*
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class EditSongFragment : BaseFragment() {
@@ -66,19 +65,25 @@ class EditSongFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        view!!.okButton.setOnClickListener {}
-        view!!.cancelButton.setOnClickListener { activity!!.onBackPressed() }
-        view!!.autoTag.setOnClickListener {
+        okButton.setOnClickListener {}
+        cancelButton.setOnClickListener { activity!!.onBackPressed() }
+        autoTag.setOnClickListener {
             viewModel.fetchSongInfo()
             showLoader()
+        }
+        changeAlbumArt.setOnClickListener {
+            viewModel.fetchAlbumArt()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setImage, Throwable::printStackTrace)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        view!!.okButton.setOnClickListener(null)
-        view!!.cancelButton.setOnClickListener(null)
-        view!!.autoTag.setOnClickListener(null)
+        okButton.setOnClickListener(null)
+        cancelButton.setOnClickListener(null)
+        autoTag.setOnClickListener(null)
+        changeAlbumArt.setOnClickListener(null)
     }
 
     private fun setImage(song: DisplayableSong){
@@ -94,10 +99,26 @@ class EditSongFragment : BaseFragment() {
                 .into(cover)
     }
 
+    private fun setImage(string: String){
+        GlideApp.with(context!!).clear(cover)
+
+        GlideApp.with(context!!)
+                .load(string)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(BindingsAdapter.OVERRIDE_BIG)
+                .priority(Priority.IMMEDIATE)
+                .into(cover)
+    }
+
     private fun showLoader(){
         progressDialog = ProgressDialog.show(context, "", "Fetching song info", true)
         progressDialog?.setCancelable(true)
         progressDialog?.setCanceledOnTouchOutside(true)
+        progressDialog?.setOnCancelListener {
+            viewModel.stopFetchingSongInfo()
+            progressDialog?.setOnCancelListener(null)
+        }
     }
 
     private fun hideLoader(){

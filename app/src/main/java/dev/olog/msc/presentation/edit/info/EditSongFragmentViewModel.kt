@@ -10,6 +10,7 @@ import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.presentation.edit.info.model.DisplayableSong
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -35,6 +36,10 @@ class EditSongFragmentViewModel(
 
         getSongDisposable = getSongUseCase.execute(mediaId)
                 .firstOrError()
+                .map { it.copy(
+                        artist = if (it.artist == AppConstants.UNKNOWN) "" else it.artist,
+                        album = if (it.album == AppConstants.UNKNOWN) "" else it.album
+                ) }
                 .doOnSuccess { this.originalSong = it }
                 .map { it.toDisplayableSong() }
                 .subscribe(displayedSong::postValue, Throwable::printStackTrace)
@@ -61,6 +66,14 @@ class EditSongFragmentViewModel(
         }
     }
 
+    fun stopFetchingSongInfo(){
+        fetchSongInfoDisposable.unsubscribe()
+    }
+
+    fun fetchAlbumArt(): Single<String> {
+        return lastFmService.fetchAlbumArt(originalSong.title, originalSong.artist, originalSong.album)
+    }
+
     override fun onCleared() {
         getSongDisposable.unsubscribe()
         fetchSongInfoDisposable.unsubscribe()
@@ -70,9 +83,6 @@ class EditSongFragmentViewModel(
         val file = File(path)
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault
-
-        val artist = if (this.artist == AppConstants.UNKNOWN) "" else this.artist
-        val album = if (this.album == AppConstants.UNKNOWN) "" else this.album
 
         return DisplayableSong(
                 this.id,

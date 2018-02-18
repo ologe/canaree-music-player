@@ -1,9 +1,9 @@
 package dev.olog.msc.api.last.fm
 
+import dev.olog.msc.api.last.fm.album.info.AlbumInfo
 import dev.olog.msc.api.last.fm.model.SearchedSong
 import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
-import dev.olog.msc.constants.AppConstants
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,22 +13,39 @@ class LastFmService @Inject constructor(
         private val lastFm: RestLastFm
 ) {
 
-    fun fetchSongInfo(title: String, artist: String): Single<SearchedSong> {
-        val normalizeTitle = NormalizedEntity(title)
-        val normalizeArtist = NormalizedEntity(if (artist == AppConstants.UNKNOWN) "" else artist)
+    private fun getTrackInfo(track: String, artist: String): Single<TrackInfo> {
+        return lastFm.getTrackInfo(UTF8NormalizedEntity(track).value, UTF8NormalizedEntity(artist).value)
+    }
 
-        return lastFm.getTrackInfo(normalizeTitle.value, normalizeArtist.value)
+    private fun searchTrack(track: String, artist: String): Single<TrackSearch> {
+        return lastFm.searchTrack(UTF8NormalizedEntity(track).value, UTF8NormalizedEntity(artist).value)
+    }
+
+    private fun getAlbumInfo(album: String, artist: String): Single<AlbumInfo> {
+        return lastFm.getAlbumInfo(UTF8NormalizedEntity(album).value, UTF8NormalizedEntity(artist).value)
+    }
+
+    fun fetchSongInfo(title: String, artist: String): Single<SearchedSong> {
+        return getTrackInfo(title, artist)
                 .map { it.toSearchSong() }
-                .onErrorResumeNext {
-                    lastFm.searchTrack(normalizeTitle.value, normalizeArtist.value)
+                .onErrorResumeNext { searchTrack(title, artist)
                             .map { it.toSearchSong() }
-                            .flatMap { result ->
-                                Single.just(result.normalize())
-                                        .flatMap { lastFm.getTrackInfo(it.title, it.artist)
-                                                .map { it.toSearchSong() }
-                                        }.onErrorReturn { result }
+                            .flatMap { result -> getTrackInfo(result.title, result.artist)
+                                        .map { it.toSearchSong() }
+                                        .onErrorReturn { result }
                             }
                 }
+    }
+
+    fun fetchAlbumArt(title: String, artist: String, album: String): Single<String> {
+        val albums = if (artist.isNotBlank() && album.isNotBlank()){
+            getAlbumInfo(album, artist)
+        } else fetchSongInfo(title, artist)
+                .flatMap { getAlbumInfo(it.album, it.artist) }
+
+        return albums.map { it.album.image }
+                .map { it.reversed().first { it.text.isNotBlank()  } }
+                .map { it.text }
     }
 
     private fun TrackInfo.toSearchSong(): SearchedSong {
@@ -51,14 +68,6 @@ class LastFmService @Inject constructor(
                 track.name ?: "",
                 track.artist ?: "",
                 ""
-        )
-    }
-
-    private fun SearchedSong.normalize(): SearchedSong {
-        return SearchedSong(
-                NormalizedEntity(this.title).value,
-                NormalizedEntity(this.artist).value,
-                NormalizedEntity(this.album).value
         )
     }
 
