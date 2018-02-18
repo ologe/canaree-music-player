@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.msc.R
-import dev.olog.msc.api.last.fm.LastFmRest
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
@@ -34,8 +33,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
     @Suppress("unused") // false alarm
     @Inject lateinit var statusBarColorBehavior: StatusBarColorBehavior
 
-    @Inject lateinit var lastFmRest: LastFmRest
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -54,11 +51,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
                 .subscribe(this, this::handleEmptyRepository)
 
         intent?.let { handleIntent(it) }
-
-        lastFmRest.getTrackInfo("", "")
-                .subscribe({
-                    println("track info $it")
-                }, Throwable::printStackTrace)
     }
 
     override fun onNewIntent(intent: Intent?) {

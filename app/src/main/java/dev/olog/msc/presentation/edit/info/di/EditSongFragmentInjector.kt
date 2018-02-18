@@ -6,15 +6,15 @@ import dagger.Module
 import dagger.android.AndroidInjector
 import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.presentation.edit.info.EditInfoFragment
+import dev.olog.msc.presentation.edit.info.EditSongFragment
 
-@Module(subcomponents = arrayOf(EditInfoFragmentSubComponent::class))
-abstract class EditInfoFragmentInjector {
+@Module(subcomponents = arrayOf(EditSongFragmentSubComponent::class))
+abstract class EditSongFragmentInjector {
 
     @Binds
     @IntoMap
-    @FragmentKey(EditInfoFragment::class)
-    internal abstract fun injectorFactory(builder: EditInfoFragmentSubComponent.Builder)
+    @FragmentKey(EditSongFragment::class)
+    internal abstract fun injectorFactory(builder: EditSongFragmentSubComponent.Builder)
             : AndroidInjector.Factory<out Fragment>
 
 }

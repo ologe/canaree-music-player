@@ -11,7 +11,7 @@ import dev.olog.msc.presentation.dialog.create.playlist.di.NewPlaylistDialogInje
 import dev.olog.msc.presentation.dialog.delete.di.DeleteDialogInjector
 import dev.olog.msc.presentation.dialog.rename.di.RenameDialogInjector
 import dev.olog.msc.presentation.dialog.set.ringtone.di.SetRingtoneDialogInjector
-import dev.olog.msc.presentation.edit.info.di.EditInfoFragmentInjector
+import dev.olog.msc.presentation.edit.info.di.EditSongFragmentInjector
 import dev.olog.msc.presentation.library.categories.di.CategoriesFragmentInjector
 import dev.olog.msc.presentation.library.tab.di.TabFragmentInjector
 import dev.olog.msc.presentation.main.MainActivity
@@ -37,7 +37,7 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         RelatedArtistFragmentInjector::class,
         SearchFragmentInjector::class,
         PlayingQueueFragmentInjector::class,
-        EditInfoFragmentInjector::class,
+        EditSongFragmentInjector::class,
 
         // dialogs
         AddFavoriteDialogInjector::class,
