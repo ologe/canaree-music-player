@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:clipChildren="false"
-    android:paddingBottom="32dp"
     android:clipToPadding="false">
 
     <android.support.v7.widget.RecyclerView
@@ -14,7 +13,7 @@
         android:layout_height="match_parent"
         android:paddingTop="@dimen/tab_margin_vertical"
         android:paddingStart="@dimen/tab_margin_horizontal"
-        android:paddingBottom="@dimen/tab_margin_vertical"
+        android:paddingBottom="40dp"
         android:paddingEnd="@dimen/tab_margin_horizontal"
         android:clipChildren="false"
         android:clipToPadding="false"
