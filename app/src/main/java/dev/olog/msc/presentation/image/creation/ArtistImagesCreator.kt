@@ -4,7 +4,7 @@ import android.content.Context
 import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.MergedImagesCreator
@@ -15,12 +15,12 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
 class ArtistImagesCreator @Inject constructor(
         @ApplicationContext private val ctx: Context,
-        private val songGateway: SongGateway
+        private val getAllSongsUseCase: GetAllSongsUseCase
 
 ) {
 
     fun execute() : Maybe<*> {
-        return songGateway.getAll()
+        return getAllSongsUseCase.execute()
                 .firstOrError()
                 .map { it.groupBy { it.artistId } }
                 .flattenAsObservable { it.entries }

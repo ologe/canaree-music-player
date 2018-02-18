@@ -31,10 +31,11 @@ interface LastFm {
             "&format=json"
 //            "&autocorrect={autoCorrect}"
     )
+
     fun getTrackInfo(
             @Query("track") track: String,
             @Query("artist") artist: String,
-            @IntRange(from = 0, to = 1) @Query("autoCorrect") autoCorrect: Long = DEFAULT_AUTO_CORRECT
+            @IntRange(from = 0, to = 1) @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT
     ) : Single<TrackInfo>
 
     @GET("" +
@@ -63,7 +64,7 @@ interface LastFm {
     fun getArtistInfo(
             @Query("artist") artist: String,
             @IntRange(from = 0, to = 1)
-            @Query("autoCorrect") autoCorrect: Long = DEFAULT_AUTO_CORRECT,
+            @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT,
             @Query("lang") language: String = "en"
     ): Single<ArtistInfo>
 
@@ -93,7 +94,7 @@ interface LastFm {
             @Query("album") album: String,
             @Query("artist") artist: String,
             @IntRange(from = 0, to = 1)
-            @Query("autoCorrect") autoCorrect: Long= DEFAULT_AUTO_CORRECT,
+            @Query("autocorrect") autocorrect: Long= DEFAULT_AUTO_CORRECT,
             @Query("lang") language: String = "en"
     ): Single<AlbumInfo>
 

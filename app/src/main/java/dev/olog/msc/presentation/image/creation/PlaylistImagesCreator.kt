@@ -5,7 +5,7 @@ import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.repository.CommonQuery
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.gateway.PlaylistGateway
+import dev.olog.msc.domain.interactor.tab.GetAllPlaylistsUseCase
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.MergedImagesCreator
@@ -16,12 +16,12 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
 
 class PlaylistImagesCreator @Inject constructor(
         @ApplicationContext private val ctx: Context,
-        private val playlistGateway: PlaylistGateway
+        private val getAllPlaylistsUseCase: GetAllPlaylistsUseCase
 
 ) {
 
     fun execute() : Maybe<*> {
-        return playlistGateway.getAll()
+        return getAllPlaylistsUseCase.execute()
                 .firstOrError()
                 .flattenAsObservable { it }
                 .map {
