@@ -1,34 +1,35 @@
-package dev.olog.msc.api.last.fm.track.info;
+
+package dev.olog.msc.api.last.fm.album.info;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TrackInfo {
+public class Attr {
 
-    @SerializedName("track")
+    @SerializedName("rank")
     @Expose
-    public Track track;
+    public String rank;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public TrackInfo() {
+    public Attr() {
     }
 
     /**
      * 
-     * @param track
+     * @param rank
      */
-    public TrackInfo(Track track) {
+    public Attr(String rank) {
         super();
-        this.track = track;
+        this.rank = rank;
     }
 
     @Override
     public String toString() {
-        return "TrackInfo{" +
-                "track=" + track +
+        return "Attr{" +
+                "rank='" + rank + '\'' +
                 '}';
     }
 }

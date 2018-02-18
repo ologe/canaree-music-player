@@ -55,7 +55,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
 
         intent?.let { handleIntent(it) }
 
-        lastFmRest.getTrackInfo()
+        lastFmRest.getTrackInfo("", "")
                 .subscribe({
                     println("track info $it")
                 }, Throwable::printStackTrace)

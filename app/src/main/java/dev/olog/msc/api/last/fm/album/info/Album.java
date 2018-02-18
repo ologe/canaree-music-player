@@ -1,40 +1,41 @@
-package dev.olog.msc.api.last.fm.track.info;
+
+package dev.olog.msc.api.last.fm.album.info;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Track {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Album {
 
     @SerializedName("name")
     @Expose
     public String name;
+    @SerializedName("artist")
+    @Expose
+    public String artist;
     @SerializedName("mbid")
     @Expose
     public String mbid;
     @SerializedName("url")
     @Expose
     public String url;
-    @SerializedName("duration")
+    @SerializedName("image")
     @Expose
-    public String duration;
-    @SerializedName("streamable")
-    @Expose
-    public Streamable streamable;
+    public List<Image> image = new ArrayList<Image>();
     @SerializedName("listeners")
     @Expose
     public String listeners;
     @SerializedName("playcount")
     @Expose
     public String playcount;
-    @SerializedName("artist")
+    @SerializedName("tracks")
     @Expose
-    public Artist artist;
-    @SerializedName("album")
+    public Tracks tracks;
+    @SerializedName("tags")
     @Expose
-    public Album album;
-    @SerializedName("toptags")
-    @Expose
-    public Toptags toptags;
+    public Tags tags;
     @SerializedName("wiki")
     @Expose
     public Wiki wiki;
@@ -43,51 +44,48 @@ public class Track {
      * No args constructor for use in serialization
      * 
      */
-    public Track() {
+    public Album() {
     }
 
     /**
      * 
+     * @param tags
      * @param listeners
-     * @param duration
      * @param mbid
-     * @param toptags
-     * @param album
      * @param name
-     * @param streamable
+     * @param image
      * @param playcount
+     * @param tracks
      * @param artist
      * @param wiki
      * @param url
      */
-    public Track(String name, String mbid, String url, String duration, Streamable streamable, String listeners, String playcount, Artist artist, Album album, Toptags toptags, Wiki wiki) {
+    public Album(String name, String artist, String mbid, String url, List<Image> image, String listeners, String playcount, Tracks tracks, Tags tags, Wiki wiki) {
         super();
         this.name = name;
+        this.artist = artist;
         this.mbid = mbid;
         this.url = url;
-        this.duration = duration;
-        this.streamable = streamable;
+        this.image = image;
         this.listeners = listeners;
         this.playcount = playcount;
-        this.artist = artist;
-        this.album = album;
-        this.toptags = toptags;
+        this.tracks = tracks;
+        this.tags = tags;
         this.wiki = wiki;
     }
 
     @Override
     public String toString() {
-        return "Track{" +
+        return "Album{" +
                 "name='" + name + '\'' +
+                ", artist='" + artist + '\'' +
                 ", mbid='" + mbid + '\'' +
                 ", url='" + url + '\'' +
-                ", duration='" + duration + '\'' +
-                ", streamable=" + streamable +
+                ", image=" + image +
                 ", listeners='" + listeners + '\'' +
                 ", playcount='" + playcount + '\'' +
-                ", artist=" + artist +
-                ", album=" + album +
-                ", toptags=" + toptags +
+                ", tracks=" + tracks +
+                ", tags=" + tags +
                 ", wiki=" + wiki +
                 '}';
     }

@@ -3,32 +3,32 @@ package dev.olog.msc.api.last.fm.track.info;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TrackInfo {
+public class Attr {
 
-    @SerializedName("track")
+    @SerializedName("position")
     @Expose
-    public Track track;
+    public String position;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public TrackInfo() {
+    public Attr() {
     }
 
     /**
      * 
-     * @param track
+     * @param position
      */
-    public TrackInfo(Track track) {
+    public Attr(String position) {
         super();
-        this.track = track;
+        this.position = position;
     }
 
     @Override
     public String toString() {
-        return "TrackInfo{" +
-                "track=" + track +
+        return "Attr{" +
+                "position='" + position + '\'' +
                 '}';
     }
 }

@@ -3,32 +3,35 @@ package dev.olog.msc.api.last.fm.track.info;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class TrackInfo {
+import java.util.ArrayList;
+import java.util.List;
 
-    @SerializedName("track")
+public class Toptags {
+
+    @SerializedName("tag")
     @Expose
-    public Track track;
+    public List<Tag> tag = new ArrayList<Tag>();
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public TrackInfo() {
+    public Toptags() {
     }
 
     /**
      * 
-     * @param track
+     * @param tag
      */
-    public TrackInfo(Track track) {
+    public Toptags(List<Tag> tag) {
         super();
-        this.track = track;
+        this.tag = tag;
     }
 
     @Override
     public String toString() {
-        return "TrackInfo{" +
-                "track=" + track +
+        return "Toptags{" +
+                "tag=" + tag +
                 '}';
     }
 }
