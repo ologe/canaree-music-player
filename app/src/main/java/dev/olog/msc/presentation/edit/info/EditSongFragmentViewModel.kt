@@ -156,6 +156,12 @@ class EditSongFragmentViewModel(
 
             audioFile.commit()
 
+            // todo
+//            if (originalSong.album != AppConstants.UNKNOWN){
+//                seearch for all songs with that originalSong.albumId
+//                and update image
+//            }
+
             notifyMediaStore(originalSong)
 
             return UpdateResult.OK
