@@ -5,7 +5,6 @@ import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
 import dev.olog.msc.constants.AppConstants
 import io.reactivex.Single
-import me.xdrop.fuzzywuzzy.FuzzySearch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,15 +14,20 @@ class LastFmService @Inject constructor(
 ) {
 
     fun fetchSongInfo(title: String, artist: String): Single<SearchedSong> {
-        val notUnknownArtist = if (artist == AppConstants.UNKNOWN) "" else artist
+        val normalizeTitle = NormalizedEntity(title)
+        val normalizeArtist = NormalizedEntity(if (artist == AppConstants.UNKNOWN) "" else artist)
 
-        return lastFm.getTrackInfo(title, notUnknownArtist)
+        return lastFm.getTrackInfo(normalizeTitle.value, normalizeArtist.value)
                 .map { it.toSearchSong() }
                 .onErrorResumeNext {
-                    lastFm.searchTrack(title, notUnknownArtist)
-                            .map { it.toSearchSong(notUnknownArtist) }
-                            .flatMap { lastFm.getTrackInfo(it.title, it.artist) }
+                    lastFm.searchTrack(normalizeTitle.value, normalizeArtist.value)
                             .map { it.toSearchSong() }
+                            .flatMap { result ->
+                                Single.just(result.normalize())
+                                        .flatMap { lastFm.getTrackInfo(it.title, it.artist)
+                                                .map { it.toSearchSong() }
+                                        }.onErrorReturn { result }
+                            }
                 }
     }
 
@@ -40,15 +44,21 @@ class LastFmService @Inject constructor(
         )
     }
 
-    private fun TrackSearch.toSearchSong(originalTitle: String): SearchedSong {
-        val tracks = this.results.trackmatches.track
-        val best = FuzzySearch.extractOne(originalTitle, tracks.map { it.name }).string
-        val bestMatch = tracks.first { it.name == best }
+    private fun TrackSearch.toSearchSong(): SearchedSong {
+        val track = this.results.trackmatches.track[0]
 
         return SearchedSong(
-                bestMatch.name ?: "",
-                bestMatch.artist ?: "",
+                track.name ?: "",
+                track.artist ?: "",
                 ""
+        )
+    }
+
+    private fun SearchedSong.normalize(): SearchedSong {
+        return SearchedSong(
+                NormalizedEntity(this.title).value,
+                NormalizedEntity(this.artist).value,
+                NormalizedEntity(this.album).value
         )
     }
 

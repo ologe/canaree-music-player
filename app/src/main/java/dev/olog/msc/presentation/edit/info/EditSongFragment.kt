@@ -1,5 +1,7 @@
 package dev.olog.msc.presentation.edit.info
 
+import android.app.ProgressDialog
+import android.arch.lifecycle.Observer
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Priority
@@ -17,6 +19,7 @@ import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_edit_info.*
 import kotlinx.android.synthetic.main.fragment_edit_info.view.*
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class EditSongFragment : BaseFragment() {
@@ -33,6 +36,8 @@ class EditSongFragment : BaseFragment() {
 
     @Inject lateinit var viewModel: EditSongFragmentViewModel
 
+    private var progressDialog: ProgressDialog? = null
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         RxTextView.afterTextChangeEvents(title)
@@ -42,42 +47,31 @@ class EditSongFragment : BaseFragment() {
                 .subscribe(this, { okButton.isEnabled = it })
 
         viewModel.observeData()
-                .subscribe(this, {
-                    title.setText(it.title)
-                    artist.setText(it.artist)
-                    album.setText(it.album)
-                    year.setText(it.year)
-                    genre.setText(it.genre)
-                    disc.setText(it.disc)
-                    trackNumber.setText(it.track)
-                    setImage(it)
+                .observe(this, Observer {
+                    if (it != null){
+                        title.setText(it.title)
+                        artist.setText(it.artist)
+                        album.setText(it.album)
+                        year.setText(it.year)
+                        genre.setText(it.genre)
+                        disc.setText(it.disc)
+                        trackNumber.setText(it.track)
+                        setImage(it)
+                    } else {
+                        context!!.toast(R.string.popup_error_message)
+                    }
+                    hideLoader()
                 })
     }
 
     override fun onResume() {
         super.onResume()
-        view!!.okButton.setOnClickListener {
-//            if (isDataValid()){
-//                presenter.updateMediaStore(
-//                        view!!.title.text.toString(),
-//                        view!!.artist.text.toString(),
-//                        view!!.album.text.toString(),
-//                        view!!.year.text.toString(),
-//                        view!!.genre.text.toString(),
-//                        view!!.disc.text.toString(),
-//                        view!!.trackNumber.text.toString()
-//                )
-//                activity!!.onBackPressed()
-//            } else {
-//                if (!TextUtils.isDigitsOnly(view!!.disc.text)){
-//                    showToast(R.string.edit_info_disc_number_not_digits)
-//                } else if (!TextUtils.isDigitsOnly(view!!.trackNumber.text)) {
-//                    showToast(R.string.edit_info_track_number_not_digits)
-//                }
-//            }
-        }
+        view!!.okButton.setOnClickListener {}
         view!!.cancelButton.setOnClickListener { activity!!.onBackPressed() }
-        view!!.autoTag.setOnClickListener { viewModel.fetchSongInfo() }
+        view!!.autoTag.setOnClickListener {
+            viewModel.fetchSongInfo()
+            showLoader()
+        }
     }
 
     override fun onPause() {
@@ -100,10 +94,16 @@ class EditSongFragment : BaseFragment() {
                 .into(cover)
     }
 
-//    override fun toggleLoading(show: Boolean) {
-//        val visibility = if (show) View.VISIBLE else View.GONE
-//        view!!.loading.visibility = visibility
-//    }
+    private fun showLoader(){
+        progressDialog = ProgressDialog.show(context, "", "Fetching song info", true)
+        progressDialog?.setCancelable(true)
+        progressDialog?.setCanceledOnTouchOutside(true)
+    }
+
+    private fun hideLoader(){
+        progressDialog?.dismiss()
+        progressDialog = null
+    }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_info
 }

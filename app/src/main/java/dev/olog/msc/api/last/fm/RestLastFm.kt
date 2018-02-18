@@ -23,90 +23,50 @@ interface RestLastFm {
 //    https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
     // 639-1 works, 639-2 not works
 
-    @GET("" +
-            "?method=track.getInfo" +
-            "&api_key=$API_KEY" +
-//            "&artist={artist}" +
-//            "&track={track}" +
-            "&format=json"
-//            "&autocorrect={autoCorrect}"
+    @GET("?method=track.getInfo&api_key=$API_KEY&format=json"
     )
 
     fun getTrackInfo(
-            @Query("track") track: String,
-            @Query("artist") artist: String,
+            @Query("track", encoded = true) track: String,
+            @Query("artist", encoded = true) artist: String,
             @IntRange(from = 0, to = 1) @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT
     ) : Single<TrackInfo>
 
-    @GET("" +
-            "?method=track.search" +
-//            "&track={track}" +
-//            "&artist={artist}" +
-            "&api_key=$API_KEY" +
-            "&format=json"
-//            "&limit={limit}"
-    )
+    @GET("?method=track.search&api_key=$API_KEY&format=json")
     fun searchTrack(
-            @Query("track") track: String,
-            @Query("artist") artist: String = "",
+            @Query("track", encoded = true) track: String,
+            @Query("artist", encoded = true) artist: String = "",
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
     ): Single<TrackSearch>
 
-    @GET("" +
-            "?method=artist.getinfo" +
-//            "&artist={artist}" +
-            "&api_key=$API_KEY" +
-            "&format=json"
-//            "&autocorrect={autoCorrect}" +
-//            "&lang={lang}"
-    )
+    @GET("?method=artist.getinfo&api_key=$API_KEY&format=json")
     fun getArtistInfo(
-            @Query("artist") artist: String,
+            @Query("artist", encoded = true) artist: String,
             @IntRange(from = 0, to = 1)
             @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT,
             @Query("lang") language: String = "en"
     ): Single<ArtistInfo>
 
-    @GET("" +
-            "?method=artist.search" +
-//            "&artist={artist}" +
-            "&api_key=$API_KEY" +
-            "&format=json"
-//            "&limit={limit}"
-    )
+    @GET("?method=artist.search&api_key=$API_KEY&format=json")
     fun searchArtist(
-            @Query("artist") artist: String,
+            @Query("artist", encoded = true) artist: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
     ): Single<ArtistSearch>
 
-    @GET("" +
-            "?method=album.getinfo" +
-            "&api_key=$API_KEY" +
-//            "&artist={artist}" +
-//            "&album={album}" +
-            "&format=json"
-//            "&autocorrect={autoCorrect}" +
-//            "&lang={lang}"
-    )
+    @GET("?method=album.getinfo&api_key=$API_KEY&format=json" )
     fun getAlbumInfo(
-            @Query("album") album: String,
-            @Query("artist") artist: String,
+            @Query("album", encoded = true) album: String,
+            @Query("artist", encoded = true) artist: String,
             @IntRange(from = 0, to = 1)
             @Query("autocorrect") autocorrect: Long= DEFAULT_AUTO_CORRECT,
             @Query("lang") language: String = "en"
     ): Single<AlbumInfo>
 
-    @GET("" +
-            "?method=album.search" +
-//            "&album={album}" +
-            "&api_key=$API_KEY" +
-            "&format=json"
-//            "&limit={limit}"
-    )
+    @GET("?method=album.search&api_key=$API_KEY&format=json")
     fun searchAlbum(
-            @Query("album") album: String,
+            @Query("album", encoded = true) album: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
     ): Single<AlbumSearch>

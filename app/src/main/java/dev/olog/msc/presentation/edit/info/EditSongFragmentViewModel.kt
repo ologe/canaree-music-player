@@ -54,7 +54,10 @@ class EditSongFragmentViewModel(
                                 artist = newValue.artist,
                                 album = newValue.album
                         ))
-                    }, Throwable::printStackTrace)
+                    }, {
+                        displayedSong.postValue(null)
+                        it.printStackTrace()
+                    })
         }
     }
 
