@@ -4,7 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.AudioColumns.*
+import android.provider.MediaStore.Audio.AudioColumns.IS_MUSIC
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
@@ -38,8 +38,7 @@ private val PROJECTION = arrayOf(
         MediaStore.Audio.Media.DATE_ADDED
 )
 
-private const val SELECTION = "$IS_MUSIC <> 0 AND $IS_ALARM = 0 AND $IS_PODCAST = 0 " +
-        "AND $TITLE NOT LIKE ? AND $DURATION > ?"
+private const val SELECTION = "$IS_MUSIC <> 0 AND $TITLE NOT LIKE ? AND $DURATION > ?"
 
 private val SELECTION_ARGS = arrayOf("AUD%", "20000")
 
@@ -72,11 +71,13 @@ class SongRepository @Inject constructor(
                 .map {
                     val images = trackDao.getAllImagesBlocking()
                     it.map { song ->
-                        val image = images.firstOrNull { it.id == song.id }?.image
+                        val image = images.asSequence()
+                                .filter { it.use }
+                                .firstOrNull { it.id == song.id }?.image
+
                         if (image != null && image.isNotBlank()){
                             song.copy(image = image)
-                        }
-                        else song
+                        } else song
                     }
                 }
                 .onErrorReturn { listOf() }

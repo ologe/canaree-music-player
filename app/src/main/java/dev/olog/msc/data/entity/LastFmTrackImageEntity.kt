@@ -9,5 +9,6 @@ import android.arch.persistence.room.PrimaryKey
         indices = arrayOf(Index("id")))
 data class LastFmTrackImageEntity(
         @PrimaryKey val id: Long,
-        val image: String
+        val image: String,
+        val use: Boolean
 )

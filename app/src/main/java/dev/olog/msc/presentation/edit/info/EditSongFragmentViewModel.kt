@@ -156,11 +156,7 @@ class EditSongFragmentViewModel(
 
             audioFile.commit()
 
-            // todo
-//            if (originalSong.album != AppConstants.UNKNOWN){
-//                seearch for all songs with that originalSong.albumId
-//                and update image
-//            }
+            handleImage()
 
             notifyMediaStore(originalSong)
 
@@ -168,6 +164,18 @@ class EditSongFragmentViewModel(
         } catch (ex: Exception){
             ex.printStackTrace()
             return UpdateResult.ERROR
+        }
+    }
+
+    private fun handleImage(){
+        if (originalSong.image != displayedImage.value!!){
+            if (originalSong.image != AppConstants.UNKNOWN){
+                // update all
+
+            } else {
+                // update only this
+
+            }
         }
     }
 

@@ -5,7 +5,6 @@ import dev.olog.msc.api.last.fm.model.SearchedTrack
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.data.entity.LastFmTrackImageEntity
-import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.domain.gateway.LastFmCacheGateway
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -45,7 +44,15 @@ class LastFmRepository @Inject constructor(
     }
 
     private fun SearchedImage.toModel(): LastFmTrackImageEntity {
-        return LastFmTrackImageEntity(id, image)
+        return LastFmTrackImageEntity(id, image, false)
+    }
+
+    private fun LastFmTrackEntity.toDomain(): SearchedTrack {
+        return SearchedTrack(id, title, artist, album)
+    }
+
+    private fun LastFmTrackImageEntity.toDomain(): SearchedImage {
+        return SearchedImage(id, image)
     }
 
 }
