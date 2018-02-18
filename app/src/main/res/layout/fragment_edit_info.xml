@@ -55,7 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundCover"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="0dp"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 app:layout_constraintHeight_max="200dp">
 
                 <ImageView
@@ -73,8 +73,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toStartOf="@id/autoTag"
-                app:layout_constraintBottom_toBottomOf="@id/coverLayout"
-                app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+                app:layout_constraintBottom_toBottomOf="@id/autoTag"
+                app:layout_constraintTop_toTopOf="@+id/autoTag"
                 app:fabSize="mini"
                 android:src="@drawable/vd_photo"
                 android:tint="@android:color/white"
@@ -85,8 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/coverLayout"
-                app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+                app:layout_constraintBottom_toBottomOf="@id/backgroundCover"
+                app:layout_constraintTop_toBottomOf="@+id/backgroundCover"
                 app:fabSize="mini"
                 android:src="@drawable/vd_search"
                 android:tint="@android:color/white"
