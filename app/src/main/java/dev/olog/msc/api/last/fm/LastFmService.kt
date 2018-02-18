@@ -1,6 +1,7 @@
 package dev.olog.msc.api.last.fm
 
 import android.accounts.NetworkErrorException
+import android.arch.persistence.room.EmptyResultSetException
 import android.net.ConnectivityManager
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.api.last.fm.model.SearchedImage
@@ -35,7 +36,7 @@ class LastFmService @Inject constructor(
 
         if (!connectivityManager.isNetworkAvailable()){
             return cached.onErrorResumeNext {
-                if(it is NullPointerException){
+                if(it is EmptyResultSetException){
                     Single.error(NetworkErrorException())
                 } else Single.error(it)
             }
@@ -65,7 +66,7 @@ class LastFmService @Inject constructor(
 
         if (!connectivityManager.isNetworkAvailable()) {
             return cached.onErrorResumeNext {
-                if(it is NullPointerException){
+                if(it is EmptyResultSetException){
                     Single.error(NetworkErrorException())
                 } else Single.error(it)
             }
