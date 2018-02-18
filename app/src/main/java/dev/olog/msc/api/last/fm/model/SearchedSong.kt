@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.info.model
+package dev.olog.msc.api.last.fm.model
 
 data class SearchedSong(
         val title: String,

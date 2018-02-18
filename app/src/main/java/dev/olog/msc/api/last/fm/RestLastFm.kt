@@ -18,7 +18,7 @@ private const val DEFAULT_SEARCH_PAGES = MAX_SEARCH_PAGES
 
 private const val DEFAULT_AUTO_CORRECT = 1L
 
-interface LastFm {
+interface RestLastFm {
 
 //    https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
     // 639-1 works, 639-2 not works

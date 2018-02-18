@@ -3,18 +3,14 @@ package dev.olog.msc.presentation.edit.info
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.msc.api.last.fm.LastFm
-import dev.olog.msc.api.last.fm.track.info.TrackInfo
-import dev.olog.msc.api.last.fm.track.search.TrackSearch
+import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.presentation.edit.info.model.DisplayableSong
-import dev.olog.msc.presentation.edit.info.model.SearchedSong
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
-import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
@@ -22,7 +18,7 @@ import java.io.File
 
 class EditSongFragmentViewModel(
         mediaId: MediaId,
-        private val lastFm: LastFm,
+        private val lastFmService: LastFmService,
         getSongUseCase: GetSongUseCase
 
 ) : ViewModel(){
@@ -49,16 +45,9 @@ class EditSongFragmentViewModel(
     fun fetchSongInfo(){
         if (!isFetching){
             // todo check connection
-            val song = this.displayedSong.value!!
-            fetchSongInfoDisposable = lastFm
-                    .getTrackInfo(song.track, song.artist)
-                    .map { it.toSearchSong() }
-                    .onErrorResumeNext {
-                        lastFm.searchTrack(song.track, song.artist)
-                                .map { it.toSearchSong() }
-                                .flatMap { lastFm.getTrackInfo(it.title, it.artist) }
-                                .map { it.toSearchSong() }
-                    }.subscribe({ newValue ->
+            val song = this.originalSong
+            fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.title, song.artist)
+                    .subscribe({ newValue ->
                         val oldValue = displayedSong.value!!
                         displayedSong.postValue(oldValue.copy(
                                 title = newValue.title,
@@ -72,31 +61,6 @@ class EditSongFragmentViewModel(
     override fun onCleared() {
         getSongDisposable.unsubscribe()
         fetchSongInfoDisposable.unsubscribe()
-    }
-
-    private fun TrackInfo.toSearchSong(): SearchedSong {
-        val track = this.track
-        val title = track.name
-        val artist = track.artist.name
-        val album = track.album.title
-
-        return SearchedSong(
-                title ?: "",
-                artist ?: "",
-                album ?: ""
-        )
-    }
-
-    private fun TrackSearch.toSearchSong(): SearchedSong {
-        val tracks = this.results.trackmatches.track
-        val best = FuzzySearch.extractOne(originalSong.title, tracks.map { it.name }).string
-        val bestMatch = tracks.first { it.name == best }
-
-        return SearchedSong(
-                bestMatch.name ?: "",
-                bestMatch.artist ?: "",
-                ""
-        )
     }
 
     private fun Song.toDisplayableSong(): DisplayableSong {
