@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.widget.RxTextView
-import dev.olog.msc.app.GlideApp
+import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.edit.info.model.UpdateResult
@@ -113,14 +113,16 @@ class EditSongFragment : BaseFragment() {
     private fun setImage(string: String){
         GlideApp.with(context!!).clear(cover)
 
-        GlideApp.with(context!!)
+        val builder = GlideApp.with(context!!)
                 .load(string)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(BindingsAdapter.OVERRIDE_BIG)
                 .priority(Priority.IMMEDIATE)
                 .placeholder(CoverUtils.getGradient(context!!, viewModel.getSongId()))
-                .into(cover)
+
+        builder.into(cover)
+        builder.into(backgroundCover)
     }
 
     private fun showLoader(message: String){
