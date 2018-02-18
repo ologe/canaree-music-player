@@ -52,6 +52,7 @@ class LastFmService @Inject constructor(
                 .map { it.album.image }
                 .map { it.reversed().first { it.text.isNotBlank()  } }
                 .map { it.text }
+                // todo detect image not found
                 // cache then return
                 .flatMap { insertLastFmTrackImageUseCase.execute(SearchedImage(id, it)).toSingle { it } }
 

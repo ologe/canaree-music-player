@@ -4,11 +4,13 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.net.ConnectivityManager
+import android.text.TextUtils
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.presentation.edit.info.model.DisplayableSong
+import dev.olog.msc.presentation.edit.info.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -108,6 +110,57 @@ class EditSongFragmentViewModel(
     fun stopFetching(){
         fetchSongInfoDisposable.unsubscribe()
         fetchSongInfoDisposable.unsubscribe()
+    }
+
+    fun updateMetadata(
+            title: String,
+            artist: String,
+            album: String,
+            genre: String,
+            year: String,
+            disc: String,
+            track: String
+
+    ): UpdateResult {
+        when {
+            title.isBlank() -> return UpdateResult.EMPTY_TITLE
+            year.isNotBlank() && !TextUtils.isDigitsOnly(year) -> return UpdateResult.ILLEGAL_YEAR
+            disc.isNotBlank() && !TextUtils.isDigitsOnly(disc) -> return UpdateResult.ILLEGAL_DISC_NUMBER
+            track.isNotBlank() && !TextUtils.isDigitsOnly(track) -> return UpdateResult.ILLEGAL_TRACK_NUMBER
+        }
+
+        try {
+            val file = File(originalSong.path)
+            val audioFile = AudioFileIO.read(file)
+            val tag = audioFile.tagOrCreateAndSetDefault
+            tag.setField(FieldKey.TITLE, title)
+            if (artist.isNotBlank()){
+                tag.setField(FieldKey.ARTIST, artist)
+                tag.setField(FieldKey.ALBUM_ARTIST, artist)
+            }
+            if (album.isNotBlank()){
+                tag.setField(FieldKey.ALBUM, album)
+            }
+            if (genre.isNotBlank()){
+                tag.setField(FieldKey.GENRE, genre)
+            }
+            if (year.isNotBlank()){
+                tag.setField(FieldKey.YEAR, year)
+            }
+            if (disc.isNotBlank()){
+                tag.setField(FieldKey.DISC_NO, disc)
+            }
+            if (track.isNotBlank()){
+                tag.setField(FieldKey.TRACK, track)
+            }
+
+            audioFile.commit()
+
+            return UpdateResult.OK
+        } catch (ex: Exception){
+            ex.printStackTrace()
+            return UpdateResult.ERROR
+        }
     }
 
     private fun Song.toDisplayableSong(): DisplayableSong {

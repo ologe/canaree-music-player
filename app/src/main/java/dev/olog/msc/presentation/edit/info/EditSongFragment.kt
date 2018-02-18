@@ -6,13 +6,14 @@ import android.os.Bundle
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.widget.RxTextView
-import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.edit.info.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.extractText
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_edit_info.*
@@ -76,7 +77,20 @@ class EditSongFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        okButton.setOnClickListener {}
+        okButton.setOnClickListener {
+            val result = viewModel.updateMetadata(title.extractText(), artist.extractText(),
+                            album.extractText(), genre.extractText(), year.extractText(),
+                            disc.extractText(), trackNumber.extractText())
+
+            when (result){
+                UpdateResult.OK -> activity!!.onBackPressed()
+                UpdateResult.EMPTY_TITLE -> context!!.toast("title can not be null")
+                UpdateResult.ILLEGAL_DISC_NUMBER -> context!!.toast("invalid disc number")
+                UpdateResult.ILLEGAL_TRACK_NUMBER -> context!!.toast("invalid track number")
+                UpdateResult.ILLEGAL_YEAR -> context!!.toast("invalid year")
+                UpdateResult.ERROR -> context!!.toast(R.string.popup_error_message)
+            }
+        }
         cancelButton.setOnClickListener { activity!!.onBackPressed() }
         autoTag.setOnClickListener {
             viewModel.fetchSongInfo()
