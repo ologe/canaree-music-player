@@ -8,10 +8,7 @@ import dev.olog.msc.api.last.fm.model.SearchedImage
 import dev.olog.msc.api.last.fm.model.SearchedTrack
 import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
-import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackImageUseCase
-import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
-import dev.olog.msc.domain.interactor.last.fm.InsertLastFmTrackImageUseCase
-import dev.olog.msc.domain.interactor.last.fm.InsertLastFmTrackUseCase
+import dev.olog.msc.domain.interactor.last.fm.*
 import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -23,8 +20,10 @@ class LastFmService @Inject constructor(
         private val connectivityManager: ConnectivityManager,
         private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
         private val getLastFmTrackImageUseCase: GetLastFmTrackImageUseCase,
+        private val getLastFmArtistImageUseCase: GetLastFmArtistImageUseCase,
         private val insertLastFmTrackUseCase: InsertLastFmTrackUseCase,
-        private val insertLastFmTrackImageUseCase: InsertLastFmTrackImageUseCase
+        private val insertLastFmTrackImageUseCase: InsertLastFmTrackImageUseCase,
+        private val insertLastFmArtistImageUseCase: InsertLastFmArtistImageUseCase
 ) {
 
     /**
@@ -95,6 +94,10 @@ class LastFmService @Inject constructor(
 
 
         return cached.onErrorResumeNext(fetchMap)
+    }
+
+    fun fetchArtistArt(name: String): Single<String> {
+        return lastFm.getArtistInfo(name)
     }
 
     private fun TrackInfo.toSearchSong(id: Long): SearchedTrack {

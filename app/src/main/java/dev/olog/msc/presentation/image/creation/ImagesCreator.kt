@@ -16,6 +16,7 @@ import dev.olog.msc.domain.interactor.tab.GetAllPlaylistsUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -83,14 +84,14 @@ class ImagesCreator @Inject constructor(
 //                .subscribe({}, Throwable::printStackTrace)
 //                .addTo(subscriptions)
 //
-//        getAllArtistsUseCase.execute()
-//                .doOnNext {
-//                    artistDisposable.unsubscribe()
-//                    artistDisposable = artistImagesCreator.execute()
-//                            .subscribe({}, Throwable::printStackTrace)
-//                }
-//                .subscribe({}, Throwable::printStackTrace)
-//                .addTo(subscriptions)
+        getAllArtistsUseCase.execute()
+                .doOnNext {
+                    artistDisposable.unsubscribe()
+                    artistDisposable = artistImagesCreator.execute()
+                            .subscribe({}, Throwable::printStackTrace)
+                }
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
 //
 //        getAllGenresUseCase.execute()
 //                .doOnNext {

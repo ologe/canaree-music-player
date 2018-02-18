@@ -3,6 +3,7 @@ package dev.olog.msc.data.repository
 import dev.olog.msc.api.last.fm.model.SearchedImage
 import dev.olog.msc.api.last.fm.model.SearchedTrack
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.data.entity.LastFmArtistImageEntity
 import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.data.entity.LastFmTrackImageEntity
 import dev.olog.msc.domain.gateway.LastFmCacheGateway
@@ -22,7 +23,11 @@ class LastFmRepository @Inject constructor(
     }
 
     override fun getTrackImage(songId: Long): Single<SearchedImage> {
-        return trackDao.getImageById(songId).map { it.toDomain() }
+        return trackDao.getTrackImageById(songId).map { it.toDomain() }
+    }
+
+    override fun getArtistImage(artistId: Long): Single<SearchedImage> {
+        return trackDao.getArtistImageById(artistId).map { it.toDomain() }
     }
 
     override fun insertTrack(info: SearchedTrack): Completable {
@@ -34,8 +39,15 @@ class LastFmRepository @Inject constructor(
 
     override fun insertTrackImage(image: SearchedImage): Completable {
         return Completable.fromCallable {
-            val model = image.toModel()
-            trackDao.insertImage(model)
+            val model = image.toTrackImage()
+            trackDao.insertTrackImage(model)
+        }
+    }
+
+    override fun insertArtistImage(image: SearchedImage): Completable {
+        return Completable.fromCallable {
+            val model = image.toArtistImage()
+            trackDao.insertArtistImage(model)
         }
     }
 
@@ -43,8 +55,12 @@ class LastFmRepository @Inject constructor(
         return LastFmTrackEntity(id, title, artist, album)
     }
 
-    private fun SearchedImage.toModel(): LastFmTrackImageEntity {
+    private fun SearchedImage.toTrackImage(): LastFmTrackImageEntity {
         return LastFmTrackImageEntity(id, image, false)
+    }
+
+    private fun SearchedImage.toArtistImage(): LastFmArtistImageEntity {
+        return LastFmArtistImageEntity(id, image)
     }
 
     private fun LastFmTrackEntity.toDomain(): SearchedTrack {

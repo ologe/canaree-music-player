@@ -9,8 +9,10 @@ interface LastFmCacheGateway {
 
     fun getTrack(songId: Long): Single<SearchedTrack>
     fun getTrackImage(songId: Long): Single<SearchedImage>
+    fun getArtistImage(artistId: Long): Single<SearchedImage>
 
     fun insertTrack(info: SearchedTrack): Completable
     fun insertTrackImage(image: SearchedImage): Completable
+    fun insertArtistImage(image: SearchedImage): Completable
 
 }
