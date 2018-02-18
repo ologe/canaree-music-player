@@ -23,9 +23,7 @@ interface RestLastFm {
 //    https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
     // 639-1 works, 639-2 not works
 
-    @GET("?method=track.getInfo&api_key=$API_KEY&format=json"
-    )
-
+    @GET("?method=track.getInfo&api_key=$API_KEY&format=json")
     fun getTrackInfo(
             @Query("track", encoded = true) track: String,
             @Query("artist", encoded = true) artist: String,

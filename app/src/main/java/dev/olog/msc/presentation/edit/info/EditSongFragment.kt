@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.edit.info
 
 import android.app.ProgressDialog
 import android.arch.lifecycle.Observer
-import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -11,14 +10,13 @@ import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.edit.info.model.DisplayableSong
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_edit_info.*
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class EditSongFragment : BaseFragment() {
@@ -55,12 +53,25 @@ class EditSongFragment : BaseFragment() {
                         genre.setText(it.genre)
                         disc.setText(it.disc)
                         trackNumber.setText(it.track)
-                        setImage(it)
                     } else {
-                        context!!.toast(R.string.popup_error_message)
+                        context!!.toast("info not found")
                     }
                     hideLoader()
                 })
+
+        viewModel.observeImage()
+                .observe(this, Observer {
+                    if (it != null){
+                        setImage(it)
+                    } else {
+                        context!!.toast("image not found")
+                    }
+                    hideLoader()
+                })
+
+        viewModel.observeConnectivity()
+                .asLiveData()
+                .subscribe(this, { context!!.toast(it) })
     }
 
     override fun onResume() {
@@ -69,12 +80,11 @@ class EditSongFragment : BaseFragment() {
         cancelButton.setOnClickListener { activity!!.onBackPressed() }
         autoTag.setOnClickListener {
             viewModel.fetchSongInfo()
-            showLoader()
+            showLoader("Fetching song info")
         }
         changeAlbumArt.setOnClickListener {
             viewModel.fetchAlbumArt()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::setImage, Throwable::printStackTrace)
+            showLoader("Fetching image")
         }
     }
 
@@ -86,19 +96,6 @@ class EditSongFragment : BaseFragment() {
         changeAlbumArt.setOnClickListener(null)
     }
 
-    private fun setImage(song: DisplayableSong){
-        GlideApp.with(context!!).clear(cover)
-
-        GlideApp.with(context!!)
-                .load(Uri.parse(song.image))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(BindingsAdapter.OVERRIDE_BIG)
-                .priority(Priority.IMMEDIATE)
-                .placeholder(CoverUtils.getGradient(context!!, song.id.toInt()))
-                .into(cover)
-    }
-
     private fun setImage(string: String){
         GlideApp.with(context!!).clear(cover)
 
@@ -108,15 +105,16 @@ class EditSongFragment : BaseFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(BindingsAdapter.OVERRIDE_BIG)
                 .priority(Priority.IMMEDIATE)
+                .placeholder(CoverUtils.getGradient(context!!, viewModel.getSongId()))
                 .into(cover)
     }
 
-    private fun showLoader(){
-        progressDialog = ProgressDialog.show(context, "", "Fetching song info", true)
+    private fun showLoader(message: String){
+        progressDialog = ProgressDialog.show(context, "", message, true)
         progressDialog?.setCancelable(true)
         progressDialog?.setCanceledOnTouchOutside(true)
         progressDialog?.setOnCancelListener {
-            viewModel.stopFetchingSongInfo()
+            viewModel.stopFetching()
             progressDialog?.setOnCancelListener(null)
         }
     }

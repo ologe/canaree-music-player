@@ -4,6 +4,8 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.BuildConfig
+import dev.olog.msc.api.last.fm.annotation.Impl
+import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
@@ -72,10 +74,16 @@ class LastFmModule {
     }
 
     @Provides
-    @Singleton
+    @Impl
     fun provideLastFmRest(retrofit: Retrofit): RestLastFm {
         return retrofit.create(RestLastFm::class.java)
     }
 
+    @Provides
+    @Singleton
+    @Proxy
+    fun provideLastFmProxy(proxy: LastFmProxy): RestLastFm {
+        return proxy
+    }
 
 }

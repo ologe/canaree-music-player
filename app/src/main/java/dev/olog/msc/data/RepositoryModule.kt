@@ -44,4 +44,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun provideRecentSearchesRepository(repository: RecentSearchesRepository): RecentSearchesGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideLastFmRepositoty(repository: LastFmRepository): LastFmCacheGateway
+
 }

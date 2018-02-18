@@ -1,70 +1,84 @@
 package dev.olog.msc.api.last.fm
 
-import dev.olog.msc.api.last.fm.album.info.AlbumInfo
-import dev.olog.msc.api.last.fm.model.SearchedSong
+import dev.olog.msc.api.last.fm.annotation.Proxy
+import dev.olog.msc.api.last.fm.model.SearchedImage
+import dev.olog.msc.api.last.fm.model.SearchedTrack
 import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
+import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackImageUseCase
+import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
+import dev.olog.msc.domain.interactor.last.fm.InsertLastFmTrackImageUseCase
+import dev.olog.msc.domain.interactor.last.fm.InsertLastFmTrackUseCase
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LastFmService @Inject constructor(
-        private val lastFm: RestLastFm
+        @Proxy private val lastFm: RestLastFm,
+        private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
+        private val getLastFmTrackImageUseCase: GetLastFmTrackImageUseCase,
+        private val insertLastFmTrackUseCase: InsertLastFmTrackUseCase,
+        private val insertLastFmTrackImageUseCase: InsertLastFmTrackImageUseCase
 ) {
 
-    private fun getTrackInfo(track: String, artist: String): Single<TrackInfo> {
-        return lastFm.getTrackInfo(UTF8NormalizedEntity(track).value, UTF8NormalizedEntity(artist).value)
-    }
+    fun fetchSongInfo(id: Long, title: String, artist: String): Single<SearchedTrack> {
+        val cached = getLastFmTrackUseCase.execute(id)
 
-    private fun searchTrack(track: String, artist: String): Single<TrackSearch> {
-        return lastFm.searchTrack(UTF8NormalizedEntity(track).value, UTF8NormalizedEntity(artist).value)
-    }
-
-    private fun getAlbumInfo(album: String, artist: String): Single<AlbumInfo> {
-        return lastFm.getAlbumInfo(UTF8NormalizedEntity(album).value, UTF8NormalizedEntity(artist).value)
-    }
-
-    fun fetchSongInfo(title: String, artist: String): Single<SearchedSong> {
-        return getTrackInfo(title, artist)
-                .map { it.toSearchSong() }
-                .onErrorResumeNext { searchTrack(title, artist)
-                            .map { it.toSearchSong() }
-                            .flatMap { result -> getTrackInfo(result.title, result.artist)
-                                        .map { it.toSearchSong() }
-                                        .onErrorReturn { result }
-                            }
+        val fetch =  lastFm.getTrackInfo(title, artist)
+                .map { it.toSearchSong(id) }
+                .onErrorResumeNext { lastFm.searchTrack(title, artist)
+                        .map { it.toSearchSong(id) }
+                        .flatMap { result -> lastFm.getTrackInfo(result.title, result.artist)
+                                .map { it.toSearchSong(id) }
+                                .onErrorReturn { result }
+                        }
+                }.flatMap {
+                    // cache and return
+                    insertLastFmTrackUseCase.execute(it).toSingle { it }
                 }
+
+        return cached.onErrorResumeNext(fetch)
     }
 
-    fun fetchAlbumArt(title: String, artist: String, album: String): Single<String> {
-        val albums = if (artist.isNotBlank() && album.isNotBlank()){
-            getAlbumInfo(album, artist)
-        } else fetchSongInfo(title, artist)
-                .flatMap { getAlbumInfo(it.album, it.artist) }
+    fun fetchAlbumArt(id: Long, title: String, artist: String, album: String): Single<String> {
+        val cached = getLastFmTrackImageUseCase.execute(id).map { it.image }
 
-        return albums.map { it.album.image }
+        val fetch = if (artist.isNotBlank() && album.isNotBlank()){
+            lastFm.getAlbumInfo(album, artist)
+        } else fetchSongInfo(id, title, artist)
+                .flatMap { lastFm.getAlbumInfo(it.album, it.artist) }
+
+        val fetchMap = fetch
+                .map { it.album.image }
                 .map { it.reversed().first { it.text.isNotBlank()  } }
                 .map { it.text }
+                // cache then return
+                .flatMap { insertLastFmTrackImageUseCase.execute(SearchedImage(id, it)).toSingle { it } }
+
+
+        return cached.onErrorResumeNext(fetchMap)
     }
 
-    private fun TrackInfo.toSearchSong(): SearchedSong {
+    private fun TrackInfo.toSearchSong(id: Long): SearchedTrack {
         val track = this.track
         val title = track.name
         val artist = track.artist.name
         val album = track.album.title
 
-        return SearchedSong(
+        return SearchedTrack(
+                id,
                 title ?: "",
                 artist ?: "",
                 album ?: ""
         )
     }
 
-    private fun TrackSearch.toSearchSong(): SearchedSong {
+    private fun TrackSearch.toSearchSong(id: Long): SearchedTrack {
         val track = this.results.trackmatches.track[0]
 
-        return SearchedSong(
+        return SearchedTrack(
+                id,
                 track.name ?: "",
                 track.artist ?: "",
                 ""
