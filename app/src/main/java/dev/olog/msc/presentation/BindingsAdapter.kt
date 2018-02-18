@@ -41,7 +41,7 @@ object BindingsAdapter {
         var request = GlideApp.with(context)
                 .load(resolveUri(item.image))
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
                 .priority(priority)
                 .thumbnail(.4f)

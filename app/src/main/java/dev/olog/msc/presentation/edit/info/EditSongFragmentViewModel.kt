@@ -1,9 +1,12 @@
 package dev.olog.msc.presentation.edit.info
 
 import android.accounts.NetworkErrorException
+import android.app.Application
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Intent
+import android.net.Uri
 import android.text.TextUtils
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.constants.AppConstants
@@ -22,11 +25,12 @@ import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 
 class EditSongFragmentViewModel(
+        private val application: Application,
         mediaId: MediaId,
         private val lastFmService: LastFmService,
         getSongUseCase: GetSongUseCase
 
-) : ViewModel(){
+) : ViewModel() {
 
     private val displayedImage = MutableLiveData<String>()
     private val displayedSong = MutableLiveData<DisplayableSong>()
@@ -77,10 +81,9 @@ class EditSongFragmentViewModel(
                 }, {
                     if (it is NetworkErrorException){
                         connectivityMessagePush.onNext("check your internet connection")
-                    } else {
-                        displayedSong.postValue(null)
-                        it.printStackTrace()
                     }
+                    it.printStackTrace()
+                    displayedSong.postValue(null)
                 })
     }
 
@@ -93,10 +96,9 @@ class EditSongFragmentViewModel(
                 }, {
                     if (it is NetworkErrorException){
                         connectivityMessagePush.onNext("check your internet connection")
-                    } else {
-                        displayedImage.postValue(null)
-                        it.printStackTrace()
                     }
+                    displayedImage.postValue(null)
+                    it.printStackTrace()
                 })
     }
 
@@ -154,11 +156,19 @@ class EditSongFragmentViewModel(
 
             audioFile.commit()
 
+            notifyMediaStore(originalSong)
+
             return UpdateResult.OK
         } catch (ex: Exception){
             ex.printStackTrace()
             return UpdateResult.ERROR
         }
+    }
+
+    private fun notifyMediaStore(song: Song){
+        val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        intent.data = Uri.fromFile(File(song.path))
+        application.sendBroadcast(intent)
     }
 
     private fun Song.toDisplayableSong(): DisplayableSong {

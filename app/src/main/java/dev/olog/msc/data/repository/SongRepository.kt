@@ -9,6 +9,7 @@ import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
@@ -48,9 +49,12 @@ class SongRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
-        private val appPrefsUseCase: AppPreferencesUseCase
+        private val appPrefsUseCase: AppPreferencesUseCase,
+        appDatabase: AppDatabase
 
 ) : BaseRepository<Song, Long>(), SongGateway {
+
+    private val trackDao = appDatabase.lastFmTrackDao()
 
     override fun queryAllData(): Observable<List<Song>> {
         return rxContentResolver.createQuery(
@@ -64,7 +68,18 @@ class SongRepository @Inject constructor(
                     } else {
                         it.filter { !blackListed.contains(it.folderPath) }
                     }
-                }.onErrorReturn { listOf() }
+                }
+                .map {
+                    val images = trackDao.getAllImagesBlocking()
+                    it.map { song ->
+                        val image = images.firstOrNull { it.id == song.id }?.image
+                        if (image != null && image.isNotBlank()){
+                            song.copy(image = image)
+                        }
+                        else song
+                    }
+                }
+                .onErrorReturn { listOf() }
     }
 
     override fun getByParamImpl(list: List<Song>, param: Long): Song {

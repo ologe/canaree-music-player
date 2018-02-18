@@ -84,7 +84,9 @@ class EditSongFragment : BaseFragment() {
                             disc.extractText(), trackNumber.extractText())
 
             when (result){
-                UpdateResult.OK -> activity!!.onBackPressed()
+                UpdateResult.OK -> {
+                    activity!!.onBackPressed()
+                }
                 UpdateResult.EMPTY_TITLE -> context!!.toast("title can not be null")
                 UpdateResult.ILLEGAL_DISC_NUMBER -> context!!.toast("invalid disc number")
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> context!!.toast("invalid track number")
@@ -117,7 +119,7 @@ class EditSongFragment : BaseFragment() {
         val builder = GlideApp.with(context!!)
                 .load(string)
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(BindingsAdapter.OVERRIDE_BIG)
                 .priority(Priority.IMMEDIATE)
                 .placeholder(CoverUtils.getGradient(context!!, viewModel.getSongId()))

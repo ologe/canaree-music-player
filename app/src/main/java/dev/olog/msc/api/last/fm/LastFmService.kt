@@ -78,6 +78,14 @@ class LastFmService @Inject constructor(
                 .flatMap { lastFm.getAlbumInfo(it.album, it.artist) }
 
         val fetchMap = fetch
+                .onErrorResumeNext {
+                    if (it is NullPointerException){
+                        insertLastFmTrackImageUseCase.execute(SearchedImage(id, ""))
+                                .andThen(Single.error(it))
+                    } else {
+                        Single.error(it)
+                    }
+                }
                 .map { it.album.image }
                 .map { it.reversed().first { it.text.isNotBlank()  } }
                 .map { it.text }

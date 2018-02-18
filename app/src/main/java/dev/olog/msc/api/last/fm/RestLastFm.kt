@@ -18,19 +18,21 @@ private const val DEFAULT_SEARCH_PAGES = MAX_SEARCH_PAGES
 
 private const val DEFAULT_AUTO_CORRECT = 1L
 
+private const val BASE_URL = "?api_key=$API_KEY&format=json"
+
 interface RestLastFm {
 
 //    https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
     // 639-1 works, 639-2 not works
 
-    @GET("?method=track.getInfo&api_key=$API_KEY&format=json")
+    @GET("$BASE_URL&method=track.getInfo")
     fun getTrackInfo(
             @Query("track", encoded = true) track: String,
             @Query("artist", encoded = true) artist: String,
             @IntRange(from = 0, to = 1) @Query("autocorrect") autocorrect: Long = DEFAULT_AUTO_CORRECT
     ) : Single<TrackInfo>
 
-    @GET("?method=track.search&api_key=$API_KEY&format=json")
+    @GET("$BASE_URL&method=track.search")
     fun searchTrack(
             @Query("track", encoded = true) track: String,
             @Query("artist", encoded = true) artist: String = "",
@@ -38,7 +40,7 @@ interface RestLastFm {
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
     ): Single<TrackSearch>
 
-    @GET("?method=artist.getinfo&api_key=$API_KEY&format=json")
+    @GET("$BASE_URL&method=artist.getinfo")
     fun getArtistInfo(
             @Query("artist", encoded = true) artist: String,
             @IntRange(from = 0, to = 1)
@@ -46,14 +48,14 @@ interface RestLastFm {
             @Query("lang") language: String = "en"
     ): Single<ArtistInfo>
 
-    @GET("?method=artist.search&api_key=$API_KEY&format=json")
+    @GET("$BASE_URL&method=artist.search")
     fun searchArtist(
             @Query("artist", encoded = true) artist: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)
             @Query("limit") limit: Long = DEFAULT_SEARCH_PAGES
     ): Single<ArtistSearch>
 
-    @GET("?method=album.getinfo&api_key=$API_KEY&format=json" )
+    @GET("$BASE_URL&method=album.getinfo")
     fun getAlbumInfo(
             @Query("album", encoded = true) album: String,
             @Query("artist", encoded = true) artist: String,
@@ -62,7 +64,7 @@ interface RestLastFm {
             @Query("lang") language: String = "en"
     ): Single<AlbumInfo>
 
-    @GET("?method=album.search&api_key=$API_KEY&format=json")
+    @GET("$BASE_URL&method=album.search")
     fun searchAlbum(
             @Query("album", encoded = true) album: String,
             @IntRange(from = MIN_SEARCH_PAGES, to = MAX_SEARCH_PAGES)

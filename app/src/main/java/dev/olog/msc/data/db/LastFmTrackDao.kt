@@ -17,6 +17,9 @@ abstract class LastFmTrackDao {
     @Query("SELECT * from last_fm_track_image where id = :id")
     internal abstract fun getImageById(id: Long): Single<LastFmTrackImageEntity>
 
+    @Query("SELECT * from last_fm_track_image")
+    internal abstract fun getAllImagesBlocking(): List<LastFmTrackImageEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertInfo(entity: LastFmTrackEntity)
 
