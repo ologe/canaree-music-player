@@ -1,9 +1,9 @@
 package dev.olog.msc.presentation.edit.info
 
+import android.accounts.NetworkErrorException
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.net.ConnectivityManager
 import android.text.TextUtils
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.constants.AppConstants
@@ -12,7 +12,6 @@ import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.presentation.edit.info.model.DisplayableSong
 import dev.olog.msc.presentation.edit.info.model.UpdateResult
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -25,8 +24,7 @@ import java.io.File
 class EditSongFragmentViewModel(
         mediaId: MediaId,
         private val lastFmService: LastFmService,
-        getSongUseCase: GetSongUseCase,
-        private val connectivityManager: ConnectivityManager
+        getSongUseCase: GetSongUseCase
 
 ) : ViewModel(){
 
@@ -67,39 +65,39 @@ class EditSongFragmentViewModel(
     fun getSongId(): Int = originalSong.id.toInt()
 
     fun fetchSongInfo(){
-        if (connectivityManager.isNetworkAvailable()){
-            val song = this.originalSong
-            fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.id, song.title, song.artist)
-                    .subscribe({ newValue ->
-                        val oldValue = displayedSong.value!!
-                        displayedSong.postValue(oldValue.copy(
-                                title = newValue.title,
-                                artist = newValue.artist,
-                                album = newValue.album
-                        ))
-                    }, {
+        val song = this.originalSong
+        fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.id, song.title, song.artist)
+                .subscribe({ newValue ->
+                    val oldValue = displayedSong.value!!
+                    displayedSong.postValue(oldValue.copy(
+                            title = newValue.title,
+                            artist = newValue.artist,
+                            album = newValue.album
+                    ))
+                }, {
+                    if (it is NetworkErrorException){
+                        connectivityMessagePush.onNext("check your internet connection")
+                    } else {
                         displayedSong.postValue(null)
                         it.printStackTrace()
-                    })
-        } else {
-            connectivityMessagePush.onNext("check your internet connection")
-        }
+                    }
+                })
     }
 
     fun fetchAlbumArt() {
-        if (connectivityManager.isNetworkAvailable()){
-            val song = this.originalSong
-            fetchAlbumImageDisposable = lastFmService
-                    .fetchAlbumArt(song.id, song.title, song.artist, song.album)
-                    .subscribe({
-                        displayedImage.postValue(it)
-                    }, {
+        val song = this.originalSong
+        fetchAlbumImageDisposable = lastFmService
+                .fetchAlbumArt(song.id, song.title, song.artist, song.album)
+                .subscribe({
+                    displayedImage.postValue(it)
+                }, {
+                    if (it is NetworkErrorException){
+                        connectivityMessagePush.onNext("check your internet connection")
+                    } else {
                         displayedImage.postValue(null)
                         it.printStackTrace()
-                    })
-        } else {
-            connectivityMessagePush.onNext("check your internet connection")
-        }
+                    }
+                })
     }
 
     override fun onCleared() {

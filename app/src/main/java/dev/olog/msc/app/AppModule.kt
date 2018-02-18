@@ -7,6 +7,7 @@ import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -45,6 +46,11 @@ class AppModule(private val app: App) {
                 )
             }
         }
+    }
+
+    @Provides
+    fun provideConnectivityManager(): ConnectivityManager {
+        return app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
 }

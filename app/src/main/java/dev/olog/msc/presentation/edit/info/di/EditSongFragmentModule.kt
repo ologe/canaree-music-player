@@ -1,11 +1,8 @@
 package dev.olog.msc.presentation.edit.info.di
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
-import android.net.ConnectivityManager
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ActivityContext
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.edit.info.EditSongFragment
 import dev.olog.msc.presentation.edit.info.EditSongFragmentViewModel
@@ -17,11 +14,6 @@ class EditSongFragmentModule(
         private val fragment: EditSongFragment
 
 ) {
-
-    @Provides
-    fun provideConnectivityManager(@ActivityContext context: Context): ConnectivityManager{
-        return context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    }
 
     @Provides
     fun provideMediaId(): MediaId {

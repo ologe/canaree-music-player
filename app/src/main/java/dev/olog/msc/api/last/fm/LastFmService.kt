@@ -1,5 +1,7 @@
 package dev.olog.msc.api.last.fm
 
+import android.accounts.NetworkErrorException
+import android.net.ConnectivityManager
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.api.last.fm.model.SearchedImage
 import dev.olog.msc.api.last.fm.model.SearchedTrack
@@ -9,6 +11,7 @@ import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackImageUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.InsertLastFmTrackImageUseCase
 import dev.olog.msc.domain.interactor.last.fm.InsertLastFmTrackUseCase
+import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,14 +19,27 @@ import javax.inject.Singleton
 @Singleton
 class LastFmService @Inject constructor(
         @Proxy private val lastFm: RestLastFm,
+        private val connectivityManager: ConnectivityManager,
         private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
         private val getLastFmTrackImageUseCase: GetLastFmTrackImageUseCase,
         private val insertLastFmTrackUseCase: InsertLastFmTrackUseCase,
         private val insertLastFmTrackImageUseCase: InsertLastFmTrackImageUseCase
 ) {
 
+    /**
+     * @throws NetworkErrorException when there is no internet connection
+     *      and no cache is found
+     */
     fun fetchSongInfo(id: Long, title: String, artist: String): Single<SearchedTrack> {
         val cached = getLastFmTrackUseCase.execute(id)
+
+        if (!connectivityManager.isNetworkAvailable()){
+            return cached.onErrorResumeNext {
+                if(it is NullPointerException){
+                    Single.error(NetworkErrorException())
+                } else Single.error(it)
+            }
+        }
 
         val fetch =  lastFm.getTrackInfo(title, artist)
                 .map { it.toSearchSong(id) }
@@ -40,8 +56,20 @@ class LastFmService @Inject constructor(
         return cached.onErrorResumeNext(fetch)
     }
 
+    /**
+     * @throws NetworkErrorException when there is no internet connection
+     *      and no cache is found
+     */
     fun fetchAlbumArt(id: Long, title: String, artist: String, album: String): Single<String> {
         val cached = getLastFmTrackImageUseCase.execute(id).map { it.image }
+
+        if (!connectivityManager.isNetworkAvailable()) {
+            return cached.onErrorResumeNext {
+                if(it is NullPointerException){
+                    Single.error(NetworkErrorException())
+                } else Single.error(it)
+            }
+        }
 
         val fetch = if (artist.isNotBlank() && album.isNotBlank()){
             lastFm.getAlbumInfo(album, artist)
