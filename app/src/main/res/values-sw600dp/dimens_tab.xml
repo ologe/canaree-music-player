@@ -2,7 +2,8 @@
 <resources>
 
     <dimen name="tab_margin_vertical">24dp</dimen>
-    <dimen name="tab_margin_horizontal">24dp</dimen>
+    <dimen name="tab_margin_start">24dp</dimen>
+    <dimen name="tab_margin_end">48dp</dimen>
 
 
 </resources>

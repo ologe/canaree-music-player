@@ -63,6 +63,7 @@
         <item name="android:layout_margin">6dp</item>
         <item name="android:tint">#797979</item>
         <item name="android:gravity">bottom|end</item>
+        <item name="android:elevation">8dp</item>
     </style>
 
     <dimen name="smallShuffleSize">30dp</dimen>

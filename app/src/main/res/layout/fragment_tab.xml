@@ -8,13 +8,12 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        android:layout_marginEnd="24dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="@dimen/tab_margin_vertical"
-        android:paddingStart="@dimen/tab_margin_horizontal"
+        android:paddingStart="@dimen/tab_margin_start"
         android:paddingBottom="40dp"
-        android:paddingEnd="@dimen/tab_margin_horizontal"
+        android:paddingEnd="@dimen/tab_margin_end"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song" />
