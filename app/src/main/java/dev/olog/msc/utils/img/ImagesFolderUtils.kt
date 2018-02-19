@@ -14,7 +14,6 @@ object ImagesFolderUtils {
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"
     const val ALBUM = "album"
-    const val ARTIST = "artist"
     const val GENRE = "genre"
     private const val NEURAL = "_neural"
 
@@ -49,10 +48,6 @@ object ImagesFolderUtils {
 
     fun forAlbum(context: Context, albumId: Long): String {
         return getAlbumImageImpl(context, albumId.toString())
-    }
-
-    fun forArtist(context: Context, artistId: Long): String {
-        return getImageImpl(context, ARTIST, artistId.toString())
     }
 
     fun forGenre(context: Context, genreId: Long): String {

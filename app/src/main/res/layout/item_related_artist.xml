@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:imageAlbum="@{item}"
+                app:rounded="@{true}"
                 tools:src="@drawable/placeholder_folder"/>
 
             <dev.olog.msc.presentation.widget.QuickActionView

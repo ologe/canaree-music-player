@@ -8,7 +8,7 @@ import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-import dev.olog.msc.api.last.fm.LastFmService
+import dev.olog.msc.api.last.fm.LastFmClient
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
@@ -27,7 +27,7 @@ import java.io.File
 class EditSongFragmentViewModel(
         private val application: Application,
         mediaId: MediaId,
-        private val lastFmService: LastFmService,
+        private val lastFmService: LastFmClient,
         getSongUseCase: GetSongUseCase
 
 ) : ViewModel() {

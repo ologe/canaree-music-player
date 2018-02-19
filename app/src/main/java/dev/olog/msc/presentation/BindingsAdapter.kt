@@ -27,7 +27,8 @@ object BindingsAdapter {
             item: DisplayableItem,
             override: Int,
             priority: Priority = Priority.HIGH,
-            asPlaceholder: Boolean = false){
+            asPlaceholder: Boolean = false,
+            rounded: Boolean = false){
 
         val mediaId = item.mediaId
 
@@ -46,6 +47,10 @@ object BindingsAdapter {
                 .priority(priority)
                 .thumbnail(.4f)
 
+        if (rounded){
+            request = request.circleCrop()
+        }
+
         if (asPlaceholder){
             request = request.placeholder(CoverUtils.getGradient(context, position = id))
         } else {
@@ -61,10 +66,10 @@ object BindingsAdapter {
         loadImageImpl(view, item, OVERRIDE_SMALL, asPlaceholder = true)
     }
 
-    @BindingAdapter("imageAlbum")
+    @BindingAdapter("imageAlbum", "rounded", requireAll = false)
     @JvmStatic
-    fun loadAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, OVERRIDE_MID, Priority.HIGH)
+    fun loadAlbumImage(view: ImageView, item: DisplayableItem, rounded: Boolean) {
+        loadImageImpl(view, item, OVERRIDE_MID, Priority.HIGH, rounded = rounded)
     }
 
     @BindingAdapter("imageBigAlbum")

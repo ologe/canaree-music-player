@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:src="@android:color/holo_red_dark"
-                app:imageAlbum="@{item}"/>
+                app:imageAlbum="@{item}" />
 
             <dev.olog.msc.presentation.widget.QuickActionView
                 style="@style/QuickActionStyle"

@@ -16,7 +16,7 @@ class LastFmRepository @Inject constructor(
 
 ) : LastFmCacheGateway {
 
-    private val trackDao = appDatabase.lastFmTrackDao()
+    private val trackDao = appDatabase.lastFmDao()
 
     override fun getTrack(songId: Long): Single<SearchedTrack> {
         return trackDao.getInfoById(songId).map { it.toDomain() }
@@ -68,6 +68,10 @@ class LastFmRepository @Inject constructor(
     }
 
     private fun LastFmTrackImageEntity.toDomain(): SearchedImage {
+        return SearchedImage(id, image)
+    }
+
+    private fun LastFmArtistImageEntity.toDomain(): SearchedImage {
         return SearchedImage(id, image)
     }
 

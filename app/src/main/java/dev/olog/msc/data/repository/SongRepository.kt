@@ -53,7 +53,7 @@ class SongRepository @Inject constructor(
 
 ) : BaseRepository<Song, Long>(), SongGateway {
 
-    private val trackDao = appDatabase.lastFmTrackDao()
+    private val lastFmDao = appDatabase.lastFmDao()
 
     override fun queryAllData(): Observable<List<Song>> {
         return rxContentResolver.createQuery(
@@ -69,7 +69,7 @@ class SongRepository @Inject constructor(
                     }
                 }
                 .map {
-                    val images = trackDao.getAllImagesBlocking()
+                    val images = lastFmDao.getAllTrackImagesBlocking()
                     it.map { song ->
                         val image = images.asSequence()
                                 .filter { it.use }

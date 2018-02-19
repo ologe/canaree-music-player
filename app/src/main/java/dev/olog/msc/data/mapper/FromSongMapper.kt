@@ -29,12 +29,12 @@ fun Song.toAlbum(songCount: Int) : Album {
     )
 }
 
-fun Song.toArtist(context: Context, songCount: Int, albumsCount: Int) : Artist {
+fun Song.toArtist(songCount: Int, albumsCount: Int) : Artist {
     return Artist(
             this.artistId,
             this.artist,
             songCount,
             albumsCount,
-            ImagesFolderUtils.forArtist(context, this.artistId)
+            ""
     )
 }

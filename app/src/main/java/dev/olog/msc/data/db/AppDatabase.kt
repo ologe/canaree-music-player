@@ -16,7 +16,8 @@ import dev.olog.msc.data.entity.*
         LastPlayedArtistEntity::class,
 
         LastFmTrackEntity::class,
-        LastFmTrackImageEntity::class
+        LastFmTrackImageEntity::class,
+        LastFmArtistImageEntity::class
 
 ), version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
@@ -38,6 +39,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun lastPlayedAlbumDao() : LastPlayedAlbumDao
     abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
 
-    abstract fun lastFmTrackDao() : LastFmTrackDao
+    abstract fun lastFmDao() : LastFmTrackDao
 
 }

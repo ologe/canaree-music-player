@@ -3,11 +3,6 @@
     android:ordering="together">
 
     <objectAnimator
-        android:propertyName="translationZ"
-        android:valueTo="9dp"
-        android:valueType="floatType"/>
-
-    <objectAnimator
         android:propertyName="scaleX"
         android:valueTo="1.05"
         android:valueType="floatType" />
@@ -16,6 +11,5 @@
         android:propertyName="scaleY"
         android:valueTo="1.05"
         android:valueType="floatType"/>
-
 
 </set>

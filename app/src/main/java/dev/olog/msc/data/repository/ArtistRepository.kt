@@ -1,6 +1,5 @@
 package dev.olog.msc.data.repository
 
-import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
@@ -22,7 +21,6 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
 class ArtistRepository @Inject constructor(
         @ApplicationContext private val context: Context,
-        private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
@@ -30,6 +28,7 @@ class ArtistRepository @Inject constructor(
 ) : BaseRepository<Artist, Long>(), ArtistGateway {
 
     private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
+    private val lastFmDao = appDatabase.lastFmDao()
 
     override fun queryAllData(): Observable<List<Artist>> {
         return rxContentResolver.createQuery(
@@ -47,9 +46,17 @@ class ArtistRepository @Inject constructor(
                                         .count { it.artistId == song.artistId }
                                 val songs = songList.count { it.artistId == song.artistId }
 
-                                song.toArtist(context, songs, albums)
+                                song.toArtist(songs, albums)
                             }.sortedBy { it.name.toLowerCase() }
                             .toList()
+                }.map {
+                    val images = lastFmDao.getAllAlbumImagesBlocking()
+                    it.map {  artist ->
+                        val image = images.firstOrNull { it.id == artist.id }?.image
+                        if (image != null && image.isNotBlank()){
+                            artist.copy(image = image)
+                        } else artist
+                    }
                 }
     }
 

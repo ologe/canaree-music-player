@@ -19,10 +19,13 @@ abstract class LastFmTrackDao {
     internal abstract fun getTrackImageById(id: Long): Single<LastFmTrackImageEntity>
 
     @Query("SELECT * from last_fm_artist_image where id = :id")
-    internal abstract fun getArtistImageById(id: Long): Single<LastFmTrackImageEntity>
+    internal abstract fun getArtistImageById(id: Long): Single<LastFmArtistImageEntity>
 
     @Query("SELECT * from last_fm_track_image")
-    internal abstract fun getAllImagesBlocking(): List<LastFmTrackImageEntity>
+    internal abstract fun getAllTrackImagesBlocking(): List<LastFmTrackImageEntity>
+
+    @Query("SELECT * from last_fm_artist_image")
+    internal abstract fun getAllAlbumImagesBlocking(): List<LastFmArtistImageEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertInfo(entity: LastFmTrackEntity)

@@ -12,9 +12,9 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 class LastFmProxy @Inject constructor(
-        @Impl private val impl: RestLastFm
+        @Impl private val impl: LastFmService
 
-): RestLastFm {
+): LastFmService {
 
     override fun getTrackInfo(track: String, artist: String, autocorrect: Long): Single<TrackInfo> {
         val normalizedTrack = UTF8NormalizedEntity(track)

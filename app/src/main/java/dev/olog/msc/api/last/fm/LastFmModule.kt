@@ -75,14 +75,14 @@ class LastFmModule {
 
     @Provides
     @Impl
-    fun provideLastFmRest(retrofit: Retrofit): RestLastFm {
-        return retrofit.create(RestLastFm::class.java)
+    fun provideLastFmRest(retrofit: Retrofit): LastFmService {
+        return retrofit.create(LastFmService::class.java)
     }
 
     @Provides
     @Singleton
     @Proxy
-    fun provideLastFmProxy(proxy: LastFmProxy): RestLastFm {
+    fun provideLastFmProxy(proxy: LastFmProxy): LastFmService {
         return proxy
     }
 
