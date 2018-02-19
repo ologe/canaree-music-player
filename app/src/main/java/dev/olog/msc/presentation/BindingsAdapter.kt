@@ -40,6 +40,7 @@ object BindingsAdapter {
         val id = resolveId(mediaId)
 
         var request = GlideApp.with(context)
+                .asBitmap()
                 .load(resolveUri(item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

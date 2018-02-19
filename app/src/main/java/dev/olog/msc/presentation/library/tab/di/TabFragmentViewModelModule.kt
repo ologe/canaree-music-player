@@ -192,7 +192,7 @@ private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
     if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
     return DisplayableItem(
-            R.layout.item_tab_album,
+            R.layout.item_tab_artist,
             MediaId.artistId(id),
             name,
             albums + songs,
@@ -222,7 +222,7 @@ private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
 
 private fun Artist.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_tab_album_last_played,
+            R.layout.item_tab_artist_last_played,
             MediaId.artistId(id),
             name,
             null,

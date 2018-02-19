@@ -22,7 +22,6 @@ import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.RecentSearchesTypes
-import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
@@ -148,7 +147,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
             R.layout.item_search_song,
             MediaId.songId(id),
             title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            artist,
             image,
             true,
             isRemix,
@@ -168,7 +167,7 @@ private fun Album.toSearchDisplayableItem(): DisplayableItem {
 
 private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
+            R.layout.item_search_artist,
             MediaId.artistId(id),
             name,
             null,
@@ -186,8 +185,12 @@ private fun SearchResult.toSearchDisplayableItem(context: Context) : Displayable
 
     val isPlayable = this.itemType == RecentSearchesTypes.SONG
 
+    val layout = if (this.itemType == RecentSearchesTypes.ARTIST) {
+        R.layout.item_search_recent_artist
+    } else R.layout.item_search_recent
+
     return DisplayableItem(
-            R.layout.item_search_recent,
+            layout,
             this.mediaId,
             this.title,
             subtitle,

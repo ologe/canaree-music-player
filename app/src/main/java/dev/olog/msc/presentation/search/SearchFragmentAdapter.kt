@@ -62,7 +62,8 @@ class SearchFragmentAdapter @Inject constructor(
                             .subscribe({}, Throwable::printStackTrace)
                 }
             }
-            R.layout.item_search_recent -> {
+            R.layout.item_search_recent,
+            R.layout.item_search_recent_artist -> {
                 viewHolder.setOnClickListener(dataController) { item, _  ->
                     if (item.isPlayable){
                         mediaProvider.playFromMediaId(item.mediaId)
@@ -81,7 +82,8 @@ class SearchFragmentAdapter @Inject constructor(
         }
         when (viewType){
             R.layout.item_search_song,
-            R.layout.item_search_recent -> viewHolder.elevateSongOnTouch()
+            R.layout.item_search_recent,
+            R.layout.item_search_recent_artist -> viewHolder.elevateSongOnTouch()
         }
     }
 
