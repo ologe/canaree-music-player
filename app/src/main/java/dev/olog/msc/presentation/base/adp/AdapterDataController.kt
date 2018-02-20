@@ -1,0 +1,18 @@
+package dev.olog.msc.presentation.base.adp
+
+import dev.olog.msc.presentation.base.BaseModel
+import io.reactivex.Observable
+
+interface AdapterDataController<Model: BaseModel>{
+
+    fun getItem(position: Int): Model
+    fun getSize(): Int
+    fun update(data: Any)
+    fun handleNewData(extendAreItemTheSame: ((Int, Int, Model, Model) -> Boolean)?): Observable<AdapterControllerResult>
+
+    fun swap(from: Int, to: Int)
+    fun remove(position: Int)
+
+    fun getAll(): List<Model>
+
+}

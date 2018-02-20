@@ -63,8 +63,10 @@ object BindingsAdapter {
     @BindingAdapter("albumsArtistImage")
     @JvmStatic
     fun loadAlbumsArtistImage(view: ImageView, image: String){
+        GlideApp.with(view.context).clear(view)
+
         GlideApp.with(view.context)
-                .load(image)
+                .load(Uri.parse(image))
                 .circleCrop()
                 .override(50)
                 .skipMemoryCache(true)

@@ -41,7 +41,7 @@
             android:layout_height="30dp"
             tools:src="@drawable/placeholder_artist"
             android:layout_marginTop="4dp"
-            app:imageSong="@{item}"
+            app:albumsArtistImage="@{item.trackNumber}"
             app:rounded="@{item.mediaId.isAlbum}"
             android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"
             tools:visibility="visible"/>

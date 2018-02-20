@@ -8,9 +8,8 @@ import android.support.v7.widget.RecyclerView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.BaseMapAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
@@ -21,7 +20,6 @@ import javax.inject.Inject
 
 class SearchFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
-        enums : Array<SearchFragmentType>,
         private val albumAdapter: SearchFragmentAlbumAdapter,
         private val artistAdapter: SearchFragmentArtistAdapter,
         private val recycledViewPool: RecyclerView.RecycledViewPool,
@@ -29,9 +27,9 @@ class SearchFragmentAdapter @Inject constructor(
         private val navigator: Navigator,
         private val viewModel: SearchFragmentViewModel
 
-) : BaseMapAdapter<SearchFragmentType, DisplayableItem>(lifecycle, enums) {
+) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){
             R.layout.item_search_albums_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
@@ -42,39 +40,39 @@ class SearchFragmentAdapter @Inject constructor(
                 setupHorizontalList(list, artistAdapter)
             }
             R.layout.item_search_song -> {
-                viewHolder.setOnClickListener(dataController) { item, _ ->
+                viewHolder.setOnClickListener(controller) { item, _, _ ->
                     mediaProvider.playFromMediaId(item.mediaId)
                     viewModel.insertSongToRecent(item.mediaId)
                             .subscribe({}, Throwable::printStackTrace)
 
                 }
-                viewHolder.setOnLongClickListener(dataController) { item ,_ ->
+                viewHolder.setOnLongClickListener(controller) { item ,_, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
                 }
-                viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
+                viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
 
             }
             R.layout.item_search_clear_recent -> {
-                viewHolder.setOnClickListener(dataController) { _, _ ->
+                viewHolder.setOnClickListener(controller) { _, _, _ ->
                     viewModel.clearRecentSearches()
                             .subscribe({}, Throwable::printStackTrace)
                 }
             }
             R.layout.item_search_recent,
             R.layout.item_search_recent_artist -> {
-                viewHolder.setOnClickListener(dataController) { item, _  ->
+                viewHolder.setOnClickListener(controller) { item, _, _  ->
                     if (item.isPlayable){
                         mediaProvider.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
                     }
                 }
-                viewHolder.setOnLongClickListener(dataController) { item ,_ ->
+                viewHolder.setOnLongClickListener(controller) { item ,_, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
                 }
-                viewHolder.setOnClickListener(R.id.clear, dataController) { item, _, _ ->
+                viewHolder.setOnClickListener(R.id.clear, controller) { item, _, _ ->
                     viewModel.deleteFromRecent(item.mediaId)
                             .subscribe({}, Throwable::printStackTrace)
                 }
@@ -87,7 +85,7 @@ class SearchFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
+    private fun setupHorizontalList(list: RecyclerView, adapter: AbsAdapter<*>){
         val layoutManager = LinearLayoutManager(list.context,
                 LinearLayoutManager.HORIZONTAL, false)
         list.layoutManager = layoutManager

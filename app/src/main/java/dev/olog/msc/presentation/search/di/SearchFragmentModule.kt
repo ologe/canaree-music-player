@@ -8,7 +8,6 @@ import dagger.Provides
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.search.SearchFragment
-import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.msc.presentation.search.SearchFragmentViewModel
 import dev.olog.msc.presentation.search.SearchFragmentViewModelFactory
 
@@ -27,8 +26,5 @@ class SearchFragmentModule(private val fragment: SearchFragment) {
     @Provides
     @PerFragment
     fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
-
-    @Provides
-    internal fun provideEnums() = SearchFragmentType.values()
 
 }

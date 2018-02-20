@@ -4,16 +4,16 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import javax.inject.Inject
 
 class SpecialThanksFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle
 
-) : BaseListAdapter<SpecialThanksModel>(lifecycle) {
+) : AbsAdapter<SpecialThanksModel>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
     }
 
     override fun bind(binding: ViewDataBinding, item: SpecialThanksModel, position: Int) {

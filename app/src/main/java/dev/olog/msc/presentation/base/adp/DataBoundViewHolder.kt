@@ -1,7 +1,7 @@
-package dev.olog.msc.presentation.base.adapter
+package dev.olog.msc.presentation.base.adp
 
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 
-class DataBoundViewHolder<out T : ViewDataBinding>(val binding: T)
+class DataBoundViewHolder(val binding: ViewDataBinding)
     : RecyclerView.ViewHolder(binding.root)

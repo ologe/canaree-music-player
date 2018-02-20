@@ -34,9 +34,6 @@ class DetailFragmentModule(
     fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
 
     @Provides
-    internal fun provideEnums() : Array<DetailFragmentDataType> = DetailFragmentDataType.values()
-
-    @Provides
     internal fun provideViewModel(factory: DetailFragmentViewModelFactory): DetailFragmentViewModel {
         return ViewModelProviders.of(fragment, factory)
                 .get(DetailFragmentViewModel::class.java)

@@ -5,8 +5,8 @@ import android.databinding.ViewDataBinding
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
@@ -19,13 +19,13 @@ class DetailRelatedArtistsAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator
 
-) : BaseListAdapter<DisplayableItem>(lifecycle) {
+) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, _ ->
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+        viewHolder.setOnClickListener(controller) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
         }
-        viewHolder.setOnLongClickListener(dataController) { item, _ ->
+        viewHolder.setOnLongClickListener(controller) { item, _, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
         viewHolder.elevateAlbumOnTouch()

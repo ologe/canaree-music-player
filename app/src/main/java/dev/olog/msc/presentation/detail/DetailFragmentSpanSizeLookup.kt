@@ -9,7 +9,7 @@ class DetailFragmentSpanSizeLookup(
 ) : GridLayoutManager.SpanSizeLookup() {
 
     override fun getSpanSize(position: Int): Int {
-        val item = adapter.getItemAt(position)
+        val item = adapter.elementAt(position)
         return if (item.type == R.layout.item_detail_album) 1 else 2
     }
 }

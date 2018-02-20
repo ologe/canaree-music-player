@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.detail
 
 import android.arch.lifecycle.Lifecycle
-import android.content.Context
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -13,15 +12,12 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.BaseMapAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.msc.presentation.base.adapter.TouchCallbackConfig
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
@@ -32,7 +28,6 @@ import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
@@ -40,11 +35,9 @@ import javax.inject.Inject
 
 @PerFragment
 class DetailFragmentAdapter @Inject constructor(
-        @ApplicationContext context: Context,
         @FragmentLifecycle lifecycle: Lifecycle,
-        enums: Array<DetailFragmentDataType>,
         private val mediaId: MediaId,
-        private val recentSongsAdapter: DetailRecentlyAddedAdapter,
+        private val recentlyAddedAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val relatedArtistsAdapter: DetailRelatedArtistsAdapter,
         private val navigator: Navigator,
@@ -52,16 +45,16 @@ class DetailFragmentAdapter @Inject constructor(
         private val viewModel: DetailFragmentViewModel,
         private val recycledViewPool : RecyclerView.RecycledViewPool
 
-) : BaseMapAdapter<DetailFragmentDataType, DisplayableItem>(lifecycle, enums, context) {
+) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int){
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int){
         when (viewType) {
             R.layout.item_detail_item_info -> {
-                viewHolder.setOnClickListener(R.id.more, dataController) { item ,_, view ->
+                viewHolder.setOnClickListener(R.id.more, controller) { item ,_, view ->
                     navigator.toDialog(item, view)
                 }
                 if (mediaId.isAlbum){
-                    viewHolder.setOnClickListener(R.id.clickableArtist, dataController) { item, _, _ ->
+                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { item, _, _ ->
                         viewModel.artistMediaId(item.mediaId)
                                 .subscribe({ artistMediaId ->
                                     navigator.toDetailFragment(artistMediaId)
@@ -77,7 +70,7 @@ class DetailFragmentAdapter @Inject constructor(
             }
             R.layout.item_detail_recently_added_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                setupHorizontalListAsGrid(list, recentSongsAdapter)
+                setupHorizontalListAsGrid(list, recentlyAddedAdapter)
             }
             R.layout.item_detail_related_artists_list -> {
                 val list = viewHolder.itemView as RecyclerView
@@ -87,50 +80,50 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_drag_handle -> {
-                viewHolder.setOnClickListener(dataController) { item, _ ->
+                viewHolder.setOnClickListener(controller) { item, _, _ ->
                     viewModel.getDetailSortDataUseCase.execute(item.mediaId)
                             .subscribe({
                                 mediaProvider.playFromMediaId(item.mediaId, it)
                             }, Throwable::printStackTrace)
                 }
-                viewHolder.setOnLongClickListener(dataController) { item, _ ->
+                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
                 }
-                viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
+                viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
                 viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
                     if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        touchHelper()?.startDrag(viewHolder)
+                        touchHelper?.startDrag(viewHolder)
                         true
                     } else false
                 }
             }
             R.layout.item_detail_album,
             R.layout.item_detail_album_mini -> {
-                viewHolder.setOnClickListener(dataController) { item, _ ->
+                viewHolder.setOnClickListener(controller) { item, _,_ ->
                     navigator.toDetailFragment(item.mediaId)
                 }
-                viewHolder.setOnLongClickListener(dataController) { item, _ ->
+                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
                 }
 
             }
 
             R.layout.item_detail_shuffle -> {
-                viewHolder.setOnClickListener(dataController) { _, _ ->
+                viewHolder.setOnClickListener(controller) { _, _, _ ->
                     mediaProvider.shuffle(mediaId)
                 }
             }
             R.layout.item_detail_header_recently_added -> {
-                viewHolder.setOnClickListener(dataController) { item, _ ->
+                viewHolder.setOnClickListener(controller) { item, _, _ ->
                     when (item.mediaId) {
                         DetailFragmentHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
                     }
                 }
             }
             R.layout.item_detail_header_all_song -> {
-                viewHolder.setOnClickListener(R.id.sort, dataController) { _, _, view ->
+                viewHolder.setOnClickListener(R.id.sort, controller) { _, _, view ->
                     viewModel.observeSortOrder().firstOrError()
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({
@@ -139,7 +132,7 @@ class DetailFragmentAdapter @Inject constructor(
                                 }
                             }, Throwable::printStackTrace)
                 }
-                viewHolder.setOnClickListener(R.id.sortImage, dataController) { _, _, _ ->
+                viewHolder.setOnClickListener(R.id.sortImage, controller) { _, _, _ ->
                     viewModel.observeSortOrder()
                             .firstOrError()
                             .filter { it != SortType.CUSTOM }
@@ -158,7 +151,7 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: BaseListAdapter<*>){
+    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: AbsAdapter<*>){
         val layoutManager = GridLayoutManager(list.context,
                 NESTED_SPAN_COUNT, GridLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
@@ -171,7 +164,7 @@ class DetailFragmentAdapter @Inject constructor(
         snapHelper.attachToRecyclerView(list)
     }
 
-    private fun setupHorizontalListAsList(list: RecyclerView, adapter: BaseListAdapter<*>){
+    private fun setupHorizontalListAsList(list: RecyclerView, adapter: AbsAdapter<*>){
         val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
@@ -180,25 +173,32 @@ class DetailFragmentAdapter @Inject constructor(
         list.recycledViewPool = recycledViewPool
     }
 
-    override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
+    override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {
+        when (holder.itemViewType){
+            R.layout.item_detail_most_played_list -> {
+                mostPlayedAdapter.afterDataChanged = null
+            }
+            R.layout.item_detail_recently_added_list -> {
+                recentlyAddedAdapter.afterDataChanged = null
+            }
+        }
+    }
+
+    override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         when (holder.itemViewType) {
             R.layout.item_detail_most_played_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                mostPlayedAdapter.onDataChanged()
-                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-                        .map { it.size }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ size -> setNestedSpanCount(layoutManager, size) }, Throwable::printStackTrace)
+                mostPlayedAdapter.afterDataChanged = {
+                    updateNestedSpanCount(layoutManager, it.size)
+                }
             }
             R.layout.item_detail_recently_added_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                recentSongsAdapter.onDataChanged()
-                        .takeUntil(RxView.detaches(holder.itemView).toFlowable(BackpressureStrategy.LATEST))
-                        .map { it.size }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ size -> setNestedSpanCount(layoutManager, size) }, Throwable::printStackTrace)
+                recentlyAddedAdapter.afterDataChanged = {
+                    updateNestedSpanCount(layoutManager, it.size)
+                }
             }
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage
@@ -226,7 +226,7 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setNestedSpanCount(layoutManager: GridLayoutManager, size: Int){
+    private fun updateNestedSpanCount(layoutManager: GridLayoutManager, size: Int){
         layoutManager.spanCount = when {
             size == 0 -> 1
             size < NESTED_SPAN_COUNT -> size
@@ -238,21 +238,17 @@ class DetailFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    override fun getItemViewType(position: Int): Int = dataController[position].type
-
-    private val hasDragBehavior = mediaId.isPlaylist &&
+    val hasTouchBehavior = mediaId.isPlaylist &&
             !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
 
-    private val canSwipe = mediaId.isPlaylist &&
-            !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
+    override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
 
-    override val touchCallbackConfig: TouchCallbackConfig = if (hasDragBehavior) TouchCallbackConfig(
-            true, canSwipe,
-            draggableViewType = R.layout.item_detail_song_with_drag_handle,
-            onDragAction = { from, to -> viewModel.moveItemInPlaylist(from, to) },
-            onSwipeAction = { position ->
-                viewModel.removeFromPlaylist(dataController[position].trackNumber.toLong())
-                    .subscribe({}, Throwable::printStackTrace)
-            }
-    ) else super.touchCallbackConfig
+    override val onSwipeAction = { position: Int ->
+        viewModel.removeFromPlaylist(controller.getItem(position).trackNumber.toLong())
+                .subscribe({}, Throwable::printStackTrace)
+    }
+
+    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean? {
+        return hasTouchBehavior && viewHolder.itemViewType == R.layout.item_detail_song_with_drag_handle
+    }
 }

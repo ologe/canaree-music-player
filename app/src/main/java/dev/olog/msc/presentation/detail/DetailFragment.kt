@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import androidx.view.doOnPreDraw
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.detail.scroll.listener.ParallaxScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
@@ -86,7 +88,12 @@ class DetailFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
-        adapter.touchHelper()?.attachToRecyclerView(view.list)
+        if (adapter.hasTouchBehavior){
+            val callback = TouchHelperAdapterCallback(adapter)
+            val touchHelper = ItemTouchHelper(callback)
+            touchHelper.attachToRecyclerView(view.list)
+            adapter.touchHelper = touchHelper
+        }
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 

@@ -7,10 +7,12 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
+import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
 import dev.olog.msc.utils.k.extension.makeDialog
 import javax.inject.Inject
 
@@ -39,10 +41,14 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
-        adapter = LibraryCategoriesFragmentAdapter(activity!!, presenter.getDataSet().toMutableList())
+        adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet().toMutableList())
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
-        adapter.touchHelper.attachToRecyclerView(list)
+
+        val callback = TouchHelperAdapterCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(list)
+        adapter.touchHelper = touchHelper
 
         val dialog = builder.makeDialog()
 

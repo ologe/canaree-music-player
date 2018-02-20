@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.msc.BR
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import javax.inject.Inject
 
 class BlacklistFragmentAdapter @Inject constructor()
-    : RecyclerView.Adapter<DataBoundViewHolder<*>>() {
+    : RecyclerView.Adapter<DataBoundViewHolder>() {
 
     val data: MutableList<BlacklistModel> = mutableListOf()
 
@@ -18,13 +18,13 @@ class BlacklistFragmentAdapter @Inject constructor()
 
     override fun getItemViewType(position: Int): Int = data[position].displayableItem.type
 
-    override fun onBindViewHolder(holder: DataBoundViewHolder<*>, position: Int) {
+    override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
         holder.binding.setVariable(BR.item, data[position].displayableItem)
         holder.binding.setVariable(BR.isBlacklisted, data[position].isBlacklisted)
         holder.binding.executePendingBindings()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder<*> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBoundViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
         val viewHolder = DataBoundViewHolder(binding)
@@ -32,7 +32,7 @@ class BlacklistFragmentAdapter @Inject constructor()
         return viewHolder
     }
 
-    private fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>) {
+    private fun initViewHolderListeners(viewHolder: DataBoundViewHolder) {
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val item = data[position]

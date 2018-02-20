@@ -18,8 +18,8 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
@@ -45,20 +45,20 @@ class PlayerFragmentAdapter @Inject constructor(
         private val navigator: Navigator,
         private val viewModel: PlayerFragmentViewModel
 
-): BaseListAdapter<DisplayableItem>(lifecycle) {
+): AbsAdapter<DisplayableItem>(lifecycle) {
 
     private var seekBarDisposable : Disposable? = null
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){
             R.layout.item_mini_queue -> {
-                viewHolder.setOnClickListener(dataController) { item, _ ->
+                viewHolder.setOnClickListener(controller) { item, _, _ ->
                     mediaProvider.skipToQueueItem(item.mediaId.leaf!!)
                 }
-                viewHolder.setOnLongClickListener(dataController) { item, _ ->
+                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
                 }
-                viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
+                viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
                 viewHolder.elevateSongOnTouch()
@@ -66,7 +66,7 @@ class PlayerFragmentAdapter @Inject constructor(
         }
     }
 
-    override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {
+    override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
         when (viewType){
             R.layout.fragment_player_controls -> {

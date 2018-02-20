@@ -6,16 +6,16 @@ import android.text.method.LinkMovementMethod
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.databinding.ItemLicenseBinding
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import javax.inject.Inject
 
 class LicensesFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle
 
-) : BaseListAdapter<LicenseModel>(lifecycle){
+) : AbsAdapter<LicenseModel>(lifecycle){
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         (viewHolder.binding as ItemLicenseBinding)
                 .url.movementMethod = LinkMovementMethod.getInstance()
     }

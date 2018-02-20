@@ -5,8 +5,8 @@ import android.databinding.ViewDataBinding
 import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.NavigatorAbout
 import dev.olog.msc.utils.k.extension.setOnClickListener
@@ -17,10 +17,10 @@ class AboutActivityAdapter @Inject constructor(
         @ActivityLifecycle lifecycle: Lifecycle,
         private val navigator: Lazy<NavigatorAbout>
 
-) : BaseListAdapter<DisplayableItem>(lifecycle) {
+) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
-        viewHolder.setOnClickListener(dataController) { item, _ ->
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
+        viewHolder.setOnClickListener(controller) { item, _, _ ->
             when (item.mediaId){
                 AboutActivityPresenter.AUTHOR_ID -> navigator.get().toFacebook()
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()

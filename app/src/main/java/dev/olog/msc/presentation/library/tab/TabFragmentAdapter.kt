@@ -5,11 +5,12 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import dagger.Lazy
+import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.presentation.base.adapter.BaseListAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
@@ -30,19 +31,19 @@ class TabFragmentAdapter @Inject constructor(
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>
 
-) : BaseListAdapter<DisplayableItem>(lifecycle) {
+) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder<*>, viewType: Int) {
+    override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType) {
             R.layout.item_tab_shuffle -> {
-                viewHolder.setOnClickListener(dataController) { _, _ ->
+                viewHolder.setOnClickListener(controller) { _, _, _ ->
                     mediaProvider.shuffle(MediaId.shuffleAllId())
                 }
             }
             R.layout.item_tab_album,
             R.layout.item_tab_artist,
             R.layout.item_tab_song -> {
-                viewHolder.setOnClickListener(dataController) { item, _ ->
+                viewHolder.setOnClickListener(controller) { item, _, _ ->
                     if (item.isPlayable){
                         mediaProvider.playFromMediaId(item.mediaId)
                     } else {
@@ -59,10 +60,10 @@ class TabFragmentAdapter @Inject constructor(
                         }
                     }
                 }
-                viewHolder.setOnLongClickListener(dataController) { item, position ->
+                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
                 }
-                viewHolder.setOnClickListener(R.id.more, dataController) { item, _, view ->
+                viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
             }
@@ -83,18 +84,14 @@ class TabFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
+    private fun setupHorizontalList(list: RecyclerView, adapter: AbsAdapter<*>){
         val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
         list.layoutManager = layoutManager
         list.adapter = adapter
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
-        binding.setVariable(dev.olog.msc.BR.item, item)
-    }
-
-    fun indexOf(predicate : (DisplayableItem) -> Boolean): Int {
-        return dataController.getItemPositionByPredicate(predicate)
+        binding.setVariable(BR.item, item)
     }
 
 }

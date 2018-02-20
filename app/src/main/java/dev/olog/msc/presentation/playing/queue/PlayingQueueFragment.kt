@@ -2,15 +2,15 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adapter.OnDataChangedListener
+import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
-import org.jetbrains.anko.dip
 import javax.inject.Inject
 
 class PlayingQueueFragment : BaseFragment() {
@@ -51,7 +51,7 @@ class PlayingQueueFragment : BaseFragment() {
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
         viewModel.observeCurrentSongId.subscribe(this, {
-            adapter.updateCurrentPosition(it)
+//            adapter.updateCurrentPosition(it) todo
             adapter.notifyDataSetChanged()
         })
     }
@@ -61,19 +61,21 @@ class PlayingQueueFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
-        adapter.touchHelper()!!.attachToRecyclerView(view.list)
 
-        adapter.onDataChangedListener = object : OnDataChangedListener {
-            override fun onChanged() {
-                adapter.onDataChangedListener = null
-                val songId = viewModel.getCurrentSongId()
-                val position = adapter.getItemPositionByPredicate {
-                    it.trackNumber.toInt() == songId
-                }
-                adapter.updateCurrentPosition(position)
-                layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
-                startPostponedEnterTransition()
-            }
+        val callback = TouchHelperAdapterCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
+
+        adapter.afterDataChanged = {
+            adapter.afterDataChanged = null
+//            val songId = viewModel.getCurrentSongId() todo
+//            val position = adapter.getItemPositionByPredicate {
+//                it.trackNumber.toInt() == songId
+//            }
+//            adapter.updateCurrentPosition(position)
+//            layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
+            startPostponedEnterTransition()
         }
     }
 
@@ -87,9 +89,9 @@ class PlayingQueueFragment : BaseFragment() {
         view!!.back.setOnClickListener(null)
     }
 
-    override fun onDestroy() {
-        adapter.onDataChangedListener = null
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
+        adapter.afterDataChanged = null
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
