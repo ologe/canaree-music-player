@@ -27,13 +27,10 @@ class FolderImagesCreator @Inject constructor(
                 .observeOn(imagesThreadPool.scheduler)
                 .map { it.groupBy { it.folderPath } }
                 .flattenAsFlowable { it.entries }
-                .parallel()
-                .runOn(imagesThreadPool.scheduler)
                 .map { entry -> try {
                     makeImage(entry)
                 } catch (ex: Exception){ false }
                 }
-                .sequential()
                 .buffer(10)
                 .filter { it.reduce { acc, curr -> acc || curr } }
                 .doOnNext {

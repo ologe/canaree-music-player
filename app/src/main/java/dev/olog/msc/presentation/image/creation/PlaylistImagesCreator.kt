@@ -21,8 +21,7 @@ class PlaylistImagesCreator @Inject constructor(
 
     fun execute(playlists: List<Playlist>) : Flowable<*> {
         return Flowable.fromIterable(playlists)
-                .parallel()
-                .runOn(imagesThreadPool.scheduler)
+                .observeOn(imagesThreadPool.scheduler)
                 .map {
                     val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", it.id)
                     Pair(it, CommonQuery.extractAlbumIdsFromSongs(ctx.contentResolver, uri))
@@ -31,7 +30,6 @@ class PlaylistImagesCreator @Inject constructor(
                     makeImage(playlist, albumsId)
                 } catch (ex: Exception){ false }
                 }
-                .sequential()
                 .buffer(10)
                 .filter { it.reduce { acc, curr -> acc || curr } }
                 .doOnNext {

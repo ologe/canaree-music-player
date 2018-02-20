@@ -75,8 +75,12 @@ class TabFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
 
-        view.sidebar.scrollableLayoutId = if (category == MediaIdCategory.SONGS)
-            R.layout.item_tab_song else R.layout.item_tab_album
+        val scrollableLayoutId = when (category) {
+            MediaIdCategory.SONGS -> R.layout.item_tab_song
+            MediaIdCategory.ARTISTS -> R.layout.item_tab_artist
+            else -> R.layout.item_tab_album
+        }
+        view.sidebar.scrollableLayoutId = scrollableLayoutId
     }
 
     override fun onResume() {
