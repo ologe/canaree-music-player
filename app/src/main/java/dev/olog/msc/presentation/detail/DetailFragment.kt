@@ -41,6 +41,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var adapter: DetailFragmentAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
+    @Inject lateinit var relatedArtistAdapter: DetailRelatedArtistsAdapter
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
@@ -57,11 +58,14 @@ class DetailFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.mostPlayedFlowable
+        viewModel.mostPlayedLiveData
                 .subscribe(this, mostPlayedAdapter::updateDataSet)
 
-        viewModel.recentlyAddedFlowable
+        viewModel.recentlyAddedLiveData
                 .subscribe(this, recentlyAddedAdapter::updateDataSet)
+
+        viewModel.relatedArtistsLiveData
+                .subscribe(this, relatedArtistAdapter::updateDataSet)
 
         viewModel.data.subscribe(this, {
             if (context!!.isLandscape){
@@ -71,9 +75,9 @@ class DetailFragment : BaseFragment() {
             adapter.updateDataSet(it)
         })
 
-        viewModel.itemLiveData.subscribe(this, {
-            headerText.text = it.title
-            BindingsAdapter.loadBigAlbumImage(cover, it)
+        viewModel.itemLiveData.subscribe(this, { item ->
+            headerText.text = item.title
+            BindingsAdapter.loadBigAlbumImage(cover, item)
         })
     }
 
@@ -88,7 +92,8 @@ class DetailFragment : BaseFragment() {
 
         if (activity!!.isPortrait){
             view.doOnPreDraw {
-                view.list.setPadding(view.list.paddingLeft, view.cover.bottom, view.list.paddingRight, view.list.paddingBottom)
+                val v = view.cover
+                view.list.setTopPadding(v.bottom)
             }
         }
     }

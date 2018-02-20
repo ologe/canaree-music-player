@@ -62,10 +62,13 @@ class DetailFragmentViewModel(
 
     }
 
-    val mostPlayedFlowable: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
+    val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
             .asLiveData()
 
-    val recentlyAddedFlowable: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
+    val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
+            .asLiveData()
+
+    val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
@@ -84,7 +87,7 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                         DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                         DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
-                        DetailFragmentDataType.ARTISTS_IN to handleArtistsInHeader(artists.toMutableList(), visibility[2]),
+                        DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
                 ) }
     ).asLiveData()
@@ -94,7 +97,7 @@ class DetailFragmentViewModel(
     }
 
     private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        if (list.isNotEmpty() && isEnabled){
+        if (isEnabled && list.isNotEmpty()){
             list.clear()
             list.addAll(0, headers.mostPlayed)
         } else {
@@ -104,7 +107,7 @@ class DetailFragmentViewModel(
     }
 
     private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        if (list.isNotEmpty() && isEnabled){
+        if (isEnabled && list.isNotEmpty()){
             val size = list.size
             if (list.size > VISIBLE_RECENTLY_ADDED_PAGES){
                 list.clear()
@@ -132,12 +135,10 @@ class DetailFragmentViewModel(
         return albumsList
     }
 
-    private fun handleArtistsInHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        if (list.isNotEmpty()){
-            val (_, _, title) = list[0]
-            if (title == "" || !isEnabled){
-                list.clear()
-            }
+    private fun handleRelatedArtistsHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
+        if (isEnabled && list.isNotEmpty()){
+            list.clear()
+            list.addAll(0, headers.relatedArtists)
         }
         return list
     }

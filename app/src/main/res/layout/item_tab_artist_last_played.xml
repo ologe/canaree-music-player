@@ -14,10 +14,9 @@
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-
         tools:background="@color/background">
 
-        <ImageView
+        <dev.olog.msc.presentation.widget.CircularImageView
             android:id="@+id/coverLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -27,7 +26,8 @@
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
             app:rounded="@{item.mediaId.isArtist}"
-            tools:src="@drawable/placeholder_artist" />
+            tools:src="@drawable/placeholder_artist"
+            android:outlineProvider="bounds"/>
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"

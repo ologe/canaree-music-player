@@ -45,6 +45,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val mediaId: MediaId,
         private val recentSongsAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
+        private val relatedArtistsAdapter: DetailRelatedArtistsAdapter,
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
         private val viewModel: DetailFragmentViewModel,
@@ -76,6 +77,10 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_recently_added_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalList(list, recentSongsAdapter)
+            }
+            R.layout.item_detail_related_artists_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                setupHorizontalList(list, relatedArtistsAdapter)
             }
 
             R.layout.item_detail_song,
@@ -110,11 +115,7 @@ class DetailFragmentAdapter @Inject constructor(
                 }
 
             }
-            R.layout.item_detail_related_artist -> {
-                viewHolder.setOnClickListener(R.id.clickableZone, dataController) { _, _, _ ->
-                    navigator.toRelatedArtists(mediaId)
-                }
-            }
+
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(dataController) { _, _ ->
                     mediaProvider.shuffle(mediaId)

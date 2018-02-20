@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/placeholder_gradient_rounded"/>
+    <item android:drawable="@drawable/placeholder_gradient"/>
 
     <item android:drawable="@drawable/vd_artist"
         android:top="@dimen/placeholder_artist_padding"

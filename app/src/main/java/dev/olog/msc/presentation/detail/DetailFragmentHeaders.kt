@@ -26,6 +26,11 @@ class DetailFragmentHeaders @Inject constructor(
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
+    val relatedArtists = listOf(
+            DisplayableItem(R.layout.item_detail_header, MediaId.headerId("related artist header"), context.getString(R.string.detail_related_artists)),
+            DisplayableItem(R.layout.item_detail_related_artists_list, MediaId.headerId("related artist list"), "")
+    )
+
     /*
         isExplicit is used to show/hide arrow in the layout
      */

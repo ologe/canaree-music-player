@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.detail.di
 
 import android.content.Context
+import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -8,6 +9,7 @@ import dagger.multibindings.StringKey
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
@@ -78,20 +80,12 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.RELATED_ARTISTS)
     internal fun provideRelatedArtists(
-            @ApplicationContext context: Context,
+            resources: Resources,
             mediaId: MediaId,
             useCase: GetRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .map {
-                    if (!mediaId.isAlbum && !mediaId.isArtist){
-                        it.joinToString { it.name }
-                    }
-                    else ""
-                }
-                .map { DisplayableItem(R.layout.item_detail_related_artist, MediaId.headerId("related artists"), it,
-                        context.getString(R.string.detail_related_artists), isExplicit = it.isNotBlank()) }
-                .map { listOf(it) }
+                .mapToList { it.toRelatedArtist(resources)}
     }
 
 }
@@ -102,6 +96,20 @@ private fun createDurationFooter(context: Context, songCount: Int, duration: Int
 
     return DisplayableItem(R.layout.item_detail_footer, MediaId.headerId("duration footer"),
             songs + TextUtils.MIDDLE_DOT_SPACED + time)
+}
+
+private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
+
+    return DisplayableItem(
+            R.layout.item_detail_related_artist,
+            MediaId.artistId(this.id),
+            this.name,
+            albums + songs,
+            this.image
+    )
 }
 
 private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {

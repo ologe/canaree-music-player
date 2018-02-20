@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintDimensionRatio="1.15"
+        app:layout_constraintDimensionRatio="1.2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
@@ -66,7 +66,7 @@
         android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="gone"/>
 
     <View
         android:id="@+id/toolbar"
@@ -127,6 +127,6 @@
         app:layout_constraintEnd_toStartOf="@+id/search"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

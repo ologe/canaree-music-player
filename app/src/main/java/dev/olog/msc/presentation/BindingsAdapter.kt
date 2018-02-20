@@ -61,22 +61,22 @@ object BindingsAdapter {
         request.into(view)
     }
 
-    @BindingAdapter("imageSong")
+    @BindingAdapter("imageSong", "rounded", requireAll = false)
     @JvmStatic
-    fun loadSongImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, OVERRIDE_SMALL, asPlaceholder = true)
+    fun loadSongImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
+        loadImageImpl(view, item, OVERRIDE_SMALL, asPlaceholder = true, rounded = rounded)
     }
 
     @BindingAdapter("imageAlbum", "rounded", requireAll = false)
     @JvmStatic
-    fun loadAlbumImage(view: ImageView, item: DisplayableItem, rounded: Boolean) {
+    fun loadAlbumImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
         loadImageImpl(view, item, OVERRIDE_MID, Priority.HIGH, rounded = rounded)
     }
 
-    @BindingAdapter("imageBigAlbum")
+    @BindingAdapter("imageBigAlbum", "rounded", requireAll = false)
     @JvmStatic
-    fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE)
+    fun loadBigAlbumImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
+        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE, rounded = rounded)
     }
 
     @BindingAdapter("imageSpecialThanks")
