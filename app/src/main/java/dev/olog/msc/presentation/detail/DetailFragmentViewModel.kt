@@ -65,7 +65,7 @@ class DetailFragmentViewModel(
     val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
             .asLiveData()
 
-    val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
+    val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
             .asLiveData()
 
     val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!

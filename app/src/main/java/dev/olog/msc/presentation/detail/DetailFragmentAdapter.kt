@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
@@ -72,15 +73,15 @@ class DetailFragmentAdapter @Inject constructor(
 
             R.layout.item_detail_most_played_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                setupHorizontalList(list, mostPlayedAdapter)
+                setupHorizontalListAsGrid(list, mostPlayedAdapter)
             }
             R.layout.item_detail_recently_added_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                setupHorizontalList(list, recentSongsAdapter)
+                setupHorizontalListAsGrid(list, recentSongsAdapter)
             }
             R.layout.item_detail_related_artists_list -> {
                 val list = viewHolder.itemView as RecyclerView
-                setupHorizontalList(list, relatedArtistsAdapter)
+                setupHorizontalListAsList(list, relatedArtistsAdapter)
             }
 
             R.layout.item_detail_song,
@@ -157,7 +158,7 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalList(list: RecyclerView, adapter: BaseListAdapter<*>){
+    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: BaseListAdapter<*>){
         val layoutManager = GridLayoutManager(list.context,
                 NESTED_SPAN_COUNT, GridLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
@@ -168,6 +169,15 @@ class DetailFragmentAdapter @Inject constructor(
 
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(list)
+    }
+
+    private fun setupHorizontalListAsList(list: RecyclerView, adapter: BaseListAdapter<*>){
+        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager.isItemPrefetchEnabled = true
+        layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
+        list.layoutManager = layoutManager
+        list.adapter = adapter
+        list.recycledViewPool = recycledViewPool
     }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder<*>) {

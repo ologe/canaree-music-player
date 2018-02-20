@@ -40,13 +40,12 @@ object BindingsAdapter {
         val id = resolveId(mediaId)
 
         var request = GlideApp.with(context)
-                .asBitmap()
                 .load(resolveUri(item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
                 .priority(priority)
-                .thumbnail(.4f)
+                .thumbnail(.3f)
 
         if (rounded){
             request = request.circleCrop()
@@ -59,6 +58,17 @@ object BindingsAdapter {
         }
 
         request.into(view)
+    }
+
+    @BindingAdapter("albumsArtistImage")
+    @JvmStatic
+    fun loadAlbumsArtistImage(view: ImageView, image: String){
+        GlideApp.with(view.context)
+                .load(image)
+                .circleCrop()
+                .override(50)
+                .skipMemoryCache(true)
+                .into(view)
     }
 
     @BindingAdapter("imageSong", "rounded", requireAll = false)

@@ -44,9 +44,14 @@ class DetailFragmentModuleItem {
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumItem(
             mediaId: MediaId,
-            useCase: GetAlbumUseCase) : Observable<DisplayableItem> {
+            useCase: GetAlbumUseCase,
+            artistUseCase: GetArtistUseCase) : Observable<DisplayableItem> {
 
-        return useCase.execute(mediaId).map { it.toHeaderItem() }
+        return useCase.execute(mediaId)
+                .flatMap {album ->
+                    artistUseCase.execute(MediaId.artistId(album.artistId))
+                            .map { album.toHeaderItem(it.image) }
+                }
     }
 
     @Provides
@@ -97,13 +102,14 @@ private fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
     )
 }
 
-private fun Album.toHeaderItem(): DisplayableItem {
+private fun Album.toHeaderItem(artistImage: String): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_item_info,
             MediaId.albumId(this.id),
             title,
             artist,
-            image
+            image,
+            trackNumber = artistImage
     )
 }
 

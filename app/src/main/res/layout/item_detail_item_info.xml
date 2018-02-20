@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
     </data>
 
@@ -41,7 +42,8 @@
             tools:src="@drawable/placeholder_artist"
             android:layout_marginTop="4dp"
             app:imageSong="@{item}"
-            app:rounded="@{item.mediaId.isArtist}"
+            app:rounded="@{item.mediaId.isAlbum}"
+            android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"
             tools:visibility="visible"/>
 
         <TextView
