@@ -59,12 +59,7 @@
 
         <!--settings activity-->
         <activity android:name=".presentation.preferences.PreferencesActivity"
-            android:theme="@style/SettingsTheme"
-            android:screenOrientation="portrait"/>
-
-        <!--settings activity-->
-        <activity android:name=".presentation.neural.network.NeuralNetworkActivity"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/SettingsTheme"/>
 
         <!--dummy shortcuts activity-->
         <activity android:name=".presentation.shortcuts.ShortcutsActivity"/>
@@ -86,10 +81,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
-        <!--neural newtwork service-->
-        <service android:name=".stylize.images.service.StylizeImageService"
-            android:exported="false"/>
 
         <!--floating window service-->
         <service android:name=".floating.window.service.FloatingWindowService"

@@ -8,7 +8,7 @@ import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.MergedImagesCreator
-import io.reactivex.Maybe
+import io.reactivex.Flowable
 import java.io.File
 import javax.inject.Inject
 
@@ -16,22 +16,27 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
 class FolderImagesCreator @Inject constructor(
         @ApplicationContext private val ctx: Context,
-        private val getAllSongsUseCase: GetAllSongsUseCase
+        private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val imagesThreadPool: ImagesThreadPool
 
 ) {
 
-    fun execute() : Maybe<*> {
+    fun execute() : Flowable<*> {
         return getAllSongsUseCase.execute()
                 .firstOrError()
+                .observeOn(imagesThreadPool.scheduler)
                 .map { it.groupBy { it.folderPath } }
-                .flattenAsObservable { it.entries }
+                .flattenAsFlowable { it.entries }
+                .parallel()
+                .runOn(imagesThreadPool.scheduler)
                 .map { entry -> try {
                     makeImage(entry)
                 } catch (ex: Exception){ false }
                 }
-                .reduce { acc: Boolean, curr: Boolean -> acc || curr }
-                .filter { it }
-                .doOnSuccess {
+                .sequential()
+                .buffer(10)
+                .filter { it.reduce { acc, curr -> acc || curr } }
+                .doOnNext {
                     ctx.contentResolver.notifyChange(MEDIA_STORE_URI, null)
                 }
     }

@@ -4,7 +4,6 @@
     <string name="prefs_category_general">Generale</string>
     <string name="prefs_category_library">Libreria</string>
     <string name="prefs_category_audio">Audio</string>
-    <string name="prefs_category_images">Immagini</string>
 
     <!--last tab-->
     <string name="prefs_remember_last_tab_title">Ricorda ultima scheda</string>
@@ -32,12 +31,5 @@
     <string name="prefs_library_categories_title">Categorie libreria</string>
     <string name="prefs_library_categories_summary">Configura visibilità e ordine delle categorie della libreria</string>
     <string name="prefs_library_categories_error">Deve essere selezionata almeno una categoria</string>
-
-    <!--neural images-->
-    <string name="prefs_use_neural_images_title">Usa immagini stilizzate</string>
-    <string name="prefs_use_neural_images_summary_on">Verranno usate immagini stilizzate</string>
-    <string name="prefs_use_neural_images_summary_off">Verranno usate immagini normali</string>
-    <string name="prefs_neural_network_style_title">Scegli lo stile</string>
-    <string name="prefs_neural_network_style_summary">Le vecchie immagini stilizzate verrano eliminate</string>
 
 </resources>

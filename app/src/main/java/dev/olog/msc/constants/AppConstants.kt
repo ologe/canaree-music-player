@@ -15,7 +15,6 @@ object AppConstants {
     const val SHORTCUT_DETAIL_MEDIA_ID = TAG + ".shortcut.detail.media.id"
 
     lateinit var QUICK_ACTION: QuickActionView.Type
-    var useNeuralImages: Boolean = false
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -28,8 +27,6 @@ object AppConstants {
         UNKNOWN_ARTIST = context.getString(R.string.unknown_artist)
 
         QUICK_ACTION = getQuickAction(context)
-        useNeuralImages = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(context.getString(R.string.prefs_use_neural_images_key), false)
     }
 
     fun updateQuickAction(context: Context){

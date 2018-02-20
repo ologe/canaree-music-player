@@ -1,6 +1,5 @@
 package dev.olog.msc.data.mapper
 
-import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
@@ -13,7 +12,7 @@ import dev.olog.msc.utils.img.ImagesFolderUtils
 import java.io.File
 
 
-fun Cursor.toSong(context: Context): Song {
+fun Cursor.toSong(): Song {
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -35,7 +34,7 @@ fun Cursor.toSong(context: Context): Song {
 
     return Song(
             id, artistId, albumId, title, artist, album,
-            ImagesFolderUtils.forAlbum(context, albumId),
+            ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded, isRemix, isExplicit, path,
             folder.capitalize(), disc, trackNumber)
 }

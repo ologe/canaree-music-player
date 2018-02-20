@@ -2,7 +2,7 @@ package dev.olog.msc.utils.img
 
 import android.content.Context
 import android.graphics.Bitmap
-import dev.olog.msc.constants.AppConstants
+import android.net.Uri
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.assertBackgroundThread
 import java.io.File
@@ -96,12 +96,8 @@ object MergedImagesCreator {
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
-        if (AppConstants.useNeuralImages){
-            val image = ImagesFolderUtils.getNeuralAlbumCover(context, albumId)
-            return ImageUtils.getBitmapFromUriOrNull(context, image, 500, 500)!!
-        }
-        val uri = ImagesFolderUtils.getOriginalAlbumCover(albumId)
-        return ImageUtils.getBitmapFromUriOrNull(context, uri, 500, 500)!!
+        val uri = ImagesFolderUtils.forAlbum(albumId)
+        return ImageUtils.getBitmapFromUriOrNull(context, Uri.parse(uri), 500, 500)!!
     }
 
 }

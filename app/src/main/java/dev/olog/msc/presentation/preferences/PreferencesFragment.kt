@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.preferences
 
 import android.app.Activity
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v14.preference.SwitchPreference
@@ -10,7 +9,6 @@ import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.presentation.neural.network.NeuralNetworkActivity
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.utils.RootUtils
@@ -21,14 +19,12 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
-    private lateinit var neuralStyle: Preference
     private lateinit var usedEqualizer: SwitchPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
-        neuralStyle = preferenceScreen.findPreference(getString(R.string.prefs_neural_network_style_key))
         usedEqualizer = preferenceScreen.findPreference(getString(R.string.prefs_used_equalizer_key)) as SwitchPreference
     }
 
@@ -56,11 +52,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             true
         }
-        neuralStyle.setOnPreferenceClickListener {
-            val intent = Intent(activity!!, NeuralNetworkActivity::class.java)
-            activity!!.startActivity(intent)
-            true
-        }
         usedEqualizer.setOnPreferenceClickListener {
             if (RootUtils.isDeviceRooted()){
                 activity!!.toast(R.string.prefs_used_equalizer_not_found)
@@ -75,17 +66,12 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
-        neuralStyle.onPreferenceClickListener = null
         usedEqualizer.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         if (key == activity!!.getString(R.string.prefs_quick_action_key)){
             AppConstants.updateQuickAction(activity!!)
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_use_neural_images_key)){
-            AppConstants.useNeuralImages = sharedPreferences.getBoolean(key, false)
             requestMainActivityToRecreate()
         }
     }

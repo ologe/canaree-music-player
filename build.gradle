@@ -64,8 +64,6 @@ ext {
     lottie = '2.5.0-rc1'
     sql_brite = '3.1.0'
 //    hover = '0.9.8'
-    target_view = '1.11.0'
-    tensor_flow = '1.5.0-rc1'
     better_pickers = '3.1.0'
     billing = '1.0'
     android_ktx = '0.1'

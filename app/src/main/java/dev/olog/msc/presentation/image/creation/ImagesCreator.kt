@@ -24,8 +24,8 @@ import javax.inject.Singleton
 class ImagesCreator @Inject constructor(
         @ApplicationContext context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
-        private val getAllFoldersUseCase: GetAllFoldersUseCase,
         private val folderImagesCreator: FolderImagesCreator,
+        private val getAllFoldersUseCase: GetAllFoldersUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
         private val playlistImagesCreator: PlaylistImagesCreator,
         private val getAllArtistsUseCase: GetAllArtistsUseCase,
@@ -64,43 +64,43 @@ class ImagesCreator @Inject constructor(
     }
 
     fun createImages() {
-//        subscriptions.clear()
-//
-//        getAllFoldersUseCase.execute()
-//                .doOnNext {
-//                    folderDisposable.unsubscribe()
-//                    folderDisposable = folderImagesCreator.execute()
-//                            .subscribe({}, Throwable::printStackTrace)
-//                }
-//                .subscribe({}, Throwable::printStackTrace)
-//                .addTo(subscriptions)
-//
-//        getAllPlaylistsUseCase.execute()
-//                .doOnNext {
-//                    playlistDisposable.unsubscribe()
-//                    playlistDisposable = playlistImagesCreator.execute()
-//                            .subscribe({}, Throwable::printStackTrace)
-//                }
-//                .subscribe({}, Throwable::printStackTrace)
-//                .addTo(subscriptions)
-//
-        getAllArtistsUseCase.execute()
+        subscriptions.clear()
+
+        getAllFoldersUseCase.execute()
                 .doOnNext {
-                    artistDisposable.unsubscribe()
-                    artistDisposable = artistImagesCreator.execute()
+                    folderDisposable.unsubscribe()
+                    folderDisposable = folderImagesCreator.execute()
                             .subscribe({}, Throwable::printStackTrace)
                 }
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
-//
-//        getAllGenresUseCase.execute()
-//                .doOnNext {
-//                    genreDisposable.unsubscribe()
-//                    genreDisposable = genreImagesCreator.execute()
-//                            .subscribe({}, Throwable::printStackTrace)
-//                }
-//                .subscribe({}, Throwable::printStackTrace)
-//                .addTo(subscriptions)
+
+        getAllPlaylistsUseCase.execute()
+                .doOnNext {
+                    playlistDisposable.unsubscribe()
+                    playlistDisposable = playlistImagesCreator.execute(it)
+                            .subscribe({}, Throwable::printStackTrace)
+                }
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
+        getAllArtistsUseCase.execute()
+                .doOnNext {
+                    artistDisposable.unsubscribe()
+                    artistDisposable = artistImagesCreator.execute(it)
+                            .subscribe({}, Throwable::printStackTrace)
+                }
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
+        getAllGenresUseCase.execute()
+                .doOnNext {
+                    genreDisposable.unsubscribe()
+                    genreDisposable = genreImagesCreator.execute(it)
+                            .subscribe({}, Throwable::printStackTrace)
+                }
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
 }

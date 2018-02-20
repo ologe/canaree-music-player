@@ -5,25 +5,25 @@ import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.repository.CommonQuery
 import dev.olog.msc.domain.entity.Genre
-import dev.olog.msc.domain.interactor.tab.GetAllGenresUseCase
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.MergedImagesCreator
-import io.reactivex.Maybe
+import io.reactivex.Flowable
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI
 
 class GenreImagesCreator @Inject constructor(
         @ApplicationContext private val ctx: Context,
-        private val getAllGenresUseCase: GetAllGenresUseCase
+        private val imagesThreadPool: ImagesThreadPool
+
 ) {
 
 
-    fun execute() : Maybe<*> {
-        return getAllGenresUseCase.execute()
-                .firstOrError()
-                .flattenAsObservable { it }
+    fun execute(genres: List<Genre>) : Flowable<*> {
+        return Flowable.fromIterable(genres)
+                .parallel()
+                .runOn(imagesThreadPool.scheduler)
                 .map {
                     val uri = MediaStore.Audio.Genres.Members.getContentUri("external", it.id)
                     Pair(it, CommonQuery.extractAlbumIdsFromSongs(ctx.contentResolver, uri))
@@ -32,9 +32,10 @@ class GenreImagesCreator @Inject constructor(
                     makeImage(genre, albumsId)
                 } catch (ex: Exception){ false }
                 }
-                .reduce { acc: Boolean, curr: Boolean -> acc || curr }
-                .filter { it }
-                .doOnSuccess {
+                .sequential()
+                .buffer(10)
+                .filter { it.reduce { acc, curr -> acc || curr } }
+                .doOnNext {
                     ctx.contentResolver.notifyChange(MEDIA_STORE_URI, null)
                 }
     }

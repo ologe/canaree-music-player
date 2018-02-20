@@ -1,14 +1,12 @@
 package dev.olog.msc.data.repository
 
 import android.content.ContentResolver
-import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.AudioColumns.IS_MUSIC
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
@@ -45,7 +43,6 @@ private val SELECTION_ARGS = arrayOf("AUD%", "20000")
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
 class SongRepository @Inject constructor(
-        @ApplicationContext private val context: Context,
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val appPrefsUseCase: AppPreferencesUseCase,
@@ -59,7 +56,7 @@ class SongRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
-        ).mapToList { it.toSong(context) }
+        ).mapToList { it.toSong() }
                 .map {
                     val blackListed = appPrefsUseCase.getBlackList()
                     if (blackListed.isEmpty()){
@@ -95,7 +92,7 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS,
                 SORT_ORDER,
                 false
-        ).mapToList { it.toSong(context) }
+        ).mapToList { it.toSong() }
                 .onErrorReturn { listOf() }
     }
 

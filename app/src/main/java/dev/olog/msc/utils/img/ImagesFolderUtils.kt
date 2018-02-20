@@ -3,9 +3,7 @@ package dev.olog.msc.utils.img
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import dev.olog.msc.constants.AppConstants
 import java.io.File
-import java.io.FileNotFoundException
 
 object ImagesFolderUtils {
 
@@ -13,27 +11,9 @@ object ImagesFolderUtils {
 
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"
-    const val ALBUM = "album"
     const val GENRE = "genre"
-    private const val NEURAL = "_neural"
-
-    fun getOriginalAlbumCover(albumId: Long) : Uri {
-        return ContentUris.withAppendedId(COVER_URI, albumId)
-    }
-
-    fun getNeuralAlbumCover(context: Context, albumId: Long): Uri{
-        val neuralFolder = getImageFolderFor(context, ALBUM + NEURAL)
-        val image = findImage(neuralFolder, albumId.toString())
-        if (image != null){
-            return Uri.fromFile(File(image))
-        }
-        throw FileNotFoundException()
-    }
 
     fun getFolderName(folderName: String): String {
-        if (AppConstants.useNeuralImages){
-            return folderName + NEURAL
-        }
         return folderName
     }
 
@@ -46,33 +26,15 @@ object ImagesFolderUtils {
         return getImageImpl(context, PLAYLIST, playlistId.toString())
     }
 
-    fun forAlbum(context: Context, albumId: Long): String {
-        return getAlbumImageImpl(context, albumId.toString())
+    fun forAlbum(albumId: Long): String {
+        return ContentUris.withAppendedId(COVER_URI, albumId).toString()
     }
 
     fun forGenre(context: Context, genreId: Long): String {
         return getImageImpl(context, GENRE, genreId.toString())
     }
 
-    private fun getAlbumImageImpl(context: Context, albumId: String): String {
-        if (AppConstants.useNeuralImages){
-            val neuralFolder = getImageFolderFor(context, ALBUM + NEURAL)
-            val image = findImage(neuralFolder, albumId)
-            if (image != null){
-                return image
-            }
-        }
-        return getOriginalAlbumCover(albumId.toLong()).toString()
-    }
-
     private fun getImageImpl(context: Context, parent: String, child: String): String {
-        if (AppConstants.useNeuralImages){
-            val neuralFolder = getImageFolderFor(context, parent + NEURAL)
-            val image = findImage(neuralFolder, child)
-            if (image != null){
-                return image
-            }
-        }
         val folder = getImageFolderFor(context, parent)
         return findImage(folder, child) ?: ""
     }

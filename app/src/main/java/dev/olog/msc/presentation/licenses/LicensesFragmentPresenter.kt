@@ -97,18 +97,6 @@ class LicensesFragmentPresenter @Inject constructor() {
             "Anko", "https://github.com/Kotlin/anko",
             Licenses.apacheLong())
 
-    private val TENSOR_FLOW = LicenseModel(
-            R.layout.item_license,
-            MediaId.headerId("tensorflow"),
-            "TensorFlow ", "https://github.com/tensorflow/tensorflow",
-            Licenses.apacheLong())
-
-    private val TARGET_VIEW = LicenseModel(
-            R.layout.item_license,
-            MediaId.headerId("tapTargetView"),
-            "TapTargetView ", "https://github.com/KeepSafe/TapTargetView",
-            Licenses.apache("2016", "Keepsafe Software Inc."))
-
     private val BETTER_PICKERS = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("betterPickers"),
@@ -137,8 +125,6 @@ class LicensesFragmentPresenter @Inject constructor() {
             GLIDE,
             JSOUP,
             ANKO,
-            TENSOR_FLOW,
-            TARGET_VIEW,
             BETTER_PICKERS,
             ANDROID_KTX
     )
