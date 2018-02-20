@@ -19,13 +19,15 @@ class GetRelatedArtistsUseCase @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Artist>> {
-        return getSongListByParamUseCase.execute(mediaId)
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.artist != AppConstants.UNKNOWN }
-                        .distinct { it.artistId }
-                        .map { MediaId.artistId(it.artistId) }
-                        .flatMapSingle { getArtistUseCase.execute(it).firstOrError() }
-                        .toList()
-                }
+        if (!mediaId.isArtist && !mediaId.isAlbum){
+            return getSongListByParamUseCase.execute(mediaId)
+                    .flatMapSingle { it.toFlowable()
+                            .filter { it.artist != AppConstants.UNKNOWN }
+                            .distinct { it.artistId }
+                            .map { MediaId.artistId(it.artistId) }
+                            .flatMapSingle { getArtistUseCase.execute(it).firstOrError() }
+                            .toList()
+                    }.map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
+        } else return Observable.just(emptyList())
     }
 }

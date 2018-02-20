@@ -49,7 +49,7 @@
 
             style="@style/Album.MainText"
             android:text="@{item.title}"
-
+            android:maxLines="1"
             tools:text="@tools:sample/lorem"/>
 
         <TextView
@@ -63,7 +63,7 @@
 
             style="@style/Album.SecondaryText"
             android:text="@{item.subtitle}"
-
+            android:maxLines="1"
             tools:text="@tools:sample/lorem"
             tools:visibility="visible" />
 
