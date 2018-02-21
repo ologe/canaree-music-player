@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:background="?attr/selectableItemBackgroundBorderless">
+        android:background="?attr/selectableItemBackground">
 
         <View
             android:id="@+id/separator"

@@ -33,8 +33,7 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:paddingStart="@dimen/detail_header_margin_start"
-            android:paddingEnd="@dimen/detail_header_margin_end"
-            android:background="#EFEFF4"/>
+            android:paddingEnd="@dimen/detail_header_margin_end" />
 
     </LinearLayout>
 

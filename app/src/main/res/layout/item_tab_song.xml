@@ -15,7 +15,7 @@
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingEnd="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless">
+        android:background="?attr/selectableItemBackground">
 
         <View
             android:id="@+id/separator"
@@ -27,7 +27,7 @@
             style="@style/Divider"
             android:layout_marginStart="12dp" />
 
-        <dev.olog.msc.presentation.widget.ForegroundImageView
+        <ImageView
             android:id="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

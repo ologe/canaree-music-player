@@ -16,16 +16,16 @@
         android:clipChildren="false"
         android:paddingStart="@dimen/detail_margin_horizontal"
         android:paddingEnd="@dimen/detail_margin_horizontal"
-        android:background="#EFEFF4">
+        android:background="?attr/selectableItemBackground">
 
-        <dev.olog.msc.presentation.widget.ForegroundImageView
+        <ImageView
             android:id="@+id/cover"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            tools:src="@android:color/holo_red_dark"
+            tools:src="@drawable/placeholder_folder"
             app:imageAlbum="@{item}"
             android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
             android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
