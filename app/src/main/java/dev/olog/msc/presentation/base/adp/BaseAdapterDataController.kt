@@ -11,6 +11,11 @@ import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
+/**
+ * Adapter controller that can handle [LinkedHashMap] and [List] of type [Model].
+ * For map LinkedHashMap is required to preserve original order.
+ * @throws RuntimeException if passed data is not [List] nor [LinkedHashMap]
+ */
 class BaseAdapterDataController<Model : BaseModel>
     : AdapterDataController<Model> {
 
@@ -38,7 +43,10 @@ class BaseAdapterDataController<Model : BaseModel>
                 .map { it.toList() }
                 .distinctUntilChanged()
                 .map { calculateDiff(it, extendAreItemTheSame) }
-                .doOnNext { updateData(it.data) }
+                .map {
+                    updateData(it.data)
+                    it
+                }
                 .map { AdapterControllerResult(this.data.isEmpty(), it.diffUtil) }
                 .observeOn(AndroidSchedulers.mainThread())
     }
@@ -55,7 +63,7 @@ class BaseAdapterDataController<Model : BaseModel>
         }
     }
 
-    private fun updateData(newData: List<Model>){
+    private fun updateData(newData: List<Model>) {
         this.data.clear()
         this.data.addAll(newData)
     }
