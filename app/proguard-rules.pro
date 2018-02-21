@@ -20,8 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-#-dontwarn
-#-ignorewarnings
+# move classes to root package
+-repackageclasses
 
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**
@@ -34,12 +34,6 @@
 -keepclassmembernames class kotlinx.** {
     volatile <fields>;
 }
-
--keepclasseswithmembernames class * {
-    native <methods>;
-}
-
--keep class org.tensorflow.** { *; }
 
 -keep class com.android.vending.billing.**
 
@@ -62,7 +56,6 @@
 -keepattributes Exceptions
 
 # for okhttp
-
 -dontwarn okhttp3.**
 -dontwarn okio.**
 -dontwarn javax.annotation.**

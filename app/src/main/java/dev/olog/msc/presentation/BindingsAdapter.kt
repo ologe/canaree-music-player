@@ -24,11 +24,13 @@ object BindingsAdapter {
 
     private fun loadImageImpl(
             view: ImageView,
-            item: DisplayableItem,
+            item: DisplayableItem?,
             override: Int,
             priority: Priority = Priority.HIGH,
             asPlaceholder: Boolean = false,
             rounded: Boolean = false){
+
+        item ?: return
 
         val mediaId = item.mediaId
 
@@ -79,9 +81,12 @@ object BindingsAdapter {
         loadImageImpl(view, item, OVERRIDE_SMALL, asPlaceholder = true, rounded = rounded)
     }
 
+    /*
+     *  todo displyable is temporaly nullable because of a bug with item detail info, remove asap
+     */
     @BindingAdapter("imageAlbum", "rounded", requireAll = false)
     @JvmStatic
-    fun loadAlbumImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
+    fun loadAlbumImage(view: ImageView, item: DisplayableItem?, rounded: Boolean = false) {
         loadImageImpl(view, item, OVERRIDE_MID, Priority.HIGH, rounded = rounded)
     }
 
