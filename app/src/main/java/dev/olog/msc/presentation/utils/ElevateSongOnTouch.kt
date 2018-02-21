@@ -10,12 +10,12 @@ class ElevateSongOnTouch(
 
 ) : ElevateOnTouch() {
 
-    override fun elevate(context: Context) {
+    override fun animate(context: Context) {
         setAnimationAndPlay(view, R.animator.raise_low_and_scale)
         setAnimationAndPlay(image, R.animator.raise_high_and_scale)
     }
 
-    override fun restoreInitialPosition(context: Context) {
+    override fun restore(context: Context) {
         setAnimationAndPlay(view, R.animator.restore)
         setAnimationAndPlay(image, R.animator.restore)
     }

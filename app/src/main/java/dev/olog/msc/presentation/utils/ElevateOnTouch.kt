@@ -8,12 +8,11 @@ import android.view.View
 
 abstract class ElevateOnTouch : View.OnTouchListener {
 
-
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> elevate(view.context)
+            MotionEvent.ACTION_DOWN -> animate(view.context)
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                restoreInitialPosition(view.context)
+                restore(view.context)
             }
         }
         return false
@@ -29,7 +28,7 @@ abstract class ElevateOnTouch : View.OnTouchListener {
         animator.start()
     }
 
-    protected abstract fun elevate(context: Context)
-    protected abstract fun restoreInitialPosition(context: Context)
+    protected abstract fun animate(context: Context)
+    protected abstract fun restore(context: Context)
 
 }

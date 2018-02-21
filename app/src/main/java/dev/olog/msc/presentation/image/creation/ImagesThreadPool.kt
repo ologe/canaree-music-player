@@ -8,7 +8,8 @@ import javax.inject.Singleton
 @Singleton
 class ImagesThreadPool @Inject constructor() {
 
-    private val threadCount = Runtime.getRuntime().availableProcessors()
-    private val threadPoolExecutor = Executors.newFixedThreadPool(threadCount)
+    private val threadPoolExecutor = Executors.newFixedThreadPool(2)
+    private val singleThreadExecutor = Executors.newSingleThreadExecutor()
     val scheduler = Schedulers.from(threadPoolExecutor)
+    val ioScheduler = Schedulers.from(singleThreadExecutor)
 }

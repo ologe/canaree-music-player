@@ -42,4 +42,6 @@
     <color name="hover_content_menu_title_color">#AAAAAA</color>
     <color name="hover_content_menu_item_title_color">#666666</color>
 
+    <color name="mid_grey">#40606060</color>
+
 </resources>

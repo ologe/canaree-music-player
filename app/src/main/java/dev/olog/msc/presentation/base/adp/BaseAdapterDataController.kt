@@ -43,12 +43,9 @@ class BaseAdapterDataController<Model : BaseModel>
                 .map { it.toList() }
                 .distinctUntilChanged()
                 .map { calculateDiff(it, extendAreItemTheSame) }
-                .map {
-                    updateData(it.data)
-                    it
-                }
-                .map { AdapterControllerResult(this.data.isEmpty(), it.diffUtil) }
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { updateData(it.data) }
+                .map { AdapterControllerResult(this.data.isEmpty(), it.diffUtil) }
     }
 
     private fun calculateDiff(
@@ -93,4 +90,5 @@ class BaseAdapterDataController<Model : BaseModel>
     }
 
     override fun getAll(): List<Model> = data.toList()
+
 }

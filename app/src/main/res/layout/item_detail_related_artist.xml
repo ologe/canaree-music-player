@@ -16,7 +16,7 @@
         android:layout_margin="5dp"
         tools:background="@color/background">
 
-        <dev.olog.msc.presentation.widget.CircularImageView
+        <dev.olog.msc.presentation.widget.image.view.CircularImageView
             android:id="@+id/coverLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"

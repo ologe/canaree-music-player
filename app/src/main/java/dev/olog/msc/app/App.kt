@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.Context
 import android.preference.PreferenceManager
+import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -19,37 +20,35 @@ import javax.inject.Inject
 
 class App : DaggerApplication() {
 
-    @Inject lateinit var strictMode: StrictMode
-    @Suppress("unused")
-    @Inject lateinit var appShortcuts: AppShortcuts
-
-    @Inject lateinit var imagesCreator: ImagesCreator
+    @Suppress("unused") @Inject lateinit var appShortcuts: AppShortcuts
+    @Suppress("unused") @Inject lateinit var imagesCreator: ImagesCreator
 
     override fun onCreate() {
         super.onCreate()
-        strictMode.initialize()
 
-        if (BuildConfig.DEBUG) {
-            LeakCanary.install(this)
-//            initRxJavaDebug()
-        }
-
+        initializeDebug()
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
+        initializeConstants()
+        resetSleepTimer()
+    }
 
+    private fun initializeDebug(){
+        if (BuildConfig.DEBUG){
+            LeakCanary.install(this)
+            StrictMode.initialize()
+            RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("dev.olog.msc"))
+        }
+    }
+
+    private fun initializeConstants(){
         AppConstants.initialize(this)
         CoverUtils.initialize()
-
-        resetSleepTimer()
     }
 
     private fun resetSleepTimer(){
         SleepTimerDialog.resetTimer(this)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(PendingIntents.stopServiceIntent(this))
-    }
-
-    private fun initRxJavaDebug(){
-//        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("dev.olog.msc"))
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {

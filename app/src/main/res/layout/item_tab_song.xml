@@ -40,7 +40,7 @@
             android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
             android:layout_marginBottom="@dimen/item_song_cover_margin_vertical">
 
-            <ImageView
+            <dev.olog.msc.presentation.widget.ForegroundImageView
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

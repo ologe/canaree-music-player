@@ -16,7 +16,6 @@ import dev.olog.msc.domain.interactor.tab.GetAllPlaylistsUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -66,41 +65,41 @@ class ImagesCreator @Inject constructor(
     fun createImages() {
         subscriptions.clear()
 
-        getAllFoldersUseCase.execute()
-                .doOnNext {
-                    folderDisposable.unsubscribe()
-                    folderDisposable = folderImagesCreator.execute()
-                            .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
-                .addTo(subscriptions)
-
-        getAllPlaylistsUseCase.execute()
-                .doOnNext {
-                    playlistDisposable.unsubscribe()
-                    playlistDisposable = playlistImagesCreator.execute(it)
-                            .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
-                .addTo(subscriptions)
-
-        getAllArtistsUseCase.execute()
-                .doOnNext {
-                    artistDisposable.unsubscribe()
-                    artistDisposable = artistImagesCreator.execute(it)
-                            .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
-                .addTo(subscriptions)
-
-        getAllGenresUseCase.execute()
-                .doOnNext {
-                    genreDisposable.unsubscribe()
-                    genreDisposable = genreImagesCreator.execute(it)
-                            .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
-                .addTo(subscriptions)
+//        getAllFoldersUseCase.execute()
+//                .doOnNext {
+//                    folderDisposable.unsubscribe()
+//                    folderDisposable = folderImagesCreator.execute()
+//                            .subscribe({}, Throwable::printStackTrace)
+//                }
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
+//
+//        getAllPlaylistsUseCase.execute()
+//                .doOnNext {
+//                    playlistDisposable.unsubscribe()
+//                    playlistDisposable = playlistImagesCreator.execute(it)
+//                            .subscribe({}, Throwable::printStackTrace)
+//                }
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
+//
+//        getAllArtistsUseCase.execute()
+//                .doOnNext {
+//                    artistDisposable.unsubscribe()
+//                    artistDisposable = artistImagesCreator.execute(it)
+//                            .subscribe({}, Throwable::printStackTrace)
+//                }
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
+//
+//        getAllGenresUseCase.execute()
+//                .doOnNext {
+//                    genreDisposable.unsubscribe()
+//                    genreDisposable = genreImagesCreator.execute(it)
+//                            .subscribe({}, Throwable::printStackTrace)
+//                }
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
     }
 
 }

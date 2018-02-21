@@ -8,9 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
+import dev.olog.msc.presentation.utils.glide.RoundedCornersTransformation
+import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
@@ -22,44 +25,48 @@ object BindingsAdapter {
     const val OVERRIDE_MID = 300
     const val OVERRIDE_BIG = 600
 
+    @JvmStatic
+    private val roundedCorner = RoundedCornersTransformation(3)
+
+    @JvmStatic
     private fun loadImageImpl(
             view: ImageView,
             item: DisplayableItem?,
             override: Int,
             priority: Priority = Priority.HIGH,
-            asPlaceholder: Boolean = false,
             rounded: Boolean = false){
 
         item ?: return
 
         val mediaId = item.mediaId
-
         val context = view.context
 
         GlideApp.with(context).clear(view)
 
         val source = mediaId.source
         val id = resolveId(mediaId)
+        val image = resolveUri(item.image)
 
         var request = GlideApp.with(context)
-                .load(resolveUri(item.image))
+                .load(image)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
                 .priority(priority)
-                .thumbnail(.3f)
+                .placeholder(CoverUtils.getGradient(context, id, source))
 
         if (rounded){
             request = request.circleCrop()
-        }
-
-        if (asPlaceholder){
-            request = request.placeholder(CoverUtils.getGradient(context, position = id))
         } else {
-            request = request.error(CoverUtils.getGradient(context, position = id, source = source))
+//            request = request.transform(roundedCorner)
         }
 
-        request.into(view)
+        if (mediaId.isLeaf){
+            request.into(view)
+        } else {
+            request.transition(DrawableTransitionOptions.withCrossFade())
+                    .into(RippleTarget(view, !rounded))
+        }
     }
 
     @BindingAdapter("albumsArtistImage")
@@ -72,17 +79,18 @@ object BindingsAdapter {
                 .circleCrop()
                 .override(50)
                 .skipMemoryCache(true)
+                .placeholder(CoverUtils.getGradient(view.context, 0))
                 .into(view)
     }
 
     @BindingAdapter("imageSong", "rounded", requireAll = false)
     @JvmStatic
     fun loadSongImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
-        loadImageImpl(view, item, OVERRIDE_SMALL, asPlaceholder = true, rounded = rounded)
+        loadImageImpl(view, item, OVERRIDE_SMALL, rounded = rounded)
     }
 
     /*
-     *  todo displyable is temporaly nullable because of a bug with item detail info, remove asap
+     *  todo displayable is temporaly nullable because of a bug with item detail info, remove asap
      */
     @BindingAdapter("imageAlbum", "rounded", requireAll = false)
     @JvmStatic
@@ -119,6 +127,7 @@ object BindingsAdapter {
         view.setTypeface(null, style)
     }
 
+    @JvmStatic
     private fun resolveUri(imageAsString: String): Uri {
         val file = File(imageAsString)
         return if (file.exists()){
@@ -128,6 +137,7 @@ object BindingsAdapter {
         }
     }
 
+    @JvmStatic
     private fun resolveId(mediaId: MediaId): Int {
         if (mediaId.isLeaf){
             return mediaId.leaf!!.toInt()

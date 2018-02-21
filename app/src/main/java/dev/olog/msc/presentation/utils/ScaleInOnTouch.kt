@@ -4,13 +4,13 @@ import android.content.Context
 import android.view.View
 import dev.olog.msc.R
 
-class ElevateAlbumOnTouch (
+class ScaleInOnTouch (
         private val view: View
 
 ) : ElevateOnTouch() {
 
     override fun animate(context: Context) {
-        setAnimationAndPlay(view, R.animator.raise_high_and_scale)
+        setAnimationAndPlay(view, R.animator.scale_in)
     }
 
     override fun restore(context: Context) {

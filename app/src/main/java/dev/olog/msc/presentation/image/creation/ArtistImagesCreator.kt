@@ -21,11 +21,9 @@ class ArtistImagesCreator @Inject constructor(
 ) {
 
     fun execute(artists: List<Artist>) : Single<*> {
-        return Flowables.zip(
-                sample(artists.size),
-                Flowable.fromIterable(artists),
-                { _, artist -> artist } )
-                .observeOn(imagesThreadPool.scheduler)
+        return Flowables.zip(sample(artists.size), Flowable.fromIterable(artists),
+                    { _, artist -> artist } )
+                .observeOn(imagesThreadPool.ioScheduler)
                 .flatMapSingle { lastFmService.fetchArtistArt(it.id, it.name) }
                 .buffer(10)
                 .map { it.reduce { acc, curr -> acc || curr } }
@@ -36,7 +34,7 @@ class ArtistImagesCreator @Inject constructor(
     }
 
     private fun sample(times: Int): Flowable<*>{
-        return Flowable.interval(250, TimeUnit.MILLISECONDS, imagesThreadPool.scheduler)
+        return Flowable.interval(250, TimeUnit.MILLISECONDS, imagesThreadPool.ioScheduler)
                 .take(times.toLong())
     }
 

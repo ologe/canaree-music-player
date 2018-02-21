@@ -24,9 +24,8 @@ fun <T> Flowable<T>.asLiveData() : LiveData<T> {
 fun <T> Observable<T>.asLiveData(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
         : LiveData<T> {
 
-    return LiveDataReactiveStreams.fromPublisher(
-            this.toFlowable(backpressureStrategy)
-    )
+    return LiveDataReactiveStreams.fromPublisher(this.toFlowable(backpressureStrategy))
+
 }
 
 fun <T, R> Flowable<List<T>>.mapToList(mapper: (T) -> R): Flowable<List<R>> {

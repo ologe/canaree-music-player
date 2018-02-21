@@ -23,6 +23,7 @@ class TabFragmentViewModel constructor(
     fun observeData(category: MediaIdCategory): LiveData<List<DisplayableItem>> {
         var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
         if (liveData == null) {
+
             liveData = data[category]!!.asLiveData()
             liveDataList[category] = liveData
         }
