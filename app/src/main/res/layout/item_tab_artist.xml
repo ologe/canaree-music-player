@@ -18,7 +18,7 @@
         tools:background="@color/background">
 
         <dev.olog.msc.presentation.widget.image.view.CircularImageView
-            android:id="@+id/coverLayout"
+            android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,8 +34,8 @@
             style="@style/QuickActionStyle"
             android:layout_width="@dimen/smallShuffleSize"
             android:layout_height="@dimen/smallShuffleSize"
-            app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
-            app:layout_constraintEnd_toEndOf="@+id/coverLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="@+id/cover"
             app:quickActionItem="@{item}"
             tools:src="@drawable/background_quick_action" />
 
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 

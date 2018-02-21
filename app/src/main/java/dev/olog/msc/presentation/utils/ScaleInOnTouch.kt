@@ -7,7 +7,7 @@ import dev.olog.msc.R
 class ScaleInOnTouch (
         private val view: View
 
-) : ElevateOnTouch() {
+) : AnimateOnTouch() {
 
     override fun animate(context: Context) {
         setAnimationAndPlay(view, R.animator.scale_in)

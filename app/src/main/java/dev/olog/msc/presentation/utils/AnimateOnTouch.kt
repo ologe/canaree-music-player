@@ -6,7 +6,7 @@ import android.support.annotation.AnimatorRes
 import android.view.MotionEvent
 import android.view.View
 
-abstract class ElevateOnTouch : View.OnTouchListener {
+abstract class AnimateOnTouch : View.OnTouchListener {
 
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         when (event.action) {

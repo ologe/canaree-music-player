@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#EFEFF4">
 
-    <ImageView
+    <dev.olog.msc.presentation.widget.ForegroundImageView
         android:id="@+id/cover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
