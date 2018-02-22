@@ -15,13 +15,14 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
 class DetailFragmentViewModel(
         private val mediaId: MediaId,
-        item: Map<MediaIdCategory, @JvmSuppressWildcards Observable<DisplayableItem>>,
+        item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
@@ -49,7 +50,7 @@ class DetailFragmentViewModel(
 
     private val currentCategory = mediaId.category
 
-    val itemLiveData: LiveData<DisplayableItem> = item[currentCategory]!!.asLiveData()
+    val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!.asLiveData()
 
     fun artistMediaId(mediaId: MediaId) : Maybe<MediaId> {
         if (mediaId.isAlbum){
@@ -73,17 +74,17 @@ class DetailFragmentViewModel(
             .asLiveData()
 
     val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
-            item[currentCategory]!!.distinctUntilChanged(),
-            data[MOST_PLAYED]!!.distinctUntilChanged(),
-            data[RECENTLY_ADDED]!!.distinctUntilChanged(),
-            albums[currentCategory]!!.distinctUntilChanged(),
-            data[RELATED_ARTISTS]!!.distinctUntilChanged(),
-            data[SONGS]!!.distinctUntilChanged(),
+            item[currentCategory]!!.toObservable(),
+            data[MOST_PLAYED]!!,
+            data[RECENTLY_ADDED]!!,
+            albums[currentCategory]!!,
+            data[RELATED_ARTISTS]!!,
+            data[SONGS]!!,
             getVisibleTabsUseCase.execute(),
             { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
                 mutableMapOf(
-                        DetailFragmentDataType.HEADER to handleItemHeader(item),
+                        DetailFragmentDataType.HEADER to item.toMutableList(),
                         DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                         DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                         DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
@@ -91,10 +92,6 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
                 ) }
     ).asLiveData()
-
-    private fun handleItemHeader(item: DisplayableItem): MutableList<DisplayableItem>{
-        return mutableListOf(item)
-    }
 
     private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){
@@ -122,11 +119,11 @@ class DetailFragmentViewModel(
         return list
     }
 
-    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: DisplayableItem) : MutableList<DisplayableItem>{
+    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: List<DisplayableItem>) : MutableList<DisplayableItem>{
         val albumsList = list.toMutableList()
         if (albumsList.isNotEmpty()){
             val artist = when {
-                mediaId.isAlbum -> item.subtitle
+                mediaId.isAlbum -> item[1].subtitle
                 else -> null
             }
             albumsList.add(0, headers.albums(artist))

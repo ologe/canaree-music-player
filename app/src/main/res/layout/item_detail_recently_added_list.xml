@@ -9,7 +9,6 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingStart="@dimen/detail_horizontal_list_margin_start"
-        android:paddingEnd="@dimen/detail_horizontal_list_margin_end"
-        android:background="@color/background"/>
+        android:paddingEnd="@dimen/detail_horizontal_list_margin_end" />
 
 </layout>

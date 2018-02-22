@@ -17,6 +17,11 @@ fun Disposable?.unsubscribe(){
     }
 }
 
+fun <T> Observable<T>.asFlowable(backpressureStrategy: BackpressureStrategy = BackpressureStrategy.LATEST)
+        : Flowable<T> {
+    return this.toFlowable(backpressureStrategy)
+}
+
 fun <T> Flowable<T>.asLiveData() : LiveData<T> {
     return LiveDataReactiveStreams.fromPublisher(this)
 }

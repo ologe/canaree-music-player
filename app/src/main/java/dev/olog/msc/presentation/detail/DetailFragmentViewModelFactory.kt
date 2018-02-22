@@ -11,12 +11,13 @@ import dev.olog.msc.domain.interactor.detail.sorting.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class DetailFragmentViewModelFactory @Inject constructor(
         private val mediaId: MediaId,
-        private val item: Map<MediaIdCategory, @JvmSuppressWildcards Observable<DisplayableItem>>,
+        private val item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         private val albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         private val data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,

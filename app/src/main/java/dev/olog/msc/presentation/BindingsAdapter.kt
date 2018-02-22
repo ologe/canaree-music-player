@@ -71,11 +71,11 @@ object BindingsAdapter {
 
     @BindingAdapter("albumsArtistImage")
     @JvmStatic
-    fun loadAlbumsArtistImage(view: ImageView, image: String){
+    fun loadAlbumsArtistImage(view: ImageView, item: DisplayableItem){
         GlideApp.with(view.context).clear(view)
 
         GlideApp.with(view.context)
-                .load(Uri.parse(image))
+                .load(item.image)
                 .circleCrop()
                 .override(50)
                 .skipMemoryCache(true)
@@ -138,7 +138,7 @@ object BindingsAdapter {
     }
 
     @JvmStatic
-    private fun resolveId(mediaId: MediaId): Int {
+    fun resolveId(mediaId: MediaId): Int {
         if (mediaId.isLeaf){
             return mediaId.leaf!!.toInt()
         }

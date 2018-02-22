@@ -8,18 +8,20 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import androidx.view.doOnPreDraw
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
-import dev.olog.msc.presentation.detail.scroll.listener.ParallaxScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.LazyThreadSafetyMode.NONE
@@ -54,9 +56,6 @@ class DetailFragment : BaseFragment() {
         adjustStatusBarColor(new)
     })
 
-    private val parallaxOnScrollListener: ParallaxScrollListener
-            by lazy(NONE) { ParallaxScrollListener(this) }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -78,8 +77,16 @@ class DetailFragment : BaseFragment() {
         })
 
         viewModel.itemLiveData.subscribe(this, { item ->
-            headerText.text = item.title
-            BindingsAdapter.loadBigAlbumImage(cover, item)
+            headerText.text = item[1].title
+            if (!isPortrait()){
+                BindingsAdapter.loadBigAlbumImage(cover, item[0])
+            } else {
+                if (cover.isVisible()){
+                    val id = BindingsAdapter.resolveId(item[0].mediaId)
+                    val drawable = CoverUtils.getGradient(context!!, id, item[0].mediaId.source)
+                    cover.setImageDrawable(drawable)
+                }
+            }
         })
     }
 
@@ -97,11 +104,13 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        if (activity!!.isPortrait){
-            view.doOnPreDraw {
-                val v = view.cover
-                view.list.setTopPadding(v.bottom)
-            }
+        adapter.afterDataChanged = {
+            adapter.afterDataChanged = null
+            Single.timer(200, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        cover.setGone()
+                    }, Throwable::printStackTrace)
         }
     }
 
@@ -109,7 +118,6 @@ class DetailFragment : BaseFragment() {
         super.onResume()
         if (context!!.isPortrait){
             list.addOnScrollListener(recyclerOnScrollListener)
-            list.addOnScrollListener(parallaxOnScrollListener)
             list.addItemDecoration(detailListMargin)
         }
         back.setOnClickListener { activity!!.onBackPressed() }
@@ -120,7 +128,6 @@ class DetailFragment : BaseFragment() {
         super.onPause()
         if (context!!.isPortrait){
             list.removeOnScrollListener(recyclerOnScrollListener)
-            list.removeOnScrollListener(parallaxOnScrollListener)
             list.removeItemDecoration(detailListMargin)
         }
         back.setOnClickListener(null)

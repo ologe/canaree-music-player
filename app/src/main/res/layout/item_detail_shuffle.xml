@@ -7,8 +7,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/detail_margin_horizontal"
         android:paddingEnd="@dimen/detail_margin_horizontal"
-        android:paddingBottom="8dp"
-        android:background="@color/background">
+        android:paddingBottom="8dp">
 
         <View
             android:id="@+id/separator"

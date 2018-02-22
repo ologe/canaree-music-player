@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="RtlSymmetry"
-        android:background="@color/background"
         android:paddingBottom="12dp">
 
         <TextView
@@ -41,7 +40,7 @@
             android:layout_height="30dp"
             tools:src="@drawable/placeholder_artist"
             android:layout_marginTop="4dp"
-            app:albumsArtistImage="@{item.trackNumber}"
+            app:albumsArtistImage="@{item}"
             app:rounded="@{item.mediaId.isAlbum}"
             android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"
             tools:visibility="visible"/>

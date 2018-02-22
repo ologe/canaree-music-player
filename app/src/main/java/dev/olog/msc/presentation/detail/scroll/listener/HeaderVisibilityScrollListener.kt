@@ -21,15 +21,13 @@ class HeaderVisibilityScrollListener(
 
         val view = fragment.view!!
 
-
-        if (holder.itemViewType == R.layout.item_detail_item_info) {
+        if (holder.itemViewType == R.layout.item_detail_item_image) {
             val bottom = child.bottom
             val needDarkLayout = bottom - toolbarHeight * 2 < 0
 
             view.statusBar.toggleVisibility(needDarkLayout)
             view.toolbar.toggleVisibility(needDarkLayout)
             view.headerText.toggleVisibility(needDarkLayout)
-            view.fade?.toggleVisibility(!needDarkLayout)
 
             fragment.hasLightStatusBarColor = needDarkLayout
 
@@ -37,7 +35,7 @@ class HeaderVisibilityScrollListener(
             view.statusBar.toggleVisibility(true)
             view.toolbar.toggleVisibility(true)
             view.headerText.toggleVisibility(true)
-            view.fade?.toggleVisibility(false)
+
             fragment.hasLightStatusBarColor = true
         }
     }

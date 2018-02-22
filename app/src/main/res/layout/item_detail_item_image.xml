@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="RtlSymmetry">
+
+        <dev.olog.msc.presentation.widget.parallax.ParallaxView
+            android:id="@+id/cover"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1.2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            tools:src="@drawable/vd_album"
+            tools:scaleType="center"
+            tools:background="@color/accent"
+            android:clickable="true"
+            android:focusable="true"
+            app:imageBigAlbum="@{item}"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
+
+        <View
+            android:id="@+id/fade"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:background="@drawable/vd_fade"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

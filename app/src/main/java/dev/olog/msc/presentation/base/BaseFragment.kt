@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.android.support.DaggerFragment
+import dev.olog.msc.utils.k.extension.isPortrait
 
 abstract class BaseFragment : DaggerFragment() {
 
@@ -25,6 +26,10 @@ abstract class BaseFragment : DaggerFragment() {
 
     fun getSlidingPanel(): SlidingUpPanelLayout? {
         return (activity as HasSlidingPanel).getSlidingPanel()
+    }
+
+    protected fun isPortrait() : Boolean {
+        return context != null && context!!.isPortrait
     }
 
 }

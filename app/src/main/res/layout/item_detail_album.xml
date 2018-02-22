@@ -16,9 +16,7 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:paddingStart="@dimen/detail_album_margin_horizontal"
-        android:paddingEnd="@dimen/detail_album_margin_horizontal"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+        android:paddingEnd="@dimen/detail_album_margin_horizontal">
 
         <dev.olog.msc.presentation.widget.ForegroundImageView
             android:id="@+id/cover"

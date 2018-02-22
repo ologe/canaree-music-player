@@ -12,7 +12,8 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
-import io.reactivex.Observable
+import dev.olog.msc.utils.k.extension.asFlowable
+import io.reactivex.Flowable
 
 @Module
 class DetailFragmentModuleItem {
@@ -23,9 +24,10 @@ class DetailFragmentModuleItem {
     internal fun provideFolderItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetFolderUseCase) : Observable<DisplayableItem> {
+            useCase: GetFolderUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+                .asFlowable()
     }
 
     @Provides
@@ -34,9 +36,10 @@ class DetailFragmentModuleItem {
     internal fun providePlaylistItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetPlaylistUseCase) : Observable<DisplayableItem> {
+            useCase: GetPlaylistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+                .asFlowable()
     }
 
     @Provides
@@ -45,13 +48,13 @@ class DetailFragmentModuleItem {
     internal fun provideAlbumItem(
             mediaId: MediaId,
             useCase: GetAlbumUseCase,
-            artistUseCase: GetArtistUseCase) : Observable<DisplayableItem> {
+            artistUseCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .flatMap {album ->
                     artistUseCase.execute(MediaId.artistId(album.artistId))
                             .map { album.toHeaderItem(it.image) }
-                }
+                }.asFlowable()
     }
 
     @Provides
@@ -60,9 +63,10 @@ class DetailFragmentModuleItem {
     internal fun provideArtistItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetArtistUseCase) : Observable<DisplayableItem> {
+            useCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+                .asFlowable()
     }
 
     @Provides
@@ -71,69 +75,109 @@ class DetailFragmentModuleItem {
     internal fun provideGenreItem(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetGenreUseCase) : Observable<DisplayableItem> {
+            useCase: GetGenreUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+                .asFlowable()
     }
 }
 
 
-private fun Folder.toHeaderItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-            R.layout.item_detail_item_info,
-            MediaId.folderId(path),
-            title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
-            image
+private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
+
+    return listOf(
+            DisplayableItem(
+                    R.layout.item_detail_item_image,
+                    MediaId.folderId(path),
+                    "",
+                    image = image
+            ),
+            DisplayableItem(
+                    R.layout.item_detail_item_info,
+                    MediaId.headerId("item info"),
+                    title.capitalize(),
+                    resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            )
     )
 }
 
-private fun Playlist.toHeaderItem(resources: Resources): DisplayableItem {
+private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     val listSize = if (this.size == -1){ "" } else {
         resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
     }
 
-    return DisplayableItem(
-            R.layout.item_detail_item_info,
-            MediaId.playlistId(this.id),
-            title.capitalize(),
-            listSize,
-            image
+    return listOf(
+            DisplayableItem(
+                    R.layout.item_detail_item_image,
+                    MediaId.playlistId(this.id),
+                    "",
+                    image = image
+            ),
+            DisplayableItem(
+                    R.layout.item_detail_item_info,
+                    MediaId.headerId("item info"),
+                    title.capitalize(),
+                    listSize
+            )
+    )
+
+}
+
+private fun Album.toHeaderItem(artistImage: String): List<DisplayableItem> {
+
+    return listOf(
+            DisplayableItem(
+                    R.layout.item_detail_item_image,
+                    MediaId.albumId(this.id),
+                    "",
+                    image = image
+            ),
+            DisplayableItem(
+                    R.layout.item_detail_item_info,
+                    MediaId.headerId("item info"),
+                    title,
+                    artist,
+                    artistImage
+            )
     )
 }
 
-private fun Album.toHeaderItem(artistImage: String): DisplayableItem {
-    return DisplayableItem(
-            R.layout.item_detail_item_info,
-            MediaId.albumId(this.id),
-            title,
-            artist,
-            image,
-            trackNumber = artistImage
-    )
-}
-
-private fun Artist.toHeaderItem(resources: Resources): DisplayableItem {
+private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
         "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
-    return DisplayableItem(
-            R.layout.item_detail_item_info,
-            MediaId.artistId(this.id),
-            name,
-            "$albums$songs".toLowerCase(),
-            image
+    return listOf(
+            DisplayableItem(
+                    R.layout.item_detail_item_image,
+                    MediaId.artistId(this.id),
+                    "",
+                    image = image
+            ),
+            DisplayableItem(
+                    R.layout.item_detail_item_info,
+                    MediaId.headerId("item info"),
+                    name,
+                    "$albums$songs".toLowerCase()
+            )
     )
 }
 
-private fun Genre.toHeaderItem(resources: Resources): DisplayableItem {
-    return DisplayableItem(
-            R.layout.item_detail_item_info,
-            MediaId.genreId(this.id),
-            name,
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
-            image
+private fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
+
+    return listOf(
+            DisplayableItem(
+                    R.layout.item_detail_item_image,
+                    MediaId.genreId(this.id),
+                    "",
+                    image = image
+            ),
+            DisplayableItem(
+                    R.layout.item_detail_item_info,
+                    MediaId.headerId("item info"),
+                    name,
+                    resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+            )
     )
 }
