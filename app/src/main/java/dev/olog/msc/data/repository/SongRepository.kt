@@ -78,7 +78,6 @@ class SongRepository @Inject constructor(
 //                    }
 //                }
                 .onErrorReturn { listOf() }
-                .doOnNext { println("next request song") }
     }
 
     private val cachedData = queryAllData()

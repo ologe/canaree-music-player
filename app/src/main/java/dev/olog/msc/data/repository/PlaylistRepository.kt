@@ -88,6 +88,7 @@ class PlaylistRepository @Inject constructor(
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
+            .doOnNext { println("dio cane") }
 
     override fun getAll(): Observable<List<Playlist>> {
         return cachedData
@@ -96,7 +97,6 @@ class PlaylistRepository @Inject constructor(
     override fun getAllNewRequest(): Observable<List<Playlist>> {
         return queryAllData()
     }
-
 
     override fun getByParam(param: Long): Observable<Playlist> {
         val result = if (PlaylistConstants.isAutoPlaylist(param)){

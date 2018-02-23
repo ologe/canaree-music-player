@@ -31,7 +31,6 @@ class FolderRepository @Inject constructor(
     private fun queryAllData(): Observable<List<Folder>> {
         return songGateway.getAll()
                 .map(this::mapToFolderList)
-                .doOnNext { println("next request folder") }
     }
 
     private val cachedData = queryAllData()
