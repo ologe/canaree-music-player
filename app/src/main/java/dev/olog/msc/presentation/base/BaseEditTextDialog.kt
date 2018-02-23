@@ -13,13 +13,13 @@ import android.view.animation.AnimationUtils
 import dev.olog.msc.R
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.utils.k.extension.makeDialog
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import org.jetbrains.anko.toast
 import java.util.concurrent.TimeUnit
 
 abstract class BaseEditTextDialog : BaseDialogFragment() {

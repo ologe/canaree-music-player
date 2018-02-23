@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.library.tab
 import android.support.design.widget.AppBarLayout
 import android.widget.FrameLayout
 import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.dimen
 import kotlinx.android.synthetic.main.fragment_tab.view.*
-import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
 class TabOnAppBarScrollListener @Inject constructor(

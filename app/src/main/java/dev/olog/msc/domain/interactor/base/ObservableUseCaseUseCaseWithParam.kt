@@ -13,7 +13,7 @@ abstract class ObservableUseCaseUseCaseWithParam<T, in Param>(
         return Observable.defer { this.buildUseCaseObservable(param)
                 .subscribeOn(schedulers.worker)
                 .observeOn(schedulers.ui) }
-                .doOnError { it.printStackTrace() }
+//                .doOnError { it.printStackTrace() }
     }
 
 }

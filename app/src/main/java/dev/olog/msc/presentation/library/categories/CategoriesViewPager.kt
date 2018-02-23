@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.SparseArray
-import collections.forEach
+import androidx.util.forEach
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ChildFragmentManager

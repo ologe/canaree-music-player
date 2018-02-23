@@ -3,9 +3,9 @@ package dev.olog.msc.presentation.detail.scroll.listener
 import android.support.v7.widget.RecyclerView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import org.jetbrains.anko.dimen
 
 class HeaderVisibilityScrollListener(
         private val fragment: DetailFragment

@@ -4,4 +4,9 @@
     <dimen name="tab_fast_scroller_margin_bottom">96dp</dimen>
     <dimen name="tab_fast_scroller_margin_top">32dp</dimen>
 
+    <dimen name="tab_margin_top">8dp</dimen>
+    <dimen name="tab_margin_bottom">40dp</dimen>
+    <dimen name="tab_margin_start">8dp</dimen>
+    <dimen name="tab_margin_end">32dp</dimen>
+
 </resources>

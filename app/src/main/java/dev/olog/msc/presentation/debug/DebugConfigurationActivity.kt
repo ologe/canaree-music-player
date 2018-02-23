@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.debug
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.configuration
 import kotlinx.android.synthetic.main.activity_debug_configuration.*
-import org.jetbrains.anko.configuration
 
 class DebugConfigurationActivity: AppCompatActivity() {
 

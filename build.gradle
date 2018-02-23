@@ -62,8 +62,7 @@ ext {
     jsoup = '1.10.3'
     sliding_panel = '3.4.0'
     lottie = '2.5.0-rc1'
-    sql_brite = '3.1.0'
-//    hover = '0.9.8'
+    sql_brite = '3.1.1'
     better_pickers = '3.1.0'
     billing = '1.0'
     android_ktx = '0.1'
@@ -79,8 +78,6 @@ ext {
     rx_preferences = '2.0.0-RC3'
     rx_kotlin = '2.2.0'
     rx_permission = '0.9.4@aar'
-
-    anko_version = '0.10.4'
 
     // dependency injection
     dagger = '2.14.1'

@@ -39,7 +39,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import org.jetbrains.anko.toast
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD : Long = 600 // ms

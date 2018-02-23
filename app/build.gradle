@@ -34,7 +34,8 @@ android {
             minifyEnabled true
             useProguard true
             multiDexEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
 
 //            minifyEnabled false
@@ -80,7 +81,6 @@ dependencies {
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation "org.jetbrains.anko:anko-commons:$rootProject.anko_version"
 
     // google architecture components
     implementation "android.arch.lifecycle:runtime:$rootProject.micro_architecture_runtime"
@@ -101,13 +101,8 @@ dependencies {
     implementation "com.android.support:palette-v7:$rootProject.support_library"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
-    // play service
-
-    //    implementation "com.google.android.gms:play-services-cast-framework:$rootProject.play_services"
-
     // db
     implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"
-    implementation "com.squareup.sqlbrite3:sqlbrite-kotlin:$rootProject.sql_brite"
     implementation "android.arch.persistence.room:runtime:$rootProject.micro_architecture_room"
     kapt "android.arch.persistence.room:compiler:$rootProject.micro_architecture_room"
     implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture_room"
@@ -125,16 +120,13 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
-    implementation "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rootProject.rx_binding"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
     implementation "com.google.android.exoplayer:exoplayer-core:$rootProject.exo_player"
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
-    implementation "org.jsoup:jsoup:$rootProject.jsoup"
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
-    implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
     implementation "androidx.core:core-ktx:$rootProject.android_ktx"
     implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
@@ -150,8 +142,6 @@ dependencies {
         implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
-
-    //    debugImplementation "com.amitshekhar.android:debug-db:$rootProject.db_debug"
 
     // crashlytics
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {

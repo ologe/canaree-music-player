@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.TextUtils
-import org.jetbrains.anko.runOnUiThread
+import dev.olog.msc.utils.runOnMainThread
 
 class RxWaveSideBarView @JvmOverloads constructor(
         context: Context,
@@ -42,8 +42,8 @@ class RxWaveSideBarView @JvmOverloads constructor(
     }
 
     private fun updateLetters(letters: List<String>){
-        context.runOnUiThread {
-            this@RxWaveSideBarView.mLetters = letters
+        runOnMainThread {
+            this.mLetters = letters
             invalidate()
         }
     }

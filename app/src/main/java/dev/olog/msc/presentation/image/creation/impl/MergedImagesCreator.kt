@@ -3,9 +3,9 @@ package dev.olog.msc.presentation.image.creation.impl
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import dev.olog.msc.domain.entity.Song
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.utils.assertBackgroundThread
-import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.extractImageName
 import java.io.File
@@ -13,17 +13,8 @@ import java.io.FileOutputStream
 
 object MergedImagesCreator {
 
-    /**
-     * returns true if a new image is created
-     */
-    fun makeImages(context: Context, songList: List<Song>, parentFolder: String, itemId: String) : Boolean{
-       return makeImages2(context, songList.map { it.albumId }, parentFolder, itemId)
-    }
 
-    /**
-     * returns true if a new image is created
-     */
-    fun makeImages2(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) : Boolean {
+    fun makeImages(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) : Boolean {
         assertBackgroundThread()
 
         val uris = albumIdList.asSequence()
@@ -41,14 +32,12 @@ object MergedImagesCreator {
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
-        var bitmap = BitmapLruCache.get(albumId)
-        if (bitmap == null){
-            val uri = ImagesFolderUtils.forAlbum(albumId)
-            bitmap = ImageUtils.getBitmapFromUriOrNull(context, Uri.parse(uri), 500, 500)!!
-            BitmapLruCache.put(albumId, bitmap)
-        }
-
-        return bitmap
+        return GlideApp.with(context)
+                .asBitmap()
+                .load(Uri.parse(ImagesFolderUtils.forAlbum(albumId)))
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .submit(500, 500)
+                .get()
     }
 
     private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
@@ -105,8 +94,8 @@ object MergedImagesCreator {
         val dest = File(directory, "$child.webp")
         val out = FileOutputStream(dest)
         bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
-        out.close()
         bitmap.recycle()
+        out.close()
     }
 
 }

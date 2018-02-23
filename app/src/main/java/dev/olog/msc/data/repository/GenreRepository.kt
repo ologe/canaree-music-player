@@ -42,11 +42,11 @@ class GenreRepository @Inject constructor(
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
-) : BaseRepository<Genre, Long>(), GenreGateway {
+) : GenreGateway {
 
     private val mostPlayedDao = appDatabase.genreMostPlayedDao()
 
-    override fun queryAllData(): Observable<List<Genre>> {
+    private fun queryAllData(): Observable<List<Genre>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
@@ -58,9 +58,20 @@ class GenreRepository @Inject constructor(
         }.onErrorReturn { listOf() }
     }
 
+    private val cachedData = queryAllData()
+            .replay(1)
+            .refCount()
 
-    override fun getByParamImpl(list: List<Genre>, param: Long): Genre {
-        return list.first { it.id == param }
+    override fun getAll(): Observable<List<Genre>> {
+        return cachedData
+    }
+
+    override fun getAllNewRequest(): Observable<List<Genre>> {
+        return queryAllData()
+    }
+
+    override fun getByParam(param: Long): Observable<Genre> {
+        return cachedData.map { it.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

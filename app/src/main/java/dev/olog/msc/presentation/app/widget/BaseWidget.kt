@@ -18,7 +18,7 @@ import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
 import dev.olog.msc.utils.img.ImageUtils
-import org.jetbrains.anko.dip
+import dev.olog.msc.utils.k.extension.dip
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {

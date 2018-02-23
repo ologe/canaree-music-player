@@ -11,9 +11,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.toggleVisibility
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
@@ -58,14 +56,15 @@ class TabFragment : BaseFragment() {
                 viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
+            else -> {/*making the compiler happy*/}
         }
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean){
-        view!!.emptyStateText.toggleVisibility(isEmpty)
+        emptyStateText.toggleVisibility(isEmpty)
         if (isEmpty){
-            val emptyText = context!!.resources.getStringArray(R.array.tab_empty_state)
-            view!!.emptyStateText.text = emptyText[category.ordinal]
+            val emptyText = resources.getStringArray(R.array.tab_empty_state)
+            emptyStateText.text = emptyText[category.ordinal]
         }
     }
 
@@ -74,6 +73,8 @@ class TabFragment : BaseFragment() {
         view.list.layoutManager = layoutManager.get()
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
+
+        applyMarginToList(view)
 
         val scrollableLayoutId = when (category) {
             MediaIdCategory.SONGS -> R.layout.item_tab_song
@@ -85,14 +86,28 @@ class TabFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        activity!!.findViewById<AppBarLayout>(R.id.appBar).addOnOffsetChangedListener(onAppBarScrollListener)
+        act.findViewById<AppBarLayout>(R.id.appBar).addOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(letterTouchListener)
     }
 
     override fun onPause() {
         super.onPause()
-        activity!!.findViewById<AppBarLayout>(R.id.appBar).removeOnOffsetChangedListener(onAppBarScrollListener)
+        act.findViewById<AppBarLayout>(R.id.appBar).removeOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(null)
+    }
+
+    private fun applyMarginToList(view: View){
+        if (category == MediaIdCategory.SONGS){
+            // start/end margin is set in item
+            view.list.setPadding(view.list.paddingLeft, ctx.dimen(R.dimen.tab_margin_top),
+                    view.list.paddingRight, ctx.dimen(R.dimen.tab_margin_bottom))
+        } else {
+            view.list.setPadding(
+                    ctx.dimen(R.dimen.tab_margin_start), ctx.dimen(R.dimen.tab_margin_top),
+                    ctx.dimen(R.dimen.tab_margin_end), ctx.dimen(R.dimen.tab_margin_bottom)
+            )
+        }
+
     }
 
     private val letterTouchListener = WaveSideBarView.OnTouchLetterChangeListener { letter ->

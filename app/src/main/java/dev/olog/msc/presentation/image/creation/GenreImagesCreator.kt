@@ -44,7 +44,7 @@ class GenreImagesCreator @Inject constructor(
     private fun makeImage(genre: Genre, albumsId: List<Long>) : Boolean {
         assertBackgroundThread()
         val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)
-        return MergedImagesCreator.makeImages2(ctx, albumsId, folderName, "${genre.id}")
+        return MergedImagesCreator.makeImages(ctx, albumsId, folderName, "${genre.id}")
     }
 
 }

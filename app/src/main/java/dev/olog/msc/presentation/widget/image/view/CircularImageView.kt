@@ -22,6 +22,7 @@ class CircularImageView @JvmOverloads constructor(
         if (drawable != null && drawable is LayerDrawable){
             val background = (drawable).getDrawable(0)
             if (background is GradientDrawable){
+
                 background.shape = GradientDrawable.OVAL
             }
         }

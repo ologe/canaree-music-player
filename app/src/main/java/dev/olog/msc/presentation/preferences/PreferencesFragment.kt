@@ -13,7 +13,7 @@ import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import org.jetbrains.anko.toast
+import dev.olog.msc.utils.k.extension.toast
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 

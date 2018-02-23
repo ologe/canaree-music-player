@@ -14,7 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
-import org.jetbrains.anko.dimen
+import dev.olog.msc.utils.k.extension.dimen
 
 class BandView (
         context: Context,

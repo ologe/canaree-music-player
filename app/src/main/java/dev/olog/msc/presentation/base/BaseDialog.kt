@@ -6,9 +6,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import dev.olog.msc.utils.k.extension.makeDialog
+import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import org.jetbrains.anko.toast
 
 abstract class BaseDialog : BaseDialogFragment() {
 

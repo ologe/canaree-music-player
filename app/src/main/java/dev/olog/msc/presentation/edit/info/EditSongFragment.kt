@@ -13,12 +13,8 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.edit.info.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.extractText
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.withArguments
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_info.*
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class EditSongFragment : BaseFragment() {

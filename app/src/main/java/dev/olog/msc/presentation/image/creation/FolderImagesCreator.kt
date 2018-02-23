@@ -4,7 +4,7 @@ import android.content.Context
 import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.util.GetAllSongsNewRequestUseCase
 import dev.olog.msc.presentation.image.creation.impl.MergedImagesCreator
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
@@ -16,7 +16,7 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
 class FolderImagesCreator @Inject constructor(
         @ApplicationContext private val ctx: Context,
-        private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val getAllSongsUseCase: GetAllSongsNewRequestUseCase,
         private val imagesThreadPool: ImagesThreadPool
 
 ) {
@@ -46,7 +46,8 @@ class FolderImagesCreator @Inject constructor(
         assertBackgroundThread()
         val folderName = ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)
         val normalizedPath = map.key.replace(File.separator, "")
-        return MergedImagesCreator.makeImages(ctx, map.value, folderName, normalizedPath)
+        return MergedImagesCreator.makeImages(ctx, map.value.map { it.albumId },
+                folderName, normalizedPath)
     }
 
 }

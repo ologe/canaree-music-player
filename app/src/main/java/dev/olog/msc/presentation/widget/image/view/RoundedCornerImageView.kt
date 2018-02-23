@@ -1,12 +1,12 @@
 package dev.olog.msc.presentation.widget.image.view
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.LayerDrawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
-import org.jetbrains.anko.dip
+import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.dip
 
 class RoundedCornerImageView @JvmOverloads constructor(
         context: Context,
@@ -15,16 +15,20 @@ class RoundedCornerImageView @JvmOverloads constructor(
 
 ) : AppCompatImageView(context, attrs, defStyleAttr){
 
-    private val radius = context.dip(5).toFloat()
+    init {
+        val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
 
-    override fun setImageDrawable(drawable: Drawable?) {
-        if (drawable != null && drawable is LayerDrawable){
-            val background = (drawable).getDrawable(0)
-            if (background is GradientDrawable){
-                background.cornerRadius = radius
-            }
-        }
-        super.setImageDrawable(drawable)
+        val default = context.dip(5).toFloat()
+        val radius = a.getDimension(R.styleable.RoundedCornerImageView_cornerRadius, default)
+
+        val drawable = ContextCompat.getDrawable(context, R.drawable.rounded_corners_drawable) as GradientDrawable
+        drawable.cornerRadius = radius
+        background = drawable
+
+        clipToOutline = true
+
+        a.recycle()
+
     }
 
 }

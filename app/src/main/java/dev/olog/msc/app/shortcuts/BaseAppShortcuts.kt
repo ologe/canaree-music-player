@@ -12,7 +12,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImageUtils
-import org.jetbrains.anko.toast
+import dev.olog.msc.utils.k.extension.toast
 import java.io.File
 
 abstract class BaseAppShortcuts(

@@ -12,10 +12,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
-import dev.olog.msc.presentation.utils.glide.RoundedCornersTransformation
 import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.CoverUtils
 import java.io.File
 
@@ -24,9 +24,6 @@ object BindingsAdapter {
     const val OVERRIDE_SMALL = 150
     const val OVERRIDE_MID = 300
     const val OVERRIDE_BIG = 600
-
-    @JvmStatic
-    private val roundedCorner = RoundedCornersTransformation(3)
 
     @JvmStatic
     private fun loadImageImpl(
@@ -43,7 +40,7 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        val source = mediaId.source
+        val source = resolveSource(mediaId)
         val id = resolveId(mediaId)
         val image = resolveUri(item.image)
 
@@ -57,8 +54,6 @@ object BindingsAdapter {
 
         if (rounded){
             request = request.circleCrop()
-        } else {
-//            request = request.transform(roundedCorner)
         }
 
         if (mediaId.isLeaf){
@@ -125,6 +120,14 @@ object BindingsAdapter {
     fun setBoldIfTrue(view: TextView, setBold: Boolean){
         val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
         view.setTypeface(null, style)
+    }
+
+    @JvmStatic
+    private fun resolveSource(mediaId: MediaId): Int {
+        if (mediaId.isLeaf){
+            return MediaIdCategory.SONGS.ordinal
+        }
+        return mediaId.category.ordinal
     }
 
     @JvmStatic

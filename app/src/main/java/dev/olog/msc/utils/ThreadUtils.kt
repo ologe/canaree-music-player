@@ -5,7 +5,7 @@ import android.os.Looper
 import dev.olog.msc.BuildConfig
 
 private val handler = Handler(Looper.getMainLooper())
-private fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
+fun isMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
 fun assertMainThread() {
     if (BuildConfig.DEBUG) {
@@ -25,6 +25,10 @@ fun assertBackgroundThread() {
     }
 }
 
-fun runOnMainThread(runnable: Runnable){
-    handler.post(runnable)
+fun runOnMainThread(func : () -> Unit){
+    if (isMainThread()){
+        func()
+    } else {
+        handler.post(func)
+    }
 }

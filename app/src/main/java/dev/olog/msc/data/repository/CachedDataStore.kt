@@ -15,6 +15,6 @@ class CachedDataStore<T> {
 
     fun isEmpty() = publisher.value.isEmpty()
 
-    fun getAll(): Observable<List<T>> = Observable.just(publisher.value)
+    fun getAll(): Observable<List<T>> = publisher.toSerialized().take(1)
 
 }

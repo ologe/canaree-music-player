@@ -14,7 +14,7 @@ import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.subscribe
-import org.jetbrains.anko.toast
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class BlacklistFragment : BaseDialogFragment() {

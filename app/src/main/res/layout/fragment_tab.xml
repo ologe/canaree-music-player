@@ -10,10 +10,6 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/tab_margin_vertical"
-        android:paddingStart="@dimen/tab_margin_start"
-        android:paddingBottom="40dp"
-        android:paddingEnd="@dimen/tab_margin_end"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song" />
@@ -44,6 +40,5 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"/>
-
 
 </FrameLayout>

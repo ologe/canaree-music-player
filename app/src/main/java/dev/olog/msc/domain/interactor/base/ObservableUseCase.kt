@@ -14,8 +14,7 @@ abstract class ObservableUseCase<T>(
             this.buildUseCaseObservable()
                 .subscribeOn(schedulers.worker)
                 .observeOn(schedulers.ui) }
-                .doOnError { it.printStackTrace()
-                }
+//                .doOnError { it.printStackTrace() }
     }
 
 }

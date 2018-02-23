@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import org.jetbrains.anko.dimen
+import dev.olog.msc.utils.k.extension.dimen
 import javax.inject.Inject
 
 class DetailListMargin @Inject constructor(

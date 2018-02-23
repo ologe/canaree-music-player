@@ -9,7 +9,7 @@ import android.support.v7.widget.AppCompatImageView
 import android.view.ViewGroup
 import android.widget.ImageView
 import dev.olog.msc.R
-import org.jetbrains.anko.dip
+import dev.olog.msc.utils.k.extension.dip
 
 private const val DURATION = 250
 

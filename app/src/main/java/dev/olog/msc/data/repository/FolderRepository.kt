@@ -24,19 +24,31 @@ class FolderRepository @Inject constructor(
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
-): BaseRepository<Folder, String>(), FolderGateway {
+): FolderGateway {
 
     private val mostPlayedDao = appDatabase.folderMostPlayedDao()
 
-    override fun queryAllData(): Observable<List<Folder>> {
+    private fun queryAllData(): Observable<List<Folder>> {
         return songGateway.getAll()
                 .map(this::mapToFolderList)
+                .doOnNext { println("next request folder") }
     }
 
-    override fun getByParamImpl(list: List<Folder>, param: String): Folder {
-        return list.first { it.path == param }
+    private val cachedData = queryAllData()
+            .replay(1)
+            .refCount()
+
+    override fun getAll(): Observable<List<Folder>> {
+        return cachedData
     }
 
+    override fun getAllNewRequest(): Observable<List<Folder>> {
+        return queryAllData()
+    }
+
+    override fun getByParam(param: String): Observable<Folder> {
+        return cachedData.map { it.first { it.path == param } }
+    }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(path: String): Observable<List<Song>> {

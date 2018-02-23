@@ -48,11 +48,11 @@ class SongRepository @Inject constructor(
         private val appPrefsUseCase: AppPreferencesUseCase,
         appDatabase: AppDatabase
 
-) : BaseRepository<Song, Long>(), SongGateway {
+) : SongGateway {
 
-    private val lastFmDao = appDatabase.lastFmDao()
+//    private val lastFmDao = appDatabase.lastFmDao()
 
-    override fun queryAllData(): Observable<List<Song>> {
+    private fun queryAllData(): Observable<List<Song>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
@@ -65,23 +65,36 @@ class SongRepository @Inject constructor(
                         it.filter { !blackListed.contains(it.folderPath) }
                     }
                 }
-                .map {
-                    val images = lastFmDao.getAllTrackImagesBlocking()
-                    it.map { song ->
-                        val image = images.asSequence()
-                                .filter { it.use }
-                                .firstOrNull { it.id == song.id }?.image
-
-                        if (image != null && image.isNotBlank()){
-                            song.copy(image = image)
-                        } else song
-                    }
-                }
+//                .map {
+//                    val images = lastFmDao.getAllTrackImagesBlocking()
+//                    it.map { song ->
+//                        val image = images.asSequence()
+//                                .filter { it.use }
+//                                .firstOrNull { it.id == song.id }?.image
+//
+//                        if (image != null && image.isNotBlank()){
+//                            song.copy(image = image)
+//                        } else song
+//                    }
+//                }
                 .onErrorReturn { listOf() }
+                .doOnNext { println("next request song") }
     }
 
-    override fun getByParamImpl(list: List<Song>, param: Long): Song {
-        return list.first { it.id == param }
+    private val cachedData = queryAllData()
+            .replay(1)
+            .refCount()
+
+    override fun getAll(): Observable<List<Song>> {
+        return cachedData
+    }
+
+    override fun getAllNewRequest(): Observable<List<Song>> {
+        return queryAllData()
+    }
+
+    override fun getByParam(param: Long): Observable<Song> {
+        return cachedData.map { it.first { it.id == param } }
     }
 
     override fun getAllUnfiltered(): Observable<List<Song>> {

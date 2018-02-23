@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import dev.olog.msc.utils.k.extension.dip
 import io.reactivex.subjects.PublishSubject
-import org.jetbrains.anko.dip
 
 private const val DEFAULT_SWIPED_THRESHOLD = 100
 

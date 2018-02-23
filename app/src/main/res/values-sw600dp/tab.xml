@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="tab_margin_vertical">24dp</dimen>
+    <dimen name="tab_margin_top">24dp</dimen>
+    <dimen name="tab_margin_bottom">40dp</dimen>
     <dimen name="tab_margin_start">24dp</dimen>
     <dimen name="tab_margin_end">48dp</dimen>
-
 
 </resources>

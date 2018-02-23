@@ -25,12 +25,12 @@ class ArtistRepository @Inject constructor(
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
 
-) : BaseRepository<Artist, Long>(), ArtistGateway {
+) : ArtistGateway {
 
     private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
     private val lastFmDao = appDatabase.lastFmDao()
 
-    override fun queryAllData(): Observable<List<Artist>> {
+    private fun queryAllData(): Observable<List<Artist>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, arrayOf("count(*)"), null,
                 null, null, true
@@ -60,10 +60,20 @@ class ArtistRepository @Inject constructor(
                 }
     }
 
+    private val cachedData = queryAllData()
+            .replay(1)
+            .refCount()
 
+    override fun getAll(): Observable<List<Artist>> {
+        return cachedData
+    }
 
-    override fun getByParamImpl(list: List<Artist>, param: Long): Artist {
-        return list.first { it.id == param }
+    override fun getAllNewRequest(): Observable<List<Artist>> {
+        return queryAllData()
+    }
+
+    override fun getByParam(param: Long): Observable<Artist> {
+        return cachedData.map { it.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

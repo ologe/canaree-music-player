@@ -52,7 +52,7 @@ class PlaylistRepository @Inject constructor(
         appDatabase: AppDatabase,
         private val helper: PlaylistRepositoryHelper
 
-) : BaseRepository<Playlist, Long>(), PlaylistGateway {
+) : PlaylistGateway {
 
     private val resources = context.resources
 
@@ -73,7 +73,7 @@ class PlaylistRepository @Inject constructor(
         return Playlist(id, title, -1, "")
     }
 
-    override fun queryAllData(): Observable<List<Playlist>> {
+    private fun queryAllData(): Observable<List<Playlist>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
@@ -85,7 +85,26 @@ class PlaylistRepository @Inject constructor(
         }.onErrorReturn { listOf() }
     }
 
+    private val cachedData = queryAllData()
+            .replay(1)
+            .refCount()
 
+    override fun getAll(): Observable<List<Playlist>> {
+        return cachedData
+    }
+
+    override fun getAllNewRequest(): Observable<List<Playlist>> {
+        return queryAllData()
+    }
+
+
+    override fun getByParam(param: Long): Observable<Playlist> {
+        val result = if (PlaylistConstants.isAutoPlaylist(param)){
+            getAllAutoPlaylists()
+        } else getAll()
+
+        return result.map { it.first { it.id == param } }
+    }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
         return Observable.just(autoPlaylist().sortedWith(compareByDescending { it.id }))
@@ -104,18 +123,6 @@ class PlaylistRepository @Inject constructor(
         }
         cursor.close()
         return list
-    }
-
-    override fun getByParam(param: Long): Observable<Playlist> {
-        val result = if (PlaylistConstants.isAutoPlaylist(param)){
-            getAllAutoPlaylists()
-        } else getAll()
-
-        return result.map { getByParamImpl(it, param) }
-    }
-
-    override fun getByParamImpl(list: List<Playlist>, param: Long): Playlist {
-        return list.first { it.id == param }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
