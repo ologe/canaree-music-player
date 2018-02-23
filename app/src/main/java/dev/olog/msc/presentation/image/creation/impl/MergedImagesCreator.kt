@@ -1,10 +1,13 @@
-package dev.olog.msc.utils.img
+package dev.olog.msc.presentation.image.creation.impl
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.msc.utils.img.ImageUtils
+import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.img.extractImageName
 import java.io.File
 import java.io.FileOutputStream
 
@@ -35,6 +38,17 @@ object MergedImagesCreator {
                 .toList()
 
         return doSomething(context, uris, parentFolder, itemId)
+    }
+
+    private fun getBitmap(context: Context, albumId: Long): Bitmap {
+        var bitmap = BitmapLruCache.get(albumId)
+        if (bitmap == null){
+            val uri = ImagesFolderUtils.forAlbum(albumId)
+            bitmap = ImageUtils.getBitmapFromUriOrNull(context, Uri.parse(uri), 500, 500)!!
+            BitmapLruCache.put(albumId, bitmap)
+        }
+
+        return bitmap
     }
 
     private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
@@ -93,11 +107,6 @@ object MergedImagesCreator {
         bitmap.compress(Bitmap.CompressFormat.WEBP, 90, out)
         out.close()
         bitmap.recycle()
-    }
-
-    private fun getBitmap(context: Context, albumId: Long): Bitmap {
-        val uri = ImagesFolderUtils.forAlbum(albumId)
-        return ImageUtils.getBitmapFromUriOrNull(context, Uri.parse(uri), 500, 500)!!
     }
 
 }

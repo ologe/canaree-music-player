@@ -5,9 +5,9 @@ import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.repository.CommonQuery
 import dev.olog.msc.domain.entity.Playlist
+import dev.olog.msc.presentation.image.creation.impl.MergedImagesCreator
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.img.MergedImagesCreator
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -22,6 +22,8 @@ class PlaylistImagesCreator @Inject constructor(
     fun execute(playlists: List<Playlist>) : Flowable<*> {
         return Flowable.fromIterable(playlists)
                 .observeOn(imagesThreadPool.scheduler)
+                .parallel()
+                .runOn(imagesThreadPool.scheduler)
                 .map {
                     val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", it.id)
                     Pair(it, CommonQuery.extractAlbumIdsFromSongs(ctx.contentResolver, uri))
@@ -30,6 +32,7 @@ class PlaylistImagesCreator @Inject constructor(
                     makeImage(playlist, albumsId)
                 } catch (ex: Exception){ false }
                 }
+                .sequential()
                 .buffer(10)
                 .filter { it.reduce { acc, curr -> acc || curr } }
                 .doOnNext {

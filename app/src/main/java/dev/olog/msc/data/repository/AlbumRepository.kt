@@ -29,7 +29,7 @@ class AlbumRepository @Inject constructor(
     override fun queryAllData(): Observable<List<Album>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, arrayOf("count(*)"), null,
-                null, null, false
+                null, null, true
         ).mapToOne { 0 }
                 .flatMap { songGateway.getAll() }
                 .map { songList ->

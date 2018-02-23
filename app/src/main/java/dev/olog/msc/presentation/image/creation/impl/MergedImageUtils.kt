@@ -1,4 +1,4 @@
-package dev.olog.msc.utils.img
+package dev.olog.msc.presentation.image.creation.impl
 
 import android.graphics.*
 import dev.olog.msc.utils.assertBackgroundThread
@@ -7,16 +7,20 @@ import dev.olog.msc.utils.k.extension.shuffle
 
 object MergedImageUtils {
 
-    private const val IMAGE_SIZE = 1500
+    private const val IMAGE_SIZE = 1000
+    private const val PARTS = 3
+    private const val DEGREES = 9f
 
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()
 
         list.shuffle()
-        val resultList = arrangeBitmaps(list)
+        val arranged = arrangeBitmaps(list)
 
-        val combinedImage = create(resultList, IMAGE_SIZE, 3)
-        return rotateAndCrop(combinedImage, IMAGE_SIZE, 9f)
+        val mergedImage = create(arranged, IMAGE_SIZE, PARTS)
+        val finalImage = rotate(mergedImage, IMAGE_SIZE, DEGREES)
+        mergedImage.recycle()
+        return finalImage
     }
 
     private fun arrangeBitmaps(list: List<Bitmap>): List<Bitmap> {
@@ -64,6 +68,7 @@ object MergedImageUtils {
         images.forEachIndexed { i, bitmap ->
             val bit = Bitmap.createScaledBitmap(bitmap, onePartSize, onePartSize, true)
             canvas.drawBitmap(bit, (onePartSize * (i % parts)).toFloat(), (onePartSize * (i / parts)).toFloat(), paint)
+            bit.recycle()
         }
 
         paint.color = Color.WHITE
@@ -81,7 +86,7 @@ object MergedImageUtils {
         return result
     }
 
-    private fun rotateAndCrop(bitmap: Bitmap, imageSize: Int, degrees: Float): Bitmap {
+    private fun rotate(bitmap: Bitmap, imageSize: Int, degrees: Float): Bitmap {
         val matrix = Matrix()
         matrix.postRotate(degrees)
 

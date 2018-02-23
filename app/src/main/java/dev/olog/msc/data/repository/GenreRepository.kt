@@ -49,7 +49,7 @@ class GenreRepository @Inject constructor(
     override fun queryAllData(): Observable<List<Genre>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
-                SELECTION_ARGS, SORT_ORDER, false
+                SELECTION_ARGS, SORT_ORDER, true
         ).mapToList {
             val id = it.extractId()
             val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)

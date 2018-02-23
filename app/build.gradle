@@ -34,10 +34,13 @@ android {
             minifyEnabled true
             useProguard true
             multiDexEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable false
-//            applicationIdSuffix = ".debug"
+
+//            minifyEnabled false
+//            useProguard false
+//            multiDexEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -52,11 +55,11 @@ android {
         preDexLibraries true
     }
 
-//    gradle.projectsEvaluated {
-//        tasks.withType(JavaCompile) {
-//            options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
-//        }
-//    }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
+        }
+    }
 
     lintOptions{
         checkReleaseBuilds false
