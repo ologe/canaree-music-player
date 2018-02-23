@@ -3,17 +3,16 @@ package dev.olog.msc.presentation.widget.image.view
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import dev.olog.msc.R
+import dev.olog.msc.presentation.widget.ForegroundImageView
 import dev.olog.msc.utils.k.extension.dip
 
 class RoundedCornerImageView @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet? = null
 
-) : AppCompatImageView(context, attrs, defStyleAttr){
+) : ForegroundImageView(context, attrs){
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
