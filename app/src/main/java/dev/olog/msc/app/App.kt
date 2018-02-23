@@ -25,7 +25,7 @@ class App : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        initializeDebug()
+//        initializeDebug()
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
         initializeConstants()
         resetSleepTimer()

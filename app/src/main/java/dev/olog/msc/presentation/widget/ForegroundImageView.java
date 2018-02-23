@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.ViewOutlineProvider;
 
 import dev.olog.msc.R;
 
@@ -25,7 +24,6 @@ public class ForegroundImageView extends AppCompatImageView {
             setForeground(d);
         }
         a.recycle();
-        setOutlineProvider(ViewOutlineProvider.BOUNDS);
 
         setForeground(ContextCompat.getDrawable(context, R.drawable.mid_grey_ripple));
     }

@@ -102,7 +102,7 @@ class LastFmClient @Inject constructor(
     fun fetchArtistArt(artistId: Long, name: String): Single<Boolean> {
         val isConnected = connectivityManager.isNetworkAvailable()
 
-        val fetch = lastFm.getArtistInfo(name)
+        val fetch = Single.defer { lastFm.getArtistInfo(name)
                 .map { it.artist.image }
                 .map { it.reversed().first { it.text.isNotBlank() } }
                 .map { it.text }
@@ -115,7 +115,7 @@ class LastFmClient @Inject constructor(
                     } else {
                         Single.just(false)
                     }
-                }
+                } }
 
         if (isConnected){
             return getLastFmArtistImageUseCase.execute(artistId)

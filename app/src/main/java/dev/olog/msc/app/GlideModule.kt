@@ -20,9 +20,7 @@ class GlideModule : AppGlideModule() {
                 // Prefer higher quality images unless we're on a low RAM device
                 .format(if (activityManager.isLowRamDevice)
                     DecodeFormat.PREFER_RGB_565 else DecodeFormat.PREFER_ARGB_8888
-                )
-                // todo do some test on oreo
-//                .disallowHardwareConfig()
+                ).disallowHardwareConfig()
 
         builder.setLogLevel(Log.ERROR)
                 .setDefaultRequestOptions(defaultOptions)

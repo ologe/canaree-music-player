@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
-import dev.olog.msc.presentation.utils.CircularOutlineProvider
 import dev.olog.msc.presentation.widget.ForegroundImageView
 
 class CircularImageView @JvmOverloads constructor(
@@ -15,7 +14,7 @@ class CircularImageView @JvmOverloads constructor(
 ) : ForegroundImageView(context, attrs){
 
     init {
-        outlineProvider = CircularOutlineProvider()
+//        outlineProvider = CircularOutlineProvider()
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
