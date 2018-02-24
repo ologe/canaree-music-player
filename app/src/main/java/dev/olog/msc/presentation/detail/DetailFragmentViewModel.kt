@@ -54,9 +54,10 @@ class DetailFragmentViewModel(
 
     val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!.asLiveData()
 
-    fun artistMediaId(mediaId: MediaId) : Maybe<MediaId> {
+    fun artistMediaId() : Maybe<MediaId> {
         if (mediaId.isAlbum){
-            return getArtistFromAlbumUseCase.execute(mediaId)
+            return getArtistFromAlbumUseCase
+                    .execute(mediaId)
                     .firstElement()
                     .map { MediaId.artistId(it.id) }
         } else {

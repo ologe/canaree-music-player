@@ -36,7 +36,7 @@ fun Cursor.toSong(): Song {
             id, artistId, albumId, title, artist, album,
             ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded, isRemix, isExplicit, path,
-            folder.capitalize(), disc, trackNumber)
+            folder.capitalize(), disc, track)
 }
 
 private fun extractTrackNumber(originalTrackNumber: Int) : Int {

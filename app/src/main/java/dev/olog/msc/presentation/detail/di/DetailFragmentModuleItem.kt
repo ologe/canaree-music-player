@@ -13,6 +13,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
+import dev.olog.msc.utils.k.extension.negate
 import io.reactivex.Flowable
 
 @Module
@@ -132,9 +133,10 @@ private fun Album.toHeaderItem(artist: Artist): List<DisplayableItem> {
                     "",
                     image = image
             ),
+            // manage carefully because contains an invalid media id
             DisplayableItem(
                     R.layout.item_detail_item_info,
-                    MediaId.artistId(artist.id),
+                    MediaId.albumId(artist.id.negate()),
                     title,
                     this.artist,
                     artist.image

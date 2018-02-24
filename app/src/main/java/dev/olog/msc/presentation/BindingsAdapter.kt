@@ -18,6 +18,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.CoverUtils
 import java.io.File
+import kotlin.math.absoluteValue
 
 object BindingsAdapter {
 
@@ -61,6 +62,8 @@ object BindingsAdapter {
     @BindingAdapter("albumsArtistImage")
     @JvmStatic
     fun loadAlbumsArtistImage(view: ImageView, item: DisplayableItem){
+        val artistId = item.mediaId.categoryValue.toInt().absoluteValue
+
         GlideApp.with(view.context).clear(view)
 
         GlideApp.with(view.context)
@@ -68,7 +71,7 @@ object BindingsAdapter {
                 .circleCrop()
                 .override(50)
                 .skipMemoryCache(true)
-                .placeholder(CoverUtils.getGradient(view.context, 0))
+                .placeholder(CoverUtils.getGradient(view.context, artistId, MediaIdCategory.ARTISTS.ordinal))
                 .into(view)
     }
 

@@ -163,7 +163,6 @@
 //    }
 //
 //    private fun search(text: String) : AutoTagQueryResult {
-////        System.out.println(GOOGLE_QUERY + URLEncoder.encode(text, "UTF-8"))
 //        if (text.contains("artist")) return searchForArtist(text)
 //        if (text.contains("album")) return searchForAlbum(text)
 //        throw IllegalArgumentException("not contains nor artist neither album -> $text")
