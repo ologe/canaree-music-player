@@ -17,8 +17,11 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.LazyThreadSafetyMode.NONE
@@ -101,16 +104,18 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-//        if (!act.supportFragmentManager.searchInFragmentBackStack(TAG)) {
-//            view.cover.setVisible()
-//
-//            adapter.setAfterDataChanged({
-//                adapter.setAfterDataChanged(null)
-//                Single.timer(200, TimeUnit.MILLISECONDS)
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe({ cover.setGone() }, Throwable::printStackTrace)
-//            })
-//        } todo
+        if (savedInstanceState == null){
+            view.cover.setVisible()
+
+            adapter.setAfterDataChanged({
+                if (it.isNotEmpty()){
+                    adapter.setAfterDataChanged(null)
+                    Single.timer(200, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ cover.setGone() }, Throwable::printStackTrace)
+                }
+            }, false)
+        }
     }
 
     override fun onResume() {
