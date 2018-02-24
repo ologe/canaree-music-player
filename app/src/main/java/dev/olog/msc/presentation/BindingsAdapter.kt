@@ -62,6 +62,8 @@ object BindingsAdapter {
     @BindingAdapter("albumsArtistImage")
     @JvmStatic
     fun loadAlbumsArtistImage(view: ImageView, item: DisplayableItem){
+        if (!item.mediaId.isAlbum) return
+
         val artistId = item.mediaId.categoryValue.toInt().absoluteValue
 
         GlideApp.with(view.context).clear(view)
