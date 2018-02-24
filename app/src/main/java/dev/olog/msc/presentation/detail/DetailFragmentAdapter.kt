@@ -112,13 +112,16 @@ class DetailFragmentAdapter @Inject constructor(
                     mediaProvider.shuffle(mediaId)
                 }
             }
-            R.layout.item_detail_header_recently_added -> {
+
+            R.layout.item_detail_see_all -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    when (item.mediaId) {
-                        DetailFragmentHeaders.RECENTLY_ADDED_ID -> navigator.toRecentlyAdded(mediaId)
+                    when (item.mediaId){
+                        DetailFragmentHeaders.RECENTLY_ADDED_SEE_ALL -> navigator.toRecentlyAdded(mediaId)
+                        DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(mediaId)
                     }
                 }
             }
+
             R.layout.item_detail_header_all_song -> {
                 viewHolder.setOnClickListener(R.id.sort, controller) { _, _, view ->
                     viewModel.observeSortOrder().firstOrError()

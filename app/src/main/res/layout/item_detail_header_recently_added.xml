@@ -33,7 +33,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:text="@{item.trackNumber}"
+            android:text="@{item.subtitle}"
             tools:text="5 new songs"
             android:textSize="@dimen/item_header_sec_text_size"
             android:textColor="@color/item_selected"
@@ -42,16 +42,6 @@
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/title" />
-
-        <ImageView
-            android:src="@drawable/vd_navigate_next"
-            android:tint="@color/button_primary_tint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintStart_toEndOf="@+id/title"
-            android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -46,6 +46,7 @@ class DetailFragmentViewModel(
 
         const val NESTED_SPAN_COUNT = 4
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
+        const val RELATED_ARTISTS_TO_SEE = 10
     }
 
     var firstAccess = true
@@ -70,6 +71,7 @@ class DetailFragmentViewModel(
             .asLiveData()
 
     val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
+            .map { it.take(RELATED_ARTISTS_TO_SEE) }
             .asLiveData()
 
     val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
@@ -109,7 +111,7 @@ class DetailFragmentViewModel(
     private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){
             val size = list.size
-            if (list.size > VISIBLE_RECENTLY_ADDED_PAGES){
+            if (size > VISIBLE_RECENTLY_ADDED_PAGES){
                 list.clear()
                 list.addAll(0, headers.recentWithSeeAll(size))
             } else {
@@ -138,7 +140,11 @@ class DetailFragmentViewModel(
     private fun handleRelatedArtistsHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){
             list.clear()
-            list.addAll(0, headers.relatedArtists)
+            if (list.size > 10){
+                list.addAll(0, headers.relatedArtistsWithSeeAll)
+            } else {
+                list.addAll(0, headers.relatedArtists)
+            }
         }
         return list
     }
