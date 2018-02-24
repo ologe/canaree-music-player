@@ -111,13 +111,8 @@ class DetailFragmentViewModel(
     private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){
             val size = list.size
-            if (size > VISIBLE_RECENTLY_ADDED_PAGES){
-                list.clear()
-                list.addAll(0, headers.recentWithSeeAll(size))
-            } else {
-                list.clear()
-                list.addAll(0, headers.recent(size))
-            }
+            list.clear()
+            list.addAll(0, headers.recent(size, size > VISIBLE_RECENTLY_ADDED_PAGES))
         } else {
             list.clear()
         }
@@ -139,12 +134,9 @@ class DetailFragmentViewModel(
 
     private fun handleRelatedArtistsHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){
+            val size = list.size
             list.clear()
-            if (list.size > 10){
-                list.addAll(0, headers.relatedArtistsWithSeeAll)
-            } else {
-                list.addAll(0, headers.relatedArtists)
-            }
+            list.addAll(0, headers.relatedArtists(size > 10))
         }
         return list
     }

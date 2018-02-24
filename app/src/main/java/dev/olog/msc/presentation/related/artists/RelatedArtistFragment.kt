@@ -35,8 +35,9 @@ class RelatedArtistFragment: BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = GridLayoutManager(context!!, 3)
+        view.list.layoutManager = GridLayoutManager(context!!, 2)
         view.list.adapter = adapter
+        view.list.setHasFixedSize(true)
     }
 
     override fun onResume() {

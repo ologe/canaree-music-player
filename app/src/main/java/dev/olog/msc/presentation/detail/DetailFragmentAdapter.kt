@@ -113,10 +113,15 @@ class DetailFragmentAdapter @Inject constructor(
                 }
             }
 
-            R.layout.item_detail_see_all -> {
-                viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    when (item.mediaId){
-                        DetailFragmentHeaders.RECENTLY_ADDED_SEE_ALL -> navigator.toRecentlyAdded(mediaId)
+            R.layout.item_detail_header_recently_added -> {
+                viewHolder.setOnClickListener(R.id.seeMore, controller) { _, _, _ ->
+                    navigator.toRecentlyAdded(mediaId)
+                }
+            }
+            R.layout.item_detail_header -> {
+
+                viewHolder.setOnClickListener(R.id.seeMore, controller) { item, _, _ ->
+                    when (item.mediaId) {
                         DetailFragmentHeaders.RELATED_ARTISTS_SEE_ALL -> navigator.toRelatedArtists(mediaId)
                     }
                 }

@@ -43,6 +43,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/title" />
 
+        <TextView
+            android:id="@+id/seeMore"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            android:padding="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/detail_see_all"
+            android:textColor="@color/item_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{item.explicit ? View.GONE : View.VISIBLE}"/>
+
     </android.support.constraint.ConstraintLayout>
 
 </layout>
