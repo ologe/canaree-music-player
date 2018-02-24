@@ -13,22 +13,28 @@ import dev.olog.msc.utils.k.extension.getBitmap
 
 class RippleTarget(
         private val imageView: ImageView,
-        private val bounded: Boolean
+        private val isLeaf : Boolean
 
 ) : DrawableImageViewTarget(imageView), Palette.PaletteAsyncListener {
 
+    init {
+        if (isLeaf && imageView is ForegroundImageView){
+            imageView.foreground = null
+        }
+    }
+
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
-        if (imageView is ForegroundImageView){
+        if (!isLeaf && imageView is ForegroundImageView){
             val bitmap = drawable.getBitmap() ?: return
             Palette.from(bitmap).clearFilters().generate(this)
         }
     }
 
     override fun onGenerated(palette: Palette) {
-        if (imageView is ForegroundImageView){
+        if (!isLeaf && imageView is ForegroundImageView){
             imageView.foreground = ViewUtils.createRipple(palette, .5f, .6f,
-                    ContextCompat.getColor(view.context, R.color.mid_grey), bounded)
+                    ContextCompat.getColor(view.context, R.color.mid_grey), true)
         }
     }
 }

@@ -43,7 +43,7 @@ object BindingsAdapter {
         val id = resolveId(mediaId)
         val image = resolveUri(item.image)
 
-        val request = GlideApp.with(context)
+        var request = GlideApp.with(context)
                 .load(image)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
@@ -51,12 +51,11 @@ object BindingsAdapter {
                 .priority(priority)
                 .placeholder(CoverUtils.getGradient(context, id, source))
 
-        if (mediaId.isLeaf){
-            request.into(view)
-        } else {
-            request.transition(DrawableTransitionOptions.withCrossFade())
-                    .into(RippleTarget(view, true))
+        if (!mediaId.isLeaf){
+            request = request.transition(DrawableTransitionOptions.withCrossFade())
         }
+
+        request.into(RippleTarget(view, mediaId.isLeaf))
     }
 
     @BindingAdapter("albumsArtistImage")

@@ -104,7 +104,9 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        if (savedInstanceState == null){
+        if (viewModel.firstAccess) {
+            viewModel.firstAccess = false
+
             view.cover.setVisible()
 
             adapter.setAfterDataChanged({

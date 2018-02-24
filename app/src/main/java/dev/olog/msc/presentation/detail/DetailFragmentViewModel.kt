@@ -48,6 +48,8 @@ class DetailFragmentViewModel(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
     }
 
+    var firstAccess = true
+
     private val currentCategory = mediaId.category
 
     val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!.asLiveData()
