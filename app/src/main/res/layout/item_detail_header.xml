@@ -42,7 +42,7 @@
             android:textColor="@color/item_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{item.explicit ? View.GONE : View.VISIBLE}"/>
+            android:visibility="@{item.explicit ? View.VISIBLE : View.GONE }"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -24,7 +24,7 @@ class ArtistImagesCreator @Inject constructor(
         return Flowables.zip(sample(artists.size), Flowable.fromIterable(artists),
                     { _, artist -> artist } )
                 .observeOn(imagesThreadPool.ioScheduler)
-                .flatMapSingle { lastFmService.fetchArtistArt(it.id, it.name) }
+                .flatMapSingle { lastFmService.fetchArtistArt(it.id, it.name).onErrorReturn { false } }
                 .buffer(10)
                 .map { it.reduce { acc, curr -> acc || curr } }
                 .filter { it }
