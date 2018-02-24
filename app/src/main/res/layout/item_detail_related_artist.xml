@@ -24,8 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            tools:src="@drawable/placeholder_artist"
-            android:outlineProvider="bounds"/>
+            tools:src="@drawable/placeholder_artist" />
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"

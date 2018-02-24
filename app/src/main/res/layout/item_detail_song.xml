@@ -17,6 +17,7 @@
         android:paddingEnd="@dimen/detail_margin_horizontal">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
