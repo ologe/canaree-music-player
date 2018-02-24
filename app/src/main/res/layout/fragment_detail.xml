@@ -57,7 +57,7 @@
         android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
     <View
         android:id="@+id/toolbar"
@@ -70,7 +70,7 @@
         android:background="@color/toolbar"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
     <ImageButton
         android:id="@+id/back"
@@ -91,7 +91,7 @@
         android:id="@+id/search"
         android:layout_marginTop="@dimen/status_bar"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/more"
         android:src="@drawable/vd_search"
         android:padding="12dp"
         android:layout_width="wrap_content"
@@ -100,6 +100,21 @@
         android:clickable="true"
         android:focusable="true"
         android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:elevation="@dimen/toolbar_elevation" />
+
+    <ImageButton
+        android:id="@+id/more"
+        android:layout_marginTop="@dimen/status_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/vd_more"
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/toolbar"
+        android:tint="@color/button_primary_tint"
+        android:clickable="true"
+        android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="@dimen/toolbar_elevation" />
 
@@ -113,11 +128,14 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         app:layout_constraintTop_toTopOf="parent"
+        android:maxLines="2"
         android:layout_marginTop="@dimen/status_bar"
-        app:layout_constraintStart_toEndOf="@+id/back"
-        app:layout_constraintEnd_toStartOf="@+id/search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="visible"/>
 
 </android.support.constraint.ConstraintLayout>

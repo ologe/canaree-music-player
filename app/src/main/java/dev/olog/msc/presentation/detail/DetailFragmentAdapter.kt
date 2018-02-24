@@ -50,9 +50,6 @@ class DetailFragmentAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int){
         when (viewType) {
             R.layout.item_detail_item_info -> {
-                viewHolder.setOnClickListener(R.id.more, controller) { item ,_, view ->
-                    navigator.toDialog(item, view)
-                }
                 if (mediaId.isAlbum){
                     viewHolder.setOnClickListener(R.id.clickableArtist, controller) { item, _, _ ->
                         viewModel.artistMediaId(item.mediaId)
@@ -176,10 +173,10 @@ class DetailFragmentAdapter @Inject constructor(
     override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {
         when (holder.itemViewType){
             R.layout.item_detail_most_played_list -> {
-                mostPlayedAdapter.afterDataChanged = null
+                mostPlayedAdapter.setAfterDataChanged(null)
             }
             R.layout.item_detail_recently_added_list -> {
-                recentlyAddedAdapter.afterDataChanged = null
+                recentlyAddedAdapter.setAfterDataChanged(null)
             }
         }
     }
@@ -189,16 +186,16 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_most_played_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                mostPlayedAdapter.afterDataChanged = {
+                mostPlayedAdapter.setAfterDataChanged({
                     updateNestedSpanCount(layoutManager, it.size)
-                }
+                }, false)
             }
             R.layout.item_detail_recently_added_list -> {
                 val list = holder.itemView as RecyclerView
                 val layoutManager = list.layoutManager as GridLayoutManager
-                recentlyAddedAdapter.afterDataChanged = {
+                recentlyAddedAdapter.setAfterDataChanged({
                     updateNestedSpanCount(layoutManager, it.size)
-                }
+                }, false)
             }
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage

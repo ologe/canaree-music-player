@@ -22,15 +22,21 @@ abstract class AbsAdapter<Model : BaseModel>(
     private var dataDisposable : Disposable? = null
     var touchHelper: ItemTouchHelper? = null
 
-    var beforeDataChanged : ((List<*>) -> Unit)? = null
-    var afterDataChanged : ((List<*>) -> Unit)? = null
+    private var afterDataChanged : ((List<*>) -> Unit)? = null
+
+    fun setAfterDataChanged(func : ((List<*>) -> Unit)?, skipInitialValue: Boolean = true){
+        this.afterDataChanged = func
+        if (!skipInitialValue){
+            afterDataChanged?.invoke(controller.getAll())
+        }
+    }
+
 
     init {
         lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        beforeDataChanged = null
         afterDataChanged = null
     }
 
@@ -73,7 +79,6 @@ abstract class AbsAdapter<Model : BaseModel>(
     }
 
     fun updateDataSet(data: Any){
-        beforeDataChanged?.invoke(controller.getAll())
         controller.update(data)
     }
 

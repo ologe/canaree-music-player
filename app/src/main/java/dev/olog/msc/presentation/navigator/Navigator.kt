@@ -23,6 +23,7 @@ interface Navigator {
     fun toEditInfoFragment(mediaId: MediaId)
 
     fun toDialog(item: DisplayableItem, anchor: View)
+    fun toDialog(mediaId: MediaId, anchor: View)
 
     fun toMainPopup(anchor: View)
 

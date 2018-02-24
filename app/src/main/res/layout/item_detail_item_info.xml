@@ -18,7 +18,7 @@
             android:id="@+id/title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintEnd_toEndOf="parent"
             android:text="@{item.title}"
             tools:text="Animal Ambition: An Untamed Desire to Win"
             android:textSize="@dimen/item_detail_main_header_title_size"
@@ -70,22 +70,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/subtitle"
             android:layout_width="0dp"
             android:layout_height="0dp" />
-
-        <ImageButton
-            android:id="@+id/more"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/vd_more"
-            android:padding="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="@color/button_primary_tint"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="12dp"/>
-
         
     </android.support.constraint.ConstraintLayout>
 

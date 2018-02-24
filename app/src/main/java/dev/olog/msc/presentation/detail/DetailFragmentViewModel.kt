@@ -21,7 +21,7 @@ import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
 class DetailFragmentViewModel(
-        private val mediaId: MediaId,
+        val mediaId: MediaId,
         item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,

@@ -67,8 +67,8 @@ class PlayingQueueFragment : BaseFragment() {
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
 
-        adapter.afterDataChanged = {
-            adapter.afterDataChanged = null
+        adapter.setAfterDataChanged({
+            adapter.setAfterDataChanged(null)
 //            val songId = viewModel.getCurrentSongId() todo
 //            val position = adapter.getItemPositionByPredicate {
 //                it.trackNumber.toInt() == songId
@@ -76,7 +76,7 @@ class PlayingQueueFragment : BaseFragment() {
 //            adapter.updateCurrentPosition(position)
 //            layoutManager.scrollToPositionWithOffset(position, context!!.dip(20))
             startPostponedEnterTransition()
-        }
+        })
     }
 
     override fun onResume() {
@@ -91,7 +91,7 @@ class PlayingQueueFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        adapter.afterDataChanged = null
+        adapter.setAfterDataChanged(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue

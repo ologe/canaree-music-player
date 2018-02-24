@@ -23,7 +23,7 @@ class HeaderVisibilityScrollListener(
 
         if (holder.itemViewType == R.layout.item_detail_item_image) {
             val bottom = child.bottom
-            val needDarkLayout = bottom - toolbarHeight * 2 < 0
+            val needDarkLayout = bottom - toolbarHeight < 0
 
             view.statusBar.toggleVisibility(needDarkLayout)
             view.toolbar.toggleVisibility(needDarkLayout)

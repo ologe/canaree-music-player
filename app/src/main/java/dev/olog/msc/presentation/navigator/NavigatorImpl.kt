@@ -143,8 +143,12 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toDialog(item: DisplayableItem, anchor: View) {
+        toDialog(item.mediaId, anchor)
+    }
+
+    override fun toDialog(mediaId: MediaId, anchor: View) {
         if (allowed()){
-            popupFactory.create(anchor, item.mediaId)
+            popupFactory.create(anchor, mediaId)
                     .subscribe({ it.show() }, Throwable::printStackTrace)
         }
     }

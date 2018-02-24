@@ -104,14 +104,14 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        adapter.afterDataChanged = {
-            adapter.afterDataChanged = null
+        adapter.setAfterDataChanged({
+            adapter.setAfterDataChanged(null)
             Single.timer(200, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         cover.setGone()
                     }, Throwable::printStackTrace)
-        }
+        })
     }
 
     override fun onResume() {
@@ -122,6 +122,7 @@ class DetailFragment : BaseFragment() {
         }
         back.setOnClickListener { activity!!.onBackPressed() }
         search.setOnClickListener { navigator.toSearchFragment(search) }
+        more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
     }
 
     override fun onPause() {
@@ -132,6 +133,7 @@ class DetailFragment : BaseFragment() {
         }
         back.setOnClickListener(null)
         search.setOnClickListener(null)
+        more.setOnClickListener(null)
     }
 
     internal fun adjustStatusBarColor(lightStatusBar: Boolean = hasLightStatusBarColor){
@@ -144,14 +146,17 @@ class DetailFragment : BaseFragment() {
 
     private fun removeLightStatusBar(){
         activity!!.window.removeLightStatusBar()
-        view?.back?.setColorFilter(Color.WHITE)
-        view?.search?.setColorFilter(Color.WHITE)
+        back.setColorFilter(Color.WHITE)
+        search.setColorFilter(Color.WHITE)
+        more.setColorFilter(Color.WHITE)
     }
 
     private fun setLightStatusBar(){
         activity!!.window.setLightStatusBar()
-        view?.back?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
-        view?.search?.setColorFilter(ContextCompat.getColor(context!!, R.color.dark_grey))
+        val color = ContextCompat.getColor(context!!, R.color.dark_grey)
+        back.setColorFilter(color)
+        search.setColorFilter(color)
+        more.setColorFilter(color)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail

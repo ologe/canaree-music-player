@@ -53,7 +53,7 @@ class DetailFragmentModuleItem {
         return useCase.execute(mediaId)
                 .flatMap {album ->
                     artistUseCase.execute(MediaId.artistId(album.artistId))
-                            .map { album.toHeaderItem(it.image) }
+                            .map { album.toHeaderItem(it) }
                 }.asFlowable()
     }
 
@@ -123,7 +123,7 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
 }
 
-private fun Album.toHeaderItem(artistImage: String): List<DisplayableItem> {
+private fun Album.toHeaderItem(artist: Artist): List<DisplayableItem> {
 
     return listOf(
             DisplayableItem(
@@ -134,10 +134,10 @@ private fun Album.toHeaderItem(artistImage: String): List<DisplayableItem> {
             ),
             DisplayableItem(
                     R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
+                    MediaId.artistId(artist.id),
                     title,
-                    artist,
-                    artistImage
+                    this.artist,
+                    artist.image
             )
     )
 }
