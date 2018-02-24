@@ -8,7 +8,7 @@ import dev.olog.msc.presentation.widget.ForegroundImageView
 
 private const val DEFAULT_PARALLAX = .4f
 
-class ParallaxView(
+class ParallaxImageView(
         context: Context,
         attrs: AttributeSet? = null
 
@@ -18,13 +18,11 @@ class ParallaxView(
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.ParallaxView)
-
         parallax = a.getFloat(R.styleable.ParallaxView_parallax, DEFAULT_PARALLAX)
-
         a.recycle()
     }
 
-    fun translateY(root: View){
+    fun translateY(root: View) {
         translationY = (height - root.bottom).toFloat() * parallax
     }
 

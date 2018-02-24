@@ -14,12 +14,6 @@
         android:paddingTop="@dimen/item_detail_header_padding_top"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/dark_grey"
-            android:alpha=".2"/>
-
         <TextView
             android:id="@+id/title"
             android:text="@{item.title}"

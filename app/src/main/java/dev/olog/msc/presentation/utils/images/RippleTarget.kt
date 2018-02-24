@@ -27,7 +27,7 @@ class RippleTarget(
 
     override fun onGenerated(palette: Palette) {
         if (imageView is ForegroundImageView){
-            imageView.foreground = ViewUtils.createRipple(palette, .3f, .6f,
+            imageView.foreground = ViewUtils.createRipple(palette, .5f, .6f,
                     ContextCompat.getColor(view.context, R.color.mid_grey), bounded)
         }
     }
