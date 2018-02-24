@@ -26,7 +26,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            app:rounded="@{true}"
             tools:src="@drawable/placeholder_artist"
             android:foreground="@drawable/mid_grey_ripple" />
 

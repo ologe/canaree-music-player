@@ -26,9 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            app:rounded="@{item.mediaId.isArtist}"
-            tools:src="@drawable/placeholder_artist"
-            android:foreground="@drawable/mid_grey_ripple" />
+            tools:src="@drawable/placeholder_artist" />
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"

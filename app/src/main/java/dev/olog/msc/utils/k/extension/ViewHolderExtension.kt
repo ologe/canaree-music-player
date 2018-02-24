@@ -7,6 +7,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.presentation.base.adp.AdapterDataController
 import dev.olog.msc.presentation.utils.ScaleInOnTouch
+import dev.olog.msc.presentation.utils.ScaleMoreInOnTouch
 
 fun <T: BaseModel> RecyclerView.ViewHolder.setOnClickListener(
         data: AdapterDataController<T>,
@@ -45,7 +46,7 @@ fun <T: BaseModel> RecyclerView.ViewHolder.setOnLongClickListener(
 }
 
 fun RecyclerView.ViewHolder.elevateAlbumOnTouch(){
-    itemView.setOnTouchListener(ScaleInOnTouch(itemView))
+    itemView.setOnTouchListener(ScaleMoreInOnTouch(itemView))
 }
 
 fun RecyclerView.ViewHolder.elevateSongOnTouch(){

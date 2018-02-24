@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
@@ -25,7 +24,7 @@ public class ForegroundImageView extends AppCompatImageView {
         }
         a.recycle();
 
-        setForeground(ContextCompat.getDrawable(context, R.drawable.mid_grey_ripple));
+//        setForeground(ContextCompat.getDrawable(context, R.drawable.mid_grey_ripple));
     }
 
     @Override

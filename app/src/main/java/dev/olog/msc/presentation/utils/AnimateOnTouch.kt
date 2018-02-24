@@ -11,9 +11,8 @@ abstract class AnimateOnTouch : View.OnTouchListener {
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> animate(view.context)
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                restore(view.context)
-            }
+            MotionEvent.ACTION_UP,
+            MotionEvent.ACTION_CANCEL -> restore(view.context)
         }
         return false
     }

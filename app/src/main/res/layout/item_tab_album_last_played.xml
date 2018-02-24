@@ -16,17 +16,16 @@
         android:layout_margin="5dp"
         tools:background="@color/background">
 
-        <dev.olog.msc.presentation.widget.ForegroundImageView
+        <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
             android:id="@+id/cover"
             app:imageAlbum="@{item}"
-            tools:src="@android:color/holo_red_dark"
+            tools:src="@drawable/placeholder_album"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintDimensionRatio="1"
-            android:outlineProvider="bounds"/>
+            app:layout_constraintDimensionRatio="1" />
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"

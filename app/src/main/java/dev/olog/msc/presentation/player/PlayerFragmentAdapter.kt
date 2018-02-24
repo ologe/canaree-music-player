@@ -207,7 +207,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 .load(image)
                 .centerCrop()
                 .placeholder(placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .priority(Priority.IMMEDIATE)
                 .override(800)
                 .into(view.cover)

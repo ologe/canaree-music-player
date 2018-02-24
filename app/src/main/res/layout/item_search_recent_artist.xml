@@ -34,7 +34,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            app:rounded="@{item.mediaId.isArtist}"
             tools:src="@drawable/placeholder_artist"
             android:layout_marginStart="12dp"
             android:layout_marginTop="@dimen/item_song_cover_margin_vertical"

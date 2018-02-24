@@ -13,8 +13,7 @@
         android:layout_width="@dimen/item_tab_album_last_player_width"
         android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        tools:background="@color/background">
+        android:layout_margin="5dp">
 
         <dev.olog.msc.presentation.widget.image.view.CircularImageView
             android:id="@+id/coverLayout"
@@ -25,7 +24,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            app:rounded="@{item.mediaId.isArtist}"
             tools:src="@drawable/placeholder_artist"
             android:outlineProvider="bounds"/>
 

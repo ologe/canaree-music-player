@@ -25,9 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            app:rounded="@{item.mediaId.isArtist}"
-            tools:src="@drawable/placeholder_artist"
-            android:outlineProvider="bounds"/>
+            tools:src="@drawable/placeholder_artist" />
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"
@@ -42,28 +40,22 @@
             android:id="@+id/firstText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             app:layout_constraintTop_toBottomOf="@+id/coverLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
             style="@style/Album.MainText"
             android:text="@{item.title}"
-
             tools:text="@tools:sample/lorem"/>
 
         <TextView
             android:id="@+id/secondText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             app:layout_constraintTop_toBottomOf="@+id/firstText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
             style="@style/Album.SecondaryText"
             android:text="@{item.subtitle}"
-
             tools:text="@tools:sample/lorem"
             tools:visibility="visible" />
 

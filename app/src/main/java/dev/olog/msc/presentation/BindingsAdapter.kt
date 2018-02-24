@@ -21,8 +21,8 @@ import java.io.File
 
 object BindingsAdapter {
 
-    const val OVERRIDE_SMALL = 150
-    const val OVERRIDE_MID = 300
+    private const val OVERRIDE_SMALL = 150
+    private const val OVERRIDE_MID = 300
     const val OVERRIDE_BIG = 600
 
     @JvmStatic
@@ -30,8 +30,7 @@ object BindingsAdapter {
             view: ImageView,
             item: DisplayableItem?,
             override: Int,
-            priority: Priority = Priority.HIGH,
-            rounded: Boolean = false){
+            priority: Priority = Priority.HIGH){
 
         item ?: return
 
@@ -44,23 +43,19 @@ object BindingsAdapter {
         val id = resolveId(mediaId)
         val image = resolveUri(item.image)
 
-        var request = GlideApp.with(context)
+        val request = GlideApp.with(context)
                 .load(image)
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .override(override)
                 .priority(priority)
                 .placeholder(CoverUtils.getGradient(context, id, source))
-
-        if (rounded){
-            request = request.circleCrop()
-        }
 
         if (mediaId.isLeaf){
             request.into(view)
         } else {
             request.transition(DrawableTransitionOptions.withCrossFade())
-                    .into(RippleTarget(view, !rounded))
+                    .into(RippleTarget(view, true))
         }
     }
 
@@ -78,25 +73,22 @@ object BindingsAdapter {
                 .into(view)
     }
 
-    @BindingAdapter("imageSong", "rounded", requireAll = false)
+    @BindingAdapter("imageSong")
     @JvmStatic
-    fun loadSongImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
-        loadImageImpl(view, item, OVERRIDE_SMALL, rounded = rounded)
+    fun loadSongImage(view: ImageView, item: DisplayableItem) {
+        loadImageImpl(view, item, OVERRIDE_SMALL)
     }
 
-    /*
-     *  todo displayable is temporaly nullable because of a bug with item detail info, remove asap
-     */
-    @BindingAdapter("imageAlbum", "rounded", requireAll = false)
+    @BindingAdapter("imageAlbum")
     @JvmStatic
-    fun loadAlbumImage(view: ImageView, item: DisplayableItem?, rounded: Boolean = false) {
-        loadImageImpl(view, item, OVERRIDE_MID, Priority.HIGH, rounded = rounded)
+    fun loadAlbumImage(view: ImageView, item: DisplayableItem) {
+        loadImageImpl(view, item, OVERRIDE_MID, Priority.HIGH)
     }
 
-    @BindingAdapter("imageBigAlbum", "rounded", requireAll = false)
+    @BindingAdapter("imageBigAlbum")
     @JvmStatic
-    fun loadBigAlbumImage(view: ImageView, item: DisplayableItem, rounded: Boolean = false) {
-        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE, rounded = rounded)
+    fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
+        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE)
     }
 
     @BindingAdapter("imageSpecialThanks")

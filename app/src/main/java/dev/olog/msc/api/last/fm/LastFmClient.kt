@@ -108,25 +108,25 @@ class LastFmClient @Inject constructor(
                 .map { it.text }
                 .flatMap { insertLastFmArtistImageUseCase.execute(SearchedImage(artistId, it)).toSingle { it } }
                 .map { true }
-                .onErrorResumeNext {
-                    if (it is NullPointerException){
-                        insertLastFmArtistImageUseCase
-                                .execute(SearchedImage(artistId, ""))
-                                .toSingle { false }
-                    } else {
-                        Single.just(false)
-                    }
-                }
+//                .onErrorResumeNext {
+//                    if (it is NullPointerException){
+//                        insertLastFmArtistImageUseCase
+//                                .execute(SearchedImage(artistId, ""))
+//                                .toSingle { false }
+//                    } else {
+//                        Single.just(false)
+//                    }
+//                }
 
         if (isConnected){
             return getLastFmArtistImageUseCase.execute(artistId)
                     .map { it.image }
                     .map { false }
-                    .onErrorResumeNext {
-                        if (it is EmptyResultSetException){
-                            fetch
-                        } else Single.just(false)
-                    }
+//                    .onErrorResumeNext {
+//                        if (it is EmptyResultSetException){
+//                            fetch
+//                        } else Single.just(false)
+//                    }
         }
         return Single.just(false)
     }

@@ -12,7 +12,6 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         tools:layout_width="150dp"
-        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         tools:background="@color/background">
@@ -26,9 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
-            app:rounded="@{item.mediaId.isArtist}"
-            tools:src="@drawable/placeholder_artist"
-            android:foreground="@drawable/mid_grey_ripple" />
+            tools:src="@drawable/placeholder_artist" />
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"

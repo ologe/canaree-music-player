@@ -41,7 +41,6 @@
             tools:src="@drawable/placeholder_artist"
             android:layout_marginTop="4dp"
             app:albumsArtistImage="@{item}"
-            app:rounded="@{item.mediaId.isAlbum}"
             android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"
             tools:visibility="visible"/>
 
