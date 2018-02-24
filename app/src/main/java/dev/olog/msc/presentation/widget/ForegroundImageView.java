@@ -23,8 +23,6 @@ public class ForegroundImageView extends AppCompatImageView {
             setForeground(d);
         }
         a.recycle();
-
-//        setForeground(ContextCompat.getDrawable(context, R.drawable.mid_grey_ripple));
     }
 
     @Override

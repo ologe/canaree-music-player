@@ -17,8 +17,8 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         tools:src="@drawable/placeholder_folder"
-        android:clickable="true"
-        android:focusable="true"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <dev.olog.msc.presentation.widget.parallax.ParallaxRecyclerView
         android:id="@+id/list"

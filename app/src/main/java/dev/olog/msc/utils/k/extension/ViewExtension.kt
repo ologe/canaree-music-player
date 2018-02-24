@@ -14,4 +14,8 @@ fun View.setGone(){
     this.visibility = View.GONE
 }
 
+fun View.setVisible(){
+    this.visibility = View.VISIBLE
+}
+
 fun View.isVisible() = this.visibility == View.VISIBLE
