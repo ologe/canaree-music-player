@@ -19,7 +19,7 @@ import dev.olog.msc.data.entity.*
         LastFmTrackImageEntity::class,
         LastFmArtistImageEntity::class
 
-), version = 1, exportSchema = false)
+), version = 2)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao

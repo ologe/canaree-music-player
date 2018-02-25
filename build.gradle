@@ -46,8 +46,14 @@ ext {
 
     // app versioning
     // remember to activate firebase metadata in manifest in release build
-    versionCode = 27022 // android(27) - version code(020)
-    versionName = '0.22'
+
+    /*  version code
+        4 - abi split, for old compatibility
+        27 - android version
+        X.xxx - X major version, xxx minor version
+     */
+    versionCode = 4270300
+    versionName = '0.300'
 
     // App dependencies
     support_library = '27.0.2'

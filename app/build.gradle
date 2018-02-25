@@ -5,6 +5,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'Next'
+            keyPassword 'D3aadd9b88'
+            storeFile file('C:/Users/Eugi/keystores/next.jks')
+            storePassword 'D3aadd9b88'
+        }
+    }
 
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -20,14 +28,15 @@ android {
 
         vectorDrawables.useSupportLibrary = true
     }
-
     buildTypes {
 
         release {
-            minifyEnabled true
-            useProguard true
-            multiDexEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            useProguard false
+            multiDexEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
 
         debug {
@@ -37,7 +46,6 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 ////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            debuggable false
-
             minifyEnabled false
             useProguard false
             multiDexEnabled true
@@ -55,18 +63,16 @@ android {
     dexOptions {
         preDexLibraries true
     }
-
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
         }
     }
 
-    lintOptions{
+    lintOptions {
         checkReleaseBuilds false
         disable 'MissingTranslation'
     }
-
 }
 
 
@@ -137,10 +143,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
 
-
     // debug
-        implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
-
+    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
 
     // crashlytics
@@ -148,7 +152,6 @@ dependencies {
         transitive = true
     }
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
