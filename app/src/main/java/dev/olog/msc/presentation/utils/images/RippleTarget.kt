@@ -8,6 +8,7 @@ import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.ForegroundImageView
+import dev.olog.msc.presentation.widget.parallax.ParallaxImageView
 import dev.olog.msc.utils.ViewUtils
 import dev.olog.msc.utils.k.extension.getBitmap
 
@@ -33,8 +34,17 @@ class RippleTarget(
 
     override fun onGenerated(palette: Palette) {
         if (!isLeaf && imageView is ForegroundImageView){
-            imageView.foreground = ViewUtils.createRipple(palette, .5f, .6f,
-                    ContextCompat.getColor(view.context, R.color.mid_grey), true)
+            val fallbackColor = ContextCompat.getColor(view.context, R.color.mid_grey)
+            val darkAlpha = .5f
+            val lightAlpha = .6f
+
+            imageView.foreground = ViewUtils.createRipple(palette, darkAlpha,
+                    lightAlpha, fallbackColor, true)
+
+            if (imageView is ParallaxImageView){
+                imageView.setScrimColor(ViewUtils.createRippleColor(palette, darkAlpha,
+                        lightAlpha, fallbackColor))
+            }
         }
     }
 }

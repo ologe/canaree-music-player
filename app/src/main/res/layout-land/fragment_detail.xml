@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <dev.olog.msc.presentation.widget.ForegroundImageView
+    <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
         android:id="@+id/cover"
         tools:src="@drawable/placeholder_folder"
         android:layout_width="0dp"
@@ -89,13 +89,14 @@
         android:layout_marginTop="@dimen/status_bar"
         tools:text="Selena Gomez"
         android:textColor="@color/dark_grey"
+        android:maxLines="2"
         android:textStyle="bold"
         android:textSize="18sp"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginEnd="96dp"
         android:elevation="2dp"/>
 
     <ImageButton
@@ -126,16 +127,17 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:elevation="2dp"/>
+        android:elevation="@dimen/toolbar_elevation"/>
 
     <ImageButton
         android:id="@+id/search"
         app:layout_constraintTop_toTopOf="@+id/headerText"
         app:layout_constraintEnd_toStartOf="@+id/more"
+        app:layout_constraintBottom_toBottomOf="@+id/headerText"
         android:src="@drawable/vd_search"
         android:padding="12dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:tint="@color/dark_grey"
         android:clickable="true"
         android:focusable="true"

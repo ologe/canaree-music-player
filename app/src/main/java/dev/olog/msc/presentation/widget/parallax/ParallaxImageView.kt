@@ -1,12 +1,17 @@
 package dev.olog.msc.presentation.widget.parallax
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.support.v4.math.MathUtils
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.ForegroundImageView
 
 private const val DEFAULT_PARALLAX = .4f
+private const val MAX_ALPHA = 85 //.3f
 
 class ParallaxImageView(
         context: Context,
@@ -14,16 +19,38 @@ class ParallaxImageView(
 
 ) : ForegroundImageView(context, attrs) {
 
+    private var scrimColor = Color.LTGRAY
+    private val paint = Paint(scrimColor)
+
     private var parallax : Float
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.ParallaxView)
         parallax = a.getFloat(R.styleable.ParallaxView_parallax, DEFAULT_PARALLAX)
         a.recycle()
+
+        // start transparent
+        paint.alpha = 0
     }
 
     fun translateY(root: View) {
-        translationY = (height - root.bottom).toFloat() * parallax
+        val diff = (height - root.bottom)
+
+        translationY = diff.toFloat() * parallax
+
+        val currentAlpha = MathUtils.clamp((diff * .1f).toInt(), 0, MAX_ALPHA)
+        paint.alpha = currentAlpha
+        invalidate()
+    }
+
+    fun setScrimColor(color: Int){
+        paint.color = color
+        paint.alpha = MathUtils.clamp(translationY.toInt(), 0, MAX_ALPHA)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
     }
 
 }

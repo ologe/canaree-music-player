@@ -133,7 +133,7 @@
             tools:text="50 Cent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/remix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_artist_text_size"

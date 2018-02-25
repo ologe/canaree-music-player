@@ -13,9 +13,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground">
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/player_title_margin_horizontal"
+        android:paddingEnd="@dimen/player_title_margin_horizontal">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -36,7 +39,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="@dimen/item_song_cover_size"
                 android:layout_height="@dimen/item_song_cover_size"
-                android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                 android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
                 tools:src="@drawable/placeholder_folder"

@@ -115,7 +115,7 @@ class EditSongFragment : BaseFragment() {
         val builder = GlideApp.with(context!!)
                 .load(string)
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(BindingsAdapter.OVERRIDE_BIG)
                 .priority(Priority.IMMEDIATE)
                 .placeholder(CoverUtils.getGradient(context!!, viewModel.getSongId()))

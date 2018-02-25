@@ -207,7 +207,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 .load(image)
                 .centerCrop()
                 .placeholder(placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
                 .override(800)
                 .into(view.cover)
@@ -218,7 +218,7 @@ class PlayerFragmentAdapter @Inject constructor(
         if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED){
             val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
             view.nowPlaying.isActivated = isPlaying
-            view.coverLayout?.isActivated = isPlaying
+            view.cover?.isActivated = isPlaying
             handleSeekBarState(view, isPlaying)
         }
 

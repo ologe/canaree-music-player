@@ -6,7 +6,8 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.ForegroundImageView
-import dev.olog.msc.utils.k.extension.dip
+
+private const val DEFAULT_RADIUS = 0f
 
 class RoundedCornerImageView @JvmOverloads constructor(
         context: Context,
@@ -17,8 +18,7 @@ class RoundedCornerImageView @JvmOverloads constructor(
     init {
         val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
 
-        val default = context.dip(5).toFloat()
-        val radius = a.getDimension(R.styleable.RoundedCornerImageView_cornerRadius, default)
+        val radius = a.getDimension(R.styleable.RoundedCornerImageView_cornerRadius, DEFAULT_RADIUS)
 
         val drawable = ContextCompat.getDrawable(context, R.drawable.rounded_corners_drawable) as GradientDrawable
         drawable.cornerRadius = radius

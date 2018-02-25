@@ -64,7 +64,7 @@ class PlayerFragment : BaseFragment() {
                     val state = it.state
                     if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED){
                         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
-                        coverLayout?.isActivated = isPlaying
+                        cover?.isActivated = isPlaying
                     }
                 })
 
@@ -84,7 +84,7 @@ class PlayerFragment : BaseFragment() {
                             .load(image)
                             .centerCrop()
                             .placeholder(placeholder)
-                            .diskCacheStrategy(DiskCacheStrategy.DATA)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .priority(Priority.IMMEDIATE)
                             .override(800)
                             .into(cover)

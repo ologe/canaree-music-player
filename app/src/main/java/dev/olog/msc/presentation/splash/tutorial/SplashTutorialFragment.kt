@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.splash.tutorial
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.CardView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -23,13 +22,11 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     private lateinit var cover : ImageView
     private lateinit var nowPlaying: TextView
     private lateinit var swipeableView : SwipeableView
-    private lateinit var coverLayout : CardView
     private lateinit var viewPager : StoppingViewPager
 
     private var touchDisposable : Disposable? = null
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        coverLayout = view.findViewById(R.id.coverLayout)
         nowPlaying = view.findViewById(R.id.nowPlaying)
         viewPager = activity!!.findViewById(R.id.viewPager)
         cover = view.findViewById(R.id.cover)
@@ -77,7 +74,7 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     }
 
     private fun setActivated(activated: Boolean){
-        coverLayout.isActivated = activated
+        cover.isActivated = activated
         nowPlaying.isActivated = activated
     }
 

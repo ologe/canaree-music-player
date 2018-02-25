@@ -69,7 +69,7 @@ class DetailFragment : BaseFragment() {
                 .subscribe(this, relatedArtistAdapter::updateDataSet)
 
         viewModel.data.subscribe(this, {
-            if (context!!.isLandscape){
+            if (ctx.isLandscape){
                 // header in list is not used in landscape
                 it[DetailFragmentDataType.HEADER]!!.clear()
             }
@@ -83,7 +83,7 @@ class DetailFragment : BaseFragment() {
             } else {
                 if (cover.isVisible()){
                     val id = BindingsAdapter.resolveId(item[0].mediaId)
-                    val drawable = CoverUtils.getGradient(context!!, id, item[0].mediaId.source)
+                    val drawable = CoverUtils.getGradient(ctx, id, item[0].mediaId.source)
                     cover.setImageDrawable(drawable)
                 }
             }
@@ -104,7 +104,11 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        if (viewModel.firstAccess) {
+        if (!ctx.isPortrait){
+            view.cover.setVisible()
+        }
+
+        if (viewModel.firstAccess && ctx.isPortrait) {
             viewModel.firstAccess = false
 
             view.cover.setVisible()
@@ -122,18 +126,18 @@ class DetailFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (context!!.isPortrait){
+        if (ctx.isPortrait){
             list.addOnScrollListener(recyclerOnScrollListener)
             list.addItemDecoration(detailListMargin)
         }
-        back.setOnClickListener { activity!!.onBackPressed() }
+        back.setOnClickListener { act.onBackPressed() }
         search.setOnClickListener { navigator.toSearchFragment(search) }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
     }
 
     override fun onPause() {
         super.onPause()
-        if (context!!.isPortrait){
+        if (ctx.isPortrait){
             list.removeOnScrollListener(recyclerOnScrollListener)
             list.removeItemDecoration(detailListMargin)
         }
@@ -151,15 +155,15 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun removeLightStatusBar(){
-        activity!!.window.removeLightStatusBar()
+        act.window.removeLightStatusBar()
         back.setColorFilter(Color.WHITE)
         search.setColorFilter(Color.WHITE)
         more.setColorFilter(Color.WHITE)
     }
 
     private fun setLightStatusBar(){
-        activity!!.window.setLightStatusBar()
-        val color = ContextCompat.getColor(context!!, R.color.dark_grey)
+        act.window.setLightStatusBar()
+        val color = ContextCompat.getColor(ctx, R.color.dark_grey)
         back.setColorFilter(color)
         search.setColorFilter(color)
         more.setColorFilter(color)

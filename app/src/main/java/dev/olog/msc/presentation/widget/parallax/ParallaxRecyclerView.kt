@@ -17,7 +17,9 @@ class ParallaxRecyclerView(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        addOnScrollListener(parallaxScrollListener)
+        if (!isInEditMode){
+            addOnScrollListener(parallaxScrollListener)
+        }
     }
 
     override fun onDetachedFromWindow() {

@@ -16,6 +16,17 @@ public class ViewUtils {
                                               @FloatRange(from = 0f, to = 1f) float lightAlpha,
                                               @ColorInt int fallbackColor,
                                               boolean bounded) {
+
+        int rippleColor = createRippleColor(palette, darkAlpha, lightAlpha, fallbackColor);
+
+        return new RippleDrawable(ColorStateList.valueOf(rippleColor), null,
+                bounded ? new ColorDrawable(Color.WHITE) : null);
+    }
+
+    public static int createRippleColor(@Nullable Palette palette,
+                                                   @FloatRange(from = 0f, to = 1f) float darkAlpha,
+                                                   @FloatRange(from = 0f, to = 1f) float lightAlpha,
+                                                   @ColorInt int fallbackColor){
         int rippleColor = fallbackColor;
         if (palette != null) {
             // try the named swatches in preference order
@@ -39,8 +50,8 @@ public class ViewUtils {
                         ColorUtils.modifyAlpha(palette.getDarkMutedSwatch().getRgb(), darkAlpha);
             }
         }
-        return new RippleDrawable(ColorStateList.valueOf(rippleColor), null,
-                bounded ? new ColorDrawable(Color.WHITE) : null);
+
+        return rippleColor;
     }
 
 }

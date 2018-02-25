@@ -110,45 +110,33 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/coverLayout"
+                <!-- cover -->
+                <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+                    android:id="@+id/cover"
                     app:layout_constraintTop_toBottomOf="@+id/nowPlaying"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintDimensionRatio="1"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    tools:src="@drawable/placeholder_musical_note"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_marginTop="@dimen/player_cover_margin_vertical"
                     android:layout_marginStart="@dimen/player_cover_margin_horizontal"
                     android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="0dp"
-                    android:stateListAnimator="@animator/elevate_on_activated"
-                    android:clipChildren="false"
-                    android:clickable="false">
-
-                    <!-- cover -->
-                    <ImageView
-                        android:id="@+id/cover"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        tools:src="@drawable/placeholder_musical_note"
-                        android:clickable="true"
-                        android:focusable="true" />
-
-                </android.support.v7.widget.CardView>
+                    app:cornerRadius="8dp"
+                    android:stateListAnimator="@animator/elevate_on_activated"/>
 
                 <dev.olog.msc.presentation.widget.SwipeableView
                     android:id="@+id/swipeableView"
                     android:elevation="20dp"
-                    app:layout_constraintTop_toTopOf="@+id/coverLayout"
+                    app:layout_constraintTop_toTopOf="@+id/cover"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/coverLayout"
+                    app:layout_constraintBottom_toBottomOf="@+id/cover"
                     android:layout_width="0dp"
                     android:layout_height="0dp" />
-
 
             </android.support.constraint.ConstraintLayout>
 

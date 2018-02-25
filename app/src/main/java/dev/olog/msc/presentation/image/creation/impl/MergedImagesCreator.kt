@@ -35,7 +35,7 @@ object MergedImagesCreator {
         return GlideApp.with(context)
                 .asBitmap()
                 .load(Uri.parse(ImagesFolderUtils.forAlbum(albumId)))
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .submit(500, 500)
                 .get()
     }
