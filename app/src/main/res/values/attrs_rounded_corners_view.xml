@@ -2,7 +2,7 @@
 <resources>
 
     <declare-styleable name="RoundedCornerImageView">
-        <attr name="cornerRadius" format="dimension"/>
+        <attr name="cornerRadius" format="integer"/>
     </declare-styleable>
 
 </resources>

@@ -19,7 +19,7 @@
         tools:src="@drawable/placeholder_folder"
         android:visibility="gone"
         tools:visibility="visible"
-        app:cornerRadius="0dp"/>
+        app:cornerRadius="0"/>
 
     <dev.olog.msc.presentation.widget.parallax.ParallaxRecyclerView
         android:id="@+id/list"
