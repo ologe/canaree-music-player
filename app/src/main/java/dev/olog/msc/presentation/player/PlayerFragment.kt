@@ -11,6 +11,7 @@ import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
