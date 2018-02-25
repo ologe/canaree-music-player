@@ -30,4 +30,10 @@ interface MediaProvider {
 
     fun togglePlayerFavorite()
 
+    fun swap(from: Int, to: Int)
+    fun swapRelative(from: Int, to: Int)
+
+    fun remove(position: Int)
+    fun removeRelative(position: Int)
+
 }

@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toTopOf="@+id/cover"
                 app:layout_constraintStart_toEndOf="@+id/cover"
                 app:layout_constraintBottom_toTopOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintEnd_toStartOf="@+id/dragHandle"
                 android:text="@{item.title}"
                 tools:text="@tools:sample/lorem"
                 style="@style/Song.MainText"
@@ -76,7 +76,7 @@
                 android:id="@+id/explicit"
                 app:layout_constraintTop_toTopOf="@+id/secondText"
                 app:layout_constraintBottom_toBottomOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintEnd_toStartOf="@+id/dragHandle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -96,11 +96,11 @@
                 android:visibility="@{item.isRemix ? View.VISIBLE : View.GONE}"/>
 
             <ImageButton
-                android:id="@+id/more"
+                android:id="@+id/dragHandle"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/vd_more"
+                android:src="@drawable/vd_drag_handle"
                 android:padding="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -108,7 +108,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />
-
 
         </android.support.constraint.ConstraintLayout>
 

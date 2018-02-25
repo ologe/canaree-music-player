@@ -9,6 +9,7 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.os.bundleOf
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.BaseActivity
@@ -207,4 +208,33 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
                 .map { it.toList() }
     }
 
+    override fun swap(from: Int, to: Int) {
+        val bundle = bundleOf(
+                MusicConstants.ARGUMENT_SWAP_FROM to from,
+                MusicConstants.ARGUMENT_SWAP_TO to to
+        )
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP, bundle)
+    }
+
+    override fun swapRelative(from: Int, to: Int) {
+        val bundle = bundleOf(
+                MusicConstants.ARGUMENT_SWAP_FROM to from,
+                MusicConstants.ARGUMENT_SWAP_TO to to
+        )
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_SWAP_RELATIVE, bundle)
+    }
+
+    override fun remove(position: Int) {
+        val bundle = bundleOf(
+                MusicConstants.ARGUMENT_REMOVE_POSITION to position
+        )
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE, bundle)
+    }
+
+    override fun removeRelative(position: Int) {
+        val bundle = bundleOf(
+                MusicConstants.ARGUMENT_REMOVE_POSITION to position
+        )
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE_RELATIVE, bundle)
+    }
 }

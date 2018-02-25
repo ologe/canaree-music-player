@@ -20,7 +20,7 @@ class ParallaxImageView(
 ) : ForegroundImageView(context, attrs) {
 
     private var scrimColor = Color.LTGRAY
-    private val paint = Paint(scrimColor)
+    private val paint = Paint()
 
     private var parallax : Float
 
@@ -30,6 +30,7 @@ class ParallaxImageView(
         a.recycle()
 
         // start transparent
+        paint.color = scrimColor
         paint.alpha = 0
     }
 

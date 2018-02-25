@@ -62,10 +62,8 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         return viewType == R.layout.item_playing_queue
     }
 
-    override val onDragAction: ((from: Int, to: Int) -> Any)?
-        get() = super.onDragAction /*musicController.swap(from, to) todo */
+    override val onDragAction = { from: Int, to: Int -> mediaProvider.swap(from, to) }
 
-    override val onSwipeAction: ((position: Int) -> Any)?
-        get() = super.onSwipeAction /*musicController.remove(position) */
+    override val onSwipeAction = { position: Int -> mediaProvider.remove(position) }
 
 }

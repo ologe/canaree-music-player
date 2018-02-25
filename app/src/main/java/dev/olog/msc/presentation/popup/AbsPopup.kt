@@ -7,7 +7,6 @@ import android.text.style.StyleSpan
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
-import android.widget.ImageButton
 import android.widget.PopupMenu
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Playlist
@@ -23,7 +22,9 @@ abstract class AbsPopup(
     }
 
     init {
-        addRotateAnimation(view.findViewById<ImageButton>(R.id.more))
+        if (view.id == R.id.more){
+            addRotateAnimation(view)
+        }
     }
 
     fun addPlaylistChooser(context: Context, playlists: List<Playlist>){

@@ -6,13 +6,13 @@ import android.databinding.ViewDataBinding
 import android.net.Uri
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
@@ -62,6 +62,13 @@ class PlayerFragmentAdapter @Inject constructor(
                     navigator.toDialog(item, view)
                 }
                 viewHolder.elevateSongOnTouch()
+
+                viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
+                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
+                        touchHelper?.startDrag(viewHolder)
+                        true
+                    } else false
+                }
             }
         }
     }
@@ -237,5 +244,23 @@ class PlayerFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
+    }
+
+    override fun onMoved(from: Int, to: Int) {
+        super.onMoved(from, to)
+        notifyItemRangeChanged(0, controller.getSize())
+    }
+
+    override fun onSwiped(position: Int) {
+        super.onSwiped(position)
+        notifyItemRangeChanged(0, controller.getSize())
+    }
+
+    override val onDragAction = { from: Int, to: Int -> mediaProvider.swapRelative(from, to) }
+
+    override val onSwipeAction = { position: Int -> mediaProvider.removeRelative(position) }
+
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return viewType == R.layout.item_mini_queue
     }
 }

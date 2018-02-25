@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/detail_margin_horizontal"
         android:paddingEnd="@dimen/detail_margin_horizontal"
-        android:background="?attr/selectableItemBackground"
-        android:outlineProvider="background">
+        android:background="?attr/selectableItemBackground">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/root"
