@@ -13,14 +13,14 @@ class TouchHelperAdapterCallback(
 ) {
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        if (adapter.canInteractWithViewHolder(viewHolder)!!){
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
         }
         return false
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        if (adapter.canInteractWithViewHolder(viewHolder)!!){
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             adapter.onSwiped(viewHolder.adapterPosition)
         }
     }

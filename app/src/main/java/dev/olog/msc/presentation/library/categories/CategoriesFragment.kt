@@ -42,7 +42,7 @@ class CategoriesFragment : BaseFragment() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
         search.setOnClickListener { navigator.toSearchFragment(search) }
-        settings.setOnClickListener { navigator.toMainPopup(it) }
+        more.setOnClickListener { navigator.toMainPopup(it) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 
@@ -50,7 +50,7 @@ class CategoriesFragment : BaseFragment() {
         super.onPause()
         viewPager.removeOnPageChangeListener(onPageChangeListener)
         search.setOnClickListener(null)
-        settings.setOnClickListener(null)
+        more.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
     }
 

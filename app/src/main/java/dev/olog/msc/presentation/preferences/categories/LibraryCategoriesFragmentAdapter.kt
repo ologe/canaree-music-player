@@ -70,8 +70,8 @@ class LibraryCategoriesFragmentAdapter (
         throw IllegalStateException("operation not supported")
     }
 
-    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean? {
-        return viewHolder.itemViewType == R.layout.dialog_tab_category_item
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return viewType == R.layout.dialog_tab_category_item
     }
 
 

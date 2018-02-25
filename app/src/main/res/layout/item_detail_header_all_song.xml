@@ -44,7 +44,8 @@
             android:paddingTop="12dp"
             android:paddingBottom="16dp"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp" />
+            android:paddingStart="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <ImageButton
             android:id="@+id/sortImage"

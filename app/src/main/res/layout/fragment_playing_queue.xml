@@ -68,4 +68,16 @@
         android:clipToPadding="false"
         tools:listitem="@layout/item_mini_queue"/>
 
+    <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
+        android:id="@+id/fastScroller"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:handleColor="@color/dark_grey"
+        app:bubbleColor="@color/item_selected"
+        app:trackColor="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="16dp" />
+
 </android.support.constraint.ConstraintLayout>

@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -25,12 +24,13 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
-    private var currentPosition : Int = -1
+    var currentPosition : Int = -1
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             mediaProvider.skipToQueueItem(item.trackNumber.toLong())
         }
+
         viewHolder.setOnLongClickListener(controller) { item, _, _ ->
             navigator.toDialog(item, viewHolder.itemView)
         }
@@ -45,20 +45,21 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
-//        binding.setVariable(BR.isCurrentSong, item.trackNumber.toInt() == PlayingQueueFragmentViewModel.idInPlaylist)
-//        when {
-//            position > currentPosition -> binding.setVariable(BR.index, "+${position - currentPosition}")
-//            position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
-//            else -> binding.setVariable(BR.index, "-")
-//        }
+        binding.setVariable(BR.isCurrentSong, currentPosition == position)
+        when {
+            position > currentPosition -> binding.setVariable(BR.index, "+${position - currentPosition}")
+            position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
+            else -> binding.setVariable(BR.index, "-")
+        }
     }
 
-//    fun updateCurrentPosition(trackNumber: Int) {
-//        currentPosition = dataController.getItemPositionByPredicate { it.trackNumber.toInt() == trackNumber }
-//    }
+    fun updateCurrentPosition(idInPlaylist: Int) {
+        currentPosition = indexOf { it.trackNumber.toInt() == idInPlaylist }
+        notifyDataSetChanged()
+    }
 
-    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean? {
-        return viewHolder.itemViewType == R.layout.item_playing_queue
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return viewType == R.layout.item_playing_queue
     }
 
     override val onDragAction: ((from: Int, to: Int) -> Any)?

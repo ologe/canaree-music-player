@@ -253,7 +253,7 @@ class DetailFragmentAdapter @Inject constructor(
                 .subscribe({}, Throwable::printStackTrace)
     }
 
-    override fun canInteractWithViewHolder(viewHolder: RecyclerView.ViewHolder): Boolean? {
-        return hasTouchBehavior && viewHolder.itemViewType == R.layout.item_detail_song_with_drag_handle
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return hasTouchBehavior && viewType == R.layout.item_detail_song_with_drag_handle
     }
 }

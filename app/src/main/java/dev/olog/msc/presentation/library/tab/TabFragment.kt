@@ -99,7 +99,7 @@ class TabFragment : BaseFragment() {
     private fun applyMarginToList(view: View){
         if (category == MediaIdCategory.SONGS){
             // start/end margin is set in item
-            view.list.setPadding(view.list.paddingLeft, ctx.dimen(R.dimen.tab_margin_top),
+            view.list.setPadding(view.list.paddingLeft, view.list.paddingTop,
                     view.list.paddingRight, ctx.dimen(R.dimen.tab_margin_bottom))
         } else {
             view.list.setPadding(

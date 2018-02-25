@@ -35,7 +35,7 @@
                 android:gravity="center" />
 
             <ImageButton
-                android:id="@+id/settings"
+                android:id="@+id/more"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="@dimen/common_icon_size"
@@ -50,7 +50,7 @@
             <ImageButton
                 android:id="@+id/search"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/settings"
+                app:layout_constraintEnd_toStartOf="@+id/more"
                 android:layout_width="@dimen/common_icon_size"
                 android:layout_height="@dimen/toolbar"
                 android:elevation="@dimen/toolbar_elevation"

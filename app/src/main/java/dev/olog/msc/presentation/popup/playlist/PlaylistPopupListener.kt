@@ -10,8 +10,8 @@ import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
-import dev.olog.msc.presentation.popup.Popup
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject
 
@@ -48,7 +48,7 @@ class PlaylistPopupListener @Inject constructor(
         onPlaylistSubItemClick(activity, itemId, getMediaId(), playlist.size, playlist.title)
 
         when (itemId){
-            Popup.NEW_PLAYLIST_ID -> toCreatePlaylist()
+            AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
             R.id.addToFavorite -> addToFavorite()
