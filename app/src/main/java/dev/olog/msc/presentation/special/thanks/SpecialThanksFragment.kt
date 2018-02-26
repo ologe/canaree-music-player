@@ -5,6 +5,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.utils.k.extension.act
+import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.subscribe
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
 import javax.inject.Inject
@@ -24,12 +28,16 @@ class SpecialThanksFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
+
+        Single.just(presenter.data)
+                .toFlowable()
+                .asLiveData()
+                .subscribe(this, adapter::updateDataSet)
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.updateDataSet(presenter.data)
-        activity!!.switcher.setText(getString(R.string.about_special_thanks_to))
+        act.switcher.setText(getString(R.string.about_special_thanks_to))
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_special_thanks

@@ -54,8 +54,7 @@
         <activity android:name=".presentation.splash.SplashActivity"/>
 
         <!--about activity-->
-        <activity android:name=".presentation.about.AboutActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.about.AboutActivity" />
 
         <!--settings activity-->
         <activity android:name=".presentation.preferences.PreferencesActivity"
