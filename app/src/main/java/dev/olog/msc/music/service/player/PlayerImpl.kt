@@ -159,23 +159,15 @@ class PlayerImpl @Inject constructor(
 
     override fun onPlayerError(error: ExoPlaybackException) {
         val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> {
-                Crashlytics.logException(error.sourceException)
-                error.sourceException.message
-            }
-            ExoPlaybackException.TYPE_RENDERER -> {
-                Crashlytics.logException(error.rendererException)
-                error.rendererException.message
-            }
-            ExoPlaybackException.TYPE_UNEXPECTED -> {
-                Crashlytics.logException(error.unexpectedException)
-                error.unexpectedException.message
-            }
-            else -> {
-                Crashlytics.log("unexpected onPlayerError")
-                "Unknown: " + error
-            }
+            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
+            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
+            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
+            else -> "Unknown: " + error
         }
+
+        try {
+            Crashlytics.log("player error $what")
+        } catch (ex: Exception){}
 
         if (BuildConfig.DEBUG) {
             Log.e("Player", "onPlayerError " + what)
