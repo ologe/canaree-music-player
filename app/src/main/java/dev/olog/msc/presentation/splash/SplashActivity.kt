@@ -12,7 +12,6 @@ import android.support.v4.app.ActivityCompat
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
-import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -24,7 +23,6 @@ private const val STORAGE_PERMISSION_CODE = 56891
 class SplashActivity : BaseActivity(), View.OnClickListener {
 
     @Inject lateinit var adapter : SplashActivityViewPagerAdapter
-    @Inject lateinit var imagesCreator: ImagesCreator
     private var disposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,7 +81,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onStoragePermissionGranted(){
-        imagesCreator.createImages()
         finishActivity()
     }
 

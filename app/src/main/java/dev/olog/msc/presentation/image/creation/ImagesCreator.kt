@@ -1,13 +1,8 @@
 package dev.olog.msc.presentation.image.creation
 
-import android.Manifest
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
-import android.content.pm.PackageManager
-import android.support.v4.content.ContextCompat
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.util.GetAllArtistsNewRequestUseCase
 import dev.olog.msc.domain.interactor.util.GetAllFoldersNewRequestUseCase
@@ -22,7 +17,6 @@ import javax.inject.Singleton
 
 @Singleton
 class ImagesCreator @Inject constructor(
-        @ApplicationContext context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
         private val getAllFoldersUseCase: GetAllFoldersNewRequestUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsNewRequestUseCase,
@@ -36,9 +30,6 @@ class ImagesCreator @Inject constructor(
 
 ) : DefaultLifecycleObserver {
 
-    private val hasStoragePermission = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-
     private val subscriptions = CompositeDisposable()
     private var folderDisposable : Disposable? = null
     private var playlistDisposable : Disposable? = null
@@ -50,22 +41,18 @@ class ImagesCreator @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        if (hasStoragePermission){
-            createImages()
-        }
+        createImages()
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        subscriptions.clear()
         folderDisposable.unsubscribe()
         playlistDisposable.unsubscribe()
         artistDisposable.unsubscribe()
         genreDisposable.unsubscribe()
+        subscriptions.clear()
     }
 
-    fun createImages() {
-        subscriptions.clear()
-
+    private fun createImages() {
         getAllFoldersUseCase.execute()
                 .doOnNext {
                     folderDisposable.unsubscribe()
