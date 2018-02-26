@@ -91,16 +91,20 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
             when (requestCode){
                 SPLASH_REQUEST_CODE -> {
                     navigator.toLibraryCategories()
+                    return
                 }
-                PreferencesActivity.REQUEST_CODE -> recreateActivity()
-                else -> super.onActivityResult(requestCode, resultCode, data)
-            }
-        } else {
-            if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION){
-                FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+                PreferencesActivity.REQUEST_CODE -> {
+                    recreateActivity()
+                    return
+                }
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION){
+            FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     private fun recreateActivity(){
