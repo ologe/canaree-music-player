@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="never"
-        tools:listitem="@layout/item_tab_song" />
+        tools:listitem="@layout/item_mini_queue" />
 
     <include
         android:id="@+id/swipeableLayout"

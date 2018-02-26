@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:paddingStart="@dimen/player_title_margin_horizontal"
-        android:paddingEnd="@dimen/player_title_margin_horizontal">
+        android:paddingStart="@dimen/mini_queue_margin_start"
+        android:paddingEnd="@dimen/mini_queue_margin_end">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/root"
