@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/coverLayout"
+        <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+            android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
 
@@ -28,41 +28,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
-            app:cardCornerRadius="4dp"
-            app:cardElevation="0dp">
+            app:imageAlbum="@{item}"
+            tools:src="@android:color/holo_red_dark"/>
+
+        <FrameLayout
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="@+id/cover"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:background="#8000"
+            android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}">
 
             <ImageView
-                android:id="@+id/cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:imageAlbum="@{item}"
-                tools:src="@android:color/holo_red_dark"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/vd_lock"
+                android:tint="#FAFAFA"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#8000"
-                android:visibility="@{isBlacklisted ? View.VISIBLE : View.GONE}">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/vd_lock"
-                    android:tint="#FAFAFA"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"/>
-
-            </FrameLayout>
-
-        </android.support.v7.widget.CardView>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/firstText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            app:layout_constraintTop_toBottomOf="@+id/coverLayout"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 

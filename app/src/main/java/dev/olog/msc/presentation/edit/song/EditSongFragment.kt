@@ -17,7 +17,7 @@ import dev.olog.msc.presentation.edit.song.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
-import kotlinx.android.synthetic.main.fragment_edit_info.*
+import kotlinx.android.synthetic.main.fragment_edit_song.*
 import javax.inject.Inject
 
 private const val RESULT_LOAD_IMAGE = 12346
@@ -182,5 +182,5 @@ class EditSongFragment : BaseFragment() {
         progressDialog = null
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_edit_info
+    override fun provideLayoutId(): Int = R.layout.fragment_edit_song
 }
