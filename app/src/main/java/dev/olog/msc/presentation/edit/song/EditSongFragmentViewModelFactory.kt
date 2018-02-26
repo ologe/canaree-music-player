@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.info
+package dev.olog.msc.presentation.edit.song
 
 import android.app.Application
 import android.arch.lifecycle.ViewModel

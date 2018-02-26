@@ -98,10 +98,9 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
         } else {
             if (requestCode == FloatingWindowHelper.REQUEST_CODE_HOVER_PERMISSION){
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
-            } else {
-                super.onActivityResult(requestCode, resultCode, data)
             }
         }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun recreateActivity(){

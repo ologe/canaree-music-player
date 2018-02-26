@@ -24,7 +24,7 @@ object BindingsAdapter {
 
     private const val OVERRIDE_SMALL = 150
     private const val OVERRIDE_MID = 300
-    const val OVERRIDE_BIG = 600
+    private const val OVERRIDE_BIG = 600
 
     @JvmStatic
     private fun loadImageImpl(

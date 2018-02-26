@@ -24,7 +24,7 @@ import dev.olog.msc.presentation.dialog.delete.DeleteDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
-import dev.olog.msc.presentation.edit.info.EditSongFragment
+import dev.olog.msc.presentation.edit.song.EditSongFragment
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.model.DisplayableItem
