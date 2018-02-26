@@ -247,15 +247,7 @@ class PlayerFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    override fun onMoved(from: Int, to: Int) {
-        super.onMoved(from, to)
-        notifyItemRangeChanged(0, controller.getSize())
-    }
 
-    override fun onSwiped(position: Int) {
-        super.onSwiped(position)
-        notifyItemRangeChanged(0, controller.getSize())
-    }
 
     override val onDragAction = { from: Int, to: Int -> mediaProvider.swapRelative(from, to) }
 

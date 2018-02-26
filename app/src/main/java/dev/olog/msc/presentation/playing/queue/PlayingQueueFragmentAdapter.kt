@@ -53,6 +53,12 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         }
     }
 
+    override fun onMoved(from: Int, to: Int) {
+        super.onMoved(from, to)
+        notifyItemChanged(from)
+        notifyItemChanged(to)
+    }
+
     fun updateCurrentPosition(idInPlaylist: Int) {
         currentPosition = indexOf { it.trackNumber.toInt() == idInPlaylist }
         notifyDataSetChanged()

@@ -79,8 +79,8 @@ android {
     }
 
     lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
+//        checkReleaseBuilds false
+//        disable 'MissingTranslation'
     }
 }
 
