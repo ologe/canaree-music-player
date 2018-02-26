@@ -57,9 +57,9 @@
     </string-array>
 
     <string-array name="prefs_detail_sections_entries">
-        <item>@string/detail_most_played</item>
-        <item>@string/detail_recently_added</item>
-        <item>@string/related_artists</item>
+        <item>@string/common_most_played</item>
+        <item>@string/common_recently_added</item>
+        <item>@string/common_related_artists</item>
     </string-array>
 
 

@@ -24,14 +24,14 @@ data class DisplayableItem (
             if (size <= 0){
                 return ""
             }
-            return resources.getQuantityString(R.plurals.song_count, size, size).toLowerCase()
+            return resources.getQuantityString(R.plurals.common_plurals_song, size, size).toLowerCase()
         }
 
         fun handleAlbumListSize(resources: Resources, size: Int): String {
             if (size <= 0){
                 return ""
             }
-            return resources.getQuantityString(R.plurals.album_count, size, size).toLowerCase()
+            return resources.getQuantityString(R.plurals.common_plurals_album, size, size).toLowerCase()
         }
 
     }

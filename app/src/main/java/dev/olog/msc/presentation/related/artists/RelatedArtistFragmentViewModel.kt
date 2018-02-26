@@ -27,9 +27,9 @@ class RelatedArtistViewModel(
 }
 
 private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
-    val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+    val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
-        "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
+        "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
     return DisplayableItem(

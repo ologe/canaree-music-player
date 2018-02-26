@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="common_folder">Folder</string>
     <string name="common_folders">Folders</string>
-
-    <string name="common_playlist">Playlist</string>
     <string name="common_playlists">Playlists</string>
-
-    <string name="common_track">Track</string>
     <string name="common_tracks">Tracks</string>
-
-    <string name="common_album">Album</string>
     <string name="common_albums">Albums</string>
-
-    <string name="common_artist">Artist</string>
     <string name="common_artists">Artists</string>
-
-    <string name="common_genre">Genre</string>
     <string name="common_genres">Genres</string>
 
+    <string name="common_last_added">Last added</string>
+    <string name="common_favorites">Favorites</string>
+    <string name="common_history">History</string>
+
+    <string-array name="common_auto_playlists">
+        <item>@string/common_last_added</item>
+        <item>@string/common_favorites</item>
+        <item>@string/common_history</item>
+    </string-array>
 
     <string name="common_unknown_album">Unknown album</string>
     <string name="common_unknown_artist">Unknown artist</string>
@@ -39,10 +37,37 @@
         <item quantity="other">%d minutes</item>
     </plurals>
 
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+
+    <plurals name="common_plurals_album">
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+
+    <string name="common_folder">Folder</string>
+    <string name="common_playlist">Playlist</string>
+    <string name="common_title">Title</string>
+    <string name="common_track">Track</string>
+    <string name="common_artist">Artist</string>
+    <string name="common_album">Album</string>
+    <string name="common_genre">Genre</string>
+    <string name="common_duration">Duration</string>
+    <string name="common_recently_added">Related artists</string>
+    <string name="common_custom">Custom</string>
+    <string name="common_track_number">Track number</string>
+
     <string name="common_play">Play</string>
     <string name="common_shuffle">Shuffle All</string>
     <string name="common_search">Search</string>
     <string name="common_hide">Hide</string>
 
+    <string name="common_related_artists">Related artists</string>
+    <string name="common_most_played">Related artists</string>
+
+    <string name="common_no_tracks">No tracks</string>
+    <string name="common_no_results">No results</string>
 
 </resources>

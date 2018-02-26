@@ -2,14 +2,6 @@
     <string name="app_name" translatable="false">Next</string>
 
 
-    <string-array name="auto_playlists">
-        <item>Last added</item>
-        <item>Favorites</item>
-        <item>History</item>
-    </string-array>
 
-    <string name="quick_action_hide">Hide</string>
-    <string name="quick_action_play">Play</string>
-    <string name="quick_action_shuffle">Shuffle</string>
 
 </resources>

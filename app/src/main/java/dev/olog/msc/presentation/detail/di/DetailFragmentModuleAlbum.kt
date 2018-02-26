@@ -83,7 +83,7 @@ private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableIte
             R.layout.item_detail_album_mini,
             MediaId.folderId(path),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             this.image
     )
 }
@@ -93,7 +93,7 @@ private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableI
             R.layout.item_detail_album_mini,
             MediaId.playlistId(id),
             title.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             this.image
     )
 }
@@ -103,7 +103,7 @@ private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem
             R.layout.item_detail_album,
             MediaId.albumId(id),
             title,
-            resources.getQuantityString(R.plurals.song_count, this.songs, this.songs).toLowerCase(),
+            resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase(),
             image
     )
 }
@@ -113,7 +113,7 @@ private fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem
             R.layout.item_detail_album_mini,
             MediaId.genreId(id),
             name.capitalize(),
-            resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase(),
+            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             this.image
     )
 }

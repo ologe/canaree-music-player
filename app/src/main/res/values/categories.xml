@@ -28,7 +28,7 @@
     <string-array name="tab_empty_state">
         <item>No folders</item>
         <item>No playlist</item>
-        <item>No songs</item>
+        <item>@string/common_no_tracks</item>
         <item>No albums</item>
         <item>No artists</item>
         <item>No genres</item>

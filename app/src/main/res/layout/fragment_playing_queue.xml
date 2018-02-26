@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/header"
-            android:text="@string/player_playing_queue"
+            android:text="@string/playing_queue"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
             android:textSize="18sp"
