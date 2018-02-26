@@ -16,8 +16,8 @@ import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.presentation.base.adp.AbsAdapter
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog

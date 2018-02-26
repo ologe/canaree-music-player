@@ -6,7 +6,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*

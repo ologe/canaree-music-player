@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
-import dev.olog.msc.presentation.base.adp.AdapterDataController
+import dev.olog.msc.presentation.base.adapter.AdapterDataController
 import dev.olog.msc.presentation.utils.ScaleInOnTouch
 import dev.olog.msc.presentation.utils.ScaleMoreInOnTouch
 

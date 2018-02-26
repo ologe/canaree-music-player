@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.library.tab.span.size.lookup
 
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.adp.AbsAdapter
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.model.DisplayableItem
 
 class ArtistSpanSizeLookup(

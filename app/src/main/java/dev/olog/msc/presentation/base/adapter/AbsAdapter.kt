@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base.adp
+package dev.olog.msc.presentation.base.adapter
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle

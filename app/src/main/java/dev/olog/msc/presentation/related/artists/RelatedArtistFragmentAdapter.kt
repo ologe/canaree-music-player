@@ -4,8 +4,8 @@ import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.base.adp.AbsAdapter
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch

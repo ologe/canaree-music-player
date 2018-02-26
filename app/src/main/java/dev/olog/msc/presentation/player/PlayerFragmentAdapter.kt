@@ -19,8 +19,8 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
-import dev.olog.msc.presentation.base.adp.AbsAdapter
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator

@@ -14,7 +14,7 @@ import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator

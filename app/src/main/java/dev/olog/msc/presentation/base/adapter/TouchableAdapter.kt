@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base.adp
+package dev.olog.msc.presentation.base.adapter
 
 interface TouchableAdapter {
 

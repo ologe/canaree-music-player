@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base.adp
+package dev.olog.msc.presentation.base.adapter
 
 import dev.olog.msc.presentation.base.BaseModel
 import io.reactivex.Observable

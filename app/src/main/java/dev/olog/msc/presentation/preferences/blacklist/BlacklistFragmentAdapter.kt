@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.msc.BR
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import javax.inject.Inject
 
 class BlacklistFragmentAdapter @Inject constructor()

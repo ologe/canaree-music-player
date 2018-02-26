@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base.adp
+package dev.olog.msc.presentation.base.adapter
 
 import android.content.Context
 import android.graphics.Canvas
@@ -22,13 +22,15 @@ class TouchHelperAdapterCallback(
 
 ) {
 
+    private val whiteBackground = ColorDrawable(Color.WHITE)
     private val deleteBackground = ColorDrawable(0xfff44336.toInt())
     private var deleteIcon: Drawable? = null
     private var intrinsicWidth = 0
     private var intrinsicHeight = 0
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!! &&
+                adapter.canInteractWithViewHolder(target.itemViewType)!!){
             adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
         }
         return false
@@ -47,7 +49,7 @@ class TouchHelperAdapterCallback(
 
         when (actionState){
             ItemTouchHelper.ACTION_STATE_SWIPE -> drawOnSwiped(c, recyclerView, viewHolder, dX)
-            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(viewHolder)
+            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(c, recyclerView, viewHolder)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
@@ -108,13 +110,14 @@ class TouchHelperAdapterCallback(
         return deleteIcon!!
     }
 
-    private fun drawOnMoved(viewHolder: RecyclerView.ViewHolder){
-        viewHolder.itemView.findViewById<View>(R.id.root)?.setBackgroundColor(Color.WHITE)
+    private fun drawOnMoved(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder){
+        val view = viewHolder.itemView
+        whiteBackground.setBounds(recyclerView.left, view.top, recyclerView.right, view.bottom)
+        whiteBackground.draw(canvas)
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        viewHolder.itemView.findViewById<View>(R.id.root)?.background = null
         ViewCompat.setElevation(viewHolder.itemView, 0f)
     }
 

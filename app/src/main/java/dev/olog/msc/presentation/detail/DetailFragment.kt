@@ -11,7 +11,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
