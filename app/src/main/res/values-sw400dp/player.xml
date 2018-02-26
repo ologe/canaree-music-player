@@ -21,4 +21,5 @@
     <dimen name="player_artist_text_size">15sp</dimen>
     <dimen name="player_artist_bottom_padding">10dp</dimen>
 
+
 </resources>

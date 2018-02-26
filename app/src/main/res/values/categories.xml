@@ -3,4 +3,22 @@
 
     <style name="CategoriesTabStyle" />
 
+    <dimen name="main_toolbar_text_size">26sp</dimen>
+
+    <string-array name="categories">
+        <item>@string/category_folders</item>
+        <item>@string/category_playlists</item>
+        <item>@string/category_songs</item>
+        <item>@string/category_albums</item>
+        <item>@string/category_artists</item>
+        <item>@string/category_genres</item>
+    </string-array>
+
+    <string name="category_folders">Folders</string>
+    <string name="category_playlists">Playlists</string>
+    <string name="category_songs">Songs</string>
+    <string name="category_albums">Albums</string>
+    <string name="category_artists">Artists</string>
+    <string name="category_genres">Genres</string>
+
 </resources>

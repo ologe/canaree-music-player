@@ -3,4 +3,64 @@
 
     <string name="detail_see_all">see all</string>
 
+    <dimen name="detail_margin_horizontal">16dp</dimen>
+
+    <dimen name="detail_horizontal_list_margin_start">0dp</dimen>
+    <dimen name="detail_horizontal_list_margin_end">24dp</dimen>
+
+    <dimen name="detail_album_margin_horizontal">8dp</dimen>
+
+    <dimen name="detail_header_margin_start">16dp</dimen>
+    <dimen name="detail_header_margin_end">8dp</dimen>
+
+    <string name="detail_most_played">Most played</string>
+    <string name="detail_recently_added">Recently added</string>
+    <string name="detail_albums">Albums</string>
+    <string name="detail_songs">Songs</string>
+
+    <string-array name="detail_album_header">
+        <item>Other folders</item>
+        <item>Other playlists</item>
+        <item/>
+        <item/>
+        <item>Albums</item>
+        <item>Other genres</item>
+    </string-array>
+
+    <string name="detail_more_albums_by">More by %s</string>
+
+    <string name="detail_related_artists">Related artists</string>
+
+    <plurals name="song_count">
+        <item quantity="one">%d track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+
+    <plurals name="album_count">
+        <item quantity="one">%d album</item>
+        <item quantity="other">%d albums</item>
+    </plurals>
+
+    <string name="related_artists">Related artists</string>
+    <string name="recently_added">Recently added</string>
+    <string name="albums">Albums</string>
+
+    <string name="detail_no_tracks">No tracks</string>
+
+    <plurals name="xx_new_songs">
+        <item quantity="one">%d new song</item>
+        <item quantity="other">%d new songs</item>
+    </plurals>
+
+    <string name="sort_by">sort by</string>
+
+    <string name="sort_by_title">Title</string>
+    <string name="sort_by_artist">Artist</string>
+    <string name="sort_by_album">Album</string>
+    <string name="sort_by_duration">Duration</string>
+    <string name="sort_by_recently_added">Recently added</string>
+    <string name="sort_by_custom">Custom</string>
+    <string name="sort_by_track">Track number</string>
+
+
 </resources>

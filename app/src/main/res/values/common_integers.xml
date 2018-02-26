@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="very_high_duration">2000000000</integer>
+    <integer name="common_high_number">2000000000</integer>
 
 </resources>

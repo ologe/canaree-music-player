@@ -27,4 +27,9 @@
     <!-- The minimum height of the content if there are at least two lines or a picture-->
     <dimen name="widget_min_content_height">41dp</dimen>
 
+    <dimen name="app_widget_one_cell">40dp</dimen>
+    <dimen name="app_widget_two_cell">110dp</dimen>
+    <dimen name="app_widget_three_cell">180dp</dimen>
+    <dimen name="app_widget_four_cell">250dp</dimen>
+
 </resources>

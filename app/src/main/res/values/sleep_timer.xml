@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <style name="SleepTimerTheme" parent="BetterPickersDialogFragment.Light">
+    <style name="SleepTimerTheme" parent="BetterPickersDialogFragment.Light"/>
 
-    </style>
+
+    <string name="sleep_timer_stop">Stop</string>
+    <string name="sleep_timer_positive">@string/popup_positive_ok</string>
+    <string name="sleep_timer_set">Timer set</string>
     
 </resources>

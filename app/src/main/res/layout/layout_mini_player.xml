@@ -108,7 +108,7 @@
         android:thumbTint="@color/dark_grey"
         android:progressTint="@color/dark_grey"
         tools:progress="40"
-        android:max="@integer/very_high_duration"
+        android:max="@integer/common_high_number"
         android:clickable="true"
         android:focusable="true" />
 

@@ -21,4 +21,5 @@
         <item quantity="one">%1$s risultato</item>
         <item quantity="other">%1$s risultati</item>
     </plurals>
+
 </resources>

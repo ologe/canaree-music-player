@@ -33,4 +33,14 @@
 
     <string name="detail_no_tracks">Nessun brano</string>
 
+    <string name="sort_by">ordina per</string>
+
+    <string name="sort_by_title">Titolo</string>
+    <string name="sort_by_artist">Artista</string>
+    <string name="sort_by_album">Album</string>
+    <string name="sort_by_duration">Durata</string>
+    <string name="sort_by_recently_added">Aggiunti di recente</string>
+    <string name="sort_by_custom">Personalizzato</string>
+    <string name="sort_by_track">Numero traccia</string>
+
 </resources>
