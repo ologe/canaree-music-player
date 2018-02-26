@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import dev.olog.msc.R
+import dev.olog.msc.presentation.utils.RoundedOutlineProvider
 import dev.olog.msc.presentation.widget.ForegroundImageView
 import dev.olog.msc.utils.k.extension.dip
 
@@ -29,6 +30,7 @@ class RoundedCornerImageView @JvmOverloads constructor(
 
         a.recycle()
 
+        outlineProvider = RoundedOutlineProvider()
     }
 
 }
