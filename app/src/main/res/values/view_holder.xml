@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="song_info_remix">Remix</string>
-    <string name="song_info_explicit">E</string>
+    <string name="song_info_remix">@string/common_remix</string>
+    <string name="song_info_explicit">@string/common_explicit_short</string>
 
     <!-- item song -->
     <dimen name="item_song_cover_margin_vertical">7dp</dimen>

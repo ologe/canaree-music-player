@@ -70,4 +70,8 @@
     <string name="common_no_tracks">No tracks</string>
     <string name="common_no_results">No results</string>
 
+    <string name="common_explicit">Explicit</string>
+    <string name="common_explicit_short">E</string>
+    <string name="common_remix">E</string>
+
 </resources>
