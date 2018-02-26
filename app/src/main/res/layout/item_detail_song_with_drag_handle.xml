@@ -12,14 +12,21 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/detail_margin_horizontal"
-        android:paddingEnd="@dimen/detail_margin_horizontal"
         android:background="?attr/selectableItemBackground">
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:visibility="gone" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/detail_margin_horizontal"
+            android:paddingEnd="@dimen/detail_margin_horizontal">
 
             <View
                 app:layout_constraintTop_toTopOf="parent"

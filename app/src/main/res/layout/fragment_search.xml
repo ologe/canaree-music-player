@@ -48,7 +48,8 @@
             android:layout_marginEnd="48dp"
             android:imeOptions="flagNoExtractUi|actionDone"
             android:maxLines="1"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:textSize="18dp"/>
 
     </FrameLayout>
 

@@ -46,8 +46,6 @@ class PlayerFragment : BaseFragment() {
                 .mapToList { it.toDisplayableItem() }
                 .asLiveData()
                 .subscribe(this, {
-                    println("new queue $it")
-
                     val queue = it.toMutableList()
                     if (queue.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
                         queue.add(viewModel.footerLoadMore)

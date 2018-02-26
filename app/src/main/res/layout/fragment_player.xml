@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:overScrollMode="never"
         tools:listitem="@layout/item_tab_song"
-        android:layout_marginTop="@dimen/status_bar"/>
+        android:layout_marginTop="@dimen/status_bar" />
 
     <View
         android:layout_width="match_parent"

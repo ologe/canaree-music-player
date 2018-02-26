@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.setGone
+import dev.olog.msc.utils.k.extension.setVisible
 
 class TouchHelperAdapterCallback(
         private val adapter : TouchableAdapter
@@ -22,7 +24,6 @@ class TouchHelperAdapterCallback(
 
 ) {
 
-    private val whiteBackground = ColorDrawable(Color.WHITE)
     private val deleteBackground = ColorDrawable(0xfff44336.toInt())
     private var deleteIcon: Drawable? = null
     private var intrinsicWidth = 0
@@ -49,7 +50,7 @@ class TouchHelperAdapterCallback(
 
         when (actionState){
             ItemTouchHelper.ACTION_STATE_SWIPE -> drawOnSwiped(c, recyclerView, viewHolder, dX)
-            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(c, recyclerView, viewHolder, dY)
+            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(viewHolder)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
@@ -110,18 +111,15 @@ class TouchHelperAdapterCallback(
         return deleteIcon!!
     }
 
-    private fun drawOnMoved(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dy: Float){
-        val view = viewHolder.itemView
-        println(view.top)
-        println(view.scrollY)
-        whiteBackground.setBounds(recyclerView.left, (view.top + dy).toInt(), recyclerView.right, (view.bottom + dy).toInt())
-        whiteBackground.draw(canvas)
+    private fun drawOnMoved(viewHolder: RecyclerView.ViewHolder){
+        viewHolder.itemView.findViewById<View>(R.id.scrim).setVisible()
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
         ViewCompat.setElevation(viewHolder.itemView, 0f)
         adapter.onInteractionEnd(viewHolder.adapterPosition)
+        viewHolder.itemView.findViewById<View>(R.id.scrim).setGone()
     }
 
     override fun isLongPressDragEnabled(): Boolean = false

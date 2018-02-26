@@ -55,7 +55,7 @@
     <string name="common_album">Album</string>
     <string name="common_genre">Genre</string>
     <string name="common_duration">Duration</string>
-    <string name="common_recently_added">Related artists</string>
+    <string name="common_recently_added">Recently added</string>
     <string name="common_custom">Custom</string>
     <string name="common_track_number">Track number</string>
 
@@ -65,7 +65,7 @@
     <string name="common_hide">Hide</string>
 
     <string name="common_related_artists">Related artists</string>
-    <string name="common_most_played">Related artists</string>
+    <string name="common_most_played">Most played</string>
 
     <string name="common_no_tracks">No tracks</string>
     <string name="common_no_results">No results</string>

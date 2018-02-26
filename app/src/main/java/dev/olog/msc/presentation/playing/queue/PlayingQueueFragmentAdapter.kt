@@ -36,7 +36,6 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             navigator.toDialog(item, viewHolder.itemView)
         }
         viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
-            println(event.action)
             when (event.actionMasked){
                 MotionEvent.ACTION_DOWN -> {
                     touchHelper?.startDrag(viewHolder)
