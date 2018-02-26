@@ -6,8 +6,8 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.presentation.base.adapter.AdapterDataController
-import dev.olog.msc.presentation.utils.ScaleInOnTouch
-import dev.olog.msc.presentation.utils.ScaleMoreInOnTouch
+import dev.olog.msc.presentation.utils.animation.ScaleInOnTouch
+import dev.olog.msc.presentation.utils.animation.ScaleMoreInOnTouch
 
 fun <T: BaseModel> RecyclerView.ViewHolder.setOnClickListener(
         data: AdapterDataController<T>,

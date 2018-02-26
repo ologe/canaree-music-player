@@ -19,6 +19,7 @@ import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
+import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -110,6 +111,11 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
     }
 
     override fun onBackPressed() {
+        val topFragment = getTopFragment()
+        if (topFragment != null && topFragment is HasSafeTransition && topFragment.isAnimating()){
+            // prevent circular reveal crash
+            return
+        }
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         when {
             playingQueue != null -> super.onBackPressed()

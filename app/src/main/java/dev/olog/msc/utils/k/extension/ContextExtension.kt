@@ -27,10 +27,6 @@ fun Context.hasPermission(permission: String) : Boolean {
 fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 fun Context.dip(value: Float): Int = (value * resources.displayMetrics.density).toInt()
 
-//return sp dimension value in pixels
-fun Context.sp(value: Int): Int = (value * resources.displayMetrics.scaledDensity).toInt()
-fun Context.sp(value: Float): Int = (value * resources.displayMetrics.scaledDensity).toInt()
-
 fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 
 inline fun Context.toast(message: Int): Toast = Toast

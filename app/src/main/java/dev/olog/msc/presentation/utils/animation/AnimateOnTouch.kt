@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.utils
+package dev.olog.msc.presentation.utils.animation
 
 import android.animation.AnimatorInflater
 import android.content.Context

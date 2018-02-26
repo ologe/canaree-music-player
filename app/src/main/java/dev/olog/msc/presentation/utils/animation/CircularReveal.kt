@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.utils
+package dev.olog.msc.presentation.utils.animation
 
 import android.animation.Animator
 import android.animation.AnimatorSet

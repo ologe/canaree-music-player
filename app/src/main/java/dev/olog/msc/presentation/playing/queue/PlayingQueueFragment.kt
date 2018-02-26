@@ -7,13 +7,15 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
-import dev.olog.msc.presentation.utils.CircularReveal
+import dev.olog.msc.presentation.utils.animation.CircularReveal
+import dev.olog.msc.presentation.utils.animation.HasSafeTransition
+import dev.olog.msc.presentation.utils.animation.SafeTransition
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject
 
-class PlayingQueueFragment : BaseFragment() {
+class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
 
     companion object {
         const val TAG = "PlayingQueueFragment"
@@ -33,6 +35,7 @@ class PlayingQueueFragment : BaseFragment() {
 
     @Inject lateinit var viewModel : PlayingQueueFragmentViewModel
     @Inject lateinit var adapter: PlayingQueueFragmentAdapter
+    @Inject lateinit var safeTransition: SafeTransition
     private lateinit var layoutManager : LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +43,7 @@ class PlayingQueueFragment : BaseFragment() {
         if (savedInstanceState == null){
             val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
             val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
-            enterTransition = CircularReveal(x, y)
+            safeTransition.execute(this, CircularReveal(x, y))
         }
     }
 
@@ -82,6 +85,8 @@ class PlayingQueueFragment : BaseFragment() {
         super.onPause()
         back.setOnClickListener(null)
     }
+
+    override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     private fun listenToFirstRealEmission(func: () -> Unit){
         var counter = -1
