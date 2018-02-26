@@ -49,7 +49,7 @@ class TouchHelperAdapterCallback(
 
         when (actionState){
             ItemTouchHelper.ACTION_STATE_SWIPE -> drawOnSwiped(c, recyclerView, viewHolder, dX)
-            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(c, recyclerView, viewHolder)
+            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(c, recyclerView, viewHolder, dY)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
@@ -110,9 +110,11 @@ class TouchHelperAdapterCallback(
         return deleteIcon!!
     }
 
-    private fun drawOnMoved(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder){
+    private fun drawOnMoved(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dy: Float){
         val view = viewHolder.itemView
-        whiteBackground.setBounds(recyclerView.left, view.top, recyclerView.right, view.bottom)
+        println(view.top)
+        println(view.scrollY)
+        whiteBackground.setBounds(recyclerView.left, (view.top + dy).toInt(), recyclerView.right, (view.bottom + dy).toInt())
         whiteBackground.draw(canvas)
     }
 

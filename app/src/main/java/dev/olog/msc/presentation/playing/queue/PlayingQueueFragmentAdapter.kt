@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import android.support.v4.content.ContextCompat
 import android.view.MotionEvent
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -55,6 +56,8 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
             else -> binding.setVariable(BR.index, "-")
         }
+        val textColor = if (position < currentPosition) R.color.text_color_secondary else R.color.text_color_primary
+        binding.root.index.setTextColor(ContextCompat.getColor(binding.root.context, textColor))
     }
 
     override fun onMoved(from: Int, to: Int) {
