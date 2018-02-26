@@ -53,7 +53,7 @@ ext {
         X.xxx - X major version, xxx minor version
      */
     versionCode = 4270300
-    versionName = '0.300'
+    versionName = '0.3'
 
     // App dependencies
     support_library = '27.0.2'
