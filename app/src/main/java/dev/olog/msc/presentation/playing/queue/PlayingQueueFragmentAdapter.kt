@@ -35,10 +35,17 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             navigator.toDialog(item, viewHolder.itemView)
         }
         viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
-            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                touchHelper?.startDrag(viewHolder)
-                true
-            } else false
+            when (event.actionMasked){
+                MotionEvent.ACTION_DOWN -> {
+                    touchHelper?.startDrag(viewHolder)
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    onMoveEnd()
+                    true
+                }
+                else -> false
+            }
         }
         viewHolder.elevateSongOnTouch()
     }
@@ -54,9 +61,15 @@ class PlayingQueueFragmentAdapter @Inject constructor(
     }
 
     override fun onMoved(from: Int, to: Int) {
+        if (currentPosition == from){
+            currentPosition = to
+        }
+
         super.onMoved(from, to)
-        notifyItemChanged(from)
-        notifyItemChanged(to)
+    }
+
+    private fun onMoveEnd(){
+        notifyItemRangeChanged(0, controller.getSize())
     }
 
     fun updateCurrentPosition(idInPlaylist: Int) {

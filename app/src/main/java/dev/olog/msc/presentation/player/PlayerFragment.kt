@@ -158,7 +158,8 @@ class PlayerFragment : BaseFragment() {
                 description.title!!.toString(),
                 description.subtitle!!.toString(),
                 description.mediaUri!!.toString(),
-                isPlayable = true
+                isPlayable = true,
+                trackNumber = "${this.queueId}"
         )
     }
 

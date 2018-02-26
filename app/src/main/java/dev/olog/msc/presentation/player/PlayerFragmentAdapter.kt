@@ -54,7 +54,7 @@ class PlayerFragmentAdapter @Inject constructor(
         when (viewType){
             R.layout.item_mini_queue -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    mediaProvider.skipToQueueItem(item.mediaId.leaf!!)
+                    mediaProvider.skipToQueueItem(item.trackNumber.toLong())
                 }
                 viewHolder.setOnLongClickListener(controller) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
@@ -246,8 +246,6 @@ class PlayerFragmentAdapter @Inject constructor(
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
     }
-
-
 
     override val onDragAction = { from: Int, to: Int -> mediaProvider.swapRelative(from, to) }
 
