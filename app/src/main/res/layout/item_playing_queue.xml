@@ -51,7 +51,7 @@
                 tools:layout_marginStart="8dp"
                 android:textStyle="bold"
                 android:textColor="@color/dark_grey"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 app:layout_constraintTop_toTopOf="@+id/firstText"
                 app:layout_constraintBottom_toBottomOf="@+id/firstText"
                 app:layout_constraintStart_toEndOf="@+id/cover"

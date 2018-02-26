@@ -91,7 +91,7 @@
         android:textColor="@color/dark_grey"
         android:maxLines="2"
         android:textStyle="bold"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"

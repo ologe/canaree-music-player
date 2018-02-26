@@ -43,7 +43,7 @@
             android:text="@string/playing_queue"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"

@@ -92,7 +92,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/title"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -113,7 +113,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/artist"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -133,7 +133,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/album"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -153,7 +153,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/genre"
-                    android:textSize="14sp"
+                    android:textSize="14d"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -174,7 +174,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/year"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -194,7 +194,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/disc"
-                    android:textSize="14sp"
+                    android:textSize="14d"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -214,7 +214,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/trackNumber"
-                    android:textSize="14sp"
+                    android:textSize="14dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>

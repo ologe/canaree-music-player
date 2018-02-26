@@ -109,7 +109,7 @@
         android:id="@+id/pagerEmptyState"
         android:text="@string/category_no_tab_visible"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textColor="@color/text_color_primary"
         android:layout_marginTop="120dp"
         android:layout_width="wrap_content"

@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/presetName"
         tools:text="Normal"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textColor="@color/dark_grey"
         android:textAllCaps="true"
         android:textStyle="bold"

@@ -170,7 +170,7 @@
 
     <TextView
         android:id="@+id/presetName"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textColor="@android:color/black"
         android:textAllCaps="true"
         android:textStyle="bold"
