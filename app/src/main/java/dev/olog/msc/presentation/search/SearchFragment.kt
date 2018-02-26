@@ -134,7 +134,7 @@ class SearchFragment : BaseFragment() {
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
 
-        if (savedInstanceState == null){
+        viewModel.doOnFirstAccess {
             showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ ImeUtils.showIme(view.editText) }, Throwable::printStackTrace)
