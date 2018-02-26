@@ -30,7 +30,7 @@ class RepositoryHelperModule {
     @Singleton
     fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
-                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration() // 1 to 2
                 .build()
     }
 
