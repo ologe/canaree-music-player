@@ -6,8 +6,6 @@
 
     <string name="settings">Settings</string>
 
-    <string-array name="empty_values"/>
-
     <!--categories-->
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_library">Library</string>

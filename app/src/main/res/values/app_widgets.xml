@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="widget_classic" type="layout">@layout/widget_classic</item>
-
     <style name="WidgetTitle">
         <item name="android:textColor">#de000000</item>
         <item name="android:textSize">14sp</item>

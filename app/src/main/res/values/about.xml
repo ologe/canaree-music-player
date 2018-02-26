@@ -3,7 +3,6 @@
 
     <string name="about">About</string>
 
-
     <string name="about_author">Author</string>
     <string name="about_version">Version</string>
     <string name="about_third_sw">Third-Party software</string>
@@ -21,6 +20,6 @@
     <string name="about_privacy_policy">Privacy Policy</string>
     <string name="about_privacy_policy_description">Important for both of us</string>
 
-    <string name="icon_made_by_x_from_y">Icon made by %1$s from %2$s</string>
+    <string name="about_icon_made_by_x_from_y">Icon made by %1$s from %2$s</string>
 
 </resources>
