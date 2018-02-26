@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="edit_info_title">Track name</string>
-    <string name="edit_info_artist">@string/artist</string>
-    <string name="edit_info_album">@string/album</string>
-    <string name="edit_info_genre">@string/genre</string>
+    <string name="edit_info_title">@string/common_track</string>
+    <string name="edit_info_artist">@string/common_artist</string>
+    <string name="edit_info_album">@string/common_album</string>
+    <string name="edit_info_genre">@string/common_genre</string>
     <string name="edit_info_year">Year</string>
     <string name="edit_info_disc">Disc #</string>
     <string name="edit_info_track">Track #</string>

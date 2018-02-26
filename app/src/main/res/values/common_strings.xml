@@ -1,7 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="common_folder">Folder</string>
+    <string name="common_folders">Folders</string>
+
+    <string name="common_playlist">Playlist</string>
+    <string name="common_playlists">Playlists</string>
+
+    <string name="common_track">Track</string>
+    <string name="common_tracks">Tracks</string>
+
+    <string name="common_album">Album</string>
+    <string name="common_albums">Albums</string>
+
+    <string name="common_artist">Artist</string>
+    <string name="common_artists">Artists</string>
+
+    <string name="common_genre">Genre</string>
+    <string name="common_genres">Genres</string>
+
+
+    <string name="common_unknown_album">Unknown album</string>
+    <string name="common_unknown_artist">Unknown artist</string>
+
     <string name="common_placeholder_title">An awesome title</string>
     <string name="common_placeholder_artist">An awesome artist</string>
+    <string name="common_placeholder_album">An awesome album</string>
+
+    <string name="network_not_available">Please check your network connection</string>
+
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <string name="common_play">Play</string>
+    <string name="common_shuffle">Shuffle All</string>
+    <string name="common_search">Search</string>
+    <string name="common_hide">Hide</string>
+
 
 </resources>

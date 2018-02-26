@@ -1,40 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="popup_play">Riproduci</string>
-    <string name="popup_play_shuffle">Riproduzione casuale</string>
-    <string name="popup_add_to_playlist">Aggiungi alla playlist..</string>
-    <string name="popup_add_to_favorites">Aggiungi ai preferiti</string>
-    <string name="popup_remove_from_favorites">Rimuovi dai preferiti</string>
-    <string name="popup_add_to_queue">Aggiungi alla coda</string>
-    <string name="popup_view_info">Modifica dati</string>
-    <string name="popup_view_album">Visualizza album</string>
-    <string name="popup_view_artist">Visualizza artista</string>
-    <string name="popup_share">Condividi</string>
-    <string name="popup_set_as_ringtone">Imposta come suoneria</string>
-    <string name="popup_delete">Elimina</string>
-    <string name="popup_rename">Rinomina</string>
-    <string name="popup_clear_playlist">Rimuovi tutti i brani</string>
-
-    <string name="popup_equalizer">Equalizzatore</string>
-    <string name="popup_sleep_timer">Timer spegnimento</string>
-    <string name="popup_settings">Impostazioni</string>
-    <string name="popup_about">Informazioni</string>
-
-    <string name="popup_negative_cancel">Annulla</string>
-    <string name="popup_negative_no">No</string>
-
-    <string name="popup_positive_ok">OK</string>
-    <string name="popup_positive_save">Salva</string>
-    <string name="popup_positive_create">Crea</string>
-
-    <string name="popup_error_message">Qualcosa è andato storto</string>
-
-    <string name="share_song_x"><![CDATA[Condividi <b><font color="black">%1$s</b></font>…]]></string>
-
-    <string name="popup_permission">Permessi</string>
-    <string name="popup_request_permission_write_settings">
-        Per poter cambiare la suoneria è necessario accettare il seguente permesso
-    </string>
 
 </resources>

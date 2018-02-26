@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="add_song_x_to_playlist"><![CDATA[Ajouter <b>%1$s</b> à la playlist:]]></string>
-
-    <plurals name="add_xx_songs_to_playlist">
-        <item quantity="one"><![CDATA[Ajouter <b>%1$d titre</b> à la playlist:]]></item>
-        <item quantity="other"><![CDATA[Ajouter <b>%1$d titres</b> à la playlist:]]></item>
-    </plurals>
-
-    <string name="added_song_x_to_playlist_y">%1$s ajouté à la playlist %2$s</string>
-    <plurals name="xx_songs_added_to_playlist_y">
-        <item quantity="one">%1$d titre ajouté à la playlist %2$s</item>
-        <item quantity="other">%1$d titres ajouté à la playlist %2$s</item>
-    </plurals>
-
-    <string name="popup_new_playlist">Nouvelle Playlist</string>
-    <string name="popup_no_playlist">Pas encore playlist..</string>
-
-    <string name="new_playlist_hint">Nome de la playlist</string>
-
-    <string name="popup_playlist_name_not_valid">Nom de la playlist non valide</string>
-    <string name="popup_playlist_name_already_exist">Le playlist existe déjà</string>
 
 </resources>

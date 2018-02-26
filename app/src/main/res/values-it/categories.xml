@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="category_folders">Cartelle</string>
-    <string name="category_playlists">Playlist</string>
-    <string name="category_songs">Brani</string>
-    <string name="category_albums">Album</string>
-    <string name="category_artists">Artisti</string>
-    <string name="category_genres">Generi</string>
 
 </resources>

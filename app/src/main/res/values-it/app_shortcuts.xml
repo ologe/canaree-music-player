@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="shortcut_play">Riprendi</string>
-    <string name="shortcut_shuffle">Riproduzione casuale</string>
-    <string name="shortcut_search">Cerca</string>
-
 
 </resources>

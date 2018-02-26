@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_song_x_to_favorite"><![CDATA[Aggiungere <b>%1$s</b> ai Preferiti?]]></string>
 
-    <plurals name="add_xx_songs_to_favorite">
-        <item quantity="one"><![CDATA[Aggiungere <b>%1$d brano</b> ai Preferiti?]]></item>
-        <item quantity="other"><![CDATA[Aggiungere <b>%1$d brani</b> ai Preferiti?]]></item>
-    </plurals>
-
-    <string name="song_x_added_to_favorites">%1$s aggiunto ai Preferiti</string>
-    <plurals name="xx_songs_added_to_favorites">
-        <item quantity="one">%1$d brano aggiunto ai Prefetiti</item>
-        <item quantity="other">%1$d brani aggiunti ai Prefetiti</item>
-    </plurals>
 </resources>

@@ -4,8 +4,8 @@
     <string name="app_shortcut_added_to_home_screen">Shortcut added to Home Screen</string>
     <string name="app_shortcut_add_to_home_screen_not_supported">Your launcher does not support adding shortcuts</string>
 
-    <string name="shortcut_play">Play</string>
-    <string name="shortcut_shuffle">Shuffle</string>
-    <string name="shortcut_search">Search</string>
+    <string name="shortcut_play">@string/common_play</string>
+    <string name="shortcut_shuffle">@string/common_shuffle</string>
+    <string name="shortcut_search">@string/common_search</string>
 
 </resources>

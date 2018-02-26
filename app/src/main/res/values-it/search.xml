@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="search_hint">Cerca</string>
 
-    <string name="search_songs">Brani</string>
-    <string name="search_albums">Album</string>
-    <string name="search_artists">Artisti</string>
-
-    <string name="search_type_song">Brano</string>
-    <string name="search_type_album">Album</string>
-    <string name="search_type_artist">Artista</string>
-
-    <string name="search_recent_searches">Ricerche recenti</string>
-    <string name="search_clear_recent_searches">Cancella le ricerche recenti</string>
-    <string name="search_recent_empty_state">Cerca nella tua libreria..</string>
-
-    <string name="search_no_results">Nessun risultato</string>
-
-    <plurals name="search_xx_results">
-        <item quantity="one">%1$s risultato</item>
-        <item quantity="other">%1$s risultati</item>
-    </plurals>
 
 </resources>

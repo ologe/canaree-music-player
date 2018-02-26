@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="splash_player_controls">Commandes du lecteur</string>
-    <string name="splash_player_tutorial_1">Cliquez sur l\'image pour jouer/pause</string>
-    <string name="splash_player_tutorial_2">Cliquez sur les bords de l\'image or swipe to sauter le titre</string>
-
 
 </resources>

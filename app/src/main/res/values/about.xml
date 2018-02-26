@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="about">About</string>
+
+
     <string name="about_author">Author</string>
     <string name="about_version">Version</string>
     <string name="about_third_sw">Third-Party software</string>

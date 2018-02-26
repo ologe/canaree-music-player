@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="header">Libreria</string>
-
-    <string name="tab_auto_playlists">Playlist automatiche</string>
-    <string name="tab_all_playlists">Tutte le playlist</string>
-    <string name="tab_all_albums">Tutti gli album</string>
-    <string name="tab_all_artists">Tutti gli artist</string>
-    <string name="tab_recent">Recenti</string>
 
 </resources>

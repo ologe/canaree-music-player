@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/img"
             app:layout_constraintStart_toEndOf="@+id/img"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/shuffle_all"
+            android:text="@string/common_shuffle"
             android:textSize="@dimen/item_shuffle_text_size"
             android:layout_marginStart="16dp"
             android:layout_width="0dp"
