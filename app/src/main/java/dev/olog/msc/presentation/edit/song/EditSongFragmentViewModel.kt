@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.info
+package dev.olog.msc.presentation.edit.song
 
 import android.accounts.NetworkErrorException
 import android.app.Application
@@ -12,8 +12,8 @@ import dev.olog.msc.api.last.fm.LastFmClient
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
-import dev.olog.msc.presentation.edit.info.model.DisplayableSong
-import dev.olog.msc.presentation.edit.info.model.UpdateResult
+import dev.olog.msc.presentation.edit.song.model.DisplayableSong
+import dev.olog.msc.presentation.edit.song.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -100,6 +100,14 @@ class EditSongFragmentViewModel(
                     displayedImage.postValue(null)
                     it.printStackTrace()
                 })
+    }
+
+    fun restoreAlbumArt() {
+        displayedImage.postValue(originalSong.image)
+    }
+
+    fun setAlbumArt(uri: Uri){
+        displayedImage.postValue(uri.toString())
     }
 
     override fun onCleared() {

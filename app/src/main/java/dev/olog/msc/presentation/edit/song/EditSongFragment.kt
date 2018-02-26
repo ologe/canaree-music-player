@@ -1,21 +1,26 @@
-package dev.olog.msc.presentation.edit.info
+package dev.olog.msc.presentation.edit.song
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.arch.lifecycle.Observer
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.edit.info.model.UpdateResult
+import dev.olog.msc.presentation.edit.song.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_info.*
 import javax.inject.Inject
+
+private const val RESULT_LOAD_IMAGE = 12346
 
 class EditSongFragment : BaseFragment() {
 
@@ -96,8 +101,31 @@ class EditSongFragment : BaseFragment() {
             showLoader("Fetching song info")
         }
         changeAlbumArt.setOnClickListener {
-            viewModel.fetchAlbumArt()
-            showLoader("Fetching image")
+
+            val list = arrayOf(
+                    "Fetch from LastFm",
+                    "Choose from local images",
+                    "Restore original"
+            )
+
+            AlertDialog.Builder(ctx)
+                    .setItems(list, { _, which ->
+                        when (which){
+                            0 -> {
+                                viewModel.fetchAlbumArt()
+                                showLoader("Fetching image")
+                            }
+                            1 -> {
+                                val intent = Intent(Intent.ACTION_PICK)
+                                intent.type = "image/*"
+                                act.startActivityForResult(intent, RESULT_LOAD_IMAGE)
+                            }
+                            2 -> {
+                                viewModel.restoreAlbumArt()
+                            }
+                        }
+                    })
+                    .makeDialog()
         }
     }
 
@@ -109,16 +137,31 @@ class EditSongFragment : BaseFragment() {
         changeAlbumArt.setOnClickListener(null)
     }
 
-    private fun setImage(string: String){
-        GlideApp.with(context!!).clear(cover)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        println(data)
+        if (resultCode == Activity.RESULT_OK){
+            if (requestCode == RESULT_LOAD_IMAGE){
+                data?.data?.let {
+                    viewModel.setAlbumArt(it)
+                }
+            }
+        }
+    }
 
-        val builder = GlideApp.with(context!!)
+    private fun setImage(string: String){
+        GlideApp.with(ctx).clear(cover)
+        GlideApp.with(ctx).clear(backgroundCover)
+
+        val builder = GlideApp.with(ctx)
                 .load(string)
-                .centerCrop()
+                .error(GlideApp.with(ctx)
+                        .load(Uri.parse(string))
+                        .placeholder(CoverUtils.getGradient(ctx, viewModel.getSongId()))
+                ).centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(BindingsAdapter.OVERRIDE_BIG)
+                .override(500)
                 .priority(Priority.IMMEDIATE)
-                .placeholder(CoverUtils.getGradient(context!!, viewModel.getSongId()))
 
         builder.into(cover)
         builder.into(backgroundCover)

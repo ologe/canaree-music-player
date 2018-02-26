@@ -1,12 +1,12 @@
-package dev.olog.msc.presentation.edit.info.di
+package dev.olog.msc.presentation.edit.song.di
 
 import android.arch.lifecycle.ViewModelProviders
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.edit.info.EditSongFragment
-import dev.olog.msc.presentation.edit.info.EditSongFragmentViewModel
-import dev.olog.msc.presentation.edit.info.EditSongFragmentViewModelFactory
+import dev.olog.msc.presentation.edit.song.EditSongFragment
+import dev.olog.msc.presentation.edit.song.EditSongFragmentViewModel
+import dev.olog.msc.presentation.edit.song.EditSongFragmentViewModelFactory
 import dev.olog.msc.utils.MediaId
 
 @Module
