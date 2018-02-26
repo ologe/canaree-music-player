@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_song_fetching_image">Fetching image</string>
+    <string name="edit_song_fetching_info">Fetching song info</string>
+
+    <string name="edit_song_info_not_found">Info not found</string>
+    <string name="edit_song_image_not_found">Image not found</string>
+
+</resources>
