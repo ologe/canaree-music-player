@@ -21,15 +21,11 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.isLandscape
-import dev.olog.msc.utils.k.extension.mapToList
-import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_swipeable_view.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerFragment : BaseFragment() {
@@ -47,10 +43,11 @@ class PlayerFragment : BaseFragment() {
         mediaProvider = (activity as MediaProvider)
 
         mediaProvider.onQueueChanged()
-                .debounce(400, TimeUnit.MILLISECONDS)
                 .mapToList { it.toDisplayableItem() }
                 .asLiveData()
                 .subscribe(this, {
+                    println("new queue $it")
+
                     val queue = it.toMutableList()
                     if (queue.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
                         queue.add(viewModel.footerLoadMore)
@@ -60,7 +57,7 @@ class PlayerFragment : BaseFragment() {
                 })
 
         mediaProvider.onStateChanged()
-                .filter { activity!!.isLandscape }
+                .filter { act.isLandscape }
                 .asLiveData()
                 .subscribe(this, {
                     val state = it.state
@@ -71,18 +68,18 @@ class PlayerFragment : BaseFragment() {
                 })
 
         mediaProvider.onMetadataChanged()
-                .filter { activity!!.isLandscape }
+                .filter { act.isLandscape }
                 .asLiveData()
                 .subscribe(this, {
 
                     val image = Uri.parse(it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
                     val id = MediaId.fromString(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
                     ).leaf!!.toInt()
-                    val placeholder = CoverUtils.getGradient(context!!, id)
+                    val placeholder = CoverUtils.getGradient(ctx, id)
 
-                    GlideApp.with(context!!).clear(cover)
+                    GlideApp.with(ctx).clear(cover)
 
-                    GlideApp.with(context!!)
+                    GlideApp.with(ctx)
                             .load(image)
                             .centerCrop()
                             .placeholder(placeholder)
@@ -93,12 +90,12 @@ class PlayerFragment : BaseFragment() {
                 })
 
         mediaProvider.onRepeatModeChanged()
-                .filter { activity!!.isLandscape }
+                .filter { act.isLandscape }
                 .asLiveData()
                 .subscribe(this, { repeat.cycle(it) })
 
         mediaProvider.onShuffleModeChanged()
-                .filter { activity!!.isLandscape }
+                .filter { act.isLandscape }
                 .asLiveData()
                 .subscribe(this, { shuffle.cycle(it) })
     }

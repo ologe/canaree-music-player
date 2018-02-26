@@ -2,12 +2,11 @@
 <resources>
 
 
-    <dimen name="item_header_text_size">26sp</dimen>
-
+    <dimen name="item_header_text_size">26dp</dimen>
 
     <!--item album-->
-    <dimen name="item_album_title">16sp</dimen>
-    <dimen name="item_album_subtitle">13sp</dimen>
+    <dimen name="item_album_title">16dp</dimen>
+    <dimen name="item_album_subtitle">13dp</dimen>
 
 
 </resources>

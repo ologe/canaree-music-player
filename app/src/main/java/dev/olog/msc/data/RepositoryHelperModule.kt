@@ -1,5 +1,6 @@
 package dev.olog.msc.data
 
+import android.arch.persistence.room.BuildConfig
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.squareup.sqlbrite3.BriteContentResolver
@@ -23,7 +24,9 @@ class RepositoryHelperModule {
     fun provideBriteContentResolver(@ApplicationContext context: Context,
                                     sqlBrite: SqlBrite) : BriteContentResolver {
 
-        return sqlBrite.wrapContentProvider(context.contentResolver, Schedulers.io())
+        val contentProvider = sqlBrite.wrapContentProvider(context.contentResolver, Schedulers.io())
+        contentProvider.setLoggingEnabled(BuildConfig.DEBUG)
+        return contentProvider
     }
 
     @Provides

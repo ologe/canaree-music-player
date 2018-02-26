@@ -3,7 +3,7 @@
 
     <style name="WidgetTitle">
         <item name="android:textColor">#de000000</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
         <item name="android:textStyle">normal</item>
@@ -11,7 +11,7 @@
 
     <style name="WidgetSubtitle">
         <item name="android:textColor">#8a000000</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
         <item name="android:textStyle">normal</item>

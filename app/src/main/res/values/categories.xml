@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="CategoriesTabStyle" />
+    <style name="BaseTab" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize" tools:ignore="SpUsage">14dp</item>
+    </style>
 
-    <dimen name="main_toolbar_text_size">26sp</dimen>
+    <style name="CategoriesTabStyle" parent="BaseTab"/>
+
+    <dimen name="main_toolbar_text_size">26dp</dimen>
 
     <string name="category_header">Library</string>
 

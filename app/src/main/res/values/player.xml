@@ -3,7 +3,7 @@
 
     <!--toolbar-->
     <dimen name="player_toolbar">48dp</dimen>
-    <dimen name="player_now_playing_size">23sp</dimen>
+    <dimen name="player_now_playing_size">23dp</dimen>
 
     <!--cover-->
     <dimen name="player_cover_margin_vertical">2dp</dimen>
@@ -18,12 +18,12 @@
     <dimen name="player_shuffle_size">50dp</dimen>
 
     <!--durations-->
-    <dimen name="player_bookmark_text_size">12sp</dimen>
+    <dimen name="player_bookmark_text_size">12dp</dimen>
 
     <!--metadata-->
-    <dimen name="player_title_text_size">18sp</dimen>
+    <dimen name="player_title_text_size">18dp</dimen>
     <dimen name="player_title_margin_horizontal">20dp</dimen>
-    <dimen name="player_artist_text_size">12sp</dimen>
+    <dimen name="player_artist_text_size">12dp</dimen>
     <dimen name="player_artist_bottom_padding">10dp</dimen>
 
     <string name="player_now_playing" translatable="false">Now Playing</string>

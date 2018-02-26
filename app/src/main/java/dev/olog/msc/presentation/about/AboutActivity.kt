@@ -69,7 +69,7 @@ class AboutActivity : BaseActivity() {
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
         textView.gravity = Gravity.CENTER
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.setTextColor(ColorStateList.valueOf(
                 ContextCompat.getColor(this@AboutActivity, R.color.text_color_primary)))

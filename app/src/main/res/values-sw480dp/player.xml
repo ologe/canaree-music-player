@@ -2,7 +2,7 @@
 <resources>
 
     <!--toolbar-->
-    <dimen name="player_now_playing_size">28sp</dimen>
+    <dimen name="player_now_playing_size">28dp</dimen>
 
     <!--cover-->
     <dimen name="player_cover_margin_vertical">12dp</dimen>
@@ -11,10 +11,10 @@
     <dimen name="player_seekBar_padding_bottom">30dp</dimen>
 
     <!--durations-->
-    <dimen name="player_bookmark_text_size">16sp</dimen>
+    <dimen name="player_bookmark_text_size">16dp</dimen>
 
     <!--metadata-->
-    <dimen name="player_title_text_size">23sp</dimen>
-    <dimen name="player_artist_text_size">16sp</dimen>
+    <dimen name="player_title_text_size">23dp</dimen>
+    <dimen name="player_artist_text_size">16dp</dimen>
 
 </resources>

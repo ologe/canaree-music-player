@@ -75,7 +75,7 @@ class BandView (
         currentLevel.textAlignment = View.TEXT_ALIGNMENT_CENTER
         currentLevel.visibility = View.GONE
         currentLevel.setSingleLine(true)
-        currentLevel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
+        currentLevel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
 
         addView(currentLevel)
     }
