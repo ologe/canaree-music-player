@@ -11,4 +11,7 @@
     <string name="splash_storage_permission">Storage permission</string>
     <string name="splash_storage_permission_disabled">Please accept storage permission to use the app</string>
 
+    <dimen name="splash_placeholder_size">140dp</dimen>
+
+
 </resources>

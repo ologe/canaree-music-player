@@ -3,6 +3,10 @@
 
     <item type="id" name="hover_drag_view" />
 
+    <string name="floating_window_notification_channel_title">Floating window</string>
+    <string name="floating_window_notification_channel_description">Floating window</string>
+    <string name="floating_window_notification_content_text">Tap to close</string>
+
     <dimen name="hover_tab_size">72dp</dimen>
     <dimen name="hover_tab_margin">8dp</dimen>
     <dimen name="hover_navigator_corner_radius">7dp</dimen>
