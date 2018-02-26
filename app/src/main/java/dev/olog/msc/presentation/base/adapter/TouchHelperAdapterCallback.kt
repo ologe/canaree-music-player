@@ -119,6 +119,7 @@ class TouchHelperAdapterCallback(
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
         ViewCompat.setElevation(viewHolder.itemView, 0f)
+        adapter.onInteractionEnd(viewHolder.adapterPosition)
     }
 
     override fun isLongPressDragEnabled(): Boolean = false

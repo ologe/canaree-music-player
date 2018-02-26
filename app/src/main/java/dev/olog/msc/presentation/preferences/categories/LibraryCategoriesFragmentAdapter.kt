@@ -66,6 +66,9 @@ class LibraryCategoriesFragmentAdapter (
         notifyItemMoved(from, to)
     }
 
+    override fun onInteractionEnd(position: Int) {
+    }
+
     override fun onSwiped(position: Int) {
         throw IllegalStateException("operation not supported")
     }

@@ -35,13 +35,10 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             navigator.toDialog(item, viewHolder.itemView)
         }
         viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
+            println(event.action)
             when (event.actionMasked){
                 MotionEvent.ACTION_DOWN -> {
                     touchHelper?.startDrag(viewHolder)
-                    true
-                }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                    onMoveEnd()
                     true
                 }
                 else -> false
@@ -68,7 +65,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         super.onMoved(from, to)
     }
 
-    private fun onMoveEnd(){
+    override fun onInteractionEnd(position: Int) {
         notifyItemRangeChanged(0, controller.getSize())
     }
 
