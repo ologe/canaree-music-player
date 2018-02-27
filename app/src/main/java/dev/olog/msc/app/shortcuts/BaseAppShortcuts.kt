@@ -41,7 +41,7 @@ abstract class BaseAppShortcuts(
             val id = if (mediaId.isFolder) mediaId.categoryValue.hashCode().toLong()
             else mediaId.categoryValue.toLong()
 
-            val bitmap = GlideApp.with(context)
+            GlideApp.with(context)
                     .asBitmap()
                     .load(img)
                     .error(GlideApp.with(context)
