@@ -37,6 +37,13 @@ class TouchHelperAdapterCallback(
         return false
     }
 
+    override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+        if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
+            return super.getSwipeDirs(recyclerView, viewHolder)
+        }
+        return 0
+    }
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             adapter.onSwiped(viewHolder.adapterPosition)

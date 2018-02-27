@@ -12,6 +12,8 @@ class LottieFavorite @JvmOverloads constructor(
 
 ) : LottieAnimationView(context, attrs, defStyleAttr) {
 
+    private var state : FavoriteEnum? = null
+
     init {
         setAnimation("favorite.json")
         scaleX = 1.15f
@@ -31,18 +33,32 @@ class LottieFavorite @JvmOverloads constructor(
         cancelAnimation()
         if (toFavorite) {
             progress = .35f
+            speed = 1f
             resumeAnimation()
         } else {
-            progress = 0f
+            progress = 1f
+            speed = -1f
+            resumeAnimation()
         }
     }
 
     fun onNextState(favoriteEnum: FavoriteEnum){
+        if (this.state == favoriteEnum){
+            return
+        }
+        this.state = favoriteEnum
+
         when (favoriteEnum){
             FavoriteEnum.FAVORITE -> toggleFavorite(true)
             FavoriteEnum.NOT_FAVORITE -> toggleFavorite(false)
-            FavoriteEnum.ANIMATE_TO_FAVORITE -> animateFavorite(true)
-            FavoriteEnum.ANIMATE_NOT_FAVORITE -> animateFavorite(false)
+            FavoriteEnum.ANIMATE_TO_FAVORITE -> {
+                animateFavorite(true)
+                this.state = FavoriteEnum.FAVORITE
+            }
+            FavoriteEnum.ANIMATE_NOT_FAVORITE -> {
+                animateFavorite(false)
+                this.state = FavoriteEnum.NOT_FAVORITE
+            }
         }
     }
 
