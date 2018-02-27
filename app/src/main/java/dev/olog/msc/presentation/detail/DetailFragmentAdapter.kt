@@ -248,10 +248,14 @@ class DetailFragmentAdapter @Inject constructor(
 
     override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
 
+    override fun onSwiped(position: Int) {
+        onSwipeAction.invoke(position)
+        controller.remove(position)
+        notifyItemRemoved(position)
+    }
+
     override val onSwipeAction = { position: Int ->
-        val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
-        val pos = positionPivot + position - 1
-        viewModel.removeFromPlaylist(controller.getItem(pos).trackNumber.toLong())
+        viewModel.removeFromPlaylist(controller.getItem(position).trackNumber.toLong())
                 .subscribe({}, Throwable::printStackTrace)
     }
 
