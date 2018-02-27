@@ -17,7 +17,7 @@
             android:id="@+id/editText"
             android:hint="@string/new_playlist_hint"
             android:textColor="@color/text_color_primary"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

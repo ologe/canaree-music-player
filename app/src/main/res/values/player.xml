@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--toolbar-->
+    <dimen name="player_toolbar">48dp</dimen>
+    <dimen name="player_now_playing_size">23dp</dimen>
+
+    <!--cover-->
+    <dimen name="player_cover_margin_vertical">2dp</dimen>
+    <dimen name="player_cover_margin_horizontal">16dp</dimen>
+
+    <!--seekbar-->
+    <dimen name="player_seekBar_padding_bottom">22dp</dimen>
+    <dimen name="player_seekBar_padding_top">6dp</dimen>
+    <dimen name="player_seekBar_padding_horizontal">36dp</dimen>
+
+    <dimen name="player_shuffle_padding">16dp</dimen>
+    <dimen name="player_shuffle_size">50dp</dimen>
+
+    <!--durations-->
+    <dimen name="player_bookmark_text_size">12dp</dimen>
+
+    <!--metadata-->
+    <dimen name="player_title_text_size">18dp</dimen>
+    <dimen name="player_title_margin_horizontal">20dp</dimen>
+    <dimen name="player_artist_text_size">12dp</dimen>
+    <dimen name="player_artist_bottom_padding">10dp</dimen>
+
+    <string name="player_now_playing" translatable="false">Now Playing</string>
+    <string name="player_load_more_song">more songs load as you listen</string>
+
+
+</resources>

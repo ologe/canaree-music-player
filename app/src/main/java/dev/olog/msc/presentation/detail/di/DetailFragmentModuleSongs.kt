@@ -130,6 +130,12 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
         else -> artist
     }
 
+    val track = when {
+        parentId.isPlaylist -> this.trackNumber.toString()
+        this.trackNumber == 0 -> "-"
+        else -> this.trackNumber.toString()
+    }
+
     return DisplayableItem(
             viewType,
             MediaId.playableItem(parentId, id),
@@ -139,7 +145,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
             true,
             this.isRemix,
             this.isExplicit,
-            if (trackNumber == 0) "-" else this.trackNumber.toString()
+            track
     )
 }
 

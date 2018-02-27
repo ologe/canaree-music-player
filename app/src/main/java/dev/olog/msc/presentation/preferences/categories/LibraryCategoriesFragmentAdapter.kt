@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
-import dev.olog.msc.presentation.base.adp.TouchableAdapter
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.TouchableAdapter
 import dev.olog.msc.utils.k.extension.swap
 import kotlinx.android.synthetic.main.dialog_tab_category_item.view.*
 
@@ -64,6 +64,9 @@ class LibraryCategoriesFragmentAdapter (
         data.swap(from, to)
         data.forEachIndexed { index, item -> item.order = index }
         notifyItemMoved(from, to)
+    }
+
+    override fun onInteractionEnd(position: Int) {
     }
 
     override fun onSwiped(position: Int) {

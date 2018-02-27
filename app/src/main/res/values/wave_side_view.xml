@@ -11,11 +11,11 @@
         <attr name="sidebarBallRadius" format="dimension"/>
     </declare-styleable>
 
-    <dimen name="side_view_textSize">11sp</dimen>
-    <dimen name="side_view_selected_text_size">14sp</dimen>
-    <dimen name="side_view_text_size_choose">13sp</dimen>
-    <dimen name="side_view_large_text_size">32sp</dimen>
-    <dimen name="side_view_text_size_padding">20sp</dimen>
+    <dimen name="side_view_textSize">11dp</dimen>
+    <dimen name="side_view_selected_text_size">14dp</dimen>
+    <dimen name="side_view_text_size_choose">13dp</dimen>
+    <dimen name="side_view_large_text_size">32dp</dimen>
+    <dimen name="side_view_text_size_padding">20dp</dimen>
     <dimen name="side_view_radius">25dp</dimen>
     <dimen name="side_view_ball_radius">28dp</dimen>
     <color name="side_view_wave_color">#EE424242</color>

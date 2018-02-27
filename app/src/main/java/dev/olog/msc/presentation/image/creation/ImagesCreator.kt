@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ImagesCreator @Inject constructor(
-        @ApplicationContext context: Context,
+        @ApplicationContext private val context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
         private val getAllFoldersUseCase: GetAllFoldersNewRequestUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsNewRequestUseCase,
@@ -36,9 +36,6 @@ class ImagesCreator @Inject constructor(
 
 ) : DefaultLifecycleObserver {
 
-    private val hasStoragePermission = ContextCompat.checkSelfPermission(
-            context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-
     private val subscriptions = CompositeDisposable()
     private var folderDisposable : Disposable? = null
     private var playlistDisposable : Disposable? = null
@@ -50,23 +47,29 @@ class ImagesCreator @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        if (hasStoragePermission){
-            createImages()
+        val storagePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (storagePermission == PackageManager.PERMISSION_GRANTED){
+            execute()
         }
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        subscriptions.clear()
+        unsubscribe()
+    }
+
+    private fun unsubscribe(){
         folderDisposable.unsubscribe()
         playlistDisposable.unsubscribe()
         artistDisposable.unsubscribe()
         genreDisposable.unsubscribe()
+        subscriptions.clear()
     }
 
-    fun createImages() {
-        subscriptions.clear()
+    fun execute() {
+        unsubscribe()
 
         getAllFoldersUseCase.execute()
+                .onErrorReturn { listOf() }
                 .doOnNext {
                     folderDisposable.unsubscribe()
                     folderDisposable = folderImagesCreator.execute()

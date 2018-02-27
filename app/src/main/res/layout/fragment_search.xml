@@ -48,7 +48,8 @@
             android:layout_marginEnd="48dp"
             android:imeOptions="flagNoExtractUi|actionDone"
             android:maxLines="1"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:textSize="18dp"/>
 
     </FrameLayout>
 
@@ -63,7 +64,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/text_color_primary"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -76,7 +77,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/didYouMeanHeader"
             android:textColor="@color/item_selected"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -120,7 +121,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:textStyle="bold"
             android:textColor="@color/text_color_primary"
             android:layout_width="0dp"
@@ -148,7 +149,7 @@
             android:id="@+id/emptyStateText"
             android:text="@string/search_no_results"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textColor="@color/text_color_primary"
             android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/emptyStateImage"

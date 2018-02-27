@@ -16,8 +16,8 @@ import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.presentation.base.adp.AbsAdapter
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED_SPAN_COUNT
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
@@ -247,6 +247,12 @@ class DetailFragmentAdapter @Inject constructor(
             !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
 
     override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
+
+    override fun onSwiped(position: Int) {
+        onSwipeAction.invoke(position)
+        controller.remove(position)
+        notifyItemRemoved(position)
+    }
 
     override val onSwipeAction = { position: Int ->
         viewModel.removeFromPlaylist(controller.getItem(position).trackNumber.toLong())

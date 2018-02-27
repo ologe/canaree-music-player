@@ -24,22 +24,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/toolbar"
+                android:layout_height="0dp"
                 android:layout_marginStart="32dp"
                 android:elevation="@dimen/toolbar_elevation"
-                android:text="@string/header"
+                android:text="@string/category_header"
                 android:textSize="@dimen/main_toolbar_text_size"
                 android:textStyle="bold"
                 android:textColor="@color/text_color_primary"
-                android:paddingTop="4dp"
-                android:gravity="center" />
+                android:paddingTop="4dp" />
 
             <ImageButton
                 android:id="@+id/more"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="@dimen/common_icon_size"
-                android:layout_height="@dimen/toolbar"
+                android:layout_height="0dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:elevation="@dimen/toolbar_elevation"
                 android:tint="@color/button_primary_tint"
@@ -51,8 +51,9 @@
                 android:id="@+id/search"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="@dimen/common_icon_size"
-                android:layout_height="@dimen/toolbar"
+                android:layout_height="0dp"
                 android:elevation="@dimen/toolbar_elevation"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:tint="@color/button_primary_tint"
@@ -64,8 +65,9 @@
                 android:id="@+id/floatingWindow"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="@dimen/common_icon_size"
-                android:layout_height="@dimen/toolbar"
+                android:layout_height="0dp"
                 android:elevation="@dimen/toolbar_elevation"
                 android:src="@drawable/vd_bird_singing_24dp"
                 android:tint="@color/button_primary_tint"
@@ -97,17 +99,6 @@
         android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"/>
 
-    <!--<android.support.v7.app.MediaRouteButton-->
-        <!--android:id="@+id/cast"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/statusBar"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/search"-->
-        <!--android:layout_width="@dimen/tab"-->
-        <!--android:layout_height="@dimen/toolbar"-->
-        <!--android:elevation="@dimen/toolbar_elevation"-->
-        <!--android:background="?attr/selectableItemBackgroundBorderless"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="true" />-->
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
@@ -116,9 +107,9 @@
 
     <TextView
         android:id="@+id/pagerEmptyState"
-        android:text="@string/pager_empty_state"
+        android:text="@string/category_no_tab_visible"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="20dp"
         android:textColor="@color/text_color_primary"
         android:layout_marginTop="120dp"
         android:layout_width="wrap_content"

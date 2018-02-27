@@ -12,39 +12,39 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background">
+        android:padding="8dp"
+        android:background="?attr/selectableItemBackground" >
 
-        <FrameLayout
+        <View
+            android:id="@+id/scrim"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="?attr/selectableItemBackground" >
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:visibility="gone"/>
 
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:text="Songs"
-                android:text="@{item.asString(context)}"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:checked="@{item.visible}"
-                android:textSize="16sp"
-                android:clickable="false"
-                android:focusable="false"/>
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="Songs"
+            android:text="@{item.asString(context)}"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:checked="@{item.visible}"
+            android:textSize="16dp"
+            android:clickable="false"
+            android:focusable="false"/>
 
-            <ImageButton
-                android:id="@+id/dragHandle"
-                android:layout_gravity="end|center_vertical"
-                android:src="@drawable/vd_drag_handle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:tint="@color/button_primary_tint"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
-
-        </FrameLayout>
+        <ImageButton
+            android:id="@+id/dragHandle"
+            android:layout_gravity="end|center_vertical"
+            android:src="@drawable/vd_drag_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
     </FrameLayout>
 

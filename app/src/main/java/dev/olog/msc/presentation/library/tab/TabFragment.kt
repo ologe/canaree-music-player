@@ -124,6 +124,7 @@ class TabFragment : BaseFragment() {
         }
         if (position != -1){
             val layoutManager = list.layoutManager as GridLayoutManager
+            act.findViewById<AppBarLayout>(R.id.appBar).setExpanded(false)
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }

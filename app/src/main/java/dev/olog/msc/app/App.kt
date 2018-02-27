@@ -20,6 +20,7 @@ class App : DaggerApplication() {
 
     @Suppress("unused") @Inject lateinit var appShortcuts: AppShortcuts
     @Suppress("unused") @Inject lateinit var imagesCreator: ImagesCreator
+    @Suppress("unused") @Inject lateinit var keepDataAlive: KeepDataAlive
 
     override fun onCreate() {
         super.onCreate()

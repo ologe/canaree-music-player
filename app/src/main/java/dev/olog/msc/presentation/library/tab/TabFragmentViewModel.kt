@@ -24,7 +24,8 @@ class TabFragmentViewModel constructor(
         var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
         if (liveData == null) {
 
-            liveData = data[category]!!.asLiveData()
+            liveData = data[category]!!
+                    .asLiveData()
             liveDataList[category] = liveData
         }
 

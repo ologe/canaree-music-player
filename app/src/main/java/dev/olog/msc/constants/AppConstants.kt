@@ -23,8 +23,8 @@ object AppConstants {
     lateinit var UNKNOWN_ARTIST: String
 
     fun initialize(context: Context){
-        UNKNOWN_ALBUM = context.getString(R.string.unknown_album)
-        UNKNOWN_ARTIST = context.getString(R.string.unknown_artist)
+        UNKNOWN_ALBUM = context.getString(R.string.common_unknown_album)
+        UNKNOWN_ARTIST = context.getString(R.string.common_unknown_artist)
 
         QUICK_ACTION = getQuickAction(context)
     }
@@ -35,10 +35,10 @@ object AppConstants {
 
     private fun getQuickAction(context: Context): QuickActionView.Type {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val quickAction = preferences.getString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_hide))
+        val quickAction = preferences.getString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
         return when (quickAction) {
-            context.getString(R.string.prefs_quick_action_hide) -> QuickActionView.Type.NONE
-            context.getString(R.string.prefs_quick_action_play) -> QuickActionView.Type.PLAY
+            context.getString(R.string.prefs_quick_action_entry_value_hide) -> QuickActionView.Type.NONE
+            context.getString(R.string.prefs_quick_action_entry_value_play) -> QuickActionView.Type.PLAY
             else ->  QuickActionView.Type.SHUFFLE
         }
     }

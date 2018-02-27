@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--entry values are used as keys, do not translate-->
+    <!--however, entries are human readable -->
+
+    <string name="settings">Settings</string>
+
+    <!--categories-->
+    <string name="prefs_category_general">General</string>
+    <string name="prefs_category_library">Library</string>
+    <string name="prefs_category_audio">Audio</string>
+
+
+    <!--quick action-->
+    <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
+    <string name="prefs_quick_action_title">Quick action</string>
+    <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
+
+    <string name="prefs_quick_action_entry_value_hide" translatable="false">hide</string>
+    <string name="prefs_quick_action_entry_value_play" translatable="false">play</string>
+    <string name="prefs_quick_action_entry_value_shuffle" translatable="false">shuffle</string>
+
+    <string-array name="prefs_quick_action_entry_values">
+        <item>@string/prefs_quick_action_entry_value_hide</item>
+        <item>@string/prefs_quick_action_entry_value_play</item>
+        <item>@string/prefs_quick_action_entry_value_shuffle</item>
+    </string-array>
+
+    <string-array name="prefs_quick_action_entries">
+        <item>@string/common_hide</item>
+        <item>@string/common_play</item>
+        <item>@string/common_shuffle</item>
+    </string-array>
+
+
+
+    <!--detail visible sections-->
+    <string name="prefs_detail_sections_key" translatable="false">key_detail_items</string>
+    <string name="prefs_detail_sections_title">Visible sections</string>
+    <string name="prefs_detail_sections_summary">Configure the visible sections in the detail view</string>
+
+    <string name="prefs_detail_section_entry_value_most_played" translatable="false">most played</string>
+    <string name="prefs_detail_section_entry_value_recently_added" translatable="false">recently added</string>
+    <string name="prefs_detail_section_entry_value_related_artists" translatable="false">related artist</string>
+
+    <string-array name="prefs_detail_sections_entry_values">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entry_values_default">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+    <string-array name="prefs_detail_sections_entries">
+        <item>@string/common_most_played</item>
+        <item>@string/common_recently_added</item>
+        <item>@string/common_related_artists</item>
+    </string-array>
+
+
+
+    <!--library categories-->
+    <string name="prefs_library_categories_key" translatable="false">key_library_categories</string>
+    <string name="prefs_library_categories_title">Library categories</string>
+    <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
+
+
+    <!--remember last tab-->
+    <string name="prefs_remember_last_tab_key" translatable="false">key_remember_last_tab</string>
+    <string name="prefs_remember_last_tab_title">Remember last tab</string>
+    <string name="prefs_remember_last_tab_summary">Go to the last opened tab on launch</string>
+
+
+    <!--blacklist-->
+    <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
+    <string name="prefs_blacklist_title">Blacklist</string>
+    <string name="prefs_blacklist_summary">Hide folders from the library</string>
+    <string name="prefs_blacklist_description">Click to show/hide</string>
+    <string name="prefs_blacklist_error">Can not blacklist all folders</string>
+
+
+    <!--used equalizer-->
+    <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
+    <string name="prefs_used_equalizer_title">Equalizer</string>
+    <string name="prefs_used_equalizer_summary_on">Use Next equalizer</string>
+    <string name="prefs_used_equalizer_summary_off">Use system equalizer (if any)</string>
+    <string name="prefs_used_equalizer_not_found">Built-in equalizer</string>
+
+
+    <!--midnight mode-->
+    <string name="prefs_midnight_mode_key" translatable="false">key_lower_volume</string>
+    <string name="prefs_lower_volume_on_night_title">Midnight mode</string>
+    <string name="prefs_lower_volume_on_night_summary">Lowers the max volume the night</string>
+
+
+</resources>

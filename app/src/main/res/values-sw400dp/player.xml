@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="player_now_playing_size">26dp</dimen>
+
+    <!--cover-->
+    <dimen name="player_cover_margin_vertical">8dp</dimen>
+
+    <!--seekbar-->
+    <dimen name="player_seekBar_padding_bottom">26dp</dimen>
+    <dimen name="player_seekBar_padding_top">12dp</dimen>
+
+    <!--shuffle-->
+    <dimen name="player_shuffle_size">55dp</dimen>
+
+    <!--durations-->
+    <dimen name="player_bookmark_text_size">14dp</dimen>
+
+    <!--metadata-->
+    <dimen name="player_title_text_size">21dp</dimen>
+    <dimen name="player_artist_text_size">15dp</dimen>
+    <dimen name="player_artist_bottom_padding">10dp</dimen>
+
+
+</resources>

@@ -144,13 +144,13 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun getVisibleTabs(): Observable<BooleanArray> {
-        return rxPreferences.getStringSet(context.getString(R.string.prefs_detail_visible_items_key))
+        return rxPreferences.getStringSet(context.getString(R.string.prefs_detail_sections_key))
                 .asObservable()
                 .map {
                     booleanArrayOf(
-                            it.contains(context.getString(R.string.prefs_detail_visible_tabs_most_played)),
-                            it.contains(context.getString(R.string.prefs_detail_visible_tabs_recently_added)),
-                            it.contains(context.getString(R.string.prefs_detail_visible_tabs_related_artists))
+                            it.contains(context.getString(R.string.prefs_detail_section_entry_value_most_played)),
+                            it.contains(context.getString(R.string.prefs_detail_section_entry_value_recently_added)),
+                            it.contains(context.getString(R.string.prefs_detail_section_entry_value_related_artists))
                     )
                 }
     }

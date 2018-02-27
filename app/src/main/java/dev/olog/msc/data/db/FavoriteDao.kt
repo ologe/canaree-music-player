@@ -25,7 +25,9 @@ abstract class FavoriteDao {
     internal abstract fun deleteGroupImpl(item: List<FavoriteEntity>)
 
     fun addToFavoriteSingle(id: Long): Completable {
-        return Completable.fromCallable { insertOneImpl(FavoriteEntity(id)) }
+        return Completable.fromCallable {
+            insertOneImpl(FavoriteEntity(id))
+        }
     }
 
     fun addToFavorite(songIds: List<Long>): Completable {
@@ -35,12 +37,12 @@ abstract class FavoriteDao {
     }
 
     open fun removeFromFavorite(songId: List<Long>): Completable {
-        return Single.fromCallable { songId.map { FavoriteEntity(it) } }
-                .map { deleteGroupImpl(it) }
-                .toCompletable()
+        return Completable.fromCallable {
+            deleteGroupImpl(songId.map { FavoriteEntity(it) })
+        }
     }
 
     @Query("SELECT songId FROM favorite_songs WHERE songId = :songId LIMIT 1")
-    abstract fun isFavorite(songId: Long): FavoriteEntity?
+    abstract fun isFavorite(songId: Long): Single<FavoriteEntity>
 
 }

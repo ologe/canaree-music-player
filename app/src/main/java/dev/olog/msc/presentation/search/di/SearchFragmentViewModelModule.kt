@@ -177,7 +177,7 @@ private fun Artist.toSearchDisplayableItem(): DisplayableItem {
 
 private fun SearchResult.toSearchDisplayableItem(context: Context) : DisplayableItem{
     val subtitle = when (this.itemType) {
-        RecentSearchesTypes.SONG -> context.getString(R.string.search_type_song)
+        RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
         RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
         RecentSearchesTypes.ARTIST -> context.getString(R.string.search_type_artist)
         else -> throw IllegalArgumentException("invalid item type $itemType")

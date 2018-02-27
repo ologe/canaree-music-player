@@ -37,9 +37,9 @@ open class NotificationImpl24 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            image: Uri) {
+            uri: Uri) {
 
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, image, id,
+        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri, id,
                                 INotification.IMAGE_SIZE, INotification.IMAGE_SIZE))
                 .setContentTitle(title)
                 .setContentText(artist)

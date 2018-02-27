@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="player_load_more_song">des titres supplémentaires se chargent durant votre écoute</string>
-    <string name="player_playing_queue">File</string>
-
-</resources>

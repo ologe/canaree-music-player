@@ -2,12 +2,13 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import android.support.v4.content.ContextCompat
 import android.view.MotionEvent
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.base.adp.AbsAdapter
-import dev.olog.msc.presentation.base.adp.DataBoundViewHolder
+import dev.olog.msc.presentation.base.adapter.AbsAdapter
+import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
@@ -35,10 +36,13 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             navigator.toDialog(item, viewHolder.itemView)
         }
         viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
-            if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                touchHelper?.startDrag(viewHolder)
-                true
-            } else false
+            when (event.actionMasked){
+                MotionEvent.ACTION_DOWN -> {
+                    touchHelper?.startDrag(viewHolder)
+                    true
+                }
+                else -> false
+            }
         }
         viewHolder.elevateSongOnTouch()
     }
@@ -51,6 +55,20 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
             else -> binding.setVariable(BR.index, "-")
         }
+        val textColor = if (position < currentPosition) R.color.text_color_secondary else R.color.text_color_primary
+        binding.root.index.setTextColor(ContextCompat.getColor(binding.root.context, textColor))
+    }
+
+    override fun onMoved(from: Int, to: Int) {
+        if (currentPosition == from){
+            currentPosition = to
+        }
+
+        super.onMoved(from, to)
+    }
+
+    override fun onInteractionEnd(position: Int) {
+        notifyItemRangeChanged(0, controller.getSize())
     }
 
     fun updateCurrentPosition(idInPlaylist: Int) {

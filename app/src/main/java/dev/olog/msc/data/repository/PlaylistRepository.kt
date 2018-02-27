@@ -59,7 +59,7 @@ class PlaylistRepository @Inject constructor(
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
 
-    private val autoPlaylistTitles = resources.getStringArray(R.array.auto_playlists)
+    private val autoPlaylistTitles = resources.getStringArray(R.array.common_auto_playlists)
 
     private fun autoPlaylist() = listOf(
             createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0]),

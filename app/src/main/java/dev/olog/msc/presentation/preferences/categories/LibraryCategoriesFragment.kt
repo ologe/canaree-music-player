@@ -12,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.presentation.base.adp.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.utils.k.extension.makeDialog
 import javax.inject.Inject
 

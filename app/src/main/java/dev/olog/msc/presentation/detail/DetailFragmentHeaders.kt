@@ -28,7 +28,7 @@ class DetailFragmentHeaders @Inject constructor(
     )
 
     fun recent(listSize: Int, showSeeAll: Boolean) = listOf(
-            DisplayableItem(R.layout.item_detail_header_recently_added, RECENTLY_ADDED_SEE_ALL, context.getString(R.string.detail_recently_added), context.resources.getQuantityString(R.plurals.xx_new_songs, listSize, listSize), isExplicit = showSeeAll),
+            DisplayableItem(R.layout.item_detail_header_recently_added, RECENTLY_ADDED_SEE_ALL, context.getString(R.string.detail_recently_added), context.resources.getQuantityString(R.plurals.detail_xx_new_songs, listSize, listSize), isExplicit = showSeeAll),
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
@@ -44,7 +44,7 @@ class DetailFragmentHeaders @Inject constructor(
     val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
 
     val songs = listOf(
-            DisplayableItem(R.layout.item_detail_header_all_song, MediaId.headerId("detail songs header"), context.getString(R.string.detail_songs)),
+            DisplayableItem(R.layout.item_detail_header_all_song, MediaId.headerId("detail songs header"), context.getString(R.string.detail_tracks), context.getString(R.string.detail_sort_by).toLowerCase()),
             shuffle
     )
 

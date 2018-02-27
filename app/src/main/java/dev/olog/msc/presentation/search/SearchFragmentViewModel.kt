@@ -32,6 +32,15 @@ class SearchFragmentViewModel(
 
 ) : ViewModel() {
 
+    private var isFirstAccess = false
+
+    fun doOnFirstAccess(func: () -> Unit){
+        if (isFirstAccess){
+            isFirstAccess = false
+            func()
+        }
+    }
+
     fun setNewQuery(newQuery: String){
         queryText.value = newQuery.trim()
     }

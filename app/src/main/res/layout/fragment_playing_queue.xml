@@ -40,10 +40,10 @@
 
         <TextView
             android:id="@+id/header"
-            android:text="@string/player_playing_queue"
+            android:text="@string/playing_queue"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"
@@ -62,8 +62,6 @@
         android:layout_height="0dp"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
         android:paddingBottom="@dimen/playing_queue_margin_vertical"
-        android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_mini_queue"/>

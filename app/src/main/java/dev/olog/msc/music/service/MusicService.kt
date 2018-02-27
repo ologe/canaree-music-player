@@ -18,6 +18,7 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.music.service.helper.CarHelper
 import dev.olog.msc.music.service.helper.MediaIdHelper
 import dev.olog.msc.music.service.helper.MediaItemGenerator
+import dev.olog.msc.music.service.helper.WearHelper
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -121,8 +122,14 @@ class MusicService : BaseMusicService() {
         }
 
         if (CarHelper.isValidCarPackage(clientPackageName)){
+            // todo check for pro
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
         }
+        if (WearHelper.isValidWearCompanionPackage(clientPackageName)){
+            // todo check for pro
+            return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
+        }
+
         return null
     }
 

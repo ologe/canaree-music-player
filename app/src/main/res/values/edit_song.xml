@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_title">@string/common_track</string>
+    <string name="edit_info_artist">@string/common_artist</string>
+    <string name="edit_info_album">@string/common_album</string>
+    <string name="edit_info_genre">@string/common_genre</string>
+    <string name="edit_info_year">Year</string>
+    <string name="edit_info_disc">Disc #</string>
+    <string name="edit_info_track">Track #</string>
+
+    <string name="edit_info_auto_tag_no_results">No results found</string>
+    <string name="edit_info_error">@string/popup_error_message</string>
+
+    <string name="edit_info_disc_number_not_digits">Disc # must be only digits</string>
+    <string name="edit_info_track_number_not_digits">Track # must be only digits</string>
+
+    <string name="edit_song_fetching_image">Fetching image</string>
+    <string name="edit_song_fetching_info">Fetching song info</string>
+
+    <string name="edit_song_info_not_found">Info not found</string>
+    <string name="edit_song_image_not_found">Image not found</string>
+
+</resources>

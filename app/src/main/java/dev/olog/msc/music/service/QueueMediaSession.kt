@@ -32,14 +32,14 @@ class QueueMediaSession @Inject constructor(
         lifecycle.addObserver(this)
         miniQueueDisposable = publisher
                 .toSerialized()
-                .subscribeOn(Schedulers.computation())
-                .debounce(500, TimeUnit.MILLISECONDS)
+                .observeOn(Schedulers.computation())
+                .debounce(1, TimeUnit.SECONDS)
                 .mapToList { it.toQueueItem() }
                 .subscribe(mediaSession::setQueue, Throwable::printStackTrace)
 
         immediateMiniQueueDisposable = immediatePublisher
                 .toSerialized()
-                .subscribeOn(Schedulers.computation())
+                .observeOn(Schedulers.computation())
                 .mapToList { it.toQueueItem() }
                 .subscribe(mediaSession::setQueue, Throwable::printStackTrace)
     }
@@ -59,7 +59,7 @@ class QueueMediaSession @Inject constructor(
 
     private fun MediaEntity.toQueueItem() : MediaSessionCompat.QueueItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.songId(this.idInPlaylist.toLong()).toString())
+                .setMediaId(MediaId.songId(this.id).toString())
                 .setTitle(this.title)
                 .setSubtitle(this.artist)
                 .setMediaUri(Uri.parse(this.image))

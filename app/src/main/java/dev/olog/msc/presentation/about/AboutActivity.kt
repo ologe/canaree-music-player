@@ -14,12 +14,14 @@ import android.widget.TextView
 import android.widget.ViewSwitcher
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
+import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.subscribe
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
 
 class AboutActivity : BaseActivity() {
 
-    private lateinit var layoutManager : LinearLayoutManager
     @Inject lateinit var adapter: AboutActivityAdapter
     @Inject lateinit var presenter: AboutActivityPresenter
 
@@ -27,14 +29,18 @@ class AboutActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        layoutManager = LinearLayoutManager(this)
-        list.layoutManager = layoutManager
+        list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
-        list.setHasFixedSize(true)
 
         switcher.setFactory(factory)
         switcher.setCurrentText(getString(R.string.about))
         setInAnimation()
+
+        Single.just(presenter.data)
+                .toFlowable()
+                .asLiveData()
+                .subscribe(this, adapter::updateDataSet)
+
     }
 
     override fun onAttachFragment(fragment: Fragment?) {
@@ -44,7 +50,6 @@ class AboutActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        adapter.updateDataSet(presenter.data)
         back.setOnClickListener { onBackPressed() }
     }
 
@@ -69,26 +74,26 @@ class AboutActivity : BaseActivity() {
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
         textView.gravity = Gravity.CENTER
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.setTextColor(ColorStateList.valueOf(
                 ContextCompat.getColor(this@AboutActivity, R.color.text_color_primary)))
         textView
     }
 
-    fun setInAnimation(){
+    private fun setInAnimation(){
         setSwitcherAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom)
     }
 
-    fun setOutAnimation(){
+    private fun setOutAnimation(){
         setSwitcherAnimation(R.anim.slide_in_top, R.anim.slide_out_top)
     }
 
     private fun setSwitcherAnimation(inAnimation: Int, outAnimation: Int){
         val inAnim = AnimationUtils.loadAnimation(this, inAnimation)
-        val outAnima = AnimationUtils.loadAnimation(this, outAnimation)
+        val outAnim = AnimationUtils.loadAnimation(this, outAnimation)
         switcher.inAnimation = inAnim
-        switcher.outAnimation = outAnima
+        switcher.outAnimation = outAnim
     }
 
 }

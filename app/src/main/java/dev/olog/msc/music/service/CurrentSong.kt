@@ -5,8 +5,11 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
+import dev.olog.msc.domain.entity.FavoriteEnum
+import dev.olog.msc.domain.entity.FavoriteStateEntity
 import dev.olog.msc.domain.interactor.detail.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
+import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.msc.domain.interactor.music.service.InsertHistorySongUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
@@ -28,7 +31,7 @@ class CurrentSong @Inject constructor(
         insertHistorySongUseCase: InsertHistorySongUseCase,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
-//        private val setFloatingInfoRequestUseCase: SetFloatingInfoRequestUseCase,
+        private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
         playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
@@ -80,7 +83,9 @@ class CurrentSong @Inject constructor(
         isFavoriteDisposable.unsubscribe()
         isFavoriteDisposable = isFavoriteSongUseCase
                 .execute(mediaEntity.id)
-                .subscribe()
+                .map { if (it) FavoriteEnum.FAVORITE else FavoriteEnum.NOT_FAVORITE }
+                .flatMapCompletable { updateFavoriteStateUseCase.execute(FavoriteStateEntity(mediaEntity.id, it)) }
+                .subscribe({}, Throwable::printStackTrace)
     }
 
     private fun saveLastMetadata(entity: MediaEntity){

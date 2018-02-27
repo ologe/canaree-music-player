@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="related_artists_header">@string/common_related_artists</string>
+
+</resources>

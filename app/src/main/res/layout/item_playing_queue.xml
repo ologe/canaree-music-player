@@ -16,10 +16,19 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground">
 
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:visibility="gone"/>
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/playing_queue_margin_horizontal"
+            android:paddingEnd="@dimen/playing_queue_margin_horizontal">
 
             <View
                 android:id="@+id/separator"
@@ -51,7 +60,7 @@
                 tools:layout_marginStart="8dp"
                 android:textStyle="bold"
                 android:textColor="@color/dark_grey"
-                android:textSize="16sp"
+                android:textSize="14dp"
                 app:layout_constraintTop_toTopOf="@+id/firstText"
                 app:layout_constraintBottom_toBottomOf="@+id/firstText"
                 app:layout_constraintStart_toEndOf="@+id/cover"
@@ -124,7 +133,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />
-
 
         </android.support.constraint.ConstraintLayout>
 

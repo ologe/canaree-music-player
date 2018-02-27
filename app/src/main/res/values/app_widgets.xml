@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="widget_classic" type="layout">@layout/widget_classic</item>
-
     <style name="WidgetTitle">
         <item name="android:textColor">#de000000</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
         <item name="android:textStyle">normal</item>
@@ -13,7 +11,7 @@
 
     <style name="WidgetSubtitle">
         <item name="android:textColor">#8a000000</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">12dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingMultiplier">1.0</item>
         <item name="android:textStyle">normal</item>
@@ -26,5 +24,10 @@
 
     <!-- The minimum height of the content if there are at least two lines or a picture-->
     <dimen name="widget_min_content_height">41dp</dimen>
+
+    <dimen name="app_widget_one_cell">40dp</dimen>
+    <dimen name="app_widget_two_cell">110dp</dimen>
+    <dimen name="app_widget_three_cell">180dp</dimen>
+    <dimen name="app_widget_four_cell">250dp</dimen>
 
 </resources>

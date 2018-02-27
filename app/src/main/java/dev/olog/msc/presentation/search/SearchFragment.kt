@@ -9,8 +9,10 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
-import dev.olog.msc.presentation.utils.CircularReveal
 import dev.olog.msc.presentation.utils.ImeUtils
+import dev.olog.msc.presentation.utils.animation.CircularReveal
+import dev.olog.msc.presentation.utils.animation.HasSafeTransition
+import dev.olog.msc.presentation.utils.animation.SafeTransition
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment() {
+class SearchFragment : BaseFragment(), HasSafeTransition {
 
     companion object {
         const val TAG = "SearchFragment"
@@ -43,6 +45,7 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var artistAdapter: SearchFragmentArtistAdapter
     @Inject lateinit var viewModel: SearchFragmentViewModel
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
+    @Inject lateinit var safeTransition: SafeTransition
     private lateinit var layoutManager: LinearLayoutManager
     private var bestMatchDisposable : Disposable? = null
 
@@ -55,7 +58,7 @@ class SearchFragment : BaseFragment() {
         if (savedInstanceState == null){
             val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
             val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
-            enterTransition = CircularReveal(x, y, onAppearFinished = {
+            val transition = CircularReveal(x, y, onAppearFinished = {
                 val fragmentManager = activity?.supportFragmentManager
 
                 activity?.fragmentTransaction {
@@ -64,8 +67,11 @@ class SearchFragment : BaseFragment() {
                     setReorderingAllowed(true)
                 }
             })
+            safeTransition.execute(this, transition)
         }
     }
+
+    override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     override fun onDetach() {
         activity!!.fragmentTransaction {
@@ -134,7 +140,7 @@ class SearchFragment : BaseFragment() {
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
 
-        if (savedInstanceState == null){
+        viewModel.doOnFirstAccess {
             showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ ImeUtils.showIme(view.editText) }, Throwable::printStackTrace)

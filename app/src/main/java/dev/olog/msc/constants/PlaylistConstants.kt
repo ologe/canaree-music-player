@@ -3,8 +3,8 @@ package dev.olog.msc.constants
 object PlaylistConstants {
 
     const val LAST_ADDED_ID: Long = -3000
-    const val FAVORITE_LIST_ID: Long = -3002
-    const val HISTORY_LIST_ID: Long = -3004
+    const val FAVORITE_LIST_ID: Long = -30012
+    const val HISTORY_LIST_ID: Long = -30018
 
     const val MINI_QUEUE_SIZE = 50
 

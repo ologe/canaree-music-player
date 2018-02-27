@@ -27,7 +27,7 @@
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:max="@integer/very_high_duration"
+            android:max="@integer/common_high_number"
             android:paddingBottom="@dimen/player_seekBar_padding_bottom"
             android:paddingTop="@dimen/player_seekBar_padding_top"
             android:paddingStart="@dimen/player_seekBar_padding_horizontal"

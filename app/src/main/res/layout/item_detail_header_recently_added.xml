@@ -47,7 +47,7 @@
             android:id="@+id/seeMore"
             app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
-            android:padding="12sp"
+            android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
             android:textColor="@color/item_selected"

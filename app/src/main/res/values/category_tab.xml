@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tab_fast_scroller_margin_bottom">96dp</dimen>
+    <dimen name="tab_fast_scroller_margin_top">32dp</dimen>
+
+    <dimen name="tab_margin_top">8dp</dimen>
+    <dimen name="tab_margin_bottom">40dp</dimen>
+    <dimen name="tab_margin_start">8dp</dimen>
+    <dimen name="tab_margin_end">32dp</dimen>
+
+    <string name="tab_auto_playlists">Auto playlists</string>
+    <string name="tab_all_playlists">All playlists</string>
+    <string name="tab_all_albums">All albums</string>
+    <string name="tab_all_artists">All artists</string>
+    <string name="tab_recent">Recent</string>
+
+    <color name="tab_layout_selected">@color/dark_grey</color>
+    <color name="tab_layout_unselected">@color/light_grey</color>
+
+</resources>

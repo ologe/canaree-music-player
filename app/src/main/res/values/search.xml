@@ -3,4 +3,25 @@
 
     <string name="search_did_you_mean">Did you mean:</string>
 
+    <string name="search_hint">@string/common_search</string>
+
+    <string name="search_songs">@string/common_tracks</string>
+    <string name="search_albums">@string/common_albums</string>
+    <string name="search_artists">@string/common_artists</string>
+
+    <string name="search_type_track">@string/common_track</string>
+    <string name="search_type_album">@string/common_album</string>
+    <string name="search_type_artist">@string/common_artist</string>
+
+    <string name="search_recent_searches">Recent searches</string>
+    <string name="search_clear_recent_searches">Clear recent searches</string>
+    <string name="search_recent_empty_state">Search your library..</string>
+
+    <string name="search_no_results">@string/common_no_results</string>
+
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s result</item>
+        <item quantity="other">%1$s results</item>
+    </plurals>
+
 </resources>

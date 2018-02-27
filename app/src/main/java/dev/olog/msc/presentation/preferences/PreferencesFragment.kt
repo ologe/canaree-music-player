@@ -12,8 +12,8 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.utils.RootUtils
+import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.toast
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -54,8 +54,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         }
         usedEqualizer.setOnPreferenceClickListener {
             if (RootUtils.isDeviceRooted()){
-                activity!!.toast(R.string.prefs_used_equalizer_not_found)
-                usedEqualizer.isChecked = false
+//                activity!!.toast(R.string.prefs_used_equalizer_not_found)
+//                usedEqualizer.isChecked = false todo
             }
             false
         }
@@ -70,7 +70,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == activity!!.getString(R.string.prefs_quick_action_key)){
+        if (key == act.getString(R.string.prefs_quick_action_key)){
             AppConstants.updateQuickAction(activity!!)
             requestMainActivityToRecreate()
         }

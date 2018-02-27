@@ -42,7 +42,7 @@ object ImageUtils {
         }
     }
 
-    private fun getPlaceholderAsBitmap(context: Context, id: Long): Bitmap {
+    fun getPlaceholderAsBitmap(context: Context, id: Long): Bitmap {
         val size = 200
         val drawable = CoverUtils.getGradientForNotification(context, id)
 

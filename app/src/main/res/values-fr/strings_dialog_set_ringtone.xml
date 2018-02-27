@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="song_x_will_be_set_as_ringtone"><![CDATA[<b>%1$s</b> sera défini comme sonnerie]]></string>
-
-    <string name="song_x_set_as_ringtone">%1$s défini comme sonnerie</string>
-
-</resources>

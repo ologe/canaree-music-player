@@ -97,14 +97,14 @@ private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
                     R.layout.item_detail_item_info,
                     MediaId.headerId("item info"),
                     title.capitalize(),
-                    resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+                    resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
             )
     )
 }
 
 private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
     val listSize = if (this.size == -1){ "" } else {
-        resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
     return listOf(
@@ -145,9 +145,9 @@ private fun Album.toHeaderItem(artist: Artist): List<DisplayableItem> {
 }
 
 private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
-    val songs = resources.getQuantityString(R.plurals.song_count, this.songs, this.songs)
+    val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
     val albums = if (this.albums == 0) "" else {
-        "${resources.getQuantityString(R.plurals.album_count, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
+        "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
     return listOf(
@@ -179,7 +179,7 @@ private fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
                     R.layout.item_detail_item_info,
                     MediaId.headerId("item info"),
                     name,
-                    resources.getQuantityString(R.plurals.song_count, this.size, this.size).toLowerCase()
+                    resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
             )
     )
 }
