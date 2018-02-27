@@ -1,6 +1,7 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.AnimateFavoriteEntity
+import dev.olog.msc.domain.entity.FavoriteEnum
+import dev.olog.msc.domain.entity.FavoriteStateEntity
 import dev.olog.msc.domain.entity.Song
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -20,9 +21,8 @@ interface FavoriteGateway {
 
     fun isFavorite(songId: Long): Single<Boolean>
 
-    fun observeToggleFavorite(): Observable<AnimateFavoriteEntity>
-
-    fun toggleLastFavorite()
+    fun observeToggleFavorite(): Observable<FavoriteEnum>
+    fun updateFavoriteState(state: FavoriteStateEntity)
 
     fun toggleFavorite(songId: Long)
 

@@ -89,15 +89,6 @@ class PlayerFragmentAdapter @Inject constructor(
                     updateImage(view, it)
                 }, Throwable::printStackTrace)
 
-        mediaProvider.onMetadataChanged()
-                .map { it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) }
-                .map { MediaId.fromString(it).leaf!! }
-                .distinctUntilChanged()
-                .flatMapSingle { viewModel.isFavoriteSongUseCase.execute(it) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .takeUntil(RxView.detaches(view))
-                .subscribe({ updateFavorite(view, it) }, Throwable::printStackTrace)
-
         mediaProvider.onStateChanged()
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -106,7 +97,6 @@ class PlayerFragmentAdapter @Inject constructor(
         viewModel.observeProgress
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { println(it) }
                 .subscribe(view.seekBar::setProgress, Throwable::printStackTrace)
 
         if (view.repeat != null){
@@ -181,10 +171,10 @@ class PlayerFragmentAdapter @Inject constructor(
             }
         })
 
-        viewModel.onFavoriteAnimateRequestObservable
+        viewModel.onFavoriteStateChanged
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view.favorite::animateFavorite, Throwable::printStackTrace)
+                .subscribe(view.favorite::onNextState, Throwable::printStackTrace)
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
@@ -197,10 +187,6 @@ class PlayerFragmentAdapter @Inject constructor(
         view.seekBar.max = duration.toInt()
         view.remix.toggleVisibility(metadata.getLong(MusicConstants.IS_REMIX) == 1L)
         view.explicit.toggleVisibility(metadata.getLong(MusicConstants.IS_EXPLICIT) == 1L)
-    }
-
-    private fun updateFavorite(view: View, isFavorite: Boolean){
-        view.favorite.toggleFavorite(isFavorite)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

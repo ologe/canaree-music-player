@@ -2,8 +2,7 @@ package dev.olog.msc.presentation.player
 
 import dev.olog.msc.R
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.domain.entity.AnimateFavoriteEnum
-import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
+import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -13,8 +12,7 @@ import javax.inject.Inject
 
 @PerFragment
 class PlayerFragmentViewModel @Inject constructor(
-        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-        val isFavoriteSongUseCase: IsFavoriteSongUseCase
+        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase
 
 ) {
 
@@ -31,8 +29,6 @@ class PlayerFragmentViewModel @Inject constructor(
     val playerControls = DisplayableItem(R.layout.fragment_player_controls,
             MediaId.headerId("player controls id"), "")
 
-    val onFavoriteAnimateRequestObservable: Observable<Boolean> = observeFavoriteAnimationUseCase
-            .execute()
-            .map { it.animateTo == AnimateFavoriteEnum.TO_FAVORITE }
+    val onFavoriteStateChanged: Observable<FavoriteEnum> = observeFavoriteAnimationUseCase.execute()
 
 }
