@@ -115,6 +115,7 @@ dependencies {
     implementation "com.android.support:preference-v14:$rootProject.support_library"
     implementation "com.android.support:palette-v7:$rootProject.support_library"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
+    implementation "com.google.android.support:wearable:$rootProject.wearable"
 
     // db
     implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"
