@@ -14,7 +14,6 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
@@ -28,15 +27,15 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.*
-import io.reactivex.Observable
+import dev.olog.msc.utils.k.extension.elevateSongOnTouch
+import dev.olog.msc.utils.k.extension.setOnClickListener
+import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import dev.olog.msc.utils.k.extension.toggleVisibility
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.ofType
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.layout_swipeable_view.view.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerFragmentAdapter @Inject constructor(
@@ -47,8 +46,6 @@ class PlayerFragmentAdapter @Inject constructor(
         private val viewModel: PlayerFragmentViewModel
 
 ): AbsAdapter<DisplayableItem>(lifecycle) {
-
-    private var seekBarDisposable : Disposable? = null
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){
@@ -105,6 +102,12 @@ class PlayerFragmentAdapter @Inject constructor(
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ onPlaybackStateChanged(view, it) }, Throwable::printStackTrace)
+
+        viewModel.observeProgress
+                .takeUntil(RxView.detaches(view))
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext { println(it) }
+                .subscribe(view.seekBar::setProgress, Throwable::printStackTrace)
 
         if (view.repeat != null){
             mediaProvider.onRepeatModeChanged()
@@ -227,19 +230,6 @@ class PlayerFragmentAdapter @Inject constructor(
             val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
             view.nowPlaying.isActivated = isPlaying
             view.cover?.isActivated = isPlaying
-            handleSeekBarState(view, isPlaying)
-        }
-
-        view.seekBar.progress = playbackState.position.toInt()
-    }
-
-    private fun handleSeekBarState(view: View, isPlaying: Boolean){
-        seekBarDisposable.unsubscribe()
-
-        if (isPlaying){
-            seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ view.seekBar.incrementProgressBy(PROGRESS_BAR_INTERVAL) }, Throwable::printStackTrace)
         }
     }
 

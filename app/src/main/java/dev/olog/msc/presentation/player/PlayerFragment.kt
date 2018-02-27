@@ -12,6 +12,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
+import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
@@ -22,10 +23,14 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_swipeable_view.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerFragment : BaseFragment() {
@@ -36,6 +41,8 @@ class PlayerFragment : BaseFragment() {
     private lateinit var layoutManager : LinearLayoutManager
 
     private lateinit var mediaProvider : MediaProvider
+
+    private var seekBarDisposable : Disposable? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -63,6 +70,14 @@ class PlayerFragment : BaseFragment() {
                         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
                         cover?.isActivated = isPlaying
                     }
+                })
+
+        mediaProvider.onStateChanged()
+                .asLiveData()
+                .subscribe(this, {
+                    val bookmark = it.position.toInt()
+                    viewModel.updateProgress(bookmark)
+                    handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
                 })
 
         mediaProvider.onMetadataChanged()
@@ -109,6 +124,17 @@ class PlayerFragment : BaseFragment() {
         adapter.touchHelper = touchHelper
     }
 
+    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean){
+        seekBarDisposable.unsubscribe()
+
+        if (isPlaying){
+            seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
+                    .map { (it + 1) * PROGRESS_BAR_INTERVAL + bookmark }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ viewModel.updateProgress(it.toInt()) }, Throwable::printStackTrace)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         activity!!.slidingPanel.setScrollableView(list)
@@ -122,6 +148,11 @@ class PlayerFragment : BaseFragment() {
         swipeableView?.setOnSwipeListener(null)
         shuffle?.setOnClickListener(null)
         repeat?.setOnClickListener(null)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        seekBarDisposable.unsubscribe()
     }
 
     private val onSwipeListener = object : SwipeableView.SwipeListener{
