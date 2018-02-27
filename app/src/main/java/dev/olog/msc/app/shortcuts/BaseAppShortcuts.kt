@@ -7,10 +7,14 @@ import android.net.Uri
 import android.support.v4.content.pm.ShortcutInfoCompat
 import android.support.v4.content.pm.ShortcutManagerCompat
 import android.support.v4.graphics.drawable.IconCompat
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.k.extension.toast
 import java.io.File
@@ -27,15 +31,39 @@ abstract class BaseAppShortcuts(
             intent.action = AppConstants.SHORTCUT_DETAIL
             intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
-            val shortcut = ShortcutInfoCompat.Builder(context, title)
-                    .setShortLabel(title)
-                    .setIcon(IconCompat.createWithBitmap(getBitmap(context, mediaId, image)))
-                    .setIntent(intent)
-                    .build()
+            val img = when (mediaId.category){
+                MediaIdCategory.ARTISTS -> image
+                MediaIdCategory.ALBUMS,
+                MediaIdCategory.SONGS -> Uri.parse(image)
+                else -> Uri.fromFile(File(image))
+            }
 
-            ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
+            val id = if (mediaId.isFolder) mediaId.categoryValue.hashCode().toLong()
+            else mediaId.categoryValue.toLong()
 
-            onAddedSuccess(context)
+            val bitmap = GlideApp.with(context)
+                    .asBitmap()
+                    .load(img)
+                    .error(GlideApp.with(context)
+                            .asBitmap()
+                            .load(ImageUtils.getPlaceholderAsBitmap(context, id))
+                            .circleCrop()
+                            .override(128, 128)
+                    ).circleCrop()
+                    .override(128, 128)
+                    .into(object : SimpleTarget<Bitmap>() {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            val shortcut = ShortcutInfoCompat.Builder(context, title)
+                                    .setShortLabel(title)
+                                    .setIcon(IconCompat.createWithBitmap(resource))
+                                    .setIntent(intent)
+                                    .build()
+
+                            ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
+
+                            onAddedSuccess(context)
+                        }
+                    })
         } else {
             onAddedNotSupported(context)
         }
