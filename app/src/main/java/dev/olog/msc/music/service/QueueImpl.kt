@@ -14,7 +14,6 @@ import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.assertMainThread
-import dev.olog.msc.utils.k.extension.shuffle
 import dev.olog.msc.utils.k.extension.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single

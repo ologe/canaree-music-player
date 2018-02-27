@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.image.creation.impl
 
 import android.graphics.*
 import dev.olog.msc.utils.assertBackgroundThread
-import dev.olog.msc.utils.k.extension.shuffle
 
 
 object MergedImageUtils {
@@ -14,8 +13,7 @@ object MergedImageUtils {
     fun joinImages(list: List<Bitmap>) : Bitmap {
         assertBackgroundThread()
 
-        list.shuffle()
-        val arranged = arrangeBitmaps(list)
+        val arranged = arrangeBitmaps(list.shuffled())
 
         val mergedImage = create(arranged, IMAGE_SIZE, PARTS)
         val finalImage = rotate(mergedImage, IMAGE_SIZE, DEGREES)

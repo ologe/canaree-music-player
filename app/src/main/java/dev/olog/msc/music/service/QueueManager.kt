@@ -16,7 +16,6 @@ import dev.olog.msc.music.service.model.*
 import dev.olog.msc.music.service.voice.VoiceSearch
 import dev.olog.msc.music.service.voice.VoiceSearchParams
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.shuffle
 import dev.olog.msc.utils.k.extension.swap
 import io.reactivex.Single
 import io.reactivex.functions.Function
@@ -135,7 +134,7 @@ class QueueManager @Inject constructor(
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
-                .map { it.shuffle() }
+                .map { it.shuffled() }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }
@@ -218,10 +217,11 @@ class QueueManager @Inject constructor(
         }
     }
 
-    private fun shuffleIfNeeded(songId: Long) = Function<List<MediaEntity>, List<MediaEntity>> { list ->
+    private fun shuffleIfNeeded(songId: Long) = Function<List<MediaEntity>, List<MediaEntity>> { l ->
+        var list = l.toList()
         if (shuffleMode.isEnabled()){
             val item = list.firstOrNull { it.id == songId }
-            list.shuffle()
+            list = list.shuffled()
             val songPosition = list.indexOf(item)
             if (songPosition != 0 && songPosition != -1){
                 list.swap(0, songPosition)
