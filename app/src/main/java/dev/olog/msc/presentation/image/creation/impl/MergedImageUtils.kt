@@ -7,7 +7,7 @@ import dev.olog.msc.utils.k.extension.shuffle
 
 object MergedImageUtils {
 
-    private const val IMAGE_SIZE = 1000
+    private const val IMAGE_SIZE = 1500
     private const val PARTS = 3
     private const val DEGREES = 9f
 

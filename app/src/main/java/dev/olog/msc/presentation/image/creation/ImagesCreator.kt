@@ -1,8 +1,13 @@
 package dev.olog.msc.presentation.image.creation
 
+import android.Manifest
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
+import android.content.Context
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.util.GetAllArtistsNewRequestUseCase
 import dev.olog.msc.domain.interactor.util.GetAllFoldersNewRequestUseCase
@@ -17,6 +22,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ImagesCreator @Inject constructor(
+        @ApplicationContext private val context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
         private val getAllFoldersUseCase: GetAllFoldersNewRequestUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsNewRequestUseCase,
@@ -41,10 +47,17 @@ class ImagesCreator @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        createImages()
+        val storagePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (storagePermission == PackageManager.PERMISSION_GRANTED){
+            execute()
+        }
     }
 
     override fun onStop(owner: LifecycleOwner) {
+        unsubscribe()
+    }
+
+    private fun unsubscribe(){
         folderDisposable.unsubscribe()
         playlistDisposable.unsubscribe()
         artistDisposable.unsubscribe()
@@ -52,8 +65,11 @@ class ImagesCreator @Inject constructor(
         subscriptions.clear()
     }
 
-    private fun createImages() {
+    fun execute() {
+        unsubscribe()
+
         getAllFoldersUseCase.execute()
+                .onErrorReturn { listOf() }
                 .doOnNext {
                     folderDisposable.unsubscribe()
                     folderDisposable = folderImagesCreator.execute()
