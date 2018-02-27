@@ -37,39 +37,37 @@ class EditSongFragment : BaseFragment() {
     }
 
     @Inject lateinit var viewModel: EditSongFragmentViewModel
-
     private var progressDialog: ProgressDialog? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         RxTextView.afterTextChangeEvents(title)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
                 .subscribe(this,okButton::setEnabled)
 
-        viewModel.observeData()
-                .observe(this, Observer {
-                    if (it != null){
-                        title.setText(it.title)
-                        artist.setText(it.artist)
-                        album.setText(it.album)
-                        year.setText(it.year)
-                        genre.setText(it.genre)
-                        disc.setText(it.disc)
-                        trackNumber.setText(it.track)
-                    } else {
-                        ctx.toast(R.string.edit_song_info_not_found)
+        viewModel.observeData().observe(this, Observer {
+                    when (it){
+                        null -> ctx.toast(R.string.edit_song_info_not_found)
+                        else -> {
+                            title.setText(it.title)
+                            artist.setText(it.artist)
+                            album.setText(it.album)
+                            year.setText(it.year)
+                            genre.setText(it.genre)
+                            disc.setText(it.disc)
+                            trackNumber.setText(it.track)
+                        }
                     }
                     hideLoader()
                 })
 
-        viewModel.observeImage()
-                .observe(this, Observer {
-                    if (it != null){
-                        setImage(it)
-                    } else {
-                        ctx.toast(R.string.edit_song_image_not_found)
+        viewModel.observeImage().observe(this, Observer {
+                    when (it){
+                        null -> ctx.toast(R.string.edit_song_image_not_found)
+                        else -> setImage(it)
                     }
                     hideLoader()
                 })
@@ -82,17 +80,22 @@ class EditSongFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            val result = viewModel.updateMetadata(title.extractText(), artist.extractText(),
-                            album.extractText(), genre.extractText(), year.extractText(),
-                            disc.extractText(), trackNumber.extractText())
+            val result = viewModel.updateMetadata(
+                    title.extractText(),
+                    artist.extractText(),
+                    album.extractText(),
+                    genre.extractText(),
+                    year.extractText().trim(),
+                    disc.extractText().trim(),
+                    trackNumber.extractText().trim())
 
             when (result){
                 UpdateResult.OK -> act.onBackPressed()
-                UpdateResult.EMPTY_TITLE -> context!!.toast("title can not be null")
-                UpdateResult.ILLEGAL_DISC_NUMBER -> context!!.toast("invalid disc number")
-                UpdateResult.ILLEGAL_TRACK_NUMBER -> context!!.toast("invalid track number")
-                UpdateResult.ILLEGAL_YEAR -> context!!.toast("invalid year")
-                UpdateResult.ERROR -> context!!.toast(R.string.popup_error_message)
+                UpdateResult.EMPTY_TITLE -> ctx.toast("title can not be null")
+                UpdateResult.ILLEGAL_DISC_NUMBER -> ctx.toast("invalid disc number")
+                UpdateResult.ILLEGAL_TRACK_NUMBER -> ctx.toast("invalid track number")
+                UpdateResult.ILLEGAL_YEAR -> ctx.toast("invalid year")
+                UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }
@@ -120,12 +123,9 @@ class EditSongFragment : BaseFragment() {
                                 intent.type = "image/*"
                                 startActivityForResult(intent, RESULT_LOAD_IMAGE)
                             }
-                            2 -> {
-                                viewModel.restoreAlbumArt()
-                            }
+                            2 -> viewModel.restoreAlbumArt()
                         }
-                    })
-                    .makeDialog()
+                    }).makeDialog()
         }
     }
 
@@ -137,10 +137,10 @@ class EditSongFragment : BaseFragment() {
         changeAlbumArt.setOnClickListener(null)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == Activity.RESULT_OK){
-            data.data?.let { viewModel.setAlbumArt(it) }
+            data?.data?.let { viewModel.setAlbumArt(it) }
         }
     }
 

@@ -49,4 +49,8 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun provideLastFmRepositoty(repository: LastFmRepository): LastFmCacheGateway
 
+    @Binds
+    @Singleton
+    abstract fun provideSongImageRepository(repository: SongImagesRepository): SongImageGateway
+
 }

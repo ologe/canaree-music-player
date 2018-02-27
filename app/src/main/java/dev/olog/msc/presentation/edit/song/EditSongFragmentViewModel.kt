@@ -12,9 +12,12 @@ import dev.olog.msc.api.last.fm.LastFmClient
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
+import dev.olog.msc.domain.interactor.song.image.DeleteSongImageUseCase
+import dev.olog.msc.domain.interactor.song.image.InsertSongImageUseCase
 import dev.olog.msc.presentation.edit.song.model.DisplayableSong
 import dev.olog.msc.presentation.edit.song.model.UpdateResult
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -28,7 +31,9 @@ class EditSongFragmentViewModel(
         private val application: Application,
         mediaId: MediaId,
         private val lastFmService: LastFmClient,
-        getSongUseCase: GetSongUseCase
+        getSongUseCase: GetSongUseCase,
+        private val insertSongImageUseCase: InsertSongImageUseCase,
+        private val deleteSongImageUseCase: DeleteSongImageUseCase
 
 ) : ViewModel() {
 
@@ -51,8 +56,8 @@ class EditSongFragmentViewModel(
                         artist = if (it.artist == AppConstants.UNKNOWN) "" else it.artist,
                         album = if (it.album == AppConstants.UNKNOWN) "" else it.album
                 ) }
-                .doOnSuccess { this.originalSong = it }
                 .subscribe({
+                    this.originalSong = it
                     val song = it.toDisplayableSong()
                     displayedSong.postValue(song)
                     displayedImage.postValue(it.image)
@@ -70,6 +75,7 @@ class EditSongFragmentViewModel(
 
     fun fetchSongInfo(){
         val song = this.originalSong
+        fetchSongInfoDisposable.unsubscribe()
         fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.id, song.title, song.artist)
                 .subscribe({ newValue ->
                     val oldValue = displayedSong.value!!
@@ -89,6 +95,7 @@ class EditSongFragmentViewModel(
 
     fun fetchAlbumArt() {
         val song = this.originalSong
+        fetchAlbumImageDisposable.unsubscribe()
         fetchAlbumImageDisposable = lastFmService
                 .fetchAlbumArt(song.id, song.title, song.artist, song.album)
                 .subscribe({
@@ -102,12 +109,12 @@ class EditSongFragmentViewModel(
                 })
     }
 
-    fun restoreAlbumArt() {
-        displayedImage.postValue(originalSong.image)
-    }
-
     fun setAlbumArt(uri: Uri){
         displayedImage.postValue(uri.toString())
+    }
+
+    fun restoreAlbumArt() {
+        displayedImage.postValue(ImagesFolderUtils.forAlbum(originalSong.albumId))
     }
 
     override fun onCleared() {
@@ -117,7 +124,7 @@ class EditSongFragmentViewModel(
 
     fun stopFetching(){
         fetchSongInfoDisposable.unsubscribe()
-        fetchSongInfoDisposable.unsubscribe()
+        fetchAlbumImageDisposable.unsubscribe()
     }
 
     fun updateMetadata(
@@ -164,7 +171,14 @@ class EditSongFragmentViewModel(
 
             audioFile.commit()
 
-            handleImage()
+            val img = displayedImage.value!!
+            if (img == ImagesFolderUtils.forAlbum(originalSong.albumId)){
+                deleteSongImageUseCase.execute(originalSong)
+                        .subscribe({}, Throwable::printStackTrace)
+            } else {
+                insertSongImageUseCase.execute(originalSong to img)
+                        .subscribe({}, Throwable::printStackTrace)
+            }
 
             notifyMediaStore(originalSong)
 
@@ -172,18 +186,6 @@ class EditSongFragmentViewModel(
         } catch (ex: Exception){
             ex.printStackTrace()
             return UpdateResult.ERROR
-        }
-    }
-
-    private fun handleImage(){
-        if (originalSong.image != displayedImage.value!!){
-            if (originalSong.image != AppConstants.UNKNOWN){
-                // update all
-
-            } else {
-                // update only this
-
-            }
         }
     }
 

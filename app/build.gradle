@@ -4,9 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+//def keystorePropertiesFile = rootProject.file("keystore.properties")
+//def keystoreProperties = new Properties()
+//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
 
@@ -25,16 +25,16 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file('C:/Users/Eugi/keystores/next.jks')
-            storePassword keystoreProperties['storePassword']
-            v1SigningEnabled true
-            v2SigningEnabled true
-        }
-    }
+//    signingConfigs {
+//        release {
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//            storeFile file('C:/Users/Eugi/keystores/next.jks')
+//            storePassword keystoreProperties['storePassword']
+//            v1SigningEnabled true
+//            v2SigningEnabled true
+//        }
+//    }
 
     buildTypes {
 
@@ -44,7 +44,7 @@ android {
             multiDexEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
 
         debug {

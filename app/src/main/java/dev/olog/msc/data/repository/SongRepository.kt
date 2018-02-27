@@ -7,10 +7,10 @@ import android.provider.MediaStore.Audio.AudioColumns.IS_MUSIC
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
-import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.gateway.SongImageGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -46,11 +46,9 @@ class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val appPrefsUseCase: AppPreferencesUseCase,
-        appDatabase: AppDatabase
+        private val songImageGateway: SongImageGateway
 
 ) : SongGateway {
-
-//    private val lastFmDao = appDatabase.lastFmDao()
 
     private fun queryAllData(): Observable<List<Song>> {
         return rxContentResolver.createQuery(
@@ -65,18 +63,23 @@ class SongRepository @Inject constructor(
                         it.filter { !blackListed.contains(it.folderPath) }
                     }
                 }
-//                .map {
-//                    val images = lastFmDao.getAllTrackImagesBlocking()
-//                    it.map { song ->
-//                        val image = images.asSequence()
-//                                .filter { it.use }
-//                                .firstOrNull { it.id == song.id }?.image
-//
-//                        if (image != null && image.isNotBlank()){
-//                            song.copy(image = image)
-//                        } else song
-//                    }
-//                }
+                .map {
+                    val images = songImageGateway.getAll()
+                    it.map { song ->
+                        val image = images.asSequence()
+                                .firstOrNull {
+                                    if (it.isAlbum){
+                                        it.id == song.albumId
+                                    } else {
+                                        it.id == song.id
+                                    }
+                                }?.image
+
+                        if (image != null){
+                            song.copy(image = image)
+                        } else song
+                    }
+                }
                 .onErrorReturn { listOf() }
     }
 

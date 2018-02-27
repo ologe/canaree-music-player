@@ -56,7 +56,7 @@ class LastFmRepository @Inject constructor(
     }
 
     private fun SearchedImage.toTrackImage(): LastFmTrackImageEntity {
-        return LastFmTrackImageEntity(id, image, false)
+        return LastFmTrackImageEntity(id, image)
     }
 
     private fun SearchedImage.toArtistImage(): LastFmArtistImageEntity {
