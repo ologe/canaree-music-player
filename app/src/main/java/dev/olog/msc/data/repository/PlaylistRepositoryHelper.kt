@@ -87,13 +87,13 @@ class PlaylistRepositoryHelper @Inject constructor(
         }
     }
 
-    fun removeSongFromPlaylist(playlistId: Long, songId: Long): Completable {
+    fun removeSongFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable {
         return Completable.create { e ->
             if (PlaylistConstants.isAutoPlaylist(playlistId)){
-                removeFromAutoPlaylist(playlistId, songId)
+                removeFromAutoPlaylist(playlistId, idInPlaylist)
             } else {
                 val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-                contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$songId"))
+                contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
             }
 
             e.onComplete()

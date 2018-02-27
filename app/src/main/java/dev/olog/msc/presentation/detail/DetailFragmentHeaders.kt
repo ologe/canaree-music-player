@@ -44,7 +44,7 @@ class DetailFragmentHeaders @Inject constructor(
     val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")
 
     val songs = listOf(
-            DisplayableItem(R.layout.item_detail_header_all_song, MediaId.headerId("detail songs header"), context.getString(R.string.detail_tracks)),
+            DisplayableItem(R.layout.item_detail_header_all_song, MediaId.headerId("detail songs header"), context.getString(R.string.detail_tracks), context.getString(R.string.detail_sort_by).toLowerCase()),
             shuffle
     )
 
