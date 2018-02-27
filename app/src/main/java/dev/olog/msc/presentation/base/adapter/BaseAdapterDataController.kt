@@ -25,8 +25,7 @@ class BaseAdapterDataController<Model : BaseModel>
     override fun handleNewData(extendAreItemTheSame: ((Int, Int, Model, Model) -> Boolean)?)
             : Observable<AdapterControllerResult> {
 
-        return publisher
-                .serialize()
+        return publisher.serialize()
                 .observeOn(Schedulers.computation())
                 .doOnNext { assertBackgroundThread() }
                 .flatMapSingle {
@@ -55,7 +54,7 @@ class BaseAdapterDataController<Model : BaseModel>
         if (list.size > 400){
             return AdapterData(list, null)
         } else {
-            val diffCallback = BaseAdapterDiffUtil(data, list, extendAreItemTheSame)
+            val diffCallback = BaseAdapterDiffUtil(data.toList(), list, extendAreItemTheSame)
             return AdapterData(list, DiffUtil.calculateDiff(diffCallback))
         }
     }

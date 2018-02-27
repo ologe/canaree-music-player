@@ -21,6 +21,7 @@ class AboutActivityPresenter @Inject constructor(
         val REPORT_BUGS = MediaId.headerId("report bugs dev id")
         val PRIVACY_POLICY = MediaId.headerId("privacy policy")
         val WEBSITE_ID = MediaId.headerId("website")
+        val BUY_PRO = MediaId.headerId("pro")
     }
 
 
@@ -32,7 +33,8 @@ class AboutActivityPresenter @Inject constructor(
 
             DisplayableItem(R.layout.item_about, REPORT_BUGS, context.getString(R.string.about_support_report_bug), context.getString(R.string.about_support_report_bug_description)),
             DisplayableItem(R.layout.item_about, RATE_ID, context.getString(R.string.about_support_rate), context.getString(R.string.about_support_rate_description)),
-            DisplayableItem(R.layout.item_about, PRIVACY_POLICY, context.getString(R.string.about_privacy_policy), context.getString(R.string.about_privacy_policy_description))
+            DisplayableItem(R.layout.item_about, PRIVACY_POLICY, context.getString(R.string.about_privacy_policy), context.getString(R.string.about_privacy_policy_description)),
+            DisplayableItem(R.layout.item_about, BUY_PRO, context.getString(R.string.about_buy_pro), context.getString(R.string.about_buy_pro_description))
     )
 
 }

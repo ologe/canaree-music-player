@@ -64,6 +64,7 @@ abstract class AbsAdapter<Model : BaseModel>(
     override fun onResume(owner: LifecycleOwner) {
         dataDisposable = controller.handleNewData(extendAreItemTheSame)
                 .subscribe({ (wasEmpty, callback) ->
+
                     if (wasEmpty || !hasGranularUpdate() || callback == null){
                         notifyDataSetChanged()
                     } else {

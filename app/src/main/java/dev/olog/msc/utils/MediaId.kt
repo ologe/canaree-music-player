@@ -132,6 +132,7 @@ class MediaId private constructor(
         return result
     }
 
+
     val isFolder : Boolean = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS
     val isAll: Boolean = category == MediaIdCategory.SONGS

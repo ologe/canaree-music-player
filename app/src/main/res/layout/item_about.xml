@@ -17,6 +17,7 @@
         android:background="?attr/selectableItemBackground">
 
         <TextView
+            android:id="@+id/title"
             android:text="@{item.title}"
             tools:text="Version"
             android:textStyle="bold"
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/subtitle"
             android:text="@{item.subtitle}"
             tools:text="1.0"
             android:textSize="14dp"

@@ -25,7 +25,7 @@ class BaseAdapterDiffUtil<Model : BaseModel>(
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
 
-        var areTheSame = oldItem.mediaId == newItem.mediaId
+        var areTheSame = oldItem == newItem
         if (extendAreItemTheSame != null){
             areTheSame = areTheSame && extendAreItemTheSame
                     .invoke(oldItemPosition, newItemPosition, oldItem, newItem)
