@@ -63,7 +63,7 @@ class GenreRepository @Inject constructor(
             .refCount()
 
     override fun getAll(): Observable<List<Genre>> {
-        return cachedData
+        return cachedData.emitThenDebounce()
     }
 
     override fun getAllNewRequest(): Observable<List<Genre>> {
