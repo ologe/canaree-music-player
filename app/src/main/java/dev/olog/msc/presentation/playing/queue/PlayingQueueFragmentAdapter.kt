@@ -67,6 +67,20 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         super.onMoved(from, to)
     }
 
+    override fun onSwiped(position: Int) {
+//        if (currentPosition == position){
+            // todo working bad
+//            mediaProvider.skipToNext()
+//        }
+//        if (currentPosition > position){
+//            currentPosition--
+//        }
+//        if (currentPosition < position){
+//            currentPosition++
+//        }
+        super.onSwiped(position)
+    }
+
     override fun onInteractionEnd(position: Int) {
         notifyItemRangeChanged(0, controller.getSize())
     }
@@ -82,6 +96,8 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override val onDragAction = { from: Int, to: Int -> mediaProvider.swap(from, to) }
 
-    override val onSwipeAction = { position: Int -> mediaProvider.remove(position) }
+    override val onSwipeAction = { position: Int ->
+        mediaProvider.remove(position)
+    }
 
 }
