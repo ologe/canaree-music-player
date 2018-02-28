@@ -30,7 +30,7 @@
                 style="@style/Divider"
                 android:layout_marginStart="12dp" />
 
-            <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+            <dev.olog.msc.presentation.widget.image.view.ShapeImageView
                 android:id="@+id/cover"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

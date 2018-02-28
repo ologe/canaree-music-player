@@ -89,7 +89,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         iconShape.summary = when (value){
             ctx.getString(R.string.prefs_icon_shape_square) -> ctx.getString(R.string.common_shape_square)
             ctx.getString(R.string.prefs_icon_shape_rounded) -> ctx.getString(R.string.common_shape_rounded)
-            ctx.getString(R.string.prefs_icon_shape_squircle) -> ctx.getString(R.string.common_shape_squircle)
             else -> ""
         }
     }

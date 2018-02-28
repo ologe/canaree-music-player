@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+    <ImageView
         android:id="@+id/cover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +18,7 @@
         android:adjustViewBounds="true"
         tools:src="@drawable/placeholder_folder"
         android:visibility="gone"
-        tools:visibility="visible"
-        app:cornerRadius="0"/>
+        tools:visibility="visible" />
 
     <dev.olog.msc.presentation.widget.parallax.ParallaxRecyclerView
         android:id="@+id/list"

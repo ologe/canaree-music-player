@@ -111,7 +111,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <!-- cover -->
-                <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+                <dev.olog.msc.presentation.widget.image.view.RoundedCornersImageView
                     android:id="@+id/cover"
                     app:layout_constraintTop_toBottomOf="@+id/nowPlaying"
                     app:layout_constraintStart_toStartOf="parent"

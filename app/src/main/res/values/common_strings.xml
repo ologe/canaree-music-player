@@ -68,7 +68,6 @@
 
     <string name="common_shape_square">Square</string>
     <string name="common_shape_rounded">Round square</string>
-    <string name="common_shape_squircle">Squircle</string>
 
     <string name="common_related_artists">Related artists</string>
     <string name="common_most_played">Most played</string>

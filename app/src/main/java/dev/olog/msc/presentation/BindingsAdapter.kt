@@ -29,11 +29,9 @@ object BindingsAdapter {
     @JvmStatic
     private fun loadImageImpl(
             view: ImageView,
-            item: DisplayableItem?,
+            item: DisplayableItem,
             override: Int,
             priority: Priority = Priority.HIGH){
-
-        item ?: return
 
         val mediaId = item.mediaId
         val context = view.context
@@ -42,10 +40,9 @@ object BindingsAdapter {
 
         val source = resolveSource(mediaId)
         val id = resolveId(mediaId)
-        val image = resolveUri(item.image)
 
         var request = GlideApp.with(context)
-                .load(image)
+                .load(resolveUri(mediaId.category, item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
@@ -127,12 +124,12 @@ object BindingsAdapter {
     }
 
     @JvmStatic
-    private fun resolveUri(imageAsString: String): Uri {
-        val file = File(imageAsString)
-        return if (file.exists()){
-            Uri.fromFile(file)
-        } else {
-            Uri.parse(imageAsString)
+    private fun resolveUri(category: MediaIdCategory, image: String): Any {
+        return when (category){
+            MediaIdCategory.SONGS,
+            MediaIdCategory.ALBUMS -> return Uri.parse(image)
+            MediaIdCategory.ARTISTS -> image
+            else -> Uri.fromFile(File(image))
         }
     }
 

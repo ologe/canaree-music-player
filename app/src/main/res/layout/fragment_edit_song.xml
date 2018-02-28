@@ -39,7 +39,7 @@
                 app:layout_constraintDimensionRatio="16:9"
                 tools:src="@android:color/holo_red_dark" />
 
-            <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+            <dev.olog.msc.presentation.widget.image.view.ShapeImageView
                 android:id="@+id/cover"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
