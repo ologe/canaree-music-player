@@ -72,7 +72,8 @@ public class InWindowDragger implements Dragger {
                     float dragDeltaY = motionEvent.getRawY() - mOriginalTouchPosition.y;
                     mCurrentViewPosition = new PointF(
                             mOriginalViewPosition.x + dragDeltaX,
-                            MathUtils.clamp(mOriginalViewPosition.y + dragDeltaY, 0, screenSize.y)
+                            MathUtils.clamp(mOriginalViewPosition.y + dragDeltaY,
+                                    ContextExtensionKt.dip(mContext, 24), screenSize.y)
                     );
 
                     if (mIsDragging || !isTouchWithinSlopOfOriginalTouch(dragDeltaX, dragDeltaY)) {
