@@ -68,6 +68,7 @@ public class InViewDragger implements Dragger {
                             mOriginalViewPosition.x + dragDeltaX,
                             mOriginalViewPosition.y + dragDeltaY
                     );
+                    System.out.println(mCurrentViewPosition);
 
                     if (mIsDragging || !isTouchWithinSlopOfOriginalTouch(dragDeltaX, dragDeltaY)) {
                         if (!mIsDragging) {

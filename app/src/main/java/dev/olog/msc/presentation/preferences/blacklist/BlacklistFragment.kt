@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.preferences.blacklist
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -68,12 +68,19 @@ class BlacklistFragment : BaseDialogFragment() {
                         showErrorMessage()
                     } else {
                         presenter.setDataSet(adapter.data)
-                        activity!!.setResult(Activity.RESULT_OK)
+                        notifyMediaStore()
                         dismiss()
                     }
                 }
 
         return dialog
+    }
+
+    private fun notifyMediaStore(){
+        val contentResolver = context!!.contentResolver
+        contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
+        contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
+        contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
     }
 
     private fun showErrorMessage(){
