@@ -79,6 +79,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             requestMainActivityToRecreate()
         }
         if (key == ctx.getString(R.string.prefs_icon_shape_key)){
+            setIconShapeSummary()
             requestMainActivityToRecreate()
         }
     }

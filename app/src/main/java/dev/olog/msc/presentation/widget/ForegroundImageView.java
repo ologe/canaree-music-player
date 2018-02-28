@@ -88,13 +88,13 @@ public class ForegroundImageView extends AppCompatImageView {
 
             if (foreground != null) {
                 foreground.setBounds(0, 0, getWidth(), getHeight());
-                setWillNotDraw(false);
+//                setWillNotDraw(false);
                 foreground.setCallback(this);
                 if (foreground.isStateful()) {
                     foreground.setState(getDrawableState());
                 }
             } else {
-                setWillNotDraw(true);
+//                setWillNotDraw(true);
             }
             invalidate();
         }
