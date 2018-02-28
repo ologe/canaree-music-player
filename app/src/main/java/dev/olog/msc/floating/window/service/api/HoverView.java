@@ -36,8 +36,6 @@ import dev.olog.msc.floating.window.service.api.view.InViewDragger;
 import dev.olog.msc.floating.window.service.api.window.InWindowDragger;
 import dev.olog.msc.floating.window.service.api.window.WindowViewController;
 
-import static dev.olog.msc.floating.window.service.api.SideDock.SidePosition.LEFT;
-
 
 /**
  * {@code HoverMenuView} is a floating menu implementation. This implementation displays tabs along
@@ -161,7 +159,7 @@ public class HoverView extends RelativeLayout {
     private void createCollapsedDockFromAttrs(@NonNull TypedArray a) {
         int tabSize = getResources().getDimensionPixelSize(R.dimen.hover_tab_size);
         @SideDock.SidePosition.Side
-        int dockSide = a.getInt(R.styleable.HoverView_dockSide, LEFT);
+        int dockSide = a.getInt(R.styleable.HoverView_dockSide, SideDock.SidePosition.RIGHT);
         float dockPosition = a.getFraction(R.styleable.HoverView_dockPosition, 1, 1, 0.5f);
         SideDock.SidePosition sidePosition = new SideDock.SidePosition(dockSide, dockPosition);
         mCollapsedDock = new SideDock(
@@ -473,7 +471,7 @@ public class HoverView extends RelativeLayout {
 
         private SideDock.SidePosition getSidePosition(@NonNull String menuId) {
             return new SideDock.SidePosition(
-                    mPrefs.getInt(menuId + SAVED_STATE_DOCKS_SIDE, LEFT),
+                    mPrefs.getInt(menuId + SAVED_STATE_DOCKS_SIDE, SideDock.SidePosition.RIGHT),
                     mPrefs.getFloat(menuId + SAVED_STATE_DOCK_POSITION, 0.5f)
             );
         }
