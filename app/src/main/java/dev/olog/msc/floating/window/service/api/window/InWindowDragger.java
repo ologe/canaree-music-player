@@ -19,11 +19,15 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
+import android.support.v4.math.MathUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 
 import dev.olog.msc.floating.window.service.api.Dragger;
+import dev.olog.msc.utils.k.extension.ContextExtensionKt;
 
 /**
  * {@link Dragger} implementation that works within a {@code Window}.
@@ -45,6 +49,7 @@ public class InWindowDragger implements Dragger {
     private PointF mOriginalViewPosition = new PointF();
     private PointF mCurrentViewPosition = new PointF();
     private PointF mOriginalTouchPosition = new PointF();
+    private Point screenSize = new Point();
 
     private View.OnTouchListener mDragTouchListener = new View.OnTouchListener() {
         @Override
@@ -67,7 +72,7 @@ public class InWindowDragger implements Dragger {
                     float dragDeltaY = motionEvent.getRawY() - mOriginalTouchPosition.y;
                     mCurrentViewPosition = new PointF(
                             mOriginalViewPosition.x + dragDeltaX,
-                            mOriginalViewPosition.y + dragDeltaY
+                            MathUtils.clamp(mOriginalViewPosition.y + dragDeltaY, 0, screenSize.y)
                     );
 
                     if (mIsDragging || !isTouchWithinSlopOfOriginalTouch(dragDeltaX, dragDeltaY)) {
@@ -114,6 +119,12 @@ public class InWindowDragger implements Dragger {
         mWindowViewController = windowViewController;
         mTouchAreaDiameter = touchAreaDiameter;
         mTapTouchSlop = tapTouchSlop;
+
+        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        display.getSize(screenSize);
+        int y = screenSize.y;
+        int toolbarHeight = ContextExtensionKt.dip(context, 48);
+        screenSize.y = y - toolbarHeight;
     }
 
     public void activate(@NonNull DragListener dragListener, @NonNull Point dragStartCenterPosition) {
