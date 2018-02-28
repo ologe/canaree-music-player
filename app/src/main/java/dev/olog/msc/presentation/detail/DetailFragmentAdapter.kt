@@ -247,7 +247,7 @@ class DetailFragmentAdapter @Inject constructor(
         get() {
             if (mediaId.isPlaylist){
                 val playlistId = mediaId.categoryValue.toLong()
-                return playlistId == PlaylistConstants.FAVORITE_LIST_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
+                return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
             }
             return false
         }
