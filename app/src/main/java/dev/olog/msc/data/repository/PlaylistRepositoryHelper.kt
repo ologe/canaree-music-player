@@ -88,22 +88,19 @@ class PlaylistRepositoryHelper @Inject constructor(
     }
 
     fun removeSongFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable {
-        return Completable.create { e ->
-            if (PlaylistConstants.isAutoPlaylist(playlistId)){
-                removeFromAutoPlaylist(playlistId, idInPlaylist)
-            } else {
-                val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-                contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
-            }
-
-            e.onComplete()
+        if (PlaylistConstants.isAutoPlaylist(playlistId)){
+            return removeFromAutoPlaylist(playlistId, idInPlaylist)
+        }
+        return Completable.fromCallable {
+            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+            contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
         }
     }
 
-    private fun removeFromAutoPlaylist(playlistId: Long, songId: Long){
-        when(playlistId){
+    private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
+        return when(playlistId){
             PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(songId)
-            PlaylistConstants.HISTORY_LIST_ID -> historyDao.deleteSingle(songId)
+            PlaylistConstants.HISTORY_LIST_ID -> Completable.fromCallable { historyDao.deleteSingle(songId) }
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
     }

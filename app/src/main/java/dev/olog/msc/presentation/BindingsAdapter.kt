@@ -42,7 +42,7 @@ object BindingsAdapter {
         val id = resolveId(mediaId)
 
         var request = GlideApp.with(context)
-                .load(resolveUri(mediaId.category, item.image))
+                .load(resolveUri(mediaId, item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
@@ -124,8 +124,12 @@ object BindingsAdapter {
     }
 
     @JvmStatic
-    private fun resolveUri(category: MediaIdCategory, image: String): Any {
-        return when (category){
+    private fun resolveUri(mediaId: MediaId, image: String): Any {
+        if (mediaId.isLeaf){
+            return Uri.parse(image)
+        }
+
+        return when (mediaId.category){
             MediaIdCategory.SONGS,
             MediaIdCategory.ALBUMS -> return Uri.parse(image)
             MediaIdCategory.ARTISTS -> image

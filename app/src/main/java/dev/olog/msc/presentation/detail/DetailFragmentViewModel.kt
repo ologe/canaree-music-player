@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.detail
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dagger.Lazy
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.MoveItemInPlaylistUseCase
@@ -14,6 +15,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -96,7 +98,7 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
                 ) }
-    ).asLiveData()
+    ).emitThenDebounce().asLiveData()
 
     private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){
@@ -177,11 +179,16 @@ class DetailFragmentViewModel(
         moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
     }
 
-    fun removeFromPlaylist(idInPlaylist: Long): Completable {
+    fun removeFromPlaylist(item: DisplayableItem): Completable {
         if (!mediaId.isPlaylist){
             throw IllegalStateException("not a playlist")
         }
-        return removeFromPlaylistUseCase.execute(mediaId.categoryValue.toLong() to idInPlaylist)
+        val playlistId = mediaId.categoryValue.toLong()
+        if (playlistId == PlaylistConstants.FAVORITE_LIST_ID){
+            // favorites use songId instead of idInPlaylist
+            return removeFromPlaylistUseCase.execute(playlistId to item.mediaId.leaf!!)
+        }
+        return removeFromPlaylistUseCase.execute(playlistId to item.trackNumber.toLong())
     }
 
 }

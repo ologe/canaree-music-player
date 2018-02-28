@@ -8,4 +8,5 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/widget_colored"
     android:resizeMode="none"
-    android:widgetCategory="home_screen"/>
+    android:widgetCategory="home_screen"
+    android:previewImage="@drawable/colored_widget"/>

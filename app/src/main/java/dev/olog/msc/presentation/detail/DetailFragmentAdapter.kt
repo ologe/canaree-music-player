@@ -261,7 +261,7 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override val onSwipeAction = { position: Int ->
-        viewModel.removeFromPlaylist(controller.getItem(position).trackNumber.toLong())
+        viewModel.removeFromPlaylist(controller.getItem(position))
                 .subscribe({}, Throwable::printStackTrace)
     }
 
