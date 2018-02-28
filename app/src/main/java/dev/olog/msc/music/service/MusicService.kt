@@ -51,8 +51,8 @@ class MusicService : BaseMusicService() {
 
         mediaSession.setFlags(
                 MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or
-                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or
-                MediaSessionCompat.FLAG_HANDLES_QUEUE_COMMANDS)
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or
+                        MediaSessionCompat.FLAG_HANDLES_QUEUE_COMMANDS)
 
         mediaSession.setMediaButtonReceiver(buildMediaButtonReceiverPendingIntent())
         mediaSession.setSessionActivity(buildSessionActivityPendingIntent())

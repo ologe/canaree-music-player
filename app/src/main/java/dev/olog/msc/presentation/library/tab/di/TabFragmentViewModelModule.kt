@@ -164,6 +164,9 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
 }
 
 private fun Song.toTabDisplayableItem(): DisplayableItem {
+    val artist = DisplayableItem.adjustArtist(this.artist)
+    val album = DisplayableItem.adjustAlbum(this.album)
+
     return DisplayableItem(
             R.layout.item_tab_song,
             MediaId.songId(id),

@@ -76,7 +76,7 @@ class PlaylistRepository @Inject constructor(
     private fun queryAllData(): Observable<List<Playlist>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
-                SELECTION_ARGS, SORT_ORDER, true
+                SELECTION_ARGS, SORT_ORDER, false
         ).mapToList {
             val id = it.extractId()
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)

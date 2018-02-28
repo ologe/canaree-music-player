@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.model
 
 import android.content.res.Resources
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.utils.MediaId
 
@@ -32,6 +33,20 @@ data class DisplayableItem (
                 return ""
             }
             return resources.getQuantityString(R.plurals.common_plurals_album, size, size).toLowerCase()
+        }
+
+        fun adjustArtist(data: String): String{
+            if (data == AppConstants.UNKNOWN){
+                return AppConstants.UNKNOWN_ARTIST
+            }
+            return data
+        }
+
+        fun adjustAlbum(data: String): String{
+            if (data == AppConstants.UNKNOWN){
+                return AppConstants.UNKNOWN_ALBUM
+            }
+            return data
         }
 
     }

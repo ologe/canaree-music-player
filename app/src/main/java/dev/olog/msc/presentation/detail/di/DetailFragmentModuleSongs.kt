@@ -163,6 +163,8 @@ private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): Displayab
 }
 
 private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
+    val artist = DisplayableItem.adjustArtist(this.artist)
+
     return DisplayableItem(
             R.layout.item_detail_song_recent,
             MediaId.playableItem(parentId, id),
