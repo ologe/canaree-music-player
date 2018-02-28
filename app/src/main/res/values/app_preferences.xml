@@ -10,6 +10,7 @@
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_library">Library</string>
     <string name="prefs_category_audio">Audio</string>
+    <string name="prefs_category_images">Images</string>
 
 
     <!--quick action-->
@@ -97,5 +98,26 @@
     <string name="prefs_lower_volume_on_night_title">Midnight mode</string>
     <string name="prefs_lower_volume_on_night_summary">Lowers the max volume the night</string>
 
+
+
+    <!--icon shape-->
+    <string name="prefs_icon_shape_key" translatable="false">key_icon_shape</string>
+    <string name="prefs_icon_shape_title">Icon shape</string>
+
+    <string name="prefs_icon_shape_square" translatable="false">square</string>
+    <string name="prefs_icon_shape_rounded" translatable="false">round</string>
+    <string name="prefs_icon_shape_squircle" translatable="false">squircle</string>
+
+    <string-array name="prefs_icon_shape_entry_values">
+        <item>@string/prefs_icon_shape_square</item>
+        <item>@string/prefs_icon_shape_rounded</item>
+        <item>@string/prefs_icon_shape_squircle</item>
+    </string-array>
+
+    <string-array name="prefs_icon_shape_entries">
+        <item>@string/common_shape_square</item>
+        <item>@string/common_shape_rounded</item>
+        <item>@string/common_shape_squircle</item>
+    </string-array>
 
 </resources>

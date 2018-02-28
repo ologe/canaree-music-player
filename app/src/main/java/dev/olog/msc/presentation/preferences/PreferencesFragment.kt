@@ -13,6 +13,7 @@ import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.act
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -20,12 +21,14 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var usedEqualizer: SwitchPreference
+    private lateinit var iconShape : Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         usedEqualizer = preferenceScreen.findPreference(getString(R.string.prefs_used_equalizer_key)) as SwitchPreference
+        iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +38,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             preferenceScreen.sharedPreferences.edit()
                     .putBoolean(getString(R.string.prefs_used_equalizer_key), false).apply()
         }
+        setIconShapeSummary()
     }
 
     override fun onResume() {
@@ -73,6 +77,20 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         if (key == act.getString(R.string.prefs_quick_action_key)){
             AppConstants.updateQuickAction(activity!!)
             requestMainActivityToRecreate()
+        }
+        if (key == ctx.getString(R.string.prefs_icon_shape_key)){
+            requestMainActivityToRecreate()
+        }
+    }
+
+    private fun setIconShapeSummary(){
+        val value = preferenceManager.sharedPreferences.getString(
+                ctx.getString(R.string.prefs_icon_shape_key), ctx.getString(R.string.prefs_icon_shape_rounded))
+        iconShape.summary = when (value){
+            ctx.getString(R.string.prefs_icon_shape_square) -> ctx.getString(R.string.common_shape_square)
+            ctx.getString(R.string.prefs_icon_shape_rounded) -> ctx.getString(R.string.common_shape_rounded)
+            ctx.getString(R.string.prefs_icon_shape_squircle) -> ctx.getString(R.string.common_shape_squircle)
+            else -> ""
         }
     }
 

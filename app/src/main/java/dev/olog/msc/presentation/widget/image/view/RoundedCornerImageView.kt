@@ -1,17 +1,19 @@
 package dev.olog.msc.presentation.widget.image.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.preference.PreferenceManager
 import android.util.AttributeSet
+import android.view.View
 import androidx.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.ForegroundImageView
-import java.lang.ref.WeakReference
+import dev.olog.msc.utils.k.extension.dip
 
 private const val DEFAULT_RADIUS = 5
+
 private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
 
 class RoundedCornerImageView @JvmOverloads constructor(
@@ -20,69 +22,52 @@ class RoundedCornerImageView @JvmOverloads constructor(
 
 ) : ForegroundImageView(context, attrs){
 
+    private val radius : Int
+    private var mask : Bitmap? = null
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var maskBitmap : Bitmap? = null
-    private var weakBitmap : WeakReference<Bitmap>? = null
 
     init {
-//        val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
-//        val radius = a.getInt(R.styleable.RoundedCornerImageView_cornerRadius, DEFAULT_RADIUS)
+        val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
+        radius = a.getInt(R.styleable.RoundedCornerImageView_cornerRadius, DEFAULT_RADIUS)
+        a.recycle()
+
 //        val drawable = ContextCompat.getDrawable(context, R.drawable.rounded_corners_drawable) as GradientDrawable
 //        drawable.cornerRadius = context.dip(radius).toFloat()
 //        background = drawable
 //        clipToOutline = true
-//        a.recycle()
 //        outlineProvider = RoundedOutlineProvider()
 
+        paint.xfermode = X_FERMO_MODE
     }
 
-    override fun invalidate() {
-        weakBitmap?.clear()
-        maskBitmap?.recycle()
-        super.invalidate()
-    }
-
-    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val i = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null)
-
-        var bitmap = weakBitmap?.get()
-        if (bitmap == null || bitmap.isRecycled){
-            val drawable = this.drawable
-            drawable?.let {
-                // allocation on onDraw is ok because is not happening that often
-                bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-                val bitmapCanvas = Canvas(bitmap)
-                drawable.setBounds(0, 0, width, height)
-                drawable.draw(bitmapCanvas)
-
-                if (maskBitmap == null || maskBitmap!!.isRecycled){
-                    maskBitmap = getMask()
-                }
-                // draw bitmap
-                paint.reset()
-                paint.isFilterBitmap = false
-                paint.xfermode = X_FERMO_MODE
-                bitmapCanvas.drawBitmap(maskBitmap, 0f, 0f, paint)
-
-                weakBitmap = WeakReference(bitmap!!)
-            }
-        }
-
-        if (bitmap != null){
-            paint.xfermode = null
-            canvas.drawBitmap(bitmap, 0f, 0f, paint)
-        }
-
-        canvas.restoreToCount(i)
-
+        getMask()?.let { canvas.drawBitmap(it, 0f, 0f, paint) }
     }
 
     private fun getMask(): Bitmap? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val maskDrawable = ContextCompat.getDrawable(context, R.drawable._squircle)!!
-        return maskDrawable.toBitmap()
+        if (mask == null){
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val value = prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
+            mask = when (value){
+                context.getString(R.string.prefs_icon_shape_rounded) -> {
+                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
+                    val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner)!! as GradientDrawable
+                    drawable.cornerRadius = context.dip(radius).toFloat()
+                    drawable.toBitmap(width, height)
+                }
+                context.getString(R.string.prefs_icon_shape_squircle) -> {
+                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
+                    val drawable = ContextCompat.getDrawable(context, R.drawable.shape_squircle)!!
+                    drawable.toBitmap(width, height)
+                }
+                else -> {
+                    setLayerType(View.LAYER_TYPE_NONE, null)
+                    null
+                }
+            }
+        }
+        return mask
     }
 
 }

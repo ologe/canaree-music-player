@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory
         android:title="@string/prefs_category_general">
@@ -61,6 +62,19 @@
             android:summary="@string/prefs_lower_volume_on_night_summary"
             android:key="@string/prefs_midnight_mode_key"
             android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/prefs_category_images">
+
+        <ListPreference
+            android:title="@string/prefs_icon_shape_title"
+            tools:summary="@string/common_shape_rounded"
+            android:entries="@array/prefs_icon_shape_entries"
+            android:entryValues="@array/prefs_icon_shape_entry_values"
+            android:defaultValue="@string/prefs_icon_shape_rounded"
+            android:key="@string/prefs_icon_shape_key"/>
 
     </PreferenceCategory>
 
