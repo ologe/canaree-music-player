@@ -21,6 +21,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
     companion object {
         const val TAG = "LibraryCategoriesFragment"
 
+        @JvmStatic
         fun newInstance(): LibraryCategoriesFragment {
             return LibraryCategoriesFragment()
         }
