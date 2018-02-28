@@ -10,6 +10,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,7 +43,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .asLiveData()
                 .subscribe(this, {
                     title.text = it.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
-                    artist.text = it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+                    artist.text = DisplayableItem.adjustArtist(it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST))
                     updateProgressBarMax(it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION))
                 })
 

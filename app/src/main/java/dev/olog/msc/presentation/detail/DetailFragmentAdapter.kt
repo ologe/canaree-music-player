@@ -243,8 +243,14 @@ class DetailFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    val hasTouchBehavior = mediaId.isPlaylist &&
-            !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
+    val hasTouchBehavior : Boolean
+        get() {
+            if (mediaId.isPlaylist){
+                val playlistId = mediaId.categoryValue.toLong()
+                return playlistId == PlaylistConstants.FAVORITE_LIST_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
+            }
+            return false
+        }
 
     override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
 

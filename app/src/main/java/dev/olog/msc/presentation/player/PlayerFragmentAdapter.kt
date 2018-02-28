@@ -179,7 +179,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
         view.title.text = metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE)
-        view.artist.text = metadata.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
+        view.artist.text = DisplayableItem.adjustArtist(metadata.getText(MediaMetadataCompat.METADATA_KEY_ARTIST).toString())
 
         val duration = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)
         val durationAsString = TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(duration)
