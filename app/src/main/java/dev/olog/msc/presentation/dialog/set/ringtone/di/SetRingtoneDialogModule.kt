@@ -22,9 +22,4 @@ class SetRingtoneDialogModule(
         return MediaId.fromString(mediaId)
     }
 
-    @Provides
-    fun provideItemTitle(): String {
-        return fragment.arguments!!.getString(SetRingtoneDialog.ARGUMENTS_ITEM_TITLE)
-    }
-
 }

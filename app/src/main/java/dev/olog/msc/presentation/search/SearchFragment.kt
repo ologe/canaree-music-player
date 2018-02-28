@@ -97,22 +97,6 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
                 if (isEmpty){
                     searchForBestMatch(query)
                 }
-
-            }
-
-            val itemCount = map.values.sumBy { it.size }
-            val isEmpty = itemCount == 0
-            view!!.searchImage.toggleVisibility(isEmpty && query.length < 2)
-            view!!.searchText.toggleVisibility(isEmpty && query.length < 2)
-            view!!.list.toggleVisibility(!isEmpty)
-
-            val showEmptyState = isEmpty && query.length >= 2
-            view!!.emptyStateText.toggleVisibility(showEmptyState)
-            view!!.emptyStateImage.toggleVisibility(showEmptyState)
-            if(showEmptyState){
-                view!!.emptyStateImage.resumeAnimation()
-            } else {
-                view!!.emptyStateImage.progress = 0f
             }
 
             val albums = map[SearchFragmentType.ALBUMS]!!.toList()
@@ -161,6 +145,10 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
                 .map { it.editable()!!.toString() }
                 .filter { it.isBlank() || it.trim().length >= 2 }
                 .subscribe(viewModel::setNewQuery, Throwable::printStackTrace)
+
+        adapter.setAfterDataChanged({
+            updateLayoutVisibility(it)
+        }, false)
     }
 
     override fun onPause() {
@@ -170,6 +158,26 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         root.setOnClickListener(null)
         didYouMean.setOnClickListener(null)
         queryDisposable.unsubscribe()
+        adapter.setAfterDataChanged(null)
+    }
+
+
+    private fun updateLayoutVisibility(list: List<*>){
+        val itemCount = list.size
+        val isEmpty = itemCount == 0
+        val queryLength = editText.text.toString().length
+        this.searchImage.toggleVisibility(isEmpty && queryLength < 2)
+        this.searchText.toggleVisibility(isEmpty && queryLength < 2)
+        this.list.toggleVisibility(!isEmpty)
+
+        val showEmptyState = isEmpty && queryLength >= 2
+        this.emptyStateText.toggleVisibility(showEmptyState)
+        this.emptyStateImage.toggleVisibility(showEmptyState)
+        if(showEmptyState){
+            this.emptyStateImage.resumeAnimation()
+        } else {
+            this.emptyStateImage.progress = 0f
+        }
     }
 
     override fun onStop() {

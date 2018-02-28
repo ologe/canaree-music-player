@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.dialog.set.ringtone
 import android.content.Context
 import android.content.DialogInterface
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.base.BaseDialog
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
@@ -15,17 +16,19 @@ class SetRingtoneDialog : BaseDialog() {
     companion object {
         const val TAG = "SetRingtoneDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
-        const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
+        const val ARGUMENTS_TITLE = "$TAG.arguments.title"
+        const val ARGUMENTS_ARTIST = "$TAG.arguments.artist"
 
-        fun newInstance(mediaId: MediaId, itemTitle: String): SetRingtoneDialog {
+        fun newInstance(mediaId: MediaId, title: String, artist: String): SetRingtoneDialog {
             return SetRingtoneDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),
-                    ARGUMENTS_ITEM_TITLE to itemTitle)
+                    ARGUMENTS_TITLE to title,
+                    ARGUMENTS_ARTIST to artist
+            )
         }
     }
 
     @Inject lateinit var presenter: SetRingtoneDialogPresenter
-    @Inject lateinit var title: String
 
     override fun title(context: Context): CharSequence {
         return context.getString(R.string.popup_set_as_ringtone)
@@ -44,6 +47,7 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     override fun successMessage(context: Context): CharSequence {
+        val title = generateItemDescription()
         return context.getString(R.string.song_x_set_as_ringtone, title)
     }
 
@@ -56,8 +60,17 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     private fun createMessage() : String{
-        val itemTitle = arguments!!.getString(ARGUMENTS_ITEM_TITLE)
-        return context!!.getString(R.string.song_x_will_be_set_as_ringtone, itemTitle)
+        val title = generateItemDescription()
+        return context!!.getString(R.string.song_x_will_be_set_as_ringtone, title)
+    }
+
+    private fun generateItemDescription(): String{
+        var title = arguments!!.getString(ARGUMENTS_TITLE)
+        val artist = arguments!!.getString(ARGUMENTS_ARTIST)
+        if (artist != AppConstants.UNKNOWN){
+            title += " $artist"
+        }
+        return title
     }
 
 

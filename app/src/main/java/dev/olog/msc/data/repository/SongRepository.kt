@@ -3,7 +3,6 @@ package dev.olog.msc.data.repository
 import android.content.ContentResolver
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.AudioColumns.IS_MUSIC
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
@@ -37,7 +36,7 @@ private val PROJECTION = arrayOf(
         MediaStore.Audio.Media.DATE_ADDED
 )
 
-private const val SELECTION = "$IS_MUSIC <> 0 AND $TITLE NOT LIKE ? AND $DURATION > ?"
+private const val SELECTION = "$TITLE NOT LIKE ? AND $DURATION > ?"
 
 private val SELECTION_ARGS = arrayOf("AUD%", "20000")
 

@@ -230,8 +230,8 @@ class NavigatorImpl @Inject internal constructor(
         return allowed
     }
 
-    override fun toSetRingtoneDialog(mediaId: MediaId, itemTitle: String) {
-        val fragment = SetRingtoneDialog.newInstance(mediaId, itemTitle)
+    override fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String) {
+        val fragment = SetRingtoneDialog.newInstance(mediaId, title, artist)
         fragment.show(activity.supportFragmentManager, SetRingtoneDialog.TAG)
     }
 

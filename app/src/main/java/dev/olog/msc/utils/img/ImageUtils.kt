@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import androidx.graphics.drawable.toBitmap
+import dev.olog.msc.utils.MediaIdCategory
 import java.io.InputStream
 
 object ImageUtils {
@@ -42,16 +44,15 @@ object ImageUtils {
         }
     }
 
-    fun getPlaceholderAsBitmap(context: Context, id: Long): Bitmap {
-        val size = 200
+    fun getPlaceholderAsBitmap(context: Context, category: MediaIdCategory, id: Long): Bitmap {
+        val drawable = CoverUtils.getGradient(context, id.toInt(), category.ordinal)
+        // todo search for a visible size then scale to 128px
+        return drawable.toBitmap(128, 128, Bitmap.Config.ARGB_8888)
+    }
+
+    private fun getPlaceholderAsBitmap(context: Context, id: Long): Bitmap {
         val drawable = CoverUtils.getGradientForNotification(context, id)
-
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, size, size)
-        drawable.draw(canvas)
-
-        return bitmap
+        return drawable.toBitmap(200, 200, Bitmap.Config.ARGB_8888)
     }
 
     private fun decodeSampledBitmap(

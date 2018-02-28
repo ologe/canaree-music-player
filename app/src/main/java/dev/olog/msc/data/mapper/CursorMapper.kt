@@ -14,7 +14,7 @@ fun Cursor.toGenre(context: Context, genreSize: Int) : Genre {
     val id = this.getLong(android.provider.BaseColumns._ID)
     return Genre(
             id,
-            this.getString(MediaStore.Audio.GenresColumns.NAME),
+            this.getString(MediaStore.Audio.GenresColumns.NAME).capitalize(),
             genreSize,
             ImagesFolderUtils.forGenre(context, id)
     )
@@ -25,7 +25,7 @@ fun Cursor.toPlaylist(context: Context, playlistSize: Int) : Playlist {
 
     return Playlist(
             id,
-            this.getString(MediaStore.Audio.PlaylistsColumns.NAME),
+            this.getString(MediaStore.Audio.PlaylistsColumns.NAME).capitalize(),
             playlistSize,
             ImagesFolderUtils.forPlaylist(context, id)
     )

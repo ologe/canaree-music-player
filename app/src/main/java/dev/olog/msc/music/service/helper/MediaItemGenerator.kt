@@ -51,7 +51,7 @@ class MediaItemGenerator @Inject constructor(
     private fun Folder.toMediaItem() : MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.folderId(this.path).toString())
-                .setTitle(this.title.capitalize())
+                .setTitle(this.title)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
     }
@@ -59,7 +59,7 @@ class MediaItemGenerator @Inject constructor(
     private fun Playlist.toMediaItem() : MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.playlistId(this.id).toString())
-                .setTitle(this.title.capitalize())
+                .setTitle(this.title)
                 .build()
         return MediaBrowserCompat.MediaItem(description, MediaBrowserCompat.MediaItem.FLAG_BROWSABLE)
     }

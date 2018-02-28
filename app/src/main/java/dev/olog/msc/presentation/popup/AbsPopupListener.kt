@@ -74,7 +74,7 @@ abstract class AbsPopupListener(
     }
 
     protected fun setRingtone(navigator: Navigator, mediaId: MediaId, song: Song){
-        navigator.toSetRingtoneDialog(mediaId, song.title)
+        navigator.toSetRingtoneDialog(mediaId, song.title, song.artist)
     }
 
 

@@ -96,7 +96,7 @@ private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
             DisplayableItem(
                     R.layout.item_detail_item_info,
                     MediaId.headerId("item info"),
-                    title.capitalize(),
+                    title,
                     resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
             )
     )
@@ -117,7 +117,7 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
             DisplayableItem(
                     R.layout.item_detail_item_info,
                     MediaId.headerId("item info"),
-                    title.capitalize(),
+                    title,
                     listSize
             )
     )

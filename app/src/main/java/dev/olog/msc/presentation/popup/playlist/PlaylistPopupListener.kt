@@ -13,6 +13,7 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(
@@ -77,11 +78,19 @@ class PlaylistPopupListener @Inject constructor(
     }
 
     private fun playFromMediaId(){
-        mediaProvider.playFromMediaId(getMediaId())
+        if (playlist.size == 0){
+            activity.toast(R.string.common_empty_list)
+        } else {
+            mediaProvider.playFromMediaId(getMediaId())
+        }
     }
 
     private fun playShuffle(){
-        mediaProvider.shuffle(getMediaId())
+        if (playlist.size == 0){
+            activity.toast(R.string.common_empty_list)
+        } else {
+            mediaProvider.shuffle(getMediaId())
+        }
     }
 
     private fun addToQueue(){

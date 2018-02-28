@@ -82,7 +82,7 @@ private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableIte
     return DisplayableItem(
             R.layout.item_detail_album_mini,
             MediaId.folderId(path),
-            title.capitalize(),
+            title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             this.image
     )
@@ -92,7 +92,7 @@ private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableI
     return DisplayableItem(
             R.layout.item_detail_album_mini,
             MediaId.playlistId(id),
-            title.capitalize(),
+            title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             this.image
     )
@@ -112,7 +112,7 @@ private fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem
     return DisplayableItem(
             R.layout.item_detail_album_mini,
             MediaId.genreId(id),
-            name.capitalize(),
+            name,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             this.image
     )
