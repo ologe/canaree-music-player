@@ -147,7 +147,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
             R.layout.item_search_song,
             MediaId.songId(id),
             title,
-            artist,
+            DisplayableItem.adjustArtist(artist),
             image,
             true,
             isRemix,
@@ -160,7 +160,7 @@ private fun Album.toSearchDisplayableItem(): DisplayableItem {
             R.layout.item_search_album,
             MediaId.albumId(id),
             title,
-            artist,
+            DisplayableItem.adjustArtist(artist),
             image
     )
 }

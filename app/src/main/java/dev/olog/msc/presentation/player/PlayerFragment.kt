@@ -185,7 +185,7 @@ class PlayerFragment : BaseFragment() {
                 R.layout.item_mini_queue,
                 MediaId.fromString(description.mediaId!!),
                 description.title!!.toString(),
-                description.subtitle!!.toString(),
+                DisplayableItem.adjustArtist(description.subtitle!!.toString()),
                 description.mediaUri!!.toString(),
                 isPlayable = true,
                 trackNumber = "${this.queueId}"

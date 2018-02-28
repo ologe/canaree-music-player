@@ -38,7 +38,7 @@ class PlayingQueueFragmentViewModel(
                 R.layout.item_playing_queue,
                 MediaId.songId(this.id),
                 title,
-                artist,
+                DisplayableItem.adjustArtist(artist),
                 image,
                 true,
                 isRemix,
