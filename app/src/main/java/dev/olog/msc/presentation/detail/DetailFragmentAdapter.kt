@@ -266,6 +266,8 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-        return hasTouchBehavior && viewType == R.layout.item_detail_song_with_drag_handle
+        return hasTouchBehavior &&
+                        (viewType == R.layout.item_detail_song_with_drag_handle ||
+                        viewType == R.layout.item_detail_song)
     }
 }
