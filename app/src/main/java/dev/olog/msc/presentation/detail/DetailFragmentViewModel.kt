@@ -137,6 +137,8 @@ class DetailFragmentViewModel(
             val size = list.size
             list.clear()
             list.addAll(0, headers.relatedArtists(size > 10))
+        } else {
+            list.clear()
         }
         return list
     }
