@@ -51,7 +51,13 @@ class ExitView extends RelativeLayout {
 
         mExitIcon = findViewById(R.id.view_exit);
 
-        mExitRadiusInPx = getResources().getDimensionPixelSize(R.dimen.hover_exit_radius);
+        mExitRadiusInPx = getResources().getDimensionPixelSize(R.dimen.hover_exit_radius); // todo increase radius?
+
+        drawUnderNavigationBar();
+    }
+
+    private void drawUnderNavigationBar(){
+        // todo
     }
 
     public boolean isInExitZone(@NonNull Point position) {

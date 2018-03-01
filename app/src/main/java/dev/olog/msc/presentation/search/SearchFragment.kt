@@ -75,6 +75,7 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
 
     override fun onDetach() {
         activity!!.fragmentTransaction {
+            // todo after rotation fragment backStack is lost
             fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { show(it) }
                     ?: fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }
             setReorderingAllowed(true)

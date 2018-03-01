@@ -7,14 +7,14 @@
         <item android:id="@+id/by_title"
             android:title="@string/sort_by_title" />
 
+        <item android:id="@+id/by_album"
+            android:title="@string/sort_by_album" />
+
         <item android:id="@+id/by_duration"
             android:title="@string/sort_by_duration" />
 
         <item android:id="@+id/by_recently_added"
             android:title="@string/sort_by_recently_added" />
-
-        <item android:id="@+id/by_track_number"
-            android:title="@string/sort_by_track" />
 
     </group>
 
