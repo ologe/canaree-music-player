@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
@@ -30,6 +31,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_swipeable_view.*
+import kotlinx.android.synthetic.main.player_controls.*
+import kotlinx.android.synthetic.main.player_controls.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -53,22 +56,15 @@ class PlayerFragment : BaseFragment() {
                 .mapToList { it.toDisplayableItem() }
                 .asLiveData()
                 .subscribe(this, {
-                    val queue = it.toMutableList()
-                    if (queue.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                        queue.add(viewModel.footerLoadMore)
-                    }
-                    queue.add(0, viewModel.playerControls)
-                    adapter.updateDataSet(queue)
-                })
-
-        mediaProvider.onStateChanged()
-                .filter { act.isLandscape }
-                .asLiveData()
-                .subscribe(this, {
-                    val state = it.state
-                    if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED){
-                        val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
-                        cover?.isActivated = isPlaying
+                    if (viewModel.showMiniQueue()){
+                        val queue = it.toMutableList()
+                        if (queue.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
+                            queue.add(viewModel.footerLoadMore)
+                        }
+                        queue.add(0, viewModel.playerControls)
+                        adapter.updateDataSet(queue)
+                    } else {
+                        adapter.updateDataSet(viewModel.playerControls)
                     }
                 })
 
@@ -80,37 +76,81 @@ class PlayerFragment : BaseFragment() {
                     handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
                 })
 
-        mediaProvider.onMetadataChanged()
-                .filter { act.isLandscape }
-                .asLiveData()
-                .subscribe(this, {
+        if (act.isLandscape){
+            mediaProvider.onMetadataChanged()
+                    .asLiveData()
+                    .subscribe(this, {
 
-                    val image = Uri.parse(it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
-                    val id = MediaId.fromString(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-                    ).leaf!!.toInt()
-                    val placeholder = CoverUtils.getGradient(ctx, id)
+                        val image = Uri.parse(it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
+                        val id = MediaId.fromString(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                        ).leaf!!.toInt()
+                        val placeholder = CoverUtils.getGradient(ctx, id)
 
-                    GlideApp.with(ctx).clear(cover)
+                        GlideApp.with(ctx).clear(cover)
 
-                    GlideApp.with(ctx)
-                            .load(image)
-                            .centerCrop()
-                            .placeholder(placeholder)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .priority(Priority.IMMEDIATE)
-                            .override(800)
-                            .into(cover)
-                })
+                        GlideApp.with(ctx)
+                                .load(image)
+                                .centerCrop()
+                                .placeholder(placeholder)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .priority(Priority.IMMEDIATE)
+                                .override(800)
+                                .into(cover)
+                    })
 
-        mediaProvider.onRepeatModeChanged()
-                .filter { act.isLandscape }
-                .asLiveData()
-                .subscribe(this, { repeat.cycle(it) })
+            mediaProvider.onStateChanged()
+                    .asLiveData()
+                    .subscribe(this, {
+                        val state = it.state
+                        if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED){
+                            val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
+                            cover?.isActivated = isPlaying
+                        }
+                    })
 
-        mediaProvider.onShuffleModeChanged()
-                .filter { act.isLandscape }
-                .asLiveData()
-                .subscribe(this, { shuffle.cycle(it) })
+            mediaProvider.onRepeatModeChanged()
+                    .asLiveData()
+                    .subscribe(this, { repeat.cycle(it) })
+
+            mediaProvider.onShuffleModeChanged()
+                    .asLiveData()
+                    .subscribe(this, { shuffle.cycle(it) })
+
+            mediaProvider.onStateChanged()
+                    .map { it.state }
+                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
+                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
+                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+                    .asLiveData()
+                    .subscribe(this, this::animateSkipTo)
+
+            mediaProvider.onStateChanged()
+                    .map { it.state }
+                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
+                            it == PlaybackStateCompat.STATE_PAUSED
+                    }.distinctUntilChanged()
+                    .asLiveData()
+                    .subscribe(this, { state ->
+
+                        if (state == PlaybackStateCompat.STATE_PLAYING){
+                            playAnimation(true)
+                        } else {
+                            pauseAnimation(true)
+                        }
+                    })
+
+            RxView.clicks(next)
+                    .asLiveData()
+                    .subscribe(this, { mediaProvider.skipToNext() })
+
+            RxView.clicks(playPause)
+                    .asLiveData()
+                    .subscribe(this, { mediaProvider.playPause() })
+
+            RxView.clicks(previous)
+                    .asLiveData()
+                    .subscribe(this, { mediaProvider.skipToPrevious() })
+        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -122,6 +162,31 @@ class PlayerFragment : BaseFragment() {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        if (act.isLandscape){
+            val showPlayerControls = viewModel.showPlayerControls()
+            view.previous.toggleVisibility(showPlayerControls)
+            view.playPause.toggleVisibility(showPlayerControls)
+            view.next.toggleVisibility(showPlayerControls)
+        }
+    }
+
+    private fun animateSkipTo(toNext: Boolean) {
+        if (getSlidingPanel().isExpanded()) return
+
+        if (toNext) {
+            next.playAnimation()
+        } else {
+            previous.playAnimation()
+        }
+    }
+
+    private fun playAnimation(animate: Boolean) {
+        playPause.animationPlay(getSlidingPanel().isCollapsed() && animate)
+    }
+
+    private fun pauseAnimation(animate: Boolean) {
+        playPause.animationPause(getSlidingPanel().isCollapsed() && animate)
     }
 
     private fun handleSeekBar(bookmark: Int, isPlaying: Boolean){

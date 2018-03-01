@@ -30,6 +30,7 @@ class BaseAdapterDataController<Model : BaseModel>
                 .doOnNext { assertBackgroundThread() }
                 .flatMapSingle {
                     when (it){
+                        is BaseModel -> Single.just(listOf(it))
                         is List<*> -> Single.just(it)
                         is Map<*,*> -> {
                             val values = it.values as Collection<List<*>>

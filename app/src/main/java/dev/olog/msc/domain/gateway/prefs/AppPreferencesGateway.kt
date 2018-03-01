@@ -26,6 +26,9 @@ interface AppPreferencesGateway : Sorting {
     fun setSleepTimer(millis: Long)
     fun getSleepTimer() : Long
 
+    fun showMiniQueue(): Boolean
+    fun showPlayerControls(): Boolean
+
 }
 
 interface Sorting {

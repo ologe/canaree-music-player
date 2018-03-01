@@ -67,11 +67,11 @@ class LyricsContent (
                 .addTo(subscriptions)
 
         musicServiceBinder.skipToNextVisibility
-                .subscribe(next::toggleVisibility, Throwable::printStackTrace)
+                .subscribe(next::updateVisibility, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         musicServiceBinder.skipToPreviousVisibility
-                .subscribe(previous::toggleVisibility, Throwable::printStackTrace)
+                .subscribe(previous::updateVisibility, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         musicServiceBinder.onBookmarkChangedLiveData

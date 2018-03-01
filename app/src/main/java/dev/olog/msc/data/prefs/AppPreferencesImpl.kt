@@ -243,4 +243,14 @@ class AppPreferencesImpl @Inject constructor(
     override fun getSleepTimer(): Long {
         return preferences.getLong(NEXT_SLEEP, -1L)
     }
+
+    override fun showMiniQueue(): Boolean {
+        val key = context.getString(R.string.prefs_mini_queue_visibility_key)
+        return preferences.getBoolean(key, true)
+    }
+
+    override fun showPlayerControls(): Boolean {
+        val key = context.getString(R.string.prefs_player_controls_visibility_key)
+        return preferences.getBoolean(key, true)
+    }
 }

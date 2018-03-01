@@ -79,4 +79,7 @@
     <string name="common_explicit_short">E</string>
     <string name="common_remix">Remix</string>
 
+    <string name="common_visible">Visible</string>
+    <string name="common_hidden">Hidden</string>
+
 </resources>

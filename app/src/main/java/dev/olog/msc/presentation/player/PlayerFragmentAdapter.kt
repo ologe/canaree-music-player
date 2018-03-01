@@ -37,6 +37,7 @@ import io.reactivex.rxkotlin.ofType
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.layout_swipeable_view.view.*
+import kotlinx.android.synthetic.main.player_controls.view.*
 import javax.inject.Inject
 
 class PlayerFragmentAdapter @Inject constructor(
@@ -70,6 +71,13 @@ class PlayerFragmentAdapter @Inject constructor(
                     } else false
                 }
             }
+//            R.layout.fragment_player_controls -> {
+//                val view = viewHolder.itemView
+//                val showPlayerControls = viewModel.showPlayerControls()
+//                view.previous?.toggleVisibility(showPlayerControls)
+//                view.playPause?.toggleVisibility(showPlayerControls)
+//                view.next?.toggleVisibility(showPlayerControls)
+//            }
         }
     }
 
@@ -181,6 +189,43 @@ class PlayerFragmentAdapter @Inject constructor(
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view.favorite::onNextState, Throwable::printStackTrace)
+
+//        if (activity.isPortrait){
+//            mediaProvider.onStateChanged()
+//                    .takeUntil(RxView.detaches(view))
+//                    .map { it.state }
+//                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
+//                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
+//                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+//                    .subscribe({ animateSkipTo(view, it) }, Throwable::printStackTrace)
+//
+//            mediaProvider.onStateChanged()
+//                    .takeUntil(RxView.detaches(view))
+//                    .map { it.state }
+//                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
+//                            it == PlaybackStateCompat.STATE_PAUSED
+//                    }.distinctUntilChanged()
+//                    .subscribe({ state ->
+//
+//                        if (state == PlaybackStateCompat.STATE_PLAYING){
+//                            playAnimation(view, true)
+//                        } else {
+//                            pauseAnimation(view, true)
+//                        }
+//                    }, Throwable::printStackTrace)
+//
+//            RxView.clicks(view.next)
+//                    .takeUntil(RxView.detaches(view))
+//                    .subscribe({ mediaProvider.skipToNext() }, Throwable::printStackTrace)
+//
+//            RxView.clicks(view.playPause)
+//                    .takeUntil(RxView.detaches(view))
+//                    .subscribe({ mediaProvider.playPause() }, Throwable::printStackTrace)
+//
+//            RxView.clicks(view.previous)
+//                    .takeUntil(RxView.detaches(view))
+//                    .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
+//        }
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
@@ -224,6 +269,29 @@ class PlayerFragmentAdapter @Inject constructor(
             view.cover?.isActivated = isPlaying
         }
     }
+
+//    private fun animateSkipTo(view: View, toNext: Boolean) {
+//        val hasSlidingPanel = activity as HasSlidingPanel
+//        if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
+//
+//        if (toNext) {
+//            view.next.playAnimation()
+//        } else {
+//            view.previous.playAnimation()
+//        }
+//    }
+//
+//    private fun playAnimation(view: View, animate: Boolean) {
+//        val hasSlidingPanel = activity as HasSlidingPanel
+//        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+//        view.playPause.animationPlay(isPanelExpanded && animate)
+//    }
+//
+//    private fun pauseAnimation(view: View, animate: Boolean) {
+//        val hasSlidingPanel = activity as HasSlidingPanel
+//        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+//        view.playPause.animationPause(isPanelExpanded && animate)
+//    }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)

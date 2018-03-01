@@ -3,29 +3,6 @@
                   xmlns:tools="http://schemas.android.com/tools">
 
     <PreferenceCategory
-        android:title="@string/prefs_category_general">
-
-        <ListPreference
-            android:title="@string/prefs_quick_action_title"
-            android:summary="@string/prefs_quick_action_summary"
-            android:entries="@array/prefs_quick_action_entries"
-            android:entryValues="@array/prefs_quick_action_entry_values"
-            android:defaultValue="@string/prefs_quick_action_entry_value_hide"
-            android:key="@string/prefs_quick_action_key"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@string/popup_positive_ok"/>
-
-        <MultiSelectListPreference
-            android:title="@string/prefs_detail_sections_title"
-            android:summary="@string/prefs_detail_sections_summary"
-            android:key="@string/prefs_detail_sections_key"
-            android:entries="@array/prefs_detail_sections_entries"
-            android:entryValues="@array/prefs_detail_sections_entry_values"
-            android:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/prefs_category_library">
 
         <Preference
@@ -66,7 +43,39 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/prefs_category_images">
+        android:title="@string/prefs_category_other">
+
+        <ListPreference
+            android:title="@string/prefs_quick_action_title"
+            android:summary="@string/prefs_quick_action_summary"
+            android:entries="@array/prefs_quick_action_entries"
+            android:entryValues="@array/prefs_quick_action_entry_values"
+            android:defaultValue="@string/prefs_quick_action_entry_value_hide"
+            android:key="@string/prefs_quick_action_key"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@string/popup_positive_ok"/>
+
+        <MultiSelectListPreference
+            android:title="@string/prefs_detail_sections_title"
+            android:summary="@string/prefs_detail_sections_summary"
+            android:key="@string/prefs_detail_sections_key"
+            android:entries="@array/prefs_detail_sections_entries"
+            android:entryValues="@array/prefs_detail_sections_entry_values"
+            android:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
+
+        <SwitchPreference
+            android:title="@string/prefs_mini_queue_visibility_title"
+            android:summaryOn="@string/prefs_mini_queue_visibility_title_summary_on"
+            android:summaryOff="@string/prefs_mini_queue_visibility_title_summary_off"
+            android:key="@string/prefs_mini_queue_visibility_key"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:title="@string/prefs_player_controls_visibility_title"
+            android:summaryOn="@string/prefs_player_controls_visibility_summary_on"
+            android:summaryOff="@string/prefs_player_controls_visibility_summary_off"
+            android:key="@string/prefs_player_controls_visibility_key"
+            android:defaultValue="false" />
 
         <ListPreference
             android:title="@string/prefs_icon_shape_title"

@@ -34,6 +34,14 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setBlackList(set)
     }
 
+    fun showMiniQueue(): Boolean {
+        return gateway.showMiniQueue()
+    }
+
+    fun showPlayerControls(): Boolean {
+        return gateway.showPlayerControls()
+    }
+
 //    fun getFolderSortOrder() : Observable<SortType> = gateway.getFolderSortOrder()
 //    fun getPlaylistSortOrder() : Observable<SortType> = gateway.getPlaylistSortOrder()
 //    fun getAlbumSortOrder() : Observable<SortType> = gateway.getAlbumSortOrder()

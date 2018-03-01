@@ -7,12 +7,19 @@ import dev.olog.msc.presentation.preferences.PreferencesActivity
 
 
 @Subcomponent(modules = arrayOf(
+        PreferencesActivityModule::class,
         PreferenceActivityFragmentsModule::class
 ))
 @PerActivity
 interface PreferencesActivitySubComponent : AndroidInjector<PreferencesActivity> {
 
     @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<PreferencesActivity>()
+    abstract class Builder : AndroidInjector.Builder<PreferencesActivity>() {
+        abstract fun module(module: PreferencesActivityModule): Builder
+
+        override fun seedInstance(instance: PreferencesActivity) {
+            module(PreferencesActivityModule(instance))
+        }
+    }
 
 }

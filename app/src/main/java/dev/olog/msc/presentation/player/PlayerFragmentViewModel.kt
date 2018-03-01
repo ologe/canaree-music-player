@@ -4,6 +4,8 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
@@ -12,9 +14,19 @@ import javax.inject.Inject
 
 @PerFragment
 class PlayerFragmentViewModel @Inject constructor(
-        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase
+        observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+        private val billing: IBilling,
+        private val appPrefsUseCase: AppPreferencesUseCase
 
 ) {
+
+    fun showMiniQueue(): Boolean {
+        return billing.isPremium() && appPrefsUseCase.showMiniQueue()
+    }
+
+    fun showPlayerControls(): Boolean {
+        return billing.isPremium() && appPrefsUseCase.showPlayerControls()
+    }
 
     private val progressPublisher = BehaviorSubject.createDefault(0)
 

@@ -10,7 +10,7 @@
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_library">Library</string>
     <string name="prefs_category_audio">Audio</string>
-    <string name="prefs_category_images">Images</string>
+    <string name="prefs_category_other">Other</string>
 
 
     <!--quick action-->
@@ -116,5 +116,17 @@
         <item>@string/common_shape_square</item>
         <item>@string/common_shape_rounded</item>
     </string-array>
+
+    <!--mini queue visibility-->
+    <string name="prefs_mini_queue_visibility_key" translatable="false">key_mini_queue_visibility</string>
+    <string name="prefs_mini_queue_visibility_title">Mini queue visibility</string>
+    <string name="prefs_mini_queue_visibility_title_summary_on">@string/common_visible</string>
+    <string name="prefs_mini_queue_visibility_title_summary_off">@string/common_hidden</string>
+
+    <!--show player controls-->
+    <string name="prefs_player_controls_visibility_key" translatable="false">key_player_controls_visibility</string>
+    <string name="prefs_player_controls_visibility_title">Classic player controls</string>
+    <string name="prefs_player_controls_visibility_summary_on">@string/common_visible</string>
+    <string name="prefs_player_controls_visibility_summary_off">@string/common_hidden</string>
 
 </resources>

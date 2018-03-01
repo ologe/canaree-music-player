@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v14.preference.SwitchPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
@@ -12,7 +11,6 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
-import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.forEach
@@ -22,7 +20,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
-    private lateinit var usedEqualizer: SwitchPreference
     private lateinit var iconShape : Preference
 
 
@@ -30,28 +27,22 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
-        usedEqualizer = preferenceScreen.findPreference(getString(R.string.prefs_used_equalizer_key)) as SwitchPreference
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
-
-        val billing = (act as PreferencesActivity).billing
-//        val isPremium = billing.isPremium()
-        val isPremium = false
-        forEach(preferenceScreen) { it.isEnabled = isPremium }
-        if (!isPremium){
-            Snackbar.make(view!!, "You need pro version to customize", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Buy", { billing.purchasePremium() })
-                    .show()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if (RootUtils.isDeviceRooted()){ todo
-//            usedEqualizer.isChecked = false
-//            preferenceScreen.sharedPreferences.edit()
-//                    .putBoolean(getString(R.string.prefs_used_equalizer_key), false).apply()
-//        }
         setIconShapeSummary()
+
+        val billing = (act as PreferencesActivity).billing
+        val isPremium = billing.isPremium()
+        forEach(preferenceScreen) { it.isEnabled = isPremium }
+        if (!isPremium){
+            val v = act.window.decorView.findViewById<View>(android.R.id.content)
+            Snackbar.make(v, "Buy pro version to start customizing", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Buy", { billing.purchasePremium() })
+                    .show()
+        }
     }
 
     override fun onResume() {
@@ -69,13 +60,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             true
         }
-        usedEqualizer.setOnPreferenceClickListener {
-            if (RootUtils.isDeviceRooted()){
-//                activity!!.toast(R.string.prefs_used_equalizer_not_found)
-//                usedEqualizer.isChecked = false todo
-            }
-            false
-        }
     }
 
     override fun onPause() {
@@ -83,7 +67,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
-        usedEqualizer.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

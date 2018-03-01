@@ -42,7 +42,7 @@ class AnimatedImageView @JvmOverloads constructor(
             avd.stop()
     }
 
-    fun toggleVisibility(show: Boolean) {
+    fun updateVisibility(show: Boolean) {
         isEnabled = show
 
         animator.cancel()

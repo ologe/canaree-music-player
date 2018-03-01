@@ -73,45 +73,20 @@
             android:clickable="false"
             android:focusable="false" />
 
-        <!-- shuffle -->
-        <dev.olog.msc.presentation.widget.ShuffleButton
-            android:id="@+id/shuffle"
-            android:layout_width="@dimen/player_shuffle_size"
-            android:layout_height="@dimen/player_shuffle_size"
-            android:padding="@dimen/player_shuffle_padding"
-            android:clickable="true"
-            android:focusable="true"
-            tools:src="@drawable/vd_shuffle"
-            tools:tint="@color/item_selected"
+        <include
+            android:id="@+id/playerControls"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/repeat"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            android:elevation="2dp"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
-
-        <!-- repeat -->
-        <dev.olog.msc.presentation.widget.RepeatButton
-            android:id="@+id/repeat"
-            android:layout_width="@dimen/player_shuffle_size"
-            android:layout_height="@dimen/player_shuffle_size"
-            android:padding="@dimen/player_shuffle_padding"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/vd_repeat"
-            tools:src="@drawable/vd_repeat"
-            tools:tint="@color/button_secondary_tint"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar"
-            app:layout_constraintStart_toEndOf="@+id/shuffle"
-            android:elevation="2dp"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
+            layout="@layout/player_controls"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
 
         <!-- title -->
         <TextView
             android:id="@+id/title"
             tools:text="In Da Club"
-            app:layout_constraintTop_toBottomOf="@+id/shuffle"
+            app:layout_constraintTop_toBottomOf="@+id/playerControls"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
