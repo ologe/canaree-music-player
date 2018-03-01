@@ -21,6 +21,7 @@ class WidgetColored : BaseWidget() {
         remoteViews.setTextViewText(R.id.subtitle, metadata.subtitle)
 
         val bitmap = ImageUtils.getBitmapFromUriWithPlaceholder(context, Uri.parse(metadata.image), metadata.id, IMAGE_SIZE, IMAGE_SIZE)
+
         colorize(context, remoteViews, bitmap)
 
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)

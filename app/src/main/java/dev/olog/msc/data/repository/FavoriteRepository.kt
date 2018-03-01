@@ -99,7 +99,7 @@ class FavoriteRepository @Inject constructor(
     override fun isFavorite(songId: Long): Single<Boolean> {
         return favoriteDao.isFavorite(songId)
                 .map { true }
-                .onErrorReturn { false }
+                .onErrorReturnItem(false)
     }
 
     override fun toggleFavorite(songId: Long) {

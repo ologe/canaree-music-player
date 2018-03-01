@@ -119,14 +119,14 @@ class TouchHelperAdapterCallback(
     }
 
     private fun drawOnMoved(viewHolder: RecyclerView.ViewHolder){
-        viewHolder.itemView.findViewById<View>(R.id.scrim).setVisible()
+        viewHolder.itemView.findViewById<View>(R.id.scrim)?.setVisible()
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
         ViewCompat.setElevation(viewHolder.itemView, 0f)
         adapter.onInteractionEnd(viewHolder.adapterPosition)
-        viewHolder.itemView.findViewById<View>(R.id.scrim).setGone()
+        viewHolder.itemView.findViewById<View>(R.id.scrim)?.setGone()
     }
 
     override fun isLongPressDragEnabled(): Boolean = false

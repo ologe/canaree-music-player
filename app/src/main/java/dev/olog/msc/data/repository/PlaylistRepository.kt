@@ -143,9 +143,9 @@ class PlaylistRepository @Inject constructor(
     private fun getPlaylistSongs(playlistId: Long) : Observable<List<Song>> {
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
 
-        val observable = rxContentResolver.createQuery(
+        return rxContentResolver.createQuery(
                 uri, SONG_PROJECTION, SONG_SELECTION,
-                SONG_SELECTION_ARGS, SONG_SORT_ORDER, true
+                SONG_SELECTION_ARGS, SONG_SORT_ORDER, false
 
         ).mapToList { it.toPlaylistSong() }
                 .flatMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
@@ -154,9 +154,7 @@ class PlaylistRepository @Inject constructor(
                                 val song = songs.firstOrNull { it.id == playlistSong.songId }
                                 song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
                             }.toList()
-                }}
-
-        return observable.emitThenDebounce()
+                }}.emitThenDebounce()
     }
 
     override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {

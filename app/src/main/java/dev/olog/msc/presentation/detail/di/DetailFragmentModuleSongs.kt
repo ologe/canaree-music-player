@@ -124,10 +124,9 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
         else -> R.layout.item_detail_song
     }
 
-    val secondText = when {
-        parentId.isAlbum -> DisplayableItem.adjustArtist(this.artist)
+    val subtitle = when {
         parentId.isArtist -> DisplayableItem.adjustAlbum(this.album)
-        else -> artist
+        else -> DisplayableItem.adjustArtist(this.artist)
     }
 
     val track = when {
@@ -140,7 +139,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
             viewType,
             MediaId.playableItem(parentId, id),
             this.title,
-            secondText,
+            subtitle,
             this.image,
             true,
             this.isRemix,
@@ -150,13 +149,11 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
 }
 
 private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): DisplayableItem {
-    val artist = DisplayableItem.adjustArtist(this.artist)
-
     return DisplayableItem(
             R.layout.item_detail_song_most_played,
             MediaId.playableItem(parentId, id),
             this.title,
-            artist,
+            DisplayableItem.adjustArtist(this.artist),
             this.image,
             true,
             this.isRemix,
@@ -165,13 +162,11 @@ private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): Displayab
 }
 
 private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
-    val artist = DisplayableItem.adjustArtist(this.artist)
-
     return DisplayableItem(
             R.layout.item_detail_song_recent,
             MediaId.playableItem(parentId, id),
             this.title,
-            artist,
+            DisplayableItem.adjustArtist(this.artist),
             this.image,
             true,
             this.isRemix,

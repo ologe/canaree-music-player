@@ -1,5 +1,6 @@
 package dev.olog.msc.domain.interactor.detail.siblings
 
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.PlaylistGateway
@@ -18,6 +19,15 @@ class GetPlaylistSiblingsUseCase @Inject internal constructor(
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Playlist>> {
         val playlistId = mediaId.categoryValue.toLong()
 
-        return gateway.getAll().map { it.filter { it.id != playlistId } }
+        val observable = if (PlaylistConstants.isAutoPlaylist(playlistId)){
+            gateway.getAllAutoPlaylists()
+        } else gateway.getAll()
+
+        return observable.map {
+            it.asSequence()
+                    .filter { it.id != playlistId } // remove itself
+                    .filter { it.size > 0 } // remove empty list
+                    .toList()
+        }
     }
 }

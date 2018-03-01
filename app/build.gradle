@@ -48,17 +48,17 @@ android {
         }
 
         debug {
-//            minifyEnabled true
-//            useProguard true
-//            multiDexEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-////            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            debuggable false
+            minifyEnabled true
+            useProguard true
+            multiDexEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
 
-            minifyEnabled false
-            useProguard false
-            multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            minifyEnabled false
+//            useProguard false
+//            multiDexEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -115,7 +115,8 @@ dependencies {
     implementation "com.android.support:preference-v14:$rootProject.support_library"
     implementation "com.android.support:palette-v7:$rootProject.support_library"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
-    implementation "com.google.android.support:wearable:$rootProject.wearable"
+//    implementation "com.google.android.support:wearable:$rootProject.wearable"
+//    implementation "com.google.android.wearable:wearable:$rootProject.wearable"
 
     // db
     implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"

@@ -27,10 +27,10 @@ class ArtistPopup (
 
         setOnMenuItemClickListener(listener)
 
-        song?.let {
+        if (song != null){
             menu.removeItem(R.id.viewArtist)
 
-            if (it.album == AppConstants.UNKNOWN){
+            if (song.album == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewAlbum)
             }
         }

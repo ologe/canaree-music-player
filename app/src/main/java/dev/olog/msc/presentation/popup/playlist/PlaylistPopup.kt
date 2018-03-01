@@ -28,20 +28,19 @@ class PlaylistPopup(
 
         setOnMenuItemClickListener(listener)
 
-        if (PlaylistConstants.isAutoPlaylist(playlist.id)){
-            menu.removeItem(R.id.rename)
-            menu.removeItem(R.id.delete)
-        }
-
-        if (playlist.id == PlaylistConstants.LAST_ADDED_ID){
-            menu.removeItem(R.id.clear)
-        }
-
-        song?.let {
-            if (it.artist == AppConstants.UNKNOWN){
+        if (song == null){
+            if (PlaylistConstants.isAutoPlaylist(playlist.id)){
+                menu.removeItem(R.id.rename)
+                menu.removeItem(R.id.delete)
+            }
+            if (playlist.id == PlaylistConstants.LAST_ADDED_ID){
+                menu.removeItem(R.id.clear)
+            }
+        } else {
+            if (song.artist == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewArtist)
             }
-            if (it.album == AppConstants.UNKNOWN){
+            if (song.album == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewAlbum)
             }
             if (playlist.id == PlaylistConstants.FAVORITE_LIST_ID){

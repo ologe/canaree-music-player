@@ -81,7 +81,7 @@ class SongRepository @Inject constructor(
                     }
                 }
                 .onErrorReturn { listOf() }
-                .distinctUntilChanged()
+//                .distinctUntilChanged()
     }
 
     private val cachedData = queryAllData()

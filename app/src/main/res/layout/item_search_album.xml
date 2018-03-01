@@ -17,7 +17,7 @@
         android:clipChildren="false"
         android:clipToPadding="false">
 
-        <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+        <dev.olog.msc.presentation.widget.image.view.ShapeImageView
             android:id="@+id/cover"
             app:imageAlbum="@{item}"
             tools:src="@drawable/placeholder_album"

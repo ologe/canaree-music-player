@@ -23,10 +23,11 @@ interface ExoPlayerListenerWrapper : Player.EventListener {
     override fun onSeekProcessed() {
     }
 
-    override fun onRepeatModeChanged(repeatMode: Int) {
+    override fun onTimelineChanged(timeline: Timeline?, manifest: Any?, reason: Int) {
+
     }
 
-    override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
+    override fun onRepeatModeChanged(repeatMode: Int) {
     }
 
     override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {

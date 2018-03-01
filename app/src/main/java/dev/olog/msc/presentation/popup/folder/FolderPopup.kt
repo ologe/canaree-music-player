@@ -28,11 +28,11 @@ class FolderPopup (
 
         setOnMenuItemClickListener(listener)
 
-        song?.let {
-            if (it.artist == AppConstants.UNKNOWN){
+        if (song != null){
+            if (song.artist == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewArtist)
             }
-            if (it.album == AppConstants.UNKNOWN){
+            if (song.album == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewAlbum)
             }
         }

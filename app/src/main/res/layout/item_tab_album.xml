@@ -17,7 +17,7 @@
         android:layout_margin="5dp"
         tools:background="@color/background">
 
-        <dev.olog.msc.presentation.widget.image.view.RoundedCornerImageView
+        <dev.olog.msc.presentation.widget.image.view.ShapeImageView
             android:id="@+id/cover"
             app:imageAlbum="@{item}"
             tools:src="@drawable/placeholder_album"

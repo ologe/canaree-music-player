@@ -106,18 +106,15 @@
 
     <string name="prefs_icon_shape_square" translatable="false">square</string>
     <string name="prefs_icon_shape_rounded" translatable="false">round</string>
-    <string name="prefs_icon_shape_squircle" translatable="false">squircle</string>
 
     <string-array name="prefs_icon_shape_entry_values">
         <item>@string/prefs_icon_shape_square</item>
         <item>@string/prefs_icon_shape_rounded</item>
-        <item>@string/prefs_icon_shape_squircle</item>
     </string-array>
 
     <string-array name="prefs_icon_shape_entries">
         <item>@string/common_shape_square</item>
         <item>@string/common_shape_rounded</item>
-        <item>@string/common_shape_squircle</item>
     </string-array>
 
 </resources>

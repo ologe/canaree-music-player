@@ -16,7 +16,7 @@ private const val DEFAULT_RADIUS = 5
 
 private val X_FERMO_MODE = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
 
-class RoundedCornerImageView @JvmOverloads constructor(
+class ShapeImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
@@ -31,11 +31,7 @@ class RoundedCornerImageView @JvmOverloads constructor(
         radius = a.getInt(R.styleable.RoundedCornerImageView_cornerRadius, DEFAULT_RADIUS)
         a.recycle()
 
-//        val drawable = ContextCompat.getDrawable(context, R.drawable.rounded_corners_drawable) as GradientDrawable
-//        drawable.cornerRadius = context.dip(radius).toFloat()
-//        background = drawable
-//        clipToOutline = true
-//        outlineProvider = RoundedOutlineProvider()
+        clipToOutline = true
 
         paint.xfermode = X_FERMO_MODE
     }
@@ -56,11 +52,11 @@ class RoundedCornerImageView @JvmOverloads constructor(
                     drawable.cornerRadius = context.dip(radius).toFloat()
                     drawable.toBitmap(width, height)
                 }
-                context.getString(R.string.prefs_icon_shape_squircle) -> {
-                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
-                    val drawable = ContextCompat.getDrawable(context, R.drawable.shape_squircle)!!
-                    drawable.toBitmap(width, height)
-                }
+//                context.getString(R.string.prefs_icon_shape_squircle) -> {
+//                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
+//                    val drawable = ContextCompat.getDrawable(context, R.drawable.shape_squircle)!!
+//                    drawable.toBitmap(width, height)
+//                }
                 else -> {
                     setLayerType(View.LAYER_TYPE_NONE, null)
                     null

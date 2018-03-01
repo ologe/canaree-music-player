@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.Keep;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import dev.olog.msc.R;
 
+@Keep
 public class ForegroundImageView extends AppCompatImageView {
 
     private Drawable foreground;
@@ -86,13 +88,13 @@ public class ForegroundImageView extends AppCompatImageView {
 
             if (foreground != null) {
                 foreground.setBounds(0, 0, getWidth(), getHeight());
-                setWillNotDraw(false);
+//                setWillNotDraw(false);
                 foreground.setCallback(this);
                 if (foreground.isStateful()) {
                     foreground.setState(getDrawableState());
                 }
             } else {
-                setWillNotDraw(true);
+//                setWillNotDraw(true);
             }
             invalidate();
         }

@@ -33,12 +33,9 @@ class LottieFavorite @JvmOverloads constructor(
         cancelAnimation()
         if (toFavorite) {
             progress = .35f
-            speed = 1f
             resumeAnimation()
         } else {
-            progress = 1f
-            speed = -1f
-            resumeAnimation()
+            progress = 0f
         }
     }
 

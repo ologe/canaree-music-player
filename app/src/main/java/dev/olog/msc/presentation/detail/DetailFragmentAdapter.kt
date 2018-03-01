@@ -243,8 +243,14 @@ class DetailFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    val hasTouchBehavior = mediaId.isPlaylist &&
-            !PlaylistConstants.isAutoPlaylist(mediaId.categoryValue.toLong())
+    val hasTouchBehavior : Boolean
+        get() {
+            if (mediaId.isPlaylist){
+                val playlistId = mediaId.categoryValue.toLong()
+                return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
+            }
+            return false
+        }
 
     override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
 
@@ -255,11 +261,13 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override val onSwipeAction = { position: Int ->
-        viewModel.removeFromPlaylist(controller.getItem(position).trackNumber.toLong())
+        viewModel.removeFromPlaylist(controller.getItem(position))
                 .subscribe({}, Throwable::printStackTrace)
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-        return hasTouchBehavior && viewType == R.layout.item_detail_song_with_drag_handle
+        return hasTouchBehavior &&
+                        (viewType == R.layout.item_detail_song_with_drag_handle ||
+                        viewType == R.layout.item_detail_song)
     }
 }

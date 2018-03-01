@@ -20,7 +20,7 @@ import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import java.io.File
 import javax.inject.Inject
 
-private const val IMAGE_SIZE = 300
+private const val IMAGE_SIZE = 600
 
 @PerService
 class PlayerMetadata @Inject constructor(
