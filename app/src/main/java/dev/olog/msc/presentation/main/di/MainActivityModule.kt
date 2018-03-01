@@ -9,6 +9,8 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ActivityContext
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.msc.interfaces.pro.BillingImpl
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.main.MainActivity
 
@@ -39,5 +41,8 @@ class MainActivityModule(
 
     @Provides
     internal fun provideMusicGlue(): MediaProvider = activity
+
+    @Provides
+    internal fun provideBilling(impl: BillingImpl): IBilling = impl
 
 }

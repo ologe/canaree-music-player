@@ -5,14 +5,18 @@ import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import dagger.android.support.HasSupportFragmentInjector
 import dev.olog.msc.R
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.activity_preferences.*
+import javax.inject.Inject
 
 class PreferencesActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector {
 
     companion object {
         const val REQUEST_CODE = 1221
     }
+
+    @Inject lateinit var billing: IBilling
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)

@@ -17,6 +17,7 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.SeekBarObservable
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
@@ -43,7 +44,8 @@ class PlayerFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator,
-        private val viewModel: PlayerFragmentViewModel
+        private val viewModel: PlayerFragmentViewModel,
+        private val billing: IBilling
 
 ): AbsAdapter<DisplayableItem>(lifecycle) {
 
@@ -124,7 +126,11 @@ class PlayerFragmentAdapter @Inject constructor(
         RxView.clicks(view.floatingWindow)
                 .takeUntil(RxView.detaches(view))
                 .subscribe({
-                    FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity)
+                    if (billing.isPremium()){
+                        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity)
+                    } else {
+                        billing.purchasePremium()
+                    }
                 }, Throwable::printStackTrace)
 
         RxView.clicks(view.favorite)

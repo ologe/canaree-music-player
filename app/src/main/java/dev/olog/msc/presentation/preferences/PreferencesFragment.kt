@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.preferences
 import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v14.preference.SwitchPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
@@ -14,6 +15,7 @@ import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragmen
 import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.msc.utils.k.extension.forEach
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -23,21 +25,32 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var usedEqualizer: SwitchPreference
     private lateinit var iconShape : Preference
 
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         usedEqualizer = preferenceScreen.findPreference(getString(R.string.prefs_used_equalizer_key)) as SwitchPreference
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
+
+        val billing = (act as PreferencesActivity).billing
+//        val isPremium = billing.isPremium()
+        val isPremium = false
+        forEach(preferenceScreen) { it.isEnabled = isPremium }
+        if (!isPremium){
+            Snackbar.make(view!!, "You need pro version to customize", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Buy", { billing.purchasePremium() })
+                    .show()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (RootUtils.isDeviceRooted()){
-            usedEqualizer.isChecked = false
-            preferenceScreen.sharedPreferences.edit()
-                    .putBoolean(getString(R.string.prefs_used_equalizer_key), false).apply()
-        }
+//        if (RootUtils.isDeviceRooted()){ todo
+//            usedEqualizer.isChecked = false
+//            preferenceScreen.sharedPreferences.edit()
+//                    .putBoolean(getString(R.string.prefs_used_equalizer_key), false).apply()
+//        }
         setIconShapeSummary()
     }
 
