@@ -3,12 +3,12 @@ package dev.olog.msc.presentation.shortcuts
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
-import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 
-class ShortcutsActivity : DaggerAppCompatActivity(){
+class ShortcutsActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

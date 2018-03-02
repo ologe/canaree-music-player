@@ -19,6 +19,7 @@ import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.SeekBarObservable
+import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -28,10 +29,7 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.msc.utils.k.extension.setOnClickListener
-import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
@@ -71,13 +69,13 @@ class PlayerFragmentAdapter @Inject constructor(
                     } else false
                 }
             }
-//            R.layout.fragment_player_controls -> {
-//                val view = viewHolder.itemView
-//                val showPlayerControls = viewModel.showPlayerControls()
-//                view.previous?.toggleVisibility(showPlayerControls)
-//                view.playPause?.toggleVisibility(showPlayerControls)
-//                view.next?.toggleVisibility(showPlayerControls)
-//            }
+            R.layout.fragment_player_controls -> {
+                val view = viewHolder.itemView
+                val showPlayerControls = viewModel.showPlayerControls()
+                view.previous?.toggleVisibility(showPlayerControls)
+                view.playPause?.toggleVisibility(showPlayerControls)
+                view.next?.toggleVisibility(showPlayerControls)
+            }
         }
     }
 
@@ -190,42 +188,42 @@ class PlayerFragmentAdapter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view.favorite::onNextState, Throwable::printStackTrace)
 
-//        if (activity.isPortrait){
-//            mediaProvider.onStateChanged()
-//                    .takeUntil(RxView.detaches(view))
-//                    .map { it.state }
-//                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
-//                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
-//                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
-//                    .subscribe({ animateSkipTo(view, it) }, Throwable::printStackTrace)
-//
-//            mediaProvider.onStateChanged()
-//                    .takeUntil(RxView.detaches(view))
-//                    .map { it.state }
-//                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
-//                            it == PlaybackStateCompat.STATE_PAUSED
-//                    }.distinctUntilChanged()
-//                    .subscribe({ state ->
-//
-//                        if (state == PlaybackStateCompat.STATE_PLAYING){
-//                            playAnimation(view, true)
-//                        } else {
-//                            pauseAnimation(view, true)
-//                        }
-//                    }, Throwable::printStackTrace)
-//
-//            RxView.clicks(view.next)
-//                    .takeUntil(RxView.detaches(view))
-//                    .subscribe({ mediaProvider.skipToNext() }, Throwable::printStackTrace)
-//
-//            RxView.clicks(view.playPause)
-//                    .takeUntil(RxView.detaches(view))
-//                    .subscribe({ mediaProvider.playPause() }, Throwable::printStackTrace)
-//
-//            RxView.clicks(view.previous)
-//                    .takeUntil(RxView.detaches(view))
-//                    .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
-//        }
+        if (activity.isPortrait){
+            mediaProvider.onStateChanged()
+                    .takeUntil(RxView.detaches(view))
+                    .map { it.state }
+                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
+                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
+                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+                    .subscribe({ animateSkipTo(view, it) }, Throwable::printStackTrace)
+
+            mediaProvider.onStateChanged()
+                    .takeUntil(RxView.detaches(view))
+                    .map { it.state }
+                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
+                            it == PlaybackStateCompat.STATE_PAUSED
+                    }.distinctUntilChanged()
+                    .subscribe({ state ->
+
+                        if (state == PlaybackStateCompat.STATE_PLAYING){
+                            playAnimation(view, true)
+                        } else {
+                            pauseAnimation(view, true)
+                        }
+                    }, Throwable::printStackTrace)
+
+            RxView.clicks(view.next)
+                    .takeUntil(RxView.detaches(view))
+                    .subscribe({ mediaProvider.skipToNext() }, Throwable::printStackTrace)
+
+            RxView.clicks(view.playPause)
+                    .takeUntil(RxView.detaches(view))
+                    .subscribe({ mediaProvider.playPause() }, Throwable::printStackTrace)
+
+            RxView.clicks(view.previous)
+                    .takeUntil(RxView.detaches(view))
+                    .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
+        }
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
@@ -270,28 +268,28 @@ class PlayerFragmentAdapter @Inject constructor(
         }
     }
 
-//    private fun animateSkipTo(view: View, toNext: Boolean) {
-//        val hasSlidingPanel = activity as HasSlidingPanel
-//        if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
-//
-//        if (toNext) {
-//            view.next.playAnimation()
-//        } else {
-//            view.previous.playAnimation()
-//        }
-//    }
-//
-//    private fun playAnimation(view: View, animate: Boolean) {
-//        val hasSlidingPanel = activity as HasSlidingPanel
-//        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-//        view.playPause.animationPlay(isPanelExpanded && animate)
-//    }
-//
-//    private fun pauseAnimation(view: View, animate: Boolean) {
-//        val hasSlidingPanel = activity as HasSlidingPanel
-//        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
-//        view.playPause.animationPause(isPanelExpanded && animate)
-//    }
+    private fun animateSkipTo(view: View, toNext: Boolean) {
+        val hasSlidingPanel = activity as HasSlidingPanel
+        if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
+
+        if (toNext) {
+            view.next.playAnimation()
+        } else {
+            view.previous.playAnimation()
+        }
+    }
+
+    private fun playAnimation(view: View, animate: Boolean) {
+        val hasSlidingPanel = activity as HasSlidingPanel
+        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+        view.playPause.animationPlay(isPanelExpanded && animate)
+    }
+
+    private fun pauseAnimation(view: View, animate: Boolean) {
+        val hasSlidingPanel = activity as HasSlidingPanel
+        val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
+        view.playPause.animationPause(isPanelExpanded && animate)
+    }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)

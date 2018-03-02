@@ -70,12 +70,15 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == act.getString(R.string.prefs_quick_action_key)){
+        if (key == getString(R.string.prefs_quick_action_key)){
             AppConstants.updateQuickAction(activity!!)
             requestMainActivityToRecreate()
         }
-        if (key == ctx.getString(R.string.prefs_icon_shape_key)){
+        if (key == getString(R.string.prefs_icon_shape_key)){
             setIconShapeSummary()
+            requestMainActivityToRecreate()
+        }
+        if (key == getString(R.string.prefs_player_controls_visibility_key)){
             requestMainActivityToRecreate()
         }
     }

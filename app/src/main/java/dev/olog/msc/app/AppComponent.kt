@@ -29,7 +29,6 @@ import javax.inject.Singleton
         PreferenceModule::class,
 //
 //        // presentation
-        AndroidBindingModule::class,
         WidgetBindingModule::class,
         AndroidSupportInjectionModule::class,
         SplashActivityInjector::class,
