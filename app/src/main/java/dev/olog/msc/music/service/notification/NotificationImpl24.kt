@@ -2,7 +2,6 @@ package dev.olog.msc.music.service.notification
 
 import android.app.NotificationManager
 import android.app.Service
-import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.media.session.MediaSessionCompat
@@ -11,7 +10,8 @@ import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.img.ImageUtils
+import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -37,11 +37,14 @@ open class NotificationImpl24 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            uri: Uri) {
+            image: String) {
 
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri, id,
-                                INotification.IMAGE_SIZE, INotification.IMAGE_SIZE))
-                .setContentTitle(title)
-                .setContentText(artist)
+        val placeholder = CoverUtils.getGradient(service, id.toInt())
+        service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
+            builder.setLargeIcon(it)
+                    .setContentTitle(title)
+                    .setContentText(artist)
+        })
+
     }
 }

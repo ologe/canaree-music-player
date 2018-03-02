@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.view.View
 import android.widget.RemoteViews
+import androidx.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
@@ -17,7 +18,6 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
-import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.k.extension.dip
 import javax.inject.Inject
 
@@ -32,8 +32,8 @@ abstract class BaseWidget : AbsWidgetApp() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         val remoteViews = RemoteViews(context.packageName, layoutId)
-        remoteViews.setImageViewBitmap(R.id.play, ImageUtils.getBitmapFromDrawable(
-                ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!))
+        remoteViews.setImageViewBitmap(R.id.play,
+                ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!.toBitmap())
 
         remoteViews.setOnClickPendingIntent(R.id.floatingWindow, buildFloatingInfoPendingIntent(context))
         remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))
@@ -66,7 +66,7 @@ abstract class BaseWidget : AbsWidgetApp() {
             ContextCompat.getDrawable(context, R.drawable.vd_pause_big)!!
         } else ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!
 
-        remoteViews.setImageViewBitmap(R.id.play, ImageUtils.getBitmapFromDrawable(playPauseIcon))
+        remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
         remoteViews.setOnClickPendingIntent(R.id.floatingWindow, buildFloatingInfoPendingIntent(context))
         remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))

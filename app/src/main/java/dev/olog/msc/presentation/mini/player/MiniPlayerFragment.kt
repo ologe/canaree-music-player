@@ -105,7 +105,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE))
         }
         view.title.text = presenter.getLastTitle()
-        view.artist.text = presenter.getLastSubtitle()
+        view.artist.text = DisplayableItem.adjustArtist(presenter.getLastSubtitle())
     }
 
     override fun onResume() {

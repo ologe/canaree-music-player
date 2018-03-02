@@ -46,10 +46,6 @@ object CoverUtils {
         return get(context, position, getDrawable(source))
     }
 
-    fun getGradientForNotification(context: Context, id: Long): Drawable {
-        return get(context, id.toInt(), getDrawableForNotification())
-    }
-
     private fun get(context: Context, position: Int, @DrawableRes drawableRes: Int): Drawable {
         val drawable = ContextCompat.getDrawable(context, drawableRes)!!.mutate() as LayerDrawable
         val gradient = drawable.getDrawable(0) as GradientDrawable
@@ -74,8 +70,5 @@ object CoverUtils {
         }
         throw IllegalArgumentException("invalid source $source")
     }
-
-    @DrawableRes
-    private fun getDrawableForNotification(): Int = R.drawable.placeholder_musical_note_for_notification
 
 }

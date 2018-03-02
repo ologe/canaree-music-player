@@ -6,7 +6,6 @@ import android.app.Service
 import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Typeface
-import android.net.Uri
 import android.support.annotation.CallSuper
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
@@ -22,8 +21,9 @@ import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.msc.utils.img.ImageUtils
-import java.io.File
+import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
 
 open class NotificationImpl21 @Inject constructor(
@@ -105,19 +105,13 @@ open class NotificationImpl21 @Inject constructor(
     @CallSuper
     override fun updateMetadata(metadata: MediaEntity) {
         val title = metadata.title
-        val artist = metadata.artist
-        val album = metadata.album
+        val artist = DisplayableItem.adjustArtist(metadata.artist)
+        val album = DisplayableItem.adjustAlbum(metadata.album)
 
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
 
-        val uri = if (metadata.image.endsWith(".webp")){
-            Uri.fromFile(File(metadata.image))
-        } else {
-            Uri.parse(metadata.image)
-        }
-
-        updateMetadataImpl(metadata.id, spannableTitle, artist, album, uri)
+        updateMetadataImpl(metadata.id, spannableTitle, artist, album, metadata.image)
     }
 
     protected open fun updateMetadataImpl (
@@ -125,13 +119,15 @@ open class NotificationImpl21 @Inject constructor(
             title: SpannableString,
             artist: String,
             album: String,
-            uri: Uri){
+            image: String){
 
-        builder.setLargeIcon(ImageUtils.getBitmapFromUriWithPlaceholder(service, uri , id,
-                                    INotification.IMAGE_SIZE, INotification.IMAGE_SIZE))
-                .setContentTitle(title)
-                .setContentText(artist)
-                .setSubText(album)
+        val placeholder = CoverUtils.getGradient(service, id.toInt())
+        service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
+            builder.setLargeIcon(it)
+                    .setContentTitle(title)
+                    .setContentText(artist)
+                    .setSubText(album)
+        })
     }
 
     private fun buildFloatingInfoPendingIntent(): PendingIntent {

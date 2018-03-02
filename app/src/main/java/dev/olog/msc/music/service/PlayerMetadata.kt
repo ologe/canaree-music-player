@@ -86,7 +86,7 @@ class PlayerMetadata @Inject constructor(
     }
 
     private fun createBitmap(uri: Uri): Bitmap? {
-        return ImageUtils.getBitmapFromUriOrNull(context, uri, IMAGE_SIZE, IMAGE_SIZE)
+        return ImageUtils.getBitmap(context, uri, IMAGE_SIZE, IMAGE_SIZE)
     }
 
     private fun notifyWidgets(entity: MediaEntity){
