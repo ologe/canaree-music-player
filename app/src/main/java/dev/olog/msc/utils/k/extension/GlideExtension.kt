@@ -4,7 +4,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.webkit.URLUtil
 import androidx.graphics.drawable.toBitmap
+import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
@@ -16,47 +18,66 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
                       size: Int, action: (Bitmap) -> Unit,
                       extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null){
 
-    try {
-        val builder = imageBuilder(Uri.parse(image), size, extend)
-                .error(imageBuilder(Uri.fromFile(File(image)), size, extend)
-                        .error(imageBuilder(image, size, extend)
-                                .error(imageBuilder(placeholder, size, extend))
-                        )
-                )
-
-        if (isMainThread()){
-            builder.into(object : SimpleTarget<Bitmap>(){
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    action(resource)
-                }
-
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                    action(placeholder.toBitmap())
-                }
-            })
-        } else {
-            val bitmap = builder.submit(size, size).get()
-            action(bitmap)
-        }
-    } catch (ex: Exception){
-        action(placeholder.toBitmap())
+    val uri = Uri.fromFile(File(image))
+    val realImage = when {
+        File(uri.path).exists() -> uri
+        URLUtil.isNetworkUrl(image) -> image
+        else -> Uri.parse(image)
     }
 
-}
+    var error = GlideApp.with(this)
+            .asBitmap()
+            .load(placeholder.toBitmap())
+            .priority(Priority.IMMEDIATE)
+            .override(size)
 
-private fun Context.imageBuilder(
-        image: Any,
-        size: Int,
-        extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null): GlideRequest<Bitmap>{
+    extend?.let { error = error.it() }
 
     var builder = GlideApp.with(this)
             .asBitmap()
-            .load(image)
+            .load(realImage)
             .override(size)
+            .priority(Priority.IMMEDIATE)
+            .error(error)
 
-    extend?.let {
-        builder = builder.extend()
+    extend?.let { builder = builder.it() }
+
+
+    if (isMainThread()){
+        builder.into(object : SimpleTarget<Bitmap>(){
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                action(resource)
+            }
+        })
+    } else {
+        val bitmap = try {
+            builder.submit(size, size).get()
+        } catch (ex: Exception){
+            GlideApp.with(this)
+                    .asBitmap()
+                    .load(placeholder.toBitmap())
+                    .priority(Priority.IMMEDIATE)
+                    .submit(size, size)
+                    .get()
+        }
+        action(bitmap)
     }
 
-    return builder
 }
+//
+//private fun Context.imageBuilder(
+//        image: Any,
+//        size: Int,
+//        extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null): GlideRequest<Bitmap>{
+//
+//    var builder = GlideApp.with(this)
+//            .asBitmap()
+//            .load(image)
+//            .override(size)
+//
+//    extend?.let {
+//        builder = builder.extend()
+//    }
+//
+//    return builder
+//}
