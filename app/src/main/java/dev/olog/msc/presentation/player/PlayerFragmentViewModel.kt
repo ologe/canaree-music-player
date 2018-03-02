@@ -9,6 +9,7 @@ import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
@@ -20,12 +21,18 @@ class PlayerFragmentViewModel @Inject constructor(
 
 ) {
 
-    fun showMiniQueue(): Boolean {
-        return billing.isPremium() && appPrefsUseCase.showMiniQueue()
+    fun observeMiniQueueVisibility(): Observable<Boolean>{
+        return Observables.combineLatest(
+                billing.observeIsPremium(),
+                appPrefsUseCase.observeMiniQueueVisibility(), { premium, show -> premium && show }
+        )
     }
 
-    fun showPlayerControls(): Boolean {
-        return billing.isPremium() && appPrefsUseCase.showPlayerControls()
+    fun observePlayerControlsVisibility(): Observable<Boolean> {
+        return Observables.combineLatest(
+                billing.observeIsPremium(),
+                appPrefsUseCase.observePlayerControlsVisibility(), { premium, show -> premium && show }
+        )
     }
 
     private val progressPublisher = BehaviorSubject.createDefault(0)

@@ -3,8 +3,6 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.Context
 import android.preference.PreferenceManager
-import com.akaita.java.rxjava2debug.RxJava2Debug
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -35,9 +33,9 @@ class App : DaggerApplication() {
 
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
-            LeakCanary.install(this)
-            StrictMode.initialize()
-            RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("dev.olog.msc"))
+//            LeakCanary.install(this)
+//            StrictMode.initialize()
+//            RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("dev.olog.msc"))
         }
     }
 

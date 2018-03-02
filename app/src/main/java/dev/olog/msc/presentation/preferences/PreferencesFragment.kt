@@ -78,9 +78,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             setIconShapeSummary()
             requestMainActivityToRecreate()
         }
-        if (key == getString(R.string.prefs_player_controls_visibility_key)){
-            requestMainActivityToRecreate()
-        }
     }
 
     private fun setIconShapeSummary(){

@@ -12,7 +12,9 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.music.service.MusicService
+import dev.olog.msc.presentation.base.HasBilling
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
@@ -27,12 +29,13 @@ import javax.inject.Inject
 
 private const val SPLASH_REQUEST_CODE = 0
 
-class MainActivity : MusicGlueActivity(), HasSlidingPanel {
+class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var navigator: Navigator
     @Suppress("unused") // false alarm
     @Inject lateinit var statusBarColorBehavior: StatusBarColorBehavior
+    @Inject override lateinit var billing: IBilling
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,6 +132,4 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel {
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
-
-
 }

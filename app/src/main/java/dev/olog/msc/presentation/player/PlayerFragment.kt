@@ -27,12 +27,12 @@ import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.layout_swipeable_view.*
 import kotlinx.android.synthetic.main.player_controls.*
-import kotlinx.android.synthetic.main.player_controls.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -52,21 +52,21 @@ class PlayerFragment : BaseFragment() {
 
         mediaProvider = (activity as MediaProvider)
 
-        mediaProvider.onQueueChanged()
-                .mapToList { it.toDisplayableItem() }
-                .asLiveData()
-                .subscribe(this, {
-                    if (viewModel.showMiniQueue()){
-                        val queue = it.toMutableList()
-                        if (queue.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                            queue.add(viewModel.footerLoadMore)
+        Observables.combineLatest(
+                mediaProvider.onQueueChanged().mapToList { it.toDisplayableItem() },
+                viewModel.observeMiniQueueVisibility(), { queue, show ->
+                    if (show){
+                        val copy = queue.toMutableList()
+                        if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
+                            copy.add(viewModel.footerLoadMore)
                         }
-                        queue.add(0, viewModel.playerControls)
-                        adapter.updateDataSet(queue)
+                        copy.add(0, viewModel.playerControls)
+                        copy
                     } else {
-                        adapter.updateDataSet(viewModel.playerControls)
+                        listOf(viewModel.playerControls)
                     }
-                })
+                }).asLiveData()
+                .subscribe(this, adapter::updateDataSet)
 
         mediaProvider.onStateChanged()
                 .asLiveData()
@@ -150,6 +150,14 @@ class PlayerFragment : BaseFragment() {
             RxView.clicks(previous)
                     .asLiveData()
                     .subscribe(this, { mediaProvider.skipToPrevious() })
+
+            viewModel.observePlayerControlsVisibility()
+                    .asLiveData()
+                    .subscribe(this, {
+                        previous.toggleVisibility(it)
+                        playPause.toggleVisibility(it)
+                        next.toggleVisibility(it)
+                    })
         }
     }
 
@@ -162,13 +170,6 @@ class PlayerFragment : BaseFragment() {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
-
-        if (act.isLandscape){
-            val showPlayerControls = viewModel.showPlayerControls()
-            view.previous.toggleVisibility(showPlayerControls)
-            view.playPause.toggleVisibility(showPlayerControls)
-            view.next.toggleVisibility(showPlayerControls)
-        }
     }
 
     private fun animateSkipTo(toNext: Boolean) {

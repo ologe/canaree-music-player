@@ -249,8 +249,21 @@ class AppPreferencesImpl @Inject constructor(
         return preferences.getBoolean(key, true)
     }
 
+    override fun observeMiniQueueVisibility(): Observable<Boolean> {
+        val key = context.getString(R.string.prefs_mini_queue_visibility_key)
+        return rxPreferences.getBoolean(key, true)
+                .asObservable()
+    }
+
     override fun showPlayerControls(): Boolean {
         val key = context.getString(R.string.prefs_player_controls_visibility_key)
-        return preferences.getBoolean(key, true)
+        return preferences.getBoolean(key, false)
     }
+
+    override fun observePlayerControlsVisibility(): Observable<Boolean> {
+        val key = context.getString(R.string.prefs_player_controls_visibility_key)
+        return rxPreferences.getBoolean(key, false)
+                .asObservable()
+    }
+
 }

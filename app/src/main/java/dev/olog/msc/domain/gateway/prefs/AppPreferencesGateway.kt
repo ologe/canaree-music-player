@@ -27,7 +27,10 @@ interface AppPreferencesGateway : Sorting {
     fun getSleepTimer() : Long
 
     fun showMiniQueue(): Boolean
+    fun observeMiniQueueVisibility(): Observable<Boolean>
+
     fun showPlayerControls(): Boolean
+    fun observePlayerControlsVisibility(): Observable<Boolean>
 
 }
 

@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.support.annotation.CheckResult
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
+import dev.olog.msc.presentation.base.HasBilling
 
 object FloatingWindowHelper {
 
@@ -17,20 +18,27 @@ object FloatingWindowHelper {
 
     @SuppressLint("NewApi")
     fun startServiceOrRequestOverlayPermission(activity: Activity){
-        if (hasOverlayPermission(activity)){
-            val intent = Intent(activity, FloatingWindowService::class.java)
-            ContextCompat.startForegroundService(activity, intent)
+        val billing = (activity as HasBilling).billing
+        if (billing.isPremium()){
+            if (hasOverlayPermission(activity)){
+                val intent = Intent(activity, FloatingWindowService::class.java)
+                ContextCompat.startForegroundService(activity, intent)
+            } else {
+                val intent = createIntentToRequestOverlayPermission(activity)
+                activity.startActivityForResult(intent, REQUEST_CODE_HOVER_PERMISSION)
+            }
         } else {
-            val intent = createIntentToRequestOverlayPermission(activity)
-            activity.startActivityForResult(intent, REQUEST_CODE_HOVER_PERMISSION)
+            billing.purchasePremium()
         }
     }
 
     @SuppressLint("NewApi")
-    fun startServiceIfHasOverlayPermission(context: Context){
-        if (hasOverlayPermission(context)){
-            val intent = Intent(context, FloatingWindowService::class.java)
-            ContextCompat.startForegroundService(context, intent)
+    fun startServiceIfHasOverlayPermission(activity: Activity){
+        val billing = (activity as HasBilling).billing
+
+        if (billing.isPremium() && hasOverlayPermission(activity)){
+            val intent = Intent(activity, FloatingWindowService::class.java)
+            ContextCompat.startForegroundService(activity, intent)
         }
     }
 

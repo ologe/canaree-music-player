@@ -2,6 +2,7 @@ package dev.olog.msc.domain.interactor.prefs
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,9 +39,18 @@ class AppPreferencesUseCase @Inject constructor(
         return gateway.showMiniQueue()
     }
 
+    fun observeMiniQueueVisibility(): Observable<Boolean> {
+        return gateway.observeMiniQueueVisibility()
+    }
+
     fun showPlayerControls(): Boolean {
         return gateway.showPlayerControls()
     }
+
+    fun observePlayerControlsVisibility(): Observable<Boolean> {
+        return gateway.observePlayerControlsVisibility()
+    }
+
 
 //    fun getFolderSortOrder() : Observable<SortType> = gateway.getFolderSortOrder()
 //    fun getPlaylistSortOrder() : Observable<SortType> = gateway.getPlaylistSortOrder()
