@@ -19,6 +19,7 @@ import dev.olog.msc.music.service.helper.CarHelper
 import dev.olog.msc.music.service.helper.MediaIdHelper
 import dev.olog.msc.music.service.helper.MediaItemGenerator
 import dev.olog.msc.music.service.helper.WearHelper
+import dev.olog.msc.music.service.notification.MusicNotificationManager
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory

@@ -1,5 +1,6 @@
 package dev.olog.msc.music.service.notification
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
@@ -18,13 +19,11 @@ import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
-import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 open class NotificationImpl21 @Inject constructor(
         protected val service: Service,
@@ -37,7 +36,7 @@ open class NotificationImpl21 @Inject constructor(
 
     private var isCreated = false
 
-    override fun createIfNeeded() {
+    private fun createIfNeeded() {
         if (isCreated){
             return
         }
@@ -60,6 +59,7 @@ open class NotificationImpl21 @Inject constructor(
                 .addAction(R.drawable.vd_pause_big, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
                 .addAction(R.drawable.vd_skip_next, "Next", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT))
 
+
         extendInitialization()
 
         isCreated = true
@@ -67,10 +67,38 @@ open class NotificationImpl21 @Inject constructor(
 
     protected open fun extendInitialization(){}
 
-    override fun updateState(playbackState: PlaybackStateCompat) {
-        val state = playbackState.state
-        val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
+    @CallSuper
+    protected open fun startChronometer(bookmark: Long){
+        builder.setWhen(System.currentTimeMillis() - bookmark)
+                .setShowWhen(true)
+                .setUsesChronometer(true)
+    }
 
+    @CallSuper
+    protected open fun stopChronometer(bookmark: Long){
+        builder.setWhen(0)
+                .setShowWhen(false)
+                .setUsesChronometer(false)
+    }
+
+    override fun update(state: MusicNotificationState): Notification {
+        createIfNeeded()
+
+        val title = state.title
+        val artist = DisplayableItem.adjustArtist(state.artist)
+        val album = DisplayableItem.adjustAlbum(state.album)
+
+        val spannableTitle = SpannableString(title)
+        spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
+        updateMetadataImpl(state.id, spannableTitle, artist, album, state.image)
+        updateState(state.isPlaying, state.bookmark)
+
+        val notification = builder.build()
+        notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
+        return notification
+    }
+
+    private fun updateState(isPlaying: Boolean, bookmark: Long) {
         val action = builder.mActions[2]
         action.actionIntent = buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
         action.icon = if (isPlaying) R.drawable.vd_pause_big else R.drawable.vd_play_big
@@ -78,36 +106,10 @@ open class NotificationImpl21 @Inject constructor(
         builder.setOngoing(isPlaying)
 
         if (isPlaying) {
-            startChronometer(playbackState)
+            startChronometer(bookmark)
         } else {
-            stopChronometer(playbackState)
+            stopChronometer(bookmark)
         }
-    }
-
-    @CallSuper
-    protected open fun startChronometer(playbackState: PlaybackStateCompat){
-        builder.setWhen(System.currentTimeMillis() - playbackState.position)
-                .setShowWhen(true)
-                .setUsesChronometer(true)
-    }
-
-    @CallSuper
-    protected open fun stopChronometer(playbackState: PlaybackStateCompat){
-        builder.setWhen(0)
-                .setShowWhen(false)
-                .setUsesChronometer(false)
-    }
-
-    @CallSuper
-    override fun updateMetadata(metadata: MediaEntity) {
-        val title = metadata.title
-        val artist = DisplayableItem.adjustArtist(metadata.artist)
-        val album = DisplayableItem.adjustAlbum(metadata.album)
-
-        val spannableTitle = SpannableString(title)
-        spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
-
-        updateMetadataImpl(metadata.id, spannableTitle, artist, album, metadata.image)
     }
 
     protected open fun updateMetadataImpl (
@@ -117,14 +119,12 @@ open class NotificationImpl21 @Inject constructor(
             album: String,
             image: String){
 
-        println(measureTimeMillis {
-            val placeholder = CoverUtils.getGradient(service, id.toInt())
-            service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
-                builder.setLargeIcon(it)
-                        .setContentTitle(title)
-                        .setContentText(artist)
-                        .setSubText(album)
-            })
+        val placeholder = CoverUtils.getGradient(service, id.toInt())
+        service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
+            builder.setLargeIcon(it)
+                    .setContentTitle(title)
+                    .setContentText(artist)
+                    .setSubText(album)
         })
     }
 
@@ -144,12 +144,6 @@ open class NotificationImpl21 @Inject constructor(
     private fun buildPendingIntent(action: Long): PendingIntent? {
         return MediaButtonReceiver.buildMediaButtonPendingIntent(
                 service, ComponentName(service, MediaButtonReceiver::class.java), action)
-    }
-
-    override fun update(): android.app.Notification {
-        val notification = builder.build()
-        notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
-        return notification
     }
 
     override fun cancel() {

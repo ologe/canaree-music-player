@@ -7,6 +7,7 @@ import android.net.Uri
 import android.webkit.URLUtil
 import androidx.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
@@ -44,6 +45,7 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
     var builder = GlideApp.with(this)
             .asBitmap()
             .load(realImage)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .override(size)
             .priority(Priority.IMMEDIATE)
             .error(error)

@@ -1,4 +1,4 @@
-package dev.olog.msc.music.service
+package dev.olog.msc.music.service.notification
 
 import android.app.Notification
 import android.app.Service
@@ -6,6 +6,7 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.media.AudioManager
+import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import dagger.Lazy
@@ -13,21 +14,16 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.music.service.notification.INotification
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private const val METADATA_DEBOUNCE = 250L
-private const val NOTIFICATION_DEBOUNCE = 150L
-private const val SECONDS_TO_DESTROY = 30
+private const val SECONDS_TO_DESTROY = 120L // 2 min
 
 @PerService
 class MusicNotificationManager @Inject constructor(
@@ -44,8 +40,9 @@ class MusicNotificationManager @Inject constructor(
     private var stopServiceAfterDelayDisposable: Disposable? = null
     private var notificationDisposable: Disposable? = null
 
-    private val metadataPublisher = BehaviorSubject.create<MediaEntity>()
-    private val statePublisher = BehaviorSubject.create<PlaybackStateCompat>()
+    private val handler = Handler()
+    private val publisher = BehaviorSubject.create<Any>()
+    private val currentState = MusicNotificationState()
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
@@ -65,34 +62,36 @@ class MusicNotificationManager @Inject constructor(
         lifecycle.addObserver(this)
         playerLifecycle.addListener(playerListener)
 
-        val metadataObservable = metadataPublisher
+        notificationDisposable = publisher
+                .toSerialized()
                 .observeOn(Schedulers.computation())
-                .debounce(METADATA_DEBOUNCE, TimeUnit.MILLISECONDS)
-
-        val playbackStateObservable = statePublisher
-                .observeOn(Schedulers.computation())
-                .filter { playbackState ->
-                    val state = playbackState.state
-                    state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED
-                }.distinctUntilChanged()
-
-        notificationDisposable = Observables.combineLatest (
-                metadataObservable,
-                playbackStateObservable
-        ) { metadata, playbackState -> update(playbackState, metadata) }
-                .debounce(NOTIFICATION_DEBOUNCE, TimeUnit.MILLISECONDS)
-                .map { notificationImpl.update() to it }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ pair ->
-                    val state = pair.second
-                    val notification = pair.first
-                    if (state == PlaybackStateCompat.STATE_PLAYING) {
-                        startForeground(notification)
-                    } else if (state == PlaybackStateCompat.STATE_PAUSED) {
-                        pauseForeground()
+                .subscribe({
+                    handler.removeCallbacks(runnable)
+                    when (it){
+                        is MediaEntity -> {
+                            if (currentState.updateMetadata(it)) {
+                                handler.postDelayed(runnable, 200)
+                            }
+                        }
+                        is PlaybackStateCompat -> {
+                            if (currentState.updateState(it)){
+                                handler.post(runnable)
+                            }
+                        }
+                        else -> IllegalArgumentException("invalid item $it")
                     }
-                })
 
+                }, Throwable::printStackTrace)
+
+    }
+
+    private val runnable = Runnable {
+        val notification = notificationImpl.update(currentState)
+        if (currentState.isPlaying){
+            startForeground(notification)
+        } else {
+            pauseForeground()
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -102,11 +101,11 @@ class MusicNotificationManager @Inject constructor(
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {
-        metadataPublisher.onNext(metadata)
+        publisher.onNext(metadata)
     }
 
     private fun onNextState(playbackState: PlaybackStateCompat) {
-        statePublisher.onNext(playbackState)
+        publisher.onNext(playbackState)
     }
 
     private fun stopForeground() {
@@ -131,7 +130,7 @@ class MusicNotificationManager @Inject constructor(
         stopServiceAfterDelayDisposable.unsubscribe()
 
         stopServiceAfterDelayDisposable = Single
-                .timer(SECONDS_TO_DESTROY.toLong(), TimeUnit.SECONDS)
+                .timer(SECONDS_TO_DESTROY, TimeUnit.SECONDS)
                 .subscribe({ audioManager.get().dispatchEvent(KEYCODE_MEDIA_STOP) },
                         Throwable::printStackTrace)
 
@@ -149,16 +148,6 @@ class MusicNotificationManager @Inject constructor(
         stopServiceAfterDelayDisposable.unsubscribe()
 
         isForeground = true
-    }
-
-    private fun update(playbackState: PlaybackStateCompat,
-                       metadata: MediaEntity): Int {
-
-        notificationImpl.createIfNeeded()
-        notificationImpl.updateState(playbackState)
-        notificationImpl.updateMetadata(metadata)
-
-        return playbackState.state
     }
 
 }

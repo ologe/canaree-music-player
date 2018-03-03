@@ -1,8 +1,6 @@
 package dev.olog.msc.music.service.notification
 
 import android.app.Notification
-import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.msc.music.service.model.MediaEntity
 
 interface INotification {
 
@@ -12,11 +10,7 @@ interface INotification {
         const val IMAGE_SIZE = 200
     }
 
-    fun createIfNeeded()
-    fun updateState(playbackState: PlaybackStateCompat)
-    fun updateMetadata(metadata: MediaEntity)
-
-    fun update(): Notification
+    fun update(state: MusicNotificationState): Notification
     fun cancel()
 
 }

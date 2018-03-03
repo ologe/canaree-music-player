@@ -5,7 +5,6 @@ import android.app.Service
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import dagger.Lazy
 import dev.olog.msc.utils.TextUtils
@@ -21,14 +20,14 @@ open class NotificationImpl24 @Inject constructor(
 
 ) : NotificationImpl21(service, token, notificationManager) {
 
-    override fun startChronometer(playbackState: PlaybackStateCompat) {
-        super.startChronometer(playbackState)
+    override fun startChronometer(bookmark: Long) {
+        super.startChronometer(bookmark)
         builder.setSubText(null)
     }
 
-    override fun stopChronometer(playbackState: PlaybackStateCompat) {
-        super.stopChronometer(playbackState)
-        builder.setSubText(TextUtils.formatTimeMillisForNotification(playbackState.position))
+    override fun stopChronometer(bookmark: Long) {
+        super.stopChronometer(bookmark)
+        builder.setSubText(TextUtils.formatTimeMillisForNotification(bookmark))
     }
 
     override fun updateMetadataImpl(
