@@ -8,7 +8,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import dagger.Lazy
-import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap

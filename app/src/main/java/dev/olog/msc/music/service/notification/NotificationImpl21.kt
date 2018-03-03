@@ -18,13 +18,13 @@ import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
-import dev.olog.msc.music.service.interfaces.INotification
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
+import kotlin.system.measureTimeMillis
 
 open class NotificationImpl21 @Inject constructor(
         protected val service: Service,
@@ -33,11 +33,7 @@ open class NotificationImpl21 @Inject constructor(
 
 ) : INotification {
 
-    companion object {
-        const val CHANNEL_ID = "0x6d7363"
-    }
-
-    protected var builder = NotificationCompat.Builder(service, CHANNEL_ID)
+    protected var builder = NotificationCompat.Builder(service, INotification.CHANNEL_ID)
 
     private var isCreated = false
 
@@ -121,12 +117,14 @@ open class NotificationImpl21 @Inject constructor(
             album: String,
             image: String){
 
-        val placeholder = CoverUtils.getGradient(service, id.toInt())
-        service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
-            builder.setLargeIcon(it)
-                    .setContentTitle(title)
-                    .setContentText(artist)
-                    .setSubText(album)
+        println(measureTimeMillis {
+            val placeholder = CoverUtils.getGradient(service, id.toInt())
+            service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
+                builder.setLargeIcon(it)
+                        .setContentTitle(title)
+                        .setContentText(artist)
+                        .setSubText(album)
+            })
         })
     }
 

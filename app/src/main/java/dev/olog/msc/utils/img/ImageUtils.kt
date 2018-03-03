@@ -4,9 +4,25 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.webkit.URLUtil
+import java.io.File
 import java.io.InputStream
 
 object ImageUtils {
+
+    fun createNotificationImage(context: Context, image: String, id: Int){
+        val uri = Uri.fromFile(File(image))
+        val isUrl = when {
+            URLUtil.isNetworkUrl(image) -> true
+            else -> false
+        }
+
+        if (isUrl){
+
+        }
+
+    }
+
 
     fun getBitmap(context: Context, uri: Uri, reqWidth: Int, reqHeight: Int): Bitmap? {
         return try {

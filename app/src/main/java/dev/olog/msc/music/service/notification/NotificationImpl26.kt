@@ -31,7 +31,7 @@ class NotificationImpl26 @Inject constructor(
         val description = service.getString(R.string.music_channel_id_notification_description)
 
         val importance = NotificationManager.IMPORTANCE_LOW
-        val channel = NotificationChannel(CHANNEL_ID, name, importance)
+        val channel = NotificationChannel(INotification.CHANNEL_ID, name, importance)
         channel.description = description
         channel.setShowBadge(false)
         channel.lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC

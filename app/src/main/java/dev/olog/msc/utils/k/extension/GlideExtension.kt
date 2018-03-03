@@ -18,6 +18,14 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
                       size: Int, action: (Bitmap) -> Unit,
                       extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null){
 
+    try {
+        val prova = Uri.parse(image)
+        println(prova.path)
+        println(File(prova.path).exists())
+    }catch (ex: Exception){
+
+    }
+
     val uri = Uri.fromFile(File(image))
     val realImage = when {
         File(uri.path).exists() -> uri
@@ -64,20 +72,3 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
     }
 
 }
-//
-//private fun Context.imageBuilder(
-//        image: Any,
-//        size: Int,
-//        extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null): GlideRequest<Bitmap>{
-//
-//    var builder = GlideApp.with(this)
-//            .asBitmap()
-//            .load(image)
-//            .override(size)
-//
-//    extend?.let {
-//        builder = builder.extend()
-//    }
-//
-//    return builder
-//}
