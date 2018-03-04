@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.song
+package dev.olog.msc.presentation.edit.track
 
 import android.accounts.NetworkErrorException
 import android.app.Application
@@ -14,8 +14,8 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.song.image.DeleteSongImageUseCase
 import dev.olog.msc.domain.interactor.song.image.InsertSongImageUseCase
-import dev.olog.msc.presentation.edit.song.model.DisplayableSong
-import dev.olog.msc.presentation.edit.song.model.UpdateResult
+import dev.olog.msc.presentation.edit.track.model.DisplayableSong
+import dev.olog.msc.presentation.edit.track.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -27,7 +27,7 @@ import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 
-class EditSongFragmentViewModel(
+class EditTrackFragmentViewModel(
         private val application: Application,
         mediaId: MediaId,
         private val lastFmService: LastFmClient,

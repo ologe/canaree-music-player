@@ -28,6 +28,9 @@
 
     </group>
 
+    <item android:id="@+id/viewInfo"
+        android:title="@string/popup_edit_artist_info"/>
+
     <item android:id="@+id/delete"
         android:title="@string/popup_delete"/>
 

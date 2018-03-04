@@ -8,7 +8,9 @@
     <string name="popup_add_to_home_screen">Add to home screen</string>
     <string name="popup_remove_from_favorites">Remove from favorites</string>
     <string name="popup_add_to_queue">Add to queue</string>
-    <string name="popup_view_info">Edit song</string>
+    <string name="popup_edit_song_info">Edit song</string>
+    <string name="popup_edit_album_info">Edit album</string>
+    <string name="popup_edit_artist_info">Edit artist</string>
     <string name="popup_view_album">View album</string>
     <string name="popup_view_artist">View artist</string>
     <string name="popup_share">Share</string>

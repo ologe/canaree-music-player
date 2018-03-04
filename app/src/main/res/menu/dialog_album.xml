@@ -28,6 +28,9 @@
 
     </group>
 
+    <item android:id="@+id/viewInfo"
+        android:title="@string/popup_edit_album_info"/>
+
     <item android:id="@+id/viewArtist"
         android:title="@string/popup_view_artist"/>
 

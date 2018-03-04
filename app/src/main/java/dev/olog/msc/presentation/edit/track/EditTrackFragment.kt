@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.song
+package dev.olog.msc.presentation.edit.track
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -14,29 +14,29 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.edit.song.model.UpdateResult
+import dev.olog.msc.presentation.edit.track.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
-import kotlinx.android.synthetic.main.fragment_edit_song.*
+import kotlinx.android.synthetic.main.fragment_edit_track.*
 import javax.inject.Inject
 
 private const val RESULT_LOAD_IMAGE = 12346
 
-class EditSongFragment : BaseFragment() {
+class EditTrackFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "EditInfoFragment"
+        const val TAG = "EditTrackFragment"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId): EditSongFragment {
-            return EditSongFragment().withArguments(
+        fun newInstance(mediaId: MediaId): EditTrackFragment {
+            return EditTrackFragment().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString())
         }
     }
 
-    @Inject lateinit var viewModel: EditSongFragmentViewModel
+    @Inject lateinit var viewModel: EditTrackFragmentViewModel
     private var progressDialog: ProgressDialog? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -181,5 +181,5 @@ class EditSongFragment : BaseFragment() {
         progressDialog = null
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_edit_song
+    override fun provideLayoutId(): Int = R.layout.fragment_edit_track
 }

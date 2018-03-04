@@ -20,7 +20,7 @@
     </group>
 
     <item android:id="@+id/viewInfo"
-        android:title="@string/popup_view_info"/>
+        android:title="@string/popup_edit_song_info"/>
 
     <item android:id="@+id/viewAlbum"
         android:title="@string/popup_view_album"/>

@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.preferences.di
 import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
+import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.interfaces.pro.BillingImpl
 import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.preferences.PreferencesActivity
@@ -14,6 +15,7 @@ class PreferencesActivityModule(private val activity: PreferencesActivity) {
     internal fun provideActivity() : AppCompatActivity = activity
 
     @Provides
+    @PerActivity
     internal fun provideBilling(impl: BillingImpl): IBilling = impl
 
 }

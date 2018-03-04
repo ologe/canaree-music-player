@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.song.model
+package dev.olog.msc.presentation.edit.track.model
 
 enum class UpdateResult{
     OK,

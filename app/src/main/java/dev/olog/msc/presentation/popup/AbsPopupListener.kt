@@ -61,7 +61,7 @@ abstract class AbsPopupListener(
         }
     }
 
-    protected  fun viewInfo(navigator: Navigator, mediaId: MediaId){
+    protected fun viewInfo(navigator: Navigator, mediaId: MediaId){
         navigator.toEditInfoFragment(mediaId)
     }
 

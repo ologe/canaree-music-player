@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.song
+package dev.olog.msc.presentation.edit.track
 
 import android.app.Application
 import android.arch.lifecycle.ViewModel
@@ -10,7 +10,7 @@ import dev.olog.msc.domain.interactor.song.image.InsertSongImageUseCase
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject
 
-class EditSongFragmentViewModelFactory @Inject constructor(
+class EditTrackFragmentViewModelFactory @Inject constructor(
         private val application: Application,
         private val mediaId: MediaId,
         private val lastFm: LastFmClient,
@@ -22,7 +22,7 @@ class EditSongFragmentViewModelFactory @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return EditSongFragmentViewModel(
+        return EditTrackFragmentViewModel(
                 application, mediaId, lastFm, getSongUseCase,
                 insertSongImageUseCase, deleteSongImageUseCase
         ) as T
