@@ -4,12 +4,17 @@ import android.content.Context
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.scope.PerActivity
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
+@PerActivity
 class AboutActivityPresenter @Inject constructor(
-        @ApplicationContext private val context: Context
+        @ApplicationContext private val context: Context,
+        private val billing: IBilling
 
 ) {
 
@@ -36,5 +41,13 @@ class AboutActivityPresenter @Inject constructor(
             DisplayableItem(R.layout.item_about, PRIVACY_POLICY, context.getString(R.string.about_privacy_policy), context.getString(R.string.about_privacy_policy_description)),
             DisplayableItem(R.layout.item_about, BUY_PRO, context.getString(R.string.about_buy_pro), context.getString(R.string.about_buy_pro_description))
     )
+
+    fun buyPro(){
+        if (billing.isPremium()){
+            context.toast("You are already premium")
+        } else {
+            billing.purchasePremium()
+        }
+    }
 
 }

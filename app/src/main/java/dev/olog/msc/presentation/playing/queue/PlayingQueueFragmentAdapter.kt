@@ -68,16 +68,12 @@ class PlayingQueueFragmentAdapter @Inject constructor(
     }
 
     override fun onSwiped(position: Int) {
-//        if (currentPosition == position){
-            // todo working bad
-//            mediaProvider.skipToNext()
-//        }
-//        if (currentPosition > position){
-//            currentPosition--
-//        }
-//        if (currentPosition < position){
-//            currentPosition++
-//        }
+        if (currentPosition == position){
+            mediaProvider.skipToNext()
+        }
+        if (currentPosition > position){
+            currentPosition--
+        }
         super.onSwiped(position)
     }
 

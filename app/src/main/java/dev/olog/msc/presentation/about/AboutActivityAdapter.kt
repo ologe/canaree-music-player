@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 class AboutActivityAdapter @Inject constructor(
         @ActivityLifecycle lifecycle: Lifecycle,
-        private val navigator: Lazy<NavigatorAbout>
+        private val navigator: Lazy<NavigatorAbout>,
+        private val presenter: AboutActivityPresenter
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
@@ -32,6 +33,7 @@ class AboutActivityAdapter @Inject constructor(
                 AboutActivityPresenter.REPORT_BUGS -> navigator.get().reportBugs()
                 AboutActivityPresenter.WEBSITE_ID -> navigator.get().toWebsite()
                 AboutActivityPresenter.PRIVACY_POLICY -> navigator.get().toPrivacyPolicy()
+                AboutActivityPresenter.BUY_PRO -> presenter.buyPro()
             }
         }
     }
