@@ -41,7 +41,7 @@ class PlayerMetadata @Inject constructor(
         update(entity)
     }
 
-    override fun onPlay(entity: MediaEntity) {
+    override fun onMetadataChanged(entity: MediaEntity) {
         update(entity)
     }
 

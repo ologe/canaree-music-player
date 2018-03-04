@@ -10,9 +10,7 @@ interface PlayerLifecycle {
 
     interface Listener {
         fun onPrepare(entity: MediaEntity) {}
-        fun onPlay(entity: MediaEntity) {}
-        fun onResume() {}
-        fun onPause() {}
+        fun onMetadataChanged(entity: MediaEntity) {}
         fun onStateChanged(state: PlaybackStateCompat){}
     }
 

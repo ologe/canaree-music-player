@@ -103,8 +103,8 @@ class PlayerImpl @Inject constructor(
                 0, entity.id)
 
         listeners.forEach {
-            it.onPlay(entity)
             it.onStateChanged(state)
+            it.onMetadataChanged(entity)
         }
 
         playerState.toggleSkipToActions(playerModel.positionInQueue)
@@ -119,7 +119,6 @@ class PlayerImpl @Inject constructor(
         exoPlayer.playWhenReady = true
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark())
         listeners.forEach {
-            it.onResume()
             it.onStateChanged(playbackState)
         }
 
@@ -131,7 +130,6 @@ class PlayerImpl @Inject constructor(
         exoPlayer.playWhenReady = false
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark())
         listeners.forEach {
-            it.onPause()
             it.onStateChanged(playbackState)
         }
         noisy.get().unregister()

@@ -6,7 +6,6 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.media.AudioManager
-import android.os.Handler
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import dagger.Lazy
@@ -40,16 +39,16 @@ class MusicNotificationManager @Inject constructor(
     private var stopServiceAfterDelayDisposable: Disposable? = null
     private var notificationDisposable: Disposable? = null
 
-    private val handler = Handler()
     private val publisher = BehaviorSubject.create<Any>()
     private val currentState = MusicNotificationState()
+    private val publishDisposable : Disposable? = null
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
             onNextMetadata(entity)
         }
 
-        override fun onPlay(entity: MediaEntity) {
+        override fun onMetadataChanged(entity: MediaEntity) {
             onNextMetadata(entity)
         }
 
@@ -65,20 +64,27 @@ class MusicNotificationManager @Inject constructor(
         notificationDisposable = publisher
                 .toSerialized()
                 .observeOn(Schedulers.computation())
+                .filter {
+                    when (it){
+                        is MediaEntity -> currentState.isDifferentMetadata(it)
+                        is PlaybackStateCompat -> currentState.isDifferentState(it)
+                        else -> false
+                    }
+                }
                 .subscribe({
+                    publishDisposable.unsubscribe()
                     handler.removeCallbacks(runnable)
                     when (it){
                         is MediaEntity -> {
                             if (currentState.updateMetadata(it)) {
-                                handler.postDelayed(runnable, 200)
+                                handler.postDelayed(runnable, 350)
                             }
                         }
                         is PlaybackStateCompat -> {
                             if (currentState.updateState(it)){
-                                handler.post(runnable)
+                                handler.postDelayed(runnable, 100)
                             }
                         }
-                        else -> IllegalArgumentException("invalid item $it")
                     }
 
                 }, Throwable::printStackTrace)
@@ -86,8 +92,9 @@ class MusicNotificationManager @Inject constructor(
     }
 
     private val runnable = Runnable {
-        val notification = notificationImpl.update(currentState)
-        if (currentState.isPlaying){
+        val copy = currentState.copy()
+        val notification = notificationImpl.update(copy)
+        if (copy.isPlaying){
             startForeground(notification)
         } else {
             pauseForeground()

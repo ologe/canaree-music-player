@@ -56,7 +56,7 @@ class CurrentSong @Inject constructor(
             saveLastMetadata(entity)
         }
 
-        override fun onPlay(entity: MediaEntity) {
+        override fun onMetadataChanged(entity: MediaEntity) {
             publisher.onNext(entity)
             updateFavorite(entity)
             saveLastMetadata(entity)
