@@ -41,7 +41,7 @@ class MusicNotificationManager @Inject constructor(
 
     private val publisher = BehaviorSubject.create<Any>()
     private val currentState = MusicNotificationState()
-    private val publishDisposable : Disposable? = null
+    private var publishDisposable : Disposable? = null
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
@@ -73,16 +73,17 @@ class MusicNotificationManager @Inject constructor(
                 }
                 .subscribe({
                     publishDisposable.unsubscribe()
-                    handler.removeCallbacks(runnable)
                     when (it){
                         is MediaEntity -> {
                             if (currentState.updateMetadata(it)) {
-                                handler.postDelayed(runnable, 350)
+                                publishDisposable = Single.timer(350, TimeUnit.MILLISECONDS)
+                                        .subscribe({issueNotification()}, Throwable::printStackTrace)
                             }
                         }
                         is PlaybackStateCompat -> {
                             if (currentState.updateState(it)){
-                                handler.postDelayed(runnable, 100)
+                                publishDisposable = Single.timer(150, TimeUnit.MILLISECONDS)
+                                        .subscribe({issueNotification()}, Throwable::printStackTrace)
                             }
                         }
                     }
@@ -91,7 +92,7 @@ class MusicNotificationManager @Inject constructor(
 
     }
 
-    private val runnable = Runnable {
+    private fun issueNotification() {
         val copy = currentState.copy()
         val notification = notificationImpl.update(copy)
         if (copy.isPlaying){
@@ -105,6 +106,7 @@ class MusicNotificationManager @Inject constructor(
         stopForeground()
         stopServiceAfterDelayDisposable.unsubscribe()
         notificationDisposable.unsubscribe()
+        publishDisposable.unsubscribe()
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {
