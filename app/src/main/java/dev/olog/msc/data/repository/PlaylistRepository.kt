@@ -12,6 +12,7 @@ import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toPlaylist
 import dev.olog.msc.data.mapper.toPlaylistSong
+import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway

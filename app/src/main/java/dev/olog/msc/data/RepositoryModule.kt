@@ -47,10 +47,6 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun provideLastFmRepositoty(repository: LastFmRepository): LastFmCacheGateway
-
-    @Binds
-    @Singleton
-    abstract fun provideSongImageRepository(repository: SongImagesRepository): SongImageGateway
+    abstract fun provideLastFmRepository(repository: LastFmRepository): LastFmGateway
 
 }

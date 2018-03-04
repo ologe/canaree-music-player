@@ -1,4 +1,4 @@
-package dev.olog.msc.data.repository
+package dev.olog.msc.data.repository.util
 
 import android.content.ContentResolver
 import android.net.Uri

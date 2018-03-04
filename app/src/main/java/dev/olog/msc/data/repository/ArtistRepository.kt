@@ -49,14 +49,14 @@ class ArtistRepository @Inject constructor(
                                 song.toArtist(songs, albums)
                             }.sortedBy { it.name.toLowerCase() }
                             .toList()
-                }.map {
-                    val images = lastFmDao.getAllAlbumImagesBlocking()
-                    it.map {  artist ->
-                        val image = images.firstOrNull { it.id == artist.id }?.image
-                        if (image != null && image.isNotBlank()){
-                            artist.copy(image = image)
-                        } else artist
-                    }
+                }.map { it
+//                    val images = lastFmDao.getAllAlbumImagesBlocking() todo
+//                    it.map {  artist ->
+//                        val image = images.firstOrNull { it.id == artist.id }?.image
+//                        if (image != null && image.isNotBlank()){
+//                            artist.copy(image = image)
+//                        } else artist
+//                    }
                 }
     }
 

@@ -52,11 +52,6 @@ class ShapeImageView @JvmOverloads constructor(
                     drawable.cornerRadius = context.dip(radius).toFloat()
                     drawable.toBitmap(width, height)
                 }
-//                context.getString(R.string.prefs_icon_shape_squircle) -> {
-//                    setLayerType(View.LAYER_TYPE_HARDWARE, null)
-//                    val drawable = ContextCompat.getDrawable(context, R.drawable.shape_squircle)!!
-//                    drawable.toBitmap(width, height)
-//                }
                 else -> {
                     setLayerType(View.LAYER_TYPE_NONE, null)
                     null

@@ -2,44 +2,45 @@ package dev.olog.msc.presentation.edit.track
 
 import android.accounts.NetworkErrorException
 import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Intent
 import android.net.Uri
-import android.text.TextUtils
-import dev.olog.msc.api.last.fm.LastFmClient
+import androidx.text.isDigitsOnly
+import dev.olog.msc.app.App
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.song.image.DeleteSongImageUseCase
 import dev.olog.msc.domain.interactor.song.image.InsertSongImageUseCase
+import dev.olog.msc.presentation.NetworkConnectionPublisher
+import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.track.model.DisplayableSong
-import dev.olog.msc.presentation.edit.track.model.UpdateResult
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
-import io.reactivex.subjects.PublishSubject
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 
 class EditTrackFragmentViewModel(
-        private val application: Application,
+        application: Application,
         mediaId: MediaId,
-        private val lastFmService: LastFmClient,
+        private val lastFmGateway: LastFmGateway,
         getSongUseCase: GetSongUseCase,
         private val insertSongImageUseCase: InsertSongImageUseCase,
-        private val deleteSongImageUseCase: DeleteSongImageUseCase
+        private val deleteSongImageUseCase: DeleteSongImageUseCase,
+        private val connectionPublisher: NetworkConnectionPublisher
 
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val displayedImage = MutableLiveData<String>()
     private val displayedSong = MutableLiveData<DisplayableSong>()
-    private val connectivityMessagePush = PublishSubject.create<String>()
 
     private lateinit var originalSong : Song
     private var getSongDisposable : Disposable? = null
@@ -67,16 +68,14 @@ class EditTrackFragmentViewModel(
     fun observeData(): LiveData<DisplayableSong> = displayedSong
     fun observeImage(): LiveData<String> = displayedImage
 
-    fun observeConnectivity() : Observable<String> {
-        return connectivityMessagePush
-    }
+    fun observeConnectivity() : Observable<String> = connectionPublisher.observe()
 
     fun getSongId(): Int = originalSong.id.toInt()
 
     fun fetchSongInfo(){
         val song = this.originalSong
         fetchSongInfoDisposable.unsubscribe()
-        fetchSongInfoDisposable = lastFmService.fetchSongInfo(song.id, song.title, song.artist)
+        fetchSongInfoDisposable = lastFmGateway.getTrack(song.id, song.title, song.artist)
                 .subscribe({ newValue ->
                     val oldValue = displayedSong.value!!
                     displayedSong.postValue(oldValue.copy(
@@ -86,7 +85,7 @@ class EditTrackFragmentViewModel(
                     ))
                 }, {
                     if (it is NetworkErrorException){
-                        connectivityMessagePush.onNext("check your internet connection")
+                        connectionPublisher.next()
                     }
                     it.printStackTrace()
                     displayedSong.postValue(null)
@@ -96,13 +95,13 @@ class EditTrackFragmentViewModel(
     fun fetchAlbumArt() {
         val song = this.originalSong
         fetchAlbumImageDisposable.unsubscribe()
-        fetchAlbumImageDisposable = lastFmService
-                .fetchAlbumArt(song.id, song.title, song.artist, song.album)
+        fetchAlbumImageDisposable = lastFmGateway.getTrack(song.id, song.title, song.artist)
+                .map { it.image }
                 .subscribe({
                     displayedImage.postValue(it)
                 }, {
                     if (it is NetworkErrorException){
-                        connectivityMessagePush.onNext("check your internet connection")
+                        connectionPublisher.next()
                     }
                     displayedImage.postValue(null)
                     it.printStackTrace()
@@ -139,9 +138,9 @@ class EditTrackFragmentViewModel(
     ): UpdateResult {
         when {
             title.isBlank() -> return UpdateResult.EMPTY_TITLE
-            year.isNotBlank() && !TextUtils.isDigitsOnly(year) -> return UpdateResult.ILLEGAL_YEAR
-            disc.isNotBlank() && !TextUtils.isDigitsOnly(disc) -> return UpdateResult.ILLEGAL_DISC_NUMBER
-            track.isNotBlank() && !TextUtils.isDigitsOnly(track) -> return UpdateResult.ILLEGAL_TRACK_NUMBER
+            year.isNotBlank() && !year.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
+            disc.isNotBlank() && !disc.isDigitsOnly() -> return UpdateResult.ILLEGAL_DISC_NUMBER
+            track.isNotBlank() && !track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
 
         try {
@@ -149,25 +148,13 @@ class EditTrackFragmentViewModel(
             val audioFile = AudioFileIO.read(file)
             val tag = audioFile.tagOrCreateAndSetDefault
             tag.setField(FieldKey.TITLE, title)
-            if (artist.isNotBlank()){
-                tag.setField(FieldKey.ARTIST, artist)
-                tag.setField(FieldKey.ALBUM_ARTIST, artist)
-            }
-            if (album.isNotBlank()){
-                tag.setField(FieldKey.ALBUM, album)
-            }
-            if (genre.isNotBlank()){
-                tag.setField(FieldKey.GENRE, genre)
-            }
-            if (year.isNotBlank()){
-                tag.setField(FieldKey.YEAR, year)
-            }
-            if (disc.isNotBlank()){
-                tag.setField(FieldKey.DISC_NO, disc)
-            }
-            if (track.isNotBlank()){
-                tag.setField(FieldKey.TRACK, track)
-            }
+            tag.setField(FieldKey.ARTIST, artist)
+            tag.setField(FieldKey.ALBUM_ARTIST, artist)
+            tag.setField(FieldKey.ALBUM, album)
+            tag.setField(FieldKey.GENRE, genre)
+            tag.setField(FieldKey.YEAR, year)
+            tag.setField(FieldKey.DISC_NO, disc)
+            tag.setField(FieldKey.TRACK, track)
 
             audioFile.commit()
 
@@ -192,7 +179,7 @@ class EditTrackFragmentViewModel(
     private fun notifyMediaStore(song: Song){
         val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
         intent.data = Uri.fromFile(File(song.path))
-        application.sendBroadcast(intent)
+        getApplication<App>().sendBroadcast(intent)
     }
 
     private fun Song.toDisplayableSong(): DisplayableSong {

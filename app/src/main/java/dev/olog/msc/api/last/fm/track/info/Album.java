@@ -22,7 +22,7 @@ public class Album {
     public String url;
     @SerializedName("image")
     @Expose
-    public List<Image> image = new ArrayList<Image>();
+    public List<Image> image = new ArrayList<>();
     @SerializedName("@attr")
     @Expose
     public Attr attr;

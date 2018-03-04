@@ -1,16 +1,15 @@
 package dev.olog.msc.domain.interactor.song.image
 
-import dev.olog.msc.data.entity.SongImageEntity
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.gateway.SongImageGateway
+import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class InsertSongImageUseCase @Inject constructor(
         schedulers: IoScheduler,
-        private val gateway: SongImageGateway
+        private val gateway: LastFmGateway
 
 ) : CompletableUseCaseWithParam<Pair<Song, String>>(schedulers) {
 
@@ -21,9 +20,9 @@ class InsertSongImageUseCase @Inject constructor(
         val songId = song.id
 
         if (song.album.isNotBlank()){
-            return gateway.insert(SongImageEntity(albumId, true, image))
+            return gateway.insertAlbumImage(albumId, image)
         }
 
-        return gateway.insert(SongImageEntity(songId, false, image))
+        return gateway.insertTrackImage(songId, image)
     }
 }

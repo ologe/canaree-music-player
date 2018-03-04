@@ -8,8 +8,8 @@ import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.gateway.SongImageGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
@@ -46,7 +46,7 @@ class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val appPrefsUseCase: AppPreferencesUseCase,
-        private val songImageGateway: SongImageGateway
+        private val songImageGateway: LastFmGateway
 
 ) : SongGateway {
 
@@ -64,24 +64,20 @@ class SongRepository @Inject constructor(
                     }
                 }
                 .map {
-                    val images = songImageGateway.getAll()
-                    it.map { song ->
-                        val image = images.asSequence()
-                                .firstOrNull {
-                                    if (it.isAlbum){
-                                        it.id == song.albumId
-                                    } else {
-                                        it.id == song.id
-                                    }
-                                }?.image
+                    val images = songImageGateway.getAllImages()
+                            .sortedBy { it.id }
+                            .partition { it.isAlbum }
 
-                        if (image != null){
-                            song.copy(image = image)
+                    it.map { song ->
+                        val img = images.first.firstOrNull { it.id == song.albumId }?.image ?:
+                                images.second.firstOrNull { it.id == song.id }?.image
+
+                        if (img != null){
+                            song.copy(image = img)
                         } else song
                     }
                 }
                 .onErrorReturn { listOf() }
-//                .distinctUntilChanged()
     }
 
     private val cachedData = queryAllData()

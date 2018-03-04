@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.ImageView
+import androidx.view.isVisible
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
@@ -83,7 +84,7 @@ class DetailFragment : BaseFragment() {
             if (!isPortrait()){
                 BindingsAdapter.loadBigAlbumImage(cover, item[0])
             } else {
-                if (cover.isVisible()){
+                if (cover.isVisible){
                     val id = BindingsAdapter.resolveId(item[0].mediaId)
                     val drawable = CoverUtils.getGradient(ctx, id, item[0].mediaId.source)
                     cover.setImageDrawable(drawable)

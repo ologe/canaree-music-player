@@ -82,4 +82,6 @@
     <string name="common_visible">Visible</string>
     <string name="common_hidden">Hidden</string>
 
+    <string name="common_no_internet">Check your internet connection</string>
+
 </resources>

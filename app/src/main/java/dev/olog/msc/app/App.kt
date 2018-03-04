@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.Context
 import android.preference.PreferenceManager
+import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -29,6 +30,7 @@ class App : DaggerApplication() {
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
         initializeConstants()
         resetSleepTimer()
+        Stetho.initializeWithDefaults(this)
     }
 
     private fun initializeDebug(){

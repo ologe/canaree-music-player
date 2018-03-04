@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.edit.track.model
+package dev.olog.msc.presentation.edit
 
 enum class UpdateResult{
     OK,
