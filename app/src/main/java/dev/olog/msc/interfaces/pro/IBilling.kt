@@ -23,8 +23,8 @@ interface IBilling {
 }
 
 private const val PRO_VERSION_ID = "pro_version"
-private const val DEFAULT_PREMIUM = true
-private const val DEFAULT_TRIAL = true
+private const val DEFAULT_PREMIUM = false
+private const val DEFAULT_TRIAL = false
 
 class BillingImpl @Inject constructor(
         private val activity: AppCompatActivity
@@ -75,7 +75,7 @@ class BillingImpl @Inject constructor(
         println("onBillingSetupFinished with response code:$responseCode")
         val purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
         if (purchases.responseCode == BillingClient.BillingResponse.OK){
-//            isPremiumState = isProBought(purchases.purchasesList)
+            isPremiumState = isProBought(purchases.purchasesList)
         }
     }
 
@@ -87,7 +87,7 @@ class BillingImpl @Inject constructor(
         when (responseCode){
             BillingClient.BillingResponse.OK -> {
                 println("purchased")
-//                isPremiumState = isProBought(purchases)
+                isPremiumState = isProBought(purchases)
             }
             BillingClient.BillingResponse.USER_CANCELED -> {
                 println("user cancelled purchasing flow")
@@ -101,12 +101,15 @@ class BillingImpl @Inject constructor(
         return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
     }
 
-//    override fun isPremium(): Boolean = isPremium
     override fun isPremium(): Boolean = isTrialState || isPremiumState
 
     override fun observeIsPremium(): Observable<Boolean> {
         return Observables.combineLatest(premiumPublisher, trialPublisher,
-                { premium, trial -> premium || trial})
+                { premium, trial ->
+                    println("premium $premium")
+                    println("trial $trial")
+                    premium || trial
+                })
     }
 
     override fun purchasePremium() {

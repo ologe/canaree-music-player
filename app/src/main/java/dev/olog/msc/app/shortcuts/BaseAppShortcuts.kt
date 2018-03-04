@@ -25,13 +25,6 @@ abstract class BaseAppShortcuts(
             intent.action = AppConstants.SHORTCUT_DETAIL
             intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
-//            val img = when (mediaId.category){
-//                MediaIdCategory.ARTISTS -> image
-//                MediaIdCategory.ALBUMS,
-//                MediaIdCategory.SONGS -> Uri.parse(image)
-//                else -> Uri.fromFile(File(image))
-//            }
-
             val id = if (mediaId.isFolder) mediaId.categoryValue.hashCode().toLong()
             else mediaId.categoryValue.toLong()
 
