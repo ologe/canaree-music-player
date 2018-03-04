@@ -13,6 +13,7 @@ import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
+import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
@@ -37,7 +38,6 @@ import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.splash.SplashActivity
 import dev.olog.msc.presentation.utils.addRotateAnimation
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.RootUtils
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.toast
@@ -47,7 +47,8 @@ private const val NEXT_REQUEST_THRESHOLD : Long = 600 // ms
 
 class NavigatorImpl @Inject internal constructor(
         private val activity: AppCompatActivity,
-        private val popupFactory: PopupMenuFactory
+        private val popupFactory: PopupMenuFactory,
+        private val billing: IBilling
 
 ) : Navigator {
 
@@ -199,10 +200,10 @@ class NavigatorImpl @Inject internal constructor(
         val useAppEqualizer = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(context.getString(R.string.prefs_used_equalizer_key), true)
 
-        if (!RootUtils.isDeviceRooted() && useAppEqualizer){
+        if (billing.isPremium() && useAppEqualizer){
             toBuiltInEqualizer()
         } else {
-            searchEqualizer()
+            searchForEqualizer()
         }
     }
 
@@ -215,7 +216,7 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    private fun searchEqualizer(){
+    private fun searchForEqualizer(){
         val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
         if (intent.resolveActivity(activity.packageManager) != null){
             activity.startActivity(intent)
