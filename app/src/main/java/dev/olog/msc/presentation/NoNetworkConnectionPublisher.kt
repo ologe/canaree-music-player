@@ -7,7 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
-class NetworkConnectionPublisher @Inject constructor(
+class NoNetworkConnectionPublisher @Inject constructor(
         @ApplicationContext context: Context
 ) {
 

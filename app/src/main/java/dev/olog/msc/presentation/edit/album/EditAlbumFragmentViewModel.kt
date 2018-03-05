@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import androidx.text.isDigitsOnly
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.presentation.NetworkConnectionPublisher
+import dev.olog.msc.presentation.NoNetworkConnectionPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.exception.AbsentNetwork
@@ -22,7 +22,7 @@ import java.io.File
 
 class EditAlbumFragmentViewModel(
         application: Application,
-        private val connectionPublisher: NetworkConnectionPublisher,
+        private val connectionPublisher: NoNetworkConnectionPublisher,
         private val presenter: EditAlbumFragmentPresenter
 
 ) : AndroidViewModel(application) {

@@ -9,10 +9,7 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
-import dev.olog.msc.domain.interactor.util.GetAllArtistsNewRequestUseCase
-import dev.olog.msc.domain.interactor.util.GetAllFoldersNewRequestUseCase
-import dev.olog.msc.domain.interactor.util.GetAllGenresNewRequestUseCase
-import dev.olog.msc.domain.interactor.util.GetAllPlaylistsNewRequestUseCase
+import dev.olog.msc.domain.interactor.util.*
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -26,6 +23,7 @@ class ImagesCreator @Inject constructor(
         @ProcessLifecycle lifecycle: Lifecycle,
         private val getAllFoldersUseCase: GetAllFoldersNewRequestUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsNewRequestUseCase,
+        private val getAllAlbumsUseCase: GetAllAlbumsNewRequestUseCase,
         private val getAllArtistsUseCase: GetAllArtistsNewRequestUseCase,
         private val getAllGenresUseCase: GetAllGenresNewRequestUseCase,
         private val folderImagesCreator: FolderImagesCreator,
