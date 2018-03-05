@@ -22,6 +22,7 @@
     <string name="edit_song_image_not_found">Image not found</string>
 
     <string name="edit_song_invalid_title">Title can not be null</string>
+    <string name="edit_artist_invalid_title">Artist name can not be null</string>
     <string name="edit_song_invalid_disc_number">Invalid disc number</string>
     <string name="edit_song_invalid_track_number">Invalid track number</string>
     <string name="edit_song_invalid_year">Invalid year</string>

@@ -124,7 +124,7 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     override fun onLocalImageLoaded(uri: Uri) {
-        viewModel.setAlbumArt(uri)
+        viewModel.setAlbumArt(uri.toString())
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_track

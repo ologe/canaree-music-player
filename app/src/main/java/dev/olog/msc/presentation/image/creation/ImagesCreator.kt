@@ -33,7 +33,6 @@ class ImagesCreator @Inject constructor(
         private val playlistImagesCreator: PlaylistImagesCreator,
         private val genreImagesCreator: GenreImagesCreator
 
-
 ) : DefaultLifecycleObserver {
 
     private val subscriptions = CompositeDisposable()

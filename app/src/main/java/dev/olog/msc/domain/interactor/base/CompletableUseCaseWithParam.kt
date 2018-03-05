@@ -7,7 +7,7 @@ abstract class CompletableUseCaseWithParam<in Param>(
         private val schedulers: Schedulers
 ) {
 
-    internal abstract fun buildUseCaseObservable(param: Param): Completable
+    protected abstract fun buildUseCaseObservable(param: Param): Completable
 
     fun execute(param: Param): Completable {
         return Completable.defer { this.buildUseCaseObservable(param)

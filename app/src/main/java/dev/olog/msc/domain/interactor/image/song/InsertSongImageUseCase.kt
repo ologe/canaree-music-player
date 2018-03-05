@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.interactor.song.image
+package dev.olog.msc.domain.interactor.image.song
 
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler

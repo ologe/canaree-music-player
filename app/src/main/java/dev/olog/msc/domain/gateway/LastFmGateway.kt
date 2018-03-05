@@ -12,6 +12,7 @@ interface LastFmGateway {
 
     fun getTrack(trackId: Long, title: String, artist: String): Single<LastFmTrack>
     fun getAlbum(albumId: Long, album: String, artist: String): Single<LastFmAlbum>
+    fun getArtist(artistId: Long, artist: String): Single<Boolean>
 
     fun insertTrackImage(trackId: Long, image: String): Completable
     fun insertAlbumImage(albumId: Long, image: String): Completable

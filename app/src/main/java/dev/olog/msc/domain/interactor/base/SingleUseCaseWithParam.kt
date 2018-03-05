@@ -8,7 +8,7 @@ abstract class SingleUseCaseWithParam<T, Param>(
         private val schedulers: Schedulers
 ) {
 
-    internal abstract fun buildUseCaseObservable(param: Param): Single<T>
+    protected abstract fun buildUseCaseObservable(param: Param): Single<T>
 
     fun execute(param: Param): Single<T> {
         return Single.defer { this.buildUseCaseObservable(param)

@@ -1,27 +1,22 @@
 package dev.olog.msc.data.repository
 
-import android.accounts.NetworkErrorException
 import android.arch.persistence.room.EmptyResultSetException
 import android.net.ConnectivityManager
 import dev.olog.msc.api.last.fm.LastFmService
-import dev.olog.msc.api.last.fm.album.info.AlbumInfo
-import dev.olog.msc.api.last.fm.album.search.AlbumSearch
 import dev.olog.msc.api.last.fm.annotation.Proxy
-import dev.olog.msc.api.last.fm.track.info.TrackInfo
-import dev.olog.msc.api.last.fm.track.search.TrackSearch
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.db.UsedImage
 import dev.olog.msc.data.db.UsedImageEntity
-import dev.olog.msc.data.entity.LastFmAlbumEntity
-import dev.olog.msc.data.entity.LastFmTrackEntity
+import dev.olog.msc.data.mapper.toDomain
+import dev.olog.msc.data.mapper.toModel
 import dev.olog.msc.domain.entity.LastFmAlbum
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.gateway.LastFmGateway
+import dev.olog.msc.utils.exception.AbsentNetwork
 import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import me.xdrop.fuzzywuzzy.FuzzySearch
 import javax.inject.Inject
 
 class LastFmRepository @Inject constructor(
@@ -44,7 +39,7 @@ class LastFmRepository @Inject constructor(
         if (!connectivityManager.isNetworkAvailable()){
             return cached.onErrorResumeNext {
                 if (it is EmptyResultSetException){
-                    Single.error(NetworkErrorException())
+                    Single.error(AbsentNetwork())
                 } else Single.error(it)
             }
         }
@@ -75,7 +70,7 @@ class LastFmRepository @Inject constructor(
         if (!connectivityManager.isNetworkAvailable()){
             return cached.onErrorResumeNext {
                 if (it is EmptyResultSetException){
-                    Single.error(NetworkErrorException())
+                    Single.error(AbsentNetwork())
                 } else Single.error(it)
             }
         }
@@ -95,6 +90,23 @@ class LastFmRepository @Inject constructor(
                                 .onErrorReturn { result }
                         }
                 }
+
+        return cached.onErrorResumeNext(fetch)
+    }
+
+    override fun getArtist(artistId: Long, artist: String): Single<Boolean> {
+        val cached = dao.getArtist(artistId)
+                .map { false }
+
+        if (!connectivityManager.isNetworkAvailable()){
+            return cached.onErrorReturn { false }
+        }
+
+        val fetch = lastFmService.getArtistInfo(artist)
+                .map {
+                    dao.insertArtist(it.toModel(artistId))
+                    true
+                }.onErrorReturn { false }
 
         return cached.onErrorResumeNext(fetch)
     }
@@ -121,102 +133,6 @@ class LastFmRepository @Inject constructor(
         return Completable.fromCallable {
             dao.deleteUsedAlbumImage(albumId)
         }.subscribeOn(Schedulers.io())
-    }
-
-    private fun LastFmTrackEntity.toDomain(): LastFmTrack {
-        return LastFmTrack(
-                this.id,
-                this.title,
-                this.artist,
-                this.album,
-                this.image
-        )
-    }
-
-    private fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
-        return LastFmAlbum(
-                this.id,
-                this.title,
-                this.artist,
-                this.image
-        )
-    }
-
-    private fun TrackInfo.toDomain(id: Long): LastFmTrack {
-        val track = this.track
-        val title = track.name
-        val artist = track.artist.name
-        val album = track.album.title
-        val image = track.album.image.reversed().first { it.text.isNotBlank() }.text
-
-        return LastFmTrack(
-                id,
-                title ?: "",
-                artist ?: "",
-                album ?: "",
-                image
-        )
-    }
-
-    private fun TrackInfo.toModel(id: Long): LastFmTrackEntity {
-        val track = this.track
-        val title = track.name
-        val artist = track.artist.name
-        val album = track.album.title
-        val image = track.album.image.reversed().first { it.text.isNotBlank() }.text
-
-        return LastFmTrackEntity(
-                id,
-                title ?: "",
-                artist ?: "",
-                album ?: "",
-                image
-        )
-    }
-
-    private fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
-        val album = this.album
-        return LastFmAlbum(
-                id,
-                album.name,
-                album.artist,
-                album.image.reversed().first { it.text.isNotBlank() }.text
-        )
-    }
-
-    private fun AlbumInfo.toModel(id: Long): LastFmAlbumEntity {
-        val album = this.album
-        return LastFmAlbumEntity(
-                id,
-                album.name,
-                album.artist,
-                album.image.reversed().first { it.text.isNotBlank() }.text
-        )
-    }
-
-    private fun TrackSearch.toDomain(id: Long): LastFmTrack {
-        val track = this.results.trackmatches.track[0]
-
-        return LastFmTrack(
-                id,
-                track.name ?: "",
-                track.artist ?: "",
-                "",
-                ""
-        )
-    }
-
-    private fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
-        val results = this.results.albummatches.album
-        val bestArtist = FuzzySearch.extractOne(originalArtist, results.map { it.artist }).string
-        val best = results.first { it.artist == bestArtist }
-
-        return LastFmAlbum(
-                id,
-                best.name,
-                best.artist,
-                best.image.reversed().first { it.text.isNotBlank() }.text
-        )
     }
 
     private fun UsedImageEntity.toDomain(): UsedImage {
