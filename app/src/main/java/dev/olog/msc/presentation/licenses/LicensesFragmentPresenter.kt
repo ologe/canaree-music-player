@@ -85,18 +85,6 @@ class LicensesFragmentPresenter @Inject constructor() {
             "Glide", "https://github.com/bumptech/glide",
             Licenses.glide())
 
-    private val JSOUP = LicenseModel(
-            R.layout.item_license,
-            MediaId.headerId("jsoup"),
-            "jsoup", "https://jsoup.org/",
-            Licenses.jsoupMit())
-
-    private val ANKO = LicenseModel(
-            R.layout.item_license,
-            MediaId.headerId("anko"),
-            "Anko", "https://github.com/Kotlin/anko",
-            Licenses.apacheLong())
-
     private val BETTER_PICKERS = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("betterPickers"),
@@ -123,8 +111,6 @@ class LicensesFragmentPresenter @Inject constructor() {
             HOVER,
             LOTTIE,
             GLIDE,
-            JSOUP,
-            ANKO,
             BETTER_PICKERS,
             ANDROID_KTX
     )
@@ -176,17 +162,6 @@ private object Licenses {
                     "The views and conclusions contained in the software and documentation are those of the\n" +
                     "authors and should not be interpreted as representing official policies, either expressed\n" +
                     "or implied, of Google, Inc."
-
-    fun jsoupMit() = "The jsoup code-base (including source and compiled packages) are distributed under the open source MIT license as described below.\n" +
-            "\n" +
-            "The MIT License\n" +
-            "Copyright © 2009 - 2017 Jonathan Hedley (jonathan@hedley.net)\n" +
-            "\n" +
-            "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n" +
-            "\n" +
-            "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n" +
-            "\n" +
-            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 
     fun apacheLong(year: String = "yyyy", owner: String = "name of copyright owner") =
             "                       Apache License\n" +

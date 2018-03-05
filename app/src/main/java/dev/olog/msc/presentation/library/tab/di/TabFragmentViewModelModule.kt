@@ -18,7 +18,6 @@ import dev.olog.msc.utils.k.extension.startWith
 import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.rxkotlin.withLatestFrom
 
 @Module
 class TabFragmentViewModelModule {
@@ -50,7 +49,7 @@ class TabFragmentViewModelModule {
                 .mapToList { it.toTabDisplayableItem(resources) }
                 .map { it.startWith(headers.autoPlaylistHeader) }
 
-        return playlistObs.withLatestFrom(autoPlaylistObs, { playlist, autoPlaylist ->
+        return Observables.combineLatest(playlistObs, autoPlaylistObs, { playlist, autoPlaylist ->
             autoPlaylist.plus(playlist)
         })
     }
