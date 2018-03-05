@@ -12,9 +12,10 @@ import dev.olog.msc.app.App
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.detail.item.GetAlbumUseCase
+import dev.olog.msc.domain.interactor.last.fm.GetLastFmAlbumUseCase
+import dev.olog.msc.domain.interactor.last.fm.LastFmAlbumRequest
 import dev.olog.msc.presentation.NetworkConnectionPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -34,9 +35,9 @@ class EditAlbumFragmentViewModel(
         getAlbumUseCase: GetAlbumUseCase,
         getSongListByParamUseCase: GetSongListByParamUseCase,
         private val connectionPublisher: NetworkConnectionPublisher,
-        private val lastFmGateway: LastFmGateway
+        private val getLastFmAlbumUseCase: GetLastFmAlbumUseCase
 
-        ) : AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
     private val songList = MutableLiveData<List<Song>>()
 
@@ -101,7 +102,7 @@ class EditAlbumFragmentViewModel(
     fun fetchAlbumInfo(){
         val album = this.originalAlbum
         fetchAlbumInfoDisposable.unsubscribe()
-        fetchAlbumInfoDisposable = lastFmGateway.getAlbum(album.id, album.title, album.artist)
+        fetchAlbumInfoDisposable = getLastFmAlbumUseCase.execute(LastFmAlbumRequest(album.id, album.title, album.artist))
                 .subscribe({ newValue ->
                     val oldValue = displayedAlbum.value!!
                     displayedAlbum.postValue(oldValue.copy(
@@ -121,7 +122,7 @@ class EditAlbumFragmentViewModel(
     fun fetchAlbumArt(){
         val album = this.originalAlbum
         fetchAlbumImageDisposable.unsubscribe()
-        fetchAlbumImageDisposable = lastFmGateway.getAlbum(album.id, album.title, album.artist)
+        fetchAlbumImageDisposable = getLastFmAlbumUseCase.execute(LastFmAlbumRequest(album.id, album.title, album.artist))
                 .map { it.image }
                 .subscribe(displayedImage::postValue, {
                     if (it is NetworkErrorException){

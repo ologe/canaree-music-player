@@ -14,7 +14,7 @@ import io.reactivex.Observable
 abstract class FolderMostPlayedDao {
 
     @Query("SELECT songId, count(*) as timesPlayed " +
-            "FROM mostplayedfolder " +
+            "FROM most_played_folder " +
             "WHERE folderPath = :folderPath " +
             "GROUP BY songId " +
             "HAVING count(*) >= 5 " +

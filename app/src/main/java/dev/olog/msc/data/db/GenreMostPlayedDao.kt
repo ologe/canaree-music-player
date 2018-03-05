@@ -14,7 +14,7 @@ import io.reactivex.Observable
 abstract class GenreMostPlayedDao {
 
     @Query("SELECT songId, count(*) as timesPlayed " +
-            "FROM mostplayedgenre " +
+            "FROM most_played_genre " +
             "WHERE genreId = :genreId " +
             "GROUP BY songId " +
             "HAVING count(*) >= 5 " +

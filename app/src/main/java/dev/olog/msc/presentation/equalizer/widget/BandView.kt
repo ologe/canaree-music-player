@@ -1,8 +1,6 @@
 package dev.olog.msc.presentation.equalizer.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Vibrator
 import android.support.v4.math.MathUtils
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -15,6 +13,7 @@ import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
 import dev.olog.msc.utils.k.extension.dimen
+import dev.olog.msc.utils.k.extension.vibrate
 
 class BandView (
         context: Context,
@@ -113,13 +112,7 @@ class BandView (
         view.alpha = 1f
         currentLevel.visibility = View.VISIBLE
 
-        vibrate()
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun vibrate(){
-        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrator.vibrate(40)
+        context.vibrate(40)
     }
 
     private fun onMoveInteraction(y: Float){

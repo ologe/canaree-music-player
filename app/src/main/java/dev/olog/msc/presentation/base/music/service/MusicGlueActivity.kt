@@ -54,6 +54,7 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
             when (it){
                 MusicServiceConnectionState.CONNECTED -> onConnected()
                 MusicServiceConnectionState.FAILED -> onConnectionFailed()
+                else -> {}
             }
 
         }, Throwable::printStackTrace)

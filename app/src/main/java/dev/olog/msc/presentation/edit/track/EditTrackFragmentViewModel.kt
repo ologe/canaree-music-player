@@ -11,8 +11,9 @@ import androidx.text.isDigitsOnly
 import dev.olog.msc.app.App
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
+import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
+import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
 import dev.olog.msc.domain.interactor.song.image.DeleteSongImageUseCase
 import dev.olog.msc.domain.interactor.song.image.InsertSongImageUseCase
 import dev.olog.msc.presentation.NetworkConnectionPublisher
@@ -31,11 +32,11 @@ import java.io.File
 class EditTrackFragmentViewModel(
         application: Application,
         mediaId: MediaId,
-        private val lastFmGateway: LastFmGateway,
         getSongUseCase: GetSongUseCase,
         private val insertSongImageUseCase: InsertSongImageUseCase,
         private val deleteSongImageUseCase: DeleteSongImageUseCase,
-        private val connectionPublisher: NetworkConnectionPublisher
+        private val connectionPublisher: NetworkConnectionPublisher,
+        private val getLastFmTrackUseCase: GetLastFmTrackUseCase
 
 ) : AndroidViewModel(application) {
 
@@ -75,7 +76,7 @@ class EditTrackFragmentViewModel(
     fun fetchSongInfo(){
         val song = this.originalSong
         fetchSongInfoDisposable.unsubscribe()
-        fetchSongInfoDisposable = lastFmGateway.getTrack(song.id, song.title, song.artist)
+        fetchSongInfoDisposable = getLastFmTrackUseCase.execute(LastFmTrackRequest(song.id, song.title, song.artist))
                 .subscribe({ newValue ->
                     val oldValue = displayedSong.value!!
                     displayedSong.postValue(oldValue.copy(
@@ -95,7 +96,7 @@ class EditTrackFragmentViewModel(
     fun fetchAlbumArt() {
         val song = this.originalSong
         fetchAlbumImageDisposable.unsubscribe()
-        fetchAlbumImageDisposable = lastFmGateway.getTrack(song.id, song.title, song.artist)
+        fetchAlbumImageDisposable = getLastFmTrackUseCase.execute(LastFmTrackRequest(song.id, song.title, song.artist))
                 .map { it.image }
                 .subscribe({
                     displayedImage.postValue(it)

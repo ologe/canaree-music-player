@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package dev.olog.msc.presentation.edit
 
 import android.app.Activity

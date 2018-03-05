@@ -5,7 +5,7 @@ import android.arch.persistence.room.Index
 import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "last_fm_track",
-        indices = arrayOf(Index("id")))
+        indices = [(Index("id"))])
 data class LastFmTrackEntity(
         @PrimaryKey val id: Long,
         val title: String,
@@ -15,7 +15,7 @@ data class LastFmTrackEntity(
 )
 
 @Entity(tableName = "last_fm_album",
-        indices = arrayOf(Index("id")))
+        indices = [(Index("id"))])
 data class LastFmAlbumEntity(
         @PrimaryKey val id: Long,
         val title: String,
@@ -24,7 +24,7 @@ data class LastFmAlbumEntity(
 )
 
 @Entity(tableName = "last_fm_artist",
-        indices = arrayOf(Index("id")))
+        indices = [(Index("id"))])
 data class LastFmArtistEntity(
         @PrimaryKey val id: Long,
         val image: String

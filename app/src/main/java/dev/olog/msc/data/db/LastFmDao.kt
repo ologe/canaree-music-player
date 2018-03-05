@@ -18,7 +18,7 @@ abstract class LastFmDao {
     internal abstract fun getTrack(id: Long): Single<LastFmTrackEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertTrack(entity: LastFmTrackEntity)
+    internal abstract fun insertTrack(entity: LastFmTrackEntity): Long
 
     // album
 
@@ -26,7 +26,7 @@ abstract class LastFmDao {
     internal abstract fun getAlbum(id: Long): Single<LastFmAlbumEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertAlbum(entity: LastFmAlbumEntity)
+    internal abstract fun insertAlbum(entity: LastFmAlbumEntity): Long
 
     // artist
 
@@ -34,7 +34,7 @@ abstract class LastFmDao {
     internal abstract fun getArtist(id: Long): Single<LastFmArtistEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertArtist(entity: LastFmArtistEntity)
+    internal abstract fun insertArtist(entity: LastFmArtistEntity): Long
 
     // used images
 

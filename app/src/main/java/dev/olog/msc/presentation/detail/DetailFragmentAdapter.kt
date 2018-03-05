@@ -51,7 +51,7 @@ class DetailFragmentAdapter @Inject constructor(
         when (viewType) {
             R.layout.item_detail_item_info -> {
                 if (mediaId.isAlbum){
-                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { item, _, _ ->
+                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { _, _, _ ->
                         viewModel.artistMediaId()
                                 .subscribe({ artistMediaId ->
                                     navigator.toDetailFragment(artistMediaId)

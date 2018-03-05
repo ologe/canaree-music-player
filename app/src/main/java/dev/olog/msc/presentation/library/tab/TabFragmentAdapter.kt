@@ -48,6 +48,7 @@ class TabFragmentAdapter @Inject constructor(
                         mediaProvider.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
+                        @Suppress("NON_EXHAUSTIVE_WHEN")
                         when (item.mediaId.category){
                             MediaIdCategory.ARTISTS -> {
                                 viewModel.insertArtistLastPlayed(item.mediaId)

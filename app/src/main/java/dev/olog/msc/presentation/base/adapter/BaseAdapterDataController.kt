@@ -33,6 +33,7 @@ class BaseAdapterDataController<Model : BaseModel>
                         is BaseModel -> Single.just(listOf(it))
                         is List<*> -> Single.just(it)
                         is Map<*,*> -> {
+                            @Suppress("UNCHECKED_CAST")
                             val values = it.values as Collection<List<*>>
                             val result = values.reduce { total, current -> total.plus(current) }
                             Single.just(result)

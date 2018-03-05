@@ -52,6 +52,7 @@ class MusicServiceBinder @Inject constructor(
             when (it){
                 MusicServiceConnectionState.CONNECTED -> onConnected()
                 MusicServiceConnectionState.FAILED -> onConnectionFailed()
+                else -> {}
             }
         }, Throwable::printStackTrace)
         mediaBrowser.connect()

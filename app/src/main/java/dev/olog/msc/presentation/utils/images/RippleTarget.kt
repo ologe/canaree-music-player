@@ -9,7 +9,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.ForegroundImageView
 import dev.olog.msc.presentation.widget.parallax.ParallaxImageView
-import dev.olog.msc.utils.ViewUtils
+import dev.olog.msc.utils.RippleUtils
 import dev.olog.msc.utils.k.extension.getBitmap
 
 class RippleTarget(
@@ -38,11 +38,11 @@ class RippleTarget(
             val darkAlpha = .5f
             val lightAlpha = .6f
 
-            imageView.foreground = ViewUtils.createRipple(palette, darkAlpha,
+            imageView.foreground = RippleUtils.create(palette, darkAlpha,
                     lightAlpha, fallbackColor, true)
 
             if (imageView is ParallaxImageView){
-                imageView.setScrimColor(ViewUtils.createRippleColor(palette, darkAlpha,
+                imageView.setScrimColor(RippleUtils.createColor(palette, darkAlpha,
                         lightAlpha, fallbackColor))
             }
         }

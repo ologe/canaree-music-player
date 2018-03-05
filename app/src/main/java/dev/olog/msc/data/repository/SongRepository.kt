@@ -46,7 +46,7 @@ class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val appPrefsUseCase: AppPreferencesUseCase,
-        private val songImageGateway: LastFmGateway
+        private val lastFmGateway: LastFmGateway
 
 ) : SongGateway {
 
@@ -64,7 +64,7 @@ class SongRepository @Inject constructor(
                     }
                 }
                 .map {
-                    val images = songImageGateway.getAllImages()
+                    val images = lastFmGateway.getAllImages()
                             .sortedBy { it.id }
                             .partition { it.isAlbum }
 

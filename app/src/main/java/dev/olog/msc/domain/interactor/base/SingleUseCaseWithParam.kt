@@ -14,7 +14,6 @@ abstract class SingleUseCaseWithParam<T, Param>(
         return Single.defer { this.buildUseCaseObservable(param)
                 .subscribeOn(schedulers.worker)
                 .observeOn(schedulers.ui) }
-//                .doOnError { it.printStackTrace() }
     }
 
 }

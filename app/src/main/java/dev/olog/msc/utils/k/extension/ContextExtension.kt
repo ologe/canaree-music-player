@@ -1,13 +1,18 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.msc.utils.k.extension
 
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.widget.Toast
+import dev.olog.msc.utils.isOreo
 
 val Context.isPortrait: Boolean
     get() = configuration.orientation == Configuration.ORIENTATION_PORTRAIT
@@ -43,3 +48,13 @@ inline fun Context.toast(message: CharSequence): Toast = Toast
 
 inline val Context.configuration: android.content.res.Configuration
     get() = resources.configuration
+
+fun Context.vibrate(time: Long){
+    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    if(isOreo()){
+        val effect = VibrationEffect.createOneShot(time, VibrationEffect.DEFAULT_AMPLITUDE)
+        vibrator.vibrate(effect)
+    } else {
+        vibrator.vibrate(time)
+    }
+}

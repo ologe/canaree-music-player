@@ -14,7 +14,7 @@ import io.reactivex.Observable
 abstract class PlaylistMostPlayedDao {
 
     @Query("SELECT songId, count(*) as timesPlayed " +
-            "FROM mostplayedplaylist " +
+            "FROM most_played_playlist " +
             "WHERE playlistId = :playlistId " +
             "GROUP BY songId " +
             "HAVING count(*) >= 5 " +

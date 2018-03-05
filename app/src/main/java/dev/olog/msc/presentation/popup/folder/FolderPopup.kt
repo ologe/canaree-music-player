@@ -8,6 +8,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 
+@Suppress("UNUSED_PARAMETER")
 class FolderPopup (
         view: View,
         folder: Folder,
