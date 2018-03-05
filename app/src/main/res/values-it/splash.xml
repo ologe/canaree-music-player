@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="welcome_to_app">Benvenuto su Next</string>
+    <string name="splash_player_controls">Controlli riproduzione</string>
+    <string name="splash_player_tutorial_1">Premi sull\'immagine per riprodurre/mettere in pausa</string>
+    <string name="splash_player_tutorial_2">Premi sui bordi dell\'immagine o fai uno swipe per cambiare brano</string>
+
+    <string name="splash_storage_permission">Permesso di archiviazione</string>
+    <string name="splash_storage_permission_disabled">L\'app necessita del permesso di archiviazione per funzionare</string>
+
+</resources>

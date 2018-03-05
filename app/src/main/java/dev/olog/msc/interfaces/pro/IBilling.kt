@@ -98,7 +98,8 @@ class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
+//        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
+        return true
     }
 
     override fun isPremium(): Boolean = isTrialState || isPremiumState

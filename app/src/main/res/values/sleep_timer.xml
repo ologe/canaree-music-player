@@ -3,7 +3,6 @@
     
     <style name="SleepTimerTheme" parent="BetterPickersDialogFragment.Light"/>
 
-
     <string name="sleep_timer_stop">Stop</string>
     <string name="sleep_timer_positive">@string/popup_positive_ok</string>
     <string name="sleep_timer_set">Timer set</string>

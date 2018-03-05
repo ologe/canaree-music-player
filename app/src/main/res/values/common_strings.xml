@@ -75,9 +75,9 @@
     <string name="common_no_tracks">No tracks</string>
     <string name="common_no_results">No results</string>
 
-    <string name="common_explicit">Explicit</string>
-    <string name="common_explicit_short">E</string>
-    <string name="common_remix">Remix</string>
+    <string name="common_explicit" translatable="false">Explicit</string>
+    <string name="common_explicit_short" translatable="false">E</string>
+    <string name="common_remix" translatable="false">Remix</string>
 
     <string name="common_visible">Visible</string>
     <string name="common_hidden">Hidden</string>
