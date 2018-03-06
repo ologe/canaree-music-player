@@ -3,8 +3,9 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.Context
 import android.preference.PreferenceManager
-import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.facebook.stetho.Stetho
+import com.squareup.leakcanary.LeakCanary
+import com.tspoon.traceur.Traceur
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -14,7 +15,6 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.PendingIntents
-import dev.olog.msc.utils.img.CoverUtils
 import javax.inject.Inject
 
 
@@ -28,23 +28,23 @@ class App : DaggerApplication() {
         super.onCreate()
 
         initializeDebug()
-        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
         initializeConstants()
         resetSleepTimer()
-        Stetho.initializeWithDefaults(this)
     }
 
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
-//            LeakCanary.install(this)
-//            StrictMode.initialize()
-            RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf("dev.olog.msc"))
+            Stetho.initializeWithDefaults(this)
+            LeakCanary.install(this)
+            StrictMode.initialize()
+//            RxJava2Debug.enableRxJava2AssemblyTracking()
+            Traceur.enableLogging()
         }
     }
 
     private fun initializeConstants(){
         AppConstants.initialize(this)
-        CoverUtils.initialize()
+        PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
     }
 
     private fun resetSleepTimer(){

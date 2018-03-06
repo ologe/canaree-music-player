@@ -4,13 +4,13 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
-import android.support.v7.preference.PreferenceManager
 import android.util.AttributeSet
 import android.view.View
 import androidx.graphics.drawable.toBitmap
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.widget.ForegroundImageView
-import dev.olog.msc.utils.k.extension.dip
+import dev.olog.msc.utils.k.extension.dipf
 
 private const val DEFAULT_RADIUS = 5
 
@@ -43,14 +43,12 @@ class ShapeImageView @JvmOverloads constructor(
 
     private fun getMask(): Bitmap? {
         if (mask == null){
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val value = prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
-            mask = when (value){
+            mask = when (AppConstants.ICON_SHAPE){
                 context.getString(R.string.prefs_icon_shape_rounded) -> {
                     setLayerType(View.LAYER_TYPE_HARDWARE, null)
                     val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner)!! as GradientDrawable
-                    drawable.cornerRadius = context.dip(radius).toFloat()
-                    drawable.toBitmap(width, height)
+                    drawable.cornerRadius = context.dipf(radius)
+                    drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
                 }
                 else -> {
                     setLayerType(View.LAYER_TYPE_NONE, null)

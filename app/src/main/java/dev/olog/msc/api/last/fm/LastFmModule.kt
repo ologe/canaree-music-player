@@ -14,21 +14,21 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Qualifier
 import javax.inject.Singleton
-
-@Qualifier
-annotation class LogInterceptor
-
-@Qualifier
-annotation class HeaderInterceptor
 
 @Module
 class LastFmModule {
 
     @Provides
-    @LogInterceptor
-    fun provideInterceptor(): Interceptor {
+    @Singleton
+    internal fun provideOkHttp(@ApplicationContext context: Context): OkHttpClient {
+        return OkHttpClient.Builder()
+                .addNetworkInterceptor(logInterceptor())
+                .addInterceptor(headerInterceptor(context))
+                .build()
+    }
+
+    private fun logInterceptor(): Interceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG){
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -39,9 +39,7 @@ class LastFmModule {
         return loggingInterceptor
     }
 
-    @Provides
-    @HeaderInterceptor
-    fun provideHeaderInterceptor(@ApplicationContext context: Context): Interceptor{
+    private fun headerInterceptor(context: Context): Interceptor{
         return Interceptor {
             val original = it.request()
             val request = original.newBuilder()
@@ -53,18 +51,8 @@ class LastFmModule {
     }
 
     @Provides
-    fun provideLogInterceptor(
-            @LogInterceptor logInterceptor: Interceptor,
-            @HeaderInterceptor headerInterceptor: Interceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-                .addNetworkInterceptor(logInterceptor)
-                .addInterceptor(headerInterceptor)
-                .build()
-    }
-
-    @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
+    internal fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .baseUrl("http://ws.audioscrobbler.com/2.0/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -75,15 +63,13 @@ class LastFmModule {
 
     @Provides
     @Impl
-    fun provideLastFmRest(retrofit: Retrofit): LastFmService {
+    internal fun provideLastFmRest(retrofit: Retrofit): LastFmService {
         return retrofit.create(LastFmService::class.java)
     }
 
     @Provides
     @Singleton
     @Proxy
-    fun provideLastFmProxy(proxy: LastFmProxy): LastFmService {
-        return proxy
-    }
+    internal fun provideLastFmProxy(proxy: LastFmProxy): LastFmService = proxy
 
 }

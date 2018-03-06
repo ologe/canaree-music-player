@@ -54,7 +54,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             true
         }
         blacklist.setOnPreferenceClickListener {
-            activity!!.fragmentTransaction {
+            act.fragmentTransaction {
                 add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
                 setReorderingAllowed(true)
             }
@@ -71,10 +71,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         if (key == getString(R.string.prefs_quick_action_key)){
-            AppConstants.updateQuickAction(activity!!)
+            AppConstants.updateQuickAction(act)
             requestMainActivityToRecreate()
         }
         if (key == getString(R.string.prefs_icon_shape_key)){
+            AppConstants.updateIconShape(act)
             setIconShapeSummary()
             requestMainActivityToRecreate()
         }
@@ -91,7 +92,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     private fun requestMainActivityToRecreate(){
-        activity!!.setResult(Activity.RESULT_OK)
+        act.setResult(Activity.RESULT_OK)
     }
 
 }

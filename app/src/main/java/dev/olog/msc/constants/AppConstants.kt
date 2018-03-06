@@ -8,13 +8,14 @@ import dev.olog.msc.presentation.widget.QuickActionView
 object AppConstants {
 
     private const val TAG = "AppConstants"
-    const val ACTION_CONTENT_VIEW = TAG + ".action.content.view"
+    const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
-    const val SHORTCUT_SEARCH = TAG + ".shortcut.search"
-    const val SHORTCUT_DETAIL = TAG + ".shortcut.detail"
-    const val SHORTCUT_DETAIL_MEDIA_ID = TAG + ".shortcut.detail.media.id"
+    const val SHORTCUT_SEARCH = "$TAG.shortcut.search"
+    const val SHORTCUT_DETAIL = "$TAG.shortcut.detail"
+    const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"
 
     lateinit var QUICK_ACTION: QuickActionView.Type
+    lateinit var ICON_SHAPE: String
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -27,10 +28,15 @@ object AppConstants {
         UNKNOWN_ARTIST = context.getString(R.string.common_unknown_artist)
 
         QUICK_ACTION = getQuickAction(context)
+        ICON_SHAPE = getIconShape(context)
     }
 
     fun updateQuickAction(context: Context){
         QUICK_ACTION = getQuickAction(context)
+    }
+
+    fun updateIconShape(context: Context){
+        ICON_SHAPE = getIconShape(context)
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {
@@ -43,5 +49,9 @@ object AppConstants {
         }
     }
 
+    private fun getIconShape(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
+    }
 
 }

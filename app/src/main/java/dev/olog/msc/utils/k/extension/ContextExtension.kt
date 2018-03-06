@@ -32,6 +32,7 @@ fun Context.hasPermission(permission: String) : Boolean {
 //returns dip(dp) dimension value in pixels
 fun Context.dip(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 fun Context.dip(value: Float): Int = (value * resources.displayMetrics.density).toInt()
+fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
 
 fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 

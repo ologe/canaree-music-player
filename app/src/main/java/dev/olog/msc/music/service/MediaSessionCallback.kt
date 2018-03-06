@@ -23,7 +23,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 @PerService
 class MediaSessionCallback @Inject constructor(
@@ -111,13 +110,10 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToNext() {
-        measureTimeMillis {
-            doWhenReady {
-                val metadata = queue.handleSkipToNext()
-                player.playNext(metadata, true)
-            }
+        doWhenReady {
+            val metadata = queue.handleSkipToNext()
+            player.playNext(metadata, true)
         }
-
     }
 
     override fun onSkipToPrevious() {

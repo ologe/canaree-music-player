@@ -17,8 +17,7 @@ class NewPlaylistDialogPresenter @Inject constructor(
 ) {
 
     private val existingPlaylists = playlists.execute()
-            .map { it.title }
-            .map { it.toLowerCase() }
+            .map { it.title.toLowerCase() }
 
     fun execute(playlistTitle: String) : Completable {
 

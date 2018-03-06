@@ -11,7 +11,7 @@ import dev.olog.msc.R
 
 object CoverUtils {
 
-    private val COLORS = mutableListOf (
+    private val COLORS = listOf (
             intArrayOf(0xff00c9ff.toInt(), 0xff92fe9d.toInt()),
             intArrayOf(0xfff54ea2.toInt(), 0xffff7676.toInt()),
             intArrayOf(0xff17ead9.toInt(), 0xff92fe9d.toInt()),
@@ -36,11 +36,7 @@ object CoverUtils {
             intArrayOf(0xFFff6062.toInt(), 0xFFff9666.toInt()),
             intArrayOf(0xFFfc4e1b.toInt(), 0xFFf8b333.toInt()),
             intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
-    )
-
-    fun initialize(){
-        COLORS.shuffle()
-    }
+    ).shuffled()
 
     fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
         return get(context, position, getDrawable(source))

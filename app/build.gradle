@@ -48,17 +48,17 @@ android {
         }
 
         debug {
-            minifyEnabled true
-            useProguard true
-            multiDexEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
-
-//            minifyEnabled false
-//            useProguard false
-//            multiDexEnabled true
+//            minifyEnabled true
+//            useProguard true
+//            multiDexEnabled false
+////            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            debuggable false
+
+            minifyEnabled false
+            useProguard false
+            multiDexEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -155,9 +155,10 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
 
     // debug
-    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
+//    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
     implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.tspoon.traceur:traceur:1.0.1'
 
 
     // crashlytics
