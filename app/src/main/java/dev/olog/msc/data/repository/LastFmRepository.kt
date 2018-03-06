@@ -7,6 +7,7 @@ import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.db.UsedImage
 import dev.olog.msc.data.db.UsedImageEntity
+import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.msc.domain.entity.LastFmAlbum
@@ -33,7 +34,8 @@ class LastFmRepository @Inject constructor(
     }
 
     override fun getTrack(trackId: Long, title: String, artist: String): Single<LastFmTrack> {
-        val cached = dao.getTrack(trackId).map { it.toDomain() }
+        val cached = dao.getTrack(trackId)
+                .map { it.toDomain() }
                 .subscribeOn(Schedulers.io())
 
         if (!connectivityManager.isNetworkAvailable()){
@@ -46,17 +48,27 @@ class LastFmRepository @Inject constructor(
 
         val fetch = lastFmService.getTrackInfo(title, artist)
                 .map {
-                    dao.insertTrack(it.toModel(trackId))
-                    it.toDomain(trackId)
+                    val res = it.toDomain(trackId)
+                    dao.insertTrack(res.toModel())
+                    res
                 }
                 .onErrorResumeNext { lastFmService.searchTrack(title, artist)
-                        .map { it.toDomain(trackId) }
+                        .map {
+                            val res = it.toDomain(trackId)
+                            dao.insertTrack(res.toModel())
+                            res
+                        }
                         .flatMap { result -> lastFmService.getTrackInfo(result.title, result.artist)
                                 .map {
-                                    dao.insertTrack(it.toModel(trackId))
-                                    it.toDomain(trackId)
+                                    val res = it.toDomain(trackId)
+                                    dao.insertTrack(res.toModel())
+                                    res
                                 }
                                 .onErrorReturn { result }
+                        }.doOnError {
+                            if (it is NoSuchElementException){
+                                dao.insertTrack(LastFmNulls.createNullTrack(trackId))
+                            }
                         }
                 }
 
@@ -77,21 +89,37 @@ class LastFmRepository @Inject constructor(
 
         val fetch = lastFmService.getAlbumInfo(album, artist)
                 .map {
-                    dao.insertAlbum(it.toModel(albumId))
-                    it.toDomain(albumId)
+                    val res = it.toDomain(albumId)
+                    dao.insertAlbum(res.toModel())
+                    res
                 }
                 .onErrorResumeNext { lastFmService.searchAlbum(album)
-                        .map { it.toDomain(albumId, artist) }
+                        .map {
+                            val res = it.toDomain(albumId, artist)
+                            dao.insertAlbum(res.toModel())
+                            res
+                        }
                         .flatMap { result -> lastFmService.getAlbumInfo(result.title, result.artist)
                                 .map {
-                                    dao.insertAlbum(it.toModel(albumId))
-                                    it.toDomain(albumId)
+                                    val res = it.toDomain(albumId)
+                                    dao.insertAlbum(res.toModel())
+                                    res
                                 }
                                 .onErrorReturn { result }
                         }
+                }.doOnError {
+                    if (it is NoSuchElementException){
+                        dao.insertAlbum(LastFmNulls.createNullAlbum(albumId))
+                    }
                 }
 
         return cached.onErrorResumeNext(fetch)
+    }
+
+    override fun shouldFetchArtist(artistId: Long): Single<Boolean> {
+        return dao.getArtist(artistId)
+                .map { false }
+                .onErrorReturn { true }
     }
 
     override fun getArtist(artistId: Long, artist: String): Single<Boolean> {
@@ -106,7 +134,12 @@ class LastFmRepository @Inject constructor(
                 .map {
                     dao.insertArtist(it.toModel(artistId))
                     true
-                }.onErrorReturn { false }
+                }.onErrorReturn {
+                    if (it is NoSuchElementException){
+                        dao.insertArtist(LastFmNulls.createNullArtist(artistId))
+                    }
+                    false
+                }
 
         return cached.onErrorResumeNext(fetch)
     }

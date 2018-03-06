@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import dev.olog.msc.data.entity.*
 
+
 @Database(entities = arrayOf(
         PlayingQueueEntity::class,
         FolderMostPlayedEntity::class,

@@ -21,8 +21,21 @@ class ArtistImagesCreator @Inject constructor(
 ) {
 
     fun execute(artists: List<Artist>) : Single<*> {
+        return Single.fromCallable { artists }
+                .flattenAsFlowable { it }
+                .subscribeOn(imagesThreadPool.ioScheduler)
+                .onBackpressureBuffer()
+                .flatMapMaybe { artist -> lastFmGateway
+                        .shouldFetchArtist(artist.id)
+                        .filter { it }
+                        .map { artist }
+                }.toList()
+                .flatMap { fetchImages(it) }
+    }
+
+    private fun fetchImages(artists: List<Artist>): Single<*> {
         return Flowables.zip(sample(artists.size), Flowable.fromIterable(artists),
-                    { _, artist -> artist } )
+                { _, artist -> artist } )
                 .onBackpressureBuffer()
                 .observeOn(imagesThreadPool.ioScheduler)
                 .flatMapSingle { lastFmGateway.getArtist(it.id, it.name).onErrorReturn { false } }

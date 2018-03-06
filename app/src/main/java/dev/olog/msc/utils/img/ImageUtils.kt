@@ -8,6 +8,20 @@ import java.io.InputStream
 
 object ImageUtils {
 
+    fun isRealImage(context: Context, image: String): Boolean {
+        var input: InputStream? = null
+        var result: Boolean
+        try {
+            input = context.contentResolver.openInputStream(Uri.parse(image))
+            result = true
+        } catch (ex: Exception){
+            result = false
+        } finally {
+            input?.close()
+        }
+        return result
+    }
+
     fun getBitmap(context: Context, uri: Uri, reqWidth: Int, reqHeight: Int): Bitmap? {
         return try {
             decodeSampledBitmap(context, uri, reqWidth, reqHeight)

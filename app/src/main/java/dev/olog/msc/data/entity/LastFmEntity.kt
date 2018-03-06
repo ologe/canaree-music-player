@@ -11,7 +11,8 @@ data class LastFmTrackEntity(
         val title: String,
         val artist: String,
         val album: String,
-        val image: String
+        val image: String,
+        val added: String
 )
 
 @Entity(tableName = "last_fm_album",
@@ -20,12 +21,14 @@ data class LastFmAlbumEntity(
         @PrimaryKey val id: Long,
         val title: String,
         val artist: String,
-        val image: String
+        val image: String,
+        val added: String
 )
 
 @Entity(tableName = "last_fm_artist",
         indices = [(Index("id"))])
 data class LastFmArtistEntity(
         @PrimaryKey val id: Long,
-        val image: String
+        val image: String,
+        val added: String
 )

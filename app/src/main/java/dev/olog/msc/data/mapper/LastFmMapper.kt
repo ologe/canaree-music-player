@@ -9,9 +9,19 @@ import dev.olog.msc.data.entity.LastFmAlbumEntity
 import dev.olog.msc.data.entity.LastFmArtistEntity
 import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.domain.entity.LastFmAlbum
-import dev.olog.msc.domain.entity.LastFmArtist
 import dev.olog.msc.domain.entity.LastFmTrack
 import me.xdrop.fuzzywuzzy.FuzzySearch
+import java.text.SimpleDateFormat
+import java.util.*
+
+private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+
+private fun millisToFormattedDate(value: Long): String {
+    return value?.let {
+        formatter.format(Date(it))
+    }
+
+}
 
 fun LastFmTrackEntity.toDomain(): LastFmTrack {
     return LastFmTrack(
@@ -32,13 +42,6 @@ fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
     )
 }
 
-fun LastFmArtistEntity.toDomain(): LastFmArtist {
-    return LastFmArtist(
-            this.id,
-            this.image
-    )
-}
-
 fun TrackInfo.toDomain(id: Long): LastFmTrack {
     val track = this.track
     val title = track.name
@@ -55,21 +58,13 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
     )
 }
 
-fun TrackInfo.toModel(id: Long): LastFmTrackEntity {
-    val track = this.track
-    val title = track.name
-    val artist = track.artist.name
-    val album = track.album.title
-    val image = track.album.image.reversed().first { it.text.isNotBlank() }.text
-
+fun LastFmTrack.toModel(): LastFmTrackEntity {
     return LastFmTrackEntity(
-            id,
-            title ?: "",
-            artist ?: "",
-            album ?: "",
-            image
+            this.id, this.title, this.artist, this.album, this.image,
+            millisToFormattedDate(System.currentTimeMillis())
     )
 }
+
 
 fun TrackSearch.toDomain(id: Long): LastFmTrack {
     val track = this.results.trackmatches.track[0]
@@ -93,13 +88,10 @@ fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
     )
 }
 
-fun AlbumInfo.toModel(id: Long): LastFmAlbumEntity {
-    val album = this.album
+fun LastFmAlbum.toModel(): LastFmAlbumEntity {
     return LastFmAlbumEntity(
-            id,
-            album.name,
-            album.artist,
-            album.image.reversed().first { it.text.isNotBlank() }.text
+            this.id, this.title, this.artist, this.image,
+            millisToFormattedDate(System.currentTimeMillis())
     )
 }
 
@@ -120,6 +112,40 @@ fun ArtistInfo.toModel(id: Long): LastFmArtistEntity {
     val artist = this.artist
     return LastFmArtistEntity(
             id,
-            artist.image.reversed().first { it.text.isNotBlank() }.text
+            artist.image.reversed().first { it.text.isNotBlank() }.text,
+            millisToFormattedDate(System.currentTimeMillis())
     )
+}
+
+object LastFmNulls {
+
+    fun createNullArtist(artistId: Long): LastFmArtistEntity {
+        return LastFmArtistEntity(
+                artistId,
+                "",
+                millisToFormattedDate(System.currentTimeMillis())
+        )
+    }
+
+    fun createNullTrack(trackId: Long): LastFmTrackEntity {
+        return LastFmTrackEntity(
+                trackId,
+                "",
+                "",
+                "",
+                "",
+                millisToFormattedDate(System.currentTimeMillis())
+        )
+    }
+
+    fun createNullAlbum(albumId: Long): LastFmAlbumEntity {
+        return LastFmAlbumEntity(
+                albumId,
+                "",
+                "",
+                "",
+                millisToFormattedDate(System.currentTimeMillis())
+        )
+    }
+
 }

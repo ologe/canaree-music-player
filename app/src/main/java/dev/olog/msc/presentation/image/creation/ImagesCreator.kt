@@ -26,9 +26,11 @@ class ImagesCreator @Inject constructor(
         private val getAllAlbumsUseCase: GetAllAlbumsNewRequestUseCase,
         private val getAllArtistsUseCase: GetAllArtistsNewRequestUseCase,
         private val getAllGenresUseCase: GetAllGenresNewRequestUseCase,
+
         private val folderImagesCreator: FolderImagesCreator,
-        private val artistImagesCreator: ArtistImagesCreator,
         private val playlistImagesCreator: PlaylistImagesCreator,
+        private val albumImagesCreator: AlbumImagesCreator,
+        private val artistImagesCreator: ArtistImagesCreator,
         private val genreImagesCreator: GenreImagesCreator
 
 ) : DefaultLifecycleObserver {
@@ -36,6 +38,7 @@ class ImagesCreator @Inject constructor(
     private val subscriptions = CompositeDisposable()
     private var folderDisposable : Disposable? = null
     private var playlistDisposable : Disposable? = null
+    private var albumDisposable : Disposable? = null
     private var artistDisposable : Disposable? = null
     private var genreDisposable : Disposable? = null
 
@@ -57,6 +60,7 @@ class ImagesCreator @Inject constructor(
     private fun unsubscribe(){
         folderDisposable.unsubscribe()
         playlistDisposable.unsubscribe()
+        albumDisposable.unsubscribe()
         artistDisposable.unsubscribe()
         genreDisposable.unsubscribe()
         subscriptions.clear()
@@ -79,6 +83,15 @@ class ImagesCreator @Inject constructor(
                 .doOnNext {
                     playlistDisposable.unsubscribe()
                     playlistDisposable = playlistImagesCreator.execute(it)
+                            .subscribe({}, Throwable::printStackTrace)
+                }
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
+        getAllAlbumsUseCase.execute()
+                .doOnNext {
+                    albumDisposable.unsubscribe()
+                    albumDisposable = albumImagesCreator.execute(it)
                             .subscribe({}, Throwable::printStackTrace)
                 }
                 .subscribe({}, Throwable::printStackTrace)

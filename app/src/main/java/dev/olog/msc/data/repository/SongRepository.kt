@@ -55,29 +55,30 @@ class SongRepository @Inject constructor(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
         ).mapToList { it.toSong() }
-                .map {
-                    val blackListed = appPrefsUseCase.getBlackList()
-                    if (blackListed.isEmpty()){
-                        it
-                    } else {
-                        it.filter { !blackListed.contains(it.folderPath) }
-                    }
-                }
-                .map {
-                    val images = lastFmGateway.getAllImages()
-                            .sortedBy { it.id }
-                            .partition { it.isAlbum }
-
-                    it.map { song ->
-                        val img = images.first.firstOrNull { it.id == song.albumId }?.image ?:
-                                images.second.firstOrNull { it.id == song.id }?.image
-
-                        if (img != null){
-                            song.copy(image = img)
-                        } else song
-                    }
-                }
+                .map { removeBlacklisted(it) }
+                .map { updateImages(it) }
                 .onErrorReturn { listOf() }
+    }
+
+    private fun removeBlacklisted(original: List<Song>): List<Song>{
+        val blackListed = appPrefsUseCase.getBlackList()
+        if (blackListed.isNotEmpty()){
+            return original.filter { !blackListed.contains(it.folderPath) }
+        }
+        return original
+    }
+
+    private fun updateImages(original: List<Song>): List<Song>{
+        val (albumImages, songImages) = lastFmGateway.getAllImages()
+                .sortedBy { it.id }
+                .partition { it.isAlbum }
+
+        return original.map { song ->
+            val img = albumImages.firstOrNull { it.id == song.albumId }?.image ?:
+                songImages.firstOrNull { it.id == song.id }?.image ?: song.image
+
+            song.copy(image = img)
+        }
     }
 
     private val cachedData = queryAllData()

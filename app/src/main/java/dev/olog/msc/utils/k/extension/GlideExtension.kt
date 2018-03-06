@@ -19,14 +19,6 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
                       size: Int, action: (Bitmap) -> Unit,
                       extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null){
 
-    try {
-        val prova = Uri.parse(image)
-        println(prova.path)
-        println(File(prova.path).exists())
-    }catch (ex: Exception){
-
-    }
-
     val uri = Uri.fromFile(File(image))
     val realImage = when {
         File(uri.path).exists() -> uri

@@ -9,12 +9,16 @@ import dev.olog.msc.data.entity.LastFmArtistEntity
 import dev.olog.msc.data.entity.LastFmTrackEntity
 import io.reactivex.Single
 
+private const val CACHE_TIME = "1 months"
+
 @Dao
 abstract class LastFmDao {
 
     // track
 
-    @Query("SELECT * from last_fm_track where id = :id")
+    @Query("SELECT * FROM last_fm_track " +
+            "WHERE id = :id " +
+            "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
     internal abstract fun getTrack(id: Long): Single<LastFmTrackEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -22,7 +26,9 @@ abstract class LastFmDao {
 
     // album
 
-    @Query("SELECT * from last_fm_album where id = :id")
+    @Query("SELECT * FROM last_fm_album " +
+            "WHERE id = :id " +
+            "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
     internal abstract fun getAlbum(id: Long): Single<LastFmAlbumEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -30,15 +36,20 @@ abstract class LastFmDao {
 
     // artist
 
-    @Query("SELECT * from last_fm_artist where id = :id")
+    @Query("SELECT * FROM last_fm_artist")
+    internal abstract fun getAllArtists(): List<LastFmArtistEntity>
+
+    @Query("SELECT * FROM last_fm_artist " +
+            "WHERE id = :id " +
+            "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
     internal abstract fun getArtist(id: Long): Single<LastFmArtistEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertArtist(entity: LastFmArtistEntity): Long
 
-    // used images
+    // used images, used by album and tracks
 
-    @Query("SELECT * from used_image")
+    @Query("SELECT * FROM used_image")
     internal abstract fun getAllUsedImages(): List<UsedImageEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

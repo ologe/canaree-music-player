@@ -35,6 +35,10 @@ class CircularReveal(
         return set
     }
 
+    override fun onDisappear(sceneRoot: ViewGroup?, startValues: TransitionValues?, startVisibility: Int, endValues: TransitionValues?, endVisibility: Int): Animator {
+        return super.onDisappear(sceneRoot, startValues, startVisibility, endValues, View.INVISIBLE) // todo working?
+    }
+
     private fun createCircularReveal(view: View, isAppearing: Boolean) : Animator{
         val cx = x
         val cy = y
