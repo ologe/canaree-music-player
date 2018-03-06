@@ -1,10 +1,8 @@
 package dev.olog.msc.data.repository
 
-import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.domain.entity.Artist
@@ -20,7 +18,6 @@ import javax.inject.Inject
 private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
 class ArtistRepository @Inject constructor(
-        @ApplicationContext private val context: Context,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase
@@ -36,28 +33,41 @@ class ArtistRepository @Inject constructor(
                 null, null, true
         ).mapToOne { 0 }
                 .flatMap { songGateway.getAll() }
-                .map { songList ->
-                    songList.asSequence()
-                            .filter { it.artist != AppConstants.UNKNOWN }
-                            .distinctBy { it.artistId }
-                            .map { song ->
-                                val albums = songList.asSequence()
-                                        .distinctBy { it.albumId }
-                                        .count { it.artistId == song.artistId }
-                                val songs = songList.count { it.artistId == song.artistId }
+                .map { mapToArtists(it) }
+                .map { applyImages(it) }
+    }
 
-                                song.toArtist(songs, albums)
-                            }.sortedBy { it.name.toLowerCase() }
-                            .toList()
-                }.map {
-                    val images = lastFmDao.getAllArtists()
-                    it.map {  artist ->
-                        val image = images.firstOrNull { it.id == artist.id }?.image
-                        if (image != null && image.isNotBlank()){
-                            artist.copy(image = image)
-                        } else artist
-                    }
-                }
+    private fun mapToArtists(songList: List<Song>): List<Artist> {
+        return songList.asSequence()
+                .filter { it.artist != AppConstants.UNKNOWN }
+                .distinctBy { it.artistId }
+                .map { song ->
+                    val albums = countAlbums(song.artistId, songList)
+                    val songs = countTracks(song.artistId, songList)
+                    song.toArtist(songs, albums)
+                }.sortedBy { it.name.toLowerCase() }
+                .toList()
+    }
+
+    private fun applyImages(artistList: List<Artist>): List<Artist> {
+        val images = lastFmDao.getAllArtists()
+        return artistList.map {  artist ->
+            val image = images.firstOrNull { it.id == artist.id }?.image
+            if (image != null && image.isNotBlank()){
+                artist.copy(image = image)
+            } else artist
+        }
+    }
+
+    private fun countAlbums(artistId: Long, songList: List<Song>): Int {
+        return songList.asSequence()
+                .distinctBy { it.albumId }
+                .filter { it.album != AppConstants.UNKNOWN }
+                .count { it.artistId == artistId }
+    }
+
+    private fun countTracks(artistId: Long, songList: List<Song>): Int {
+        return songList.count { it.artistId == artistId }
     }
 
     private val cachedData = queryAllData()

@@ -29,7 +29,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 ) {
 
     private lateinit var originalAlbum: Album
-    private lateinit var songList: List<Song>
+    lateinit var songList: List<Song>
 
     fun getAlbum(): Single<Album> {
         return getAlbumUseCase.execute(mediaId)

@@ -80,13 +80,13 @@ class DetailFragmentViewModel(
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
-    val data : LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
-            item[currentCategory]!!.toObservable(),
-            data[MOST_PLAYED]!!,
-            data[RECENTLY_ADDED]!!,
-            albums[currentCategory]!!,
-            data[RELATED_ARTISTS]!!,
-            data[SONGS]!!,
+    val data : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
+            item[currentCategory]!!.toObservable().onErrorReturn { listOf() },
+            data[MOST_PLAYED]!!.onErrorReturn { listOf() },
+            data[RECENTLY_ADDED]!!.onErrorReturn { listOf() },
+            albums[currentCategory]!!.onErrorReturn { listOf() },
+            data[RELATED_ARTISTS]!!.onErrorReturn { listOf() },
+            data[SONGS]!!.onErrorReturn { listOf() },
             getVisibleTabsUseCase.execute(),
             { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
@@ -98,7 +98,7 @@ class DetailFragmentViewModel(
                         DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
                         DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
                 ) }
-    ).emitThenDebounce().asLiveData()
+    ).emitThenDebounce()
 
     private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){

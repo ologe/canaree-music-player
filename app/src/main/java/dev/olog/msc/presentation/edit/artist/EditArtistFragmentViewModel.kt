@@ -9,7 +9,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.msc.utils.media.store.notifySongMediaStore
+import dev.olog.msc.utils.media.store.notifyMediaStore
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
 
@@ -69,7 +69,10 @@ class EditArtistFragmentViewModel(
         try {
             presenter.updateSongList(artist)
             presenter.updateUsedImage(displayedImage.value!!)
-            notifySongMediaStore(context)
+            presenter.getSongList()
+            for (song in presenter.songList) {
+                notifyMediaStore(context, song.path)
+            }
 
             return UpdateResult.OK
         } catch (ex: Exception){

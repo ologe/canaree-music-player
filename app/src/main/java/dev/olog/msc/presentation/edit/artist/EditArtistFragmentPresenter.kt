@@ -19,7 +19,7 @@ class EditArtistFragmentPresenter @Inject constructor(
 ) {
 
     private lateinit var originalArtist: Artist
-    private lateinit var songList: List<Song>
+    lateinit var songList: List<Song>
 
     fun getArtist(): Single<Artist> {
         return getArtistUseCase.execute(mediaId)

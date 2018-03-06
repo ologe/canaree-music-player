@@ -12,7 +12,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.exception.AbsentNetwork
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.msc.utils.media.store.notifySongMediaStore
+import dev.olog.msc.utils.media.store.notifyMediaStore
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
@@ -127,7 +127,9 @@ class EditAlbumFragmentViewModel(
             // todo background thread
             presenter.updateSongList(album, artist, genre, year)
             presenter.updateUsedImage(displayedImage.value!!)
-            notifySongMediaStore(context)
+            for (song in presenter.songList) {
+                notifyMediaStore(context, song.path)
+            }
 
             return UpdateResult.OK
         } catch (ex: Exception){

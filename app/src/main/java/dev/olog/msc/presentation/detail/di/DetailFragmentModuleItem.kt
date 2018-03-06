@@ -27,7 +27,8 @@ class DetailFragmentModuleItem {
             mediaId: MediaId,
             useCase: GetFolderUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+        return useCase.execute(mediaId)
+                .map { it.toHeaderItem(resources) }
                 .asFlowable()
     }
 
@@ -39,7 +40,8 @@ class DetailFragmentModuleItem {
             mediaId: MediaId,
             useCase: GetPlaylistUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+        return useCase.execute(mediaId)
+                .map { it.toHeaderItem(resources) }
                 .asFlowable()
     }
 
@@ -66,7 +68,8 @@ class DetailFragmentModuleItem {
             mediaId: MediaId,
             useCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+        return useCase.execute(mediaId)
+                .map { it.toHeaderItem(resources) }
                 .asFlowable()
     }
 
@@ -78,7 +81,8 @@ class DetailFragmentModuleItem {
             mediaId: MediaId,
             useCase: GetGenreUseCase) : Flowable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).map { it.toHeaderItem(resources) }
+        return useCase.execute(mediaId)
+                .map { it.toHeaderItem(resources) }
                 .asFlowable()
     }
 }

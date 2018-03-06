@@ -70,13 +70,19 @@ class DetailFragment : BaseFragment() {
         viewModel.relatedArtistsLiveData
                 .subscribe(this, relatedArtistAdapter::updateDataSet)
 
-        viewModel.data.subscribe(this, {
-            if (ctx.isLandscape){
-                // header in list is not used in landscape
-                it[DetailFragmentDataType.HEADER]!!.clear()
-            }
-            adapter.updateDataSet(it)
-        })
+        viewModel.data.onErrorReturn { mutableMapOf() }
+                .asLiveData()
+                .subscribe(this, {
+                    if (it.isEmpty()){
+                        act.onBackPressed()
+                    } else {
+                        if (ctx.isLandscape){
+                            // header in list is not used in landscape
+                            it[DetailFragmentDataType.HEADER]!!.clear()
+                        }
+                        adapter.updateDataSet(it)
+                    }
+                })
 
         viewModel.itemLiveData.subscribe(this, { item ->
             headerText.text = item[1].title
