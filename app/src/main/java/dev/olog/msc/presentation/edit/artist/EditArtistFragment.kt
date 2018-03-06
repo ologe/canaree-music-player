@@ -43,6 +43,11 @@ class EditArtistFragment : BaseEditItemFragment() {
                     albumsUpdated.text =  text
                 })
 
+        viewModel.observeData()
+                .subscribe(this, {
+                    artist.setText(it.title)
+                })
+
         viewModel.observeImage().observe(this, Observer {
             when (it){
                 null -> ctx.toast(R.string.edit_song_image_not_found)

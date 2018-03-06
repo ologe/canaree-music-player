@@ -46,6 +46,7 @@ class EditArtistFragmentViewModel(
         songListDisposable.unsubscribe()
     }
 
+    fun observeData(): LiveData<DisplayableArtist> = displayedArtist
     fun observeImage(): LiveData<String> = displayedImage
     fun observeSongList(): LiveData<List<Song>> = songList
 
@@ -63,10 +64,9 @@ class EditArtistFragmentViewModel(
     fun updateMetadata(
             artist: String
     ) : UpdateResult {
-        if (artist.isNotBlank()) return UpdateResult.EMPTY_TITLE
+        if (artist.isBlank()) return UpdateResult.EMPTY_TITLE
 
         try {
-
             presenter.updateSongList(artist)
             presenter.updateUsedImage(displayedImage.value!!)
             notifySongMediaStore(context)
