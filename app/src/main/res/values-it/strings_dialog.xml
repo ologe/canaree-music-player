@@ -14,7 +14,7 @@
     <string name="popup_view_artist">Vai all\'artist</string>
     <string name="popup_share">Condividi</string>
     <string name="popup_set_as_ringtone">Imposta come suoneria</string>
-    <string name="popup_delete">Cancella</string>
+    <string name="popup_delete">Elimina dal dispositivo</string>
     <string name="popup_rename">Rinomina</string>
     <string name="popup_clear_playlist">Svuota playlist</string>
 

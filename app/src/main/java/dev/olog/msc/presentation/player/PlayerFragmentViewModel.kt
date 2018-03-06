@@ -1,7 +1,9 @@
 package dev.olog.msc.presentation.player
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.ViewModel
 import dev.olog.msc.R
-import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -13,13 +15,20 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
-@PerFragment
 class PlayerFragmentViewModel @Inject constructor(
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
         private val billing: IBilling,
         private val appPrefsUseCase: AppPreferencesUseCase
 
-) {
+) : ViewModel() {
+
+    private val miniQueue = MutableLiveData<List<DisplayableItem>>()
+
+    fun observeMiniQueue() : LiveData<List<DisplayableItem>> = miniQueue
+
+    fun updateQueue(list: List<DisplayableItem>){
+        miniQueue.postValue(list)
+    }
 
     fun observeMiniQueueVisibility(): Observable<Boolean>{
         return Observables.combineLatest(

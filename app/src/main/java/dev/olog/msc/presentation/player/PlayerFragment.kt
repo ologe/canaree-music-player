@@ -66,6 +66,9 @@ class PlayerFragment : BaseFragment() {
                         listOf(viewModel.playerControls)
                     }
                 }).asLiveData()
+                .subscribe(this, viewModel::updateQueue)
+
+        viewModel.observeMiniQueue()
                 .subscribe(this, adapter::updateDataSet)
 
         mediaProvider.onStateChanged()
@@ -221,7 +224,7 @@ class PlayerFragment : BaseFragment() {
         seekBarDisposable.unsubscribe()
     }
 
-    private val onSwipeListener = object : SwipeableView.SwipeListener{
+    private val onSwipeListener = object : SwipeableView.SwipeListener {
         override fun onSwipedLeft() {
             mediaProvider.skipToNext()
         }

@@ -21,12 +21,11 @@ class GetRecentlyAddedUseCase @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {
-        if (mediaId.isPlaylist){
-            return Observable.just(listOf())
+        if (mediaId.isFolder || mediaId.isGenre){
+            return getSongListByParamUseCase.execute(mediaId)
+                    .map { if (it.size >= 5) it else listOf() }
+                    .map { it.filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= TWO_WEEKS } }
         }
-
-        return getSongListByParamUseCase.execute(mediaId)
-                .map { if (it.size >= 5) it else listOf() }
-                .map { it.filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= TWO_WEEKS } }
+        return Observable.just(listOf())
     }
 }
