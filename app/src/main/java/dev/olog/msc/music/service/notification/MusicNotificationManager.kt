@@ -13,6 +13,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
@@ -73,23 +74,33 @@ class MusicNotificationManager @Inject constructor(
                 }
                 .subscribe({
                     publishDisposable.unsubscribe()
+
                     when (it){
                         is MediaEntity -> {
                             if (currentState.updateMetadata(it)) {
-                                publishDisposable = Single.timer(350, TimeUnit.MILLISECONDS)
-                                        .subscribe({issueNotification()}, Throwable::printStackTrace)
+                                publishNotification(350)
                             }
                         }
                         is PlaybackStateCompat -> {
                             if (currentState.updateState(it)){
-                                publishDisposable = Single.timer(150, TimeUnit.MILLISECONDS)
-                                        .subscribe({issueNotification()}, Throwable::printStackTrace)
+                                publishNotification(100)
                             }
                         }
                     }
 
                 }, Throwable::printStackTrace)
 
+    }
+
+    private fun publishNotification(delay: Long){
+        if (!isForeground && isOreo()){
+            // oreo needs to post notification immediately after calling startForegroundService
+            issueNotification()
+        } else {
+            // post delayed
+            publishDisposable = Single.timer(delay, TimeUnit.MILLISECONDS)
+                    .subscribe({ issueNotification() }, Throwable::printStackTrace)
+        }
     }
 
     private fun issueNotification() {

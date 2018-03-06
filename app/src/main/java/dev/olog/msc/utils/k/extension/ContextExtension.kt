@@ -2,6 +2,7 @@
 
 package dev.olog.msc.utils.k.extension
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -49,6 +50,8 @@ inline fun Context.toast(message: CharSequence): Toast = Toast
 inline val Context.configuration: android.content.res.Configuration
     get() = resources.configuration
 
+@SuppressLint("NewApi")
+@Suppress("DEPRECATION")
 fun Context.vibrate(time: Long){
     val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if(isOreo()){

@@ -17,9 +17,7 @@ import java.util.*
 private val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
 private fun millisToFormattedDate(value: Long): String {
-    return value?.let {
-        formatter.format(Date(it))
-    }
+    return formatter.format(Date(value))
 
 }
 
