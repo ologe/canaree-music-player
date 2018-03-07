@@ -4,9 +4,7 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
-import android.support.v7.graphics.Palette
 import android.view.View
 import android.widget.RemoteViews
 import androidx.graphics.drawable.toBitmap
@@ -14,6 +12,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
@@ -25,7 +24,6 @@ abstract class BaseWidget : AbsWidgetApp() {
 
     companion object {
         private var IS_PLAYING = false
-        private const val PALETTE_SIZE = 120
     }
 
     @Inject lateinit var musicPrefsUseCase: MusicPreferencesUseCase
@@ -41,19 +39,9 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
-        var (title, subtitle) = musicPrefsUseCase.getLastMetadata()
-        if (title.isBlank()){
-            title = context.getString(R.string.common_placeholder_title)
-        }
-        if (subtitle.isBlank()){
-            subtitle = context.getString(R.string.common_placeholder_artist)
-        }
-        remoteViews.setTextViewText(R.id.title, title)
-        remoteViews.setTextViewText(R.id.subtitle, subtitle)
-
-        initializeColors(context, remoteViews, appWidgetIds)
-
-        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+        val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
+        onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds)
+//        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
     }
 
     override fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray) {
@@ -117,11 +105,6 @@ abstract class BaseWidget : AbsWidgetApp() {
                 intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    protected fun generatePalette(bitmap: Bitmap): Palette {
-        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, PALETTE_SIZE, PALETTE_SIZE, false)
-        return Palette.from(scaledBitmap).generate()
-    }
-
     protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){
         remoteViews.setInt(R.id.floatingWindow, "setColorFilter", color)
         remoteViews.setInt(R.id.favorite, "setColorFilter", color)
@@ -153,6 +136,25 @@ abstract class BaseWidget : AbsWidgetApp() {
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews)
     }
 
-    protected abstract fun initializeColors(context: Context, remoteViews: RemoteViews, appWidgetIds: IntArray)
+    private fun LastMetadata.safeMap(context: Context): LastMetadata {
+        val title = if (this.title.isBlank()) context.getString(R.string.common_placeholder_title) else this.title
+        val subtitle = if (this.subtitle.isBlank()) context.getString(R.string.common_placeholder_artist) else this.subtitle
+
+        return LastMetadata(
+                title,
+                subtitle,
+                this.image,
+                this.id
+        )
+    }
+
+    private fun LastMetadata.toWidgetMetadata(): WidgetMetadata {
+        return WidgetMetadata(
+                this.id,
+                this.title,
+                this.subtitle,
+                this.image
+        )
+    }
 
 }

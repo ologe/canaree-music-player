@@ -30,8 +30,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                     val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)
                     val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)
                     val image = intent.getStringExtra(WidgetConstants.ARGUMENT_IMAGE)
-                    val duration = intent.getLongExtra(WidgetConstants.ARGUMENT_DURATION, 0)
-                    metadata = WidgetMetadata(id, title, subtitle, image, duration)
+                    metadata = WidgetMetadata(id, title, subtitle, image)
                     onMetadataChanged(context, metadata!!, appWidgetIds)
                 }
             }

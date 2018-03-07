@@ -25,6 +25,7 @@ private const val SKIP_NEXT = "$TAG.skip.next"
 private const val LAST_TITLE = "$TAG.last.title"
 private const val LAST_SUBTITLE = "$TAG.last.subtitle"
 private const val LAST_IMAGE = "$TAG.last.image"
+private const val LAST_ID = "$TAG.last.id"
 
 class MusicPreferencesImpl @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -95,7 +96,8 @@ class MusicPreferencesImpl @Inject constructor(
         return LastMetadata(
                 preferences.getString(LAST_TITLE, ""),
                 preferences.getString(LAST_SUBTITLE, ""),
-                preferences.getString(LAST_IMAGE, "")
+                preferences.getString(LAST_IMAGE, ""),
+                preferences.getLong(LAST_ID, -1)
         )
     }
 

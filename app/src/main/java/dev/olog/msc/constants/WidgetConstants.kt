@@ -12,7 +12,6 @@ object WidgetConstants {
     const val ARGUMENT_TITLE = TAG + ".ARGUMENT_TITLE"
     const val ARGUMENT_SUBTITLE = TAG + ".ARGUMENT_SUBTITLE"
     const val ARGUMENT_IMAGE = TAG + ".ARGUMENT_IMAGE"
-    const val ARGUMENT_DURATION = TAG + ".ARGUMENT_DURATION"
 
 //    arguments state
     const val ARGUMENT_IS_PLAYING = TAG + ".ARGUMENT_IS_PLAYING"

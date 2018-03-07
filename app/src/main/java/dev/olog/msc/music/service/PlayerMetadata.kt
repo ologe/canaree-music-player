@@ -82,7 +82,6 @@ class PlayerMetadata @Inject constructor(
                 putExtra(WidgetConstants.ARGUMENT_TITLE, entity.title)
                 putExtra(WidgetConstants.ARGUMENT_SUBTITLE, entity.artist)
                 putExtra(WidgetConstants.ARGUMENT_IMAGE, entity.image)
-                putExtra(WidgetConstants.ARGUMENT_DURATION, entity.duration)
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
             }
 
