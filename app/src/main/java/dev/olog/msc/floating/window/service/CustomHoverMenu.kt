@@ -6,7 +6,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.DrawableRes
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
@@ -50,14 +49,10 @@ class CustomHoverMenu @Inject constructor(
 
     fun startObserving(){
         musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.contains("|") }
+                .filter { it.isNotEmpty() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    val title = it.substring(0, it.indexOf("|"))
-                    val artist = it.substring(it.indexOf("|") + 1)
-                    var result = title
-                    if (artist != AppConstants.UNKNOWN) result += " $artist" // todo not null artist not showting
-                    item = result
+                    item = it.description
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
     }

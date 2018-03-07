@@ -7,6 +7,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
+import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.interactor.detail.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
@@ -89,8 +90,9 @@ class CurrentSong @Inject constructor(
     }
 
     private fun saveLastMetadata(entity: MediaEntity){
-        musicPreferencesUseCase.setLastTitle(entity.title)
-        musicPreferencesUseCase.setLastSubtitle(entity.artist)
+        musicPreferencesUseCase.setLastMetadata(LastMetadata(
+                entity.title, entity.artist, entity.image
+        ))
     }
 
     private fun createMostPlayedId(entity: MediaEntity): Maybe<MediaId> {

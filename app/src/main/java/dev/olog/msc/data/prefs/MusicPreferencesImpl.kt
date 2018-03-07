@@ -6,23 +6,25 @@ import androidx.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import io.reactivex.Observable
 import javax.inject.Inject
 
-private const val TAG = "MusicPreferencesImpl"
+private const val TAG = "MusicPreferences"
 
-private const val BOOKMARK = TAG + ".bookmark"
-private const val SHUFFLE_MODE = TAG + ".mode.shuffle"
-private const val REPEAT_MODE = TAG + ".mode.repeat"
+private const val BOOKMARK = "$TAG.bookmark"
+private const val SHUFFLE_MODE = "$TAG.mode.shuffle"
+private const val REPEAT_MODE = "$TAG.mode.repeat"
 
-private const val ID_IN_PLAYLIST = TAG + ".id.in.playlist"
+private const val ID_IN_PLAYLIST = "$TAG.id.in.playlist"
 
-private const val SKIP_PREVIOUS = TAG + ".skip.previous"
-private const val SKIP_NEXT = TAG + ".skip.next"
+private const val SKIP_PREVIOUS = "$TAG.skip.previous"
+private const val SKIP_NEXT = "$TAG.skip.next"
 
-private const val LAST_TITLE = TAG + ".last.title"
-private const val LAST_SUBTITLE = TAG + ".last.subtitle"
+private const val LAST_TITLE = "$TAG.last.title"
+private const val LAST_SUBTITLE = "$TAG.last.subtitle"
+private const val LAST_IMAGE = "$TAG.last.image"
 
 class MusicPreferencesImpl @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -89,31 +91,27 @@ class MusicPreferencesImpl @Inject constructor(
                 .asObservable()
     }
 
-    override fun setMidnightMode(enabled: Boolean) {
-        val key = context.getString(R.string.prefs_midnight_mode_key)
-        preferences.edit { putBoolean(key, enabled) }
+    override fun getLastMetadata(): LastMetadata {
+        return LastMetadata(
+                preferences.getString(LAST_TITLE, ""),
+                preferences.getString(LAST_SUBTITLE, ""),
+                preferences.getString(LAST_IMAGE, "")
+        )
     }
 
-    override fun getLastTitle(): String {
-        return preferences.getString(LAST_TITLE, "")
+    override fun setLastMetadata(metadata: LastMetadata) {
+        val (title, subtitle, image) = metadata
+        preferences.edit {
+            putString(LAST_TITLE, title)
+            putString(LAST_SUBTITLE, subtitle)
+            putString(LAST_IMAGE, image)
+        }
     }
 
-    override fun setLastTitle(title: String) {
-        preferences.edit { putString(LAST_TITLE, title) }
-    }
-
-    override fun getLastSubtitle(): String {
-        return preferences.getString(LAST_SUBTITLE, "")
-    }
-
-    override fun setLastSubtitle(subtitle: String) {
-        preferences.edit { putString(LAST_SUBTITLE, subtitle) }
-    }
-
-    override fun observeLastMetadata(): Observable<String> {
+    override fun observeLastMetadata(): Observable<LastMetadata> {
         return rxPreferences.getString(LAST_TITLE)
                 .asObservable()
-                .map { it.plus("|").plus(preferences.getString(LAST_SUBTITLE, "")) }
+                .map { getLastMetadata() }
     }
 
 }

@@ -41,11 +41,10 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
-        var title = musicPrefsUseCase.getLastTitle()
+        var (title, subtitle) = musicPrefsUseCase.getLastMetadata()
         if (title.isBlank()){
             title = context.getString(R.string.common_placeholder_title)
         }
-        var subtitle = musicPrefsUseCase.getLastSubtitle()
         if (subtitle.isBlank()){
             subtitle = context.getString(R.string.common_placeholder_artist)
         }

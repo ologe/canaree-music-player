@@ -7,7 +7,6 @@ class MiniPlayerPresenter @Inject constructor(
         private val musicPrefsUseCase: MusicPreferencesUseCase
 ) {
 
-    fun getLastTitle() = musicPrefsUseCase.getLastTitle()
-    fun getLastSubtitle() = musicPrefsUseCase.getLastSubtitle()
+    fun getMetadata() = musicPrefsUseCase.getLastMetadata()
 
 }

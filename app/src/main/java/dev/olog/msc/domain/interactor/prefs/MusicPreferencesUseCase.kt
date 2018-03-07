@@ -1,5 +1,6 @@
 package dev.olog.msc.domain.interactor.prefs
 
+import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -33,9 +34,6 @@ class MusicPreferencesUseCase @Inject constructor(
     }
 
     fun isMidnightMode() : Observable<Boolean> = gateway.isMidnightMode()
-    fun setMidnightMode(enabled: Boolean) {
-        gateway.setMidnightMode(enabled)
-    }
 
     fun setSkipToPreviousVisibility(visible: Boolean) {
         gateway.setSkipToPreviousVisibility(visible)
@@ -47,18 +45,16 @@ class MusicPreferencesUseCase @Inject constructor(
     }
     fun observeSkipToNextVisibility(): Observable<Boolean> = gateway.observeSkipToNextVisibility()
 
-    fun observeLastMetadata(): Observable<String> {
+    fun getLastMetadata(): LastMetadata {
+        return gateway.getLastMetadata()
+    }
+
+    fun setLastMetadata(metadata: LastMetadata){
+        gateway.setLastMetadata(metadata)
+    }
+
+    fun observeLastMetadata(): Observable<LastMetadata> {
         return gateway.observeLastMetadata()
-    }
-
-    fun getLastTitle(): String = gateway.getLastTitle()
-    fun setLastTitle(title: String) {
-        gateway.setLastTitle(title)
-    }
-
-    fun getLastSubtitle(): String = gateway.getLastSubtitle()
-    fun setLastSubtitle(subtitle: String){
-        gateway.setLastSubtitle(subtitle)
     }
 
 }

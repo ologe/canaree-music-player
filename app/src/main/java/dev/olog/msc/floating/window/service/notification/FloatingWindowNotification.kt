@@ -47,9 +47,9 @@ class FloatingWindowNotification @Inject constructor(
 
     fun startObserving() {
         disposable = musicPreferencesUseCase.observeLastMetadata()
-                .filter { it.contains("|") }
+                .filter { it.isNotEmpty() }
                 .subscribe({
-                    notificationTitle = it
+                    notificationTitle = it.description
                     val notification = builder.setContentTitle(notificationTitle).build()
                     notificationManager.notify(NOTIFICATION_ID, notification)
                 }, Throwable::printStackTrace)

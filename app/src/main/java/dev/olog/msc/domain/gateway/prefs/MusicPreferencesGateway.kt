@@ -1,5 +1,6 @@
 package dev.olog.msc.domain.gateway.prefs
 
+import dev.olog.msc.domain.entity.LastMetadata
 import io.reactivex.Observable
 
 interface MusicPreferencesGateway {
@@ -24,14 +25,9 @@ interface MusicPreferencesGateway {
     fun observeSkipToNextVisibility(): Observable<Boolean>
 
     fun isMidnightMode() : Observable<Boolean>
-    fun setMidnightMode(enabled: Boolean)
 
-    fun getLastTitle(): String
-    fun setLastTitle(title: String)
-
-    fun getLastSubtitle(): String
-    fun setLastSubtitle(subtitle: String)
-
-    fun observeLastMetadata(): Observable<String>
+    fun getLastMetadata(): LastMetadata
+    fun setLastMetadata(metadata: LastMetadata)
+    fun observeLastMetadata(): Observable<LastMetadata>
 
 }
