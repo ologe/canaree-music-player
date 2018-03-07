@@ -38,8 +38,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
                     val isPlaying = intent.getBooleanExtra(WidgetConstants.ARGUMENT_IS_PLAYING, false)
-//                    val bookmark = intent.getLongExtra(WidgetConstants.ARGUMENT_BOOKMARK, 0)
-                    state = WidgetState(isPlaying/*, bookmark*/)
+                    state = WidgetState(isPlaying)
                     onPlaybackStateChanged(context, state!!, appWidgetIds)
                 }
             }
