@@ -94,10 +94,10 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .subscribe(this, { media.skipToPrevious() })
 
         viewModel.skipToNextVisibility
-                .subscribe(this, view!!.next::updateVisibility)
+                .subscribe(this, next::updateVisibility)
 
         viewModel.skipToPreviousVisibility
-                .subscribe(this, view!!.previous::updateVisibility)
+                .subscribe(this, previous::updateVisibility)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

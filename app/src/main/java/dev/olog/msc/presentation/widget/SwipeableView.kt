@@ -30,6 +30,11 @@ class SwipeableView @JvmOverloads constructor(
         this.swipeListener = swipeListener
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        this.swipeListener = null
+    }
+
     fun isTouching() = isTouchingPublisher.distinctUntilChanged()
 
     override fun onTouchEvent(event: MotionEvent): Boolean {

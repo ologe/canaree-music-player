@@ -80,13 +80,15 @@ class DetailFragmentViewModel(
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
+
+
     val data : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
-            item[currentCategory]!!.toObservable().onErrorReturn { listOf() },
-            data[MOST_PLAYED]!!.onErrorReturn { listOf() },
-            data[RECENTLY_ADDED]!!.onErrorReturn { listOf() },
-            albums[currentCategory]!!.onErrorReturn { listOf() },
-            data[RELATED_ARTISTS]!!.onErrorReturn { listOf() },
-            data[SONGS]!!.onErrorReturn { listOf() },
+            item[currentCategory]!!.toObservable().doOnNext { println("next item") },
+            data[MOST_PLAYED]!!.doOnNext { println("next most played") },
+            data[RECENTLY_ADDED]!!.doOnNext { println("next recent") },
+            albums[currentCategory]!!.doOnNext { println("next albums") },
+            data[RELATED_ARTISTS]!!.doOnNext { println("next artists") },
+            data[SONGS]!!.doOnNext { println("next songs") },
             getVisibleTabsUseCase.execute(),
             { item, mostPlayed, recent, albums, artists, songs, visibility ->
 

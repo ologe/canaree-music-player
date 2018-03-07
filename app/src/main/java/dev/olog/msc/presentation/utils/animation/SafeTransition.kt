@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.utils.animation
 
-import android.support.transition.Transition
 import android.support.v4.app.Fragment
+import android.transition.Transition
 import javax.inject.Inject
 
 class SafeTransition @Inject constructor(): Transition.TransitionListener {

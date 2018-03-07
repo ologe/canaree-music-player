@@ -22,7 +22,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
 
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
@@ -39,8 +38,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         forEach(preferenceScreen) { it.isEnabled = isPremium }
         if (!isPremium){
             val v = act.window.decorView.findViewById<View>(android.R.id.content)
-            Snackbar.make(v, "Buy pro version to start customizing", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Buy", { billing.purchasePremium() })
+            Snackbar.make(v, R.string.prefs_not_premium, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.prefs_not_premium_action, { billing.purchasePremium() })
                     .show()
         }
     }

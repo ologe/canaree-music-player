@@ -5,8 +5,8 @@ import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.graphics.Color
-import android.support.transition.Fade
-import android.support.transition.TransitionValues
+import android.transition.Fade
+import android.transition.TransitionValues
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
@@ -21,9 +21,7 @@ class CircularReveal(
 
 ) : Fade() {
 
-    override fun onAppear(sceneRoot: ViewGroup, view: View,
-                          startValues: TransitionValues?, endValues: TransitionValues?): Animator {
-
+    override fun onAppear(sceneRoot: ViewGroup, view: View, startValues: TransitionValues, endValues: TransitionValues): Animator {
         val set = AnimatorSet()
         set.playTogether(
                 super.onAppear(sceneRoot, view, startValues, endValues),

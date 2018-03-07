@@ -6,6 +6,9 @@
 
     <string name="settings">Settings</string>
 
+    <string name="prefs_not_premium">Buy pro version to start customizing</string>
+    <string name="prefs_not_premium_action">Buy</string>
+
     <!--categories-->
     <string name="prefs_category_general">General</string>
     <string name="prefs_category_library">Library</string>

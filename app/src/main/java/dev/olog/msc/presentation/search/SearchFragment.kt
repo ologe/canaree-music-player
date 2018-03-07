@@ -61,7 +61,7 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
             val transition = CircularReveal(x, y, onAppearFinished = {
                 val fragmentManager = activity?.supportFragmentManager
 
-                activity?.fragmentTransaction {
+                act.fragmentTransaction {
                     fragmentManager?.findFragmentByTag(CategoriesFragment.TAG)?.let { hide(it) }
                     fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { hide(it) }
                     setReorderingAllowed(true)
@@ -74,7 +74,7 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
     override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     override fun onDetach() {
-        activity!!.fragmentTransaction {
+        act.fragmentTransaction {
             // todo after rotation fragment backStack is lost
             fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { show(it) }
                     ?: fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }
