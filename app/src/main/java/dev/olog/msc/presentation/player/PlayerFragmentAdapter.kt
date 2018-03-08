@@ -11,7 +11,6 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
-import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
@@ -220,7 +219,9 @@ class PlayerFragmentAdapter @Inject constructor(
             viewModel.observeMiniQueueVisibility()
                     .takeUntil(RxView.detaches(view))
                     .subscribe({ visible ->
-                        val alignment = if (visible) View.TEXT_ALIGNMENT_CENTER else View.TEXT_ALIGNMENT_VIEW_START
+                        val alignment = if (visible) View.TEXT_ALIGNMENT_VIEW_START else View.TEXT_ALIGNMENT_CENTER
+                        val padding = if (visible) view.context.dip(16) else 0
+                        view.title.setPaddingTop(padding)
                         view.title.textAlignment = alignment
                         view.artist.textAlignment = alignment
                     }, Throwable::printStackTrace)

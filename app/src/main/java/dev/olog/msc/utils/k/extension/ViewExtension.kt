@@ -18,3 +18,7 @@ fun View.setGone(){
 fun View.setVisible(){
     this.visibility = View.VISIBLE
 }
+
+fun View.setPaddingTop(padding: Int) {
+    setPadding(paddingLeft, padding, paddingRight, paddingBottom)
+}
