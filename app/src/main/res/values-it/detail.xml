@@ -10,7 +10,7 @@
         <item>Altri generi</item>
     </string-array>
 
-    <string name="detail_see_all">Vedi tutto</string>
+    <string name="detail_see_all">vedi tutto</string>
     <string name="detail_more_albums_by">Altro da %s</string>
 
     <plurals name="detail_xx_new_songs">

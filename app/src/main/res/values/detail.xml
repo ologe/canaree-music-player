@@ -25,7 +25,7 @@
         <item>Other genres</item>
     </string-array>
 
-    <string name="detail_see_all">See all</string>
+    <string name="detail_see_all">see all</string>
     <string name="detail_more_albums_by">More by %s</string>
     <string name="detail_related_artists">@string/common_related_artists</string>
     <string name="detail_no_tracks">@string/common_no_tracks</string>

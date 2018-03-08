@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.mini.player
 
 import android.os.Bundle
 import android.support.v4.math.MathUtils
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
@@ -25,7 +24,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
     companion object {
         private const val TAG = "MiniPlayerFragment"
         private const val PROGRESS_BAR_INTERVAL = 250L
-        private const val BUNDLE_IS_VISIBLE = TAG + ".BUNDLE_IS_VISIBLE"
+        private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
     }
 
     @Inject lateinit var viewModel: MiniPlayerFragmentPresenter
@@ -42,20 +41,18 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
                 .subscribe(this, {
-                    title.text = it.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
-                    artist.text = DisplayableItem.adjustArtist(it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST))
-                    updateProgressBarMax(it.getLong(MediaMetadataCompat.METADATA_KEY_DURATION))
+                    title.text = it.getTitle()
+                    artist.text = it.getArtist()
+                    updateProgressBarMax(it.getDuration())
                 })
 
         media.onStateChanged()
-                .filter { it.state == PlaybackStateCompat.STATE_PLAYING ||
-                        it.state == PlaybackStateCompat.STATE_PAUSED
-                }.distinctUntilChanged()
+                .filter { it.isPlaying()|| it.isPaused() }
+                .distinctUntilChanged()
                 .asLiveData()
                 .subscribe(this, {
-                    val state = it.state
                     updateProgressBarProgress(it.position)
-                    handleProgressBar(state == PlaybackStateCompat.STATE_PLAYING)
+                    handleProgressBar(it.isPlaying())
                 })
 
         media.onStateChanged()

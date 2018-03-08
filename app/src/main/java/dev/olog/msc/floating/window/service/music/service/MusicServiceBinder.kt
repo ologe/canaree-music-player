@@ -18,7 +18,7 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
@@ -115,8 +115,8 @@ class MusicServiceBinder @Inject constructor(
     }
 
     val animatePlayPauseLiveData: Observable<Int> = statePublisher
+            .filter { it.isPlaying() || it.isPaused() }
             .map { it.state }
-            .filter { state -> state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED }
             .distinctUntilChanged()
             .skip(1)
 
@@ -129,14 +129,12 @@ class MusicServiceBinder @Inject constructor(
             .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
 
     val onBookmarkChangedLiveData: Observable<Long> = statePublisher
-            .filter { playbackState ->
-                val state = playbackState.state
-                state == PlaybackStateCompat.STATE_PAUSED || state == PlaybackStateCompat.STATE_PLAYING
-            }.map { it.position }
+            .filter { it.isPlaying() || it.isPaused() }
+            .map { it.position }
 
     val onMetadataChanged : Observable<Pair<String, String>> = metadataPublisher
             .map {
-                var artist = it.getString(MediaMetadataCompat.METADATA_KEY_ARTIST)
+                var artist = it.getArtist().toString()
                 if (artist == AppConstants.UNKNOWN){
                     artist = AppConstants.UNKNOWN_ARTIST
                 }
@@ -145,6 +143,6 @@ class MusicServiceBinder @Inject constructor(
             }
 
     val onMaxChangedLiveData: Observable<Long> = metadataPublisher
-            .map { metadata -> metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION) }
+            .map { it.getDuration() }
 
 }

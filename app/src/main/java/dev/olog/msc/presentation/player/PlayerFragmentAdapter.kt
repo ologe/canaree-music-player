@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.player
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.net.Uri
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
@@ -14,7 +13,6 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
@@ -25,7 +23,6 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
@@ -213,39 +210,44 @@ class PlayerFragmentAdapter @Inject constructor(
 
             viewModel.observePlayerControlsVisibility()
                     .takeUntil(RxView.detaches(view))
-                    .subscribe({
-                        view.previous.toggleVisibility(it)
-                        view.playPause.toggleVisibility(it)
-                        view.next.toggleVisibility(it)
+                    .subscribe({ visible ->
+                        view.previous.toggleVisibility(visible)
+                        view.playPause.toggleVisibility(visible)
+                        view.next.toggleVisibility(visible)
+
+                    }, Throwable::printStackTrace)
+
+            viewModel.observeMiniQueueVisibility()
+                    .takeUntil(RxView.detaches(view))
+                    .subscribe({ visible ->
+                        val alignment = if (visible) View.TEXT_ALIGNMENT_CENTER else View.TEXT_ALIGNMENT_VIEW_START
+                        view.title.textAlignment = alignment
+                        view.artist.textAlignment = alignment
                     }, Throwable::printStackTrace)
         }
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
-        view.title.text = metadata.getText(MediaMetadataCompat.METADATA_KEY_TITLE)
-        view.artist.text = DisplayableItem.adjustArtist(metadata.getText(MediaMetadataCompat.METADATA_KEY_ARTIST).toString())
+        view.title.text = metadata.getTitle()
+        view.artist.text = metadata.getArtist()
 
-        val duration = metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)
-        val durationAsString = TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(duration)
-        view.duration.text = durationAsString
+        val duration = metadata.getDuration()
+        view.duration.text = metadata.getDurationReadable()
         view.seekBar.max = duration.toInt()
-        view.remix.toggleVisibility(metadata.getLong(MusicConstants.IS_REMIX) == 1L)
-        view.explicit.toggleVisibility(metadata.getLong(MusicConstants.IS_EXPLICIT) == 1L)
+        view.remix.toggleVisibility(metadata.isRemix())
+        view.explicit.toggleVisibility(metadata.isExplicit())
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
         view.cover ?: return
 
-        val context = view.context
-        val image = Uri.parse(metadata.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
-        val id = MediaId.fromString(
-                metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-        ).leaf!!.toInt()
+        val context = view.context!!
+        val id = metadata.getId().toInt()
         val placeholder = CoverUtils.getGradient(context, id)
-        GlideApp.with(context!!).clear(view.cover)
+        GlideApp.with(context).clear(view.cover)
 
         GlideApp.with(context)
-                .load(image)
+                .load(metadata.getImage())
                 .centerCrop()
                 .placeholder(placeholder)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -255,9 +257,8 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){
-        val state = playbackState.state
-        if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED){
-            val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
+        val isPlaying = playbackState.isPlaying()
+        if (isPlaying || playbackState.isPaused()){
             view.nowPlaying.isActivated = isPlaying
             view.cover?.isActivated = isPlaying
         }
