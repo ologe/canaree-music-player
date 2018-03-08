@@ -40,9 +40,10 @@ class LastFmRepository @Inject constructor(
 
         if (!connectivityManager.isNetworkAvailable()){
             return cached.onErrorResumeNext {
-                if (it is EmptyResultSetException){
-                    Single.error(AbsentNetwork())
-                } else Single.error(it)
+                when (it){
+                    is EmptyResultSetException -> Single.error(AbsentNetwork())
+                    else -> Single.error(it)
+                }
             }
         }
 
