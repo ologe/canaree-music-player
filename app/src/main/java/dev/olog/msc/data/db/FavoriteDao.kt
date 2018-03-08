@@ -4,7 +4,6 @@ import android.arch.persistence.room.*
 import dev.olog.msc.data.entity.FavoriteEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Single
 
 @Dao
 abstract class FavoriteDao {
@@ -42,7 +41,7 @@ abstract class FavoriteDao {
         }
     }
 
-    @Query("SELECT songId FROM favorite_songs WHERE songId = :songId LIMIT 1")
-    abstract fun isFavorite(songId: Long): Single<FavoriteEntity>
+    @Query("SELECT songId FROM favorite_songs WHERE songId = :songId")
+    abstract fun isFavorite(songId: Long): FavoriteEntity?
 
 }

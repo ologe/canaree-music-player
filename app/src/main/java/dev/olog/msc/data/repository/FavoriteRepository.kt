@@ -97,9 +97,7 @@ class FavoriteRepository @Inject constructor(
     }
 
     override fun isFavorite(songId: Long): Single<Boolean> {
-        return favoriteDao.isFavorite(songId)
-                .map { true }
-                .onErrorReturnItem(false)
+        return Single.fromCallable { favoriteDao.isFavorite(songId) != null }
     }
 
     override fun toggleFavorite(songId: Long) {
@@ -109,14 +107,16 @@ class FavoriteRepository @Inject constructor(
 
         var action : Completable? = null
 
-        if (state == FavoriteEnum.NOT_FAVORITE){
-            updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_TO_FAVORITE))
-            action = favoriteDao.addToFavoriteSingle(songId)
-        } else if (state == FavoriteEnum.FAVORITE){
-            updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_NOT_FAVORITE))
-            action = favoriteDao.removeFromFavorite(listOf(id))
-        } else {
-            Completable.complete()
+        when (state) {
+            FavoriteEnum.NOT_FAVORITE -> {
+                updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_TO_FAVORITE))
+                action = favoriteDao.addToFavoriteSingle(songId)
+            }
+            FavoriteEnum.FAVORITE -> {
+                updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_NOT_FAVORITE))
+                action = favoriteDao.removeFromFavorite(listOf(id))
+            }
+            else -> Completable.complete()
         }
 
         action?.subscribeOn(Schedulers.io())

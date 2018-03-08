@@ -117,12 +117,18 @@ class LastFmRepository @Inject constructor(
         return cached.onErrorResumeNext(fetch)
     }
 
+    /**
+     * @return true if no cache exists
+     */
     override fun shouldFetchArtist(artistId: Long): Single<Boolean> {
         return dao.getArtist(artistId)
                 .map { false }
                 .onErrorReturnItem(true)
     }
 
+    /**
+     * @returns true if no cache exists and is fetched
+     */
     override fun getArtist(artistId: Long, artist: String): Single<Boolean> {
         val cached = dao.getArtist(artistId)
                 .map { false }
