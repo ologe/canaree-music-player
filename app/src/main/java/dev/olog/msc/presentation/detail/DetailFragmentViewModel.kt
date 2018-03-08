@@ -15,7 +15,6 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -24,7 +23,7 @@ import io.reactivex.rxkotlin.Observables
 
 class DetailFragmentViewModel(
         val mediaId: MediaId,
-        item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        private val item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         private val headers: DetailFragmentHeaders,
@@ -50,8 +49,6 @@ class DetailFragmentViewModel(
         const val VISIBLE_RECENTLY_ADDED_PAGES = NESTED_SPAN_COUNT * 4
         const val RELATED_ARTISTS_TO_SEE = 10
     }
-
-    var firstAccess = true
 
     private val currentCategory = mediaId.category
 
@@ -80,27 +77,31 @@ class DetailFragmentViewModel(
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
-
-
     val data : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
-            item[currentCategory]!!.toObservable().doOnNext { println("next item") },
-            data[MOST_PLAYED]!!.doOnNext { println("next most played") },
-            data[RECENTLY_ADDED]!!.doOnNext { println("next recent") },
-            albums[currentCategory]!!.doOnNext { println("next albums") },
-            data[RELATED_ARTISTS]!!.doOnNext { println("next artists") },
-            data[SONGS]!!.doOnNext { println("next songs") },
-            getVisibleTabsUseCase.execute(),
-            { item, mostPlayed, recent, albums, artists, songs, visibility ->
+            Observables.combineLatest(
+                    item[currentCategory]!!.toObservable(),
+                    data[MOST_PLAYED]!!,
+                    data[RECENTLY_ADDED]!!,
+                    albums[currentCategory]!!,
+                    data[RELATED_ARTISTS]!!,
+                    data[SONGS]!!,
+                    getVisibleTabsUseCase.execute(),
+                    { item, mostPlayed, recent, albums, artists, songs, visibility ->
 
-                mutableMapOf(
-                        DetailFragmentDataType.HEADER to item.toMutableList(),
-                        DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
-                        DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
-                        DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
-                        DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
-                        DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
-                ) }
-    ).emitThenDebounce()
+                        mutableMapOf(
+                                DetailFragmentDataType.HEADER to item.toMutableList(),
+                                DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
+                                DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
+                                DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
+                                DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
+                                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
+                        ) }
+            ).startWithArray(mutableMapOf()).distinctUntilChanged(),
+            item[currentCategory]!!.toObservable(),
+            { map, item ->
+                mutableMapOf(DetailFragmentDataType.HEADER to item.toMutableList()).apply { putAll(map) }
+            }
+    ).onErrorReturnItem(mutableMapOf())
 
     private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
         if (isEnabled && list.isNotEmpty()){

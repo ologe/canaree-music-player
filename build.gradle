@@ -3,7 +3,7 @@
 buildscript {
 
     ext.kotlin_version = '1.2.30'
-    ext.gradle_plugin = '3.0.1'
+    ext.gradle_plugin = '3.1.0-beta4'
     ext.google_services = '3.1.2'
     ext.fabric = '1.24.4'
     ext.firebase_plugin = '1.1.5'
@@ -14,7 +14,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0-beta4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"

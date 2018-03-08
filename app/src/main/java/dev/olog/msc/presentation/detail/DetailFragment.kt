@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.ImageView
-import androidx.view.isVisible
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
@@ -17,13 +16,9 @@ import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.LazyThreadSafetyMode.NONE
@@ -89,12 +84,6 @@ class DetailFragment : BaseFragment() {
             val cover = this.cover as ImageView
             if (!isPortrait()){
                 BindingsAdapter.loadBigAlbumImage(cover, item[0])
-            } else {
-                if (cover.isVisible){
-                    val id = BindingsAdapter.resolveId(item[0].mediaId)
-                    val drawable = CoverUtils.getGradient(ctx, id, item[0].mediaId.source)
-                    cover.setImageDrawable(drawable)
-                }
             }
         })
     }
@@ -113,24 +102,7 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        if (!ctx.isPortrait){
-            view.cover.setVisible()
-        }
-
-        if (viewModel.firstAccess && ctx.isPortrait) {
-            viewModel.firstAccess = false
-
-            view.cover.setVisible()
-
-            adapter.setAfterDataChanged({
-                if (it.isNotEmpty()){
-                    adapter.setAfterDataChanged(null)
-                    Single.timer(200, TimeUnit.MILLISECONDS)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ cover.setGone() }, Throwable::printStackTrace)
-                }
-            }, false)
-        }
+        view.cover?.setVisible()
     }
 
     override fun onResume() {
