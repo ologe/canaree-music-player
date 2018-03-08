@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import android.widget.ImageView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
@@ -81,7 +80,6 @@ class DetailFragment : BaseFragment() {
 
         viewModel.itemLiveData.subscribe(this, { item ->
             headerText.text = item[1].title
-            val cover = this.cover as ImageView
             if (!isPortrait()){
                 BindingsAdapter.loadBigAlbumImage(cover, item[0])
             }

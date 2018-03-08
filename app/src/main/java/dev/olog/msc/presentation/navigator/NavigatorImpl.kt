@@ -77,7 +77,7 @@ class NavigatorImpl @Inject internal constructor(
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE) todo support 27.1.0 animation broken
                 if (categoriesFragment != null && categoriesFragment.isVisible){
                     hide(categoriesFragment)
                     add(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
