@@ -62,7 +62,9 @@ android {
         }
     }
 
-    dataBinding.enabled = true
+    dataBinding {
+        enabled = true
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -81,6 +83,10 @@ android {
     lintOptions {
 //        checkReleaseBuilds false
         disable 'MissingTranslation'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
@@ -155,10 +161,10 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
 
     // debug
-//    implementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
+//    debugImplementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
-    implementation 'com.facebook.stetho:stetho:1.5.0'
-    implementation 'com.tspoon.traceur:traceur:1.0.1'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+    debugImplementation 'com.tspoon.traceur:traceur:1.0.1'
 
 
     // crashlytics
