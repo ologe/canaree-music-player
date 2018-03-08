@@ -4,9 +4,9 @@ import android.support.v7.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.scope.PerActivity
-import dev.olog.msc.interfaces.pro.BillingImpl
-import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.preferences.PreferencesActivity
+import dev.olog.msc.pro.BillingImpl
+import dev.olog.msc.pro.IBilling
 
 @Module
 class PreferencesActivityModule(private val activity: PreferencesActivity) {

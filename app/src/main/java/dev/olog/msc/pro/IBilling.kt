@@ -1,4 +1,4 @@
-package dev.olog.msc.interfaces.pro
+package dev.olog.msc.pro
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
@@ -29,7 +29,9 @@ private const val DEFAULT_TRIAL = true
 class BillingImpl @Inject constructor(
         private val activity: AppCompatActivity
 
-) : IBilling, PurchasesUpdatedListener, BillingClientStateListener, DefaultLifecycleObserver {
+) : IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {
+
+    private var isConnected = false
 
     private val premiumPublisher = BehaviorSubject.createDefault(DEFAULT_PREMIUM)
     private val trialPublisher = BehaviorSubject.createDefault(DEFAULT_TRIAL)
@@ -52,7 +54,7 @@ class BillingImpl @Inject constructor(
     init {
         // todo retry policy
         activity.lifecycle.addObserver(this)
-        billingClient.startConnection(this)
+        startConnection { checkPurchases() }
 
         val packageInfo = activity.packageManager.getPackageInfo(activity.packageName, 0)
         val firstInstallTime = packageInfo.firstInstallTime
@@ -68,20 +70,38 @@ class BillingImpl @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        billingClient.endConnection()
+        if (billingClient.isReady){
+            billingClient.endConnection()
+        }
         countDownDisposable.unsubscribe()
     }
 
-    override fun onBillingSetupFinished(responseCode: Int) {
-        println("onBillingSetupFinished with response code:$responseCode")
+    private fun startConnection(func: (() -> Unit)?){
+        if (isConnected){
+            func?.invoke()
+            return
+        }
+
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(responseCode: Int) {
+                println("onBillingSetupFinished with response code:$responseCode")
+
+                if (responseCode == BillingClient.BillingResponse.OK){
+                    isConnected = true
+                }
+                func?.invoke()
+            }
+            override fun onBillingServiceDisconnected() {
+                isConnected = false
+            }
+        })
+    }
+
+    private fun checkPurchases(){
         val purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
         if (purchases.responseCode == BillingClient.BillingResponse.OK){
             isPremiumState = isProBought(purchases.purchasesList)
         }
-    }
-
-    override fun onBillingServiceDisconnected() {
-
     }
 
     override fun onPurchasesUpdated(responseCode: Int, purchases: MutableList<Purchase>?) {
@@ -115,11 +135,13 @@ class BillingImpl @Inject constructor(
     }
 
     override fun purchasePremium() {
-        val params = BillingFlowParams.newBuilder()
-                .setSku(PRO_VERSION_ID)
-                .setType(BillingClient.SkuType.INAPP)
-                .build()
+        startConnection {
+            val params = BillingFlowParams.newBuilder()
+                    .setSku(PRO_VERSION_ID)
+                    .setType(BillingClient.SkuType.INAPP)
+                    .build()
 
-        billingClient.launchBillingFlow(activity, params)
+            billingClient.launchBillingFlow(activity, params)
+        }
     }
 }

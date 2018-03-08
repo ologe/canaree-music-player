@@ -10,10 +10,10 @@ import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ActivityContext
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.dagger.scope.PerActivity
-import dev.olog.msc.interfaces.pro.BillingImpl
-import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.pro.BillingImpl
+import dev.olog.msc.pro.IBilling
 
 @Module
 class MainActivityModule(

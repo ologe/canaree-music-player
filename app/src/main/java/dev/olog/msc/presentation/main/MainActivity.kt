@@ -12,7 +12,6 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
-import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.HasBilling
 import dev.olog.msc.presentation.base.HasSlidingPanel
@@ -22,6 +21,7 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
+import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.activity_main.*

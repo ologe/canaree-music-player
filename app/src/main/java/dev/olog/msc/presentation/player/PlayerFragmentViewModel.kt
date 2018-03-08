@@ -7,8 +7,8 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables

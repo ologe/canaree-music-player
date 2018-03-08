@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.base
 
-import dev.olog.msc.interfaces.pro.IBilling
+import dev.olog.msc.pro.IBilling
 
 interface HasBilling {
 

@@ -13,7 +13,6 @@ import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.msc.interfaces.pro.IBilling
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
@@ -39,6 +38,7 @@ import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.splash.SplashActivity
 import dev.olog.msc.presentation.utils.addRotateAnimation
+import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction

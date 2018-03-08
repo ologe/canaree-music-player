@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.interfaces.pro.IBilling
+import dev.olog.msc.pro.IBilling
 import javax.inject.Inject
 
 class PlayerFragmentViewModelFactory @Inject constructor(
