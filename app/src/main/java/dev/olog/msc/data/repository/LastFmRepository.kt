@@ -33,8 +33,8 @@ class LastFmRepository @Inject constructor(
         return dao.getAllUsedImages().map { it.toDomain() }
     }
 
-    override fun getTrack(trackId: Long, title: String, artist: String): Single<LastFmTrack> {
-        val cached = dao.getTrack(trackId)
+    override fun getTrack(trackId: Long, title: String, artist: String, album: String): Single<LastFmTrack> {
+        val cached = dao.getTrack(trackId, title, artist, album)
                 .map { it.toDomain() }
                 .subscribeOn(Schedulers.io())
 
@@ -76,7 +76,8 @@ class LastFmRepository @Inject constructor(
     }
 
     override fun getAlbum(albumId: Long, album: String, artist: String): Single<LastFmAlbum> {
-        val cached = dao.getAlbum(albumId).map { it.toDomain() }
+        val cached = dao.getAlbum(albumId, album, artist)
+                .map { it.toDomain() }
                 .subscribeOn(Schedulers.io())
 
         if (!connectivityManager.isNetworkAvailable()){
@@ -119,7 +120,7 @@ class LastFmRepository @Inject constructor(
     override fun shouldFetchArtist(artistId: Long): Single<Boolean> {
         return dao.getArtist(artistId)
                 .map { false }
-                .onErrorReturn { true }
+                .onErrorReturnItem(true)
     }
 
     override fun getArtist(artistId: Long, artist: String): Single<Boolean> {
@@ -127,21 +128,21 @@ class LastFmRepository @Inject constructor(
                 .map { false }
 
         if (!connectivityManager.isNetworkAvailable()){
-            return cached.onErrorReturn { false }
+            return cached.onErrorReturnItem(false)
         }
 
         val fetch = lastFmService.getArtistInfo(artist)
                 .map {
                     dao.insertArtist(it.toModel(artistId))
                     true
-                }.onErrorReturn {
+                }.doOnError {
                     if (it is NoSuchElementException){
                         dao.insertArtist(LastFmNulls.createNullArtist(artistId))
                     }
-                    false
                 }
 
         return cached.onErrorResumeNext(fetch)
+                .onErrorReturnItem(false)
     }
 
     override fun insertTrackImage(trackId: Long, image: String): Completable {

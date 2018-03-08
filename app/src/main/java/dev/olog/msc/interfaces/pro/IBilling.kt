@@ -23,8 +23,8 @@ interface IBilling {
 }
 
 private const val PRO_VERSION_ID = "pro_version"
-private const val DEFAULT_PREMIUM = false
-private const val DEFAULT_TRIAL = false
+private const val DEFAULT_PREMIUM = true
+private const val DEFAULT_TRIAL = true
 
 class BillingImpl @Inject constructor(
         private val activity: AppCompatActivity
@@ -41,6 +41,7 @@ class BillingImpl @Inject constructor(
     private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM, { _, _, new ->
         premiumPublisher.onNext(new)
     })
+
 
     private val billingClient = BillingClient.newBuilder(activity)
             .setListener(this)

@@ -8,7 +8,6 @@ import androidx.text.isDigitsOnly
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.NoNetworkConnectionPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
-import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.exception.AbsentNetwork
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -146,7 +145,7 @@ class EditAlbumFragmentViewModel(
         return DisplayableAlbum(
                 this.albumId,
                 this.album,
-                DisplayableItem.adjustArtist(artist),
+                this.artist,
                 tag.getFirst(FieldKey.GENRE) ?: "",
                 tag.getFirst(FieldKey.YEAR) ?: ""
         )

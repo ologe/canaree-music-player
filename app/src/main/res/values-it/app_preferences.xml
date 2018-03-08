@@ -56,7 +56,7 @@
     <string name="prefs_icon_shape_title">Forma delle immagini</string>
 
     <!--mini queue visibility-->
-    <string name="prefs_mini_queue_visibility_title">Visibilità coda di riproduzione compatta</string>
+    <string name="prefs_mini_queue_visibility_title">Visibilità mini coda di riproduzione</string>
 
     <!--show player controls-->
     <string name="prefs_player_controls_visibility_title">Visibilità controlli di riproduzione</string>

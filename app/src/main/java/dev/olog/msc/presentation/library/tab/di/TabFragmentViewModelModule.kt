@@ -183,7 +183,7 @@ private fun Album.toTabDisplayableItem(): DisplayableItem{
             R.layout.item_tab_album,
             MediaId.albumId(id),
             title,
-            artist,
+            DisplayableItem.adjustArtist(artist),
             image
     )
 }

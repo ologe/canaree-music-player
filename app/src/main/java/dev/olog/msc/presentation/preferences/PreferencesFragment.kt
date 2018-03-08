@@ -11,10 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
-import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.forEach
-import dev.olog.msc.utils.k.extension.fragmentTransaction
+import dev.olog.msc.utils.k.extension.*
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -34,14 +31,20 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         setIconShapeSummary()
 
         val billing = (act as PreferencesActivity).billing
-        val isPremium = billing.isPremium()
-        forEach(preferenceScreen) { it.isEnabled = isPremium }
-        if (!isPremium){
-            val v = act.window.decorView.findViewById<View>(android.R.id.content)
-            Snackbar.make(v, R.string.prefs_not_premium, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.prefs_not_premium_action, { billing.purchasePremium() })
-                    .show()
-        }
+        billing.observeIsPremium()
+                .take(2) // take current and after check values
+                .distinctUntilChanged()
+                .asLiveData()
+                .subscribe(this, { isPremium ->
+                    forEach(preferenceScreen) { it.isEnabled = isPremium }
+
+                    if (!isPremium) {
+                        val v = act.window.decorView.findViewById<View>(android.R.id.content)
+                        Snackbar.make(v, R.string.prefs_not_premium, Snackbar.LENGTH_INDEFINITE)
+                                .setAction(R.string.prefs_not_premium_action, { billing.purchasePremium() })
+                                .show()
+                    }
+                })
     }
 
     override fun onResume() {

@@ -17,9 +17,9 @@ abstract class LastFmDao {
     // track
 
     @Query("SELECT * FROM last_fm_track " +
-            "WHERE id = :id " +
+            "WHERE id = :id AND title = :title AND artist = :artist AND album = :album " +
             "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
-    internal abstract fun getTrack(id: Long): Single<LastFmTrackEntity>
+    internal abstract fun getTrack(id: Long, title: String, artist: String, album: String): Single<LastFmTrackEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertTrack(entity: LastFmTrackEntity): Long
@@ -27,9 +27,9 @@ abstract class LastFmDao {
     // album
 
     @Query("SELECT * FROM last_fm_album " +
-            "WHERE id = :id " +
+            "WHERE id = :id AND title = :title AND artist = :artist " +
             "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
-    internal abstract fun getAlbum(id: Long): Single<LastFmAlbumEntity>
+    internal abstract fun getAlbum(id: Long, title: String, artist: String): Single<LastFmAlbumEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertAlbum(entity: LastFmAlbumEntity): Long

@@ -41,7 +41,7 @@ class EditTrackFragmentPresenter @Inject constructor(
 
     fun fetchData(): Single<LastFmTrack> {
         return getLastFmTrackUseCase.execute(
-                LastFmTrackRequest(originalSong.id, originalSong.title, originalSong.artist)
+                LastFmTrackRequest(originalSong.id, originalSong.title, originalSong.artist, originalSong.album)
         )
     }
 

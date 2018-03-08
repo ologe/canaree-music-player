@@ -14,13 +14,14 @@ class GetLastFmTrackUseCase @Inject constructor(
 ): SingleUseCaseWithParam<LastFmTrack, LastFmTrackRequest>(schedulers) {
 
     override fun buildUseCaseObservable(param: LastFmTrackRequest): Single<LastFmTrack> {
-        val (id, title, artist) = param
-        return gateway.getTrack(id, title, artist)
+        val (id, title, artist, album) = param
+        return gateway.getTrack(id, title, artist, album)
     }
 }
 
 data class LastFmTrackRequest(
         val id: Long,
         val title: String,
-        val artist: String
+        val artist: String,
+        val album: String
 )
