@@ -16,6 +16,7 @@ import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.HasBilling
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
+import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
@@ -33,9 +34,12 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var navigator: Navigator
-    @Suppress("unused") // false alarm
-    @Inject lateinit var statusBarColorBehavior: StatusBarColorBehavior
+    // handles lifecycle itself
     @Inject override lateinit var billing: IBilling
+
+    @Suppress("unused") @Inject lateinit var statusBarColorBehavior: StatusBarColorBehavior
+    // handles lifecycle itself
+    @Suppress("unused") @Inject lateinit var rateAppDialog : RateAppDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

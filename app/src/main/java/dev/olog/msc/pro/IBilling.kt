@@ -52,7 +52,6 @@ class BillingImpl @Inject constructor(
     private var countDownDisposable : Disposable? = null
 
     init {
-        // todo retry policy
         activity.lifecycle.addObserver(this)
         startConnection { checkPurchases() }
 

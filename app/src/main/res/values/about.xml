@@ -11,8 +11,8 @@
 
     <string name="about_support_report_bug">Report bugs</string>
     <string name="about_support_report_bug_description">Report bugs or request new feature</string>
-    <string name="about_support_rate">Rate</string>
-    <string name="about_support_rate_description">Leave a positive rating if you appreciate my work</string>
+    <string name="about_support_rate">@string/rate_app_title</string>
+    <string name="about_support_rate_description">@string/rate_app_message</string>
 
     <string name="about_website">Website</string>
     <string name="about_website_description">Visit website</string>

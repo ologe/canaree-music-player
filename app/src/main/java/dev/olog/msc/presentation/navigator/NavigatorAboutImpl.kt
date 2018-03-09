@@ -4,10 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import dev.olog.msc.R
 import dev.olog.msc.presentation.licenses.LicensesFragment
 import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
+import dev.olog.msc.presentation.utils.openPlayStore
+import dev.olog.msc.presentation.utils.openReportBugs
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import javax.inject.Inject
 
@@ -44,25 +45,13 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun toMarket() {
         if (allowed()){
-            val uri = Uri.parse("market://details?id=${activity.packageName}")
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-            if (intent.resolveActivity(activity.packageManager) != null) {
-                activity.startActivity(intent)
-            } else {
-                Log.w("Navigator", "google play market not found")
-            }
+            openPlayStore(activity)
         }
     }
 
     override fun reportBugs() {
         if (allowed()){
-            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
-            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("dev.eugeniu.olog@gmail.com"))
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Next bug report")
-            activity.startActivity(intent)
+           openReportBugs(activity)
         }
     }
 

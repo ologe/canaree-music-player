@@ -1,0 +1,44 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="AndroidLintContentDescription" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintIconExpectedSize" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintLabelFor" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintNamespaceTypo" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="AndroidLintNegativeMargin" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintNewerVersionAvailable" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="AndroidLintUnusedIds" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="TOP_LEVEL_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="INNER_CLASS_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="METHOD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
+        </value>
+      </option>
+      <option name="FIELD_OPTIONS">
+        <value>
+          <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
+          <option name="REQUIRED_TAGS" value="" />
+        </value>
+      </option>
+      <option name="IGNORE_DEPRECATED" value="false" />
+      <option name="IGNORE_JAVADOC_PERIOD" value="true" />
+      <option name="IGNORE_DUPLICATED_THROWS" value="false" />
+      <option name="IGNORE_POINT_TO_ITSELF" value="false" />
+      <option name="myAdditionalJavadocTags" value="ArtistDetailAdapterForAlbum" />
+    </inspection_tool>
+    <inspection_tool class="TryWithIdenticalCatches" enabled="false" level="WARNING" enabled_by_default="false" />
+  </profile>
+</component>

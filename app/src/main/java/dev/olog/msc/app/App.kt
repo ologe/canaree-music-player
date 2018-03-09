@@ -1,6 +1,7 @@
 package dev.olog.msc.app
 
 import android.app.AlarmManager
+import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.Context
 import android.preference.PreferenceManager
 import dagger.android.AndroidInjector
@@ -29,6 +30,8 @@ class App : DaggerApplication() {
         initializeDebug()
         initializeConstants()
         resetSleepTimer()
+
+        ProcessLifecycleOwner.get().lifecycle
 
 //        validation.isValid().subscribe({}, Throwable::printStackTrace)
     }
