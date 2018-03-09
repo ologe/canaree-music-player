@@ -244,20 +244,10 @@ class AppPreferencesImpl @Inject constructor(
         return preferences.getLong(NEXT_SLEEP, -1L)
     }
 
-    override fun showMiniQueue(): Boolean {
-        val key = context.getString(R.string.prefs_mini_queue_visibility_key)
-        return preferences.getBoolean(key, true)
-    }
-
     override fun observeMiniQueueVisibility(): Observable<Boolean> {
         val key = context.getString(R.string.prefs_mini_queue_visibility_key)
         return rxPreferences.getBoolean(key, true)
                 .asObservable()
-    }
-
-    override fun showPlayerControls(): Boolean {
-        val key = context.getString(R.string.prefs_player_controls_visibility_key)
-        return preferences.getBoolean(key, false)
     }
 
     override fun observePlayerControlsVisibility(): Observable<Boolean> {
@@ -266,4 +256,10 @@ class AppPreferencesImpl @Inject constructor(
                 .asObservable()
     }
 
+    override fun observeAutoDownloadImages(): Observable<Boolean> {
+        val key = context.getString(R.string.prefs_auto_download_images_key)
+        return rxPreferences.getBoolean(key, false)
+                .asObservable()
+                .distinctUntilChanged()
+    }
 }

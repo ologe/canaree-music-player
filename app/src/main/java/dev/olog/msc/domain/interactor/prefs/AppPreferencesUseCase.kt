@@ -3,6 +3,7 @@ package dev.olog.msc.domain.interactor.prefs
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -35,36 +36,20 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setBlackList(set)
     }
 
-    fun showMiniQueue(): Boolean {
-        return gateway.showMiniQueue()
-    }
-
     fun observeMiniQueueVisibility(): Observable<Boolean> {
         return gateway.observeMiniQueueVisibility()
-    }
-
-    fun showPlayerControls(): Boolean {
-        return gateway.showPlayerControls()
+                .subscribeOn(Schedulers.io())
     }
 
     fun observePlayerControlsVisibility(): Observable<Boolean> {
         return gateway.observePlayerControlsVisibility()
+                .subscribeOn(Schedulers.io())
     }
 
+    fun observeAutoDownloadImages(): Observable<Boolean> {
+        return gateway.observeAutoDownloadImages()
+                .subscribeOn(Schedulers.io())
+    }
 
-//    fun getFolderSortOrder() : Observable<SortType> = gateway.getFolderSortOrder()
-//    fun getPlaylistSortOrder() : Observable<SortType> = gateway.getPlaylistSortOrder()
-//    fun getAlbumSortOrder() : Observable<SortType> = gateway.getAlbumSortOrder()
-//    fun getArtistSortOrder() : Observable<SortType> = gateway.getArtistSortOrder()
-//    fun getGenreSortOrder() : Observable<SortType> = gateway.getGenreSortOrder()
-//
-//    fun setFolderSortOrder(sortType: SortType) : Completable = gateway.setFolderSortOrder(sortType)
-//    fun setPlaylistSortOrder(sortType: SortType) : Completable = gateway.setPlaylistSortOrder(sortType)
-//    fun setAlbumSortOrder(sortType: SortType) : Completable = gateway.setAlbumSortOrder(sortType)
-//    fun setArtistSortOrder(sortType: SortType) : Completable = gateway.setArtistSortOrder(sortType)
-//    fun setGenreSortOrder(sortType: SortType) : Completable = gateway.setGenreSortOrder(sortType)
-//
-//    fun getSortArranging(): Observable<SortArranging> = gateway.getSortArranging()
-//    fun toggleSortArranging(): Completable = gateway.toggleSortArranging()
 
 }

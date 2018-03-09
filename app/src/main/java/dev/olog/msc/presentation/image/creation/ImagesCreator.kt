@@ -9,10 +9,12 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.util.*
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,7 +33,8 @@ class ImagesCreator @Inject constructor(
         private val playlistImagesCreator: PlaylistImagesCreator,
         private val albumImagesCreator: AlbumImagesCreator,
         private val artistImagesCreator: ArtistImagesCreator,
-        private val genreImagesCreator: GenreImagesCreator
+        private val genreImagesCreator: GenreImagesCreator,
+        private val appPreferencesUseCase: AppPreferencesUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -88,8 +91,11 @@ class ImagesCreator @Inject constructor(
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        getAllAlbumsUseCase.execute()
-                .doOnNext {
+        Observables.combineLatest(
+                appPreferencesUseCase.observeAutoDownloadImages(),
+                getAllAlbumsUseCase.execute(),
+                { downloadType, albums -> ImageCreatorPojo(downloadType, albums) }
+        ).doOnNext {
                     albumDisposable.unsubscribe()
                     albumDisposable = albumImagesCreator.execute(it)
                             .subscribe({}, Throwable::printStackTrace)
@@ -97,7 +103,11 @@ class ImagesCreator @Inject constructor(
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        getAllArtistsUseCase.execute()
+        Observables.combineLatest(
+                appPreferencesUseCase.observeAutoDownloadImages(),
+                getAllArtistsUseCase.execute(),
+                { downloadType, artists -> ImageCreatorPojo(downloadType, artists) }
+        )
                 .doOnNext {
                     artistDisposable.unsubscribe()
                     artistDisposable = artistImagesCreator.execute(it)
@@ -117,3 +127,9 @@ class ImagesCreator @Inject constructor(
     }
 
 }
+
+data class ImageCreatorPojo<T>(
+        val canUseMobile: Boolean,
+        val data: List<T>
+
+)

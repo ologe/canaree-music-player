@@ -45,6 +45,13 @@
     <PreferenceCategory
         android:title="@string/prefs_category_other">
 
+        <SwitchPreference
+            android:title="@string/prefs_auto_download_images_title"
+            android:summaryOn="@string/prefs_auto_download_images_summary_on"
+            android:summaryOff="@string/prefs_auto_download_images_summary_off"
+            android:key="@string/prefs_auto_download_images_key"
+            android:checked="false"/>
+
         <ListPreference
             android:title="@string/prefs_quick_action_title"
             android:summary="@string/prefs_quick_action_summary"

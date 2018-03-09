@@ -32,7 +32,7 @@ class SearchFragmentViewModel(
 
 ) : ViewModel() {
 
-    private var isFirstAccess = false
+    private var isFirstAccess = true
 
     fun doOnFirstAccess(func: () -> Unit){
         if (isFirstAccess){

@@ -61,4 +61,10 @@
     <!--show player controls-->
     <string name="prefs_player_controls_visibility_title">Visibilità controlli di riproduzione</string>
 
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_title">Scaricamento automatico immagini</string>
+    <string name="prefs_auto_download_images_summary_on">Sempre</string>
+    <string name="prefs_auto_download_images_summary_off">Solo su Wi-Fi</string>
+
+
 </resources>
