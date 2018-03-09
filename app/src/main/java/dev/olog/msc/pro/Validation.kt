@@ -10,8 +10,8 @@ import io.reactivex.schedulers.Schedulers
 import java.security.MessageDigest
 import javax.inject.Inject
 
-private const val SIGNATURE = ""// todo find signature
-                                // todo check if proguard hide it
+// todo check if proguard hide it
+private const val SIGNATURE = "zf1lNrVXNz+owbNEYH3bN9kSPO0="
 
 private const val PLAY_STORE_ID = "com.android.vending"
 
@@ -36,7 +36,7 @@ class Validation @Inject constructor(
             messageDigest.reset()
             messageDigest.update(signature.toByteArray())
             val currentSignature = Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT)
-//            println("this is the current signature $currentSignature") todo copy to signature
+            println("this is the current signature $currentSignature")
             if (SIGNATURE == currentSignature){
                 return true
             }

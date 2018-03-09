@@ -11,7 +11,6 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -85,9 +84,7 @@ class SongRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    override fun getAll(): Observable<List<Song>> {
-        return cachedData.emitThenDebounce()
-    }
+    override fun getAll(): Observable<List<Song>> = cachedData
 
     override fun getAllNewRequest(): Observable<List<Song>> {
         return queryAllData()

@@ -37,7 +37,9 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="16:9"
-                tools:src="@android:color/holo_red_dark" />
+                tools:src="@android:color/holo_red_dark"
+                android:clickable="false"
+                android:focusable="false"/>
 
             <dev.olog.msc.presentation.widget.image.view.ShapeImageView
                 android:id="@+id/cover"
@@ -53,7 +55,9 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 tools:src="@drawable/placeholder_folder"
-                tools:tint="@color/item_selected"/>
+                tools:tint="@color/item_selected"
+                android:clickable="true"
+                android:focusable="true"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/changeAlbumArt"

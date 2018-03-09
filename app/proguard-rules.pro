@@ -22,6 +22,7 @@
 
 # move classes to root package
 -repackageclasses
+-allowaccessmodification
 
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**

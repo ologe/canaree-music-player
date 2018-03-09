@@ -124,7 +124,6 @@ class LastFmRepository @Inject constructor(
     override fun shouldFetchArtist(artistId: Long): Single<Boolean> {
         return dao.getArtist(artistId)
                 .map { false }
-                .onErrorReturnItem(true)
     }
 
     /**

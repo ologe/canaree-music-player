@@ -29,6 +29,7 @@ class ArtistImagesCreator @Inject constructor(
                         .shouldFetchArtist(artist.id)
                         .filter { it }
                         .map { artist }
+                        .onErrorComplete()
                 }.toList()
                 .flatMap { fetchImages(it) }
     }
@@ -38,7 +39,9 @@ class ArtistImagesCreator @Inject constructor(
                 { _, artist -> artist } )
                 .onBackpressureBuffer()
                 .observeOn(imagesThreadPool.ioScheduler)
-                .flatMapSingle { lastFmGateway.getArtist(it.id, it.name).onErrorReturn { false } }
+                .flatMapSingle {
+                    lastFmGateway.getArtist(it.id, it.name).onErrorReturnItem(false)
+                }
                 .buffer(10)
                 .map { it.reduce { acc, curr -> acc || curr } }
                 .filter { it }
