@@ -36,7 +36,6 @@ class Validation @Inject constructor(
             messageDigest.reset()
             messageDigest.update(signature.toByteArray())
             val currentSignature = Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT)
-            println("this is the current signature $currentSignature")
             if (SIGNATURE == currentSignature){
                 return true
             }

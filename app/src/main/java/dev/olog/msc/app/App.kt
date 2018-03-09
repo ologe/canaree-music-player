@@ -30,7 +30,7 @@ class App : DaggerApplication() {
         initializeConstants()
         resetSleepTimer()
 
-        validation.isValid().subscribe({}, Throwable::printStackTrace)
+//        validation.isValid().subscribe({}, Throwable::printStackTrace)
     }
 
     private fun initializeDebug(){
