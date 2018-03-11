@@ -85,6 +85,9 @@ android {
         disable 'MissingTranslation'
     }
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 
 }
 
