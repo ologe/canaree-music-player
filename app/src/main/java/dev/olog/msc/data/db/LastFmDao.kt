@@ -7,7 +7,6 @@ import android.arch.persistence.room.Query
 import dev.olog.msc.data.entity.LastFmAlbumEntity
 import dev.olog.msc.data.entity.LastFmArtistEntity
 import dev.olog.msc.data.entity.LastFmTrackEntity
-import io.reactivex.Single
 
 private const val CACHE_TIME = "1 months"
 
@@ -19,7 +18,7 @@ abstract class LastFmDao {
     @Query("SELECT * FROM last_fm_track " +
             "WHERE id = :id AND title = :title AND artist = :artist AND album = :album " +
             "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
-    internal abstract fun getTrack(id: Long, title: String, artist: String, album: String): Single<LastFmTrackEntity>
+    internal abstract fun getTrack(id: Long, title: String, artist: String, album: String): LastFmTrackEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertTrack(entity: LastFmTrackEntity): Long
@@ -29,7 +28,7 @@ abstract class LastFmDao {
     @Query("SELECT * FROM last_fm_album " +
             "WHERE id = :id AND title = :title AND artist = :artist " +
             "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
-    internal abstract fun getAlbum(id: Long, title: String, artist: String): Single<LastFmAlbumEntity>
+    internal abstract fun getAlbum(id: Long, title: String, artist: String): LastFmAlbumEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertAlbum(entity: LastFmAlbumEntity): Long
@@ -42,7 +41,7 @@ abstract class LastFmDao {
     @Query("SELECT * FROM last_fm_artist " +
             "WHERE id = :id " +
             "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
-    internal abstract fun getArtist(id: Long): Single<LastFmArtistEntity>
+    internal abstract fun getArtist(id: Long): LastFmArtistEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertArtist(entity: LastFmArtistEntity): Long

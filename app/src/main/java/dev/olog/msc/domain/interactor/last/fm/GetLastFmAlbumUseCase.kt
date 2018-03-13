@@ -1,5 +1,6 @@
 package dev.olog.msc.domain.interactor.last.fm
 
+import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.domain.entity.LastFmAlbum
 import dev.olog.msc.domain.gateway.LastFmGateway
@@ -11,9 +12,9 @@ class GetLastFmAlbumUseCase @Inject constructor(
         schedulers: IoSchedulers,
         private val gateway: LastFmGateway
 
-): SingleUseCaseWithParam<LastFmAlbum, LastFmAlbumRequest>(schedulers) {
+): SingleUseCaseWithParam<Optional<out LastFmAlbum?>, LastFmAlbumRequest>(schedulers) {
 
-    override fun buildUseCaseObservable(param: LastFmAlbumRequest): Single<LastFmAlbum> {
+    override fun buildUseCaseObservable(param: LastFmAlbumRequest): Single<Optional<out LastFmAlbum?>> {
         val (id, title, artist) = param
         return gateway.getAlbum(id, title, artist)
     }

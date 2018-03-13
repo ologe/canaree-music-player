@@ -17,6 +17,7 @@ import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.applyIf
 import java.io.File
 import kotlin.math.absoluteValue
 
@@ -41,19 +42,15 @@ object BindingsAdapter {
         val source = resolveSource(mediaId)
         val id = resolveId(mediaId)
 
-        var request = GlideApp.with(context)
+        GlideApp.with(context)
                 .load(resolveUri(mediaId, item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
                 .priority(priority)
                 .placeholder(CoverUtils.getGradient(context, id, source))
-
-        if (!mediaId.isLeaf){
-            request = request.transition(DrawableTransitionOptions.withCrossFade())
-        }
-
-        request.into(RippleTarget(view, mediaId.isLeaf))
+                .applyIf(!mediaId.isLeaf, { transition(DrawableTransitionOptions.withCrossFade()) })
+                .into(RippleTarget(view, mediaId.isLeaf))
     }
 
     @BindingAdapter("albumsArtistImage")
@@ -138,7 +135,7 @@ object BindingsAdapter {
     }
 
     @JvmStatic
-    fun resolveId(mediaId: MediaId): Int {
+    private fun resolveId(mediaId: MediaId): Int {
         if (mediaId.isLeaf){
             return mediaId.leaf!!.toInt()
         }

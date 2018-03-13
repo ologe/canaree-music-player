@@ -80,6 +80,7 @@ class EditAlbumFragmentViewModel(
     fun fetchAlbumInfo(){
         fetchDisposable.unsubscribe()
         fetchDisposable = presenter.fetchData()
+                .map { it.get()!! }
                 .subscribe({ newValue ->
                     val oldValue = displayedAlbum.value!!
                     displayedAlbum.postValue(oldValue.copy(
@@ -99,6 +100,7 @@ class EditAlbumFragmentViewModel(
     fun fetchAlbumArt(){
         fetchDisposable.unsubscribe()
         fetchDisposable = presenter.fetchData()
+                .map { it.get() }
                 .map { it.image }
                 .subscribe(displayedImage::postValue, {
                     if (it is AbsentNetwork){

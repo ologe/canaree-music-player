@@ -66,3 +66,13 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
     }
 
 }
+
+fun GlideRequest<Drawable>.applyIf(
+        condition: Boolean,
+        function: GlideRequest<Drawable>.() -> GlideRequest<Drawable>) : GlideRequest<Drawable> {
+
+    if (condition){
+        return this.function()
+    }
+    return this
+}

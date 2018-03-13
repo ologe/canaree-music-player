@@ -256,7 +256,12 @@ class AppPreferencesImpl @Inject constructor(
                 .asObservable()
     }
 
-    override fun observeAutoDownloadImages(): Observable<Boolean> {
+    override fun getCanDownloadOnMobile(): Boolean {
+        val key = context.getString(R.string.prefs_auto_download_images_key)
+        return preferences.getBoolean(key, false)
+    }
+
+    override fun observeCanDownloadOnMobile(): Observable<Boolean> {
         val key = context.getString(R.string.prefs_auto_download_images_key)
         return rxPreferences.getBoolean(key, false)
                 .asObservable()

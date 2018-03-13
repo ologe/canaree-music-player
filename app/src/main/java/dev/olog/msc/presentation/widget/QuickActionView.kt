@@ -9,6 +9,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.toggleVisibility
+import kotlin.properties.Delegates
 
 class QuickActionView @JvmOverloads constructor(
         context: Context,
@@ -17,7 +18,7 @@ class QuickActionView @JvmOverloads constructor(
 
 ) : AppCompatImageView(context, attrs, defStyleAttr), View.OnClickListener {
 
-    private var currentMediaId: MediaId? = null
+    private var currentMediaId by Delegates.notNull<MediaId>()
 
     enum class Type {
         NONE, PLAY, SHUFFLE
@@ -53,13 +54,11 @@ class QuickActionView @JvmOverloads constructor(
     }
 
     override fun onClick(v: View?) {
-        currentMediaId?.let {
-            val mediaProvider = context as MediaProvider
-            when (AppConstants.QUICK_ACTION){
-                Type.PLAY -> mediaProvider.playFromMediaId(currentMediaId!!)
-                Type.SHUFFLE -> mediaProvider.shuffle(currentMediaId!!)
-                else -> {}
-            }
+        val mediaProvider = context as MediaProvider
+        when (AppConstants.QUICK_ACTION){
+            Type.PLAY -> mediaProvider.playFromMediaId(currentMediaId)
+            Type.SHUFFLE -> mediaProvider.shuffle(currentMediaId)
+            else -> {}
         }
     }
 }

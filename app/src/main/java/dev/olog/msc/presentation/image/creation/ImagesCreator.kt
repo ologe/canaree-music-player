@@ -7,17 +7,22 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.util.*
+import dev.olog.msc.utils.k.extension.isConnected
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.properties.Delegates
 
 @Singleton
 class ImagesCreator @Inject constructor(
@@ -38,6 +43,10 @@ class ImagesCreator @Inject constructor(
 
 ) : DefaultLifecycleObserver {
 
+    companion object {
+        var CAN_DOWNLOAD_ON_MOBILE by Delegates.notNull<Boolean>()
+    }
+
     private val subscriptions = CompositeDisposable()
     private var folderDisposable : Disposable? = null
     private var playlistDisposable : Disposable? = null
@@ -47,6 +56,7 @@ class ImagesCreator @Inject constructor(
 
     init {
         lifecycle.addObserver(this)
+        CAN_DOWNLOAD_ON_MOBILE = appPreferencesUseCase.getCanDownloadOnMobile()
     }
 
     override fun onStart(owner: LifecycleOwner) {
@@ -72,6 +82,11 @@ class ImagesCreator @Inject constructor(
     fun execute() {
         unsubscribe()
 
+        appPreferencesUseCase.observeCanDownloadOnMobile()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ CAN_DOWNLOAD_ON_MOBILE = it }, Throwable::printStackTrace)
+
         getAllFoldersUseCase.execute()
                 .onErrorReturn { listOf() }
                 .doOnNext {
@@ -92,26 +107,33 @@ class ImagesCreator @Inject constructor(
                 .addTo(subscriptions)
 
         Observables.combineLatest(
-                appPreferencesUseCase.observeAutoDownloadImages(),
+                ReactiveNetwork.observeNetworkConnectivity(context)
+                        .map { it.isConnected() },
+                appPreferencesUseCase.observeCanDownloadOnMobile(),
                 getAllAlbumsUseCase.execute(),
-                { downloadType, albums -> ImageCreatorPojo(downloadType, albums) }
-        ).doOnNext {
+                { isConnected, _, albums -> ImageCreatorPojo(albums, isConnected) })
+                .doOnNext {
                     albumDisposable.unsubscribe()
-                    albumDisposable = albumImagesCreator.execute(it)
-                            .subscribe({}, Throwable::printStackTrace)
+                    if (it.isConnected){
+                        albumDisposable = albumImagesCreator.execute(it.data)
+                                .subscribe({}, Throwable::printStackTrace)
+                    }
                 }
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         Observables.combineLatest(
-                appPreferencesUseCase.observeAutoDownloadImages(),
+                ReactiveNetwork.observeNetworkConnectivity(context)
+                        .map { it.isConnected() },
+                appPreferencesUseCase.observeCanDownloadOnMobile(),
                 getAllArtistsUseCase.execute(),
-                { downloadType, artists -> ImageCreatorPojo(downloadType, artists) }
-        )
+                { isConnected, _, artists -> ImageCreatorPojo(artists, isConnected) })
                 .doOnNext {
                     artistDisposable.unsubscribe()
-                    artistDisposable = artistImagesCreator.execute(it)
-                            .subscribe({}, Throwable::printStackTrace)
+                    if (it.isConnected){
+                        artistDisposable = artistImagesCreator.execute(it.data)
+                                .subscribe({}, Throwable::printStackTrace)
+                    }
                 }
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
@@ -128,8 +150,8 @@ class ImagesCreator @Inject constructor(
 
 }
 
-data class ImageCreatorPojo<T>(
-        val canUseMobile: Boolean,
-        val data: List<T>
+data class ImageCreatorPojo<out T>(
+        val data: List<T>,
+        val isConnected: Boolean
 
 )

@@ -1,7 +1,7 @@
 package dev.olog.msc.data.repository
 
-import android.arch.persistence.room.EmptyResultSetException
-import android.net.ConnectivityManager
+import com.github.dmstocking.optional.java.util.Optional
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.data.db.AppDatabase
@@ -14,15 +14,16 @@ import dev.olog.msc.domain.entity.LastFmAlbum
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.utils.exception.AbsentNetwork
-import dev.olog.msc.utils.k.extension.isNetworkAvailable
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 class LastFmRepository @Inject constructor(
         @Proxy private val lastFmService: LastFmService,
-        private val connectivityManager: ConnectivityManager,
+//        private val connectivityManager: ConnectivityManager,
         appDatabase: AppDatabase
 
 ) : LastFmGateway {
@@ -33,19 +34,16 @@ class LastFmRepository @Inject constructor(
         return dao.getAllUsedImages().map { it.toDomain() }
     }
 
-    override fun getTrack(trackId: Long, title: String, artist: String, album: String): Single<LastFmTrack> {
-        val cached = dao.getTrack(trackId, title, artist, album)
-                .map { it.toDomain() }
-                .subscribeOn(Schedulers.io())
-
-        if (!connectivityManager.isNetworkAvailable()){
-            return cached.onErrorResumeNext {
-                when (it){
-                    is EmptyResultSetException -> Single.error(AbsentNetwork())
-                    else -> Single.error(it)
+    /*
+        todo adjust this and callers
+     */
+    override fun getTrack(trackId: Long, title: String, artist: String, album: String): Single<Optional<out LastFmTrack?>> {
+        val cachedValue = Single.fromCallable { Optional.ofNullable(dao.getTrack(trackId, title, artist, album)) }
+                .map {
+                    if (it.isPresent){
+                        Optional.of(it.get().toDomain())
+                    } else Optional.ofNullable(null)
                 }
-            }
-        }
 
         val fetch = lastFmService.getTrackInfo(title, artist)
                 .map {
@@ -73,21 +71,29 @@ class LastFmRepository @Inject constructor(
                         }
                 }
 
-        return cached.onErrorResumeNext(fetch)
+        return Singles.zip(ReactiveNetwork.checkInternetConnectivity(), cachedValue) { isConnected, cached ->
+            when {
+                !cached.isPresent && isConnected -> true to cached
+                !cached.isPresent && isConnected -> throw AbsentNetwork()
+                else -> false to cached
+            }
+        }.flatMap { (shouldFetch, track) ->
+            if (shouldFetch){
+                fetch.map { Optional.ofNullable(it) }
+            } else Single.just(track)
+        }.subscribeOn(Schedulers.io())
     }
 
-    override fun getAlbum(albumId: Long, album: String, artist: String): Single<LastFmAlbum> {
-        val cached = dao.getAlbum(albumId, album, artist)
-                .map { it.toDomain() }
-                .subscribeOn(Schedulers.io())
-
-        if (!connectivityManager.isNetworkAvailable()){
-            return cached.onErrorResumeNext {
-                if (it is EmptyResultSetException){
-                    Single.error(AbsentNetwork())
-                } else Single.error(it)
-            }
-        }
+    /*
+        todo adjust this and callers
+     */
+    override fun getAlbum(albumId: Long, album: String, artist: String): Single<Optional<out LastFmAlbum?>> {
+        val cachedValue = Single.fromCallable { Optional.ofNullable(dao.getAlbum(albumId, album, artist)) }
+                .map {
+                    if (it.isPresent){
+                        Optional.of(it.get().toDomain())
+                    } else Optional.ofNullable(null)
+                }
 
         val fetch = lastFmService.getAlbumInfo(album, artist)
                 .map {
@@ -115,27 +121,34 @@ class LastFmRepository @Inject constructor(
                     }
                 }
 
-        return cached.onErrorResumeNext(fetch)
+        return Singles.zip(ReactiveNetwork.checkInternetConnectivity(), cachedValue) { isConnected, cached ->
+            when {
+                !cached.isPresent && isConnected -> true to cached
+                !cached.isPresent && !isConnected -> throw AbsentNetwork()
+                else -> false to cached
+            }
+        }.flatMap { (shouldFetch, album) ->
+            if (shouldFetch){
+                fetch.map { Optional.ofNullable(it) }
+            } else {
+                Single.just(album)
+            }
+        }.subscribeOn(Schedulers.io())
     }
 
     /**
      * @return true if no cache exists
      */
     override fun shouldFetchArtist(artistId: Long): Single<Boolean> {
-        return dao.getArtist(artistId)
-                .map { false }
+        return Single.fromCallable { Optional.ofNullable(dao.getArtist(artistId)) }
+                .map { !it.isPresent }
     }
 
     /**
      * @returns true if no cache exists and is fetched
      */
     override fun getArtist(artistId: Long, artist: String): Single<Boolean> {
-        val cached = dao.getArtist(artistId)
-                .map { false }
-
-        if (!connectivityManager.isNetworkAvailable()){
-            return cached.onErrorReturnItem(false)
-        }
+        val cachedValue = Single.fromCallable { Optional.ofNullable(dao.getArtist(artistId)) }
 
         val fetch = lastFmService.getArtistInfo(artist)
                 .map {
@@ -145,10 +158,18 @@ class LastFmRepository @Inject constructor(
                     if (it is NoSuchElementException){
                         dao.insertArtist(LastFmNulls.createNullArtist(artistId))
                     }
-                }
+                }.onErrorReturnItem(false)
 
-        return cached.onErrorResumeNext(fetch)
-                .onErrorReturnItem(false)
+        return Singles.zip(ReactiveNetwork.checkInternetConnectivity(), cachedValue) { isConnected, cached ->
+            when {
+                !cached.isPresent && isConnected -> true
+                else -> false
+            }
+        }.flatMap { shouldFetch ->
+            if (shouldFetch){
+                fetch
+            } else Single.just(false)
+        }.subscribeOn(Schedulers.io())
     }
 
     override fun insertTrackImage(trackId: Long, image: String): Completable {

@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.edit.track
 
+import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.entity.Song
@@ -39,7 +40,7 @@ class EditTrackFragmentPresenter @Inject constructor(
     fun getId() = originalSong.id.toInt()
     fun getPath() = originalSong.path
 
-    fun fetchData(): Single<LastFmTrack> {
+    fun fetchData(): Single<Optional<out LastFmTrack?>> {
         return getLastFmTrackUseCase.execute(
                 LastFmTrackRequest(originalSong.id, originalSong.title, originalSong.artist, originalSong.album)
         )

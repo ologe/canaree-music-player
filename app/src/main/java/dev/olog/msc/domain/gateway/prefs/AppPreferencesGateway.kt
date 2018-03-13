@@ -30,7 +30,8 @@ interface AppPreferencesGateway : Sorting {
 
     fun observePlayerControlsVisibility(): Observable<Boolean>
 
-    fun observeAutoDownloadImages(): Observable<Boolean>
+    fun getCanDownloadOnMobile() : Boolean
+    fun observeCanDownloadOnMobile(): Observable<Boolean>
 
 }
 

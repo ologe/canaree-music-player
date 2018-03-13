@@ -60,3 +60,9 @@
 
 # obfuscate billing
 -keep class com.android.vending.billing.**
+
+#rx connectivity
+-dontwarn com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
+-dontwarn io.reactivex.functions.Function
+-dontwarn rx.internal.util.**
+-dontwarn sun.misc.Unsafe

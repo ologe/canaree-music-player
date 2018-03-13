@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.edit.album
 
+import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.LastFmAlbum
@@ -49,7 +50,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 
     fun getOriginalImage() = ImagesFolderUtils.forAlbum(originalAlbum.id)
 
-    fun fetchData(): Single<LastFmAlbum> {
+    fun fetchData(): Single<Optional<out LastFmAlbum?>> {
         return getLastFmAlbumUseCase.execute(
                 LastFmAlbumRequest(originalAlbum.id, originalAlbum.title, originalAlbum.artist)
         )

@@ -46,8 +46,10 @@ class AppPreferencesUseCase @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
-    fun observeAutoDownloadImages(): Observable<Boolean> {
-        return gateway.observeAutoDownloadImages()
+    fun getCanDownloadOnMobile(): Boolean = gateway.getCanDownloadOnMobile()
+
+    fun observeCanDownloadOnMobile(): Observable<Boolean> {
+        return gateway.observeCanDownloadOnMobile()
                 .subscribeOn(Schedulers.io())
     }
 

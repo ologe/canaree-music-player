@@ -56,6 +56,7 @@ class EditTrackFragmentViewModel(
     fun fetchSongInfo(){
         fetchSongInfoDisposable.unsubscribe()
         fetchSongInfoDisposable = presenter.fetchData()
+                .map { it.get()!! }
                 .subscribe({ newValue ->
                     val oldValue = displayedSong.value!!
                     displayedSong.postValue(oldValue.copy(
@@ -75,6 +76,7 @@ class EditTrackFragmentViewModel(
     fun fetchAlbumArt() {
         fetchAlbumImageDisposable.unsubscribe()
         fetchAlbumImageDisposable = presenter.fetchData()
+                .map { it.get()!! }
                 .map { it.image }
                 .subscribe({
                     displayedImage.postValue(it)
