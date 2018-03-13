@@ -32,12 +32,6 @@
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }
 
--keepclassmembernames class kotlinx.** {
-    volatile <fields>;
-}
-
--keep class com.android.vending.billing.**
-
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep class com.bumptech.glide.GeneratedAppGlideModuleImpl

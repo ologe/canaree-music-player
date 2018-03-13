@@ -62,9 +62,7 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
+    dataBinding.enabled = true
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -74,11 +72,14 @@ android {
     dexOptions {
         preDexLibraries true
     }
+
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xmaxerrs" << "500" // or whatever number you want
         }
     }
+
+
 
     lintOptions {
 //        checkReleaseBuilds false
@@ -89,6 +90,13 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    kapt {
+        generateStubs = true
+        javacOptions {
+            option("-Xmaxerrs", 500)
+            correctErrorTypes = true
+        }
+    }
 }
 
 
