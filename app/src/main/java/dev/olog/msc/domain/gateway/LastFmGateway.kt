@@ -11,8 +11,8 @@ interface LastFmGateway {
 
     fun getAllImages(): List<UsedImage>
 
-    fun getTrack(trackId: Long, title: String, artist: String, album: String): Single<Optional<out LastFmTrack?>>
-    fun getAlbum(albumId: Long, album: String, artist: String): Single<Optional<out LastFmAlbum?>>
+    fun getTrack(trackId: Long, title: String, artist: String, album: String): Single<Optional<LastFmTrack?>>
+    fun getAlbum(albumId: Long, album: String, artist: String): Single<Optional<LastFmAlbum?>>
     fun shouldFetchArtist(artistId: Long): Single<Boolean>
     fun getArtist(artistId: Long, artist: String): Single<Boolean>
 

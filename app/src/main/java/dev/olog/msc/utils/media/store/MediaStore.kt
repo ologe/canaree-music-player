@@ -15,3 +15,11 @@ fun notifyMediaStore(context: Context, path: String){
 fun notifySongMediaStore(context: Context){
     context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
 }
+
+fun notifyArtistMediaStore(context: Context){
+    context.contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
+}
+
+fun notifyAlbumMediaStore(context: Context){
+    context.contentResolver.notifyChange(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, null)
+}

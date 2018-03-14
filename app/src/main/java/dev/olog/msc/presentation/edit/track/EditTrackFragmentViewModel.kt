@@ -6,10 +6,10 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import androidx.text.isDigitsOnly
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.presentation.NoNetworkConnectionPublisher
+import dev.olog.msc.presentation.ErrorPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.track.model.DisplayableSong
-import dev.olog.msc.utils.exception.AbsentNetwork
+import dev.olog.msc.utils.exception.NoNetworkException
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.msc.utils.media.store.notifyMediaStore
@@ -22,7 +22,7 @@ import java.io.File
 
 class EditTrackFragmentViewModel(
         application: Application,
-        private val connectionPublisher: NoNetworkConnectionPublisher,
+        private val errorPublisher: ErrorPublisher,
         private val presenter: EditTrackFragmentPresenter
 
 ) : AndroidViewModel(application) {
@@ -49,7 +49,7 @@ class EditTrackFragmentViewModel(
     fun observeData(): LiveData<DisplayableSong> = displayedSong
     fun observeImage(): LiveData<String> = displayedImage
 
-    fun observeConnectivity() : Observable<String> = connectionPublisher.observe()
+    fun observeConnectivity() : Observable<String> = errorPublisher.observe()
 
     fun getSongId(): Int = presenter.getId()
 
@@ -64,11 +64,12 @@ class EditTrackFragmentViewModel(
                             artist = newValue.artist,
                             album = newValue.album
                     ))
-                }, {
-                    if (it is AbsentNetwork){
-                        connectionPublisher.next()
+                }, { throwable ->
+                    when (throwable){
+                        is NoNetworkException -> errorPublisher.noNetwork()
+                        is NoSuchElementException -> errorPublisher.noResultsFound()
+                        else -> throwable.printStackTrace()
                     }
-                    it.printStackTrace()
                     displayedSong.postValue(null)
                 })
     }
@@ -80,12 +81,13 @@ class EditTrackFragmentViewModel(
                 .map { it.image }
                 .subscribe({
                     displayedImage.postValue(it)
-                }, {
-                    if (it is AbsentNetwork){
-                        connectionPublisher.next()
+                }, { throwable ->
+                    when (throwable){
+                        is NoNetworkException -> errorPublisher.noNetwork()
+                        is NoSuchElementException -> errorPublisher.noResultsFound()
+                        else -> throwable.printStackTrace()
                     }
                     displayedImage.postValue(null)
-                    it.printStackTrace()
                 })
     }
 

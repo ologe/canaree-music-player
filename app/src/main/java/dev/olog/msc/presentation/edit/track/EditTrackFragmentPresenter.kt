@@ -40,7 +40,7 @@ class EditTrackFragmentPresenter @Inject constructor(
     fun getId() = originalSong.id.toInt()
     fun getPath() = originalSong.path
 
-    fun fetchData(): Single<Optional<out LastFmTrack?>> {
+    fun fetchData(): Single<Optional<LastFmTrack?>> {
         return getLastFmTrackUseCase.execute(
                 LastFmTrackRequest(originalSong.id, originalSong.title, originalSong.artist, originalSong.album)
         )

@@ -86,24 +86,23 @@ class ImagesCreator @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ CAN_DOWNLOAD_ON_MOBILE = it }, Throwable::printStackTrace)
+                .addTo(subscriptions)
 
         getAllFoldersUseCase.execute()
-                .onErrorReturn { listOf() }
-                .doOnNext {
+                .onErrorReturnItem(listOf())
+                .subscribe({
                     folderDisposable.unsubscribe()
                     folderDisposable = folderImagesCreator.execute()
                             .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
+                }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         getAllPlaylistsUseCase.execute()
-                .doOnNext {
+                .subscribe({
                     playlistDisposable.unsubscribe()
                     playlistDisposable = playlistImagesCreator.execute(it)
                             .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
+                }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         Observables.combineLatest(
@@ -111,15 +110,14 @@ class ImagesCreator @Inject constructor(
                         .map { it.isConnected() },
                 appPreferencesUseCase.observeCanDownloadOnMobile(),
                 getAllAlbumsUseCase.execute(),
-                { isConnected, _, albums -> ImageCreatorPojo(albums, isConnected) })
-                .doOnNext {
+                { isConnected, _, albums -> albums to isConnected })
+                .subscribe({ (data, isConnected) ->
                     albumDisposable.unsubscribe()
-                    if (it.isConnected){
-                        albumDisposable = albumImagesCreator.execute(it.data)
+                    if (isConnected){
+                        albumDisposable = albumImagesCreator.execute(data)
                                 .subscribe({}, Throwable::printStackTrace)
                     }
-                }
-                .subscribe({}, Throwable::printStackTrace)
+                }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         Observables.combineLatest(
@@ -127,31 +125,23 @@ class ImagesCreator @Inject constructor(
                         .map { it.isConnected() },
                 appPreferencesUseCase.observeCanDownloadOnMobile(),
                 getAllArtistsUseCase.execute(),
-                { isConnected, _, artists -> ImageCreatorPojo(artists, isConnected) })
-                .doOnNext {
+                { isConnected, _, artists -> artists to isConnected })
+                .subscribe({ (data, isConnected) ->
                     artistDisposable.unsubscribe()
-                    if (it.isConnected){
-                        artistDisposable = artistImagesCreator.execute(it.data)
+                    if (isConnected){
+                        artistDisposable = artistImagesCreator.execute(data)
                                 .subscribe({}, Throwable::printStackTrace)
                     }
-                }
-                .subscribe({}, Throwable::printStackTrace)
+                }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
         getAllGenresUseCase.execute()
-                .doOnNext {
+                .subscribe({
                     genreDisposable.unsubscribe()
                     genreDisposable = genreImagesCreator.execute(it)
                             .subscribe({}, Throwable::printStackTrace)
-                }
-                .subscribe({}, Throwable::printStackTrace)
+                }, Throwable::printStackTrace)
                 .addTo(subscriptions)
     }
 
 }
-
-data class ImageCreatorPojo<out T>(
-        val data: List<T>,
-        val isConnected: Boolean
-
-)

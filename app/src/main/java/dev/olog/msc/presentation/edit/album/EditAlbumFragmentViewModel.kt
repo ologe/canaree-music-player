@@ -6,9 +6,9 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import androidx.text.isDigitsOnly
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.presentation.NoNetworkConnectionPublisher
+import dev.olog.msc.presentation.ErrorPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
-import dev.olog.msc.utils.exception.AbsentNetwork
+import dev.olog.msc.utils.exception.NoNetworkException
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.msc.utils.media.store.notifyMediaStore
@@ -21,7 +21,7 @@ import java.io.File
 
 class EditAlbumFragmentViewModel(
         application: Application,
-        private val connectionPublisher: NoNetworkConnectionPublisher,
+        private val errorPublisher: ErrorPublisher,
         private val presenter: EditAlbumFragmentPresenter
 
 ) : AndroidViewModel(application) {
@@ -66,7 +66,7 @@ class EditAlbumFragmentViewModel(
 
     fun getAlbumId(): Int = presenter.getAlbumId()
 
-    fun observeConnectivity(): Observable<String> = connectionPublisher.observe()
+    fun observeConnectivity(): Observable<String> = errorPublisher.observe()
 
     fun setAlbumArt(uri: String){
         displayedImage.postValue(uri)
@@ -88,11 +88,12 @@ class EditAlbumFragmentViewModel(
                             artist = newValue.artist
                     ))
 
-                }, {
-                    if (it is AbsentNetwork){
-                        connectionPublisher.next()
+                }, { throwable ->
+                when (throwable){
+                        is NoNetworkException -> errorPublisher.noNetwork()
+                        is NoSuchElementException -> errorPublisher.noResultsFound()
+                        else -> throwable.printStackTrace()
                     }
-                    it.printStackTrace()
                     displayedAlbum.postValue(null)
                 })
     }
@@ -102,12 +103,13 @@ class EditAlbumFragmentViewModel(
         fetchDisposable = presenter.fetchData()
                 .map { it.get() }
                 .map { it.image }
-                .subscribe(displayedImage::postValue, {
-                    if (it is AbsentNetwork){
-                        connectionPublisher.next()
+                .subscribe(displayedImage::postValue, { throwable ->
+                    when (throwable){
+                        is NoNetworkException -> errorPublisher.noNetwork()
+                        is NoSuchElementException -> errorPublisher.noResultsFound()
+                        else -> throwable.printStackTrace()
                     }
                     displayedImage.postValue(null)
-                    it.printStackTrace()
                 })
     }
 
