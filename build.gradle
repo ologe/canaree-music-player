@@ -76,6 +76,7 @@ ext {
     fuzzywuzzy = '1.1.9'
     gson = '2.8.2'
     ok_http = '3.10.0'
+    optional_lib = '1.2'
 
     // reactive
     rx_java = '2.1.10'
@@ -83,6 +84,7 @@ ext {
     rx_binding = '2.1.1'
     rx_preferences = '2.0.0-RC3'
     rx_kotlin = '2.2.0'
+    reactive_network = '0.12.3'
 
     // dependency injection
     dagger = '2.14.1'

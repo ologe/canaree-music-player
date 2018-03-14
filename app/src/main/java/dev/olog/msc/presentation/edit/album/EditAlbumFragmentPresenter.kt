@@ -50,7 +50,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
 
     fun getOriginalImage() = ImagesFolderUtils.forAlbum(originalAlbum.id)
 
-    fun fetchData(): Single<Optional<out LastFmAlbum?>> {
+    fun fetchData(): Single<Optional<LastFmAlbum?>> {
         return getLastFmAlbumUseCase.execute(
                 LastFmAlbumRequest(originalAlbum.id, originalAlbum.title, originalAlbum.artist)
         )

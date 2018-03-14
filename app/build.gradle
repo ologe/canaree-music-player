@@ -168,8 +168,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
-    implementation 'com.github.pwittchen:reactivenetwork-rx2:0.12.3'
-    implementation 'com.github.dmstocking:support-optional:1.2'
+    implementation "com.github.pwittchen:reactivenetwork-rx2:$rootProject.reactive_network"
+    implementation "com.github.dmstocking:support-optional:$rootProject.optional_lib"
 
     // debug
 //    debugImplementation "com.akaita.java:rxjava2-debug:$rootProject.rxjava_debug"

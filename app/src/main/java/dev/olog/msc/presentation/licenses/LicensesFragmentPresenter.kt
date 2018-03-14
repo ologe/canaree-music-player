@@ -54,6 +54,12 @@ class LicensesFragmentPresenter @Inject constructor(
             "Rx Preferences", "https://github.com/f2prateek/rx-preferences",
             apache())
 
+    private val RX_NETWORK = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("rxNetwork"),
+            "ReactiveNetwork", "https://github.com/pwittchen/ReactiveNetwork",
+            apache())
+
     private val SQL_BRITE = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("sqlbrite"),
@@ -133,6 +139,12 @@ class LicensesFragmentPresenter @Inject constructor(
             jAudioTagger()
     )
 
+    private val OPTIONAL = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("optional"),
+            "support-optional", "https://github.com/dmstocking/support-optional",
+            apache()
+    )
 
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
@@ -142,6 +154,7 @@ class LicensesFragmentPresenter @Inject constructor(
             RX_ANDROID,
             RX_PREFERENCES,
             RX_BINDING,
+            RX_NETWORK,
             SQL_BRITE,
             SLIDING_PANEL,
             EXO_PLAYER,
@@ -154,7 +167,8 @@ class LicensesFragmentPresenter @Inject constructor(
             GSON,
             RETROFIT,
             OK_HTTP,
-            J_AUDIO_TAGGER
+            J_AUDIO_TAGGER,
+            OPTIONAL
     )
 
     private fun apache(): String {
