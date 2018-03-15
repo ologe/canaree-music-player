@@ -7,13 +7,10 @@ class PlaylistSpanSizeLookup(
 ) : AbsSpanSizeLookup() {
 
     override fun getSpanSize(position: Int): Int {
-        if (position == 0 || position == 4){
-            return spanCount
+        when (position){
+            0, 4 -> return spanCount
         }
-        return if (isPortrait){
-            spanCount / 3
-        } else {
-            spanCount / 4
-        }
+
+        return if (isPortrait) spanCount / 3 else spanCount / 4
     }
 }

@@ -91,7 +91,7 @@ android {
     }
 
     kapt {
-        generateStubs = true
+//        generateStubs = true
         javacOptions {
             option("-Xmaxerrs", 500)
             correctErrorTypes = true

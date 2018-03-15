@@ -76,6 +76,14 @@ class TabFragmentAdapter @Inject constructor(
                 val view = viewHolder.itemView as RecyclerView
                 setupHorizontalList(view, lastPlayedArtistsAdapter.get())
             }
+            R.layout.item_tab_download_no_wifi -> {
+                viewHolder.setOnClickListener(R.id.useMobileData, controller) { _, _, _ ->
+                    viewModel.hideTurnOnMessage(true)
+                }
+                viewHolder.setOnClickListener(R.id.hideButton, controller) { _, _, _ ->
+                    viewModel.hideTurnOnMessage(false)
+                }
+            }
         }
 
         when (viewType){
@@ -93,6 +101,12 @@ class TabFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
+    }
+
+    override val onSwipeAction = { _: Int -> viewModel.hideTurnOnMessage(false) }
+
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return viewType == R.layout.item_tab_download_no_wifi
     }
 
 }

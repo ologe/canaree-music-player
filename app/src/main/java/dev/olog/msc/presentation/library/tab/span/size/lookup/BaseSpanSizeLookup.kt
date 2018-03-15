@@ -6,10 +6,6 @@ class BaseSpanSizeLookup(
 ) : AbsSpanSizeLookup() {
 
     override fun getSpanSize(position: Int): Int {
-        return if (isPortrait) {
-            spanCount / 3
-        } else {
-            spanCount / 4
-        }
+        return if (isPortrait) spanCount / 3 else spanCount / 4
     }
 }

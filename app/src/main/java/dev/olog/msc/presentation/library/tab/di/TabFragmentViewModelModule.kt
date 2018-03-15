@@ -7,6 +7,7 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.tab.*
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -19,6 +20,7 @@ import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
+@Suppress("unused")
 @Module
 class TabFragmentViewModelModule {
 
@@ -59,11 +61,19 @@ class TabFragmentViewModelModule {
     @MediaIdCategoryKey(MediaIdCategory.SONGS)
     internal fun provideSongData(
             useCase: GetAllSongsUseCase,
-            headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
+            headers: TabFragmentHeaders,
+            appPrefsUseCase: AppPreferencesUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute()
+        val obs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
                 .map { it.startWithIfNotEmpty(headers.shuffleHeader) }
+
+        val showTurnOnWifi = appPrefsUseCase.canShowTurnOnWifiMessageForImages()
+                .map {  canShow -> if(canShow) headers.showTurnOnWifi else listOf() }
+
+        return Observables.combineLatest(
+                obs, showTurnOnWifi, { data, wifi -> wifi.plus(data) }
+        )
     }
 
     @Provides
@@ -72,7 +82,8 @@ class TabFragmentViewModelModule {
     internal fun provideAlbumData(
             useCase: GetAllAlbumsUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
-            headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
+            headers: TabFragmentHeaders,
+            appPrefsUseCase: AppPreferencesUseCase): Observable<List<DisplayableItem>> {
 
         val allObs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
@@ -80,12 +91,17 @@ class TabFragmentViewModelModule {
 
         val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
-                .map {
-                    if (it.isNotEmpty()) headers.albumHeaders else it
-                }
+                .map { if (it.isNotEmpty()) headers.albumHeaders else it }
                 .distinctUntilChanged()
 
-        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
+        val showTurnOnWifi = appPrefsUseCase.canShowTurnOnWifiMessageForImages()
+                .map {  canShow -> if(canShow) headers.showTurnOnWifi else listOf() }
+
+        return Observables.combineLatest(
+                allObs,
+                lastPlayedObs,
+                showTurnOnWifi,
+                { all, recent, wifi -> wifi.plus(recent.plus(all)) })
     }
 
     @Provides
@@ -95,7 +111,8 @@ class TabFragmentViewModelModule {
             resources: Resources,
             useCase: GetAllArtistsUseCase,
             lastPlayedArtistsUseCase: GetLastPlayedArtistsUseCase,
-            headers: TabFragmentHeaders) : Observable<List<DisplayableItem>> {
+            headers: TabFragmentHeaders,
+            appPrefsUseCase: AppPreferencesUseCase) : Observable<List<DisplayableItem>> {
 
         val allObs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
@@ -108,7 +125,14 @@ class TabFragmentViewModelModule {
                 }
                 .distinctUntilChanged()
 
-        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
+        val showTurnOnWifi = appPrefsUseCase.canShowTurnOnWifiMessageForImages()
+                .map {  canShow -> if(canShow) headers.showTurnOnWifi else listOf() }
+
+        return Observables.combineLatest(
+                allObs,
+                lastPlayedObs,
+                showTurnOnWifi,
+                { all, recent, wifi -> wifi.plus(recent.plus(all)) })
     }
 
 

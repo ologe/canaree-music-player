@@ -17,20 +17,16 @@ class AlbumSpanSizeLookup(
 
     override fun getSpanSize(position: Int): Int {
         val itemType = adapter.elementAt(position).type
-        if ((itemType == R.layout.item_tab_header ||
-                        itemType == R.layout.item_tab_last_played_artist_horizontal_list ||
-                        itemType == R.layout.item_tab_last_played_album_horizontal_list)){
-            return spanCount
+        when (itemType){
+            R.layout.item_tab_header,
+            R.layout.item_tab_last_played_artist_horizontal_list,
+            R.layout.item_tab_last_played_album_horizontal_list,
+            R.layout.item_tab_download_no_wifi -> return spanCount
         }
-
-
         if (isTablet){
-            return if (isPortrait) spanCount / 3 else spanCount / 4
+            if (isPortrait) spanCount / 3 else spanCount / 4
         }
 
-        if (isPortrait){
-            return spanCount / 2
-        }
-        return spanCount / 4
+        return if(isPortrait) spanCount / 2 else spanCount / 4
     }
 }

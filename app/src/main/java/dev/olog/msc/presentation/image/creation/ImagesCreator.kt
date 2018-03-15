@@ -27,15 +27,17 @@ import kotlin.properties.Delegates
 @Singleton
 class ImagesCreator @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ProcessLifecycle lifecycle: Lifecycle,
+        @ProcessLifecycle private val lifecycle: Lifecycle,
         private val getAllFoldersUseCase: GetAllFoldersNewRequestUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsNewRequestUseCase,
+        private val getAllSongsUseCAse: GetAllSongsNewRequestUseCase,
         private val getAllAlbumsUseCase: GetAllAlbumsNewRequestUseCase,
         private val getAllArtistsUseCase: GetAllArtistsNewRequestUseCase,
         private val getAllGenresUseCase: GetAllGenresNewRequestUseCase,
 
         private val folderImagesCreator: FolderImagesCreator,
         private val playlistImagesCreator: PlaylistImagesCreator,
+        private val songsImagesCreator: SongImageCreator,
         private val albumImagesCreator: AlbumImagesCreator,
         private val artistImagesCreator: ArtistImagesCreator,
         private val genreImagesCreator: GenreImagesCreator,
@@ -50,6 +52,7 @@ class ImagesCreator @Inject constructor(
     private val subscriptions = CompositeDisposable()
     private var folderDisposable : Disposable? = null
     private var playlistDisposable : Disposable? = null
+    private var songDisposable : Disposable? = null
     private var albumDisposable : Disposable? = null
     private var artistDisposable : Disposable? = null
     private var genreDisposable : Disposable? = null
@@ -76,6 +79,7 @@ class ImagesCreator @Inject constructor(
         albumDisposable.unsubscribe()
         artistDisposable.unsubscribe()
         genreDisposable.unsubscribe()
+        songDisposable.unsubscribe()
         subscriptions.clear()
     }
 
@@ -115,7 +119,11 @@ class ImagesCreator @Inject constructor(
                     albumDisposable.unsubscribe()
                     if (isConnected){
                         albumDisposable = albumImagesCreator.execute(data)
-                                .subscribe({}, Throwable::printStackTrace)
+                                .subscribe({
+                                    // fetch song images only after downloading all album images
+                                    // due to only 5 request per second limit of LastFm
+                                    fetchSongImages()
+                                }, Throwable::printStackTrace)
                     }
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
@@ -142,6 +150,25 @@ class ImagesCreator @Inject constructor(
                             .subscribe({}, Throwable::printStackTrace)
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
+    }
+
+    private fun fetchSongImages(){
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)){
+            Observables.combineLatest(
+                    ReactiveNetwork.observeNetworkConnectivity(context)
+                            .map { it.isConnected() },
+                    appPreferencesUseCase.observeCanDownloadOnMobile(),
+                    getAllSongsUseCAse.execute(),
+                    { isConnected, _, songs -> songs to isConnected })
+                    .subscribe({ (data, isConnected) ->
+                        songDisposable.unsubscribe()
+                        if (isConnected){
+                            songDisposable = songsImagesCreator.execute(data)
+                                    .subscribe({}, Throwable::printStackTrace)
+                        }
+                    }, Throwable::printStackTrace)
+                    .addTo(subscriptions)
+        }
     }
 
 }

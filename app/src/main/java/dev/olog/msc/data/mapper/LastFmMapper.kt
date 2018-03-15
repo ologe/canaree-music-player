@@ -56,9 +56,13 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
     )
 }
 
-fun LastFmTrack.toModel(): LastFmTrackEntity {
+fun LastFmTrack.toModel(title: String, artist: String, album: String): LastFmTrackEntity {
     return LastFmTrackEntity(
-            this.id, this.title, this.artist, this.album, this.image,
+            this.id,
+            title,
+            artist,
+            album,
+            this.image,
             millisToFormattedDate(System.currentTimeMillis())
     )
 }
@@ -86,9 +90,12 @@ fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
     )
 }
 
-fun LastFmAlbum.toModel(): LastFmAlbumEntity {
+fun LastFmAlbum.toModel(title: String, artist: String): LastFmAlbumEntity {
     return LastFmAlbumEntity(
-            this.id, this.title, this.artist, this.image,
+            this.id,
+            title,
+            artist,
+            this.image,
             millisToFormattedDate(System.currentTimeMillis())
     )
 }

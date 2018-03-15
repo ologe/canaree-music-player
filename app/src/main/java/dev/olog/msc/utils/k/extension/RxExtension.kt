@@ -45,7 +45,7 @@ fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
     return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
 }
 
-fun <T> Observable<T>.emitThenDebounce(
+fun <T> Observable<T>.emitThenDebounce( // todo is really needed?
         timeOut: Long = 1L,
         timeUnit: TimeUnit = TimeUnit.SECONDS): Observable<T> {
 

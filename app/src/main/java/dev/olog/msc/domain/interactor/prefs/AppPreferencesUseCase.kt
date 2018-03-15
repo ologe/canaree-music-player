@@ -46,11 +46,22 @@ class AppPreferencesUseCase @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
+    fun setCanDownloadOnMobile(can: Boolean) {
+        gateway.setCanDownloadOnMobile(can)
+    }
     fun getCanDownloadOnMobile(): Boolean = gateway.getCanDownloadOnMobile()
 
     fun observeCanDownloadOnMobile(): Observable<Boolean> {
         return gateway.observeCanDownloadOnMobile()
                 .subscribeOn(Schedulers.io())
+    }
+
+    fun canShowTurnOnWifiMessageForImages(): Observable<Boolean> {
+        return gateway.canShowTurnOnWifiMessageForImages()
+    }
+
+    fun hideTurnOnWifiMessageForImages(){
+        return gateway.hideTurnOnWifiMessageForImages()
     }
 
 

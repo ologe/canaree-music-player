@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.library.tab
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -14,7 +15,8 @@ import io.reactivex.Observable
 class TabFragmentViewModel constructor(
         private val data: Map<MediaIdCategory, Observable<List<DisplayableItem>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
-        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase
+        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
+        private val appPreferencesUseCase: AppPreferencesUseCase
 
 ) : ViewModel() {
 
@@ -23,9 +25,7 @@ class TabFragmentViewModel constructor(
     fun observeData(category: MediaIdCategory): LiveData<List<DisplayableItem>> {
         var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
         if (liveData == null) {
-
-            liveData = data[category]!!
-                    .asLiveData()
+            liveData = data[category]!!.asLiveData()
             liveDataList[category] = liveData
         }
 
@@ -42,5 +42,11 @@ class TabFragmentViewModel constructor(
         return insertLastPlayedArtistUseCase.execute(artistId)
     }
 
+    fun hideTurnOnMessage(canUseMobileData: Boolean){
+        appPreferencesUseCase.hideTurnOnWifiMessageForImages()
+        if (canUseMobileData){
+            appPreferencesUseCase.setCanDownloadOnMobile(true)
+        }
+    }
 
 }

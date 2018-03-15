@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.edit.track
 
-import android.arch.lifecycle.Observer
 import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -37,29 +36,21 @@ class EditTrackFragment : BaseEditItemFragment() {
                 .asLiveData()
                 .subscribe(this, okButton::setEnabled)
 
-        viewModel.observeData().observe(this, Observer {
-                    when (it){
-                        null -> ctx.toast(R.string.edit_song_info_not_found)
-                        else -> {
-                            title.setText(it.title)
-                            artist.setText(it.artist)
-                            album.setText(it.album)
-                            year.setText(it.year)
-                            genre.setText(it.genre)
-                            disc.setText(it.disc)
-                            trackNumber.setText(it.track)
-                        }
-                    }
-                    hideLoader()
-                })
+        viewModel.observeData().subscribe(this, {
+            title.setText(it.title)
+            artist.setText(it.artist)
+            album.setText(it.album)
+            year.setText(it.year)
+            genre.setText(it.genre)
+            disc.setText(it.disc)
+            trackNumber.setText(it.track)
+            hideLoader()
+        })
 
-        viewModel.observeImage().observe(this, Observer {
-                    when (it){
-                        null -> ctx.toast(R.string.edit_song_image_not_found)
-                        else -> setImage(it, viewModel.getSongId())
-                    }
-                    hideLoader()
-                })
+        viewModel.observeImage().subscribe(this, {
+            setImage(it, viewModel.getSongId())
+            hideLoader()
+        })
 
         viewModel.observeConnectivity()
                 .asLiveData()

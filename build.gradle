@@ -87,7 +87,7 @@ ext {
     reactive_network = '0.12.3'
 
     // dependency injection
-    dagger = '2.14.1'
+    dagger = '2.15'
 
     // debug
     rxjava_debug = '1.2.2'

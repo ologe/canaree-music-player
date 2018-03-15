@@ -51,14 +51,14 @@ class LastFmRepository @Inject constructor(
 
         val fetch = lastFmService.getTrackInfo(title, artist)
                 .map { it.toDomain(trackId) }
-                .doOnSuccess { dao.insertTrack(it.toModel()) }
+                .doOnSuccess { dao.insertTrack(it.toModel(title, artist, album)) }
                 .onErrorResumeNext { lastFmService.searchTrack(title, artist)
                         .map { it.toDomain(trackId) }
                         .flatMap { result -> lastFmService.getTrackInfo(result.title, result.artist)
                                 .map { it.toDomain(trackId) }
                                 .onErrorReturnItem(result)
                         }
-                        .doOnSuccess { dao.insertTrack(it.toModel()) }
+                        .doOnSuccess { dao.insertTrack(it.toModel(title, artist, album)) }
                         .onErrorResumeNext {
                             if (it is NoSuchElementException){
                                 Single.just(LastFmNulls.createNullTrack(trackId))
@@ -82,9 +82,6 @@ class LastFmRepository @Inject constructor(
         }.subscribeOn(Schedulers.io())
     }
 
-    /*
-        todo adjust this and callers
-     */
     override fun getAlbum(albumId: Long, album: String, artist: String): Single<Optional<LastFmAlbum?>> {
         val cachedValue = Single.fromCallable { Optional.ofNullable(dao.getAlbum(albumId, album, artist)) }
                 .map {
@@ -95,14 +92,14 @@ class LastFmRepository @Inject constructor(
 
         val fetch = lastFmService.getAlbumInfo(album, artist)
                 .map { it.toDomain(albumId) }
-                .doOnSuccess { dao.insertAlbum(it.toModel()) }
+                .doOnSuccess { dao.insertAlbum(it.toModel(album, artist)) }
                 .onErrorResumeNext { lastFmService.searchAlbum(album)
                         .map { it.toDomain(albumId, artist) }
                         .flatMap { result -> lastFmService.getAlbumInfo(result.title, result.artist)
                                 .map { it.toDomain(albumId) }
                                 .onErrorReturnItem(result)
                         }
-                        .doOnSuccess { dao.insertAlbum(it.toModel()) }
+                        .doOnSuccess { dao.insertAlbum(it.toModel(album, artist)) }
                         .onErrorResumeNext {
                             if (it is NoSuchElementException){
                                 Single.just(LastFmNulls.createNullAlbum(albumId))
@@ -144,11 +141,13 @@ class LastFmRepository @Inject constructor(
                 .map {
                     dao.insertArtist(it.toModel(artistId))
                     true
-                }.doOnError {
+                }.onErrorResumeNext {
+                    var single = Single.just(false)
                     if (it is NoSuchElementException){
-                        dao.insertArtist(LastFmNulls.createNullArtist(artistId))
+                        single = single.doOnSuccess { dao.insertArtist(LastFmNulls.createNullArtist(artistId)) }
                     }
-                }.onErrorReturnItem(false)
+                    single
+                }
 
         return Singles.zip(ReactiveNetwork.checkInternetConnectivity(), cachedValue)
                 { isConnected, cached -> !cached.isPresent && isConnected }
