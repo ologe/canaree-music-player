@@ -34,7 +34,7 @@ object MergedImagesCreator {
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
         return GlideApp.with(context)
                 .asBitmap()
-                .load(Uri.parse(ImagesFolderUtils.forAlbum(albumId)))
+                .load(Uri.parse(ImagesFolderUtils.forAlbum(albumId))) // todo search either for downloaded images
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .submit(500, 500)
                 .get()

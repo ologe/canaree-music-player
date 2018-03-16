@@ -52,7 +52,14 @@ class SearchFragmentViewModelModule {
 
             if (input.isBlank()) {
                 provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
-                        .map { mutableMapOf(SearchFragmentType.RECENT to it.toMutableList()) }
+                        .map {
+                            mutableMapOf(
+                                    SearchFragmentType.RECENT to it.toMutableList(),
+                                    SearchFragmentType.ARTISTS to mutableListOf(),
+                                    SearchFragmentType.ALBUMS to mutableListOf(),
+                                    SearchFragmentType.SONGS to mutableListOf()
+                            )
+                        }
                         .map { Pair(it, input) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
@@ -65,6 +72,7 @@ class SearchFragmentViewModelModule {
                                     provideSearchBySong(getAllSongsUseCase, input),
                                     { artists, albums, songs ->
                                         mutableMapOf(
+                                                SearchFragmentType.RECENT to mutableListOf(),
                                                 SearchFragmentType.ARTISTS to artists.toMutableList(),
                                                 SearchFragmentType.ALBUMS to albums.toMutableList(),
                                                 SearchFragmentType.SONGS to songs.toMutableList()

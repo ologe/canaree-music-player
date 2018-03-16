@@ -44,7 +44,7 @@ class SongImageCreator @Inject constructor(
                     lastFmGateway.getTrack(it.id, it.title, it.artist, it.album)
                             .filter { it.isPresent }
                             .map { it.get() }
-                            .flatMap { lastFmGateway.insertTrackImage(it.id, it.album).toMaybe<Boolean>() }
+                            .flatMap { lastFmGateway.insertTrackImage(it.id, it.image).toMaybe<Boolean>() }
                             .onErrorComplete()
                 }
                 .buffer(10)

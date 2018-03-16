@@ -160,12 +160,18 @@ class LastFmRepository @Inject constructor(
     }
 
     override fun insertTrackImage(trackId: Long, image: String): Completable {
+        if (image.isBlank()){
+            return Completable.complete()
+        }
         return Completable.fromCallable {
             dao.insertUsedTrackImage(UsedImageEntity(trackId, false, image))
         }.subscribeOn(Schedulers.io())
     }
 
     override fun insertAlbumImage(albumId: Long, image: String): Completable {
+        if (image.isBlank()){
+            return Completable.complete()
+        }
         return Completable.fromCallable {
             dao.insertUsedAlbumImage(UsedImageEntity(albumId, true, image))
         }.subscribeOn(Schedulers.io())

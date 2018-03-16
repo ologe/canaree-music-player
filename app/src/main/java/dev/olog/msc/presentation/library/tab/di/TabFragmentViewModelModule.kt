@@ -24,6 +24,13 @@ import io.reactivex.rxkotlin.Observables
 @Module
 class TabFragmentViewModelModule {
 
+    private fun canShowTurnOnWifiMessageForImages(
+            appPrefsUseCase: AppPreferencesUseCase,
+            headers: List<DisplayableItem>): Observable<List<DisplayableItem>> {
+        return appPrefsUseCase.canShowTurnOnWifiMessageForImages()
+                .map {  canShow -> if(canShow) headers else listOf() }
+    }
+
     @Provides
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
@@ -68,11 +75,9 @@ class TabFragmentViewModelModule {
                 .mapToList { it.toTabDisplayableItem() }
                 .map { it.startWithIfNotEmpty(headers.shuffleHeader) }
 
-        val showTurnOnWifi = appPrefsUseCase.canShowTurnOnWifiMessageForImages()
-                .map {  canShow -> if(canShow) headers.showTurnOnWifi else listOf() }
-
         return Observables.combineLatest(
-                obs, showTurnOnWifi, { data, wifi -> wifi.plus(data) }
+                obs, canShowTurnOnWifiMessageForImages(appPrefsUseCase, headers.showTurnOnWifi),
+                { data, wifi -> wifi.plus(data) }
         )
     }
 
@@ -94,13 +99,10 @@ class TabFragmentViewModelModule {
                 .map { if (it.isNotEmpty()) headers.albumHeaders else it }
                 .distinctUntilChanged()
 
-        val showTurnOnWifi = appPrefsUseCase.canShowTurnOnWifiMessageForImages()
-                .map {  canShow -> if(canShow) headers.showTurnOnWifi else listOf() }
-
         return Observables.combineLatest(
                 allObs,
                 lastPlayedObs,
-                showTurnOnWifi,
+                canShowTurnOnWifiMessageForImages(appPrefsUseCase, headers.showTurnOnWifi),
                 { all, recent, wifi -> wifi.plus(recent.plus(all)) })
     }
 
@@ -125,13 +127,10 @@ class TabFragmentViewModelModule {
                 }
                 .distinctUntilChanged()
 
-        val showTurnOnWifi = appPrefsUseCase.canShowTurnOnWifiMessageForImages()
-                .map {  canShow -> if(canShow) headers.showTurnOnWifi else listOf() }
-
         return Observables.combineLatest(
                 allObs,
                 lastPlayedObs,
-                showTurnOnWifi,
+                canShowTurnOnWifiMessageForImages(appPrefsUseCase, headers.showTurnOnWifi),
                 { all, recent, wifi -> wifi.plus(recent.plus(all)) })
     }
 

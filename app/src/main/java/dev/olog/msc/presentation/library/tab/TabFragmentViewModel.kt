@@ -23,6 +23,7 @@ class TabFragmentViewModel constructor(
     private val liveDataList: MutableMap<MediaIdCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
 
     fun observeData(category: MediaIdCategory): LiveData<List<DisplayableItem>> {
+//        return data[category]!!.asLiveData()
         var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
         if (liveData == null) {
             liveData = data[category]!!.asLiveData()

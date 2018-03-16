@@ -19,6 +19,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
@@ -283,7 +284,10 @@ class AppPreferencesImpl @Inject constructor(
     override fun canShowTurnOnWifiMessageForImages(): Observable<Boolean> {
         return Observables.combineLatest(
                 rxPreferences.getBoolean(SHOW_TURN_ON_WIFI_FOR_IMAGES, true).asObservable(),
-                ReactiveNetwork.observeNetworkConnectivity(context).map { it.isConnected() && !it.isWifi() },
+                ReactiveNetwork.observeNetworkConnectivity(context)
+                        .debounce(2, TimeUnit.SECONDS)
+                        .map { it.isConnected() && !it.isWifi() }
+                        .distinctUntilChanged(),
                 observeCanDownloadOnMobile(),
                 { turnOnWifi, notWifi, canUseMobile -> turnOnWifi && notWifi && !canUseMobile })
                 .subscribeOn(Schedulers.io())

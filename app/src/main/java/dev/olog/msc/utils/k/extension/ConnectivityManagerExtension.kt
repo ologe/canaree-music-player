@@ -28,6 +28,7 @@ fun Connectivity.isWifi(): Boolean {
 
 fun observeSafeNetwork(context: Context): Flowable<Boolean> {
     return ReactiveNetwork.observeNetworkConnectivity(context)
+            .take(1)
             .map {
                 val isConnected = it.isConnected()
                 val isWifi = it.isWifi()
