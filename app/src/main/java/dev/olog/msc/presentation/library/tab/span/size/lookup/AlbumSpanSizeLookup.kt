@@ -20,8 +20,7 @@ class AlbumSpanSizeLookup(
         when (itemType){
             R.layout.item_tab_header,
             R.layout.item_tab_last_played_artist_horizontal_list,
-            R.layout.item_tab_last_played_album_horizontal_list,
-            R.layout.item_tab_download_no_wifi -> return spanCount
+            R.layout.item_tab_last_played_album_horizontal_list -> return spanCount
         }
         if (isTablet){
             if (isPortrait) spanCount / 3 else spanCount / 4

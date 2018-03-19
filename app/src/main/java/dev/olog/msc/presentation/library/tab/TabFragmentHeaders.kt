@@ -33,8 +33,4 @@ class TabFragmentHeaders @Inject constructor(
             DisplayableItem(R.layout.item_tab_header, MediaId.headerId("all artists"), resources.getString(R.string.tab_all_artists))
     )
 
-    val showTurnOnWifi = listOf(
-            DisplayableItem(R.layout.item_tab_download_no_wifi, MediaId.headerId("turn on wifi"), "")
-    )
-
 }
