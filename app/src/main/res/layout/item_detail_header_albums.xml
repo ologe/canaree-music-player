@@ -5,7 +5,6 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
-        <variable name="can_see_all" type="boolean"/>
     </data>
 
     <LinearLayout

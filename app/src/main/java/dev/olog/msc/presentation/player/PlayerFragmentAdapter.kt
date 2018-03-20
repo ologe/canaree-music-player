@@ -175,6 +175,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
                             state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
                     .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ animateSkipTo(view, it) }, Throwable::printStackTrace)
 
             mediaProvider.onStateChanged()
@@ -183,6 +184,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     .filter { it == PlaybackStateCompat.STATE_PLAYING ||
                             it == PlaybackStateCompat.STATE_PAUSED
                     }.distinctUntilChanged()
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ state ->
 
                         if (state == PlaybackStateCompat.STATE_PLAYING){

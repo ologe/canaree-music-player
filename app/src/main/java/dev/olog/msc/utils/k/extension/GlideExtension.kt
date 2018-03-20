@@ -44,7 +44,16 @@ fun Context.getBitmap(
             }
         })
     } else {
-        val bitmap = builder.submit(size, size).get()
+        val bitmap = try {
+            builder.submit(size, size).get()
+        } catch (ex: Exception){
+            GlideApp.with(this)
+                    .asBitmap()
+                    .load(placeholder.toBitmap())
+                    .priority(Priority.IMMEDIATE)
+                    .submit(size, size)
+                    .get()
+        }
         action(bitmap)
     }
 

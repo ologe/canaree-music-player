@@ -23,10 +23,12 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
         private const val TIMEOUT = 2500
 
         private var counter = AtomicLong(1)
-        // limit 5 request per second
-        private const val THRESHOLD = 300L
+        // NB: max 5 request per second
+        private const val THRESHOLD = 600L
     }
 
+    private var hasIncremented = false
+    private var hasAlreadyDecremented = false
     protected var disposable: Disposable? = null
 
     override fun getDataClass(): Class<InputStream> = InputStream::class.java
@@ -34,11 +36,18 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
     override fun getDataSource(): DataSource = DataSource.REMOTE
 
     override fun cleanup() {
-        disposable.unsubscribe()
+        unsubscribe()
     }
 
     override fun cancel() {
+        unsubscribe()
+    }
+
+    private fun unsubscribe(){
         disposable.unsubscribe()
+        if (hasIncremented && !hasAlreadyDecremented) {
+            counter.decrementAndGet()
+        }
     }
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
@@ -48,7 +57,10 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
                         delay()
                     } else Single.just(false)
                     // DO NOT DELETE DEFER
-                    single.flatMap { execute(priority, callback).defer() }
+                    single.flatMap {
+                        execute(priority, callback).defer()
+                                .doOnSubscribe { println(System.currentTimeMillis()) }
+                    }
                 }.subscribe({ image ->
                     if (image.isNotBlank()){
                         val urlFetcher = HttpUrlFetcher(GlideUrl(image), TIMEOUT)
@@ -64,11 +76,16 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
 
     private fun delay(): Single<*>{
         val current = counter.incrementAndGet()
+        hasIncremented = true
 
         return Singles.zip(
-                Observable.timer(current * THRESHOLD, TimeUnit.MILLISECONDS).firstOrError(),
+                Observable.timer(current * THRESHOLD, TimeUnit.MILLISECONDS)
+                        .firstOrError()
+                        .doOnEvent { _, _ ->
+                            hasAlreadyDecremented = true
+                            counter.decrementAndGet()
+                        },
                 Single.just(false), { _, _ -> false })
-                .doOnEvent { _, _ -> counter.decrementAndGet() }
     }
 
     protected abstract fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>)
