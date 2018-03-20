@@ -6,6 +6,7 @@ import com.bumptech.glide.Priority
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId
 import kotlinx.android.synthetic.main.layout_swipeable_view.view.*
 
@@ -27,8 +28,8 @@ object PlayerImage {
     }
 
     private fun MediaMetadataCompat.toDisplayableItem(): DisplayableItem {
-        // only mediaId is needed
-        return DisplayableItem(0, this.getMediaId(), "")
+        // only mediaId and image is needed
+        return DisplayableItem(0, this.getMediaId(), "", image = this.getImage())
     }
 
 }

@@ -1,6 +1,5 @@
 package dev.olog.msc.utils.k.extension
 
-import android.net.Uri
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -33,9 +32,8 @@ fun MediaMetadataCompat.isExplicit(): Boolean {
     return getLong(MusicConstants.IS_EXPLICIT) == 1L
 }
 
-fun MediaMetadataCompat.getImage(): Uri {
-    val image = getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
-    return Uri.parse(image)
+fun MediaMetadataCompat.getImage(): String {
+    return getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
 }
 
 fun MediaMetadataCompat.getMediaId(): MediaId {
