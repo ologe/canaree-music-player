@@ -3,6 +3,7 @@ package dev.olog.msc.data
 import dagger.Binds
 import dagger.Module
 import dev.olog.msc.data.repository.*
+import dev.olog.msc.data.repository.last.fm.LastFmRepository
 import dev.olog.msc.domain.gateway.*
 import javax.inject.Singleton
 

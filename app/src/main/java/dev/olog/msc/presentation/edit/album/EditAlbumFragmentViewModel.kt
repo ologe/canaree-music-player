@@ -129,7 +129,7 @@ class EditAlbumFragmentViewModel(
         try {
             // todo background thread
             presenter.updateSongList(album, artist, genre, year)
-            presenter.updateUsedImage(displayedImage.value!!)
+//            presenter.updateUsedImage(displayedImage.value!!)
             for (song in presenter.songList) {
                 notifyMediaStore(context, song.path)
             }

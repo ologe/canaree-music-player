@@ -129,7 +129,7 @@ class EditTrackFragmentViewModel(
 
         try {
             presenter.updateSong(title, artist, album, genre, year, disc, track)
-            presenter.updateUsedImage(displayedImage.value!!)
+//            presenter.updateUsedImage(displayedImage.value!!)
             notifyMediaStore(context, presenter.getPath())
 
             return UpdateResult.OK

@@ -46,21 +46,4 @@ abstract class LastFmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertArtist(entity: LastFmArtistEntity): Long
 
-    // used images, used by album and tracks
-
-    @Query("SELECT * FROM used_image")
-    internal abstract fun getAllUsedImages(): List<UsedImageEntity>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertUsedTrackImage(entity: UsedImageEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    internal abstract fun insertUsedAlbumImage(entity: UsedImageEntity)
-
-    @Query("DELETE FROM used_image WHERE id = :trackId AND isAlbum")
-    internal abstract fun deleteUsedTrackImage(trackId: Long)
-
-    @Query("DELETE FROM used_image WHERE id = :albumId AND NOT isAlbum")
-    internal abstract fun deleteUsedAlbumImage(albumId: Long)
-
 }

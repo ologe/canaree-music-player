@@ -18,8 +18,7 @@ import dev.olog.msc.data.entity.*
 
         LastFmTrackEntity::class,
         LastFmAlbumEntity::class,
-        LastFmArtistEntity::class,
-        UsedImageEntity::class
+        LastFmArtistEntity::class
 
 ), version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {

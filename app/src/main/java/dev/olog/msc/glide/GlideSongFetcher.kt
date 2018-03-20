@@ -17,12 +17,12 @@ class GlideSongFetcher(
 
     override fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): Single<String> {
         return lastFmGateway
-                .getTrack(id) // todo check first is has a downloaded album image
-                .map { it.get()!!.image }
+                .getTrackImage(id)
+                .map { it.get() }
     }
 
     override fun shouldFetch(): Single<Boolean> {
-        return lastFmGateway.shouldFetchTrack(id)
+        return lastFmGateway.shouldFetchTrackImage(id)
     }
 
 

@@ -11,6 +11,7 @@ import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import java.io.File
 import java.io.InputStream
 
 class GlideImageLoader(
@@ -20,20 +21,32 @@ class GlideImageLoader(
 
 ) : ModelLoader<DisplayableItem, InputStream> {
 
-    override fun handles(model: DisplayableItem): Boolean {
-        return true
-    }
+    override fun handles(model: DisplayableItem): Boolean = true
 
     override fun buildLoadData(model: DisplayableItem, width: Int, height: Int, options: Options): ModelLoader.LoadData<InputStream>? {
         val mediaId = model.mediaId
 
-        return when {
-            // todo calcolo not an image 2 volte
-            mediaId.isLeaf && notAnImage(model) -> ModelLoader.LoadData(ObjectKey(model), GlideSongFetcher(model, lastFmGateway))
-            mediaId.isArtist -> ModelLoader.LoadData(ObjectKey(model), GlideArtistFetcher(model, lastFmGateway))
-            mediaId.isAlbum && notAnImage(model) -> ModelLoader.LoadData(ObjectKey(model), GlideAlbumFetcher(model, lastFmGateway))
-            else -> uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+        if (mediaId.isAlbum || mediaId.isLeaf){
+            if (notAnImage(model)){
+                // song/album has not a default image, download
+                return if (mediaId.isLeaf){
+                    ModelLoader.LoadData(ObjectKey(model), GlideSongFetcher(model, lastFmGateway))
+                } else {
+                    ModelLoader.LoadData(ObjectKey(model), GlideAlbumFetcher(model, lastFmGateway))
+                }
+            } else {
+                // use default album image
+                return uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+            }
         }
+
+        if (mediaId.isArtist){
+            // download artist image
+            return ModelLoader.LoadData(ObjectKey(model), GlideArtistFetcher(model, lastFmGateway))
+        }
+
+        // use merged image
+        return uriLoader.buildLoadData(Uri.fromFile(File(model.image)), width, height, options)
     }
 
     private fun notAnImage(model: DisplayableItem): Boolean {

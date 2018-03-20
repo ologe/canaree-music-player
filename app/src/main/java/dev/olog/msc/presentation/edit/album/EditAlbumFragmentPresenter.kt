@@ -7,8 +7,6 @@ import dev.olog.msc.domain.entity.LastFmAlbum
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.detail.item.GetAlbumUseCase
-import dev.olog.msc.domain.interactor.image.album.DeleteAlbumImageUseCase
-import dev.olog.msc.domain.interactor.image.album.InsertAlbumImageUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmAlbumUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmAlbumRequest
 import dev.olog.msc.utils.MediaId
@@ -23,9 +21,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
         private val getAlbumUseCase: GetAlbumUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val getLastFmAlbumUseCase: GetLastFmAlbumUseCase,
-        private val insertImageUseCase: InsertAlbumImageUseCase,
-        private val deleteImageUseCase: DeleteAlbumImageUseCase
+        private val getLastFmAlbumUseCase: GetLastFmAlbumUseCase
 
 ) {
 
@@ -86,19 +82,9 @@ class EditAlbumFragmentPresenter @Inject constructor(
         tag.setField(FieldKey.GENRE, genre)
         try {
             tag.setField(FieldKey.YEAR, year)
-        } catch (ex: Exception){/*year ofter throws*/}
+        } catch (ex: Exception){/*year often throws*/}
 
         audioFile.commit()
-    }
-
-    fun updateUsedImage(image: String){
-        if (image == ImagesFolderUtils.forAlbum(originalAlbum.id)){
-            deleteImageUseCase.execute(originalAlbum)
-                    .subscribe({}, Throwable::printStackTrace)
-        } else {
-            insertImageUseCase.execute(originalAlbum to image)
-                    .subscribe({}, Throwable::printStackTrace)
-        }
     }
 
 }
