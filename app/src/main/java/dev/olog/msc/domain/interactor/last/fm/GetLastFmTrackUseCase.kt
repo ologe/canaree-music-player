@@ -15,8 +15,8 @@ class GetLastFmTrackUseCase @Inject constructor(
 ): SingleUseCaseWithParam<Optional<LastFmTrack?>, LastFmTrackRequest>(schedulers) {
 
     override fun buildUseCaseObservable(param: LastFmTrackRequest): Single<Optional<LastFmTrack?>> {
-        val (id, title, artist, album) = param
-        return gateway.getTrack(id, title, artist, album)
+        val (id) = param
+        return gateway.getTrack(id)
     }
 }
 

@@ -4,8 +4,6 @@ import android.content.Context
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.utils.img.ImageUtils
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.ifNetworkIsAvailable
 import dev.olog.msc.utils.media.store.notifySongMediaStore
 import io.reactivex.Flowable
@@ -26,7 +24,7 @@ class AlbumImagesCreator @Inject constructor(
                 .flattenAsFlowable { it }
                 .onBackpressureBuffer()
                 .subscribeOn(imagesThreadPool.ioScheduler)
-                .filter { notExists(it) }
+//                .filter { notExists(it) }
                 .toList()
                 .flatMap { fetchImages(it) }
     }
@@ -43,7 +41,7 @@ class AlbumImagesCreator @Inject constructor(
                     } else artist
 
                 }.flatMapMaybe {
-                    lastFmGateway.getAlbum(it.id, it.title, it.artist)
+                    lastFmGateway.getAlbum(it.id)
                             .filter { it.isPresent }
                             .map { it.get() }
                             .flatMap { lastFmGateway.insertAlbumImage(it.id, it.image).toMaybe<Boolean>() }
@@ -56,12 +54,7 @@ class AlbumImagesCreator @Inject constructor(
                 .toList()
     }
 
-    private fun notExists(album: Album): Boolean {
-        if (album.image == ImagesFolderUtils.forAlbum(album.id)){
-            return !ImageUtils.isRealImage(ctx, album.image)
-        } // else already using a downloaded image or a local image
-        return false
-    }
+
 
     private fun sample(times: Int): Flowable<*> {
         return Flowable.interval(1, TimeUnit.SECONDS, imagesThreadPool.ioScheduler)

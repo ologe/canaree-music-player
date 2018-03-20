@@ -132,6 +132,14 @@ class MediaId private constructor(
         return result
     }
 
+    val resolveId: Long
+        get() {
+            return when {
+                isLeaf -> leaf!!.toLong()
+                isFolder -> categoryValue.hashCode().toLong()
+                else -> categoryValue.toLong()
+            }
+        }
 
     val isFolder : Boolean = category == MediaIdCategory.FOLDERS
     val isPlaylist: Boolean = category == MediaIdCategory.PLAYLISTS

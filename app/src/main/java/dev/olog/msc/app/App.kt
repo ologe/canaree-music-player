@@ -10,6 +10,7 @@ import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.pro.Validation
@@ -23,6 +24,8 @@ class App : DaggerApplication() {
     @Suppress("unused") @Inject lateinit var imagesCreator: ImagesCreator
     @Suppress("unused") @Inject lateinit var keepDataAlive: KeepDataAlive
     @Inject lateinit var validation: Validation
+
+    @Inject lateinit var lastFmGateway: LastFmGateway
 
     override fun onCreate() {
         super.onCreate()

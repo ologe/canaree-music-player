@@ -17,7 +17,6 @@ import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.applyIf
 import java.io.File
 import kotlin.math.absoluteValue
 
@@ -40,16 +39,18 @@ object BindingsAdapter {
         GlideApp.with(context).clear(view)
 
         val source = resolveSource(mediaId)
-        val id = resolveId(mediaId)
+        val id = mediaId.resolveId
+
+//        glide.load(resolveUri(mediaId, item.image))
 
         GlideApp.with(context)
-                .load(resolveUri(mediaId, item.image))
+                .load(item)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
                 .priority(priority)
-                .placeholder(CoverUtils.getGradient(context, id, source))
-                .applyIf(!mediaId.isLeaf, { transition(DrawableTransitionOptions.withCrossFade()) })
+                .placeholder(CoverUtils.getGradient(context, id.toInt(), source))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(RippleTarget(view, mediaId.isLeaf))
     }
 
@@ -132,17 +133,6 @@ object BindingsAdapter {
             MediaIdCategory.ARTISTS -> image
             else -> Uri.fromFile(File(image))
         }
-    }
-
-    @JvmStatic
-    private fun resolveId(mediaId: MediaId): Int {
-        if (mediaId.isLeaf){
-            return mediaId.leaf!!.toInt()
-        }
-        if (mediaId.isFolder){
-            return mediaId.categoryValue.hashCode()
-        }
-        return mediaId.categoryValue.toInt()
     }
 
     @BindingAdapter("quickActionItem")

@@ -15,8 +15,8 @@ class GetLastFmAlbumUseCase @Inject constructor(
 ): SingleUseCaseWithParam<Optional<LastFmAlbum?>, LastFmAlbumRequest>(schedulers) {
 
     override fun buildUseCaseObservable(param: LastFmAlbumRequest): Single<Optional<LastFmAlbum?>> {
-        val (id, title, artist) = param
-        return gateway.getAlbum(id, title, artist)
+        val (id) = param
+        return gateway.getAlbum(id)
     }
 }
 

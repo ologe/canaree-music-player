@@ -8,7 +8,6 @@ import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import io.reactivex.Completable
@@ -44,8 +43,7 @@ private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
-        private val appPrefsUseCase: AppPreferencesUseCase,
-        private val lastFmGateway: LastFmGateway
+        private val appPrefsUseCase: AppPreferencesUseCase
 
 ) : SongGateway {
 
@@ -55,7 +53,7 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS, SORT_ORDER, true
         ).mapToList { it.toSong() }
                 .map { removeBlacklisted(it) }
-                .map { updateImages(it) }
+//                .map { updateImages(it) }
                 .onErrorReturn { listOf() }
     }
 
@@ -67,18 +65,18 @@ class SongRepository @Inject constructor(
         return original
     }
 
-    private fun updateImages(original: List<Song>): List<Song>{
-        val (albumImages, songImages) = lastFmGateway.getAllImages()
-                .sortedBy { it.id }
-                .partition { it.isAlbum }
-
-        return original.map { song ->
-            val img = albumImages.firstOrNull { it.id == song.albumId }?.image ?:
-                songImages.firstOrNull { it.id == song.id }?.image ?: song.image
-
-            song.copy(image = img)
-        }
-    }
+//    private fun updateImages(original: List<Song>): List<Song>{
+//        val (albumImages, songImages) = lastFmGateway.getAllImages()
+//                .sortedBy { it.id }
+//                .partition { it.isAlbum }
+//
+//        return original.map { song ->
+//            val img = albumImages.firstOrNull { it.id == song.albumId }?.image ?:
+//                songImages.firstOrNull { it.id == song.id }?.image ?: song.image
+//
+//            song.copy(image = img)
+//        }
+//    }
 
     private val cachedData = queryAllData()
             .replay(1)

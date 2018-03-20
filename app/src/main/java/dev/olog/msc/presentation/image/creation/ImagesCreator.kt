@@ -84,6 +84,8 @@ class ImagesCreator @Inject constructor(
     }
 
     fun execute() {
+        return
+
         unsubscribe()
 
         appPreferencesUseCase.observeCanDownloadOnMobile()

@@ -54,3 +54,7 @@ fun <T> Observable<T>.emitThenDebounce( // todo is really needed?
             this.skip(1).debounce(timeOut, timeUnit)
     )
 }
+
+fun <T> Single<T>.defer(): Single<T> {
+    return Single.defer { this }
+}

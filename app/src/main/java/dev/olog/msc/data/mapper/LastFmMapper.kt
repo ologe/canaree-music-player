@@ -9,6 +9,7 @@ import dev.olog.msc.data.entity.LastFmAlbumEntity
 import dev.olog.msc.data.entity.LastFmArtistEntity
 import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.domain.entity.LastFmAlbum
+import dev.olog.msc.domain.entity.LastFmArtist
 import dev.olog.msc.domain.entity.LastFmTrack
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import java.text.SimpleDateFormat
@@ -113,12 +114,27 @@ fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
     )
 }
 
+fun ArtistInfo.toDomain(id: Long): LastFmArtist {
+    val artist = this.artist
+    return LastFmArtist(
+            id,
+            artist.image.reversed().first { it.text.isNotBlank() }.text
+    )
+}
+
 fun ArtistInfo.toModel(id: Long): LastFmArtistEntity {
     val artist = this.artist
     return LastFmArtistEntity(
             id,
             artist.image.reversed().first { it.text.isNotBlank() }.text,
             millisToFormattedDate(System.currentTimeMillis())
+    )
+}
+
+fun LastFmArtistEntity.toDomain(): LastFmArtist {
+    return LastFmArtist(
+            this.id,
+            this.image
     )
 }
 
