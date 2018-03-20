@@ -35,9 +35,6 @@ abstract class LastFmDao {
 
     // artist
 
-    @Query("SELECT * FROM last_fm_artist")
-    internal abstract fun getAllArtists(): List<LastFmArtistEntity>
-
     @Query("SELECT * FROM last_fm_artist " +
             "WHERE id = :id " +
             "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")

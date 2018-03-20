@@ -7,7 +7,7 @@ import android.widget.RemoteViews
 import dev.olog.msc.R
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.images.ImageProcessor
-import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.getBitmap
 
 private const val IMAGE_SIZE = 300
@@ -16,8 +16,8 @@ class WidgetColored : BaseWidget() {
 
     override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
 
-        val placeholder = CoverUtils.getGradient(context, metadata.id.toInt())
-        context.getBitmap(metadata.image, placeholder, IMAGE_SIZE, {
+        val model = metadata.toDisplayableItem()
+        context.getBitmap(model, IMAGE_SIZE, {
             val remoteViews = RemoteViews(context.packageName, layoutId)
             remoteViews.setTextViewText(R.id.title, metadata.title)
             remoteViews.setTextViewText(R.id.subtitle, DisplayableItem.adjustArtist(metadata.subtitle))
@@ -40,5 +40,11 @@ class WidgetColored : BaseWidget() {
     }
 
     override val layoutId : Int = R.layout.widget_colored
+
+    private fun WidgetMetadata.toDisplayableItem(): DisplayableItem {
+        return DisplayableItem(
+                0, MediaId.songId(this.id), "", this.image
+        )
+    }
 
 }

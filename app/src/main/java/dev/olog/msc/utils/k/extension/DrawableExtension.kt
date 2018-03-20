@@ -5,6 +5,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.TransitionDrawable
+import android.support.annotation.ColorInt
+import android.support.v4.graphics.drawable.DrawableCompat
 import com.bumptech.glide.load.resource.gif.GifDrawable
 
 fun Drawable.getBitmap(): Bitmap? {
@@ -24,3 +26,7 @@ fun Drawable.getBitmap(): Bitmap? {
 
 val LayerDrawable.layers: List<Drawable>
     get() = (0 until numberOfLayers).map { getDrawable(it) }
+
+fun Drawable.tint(@ColorInt color: Int){
+    DrawableCompat.setTint(this, color)
+}

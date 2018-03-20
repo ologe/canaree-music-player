@@ -6,37 +6,38 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
 import dev.olog.msc.R
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.tint
 
 object CoverUtils {
 
     private val COLORS = listOf (
-            intArrayOf(0xff00c9ff.toInt(), 0xff92fe9d.toInt()),
-            intArrayOf(0xfff54ea2.toInt(), 0xffff7676.toInt()),
-            intArrayOf(0xff17ead9.toInt(), 0xff92fe9d.toInt()),
-            intArrayOf(0xff7b4397.toInt(), 0xffdc2430.toInt()),
-            intArrayOf(0xff1cd8d2.toInt(), 0xff93edc7.toInt()),
-            intArrayOf(0xff1f86ef.toInt(), 0xff5641db.toInt()),
-            intArrayOf(0xfff02fc2.toInt(), 0xff6094ea.toInt()),
-            intArrayOf(0xff00d2ff.toInt(), 0xff3a7bd5.toInt()),
-            intArrayOf(0xfff857a6.toInt(), 0xffff5858.toInt()),
-            intArrayOf(0xffaaffa9.toInt(), 0xff11ffbd.toInt()),
-            intArrayOf(0xff00c6ff.toInt(), 0xff0072ff.toInt()),
-            intArrayOf(0xff43cea2.toInt(), 0xff185a9d.toInt()),
-            intArrayOf(0xffB650DB.toInt(), 0xff2873E1.toInt()),
-            intArrayOf(0xff17ead9.toInt(), 0xff6098ea.toInt()),
-            intArrayOf(0xFF38ee7e.toInt(), 0xFF139c8e.toInt()),
-            intArrayOf(0xFF38cedc.toInt(), 0xFF5a89e5.toInt()),
-            intArrayOf(0xFF1585cb.toInt(), 0xFF2a36b3.toInt()),
-            intArrayOf(0xFF994fbb.toInt(), 0xFF3034b3.toInt()),
-            intArrayOf(0xFF8300ff.toInt(), 0xFFdd00ff.toInt()),
-            intArrayOf(0xFFdf2674.toInt(), 0xFFfe4f32.toInt()),
-            intArrayOf(0xFF840481.toInt(), 0xFFe26092.toInt()),
-            intArrayOf(0xFFff6062.toInt(), 0xFFff9666.toInt()),
-            intArrayOf(0xFFfc4e1b.toInt(), 0xFFf8b333.toInt()),
-            intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
+            intArrayOf(0xff_00_c9_ff.toInt(), 0xff_92_fe_9d.toInt()),
+            intArrayOf(0xff_f5_4e_a2.toInt(), 0xff_ff_76_76.toInt()),
+            intArrayOf(0xff_17_ea_d9.toInt(), 0xff_92_fe_9d.toInt()),
+            intArrayOf(0xff_7b_43_97.toInt(), 0xff_dc_24_30.toInt()),
+            intArrayOf(0xff_1c_d8_d2.toInt(), 0xff_93_ed_c7.toInt()),
+            intArrayOf(0xff_1f_86_ef.toInt(), 0xff_56_41_db.toInt()),
+            intArrayOf(0xff_f0_2f_c2.toInt(), 0xff_60_94_ea.toInt()),
+            intArrayOf(0xff_00_d2_ff.toInt(), 0xff_3a_7b_d5.toInt()),
+            intArrayOf(0xff_f8_57_a6.toInt(), 0xff_ff_58_58.toInt()),
+            intArrayOf(0xff_aa_ff_a9.toInt(), 0xff_11_ff_bd.toInt()),
+            intArrayOf(0xff_00_c6_ff.toInt(), 0xff_00_72_ff.toInt()),
+            intArrayOf(0xff_43_ce_a2.toInt(), 0xff_18_5a_9d.toInt()),
+            intArrayOf(0xff_B6_50_DB.toInt(), 0xff_28_73_E1.toInt()),
+            intArrayOf(0xff_17_ea_d9.toInt(), 0xff_60_98_ea.toInt()),
+            intArrayOf(0xFF_38_ee_7e.toInt(), 0xFF_13_9c_8e.toInt()),
+            intArrayOf(0xFF_38_ce_dc.toInt(), 0xFF_5a_89_e5.toInt()),
+            intArrayOf(0xFF_15_85_cb.toInt(), 0xFF_2a_36_b3.toInt()),
+            intArrayOf(0xFF_99_4f_bb.toInt(), 0xFF_30_34_b3.toInt()),
+            intArrayOf(0xFF_83_00_ff.toInt(), 0xFF_dd_00_ff.toInt()),
+            intArrayOf(0xFF_df_26_74.toInt(), 0xFF_fe_4f_32.toInt()),
+            intArrayOf(0xFF_84_04_81.toInt(), 0xFF_e2_60_92.toInt()),
+            intArrayOf(0xFF_ff_60_62.toInt(), 0xFF_ff_96_66.toInt()),
+            intArrayOf(0xFF_fc_4e_1b.toInt(), 0xFF_f8_b3_33.toInt()),
+            intArrayOf(0xFF_f7_9f_32.toInt(), 0xFF_fc_ca_1c.toInt())
     ).shuffled()
 
     fun getGradient(context: Context, mediaId: MediaId): Drawable {
@@ -52,7 +53,7 @@ object CoverUtils {
         val gradient = drawable.getDrawable(0) as GradientDrawable
 
         val icon = drawable.getDrawable(1) as Drawable
-        DrawableCompat.setTint(icon, 0xFF262626.toInt())
+        icon.tint(0xFF_26_26_26.toInt())
 
         val pos = (position) % COLORS.size
         gradient.colors = COLORS[Math.abs(pos)]
@@ -62,12 +63,12 @@ object CoverUtils {
     @DrawableRes
     private fun getDrawable(source: Int): Int {
         when (source) {
-            0 -> return R.drawable.placeholder_folder
-            1 -> return R.drawable.placeholder_playlist
-            2 -> return R.drawable.placeholder_musical_note
-            3 -> return R.drawable.placeholder_album
-            4 -> return R.drawable.placeholder_artist
-            5 -> return R.drawable.placeholder_genre
+            MediaIdCategory.FOLDERS.ordinal -> return R.drawable.placeholder_folder
+            MediaIdCategory.PLAYLISTS.ordinal -> return R.drawable.placeholder_playlist
+            MediaIdCategory.SONGS.ordinal -> return R.drawable.placeholder_musical_note
+            MediaIdCategory.ALBUMS.ordinal -> return R.drawable.placeholder_album
+            MediaIdCategory.ARTISTS.ordinal -> return R.drawable.placeholder_artist
+            MediaIdCategory.GENRES.ordinal -> return R.drawable.placeholder_genre
         }
         throw IllegalArgumentException("invalid source $source")
     }

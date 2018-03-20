@@ -8,8 +8,8 @@ import android.support.v4.graphics.drawable.IconCompat
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap
 import dev.olog.msc.utils.k.extension.toast
 
@@ -25,11 +25,8 @@ abstract class BaseAppShortcuts(
             intent.action = AppConstants.SHORTCUT_DETAIL
             intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
-            val id = if (mediaId.isFolder) mediaId.categoryValue.hashCode().toLong()
-            else mediaId.categoryValue.toLong()
-
-            val placeholder = CoverUtils.getGradient(context, id.toInt(), mediaId.category.ordinal)
-            context.getBitmap(image, placeholder, 128, {
+            val model = DisplayableItem(0, mediaId, "")
+            context.getBitmap(model, 128, {
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
                         .setShortLabel(title)
                         .setIcon(IconCompat.createWithBitmap(it))

@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.player
 import android.support.v4.media.MediaMetadataCompat
 import android.widget.ImageView
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
@@ -23,6 +24,7 @@ object PlayerImage {
                 .load(metadata.toDisplayableItem())
                 .placeholder(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .override(800)
                 .into(view)
     }

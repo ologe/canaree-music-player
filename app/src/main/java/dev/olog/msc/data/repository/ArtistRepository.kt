@@ -25,7 +25,6 @@ class ArtistRepository @Inject constructor(
 ) : ArtistGateway {
 
     private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
-    private val lastFmDao = appDatabase.lastFmDao()
 
     private fun queryAllData(): Observable<List<Artist>> {
         return rxContentResolver.createQuery(
@@ -34,7 +33,6 @@ class ArtistRepository @Inject constructor(
         ).mapToOne { 0 }
                 .flatMap { songGateway.getAll() }
                 .map { mapToArtists(it) }
-                .map { applyImages(it) }
     }
 
     private fun mapToArtists(songList: List<Song>): List<Artist> {
@@ -47,16 +45,6 @@ class ArtistRepository @Inject constructor(
                     song.toArtist(songs, albums)
                 }.sortedBy { it.name.toLowerCase() }
                 .toList()
-    }
-
-    private fun applyImages(artistList: List<Artist>): List<Artist> {
-        val images = lastFmDao.getAllArtists()
-        return artistList.map {  artist ->
-            val image = images.firstOrNull { it.id == artist.id }?.image
-            if (image != null && image.isNotBlank()){
-                artist.copy(image = image)
-            } else artist
-        }
     }
 
     private fun countAlbums(artistId: Long, songList: List<Song>): Int {

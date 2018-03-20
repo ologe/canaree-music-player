@@ -54,7 +54,7 @@ class DetailFragmentModuleItem {
             artistUseCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .flatMap {album ->
+                .flatMap { album ->
                     artistUseCase.execute(MediaId.artistId(album.artistId))
                             .map { album.toHeaderItem(it) }
                 }.asFlowable()

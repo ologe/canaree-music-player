@@ -59,6 +59,7 @@ class GlideImageLoader(
     class Factory(
             private val context: Context,
             private val lastFmGateway: LastFmGateway
+
     ) : ModelLoaderFactory<DisplayableItem, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<DisplayableItem, InputStream> {

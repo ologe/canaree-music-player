@@ -7,8 +7,9 @@ import android.support.annotation.RequiresApi
 import android.support.v4.media.session.MediaSessionCompat
 import android.text.SpannableString
 import dagger.Lazy
+import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
 
@@ -37,12 +38,12 @@ open class NotificationImpl24 @Inject constructor(
             album: String,
             image: String) {
 
-        val placeholder = CoverUtils.getGradient(service, id.toInt())
-        service.getBitmap(image, placeholder, INotification.IMAGE_SIZE, {
+        val model = DisplayableItem(0, MediaId.songId(id), image)
+        service.getBitmap(model, INotification.IMAGE_SIZE, {
             builder.setLargeIcon(it)
                     .setContentTitle(title)
                     .setContentText(artist)
         })
-
     }
+
 }

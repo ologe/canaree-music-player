@@ -2,29 +2,23 @@ package dev.olog.msc.utils.k.extension
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.webkit.URLUtil
 import androidx.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.app.GlideRequest
+import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.isMainThread
-import java.io.File
 
-fun Context.getBitmap(image: String, placeholder: Drawable,
-                      size: Int, action: (Bitmap) -> Unit,
-                      extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null){
+fun Context.getBitmap(
+        model: DisplayableItem,
+        size: Int,
+        action: (Bitmap) -> Unit,
+        extend: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null){
 
-    val uri = Uri.fromFile(File(image))
-    val realImage = when {
-        File(uri.path).exists() -> uri
-        URLUtil.isNetworkUrl(image) -> image
-        else -> Uri.parse(image)
-    }
+    val placeholder = CoverUtils.getGradient(this, model.mediaId)
 
     var error = GlideApp.with(this)
             .asBitmap()
@@ -36,14 +30,12 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
 
     var builder = GlideApp.with(this)
             .asBitmap()
-            .load(realImage)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .load(model)
             .override(size)
             .priority(Priority.IMMEDIATE)
             .error(error)
 
     extend?.let { builder = builder.it() }
-
 
     if (isMainThread()){
         builder.into(object : SimpleTarget<Bitmap>(){
@@ -52,27 +44,8 @@ fun Context.getBitmap(image: String, placeholder: Drawable,
             }
         })
     } else {
-        val bitmap = try {
-            builder.submit(size, size).get()
-        } catch (ex: Exception){
-            GlideApp.with(this)
-                    .asBitmap()
-                    .load(placeholder.toBitmap())
-                    .priority(Priority.IMMEDIATE)
-                    .submit(size, size)
-                    .get()
-        }
+        val bitmap = builder.submit(size, size).get()
         action(bitmap)
     }
 
-}
-
-fun GlideRequest<Drawable>.applyIf(
-        condition: Boolean,
-        function: GlideRequest<Drawable>.() -> GlideRequest<Drawable>) : GlideRequest<Drawable> {
-
-    if (condition){
-        return this.function()
-    }
-    return this
 }

@@ -6,14 +6,13 @@ import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
 import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import kotlin.math.absoluteValue
 
@@ -49,16 +48,16 @@ object BindingsAdapter {
     fun loadAlbumsArtistImage(view: ImageView, item: DisplayableItem){
         if (!item.mediaId.isAlbum) return
 
-        val artistId = item.mediaId.categoryValue.toInt().absoluteValue
+        val artistId = item.mediaId.categoryValue.toLong().absoluteValue
+        val artistMediaId = MediaId.artistId(artistId)
 
         GlideApp.with(view.context).clear(view)
 
         GlideApp.with(view.context)
-                .load(item.image)
-                .circleCrop()
+                .load(item.copy(mediaId = artistMediaId))
                 .override(50)
-                .skipMemoryCache(true)
-                .placeholder(CoverUtils.getGradient(view.context, artistId, MediaIdCategory.ARTISTS.ordinal))
+                .placeholder(CoverUtils.getGradient(view.context, artistMediaId))
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view)
     }
 
@@ -83,15 +82,8 @@ object BindingsAdapter {
     @BindingAdapter("imageSpecialThanks")
     @JvmStatic
     fun loadSongImage(view: ImageView, item: SpecialThanksModel) {
-        val context = view.context
-
-        GlideApp.with(context).clear(view)
-
-        GlideApp.with(context)
+        GlideApp.with(view)
                 .load(ContextCompat.getDrawable(view.context, item.image))
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .override(OVERRIDE_SMALL)
                 .into(view)
     }
 
