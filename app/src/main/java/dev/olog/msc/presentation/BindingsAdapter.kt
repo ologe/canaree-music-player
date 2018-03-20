@@ -2,7 +2,6 @@ package dev.olog.msc.presentation
 
 import android.databinding.BindingAdapter
 import android.graphics.Typeface
-import android.net.Uri
 import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,10 +13,8 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
 import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
-import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.CoverUtils
-import java.io.File
 import kotlin.math.absoluteValue
 
 object BindingsAdapter {
@@ -38,18 +35,11 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
-        val source = resolveSource(mediaId)
-        val id = mediaId.resolveId
-
-//        glide.load(resolveUri(mediaId, item.image))
-
         GlideApp.with(context)
                 .load(item)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(override)
                 .priority(priority)
-                .placeholder(CoverUtils.getGradient(context, id.toInt(), source))
+                .placeholder(CoverUtils.getGradient(context, mediaId))
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(RippleTarget(view, mediaId.isLeaf))
     }
@@ -98,11 +88,10 @@ object BindingsAdapter {
         GlideApp.with(context).clear(view)
 
         GlideApp.with(context)
-                .load(Uri.EMPTY)
+                .load(ContextCompat.getDrawable(view.context, item.image))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .override(OVERRIDE_SMALL)
-                .placeholder(ContextCompat.getDrawable(view.context, item.image))
                 .into(view)
     }
 
@@ -111,28 +100,6 @@ object BindingsAdapter {
     fun setBoldIfTrue(view: TextView, setBold: Boolean){
         val style = if (setBold) Typeface.BOLD else Typeface.NORMAL
         view.setTypeface(null, style)
-    }
-
-    @JvmStatic
-    private fun resolveSource(mediaId: MediaId): Int {
-        if (mediaId.isLeaf){
-            return MediaIdCategory.SONGS.ordinal
-        }
-        return mediaId.category.ordinal
-    }
-
-    @JvmStatic
-    private fun resolveUri(mediaId: MediaId, image: String): Any {
-        if (mediaId.isLeaf){
-            return Uri.parse(image)
-        }
-
-        return when (mediaId.category){
-            MediaIdCategory.SONGS,
-            MediaIdCategory.ALBUMS -> return Uri.parse(image)
-            MediaIdCategory.ARTISTS -> image
-            else -> Uri.fromFile(File(image))
-        }
     }
 
     @BindingAdapter("quickActionItem")

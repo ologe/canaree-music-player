@@ -7,6 +7,7 @@ import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.gateway.LastFmGateway
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class LastFmRepository @Inject constructor(
@@ -32,14 +33,21 @@ class LastFmRepository @Inject constructor(
                             lastFmRepoTrack.shouldFetch(it.id),
                             { isAlbumCached, isTrackCached -> isAlbumCached || isTrackCached }
                     )
-                }
+                }.subscribeOn(Schedulers.io())
     }
 
     override fun getTrackImage(trackId: Long): Single<Optional<String?>> {
         return lastFmRepoTrack.getOriginalItem(trackId)
-                .flatMap { lastFmRepoAlbum.get(it.albumId) }
-                .flatMap { if (!it.isPresent) lastFmRepoTrack.get(trackId) else Single.just(Optional.empty()) }
-                .map { Optional.ofNullable(it.get()!!.image) }
+                .flatMap { lastFmRepoAlbum
+                        .get(it.albumId)
+                        .map { it.get()!!.image }
+                        .map { Optional.of(it) }
+                }.onErrorResumeNext {
+                    lastFmRepoTrack
+                            .get(trackId)
+                            .map { it.get()!!.image }
+                            .map { Optional.of(it) }
+                }.subscribeOn(Schedulers.io())
     }
 
     override fun shouldFetchAlbum(albumId: Long): Single<Boolean> {

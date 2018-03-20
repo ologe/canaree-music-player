@@ -11,7 +11,5 @@ class ImagesThreadPool @Inject constructor() {
 
     private val threads = Runtime.getRuntime().availableProcessors()
     private val threadPoolExecutor = Executors.newFixedThreadPool(MathUtils.clamp(threads / 2, 1, 2))
-    private val singleThreadExecutor = Executors.newSingleThreadExecutor()
     val scheduler = Schedulers.from(threadPoolExecutor)
-    val ioScheduler = Schedulers.from(singleThreadExecutor)
 }

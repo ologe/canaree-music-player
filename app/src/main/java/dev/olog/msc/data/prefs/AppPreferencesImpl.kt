@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
@@ -12,14 +11,8 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.k.extension.isConnected
-import dev.olog.msc.utils.k.extension.isWifi
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Observables
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
@@ -60,8 +53,6 @@ class AppPreferencesImpl @Inject constructor(
         private const val CATEGORY_GENRE_VISIBILITY = "$TAG.CATEGORY_GENRE_VISIBILITY"
 
         private const val BLACKLIST = "$TAG.BLACKLIST"
-
-        private const val SHOW_TURN_ON_WIFI_FOR_IMAGES = "$TAG.SHOW_TURN_ON_WIFI_FOR_IMAGES"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -279,23 +270,5 @@ class AppPreferencesImpl @Inject constructor(
         val key = context.getString(R.string.prefs_auto_download_images_key)
         return rxPreferences.getBoolean(key, false)
                 .asObservable()
-    }
-
-    override fun canShowTurnOnWifiMessageForImages(): Observable<Boolean> {
-        return Observables.combineLatest(
-                rxPreferences.getBoolean(SHOW_TURN_ON_WIFI_FOR_IMAGES, true).asObservable(),
-                ReactiveNetwork.observeNetworkConnectivity(context)
-                        .debounce(2, TimeUnit.SECONDS)
-                        .map { it.isConnected() && !it.isWifi() }
-                        .distinctUntilChanged(),
-                observeCanDownloadOnMobile(),
-                { turnOnWifi, notWifi, canUseMobile -> turnOnWifi && notWifi && !canUseMobile })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .distinctUntilChanged()
-    }
-
-    override fun hideTurnOnWifiMessageForImages(){
-        preferences.edit { putBoolean(SHOW_TURN_ON_WIFI_FOR_IMAGES, false) }
     }
 }

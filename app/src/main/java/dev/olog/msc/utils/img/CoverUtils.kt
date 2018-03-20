@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import dev.olog.msc.R
+import dev.olog.msc.utils.MediaId
 
 object CoverUtils {
 
@@ -37,6 +38,10 @@ object CoverUtils {
             intArrayOf(0xFFfc4e1b.toInt(), 0xFFf8b333.toInt()),
             intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
     ).shuffled()
+
+    fun getGradient(context: Context, mediaId: MediaId): Drawable {
+        return getGradient(context, mediaId.resolveId.toInt(), mediaId.resolveSource)
+    }
 
     fun getGradient(context: Context, position: Int, source: Int = 2): Drawable {
         return get(context, position, getDrawable(source))

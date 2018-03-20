@@ -2,6 +2,7 @@ package dev.olog.msc.glide
 
 import android.content.Context
 import android.net.Uri
+import android.webkit.URLUtil
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
@@ -10,7 +11,6 @@ import com.bumptech.glide.signature.ObjectKey
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.ImageUtils
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import java.io.File
 import java.io.InputStream
 
@@ -50,11 +50,9 @@ class GlideImageLoader(
     }
 
     private fun notAnImage(model: DisplayableItem): Boolean {
-        val id = model.mediaId.resolveId
-
-        if (model.image == ImagesFolderUtils.forAlbum(id)){
+        if (!URLUtil.isNetworkUrl(model.image)){
             return !ImageUtils.isRealImage(context, model.image)
-        } // else already using a downloaded image or a local image
+        }
         return false
     }
 

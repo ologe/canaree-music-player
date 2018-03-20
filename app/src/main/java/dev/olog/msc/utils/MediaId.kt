@@ -18,16 +18,7 @@ class MediaId private constructor(
         val leaf: Long? = null
 ) {
 
-    val source : Int
-        get() = when (category){
-            MediaIdCategory.FOLDERS -> 0
-            MediaIdCategory.PLAYLISTS -> 1
-            MediaIdCategory.SONGS -> 2
-            MediaIdCategory.ALBUMS -> 3
-            MediaIdCategory.ARTISTS -> 4
-            MediaIdCategory.GENRES -> 5
-            else -> throw IllegalStateException("invalid category $category")
-        }
+    val source : Int = category.ordinal
 
     companion object {
         private const val CATEGORY_SEPARATOR = '/'
@@ -39,10 +30,6 @@ class MediaId private constructor(
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(category, categoryValue)
-        }
-
-        fun createId(category: MediaIdCategory, categoryValue: String, songId: Long): MediaId {
-            return MediaId(category, categoryValue, songId)
         }
 
         fun folderId(value: String): MediaId {
@@ -139,6 +126,14 @@ class MediaId private constructor(
                 isFolder -> categoryValue.hashCode().toLong()
                 else -> categoryValue.toLong()
             }
+        }
+
+    val resolveSource : Int
+        get() {
+            if (isLeaf){
+                return MediaIdCategory.SONGS.ordinal
+            }
+            return source
         }
 
     val isFolder : Boolean = category == MediaIdCategory.FOLDERS

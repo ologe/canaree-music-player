@@ -198,7 +198,7 @@ public class SleepTimerDialog extends TimePickerDialog {
     }
 
     private PendingIntent getSleepTimerPendingIntent(){
-        return PendingIntents.INSTANCE.stopServiceIntent(getContext());
+        return PendingIntents.INSTANCE.stopMusicServiceIntent(getContext());
     }
 
     private int extractHours(long millis) {

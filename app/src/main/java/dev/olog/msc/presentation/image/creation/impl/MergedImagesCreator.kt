@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.image.creation.impl
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
@@ -35,7 +34,6 @@ object MergedImagesCreator {
         return GlideApp.with(context)
                 .asBitmap()
                 .load(Uri.parse(ImagesFolderUtils.forAlbum(albumId))) // todo search either for downloaded images
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .submit(500, 500)
                 .get()
     }

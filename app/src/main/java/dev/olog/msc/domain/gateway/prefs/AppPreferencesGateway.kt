@@ -34,9 +34,6 @@ interface AppPreferencesGateway : Sorting {
     fun getCanDownloadOnMobile() : Boolean
     fun observeCanDownloadOnMobile(): Observable<Boolean>
 
-    fun canShowTurnOnWifiMessageForImages(): Observable<Boolean>
-    fun hideTurnOnWifiMessageForImages()
-
 }
 
 interface Sorting {

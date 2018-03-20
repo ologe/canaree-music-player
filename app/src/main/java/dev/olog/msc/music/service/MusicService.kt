@@ -114,7 +114,7 @@ class MusicService : BaseMusicService() {
     private fun resetSleepTimer(){
         sleepTimerUseCase.reset()
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(PendingIntents.stopServiceIntent(this))
+        alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {

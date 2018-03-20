@@ -56,13 +56,5 @@ class AppPreferencesUseCase @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
-    fun canShowTurnOnWifiMessageForImages(): Observable<Boolean> {
-        return gateway.canShowTurnOnWifiMessageForImages()
-    }
-
-    fun hideTurnOnWifiMessageForImages(){
-        return gateway.hideTurnOnWifiMessageForImages()
-    }
-
 
 }

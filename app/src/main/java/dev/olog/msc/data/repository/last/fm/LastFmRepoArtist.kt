@@ -41,10 +41,12 @@ class LastFmRepoArtist @Inject constructor(
     }
 
     private fun getFromCache(artistId: Long): Single<Optional<LastFmArtist?>> {
-        return Single.fromCallable {
-            val cache = dao.getArtist(artistId)
-            cache?.let { Optional.of(it.toDomain()) } ?: Optional.empty()
-        }
+        return Single.fromCallable { Optional.ofNullable(dao.getArtist(artistId)) }
+                .map {
+                    if (it.isPresent){
+                        Optional.of(it.get()!!.toDomain())
+                    } else throw NoSuchElementException()
+                }
     }
 
     private fun fetch(artist: Artist): Single<LastFmArtist> {

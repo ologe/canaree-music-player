@@ -1,18 +1,13 @@
 package dev.olog.msc.presentation.player
 
-import android.net.Uri
 import android.os.Bundle
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
@@ -22,7 +17,6 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -82,42 +76,23 @@ class PlayerFragment : BaseFragment() {
         if (act.isLandscape){
             mediaProvider.onMetadataChanged()
                     .asLiveData()
-                    .subscribe(this, {
-
-                        val image = Uri.parse(it.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI))
-                        val id = MediaId.fromString(it.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
-                        ).leaf!!.toInt()
-                        val placeholder = CoverUtils.getGradient(ctx, id)
-
-                        GlideApp.with(ctx).clear(cover)
-
-                        GlideApp.with(ctx)
-                                .load(image)
-                                .centerCrop()
-                                .placeholder(placeholder)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .priority(Priority.IMMEDIATE)
-                                .override(800)
-                                .into(cover)
-                    })
+                    .subscribe(this, { PlayerImage.loadImage(cover, it) })
 
             mediaProvider.onStateChanged()
                     .asLiveData()
                     .subscribe(this, {
-                        val state = it.state
-                        if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED){
-                            val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
-                            cover?.isActivated = isPlaying
+                        if (it.isPlaying() || it.isPaused()){
+                            cover?.isActivated = it.isPlaying()
                         }
                     })
 
             mediaProvider.onRepeatModeChanged()
                     .asLiveData()
-                    .subscribe(this, { repeat.cycle(it) })
+                    .subscribe(this, repeat::cycle)
 
             mediaProvider.onShuffleModeChanged()
                     .asLiveData()
-                    .subscribe(this, { shuffle.cycle(it) })
+                    .subscribe(this, shuffle::cycle)
 
             mediaProvider.onStateChanged()
                     .map { it.state }

@@ -7,7 +7,6 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.tab.*
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -23,13 +22,6 @@ import io.reactivex.rxkotlin.Observables
 @Suppress("unused")
 @Module
 class TabFragmentViewModelModule {
-
-    private fun canShowTurnOnWifiMessageForImages(
-            appPrefsUseCase: AppPreferencesUseCase,
-            headers: List<DisplayableItem>): Observable<List<DisplayableItem>> {
-        return appPrefsUseCase.canShowTurnOnWifiMessageForImages()
-                .map {  canShow -> if(canShow) headers else listOf() }
-    }
 
     @Provides
     @IntoMap

@@ -54,7 +54,7 @@ class App : DaggerApplication() {
     private fun resetSleepTimer(){
         SleepTimerDialog.resetTimer(this)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(PendingIntents.stopServiceIntent(this))
+        alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {

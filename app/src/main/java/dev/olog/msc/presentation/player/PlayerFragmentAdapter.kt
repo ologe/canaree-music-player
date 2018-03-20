@@ -7,12 +7,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
 import android.view.View
-import com.bumptech.glide.Priority
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.SeekBarObservable
@@ -24,7 +21,6 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
@@ -243,19 +239,7 @@ class PlayerFragmentAdapter @Inject constructor(
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
         view.cover ?: return
 
-        val context = view.context!!
-        val id = metadata.getId().toInt()
-        val placeholder = CoverUtils.getGradient(context, id)
-        GlideApp.with(context).clear(view.cover)
-
-        GlideApp.with(context)
-                .load(metadata.getImage())
-                .centerCrop()
-                .placeholder(placeholder)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.IMMEDIATE)
-                .override(800)
-                .into(view.cover)
+        PlayerImage.loadImage(view.cover, metadata)
     }
 
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){

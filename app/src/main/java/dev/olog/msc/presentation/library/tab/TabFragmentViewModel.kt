@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.library.tab
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.tab.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -15,8 +14,7 @@ import io.reactivex.Observable
 class TabFragmentViewModel constructor(
         private val data: Map<MediaIdCategory, Observable<List<DisplayableItem>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
-        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
-        private val appPreferencesUseCase: AppPreferencesUseCase
+        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase
 
 ) : ViewModel() {
 
@@ -40,13 +38,6 @@ class TabFragmentViewModel constructor(
     fun insertArtistLastPlayed(mediaId: MediaId): Completable{
         val artistId = mediaId.categoryValue.toLong()
         return insertLastPlayedArtistUseCase.execute(artistId)
-    }
-
-    fun hideTurnOnMessage(canUseMobileData: Boolean){
-        appPreferencesUseCase.hideTurnOnWifiMessageForImages()
-        if (canUseMobileData){
-            appPreferencesUseCase.setCanDownloadOnMobile(true)
-        }
     }
 
 }
