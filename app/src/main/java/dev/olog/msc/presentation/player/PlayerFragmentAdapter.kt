@@ -3,6 +3,8 @@ package dev.olog.msc.presentation.player
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
@@ -241,6 +243,16 @@ class PlayerFragmentAdapter @Inject constructor(
                         params.height = if (!visible) ViewGroup.LayoutParams.MATCH_PARENT
                         else ViewGroup.LayoutParams.WRAP_CONTENT
                         view.layoutParams = params
+
+                        val set = ConstraintSet()
+                        set.clone(view as ConstraintLayout)
+
+                        if (visible){
+                            set.clear(R.id.title, ConstraintSet.BOTTOM)
+                        } else {
+                            set.connect(R.id.title, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                        }
+                        set.applyTo(view)
 
                     }, Throwable::printStackTrace)
         }

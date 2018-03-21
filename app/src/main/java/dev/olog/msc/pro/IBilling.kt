@@ -24,8 +24,10 @@ interface IBilling {
 }
 
 private const val PRO_VERSION_ID = "pro_version"
-private const val DEFAULT_PREMIUM = true
-private const val DEFAULT_TRIAL = true
+private const val DEFAULT_PREMIUM = false
+private const val DEFAULT_TRIAL = false
+
+private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
 
 class BillingImpl @Inject constructor(
         private val activity: AppCompatActivity
@@ -56,17 +58,20 @@ class BillingImpl @Inject constructor(
         activity.lifecycle.addObserver(this)
         startConnection { checkPurchases() }
 
-        val packageInfo = activity.packageManager.getPackageInfo(activity.packageName, 0)
-        val firstInstallTime = packageInfo.firstInstallTime
-        val trialTime = TimeUnit.HOURS.toMillis(1L)
-        if (System.currentTimeMillis() - firstInstallTime < trialTime){
+        if (isStillTrial()){
             isTrialState = true
             countDownDisposable = Observable.interval(5, TimeUnit.MINUTES)
-                    .map { System.currentTimeMillis() - firstInstallTime < trialTime }
+                    .map { isStillTrial() }
                     .doOnNext { isTrialState = it }
                     .takeWhile { it }
                     .subscribe({}, Throwable::printStackTrace)
         }
+    }
+
+    private fun isStillTrial(): Boolean {
+        val packageInfo = activity.packageManager.getPackageInfo(activity.packageName, 0)
+        val firstInstallTime = packageInfo.firstInstallTime
+        return System.currentTimeMillis() - firstInstallTime < TRIAL_TIME
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -115,8 +120,8 @@ class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-//        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
-        return true
+        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
+//        return true
     }
 
     override fun isPremium(): Boolean = isTrialState || isPremiumState
