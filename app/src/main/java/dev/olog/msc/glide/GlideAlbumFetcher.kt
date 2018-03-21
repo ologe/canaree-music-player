@@ -1,5 +1,6 @@
 package dev.olog.msc.glide
 
+import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.msc.domain.gateway.LastFmGateway
@@ -8,10 +9,11 @@ import io.reactivex.Single
 import java.io.InputStream
 
 class GlideAlbumFetcher(
+        context: Context,
         model: DisplayableItem,
         private val lastFmGateway: LastFmGateway
 
-) : BaseRxDataFetcher() {
+) : BaseRxDataFetcher(context) {
 
     private val id = model.mediaId.resolveId
 

@@ -14,17 +14,16 @@ private const val IMAGE_SIZE = 300
 
 class WidgetColored : BaseWidget() {
 
-    override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray) {
-
+    override fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews?) {
         val model = metadata.toDisplayableItem()
         context.getBitmap(model, IMAGE_SIZE, {
-            val remoteViews = RemoteViews(context.packageName, layoutId)
-            remoteViews.setTextViewText(R.id.title, metadata.title)
-            remoteViews.setTextViewText(R.id.subtitle, DisplayableItem.adjustArtist(metadata.subtitle))
+            val remote = remoteViews ?: RemoteViews(context.packageName, layoutId)
+            remote.setTextViewText(R.id.title, metadata.title)
+            remote.setTextViewText(R.id.subtitle, DisplayableItem.adjustArtist(metadata.subtitle))
 
-            colorize(context, remoteViews, it)
+            colorize(context, remote, it)
 
-            AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+            AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remote)
         })
     }
 

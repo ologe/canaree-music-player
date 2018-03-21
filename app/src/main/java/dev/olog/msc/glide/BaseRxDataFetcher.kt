@@ -1,10 +1,14 @@
 package dev.olog.msc.glide
 
+import android.content.Context
+import android.net.wifi.WifiManager
+import android.preference.PreferenceManager
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
+import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.defer
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -17,7 +21,10 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 
-abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
+abstract class BaseRxDataFetcher(
+        private val context: Context
+
+) : DataFetcher<InputStream> {
 
     companion object {
         private const val TIMEOUT = 2500
@@ -60,8 +67,10 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
                     single.flatMap { execute(priority, callback).defer() }
                 }.subscribe({ image ->
                     if (image.isNotBlank()){
-                        val urlFetcher = HttpUrlFetcher(GlideUrl(image), TIMEOUT)
-                        urlFetcher.loadData(priority, callback)
+                        networkSafeAction {
+                            val urlFetcher = HttpUrlFetcher(GlideUrl(image), TIMEOUT)
+                            urlFetcher.loadData(priority, callback)
+                        }
                     } else {
                         callback.onLoadFailed(NoSuchElementException())
                     }
@@ -83,6 +92,24 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
                             counter.decrementAndGet()
                         },
                 Single.just(false), { _, _ -> false })
+    }
+
+    private fun isOnWifi(): Boolean {
+        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager?
+
+        return wifiManager?.isWifiEnabled ?: false &&
+                wifiManager?.connectionInfo?.networkId != -1
+    }
+
+    private fun networkSafeAction(action: () -> Unit){
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val canDownloadOnMobile = prefs.getBoolean(context.getString(R.string.prefs_auto_download_images_key), false)
+
+        val isWifiActive = isOnWifi()
+        when {
+            isWifiActive -> action()
+            canDownloadOnMobile && !isWifiActive -> action()
+        }
     }
 
     protected abstract fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>)

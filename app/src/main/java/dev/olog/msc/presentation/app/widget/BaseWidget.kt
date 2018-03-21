@@ -37,8 +37,7 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setOnClickPendingIntent(R.id.cover, buildContentIntent(context))
 
         val metadata = musicPrefsUseCase.getLastMetadata().safeMap(context)
-        onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds)
-//        AppWidgetManager.getInstance(context).updateAppWidget(appWidgetIds, remoteViews)
+        onMetadataChanged(context, metadata.toWidgetMetadata(), appWidgetIds, remoteViews)
     }
 
     override fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray) {

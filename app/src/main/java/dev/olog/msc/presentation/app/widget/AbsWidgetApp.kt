@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.RemoteViews
 import dagger.android.AndroidInjection
 import dev.olog.msc.constants.WidgetConstants
 
@@ -77,7 +78,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
 
     protected abstract fun onActionVisibilityChanged(context: Context, actions: WidgetActions, appWidgetIds: IntArray)
 
-    protected abstract fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray)
+    protected abstract fun onMetadataChanged(context: Context, metadata: WidgetMetadata, appWidgetIds: IntArray, remoteViews: RemoteViews? = null)
 
     protected abstract fun onPlaybackStateChanged(context: Context, state: WidgetState, appWidgetIds: IntArray)
 

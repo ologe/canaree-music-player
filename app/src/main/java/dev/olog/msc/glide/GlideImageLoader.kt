@@ -30,9 +30,9 @@ class GlideImageLoader(
             if (notAnImage(model)){
                 // song/album has not a default image, download
                 return if (mediaId.isLeaf){
-                    ModelLoader.LoadData(ObjectKey(model), GlideSongFetcher(model, lastFmGateway))
+                    ModelLoader.LoadData(ObjectKey(model), GlideSongFetcher(context, model, lastFmGateway))
                 } else {
-                    ModelLoader.LoadData(ObjectKey(model), GlideAlbumFetcher(model, lastFmGateway))
+                    ModelLoader.LoadData(ObjectKey(model), GlideAlbumFetcher(context, model, lastFmGateway))
                 }
             } else {
                 // use default album image
@@ -42,7 +42,7 @@ class GlideImageLoader(
 
         if (mediaId.isArtist){
             // download artist image
-            return ModelLoader.LoadData(ObjectKey(model), GlideArtistFetcher(model, lastFmGateway))
+            return ModelLoader.LoadData(ObjectKey(model), GlideArtistFetcher(context, model, lastFmGateway))
         }
 
         // use merged image
