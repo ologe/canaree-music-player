@@ -33,7 +33,7 @@ abstract class BaseEditItemFragment : BaseFragment() {
 
         val builder = GlideApp.with(ctx)
                 .load(model)
-                .error(CoverUtils.getGradient(ctx, model.mediaId))
+                .placeholder(CoverUtils.getGradient(ctx, model.mediaId))
                 .override(500)
                 .priority(Priority.IMMEDIATE)
 

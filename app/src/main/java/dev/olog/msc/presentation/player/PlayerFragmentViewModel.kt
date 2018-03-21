@@ -7,6 +7,7 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class PlayerFragmentViewModel @Inject constructor(
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
         private val billing: IBilling,
-        private val appPrefsUseCase: AppPreferencesUseCase
+        private val appPrefsUseCase: AppPreferencesUseCase,
+        musicPrefsUseCase: MusicPreferencesUseCase
 
 ) : ViewModel() {
 
@@ -58,5 +60,11 @@ class PlayerFragmentViewModel @Inject constructor(
             MediaId.headerId("player controls id"), "")
 
     val onFavoriteStateChanged: Observable<FavoriteEnum> = observeFavoriteAnimationUseCase.execute()
+
+    val skipToNextVisibility = musicPrefsUseCase
+            .observeSkipToNextVisibility()
+
+    val skipToPreviousVisibility = musicPrefsUseCase
+            .observeSkipToPreviousVisibility()
 
 }

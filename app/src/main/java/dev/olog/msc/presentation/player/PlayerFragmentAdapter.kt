@@ -255,6 +255,16 @@ class PlayerFragmentAdapter @Inject constructor(
                         set.applyTo(view)
 
                     }, Throwable::printStackTrace)
+
+            viewModel.skipToNextVisibility
+                    .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(view.next::updateVisibility, Throwable::printStackTrace)
+
+            viewModel.skipToPreviousVisibility
+                    .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(view.previous::updateVisibility, Throwable::printStackTrace)
         }
     }
 

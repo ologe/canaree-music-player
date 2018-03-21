@@ -136,6 +136,12 @@ class PlayerFragment : BaseFragment() {
                         playPause.toggleVisibility(it)
                         next.toggleVisibility(it)
                     })
+
+            viewModel.skipToNextVisibility.asLiveData()
+                    .subscribe(this, next::updateVisibility)
+
+            viewModel.skipToPreviousVisibility.asLiveData()
+                    .subscribe(this, previous::updateVisibility)
         }
     }
 
@@ -151,7 +157,7 @@ class PlayerFragment : BaseFragment() {
     }
 
     private fun animateSkipTo(toNext: Boolean) {
-        if (getSlidingPanel().isExpanded()) return
+        if (getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
             next.playAnimation()
@@ -161,11 +167,11 @@ class PlayerFragment : BaseFragment() {
     }
 
     private fun playAnimation(animate: Boolean) {
-        playPause.animationPlay(getSlidingPanel().isCollapsed() && animate)
+        playPause.animationPlay(getSlidingPanel().isExpanded() && animate)
     }
 
     private fun pauseAnimation(animate: Boolean) {
-        playPause.animationPause(getSlidingPanel().isCollapsed() && animate)
+        playPause.animationPause(getSlidingPanel().isExpanded() && animate)
     }
 
     private fun handleSeekBar(bookmark: Int, isPlaying: Boolean){
