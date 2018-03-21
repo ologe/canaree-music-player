@@ -6,13 +6,11 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import androidx.text.isDigitsOnly
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.presentation.ErrorPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
-import dev.olog.msc.utils.exception.NoNetworkException
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.msc.utils.media.store.notifyMediaStore
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -21,7 +19,6 @@ import java.io.File
 
 class EditAlbumFragmentViewModel(
         application: Application,
-        private val errorPublisher: ErrorPublisher,
         private val presenter: EditAlbumFragmentPresenter
 
 ) : AndroidViewModel(application) {
@@ -29,20 +26,11 @@ class EditAlbumFragmentViewModel(
     private val songList = MutableLiveData<List<Song>>()
 
     private val displayedAlbum = MutableLiveData<DisplayableAlbum>()
-    private val displayedImage = MutableLiveData<String>()
 
     private var songListDisposable: Disposable? = null
-    private var albumDisposable: Disposable? = null
-
-    private var fetchDisposable: Disposable? = null
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
-
-        albumDisposable = presenter.getAlbum()
-                .subscribe({
-                    this.displayedImage.postValue(it.image)
-                }, Throwable::printStackTrace)
 
         songListDisposable = presenter.getSongList()
                 .subscribe({
@@ -54,64 +42,12 @@ class EditAlbumFragmentViewModel(
     }
 
     override fun onCleared() {
-        albumDisposable.unsubscribe()
         songListDisposable.unsubscribe()
-        stopFetching()
     }
 
     fun observeData(): LiveData<DisplayableAlbum> = displayedAlbum
-    fun observeImage(): LiveData<String> = displayedImage
 
     fun observeSongList(): LiveData<List<Song>> = songList
-
-    fun getAlbumId(): Int = presenter.getAlbumId()
-
-    fun observeConnectivity(): Observable<String> = errorPublisher.observe()
-
-    fun setAlbumArt(uri: String){
-        displayedImage.postValue(uri)
-    }
-
-    fun restoreAlbumArt() {
-        val originalImage = presenter.getOriginalImage()
-        displayedImage.postValue(originalImage)
-    }
-
-    fun fetchAlbumInfo(){
-        fetchDisposable.unsubscribe()
-        fetchDisposable = presenter.fetchData()
-                .map { it.get()!! }
-                .subscribe({ newValue ->
-                    val oldValue = displayedAlbum.value!!
-                    displayedAlbum.postValue(oldValue.copy(
-                            title = newValue.title,
-                            artist = newValue.artist
-                    ))
-
-                }, { throwable ->
-                when (throwable){
-                        is NoNetworkException -> errorPublisher.noNetwork()
-                        is NoSuchElementException -> errorPublisher.noResultsFound()
-                        else -> throwable.printStackTrace()
-                    }
-                    displayedAlbum.postValue(null)
-                })
-    }
-
-    fun fetchAlbumArt(){
-        fetchDisposable.unsubscribe()
-        fetchDisposable = presenter.fetchData()
-                .map { it.get() }
-                .map { it.image }
-                .subscribe(displayedImage::postValue, { throwable ->
-                    when (throwable){
-                        is NoNetworkException -> errorPublisher.noNetwork()
-                        is NoSuchElementException -> errorPublisher.noResultsFound()
-                        else -> throwable.printStackTrace()
-                    }
-                    displayedImage.postValue(null)
-                })
-    }
 
     fun updateMetadata(
             album: String,
@@ -127,9 +63,7 @@ class EditAlbumFragmentViewModel(
         }
 
         try {
-            // todo background thread
             presenter.updateSongList(album, artist, genre, year)
-//            presenter.updateUsedImage(displayedImage.value!!)
             for (song in presenter.songList) {
                 notifyMediaStore(context, song.path)
             }
@@ -149,14 +83,11 @@ class EditAlbumFragmentViewModel(
         return DisplayableAlbum(
                 this.albumId,
                 this.album,
-                this.artist,
+                DisplayableItem.adjustArtist(this.artist),
                 tag.getFirst(FieldKey.GENRE) ?: "",
-                tag.getFirst(FieldKey.YEAR) ?: ""
+                tag.getFirst(FieldKey.YEAR) ?: "",
+                this.image
         )
-    }
-
-    fun stopFetching() {
-        fetchDisposable.unsubscribe()
     }
 
 }

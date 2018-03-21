@@ -3,12 +3,10 @@ package dev.olog.msc.presentation.edit.album
 import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.msc.presentation.ErrorPublisher
 import javax.inject.Inject
 
 class EditAlbumFragmentViewModelFactory @Inject constructor(
         private val application: Application,
-        private val connectionPublisher: ErrorPublisher,
         private val presenter: EditAlbumFragmentPresenter
 
 ) : ViewModelProvider.Factory {
@@ -17,7 +15,6 @@ class EditAlbumFragmentViewModelFactory @Inject constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return EditAlbumFragmentViewModel(
                 application,
-                connectionPublisher,
                 presenter
         ) as T
     }

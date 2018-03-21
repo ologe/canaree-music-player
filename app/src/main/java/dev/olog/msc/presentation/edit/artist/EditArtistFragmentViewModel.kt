@@ -22,18 +22,16 @@ class EditArtistFragmentViewModel(
     private val songList = MutableLiveData<List<Song>>()
 
     private val displayedArtist = MutableLiveData<DisplayableArtist>()
-    private val displayedImage = MutableLiveData<String>()
 
     private var songListDisposable: Disposable? = null
-    private var aritstDisposable: Disposable? = null
+    private var artistDisposable: Disposable? = null
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
 
-        aritstDisposable = presenter.getArtist()
+        artistDisposable = presenter.getArtist()
                 .subscribe({
                     this.displayedArtist.postValue(it.toDisplayableArtist())
-                    this.displayedImage.postValue(it.image)
                 }, Throwable::printStackTrace)
 
         songListDisposable = presenter.getSongList()
@@ -47,19 +45,7 @@ class EditArtistFragmentViewModel(
     }
 
     fun observeData(): LiveData<DisplayableArtist> = displayedArtist
-    fun observeImage(): LiveData<String> = displayedImage
     fun observeSongList(): LiveData<List<Song>> = songList
-
-    fun getArtistId(): Int = presenter.getArtistId()
-
-    fun setAlbumArt(uri: String){
-        displayedImage.postValue(uri)
-    }
-
-    fun restoreAlbumArt() {
-//        val originalImage = presenter.getOriginalImage()
-//        displayedImage.postValue(originalImage) todo
-    }
 
     fun updateMetadata(
             artist: String
@@ -68,7 +54,6 @@ class EditArtistFragmentViewModel(
 
         try {
             presenter.updateSongList(artist)
-            presenter.updateUsedImage(displayedImage.value!!)
             presenter.getSongList()
             for (song in presenter.songList) {
                 notifyMediaStore(context, song.path)
@@ -84,8 +69,7 @@ class EditArtistFragmentViewModel(
     private fun Artist.toDisplayableArtist(): DisplayableArtist {
         return DisplayableArtist(
                 this.id,
-                this.name,
-                this.image
+                this.name
         )
     }
 

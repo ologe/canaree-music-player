@@ -59,35 +59,12 @@
                 android:clickable="true"
                 android:focusable="true"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/changeAlbumArt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@id/autoTag"
-                app:layout_constraintBottom_toBottomOf="@id/autoTag"
-                app:layout_constraintTop_toTopOf="@+id/autoTag"
-                app:fabSize="mini"
-                android:src="@drawable/vd_photo"
-                android:tint="@android:color/white"
-                android:layout_marginEnd="8dp"/>
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/autoTag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/backgroundCover"
-                app:layout_constraintTop_toBottomOf="@+id/backgroundCover"
-                app:fabSize="mini"
-                android:src="@drawable/vd_search"
-                android:tint="@android:color/white"
-                android:layout_marginEnd="16dp"/>
-
             <TextView
                 android:id="@+id/albumsUpdated"
                 tools:text="Your changes will be applied to 5 song"
                 android:textColor="@color/accent"
-                app:layout_constraintTop_toBottomOf="@+id/autoTag"
+                android:textSize="14dp"
+                app:layout_constraintTop_toBottomOf="@+id/backgroundCover"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"

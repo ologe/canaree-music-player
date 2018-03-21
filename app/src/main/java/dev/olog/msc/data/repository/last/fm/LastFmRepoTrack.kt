@@ -4,6 +4,7 @@ import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
@@ -56,22 +57,33 @@ class LastFmRepoTrack @Inject constructor(
 
         return lastFmService.getTrackInfo(track.title, track.artist)
                 .map { it.toDomain(trackId) }
-                .doOnSuccess { dao.insertTrack(it.toModel(track.title, track.artist, track.album)) }
+                .doOnSuccess { cache(it) }
                 .onErrorResumeNext { lastFmService.searchTrack(track.title, track.artist)
                         .map { it.toDomain(trackId) }
                         .flatMap { result -> lastFmService.getTrackInfo(result.title, result.artist)
                                 .map { it.toDomain(trackId) }
                                 .onErrorReturnItem(result)
                         }
-                        .doOnSuccess { dao.insertTrack(it.toModel(track.title, track.artist, track.album)) }
+                        .doOnSuccess { cache(it) }
                         .onErrorResumeNext {
                             if (it is NoSuchElementException){
-                                Single.just(LastFmNulls.createNullTrack(trackId))
-                                        .doOnSuccess { dao.insertTrack(it) }
+                                Single.fromCallable { cacheEmpty(trackId) }
                                         .map { it.toDomain() }
                             } else Single.error(it)
                         }
                 }
+    }
+
+    private fun cache(model: LastFmTrack): LastFmTrackEntity{
+        val entity = model.toModel()
+        dao.insertTrack(entity)
+        return entity
+    }
+
+    private fun cacheEmpty(trackId: Long): LastFmTrackEntity{
+        val entity = LastFmNulls.createNullTrack(trackId)
+        dao.insertTrack(entity)
+        return entity
     }
 
 }

@@ -1,11 +1,11 @@
 package dev.olog.msc.presentation.edit.track
 
-import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
 import dev.olog.msc.presentation.edit.UpdateResult
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
@@ -44,11 +44,8 @@ class EditTrackFragment : BaseEditItemFragment() {
             genre.setText(it.genre)
             disc.setText(it.disc)
             trackNumber.setText(it.track)
-            hideLoader()
-        })
-
-        viewModel.observeImage().subscribe(this, {
-            setImage(it, viewModel.getSongId())
+            val model = DisplayableItem(0, MediaId.songId(it.id), "", it.image)
+            setImage(model)
             hideLoader()
         })
 
@@ -83,23 +80,6 @@ class EditTrackFragment : BaseEditItemFragment() {
             viewModel.fetchSongInfo()
             showLoader(R.string.edit_song_fetching_info)
         }
-        changeAlbumArt.setOnClickListener {
-            val items = arrayOf(
-                    ctx.getString(R.string.edit_item_image_fetch),
-                    ctx.getString(R.string.edit_item_image_choose_local),
-                    ctx.getString(R.string.edit_item_image_restore)
-            )
-            showImageChooser(items, { _, which ->
-                when (which){
-                    0 -> {
-                        viewModel.fetchAlbumArt()
-                        showLoader(R.string.edit_song_fetching_image)
-                    }
-                    1 -> loadLocalImage()
-                    2 -> viewModel.restoreAlbumArt()
-                }
-            })
-        }
     }
 
     override fun onPause() {
@@ -107,15 +87,10 @@ class EditTrackFragment : BaseEditItemFragment() {
         okButton.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
         autoTag.setOnClickListener(null)
-        changeAlbumArt.setOnClickListener(null)
     }
 
     override fun onLoaderCancelled() {
         viewModel.stopFetching()
-    }
-
-    override fun onLocalImageLoaded(uri: Uri) {
-        viewModel.setAlbumArt(uri.toString())
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_track

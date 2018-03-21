@@ -8,7 +8,6 @@ import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -41,8 +40,6 @@ class EditTrackFragmentPresenter @Inject constructor(
                 LastFmTrackRequest(originalSong.id, originalSong.title, originalSong.artist, originalSong.album)
         )
     }
-
-    fun getOriginalImage() = ImagesFolderUtils.forAlbum(originalSong.albumId)
 
     fun updateSong(
             title: String,

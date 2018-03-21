@@ -4,6 +4,7 @@ import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.data.entity.LastFmAlbumEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
@@ -53,22 +54,33 @@ class LastFmRepoAlbum @Inject constructor(
 
         return lastFmService.getAlbumInfo(album.title, album.artist)
                 .map { it.toDomain(albumId) }
-                .doOnSuccess { dao.insertAlbum(it.toModel(it.title, it.artist)) }
+                .doOnSuccess { cache(it) }
                 .onErrorResumeNext { lastFmService.searchAlbum(album.title)
                         .map { it.toDomain(albumId, album.artist) }
                         .flatMap { result -> lastFmService.getAlbumInfo(result.title, result.artist)
                                 .map { it.toDomain(albumId) }
                                 .onErrorReturnItem(result)
                         }
-                        .doOnSuccess { dao.insertAlbum(it.toModel(it.title, it.artist)) }
+                        .doOnSuccess { cache(it) }
                         .onErrorResumeNext {
                             if (it is NoSuchElementException){
-                                Single.just(LastFmNulls.createNullAlbum(albumId))
-                                        .doOnSuccess { dao.insertAlbum(it) }
+                                Single.fromCallable { cacheEmpty(albumId) }
                                         .map { it.toDomain() }
                             } else Single.error(it)
                         }
                 }
+    }
+
+    private fun cache(model: LastFmAlbum): LastFmAlbumEntity {
+        val entity = model.toModel()
+        dao.insertAlbum(entity)
+        return entity
+    }
+
+    private fun cacheEmpty(albumId: Long): LastFmAlbumEntity{
+        val entity = LastFmNulls.createNullAlbum(albumId)
+        dao.insertAlbum(entity)
+        return entity
     }
 
 }

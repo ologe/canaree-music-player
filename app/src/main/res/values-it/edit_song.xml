@@ -10,7 +10,6 @@
     <string name="edit_info_disc_number_not_digits">Il numero del disco può contenere solo cifre</string>
     <string name="edit_info_track_number_not_digits">Il numero del brano può contenere solo cifre</string>
 
-    <string name="edit_song_fetching_image">Cercando l\'immagine</string>
     <string name="edit_song_fetching_info">Cercando informazioni sul brano</string>
 
     <string name="edit_song_info_not_found">Informazioni sul brano non trovate</string>
@@ -21,10 +20,6 @@
     <string name="edit_song_invalid_disc_number"># disco non valido</string>
     <string name="edit_song_invalid_track_number"># brano non valido</string>
     <string name="edit_song_invalid_year">Anno non valido</string>
-
-    <string name="edit_item_image_fetch">Cerca su LastFm</string>
-    <string name="edit_item_image_choose_local">Scegli dalle immagini locali</string>
-    <string name="edit_item_image_restore">Ripristina originale</string>
 
     <plurals name="edit_item_xx_tracks_will_be_updated">
         <item quantity="one">I cambiamenti verrano applicati a %d brano</item>

@@ -1,16 +1,8 @@
 package dev.olog.msc.presentation.edit.album
 
-import com.github.dmstocking.optional.java.util.Optional
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.domain.entity.LastFmAlbum
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetAlbumUseCase
-import dev.olog.msc.domain.interactor.last.fm.GetLastFmAlbumUseCase
-import dev.olog.msc.domain.interactor.last.fm.LastFmAlbumRequest
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -19,37 +11,16 @@ import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
-        private val getAlbumUseCase: GetAlbumUseCase,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val getLastFmAlbumUseCase: GetLastFmAlbumUseCase
+        private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {
 
-    private lateinit var originalAlbum: Album
     lateinit var songList: List<Song>
-
-    fun getAlbum(): Single<Album> {
-        return getAlbumUseCase.execute(mediaId)
-                .firstOrError()
-                .map {it.copy(
-                        artist = if (it.artist == AppConstants.UNKNOWN) "" else it.artist
-                ) }.doOnSuccess { originalAlbum = it }
-    }
 
     fun getSongList(): Single<List<Song>> {
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
                 .doOnSuccess { songList = it }
-    }
-
-    fun getAlbumId() = originalAlbum.id.toInt()
-
-    fun getOriginalImage() = ImagesFolderUtils.forAlbum(originalAlbum.id)
-
-    fun fetchData(): Single<Optional<LastFmAlbum?>> {
-        return getLastFmAlbumUseCase.execute(
-                LastFmAlbumRequest(originalAlbum.id, originalAlbum.title, originalAlbum.artist)
-        )
     }
 
     fun updateSongList(

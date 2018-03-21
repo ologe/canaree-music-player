@@ -8,5 +8,6 @@ data class DisplayableSong(
         val genre: String,
         val year: String,
         val disc: String,
-        val track: String
+        val track: String,
+        val image: String
 )

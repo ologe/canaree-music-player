@@ -3,7 +3,9 @@ package dev.olog.msc.data.repository.last.fm
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
+import dev.olog.msc.api.last.fm.artist.info.ArtistInfo
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.data.entity.LastFmArtistEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
@@ -55,15 +57,27 @@ class LastFmRepoArtist @Inject constructor(
         return lastFmService.getArtistInfo(artist.name)
                 .map {
                     try {
+                        cache(artistId, it)
                         val model = it.toModel(artistId)
                         dao.insertArtist(model)
                         it.toDomain(artistId)
                     } catch (ex: NoSuchElementException){
-                        val model = LastFmNulls.createNullArtist(artistId)
-                        dao.insertArtist(model)
+                        cacheEmpty(artistId)
                         throw ex
                     }
                 }
+    }
+
+    private fun cache(artistId: Long, model: ArtistInfo): LastFmArtistEntity{
+        val entity = model.toModel(artistId)
+        dao.insertArtist(entity)
+        return entity
+    }
+
+    private fun cacheEmpty(artistId: Long): LastFmArtistEntity{
+        val entity = LastFmNulls.createNullArtist(artistId)
+        dao.insertArtist(entity)
+        return entity
     }
 
 }

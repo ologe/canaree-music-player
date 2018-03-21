@@ -33,8 +33,6 @@ class EditArtistFragmentPresenter @Inject constructor(
                 .doOnSuccess { songList = it }
     }
 
-    fun getArtistId(): Int = originalArtist.id.toInt()
-
     fun updateSongList(artist: String) {
         for (song in songList) {
             updateSong(song.path, artist)
@@ -49,10 +47,6 @@ class EditArtistFragmentPresenter @Inject constructor(
         tag.setField(FieldKey.ARTIST, artist)
         tag.setField(FieldKey.ALBUM_ARTIST, artist)
         audioFile.commit()
-    }
-
-    fun updateUsedImage(image: String) {
-        // todo
     }
 
 }

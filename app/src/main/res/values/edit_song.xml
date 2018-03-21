@@ -15,7 +15,6 @@
     <string name="edit_info_disc_number_not_digits">Disc # must be only digits</string>
     <string name="edit_info_track_number_not_digits">Track # must be only digits</string>
 
-    <string name="edit_song_fetching_image">Fetching image</string>
     <string name="edit_song_fetching_info">Fetching song info</string>
 
     <string name="edit_song_info_not_found">Info not found</string>
@@ -26,10 +25,6 @@
     <string name="edit_song_invalid_disc_number">Invalid disc number</string>
     <string name="edit_song_invalid_track_number">Invalid track number</string>
     <string name="edit_song_invalid_year">Invalid year</string>
-
-    <string name="edit_item_image_fetch">Fetch from LastFm</string>
-    <string name="edit_item_image_choose_local">Choose from local images</string>
-    <string name="edit_item_image_restore">Restore original</string>
 
     <plurals name="edit_item_xx_tracks_will_be_updated">
         <item quantity="one">Your changes will be applied to %d song</item>
