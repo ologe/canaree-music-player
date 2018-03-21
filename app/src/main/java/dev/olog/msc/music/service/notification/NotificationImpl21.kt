@@ -26,7 +26,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.k.extension.asActivityPendingIntent
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
-import dev.olog.msc.utils.k.extension.getBitmap
+import dev.olog.msc.utils.k.extension.getBitmapAsync
 import javax.inject.Inject
 
 open class NotificationImpl21 @Inject constructor(
@@ -132,7 +132,7 @@ open class NotificationImpl21 @Inject constructor(
             image: String){
 
         val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
-        service.getBitmap(model, INotification.IMAGE_SIZE, {
+        service.getBitmapAsync(model, INotification.IMAGE_SIZE, {
             builder.setLargeIcon(it)
                     .setContentTitle(title)
                     .setContentText(artist)

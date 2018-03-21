@@ -10,8 +10,11 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.getBitmap
+import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.msc.utils.k.extension.toast
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 abstract class BaseAppShortcuts(
         protected val context: Context
@@ -21,24 +24,29 @@ abstract class BaseAppShortcuts(
     override fun addDetailShortcut(mediaId: MediaId, title: String, image: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
-            val intent = Intent(context, MainActivity::class.java)
-            intent.action = AppConstants.SHORTCUT_DETAIL
-            intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
+            Completable.create {
 
-            val model = DisplayableItem(0, mediaId, "", image = image)
-            context.getBitmap(model, 128, {
-                val shortcut = ShortcutInfoCompat.Builder(context, title)
-                        .setShortLabel(title)
-                        .setIcon(IconCompat.createWithBitmap(it))
-                        .setIntent(intent)
-                        .build()
+                val intent = Intent(context, MainActivity::class.java)
+                intent.action = AppConstants.SHORTCUT_DETAIL
+                intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
-                ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
+                val model = DisplayableItem(0, mediaId, "", image = image)
+                context.getBitmapAsync(model, 128, {
+                    val shortcut = ShortcutInfoCompat.Builder(context, title)
+                            .setShortLabel(title)
+                            .setIcon(IconCompat.createWithBitmap(it))
+                            .setIntent(intent)
+                            .build()
 
-                onAddedSuccess(context)
-            }, extend = {
-                circleCrop()
-            })
+                    ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
+
+                }, extension = { circleCrop() })
+
+                it.onComplete()
+
+            }.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ onAddedSuccess(context) }, Throwable::printStackTrace)
 
         } else {
             onAddedNotSupported(context)

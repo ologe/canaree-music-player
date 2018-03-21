@@ -10,7 +10,7 @@ import dagger.Lazy
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.k.extension.getBitmap
+import dev.olog.msc.utils.k.extension.getBitmapAsync
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -39,7 +39,7 @@ open class NotificationImpl24 @Inject constructor(
             image: String) {
 
         val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
-        service.getBitmap(model, INotification.IMAGE_SIZE, {
+        service.getBitmapAsync(model, INotification.IMAGE_SIZE, {
             builder.setLargeIcon(it)
                     .setContentTitle(title)
                     .setContentText(artist)
