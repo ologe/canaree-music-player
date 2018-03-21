@@ -44,6 +44,8 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
             val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
             val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
             safeTransition.execute(this, CircularReveal(x, y))
+        } else {
+            safeTransition.isAnimating = false
         }
     }
 

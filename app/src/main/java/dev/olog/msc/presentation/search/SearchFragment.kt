@@ -68,6 +68,8 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
                 }
             })
             safeTransition.execute(this, transition)
+        } else {
+            safeTransition.isAnimating = false
         }
     }
 
