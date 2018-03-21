@@ -51,6 +51,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.isCurrentSong, currentPosition == position)
         when {
+            currentPosition == -1 -> binding.setVariable(BR.index, "-")
             position > currentPosition -> binding.setVariable(BR.index, "+${position - currentPosition}")
             position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
             else -> binding.setVariable(BR.index, "-")
@@ -69,7 +70,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override fun onSwiped(position: Int) {
         if (currentPosition == position){
-            mediaProvider.skipToNext()
+            currentPosition = -1
         }
         if (currentPosition > position){
             currentPosition--

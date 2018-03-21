@@ -223,9 +223,12 @@ class QueueImpl @Inject constructor(
     fun handleRemove(position: Int) {
         assertMainThread()
         if (position >= 0 || position < playingQueue.size){
-            // todo case removing current
             // todo case only one song
+
             playingQueue.removeAt(position)
+            if (position <= currentSongPosition){
+                currentSongPosition--
+            }
             persist(playingQueue)
         }
 
