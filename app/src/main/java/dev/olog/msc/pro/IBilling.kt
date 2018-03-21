@@ -24,7 +24,7 @@ interface IBilling {
 }
 
 private const val PRO_VERSION_ID = "pro_version"
-private const val DEFAULT_PREMIUM = true
+private const val DEFAULT_PREMIUM = false
 private const val DEFAULT_TRIAL = false
 
 private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
@@ -120,8 +120,8 @@ class BillingImpl @Inject constructor(
     }
 
     private fun isProBought(purchases: MutableList<Purchase>?): Boolean {
-//        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
-        return true
+        return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
+//        return true
     }
 
     override fun isPremium(): Boolean = isTrialState || isPremiumState

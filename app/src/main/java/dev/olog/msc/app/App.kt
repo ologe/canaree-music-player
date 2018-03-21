@@ -3,7 +3,6 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.content.Context
 import android.preference.PreferenceManager
-import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -34,12 +33,14 @@ class App : DaggerApplication() {
         initializeConstants()
         resetSleepTimer()
 
-//        validation.isValid().subscribe({}, Throwable::printStackTrace)
+        validation.isValid().subscribe({ isValid ->
+            if (!isValid){ throw RuntimeException() }
+        }, Throwable::printStackTrace)
     }
 
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
-            Stetho.initializeWithDefaults(this)
+//            Stetho.initializeWithDefaults(this)
 //            LeakCanary.install(this)
 //            StrictMode.initialize()
 //            Traceur.enableLogging()
