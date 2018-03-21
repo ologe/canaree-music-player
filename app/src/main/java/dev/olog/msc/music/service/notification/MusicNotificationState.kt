@@ -11,7 +11,8 @@ data class MusicNotificationState (
         var album: String = "",
         var image: String = "",
         var isPlaying: Boolean = false,
-        var bookmark: Long = -1
+        var bookmark: Long = -1,
+        var isFavorite: Boolean = false
 ) {
 
     private fun isValidState(): Boolean{
@@ -38,6 +39,11 @@ data class MusicNotificationState (
         return isValidState()
     }
 
+    fun updateFavorite(isFavorite: Boolean): Boolean {
+        this.isFavorite = isFavorite
+        return isValidState()
+    }
+
     fun isDifferentMetadata(metadata: MediaEntity): Boolean {
         return this.id != metadata.id ||
                 this.title != metadata.title ||
@@ -51,6 +57,10 @@ data class MusicNotificationState (
         val bookmark = TimeUnit.MILLISECONDS.toSeconds(state.position)
         return this.isPlaying != isPlaying ||
                 TimeUnit.MILLISECONDS.toSeconds(this.bookmark) != bookmark
+    }
+
+    fun isDifferentFavorite(isFavorite: Boolean): Boolean {
+        return this.isFavorite != isFavorite
     }
 
 }

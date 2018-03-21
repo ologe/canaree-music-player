@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.android.billingclient.api.*
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -85,8 +86,9 @@ class BillingImpl @Inject constructor(
             override fun onBillingSetupFinished(responseCode: Int) {
                 println("onBillingSetupFinished with response code:$responseCode")
 
-                if (responseCode == BillingClient.BillingResponse.OK){
-                    isConnected = true
+                when (responseCode){
+                    BillingClient.BillingResponse.OK -> isConnected = true
+                    BillingClient.BillingResponse.BILLING_UNAVAILABLE -> activity.toast("Billing unavailable")
                 }
                 func?.invoke()
             }
@@ -106,12 +108,7 @@ class BillingImpl @Inject constructor(
     override fun onPurchasesUpdated(responseCode: Int, purchases: MutableList<Purchase>?) {
         when (responseCode){
             BillingClient.BillingResponse.OK -> {
-                println("purchased")
                 isPremiumState = isProBought(purchases)
-            }
-            BillingClient.BillingResponse.USER_CANCELED -> {
-                println("user cancelled purchasing flow")
-                // Handle an error caused by a user cancelling the purchase flow.
             }
             else -> Log.w("Billing", "billing response code=$responseCode")
         }

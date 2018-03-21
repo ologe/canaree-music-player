@@ -100,7 +100,7 @@ class FavoriteRepository @Inject constructor(
         return Single.fromCallable { favoriteDao.isFavorite(songId) != null }
     }
 
-    override fun toggleFavorite(songId: Long) {
+    override fun toggleFavorite() {
         val value = favoriteStatePublisher.value
         val id = value.songId
         val state = value.enum
@@ -110,7 +110,7 @@ class FavoriteRepository @Inject constructor(
         when (state) {
             FavoriteEnum.NOT_FAVORITE -> {
                 updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_TO_FAVORITE))
-                action = favoriteDao.addToFavoriteSingle(songId)
+                action = favoriteDao.addToFavoriteSingle(id)
             }
             FavoriteEnum.FAVORITE -> {
                 updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_NOT_FAVORITE))

@@ -18,10 +18,14 @@ import android.text.style.StyleSpan
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.FloatingWindowsConstants
+import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.msc.utils.k.extension.asActivityPendingIntent
+import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
 
@@ -54,7 +58,7 @@ open class NotificationImpl21 @Inject constructor(
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(mediaStyle)
-                .addAction(R.drawable.vd_bird_singing_24dp, "floating info", buildFloatingInfoPendingIntent())
+                .addAction(R.drawable.vd_not_favorite, "Add to Favorite", buildToggleFavoritePendingIntent())
                 .addAction(R.drawable.vd_skip_previous, "Previous", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS))
                 .addAction(R.drawable.vd_pause_big, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
                 .addAction(R.drawable.vd_skip_next, "Next", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT))
@@ -82,6 +86,8 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     override fun update(state: MusicNotificationState): Notification {
+        assertBackgroundThread()
+
         createIfNeeded()
 
         val title = state.title
@@ -92,6 +98,7 @@ open class NotificationImpl21 @Inject constructor(
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
         updateMetadataImpl(state.id, spannableTitle, artist, album, state.image)
         updateState(state.isPlaying, state.bookmark)
+        updateFavorite(state.isFavorite)
 
         val notification = builder.build()
         notificationManager.get().notify(INotification.NOTIFICATION_ID, notification)
@@ -100,7 +107,7 @@ open class NotificationImpl21 @Inject constructor(
 
     private fun updateState(isPlaying: Boolean, bookmark: Long) {
         val action = builder.mActions[2]
-        action.actionIntent = buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
+//        action.actionIntent = buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE)
         action.icon = if (isPlaying) R.drawable.vd_pause_big else R.drawable.vd_play_big
         builder.setSmallIcon(if (isPlaying) R.drawable.vd_bird_singing else R.drawable.vd_bird_not_singing)
         builder.setOngoing(isPlaying)
@@ -112,6 +119,11 @@ open class NotificationImpl21 @Inject constructor(
         }
     }
 
+    private fun updateFavorite(isFavorite: Boolean){
+        val favoriteAction = builder.mActions[0]
+        favoriteAction.icon = if (isFavorite) R.drawable.vd_favorite else R.drawable.vd_not_favorite
+    }
+
     protected open fun updateMetadataImpl (
             id: Long,
             title: SpannableString,
@@ -119,7 +131,7 @@ open class NotificationImpl21 @Inject constructor(
             album: String,
             image: String){
 
-        val model = DisplayableItem(0, MediaId.songId(id), image)
+        val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
         service.getBitmap(model, INotification.IMAGE_SIZE, {
             builder.setLargeIcon(it)
                     .setContentTitle(title)
@@ -128,20 +140,19 @@ open class NotificationImpl21 @Inject constructor(
         })
     }
 
-    private fun buildFloatingInfoPendingIntent(): PendingIntent {
-        val intent = Intent(service, MainActivity::class.java)
-        intent.action = FloatingWindowsConstants.ACTION_START_SERVICE
-        return PendingIntent.getActivity(service, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun buildToggleFavoritePendingIntent(): PendingIntent {
+        val intent = Intent(service, MusicService::class.java)
+        intent.action = MusicConstants.ACTION_TOGGLE_FAVORITE
+        return intent.asServicePendingIntent(service)
     }
 
     private fun buildContentIntent(): PendingIntent {
         val intent = Intent(service, MainActivity::class.java)
         intent.action = AppConstants.ACTION_CONTENT_VIEW
-        return PendingIntent.getActivity(service, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return intent.asActivityPendingIntent(service)
     }
 
-    private fun buildPendingIntent(action: Long): PendingIntent? {
+    private fun buildPendingIntent(action: Long): PendingIntent {
         return MediaButtonReceiver.buildMediaButtonPendingIntent(
                 service, ComponentName(service, MediaButtonReceiver::class.java), action)
     }

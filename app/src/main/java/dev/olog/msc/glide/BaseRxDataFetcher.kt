@@ -57,10 +57,7 @@ abstract class BaseRxDataFetcher : DataFetcher<InputStream> {
                         delay()
                     } else Single.just(false)
                     // DO NOT DELETE DEFER
-                    single.flatMap {
-                        execute(priority, callback).defer()
-                                .doOnSubscribe { println(System.currentTimeMillis()) }
-                    }
+                    single.flatMap { execute(priority, callback).defer() }
                 }.subscribe({ image ->
                     if (image.isNotBlank()){
                         val urlFetcher = HttpUrlFetcher(GlideUrl(image), TIMEOUT)

@@ -11,13 +11,17 @@ import android.view.KeyEvent.KEYCODE_MEDIA_STOP
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
+import dev.olog.msc.domain.entity.FavoriteEnum
+import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
@@ -31,6 +35,7 @@ class MusicNotificationManager @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>,
         private val notificationImpl: INotification,
+        private val observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
         playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
@@ -38,7 +43,7 @@ class MusicNotificationManager @Inject constructor(
     private var isForeground: Boolean = false
 
     private var stopServiceAfterDelayDisposable: Disposable? = null
-    private var notificationDisposable: Disposable? = null
+    private val subscriptions = CompositeDisposable()
 
     private val publisher = BehaviorSubject.create<Any>()
     private val currentState = MusicNotificationState()
@@ -62,13 +67,13 @@ class MusicNotificationManager @Inject constructor(
         lifecycle.addObserver(this)
         playerLifecycle.addListener(playerListener)
 
-        notificationDisposable = publisher
-                .toSerialized()
+        publisher.toSerialized()
                 .observeOn(Schedulers.computation())
                 .filter {
                     when (it){
                         is MediaEntity -> currentState.isDifferentMetadata(it)
                         is PlaybackStateCompat -> currentState.isDifferentState(it)
+                        is Boolean -> currentState.isDifferentFavorite(it)
                         else -> false
                     }
                 }
@@ -86,10 +91,21 @@ class MusicNotificationManager @Inject constructor(
                                 publishNotification(100)
                             }
                         }
+                        is Boolean -> {
+                            if (currentState.updateFavorite(it)){
+                                publishNotification(100)
+                            }
+                        }
                     }
 
                 }, Throwable::printStackTrace)
+                .addTo(subscriptions)
 
+        observeFavoriteUseCase.execute()
+                .map { it == FavoriteEnum.FAVORITE || it == FavoriteEnum.ANIMATE_TO_FAVORITE }
+                .distinctUntilChanged()
+                .subscribe(this::onNextFavorite, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
     private fun publishNotification(delay: Long){
@@ -116,8 +132,8 @@ class MusicNotificationManager @Inject constructor(
     override fun onDestroy(owner: LifecycleOwner) {
         stopForeground()
         stopServiceAfterDelayDisposable.unsubscribe()
-        notificationDisposable.unsubscribe()
         publishDisposable.unsubscribe()
+        subscriptions.clear()
     }
 
     private fun onNextMetadata(metadata: MediaEntity) {
@@ -126,6 +142,10 @@ class MusicNotificationManager @Inject constructor(
 
     private fun onNextState(playbackState: PlaybackStateCompat) {
         publisher.onNext(playbackState)
+    }
+
+    private fun onNextFavorite(isFavorite: Boolean){
+        publisher.onNext(isFavorite)
     }
 
     private fun stopForeground() {

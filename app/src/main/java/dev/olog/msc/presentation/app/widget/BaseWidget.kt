@@ -10,14 +10,12 @@ import android.widget.RemoteViews
 import androidx.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.FloatingWindowsConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
-import dev.olog.msc.utils.k.extension.dip
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -33,7 +31,6 @@ abstract class BaseWidget : AbsWidgetApp() {
         remoteViews.setImageViewBitmap(R.id.play,
                 ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.floatingWindow, buildFloatingInfoPendingIntent(context))
         remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))
         remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicConstants.ACTION_PLAY_PAUSE))
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
@@ -55,7 +52,6 @@ abstract class BaseWidget : AbsWidgetApp() {
 
         remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
-        remoteViews.setOnClickPendingIntent(R.id.floatingWindow, buildFloatingInfoPendingIntent(context))
         remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))
         remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicConstants.ACTION_PLAY_PAUSE))
         remoteViews.setOnClickPendingIntent(R.id.next, buildPendingIntent(context, MusicConstants.ACTION_SKIP_NEXT))
@@ -92,12 +88,6 @@ abstract class BaseWidget : AbsWidgetApp() {
                 PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun buildFloatingInfoPendingIntent(context: Context): PendingIntent {
-        val intent = Intent(context, MainActivity::class.java)
-        intent.action = FloatingWindowsConstants.ACTION_START_SERVICE
-        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    }
-
     private fun buildContentIntent(context: Context): PendingIntent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = AppConstants.ACTION_CONTENT_VIEW
@@ -106,8 +96,6 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     protected fun setMediaButtonColors(remoteViews: RemoteViews, color: Int){
-        remoteViews.setInt(R.id.floatingWindow, "setColorFilter", color)
-        remoteViews.setInt(R.id.favorite, "setColorFilter", color)
         remoteViews.setInt(R.id.previous, "setColorFilter", color)
         remoteViews.setInt(R.id.play, "setColorFilter", color)
         remoteViews.setInt(R.id.next, "setColorFilter", color)
@@ -126,12 +114,10 @@ abstract class BaseWidget : AbsWidgetApp() {
         if (size.minHeight > 100){
             remoteViews.setInt(R.id.title, "setMaxLines", Int.MAX_VALUE)
             remoteViews.setInt(R.id.subtitle, "setMaxLines", 2)
-            remoteViews.setViewPadding(R.id.media_actions, 0, 0, 0, context.dip(8))
 
         } else {
             remoteViews.setInt(R.id.title, "setMaxLines", 1)
             remoteViews.setInt(R.id.subtitle, "setMaxLines", 1)
-            remoteViews.setViewPadding(R.id.media_actions, 0, 0, context.dip(48), context.dip(8))
         }
         AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId, remoteViews)
     }

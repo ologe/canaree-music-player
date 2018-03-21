@@ -7,6 +7,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -74,8 +75,8 @@ class PlayerFragmentAdapter @Inject constructor(
 
     private fun bindPlayerControls(view: View){
         mediaProvider.onMetadataChanged()
-                .observeOn(AndroidSchedulers.mainThread())
                 .takeUntil(RxView.detaches(view))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     updateMetadata(view, it)
                     updateImage(view, it)
@@ -99,6 +100,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
             RxView.clicks(view.repeat)
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ mediaProvider.toggleRepeatMode() }, Throwable::printStackTrace)
         }
         if (view.shuffle != null){
@@ -110,21 +112,25 @@ class PlayerFragmentAdapter @Inject constructor(
 
             RxView.clicks(view.shuffle)
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ mediaProvider.toggleShuffleMode() }, Throwable::printStackTrace)
         }
 
         RxView.clicks(view.floatingWindow)
                 .takeUntil(RxView.detaches(view))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity)
                 }, Throwable::printStackTrace)
 
         RxView.clicks(view.favorite)
                 .takeUntil(RxView.detaches(view))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ mediaProvider.togglePlayerFavorite() }, Throwable::printStackTrace)
 
         RxView.clicks(view.playingQueue)
                 .takeUntil(RxView.detaches(view))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ navigator.toPlayingQueueFragment(view.playingQueue) }, Throwable::printStackTrace)
 
         val seekBarObservable = SeekBarObservable(view.seekBar)
@@ -133,12 +139,14 @@ class PlayerFragmentAdapter @Inject constructor(
         seekBarObservable.ofType<Int>()
                 .takeUntil(RxView.detaches(view))
                 .map { TextUtils.getReadableSongLength(it) }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view.bookmark::setText, Throwable::printStackTrace)
 
         seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
                 .takeUntil(RxView.detaches(view))
                 .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
                 .map { (_, progress) -> progress.toLong() }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mediaProvider::seekTo, Throwable::printStackTrace)
 
         view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener{
@@ -196,18 +204,22 @@ class PlayerFragmentAdapter @Inject constructor(
 
             RxView.clicks(view.next)
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ mediaProvider.skipToNext() }, Throwable::printStackTrace)
 
             RxView.clicks(view.playPause)
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ mediaProvider.playPause() }, Throwable::printStackTrace)
 
             RxView.clicks(view.previous)
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
             viewModel.observePlayerControlsVisibility()
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
                         view.previous.toggleVisibility(visible)
                         view.playPause.toggleVisibility(visible)
@@ -217,12 +229,19 @@ class PlayerFragmentAdapter @Inject constructor(
 
             viewModel.observeMiniQueueVisibility()
                     .takeUntil(RxView.detaches(view))
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
                         val alignment = if (visible) View.TEXT_ALIGNMENT_VIEW_START else View.TEXT_ALIGNMENT_CENTER
                         val padding = if (visible) view.context.dip(16) else 0
                         view.title.setPaddingTop(padding)
                         view.title.textAlignment = alignment
                         view.artist.textAlignment = alignment
+
+                        val params = view.layoutParams
+                        params.height = if (!visible) ViewGroup.LayoutParams.MATCH_PARENT
+                        else ViewGroup.LayoutParams.WRAP_CONTENT
+                        view.layoutParams = params
+
                     }, Throwable::printStackTrace)
         }
     }

@@ -25,7 +25,7 @@ abstract class BaseAppShortcuts(
             intent.action = AppConstants.SHORTCUT_DETAIL
             intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
-            val model = DisplayableItem(0, mediaId, "")
+            val model = DisplayableItem(0, mediaId, "", image = image)
             context.getBitmap(model, 128, {
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
                         .setShortLabel(title)

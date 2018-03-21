@@ -147,9 +147,12 @@ class MediaSessionCallback @Inject constructor(
         player.seekTo(pos)
     }
 
+    override fun onSetRating(rating: RatingCompat?) {
+        onSetRating(rating, null)
+    }
+
     override fun onSetRating(rating: RatingCompat?, extras: Bundle?) {
-        val songId = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID).toLong()
-        toggleFavoriteUseCase.execute(songId)
+        toggleFavoriteUseCase.execute()
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {

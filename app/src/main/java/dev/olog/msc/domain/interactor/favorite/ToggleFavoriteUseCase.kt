@@ -8,8 +8,8 @@ class ToggleFavoriteUseCase @Inject constructor(
 
 ) {
 
-    fun execute(songId: Long) {
-        gateway.toggleFavorite(songId)
+    fun execute() {
+        gateway.toggleFavorite()
     }
 }
 

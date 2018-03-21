@@ -100,6 +100,10 @@ class MusicService : BaseMusicService() {
         MediaButtonReceiver.handleIntent(mediaSession, intent)
     }
 
+    override fun handleToggleFavorite() {
+        callback.onSetRating(null)
+    }
+
     override fun handleSleepTimerEnd(intent: Intent) {
         sleepTimerUseCase.reset()
         mediaSession.controller.transportControls.pause()

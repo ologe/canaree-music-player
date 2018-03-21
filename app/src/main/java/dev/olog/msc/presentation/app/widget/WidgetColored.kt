@@ -43,7 +43,7 @@ class WidgetColored : BaseWidget() {
 
     private fun WidgetMetadata.toDisplayableItem(): DisplayableItem {
         return DisplayableItem(
-                0, MediaId.songId(this.id), "", this.image
+                0, MediaId.songId(this.id), "", image = this.image
         )
     }
 

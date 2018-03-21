@@ -76,32 +76,25 @@
         android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:paddingStart="8dp"
+        android:layout_toStartOf="@+id/guideline"
+        android:paddingBottom="8dp"
         android:clipChildren="false"
-        android:clipToPadding="false">
-
-        <ImageButton
-            android:id="@+id/floatingWindow"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@null"
-            android:scaleX=".8"
-            android:scaleY=".8"
-            android:src="@drawable/vd_bird_singing_24dp" />
+        android:clipToPadding="false"
+        android:gravity="center">
 
         <ImageButton
             android:id="@+id/previous"
-            android:layout_width="48dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="48dp"
             android:background="@null"
-            android:scaleX=".8"
-            android:scaleY=".8"
-            android:src="@drawable/vd_skip_previous"/>
+            android:src="@drawable/vd_skip_previous" />
 
 
         <ImageButton
             android:id="@+id/play"
-            android:layout_width="48dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="48dp"
             android:background="@null"
             android:src="@drawable/vd_play_big"/>
@@ -109,11 +102,10 @@
 
         <ImageButton
             android:id="@+id/next"
-            android:layout_width="48dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="48dp"
             android:background="@null"
-            android:scaleX=".8"
-            android:scaleY=".8"
             android:src="@drawable/vd_skip_next"/>
 
     </LinearLayout>

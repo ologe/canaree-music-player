@@ -196,10 +196,7 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
     }
 
     override fun togglePlayerFavorite() {
-        val songId = statePublisher.value.activeQueueItemId
-        val bundle = Bundle()
-        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, songId.toString())
-        getTransportControls()?.setRating(RatingCompat.newHeartRating(false), bundle)
+        getTransportControls()?.setRating(RatingCompat.newHeartRating(false))
 
     }
 
