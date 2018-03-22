@@ -2,6 +2,7 @@ package dev.olog.msc.app
 
 import android.app.ActivityManager
 import android.content.Context
+import android.support.annotation.Keep
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
@@ -18,6 +19,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import java.io.InputStream
 
 @GlideModule
+@Keep
 class GlideModule : AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {

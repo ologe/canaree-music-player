@@ -33,7 +33,7 @@ object MergedImagesCreator {
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
         val originalImage = ImagesFolderUtils.forAlbum(albumId)
         val model = DisplayableItem(0, MediaId.albumId(albumId), "", image = originalImage)
-        return context.getBitmapAsync(model, 500)
+        return context.getBitmapAsync(model, 500, withError = false)
     }
 
     private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {

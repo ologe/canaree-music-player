@@ -11,7 +11,7 @@ object ExplainTrialDialog {
         AlertDialog.Builder(context)
                 .setTitle(R.string.trial_title)
                 .setMessage(R.string.trial_message)
-                .setPositiveButton("Yay", { _, _ -> positiveAction() })
+                .setPositiveButton(R.string.trial_positive_button, { _, _ -> positiveAction() })
                 .makeDialog()
     }
 

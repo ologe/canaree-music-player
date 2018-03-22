@@ -17,7 +17,8 @@ import dev.olog.msc.utils.img.ImageUtils
 fun Context.getBitmapAsync(
         model: DisplayableItem,
         size: Int,
-        extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null): Bitmap {
+        extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+        withError: Boolean = true): Bitmap {
 
     assertBackgroundThread()
 
@@ -43,7 +44,11 @@ fun Context.getBitmapAsync(
     return try {
         builder.submit().get()
     } catch (ex: Exception){
-        error.submit().get()
+        if (withError){
+            error.submit().get()
+        } else {
+            throw NullPointerException()
+        }
     }
 
 }
