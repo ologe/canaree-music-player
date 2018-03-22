@@ -72,10 +72,13 @@ class QueueImpl @Inject constructor(
         var miniQueue = copy.drop(safePosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
         miniQueue = handleQueueOnRepeatMode(miniQueue, copy[safePosition])
 
+        val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
+        val model = MediaSessionQueueModel(activeId, miniQueue)
+
         if (immediate){
-            queueMediaSession.onNextImmediate(miniQueue)
+            queueMediaSession.onNextImmediate(model)
         } else {
-            queueMediaSession.onNext(miniQueue)
+            queueMediaSession.onNext(model)
         }
     }
 
@@ -174,7 +177,9 @@ class QueueImpl @Inject constructor(
         assertMainThread()
         var list = playingQueue.drop(currentSongPosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
         list = handleQueueOnRepeatMode(list, playingQueue[currentSongPosition])
-        queueMediaSession.onNext(list)
+
+        val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
+        queueMediaSession.onNext(MediaSessionQueueModel(activeId, list))
     }
 
     @CheckResult

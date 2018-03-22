@@ -9,7 +9,6 @@ import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -19,12 +18,13 @@ import javax.inject.Inject
 
 class QueueMediaSession @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
-        mediaSession: MediaSessionCompat
+        mediaSession: MediaSessionCompat,
+        private val playerState: PlayerState
 
 ) : DefaultLifecycleObserver {
 
-    private val publisher : PublishSubject<List<MediaEntity>> = PublishSubject.create()
-    private val immediatePublisher : PublishSubject<List<MediaEntity>> = PublishSubject.create()
+    private val publisher : PublishSubject<MediaSessionQueueModel<MediaEntity>> = PublishSubject.create()
+    private val immediatePublisher : PublishSubject<MediaSessionQueueModel<MediaEntity>> = PublishSubject.create()
     private var miniQueueDisposable : Disposable? = null
     private var immediateMiniQueueDisposable : Disposable? = null
 
@@ -34,21 +34,27 @@ class QueueMediaSession @Inject constructor(
                 .toSerialized()
                 .observeOn(Schedulers.computation())
                 .debounce(1, TimeUnit.SECONDS)
-                .mapToList { it.toQueueItem() }
-                .subscribe(mediaSession::setQueue, Throwable::printStackTrace)
+                .map { it.toQueueItem() }
+                .subscribe({ (id, queue) ->
+                    mediaSession.setQueue(queue)
+                    playerState.updateActiveQueueId(id)
+                }, Throwable::printStackTrace)
 
         immediateMiniQueueDisposable = immediatePublisher
                 .toSerialized()
                 .observeOn(Schedulers.computation())
-                .mapToList { it.toQueueItem() }
-                .subscribe(mediaSession::setQueue, Throwable::printStackTrace)
+                .map { it.toQueueItem() }
+                .subscribe({ (id, queue) ->
+                    mediaSession.setQueue(queue)
+                    playerState.updateActiveQueueId(id)
+                }, Throwable::printStackTrace)
     }
 
-    fun onNext(list: List<MediaEntity>){
+    fun onNext(list: MediaSessionQueueModel<MediaEntity>){
         publisher.onNext(list)
     }
 
-    fun onNextImmediate(list: List<MediaEntity>){
+    fun onNextImmediate(list: MediaSessionQueueModel<MediaEntity>){
         immediatePublisher.onNext(list)
     }
 
@@ -68,4 +74,14 @@ class QueueMediaSession @Inject constructor(
         return MediaSessionCompat.QueueItem(description, this.idInPlaylist.toLong())
     }
 
+    private fun MediaSessionQueueModel<MediaEntity>.toQueueItem(): MediaSessionQueueModel<MediaSessionCompat.QueueItem> {
+        val queue = this.queue.map { it.toQueueItem() }
+        return MediaSessionQueueModel(this.activeId, queue)
+    }
+
 }
+
+data class MediaSessionQueueModel<T>(
+        val activeId: Long,
+        val queue: List<T>
+)

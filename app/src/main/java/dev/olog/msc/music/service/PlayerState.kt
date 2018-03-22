@@ -74,6 +74,11 @@ class PlayerState @Inject constructor(
         return playbackState
     }
 
+    fun updateActiveQueueId(id: Long){
+        val state = builder.setActiveQueueItemId(id).build()
+        mediaSession.setPlaybackState(state)
+    }
+
     fun toggleSkipToActions(positionInQueue: PositionInQueue) {
 
         when {

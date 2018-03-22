@@ -33,9 +33,11 @@ class App : DaggerApplication() {
         initializeConstants()
         resetSleepTimer()
 
-        validation.isValid().subscribe({ isValid ->
-            if (!isValid){ throw RuntimeException() }
-        }, Throwable::printStackTrace)
+        checkSignature()
+    }
+
+    private fun checkSignature(){
+        validation.isValid().subscribe({}, Throwable::printStackTrace)
     }
 
     private fun initializeDebug(){

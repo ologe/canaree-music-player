@@ -17,8 +17,4 @@
         <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from <b>%2$s</b>?]]></item>
     </plurals>
 
-    <string name="popup_positive_delete">Delete</string>
-
-    <string name="popup_neutral_reset">Reset</string>
-
 </resources>

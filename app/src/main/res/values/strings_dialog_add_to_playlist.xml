@@ -14,7 +14,7 @@
         <item quantity="other">%1$d songs added to playlist %2$s</item>
     </plurals>
 
-    <string name="popup_new_playlist">New Playlist</string>
+    <string name="popup_new_playlist">New playlist</string>
     <string name="popup_no_playlist">No playlists yet..</string>
 
     <string name="new_playlist_hint">Playlist name</string>

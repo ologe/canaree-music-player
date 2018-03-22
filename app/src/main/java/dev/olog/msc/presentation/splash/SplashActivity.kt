@@ -13,6 +13,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.app.KeepDataAlive
 import dev.olog.msc.presentation.base.BaseActivity
+import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -87,7 +88,9 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onStoragePermissionGranted(){
-        finishActivity()
+        ExplainTrialDialog.show(this, {
+            finishActivity()
+        })
     }
 
     private fun finishActivity(){

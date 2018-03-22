@@ -17,6 +17,7 @@ import kotlin.properties.Delegates
 
 interface IBilling {
 
+    fun isTrial(): Boolean
     fun isPremium(): Boolean
     fun observeIsPremium(): Observable<Boolean>
     fun purchasePremium()
@@ -123,6 +124,8 @@ class BillingImpl @Inject constructor(
         return purchases?.firstOrNull { it.sku == PRO_VERSION_ID } != null
 //        return true
     }
+
+    override fun isTrial(): Boolean = isTrialState
 
     override fun isPremium(): Boolean = isTrialState || isPremiumState
 

@@ -63,7 +63,6 @@ open class NotificationImpl21 @Inject constructor(
                 .addAction(R.drawable.vd_pause_big, "PlayPause", buildPendingIntent(PlaybackStateCompat.ACTION_PLAY_PAUSE))
                 .addAction(R.drawable.vd_skip_next, "Next", buildPendingIntent(PlaybackStateCompat.ACTION_SKIP_TO_NEXT))
 
-
         extendInitialization()
 
         isCreated = true

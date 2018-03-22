@@ -27,6 +27,9 @@
     <string name="popup_positive_ok">OK</string>
     <string name="popup_positive_save">Salva</string>
     <string name="popup_positive_create">Crea</string>
+    <string name="popup_positive_delete">Rimuovi</string>
+
+    <string name="popup_neutral_reset">Ripristina</string>
 
     <string name="popup_error_message">Qualcosa è andato storto</string>
 
