@@ -39,11 +39,10 @@ open class NotificationImpl24 @Inject constructor(
             image: String) {
 
         val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
-        service.getBitmapAsync(model, INotification.IMAGE_SIZE, {
-            builder.setLargeIcon(it)
-                    .setContentTitle(title)
-                    .setContentText(artist)
-        })
+        val bitmap = service.getBitmapAsync(model, INotification.IMAGE_SIZE)
+        builder.setLargeIcon(bitmap)
+                .setContentTitle(title)
+                .setContentText(artist)
     }
 
 }

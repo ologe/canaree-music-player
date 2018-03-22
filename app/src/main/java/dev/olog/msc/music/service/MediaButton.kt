@@ -30,7 +30,7 @@ class MediaButton @Inject internal constructor(
             1 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PLAY_PAUSE)
             2 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_NEXT)
             3 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PREVIOUS)
-        }// TODO speech
+        }
         clicks = 0
     }
 

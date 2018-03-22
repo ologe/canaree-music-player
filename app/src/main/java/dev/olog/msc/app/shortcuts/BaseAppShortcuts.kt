@@ -31,16 +31,14 @@ abstract class BaseAppShortcuts(
                 intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
                 val model = DisplayableItem(0, mediaId, "", image = image)
-                context.getBitmapAsync(model, 128, {
-                    val shortcut = ShortcutInfoCompat.Builder(context, title)
-                            .setShortLabel(title)
-                            .setIcon(IconCompat.createWithBitmap(it))
-                            .setIntent(intent)
-                            .build()
+                val bitmap = context.getBitmapAsync(model, 128, { circleCrop() })
+                val shortcut = ShortcutInfoCompat.Builder(context, title)
+                        .setShortLabel(title)
+                        .setIcon(IconCompat.createWithBitmap(bitmap))
+                        .setIntent(intent)
+                        .build()
 
-                    ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
-
-                }, extension = { circleCrop() })
+                ShortcutManagerCompat.requestPinShortcut(context, shortcut, null)
 
                 it.onComplete()
 

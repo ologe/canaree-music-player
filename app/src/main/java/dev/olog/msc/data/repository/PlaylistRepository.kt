@@ -69,8 +69,7 @@ class PlaylistRepository @Inject constructor(
     )
 
     private fun createAutoPlaylist(id: Long, title: String) : Playlist {
-//        val image = FileUtils.playlistImagePath(context, id) todo
-//        val file = File(image)
+        // todo auto playlist image
         return Playlist(id, title, -1, "")
     }
 

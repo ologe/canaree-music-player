@@ -2,16 +2,16 @@ package dev.olog.msc.presentation.image.creation.impl
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
-import dev.olog.msc.app.GlideApp
+import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.extractImageName
+import dev.olog.msc.utils.k.extension.getBitmapAsync
 import java.io.File
 import java.io.FileOutputStream
 
 object MergedImagesCreator {
-
 
     fun makeImages(context: Context, albumIdList: List<Long>, parentFolder: String, itemId: String) : Boolean {
         assertBackgroundThread()
@@ -31,11 +31,9 @@ object MergedImagesCreator {
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
-        return GlideApp.with(context)
-                .asBitmap()
-                .load(Uri.parse(ImagesFolderUtils.forAlbum(albumId))) // todo search either for downloaded images
-                .submit(500, 500)
-                .get()
+        val originalImage = ImagesFolderUtils.forAlbum(albumId)
+        val model = DisplayableItem(0, MediaId.albumId(albumId), "", image = originalImage)
+        return context.getBitmapAsync(model, 500)
     }
 
     private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {

@@ -22,8 +22,10 @@ object CommonQuery {
     fun extractAlbumIdsFromSongs(contentResolver: ContentResolver, uri: Uri): List<Long> {
         val result = mutableListOf<Long>()
 
+        val projection = arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID)
+
         val cursor = contentResolver.query(
-                uri, arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID), null,
+                uri, projection, null,
                 null, null)
         while (cursor.moveToNext()){
             result.add(cursor.getLong(0))

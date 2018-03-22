@@ -127,11 +127,9 @@ class MusicService : BaseMusicService() {
         }
 
         if (CarHelper.isValidCarPackage(clientPackageName)){
-            // todo check for pro
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
         }
         if (WearHelper.isValidWearCompanionPackage(clientPackageName)){
-            // todo check for pro
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
         }
 
