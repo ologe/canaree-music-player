@@ -24,12 +24,12 @@ class ArtistSpanSizeLookup(
             R.layout.item_tab_last_played_album_horizontal_list -> return spanCount
         }
 
-        val span = if (isPortrait) spanCount / 3 else spanCount / 4
+        var span = if (isPortrait) 3 else 4
 
         if (isBigTablet) {
-            return span + 1
+            span++
         }
 
-        return span
+        return spanCount / span
     }
 }

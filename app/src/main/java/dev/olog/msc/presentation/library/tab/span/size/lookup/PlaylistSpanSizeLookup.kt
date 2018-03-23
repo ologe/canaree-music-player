@@ -18,12 +18,12 @@ class PlaylistSpanSizeLookup(
             0, 4 -> return spanCount
         }
 
-        val span = if (isPortrait) spanCount / 3 else spanCount / 4
+        var span = if (isPortrait) 3 else 4
 
-        if (isBigTablet){
-            return span + 1
+        if (isBigTablet) {
+            span++
         }
 
-        return span
+        return spanCount / span
     }
 }

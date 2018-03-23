@@ -18,8 +18,6 @@ class AlbumSpanSizeLookup(
     private val isBigTablet = smallestWidthDip >= 720
 
     override fun getSpanSize(position: Int): Int {
-        println(smallestWidthDip)
-
         val itemType = adapter.elementAt(position).type
         when (itemType){
             R.layout.item_tab_header,
@@ -28,8 +26,11 @@ class AlbumSpanSizeLookup(
         }
 
         if (isTablet){
-            val span = if (isPortrait) spanCount / 3 else spanCount / 4
-            return if (isBigTablet) span + 1 else span
+            var span = if (isPortrait) 3 else 4
+            if (isBigTablet){
+                span++
+            }
+            return spanCount / span
         }
 
         return if(isPortrait) spanCount / 2 else spanCount / 4

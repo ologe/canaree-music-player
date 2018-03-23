@@ -13,12 +13,12 @@ class BaseSpanSizeLookup(
     private val isBigTablet = smallestWidthDip >= 720
 
     override fun getSpanSize(position: Int): Int {
-        val span = if (isPortrait) spanCount / 3 else spanCount / 4
+        var span = if (isPortrait) 3 else 4
 
-        if (isBigTablet){
-            return span + 1
+        if (isBigTablet) {
+            span++
         }
 
-        return span
+        return spanCount / span
     }
 }

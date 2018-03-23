@@ -52,7 +52,7 @@ class TabFragmentModule(
             MediaIdCategory.ALBUMS -> AlbumSpanSizeLookup(context, isPortrait, adapter)
             MediaIdCategory.ARTISTS -> ArtistSpanSizeLookup(context, isPortrait, adapter)
             MediaIdCategory.SONGS -> SongSpanSizeLookup()
-            else -> BaseSpanSizeLookup(isPortrait)
+            else -> BaseSpanSizeLookup(context, isPortrait)
         }
     }
 
