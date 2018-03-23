@@ -28,17 +28,21 @@
 -dontwarn org.jaudiotagger.**
 -dontwarn com.google.errorprone.annotations.*
 
+#jaudiotagger
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }
 
+#glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep class com.bumptech.glide.GeneratedAppGlideModuleImpl
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
+#If you're targeting any API level less than Android API 27, also include:
+#```pro
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
 
 # for retrofit
 

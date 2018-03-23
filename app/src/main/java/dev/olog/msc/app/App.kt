@@ -12,7 +12,6 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
-import dev.olog.msc.pro.Validation
 import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
 
@@ -22,7 +21,6 @@ class App : DaggerApplication() {
     @Suppress("unused") @Inject lateinit var appShortcuts: AppShortcuts
     @Suppress("unused") @Inject lateinit var imagesCreator: ImagesCreator
     @Suppress("unused") @Inject lateinit var keepDataAlive: KeepDataAlive
-    @Inject lateinit var validation: Validation
 
     @Inject lateinit var lastFmGateway: LastFmGateway
 
@@ -32,12 +30,6 @@ class App : DaggerApplication() {
         initializeDebug()
         initializeConstants()
         resetSleepTimer()
-
-        checkSignature()
-    }
-
-    private fun checkSignature(){
-        validation.isValid().subscribe({}, Throwable::printStackTrace)
     }
 
     private fun initializeDebug(){

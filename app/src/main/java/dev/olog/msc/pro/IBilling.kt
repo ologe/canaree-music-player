@@ -3,7 +3,6 @@ package dev.olog.msc.pro
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.android.billingclient.api.*
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -90,11 +89,11 @@ class BillingImpl @Inject constructor(
 
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(responseCode: Int) {
-                println("onBillingSetupFinished with response code:$responseCode")
+//                println("onBillingSetupFinished with response code:$responseCode")
 
                 when (responseCode){
                     BillingClient.BillingResponse.OK -> isConnected = true
-                    BillingClient.BillingResponse.BILLING_UNAVAILABLE -> activity.toast("Billing unavailable")
+                    BillingClient.BillingResponse.BILLING_UNAVAILABLE -> activity.toast("Play store not found")
                 }
                 func?.invoke()
             }
@@ -116,7 +115,7 @@ class BillingImpl @Inject constructor(
             BillingClient.BillingResponse.OK -> {
                 isPremiumState = isProBought(purchases)
             }
-            else -> Log.w("Billing", "billing response code=$responseCode")
+//            else -> Log.w("Billing", "billing response code=$responseCode")
         }
     }
 
