@@ -3,13 +3,10 @@ package dev.olog.msc.presentation.player
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -226,33 +223,6 @@ class PlayerFragmentAdapter @Inject constructor(
                         view.previous.toggleVisibility(visible)
                         view.playPause.toggleVisibility(visible)
                         view.next.toggleVisibility(visible)
-
-                    }, Throwable::printStackTrace)
-
-            viewModel.observeMiniQueueVisibility()
-                    .takeUntil(RxView.detaches(view))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ visible ->
-                        val alignment = if (visible) View.TEXT_ALIGNMENT_VIEW_START else View.TEXT_ALIGNMENT_CENTER
-                        val padding = if (visible) view.context.dip(16) else 0
-                        view.title.setPaddingTop(padding)
-                        view.title.textAlignment = alignment
-                        view.artist.textAlignment = alignment
-
-                        val params = view.layoutParams
-                        params.height = if (!visible) ViewGroup.LayoutParams.MATCH_PARENT
-                        else ViewGroup.LayoutParams.WRAP_CONTENT
-                        view.layoutParams = params
-
-                        val set = ConstraintSet()
-                        set.clone(view as ConstraintLayout)
-
-                        if (visible){
-                            set.clear(R.id.title, ConstraintSet.BOTTOM)
-                        } else {
-                            set.connect(R.id.title, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-                        }
-                        set.applyTo(view)
 
                     }, Throwable::printStackTrace)
 

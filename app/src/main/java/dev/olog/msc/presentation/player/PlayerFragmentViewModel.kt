@@ -32,13 +32,6 @@ class PlayerFragmentViewModel @Inject constructor(
         miniQueue.postValue(list)
     }
 
-    fun observeMiniQueueVisibility(): Observable<Boolean>{
-        return Observables.combineLatest(
-                billing.observeIsPremium(),
-                appPrefsUseCase.observeMiniQueueVisibility(), { premium, show -> premium && show }
-        )
-    }
-
     fun observePlayerControlsVisibility(): Observable<Boolean> {
         return Observables.combineLatest(
                 billing.observeIsPremium(),

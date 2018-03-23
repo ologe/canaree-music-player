@@ -26,13 +26,7 @@ interface AppPreferencesGateway : Sorting {
     fun setSleepTimer(millis: Long)
     fun getSleepTimer() : Long
 
-    fun observeMiniQueueVisibility(): Observable<Boolean>
-
     fun observePlayerControlsVisibility(): Observable<Boolean>
-
-    fun setCanDownloadOnMobile(can: Boolean)
-    fun getCanDownloadOnMobile() : Boolean
-    fun observeCanDownloadOnMobile(): Observable<Boolean>
 
 }
 

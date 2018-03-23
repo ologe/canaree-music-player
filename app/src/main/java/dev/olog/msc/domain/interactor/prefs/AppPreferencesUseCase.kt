@@ -36,23 +36,8 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setBlackList(set)
     }
 
-    fun observeMiniQueueVisibility(): Observable<Boolean> {
-        return gateway.observeMiniQueueVisibility()
-                .subscribeOn(Schedulers.io())
-    }
-
     fun observePlayerControlsVisibility(): Observable<Boolean> {
         return gateway.observePlayerControlsVisibility()
-                .subscribeOn(Schedulers.io())
-    }
-
-    fun setCanDownloadOnMobile(can: Boolean) {
-        gateway.setCanDownloadOnMobile(can)
-    }
-    fun getCanDownloadOnMobile(): Boolean = gateway.getCanDownloadOnMobile()
-
-    fun observeCanDownloadOnMobile(): Observable<Boolean> {
-        return gateway.observeCanDownloadOnMobile()
                 .subscribeOn(Schedulers.io())
     }
 

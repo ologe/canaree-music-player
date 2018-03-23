@@ -48,7 +48,7 @@
 
     <TextView
         android:id="@+id/title"
-        tools:text="@tools:sample/lorem/random"
+        tools:text="@tools:sample/lorem"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/text_color_primary"
@@ -58,17 +58,17 @@
         app:layout_constraintBottom_toTopOf="@+id/artist"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/previous"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/mini_player_margin_start"
         android:ellipsize="end"
         android:singleLine="true"
         android:maxLines="1"
-        android:gravity="bottom"
+        style="@style/MiniPlayerText"
         android:layout_marginBottom="2dp"
         android:scrollHorizontally="true" />
 
     <TextView
         android:id="@+id/artist"
-        tools:text="@tools:sample/lorem/random"
+        tools:text="@tools:sample/lorem"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/text_color_secondary"
@@ -77,11 +77,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/previous"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/mini_player_margin_start"
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"
-        android:gravity="top"
+        style="@style/MiniPlayerSubText"
         android:layout_marginTop="2dp"
         android:scrollHorizontally="true"/>
 

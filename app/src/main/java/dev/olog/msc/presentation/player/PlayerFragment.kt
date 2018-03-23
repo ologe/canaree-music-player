@@ -21,7 +21,6 @@ import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
@@ -46,20 +45,16 @@ class PlayerFragment : BaseFragment() {
 
         mediaProvider = (activity as MediaProvider)
 
-        Observables.combineLatest(
-                mediaProvider.onQueueChanged().mapToList { it.toDisplayableItem() },
-                viewModel.observeMiniQueueVisibility(), { queue, show ->
-                    if (show){
-                        val copy = queue.toMutableList()
-                        if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                            copy.add(viewModel.footerLoadMore)
-                        }
-                        copy.add(0, viewModel.playerControls)
-                        copy
-                    } else {
-                        listOf(viewModel.playerControls)
+        mediaProvider.onQueueChanged().mapToList { it.toDisplayableItem() }
+                .map { queue ->
+                    val copy = queue.toMutableList()
+                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
+                        copy.add(viewModel.footerLoadMore)
                     }
-                }).asLiveData()
+                    copy.add(0, viewModel.playerControls)
+                    copy
+                }
+                .asLiveData()
                 .subscribe(this, viewModel::updateQueue)
 
         viewModel.observeMiniQueue()

@@ -4,7 +4,7 @@ import android.support.v7.widget.GridLayoutManager
 
 abstract class AbsSpanSizeLookup : GridLayoutManager.SpanSizeLookup() {
 
-    protected val spanCount = 12
+    protected val spanCount = 60
 
     fun getSpanSize() = spanCount
 

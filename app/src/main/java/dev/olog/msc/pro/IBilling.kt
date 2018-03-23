@@ -25,7 +25,7 @@ interface IBilling {
 }
 
 private const val PRO_VERSION_ID = "pro_version"
-private const val DEFAULT_PREMIUM = false
+private const val DEFAULT_PREMIUM = true
 private const val DEFAULT_TRIAL = false
 
 private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)

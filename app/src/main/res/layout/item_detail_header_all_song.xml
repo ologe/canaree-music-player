@@ -35,6 +35,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sortImage"
             android:text="@{item.subtitle}"
+            tools:text="@string/detail_sort_by"
             android:textSize="@dimen/item_header_sec_text_size"
             android:textColor="@color/item_selected"
             android:layout_width="wrap_content"

@@ -48,9 +48,9 @@ class TabFragmentModule(
         val isPortrait = context.isPortrait
 
         return when (category){
-            MediaIdCategory.PLAYLISTS -> PlaylistSpanSizeLookup(isPortrait)
+            MediaIdCategory.PLAYLISTS -> PlaylistSpanSizeLookup(context, isPortrait)
             MediaIdCategory.ALBUMS -> AlbumSpanSizeLookup(context, isPortrait, adapter)
-            MediaIdCategory.ARTISTS -> ArtistSpanSizeLookup(isPortrait, adapter)
+            MediaIdCategory.ARTISTS -> ArtistSpanSizeLookup(context, isPortrait, adapter)
             MediaIdCategory.SONGS -> SongSpanSizeLookup()
             else -> BaseSpanSizeLookup(isPortrait)
         }

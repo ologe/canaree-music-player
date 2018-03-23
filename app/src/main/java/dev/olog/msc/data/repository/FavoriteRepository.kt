@@ -46,7 +46,7 @@ class FavoriteRepository @Inject constructor(
     override fun addSingle(songId: Long): Completable {
         return favoriteDao.addToFavoriteSingle(songId)
                 .andThen({
-                    val id = favoriteStatePublisher.value.songId
+                    val id = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songId == id){
                         updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE))
                     }
@@ -57,7 +57,7 @@ class FavoriteRepository @Inject constructor(
     override fun addGroup(songListId: List<Long>): Completable {
         return favoriteDao.addToFavorite(songListId)
                 .andThen({
-                    val songId = favoriteStatePublisher.value.songId
+                    val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songListId.contains(songId)){
                         updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE))
                     }
@@ -68,7 +68,7 @@ class FavoriteRepository @Inject constructor(
     override fun deleteSingle(songId: Long): Completable {
         return favoriteDao.removeFromFavorite(listOf(songId))
                 .andThen({
-                    val id = favoriteStatePublisher.value.songId
+                    val id = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songId == id){
                         updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE))
                     }
@@ -79,7 +79,7 @@ class FavoriteRepository @Inject constructor(
     override fun deleteGroup(songListId: List<Long>): Completable {
         return favoriteDao.removeFromFavorite(songListId)
                 .andThen({
-                    val songId = favoriteStatePublisher.value.songId
+                    val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songListId.contains(songId)){
                         updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE))
                     }
@@ -90,7 +90,7 @@ class FavoriteRepository @Inject constructor(
     override fun deleteAll(): Completable {
         return Completable.fromCallable { favoriteDao.deleteAll() }
                 .andThen({
-                    val songId = favoriteStatePublisher.value.songId
+                    val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                     updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE))
                     it.onComplete()
                 })
@@ -101,7 +101,7 @@ class FavoriteRepository @Inject constructor(
     }
 
     override fun toggleFavorite() {
-        val value = favoriteStatePublisher.value
+        val value = favoriteStatePublisher.value ?: return
         val id = value.songId
         val state = value.enum
 

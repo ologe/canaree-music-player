@@ -13,17 +13,23 @@ class AlbumSpanSizeLookup(
 
 ) : AbsSpanSizeLookup() {
 
-    private val isTablet = context.configuration.smallestScreenWidthDp >= 600
+    private val smallestWidthDip = context.configuration.smallestScreenWidthDp
+    private val isTablet = smallestWidthDip >= 600
+    private val isBigTablet = smallestWidthDip >= 720
 
     override fun getSpanSize(position: Int): Int {
+        println(smallestWidthDip)
+
         val itemType = adapter.elementAt(position).type
         when (itemType){
             R.layout.item_tab_header,
             R.layout.item_tab_last_played_artist_horizontal_list,
             R.layout.item_tab_last_played_album_horizontal_list -> return spanCount
         }
+
         if (isTablet){
-            if (isPortrait) spanCount / 3 else spanCount / 4
+            val span = if (isPortrait) spanCount / 3 else spanCount / 4
+            return if (isBigTablet) span + 1 else span
         }
 
         return if(isPortrait) spanCount / 2 else spanCount / 4
