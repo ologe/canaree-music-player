@@ -1,6 +1,7 @@
 package dev.olog.msc.domain.gateway.prefs
 
 import dev.olog.msc.domain.entity.LastMetadata
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 interface MusicPreferencesGateway {
@@ -29,5 +30,7 @@ interface MusicPreferencesGateway {
     fun getLastMetadata(): LastMetadata
     fun setLastMetadata(metadata: LastMetadata)
     fun observeLastMetadata(): Observable<LastMetadata>
+
+    fun setDefault(): Completable
 
 }

@@ -24,6 +24,7 @@ import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.toFlowable
 import javax.inject.Inject
 
@@ -62,15 +63,9 @@ class PlaylistRepository @Inject constructor(
 
     private val autoPlaylistTitles = resources.getStringArray(R.array.common_auto_playlists)
 
-    private fun autoPlaylist() = listOf(
-            createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0]),
-            createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1]),
-            createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2])
-    )
-
-    private fun createAutoPlaylist(id: Long, title: String) : Playlist {
+    private fun createAutoPlaylist(id: Long, title: String, listSize: Int) : Playlist {
         // todo auto playlist image
-        return Playlist(id, title, -1, "")
+        return Playlist(id, title, listSize, "")
     }
 
     private fun queryAllData(): Observable<List<Playlist>> {
@@ -106,7 +101,16 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
-        return Observable.just(autoPlaylist().sortedWith(compareByDescending { it.id }))
+        return Observables.combineLatest(
+                songGateway.getAll().map { it.count() }.distinctUntilChanged(), // last added
+                favoriteGateway.getAll().map { it.count() }.distinctUntilChanged(), // favorites
+                historyDao.getAllAsSongs(songGateway.getAll().firstOrError()).map { it.count() }, // history
+                { last, favorites, history -> listOf(
+                        createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0], last),
+                        createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1], favorites),
+                        createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2], history)
+                ) }
+        )
     }
 
     override fun insertSongToHistory(songId: Long): Completable {

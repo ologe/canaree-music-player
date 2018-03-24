@@ -249,4 +249,43 @@ class AppPreferencesImpl @Inject constructor(
         return rxPreferences.getBoolean(key, false)
                 .asObservable()
     }
+
+    override fun setDefault(): Completable {
+        return Completable.create { emitter ->
+            setLibraryCategories(getDefaultLibraryCategories())
+            setBlackList(setOf())
+            hideQuickAction()
+            setDefaultVisibleSections()
+            hideClassicPlayerControls()
+            setDefaultAutoDownloadImages()
+
+            emitter.onComplete()
+        }
+    }
+
+    private fun setDefaultAutoDownloadImages(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_auto_download_images_key), false)
+        }
+    }
+
+    private fun hideQuickAction(){
+        preferences.edit {
+            putString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
+        }
+    }
+
+    private fun setDefaultVisibleSections(){
+        preferences.edit {
+            val default = context.resources.getStringArray(R.array.prefs_detail_sections_entry_values_default).toSet()
+            putStringSet(context.getString(R.string.prefs_detail_sections_key), default)
+        }
+    }
+
+    private fun hideClassicPlayerControls(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_player_controls_visibility_key), false)
+        }
+    }
+
 }

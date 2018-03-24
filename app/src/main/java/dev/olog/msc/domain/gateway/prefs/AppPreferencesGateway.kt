@@ -28,6 +28,8 @@ interface AppPreferencesGateway : Sorting {
 
     fun observePlayerControlsVisibility(): Observable<Boolean>
 
+    fun setDefault(): Completable
+
 }
 
 interface Sorting {

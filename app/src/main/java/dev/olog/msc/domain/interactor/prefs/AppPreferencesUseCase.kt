@@ -2,6 +2,7 @@ package dev.olog.msc.domain.interactor.prefs
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -41,5 +42,8 @@ class AppPreferencesUseCase @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
 
+    fun setDefault(): Completable {
+        return gateway.setDefault()
+    }
 
 }

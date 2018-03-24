@@ -8,6 +8,7 @@ import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -67,7 +68,7 @@ class QueueMediaSession @Inject constructor(
         val description = MediaDescriptionCompat.Builder()
                 .setMediaId(MediaId.songId(this.id).toString())
                 .setTitle(this.title)
-                .setSubtitle(this.artist)
+                .setSubtitle(DisplayableItem.adjustArtist(this.artist))
                 .setMediaUri(Uri.parse(this.image))
                 .build()
 

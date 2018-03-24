@@ -8,6 +8,7 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -114,6 +115,20 @@ class MusicPreferencesImpl @Inject constructor(
         return rxPreferences.getString(LAST_TITLE)
                 .asObservable()
                 .map { getLastMetadata() }
+    }
+
+    override fun setDefault(): Completable {
+        return Completable.create { emitter ->
+            setMidnightMode(false)
+
+            emitter.onComplete()
+        }
+    }
+
+    private fun setMidnightMode(enable: Boolean){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_midnight_mode_key), enable)
+        }
     }
 
 }

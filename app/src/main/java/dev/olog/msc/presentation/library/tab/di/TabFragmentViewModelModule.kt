@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
+import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.tab.*
@@ -157,11 +158,15 @@ private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
 }
 
 private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem {
+
+    val size = if (PlaylistConstants.isAutoPlaylist(this.id)) ""
+    else DisplayableItem.handleSongListSize(resources, size)
+
     return DisplayableItem(
             R.layout.item_tab_album,
             MediaId.playlistId(id),
             title,
-            DisplayableItem.handleSongListSize(resources, size),
+            size,
             this.image
     )
 }

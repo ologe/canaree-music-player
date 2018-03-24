@@ -4,11 +4,14 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
 import com.android.billingclient.api.*
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -30,7 +33,9 @@ private const val DEFAULT_TRIAL = false
 private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
 
 class BillingImpl @Inject constructor(
-        private val activity: AppCompatActivity
+        private val activity: AppCompatActivity,
+        private val appPrefsUseCase: AppPreferencesUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {
 
@@ -41,10 +46,16 @@ class BillingImpl @Inject constructor(
 
     private var isTrialState by Delegates.observable(DEFAULT_TRIAL, { _, _, new ->
         trialPublisher.onNext(new)
+        if (!isPremium()){
+            setDefault()
+        }
     })
 
     private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM, { _, _, new ->
         premiumPublisher.onNext(new)
+        if (!isPremium()){
+            setDefault()
+        }
     })
 
 
@@ -142,5 +153,12 @@ class BillingImpl @Inject constructor(
 
             billingClient.launchBillingFlow(activity, params)
         }
+    }
+
+    private fun setDefault(){
+        appPrefsUseCase.setDefault()
+                .andThen(musicPreferencesUseCase.setDefault())
+                .subscribeOn(Schedulers.io())
+                .subscribe({}, Throwable::printStackTrace)
     }
 }

@@ -56,7 +56,6 @@ android {
 ////            debuggable false
 
             minifyEnabled true
-            shrinkResources true
             useProguard true
             multiDexEnabled false
             debuggable false

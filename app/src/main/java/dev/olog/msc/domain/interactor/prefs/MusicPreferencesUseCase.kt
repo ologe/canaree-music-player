@@ -2,6 +2,7 @@ package dev.olog.msc.domain.interactor.prefs
 
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -55,6 +56,10 @@ class MusicPreferencesUseCase @Inject constructor(
 
     fun observeLastMetadata(): Observable<LastMetadata> {
         return gateway.observeLastMetadata()
+    }
+
+    fun setDefault(): Completable {
+        return gateway.setDefault()
     }
 
 }

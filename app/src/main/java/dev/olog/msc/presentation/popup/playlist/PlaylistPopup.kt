@@ -36,6 +36,14 @@ class PlaylistPopup(
             if (playlist.id == PlaylistConstants.LAST_ADDED_ID){
                 menu.removeItem(R.id.clear)
             }
+            if (playlist.size < 1){
+                menu.removeItem(R.id.play)
+                menu.removeItem(R.id.playShuffle)
+                menu.removeItem(R.id.addToFavorite)
+                menu.removeItem(R.id.addToQueue)
+                menu.removeItem(R.id.addToPlaylist)
+                menu.removeItem(R.id.clear)
+            }
         } else {
             if (song.artist == AppConstants.UNKNOWN){
                 menu.removeItem(R.id.viewArtist)

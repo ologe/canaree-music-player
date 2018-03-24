@@ -53,10 +53,14 @@ abstract class AbsPopupListener(
                 FileProvider.getUriForFile(activity, activity.packageName, File(song.path)))
         intent.type = "audio/*"
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        if (intent.resolveActivity(activity.packageManager) != null){
-            val string = activity.getString(R.string.share_song_x, song.title)
-            activity.startActivity(Intent.createChooser(intent, string.asHtml()))
-        } else {
+        try {
+            if (intent.resolveActivity(activity.packageManager) != null){
+                val string = activity.getString(R.string.share_song_x, song.title)
+                activity.startActivity(Intent.createChooser(intent, string.asHtml()))
+            } else {
+                activity.toast("Could not share this song")
+            }
+        } catch (ex: Exception){
             activity.toast("Could not share this song")
         }
     }
