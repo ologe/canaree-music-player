@@ -24,7 +24,6 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
-import kotlinx.android.synthetic.main.layout_swipeable_view.*
 import kotlinx.android.synthetic.main.player_controls.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

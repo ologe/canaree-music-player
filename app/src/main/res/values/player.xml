@@ -19,6 +19,7 @@
 
     <!--durations-->
     <dimen name="player_bookmark_text_size">12dp</dimen>
+    <dimen name="player_duration_margin_end">32dp</dimen>
 
     <!--metadata-->
     <dimen name="player_title_text_size">18dp</dimen>

@@ -123,9 +123,15 @@
             android:value="2.1"/>
 
         <!--disable firebase analytics for build time, can enable at runtime-->
-        <!--<meta-data-->
-            <!--android:name="firebase_crashlytics_collection_enabled"-->
-            <!--android:value="false" />-->
+
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="@bool/FIREBASE_ENABLED"/>
+
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="@bool/FIREBASE_ENABLED" />
+
 
     </application>
 

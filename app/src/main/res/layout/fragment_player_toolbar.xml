@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/player_toolbar"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:paddingStart="@dimen/player_toolbar_margin_start"
+    android:paddingEnd="@dimen/player_toolbar_margin_end">
 
     <TextView
         android:id="@+id/nowPlaying"

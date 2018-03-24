@@ -26,7 +26,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
-import kotlinx.android.synthetic.main.layout_swipeable_view.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
 import javax.inject.Inject
 

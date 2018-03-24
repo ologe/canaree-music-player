@@ -58,8 +58,7 @@ ext {
 
     // App dependencies
     support_library = '27.1.0'
-    play_services = '11.8.0'
-    firebase = '11.8.0'
+    firebase = '12.0.0'
     micro_architecture = '1.1.0'
     micro_architecture_runtime = '1.1.0'
     micro_architecture_room = '1.0.0'

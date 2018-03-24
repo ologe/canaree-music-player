@@ -23,21 +23,42 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/player_toolbar" />
 
-        <include
-            android:id="@+id/swipeableLayout"
+        <dev.olog.msc.presentation.widget.image.view.RoundedCornersImageView
+            android:id="@+id/cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"
+            app:layout_constraintDimensionRatio="1"
+            tools:src="@drawable/placeholder_musical_note"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_marginTop="@dimen/player_cover_margin_vertical"
+            android:layout_marginStart="@dimen/player_cover_margin_horizontal"
+            android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
+            android:stateListAnimator="@animator/elevate_on_activated"
+            app:cornerRadius="10" />
+
+        <dev.olog.msc.presentation.widget.SwipeableView
+            android:id="@+id/swipeableView"
+            android:elevation="20dp"
+            app:layout_constraintTop_toTopOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
             android:layout_width="0dp"
-            layout="@layout/layout_swipeable_view"/>
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            tools:visibility="invisible"/>
 
         <!-- seekbar -->
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/swipeableLayout"
+            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:max="@integer/common_high_number"
@@ -74,7 +95,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/seekBar"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="@dimen/player_duration_margin_end"
             android:clickable="false"
             android:focusable="false" />
 

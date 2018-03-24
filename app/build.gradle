@@ -45,6 +45,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            signingConfig signingConfigs.release
+            resValue("bool", "FIREBASE_ENABLED", "true")
         }
 
         debug {
@@ -55,11 +56,11 @@ android {
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 ////            debuggable false
 
-            minifyEnabled true
-            useProguard true
-            multiDexEnabled false
-            debuggable false
+            minifyEnabled false
+            useProguard false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("bool", "FIREBASE_ENABLED", "false")
         }
     }
 
