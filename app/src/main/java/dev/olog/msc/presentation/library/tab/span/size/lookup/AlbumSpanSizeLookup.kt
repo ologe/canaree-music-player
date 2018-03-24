@@ -15,7 +15,6 @@ class AlbumSpanSizeLookup(
 
     private val smallestWidthDip = context.configuration.smallestScreenWidthDp
     private val isTablet = smallestWidthDip >= 600
-    private val isBigTablet = smallestWidthDip >= 720
 
     override fun getSpanSize(position: Int): Int {
         val itemType = adapter.elementAt(position).type
@@ -26,10 +25,7 @@ class AlbumSpanSizeLookup(
         }
 
         if (isTablet){
-            var span = if (isPortrait) 3 else 4
-            if (isBigTablet){
-                span++
-            }
+            val span = if (isPortrait) 4 else 5
             return spanCount / span
         }
 

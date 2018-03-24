@@ -11,7 +11,7 @@ class PlaylistSpanSizeLookup(
 ) : AbsSpanSizeLookup() {
 
     private val smallestWidthDip = context.configuration.smallestScreenWidthDp
-    private val isBigTablet = smallestWidthDip >= 720
+    private val isTablet = smallestWidthDip >= 600
 
     override fun getSpanSize(position: Int): Int {
         when (position){
@@ -20,7 +20,7 @@ class PlaylistSpanSizeLookup(
 
         var span = if (isPortrait) 3 else 4
 
-        if (isBigTablet) {
+        if (isTablet) {
             span++
         }
 

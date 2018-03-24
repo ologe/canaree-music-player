@@ -50,6 +50,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/more"
                 android:text="@{item.title}"
+                android:textSize="16dp"
                 tools:text="@tools:sample/lorem"
                 style="@style/Song.MainText"
                 android:layout_width="0dp"
