@@ -3,6 +3,7 @@ package dev.olog.msc.music.service
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
@@ -10,13 +11,16 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
+import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.favorite.ToggleFavoriteUseCase
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -26,6 +30,7 @@ import javax.inject.Inject
 
 @PerService
 class MediaSessionCallback @Inject constructor(
+        @ApplicationContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val queue: Queue,
         private val player: Player,
@@ -86,9 +91,9 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPlay() {
-        doWhenReady {
+        doWhenReady ({
             player.resume()
-        }
+        })
     }
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
@@ -110,29 +115,41 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToNext() {
-        doWhenReady {
+        doWhenReady ({
             val metadata = queue.handleSkipToNext()
             player.playNext(metadata, true)
-        }
+        }, {
+            context.toast(R.string.popup_error_message)
+        })
     }
 
     override fun onSkipToPrevious() {
-        doWhenReady {
+        doWhenReady ({
             val metadata = queue.handleSkipToPrevious(player.getBookmark())
             player.playNext(metadata, false)
-        }
+        }, {
+            context.toast(R.string.popup_error_message)
+        })
     }
 
-    private fun doWhenReady(action: () -> Unit){
+    private fun doWhenReady(action: () -> Unit, error: (() -> Unit)? = null){
         prepareDisposable.unsubscribe()
         if (queue.isReady()){
-            action()
+            try {
+                action()
+            } catch (ex: Exception){
+                error?.invoke()
+            }
         } else {
             prepareDisposable = queue.prepare()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        player.prepare(it)
-                        action()
+                        try {
+                            player.prepare(it)
+                            action()
+                        } catch (ex: Exception){
+                            error?.invoke()
+                        }
                     }, Throwable::printStackTrace)
                     .addTo(subscriptions)
         }
@@ -163,14 +180,14 @@ class MediaSessionCallback @Inject constructor(
                 MusicConstants.ACTION_REMOVE -> queue.handleRemove(extras!!)
                 MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
                 MusicConstants.ACTION_SHUFFLE -> {
-                    doWhenReady {
+                    doWhenReady ({
                         val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
                         val mediaId = MediaId.fromString(mediaIdAsString)
                         queue.handlePlayShuffle(mediaId)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(player::play, Throwable::printStackTrace)
                                 .addTo(subscriptions)
-                    }
+                    })
                 }
             }
         }
