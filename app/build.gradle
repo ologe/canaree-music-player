@@ -39,7 +39,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "false")
             applicationIdSuffix ".debug"
-            debuggable false
+//            debuggable false
         }
     }
 
