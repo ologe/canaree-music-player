@@ -1,20 +1,17 @@
 package dev.olog.msc.presentation.detail
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import dagger.Lazy
-import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.interactor.MoveItemInPlaylistUseCase
-import dev.olog.msc.domain.interactor.RemoveFromPlaylistUseCase
 import dev.olog.msc.domain.interactor.detail.GetDetailTabsVisibilityUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetArtistFromAlbumUseCase
 import dev.olog.msc.domain.interactor.detail.sorting.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -23,19 +20,16 @@ import io.reactivex.rxkotlin.Observables
 
 class DetailFragmentViewModel(
         val mediaId: MediaId,
-        private val item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+        item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
         data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
-        private val headers: DetailFragmentHeaders,
-        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
+        private val presenter: DetailFragmentPresenter,
         private val setSortOrderUseCase: SetSortOrderUseCase,
         private val observeSortOrderUseCase: GetSortOrderUseCase,
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
-        private val moveItemInPlaylistUseCase: Lazy<MoveItemInPlaylistUseCase>,
         getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
-        val getDetailSortDataUseCase: GetDetailSortDataUseCase,
-        private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase
+        val getDetailSortDataUseCase: GetDetailSortDataUseCase
 
 ) : ViewModel() {
 
@@ -53,17 +47,37 @@ class DetailFragmentViewModel(
     private val currentCategory = mediaId.category
 
     val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!.asLiveData()
+    private val dataMapLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = DetailLiveData()
+
+    private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
+            Observables.combineLatest(
+                    item[currentCategory]!!.toObservable(),
+                    data[MOST_PLAYED]!!,
+                    data[RECENTLY_ADDED]!!,
+                    albums[currentCategory]!!,
+                    data[RELATED_ARTISTS]!!,
+                    data[SONGS]!!,
+                    getVisibleTabsUseCase.execute(),
+                    { item, mostPlayed, recent, albums, artists, songs, visibility ->
+                        presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
+                    }
+            ).startWithArray(mutableMapOf()).distinctUntilChanged(),
+            item[currentCategory]!!.toObservable(),
+            { map, item ->
+                mutableMapOf(DetailFragmentDataType.HEADER to item.toMutableList()).apply { putAll(map) }
+            }
+    ).onErrorReturnItem(mutableMapOf())
+
+    private val dataDisposable = dataMap.subscribe(dataMapLiveData::postValue, Throwable::printStackTrace)
+
+    override fun onCleared() {
+        dataDisposable.unsubscribe()
+    }
+
+    fun observeData(): LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = dataMapLiveData
 
     fun artistMediaId() : Maybe<MediaId> {
-        if (mediaId.isAlbum){
-            return getArtistFromAlbumUseCase
-                    .execute(mediaId)
-                    .firstElement()
-                    .map { MediaId.artistId(it.id) }
-        } else {
-            return Maybe.empty()
-        }
-
+        return presenter.artistMediaId()
     }
 
     val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
@@ -76,86 +90,6 @@ class DetailFragmentViewModel(
     val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
-
-    val data : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
-            Observables.combineLatest(
-                    item[currentCategory]!!.toObservable(),
-                    data[MOST_PLAYED]!!,
-                    data[RECENTLY_ADDED]!!,
-                    albums[currentCategory]!!,
-                    data[RELATED_ARTISTS]!!,
-                    data[SONGS]!!,
-                    getVisibleTabsUseCase.execute(),
-                    { item, mostPlayed, recent, albums, artists, songs, visibility ->
-
-                        mutableMapOf(
-                                DetailFragmentDataType.HEADER to item.toMutableList(),
-                                DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
-                                DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
-                                DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
-                                DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
-                                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
-                        ) }
-            ).startWithArray(mutableMapOf()).distinctUntilChanged(),
-            item[currentCategory]!!.toObservable(),
-            { map, item ->
-                mutableMapOf(DetailFragmentDataType.HEADER to item.toMutableList()).apply { putAll(map) }
-            }
-    ).onErrorReturnItem(mutableMapOf())
-
-    private fun handleMostPlayedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        if (isEnabled && list.isNotEmpty()){
-            list.clear()
-            list.addAll(0, headers.mostPlayed)
-        } else {
-            list.clear()
-        }
-        return list
-    }
-
-    private fun handleRecentlyAddedHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        if (isEnabled && list.isNotEmpty()){
-            val size = list.size
-            list.clear()
-            list.addAll(0, headers.recent(size, size > VISIBLE_RECENTLY_ADDED_PAGES))
-        } else {
-            list.clear()
-        }
-        return list
-    }
-
-    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: List<DisplayableItem>) : MutableList<DisplayableItem>{
-        val albumsList = list.toMutableList()
-        if (albumsList.isNotEmpty()){
-            val artist = when {
-                mediaId.isAlbum -> item[1].subtitle
-                else -> null
-            }
-            albumsList.add(0, headers.albums(artist))
-        }
-
-        return albumsList
-    }
-
-    private fun handleRelatedArtistsHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{
-        if (isEnabled && list.isNotEmpty()){
-            val size = list.size
-            list.clear()
-            list.addAll(0, headers.relatedArtists(size > 10))
-        } else {
-            list.clear()
-        }
-        return list
-    }
-
-    private fun handleSongsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-        if (list.isNotEmpty()) {
-            list.addAll(0, headers.songs)
-        } else {
-            list.add(headers.no_songs)
-        }
-        return list
-    }
 
     fun updateSortType(sortType: SortType): Completable {
         return setSortOrderUseCase.execute(SetSortOrderRequestModel(
@@ -175,23 +109,38 @@ class DetailFragmentViewModel(
     }
 
     fun moveItemInPlaylist(from: Int, to: Int){
-        if (!mediaId.isPlaylist){
-            throw IllegalStateException("not a playlist")
-        }
-        val playlistId = mediaId.categoryValue.toLong()
-        moveItemInPlaylistUseCase.get().execute(playlistId, from, to)
+        presenter.moveInPlaylist(from, to)
     }
 
     fun removeFromPlaylist(item: DisplayableItem): Completable {
-        if (!mediaId.isPlaylist){
-            throw IllegalStateException("not a playlist")
+        return presenter.removeFromPlaylist(item)
+    }
+
+}
+
+/**
+ * Because after rotation is emitted an event with only item data,
+ * this LiveData handle that case not emitting that event
+ */
+private class DetailLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>>() {
+
+    override fun setValue(value: MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>) {
+        if (canUpdate(value)){
+            super.setValue(value)
         }
-        val playlistId = mediaId.categoryValue.toLong()
-        if (playlistId == PlaylistConstants.FAVORITE_LIST_ID){
-            // favorites use songId instead of idInPlaylist
-            return removeFromPlaylistUseCase.execute(playlistId to item.mediaId.leaf!!)
+    }
+
+    override fun postValue(value: MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>) {
+        if (canUpdate(value)){
+            super.postValue(value)
         }
-        return removeFromPlaylistUseCase.execute(playlistId to item.trackNumber.toLong())
+    }
+
+    private fun canUpdate(value: MutableMap<*, MutableList<DisplayableItem>>): Boolean {
+        if (this.value == null) {
+            return true
+        }
+        return value.size > 1
     }
 
 }

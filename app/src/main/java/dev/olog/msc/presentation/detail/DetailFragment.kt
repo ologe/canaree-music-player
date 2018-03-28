@@ -64,8 +64,7 @@ class DetailFragment : BaseFragment() {
         viewModel.relatedArtistsLiveData
                 .subscribe(this, relatedArtistAdapter::updateDataSet)
 
-        viewModel.data.onErrorReturn { mutableMapOf() }
-                .asLiveData()
+        viewModel.observeData()
                 .subscribe(this, {
                     if (it.isEmpty()){
                         act.onBackPressed()

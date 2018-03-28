@@ -143,4 +143,10 @@ class MediaId private constructor(
     val isArtist : Boolean = category == MediaIdCategory.ARTISTS
     val isGenre : Boolean = category == MediaIdCategory.GENRES
 
+    fun assertPlaylist(){
+        if (!isPlaylist){
+            throw IllegalStateException("not a playlist")
+        }
+    }
+
 }
