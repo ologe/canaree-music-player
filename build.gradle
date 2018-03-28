@@ -3,8 +3,8 @@
 buildscript {
 
     ext.kotlin_version = '1.2.31'
-    ext.gradle_plugin = '3.0.1'
-    ext.google_services = '3.2.0'
+    ext.gradle_plugin = '3.1.0'
+    ext.google_services = '3.1.1'
     ext.fabric = '1.25.1'
     ext.firebase_plugin = '1.1.5'
 
@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"
@@ -45,21 +45,24 @@ ext {
     compileSdkVersion = 27
     buildToolsVersion = '27.0.3'
 
-    // app versioning
-    // remember to activate firebase metadata in manifest in release build
+    // android P test
+//    minSdkVersion = 21
+//    targetSdkVersion = 'P'
+//    compileSdkVersion = 'android-P'
+//    buildToolsVersion = '28.0.0-rc1'
 
     /*  version code
-        4 - abi split, for old compatibility
+        >= 4 - abi split, for old compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 4270303
-    versionName = '0.303'
+    versionCode = 4270304
+    versionName = '0.304'
 
     // App dependencies
     support_library = '27.1.0'
     firebase = '12.0.0'
-    micro_architecture = '1.1.0'
+    micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.0'
     micro_architecture_room = '1.0.0'
     constraint_layout = '1.1.0-beta6'

@@ -4,10 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
-//def keystorePropertiesFile = rootProject.file("keystore.properties")
-//def keystoreProperties = new Properties()
-//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -25,17 +21,6 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
-//    signingConfigs {
-//        release {
-//            keyAlias keystoreProperties['keyAlias']
-//            keyPassword keystoreProperties['keyPassword']
-//            storeFile file('C:/Users/Eugi/keystores/next.jks')
-//            storePassword keystoreProperties['storePassword']
-//            v1SigningEnabled true
-//            v2SigningEnabled true
-//        }
-//    }
-
     buildTypes {
 
         release {
@@ -44,23 +29,17 @@ android {
             multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.release
             resValue("bool", "FIREBASE_ENABLED", "true")
         }
 
         debug {
-//            minifyEnabled true
-//            useProguard false
-//            multiDexEnabled false
-////            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-////            debuggable false
-
             minifyEnabled false
             useProguard false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "false")
+            applicationIdSuffix ".debug"
+            debuggable false
         }
     }
 
@@ -93,7 +72,6 @@ android {
     }
 
     kapt {
-//        generateStubs = true
         javacOptions {
             option("-Xmaxerrs", 500)
             correctErrorTypes = true
@@ -104,9 +82,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    // modules
-    implementation "com.android.billingclient:billing:$rootProject.billing"
 
     // data binding
     kapt "com.android.databinding:compiler:$gradle_plugin"
@@ -134,6 +109,8 @@ dependencies {
     implementation "com.android.support:palette-v7:$rootProject.support_library"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.constraint_layout"
 
+    // billing
+    implementation "com.android.billingclient:billing:$rootProject.billing"
 
     // db
     implementation "com.squareup.sqlbrite3:sqlbrite:$rootProject.sql_brite"
@@ -141,19 +118,20 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$rootProject.micro_architecture_room"
     implementation "android.arch.persistence.room:rxjava2:$rootProject.micro_architecture_room"
 
-    // di
+    // dagger
     implementation "com.google.dagger:dagger:$rootProject.dagger"
     kapt "com.google.dagger:dagger-compiler:$rootProject.dagger"
     implementation "com.google.dagger:dagger-android:$rootProject.dagger"
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger"
     kapt "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
-    // reactive streams
+    // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
+    implementation "com.github.pwittchen:reactivenetwork-rx2:$rootProject.reactive_network"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
@@ -170,7 +148,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
-    implementation "com.github.pwittchen:reactivenetwork-rx2:$rootProject.reactive_network"
     implementation "com.github.dmstocking:support-optional:$rootProject.optional_lib"
 
     // debug
@@ -179,11 +156,12 @@ dependencies {
     debugImplementation 'com.tspoon.traceur:traceur:1.0.1'
 
 
-    // crashlytics
+    // firebase
+    implementation "com.google.firebase:firebase-core:$rootProject.firebase"
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
         transitive = true
     }
-    implementation "com.google.firebase:firebase-core:$rootProject.firebase"
+
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
