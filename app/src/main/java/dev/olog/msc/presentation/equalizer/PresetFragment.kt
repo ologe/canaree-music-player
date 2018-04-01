@@ -6,17 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.withArguments
 import kotlinx.android.synthetic.main.fragment_preset.view.*
 
 class PresetFragment : Fragment() {
 
     companion object {
         fun newInstance(presetName: String): PresetFragment {
-            val bundle = Bundle()
-            bundle.putString("preset", presetName)
-            val fragment = PresetFragment()
-            fragment.arguments = bundle
-            return fragment
+            return PresetFragment().withArguments(
+                    "preset" to presetName
+            )
         }
     }
 
@@ -26,4 +25,5 @@ class PresetFragment : Fragment() {
         view.presetName.text = preset
         return view
     }
+
 }

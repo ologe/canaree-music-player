@@ -2,7 +2,7 @@ package dev.olog.msc.music.service.equalizer
 
 import android.media.audiofx.Virtualizer
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.shared_android.interfaces.equalizer.IVirtualizer
+import dev.olog.msc.interfaces.equalizer.IVirtualizer
 import javax.inject.Inject
 
 class VirtualizerImpl @Inject constructor(

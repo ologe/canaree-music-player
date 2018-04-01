@@ -1,10 +1,11 @@
 package dev.olog.msc.presentation.equalizer
 
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.shared_android.interfaces.equalizer.IBassBoost
-import dev.olog.shared_android.interfaces.equalizer.IEqualizer
-import dev.olog.shared_android.interfaces.equalizer.IReplayGain
-import dev.olog.shared_android.interfaces.equalizer.IVirtualizer
+import dev.olog.msc.interfaces.equalizer.IBassBoost
+import dev.olog.msc.interfaces.equalizer.IEqualizer
+import dev.olog.msc.interfaces.equalizer.IReplayGain
+import dev.olog.msc.interfaces.equalizer.IVirtualizer
+import io.reactivex.Observable
 import javax.inject.Inject
 
 class EqualizerFragmentPresenter @Inject constructor(
@@ -66,5 +67,7 @@ class EqualizerFragmentPresenter @Inject constructor(
     fun removeEqualizerListener(listener: IEqualizer.Listener){
         equalizer.removeListener(listener)
     }
+
+    fun isEqualizerAvailable(): Observable<Boolean> = equalizer.isAvailable()
 
 }

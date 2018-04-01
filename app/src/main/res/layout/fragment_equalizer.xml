@@ -1,258 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clipChildren="false"
-    android:background="@android:color/white"
-    android:elevation="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_marginBottom="@dimen/sliding_panel_peek"
+    android:id="@+id/root">
 
-    <View
-        android:id="@+id/statusBar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/status_bar"
-        android:background="@android:color/transparent"
-        android:alpha=".8"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
 
-    <dev.olog.msc.presentation.equalizer.widget.InfiniteViewPager
-        android:id="@+id/pager"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        <ImageButton
+            android:id="@+id/back"
+            app:layout_constraintTop_toBottomOf="@+id/statusBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/vd_back_arrow"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/toolbar"
+            android:tint="@color/dark_grey"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:elevation="@dimen/toolbar_elevation" />
 
-    <dev.olog.msc.presentation.equalizer.widget.InfiniteInkPageIndicator
-        android:id="@+id/pageIndicator"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:currentPageIndicatorColor="@color/dark_grey"
-        app:pageIndicatorColor="@color/grey600"
-        app:dotDiameter="5dp"
-        app:dotGap="5dp"
-        android:layout_marginTop="8dp"/>
+        <View
+            android:id="@+id/statusBar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/status_bar"
+            android:background="@android:color/transparent"
+            android:alpha=".8"/>
 
-    <Switch
-        android:id="@+id/powerSwitch"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:padding="16dp"
-        android:thumbTint="@color/dark_grey"
-        android:buttonTint="@android:color/white" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
 
-    <View
-        android:id="@+id/dottedLine"
-        app:layout_constraintTop_toBottomOf="@+id/band3"
-        app:layout_constraintBottom_toTopOf="@+id/band3"
-        app:layout_constraintStart_toStartOf="@+id/band1"
-        app:layout_constraintEnd_toEndOf="@+id/band5"
-        android:background="@color/dark_grey"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/eq_bar_top_margin"
-        android:paddingStart="8dp"
-        android:scaleX="1.05"/>
+        <dev.olog.msc.presentation.widget.InkPageIndicator
+            android:id="@+id/pageIndicator"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_height="10dp"
+            tools:layout_width="10dp"
+            app:currentPageIndicatorColor="@color/dark_grey"
+            app:pageIndicatorColor="@color/grey600"
+            app:dotDiameter="5dp"
+            app:dotGap="5dp"
+            android:layout_marginTop="8dp"/>
 
-    <dev.olog.msc.presentation.equalizer.widget.BandView
-        android:id="@+id/band1"
-        app:layout_constraintTop_toTopOf="@+id/band3"
-        app:layout_constraintEnd_toStartOf="@+id/band2"
-        app:layout_constraintBottom_toBottomOf="@+id/band3"
-        android:layout_width="@dimen/eq_bar_width"
-        android:layout_height="0dp"
-        tools:background="@color/colorAccent"
-        app:bandIndex="0"
-        android:layout_marginEnd="@dimen/separator_width"/>
+        <Switch
+            android:id="@+id/powerSwitch"
+            app:layout_constraintTop_toBottomOf="@+id/statusBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:padding="16dp"
+            android:thumbTint="@color/dark_grey"
+            android:buttonTint="@android:color/white"
+            tools:text="@string/common_switch_off"
+            tools:checked="false"
+            android:switchPadding="8dp"/>
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@+id/band3"
-        app:layout_constraintStart_toStartOf="@+id/band1"
-        app:layout_constraintEnd_toEndOf="@+id/band1"
-        android:text="60"
-        android:textColor="@color/dark_grey"
-        android:textSize="@dimen/eq_bar_band_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <View
+            android:id="@+id/dottedLine"
+            app:layout_constraintTop_toBottomOf="@+id/band3"
+            app:layout_constraintBottom_toTopOf="@+id/band3"
+            app:layout_constraintStart_toStartOf="@+id/band1"
+            app:layout_constraintEnd_toEndOf="@+id/band5"
+            android:background="@color/dark_grey"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/eq_bar_top_margin"
+            android:paddingStart="8dp"
+            android:scaleX="1.05"/>
 
-    <dev.olog.msc.presentation.equalizer.widget.BandView
-        android:id="@+id/band2"
-        app:layout_constraintTop_toTopOf="@+id/band3"
-        app:layout_constraintEnd_toStartOf="@+id/band3"
-        app:layout_constraintBottom_toBottomOf="@+id/band3"
-        android:layout_width="@dimen/eq_bar_width"
-        android:layout_height="0dp"
-        tools:background="@color/colorAccent"
-        app:bandIndex="1"
-        android:layout_marginEnd="@dimen/separator_width"/>
+        <dev.olog.msc.presentation.equalizer.widget.BandView
+            android:id="@+id/band1"
+            app:layout_constraintTop_toTopOf="@+id/band3"
+            app:layout_constraintEnd_toStartOf="@+id/band2"
+            app:layout_constraintBottom_toBottomOf="@+id/band3"
+            android:layout_width="@dimen/eq_bar_width"
+            android:layout_height="0dp"
+            tools:background="@color/colorAccent"
+            app:bandIndex="0"
+            android:layout_marginEnd="@dimen/separator_width"/>
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@+id/band3"
-        app:layout_constraintStart_toStartOf="@+id/band2"
-        app:layout_constraintEnd_toEndOf="@+id/band2"
-        android:text="230"
-        android:textColor="@color/dark_grey"
-        android:textSize="@dimen/eq_bar_band_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/band3"
+            app:layout_constraintStart_toStartOf="@+id/band1"
+            app:layout_constraintEnd_toEndOf="@+id/band1"
+            android:text="60"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/eq_bar_band_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <dev.olog.msc.presentation.equalizer.widget.BandView
-        android:id="@+id/band3"
-        app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
-        app:layout_constraintBottom_toTopOf="@+id/presetName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="@dimen/eq_bar_width"
-        android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginTop="8dp"
-        tools:background="@color/colorAccent"
-        app:bandIndex="2" />
+        <dev.olog.msc.presentation.equalizer.widget.BandView
+            android:id="@+id/band2"
+            app:layout_constraintTop_toTopOf="@+id/band3"
+            app:layout_constraintEnd_toStartOf="@+id/band3"
+            app:layout_constraintBottom_toBottomOf="@+id/band3"
+            android:layout_width="@dimen/eq_bar_width"
+            android:layout_height="0dp"
+            tools:background="@color/colorAccent"
+            app:bandIndex="1"
+            android:layout_marginEnd="@dimen/separator_width"/>
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@+id/band3"
-        app:layout_constraintStart_toStartOf="@+id/band3"
-        app:layout_constraintEnd_toEndOf="@+id/band3"
-        android:text="910"
-        android:textColor="@color/dark_grey"
-        android:textSize="@dimen/eq_bar_band_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/band3"
+            app:layout_constraintStart_toStartOf="@+id/band2"
+            app:layout_constraintEnd_toEndOf="@+id/band2"
+            android:text="230"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/eq_bar_band_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <dev.olog.msc.presentation.equalizer.widget.BandView
-        android:id="@+id/band4"
-        app:layout_constraintTop_toTopOf="@+id/band3"
-        app:layout_constraintStart_toEndOf="@+id/band3"
-        app:layout_constraintBottom_toBottomOf="@+id/band3"
-        android:layout_width="@dimen/eq_bar_width"
-        android:layout_height="0dp"
-        tools:background="@color/colorAccent"
-        app:bandIndex="3"
-        android:layout_marginStart="@dimen/separator_width"/>
+        <dev.olog.msc.presentation.equalizer.widget.BandView
+            android:id="@+id/band3"
+            app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/presetName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/eq_bar_width"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="8dp"
+            tools:background="@color/colorAccent"
+            app:bandIndex="2" />
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@+id/band3"
-        app:layout_constraintStart_toStartOf="@+id/band4"
-        app:layout_constraintEnd_toEndOf="@+id/band4"
-        android:text="3k"
-        android:textColor="@color/dark_grey"
-        android:textSize="@dimen/eq_bar_band_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/band3"
+            app:layout_constraintStart_toStartOf="@+id/band3"
+            app:layout_constraintEnd_toEndOf="@+id/band3"
+            android:text="910"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/eq_bar_band_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <dev.olog.msc.presentation.equalizer.widget.BandView
-        android:id="@+id/band5"
-        app:layout_constraintTop_toTopOf="@+id/band3"
-        app:layout_constraintStart_toEndOf="@+id/band4"
-        app:layout_constraintBottom_toBottomOf="@+id/band3"
-        android:layout_width="@dimen/eq_bar_width"
-        android:layout_height="0dp"
-        tools:background="@color/colorAccent"
-        app:bandIndex="4"
-        android:layout_marginStart="@dimen/separator_width"/>
+        <dev.olog.msc.presentation.equalizer.widget.BandView
+            android:id="@+id/band4"
+            app:layout_constraintTop_toTopOf="@+id/band3"
+            app:layout_constraintStart_toEndOf="@+id/band3"
+            app:layout_constraintBottom_toBottomOf="@+id/band3"
+            android:layout_width="@dimen/eq_bar_width"
+            android:layout_height="0dp"
+            tools:background="@color/colorAccent"
+            app:bandIndex="3"
+            android:layout_marginStart="@dimen/separator_width"/>
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@+id/band3"
-        app:layout_constraintStart_toStartOf="@+id/band5"
-        app:layout_constraintEnd_toEndOf="@+id/band5"
-        android:text="14k"
-        android:textColor="@color/dark_grey"
-        android:textSize="@dimen/eq_bar_band_text_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/band3"
+            app:layout_constraintStart_toStartOf="@+id/band4"
+            app:layout_constraintEnd_toEndOf="@+id/band4"
+            android:text="3k"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/eq_bar_band_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/presetName"
-        android:textSize="20dp"
-        android:textColor="@android:color/black"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"/>
+        <dev.olog.msc.presentation.equalizer.widget.BandView
+            android:id="@+id/band5"
+            app:layout_constraintTop_toTopOf="@+id/band3"
+            app:layout_constraintStart_toEndOf="@+id/band4"
+            app:layout_constraintBottom_toBottomOf="@+id/band3"
+            android:layout_width="@dimen/eq_bar_width"
+            android:layout_height="0dp"
+            tools:background="@color/colorAccent"
+            app:bandIndex="4"
+            android:layout_marginStart="@dimen/separator_width"/>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/eq_guideline_percent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/band3"
+            app:layout_constraintStart_toStartOf="@+id/band5"
+            app:layout_constraintEnd_toEndOf="@+id/band5"
+            android:text="14k"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/eq_bar_band_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <dev.olog.msc.presentation.equalizer.widget.RadialKnob
-        android:id="@+id/bassKnob"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/virtualizerKnob"
-        android:layout_width="@dimen/knob_width"
-        android:layout_height="@dimen/knob_height"
-        app:layout_constraintVertical_bias=".7"/>
+        <TextView
+            android:id="@+id/presetName"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
 
-    <dev.olog.msc.presentation.equalizer.widget.RadialKnob
-        android:id="@+id/virtualizerKnob"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bassKnob"
-        android:layout_width="@dimen/knob_width"
-        android:layout_height="@dimen/knob_height"
-        app:layout_constraintVertical_bias=".7"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="@dimen/eq_guideline_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:text="Bass"
-        app:layout_constraintBottom_toBottomOf="@+id/bassKnob"
-        app:layout_constraintStart_toStartOf="@+id/bassKnob"
-        app:layout_constraintEnd_toEndOf="@+id/bassKnob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:textStyle="bold"
-        android:textColor="@color/dark_grey"/>
+        <dev.olog.msc.presentation.equalizer.widget.RadialKnob
+            android:id="@+id/bassKnob"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/virtualizerKnob"
+            android:layout_width="@dimen/knob_width"
+            android:layout_height="@dimen/knob_height"
+            app:layout_constraintVertical_bias=".7"/>
 
-    <TextView
-        android:text="Virtualizer"
-        app:layout_constraintBottom_toBottomOf="@+id/virtualizerKnob"
-        app:layout_constraintStart_toStartOf="@+id/virtualizerKnob"
-        app:layout_constraintEnd_toEndOf="@+id/virtualizerKnob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
-        android:textStyle="bold"
-        android:textColor="@color/dark_grey"/>
+        <dev.olog.msc.presentation.equalizer.widget.RadialKnob
+            android:id="@+id/virtualizerKnob"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bassKnob"
+            android:layout_width="@dimen/knob_width"
+            android:layout_height="@dimen/knob_height"
+            app:layout_constraintVertical_bias=".7"/>
 
-    <TextView
-        android:id="@+id/replayGain"
-        android:text="Replay Gain"
-        app:layout_constraintBottom_toTopOf="@+id/bassKnob"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/replayGainSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        android:textStyle="bold"
-        android:textColor="@color/dark_grey"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"/>
+        <TextView
+            android:text="Bass"
+            app:layout_constraintBottom_toBottomOf="@+id/bassKnob"
+            app:layout_constraintStart_toStartOf="@+id/bassKnob"
+            app:layout_constraintEnd_toEndOf="@+id/bassKnob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_grey"/>
 
-    <Switch
-        android:id="@+id/replayGainSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/replayGain"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/replayGain"
-        app:layout_constraintBottom_toBottomOf="@+id/replayGain"
-        android:layout_marginStart="8dp"
-        android:thumbTint="@color/dark_grey"/>
+        <TextView
+            android:text="Virtualizer"
+            app:layout_constraintBottom_toBottomOf="@+id/virtualizerKnob"
+            app:layout_constraintStart_toStartOf="@+id/virtualizerKnob"
+            app:layout_constraintEnd_toEndOf="@+id/virtualizerKnob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_grey"/>
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/replayGain"
+            android:text="Replay Gain"
+            app:layout_constraintBottom_toTopOf="@+id/bassKnob"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/replayGainSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:textStyle="bold"
+            android:textColor="@color/dark_grey"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"/>
+
+        <Switch
+            android:id="@+id/replayGainSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/replayGain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/replayGain"
+            app:layout_constraintBottom_toBottomOf="@+id/replayGain"
+            android:layout_marginStart="8dp"
+            android:thumbTint="@color/dark_grey"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

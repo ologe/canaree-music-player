@@ -1,4 +1,4 @@
-package dev.olog.shared_android.interfaces.equalizer
+package dev.olog.msc.interfaces.equalizer
 
 interface IVirtualizer {
 

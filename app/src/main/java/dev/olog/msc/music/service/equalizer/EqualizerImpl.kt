@@ -2,7 +2,9 @@ package dev.olog.msc.music.service.equalizer
 
 import android.media.audiofx.Equalizer
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.shared_android.interfaces.equalizer.IEqualizer
+import dev.olog.msc.interfaces.equalizer.IEqualizer
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class EqualizerImpl @Inject constructor(
@@ -14,6 +16,8 @@ class EqualizerImpl @Inject constructor(
     private val listeners = mutableListOf<IEqualizer.Listener>()
     private var eqSettings = Equalizer.Settings()
 
+    private val availabilityPublisher = BehaviorSubject.createDefault(true)
+
     override fun addListener(listener: IEqualizer.Listener) {
         listeners.add(listener)
     }
@@ -23,22 +27,18 @@ class EqualizerImpl @Inject constructor(
     }
 
     override fun getBandLevel(band: Int): Float {
-        try {
-            return equalizer!!.getBandLevel(band.toShort()).toFloat()
-        } catch (ex: Exception){
-            return 0f
-        }
+        return useOrDefault({ equalizer!!.getBandLevel(band.toShort()).toFloat() }, 0f)
     }
 
     override fun setBandLevel(band: Int, level: Float) {
-        try {
+        use {
             eqSettings.bandLevels[band] = level.toShort()
             equalizer!!.setBandLevel(band.toShort(), level.toShort())
-        } catch (ex: Exception){ }
+        }
     }
 
     override fun setPreset(position: Int) {
-        try {
+        use {
             eqSettings.curPreset = position.toShort()
 
             equalizer!!.usePreset(position.toShort())
@@ -49,52 +49,67 @@ class EqualizerImpl @Inject constructor(
                     it.onPresetChange(band, level.toFloat())
                 }
             }
-        } catch (ex: Exception){ }
+        }
     }
 
     override fun getPresets(): List<String> {
-        try {
-            return (0 until equalizer!!.numberOfPresets)
+        return useOrDefault({
+            (0 until equalizer!!.numberOfPresets)
                     .map { equalizer!!.getPresetName(it.toShort()) }
-        } catch (ex: Exception){
-            return listOf("")
-        }
+        }, emptyList())
     }
 
     override fun getCurrentPreset(): Int {
-        try {
-            return equalizer!!.currentPreset.toInt()
-        } catch (ex: Exception){
-            return 0
-        }
+        return useOrDefault({ equalizer!!.currentPreset.toInt() }, 0)
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
         release()
 
-        try {
+        use {
             equalizer = Equalizer(0, audioSessionId)
             equalizer!!.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
 
             if (eqSettings.toString().isNotBlank()){
                 equalizer!!.properties = eqSettings
             }
-        } catch (ex: Exception){}
-
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        try {
+        use {
             equalizer!!.enabled = enabled
-        } catch (ex: Exception){}
-
+        }
     }
 
     override fun release() {
         equalizerPrefsUseCase.saveEqualizerSettings(eqSettings.toString())
-        try {
+        use {
             equalizer!!.release()
-        } catch (ex: Exception){}
+        }
+    }
+
+    override fun isAvailable(): Observable<Boolean> = availabilityPublisher.distinctUntilChanged()
+
+    private fun use(action: () -> Unit){
+        try {
+            action()
+            availabilityPublisher.onNext(true)
+        } catch (ex: Exception){
+            availabilityPublisher.onNext(false)
+        }
+    }
+
+    private fun <T> useOrDefault(action: () -> T, default: T): T {
+        return try {
+            val v = action()
+            availabilityPublisher.onNext(true)
+            v
+        } catch (ex: Exception){
+            val v = default
+            availabilityPublisher.onNext(false)
+            v
+        }
     }
 
 }

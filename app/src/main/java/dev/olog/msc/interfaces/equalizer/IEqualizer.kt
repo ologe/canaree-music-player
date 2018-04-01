@@ -1,4 +1,6 @@
-package dev.olog.shared_android.interfaces.equalizer
+package dev.olog.msc.interfaces.equalizer
+
+import io.reactivex.Observable
 
 interface IEqualizer {
 
@@ -21,6 +23,8 @@ interface IEqualizer {
     fun onAudioSessionIdChanged(audioSessionId: Int)
 
     fun release()
+
+    fun isAvailable(): Observable<Boolean>
 
     interface Listener {
         fun onPresetChange(band: Int, level: Float)

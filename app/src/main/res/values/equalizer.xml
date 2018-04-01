@@ -2,6 +2,7 @@
 <resources>
 
     <string name="equalizer_not_found">Equalizer not found</string>
+    <string name="equalizer_error">Sorry, for some reason equalizer is not working</string>
 
     <declare-styleable name="BandView">
         <attr name="bandIndex" format="integer"/>

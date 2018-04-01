@@ -2,11 +2,15 @@
 
 buildscript {
 
-    ext.kotlin_version = '1.2.31'
-    ext.gradle_plugin = '3.1.0'
-    ext.google_services = '3.1.1'
-    ext.fabric = '1.25.1'
-    ext.firebase_plugin = '1.1.5'
+    ext {
+        kotlin_version = '1.2.31'
+        gradle_plugin = '3.1.0'
+        google_services = '3.1.1'
+        fabric = '1.25.1'
+        firebase_plugin = '1.1.5'
+        lintVersion = '26.0.0-beta6'
+    }
+
 
     repositories {
         google()
@@ -56,8 +60,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 4270311
-    versionName = '0.311'
+    versionCode = 4270320
+    versionName = '0.320'
 
     // App dependencies
     support_library = '27.1.0'

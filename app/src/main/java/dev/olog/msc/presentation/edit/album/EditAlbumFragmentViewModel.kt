@@ -9,6 +9,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.context
+import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.msc.utils.media.store.notifyMediaStore
 import io.reactivex.disposables.Disposable
@@ -84,8 +85,8 @@ class EditAlbumFragmentViewModel(
                 this.albumId,
                 this.album,
                 DisplayableItem.adjustArtist(this.artist),
-                tag.getFirst(FieldKey.GENRE) ?: "",
-                tag.getFirst(FieldKey.YEAR) ?: "",
+                tag.get(FieldKey.GENRE),
+                tag.get(FieldKey.YEAR),
                 this.image
         )
     }

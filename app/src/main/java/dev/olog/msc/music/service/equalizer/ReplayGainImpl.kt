@@ -2,7 +2,7 @@ package dev.olog.msc.music.service.equalizer
 
 import android.media.audiofx.AutomaticGainControl
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.shared_android.interfaces.equalizer.IReplayGain
+import dev.olog.msc.interfaces.equalizer.IReplayGain
 import javax.inject.Inject
 
 class ReplayGainImpl @Inject constructor(

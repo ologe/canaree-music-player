@@ -84,4 +84,7 @@
 
     <string name="common_no_internet">Check your internet connection</string>
 
+    <string name="common_switch_on">On</string>
+    <string name="common_switch_off">Off</string>
+
 </resources>

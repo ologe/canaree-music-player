@@ -7,7 +7,7 @@ object EqHelper {
 
     fun projectY(dB: Float): Float {
         val pos = (dB - minDB) / (maxDB - minDB)
-        return (1 - pos).toFloat()
+        return (1 - pos)
     }
 
 }
