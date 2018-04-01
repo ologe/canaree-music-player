@@ -25,10 +25,3 @@ fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
     }
     return this
 }
-
-fun <T> List<T>.startWithIfNotEmpty(list: List<T>): List<T> {
-    if (this.isNotEmpty()){
-        return startWith(list)
-    }
-    return this
-}

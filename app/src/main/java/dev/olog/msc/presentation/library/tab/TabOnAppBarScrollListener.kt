@@ -25,5 +25,13 @@ class TabOnAppBarScrollListener @Inject constructor(
                 sidebar.layoutParams = layoutParams
             }
         } }
+        view?.let { it.fab?.let { fab ->
+            if (!fab.isInLayout){
+                val layoutParams = fab.layoutParams as FrameLayout.LayoutParams
+                layoutParams.bottomMargin = marginBottom - Math.abs(verticalOffset)
+                layoutParams.topMargin = marginTop + Math.abs(verticalOffset)
+                fab.layoutParams = layoutParams
+            }
+        } }
     }
 }

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit
 abstract class BaseEditTextDialog : BaseDialogFragment() {
 
     private var hideKeyboardDisposable: Disposable? = null
-    private val errorDisposable : Disposable? = null
+    private var errorDisposable : Disposable? = null
 
     private lateinit var clearButton : View
     private lateinit var editText : TextInputEditText
@@ -78,8 +78,8 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
         editTextLayout.error = getString(errorStringId)
         editTextLayout.isErrorEnabled = true
 
-        hideKeyboardDisposable.unsubscribe()
-        hideKeyboardDisposable = Single.timer(2, TimeUnit.SECONDS)
+        errorDisposable.unsubscribe()
+        errorDisposable = Single.timer(2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ editTextLayout.isErrorEnabled = false }, Throwable::printStackTrace)
     }

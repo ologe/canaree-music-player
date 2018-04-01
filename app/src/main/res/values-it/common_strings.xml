@@ -78,4 +78,6 @@
 
     <string name="common_no_internet">Controlla la tua connession ad internet</string>
 
+    <string name="common_filter">Filtra</string>
+
 </resources>

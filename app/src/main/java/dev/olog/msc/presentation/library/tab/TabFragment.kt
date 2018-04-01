@@ -8,6 +8,7 @@ import android.view.View
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
@@ -37,6 +38,7 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
     @Inject lateinit var onAppBarScrollListener: TabOnAppBarScrollListener
+    @Inject lateinit var navigator : Lazy<Navigator>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -82,18 +84,22 @@ class TabFragment : BaseFragment() {
             else -> R.layout.item_tab_album
         }
         view.sidebar.scrollableLayoutId = scrollableLayoutId
+
+        view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS)
     }
 
     override fun onResume() {
         super.onResume()
         act.findViewById<AppBarLayout>(R.id.appBar).addOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(letterTouchListener)
+        fab.setOnClickListener { navigator.get().toChooseTracksForPlaylistFragment() }
     }
 
     override fun onPause() {
         super.onPause()
         act.findViewById<AppBarLayout>(R.id.appBar).removeOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(null)
+        fab.setOnClickListener(null)
     }
 
     private fun applyMarginToList(view: View){

@@ -61,6 +61,12 @@ object BindingsAdapter {
                 .into(view)
     }
 
+    @BindingAdapter("backgroundDrawable")
+    @JvmStatic
+    fun loadBackgroundDrawable(view: ImageView, item: DisplayableItem){
+        view.background = CoverUtils.onlyGradient(view.context, item.mediaId.resolveId.toInt())
+    }
+
     @BindingAdapter("imageSong")
     @JvmStatic
     fun loadSongImage(view: ImageView, item: DisplayableItem) {

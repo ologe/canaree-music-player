@@ -20,6 +20,7 @@ import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.navigator.NavigatorModule
 import dev.olog.msc.presentation.player.di.PlayerFragmentInjector
 import dev.olog.msc.presentation.playing.queue.di.PlayingQueueFragmentInjector
+import dev.olog.msc.presentation.playlist.track.chooser.di.PlaylistTracksChooserInjector
 import dev.olog.msc.presentation.recently.added.di.RecentlyAddedFragmentInjector
 import dev.olog.msc.presentation.related.artists.di.RelatedArtistFragmentInjector
 import dev.olog.msc.presentation.search.di.SearchFragmentInjector
@@ -42,6 +43,7 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         EditTrackFragmentInjector::class,
         EditAlbumFragmentInjector::class,
         EditArtistFragmentInjector::class,
+        PlaylistTracksChooserInjector::class,
 
         // dialogs
         AddFavoriteDialogInjector::class,

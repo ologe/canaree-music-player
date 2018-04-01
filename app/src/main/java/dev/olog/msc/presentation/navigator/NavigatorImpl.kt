@@ -31,6 +31,7 @@ import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
+import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment
 import dev.olog.msc.presentation.popup.PopupMenuFactory
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
@@ -153,6 +154,17 @@ class NavigatorImpl @Inject internal constructor(
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 add(android.R.id.content, fragment, tag)
                 addToBackStack(tag)
+            }
+        }
+    }
+
+    override fun toChooseTracksForPlaylistFragment() {
+        if (allowed()){
+            activity.fragmentTransaction {
+                setReorderingAllowed(true)
+                replace(R.id.fragmentContainer, PlaylistTracksChooserFragment())
+                addToBackStack(PlaylistTracksChooserFragment.TAG)
+
             }
         }
     }

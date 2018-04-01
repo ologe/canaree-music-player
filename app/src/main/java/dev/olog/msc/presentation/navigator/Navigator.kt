@@ -43,4 +43,6 @@ interface Navigator {
 
     fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
+    fun toChooseTracksForPlaylistFragment()
+
 }
