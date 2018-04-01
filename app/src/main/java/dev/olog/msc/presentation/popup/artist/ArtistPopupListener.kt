@@ -23,7 +23,7 @@ class ArtistPopupListener @Inject constructor(
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 
-) : AbsPopupListener(getPlaylistBlockingUseCase.execute(), addToPlaylistUseCase) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     private lateinit var artist: Artist
     private var song: Song? = null

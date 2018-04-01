@@ -23,7 +23,7 @@ class GenrePopupListener @Inject constructor(
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 
-) : AbsPopupListener(getPlaylistBlockingUseCase.execute(), addToPlaylistUseCase) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     private lateinit var genre: Genre
     private var song: Song? = null

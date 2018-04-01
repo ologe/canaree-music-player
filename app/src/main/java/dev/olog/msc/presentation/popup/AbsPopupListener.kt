@@ -9,6 +9,7 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
+import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
@@ -17,10 +18,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 
 abstract class AbsPopupListener(
-        val playlists: List<Playlist>,
+        getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : PopupMenu.OnMenuItemClickListener {
+
+    val playlists: List<Playlist> = getPlaylistBlockingUseCase.execute()
 
     protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId, listSize: Int, title: String){
         playlists.firstOrNull { it.id == itemId.toLong() }?.run {

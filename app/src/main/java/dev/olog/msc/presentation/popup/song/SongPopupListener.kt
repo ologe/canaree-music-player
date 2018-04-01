@@ -20,7 +20,7 @@ class SongPopupListener @Inject constructor(
         getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase.execute(), addToPlaylistUseCase) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     private lateinit var song: Song
 

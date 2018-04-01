@@ -23,7 +23,7 @@ class FolderPopupListener @Inject constructor(
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 
-) : AbsPopupListener(getPlaylistBlockingUseCase.execute(), addToPlaylistUseCase) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase) {
 
     private lateinit var folder: Folder
     private var song: Song? = null
