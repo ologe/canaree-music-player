@@ -74,6 +74,8 @@
         android:background="@color/toolbar"
         android:paddingStart="16dp"
         android:paddingEnd="64dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:maxLines="1" />
 
     <ImageButton
@@ -114,6 +116,7 @@
         android:layout_height="wrap_content"
         app:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
-        android:src="@drawable/vd_save"/>
+        android:src="@drawable/vd_save"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

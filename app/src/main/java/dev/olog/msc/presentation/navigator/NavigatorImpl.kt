@@ -160,11 +160,15 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toChooseTracksForPlaylistFragment() {
         if (allowed()){
+
+            val categoriesFragment = activity.supportFragmentManager
+                    .findFragmentByTag(CategoriesFragment.TAG)
+
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                replace(R.id.fragmentContainer, PlaylistTracksChooserFragment())
+                hide(categoriesFragment)
+                add(R.id.fragmentContainer, PlaylistTracksChooserFragment(), PlaylistTracksChooserFragment.TAG)
                 addToBackStack(PlaylistTracksChooserFragment.TAG)
-
             }
         }
     }
@@ -233,10 +237,15 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     private fun toBuiltInEqualizer(){
+
+        val categoriesFragment = activity.supportFragmentManager
+                .findFragmentByTag(CategoriesFragment.TAG)
+
         activity.fragmentTransaction {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            replace(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
+            hide(categoriesFragment)
+            add(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
             addToBackStack(EqualizerFragment.TAG)
         }
     }

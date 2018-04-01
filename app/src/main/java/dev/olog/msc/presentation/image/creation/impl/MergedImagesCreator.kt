@@ -27,7 +27,9 @@ object MergedImagesCreator {
                 .take(9)
                 .toList()
 
-        return doSomething(context, uris, parentFolder, itemId)
+        println("type $parentFolder, current id $itemId, images found ${uris.map { it.id }}")
+
+        return doCreate(context, uris, parentFolder, itemId)
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
@@ -36,7 +38,7 @@ object MergedImagesCreator {
         return context.getBitmapAsync(model, 500, withError = false)
     }
 
-    private fun doSomething(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
+    private fun doCreate(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
         val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, parentFolder)
 
         if (uris.isEmpty()) {
@@ -96,7 +98,7 @@ object MergedImagesCreator {
 
 }
 
-private class IdWithBitmap(
+data class IdWithBitmap(
         val id: Long,
         val bitmap: Bitmap
 )

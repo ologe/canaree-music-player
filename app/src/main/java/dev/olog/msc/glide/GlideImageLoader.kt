@@ -76,10 +76,7 @@ class GlideImageLoader(
 
 }
 
-private class MediaIdKey(
-        private val mediaId: MediaId
-
-) : Key {
+private class MediaIdKey(private val mediaId: MediaId) : Key {
 
     override fun toString(): String {
         if (mediaId.isLeaf){

@@ -45,6 +45,8 @@ class PlaylistTracksChooserFragment : BaseFragment(){
                         else -> resources.getQuantityString(R.plurals.playlist_tracks_chooser_count, size, size)
                     }
                     header.text = text
+
+                    save.toggleVisibility(size > 0)
                 })
     }
 

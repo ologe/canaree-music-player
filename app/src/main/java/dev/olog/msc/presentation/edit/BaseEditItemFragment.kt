@@ -3,8 +3,10 @@
 package dev.olog.msc.presentation.edit
 
 import android.app.ProgressDialog
+import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
+import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
@@ -12,6 +14,7 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 
 abstract class BaseEditItemFragment : BaseFragment() {
@@ -19,8 +22,15 @@ abstract class BaseEditItemFragment : BaseFragment() {
     private var progressDialog: ProgressDialog? = null
 
     @CallSuper
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
+    @CallSuper
     override fun onDestroy() {
         super.onDestroy()
+        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         hideLoader()
     }
 
