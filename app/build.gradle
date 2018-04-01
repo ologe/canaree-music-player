@@ -63,7 +63,7 @@ android {
 
 
     lintOptions {
-//        checkReleaseBuilds false
+        checkReleaseBuilds false
         disable 'MissingTranslation'
     }
 
