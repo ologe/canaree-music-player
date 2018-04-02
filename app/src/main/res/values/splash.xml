@@ -11,5 +11,6 @@
 
     <dimen name="splash_placeholder_size">140dp</dimen>
 
+    <dimen name="splash_ink_indicator_margin_top">24dp</dimen>
 
 </resources>

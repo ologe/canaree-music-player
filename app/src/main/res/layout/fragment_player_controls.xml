@@ -69,7 +69,8 @@
             android:progressTint="@color/progress_bar_tint"
             android:thumbTint="@color/progress_bar_tint"
             android:progressBackgroundTint="@color/progress_bar_secondary_tint"
-            tools:progress="40"/>
+            tools:progress="40"
+            tools:max="100"/>
 
         <!-- bookmark -->
         <TextView

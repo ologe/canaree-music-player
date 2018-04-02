@@ -25,7 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/splash_ink_indicator_margin_top"
         app:currentPageIndicatorColor="@color/dark_grey"
         app:pageIndicatorColor="@color/light_grey" />
 

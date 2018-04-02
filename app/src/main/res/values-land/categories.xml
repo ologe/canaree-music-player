@@ -3,6 +3,7 @@
 
     <style name="CategoriesTabStyle" parent="BaseTab">
         <item name="layout_scrollFlags">enterAlways|scroll</item>
+        <item name="tabMode">fixed</item>
     </style>
 
 </resources>

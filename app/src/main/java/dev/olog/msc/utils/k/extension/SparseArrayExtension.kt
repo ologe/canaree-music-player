@@ -14,7 +14,7 @@ fun <T> LongSparseArray<T>.toList(): List<T>{
 fun <T> LongSparseArray<T>.toggle(key: Long, item: T){
     val current = this.get(key)
     if (current == null){
-        this.put(key, item)
+        this.append(key, item)
     } else {
         this.remove(key)
     }

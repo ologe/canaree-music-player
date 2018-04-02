@@ -87,12 +87,11 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+        style="@style/SizedProgressBar"
         android:max="@integer/common_high_number"
         android:progressTint="@color/item_selected"
         android:progressBackgroundTint="@color/toolbar"
         android:layout_width="0dp"
-        android:layout_height="2dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

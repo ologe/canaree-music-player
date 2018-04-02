@@ -8,13 +8,27 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
+    <View
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:background="@color/colorPrimaryDark"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_choose_track"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="@dimen/common_status_bar_plus_toolbar"
         android:layout_height="wrap_content"
         android:elevation="0dp"
-        android:stateListAnimator="@animator/categories_app_bar"
+        android:stateListAnimator="@animator/playlist_track_chooser_app_bar"
         android:background="@color/toolbar">
 
         <FrameLayout
@@ -53,17 +67,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <View
-        android:id="@+id/statusBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/status_bar"
-        android:elevation="@dimen/toolbar_elevation"
-        android:background="@color/colorPrimaryDark"/>
-
     <FrameLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/toolbar"
         android:background="@color/toolbar"
         android:layout_marginTop="@dimen/status_bar"
         android:elevation="@dimen/toolbar_elevation">
@@ -82,7 +89,7 @@
         <TextView
             android:id="@+id/header"
             android:text="@string/playlist_tracks_chooser_no_tracks"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/text_color_primary"
             android:gravity="center"
@@ -98,19 +105,12 @@
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:tint="@color/dark_grey"
+            android:tint="@color/button_selected"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
     </FrameLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_choose_track"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxWaveSideBarView
         android:id="@+id/sidebar"

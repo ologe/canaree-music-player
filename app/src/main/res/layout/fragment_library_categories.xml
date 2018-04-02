@@ -88,7 +88,6 @@
             app:tabSelectedTextColor="@color/tab_layout_selected"
             app:tabTextColor="@color/tab_layout_unselected"
             app:tabIndicatorColor="@color/tab_layout_selected"
-            app:tabMode="scrollable"
             app:tabGravity="center"
             style="@style/CategoriesTabStyle">
 
@@ -116,6 +115,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Artists"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Genres"/>
 
         </android.support.design.widget.TabLayout>
 

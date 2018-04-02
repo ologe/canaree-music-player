@@ -3,6 +3,7 @@ package dev.olog.msc.music.service.equalizer
 import android.media.audiofx.Equalizer
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.msc.interfaces.equalizer.IEqualizer
+import dev.olog.msc.utils.k.extension.printStackTraceOnDebug
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
@@ -70,11 +71,14 @@ class EqualizerImpl @Inject constructor(
         use {
             equalizer = Equalizer(0, audioSessionId)
             equalizer!!.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
+        }
 
+        use {
             if (eqSettings.toString().isNotBlank()){
                 equalizer!!.properties = eqSettings
             }
         }
+
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -84,7 +88,9 @@ class EqualizerImpl @Inject constructor(
     }
 
     override fun release() {
-        equalizerPrefsUseCase.saveEqualizerSettings(eqSettings.toString())
+        use {
+            equalizerPrefsUseCase.saveEqualizerSettings(eqSettings.toString())
+        }
         use {
             equalizer!!.release()
         }
@@ -97,6 +103,7 @@ class EqualizerImpl @Inject constructor(
             action()
             availabilityPublisher.onNext(true)
         } catch (ex: Exception){
+            ex.printStackTraceOnDebug()
             availabilityPublisher.onNext(false)
         }
     }
@@ -107,6 +114,7 @@ class EqualizerImpl @Inject constructor(
             availabilityPublisher.onNext(true)
             v
         } catch (ex: Exception){
+            ex.printStackTraceOnDebug()
             availabilityPublisher.onNext(false)
             default
         }

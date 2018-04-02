@@ -8,4 +8,6 @@
 
     <dimen name="common_icon_size">48dp</dimen>
 
+    <dimen name="common_status_bar_plus_toolbar">48dp</dimen>
+
 </resources>

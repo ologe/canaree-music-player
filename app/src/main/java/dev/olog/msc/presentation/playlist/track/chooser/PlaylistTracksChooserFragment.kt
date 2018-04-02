@@ -69,6 +69,13 @@ class PlaylistTracksChooserFragment : BaseFragment(){
                 .asLiveData()
                 .subscribe(this, { showCreateDialog() })
 
+        RxView.clicks(view.filterList)
+                .asLiveData()
+                .subscribe(this, {
+                    view.filterList.toggleSelected()
+                    viewModel.toggleShowOnlyFiltered()
+                })
+
         view.sidebar.scrollableLayoutId = R.layout.item_choose_track
     }
 

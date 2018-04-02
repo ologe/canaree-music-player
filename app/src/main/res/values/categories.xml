@@ -5,7 +5,9 @@
         <item name="android:textSize" tools:ignore="SpUsage">14dp</item>
     </style>
 
-    <style name="CategoriesTabStyle" parent="BaseTab"/>
+    <style name="CategoriesTabStyle" parent="BaseTab">
+        <item name="tabMode">scrollable</item>
+    </style>
 
     <dimen name="main_toolbar_text_size">26dp</dimen>
 

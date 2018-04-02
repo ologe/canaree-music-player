@@ -4,5 +4,6 @@
     <color name="status_bar">#f0f0f0</color>
     <color name="status_bar_secondary">@color/background</color>
 
+    <color name="progress_bar_secondary_tint">@color/grey600</color>
 
 </resources>

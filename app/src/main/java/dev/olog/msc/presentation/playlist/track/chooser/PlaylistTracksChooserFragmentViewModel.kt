@@ -2,8 +2,10 @@ package dev.olog.msc.presentation.playlist.track.chooser
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import android.util.LongSparseArray
+import androidx.util.contains
 import androidx.util.isEmpty
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Song
@@ -28,22 +30,40 @@ class PlaylistTracksChooserFragmentViewModel(
 
     private val selectedIds = LongSparseArray<Long>()
     private val selectionCountLiveData = MutableLiveData<Int>()
+    private val showOnlyFiltered = MutableLiveData<Boolean>()
+
+    init {
+        showOnlyFiltered.postValue(false)
+    }
 
     fun getAllSongs(filter: Observable<String>): LiveData<List<DisplayableItem>> {
-        return Observables.combineLatest(
-                filter, getAllSongsUseCase.execute(),
-                { query, tracks -> tracks.filter { it.title.contains(query, true)  ||
-                        it.artist.contains(query, true) ||
-                        it.album.contains(query, true)
-                } }
-        ).mapToList { it.toDisplayableItem() }
-                .asLiveData()
+        return Transformations.switchMap(showOnlyFiltered, { onlyFiltered ->
+            if (onlyFiltered){
+                getAllSongsUseCase.execute()
+                        .map { it.filter { selectedIds.contains(it.id) } }
+            } else {
+                Observables.combineLatest(
+                        filter, getAllSongsUseCase.execute(),
+                        { query, tracks -> tracks.filter { it.title.contains(query, true)  ||
+                                it.artist.contains(query, true) ||
+                                it.album.contains(query, true)
+                        } }
+                )
+            }.mapToList { it.toDisplayableItem() }
+                    .asLiveData()
+        })
     }
 
     fun toggleItem(mediaId: MediaId){
         val id = mediaId.resolveId
         selectedIds.toggle(id, id)
         selectionCountLiveData.postValue(selectedIds.size())
+    }
+
+    fun toggleShowOnlyFiltered(){
+        val onlyFiltered = showOnlyFiltered.value!!
+        showOnlyFiltered.postValue(!onlyFiltered)
+
     }
 
     fun isChecked(mediaId: MediaId): Boolean {

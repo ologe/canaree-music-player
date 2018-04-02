@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,16 +24,28 @@ class StatusBarColorBehavior @Inject constructor(
     }
 
     override fun onResume(owner: LifecycleOwner) {
+        if (!isMarshmallow()){
+            return
+        }
+
         activity.addPanelSlideListener(this)
         activity.supportFragmentManager.addOnBackStackChangedListener(this)
     }
 
     override fun onPause(owner: LifecycleOwner) {
+        if (!isMarshmallow()){
+            return
+        }
+
         activity.removePanelSlideListener(this)
         activity.supportFragmentManager.removeOnBackStackChangedListener(this)
     }
 
     override fun onBackStackChanged() {
+        if (!isMarshmallow()){
+            return
+        }
+
         val fragment = searchForDetailFragmentOnPortraitMode()
         if (fragment == null){
             activity.window.setLightStatusBar()
@@ -47,6 +60,10 @@ class StatusBarColorBehavior @Inject constructor(
 
     @Suppress("NON_EXHAUSTIVE_WHEN")
     override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
+        if (!isMarshmallow()){
+            return
+        }
+
         when (newState){
             SlidingUpPanelLayout.PanelState.EXPANDED -> activity.window.setLightStatusBar()
             SlidingUpPanelLayout.PanelState.COLLAPSED -> {

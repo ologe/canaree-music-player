@@ -27,8 +27,6 @@ object MergedImagesCreator {
                 .take(9)
                 .toList()
 
-        println("type $parentFolder, current id $itemId, images found ${uris.map { it.id }}")
-
         return doCreate(context, uris, parentFolder, itemId)
     }
 

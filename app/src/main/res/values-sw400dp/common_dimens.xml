@@ -4,4 +4,6 @@
     <dimen name="toolbar">56dp</dimen>
     <dimen name="tab">48dp</dimen>
 
+    <dimen name="common_status_bar_plus_toolbar">@dimen/toolbar</dimen>
+
 </resources>
