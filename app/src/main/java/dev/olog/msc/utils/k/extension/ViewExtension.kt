@@ -23,6 +23,10 @@ fun View.setPaddingTop(padding: Int) {
     setPadding(paddingLeft, padding, paddingRight, paddingBottom)
 }
 
+fun View.setPaddingBottom(padding: Int) {
+    setPadding(paddingLeft, paddingTop, paddingRight, padding)
+}
+
 fun View.toggleSelected(){
     this.isSelected = !this.isSelected
 }

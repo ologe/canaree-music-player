@@ -13,6 +13,8 @@ import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
 import dev.olog.msc.utils.k.extension.dimen
+import dev.olog.msc.utils.k.extension.dip
+import dev.olog.msc.utils.k.extension.setPaddingBottom
 import dev.olog.msc.utils.k.extension.vibrate
 
 class BandView (
@@ -74,7 +76,11 @@ class BandView (
         currentLevel.textAlignment = View.TEXT_ALIGNMENT_CENTER
         currentLevel.visibility = View.GONE
         currentLevel.setSingleLine(true)
-        currentLevel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
+        currentLevel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 8f)
+        currentLevel.scaleX = 1.5f
+        currentLevel.scaleY = 1.5f
+        currentLevel.setPaddingBottom(context.dip(2))
+
 
         addView(currentLevel)
     }
