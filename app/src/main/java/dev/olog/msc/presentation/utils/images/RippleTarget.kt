@@ -28,11 +28,6 @@ class RippleTarget(
     override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
         super.onResourceReady(drawable, transition)
 
-//        if (!isMarshmallow()){
-//            // not looking good on Lollipop, colors too saturated
-//            return
-//        }
-
         if (!isLeaf && imageView is ForegroundImageView){
             val bitmap = drawable.getBitmap() ?: return
             Palette.from(bitmap).clearFilters().generate(this)

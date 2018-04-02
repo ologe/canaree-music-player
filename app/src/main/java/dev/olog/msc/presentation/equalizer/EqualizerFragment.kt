@@ -51,7 +51,7 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         val presets = presenter.getPresets()
         adapter = PresetPagerAdapter(act.supportFragmentManager, presenter.getPresets())
 
-        if (presets.isNotEmpty()){
+        if (presets.isNotEmpty() && presets[0].isNotBlank()){
             view.pager.adapter = adapter
             view.pager.currentItem = presenter.getCurrentPreset()
             view.pageIndicator.setViewPager(view.pager)
@@ -101,6 +101,7 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band5.setLevel = onBandLevelChange
 
         back.setOnClickListener { act.onBackPressed() }
+
     }
 
     override fun onPause() {

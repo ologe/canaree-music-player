@@ -3,6 +3,7 @@ package dev.olog.msc.music.service.equalizer
 import android.media.audiofx.BassBoost
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.msc.interfaces.equalizer.IBassBoost
+import dev.olog.msc.utils.k.extension.printStackTraceOnDebug
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(
@@ -11,46 +12,65 @@ class BassBoostImpl @Inject constructor(
 ) : IBassBoost {
 
     private var bassBoost : BassBoost? = null
-    private var bassSettings = BassBoost.Settings()
 
     override fun getStrength(): Int {
-        try {
-            return bassBoost!!.roundedStrength.toInt()
-        } catch (ex: Exception){
-            return 0
-        }
+        return useOrDefault({ bassBoost!!.roundedStrength.toInt() }, 0)
     }
 
     override fun setStrength(value: Int) {
-        try {
-            bassSettings.strength = value.toShort()
+        use {
             bassBoost!!.setStrength(value.toShort())
-        } catch (ex: Exception){}
+        }
     }
 
     override fun setEnabled(enabled: Boolean) {
-        try {
+        use {
             bassBoost!!.enabled = enabled
-        } catch (ex: Exception){}
+        }
     }
 
     override fun onAudioSessionIdChanged(audioSessionId: Int) {
         release()
 
-        try {
+        use {
             bassBoost = BassBoost(0, audioSessionId)
             bassBoost!!.enabled = equalizerPrefsUseCase.isEqualizerEnabled()
-            if (bassSettings.toString().isNotBlank()){
-                bassBoost!!.properties = bassSettings
+        }
+
+        use {
+            val properties = equalizerPrefsUseCase.getBassBoostSettings()
+            if (properties.isNotBlank()){
+                bassBoost!!.properties = BassBoost.Settings(properties)
             }
-        } catch (ex: Exception){ }
+        }
     }
 
     override fun release() {
-        equalizerPrefsUseCase.saveBassBoostSettings(bassSettings.toString())
+        bassBoost?.let {
+            try {
+                equalizerPrefsUseCase.saveBassBoostSettings(it.properties.toString())
+            } catch (ex: Exception){}
+            use {
+                it.release()
+            }
+        }
+    }
+
+    private fun use(action: () -> Unit){
         try {
-            bassBoost!!.release()
-        } catch (ex: Exception){}
+            action()
+        } catch (ex: Exception){
+            ex.printStackTraceOnDebug()
+        }
+    }
+
+    private fun <T> useOrDefault(action: () -> T, default: T): T {
+        return try {
+            action()
+        } catch (ex: Exception){
+            ex.printStackTraceOnDebug()
+            default
+        }
     }
 
 }

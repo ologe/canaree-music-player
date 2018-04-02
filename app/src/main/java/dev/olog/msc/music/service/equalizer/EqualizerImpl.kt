@@ -15,7 +15,6 @@ class EqualizerImpl @Inject constructor(
 
     private var equalizer : Equalizer? = null
     private val listeners = mutableListOf<IEqualizer.Listener>()
-    private var eqSettings = Equalizer.Settings()
 
     private val availabilityPublisher = BehaviorSubject.createDefault(true)
 
@@ -33,17 +32,13 @@ class EqualizerImpl @Inject constructor(
 
     override fun setBandLevel(band: Int, level: Float) {
         use {
-            eqSettings.bandLevels[band] = level.toShort()
             equalizer!!.setBandLevel(band.toShort(), level.toShort())
         }
     }
 
     override fun setPreset(position: Int) {
         use {
-            position.toShort().let {
-                eqSettings.curPreset = it
-                equalizer!!.usePreset(it)
-            }
+            equalizer!!.usePreset(position.toShort())
 
             listeners.forEach {
                 for (band in 0 until equalizer!!.numberOfBands){
@@ -74,8 +69,9 @@ class EqualizerImpl @Inject constructor(
         }
 
         use {
-            if (eqSettings.toString().isNotBlank()){
-                equalizer!!.properties = eqSettings
+            val properties = equalizerPrefsUseCase.getEqualizerSettings()
+            if (properties.isNotBlank()){
+                equalizer!!.properties = Equalizer.Settings(properties)
             }
         }
 
@@ -88,11 +84,13 @@ class EqualizerImpl @Inject constructor(
     }
 
     override fun release() {
-        use {
-            equalizerPrefsUseCase.saveEqualizerSettings(eqSettings.toString())
-        }
-        use {
-            equalizer!!.release()
+        equalizer?.let {
+            try {
+                equalizerPrefsUseCase.saveEqualizerSettings(it.properties.toString())
+            } catch (ex: Exception){}
+            use {
+                it.release()
+            }
         }
     }
 

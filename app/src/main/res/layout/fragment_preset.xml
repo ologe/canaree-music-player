@@ -4,7 +4,31 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    android:focusable="false"
+    android:clickable="false">
+
+    <Spinner
+        android:id="@+id/presetSpinner"
+        app:layout_constraintTop_toTopOf="@+id/presetName"
+        app:layout_constraintStart_toStartOf="@+id/presetName"
+        app:layout_constraintEnd_toEndOf="@+id/presetName"
+        app:layout_constraintBottom_toBottomOf="@+id/presetName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:visibility="invisible" />
+
+    <View
+        app:layout_constraintTop_toTopOf="@+id/presetSpinner"
+        app:layout_constraintBottom_toBottomOf="@+id/presetSpinner"
+        app:layout_constraintStart_toStartOf="@+id/presetSpinner"
+        app:layout_constraintEnd_toEndOf="@+id/presetSpinner"
+        android:background="@android:color/white"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clickable="false"
+        android:focusable="false"
+        tools:visibility="invisible"/>
 
     <TextView
         android:id="@+id/presetName"
@@ -17,7 +41,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:clickable="false"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

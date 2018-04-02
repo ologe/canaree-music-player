@@ -11,7 +11,7 @@ class PresetPagerAdapter(
 ) : FragmentStatePagerAdapter(manager) {
 
     override fun getItem(position: Int): Fragment {
-        return PresetFragment.newInstance(presets[position])
+        return PresetFragment.newInstance(presets[position], presets)
     }
 
     override fun getCount(): Int = presets.size

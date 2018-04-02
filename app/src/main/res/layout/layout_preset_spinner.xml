@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/presetName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@tools:sample/lorem"
+        android:padding="10dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_color_primary"
+        android:spinnerMode="dialog" />
+
+</FrameLayout>

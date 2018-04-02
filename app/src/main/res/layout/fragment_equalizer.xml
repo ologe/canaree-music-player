@@ -41,7 +41,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:focusable="false"
+            android:clickable="false"/>
 
         <dev.olog.msc.presentation.widget.InkPageIndicator
             android:id="@+id/pageIndicator"
@@ -57,6 +59,21 @@
             app:dotDiameter="5dp"
             app:dotGap="5dp"
             android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/presetName"
+            android:text="NORMAL"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
 
         <Switch
             android:id="@+id/powerSwitch"
@@ -191,19 +208,6 @@
             android:textSize="@dimen/eq_bar_band_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/presetName"
-            android:textSize="20dp"
-            android:textColor="@android:color/black"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"/>
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
