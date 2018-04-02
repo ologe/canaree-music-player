@@ -59,6 +59,7 @@ class PlaylistTracksChooserFragment : BaseFragment(){
                 .subscribe(this, {
                     adapter.updateDataSet(it)
                     view.sidebar.onDataChanged(it)
+                    view.emptyStateText.toggleVisibility(it.isEmpty())
                 })
 
         RxView.clicks(view.back)

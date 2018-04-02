@@ -22,6 +22,19 @@
         tools:listitem="@layout/item_choose_track"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <TextView
+        android:id="@+id/emptyStateText"
+        android:text="@string/common_no_tracks"
+        android:textColor="@color/text_color_primary"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginTop="@dimen/common_status_bar_plus_toolbar"/>
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
