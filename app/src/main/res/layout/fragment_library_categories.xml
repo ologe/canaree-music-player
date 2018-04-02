@@ -21,7 +21,8 @@
 
             <TextView
                 android:id="@+id/header"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/more"
+                app:layout_constraintBottom_toBottomOf="@+id/more"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -31,7 +32,8 @@
                 android:textSize="@dimen/main_toolbar_text_size"
                 android:textStyle="bold"
                 android:textColor="@color/text_color_primary"
-                android:paddingTop="4dp" />
+                android:gravity="center"
+                android:paddingTop="4dp"/>
 
             <ImageButton
                 android:id="@+id/more"
@@ -88,7 +90,34 @@
             app:tabIndicatorColor="@color/tab_layout_selected"
             app:tabMode="scrollable"
             app:tabGravity="center"
-            style="@style/CategoriesTabStyle"/>
+            style="@style/CategoriesTabStyle">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Folders"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Playlists"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tracks"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Albums"/>
+
+            <android.support.design.widget.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artists"/>
+
+        </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
 

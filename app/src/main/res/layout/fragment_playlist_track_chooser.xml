@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,26 +8,65 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:stateListAnimator="@animator/categories_app_bar"
+        android:background="@color/toolbar">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <EditText
+                android:id="@+id/filter"
+                android:hint="@string/common_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="16dp"
+                android:paddingEnd="64dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:maxLines="1"
+                android:background="@null"/>
+
+            <ImageButton
+                android:id="@+id/clear"
+                android:layout_gravity="end"
+                android:src="@drawable/vd_clear"
+                android:padding="12dp"
+                android:layout_width="48dp"
+                android:layout_height="match_parent"
+                android:tint="@color/dark_grey"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </FrameLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
     <View
         android:id="@+id/statusBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
         android:elevation="@dimen/toolbar_elevation"
         android:background="@color/colorPrimaryDark"/>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/toolbar"
-        android:elevation="@dimen/toolbar_elevation"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:background="@color/toolbar"
-        android:orientation="horizontal">
+        android:layout_marginTop="@dimen/status_bar"
+        android:elevation="@dimen/toolbar_elevation">
 
         <ImageButton
             android:id="@+id/back"
@@ -37,9 +77,8 @@
             android:tint="@color/dark_grey"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:elevation="@dimen/toolbar_elevation" />
-        
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
         <TextView
             android:id="@+id/header"
             android:text="@string/playlist_tracks_chooser_no_tracks"
@@ -49,66 +88,41 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="48dp"/>
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp" />
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/filterList"
+            android:src="@drawable/vd_filter"
+            android:padding="12dp"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:tint="@color/dark_grey"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        app:layout_constraintTop_toBottomOf="@+id/filter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:listitem="@layout/item_choose_track"/>
-
-    <EditText
-        android:id="@+id/filter"
-        android:hint="@string/common_filter"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/toolbar"
-        android:paddingStart="16dp"
-        android:paddingEnd="64dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:maxLines="1" />
-
-    <ImageButton
-        android:id="@+id/clear"
-        app:layout_constraintTop_toTopOf="@+id/filter"
-        app:layout_constraintBottom_toBottomOf="@+id/filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/vd_clear"
-        android:padding="12dp"
-        android:layout_width="48dp"
-        android:layout_height="0dp"
-        android:tint="@color/dark_grey"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:elevation="@dimen/toolbar_elevation" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_choose_track"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxWaveSideBarView
         android:id="@+id/sidebar"
-        app:layout_constraintTop_toBottomOf="@+id/filter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_marginBottom="@dimen/tab_fast_scroller_margin_top"
-        android:layout_marginTop="@dimen/tab_fast_scroller_margin_top"
+        android:layout_marginTop="160dp"
         android:clipToPadding="false"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="end|bottom"
         app:fabSize="normal"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="36dp"
@@ -117,6 +131,7 @@
         app:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
         android:src="@drawable/vd_save"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>
