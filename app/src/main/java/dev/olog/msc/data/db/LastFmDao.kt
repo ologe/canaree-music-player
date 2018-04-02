@@ -15,9 +15,12 @@ abstract class LastFmDao {
 
     // track
 
-    @Query("SELECT * FROM last_fm_track " +
-            "WHERE id = :id " +
-            "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
+    @Query("""
+        SELECT * FROM last_fm_track
+        WHERE id = :id
+    """)
+//        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
+//    """)
     internal abstract fun getTrack(id: Long): LastFmTrackEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -25,9 +28,12 @@ abstract class LastFmDao {
 
     // album
 
-    @Query("SELECT * FROM last_fm_album " +
-            "WHERE id = :id " +
-            "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
+    @Query("""
+        SELECT * FROM last_fm_album
+        WHERE id = :id
+    """)
+//        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
+//    """)
     internal abstract fun getAlbum(id: Long): LastFmAlbumEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -35,9 +41,11 @@ abstract class LastFmDao {
 
     // artist
 
-    @Query("SELECT * FROM last_fm_artist " +
-            "WHERE id = :id " +
-            "AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')")
+    @Query("""
+        SELECT * FROM last_fm_artist
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$CACHE_TIME') AND date('now')
+    """)
     internal abstract fun getArtist(id: Long): LastFmArtistEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

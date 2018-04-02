@@ -15,13 +15,22 @@ import io.reactivex.Single
 abstract class HistoryDao {
 
 
-    @Query("SELECT * FROM song_history ORDER BY dateAdded DESC LIMIT 200")
+    @Query("""
+        SELECT * FROM song_history
+        ORDER BY dateAdded
+        DESC LIMIT 200
+    """)
     internal abstract fun getAllImpl(): Flowable<List<HistoryEntity>>
 
-    @Query("DELETE FROM song_history")
+    @Query("""
+        DELETE FROM song_history
+    """)
     abstract fun deleteAll()
 
-    @Query("DELETE FROM song_history WHERE id = :songId")
+    @Query("""
+        DELETE FROM song_history
+        WHERE id = :songId
+    """)
     abstract fun deleteSingle(songId: Long)
 
     fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<Song>> {

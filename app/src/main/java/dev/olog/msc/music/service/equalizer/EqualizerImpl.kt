@@ -39,9 +39,10 @@ class EqualizerImpl @Inject constructor(
 
     override fun setPreset(position: Int) {
         use {
-            eqSettings.curPreset = position.toShort()
-
-            equalizer!!.usePreset(position.toShort())
+            position.toShort().let {
+                eqSettings.curPreset = it
+                equalizer!!.usePreset(it)
+            }
 
             listeners.forEach {
                 for (band in 0 until equalizer!!.numberOfBands){
@@ -106,9 +107,8 @@ class EqualizerImpl @Inject constructor(
             availabilityPublisher.onNext(true)
             v
         } catch (ex: Exception){
-            val v = default
             availabilityPublisher.onNext(false)
-            v
+            default
         }
     }
 

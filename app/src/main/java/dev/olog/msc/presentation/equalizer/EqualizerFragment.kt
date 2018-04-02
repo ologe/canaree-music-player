@@ -48,11 +48,14 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        val presets = presenter.getPresets()
         adapter = PresetPagerAdapter(act.supportFragmentManager, presenter.getPresets())
 
-        view.pager.adapter = adapter
-        view.pager.currentItem = presenter.getCurrentPreset()
-        view.pageIndicator.setViewPager(view.pager)
+        if (presets.isNotEmpty()){
+            view.pager.adapter = adapter
+            view.pager.currentItem = presenter.getCurrentPreset()
+            view.pageIndicator.setViewPager(view.pager)
+        }
 
         view.powerSwitch.isChecked = presenter.isEqualizerEnabled()
         view.replayGainSwitch.isChecked = presenter.isReplayGainEnabled()

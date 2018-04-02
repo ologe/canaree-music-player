@@ -13,13 +13,15 @@ import io.reactivex.Observable
 @Dao
 abstract class FolderMostPlayedDao {
 
-    @Query("SELECT songId, count(*) as timesPlayed " +
-            "FROM most_played_folder " +
-            "WHERE folderPath = :folderPath " +
-            "GROUP BY songId " +
-            "HAVING count(*) >= 5 " +
-            "ORDER BY timesPlayed DESC " +
-            "LIMIT 10")
+    @Query("""
+        SELECT songId, count(*) as timesPlayed
+        FROM most_played_folder
+        WHERE folderPath = :folderPath
+        GROUP BY songId
+        HAVING count(*) >= 5
+        ORDER BY timesPlayed DESC
+        LIMIT 10
+    """)
     abstract fun query(folderPath: String): Flowable<List<SongMostTimesPlayedEntity>>
 
     @Insert

@@ -19,10 +19,11 @@ import io.reactivex.rxkotlin.toFlowable
 @Dao
 abstract class RecentSearchesDao {
 
-    @Query("SELECT * " +
-            "from recent_searches " +
-            "ORDER BY insertionTime DESC "+
-            "LIMIT 50")
+    @Query("""
+        SELECT * FROM recent_searches
+        ORDER BY insertionTime DESC
+        LIMIT 50
+    """)
     internal abstract fun getAllImpl(): Flowable<List<RecentSearchesEntity>>
 
     fun getAll(songList: Single<List<Song>>,

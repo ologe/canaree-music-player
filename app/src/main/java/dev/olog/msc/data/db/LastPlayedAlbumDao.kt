@@ -10,13 +10,20 @@ import io.reactivex.Flowable
 @Dao
 abstract class LastPlayedAlbumDao {
 
-    @Query("SELECT * FROM last_played_albums ORDER BY dateAdded DESC LIMIT 10")
+    @Query("""
+        SELECT * FROM last_played_albums
+        ORDER BY dateAdded DESC
+        LIMIT 10
+    """)
     abstract fun getAll(): Flowable<List<LastPlayedAlbumEntity>>
 
     @Insert
     internal abstract fun insertImpl(entity: LastPlayedAlbumEntity)
 
-    @Query("DELETE FROM last_played_albums WHERE id = :albumId")
+    @Query("""
+        DELETE FROM last_played_albums
+        WHERE id = :albumId
+    """)
     internal abstract fun deleteImpl(albumId: Long)
 
     fun insertOne(id: Long) : Completable {

@@ -13,12 +13,12 @@ class EqualizerPreferenceImpl @Inject constructor(
     companion object {
         private const val TAG = "EqualizerPreferenceImpl"
 
-        private const val EQ_ENABLED = TAG + ".EQ_ENABLED"
-        private const val REPLAY_GAIN_ENABLED = TAG + ".REPLAY_GAIN_ENABLED"
+        private const val EQ_ENABLED = "$TAG.EQ_ENABLED"
+        private const val REPLAY_GAIN_ENABLED = "$TAG.REPLAY_GAIN_ENABLED"
 
-        private const val EQ_SETTINGS = TAG + ".EQ_SETTINGS"
-        private const val BASS_BOOST_SETTINGS = TAG + ".BASS_BOOST_SETTINGS"
-        private const val VIRTUALIZER_SETTINGS = TAG + ".VIRTUALIZER_SETTINGS"
+        private const val EQ_SETTINGS = "$TAG.EQ_SETTINGS"
+        private const val BASS_BOOST_SETTINGS = "$TAG.BASS_BOOST_SETTINGS"
+        private const val VIRTUALIZER_SETTINGS = "$TAG.VIRTUALIZER_SETTINGS"
     }
 
     override fun isEqualizerEnabled(): Boolean {

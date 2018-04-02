@@ -14,7 +14,10 @@ import io.reactivex.*
 @Dao
 abstract class PlayingQueueDao {
 
-    @Query("SELECT * FROM playing_queue ORDER BY progressive")
+    @Query("""
+        SELECT * FROM playing_queue
+        ORDER BY progressive
+    """)
     internal abstract fun getAllImpl(): Flowable<List<PlayingQueueEntity>>
 
     @Query("DELETE FROM playing_queue")
