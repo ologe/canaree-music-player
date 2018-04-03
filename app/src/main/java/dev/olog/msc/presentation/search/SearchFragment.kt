@@ -26,13 +26,13 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
 
     companion object {
         const val TAG = "SearchFragment"
-        private const val ARGUMENT_ICON_POS_X = TAG + ".argument.pos.x"
-        private const val ARGUMENT_ICON_POS_Y = TAG + ".argument.pos.y"
+        private const val ARGUMENT_ICON_POS_X = "$TAG.argument.pos.x"
+        private const val ARGUMENT_ICON_POS_Y = "$TAG.argument.pos.y"
 
         @JvmStatic
         fun newInstance(icon: View?): SearchFragment {
-            val x = icon?.let { (it.x + icon.width / 2).toInt() } ?: 0
-            val y = icon?.let { (it.y + icon.height / 2).toInt() } ?: 0
+            val x = icon?.let { (it.x + it.width / 2).toInt() } ?: 0
+            val y = icon?.let { (it.y + it.height / 2).toInt() } ?: 0
             return SearchFragment().withArguments(
                     ARGUMENT_ICON_POS_X to x,
                     ARGUMENT_ICON_POS_Y to y
@@ -68,14 +68,13 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
                 }
             })
             safeTransition.execute(this, transition)
-        } else {
-            safeTransition.isAnimating = false
         }
     }
 
     override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     override fun onDetach() {
+        val fragmentManager = activity?.supportFragmentManager
         act.fragmentTransaction {
             fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { show(it) }
                     ?: fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }

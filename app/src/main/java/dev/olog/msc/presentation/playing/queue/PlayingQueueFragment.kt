@@ -19,8 +19,8 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
 
     companion object {
         const val TAG = "PlayingQueueFragment"
-        private const val ARGUMENT_ICON_POS_X = TAG + ".argument.pos.x"
-        private const val ARGUMENT_ICON_POS_Y = TAG + ".argument.pos.y"
+        private const val ARGUMENT_ICON_POS_X = "$TAG.argument.pos.x"
+        private const val ARGUMENT_ICON_POS_Y = "$TAG.argument.pos.y"
 
         @JvmStatic
         fun newInstance(icon: View): PlayingQueueFragment {
@@ -44,8 +44,6 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
             val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
             val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
             safeTransition.execute(this, CircularReveal(x, y))
-        } else {
-            safeTransition.isAnimating = false
         }
     }
 

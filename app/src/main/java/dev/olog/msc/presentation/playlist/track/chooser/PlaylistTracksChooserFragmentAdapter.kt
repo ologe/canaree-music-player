@@ -24,7 +24,6 @@ class PlaylistTracksChooserFragmentAdapter @Inject constructor(
             val wasChecked = checkBox.isChecked
             checkBox.isChecked = !wasChecked
             viewModel.toggleItem(item.mediaId)
-//            notifyItemChanged(position)
         }
     }
 

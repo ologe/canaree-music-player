@@ -92,7 +92,7 @@ class TabFragment : BaseFragment() {
         super.onResume()
         act.findViewById<AppBarLayout>(R.id.appBar).addOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener { navigator.get().toChooseTracksForPlaylistFragment() }
+        fab.setOnClickListener { navigator.get().toChooseTracksForPlaylistFragment(fab) }
     }
 
     override fun onPause() {

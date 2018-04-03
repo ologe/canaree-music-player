@@ -20,6 +20,8 @@ interface Navigator {
 
     fun toPlayingQueueFragment(icon: View)
 
+    fun toChooseTracksForPlaylistFragment(icon: View)
+
     fun toEditInfoFragment(mediaId: MediaId)
 
     fun toDialog(item: DisplayableItem, anchor: View)
@@ -42,7 +44,5 @@ interface Navigator {
     fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String)
 
     fun toDeleteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
-
-    fun toChooseTracksForPlaylistFragment()
 
 }

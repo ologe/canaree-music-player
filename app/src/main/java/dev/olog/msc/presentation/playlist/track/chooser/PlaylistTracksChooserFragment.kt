@@ -13,6 +13,10 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
+import dev.olog.msc.presentation.utils.animation.CircularReveal
+import dev.olog.msc.presentation.utils.animation.HasSafeTransition
+import dev.olog.msc.presentation.utils.animation.SafeTransition
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
@@ -25,16 +29,54 @@ import kotlinx.android.synthetic.main.fragment_playlist_track_chooser.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class PlaylistTracksChooserFragment : BaseFragment(){
+class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
     companion object {
         const val TAG = "PlaylistTracksChooserFragment"
+        private const val ARGUMENT_ICON_POS_X = "$TAG.argument.pos.x"
+        private const val ARGUMENT_ICON_POS_Y = "$TAG.argument.pos.y"
+
+        @JvmStatic
+        fun newInstance(icon: View): PlaylistTracksChooserFragment {
+            val x = (icon.x + icon.width / 2).toInt()
+            val y = (icon.y + icon.height / 2).toInt()
+            return PlaylistTracksChooserFragment().withArguments(
+                    ARGUMENT_ICON_POS_X to x,
+                    ARGUMENT_ICON_POS_Y to y
+            )
+        }
     }
 
     @Inject lateinit var viewModel : PlaylistTracksChooserFragmentViewModel
     @Inject lateinit var adapter: PlaylistTracksChooserFragmentAdapter
+    @Inject lateinit var safeTransition: SafeTransition
 
     private var errorDisposable : Disposable? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState == null){
+            val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
+            val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
+            safeTransition.execute(this, CircularReveal(x, y, onAppearFinished = {
+                val fragmentManager = activity?.supportFragmentManager
+
+                act.fragmentTransaction {
+                    fragmentManager?.findFragmentByTag(CategoriesFragment.TAG)?.let { hide(it) }
+                    setReorderingAllowed(true)
+                }
+            }))
+        }
+    }
+
+    override fun onDetach() {
+        val fragmentManager = activity?.supportFragmentManager
+        act.fragmentTransaction {
+            fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }
+            setReorderingAllowed(true)
+        }
+        super.onDetach()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -167,6 +209,8 @@ class PlaylistTracksChooserFragment : BaseFragment(){
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
+
+    override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     override fun provideLayoutId(): Int = R.layout.fragment_playlist_track_chooser
 }

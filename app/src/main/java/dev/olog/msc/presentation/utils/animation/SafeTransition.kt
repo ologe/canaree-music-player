@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SafeTransition @Inject constructor(): Transition.TransitionListener {
 
-    var isAnimating = true
+    var isAnimating = false
 
     fun execute(fragment: Fragment, transition: Transition){
         fragment.enterTransition = transition
@@ -14,6 +14,7 @@ class SafeTransition @Inject constructor(): Transition.TransitionListener {
     }
 
     override fun onTransitionStart(transition: Transition) {
+        isAnimating = true
     }
 
     override fun onTransitionEnd(transition: Transition) {
@@ -25,8 +26,10 @@ class SafeTransition @Inject constructor(): Transition.TransitionListener {
     }
 
     override fun onTransitionResume(transition: Transition) {
+        isAnimating = true
     }
 
     override fun onTransitionPause(transition: Transition) {
+        isAnimating = false
     }
 }

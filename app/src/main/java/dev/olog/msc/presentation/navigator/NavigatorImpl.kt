@@ -104,7 +104,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
             }
@@ -115,7 +115,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
             }
@@ -158,16 +158,13 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toChooseTracksForPlaylistFragment() {
+    override fun toChooseTracksForPlaylistFragment(icon: View) {
         if (allowed()){
-
-            val categoriesFragment = activity.supportFragmentManager
-                    .findFragmentByTag(CategoriesFragment.TAG)
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                hide(categoriesFragment)
-                add(R.id.fragmentContainer, PlaylistTracksChooserFragment(), PlaylistTracksChooserFragment.TAG)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                add(R.id.fragmentContainer, PlaylistTracksChooserFragment.newInstance(icon), PlaylistTracksChooserFragment.TAG)
                 addToBackStack(PlaylistTracksChooserFragment.TAG)
             }
         }
