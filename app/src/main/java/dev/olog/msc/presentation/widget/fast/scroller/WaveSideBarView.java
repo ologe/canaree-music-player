@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -27,6 +28,7 @@ public class WaveSideBarView extends View {
     private static final double ANGLE_R = Math.PI * 90 / 180;
     protected OnTouchLetterChangeListener listener;
 
+    @NonNull
     protected static final List<String> LETTERS = Arrays.asList("#","A","B","C","D","E","F","G","H","I","J","K","L","M",
             "N","O","P","Q","R","S","T","U","V","W","X","Y","Z", "?");
 
@@ -34,14 +36,19 @@ public class WaveSideBarView extends View {
 
     private int mChoose = -1;
 
+    @NonNull
     private Paint mLettersPaint = new Paint();
+    @NonNull
     private Paint mSelectedLetterPaint = new Paint();
 
+    @NonNull
     public String mSelectedLetter = "";
 
     // selected text paint
+    @NonNull
     private Paint mTextPaint = new Paint();
 
+    @NonNull
     private Paint mWavePaint = new Paint();
 
     private float mTextSize;
@@ -50,8 +57,10 @@ public class WaveSideBarView extends View {
     private int mItemHeight;
     private int mPadding;
 
+    @NonNull
     private Path mWavePath = new Path();
 
+    @NonNull
     private Path mBallPath = new Path();
 
     private int mCenterY;
@@ -70,15 +79,15 @@ public class WaveSideBarView extends View {
 
     private float letterBaseline = Math.abs(-mLettersPaint.getFontMetrics().bottom - mLettersPaint.getFontMetrics().top);
 
-    public WaveSideBarView(Context context) {
+    public WaveSideBarView(@NonNull Context context) {
         this(context, null, 0);
     }
 
-    public WaveSideBarView(Context context, AttributeSet attrs) {
+    public WaveSideBarView(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public WaveSideBarView(Context context, AttributeSet attrs, int defStyle) {
+    public WaveSideBarView(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
@@ -126,7 +135,7 @@ public class WaveSideBarView extends View {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
+    public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
         final float y = event.getY();
         final float x = event.getX();
 
@@ -178,7 +187,7 @@ public class WaveSideBarView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
 
         drawLetters(canvas);
@@ -190,7 +199,7 @@ public class WaveSideBarView extends View {
         drawChooseText(canvas);
     }
 
-    private void drawLetters(Canvas canvas) {
+    private void drawLetters(@NonNull Canvas canvas) {
 
         for (int i = 0; i < mLetters.size(); i++) {
             float posY = mItemHeight * i + letterBaseline / 2 + mPadding;
@@ -202,7 +211,7 @@ public class WaveSideBarView extends View {
         }
     }
 
-    private void drawChooseText(Canvas canvas) {
+    private void drawChooseText(@NonNull Canvas canvas) {
         if (mChoose != -1 && mRatio >= 0.9f) {
 
             String target = mLetters.get(mChoose);

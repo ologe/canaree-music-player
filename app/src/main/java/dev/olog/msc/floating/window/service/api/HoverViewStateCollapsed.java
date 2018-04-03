@@ -41,14 +41,19 @@ class HoverViewStateCollapsed extends BaseHoverViewState {
 
     private static final String TAG = "ViewStateCollapsed";
 
+    @Nullable
     private HoverView mHoverView;
+    @Nullable
     private FloatingTab mFloatingTab;
+    @Nullable
     private HoverMenu.Section mSelectedSection;
     private int mSelectedSectionIndex = -1;
     private boolean mHasControl = false;
     private boolean mIsCollapsed = false;
     private boolean mIsDocked = false;
+    @Nullable
     private Dragger.DragListener mDragListener;
+    @Nullable
     private Listener mListener;
 
     private final View.OnLayoutChangeListener mOnLayoutChangeListener = (v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
@@ -377,6 +382,7 @@ class HoverViewStateCollapsed extends BaseHoverViewState {
 
     private static final class FloatingTabDragListener implements Dragger.DragListener {
 
+        @NonNull
         private final HoverViewStateCollapsed mOwner;
 
         private FloatingTabDragListener(@NonNull HoverViewStateCollapsed owner) {

@@ -45,8 +45,10 @@ class HoverViewStateExpanded extends BaseHoverViewState {
     private static final int TAB_APPEARANCE_DELAY_IN_MS = 100;
 
     private boolean mHasControl = false;
+    @Nullable
     private HoverView mHoverView;
     private boolean mHasMenu = false;
+    @Nullable
     private FloatingTab mSelectedTab;
     private final List<FloatingTab> mChainedTabs = new ArrayList<>();
     private final List<TabChain> mTabChains = new ArrayList<>();
@@ -54,6 +56,7 @@ class HoverViewStateExpanded extends BaseHoverViewState {
     private Point mDock;
     private Listener mListener;
 
+    @Nullable
     private final Runnable mShowTabsRunnable = new Runnable() {
         @Override
         public void run() {
@@ -180,7 +183,7 @@ class HoverViewStateExpanded extends BaseHoverViewState {
                 tabChain.tightenChain(!animateSelectedTab);
             } else {
                 final FloatingTab currentPredecessor = predecessorTab;
-                int displayDelayInMillis = (int) (Math.abs(selectedTabIndex - i) * 100);
+                int displayDelayInMillis = Math.abs(selectedTabIndex - i) * 100;
                 tabChain.chainTo(currentPredecessor);
                 chainedTab.postDelayed(new Runnable() {
                     @Override
@@ -393,6 +396,7 @@ class HoverViewStateExpanded extends BaseHoverViewState {
         updateChainedPositions();
     }
 
+    @NonNull
     private FloatingTab addTab(@NonNull HoverMenu.SectionId sectionId,
                                @NonNull View tabView,
                                int position) {
@@ -430,7 +434,7 @@ class HoverViewStateExpanded extends BaseHoverViewState {
         updateChainedPositions();
     }
 
-    private void updateSections(int ... sectionIndices) {
+    private void updateSections(@NonNull int ... sectionIndices) {
         Log.d(TAG, "Tab(s) changed: " + Arrays.toString(sectionIndices));
         for (int sectionIndex : sectionIndices) {
             updateSection(sectionIndex);
@@ -454,7 +458,7 @@ class HoverViewStateExpanded extends BaseHoverViewState {
         }
     }
 
-    private void removeSections(int ... sectionIndices) {
+    private void removeSections(@NonNull int ... sectionIndices) {
         Log.d(TAG, "Tab(s) removed: " + Arrays.toString(sectionIndices));
         // Sort the indices so that they appear from lowest to highest.  Then process
         // in reverse order so that we don't remove sections out from under us.

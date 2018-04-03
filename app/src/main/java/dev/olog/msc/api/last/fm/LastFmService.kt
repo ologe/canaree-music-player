@@ -22,9 +22,6 @@ private const val BASE_URL = "?api_key=$API_KEY&format=json"
 
 interface LastFmService {
 
-//    https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
-    // 639-1 works, 639-2 not works
-
     @GET("$BASE_URL&method=track.getInfo")
     fun getTrackInfo(
             @Query("track", encoded = true) track: String,

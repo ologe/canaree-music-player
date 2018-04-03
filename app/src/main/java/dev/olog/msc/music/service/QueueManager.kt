@@ -151,17 +151,14 @@ class QueueManager @Inject constructor(
 
         val mediaId = MediaId.songId(-1)
 
-        var songList = if (params.isUnstructured){
-            VoiceSearch.search(getSongListByParamUseCase.execute(mediaId), query)
-        } else if(params.isAlbumFocus){
-            VoiceSearch.filterByAlbum(getSongListByParamUseCase.execute(mediaId), params.album)
-        } else if(params.isArtistFocus){
-            VoiceSearch.filterByArtist(getSongListByParamUseCase.execute(mediaId), params.artist)
-        } else if(params.isSongFocus){
-            VoiceSearch.filterByTitle(getSongListByParamUseCase.execute(mediaId), params.song)
-        } else {
-            VoiceSearch.noFilter(getSongListByParamUseCase.execute(mediaId))
+        val songList = when {
+            params.isUnstructured -> VoiceSearch.search(getSongListByParamUseCase.execute(mediaId), query)
+            params.isAlbumFocus -> VoiceSearch.filterByAlbum(getSongListByParamUseCase.execute(mediaId), params.album)
+            params.isArtistFocus -> VoiceSearch.filterByArtist(getSongListByParamUseCase.execute(mediaId), params.artist)
+            params.isSongFocus -> VoiceSearch.filterByTitle(getSongListByParamUseCase.execute(mediaId), params.song)
+            else -> VoiceSearch.noFilter(getSongListByParamUseCase.execute(mediaId))
         }
+
         return songList
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }

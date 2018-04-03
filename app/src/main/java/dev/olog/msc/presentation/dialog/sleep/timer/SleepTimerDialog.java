@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,9 +37,11 @@ public class SleepTimerDialog extends TimePickerDialog {
 
     @Inject SleepTimerUseCase sleepTimerUseCase;
 
+    @NonNull
     private static String NEXT_SLEEP = "AppPreferencesDataStoreImpl.NEXT_SLEEP";
     private boolean isActive = false;
 
+    @NonNull
     public static SleepTimerDialog newInstance(){
         final SleepTimerDialog frag = new SleepTimerDialog();
         Bundle args = new Bundle();
@@ -64,7 +68,9 @@ public class SleepTimerDialog extends TimePickerDialog {
         prefs.edit().putLong(NEXT_SLEEP, -1L).apply();
     }
 
+    @Nullable
     private AlarmManager alarmManager;
+    @Nullable
     private Disposable timeDisposable = null;
 
     @Override
@@ -148,6 +154,7 @@ public class SleepTimerDialog extends TimePickerDialog {
         }
     }
 
+    @NonNull
     private List<Button> getButtons(){
         View v1 = mPicker.findViewById(R.id.first);
         View v2 = mPicker.findViewById(R.id.second);

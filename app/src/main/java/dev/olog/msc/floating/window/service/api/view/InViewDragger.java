@@ -18,6 +18,7 @@ package dev.olog.msc.floating.window.service.api.view;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,16 +34,21 @@ public class InViewDragger implements Dragger {
 
     private static final String TAG = "InViewDragger";
 
+    @NonNull
     private final ViewGroup mContainer;
     private final int mTouchAreaDiameter;
     private final int mTapTouchSlop;
     private boolean mIsActivated;
     private boolean mIsDragging;
     private boolean mIsDebugMode = false;
+    @Nullable
     private View mDragView;
     private DragListener mDragListener;
+    @NonNull
     private PointF mOriginalViewPosition = new PointF();
+    @NonNull
     private PointF mCurrentViewPosition = new PointF();
+    @NonNull
     private PointF mOriginalTouchPosition = new PointF();
 
     private final View.OnTouchListener mDragTouchListener = new View.OnTouchListener() {
@@ -170,7 +176,7 @@ public class InViewDragger implements Dragger {
         ));
     }
 
-    private void moveDragViewTo(PointF centerPosition) {
+    private void moveDragViewTo(@NonNull PointF centerPosition) {
         Log.d(TAG, "Moving drag view (" + mDragView.hashCode() + ") to: " + centerPosition);
         PointF cornerPosition = convertCenterToCorner(centerPosition);
         mDragView.setX(cornerPosition.x);

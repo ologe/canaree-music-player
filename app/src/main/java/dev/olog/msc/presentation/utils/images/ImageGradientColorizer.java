@@ -11,12 +11,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 /**
  * A utility class to colorize bitmaps with a color gradient and a special blending mode
  */
 public class ImageGradientColorizer {
-    public Bitmap colorize(Drawable drawable, int backgroundColor, boolean isRtl) {
+    public Bitmap colorize(@NonNull Drawable drawable, int backgroundColor, boolean isRtl) {
         int width = drawable.getIntrinsicWidth();
         int height = drawable.getIntrinsicHeight();
         int size = Math.min(width, height);

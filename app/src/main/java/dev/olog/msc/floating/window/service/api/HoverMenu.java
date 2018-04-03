@@ -36,9 +36,12 @@ public abstract class HoverMenu {
 
     private static final String TAG = "HoverMenu";
 
+    @NonNull
     private List<Section> mSections = new ArrayList<>();
+    @Nullable
     private ListUpdateCallback mListUpdateCallback;
 
+    @NonNull
     public abstract String getId();
 
     public abstract int getSectionCount();
@@ -88,7 +91,7 @@ public abstract class HoverMenu {
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(@Nullable Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
@@ -111,8 +114,11 @@ public abstract class HoverMenu {
 
     public static class Section {
 
+        @NonNull
         private final SectionId mId;
+        @NonNull
         private final TabView mTabView;
+        @NonNull
         private final Content mContent;
 
         public Section(@NonNull SectionId id, @NonNull TabView tabView, @NonNull Content content) {
@@ -139,7 +145,9 @@ public abstract class HoverMenu {
 
     private static class MenuDiffCallback extends DiffUtil.Callback {
 
+        @NonNull
         private final List<Section> mOldList;
+        @NonNull
         private final List<Section> mNewList;
 
         private MenuDiffCallback(@NonNull List<Section> oldList, @NonNull List<Section> newList) {

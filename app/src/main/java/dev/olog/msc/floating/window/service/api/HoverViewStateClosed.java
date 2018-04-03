@@ -30,6 +30,7 @@ class HoverViewStateClosed extends BaseHoverViewState {
 
     private static final String TAG = "ViewStateClosed";
 
+    @Nullable
     private HoverView mHoverView;
 
     @Override

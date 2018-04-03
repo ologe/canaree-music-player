@@ -24,6 +24,7 @@ class Screen {
     private ContentDisplay mContentDisplay;
     private ExitView mExitView;
     private ShadeView mShadeView;
+    @NonNull
     private Map<String, FloatingTab> mTabs = new HashMap<>();
     private boolean mIsDebugMode = false;
 

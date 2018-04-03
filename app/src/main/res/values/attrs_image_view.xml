@@ -5,7 +5,7 @@
         <attr name="avd" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="ForegroundView">
+    <declare-styleable name="ForegroundImageView">
         <attr name="android:foreground" />
     </declare-styleable>
 

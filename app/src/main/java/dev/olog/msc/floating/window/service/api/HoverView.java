@@ -88,17 +88,24 @@ public class HoverView extends RelativeLayout {
     final HoverViewState mClosed = new HoverViewStateClosed();
     final HoverViewState mCollapsed = new HoverViewStateCollapsed();
     final HoverViewState mExpanded = new HoverViewStateExpanded();
+    @Nullable
     final WindowViewController mWindowViewController;
+    @NonNull
     final Dragger mDragger;
+    @NonNull
     final Screen mScreen;
     HoverViewState mState;
+    @Nullable
     HoverMenu mMenu;
+    @Nullable
     HoverMenu.SectionId mSelectedSectionId;
+    @Nullable
     SideDock mCollapsedDock;
     boolean mIsAddedToWindow;
     boolean mIsTouchableInWindow;
     boolean mIsDebugMode = false;
     int mTabSize;
+    @Nullable
     OnExitListener mOnExitListener;
     final Set<Listener> mListeners = new CopyOnWriteArraySet<>();
 
@@ -177,7 +184,7 @@ public class HoverView extends RelativeLayout {
     }
 
     @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event) {
+    public boolean dispatchKeyEventPreIme(@NonNull KeyEvent event) {
         // Intercept the hardware back button press if needed. When it's pressed, we'll collapse.
         if (mState.respondsToBackButton() && KeyEvent.KEYCODE_BACK == event.getKeyCode()) {
             KeyEvent.DispatcherState state = getKeyDispatcherState();
@@ -352,7 +359,7 @@ public class HoverView extends RelativeLayout {
         @SuppressWarnings("unused")
         private static final Creator<VisualState> CREATOR = new Creator<VisualState>() {
             @Override
-            public VisualState createFromParcel(Parcel source) {
+            public VisualState createFromParcel(@NonNull Parcel source) {
                 return new VisualState(source);
             }
 
@@ -362,14 +369,16 @@ public class HoverView extends RelativeLayout {
             }
         };
 
+        @Nullable
         private SideDock.SidePosition mSidePosition;
+        @Nullable
         private HoverMenu.SectionId mSelectedSectionId;
 
         VisualState(Parcelable superState) {
             super(superState);
         }
 
-        VisualState(Parcel in) {
+        VisualState(@NonNull Parcel in) {
             super(in);
 
             if (in.dataAvail() > 0) {
@@ -431,7 +440,7 @@ public class HoverView extends RelativeLayout {
         }
 
         @Override
-        public void writeToParcel(Parcel out, int flags) {
+        public void writeToParcel(@NonNull Parcel out, int flags) {
             super.writeToParcel(out, flags);
 
             if (null != mSidePosition) {
@@ -446,6 +455,7 @@ public class HoverView extends RelativeLayout {
     @SuppressWarnings("WeakerAccess")
     private static class PersistentState {
 
+        @NonNull
         private final SharedPreferences mPrefs;
 
         PersistentState(@NonNull SharedPreferences prefs) {

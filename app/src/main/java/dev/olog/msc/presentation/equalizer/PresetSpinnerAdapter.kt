@@ -8,6 +8,4 @@ class PresetSpinnerAdapter(
         context: Context,
         presets: List<String>
 
-) : ArrayAdapter<String>(context, R.layout.layout_preset_spinner, R.id.presetName, presets) {
-
-}
+) : ArrayAdapter<String>(context, R.layout.layout_preset_spinner, R.id.presetName, presets)

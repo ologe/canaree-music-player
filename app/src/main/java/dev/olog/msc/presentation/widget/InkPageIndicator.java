@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
@@ -73,12 +74,19 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
     private boolean pageChanging;
 
     // drawing
+    @NonNull
     private final Paint unselectedPaint;
+    @NonNull
     private final Paint selectedPaint;
+    @NonNull
     private final Path combinedUnselectedPath;
+    @NonNull
     private final Path unselectedDotPath;
+    @NonNull
     private final Path unselectedDotLeftPath;
+    @NonNull
     private final Path unselectedDotRightPath;
+    @NonNull
     private final RectF rectF;
 
     // animation
@@ -86,6 +94,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
     private AnimatorSet joiningAnimationSet;
     private PendingRetreatAnimator retreatAnimation;
     private PendingRevealAnimator[] revealAnimations;
+    @NonNull
     private final Interpolator interpolator;
 
     // working values for beziers
@@ -98,15 +107,15 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
     float controlX2;
     float controlY2;
 
-    public InkPageIndicator(Context context) {
+    public InkPageIndicator(@NonNull Context context) {
         this(context, null, 0);
     }
 
-    public InkPageIndicator(Context context, AttributeSet attrs) {
+    public InkPageIndicator(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public InkPageIndicator(Context context, AttributeSet attrs, int defStyle) {
+    public InkPageIndicator(@NonNull Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         final int density = (int) context.getResources().getDisplayMetrics().density;
@@ -147,7 +156,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         addOnAttachStateChangeListener(this);
     }
 
-    public void setViewPager(ViewPager viewPager) {
+    public void setViewPager(@NonNull ViewPager viewPager) {
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
         setPageCount(viewPager.getAdapter().getCount());
@@ -318,13 +327,13 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         if (viewPager == null || pageCount == 0) return;
         drawUnselected(canvas);
         drawSelected(canvas);
     }
 
-    private void drawUnselected(Canvas canvas) {
+    private void drawUnselected(@NonNull Canvas canvas) {
 
         combinedUnselectedPath.rewind();
 
@@ -365,6 +374,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
      * @param page
      * @return
      */
+    @NonNull
     private Path getUnselectedPath(int page,
                                    float centerX,
                                    float nextCenterX,
@@ -540,6 +550,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         return unselectedDotPath;
     }
 
+    @NonNull
     private Path getRetreatingJoinPath() {
         unselectedDotPath.rewind();
         rectF.set(retreatingJoinX1, dotTopY, retreatingJoinX2, dotBottomY);

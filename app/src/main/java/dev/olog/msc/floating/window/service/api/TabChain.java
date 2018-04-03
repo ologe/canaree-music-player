@@ -32,9 +32,12 @@ class TabChain {
 
     private static final String TAG = "TabChain";
 
+    @NonNull
     private final FloatingTab mTab;
     private final int mTabSpacingInPx;
+    @Nullable
     private Point mLockedPosition;
+    @Nullable
     private FloatingTab mPredecessorTab;
     private final Set<FloatingTab.OnPositionChangeListener> mOnPositionChangeListeners = new CopyOnWriteArraySet<FloatingTab.OnPositionChangeListener>();
 

@@ -50,8 +50,10 @@ class FloatingTab extends FrameLayout {
 
     private static final String TAG = "FloatingTab";
 
+    @NonNull
     private final String mId;
     private int mTabSize;
+    @Nullable
     private View mTabView;
     private Dock mDock;
     private final Set<OnPositionChangeListener> mOnPositionChangeListeners = new CopyOnWriteArraySet<>();

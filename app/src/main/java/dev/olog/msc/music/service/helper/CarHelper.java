@@ -1,6 +1,7 @@
 package dev.olog.msc.music.service.helper;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 public class CarHelper {
 
@@ -46,7 +47,7 @@ public class CarHelper {
         return AUTO_APP_PACKAGE_NAME.equals(packageName);
     }
 
-    public static void setSlotReservationFlags(Bundle extras, boolean reservePlayingQueueSlot,
+    public static void setSlotReservationFlags(@NonNull Bundle extras, boolean reservePlayingQueueSlot,
                                                boolean reserveSkipToNextSlot, boolean reserveSkipToPrevSlot) {
         if (reservePlayingQueueSlot) {
             extras.putBoolean(SLOT_RESERVATION_QUEUE, true);

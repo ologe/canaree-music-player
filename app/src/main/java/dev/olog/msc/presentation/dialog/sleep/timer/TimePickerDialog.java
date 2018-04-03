@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.dialog.sleep.timer;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public abstract class TimePickerDialog extends BaseDialogFragment {
 
     private int mReference = -1;
     private int mTheme = -1;
+    @Nullable
     private ColorStateList mTextColor;
     private int mDialogBackgroundResId;
     private int mHours;

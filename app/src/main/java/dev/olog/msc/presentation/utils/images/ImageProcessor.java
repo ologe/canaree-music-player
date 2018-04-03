@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.util.LayoutDirection;
 
@@ -46,7 +48,9 @@ public class ImageProcessor {
     private static final int RESIZE_BITMAP_AREA = 150 * 150;
     private final ImageGradientColorizer mColorizer;
     private final Context mContext;
+    @Nullable
     private float[] mFilteredBackgroundHsl = null;
+    @NonNull
     private Palette.Filter mBlackWhiteFilter = (rgb, hsl) -> !isWhiteOrBlack(hsl);
 
     /**
@@ -67,6 +71,7 @@ public class ImageProcessor {
      * Processes a builder of a media notification and calculates the appropriate colors that should
      * be used.
      */
+    @NonNull
     public ImageProcessorResult processImage(Bitmap bitmap) {
 
         int backgroundColor;
@@ -123,7 +128,7 @@ public class ImageProcessor {
                 result.component2(), result.component3());
     }
 
-    private int selectForegroundColor(int backgroundColor, Palette palette) {
+    private int selectForegroundColor(int backgroundColor, @NonNull Palette palette) {
         if (ColorUtil.isColorLight(backgroundColor)) {
             return selectForegroundColorForSwatches(palette.getDarkVibrantSwatch(),
                     palette.getVibrantSwatch(),
@@ -141,9 +146,9 @@ public class ImageProcessor {
         }
     }
 
-    private int selectForegroundColorForSwatches(Palette.Swatch moreVibrant,
-                                                 Palette.Swatch vibrant, Palette.Swatch moreMutedSwatch, Palette.Swatch mutedSwatch,
-                                                 Palette.Swatch dominantSwatch, int fallbackColor) {
+    private int selectForegroundColorForSwatches(@NonNull Palette.Swatch moreVibrant,
+                                                 @NonNull Palette.Swatch vibrant, @NonNull Palette.Swatch moreMutedSwatch, @NonNull Palette.Swatch mutedSwatch,
+                                                 @NonNull Palette.Swatch dominantSwatch, int fallbackColor) {
         Palette.Swatch coloredCandidate = selectVibrantCandidate(moreVibrant, vibrant);
         if (coloredCandidate == null) {
             coloredCandidate = selectMutedCandidate(mutedSwatch, moreMutedSwatch);
@@ -165,8 +170,8 @@ public class ImageProcessor {
         }
     }
 
-    private Palette.Swatch selectMutedCandidate(Palette.Swatch first,
-                                                Palette.Swatch second) {
+    private Palette.Swatch selectMutedCandidate(@NonNull Palette.Swatch first,
+                                                @NonNull Palette.Swatch second) {
         boolean firstValid = hasEnoughPopulation(first);
         boolean secondValid = hasEnoughPopulation(second);
         if (firstValid && secondValid) {
@@ -186,7 +191,7 @@ public class ImageProcessor {
         return null;
     }
 
-    private Palette.Swatch selectVibrantCandidate(Palette.Swatch first, Palette.Swatch second) {
+    private Palette.Swatch selectVibrantCandidate(@NonNull Palette.Swatch first, @NonNull Palette.Swatch second) {
         boolean firstValid = hasEnoughPopulation(first);
         boolean secondValid = hasEnoughPopulation(second);
         if (firstValid && secondValid) {
@@ -206,7 +211,7 @@ public class ImageProcessor {
         return null;
     }
 
-    private boolean hasEnoughPopulation(Palette.Swatch swatch) {
+    private boolean hasEnoughPopulation(@Nullable Palette.Swatch swatch) {
         // We want a fraction that is at least 1% of the image
         return swatch != null
                 && (swatch.getPopulation() / (float) RESIZE_BITMAP_AREA > MINIMUM_IMAGE_FRACTION);
@@ -254,7 +259,7 @@ public class ImageProcessor {
         }
     }
 
-    private boolean isWhiteOrBlack(float[] hsl) {
+    private boolean isWhiteOrBlack(@NonNull float[] hsl) {
         return isBlack(hsl) || isWhite(hsl);
     }
 

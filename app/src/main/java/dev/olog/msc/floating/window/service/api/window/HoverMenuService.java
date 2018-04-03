@@ -47,6 +47,7 @@ public abstract class HoverMenuService extends Service {
 
     private HoverView mHoverView;
     private boolean mIsRunning;
+    @NonNull
     private OnExitListener mOnMenuOnExitListener = new OnExitListener() {
         @Override
         public void onExit() {
@@ -66,7 +67,7 @@ public abstract class HoverMenuService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
         // Stop and return immediately if we don't have permission to display things above other
         // apps.
         if (!OverlayPermission.hasRuntimePermissionToDrawOverlay(getApplicationContext())) {

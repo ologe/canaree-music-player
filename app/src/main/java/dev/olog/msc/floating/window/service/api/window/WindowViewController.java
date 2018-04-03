@@ -69,19 +69,20 @@ public class WindowViewController {
         }
     }
 
+    @NonNull
     public Point getViewPosition(@NonNull View view) {
         WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
         return new Point(params.x, params.y);
     }
 
-    public void moveViewTo(View view, int x, int y) {
+    public void moveViewTo(@NonNull View view, int x, int y) {
         WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
         params.x = x;
         params.y = y;
         mWindowManager.updateViewLayout(view, params);
     }
 
-    public void showView(View view) {
+    public void showView(@NonNull View view) {
         try {
             WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
             mWindowManager.addView(view, params);
@@ -98,13 +99,13 @@ public class WindowViewController {
         }
     }
 
-    public void makeTouchable(View view) {
+    public void makeTouchable(@NonNull View view) {
         WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
         params.flags = params.flags & ~WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE & ~WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         mWindowManager.updateViewLayout(view, params);
     }
 
-    public void makeUntouchable(View view) {
+    public void makeUntouchable(@NonNull View view) {
         WindowManager.LayoutParams params = (WindowManager.LayoutParams) view.getLayoutParams();
         params.flags = params.flags | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         mWindowManager.updateViewLayout(view, params);

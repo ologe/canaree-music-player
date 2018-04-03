@@ -19,6 +19,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.math.MathUtils;
 import android.util.Log;
 import android.view.Display;
@@ -36,21 +37,29 @@ public class InWindowDragger implements Dragger {
 
     private static final String TAG = "InWindowDragger";
 
+    @NonNull
     private final Context mContext;
+    @NonNull
     private final WindowViewController mWindowViewController;
     private final int mTouchAreaDiameter;
     private final float mTapTouchSlop;
+    @Nullable
     private View mDragView;
     private Dragger.DragListener mDragListener;
     private boolean mIsActivated;
     private boolean mIsDragging;
     private boolean mIsDebugMode;
 
+    @NonNull
     private PointF mOriginalViewPosition = new PointF();
+    @NonNull
     private PointF mCurrentViewPosition = new PointF();
+    @NonNull
     private PointF mOriginalTouchPosition = new PointF();
+    @NonNull
     private Point screenSize = new Point();
 
+    @NonNull
     private View.OnTouchListener mDragTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -192,7 +201,7 @@ public class InWindowDragger implements Dragger {
         ));
     }
 
-    private void moveDragViewTo(PointF centerPosition) {
+    private void moveDragViewTo(@NonNull PointF centerPosition) {
         Log.d(TAG, "Center position: " + centerPosition);
         PointF cornerPosition = convertCenterToCorner(centerPosition);
         Log.d(TAG, "Corner position: " + cornerPosition);

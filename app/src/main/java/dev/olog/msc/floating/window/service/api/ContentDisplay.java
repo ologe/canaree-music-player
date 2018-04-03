@@ -42,7 +42,9 @@ class ContentDisplay extends RelativeLayout {
     private View mContainer;
     private FrameLayout mContentView;
     private TabSelectorView mTabSelectorView;
+    @Nullable
     private FloatingTab mSelectedTab;
+    @Nullable
     private Content mContent;
     private boolean mIsVisible = false;
 

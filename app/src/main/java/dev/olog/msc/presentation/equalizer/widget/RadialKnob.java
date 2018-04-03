@@ -42,6 +42,8 @@ import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -65,6 +67,7 @@ public class RadialKnob extends View {
     private static final int START_ANGLE = 360 + DEGREE_OFFSET;
     private static final int MAX_DEGREES = 270;
 
+    @NonNull
     private final Paint mPaint, mTextPaint;
 
     ValueAnimator mAnimator;
@@ -72,6 +75,7 @@ public class RadialKnob extends View {
     boolean mAnimating = false;
     long mDownTime;
     long mUpTime;
+    @Nullable
     private OnKnobChangeListener mOnKnobChangeListener = null;
     private float mProgress = 0.0f;
     private float mTouchProgress = 0.0f;
@@ -82,6 +86,7 @@ public class RadialKnob extends View {
     private float mLastY;
     private boolean mMoved;
     private int mWidth = 0;
+    @NonNull
     private RectF mRectF, mOuterRect = new RectF(), mInnerRect = new RectF();
     private float mLastAngle;
     private Long mLastVibrateTime;
@@ -93,8 +98,11 @@ public class RadialKnob extends View {
     private float mHandleWidth; // little square indicator where user touches
     private float mTextOffset;
 
+    @NonNull
     Path mPath = new Path();
+    @NonNull
     PathMeasure mPathMeasure = new PathMeasure();
+    @NonNull
     float[] mTmp = new float[2];
     float mStartX, mStopX, mStartY, mStopY;
 
@@ -154,6 +162,7 @@ public class RadialKnob extends View {
         setOnTouchListener(null);
     }
 
+    @NonNull
     private OnTouchListener onKnobTouchListener = (v, event) -> {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -233,7 +242,7 @@ public class RadialKnob extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
 
         mPaint.setStrokeWidth(mStrokeWidth);
@@ -345,7 +354,7 @@ public class RadialKnob extends View {
         });
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
+            public void onAnimationUpdate(@NonNull ValueAnimator animation) {
                 float progress = (Float) animation.getAnimatedValue();
                 mProgress = progress;
                 mLastAngle = mProgress * MAX_DEGREES;
@@ -364,7 +373,7 @@ public class RadialKnob extends View {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         final float x = event.getX();
         final float y = event.getY();
 
@@ -569,11 +578,7 @@ public class RadialKnob extends View {
         double dx = Math.pow(x - circleCenterX, 2);
         double dy = Math.pow(y - circleCenterY, 2);
 
-        if ((dx + dy) < Math.pow(circleRadius, 2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (dx + dy) < Math.pow(circleRadius, 2);
     }
 
     @Override

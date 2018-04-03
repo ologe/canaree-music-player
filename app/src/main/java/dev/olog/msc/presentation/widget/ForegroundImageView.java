@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Keep;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -16,12 +17,12 @@ public class ForegroundImageView extends AppCompatImageView {
 
     private Drawable foreground;
 
-    public ForegroundImageView(Context context, AttributeSet attrs) {
+    public ForegroundImageView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundView);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ForegroundImageView);
 
-        final Drawable d = a.getDrawable(R.styleable.ForegroundView_android_foreground);
+        final Drawable d = a.getDrawable(R.styleable.ForegroundImageView_android_foreground);
         if (d != null) {
             setForeground(d);
         }
@@ -93,15 +94,14 @@ public class ForegroundImageView extends AppCompatImageView {
                 if (foreground.isStateful()) {
                     foreground.setState(getDrawableState());
                 }
-            } else {
-//                setWillNotDraw(true);
-            }
+            }  // else setWillNotDraw(true);
+
             invalidate();
         }
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
         if (foreground != null) {
             foreground.draw(canvas);

@@ -77,6 +77,7 @@ public class SideDock extends Dock {
             mVerticalDockPositionPercentage = verticalDockPositionPercentage;
         }
 
+        @NonNull
         public Point calculateDockPosition(@NonNull Point screenSize, int tabSize) {
             Log.d(TAG, "Calculating dock position. Screen size: " + screenSize + ", tab size: " + tabSize);
             int x = LEFT == mSide
