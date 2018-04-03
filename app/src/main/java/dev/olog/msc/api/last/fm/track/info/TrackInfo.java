@@ -16,10 +16,6 @@ public class TrackInfo {
     public TrackInfo() {
     }
 
-    /**
-     * 
-     * @param track
-     */
     public TrackInfo(Track track) {
         super();
         this.track = track;

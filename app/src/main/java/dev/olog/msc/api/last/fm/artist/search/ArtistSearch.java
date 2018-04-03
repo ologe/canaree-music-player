@@ -17,19 +17,31 @@ public class ArtistSearch {
     public ArtistSearch() {
     }
 
-    /**
-     * 
-     * @param results
-     */
     public ArtistSearch(Results results) {
         super();
         this.results = results;
     }
 
-    @Override
-    public String toString() {
-        return "ArtistSearch{" +
-                "results=" + results +
-                '}';
+    public static class Results {
+
+        @SerializedName("artistmatches")
+        @Expose
+        public Artistmatches artistmatches;
+
+
+        /**
+         * No args constructor for use in serialization
+         *
+         */
+        public Results() {
+        }
+
+        public Results(Artistmatches artistmatches) {
+            super();
+            this.artistmatches = artistmatches;
+        }
+
     }
+
+
 }

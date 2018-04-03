@@ -4,6 +4,7 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
 import com.android.billingclient.api.*
+import dev.olog.msc.BuildConfig
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.utils.k.extension.toast
@@ -27,8 +28,8 @@ interface IBilling {
 }
 
 private const val PRO_VERSION_ID = "pro_version"
-private const val DEFAULT_PREMIUM = false
-private const val DEFAULT_TRIAL = false
+private val DEFAULT_PREMIUM = BuildConfig.DEBUG
+private val DEFAULT_TRIAL = BuildConfig.DEBUG
 
 private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
 

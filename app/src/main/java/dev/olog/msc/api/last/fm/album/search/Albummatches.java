@@ -11,7 +11,7 @@ public class Albummatches {
 
     @SerializedName("album")
     @Expose
-    public List<Album> album = new ArrayList<Album>();
+    public List<Album> album = new ArrayList<>();
 
     /**
      * No args constructor for use in serialization
@@ -20,19 +20,70 @@ public class Albummatches {
     public Albummatches() {
     }
 
-    /**
-     * 
-     * @param album
-     */
     public Albummatches(List<Album> album) {
         super();
         this.album = album;
     }
 
-    @Override
-    public String toString() {
-        return "Albummatches{" +
-                "album=" + album +
-                '}';
+    public static class Album {
+
+        @SerializedName("name")
+        @Expose
+        public String name;
+
+        @SerializedName("artist")
+        @Expose
+        public String artist;
+
+        @SerializedName("url")
+        @Expose
+        public String url;
+
+        @SerializedName("image")
+        @Expose
+        public List<Image> image = new ArrayList<>();
+
+        @SerializedName("mbid")
+        @Expose
+        public String mbid;
+
+        /**
+         * No args constructor for use in serialization
+         *
+         */
+        public Album() {
+        }
+
+        public Album(String name, String artist, String url, List<Image> image, String mbid) {
+            super();
+            this.name = name;
+            this.artist = artist;
+            this.url = url;
+            this.image = image;
+            this.mbid = mbid;
+        }
+
+        public static class Image {
+
+            @SerializedName("#text")
+            @Expose
+            public String text;
+
+            /**
+             * No args constructor for use in serialization
+             *
+             */
+            public Image() {
+            }
+
+            public Image(String text) {
+                super();
+                this.text = text;
+            }
+        }
+
+
     }
+
+
 }

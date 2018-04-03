@@ -16,20 +16,30 @@ public class AlbumSearch {
      */
     public AlbumSearch() {
     }
-
-    /**
-     * 
-     * @param results
-     */
+    
     public AlbumSearch(Results results) {
         super();
         this.results = results;
     }
 
-    @Override
-    public String toString() {
-        return "AlbumSearch{" +
-                "results=" + results +
-                '}';
+    public static class Results {
+
+        @SerializedName("albummatches")
+        @Expose
+        public Albummatches albummatches;
+
+        /**
+         * No args constructor for use in serialization
+         *
+         */
+        public Results() {
+        }
+
+        public Results(Albummatches albummatches) {
+            super();
+            this.albummatches = albummatches;
+        }
     }
+
+
 }
