@@ -160,7 +160,7 @@ class PlayerImpl @Inject constructor(
             ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
             ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
             ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: " + error
+            else -> "Unknown: $error"
         }
 
         try {
@@ -168,13 +168,14 @@ class PlayerImpl @Inject constructor(
         } catch (ex: Exception){}
 
         if (BuildConfig.DEBUG) {
-            Log.e("Player", "onPlayerError " + what)
+            Log.e("Player", "onPlayerError $what")
         }
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         if (playbackState == com.google.android.exoplayer2.Player.STATE_ENDED) {
-            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
+//            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
+            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
         }
     }
 

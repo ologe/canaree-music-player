@@ -14,7 +14,7 @@ interface Queue {
 
     fun prepare(): Single<Pair<PlayerMediaEntity, Long>>
 
-    fun handleSkipToNext(): PlayerMediaEntity
+    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity
 
     fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity
 

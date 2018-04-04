@@ -115,18 +115,26 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToNext() {
-        doWhenReady ({
-            val metadata = queue.handleSkipToNext()
-            player.playNext(metadata, true)
-        }, {
-            context.toast(R.string.popup_error_message)
-        })
+        onSkipToNext(false)
     }
 
     override fun onSkipToPrevious() {
         doWhenReady ({
             val metadata = queue.handleSkipToPrevious(player.getBookmark())
             player.playNext(metadata, false)
+        }, {
+            context.toast(R.string.popup_error_message)
+        })
+    }
+
+    private fun onTrackEnded(){
+        onSkipToNext(true)
+    }
+
+    private fun onSkipToNext(trackEnded: Boolean){
+        doWhenReady ({
+            val metadata = queue.handleSkipToNext(trackEnded)
+            player.playNext(metadata, true)
         }, {
             context.toast(R.string.popup_error_message)
         })
@@ -222,12 +230,15 @@ class MediaSessionCallback @Inject constructor(
                 KeyEvent.KEYCODE_MEDIA_STOP -> player.stopService()
                 KeyEvent.KEYCODE_MEDIA_PAUSE -> player.pause(false)
                 KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
+                KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> onTrackEnded()
                 else -> mediaButton.onNextEvent(mediaButtonEvent)
             }
         }
 
         return true
     }
+
+
 
     override fun onAddQueueItem(description: MediaDescriptionCompat) {
         val split = description.mediaId!!.split(",")

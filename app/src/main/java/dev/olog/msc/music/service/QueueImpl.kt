@@ -94,10 +94,10 @@ class QueueImpl @Inject constructor(
 
     @CheckResult
     @MainThread
-    fun getNextSong() : MediaEntity {
+    fun getNextSong(trackEnded: Boolean) : MediaEntity {
         assertMainThread()
 
-        if (repeatMode.isRepeatOne()){
+        if (repeatMode.isRepeatOne() && trackEnded){
             return playingQueue[currentSongPosition]
         }
 
@@ -118,7 +118,7 @@ class QueueImpl @Inject constructor(
     fun getPreviousSong(playerBookmark: Long) : MediaEntity {
         assertMainThread()
 
-        if (repeatMode.isRepeatOne() || playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD){
+        if (/*repeatMode.isRepeatOne() || */playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD){
             return playingQueue[currentSongPosition]
         }
 
@@ -188,12 +188,12 @@ class QueueImpl @Inject constructor(
 
         val copy = list.toMutableList()
 
-        if (repeatMode.isRepeatOne()){
-            copy.clear()
-            while (copy.size <= MINI_QUEUE_SIZE){
-                copy.add(current) //add itself for n times
-            }
-        }
+//        if (repeatMode.isRepeatOne()){
+//            copy.clear()
+//            while (copy.size <= MINI_QUEUE_SIZE){
+//                copy.add(current) //add itself for n times
+//            }
+//        }
 
         if (copy.size < MINI_QUEUE_SIZE && repeatMode.isRepeatAll()){
             while (copy.size <= MINI_QUEUE_SIZE){

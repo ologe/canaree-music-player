@@ -61,8 +61,8 @@ class QueueManager @Inject constructor(
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
-    override fun handleSkipToNext(): PlayerMediaEntity {
-        val mediaEntity = queueImpl.getNextSong()
+    override fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity {
+        val mediaEntity = queueImpl.getNextSong(trackEnded)
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
