@@ -5,13 +5,18 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.media.AudioManager
-import android.os.Handler
 import android.view.KeyEvent
 import android.view.KeyEvent.*
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.utils.k.extension.dispatchEvent
+import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 
@@ -22,37 +27,40 @@ class MediaButton @Inject internal constructor(
 
 ) : DefaultLifecycleObserver {
 
-    private var handler: Handler = Handler()
-    private var clicks = 0
-
-    private val runnable = {
-        when (clicks) {
-            1 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PLAY_PAUSE)
-            2 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_NEXT)
-            3 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PREVIOUS)
-        }
-        clicks = 0
-    }
+    private var disposable : Disposable? = null
+    private var clicks = AtomicInteger(0)
 
     init {
         lifecycle.addObserver(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        handler.removeCallbacks(runnable)
+        disposable.unsubscribe()
     }
 
     fun onNextEvent(mediaButtonEvent: Intent) {
         val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
 
         if (event.action == ACTION_DOWN && event.keyCode == KEYCODE_HEADSETHOOK) {
-            clicks++
+            val current = clicks.incrementAndGet()
 
-            if (clicks < 5) {
-                handler.removeCallbacks(runnable)
-                handler.postDelayed(runnable, 300)
+            if (current < 5){
+                disposable.unsubscribe()
+                disposable = Single.timer(300, TimeUnit.MILLISECONDS)
+                        .map { current }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::dispatchEvent, Throwable::printStackTrace)
             }
         }
+    }
+
+    private fun dispatchEvent(clicks: Int) {
+        when (clicks) {
+            1 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PLAY_PAUSE)
+            2 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_NEXT)
+            3 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PREVIOUS)
+        }
+        this.clicks.set(0)
     }
 
 }
