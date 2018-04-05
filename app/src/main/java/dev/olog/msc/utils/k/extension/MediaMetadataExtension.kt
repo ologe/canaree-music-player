@@ -21,7 +21,7 @@ fun MediaMetadataCompat.getDuration(): Long {
 
 fun MediaMetadataCompat.getDurationReadable(): String {
     val duration = getDuration()
-    return TextUtils.MIDDLE_DOT_SPACED + TextUtils.getReadableSongLength(duration)
+    return TextUtils.MIDDLE_DOT_SPACED + TextUtils.formatMillis(duration)
 }
 
 fun MediaMetadataCompat.isRemix(): Boolean {

@@ -50,6 +50,7 @@ class PresetFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        println("on item selected $position")
         // todo not working
 //        act.findViewById<ViewPager>(R.id.pager).currentItem = position
     }

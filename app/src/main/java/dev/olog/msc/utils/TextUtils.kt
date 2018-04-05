@@ -1,33 +1,36 @@
 package dev.olog.msc.utils
 
-import java.util.concurrent.TimeUnit
 
 object TextUtils {
 
     const val MIDDLE_DOT = "\u00B7"
     const val MIDDLE_DOT_SPACED = " \u00B7 "
 
-    fun getReadableSongLength(millis: Int): String {
-        return getReadableSongLength(millis.toLong())
+    fun formatMillis(millis: Int): String {
+        return formatMillis(millis.toLong())
     }
 
-    fun getReadableSongLength(millis: Long): String {
-        val sec = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
-        val format = if (sec < 10) "%d:0%d" else "%d:%d"
+    fun formatMillis(millis: Long, maintainZeros: Boolean = false): String {
 
-        return String.format(format, TimeUnit.MILLISECONDS.toMinutes(millis), sec)
-    }
+        val second = millis / 1000 % 60
+        val minute = millis / (1000 * 60) % 60
+        val hour = millis / (1000 * 60 * 60) % 24
 
+        if (hour == 0L && minute == 0L && second == 0L){
+            if (maintainZeros){
+                return "00:00"
+            }
+            return "0:00"
+        }
 
-    fun formatTimeMillisForNotification(millis: Long): String {
-        val seconds = TimeUtils.extractSeconds(millis)
-        val minutes = TimeUtils.extractMinutes(millis)
-        val builder = StringBuilder()
-                .append(if (minutes < 10) "0" else "")
-                .append("%d:")
-                .append(if (seconds < 10) "0" else "")
-                .append("%d")
-        return String.format(builder.toString(), minutes, seconds)
+        if (hour < 1){
+            if (maintainZeros && minute < 10){
+                return String.format("0%d:%d", minute, second)
+            }
+            return String.format("%d:%d", minute, second)
+        }
+
+        return String.format("%d:%d:%d", hour, minute, second)
     }
 
 }

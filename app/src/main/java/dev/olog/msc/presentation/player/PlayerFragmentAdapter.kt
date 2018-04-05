@@ -136,7 +136,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
         seekBarObservable.ofType<Int>()
                 .takeUntil(RxView.detaches(view))
-                .map { TextUtils.getReadableSongLength(it) }
+                .map { TextUtils.formatMillis(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view.bookmark::setText, Throwable::printStackTrace)
 

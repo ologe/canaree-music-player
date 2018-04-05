@@ -28,7 +28,7 @@ open class NotificationImpl24 @Inject constructor(
 
     override fun stopChronometer(bookmark: Long) {
         super.stopChronometer(bookmark)
-        builder.setSubText(TextUtils.formatTimeMillisForNotification(bookmark))
+        builder.setSubText(TextUtils.formatMillis(bookmark))
     }
 
     override fun updateMetadataImpl(
