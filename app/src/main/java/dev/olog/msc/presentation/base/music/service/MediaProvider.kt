@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.base.music.service
 
+import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -14,6 +15,8 @@ interface MediaProvider {
     fun onRepeatModeChanged(): Observable<Int>
     fun onShuffleModeChanged(): Observable<Int>
     fun onQueueChanged(): Observable<List<MediaSessionCompat.QueueItem>>
+    fun onQueueTitleChanged(): Observable<String>
+    fun onExtrasChanged(): Observable<Bundle>
 
     fun playFromMediaId(mediaId: MediaId, sort: DetailSort? = null)
     fun playMostPlayed(mediaId: MediaId)

@@ -27,8 +27,8 @@ class ShapeImageView @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
-        radius = a.getInt(R.styleable.RoundedCornerImageView_cornerRadius, DEFAULT_RADIUS)
+        val a = context.obtainStyledAttributes(R.styleable.RoundedCornersImageView)
+        radius = a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS)
         a.recycle()
 
         clipToOutline = true

@@ -38,7 +38,7 @@ class VirtualizerImpl @Inject constructor(
         }
 
         use {
-            val properties = equalizerPrefsUseCase.getBassBoostSettings()
+            val properties = equalizerPrefsUseCase.getVirtualizerSettings()
             if (properties.isNotBlank()){
                 virtualizer!!.properties = Virtualizer.Settings(properties)
             }

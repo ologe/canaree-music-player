@@ -34,6 +34,10 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
     internal val repeatModePublisher = BehaviorSubject.create<Int>()
     internal val shuffleModePublisher = BehaviorSubject.create<Int>()
     internal val queuePublisher = BehaviorSubject.createDefault(mutableListOf<MediaSessionCompat.QueueItem>())
+    internal val queueTitlePublisher = BehaviorSubject.create<String>()
+    internal val extrasPublisher = BehaviorSubject.create<Bundle>()
+
+
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,6 +124,14 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
 
     override fun onShuffleModeChanged(): Observable<Int> {
         return shuffleModePublisher.observeOn(Schedulers.computation())
+    }
+
+    override fun onQueueTitleChanged(): Observable<String> {
+        return queueTitlePublisher
+    }
+
+    override fun onExtrasChanged(): Observable<Bundle> {
+        return extrasPublisher.observeOn(Schedulers.computation())
     }
 
     private fun getTransportControls(): MediaControllerCompat.TransportControls? {

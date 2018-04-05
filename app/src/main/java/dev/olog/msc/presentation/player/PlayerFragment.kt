@@ -44,7 +44,9 @@ class PlayerFragment : BaseFragment() {
 
         mediaProvider = (activity as MediaProvider)
 
-        mediaProvider.onQueueChanged().mapToList { it.toDisplayableItem() }
+        mediaProvider.onQueueChanged()
+                .distinctUntilChanged()
+                .mapToList { it.toDisplayableItem() }
                 .map { queue ->
                     val copy = queue.toMutableList()
                     if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
@@ -62,7 +64,7 @@ class PlayerFragment : BaseFragment() {
         mediaProvider.onStateChanged()
                 .asLiveData()
                 .subscribe(this, {
-                    val bookmark = it.position.toInt()
+                    val bookmark = it.extractBookmark()
                     viewModel.updateProgress(bookmark)
                     handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
                 })
@@ -70,15 +72,11 @@ class PlayerFragment : BaseFragment() {
         if (act.isLandscape){
             mediaProvider.onMetadataChanged()
                     .asLiveData()
-                    .subscribe(this, { PlayerImage.loadImage(cover, it) })
+                    .subscribe(this, cover::loadImage)
 
             mediaProvider.onStateChanged()
                     .asLiveData()
-                    .subscribe(this, {
-                        if (it.isPlaying() || it.isPaused()){
-                            cover?.isActivated = it.isPlaying()
-                        }
-                    })
+                    .subscribe(this, cover::toggleElevation)
 
             mediaProvider.onRepeatModeChanged()
                     .asLiveData()
@@ -140,7 +138,7 @@ class PlayerFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context!!)
+        layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)

@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/player_toolbar" />
 
-        <dev.olog.msc.presentation.widget.image.view.RoundedCornersImageView
+        <dev.olog.msc.presentation.widget.image.view.PlayerImageView
             android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="0dp"

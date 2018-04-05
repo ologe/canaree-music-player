@@ -1,17 +1,19 @@
 package dev.olog.msc.presentation.widget.image.view
 
 import android.content.Context
+import android.graphics.Outline
 import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewOutlineProvider
 import dev.olog.msc.R
-import dev.olog.msc.presentation.utils.RoundedOutlineProvider
 import dev.olog.msc.presentation.widget.ForegroundImageView
 import dev.olog.msc.utils.k.extension.dip
 
 private const val DEFAULT_RADIUS = 5
 
-class RoundedCornersImageView @JvmOverloads constructor(
+open class RoundedCornersImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
@@ -20,8 +22,8 @@ class RoundedCornersImageView @JvmOverloads constructor(
     private val radius : Int
 
     init {
-        val a = context.obtainStyledAttributes(R.styleable.RoundedCornerImageView)
-        radius = a.getInt(R.styleable.RoundedCornerImageView_cornerRadius, DEFAULT_RADIUS)
+        val a = context.obtainStyledAttributes(R.styleable.RoundedCornersImageView)
+        radius = a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS)
         a.recycle()
 
         val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner) as GradientDrawable
@@ -31,4 +33,12 @@ class RoundedCornersImageView @JvmOverloads constructor(
         outlineProvider = RoundedOutlineProvider()
     }
 
+}
+
+private class RoundedOutlineProvider : ViewOutlineProvider() {
+
+    override fun getOutline(view: View, outline: Outline) {
+        val corner = view.context.dip(5).toFloat()
+        outline.setRoundRect(0 , 0, view.width, view.height, corner)
+    }
 }

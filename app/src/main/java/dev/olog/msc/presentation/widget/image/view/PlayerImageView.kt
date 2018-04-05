@@ -1,7 +1,9 @@
-package dev.olog.msc.presentation.player
+package dev.olog.msc.presentation.widget.image.view
 
+import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
-import android.widget.ImageView
+import android.support.v4.media.session.PlaybackStateCompat
+import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
@@ -9,16 +11,19 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId
-import kotlinx.android.synthetic.main.layout_swipeable_view.view.*
+import dev.olog.msc.utils.k.extension.isPaused
+import dev.olog.msc.utils.k.extension.isPlaying
 
-object PlayerImage {
+class PlayerImageView @JvmOverloads constructor(
+        context: Context,
+        attr: AttributeSet? = null
 
-    fun loadImage(view: ImageView, metadata: MediaMetadataCompat){
+) : RoundedCornersImageView(context, attr) {
+
+    fun loadImage(metadata: MediaMetadataCompat){
         val mediaId = metadata.getMediaId()
 
-        val context = view.context
-
-        GlideApp.with(context).clear(view.cover)
+        GlideApp.with(context).clear(this)
 
         GlideApp.with(context)
                 .load(metadata.toDisplayableItem())
@@ -26,7 +31,13 @@ object PlayerImage {
                 .priority(Priority.IMMEDIATE)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .override(800)
-                .into(view)
+                .into(this)
+    }
+
+    fun toggleElevation(state: PlaybackStateCompat){
+        if (state.isPlaying() || state.isPaused()){
+            isActivated = state.isPlaying()
+        }
     }
 
     private fun MediaMetadataCompat.toDisplayableItem(): DisplayableItem {

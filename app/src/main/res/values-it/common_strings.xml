@@ -12,6 +12,8 @@
     <string name="common_favorites">Preferiti</string>
     <string name="common_history">Cronologia</string>
 
+    <string name="common_all_tracks">Tutti i brani</string>
+
     <string-array name="common_auto_playlists">
         <item>@string/common_last_added</item>
         <item>@string/common_favorites</item>

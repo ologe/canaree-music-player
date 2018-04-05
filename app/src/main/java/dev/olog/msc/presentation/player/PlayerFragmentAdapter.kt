@@ -249,9 +249,7 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
-        view.cover ?: return
-
-        PlayerImage.loadImage(view.cover, metadata)
+        view.cover?.loadImage(metadata) ?: return
     }
 
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){

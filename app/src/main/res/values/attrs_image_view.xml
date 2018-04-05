@@ -13,7 +13,7 @@
         <attr name="parallax" format="float"/>
     </declare-styleable>
 
-    <declare-styleable name="RoundedCornerImageView">
+    <declare-styleable name="RoundedCornersImageView">
         <attr name="cornerRadius" format="integer"/>
     </declare-styleable>
 

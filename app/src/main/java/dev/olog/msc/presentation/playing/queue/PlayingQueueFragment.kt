@@ -5,11 +5,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.msc.R
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
@@ -49,6 +52,18 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val mediaProvider = (activity as MediaProvider)
+
+        mediaProvider.onExtrasChanged()
+                .map { it.getInt(MusicConstants.EXTRA_QUEUE_CATEGORY) }
+                .map { MediaIdCategory.values()[it] }
+                .asLiveData()
+                .subscribe(this, header::setText)
+
+        mediaProvider.onQueueTitleChanged()
+                .asLiveData()
+                .subscribe(this, subHeader::setText)
 
         listenToFirstRealEmission {
             val songId = viewModel.getCurrentSongId()

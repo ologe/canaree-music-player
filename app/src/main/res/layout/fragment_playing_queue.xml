@@ -20,7 +20,7 @@
         android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"/>
 
-    <FrameLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,25 +32,49 @@
 
         <ImageButton
             android:id="@+id/back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_back_arrow"
             android:padding="12dp"/>
 
-        <TextView
+        <dev.olog.msc.presentation.utils.PlayingFromTextView
             android:id="@+id/header"
-            android:text="@string/playing_queue"
+            tools:text="Playing from playlist"
+            android:textAllCaps="true"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
-            android:textSize="18dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar"
+            android:textSize="12dp"
+            android:gravity="center|bottom"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/subHeader"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/subHeader"
+            tools:text="Wanksta - 50 Cent"
+            android:textColor="@color/dark_grey"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:gravity="center|top"
+            app:layout_constraintTop_toBottomOf="@+id/header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"

@@ -31,9 +31,11 @@ class QueueMediaSession @Inject constructor(
 
     init {
         lifecycle.addObserver(this)
+
         miniQueueDisposable = publisher
                 .toSerialized()
                 .observeOn(Schedulers.computation())
+                .distinctUntilChanged()
                 .debounce(1, TimeUnit.SECONDS)
                 .map { it.toQueueItem() }
                 .subscribe({ (id, queue) ->
@@ -44,6 +46,7 @@ class QueueMediaSession @Inject constructor(
         immediateMiniQueueDisposable = immediatePublisher
                 .toSerialized()
                 .observeOn(Schedulers.computation())
+                .distinctUntilChanged()
                 .map { it.toQueueItem() }
                 .subscribe({ (id, queue) ->
                     mediaSession.setQueue(queue)
