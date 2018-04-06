@@ -10,7 +10,7 @@ import android.transition.TransitionValues
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
-import androidx.animation.addListener
+import androidx.core.animation.addListener
 
 class CircularReveal(
         private val x: Int,

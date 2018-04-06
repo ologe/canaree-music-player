@@ -3,7 +3,7 @@ package dev.olog.msc.utils.k.extension
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import androidx.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition

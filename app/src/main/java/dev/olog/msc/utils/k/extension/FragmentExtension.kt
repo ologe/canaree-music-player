@@ -5,7 +5,7 @@ package dev.olog.msc.utils.k.extension
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import androidx.os.bundleOf
+import androidx.core.os.bundleOf
 
 fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
     arguments = bundleOf(*params)

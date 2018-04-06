@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import androidx.text.isDigitsOnly
+import androidx.core.text.isDigitsOnly
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.ErrorPublisher
 import dev.olog.msc.presentation.edit.UpdateResult

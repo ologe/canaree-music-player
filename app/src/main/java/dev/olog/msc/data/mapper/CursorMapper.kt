@@ -3,8 +3,8 @@ package dev.olog.msc.data.mapper
 import android.content.Context
 import android.database.Cursor
 import android.provider.MediaStore
-import androidx.database.getLong
-import androidx.database.getString
+import androidx.core.database.getLong
+import androidx.core.database.getString
 import dev.olog.msc.data.entity.PlaylistSongEntity
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist

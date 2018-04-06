@@ -3,9 +3,9 @@ package dev.olog.msc.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.database.getInt
-import androidx.database.getLong
-import androidx.database.getString
+import androidx.core.database.getInt
+import androidx.core.database.getLong
+import androidx.core.database.getString
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.img.ImagesFolderUtils

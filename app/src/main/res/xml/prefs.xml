@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
         android:title="@string/prefs_category_library">
@@ -34,11 +35,24 @@
             android:summaryOn="@string/prefs_used_equalizer_summary_on"
             android:summaryOff="@string/prefs_used_equalizer_summary_off"/>
 
-        <SwitchPreference
+        <Preference
             android:title="@string/prefs_lower_volume_on_night_title"
             android:summary="@string/prefs_lower_volume_on_night_summary"
             android:key="@string/prefs_midnight_mode_key"
             android:defaultValue="false" />
+
+
+        <dev.olog.msc.presentation.widget.prefs.SeekBarPreferenceCompat
+            android:key="@string/prefs_cross_fade_key"
+            android:title="@string/prefs_cross_fade_title"
+            android:summary="@string/prefs_cross_fade_summary"
+            android:defaultValue="0"
+            android:enabled="true"
+            app:msbp_minValue="0"
+            app:msbp_maxValue="10"
+            app:msbp_interval="1"
+            app:msbp_measurementUnit="s"
+            app:msbp_minText="Off"/>
 
     </PreferenceCategory>
 

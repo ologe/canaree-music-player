@@ -8,7 +8,7 @@ import android.support.v4.math.MathUtils
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.msc.R
-import dev.olog.msc.presentation.widget.ForegroundImageView
+import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 
 private const val DEFAULT_PARALLAX = .4f
 private const val MAX_ALPHA = 85 //.3f

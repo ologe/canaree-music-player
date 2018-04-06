@@ -24,6 +24,7 @@ import javax.inject.Inject
 class MediaButton @Inject internal constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>
+//        private val speech: TrackSpeech
 
 ) : DefaultLifecycleObserver {
 
@@ -56,9 +57,11 @@ class MediaButton @Inject internal constructor(
 
     private fun dispatchEvent(clicks: Int) {
         when (clicks) {
+            0 -> {}
             1 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PLAY_PAUSE)
             2 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_NEXT)
             3 -> audioManager.get().dispatchEvent(KEYCODE_MEDIA_PREVIOUS)
+//            else -> speech.speak()
         }
         this.clicks.set(0)
     }

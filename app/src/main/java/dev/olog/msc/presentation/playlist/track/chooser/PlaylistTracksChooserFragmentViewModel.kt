@@ -5,8 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import android.util.LongSparseArray
-import androidx.util.contains
-import androidx.util.isEmpty
+import androidx.core.util.contains
+import androidx.core.util.isEmpty
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.InsertCustomTrackListRequest

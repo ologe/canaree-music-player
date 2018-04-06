@@ -7,7 +7,7 @@ import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.RemoteViews
-import androidx.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants

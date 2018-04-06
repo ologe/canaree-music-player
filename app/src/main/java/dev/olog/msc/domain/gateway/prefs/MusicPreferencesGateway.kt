@@ -33,4 +33,6 @@ interface MusicPreferencesGateway {
 
     fun setDefault(): Completable
 
+    fun observeCrossFade(): Observable<Int>
+
 }

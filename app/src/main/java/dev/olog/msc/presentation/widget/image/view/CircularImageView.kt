@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import dev.olog.msc.R
-import dev.olog.msc.presentation.widget.ForegroundImageView
 
 class CircularImageView @JvmOverloads constructor(
         context: Context,

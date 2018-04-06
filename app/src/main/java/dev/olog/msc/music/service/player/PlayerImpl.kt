@@ -3,18 +3,15 @@ package dev.olog.msc.music.service.player
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
 import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
 import com.crashlytics.android.Crashlytics
 import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.SimpleExoPlayer
 import dagger.Lazy
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.music.service.Noisy
 import dev.olog.msc.music.service.PlayerState
@@ -30,7 +27,6 @@ import dev.olog.msc.utils.k.extension.dispatchEvent
 import javax.inject.Inject
 
 class PlayerImpl @Inject constructor(
-        @ApplicationContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>,
         private val playerState: PlayerState,
@@ -39,7 +35,9 @@ class PlayerImpl @Inject constructor(
         volume: IPlayerVolume,
         private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener,
         private val mediaSourceFactory: MediaSourceFactory,
-        private val audioFocus : AudioFocusBehavior
+        private val audioFocus : AudioFocusBehavior,
+        private val exoPlayer: SimpleExoPlayer,
+        playerFading: PlayerFading
 
 ) : Player,
         DefaultLifecycleObserver,
@@ -47,8 +45,6 @@ class PlayerImpl @Inject constructor(
         PlayerLifecycle {
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
-    private val trackSelector = DefaultTrackSelector()
-    private val exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector)
 
     init {
         lifecycle.addObserver(this)
@@ -60,6 +56,7 @@ class PlayerImpl @Inject constructor(
         }
 
         exoPlayer.addAudioDebugListener(onAudioSessionIdChangeListener)
+        playerFading.setPlayerLifecycle(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -146,6 +143,7 @@ class PlayerImpl @Inject constructor(
         val playbackState = playerState.update(state, millis)
         listeners.forEach {
             it.onStateChanged(playbackState)
+            it.onSeek(millis)
         }
 
         if (isPlaying()) {

@@ -101,6 +101,10 @@
     <string name="prefs_lower_volume_on_night_summary">Lowers the max volume the night</string>
 
 
+    <!--crossfade-->
+    <string name="prefs_cross_fade_key" translatable="false">key_cross_fade</string>
+    <string name="prefs_cross_fade_title">Crossfade</string>
+    <string name="prefs_cross_fade_summary">Allows crossfade between songs</string>
 
     <!--icon shape-->
     <string name="prefs_icon_shape_key" translatable="false">key_icon_shape</string>

@@ -30,7 +30,7 @@ class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val repeatMode: RepeatMode,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
-        private val queueMediaSession: QueueMediaSession,
+        private val queueMediaSession: MediaSessionQueue,
         private val getSongUseCase: GetSongUseCase,
         private val mediaSessionDescription: MediaSessionDescription
 ) {
@@ -154,7 +154,7 @@ class QueueImpl @Inject constructor(
             playingQueue.swap(0, songPosition)
         }
 
-        updateCurrentSongPosition(playingQueue, 0)
+        updateCurrentSongPosition(playingQueue, 0, true)
         // todo check if current song is first/last ecc and update ui
 
         persist(playingQueue)
@@ -169,7 +169,7 @@ class QueueImpl @Inject constructor(
 
         val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val newPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
-        updateCurrentSongPosition(playingQueue, newPosition)
+        updateCurrentSongPosition(playingQueue, newPosition, true)
         // todo check if current song is first/last ecc and update ui
 
         persist(playingQueue)

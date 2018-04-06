@@ -7,7 +7,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.preference.PreferenceManager
-import androidx.content.edit
+import androidx.core.content.edit
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.presentation.utils.openPlayStore

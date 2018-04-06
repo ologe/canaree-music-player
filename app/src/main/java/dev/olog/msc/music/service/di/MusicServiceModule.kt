@@ -9,8 +9,12 @@ import android.media.AudioManager
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dagger.Module
 import dagger.Provides
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
@@ -73,6 +77,13 @@ class MusicServiceModule(
     @Provides
     internal fun provideMediaController(mediaSession: MediaSessionCompat): MediaControllerCompat {
         return mediaSession.controller
+    }
+
+    @Provides
+    @PerService
+    internal fun providePlayer(@ApplicationContext context: Context): SimpleExoPlayer {
+        val trackSelector = DefaultTrackSelector()
+        return ExoPlayerFactory.newSimpleInstance(context, trackSelector)
     }
 
     @Module

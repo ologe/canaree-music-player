@@ -14,6 +14,7 @@ import dev.olog.msc.domain.interactor.detail.item.*
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -89,7 +90,7 @@ class QueueTitleFetcher @Inject constructor(
     private fun searchAlbum(mediaId: MediaId): Single<String>{
         return getAlbumUseCase.execute(mediaId)
                 .firstOrError()
-                .map { "${it.title} ${it.artist}" }
+                .map { "${it.title}${TextUtils.MIDDLE_DOT_SPACED}${it.artist}" }
     }
 
     private fun searchArtist(mediaId: MediaId): Single<String>{

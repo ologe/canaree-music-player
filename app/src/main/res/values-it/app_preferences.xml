@@ -49,7 +49,9 @@
     <string name="prefs_lower_volume_on_night_title">Modalità mezzanotte</string>
     <string name="prefs_lower_volume_on_night_summary">Abbassa il volume massimo durante le ore notturne</string>
 
-
+    <!--crossfade-->
+    <string name="prefs_cross_fade_title">Dissolvenza</string>
+    <string name="prefs_cross_fade_summary">Consente la dissolvenza tra i brani</string>
 
     <!--icon shape-->
     <string name="prefs_icon_shape_title">Forma delle immagini</string>

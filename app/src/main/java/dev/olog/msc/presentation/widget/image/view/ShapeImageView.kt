@@ -6,10 +6,9 @@ import android.graphics.drawable.GradientDrawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import androidx.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.presentation.widget.ForegroundImageView
 import dev.olog.msc.utils.k.extension.dipf
 
 private const val DEFAULT_RADIUS = 5

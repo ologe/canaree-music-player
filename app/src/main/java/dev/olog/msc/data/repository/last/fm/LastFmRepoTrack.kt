@@ -3,6 +3,7 @@ package dev.olog.msc.data.repository.last.fm
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.data.mapper.LastFmNulls
@@ -11,6 +12,8 @@ import dev.olog.msc.data.mapper.toModel
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.assertBackgroundThread
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -53,14 +56,19 @@ class LastFmRepoTrack @Inject constructor(
     }
 
     private fun fetch(track: Song): Single<LastFmTrack> {
+        assertBackgroundThread()
+
         val trackId = track.id
 
-        return lastFmService.getTrackInfo(track.title, track.artist)
+        val trackTitle = TextUtils.addSpacesToDash(track.title)
+        val trackArtist = if (track.artist == AppConstants.UNKNOWN) "" else track.artist
+
+        return lastFmService.getTrackInfo(trackTitle, trackArtist)
                 .map { it.toDomain(trackId) }
                 .doOnSuccess { cache(it) }
-                .onErrorResumeNext { lastFmService.searchTrack(track.title, track.artist)
+                .onErrorResumeNext { lastFmService.searchTrack(trackTitle, trackArtist)
                         .map { it.toDomain(trackId) }
-                        .flatMap { result -> lastFmService.getTrackInfo(result.title, result.artist)
+                        .flatMap { result -> lastFmService.getTrackInfo(trackTitle, trackArtist)
                                 .map { it.toDomain(trackId) }
                                 .onErrorReturnItem(result)
                         }

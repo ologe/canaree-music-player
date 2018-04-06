@@ -7,7 +7,7 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.support.annotation.RequiresApi
-import androidx.content.systemService
+import androidx.core.content.systemService
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants

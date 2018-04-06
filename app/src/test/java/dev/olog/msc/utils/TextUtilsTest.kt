@@ -19,6 +19,17 @@ class TextUtilsTest {
 
     @Test
     fun `readable length, few seconds`(){
+        val time = TimeUnit.SECONDS.toMillis(8)
+
+        val formatted = TextUtils.formatMillis(time)
+        val formattedWithZeros = TextUtils.formatMillis(time, true)
+
+        Assert.assertEquals("0:08", formatted)
+        Assert.assertEquals("00:08", formattedWithZeros)
+    }
+
+    @Test
+    fun `readable length, lot of seconds`(){
         val time = TimeUnit.SECONDS.toMillis(56)
 
         val formatted = TextUtils.formatMillis(time)

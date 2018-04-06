@@ -3,11 +3,8 @@ package dev.olog.msc.music.service
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.net.toUri
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -16,11 +13,10 @@ import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
-private const val IMAGE_SIZE = 600
+private const val IMAGE_SIZE = 300
 
 @PerService
 class PlayerMetadata @Inject constructor(
@@ -46,18 +42,15 @@ class PlayerMetadata @Inject constructor(
     }
 
     private fun update(entity: MediaEntity) {
-
-        val uri = entity.image.toUri()
-
         builder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, entity.mediaId.toString())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, entity.title)
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, DisplayableItem.adjustArtist(entity.artist))
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, DisplayableItem.adjustArtist(entity.album))
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, DisplayableItem.adjustAlbum(entity.album))
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, entity.title)
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, createBitmap(uri)) // todo strict mode violation, about 80 ms
+//                .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, bitmap.orElse(null)) // very slow method
                 .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, entity.image)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putLong(MusicConstants.IS_EXPLICIT, if (entity.isExplicit) 1L else 0L)
@@ -66,10 +59,7 @@ class PlayerMetadata @Inject constructor(
         mediaSession.setMetadata(builder.build())
 
         notifyWidgets(entity)
-    }
 
-    private fun createBitmap(uri: Uri): Bitmap? {
-        return ImageUtils.getBitmap(context, uri, IMAGE_SIZE, IMAGE_SIZE)
     }
 
     private fun notifyWidgets(entity: MediaEntity){

@@ -78,6 +78,7 @@ class NavigatorImpl @Inject internal constructor(
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 if (categoriesFragment != null && categoriesFragment.isVisible){
                     hide(categoriesFragment)
                     add(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
@@ -94,6 +95,7 @@ class NavigatorImpl @Inject internal constructor(
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.fragmentContainer, SearchFragment.newInstance(icon), SearchFragment.TAG)
                 addToBackStack(SearchFragment.TAG)
             }
@@ -104,7 +106,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
             }
@@ -115,7 +117,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-//                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
             }

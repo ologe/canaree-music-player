@@ -12,6 +12,7 @@ interface PlayerLifecycle {
         fun onPrepare(entity: MediaEntity) {}
         fun onMetadataChanged(entity: MediaEntity) {}
         fun onStateChanged(state: PlaybackStateCompat){}
+        fun onSeek(where: Long){}
     }
 
 }

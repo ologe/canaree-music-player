@@ -2,7 +2,7 @@ package dev.olog.msc.data.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.content.edit
+import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext

@@ -3,14 +3,13 @@ package dev.olog.msc.presentation.preferences
 import android.os.Bundle
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
-import dagger.android.support.HasSupportFragmentInjector
 import dev.olog.msc.R
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.activity_preferences.*
 import javax.inject.Inject
 
-class PreferencesActivity : DaggerAppCompatActivity(), HasSupportFragmentInjector {
+class PreferencesActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val REQUEST_CODE = 1221

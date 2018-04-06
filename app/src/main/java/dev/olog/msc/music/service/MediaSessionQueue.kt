@@ -17,7 +17,7 @@ import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class QueueMediaSession @Inject constructor(
+class MediaSessionQueue @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         mediaSession: MediaSessionCompat,
         private val playerState: PlayerState

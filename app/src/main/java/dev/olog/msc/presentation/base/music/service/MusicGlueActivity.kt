@@ -9,7 +9,7 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.os.bundleOf
+import androidx.core.os.bundleOf
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.BaseActivity

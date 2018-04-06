@@ -4,6 +4,7 @@ import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.music.service.volume.IVolume
@@ -21,6 +22,7 @@ private const val VOLUME_LOWERED_DUCK = 0.1f
 private const val VOLUME_NORMAL = 1f
 private const val VOLUME_LOWERED_NORMAL = 0.4f
 
+@PerService
 class PlayerVolume @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         musicPreferencesUseCase: MusicPreferencesUseCase
@@ -68,7 +70,7 @@ class PlayerVolume @Inject constructor(
         return hour <= 6 || hour >= 21
     }
 
-    private fun getVolume(): Float {
+    fun getVolume(): Float {
         return if (isDucking) volume.duck else volume.normal
     }
 

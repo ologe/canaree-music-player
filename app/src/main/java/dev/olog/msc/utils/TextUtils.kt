@@ -6,10 +6,12 @@ object TextUtils {
     const val MIDDLE_DOT = "\u00B7"
     const val MIDDLE_DOT_SPACED = " \u00B7 "
 
+    @JvmStatic
     fun formatMillis(millis: Int): String {
         return formatMillis(millis.toLong())
     }
 
+    @JvmStatic
     fun formatMillis(millis: Long, maintainZeros: Boolean = false): String {
 
         val second = millis / 1000 % 60
@@ -23,14 +25,26 @@ object TextUtils {
             return "0:00"
         }
 
+        val formattedSeconds = if (second < 10) "0%d" else "%d"
+        val formattedMinutes = if (minute < 10) "0%d" else "%d"
+
         if (hour < 1){
             if (maintainZeros && minute < 10){
-                return String.format("0%d:%d", minute, second)
+                return String.format("0%d:$formattedSeconds", minute, second)
             }
-            return String.format("%d:%d", minute, second)
+
+            return String.format("%d:$formattedSeconds", minute, second)
         }
 
-        return String.format("%d:%d:%d", hour, minute, second)
+        return String.format("%d:$formattedMinutes:$formattedMinutes", hour, minute, second)
+    }
+
+    @JvmStatic
+    fun addSpacesToDash(original: String): String{
+        return original
+                .trim()
+                .replace("-", " - ")
+                .replace("\\s+".toRegex(), " ")
     }
 
 }

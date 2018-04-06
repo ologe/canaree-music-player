@@ -62,4 +62,12 @@ class MusicPreferencesUseCase @Inject constructor(
         return gateway.setDefault()
     }
 
+    fun observeCrossFade(asMillis: Boolean): Observable<Int> {
+        var obs = gateway.observeCrossFade()
+        if (asMillis){
+           obs = obs.map { it * 1000 }
+        }
+        return obs
+    }
+
 }
