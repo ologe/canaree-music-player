@@ -11,6 +11,7 @@ import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -42,14 +43,14 @@ class VolumeFading @Inject constructor(
         fromVolume?.let { exoPlayer.volume = it }
 
         disposable.unsubscribe()
-        disposable = Observable.interval(35, TimeUnit.MILLISECONDS)
+        disposable = Observable.interval(35, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .takeWhile { exoPlayer.volume < 1f }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     var current = exoPlayer.volume
                     current = MathUtils.clamp(current + DELTA, MIN, MAX)
                     exoPlayer.volume = current
-                })
+                }, Throwable::printStackTrace)
     }
 
     /**
@@ -59,14 +60,14 @@ class VolumeFading @Inject constructor(
         exoPlayer.volume = .8f
 
         disposable.unsubscribe()
-        disposable = Observable.interval(35, TimeUnit.MILLISECONDS)
+        disposable = Observable.interval(35, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .takeWhile { exoPlayer.volume > MIN }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     var current = exoPlayer.volume
                     current = MathUtils.clamp(current - DELTA, MIN, MAX)
                     exoPlayer.volume = current
-                })
+                }, Throwable::printStackTrace)
     }
 
 }

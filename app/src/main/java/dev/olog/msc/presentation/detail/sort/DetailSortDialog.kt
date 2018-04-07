@@ -10,11 +10,10 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.disposables.Disposable
 
 class DetailSortDialog {
 
-    fun show(context: Context, view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Disposable) {
+    fun show(context: Context, view: View, mediaId: MediaId, sortType: SortType, updateUseCase: (SortType) -> Unit) {
         val popup = PopupMenu(context, view, Gravity.BOTTOM)
         popup.inflate(getLayout(mediaId))
 

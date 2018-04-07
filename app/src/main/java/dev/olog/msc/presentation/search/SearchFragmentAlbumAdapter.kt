@@ -26,7 +26,6 @@ class SearchFragmentAlbumAdapter @Inject constructor(
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
             viewModel.insertAlbumToRecent(item.mediaId)
-                    .subscribe({}, Throwable::printStackTrace)
         }
         viewHolder.setOnLongClickListener(controller) { item, _, _ ->
             navigator.toDialog(item, viewHolder.itemView)

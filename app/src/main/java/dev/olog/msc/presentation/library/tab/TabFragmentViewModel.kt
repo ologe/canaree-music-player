@@ -10,6 +10,8 @@ import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 
 class TabFragmentViewModel constructor(
         private val data: Map<MediaIdCategory, Observable<List<DisplayableItem>>>,
@@ -19,6 +21,8 @@ class TabFragmentViewModel constructor(
 ) : ViewModel() {
 
     private val liveDataList: MutableMap<MediaIdCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
+
+    private val subscriptions = CompositeDisposable()
 
     fun observeData(category: MediaIdCategory): LiveData<List<DisplayableItem>> {
         var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
@@ -30,14 +34,18 @@ class TabFragmentViewModel constructor(
         return liveData
     }
 
-    fun insertAlbumLastPlayed(mediaId: MediaId): Completable{
-        val albumId = mediaId.categoryValue.toLong()
-        return insertLastPlayedAlbumUseCase.execute(albumId)
+    fun insertLastPlayed(mediaId: MediaId){
+        val id = mediaId.resolveId
+        when (mediaId.category) {
+            MediaIdCategory.ARTISTS -> insertLastPlayedArtistUseCase.execute(id)
+            MediaIdCategory.ALBUMS -> insertLastPlayedAlbumUseCase.execute(id)
+            else -> Completable.complete()
+        }.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun insertArtistLastPlayed(mediaId: MediaId): Completable{
-        val artistId = mediaId.categoryValue.toLong()
-        return insertLastPlayedArtistUseCase.execute(artistId)
+    override fun onCleared() {
+        subscriptions.clear()
     }
 
 }

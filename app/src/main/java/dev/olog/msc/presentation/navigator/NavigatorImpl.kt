@@ -1,5 +1,7 @@
 package dev.olog.msc.presentation.navigator
 
+import android.arch.lifecycle.DefaultLifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
 import android.media.audiofx.AudioEffect
@@ -44,6 +46,8 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.toast
+import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD : Long = 600 // ms
@@ -53,9 +57,19 @@ class NavigatorImpl @Inject internal constructor(
         private val popupFactory: PopupMenuFactory,
         private val billing: IBilling
 
-) : Navigator {
+) : DefaultLifecycleObserver, Navigator {
 
     private var lastRequest: Long = -1
+
+    private var popupDisposable: Disposable? = null
+
+    init {
+        activity.lifecycle.addObserver(this)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        popupDisposable.unsubscribe()
+    }
 
     override fun toFirstAccess(requestCode: Int) {
         val intent = Intent(activity, SplashActivity::class.java)
@@ -178,7 +192,8 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toDialog(mediaId: MediaId, anchor: View) {
         if (allowed()){
-            popupFactory.create(anchor, mediaId)
+            popupDisposable.unsubscribe()
+            popupDisposable = popupFactory.create(anchor, mediaId)
                     .subscribe({ it.show() }, Throwable::printStackTrace)
         }
     }

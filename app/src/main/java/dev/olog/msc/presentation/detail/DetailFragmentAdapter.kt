@@ -29,7 +29,6 @@ import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import javax.inject.Inject
 
@@ -52,11 +51,7 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_item_info -> {
                 if (mediaId.isAlbum){
                     viewHolder.setOnClickListener(R.id.clickableArtist, controller) { _, _, _ ->
-                        viewModel.artistMediaId()
-                                .subscribe({ artistMediaId ->
-                                    navigator.toDetailFragment(artistMediaId)
-                                }, Throwable::printStackTrace)
-
+                        viewModel.artistMediaId { navigator.toDetailFragment(it) }
                     }
                 }
             }
@@ -78,10 +73,9 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_drag_handle -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    viewModel.getDetailSortDataUseCase.execute(item.mediaId)
-                            .subscribe({
-                                mediaProvider.playFromMediaId(item.mediaId, it)
-                            }, Throwable::printStackTrace)
+                    viewModel.detailSortDataUseCase(item.mediaId) {
+                        mediaProvider.playFromMediaId(item.mediaId, it)
+                    }
                 }
                 viewHolder.setOnLongClickListener(controller) { item, _, _ ->
                     navigator.toDialog(item, viewHolder.itemView)
@@ -129,20 +123,12 @@ class DetailFragmentAdapter @Inject constructor(
 
             R.layout.item_detail_header_all_song -> {
                 viewHolder.setOnClickListener(R.id.sort, controller) { _, _, view ->
-                    viewModel.observeSortOrder().firstOrError()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                DetailSortDialog().show(view.context, view, mediaId, it) { sortType ->
-                                    viewModel.updateSortType(sortType).subscribe({}, Throwable::printStackTrace)
-                                }
-                            }, Throwable::printStackTrace)
+                    viewModel.observeSortOrder {
+                        DetailSortDialog().show(view.context, view, mediaId, it, viewModel::updateSortOrder)
+                    }
                 }
                 viewHolder.setOnClickListener(R.id.sortImage, controller) { _, _, _ ->
-                    viewModel.observeSortOrder()
-                            .firstOrError()
-                            .filter { it != SortType.CUSTOM }
-                            .flatMapCompletable { viewModel.toggleSortArranging() }
-                            .subscribe({}, Throwable::printStackTrace)
+                    viewModel.toggleSortArranging()
                 }
             }
         }
@@ -208,12 +194,8 @@ class DetailFragmentAdapter @Inject constructor(
             R.layout.item_detail_header_all_song -> {
                 val image = holder.itemView.sortImage
 
-                Observables.combineLatest(
-                        viewModel.observeSortOrder(),
-                        viewModel.getSortArranging(), { sort, arranging ->
-                    Pair(sort, arranging)
-
-                }).takeUntil(RxView.detaches(holder.itemView))
+                viewModel.observeSorting()
+                        .takeUntil(RxView.detaches(holder.itemView))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ (sort, arranging) ->
                             if (sort == SortType.CUSTOM){
@@ -262,7 +244,6 @@ class DetailFragmentAdapter @Inject constructor(
 
     override val onSwipeAction = { position: Int ->
         viewModel.removeFromPlaylist(controller.getItem(position))
-                .subscribe({}, Throwable::printStackTrace)
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {

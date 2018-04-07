@@ -15,7 +15,6 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
@@ -48,17 +47,7 @@ class TabFragmentAdapter @Inject constructor(
                         mediaProvider.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
-                        @Suppress("NON_EXHAUSTIVE_WHEN")
-                        when (item.mediaId.category){
-                            MediaIdCategory.ARTISTS -> {
-                                viewModel.insertArtistLastPlayed(item.mediaId)
-                                        .subscribe({}, Throwable::printStackTrace)
-                            }
-                            MediaIdCategory.ALBUMS -> {
-                                viewModel.insertAlbumLastPlayed(item.mediaId)
-                                        .subscribe({}, Throwable::printStackTrace)
-                            }
-                        }
+                        viewModel.insertLastPlayed(item.mediaId)
                     }
                 }
                 viewHolder.setOnLongClickListener(controller) { item, _, _ ->

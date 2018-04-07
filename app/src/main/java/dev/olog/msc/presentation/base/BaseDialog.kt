@@ -9,8 +9,11 @@ import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 
 abstract class BaseDialog : BaseDialogFragment() {
+
+    private var disposable: Disposable? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -21,11 +24,11 @@ abstract class BaseDialog : BaseDialogFragment() {
                 .setMessage(message(application))
                 .setNegativeButton(negativeButtonMessage(application), null)
                 .setPositiveButton(positiveButtonMessage(application), { dialog, which ->
-                    positiveAction(dialog, which)
+                    disposable = positiveAction(dialog, which)
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnComplete { application.toast(successMessage(application)) }
                             .doOnError { application.toast(failMessage(application)) }
-                            .subscribe()
+                            .subscribe({}, Throwable::printStackTrace)
                 })
 
         return builder.makeDialog()

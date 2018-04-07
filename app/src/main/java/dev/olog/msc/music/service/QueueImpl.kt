@@ -1,5 +1,6 @@
 package dev.olog.msc.music.service
 
+import android.annotation.SuppressLint
 import android.support.annotation.CheckResult
 import android.support.annotation.MainThread
 import android.support.v4.math.MathUtils
@@ -191,13 +192,6 @@ class QueueImpl @Inject constructor(
 
         val copy = list.toMutableList()
 
-//        if (repeatMode.isRepeatOne()){
-//            copy.clear()
-//            while (copy.size <= MINI_QUEUE_SIZE){
-//                copy.add(current) //add itself for n times
-//            }
-//        }
-
         if (copy.size < MINI_QUEUE_SIZE && repeatMode.isRepeatAll()){
             while (copy.size <= MINI_QUEUE_SIZE){
                 // add all list for n times
@@ -261,6 +255,7 @@ class QueueImpl @Inject constructor(
         return computePositionInQueue(playingQueue, currentSongPosition)
     }
 
+    @SuppressLint("RxLeakedSubscription")
     fun addQueueItem(songIds: List<Long>) {
         var maxProgressive = playingQueue.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
         maxProgressive += 1

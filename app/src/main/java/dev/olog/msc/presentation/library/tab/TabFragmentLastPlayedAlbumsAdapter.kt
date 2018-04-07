@@ -25,8 +25,7 @@ class TabFragmentLastPlayedAlbumsAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
-            viewModel.insertAlbumLastPlayed(item.mediaId)
-                    .subscribe({}, Throwable::printStackTrace)
+            viewModel.insertLastPlayed(item.mediaId)
         }
         viewHolder.setOnLongClickListener(controller) { item, _, _ ->
             navigator.toDialog(item, viewHolder.itemView)

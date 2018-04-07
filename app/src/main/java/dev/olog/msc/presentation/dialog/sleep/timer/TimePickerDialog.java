@@ -66,6 +66,8 @@ public abstract class TimePickerDialog extends BaseDialogFragment {
 
             mTextColor = a.getColorStateList(R.styleable.BetterPickersDialogFragment_bpTextColor);
             mDialogBackgroundResId = a.getResourceId(R.styleable.BetterPickersDialogFragment_bpDialogBackground, mDialogBackgroundResId);
+
+            a.recycle();
         }
     }
 

@@ -1,5 +1,6 @@
 package dev.olog.msc.data.repository
 
+import android.annotation.SuppressLint
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
@@ -100,6 +101,8 @@ class FavoriteRepository @Inject constructor(
         return Single.fromCallable { favoriteDao.isFavorite(songId) != null }
     }
 
+    // leaks for very small amount of time
+    @SuppressLint("RxLeakedSubscription")
     override fun toggleFavorite() {
         val value = favoriteStatePublisher.value ?: return
         val id = value.songId

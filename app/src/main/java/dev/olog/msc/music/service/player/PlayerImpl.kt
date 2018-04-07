@@ -7,7 +7,6 @@ import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
-import com.crashlytics.android.Crashlytics
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.SimpleExoPlayer
 import dagger.Lazy
@@ -23,6 +22,7 @@ import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.volume.IPlayerVolume
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import javax.inject.Inject
 
@@ -161,9 +161,7 @@ class PlayerImpl @Inject constructor(
             else -> "Unknown: $error"
         }
 
-        try {
-            Crashlytics.log("player error $what")
-        } catch (ex: Exception){}
+        crashlyticsLog("player error $what")
 
         if (BuildConfig.DEBUG) {
             Log.e("Player", "onPlayerError $what")

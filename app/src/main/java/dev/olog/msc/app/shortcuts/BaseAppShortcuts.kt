@@ -1,5 +1,8 @@
 package dev.olog.msc.app.shortcuts
 
+import android.arch.lifecycle.DefaultLifecycleObserver
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.pm.ShortcutInfoCompat
@@ -7,24 +10,35 @@ import android.support.v4.content.pm.ShortcutManagerCompat
 import android.support.v4.graphics.drawable.IconCompat
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.msc.utils.k.extension.toast
+import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 abstract class BaseAppShortcuts(
-        protected val context: Context
+        protected val context: Context,
+        @ProcessLifecycle lifecycle: Lifecycle
 
-) : AppShortcuts {
+) : AppShortcuts, DefaultLifecycleObserver {
+
+    private var disposable : Disposable? = null
+
+    init {
+        lifecycle.addObserver(this)
+    }
 
     override fun addDetailShortcut(mediaId: MediaId, title: String, image: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
-            Completable.create {
+            disposable.unsubscribe()
+            disposable = Completable.create {
 
                 val intent = Intent(context, MainActivity::class.java)
                 intent.action = AppConstants.SHORTCUT_DETAIL
@@ -57,6 +71,10 @@ abstract class BaseAppShortcuts(
 
     private fun onAddedNotSupported(context: Context){
         context.toast(R.string.app_shortcut_add_to_home_screen_not_supported)
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        disposable.unsubscribe()
     }
 
 }

@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.player
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
@@ -71,6 +72,8 @@ class PlayerFragmentAdapter @Inject constructor(
         }
     }
 
+    @SuppressLint("RxLeakedSubscription")
+    // using -> takeUntil(RxView.detaches(view))
     private fun bindPlayerControls(view: View){
         mediaProvider.onMetadataChanged()
                 .takeUntil(RxView.detaches(view))

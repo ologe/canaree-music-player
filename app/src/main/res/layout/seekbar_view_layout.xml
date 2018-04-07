@@ -55,6 +55,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:clickable="true"
+            android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:orientation="vertical">
 

@@ -7,16 +7,18 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.detail.GetDetailTabsVisibilityUseCase
 import dev.olog.msc.domain.interactor.detail.sorting.*
+import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.unsubscribe
-import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.addTo
 
 class DetailFragmentViewModel(
         val mediaId: MediaId,
@@ -29,7 +31,7 @@ class DetailFragmentViewModel(
         private val setSortArrangingUseCase: SetSortArrangingUseCase,
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
-        val getDetailSortDataUseCase: GetDetailSortDataUseCase
+        private val getDetailSortDataUseCase: GetDetailSortDataUseCase
 
 ) : ViewModel() {
 
@@ -45,6 +47,8 @@ class DetailFragmentViewModel(
     }
 
     private val currentCategory = mediaId.category
+
+    private val subscriptions = CompositeDisposable()
 
     val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!.asLiveData()
     private val dataMapLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = DetailLiveData()
@@ -72,12 +76,15 @@ class DetailFragmentViewModel(
 
     override fun onCleared() {
         dataDisposable.unsubscribe()
+        subscriptions.clear()
     }
 
     fun observeData(): LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = dataMapLiveData
 
-    fun artistMediaId() : Maybe<MediaId> {
-        return presenter.artistMediaId()
+    fun artistMediaId(action: (MediaId) -> Unit) {
+        presenter.artistMediaId()
+                .subscribe({ action(it) }, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
     val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
@@ -91,30 +98,54 @@ class DetailFragmentViewModel(
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
-    fun updateSortType(sortType: SortType): Completable {
-        return setSortOrderUseCase.execute(SetSortOrderRequestModel(
-                mediaId, sortType))
+    fun detailSortDataUseCase(mediaId: MediaId, action: (DetailSort) -> Unit){
+        getDetailSortDataUseCase.execute(mediaId)
+                .subscribe(action, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun toggleSortArranging(): Completable {
-        return setSortArrangingUseCase.execute()
+    fun observeSortOrder(action: (SortType) -> Unit) {
+        observeSortOrderUseCase.execute(mediaId)
+                .firstOrError()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ action(it) }, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun observeSortOrder(): Observable<SortType> {
-        return observeSortOrderUseCase.execute(mediaId)
+    fun updateSortOrder(sortType: SortType){
+        setSortOrderUseCase.execute(SetSortOrderRequestModel(mediaId, sortType))
+                .subscribe({ }, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun getSortArranging(): Observable<SortArranging> {
-        return getSortArrangingUseCase.execute()
+    fun toggleSortArranging(){
+        observeSortOrderUseCase.execute(mediaId)
+                .firstOrError()
+                .filter { it != SortType.CUSTOM }
+                .flatMapCompletable { setSortArrangingUseCase.execute() }
+                .subscribe({ }, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
     }
 
     fun moveItemInPlaylist(from: Int, to: Int){
         presenter.moveInPlaylist(from, to)
     }
 
-    fun removeFromPlaylist(item: DisplayableItem): Completable {
-        return presenter.removeFromPlaylist(item)
+    fun removeFromPlaylist(item: DisplayableItem) {
+        presenter.removeFromPlaylist(item)
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
+
+    fun observeSorting(): Observable<Pair<SortType, SortArranging>>{
+        return Observables.combineLatest(
+                observeSortOrderUseCase.execute(mediaId),
+                getSortArrangingUseCase.execute(),
+                { sort, arranging -> Pair(sort, arranging) }
+        )
+    }
+
 
 }
 

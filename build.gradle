@@ -8,7 +8,7 @@ buildscript {
         google_services = '3.1.1'
         fabric = '1.25.1'
         firebase_plugin = '1.1.5'
-        lintVersion = '26.0.0-beta6'
+        lintVersion = '26.1.0-beta1'
     }
 
 
@@ -60,8 +60,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 4270330
-    versionName = '0.330'
+    versionCode = 4270331
+    versionName = '0.331'
 
     // App dependencies
     support_library = '27.1.1'

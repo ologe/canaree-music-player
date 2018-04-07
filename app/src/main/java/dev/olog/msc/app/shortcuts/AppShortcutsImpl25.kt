@@ -1,5 +1,6 @@
 package dev.olog.msc.app.shortcuts
 
+import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
@@ -11,15 +12,17 @@ import androidx.core.content.systemService
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.msc.utils.isNougat_MR1
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
 open class AppShortcutsImpl25(
-        context: Context
+        context: Context,
+        @ProcessLifecycle lifecycle: Lifecycle
 
-) : BaseAppShortcuts(context) {
+) : BaseAppShortcuts(context, lifecycle) {
 
     protected val shortcutManager : ShortcutManager = context.systemService<ShortcutManager>()
 

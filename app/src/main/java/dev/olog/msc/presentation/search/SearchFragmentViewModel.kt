@@ -12,7 +12,9 @@ import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Singles
+import io.reactivex.rxkotlin.addTo
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import me.xdrop.fuzzywuzzy.model.ExtractedResult
 
@@ -33,6 +35,8 @@ class SearchFragmentViewModel(
 ) : ViewModel() {
 
     private var isFirstAccess = true
+
+    private val subscriptions = CompositeDisposable()
 
     fun doOnFirstAccess(func: () -> Unit){
         if (isFirstAccess){
@@ -102,18 +106,22 @@ class SearchFragmentViewModel(
         return insertSearchSongUseCase.execute(mediaId.leaf!!)
     }
 
-    fun insertAlbumToRecent(mediaId: MediaId): Completable {
+    fun insertAlbumToRecent(mediaId: MediaId) {
         val albumId = mediaId.categoryValue.toLong()
-        return insertSearchAlbumUseCase.execute(albumId)
+        insertSearchAlbumUseCase.execute(albumId)
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun insertArtistToRecent(mediaId: MediaId): Completable {
+    fun insertArtistToRecent(mediaId: MediaId) {
         val artistId = mediaId.categoryValue.toLong()
-        return insertSearchArtistUseCase.execute(artistId)
+        insertSearchArtistUseCase.execute(artistId)
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun deleteFromRecent(mediaId: MediaId): Completable{
-        return when (mediaId.category) {
+    fun deleteFromRecent(mediaId: MediaId){
+        when (mediaId.category) {
             MediaIdCategory.ALBUMS -> {
                 val albumId = mediaId.categoryValue.toLong()
                 deleteRecentSearchAlbumUseCase.execute(albumId)
@@ -123,14 +131,21 @@ class SearchFragmentViewModel(
                 deleteRecentSearchArtistUseCase.execute(artistId)
             }
             MediaIdCategory.SONGS -> {
-                return deleteRecentSearchSongUseCase.execute(mediaId.leaf!!)
+                deleteRecentSearchSongUseCase.execute(mediaId.leaf!!)
             }
             else -> throw IllegalArgumentException("invalid media id $mediaId")
-        }
+        }.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
     }
 
-    fun clearRecentSearches(): Completable {
-        return clearRecentSearchesUseCase.execute()
+    fun clearRecentSearches() {
+        clearRecentSearchesUseCase.execute()
+                .subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+    }
+
+    override fun onCleared() {
+        subscriptions.clear()
     }
 
 }

@@ -20,6 +20,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 abstract class BaseEditTextDialog : BaseDialogFragment() {
@@ -29,6 +30,8 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
 
     private lateinit var clearButton : View
     private lateinit var editText : TextInputEditText
+
+    private var disposable: Disposable? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -56,16 +59,16 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
                     } else if (!isStringValid(editTextString)){
                         showError(editTextLayout, errorMessageForInvalidForm(editTextString))
                     } else {
-                        positiveAction(editTextString)
+                        disposable = positiveAction(editTextString)
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .doOnComplete { application.toast(successMessage(application, editTextString)) }
                                 .doOnError { application.toast(negativeMessage(application, editTextString)) }
-                                .subscribe()
+                                .subscribe({}, Throwable::printStackTrace)
                         dismiss()
                     }
                 }
 
-        hideKeyboardDisposable = Observable.timer(500, TimeUnit.MILLISECONDS)
+        hideKeyboardDisposable = Observable.timer(500, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ ImeUtils.showIme(editText) }, Throwable::printStackTrace)
 
@@ -79,7 +82,7 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
         editTextLayout.isErrorEnabled = true
 
         errorDisposable.unsubscribe()
-        errorDisposable = Single.timer(2, TimeUnit.SECONDS)
+        errorDisposable = Single.timer(2, TimeUnit.SECONDS, Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ editTextLayout.isErrorEnabled = false }, Throwable::printStackTrace)
     }

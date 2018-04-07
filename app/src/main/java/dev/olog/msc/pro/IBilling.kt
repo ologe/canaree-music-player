@@ -45,6 +45,8 @@ class BillingImpl @Inject constructor(
     private val premiumPublisher = BehaviorSubject.createDefault(DEFAULT_PREMIUM)
     private val trialPublisher = BehaviorSubject.createDefault(DEFAULT_TRIAL)
 
+    private var setDefaultDisposable: Disposable? = null
+
     private var isTrialState by Delegates.observable(DEFAULT_TRIAL, { _, _, new ->
         trialPublisher.onNext(new)
         if (!isPremium()){
@@ -72,7 +74,7 @@ class BillingImpl @Inject constructor(
 
         if (isStillTrial()){
             isTrialState = true
-            countDownDisposable = Observable.interval(5, TimeUnit.MINUTES)
+            countDownDisposable = Observable.interval(5, TimeUnit.MINUTES, Schedulers.computation())
                     .map { isStillTrial() }
                     .doOnNext { isTrialState = it }
                     .takeWhile { it }
@@ -91,6 +93,7 @@ class BillingImpl @Inject constructor(
             billingClient.endConnection()
         }
         countDownDisposable.unsubscribe()
+        setDefaultDisposable.unsubscribe()
     }
 
     private fun startConnection(func: (() -> Unit)?){
@@ -157,7 +160,8 @@ class BillingImpl @Inject constructor(
     }
 
     private fun setDefault(){
-        appPrefsUseCase.setDefault()
+        setDefaultDisposable.unsubscribe()
+        setDefaultDisposable = appPrefsUseCase.setDefault()
                 .andThen(musicPreferencesUseCase.setDefault())
                 .subscribeOn(Schedulers.io())
                 .subscribe({}, Throwable::printStackTrace)

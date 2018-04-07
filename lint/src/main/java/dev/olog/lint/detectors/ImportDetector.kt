@@ -24,14 +24,15 @@ abstract class ImportDetector : Detector(), Detector.UastScanner {
     protected abstract fun visitImport(context: JavaContext, uImportStatement: UImportStatement)
 
     protected fun report(context: JavaContext, issue: Issue, uImportStatement: UImportStatement, message: String){
-//        val fix = fix() todo not working
-//                .replace()
-//                .text(uImportStatement.asSourceString())
-//                .reformat(true)
-//                .with("")
-//                .build()
+        val fix = fix()
 
-        context.report(issue, uImportStatement, context.getLocation(uImportStatement), message)
+                .replace()
+                .text(uImportStatement.asSourceString())
+                .reformat(true)
+                .with("")
+                .build()
+
+        context.report(issue, uImportStatement, context.getLocation(uImportStatement), message, fix)
     }
 
     protected val JavaContext.packageName: String

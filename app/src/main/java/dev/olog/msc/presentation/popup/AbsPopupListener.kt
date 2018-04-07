@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.popup
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -25,6 +26,7 @@ abstract class AbsPopupListener(
 
     val playlists: List<Playlist> = getPlaylistBlockingUseCase.execute()
 
+    @SuppressLint("RxLeakedSubscription")
     protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId, listSize: Int, title: String){
         playlists.firstOrNull { it.id == itemId.toLong() }?.run {
             addToPlaylistUseCase.execute(this to mediaId)

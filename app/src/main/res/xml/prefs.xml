@@ -42,6 +42,7 @@
             android:defaultValue="false" />
 
 
+        <!--suppress AndroidElementNotAllowed -->
         <dev.olog.msc.presentation.widget.prefs.SeekBarPreferenceCompat
             android:key="@string/prefs_cross_fade_key"
             android:title="@string/prefs_cross_fade_title"

@@ -43,7 +43,6 @@ class SearchFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
                     mediaProvider.playFromMediaId(item.mediaId)
                     viewModel.insertSongToRecent(item.mediaId)
-                            .subscribe({}, Throwable::printStackTrace)
 
                 }
                 viewHolder.setOnLongClickListener(controller) { item ,_, _ ->
@@ -57,7 +56,6 @@ class SearchFragmentAdapter @Inject constructor(
             R.layout.item_search_clear_recent -> {
                 viewHolder.setOnClickListener(controller) { _, _, _ ->
                     viewModel.clearRecentSearches()
-                            .subscribe({}, Throwable::printStackTrace)
                 }
             }
             R.layout.item_search_recent,
@@ -74,7 +72,6 @@ class SearchFragmentAdapter @Inject constructor(
                 }
                 viewHolder.setOnClickListener(R.id.clear, controller) { item, _, _ ->
                     viewModel.deleteFromRecent(item.mediaId)
-                            .subscribe({}, Throwable::printStackTrace)
                 }
             }
         }
