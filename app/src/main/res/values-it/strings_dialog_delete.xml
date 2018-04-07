@@ -9,13 +9,13 @@
     <string name="song_x_deleted">%1$s rimosso dal dispositivo</string>
 
     <plurals name="delete_xx_songs_from_y">
-        <item quantity="one"><![CDATA[Rimuovere <b>%1$d brano</b> da <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Rimuovere <b>%1$d brani</b> da <b>%2$s</b>?]]></item>
+        <item quantity="one"><![CDATA[Rimuovere <b>%1$d brano</b> dal dispositivo?]]></item>
+        <item quantity="other"><![CDATA[Rimuovere <b>%1$d brani</b> dal dispositivo?]]></item>
     </plurals>
 
     <plurals name="xx_songs_deleted_from_y">
-        <item quantity="one"><![CDATA[<b>%1$d brano</b> cancellato da <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[<b>%1$d brani</b> cancellati da <b>%2$s</b>?]]></item>
+        <item quantity="one"><![CDATA[<b>%1$d brano</b> rimosso dal dispositivo]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d brani</b> rimossi dal dispositivo]]></item>
     </plurals>
 
 

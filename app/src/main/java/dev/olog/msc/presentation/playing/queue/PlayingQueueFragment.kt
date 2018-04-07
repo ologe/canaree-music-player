@@ -52,6 +52,7 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        postponeEnterTransition()
 
         val mediaProvider = (activity as MediaProvider)
 
@@ -65,13 +66,14 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
                 .asLiveData()
                 .subscribe(this, subHeader::setText)
 
-        listenToFirstRealEmission {
+        viewModel.data.subscribe(this, adapter::updateDataSet)
+
+        adapter.onFirstEmission {
             val songId = viewModel.getCurrentSongId()
             adapter.updateCurrentPosition(songId)
             layoutManager.scrollToPositionWithOffset(adapter.currentPosition, ctx.dip(20))
+            startPostponedEnterTransition()
         }
-
-        viewModel.data.subscribe(this, adapter::updateDataSet)
 
         viewModel.observeCurrentSongId
                 .subscribe(this, adapter::updateCurrentPosition)
@@ -102,18 +104,6 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
     }
 
     override fun isAnimating(): Boolean = safeTransition.isAnimating
-
-    private fun listenToFirstRealEmission(func: () -> Unit){
-        var counter = -1
-        adapter.setAfterDataChanged({
-            counter++
-            if (counter == 1){
-                adapter.setAfterDataChanged(null)
-                func()
-            }
-
-        }, false)
-    }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
 

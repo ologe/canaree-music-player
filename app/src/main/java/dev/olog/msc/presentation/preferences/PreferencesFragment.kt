@@ -57,8 +57,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         }
         blacklist.setOnPreferenceClickListener {
             act.fragmentTransaction {
-                add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
                 setReorderingAllowed(true)
+                add(BlacklistFragment.newInstance(), BlacklistFragment.TAG)
             }
             true
         }

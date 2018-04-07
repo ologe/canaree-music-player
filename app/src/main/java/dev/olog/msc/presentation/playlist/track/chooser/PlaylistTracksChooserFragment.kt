@@ -80,6 +80,12 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        postponeEnterTransition()
+
+        adapter.onFirstEmission {
+            startPostponedEnterTransition()
+        }
+
         viewModel.observeSelectedCount()
                 .subscribe(this, { size ->
                     val text = when (size){

@@ -47,5 +47,4 @@ class BlacklistFragmentAdapter @Inject constructor()
         notifyDataSetChanged()
     }
 
-
 }

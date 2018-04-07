@@ -24,13 +24,14 @@ abstract class AbsAdapter<Model : BaseModel>(
 
     private var afterDataChanged : ((List<*>) -> Unit)? = null
 
+    private val firstEmission = AdapterFirstEmission(lifecycle)
+
     fun setAfterDataChanged(func : ((List<*>) -> Unit)?, skipInitialValue: Boolean = true){
         this.afterDataChanged = func
         if (!skipInitialValue){
             afterDataChanged?.invoke(controller.getAll())
         }
     }
-
 
     init {
         lifecycle.addObserver(this)
@@ -61,7 +62,7 @@ abstract class AbsAdapter<Model : BaseModel>(
 
     override fun getItemViewType(position: Int) = controller.getItem(position).type
 
-    override fun onResume(owner: LifecycleOwner) {
+    override fun onStart(owner: LifecycleOwner) {
         dataDisposable = controller.handleNewData(extendAreItemTheSame)
                 .subscribe({ (wasEmpty, callback) ->
 
@@ -71,12 +72,17 @@ abstract class AbsAdapter<Model : BaseModel>(
                         callback.dispatchUpdatesTo(this)
                     }
 
+                    firstEmission.emitIfFirst()
                     afterDataChanged?.invoke(controller.getAll())
                 })
     }
 
-    override fun onPause(owner: LifecycleOwner) {
+    override fun onStop(owner: LifecycleOwner) {
         dataDisposable.unsubscribe()
+    }
+
+    fun onFirstEmission(func: () -> Unit){
+        firstEmission.setAction(func)
     }
 
     fun updateDataSet(data: Any){

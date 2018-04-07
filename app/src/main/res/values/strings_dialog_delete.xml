@@ -8,13 +8,13 @@
     <string name="song_x_deleted">%1$s deleted</string>
 
     <plurals name="delete_xx_songs_from_y">
-        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from <b>%2$s</b>?]]></item>
+        <item quantity="one"><![CDATA[Delete <b>%1$d song</b> from device?]]></item>
+        <item quantity="other"><![CDATA[Delete <b>%1$d songs</b> from device?]]></item>
     </plurals>
 
     <plurals name="xx_songs_deleted_from_y">
-        <item quantity="one"><![CDATA[<b>%1$d song</b> deleted from <b>%2$s</b>?]]></item>
-        <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from <b>%2$s</b>?]]></item>
+        <item quantity="one"><![CDATA[<b>%1$d song</b> deleted from device]]></item>
+        <item quantity="other"><![CDATA[<b>%1$d songs</b> deleted from device]]></item>
     </plurals>
 
 </resources>

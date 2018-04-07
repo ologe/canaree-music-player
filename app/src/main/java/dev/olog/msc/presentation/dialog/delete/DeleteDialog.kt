@@ -73,7 +73,7 @@ class DeleteDialog: BaseDialog() {
         return when {
             mediaId.isAll || mediaId.isLeaf -> getString(R.string.delete_song_y, itemTitle)
             mediaId.isPlaylist -> getString(R.string.delete_playlist_y, itemTitle)
-            else -> context!!.resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize, itemTitle)
+            else -> context!!.resources.getQuantityString(R.plurals.delete_xx_songs_from_y, listSize, listSize)
         }
     }
 
