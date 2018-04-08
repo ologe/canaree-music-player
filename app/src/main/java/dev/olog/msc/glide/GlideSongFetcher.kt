@@ -27,5 +27,5 @@ class GlideSongFetcher(
         return lastFmGateway.shouldFetchTrackImage(id)
     }
 
-
+    override val threshold: Long = 600L
 }

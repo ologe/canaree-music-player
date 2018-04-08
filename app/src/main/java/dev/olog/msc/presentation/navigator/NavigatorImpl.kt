@@ -25,7 +25,7 @@ import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
 import dev.olog.msc.presentation.dialog.delete.DeleteDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
-import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
+import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
@@ -236,7 +236,9 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     private fun toSleepTimer(){
-        SleepTimerDialog.show(activity.supportFragmentManager)
+        SleepTimerPickerDialogBuilder(activity.supportFragmentManager)
+                .setColorSelected(R.color.item_selected)
+                .show()
     }
 
     private fun toEqualizer(context: Context){

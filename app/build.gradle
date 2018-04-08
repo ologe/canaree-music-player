@@ -141,7 +141,6 @@ dependencies {
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
     implementation "com.github.bumptech.glide:glide:$rootProject.glide"
     kapt "com.github.bumptech.glide:compiler:$rootProject.glide"
-    implementation "com.code-troopers.betterpickers:library:$rootProject.better_pickers"
     implementation "androidx.core:core-ktx:$rootProject.android_ktx"
     implementation "me.xdrop:fuzzywuzzy:$rootProject.fuzzywuzzy"
     implementation "com.google.code.gson:gson:$rootProject.gson"

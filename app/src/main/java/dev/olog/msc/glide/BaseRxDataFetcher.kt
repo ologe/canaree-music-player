@@ -30,8 +30,6 @@ abstract class BaseRxDataFetcher(
         private const val TIMEOUT = 2500
 
         private var counter = AtomicLong(1)
-        // NB: max 5 request per second
-        private const val THRESHOLD = 600L
     }
 
     private var hasIncremented = false
@@ -85,7 +83,7 @@ abstract class BaseRxDataFetcher(
         hasIncremented = true
 
         return Singles.zip(
-                Observable.timer(current * THRESHOLD, TimeUnit.MILLISECONDS)
+                Observable.timer(current * threshold, TimeUnit.MILLISECONDS)
                         .firstOrError()
                         .doOnEvent { _, _ ->
                             hasAlreadyDecremented = true
@@ -116,5 +114,7 @@ abstract class BaseRxDataFetcher(
             : Single<String>
 
     protected abstract fun shouldFetch(): Single<Boolean>
+
+    protected abstract val threshold: Long
 
 }

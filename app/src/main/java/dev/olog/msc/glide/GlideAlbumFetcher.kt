@@ -27,5 +27,5 @@ class GlideAlbumFetcher(
         return lastFmGateway.shouldFetchAlbum(id)
     }
 
-
+    override val threshold: Long = 600
 }

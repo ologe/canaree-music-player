@@ -1,5 +1,6 @@
 package dev.olog.msc.app
 
+import android.app.AlarmManager
 import android.app.Application
 import android.appwidget.AppWidgetProvider
 import android.arch.lifecycle.Lifecycle
@@ -51,6 +52,11 @@ class AppModule(private val app: App) {
     @Provides
     fun provideConnectivityManager(): ConnectivityManager {
         return app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
+    @Provides
+    fun provideAlarmManager(): AlarmManager {
+        return app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
 }

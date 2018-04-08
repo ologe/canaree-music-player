@@ -28,7 +28,8 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
 
-        private const val NEXT_SLEEP = "$TAG.NEXT_SLEEP"
+        private const val SLEEP_TIME = "$TAG.SLEEP_TIME"
+        private const val SLEEP_FROM = "$TAG.FROM_WHEN"
 
         private const val DETAIL_SORT_FOLDER_ORDER = "$TAG.DETAIL_SORT_FOLDER_ORDER"
         private const val DETAIL_SORT_PLAYLIST_ORDER = "$TAG.DETAIL_SORT_PLAYLIST_ORDER"
@@ -233,15 +234,22 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun resetSleepTimer() {
-        setSleepTimer(-1L)
+        setSleepTimer(-1L, -1L)
     }
 
-    override fun setSleepTimer(millis: Long) {
-        preferences.edit { putLong(NEXT_SLEEP, millis) }
+    override fun setSleepTimer(sleepFrom: Long, sleepTime: Long) {
+        preferences.edit {
+            putLong(SLEEP_FROM, sleepFrom)
+            putLong(SLEEP_TIME, sleepTime)
+        }
     }
 
-    override fun getSleepTimer(): Long {
-        return preferences.getLong(NEXT_SLEEP, -1L)
+    override fun getSleepTime(): Long {
+        return preferences.getLong(SLEEP_TIME, -1)
+    }
+
+    override fun getSleepFrom(): Long {
+        return preferences.getLong(SLEEP_FROM, -1)
     }
 
     override fun observePlayerControlsVisibility(): Observable<Boolean> {

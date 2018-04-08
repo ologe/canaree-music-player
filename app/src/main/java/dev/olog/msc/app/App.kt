@@ -1,10 +1,7 @@
 package dev.olog.msc.app
 
 import android.app.AlarmManager
-import android.content.Context
 import android.support.v7.preference.PreferenceManager
-import com.facebook.stetho.Stetho
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -12,7 +9,7 @@ import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerDialog
+import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
@@ -25,6 +22,8 @@ class App : DaggerApplication() {
     @Suppress("unused") @Inject lateinit var keepDataAlive: KeepDataAlive
 
     @Inject lateinit var lastFmGateway: LastFmGateway
+    @Inject lateinit var alarmManager: AlarmManager
+    @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
 
     override fun onCreate() {
         super.onCreate()
@@ -36,9 +35,9 @@ class App : DaggerApplication() {
 
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
-            Stetho.initializeWithDefaults(this)
-            LeakCanary.install(this)
-            StrictMode.initialize()
+//            Stetho.initializeWithDefaults(this)
+//            LeakCanary.install(this)
+//            StrictMode.initialize()
 //            Traceur.enableLogging()
         }
     }
@@ -49,8 +48,7 @@ class App : DaggerApplication() {
     }
 
     private fun resetSleepTimer(){
-        SleepTimerDialog.resetTimer(this)
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        sleepTimerUseCase.reset()
         alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 

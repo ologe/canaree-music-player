@@ -68,7 +68,7 @@ class LastFmRepoTrack @Inject constructor(
                 .doOnSuccess { cache(it) }
                 .onErrorResumeNext { lastFmService.searchTrack(trackTitle, trackArtist)
                         .map { it.toDomain(trackId) }
-                        .flatMap { result -> lastFmService.getTrackInfo(trackTitle, trackArtist)
+                        .flatMap { result -> lastFmService.getTrackInfo(result.title, result.artist)
                                 .map { it.toDomain(trackId) }
                                 .onErrorReturnItem(result)
                         }

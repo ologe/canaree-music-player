@@ -75,7 +75,6 @@ ext {
     sliding_panel = '3.4.0'
     lottie = '2.5.1'
     sql_brite = '3.2.0'
-    better_pickers = '3.1.0'
     billing = '1.0'
     android_ktx = '0.3'
     retrofit = '2.4.0'

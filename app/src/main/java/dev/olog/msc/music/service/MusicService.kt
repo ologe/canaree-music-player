@@ -3,7 +3,6 @@ package dev.olog.msc.music.service
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.SearchManager
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -43,6 +42,7 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var notification: MusicNotificationManager
     @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
     @Inject lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
+    @Inject lateinit var alarmManager: AlarmManager
 
     private val subsriptions = CompositeDisposable()
 
@@ -117,7 +117,6 @@ class MusicService : BaseMusicService() {
 
     private fun resetSleepTimer(){
         sleepTimerUseCase.reset()
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 

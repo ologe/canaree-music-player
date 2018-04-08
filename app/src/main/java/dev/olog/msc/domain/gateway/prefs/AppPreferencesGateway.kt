@@ -23,8 +23,9 @@ interface AppPreferencesGateway : Sorting {
     fun setBlackList(set: Set<String>)
 
     fun resetSleepTimer()
-    fun setSleepTimer(millis: Long)
-    fun getSleepTimer() : Long
+    fun setSleepTimer(sleepFrom: Long, sleepTime: Long)
+    fun getSleepTime() : Long
+    fun getSleepFrom() : Long
 
     fun observePlayerControlsVisibility(): Observable<Boolean>
 

@@ -91,7 +91,7 @@
     <!--used equalizer-->
     <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
     <string name="prefs_used_equalizer_title">Equalizer</string>
-    <string name="prefs_used_equalizer_summary_on">Use Next equalizer</string>
+    <string name="prefs_used_equalizer_summary_on">Use app equalizer</string>
     <string name="prefs_used_equalizer_summary_off">Use system equalizer (if any)</string>
 
 

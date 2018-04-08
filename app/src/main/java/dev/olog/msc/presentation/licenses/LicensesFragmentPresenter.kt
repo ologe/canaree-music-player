@@ -98,9 +98,9 @@ class LicensesFragmentPresenter @Inject constructor(
 
     private val BETTER_PICKERS = LicenseModel(
             R.layout.item_license,
-            MediaId.headerId("betterPickers"),
-            "BetterPickers", "https://github.com/code-troopers/android-betterpickers",
-            apache())
+            MediaId.headerId("ScrollHmsPicker"),
+            "ScrollHmsPicker", "https://github.com/DeweyReed/ScrollHmsPicker",
+            mit())
 
     private val ANDROID_KTX = LicenseModel(
             R.layout.item_license,
@@ -174,6 +174,14 @@ class LicensesFragmentPresenter @Inject constructor(
     private fun apache(): String {
         return context.assets
                 .open("licenses/apache.txt")
+                .bufferedReader()
+                .use { it.readText() }
+//                .replace("{year}", year)
+    }
+
+    private fun mit(): String {
+        return context.assets
+                .open("licenses/mit.txt")
                 .bufferedReader()
                 .use { it.readText() }
 //                .replace("{year}", year)

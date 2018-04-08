@@ -26,4 +26,6 @@ class GlideArtistFetcher(
     override fun shouldFetch(): Single<Boolean> {
         return lastFmGateway.shouldFetchArtist(id)
     }
+
+    override val threshold: Long = 250
 }

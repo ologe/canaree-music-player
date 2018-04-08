@@ -35,4 +35,10 @@ object TimeUtils {
         }
     }
 
+    fun timeAsMillis(hours: Int, minutes: Int, seconds: Int): Long {
+        return TimeUnit.HOURS.toMillis(hours.toLong()) +
+                TimeUnit.MINUTES.toMillis(minutes.toLong()) +
+                TimeUnit.SECONDS.toMillis(seconds.toLong())
+    }
+
 }
