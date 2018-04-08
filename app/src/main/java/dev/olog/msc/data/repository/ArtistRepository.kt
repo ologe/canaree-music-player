@@ -28,8 +28,8 @@ class ArtistRepository @Inject constructor(
 
     private fun queryAllData(): Observable<List<Artist>> {
         return rxContentResolver.createQuery(
-                MEDIA_STORE_URI, arrayOf("count(*)"), null,
-                null, null, true
+                MEDIA_STORE_URI, arrayOf("count(*) as size"), null,
+                null, " size ASC LIMIT 1", true
         ).mapToOne { 0 }
                 .flatMap { songGateway.getAll() }
                 .map { mapToArtists(it) }

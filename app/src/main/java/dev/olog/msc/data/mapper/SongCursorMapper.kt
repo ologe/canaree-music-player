@@ -8,6 +8,7 @@ import androidx.core.database.getLong
 import androidx.core.database.getString
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.utils.TrackTitleUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import java.io.File
 
@@ -20,7 +21,7 @@ fun Cursor.toSong(): Song {
     val path = getString(MediaStore.MediaColumns.DATA)
     val folder = extractFolder(path)
 
-    val (title, isExplicit, isRemix) = adjustTitle(getString(MediaStore.MediaColumns.TITLE))
+    val (title, isExplicit, isRemix) = TrackTitleUtils.adjust(getString(MediaStore.MediaColumns.TITLE))
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
     val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
@@ -65,69 +66,3 @@ private fun adjustAlbum(album: String, folder: String): String {
     }
 }
 
-private fun adjustTitle(title: String): Triple<String, Boolean, Boolean> {
-    val builder = StringBuilder(title)
-
-    var isExplicit = false
-    var isRemix = false
-
-    var startRound = builder.indexOf("(")
-    var startSquare = builder.indexOf("[")
-    var start: Int
-    if (startRound > -1 && startSquare > -1) {
-        start = Math.min(startRound, startSquare)
-    } else if (startRound > -1) {
-        start = startRound
-    } else {
-        start = startSquare
-    }
-
-    var endRound: Int
-    var endSquare: Int
-    var end: Int
-
-    while (start > 0) {
-        endRound = builder.indexOf(")", start) + 1
-        endSquare = builder.indexOf("]", start) + 1
-        if (endRound > start && endSquare > start) {
-            end = Math.min(endRound, endSquare)
-        } else if (endRound > start) {
-            end = endRound
-        } else {
-            end = endSquare
-        }
-
-        if (end > start) {
-
-            val substring = builder.toString().toLowerCase().substring(start, end)
-
-            val canDelete = substring.contains("official") || substring.contains("lyrics") ||
-                    substring.contains("audio") || substring.contains("video") || substring.contains("hd")
-
-            if (canDelete) {
-                builder.replace(start, end, "")
-
-            } else if (substring.contains("explicit")) {
-                builder.replace(start, end, "")
-                isExplicit = true
-            } else if (substring.contains("remix")) {
-                builder.replace(start, end, "")
-                isRemix = true
-            } else {
-                start = end
-            }
-
-            startRound = builder.indexOf("(", start)
-            startSquare = builder.indexOf("[", start)
-            if (startRound > start && startSquare > start) {
-                start = Math.min(startRound, startSquare)
-            } else if (startRound > start) {
-                start = startRound
-            } else {
-                start = startSquare
-            }
-        }
-    }
-
-    return Triple(builder.toString(), isExplicit, isRemix)
-}

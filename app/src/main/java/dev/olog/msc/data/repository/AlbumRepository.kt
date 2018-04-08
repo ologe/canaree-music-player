@@ -28,12 +28,11 @@ class AlbumRepository @Inject constructor(
 
     private fun queryAllData(): Observable<List<Album>> {
         return rxContentResolver.createQuery(
-                MEDIA_STORE_URI, arrayOf("count(*)"), null,
-                null, null, true
+                MEDIA_STORE_URI, arrayOf("count(*) as size"), null,
+                null, " size ASC LIMIT 1", true
         ).mapToOne { 0 }
                 .flatMap { songGateway.getAll() }
                 .map { songList ->
-
                     songList.asSequence()
                             .filter { it.album != AppConstants.UNKNOWN }
                             .distinctBy { it.albumId }

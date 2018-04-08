@@ -53,8 +53,7 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS, SORT_ORDER, true
         ).mapToList { it.toSong() }
                 .map { removeBlacklisted(it) }
-//                .map { updateImages(it) }
-                .onErrorReturnItem(listOf())
+                .onErrorReturn { listOf() }
     }
 
     private fun removeBlacklisted(original: List<Song>): List<Song>{
@@ -64,19 +63,6 @@ class SongRepository @Inject constructor(
         }
         return original
     }
-
-//    private fun updateImages(original: List<Song>): List<Song>{
-//        val (albumImages, songImages) = lastFmGateway.getAllImages()
-//                .sortedBy { it.id }
-//                .partition { it.isAlbum }
-//
-//        return original.map { song ->
-//            val img = albumImages.firstOrNull { it.id == song.albumId }?.image ?:
-//                songImages.firstOrNull { it.id == song.id }?.image ?: song.image
-//
-//            song.copy(image = img)
-//        }
-//    }
 
     private val cachedData = queryAllData()
             .replay(1)
