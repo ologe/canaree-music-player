@@ -11,13 +11,17 @@ fun Throwable.printStackTraceOnDebug(){
 
 fun Throwable.logStackStace(){
     if (!BuildConfig.DEBUG){
-        Crashlytics.logException(this)
+        try {
+            Crashlytics.logException(this)
+        } catch (ex: Exception){}
     }
     this.printStackTrace()
 }
 
 fun crashlyticsLog(msg: String){
     if (!BuildConfig.DEBUG){
-        Crashlytics.log(msg)
+        try {
+            Crashlytics.log(msg)
+        } catch (ex: Exception){}
     }
 }

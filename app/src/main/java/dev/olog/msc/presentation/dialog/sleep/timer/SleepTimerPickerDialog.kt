@@ -12,10 +12,12 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.act
+import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -44,13 +46,13 @@ class SleepTimerPickerDialog : ScrollHmsPickerDialog(), ScrollHmsPickerDialog.Hm
         toggleButtons(sleepTime > 0)
 
         if (sleepTime > 0){
-            countDownDisposable = Observable.interval(1, TimeUnit.SECONDS)
+            countDownDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
                     .map { sleepTime - (System.currentTimeMillis() - sleepFrom) }
                     .takeWhile { it >= 0L }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         setTimeInMilliseconds(it, true)
-                    }, Throwable::printStackTrace, {
+                    }, Throwable::logStackStace, {
                         resetPersistedValues()
                         toggleButtons(false)
                     })

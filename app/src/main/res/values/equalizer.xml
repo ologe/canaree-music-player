@@ -19,9 +19,9 @@
     <dimen name="eq_bar_band_text_size">9dp</dimen>
 
     <!--knob-->
-    <color name="radial_knob_arc_bg">#4e5052</color>
+    <color name="radial_knob_arc_bg">@color/grey600</color>
     <color name="radial_knob_arc_bg_disabled">#6c6c6c</color>
-    <color name="highlight">#cc8f8f8f</color>
+    <color name="highlight">@color/accent</color>
 
     <dimen name="radial_text_size">18dp</dimen>
     <dimen name="radial_knob_stroke">22dp</dimen>

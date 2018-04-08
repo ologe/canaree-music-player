@@ -56,7 +56,7 @@ class GenreRepository @Inject constructor(
             val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
             val size = CommonQuery.getSize(contentResolver, uri)
             it.toGenre(context, size)
-        }.onErrorReturn { listOf() }
+        }.onErrorReturnItem(listOf())
     }
 
     private val cachedData = queryAllData()

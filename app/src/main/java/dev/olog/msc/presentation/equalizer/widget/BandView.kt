@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
+import dev.olog.msc.presentation.equalizer.ResizeAnimation
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.setPaddingBottom
@@ -77,6 +78,7 @@ class BandView (
         currentLevel.visibility = View.GONE
         currentLevel.setSingleLine(true)
         currentLevel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 8f)
+        currentLevel.gravity = Gravity.CENTER_HORIZONTAL
         currentLevel.scaleX = 1.5f
         currentLevel.scaleY = 1.5f
         currentLevel.setPaddingBottom(context.dip(2))
@@ -104,7 +106,7 @@ class BandView (
                 viewTreeObserver.removeOnPreDrawListener(this)
                 val height = (1 - EqHelper.projectY(level)) * (height - topMargin)
                 posY = height
-                updateHeight(height.toInt())
+                updateHeight(height.toInt(), false)
                 return false
             }
         })
@@ -132,15 +134,15 @@ class BandView (
 
         updateBand(level)
 
-        val text = if (level > 0f) {
-            "+" + level.toString()
-        } else {
-            level.toString()
+        val text = when {
+            level > 0f -> "+$level"
+            level == 0f -> "$level"
+            else -> "$level"
         }
         currentLevel.text = text.substring(0, text.indexOf(".") + 2)
 
         val height = (1 - EqHelper.projectY(level)) * (height - topMargin)
-        updateHeight(height.toInt())
+        updateHeight(height.toInt(), false)
     }
 
     private fun endInteraction(){
@@ -154,10 +156,17 @@ class BandView (
         view.scaleX = scaleX
     }
 
-    private fun updateHeight(height: Int){
-        val layoutParams = view.layoutParams
-        layoutParams.height = MathUtils.clamp(height, topMargin / 2, getHeight() - topMargin / 2)
-        view.layoutParams = layoutParams
+    private fun updateHeight(height: Int, animate: Boolean){
+        val targetHeight = MathUtils.clamp(height, topMargin / 2, getHeight() - topMargin / 2)
+
+        if (animate) {
+            val resizeAnimation = ResizeAnimation(view, targetHeight - view.height)
+            resizeAnimation.duration = 300
+            view.startAnimation(resizeAnimation)
+        } else {
+            view.layoutParams.height = targetHeight
+            view.requestLayout()
+        }
     }
 
     private fun updateBand(level: Float){
@@ -172,7 +181,7 @@ class BandView (
         if (bandIndex == band) {
             val height = (1 - EqHelper.projectY(level)) * (height - topMargin)
             posY = height
-            updateHeight(height.toInt())
+            updateHeight(height.toInt(), true)
         }
     }
 }

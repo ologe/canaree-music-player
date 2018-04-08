@@ -55,7 +55,7 @@
             tools:layout_height="10dp"
             tools:layout_width="10dp"
             app:currentPageIndicatorColor="@color/dark_grey"
-            app:pageIndicatorColor="@color/grey600"
+            app:pageIndicatorColor="@color/light_grey"
             app:dotDiameter="5dp"
             app:dotGap="5dp"
             android:layout_marginTop="8dp"/>
@@ -75,19 +75,28 @@
             android:visibility="invisible"
             tools:visibility="visible"/>
 
+        <View
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@+id/presetName"
+            app:layout_constraintBottom_toBottomOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="@+id/band5"
+            app:layout_constraintStart_toStartOf="@+id/band1"
+            android:clickable="true"
+            android:focusable="true"/>
+
         <Switch
             android:id="@+id/powerSwitch"
             app:layout_constraintTop_toBottomOf="@+id/statusBar"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
+            android:checked="false"
             android:padding="16dp"
-            android:thumbTint="@color/dark_grey"
-            android:buttonTint="@android:color/white"
             tools:text="@string/common_switch_off"
-            tools:checked="false"
-            android:switchPadding="8dp"/>
+            android:switchPadding="8dp"
+            tools:checked="true"/>
 
         <View
             android:id="@+id/dottedLine"
@@ -281,7 +290,7 @@
             app:layout_constraintStart_toEndOf="@+id/replayGain"
             app:layout_constraintBottom_toBottomOf="@+id/replayGain"
             android:layout_marginStart="8dp"
-            android:thumbTint="@color/dark_grey"/>
+            tools:checked="true"/>
 
     </android.support.constraint.ConstraintLayout>
 

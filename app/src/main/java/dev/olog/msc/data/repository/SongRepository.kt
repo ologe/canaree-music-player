@@ -54,7 +54,7 @@ class SongRepository @Inject constructor(
         ).mapToList { it.toSong() }
                 .map { removeBlacklisted(it) }
 //                .map { updateImages(it) }
-                .onErrorReturn { listOf() }
+                .onErrorReturnItem(listOf())
     }
 
     private fun removeBlacklisted(original: List<Song>): List<Song>{
@@ -101,7 +101,7 @@ class SongRepository @Inject constructor(
                 SORT_ORDER,
                 false
         ).mapToList { it.toSong() }
-                .onErrorReturn { listOf() }
+                .onErrorReturnItem(listOf())
     }
 
     override fun deleteSingle(songId: Long): Completable {

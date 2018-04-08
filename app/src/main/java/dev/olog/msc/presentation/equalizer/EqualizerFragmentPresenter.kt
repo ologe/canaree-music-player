@@ -16,7 +16,9 @@ class EqualizerFragmentPresenter @Inject constructor(
         private val equalizerPrefsUseCase: EqualizerPrefsUseCase
 ) {
 
-    fun getPresets() = equalizer.getPresets()
+    fun getPresets() = try {
+        equalizer.getPresets()
+    } catch (ex: Exception){ listOf("Error") }
 
     fun getCurrentPreset() = equalizer.getCurrentPreset()
 

@@ -139,6 +139,10 @@ public class RadialKnob extends View {
         setScaleY(REGULAR_SCALE);
 
         mRectPadding = res.getDimensionPixelSize(R.dimen.radial_rect_padding);
+
+        // elsewhere will not draw current value on start
+        mOn = true;
+
         invalidate();
     }
 
@@ -352,22 +356,19 @@ public class RadialKnob extends View {
 
             }
         });
-        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator animation) {
-                float progress = (Float) animation.getAnimatedValue();
-                mProgress = progress;
-                mLastAngle = mProgress * MAX_DEGREES;
-                if (DEBUG) Log.i(TAG, "onAnimationUpdate(): mProgress: "
-                        + mProgress + ", mLastAngle: " + mLastAngle);
+        mAnimator.addUpdateListener(animation -> {
+            float progress1 = (Float) animation.getAnimatedValue();
+            mProgress = progress1;
+            mLastAngle = mProgress * MAX_DEGREES;
+            if (DEBUG) Log.i(TAG, "onAnimationUpdate(): mProgress: "
+                    + mProgress + ", mLastAngle: " + mLastAngle);
 
-                setProgress(mProgress);
-                if (mOnKnobChangeListener != null) {
-                    mOnKnobChangeListener.onValueChanged(RadialKnob.this,
-                            (int) (progress * mMax), true);
-                }
-                postInvalidate();
+            setProgress(mProgress);
+            if (mOnKnobChangeListener != null) {
+                mOnKnobChangeListener.onValueChanged(RadialKnob.this,
+                        (int) (progress1 * mMax), true);
             }
+            postInvalidate();
         });
         mAnimator.start();
     }
@@ -516,13 +517,11 @@ public class RadialKnob extends View {
             return;
         }
         if (selected) {
-            animate()
-                    .scaleY(RadialKnob.TOUCHING_SCALE)
+            animate().scaleY(RadialKnob.TOUCHING_SCALE)
                     .scaleX(RadialKnob.TOUCHING_SCALE)
                     .setDuration(100);
         } else {
-            animate()
-                    .scaleY(RadialKnob.REGULAR_SCALE)
+            animate().scaleY(RadialKnob.REGULAR_SCALE)
                     .scaleX(RadialKnob.REGULAR_SCALE)
                     .setDuration(100);
         }

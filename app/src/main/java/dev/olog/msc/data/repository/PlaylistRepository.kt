@@ -77,7 +77,7 @@ class PlaylistRepository @Inject constructor(
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
             val size = CommonQuery.getSize(contentResolver, uri)
             it.toPlaylist(context, size)
-        }.onErrorReturn { listOf() }
+        }.onErrorReturnItem(listOf())
     }
 
     private val cachedData = queryAllData()

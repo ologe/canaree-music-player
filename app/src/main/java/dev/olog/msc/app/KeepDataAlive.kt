@@ -53,9 +53,9 @@ class KeepDataAlive @Inject constructor(
         unsubscribe()
 
         disposable = Observables.combineLatest(
-                getAllSongsUseCase.execute().onErrorReturn { listOf() },
-                getAllPlaylistsUseCase.execute().onErrorReturn { listOf() },
-                getAllGenresUseCase.execute().onErrorReturn { listOf() }
+                getAllSongsUseCase.execute().onErrorReturnItem(listOf()),
+                getAllPlaylistsUseCase.execute().onErrorReturnItem(listOf()),
+                getAllGenresUseCase.execute().onErrorReturnItem(listOf())
         ).subscribe({}, Throwable::printStackTrace)
     }
 
