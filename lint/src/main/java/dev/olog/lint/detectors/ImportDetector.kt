@@ -15,8 +15,8 @@ abstract class ImportDetector : Detector(), Detector.UastScanner {
 
     override fun createUastHandler(context: JavaContext): UElementHandler {
         return object : UElementHandler() {
-            override fun visitImportStatement(uImportStatement: UImportStatement) {
-                visitImport(context, uImportStatement)
+            override fun visitImportStatement(node: UImportStatement) {
+                visitImport(context, node)
             }
         }
     }
