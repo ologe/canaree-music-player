@@ -21,8 +21,16 @@
 #-renamesourcefileattribute SourceFile
 
 # move classes to root package
--repackageclasses ''
+
+# Preverification is irrelevant for the dex compiler and the Dalvik VM, from
+#https://github.com/facebook/proguard/blob/master/examples/android.pro
+-dontpreverify
+
+# Reduce the size of the output some more.
 -allowaccessmodification
+
+-classobfuscationdictionary windows.txt
+-packageobfuscationdictionary windows.txt
 
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**
