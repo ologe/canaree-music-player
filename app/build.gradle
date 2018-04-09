@@ -20,7 +20,7 @@ android {
 
         vectorDrawables.useSupportLibrary = true
 
-        resConfigs "en", "fr"
+        resConfigs "en", "it"
     }
 
     buildTypes {
@@ -29,8 +29,8 @@ android {
             minifyEnabled true
             useProguard true
             multiDexEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "true")
             debuggable false
         }
