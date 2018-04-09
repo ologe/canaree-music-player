@@ -3,6 +3,8 @@ package dev.olog.msc.utils.img
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
+import android.support.v4.math.MathUtils
+import dev.olog.msc.constants.AppConstants
 import java.io.File
 
 object ImagesFolderUtils {
@@ -12,25 +14,45 @@ object ImagesFolderUtils {
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"
     const val GENRE = "genre"
+    private const val DEBUG = "_debug"
 
     fun getFolderName(folderName: String): String {
+        if (AppConstants.useFakeData){
+            return "$folderName$DEBUG"
+        }
         return folderName
     }
 
     fun forFolder(context: Context, folderPath: String): String{
         val normalizedPath = folderPath.replace(File.separator, "")
+        if (AppConstants.useFakeData){
+            return getImageImpl(context, "$FOLDER$DEBUG", normalizedPath)
+        }
         return getImageImpl(context, FOLDER, normalizedPath)
     }
 
     fun forPlaylist(context: Context, playlistId: Long): String{
+        if (AppConstants.useFakeData){
+            return getImageImpl(context, "$PLAYLIST$DEBUG", playlistId.toString())
+        }
         return getImageImpl(context, PLAYLIST, playlistId.toString())
     }
 
     fun forAlbum(albumId: Long): String {
+        if (AppConstants.useFakeData){
+            return getFakeImage(albumId)
+        }
         return ContentUris.withAppendedId(COVER_URI, albumId).toString()
+    }
+    private fun getFakeImage(albumId: Long): String {
+        val safe = MathUtils.clamp(albumId.rem(10).toInt(), 0, 10)
+        return Uri.parse("file:///android_asset/images/$safe.jpg").toString()
     }
 
     fun forGenre(context: Context, genreId: Long): String {
+        if (AppConstants.useFakeData){
+            return getImageImpl(context, "$GENRE$DEBUG", genreId.toString())
+        }
         return getImageImpl(context, GENRE, genreId.toString())
     }
 

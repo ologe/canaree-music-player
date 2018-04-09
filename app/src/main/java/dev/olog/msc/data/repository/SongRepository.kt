@@ -1,11 +1,14 @@
 package dev.olog.msc.data.repository
 
 import android.content.ContentResolver
+import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.DURATION
 import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
+import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.data.mapper.toFakeSong
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
@@ -51,9 +54,17 @@ class SongRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
-        ).mapToList { it.toSong() }
+        ).mapToList { mapToSong(it) }
                 .map { removeBlacklisted(it) }
                 .onErrorReturn { listOf() }
+    }
+
+    private fun mapToSong(cursor: Cursor): Song {
+        return if (AppConstants.useFakeData){
+            cursor.toFakeSong()
+        } else {
+            cursor.toSong()
+        }
     }
 
     private fun removeBlacklisted(original: List<Song>): List<Song>{

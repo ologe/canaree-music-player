@@ -69,4 +69,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Switch
+        android:id="@+id/activateFakeData"
+        android:text="use fake data"
+        android:switchPadding="20dp"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

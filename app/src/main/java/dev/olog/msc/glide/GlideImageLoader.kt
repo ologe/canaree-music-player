@@ -29,17 +29,24 @@ class GlideImageLoader(
     override fun buildLoadData(model: DisplayableItem, width: Int, height: Int, options: Options): ModelLoader.LoadData<InputStream>? {
         val mediaId = model.mediaId
 
+        if (isAsset(model)){
+            return uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+        }
+
         if (mediaId.isAlbum || mediaId.isLeaf){
-            if (notAnImage(model)){
-                // song/album has not a default image, download
-                return if (mediaId.isLeaf){
-                    ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideSongFetcher(context, model, lastFmGateway))
-                } else {
-                    ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideAlbumFetcher(context, model, lastFmGateway))
+            return when {
+                notAnImage(model) -> {
+                    // song/album has not a default image, download
+                    if (mediaId.isLeaf){
+                        ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideSongFetcher(context, model, lastFmGateway))
+                    } else {
+                        ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideAlbumFetcher(context, model, lastFmGateway))
+                    }
                 }
-            } else {
-                // use default album image
-                return uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+                else -> {
+                    // use default album image
+                    uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+                }
             }
         }
 
@@ -50,6 +57,10 @@ class GlideImageLoader(
 
         // use merged image
         return uriLoader.buildLoadData(Uri.fromFile(File(model.image)), width, height, options)
+    }
+
+    private fun isAsset(model: DisplayableItem): Boolean {
+        return URLUtil.isAssetUrl(model.image)
     }
 
     private fun notAnImage(model: DisplayableItem): Boolean {

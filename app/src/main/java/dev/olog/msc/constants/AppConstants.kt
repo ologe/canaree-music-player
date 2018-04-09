@@ -10,6 +10,8 @@ object AppConstants {
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
+    var useFakeData = false
+
     const val SHORTCUT_SEARCH = "$TAG.shortcut.search"
     const val SHORTCUT_DETAIL = "$TAG.shortcut.detail"
     const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"

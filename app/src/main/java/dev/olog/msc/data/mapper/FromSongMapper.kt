@@ -1,6 +1,8 @@
 package dev.olog.msc.data.mapper
 
 import android.content.Context
+import android.net.Uri
+import android.support.v4.math.MathUtils
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Folder
@@ -37,4 +39,19 @@ fun Song.toArtist(songCount: Int, albumsCount: Int) : Artist {
             albumsCount,
             ""
     )
+}
+
+fun Song.toFakeArtist(songCount: Int, albumsCount: Int) : Artist {
+    return Artist(
+            this.artistId,
+            this.artist,
+            songCount,
+            albumsCount,
+            getFakeImage(this.artistId)
+    )
+}
+
+private fun getFakeImage(artistId: Long): String {
+    val safe = MathUtils.clamp(artistId.rem(6).toInt(), 0, 6)
+    return Uri.parse("file:///android_asset/people/$safe.jpg").toString()
 }
