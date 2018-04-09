@@ -10,6 +10,7 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.mapper.toFakeSong
 import dev.olog.msc.data.mapper.toSong
+import dev.olog.msc.data.mapper.toUneditedSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -87,6 +88,14 @@ class SongRepository @Inject constructor(
 
     override fun getByParam(param: Long): Observable<Song> {
         return cachedData.map { it.first { it.id == param } }
+    }
+
+    override fun getUneditedByParam(songId: Long): Observable<Song> {
+        return rxContentResolver.createQuery(
+                MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",
+                arrayOf("$songId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
+        ).mapToOne { it.toUneditedSong() }
+                .distinctUntilChanged()
     }
 
     override fun getAllUnfiltered(): Observable<List<Song>> {

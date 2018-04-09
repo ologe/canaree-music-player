@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:layout_marginStart="@dimen/detail_header_margin_start"
+            android:layout_marginEnd="@dimen/detail_header_margin_start"
             android:maxLines="3"
             android:ellipsize="end"
             android:scrollHorizontally="true"/>

@@ -40,6 +40,33 @@ fun Cursor.toSong(): Song {
             folder.capitalize(), disc, track)
 }
 
+fun Cursor.toUneditedSong(): Song {
+    val id = getLong(BaseColumns._ID)
+    val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
+    val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
+
+    val path = getString(MediaStore.MediaColumns.DATA)
+    val folder = extractFolder(path)
+
+    val title = getString(MediaStore.MediaColumns.TITLE)
+
+    val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
+    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
+
+    val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
+    val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
+
+    val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
+    val track = extractTrackNumber(trackNumber)
+    val disc = extractDiscNumber(trackNumber, track)
+
+    return Song(
+            id, artistId, albumId, title, artist, album,
+            ImagesFolderUtils.forAlbum(albumId),
+            duration, dateAdded, false, false, path,
+            folder.capitalize(), disc, track)
+}
+
 private fun extractTrackNumber(originalTrackNumber: Int) : Int {
     return originalTrackNumber % 1000
 }

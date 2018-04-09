@@ -140,9 +140,10 @@ class TabFragmentViewModelModule {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.RECENT_ARTISTS)
     internal fun provideLastPlayedArtistData(
+            resources: Resources,
             useCase: GetLastPlayedArtistsUseCase) : Observable<List<DisplayableItem>> {
 
-        return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem() }
+        return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem(resources) }
     }
 
 }
@@ -231,12 +232,16 @@ private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     )
 }
 
-private fun Artist.toTabLastPlayedDisplayableItem(): DisplayableItem {
+private fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
+
     return DisplayableItem(
             R.layout.item_tab_artist_last_played,
             MediaId.artistId(id),
             name,
-            null,
+            albums + songs,
             this.image
     )
 }

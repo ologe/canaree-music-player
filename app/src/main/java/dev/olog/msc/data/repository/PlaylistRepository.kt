@@ -85,7 +85,7 @@ class PlaylistRepository @Inject constructor(
             .refCount()
 
     override fun getAll(): Observable<List<Playlist>> {
-        return cachedData.emitThenDebounce()
+        return cachedData
     }
 
     override fun getAllNewRequest(): Observable<List<Playlist>> {

@@ -1,7 +1,9 @@
 package dev.olog.msc.presentation.edit.album
 
+import android.annotation.SuppressLint
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmAlbumUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
@@ -11,7 +13,8 @@ import javax.inject.Inject
 
 class EditAlbumFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+        private val getSongListByParamUseCase: GetSongListByParamUseCase,
+        private val deleteLastFmAlbumUseCase: DeleteLastFmAlbumUseCase
 
 ) {
 
@@ -56,6 +59,12 @@ class EditAlbumFragmentPresenter @Inject constructor(
         } catch (ex: Exception){/*year often throws*/}
 
         audioFile.commit()
+    }
+
+    @SuppressLint("RxLeakedSubscription")
+    fun deleteLastFmEntry(){
+        deleteLastFmAlbumUseCase.execute(songList[0].id)
+                .subscribe({}, Throwable::printStackTrace)
     }
 
 }

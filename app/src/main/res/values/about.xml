@@ -10,7 +10,11 @@
     <string name="about_special_thanks_to">Special thanks to</string>
 
     <string name="about_support_report_bug">Report bugs</string>
-    <string name="about_support_report_bug_description">Report bugs or request new feature</string>
+    <string name="about_support_report_bug_description">Go to facebook group</string>
+
+    <string name="about_support_request_feature">Request feature</string>
+    <string name="about_support_request_feature_description">Go to facebook group</string>
+
     <string name="about_support_rate">@string/rate_app_title</string>
     <string name="about_support_rate_description">@string/rate_app_message</string>
 

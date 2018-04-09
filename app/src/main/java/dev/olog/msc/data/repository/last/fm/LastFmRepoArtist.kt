@@ -80,4 +80,8 @@ class LastFmRepoArtist @Inject constructor(
         return entity
     }
 
+    fun delete(artistId: Long) {
+        dao.deleteArtist(artistId)
+    }
+
 }

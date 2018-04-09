@@ -31,7 +31,7 @@ class AboutActivityAdapter @Inject constructor(
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
                 AboutActivityPresenter.RATE_ID -> navigator.get().toMarket()
                 AboutActivityPresenter.REPORT_BUGS -> navigator.get().reportBugs()
-                AboutActivityPresenter.WEBSITE_ID -> navigator.get().toWebsite()
+                AboutActivityPresenter.REQUEST_FEATURE -> navigator.get().requestFeature()
                 AboutActivityPresenter.PRIVACY_POLICY -> navigator.get().toPrivacyPolicy()
                 AboutActivityPresenter.BUY_PRO -> presenter.buyPro()
             }

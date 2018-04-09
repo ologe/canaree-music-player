@@ -82,4 +82,6 @@
 
     <string name="common_filter">Filtra</string>
 
+    <string name="common_browser_not_found">Nessun browser trovato</string>
+
 </resources>

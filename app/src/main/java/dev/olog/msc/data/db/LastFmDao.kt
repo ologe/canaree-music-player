@@ -26,6 +26,9 @@ abstract class LastFmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertTrack(entity: LastFmTrackEntity): Long
 
+    @Query("DELETE FROM last_fm_track WHERE id = :trackId")
+    internal abstract fun deleteTrack(trackId: Long)
+
     // album
 
     @Query("""
@@ -38,6 +41,9 @@ abstract class LastFmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertAlbum(entity: LastFmAlbumEntity): Long
 
+    @Query("DELETE FROM last_fm_album WHERE id = :albumId")
+    internal abstract fun deleteAlbum(albumId: Long)
+
     // artist
 
     @Query("""
@@ -49,5 +55,8 @@ abstract class LastFmDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     internal abstract fun insertArtist(entity: LastFmArtistEntity): Long
+
+    @Query("DELETE FROM last_fm_artist WHERE id = :artistId")
+    internal abstract fun deleteArtist(artistId: Long)
 
 }

@@ -64,6 +64,7 @@ class EditAlbumFragmentViewModel(
         }
 
         try {
+            presenter.deleteLastFmEntry()
             presenter.updateSongList(album, artist, genre, year)
             for (song in presenter.songList) {
                 notifyMediaStore(context, song.path)

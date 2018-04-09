@@ -83,4 +83,8 @@ class LastFmRepoAlbum @Inject constructor(
         return entity
     }
 
+    fun delete(albumId: Long) {
+        dao.deleteAlbum(albumId)
+    }
+
 }

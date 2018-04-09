@@ -94,4 +94,8 @@ class LastFmRepoTrack @Inject constructor(
         return entity
     }
 
+    fun delete(trackId: Long){
+        dao.deleteTrack(trackId)
+    }
+
 }

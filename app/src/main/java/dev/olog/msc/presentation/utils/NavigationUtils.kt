@@ -17,10 +17,3 @@ fun openPlayStore(activity: Activity){
         activity.toast("Play Store not found")
     }
 }
-
-fun openReportBugs(activity: Activity){
-    val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"))
-    intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("dev.eugeniu.olog@gmail.com"))
-    intent.putExtra(Intent.EXTRA_SUBJECT, "Next bug report")
-    activity.startActivity(intent)
-}

@@ -1,10 +1,12 @@
 package dev.olog.msc.presentation.edit.track
 
+import android.annotation.SuppressLint
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
+import dev.olog.msc.domain.interactor.detail.item.GetUneditedSongUseCase
+import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
 import dev.olog.msc.utils.MediaId
@@ -16,8 +18,9 @@ import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
-        private val getSongUseCase: GetSongUseCase,
-        private val getLastFmTrackUseCase: GetLastFmTrackUseCase
+        private val getSongUseCase: GetUneditedSongUseCase,
+        private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
+        private val deleteLastFmTrackUseCase: DeleteLastFmTrackUseCase
 
 ) {
 
@@ -66,6 +69,12 @@ class EditTrackFragmentPresenter @Inject constructor(
         tag.setField(FieldKey.TRACK, track)
 
         audioFile.commit()
+    }
+
+    @SuppressLint("RxLeakedSubscription")
+    fun deleteLastFmEntry(){
+        deleteLastFmTrackUseCase.execute(originalSong.id)
+                .subscribe({}, Throwable::printStackTrace)
     }
 
 }

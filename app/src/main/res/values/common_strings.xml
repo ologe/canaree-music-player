@@ -91,4 +91,6 @@
 
     <string name="common_filter">Filter</string>
 
+    <string name="common_browser_not_found">Browser not found</string>
+
 </resources>

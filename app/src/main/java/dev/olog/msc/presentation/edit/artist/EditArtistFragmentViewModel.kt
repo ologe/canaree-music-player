@@ -53,6 +53,7 @@ class EditArtistFragmentViewModel(
         if (artist.isBlank()) return UpdateResult.EMPTY_TITLE
 
         try {
+            presenter.deleteLastFmEntry()
             presenter.updateSongList(artist)
             presenter.getSongList()
             for (song in presenter.songList) {

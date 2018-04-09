@@ -21,7 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 # move classes to root package
--repackageclasses
+-repackageclasses ''
 -allowaccessmodification
 
 -dontwarn java.nio.**

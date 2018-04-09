@@ -96,6 +96,7 @@ class EditTrackFragmentViewModel(
         }
 
         try {
+            presenter.deleteLastFmEntry()
             presenter.updateSong(title, artist, album, genre, year, disc, track)
             notifyMediaStore(context, presenter.getPath())
 

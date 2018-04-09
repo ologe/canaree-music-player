@@ -12,4 +12,6 @@ interface SongGateway : BaseGateway<Song, Long> {
 
     fun deleteGroup(songList: List<Song>): Completable
 
+    fun getUneditedByParam(songId: Long): Observable<Song>
+
 }

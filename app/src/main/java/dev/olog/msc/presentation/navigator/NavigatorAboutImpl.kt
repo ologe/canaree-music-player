@@ -8,8 +8,9 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.licenses.LicensesFragment
 import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
 import dev.olog.msc.presentation.utils.openPlayStore
-import dev.olog.msc.presentation.utils.openReportBugs
 import dev.olog.msc.utils.k.extension.fragmentTransaction
+import dev.olog.msc.utils.k.extension.isIntentSafe
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
@@ -51,7 +52,25 @@ class NavigatorAboutImpl @Inject internal constructor(
 
     override fun reportBugs() {
         if (allowed()){
-           openReportBugs(activity)
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://www.facebook.com/groups/608390692835150")
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
+        }
+    }
+
+    override fun requestFeature() {
+        if (allowed()){
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://www.facebook.com/groups/1352800471533229")
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
         }
     }
 
@@ -59,15 +78,11 @@ class NavigatorAboutImpl @Inject internal constructor(
         if (allowed()){
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next/about")
-            activity.startActivity(intent)
-        }
-    }
-
-    override fun toWebsite() {
-        if (allowed()){
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next")
-            activity.startActivity(intent)
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
         }
     }
 
@@ -75,7 +90,11 @@ class NavigatorAboutImpl @Inject internal constructor(
         if (allowed()){
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse("https://www.facebook.com/eugeniu.olog")
-            activity.startActivity(intent)
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
         }
     }
 

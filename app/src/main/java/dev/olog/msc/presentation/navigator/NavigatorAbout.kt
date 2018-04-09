@@ -10,9 +10,9 @@ interface NavigatorAbout {
 
     fun reportBugs()
 
-    fun toPrivacyPolicy()
+    fun requestFeature()
 
-    fun toWebsite()
+    fun toPrivacyPolicy()
 
     fun toFacebook()
 

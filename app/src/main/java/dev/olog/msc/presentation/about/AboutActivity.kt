@@ -14,9 +14,7 @@ import android.widget.TextView
 import android.widget.ViewSwitcher
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
-import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
 
@@ -36,9 +34,7 @@ class AboutActivity : BaseActivity() {
         switcher.setCurrentText(getString(R.string.about))
         setInAnimation()
 
-        Single.just(presenter.data)
-                .toFlowable()
-                .asLiveData()
+        presenter.observeData()
                 .subscribe(this, adapter::updateDataSet)
 
     }

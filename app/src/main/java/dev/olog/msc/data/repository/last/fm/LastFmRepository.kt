@@ -25,6 +25,10 @@ class LastFmRepository @Inject constructor(
         return lastFmRepoTrack.get(trackId)
     }
 
+    override fun deleteTrack(trackId: Long) {
+        lastFmRepoTrack.delete(trackId)
+    }
+
     override fun shouldFetchTrackImage(trackId: Long): Single<Boolean> {
         return lastFmRepoTrack.getOriginalItem(trackId)
                 .flatMap {
@@ -58,11 +62,19 @@ class LastFmRepository @Inject constructor(
         return lastFmRepoAlbum.get(albumId)
     }
 
+    override fun deleteAlbum(albumId: Long) {
+        lastFmRepoAlbum.delete(albumId)
+    }
+
     override fun shouldFetchArtist(artistId: Long): Single<Boolean> {
         return lastFmRepoArtist.shouldFetch(artistId)
     }
 
     override fun getArtist(artistId: Long): Single<Optional<LastFmArtist?>> {
         return lastFmRepoArtist.get(artistId)
+    }
+
+    override fun deleteArtist(artistId: Long) {
+        lastFmRepoArtist.delete(artistId)
     }
 }
