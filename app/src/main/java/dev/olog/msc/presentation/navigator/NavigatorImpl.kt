@@ -119,7 +119,6 @@ class NavigatorImpl @Inject internal constructor(
     override fun toRelatedArtists(mediaId: MediaId) {
         if (allowed()){
             activity.fragmentTransaction {
-                setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 replace(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)

@@ -29,7 +29,7 @@ class PresentationDetector : ImportDetector(), Detector.UastScanner {
     }
 
     private fun checkModelDependency(import: String): Boolean{
-        return import.contains("$appPackage.data")
+        return import.contains("$appPackage.data.")
     }
 
     private fun isPresentationLayer(packageName: String): Boolean {

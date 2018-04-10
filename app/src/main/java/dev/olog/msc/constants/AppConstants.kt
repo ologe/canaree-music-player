@@ -16,8 +16,8 @@ object AppConstants {
     const val SHORTCUT_DETAIL = "$TAG.shortcut.detail"
     const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"
 
-    lateinit var QUICK_ACTION: QuickActionView.Type
-    lateinit var ICON_SHAPE: String
+    var QUICK_ACTION = QuickActionView.Type.NONE
+    var ICON_SHAPE = "round"
 
     const val PROGRESS_BAR_INTERVAL = 250
 

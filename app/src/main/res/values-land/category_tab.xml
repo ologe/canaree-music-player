@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <dimen name="tab_fast_scroller_margin_bottom">106dp</dimen>
-    <dimen name="tab_fast_scroller_margin_top">0dp</dimen>
-
-</resources>

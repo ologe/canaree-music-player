@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
@@ -9,25 +10,34 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song" />
 
     <View
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="36dp"
-        android:layout_height="match_parent"
-        android:background="@drawable/side_bar_background"
-        android:layout_gravity="end"/>
+        android:layout_height="0dp"
+        android:background="@drawable/side_bar_background" />
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxWaveSideBarView
         android:id="@+id/sidebar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_marginBottom="@dimen/tab_fast_scroller_margin_bottom"
-        android:layout_marginTop="@dimen/tab_fast_scroller_margin_top" />
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_marginBottom="0dp"
+        tools:layout_marginTop="0dp"
+        app:layout_constraintHeight_max="420dp"/>
 
     <TextView
         android:id="@+id/emptyStateText"
@@ -38,6 +48,10 @@
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"/>
@@ -51,8 +65,11 @@
         android:tint="@android:color/white"
         android:src="@drawable/vd_add"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="@dimen/tab_fast_scroller_margin_bottom"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="36dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

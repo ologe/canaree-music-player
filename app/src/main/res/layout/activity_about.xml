@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background"
     android:id="@+id/root">
 
@@ -55,7 +56,8 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:clipToPadding="false"
-        android:clipChildren="false"/>
+        android:clipChildren="false"
+        tools:listitem="@layout/item_about"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

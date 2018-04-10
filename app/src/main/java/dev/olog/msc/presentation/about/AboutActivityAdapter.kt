@@ -26,7 +26,7 @@ class AboutActivityAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             when (item.mediaId){
-                AboutActivityPresenter.AUTHOR_ID -> navigator.get().toFacebook()
+                AboutActivityPresenter.AUTHOR_ID -> navigator.get().toDeveloperProfile()
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
                 AboutActivityPresenter.RATE_ID -> navigator.get().toMarket()
@@ -34,6 +34,7 @@ class AboutActivityAdapter @Inject constructor(
                 AboutActivityPresenter.REQUEST_FEATURE -> navigator.get().requestFeature()
                 AboutActivityPresenter.PRIVACY_POLICY -> navigator.get().toPrivacyPolicy()
                 AboutActivityPresenter.BUY_PRO -> presenter.buyPro()
+                AboutActivityPresenter.COMMUNITY -> navigator.get().joinCommunity()
             }
         }
     }

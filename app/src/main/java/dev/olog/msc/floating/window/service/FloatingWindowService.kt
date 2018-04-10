@@ -14,7 +14,7 @@ class FloatingWindowService : BaseFloatingService() {
     @Inject lateinit var notification : FloatingWindowNotification
 
     companion object {
-        const val TAG = "FloatingInfoService"
+        const val TAG = "FloatingWindowService"
         const val ACTION_STOP = "$TAG.ACTION_STOP"
     }
 

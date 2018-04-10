@@ -29,7 +29,7 @@ class DataDetector : ImportDetector(), Detector.UastScanner {
     }
 
     private fun checkPresentationLayerDependency(import: String): Boolean {
-        return import.contains("$appPackage.presentation")
+        return import.contains("$appPackage.presentation.")
     }
 
     private fun isDataLayer(packageName: String): Boolean {

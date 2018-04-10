@@ -14,6 +14,8 @@ interface NavigatorAbout {
 
     fun toPrivacyPolicy()
 
-    fun toFacebook()
+    fun toDeveloperProfile()
+
+    fun joinCommunity()
 
 }

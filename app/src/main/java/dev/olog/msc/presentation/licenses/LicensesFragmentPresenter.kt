@@ -12,6 +12,8 @@ class LicensesFragmentPresenter @Inject constructor(
 
 ) {
 
+    private val cachedLicenses = mutableMapOf<String, String>()
+
     private val ANDROID_OPEN_SOURCE_PROJECT = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("android"),
@@ -172,41 +174,48 @@ class LicensesFragmentPresenter @Inject constructor(
     )
 
     private fun apache(): String {
-        return context.assets
-                .open("licenses/apache.txt")
-                .bufferedReader()
-                .use { it.readText() }
-//                .replace("{year}", year)
+        return cachedLicenses.getOrPut("apache") {
+            context.assets
+                    .open("licenses/apache.txt")
+                    .bufferedReader()
+                    .use { it.readText() }
+        }
     }
 
     private fun mit(): String {
-        return context.assets
-                .open("licenses/mit.txt")
-                .bufferedReader()
-                .use { it.readText() }
-//                .replace("{year}", year)
+        return cachedLicenses.getOrPut("mit") {
+            context.assets
+                    .open("licenses/mit.txt")
+                    .bufferedReader()
+                    .use { it.readText() }
+        }
     }
 
     private fun gnu(): String {
-        return context.assets
-                .open("licenses/gnu.txt")
-                .bufferedReader()
-                .use { it.readText() }
-//                .replace("{year}", year)
+        return cachedLicenses.getOrPut("gnu") {
+            context.assets
+                    .open("licenses/gnu.txt")
+                    .bufferedReader()
+                    .use { it.readText() }
+        }
     }
 
     private fun jAudioTagger(): String {
-        return context.assets
-                .open("licenses/glide.txt")
-                .bufferedReader()
-                .use { it.readText() }
+        return cachedLicenses.getOrPut("jaudiotagger") {
+            context.assets
+                    .open("licenses/jaudiotagger.txt")
+                    .bufferedReader()
+                    .use { it.readText() }
+        }
     }
 
 
     private fun glide(): String{
-        return context.assets
-                .open("licenses/glide.txt")
-                .bufferedReader()
-                .use { it.readText() }
+        return cachedLicenses.getOrPut("glide") {
+            context.assets
+                    .open("licenses/glide.txt")
+                    .bufferedReader()
+                    .use { it.readText() }
+        }
     }
 }

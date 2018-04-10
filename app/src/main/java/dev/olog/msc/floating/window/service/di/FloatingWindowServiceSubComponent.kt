@@ -6,18 +6,18 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 @Subcomponent(modules = arrayOf(
-        FloatingInfoServiceModule::class
+        FloatingWindowServiceModule::class
 ))
 @PerService
-interface FloatingInfoServiceSubComponent : AndroidInjector<FloatingWindowService> {
+interface FloatingWindowServiceSubComponent : AndroidInjector<FloatingWindowService> {
 
     @Subcomponent.Builder
     abstract class Builder : AndroidInjector.Builder<FloatingWindowService>() {
 
-        abstract fun module(module: FloatingInfoServiceModule): Builder
+        abstract fun module(module: FloatingWindowServiceModule): Builder
 
         override fun seedInstance(instance: FloatingWindowService) {
-            module(FloatingInfoServiceModule(instance))
+            module(FloatingWindowServiceModule(instance))
         }
     }
 

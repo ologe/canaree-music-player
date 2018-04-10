@@ -20,7 +20,8 @@
             android:textSize="18dp"
             android:textColor="@color/text_color_primary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
 
         <TextView
             android:id="@+id/url"
@@ -34,12 +35,15 @@
             android:autoLink="web"/>
 
         <TextView
+            android:id="@+id/license"
             android:text="@{license.license}"
             tools:text="Copyright 2012 The Dagger Authors"
             android:textSize="12dp"
             android:textColor="@color/text_color_secondary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:ellipsize="end"/>
 
         <View
             android:layout_width="match_parent"

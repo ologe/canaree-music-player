@@ -9,13 +9,13 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 
-@Module(subcomponents = arrayOf(FloatingInfoServiceSubComponent::class))
-abstract class FloatingInfoServiceInjector {
+@Module(subcomponents = arrayOf(FloatingWindowServiceSubComponent::class))
+abstract class FloatingWindowServiceInjector {
 
     @Binds
     @IntoMap
     @ServiceKey(FloatingWindowService::class)
-    internal abstract fun injectorFactory(builder: FloatingInfoServiceSubComponent.Builder)
+    internal abstract fun injectorFactory(builder: FloatingWindowServiceSubComponent.Builder)
             : AndroidInjector.Factory<out Service>
 
 }

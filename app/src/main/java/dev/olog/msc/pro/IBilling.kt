@@ -23,7 +23,13 @@ interface IBilling {
     fun isTrial(): Boolean
     fun isPremium(): Boolean
     fun observeIsPremium(): Observable<Boolean>
+    fun observeTrialPremiumState(): Observable<BillingState>
     fun purchasePremium()
+
+    data class BillingState(
+            val isTrial: Boolean,
+            val isBought: Boolean
+    )
 
 }
 
@@ -146,6 +152,11 @@ class BillingImpl @Inject constructor(
     override fun observeIsPremium(): Observable<Boolean> {
         return Observables.combineLatest(premiumPublisher, trialPublisher,
                 { premium, trial -> premium || trial })
+    }
+
+    override fun observeTrialPremiumState(): Observable<IBilling.BillingState> {
+        return Observables.combineLatest(premiumPublisher, trialPublisher,
+                { premium, trial -> IBilling.BillingState(trial, premium) })
     }
 
     override fun purchasePremium() {

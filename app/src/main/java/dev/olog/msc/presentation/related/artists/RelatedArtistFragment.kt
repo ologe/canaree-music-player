@@ -6,8 +6,10 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
+import kotlinx.android.synthetic.main.fragment_related_artist.*
 import kotlinx.android.synthetic.main.fragment_related_artist.view.*
 import javax.inject.Inject
 
@@ -15,7 +17,7 @@ class RelatedArtistFragment: BaseFragment() {
 
     companion object {
         const val TAG = "RelatedArtistFragment"
-        const val ARGUMENTS_MEDIA_ID = TAG + ".arguments.media_id"
+        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
 
         fun newInstance(mediaId: MediaId): RelatedArtistFragment {
@@ -35,19 +37,19 @@ class RelatedArtistFragment: BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = GridLayoutManager(context!!, 2)
+        view.list.layoutManager = GridLayoutManager(context!!, if (isPortrait()) 2 else 3)
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
     }
 
     override fun onResume() {
         super.onResume()
-        view!!.back.setOnClickListener { activity!!.onBackPressed() }
+        back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
         super.onPause()
-        view!!.back.setOnClickListener(null)
+        back.setOnClickListener(null)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_related_artist

@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.library.tab
 
 import android.os.Bundle
 import android.support.annotation.CallSuper
-import android.support.design.widget.AppBarLayout
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import dagger.Lazy
@@ -37,7 +36,6 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
-    @Inject lateinit var onAppBarScrollListener: TabOnAppBarScrollListener
     @Inject lateinit var navigator : Lazy<Navigator>
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -90,14 +88,12 @@ class TabFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        act.findViewById<AppBarLayout>(R.id.appBar).addOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(letterTouchListener)
         fab.setOnClickListener { navigator.get().toChooseTracksForPlaylistFragment(fab) }
     }
 
     override fun onPause() {
         super.onPause()
-        act.findViewById<AppBarLayout>(R.id.appBar).removeOnOffsetChangedListener(onAppBarScrollListener)
         sidebar.setListener(null)
         fab.setOnClickListener(null)
     }
@@ -130,7 +126,6 @@ class TabFragment : BaseFragment() {
         }
         if (position != -1){
             val layoutManager = list.layoutManager as GridLayoutManager
-            act.findViewById<AppBarLayout>(R.id.appBar).setExpanded(false)
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }

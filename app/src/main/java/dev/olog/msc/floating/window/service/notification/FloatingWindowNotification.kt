@@ -8,6 +8,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
 import android.os.Build
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
@@ -66,7 +67,7 @@ class FloatingWindowNotification @Inject constructor(
                 .setSmallIcon(R.drawable.vd_bird_singing)
                 .setContentTitle(notificationTitle)
                 .setContentText(service.getString(R.string.floating_window_notification_content_text))
-                .setColor(0xff1f86ef.toInt())
+                .setColor(ContextCompat.getColor(service, R.color.dark_grey))
                 .setContentIntent(createContentIntent())
                 .build()
     }

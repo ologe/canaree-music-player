@@ -182,7 +182,11 @@ public class WaveSideBarView extends View {
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
         mWidth = getMeasuredWidth();
 
-        mItemHeight = (mHeight - mPadding) / mLetters.size();
+        if (isInEditMode()){
+            mItemHeight = (mHeight - mPadding) / LETTERS.size();
+        } else {
+            mItemHeight = (mHeight - mPadding) / mLetters.size();
+        }
         mPosX = mWidth - 1.6f * mTextSize;
     }
 
@@ -192,19 +196,27 @@ public class WaveSideBarView extends View {
 
         drawLetters(canvas);
 
-        drawWavePath(canvas);
+        if (!isInEditMode()){
+            drawWavePath(canvas);
 
-        drawBallPath(canvas);
+            drawBallPath(canvas);
 
-        drawChooseText(canvas);
+            drawChooseText(canvas);
+        }
     }
 
     private void drawLetters(@NonNull Canvas canvas) {
+        List<String> letters;
+        if (isInEditMode()){
+            letters = LETTERS;
+        } else {
+            letters = mLetters;
+        }
 
-        for (int i = 0; i < mLetters.size(); i++) {
+        for (int i = 0; i < letters.size(); i++) {
             float posY = mItemHeight * i + letterBaseline / 2 + mPadding;
 
-            String letter = mLetters.get(i);
+            String letter = letters.get(i);
             canvas.drawText(letter, mPosX, posY,
                     mSelectedLetter.equals(letter) ? mSelectedLetterPaint : mLettersPaint);
 

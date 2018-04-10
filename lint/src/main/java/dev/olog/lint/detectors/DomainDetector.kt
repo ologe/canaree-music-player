@@ -33,11 +33,11 @@ class DomainDetector : ImportDetector(), Detector.UastScanner {
     }
 
     private fun checkModelDependency(import: String): Boolean{
-        return import.contains("$appPackage.data")
+        return import.contains("$appPackage.data.")
     }
 
     private fun checkPresentationDependency(import: String): Boolean {
-        return import.contains("$appPackage.presentation")
+        return import.contains("$appPackage.presentation.")
     }
 
     private fun isDomainLayer(packageName: String): Boolean {

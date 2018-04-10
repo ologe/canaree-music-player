@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="side_view_textSize">9dp</dimen>
-    <dimen name="side_view_text_size_padding">10dp</dimen>
+    <dimen name="side_view_textSize">7dp</dimen>
+    <dimen name="side_view_text_size_padding">7dp</dimen>
 
 </resources>

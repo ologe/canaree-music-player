@@ -11,7 +11,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowService
 
 @Module
-class FloatingInfoServiceModule(
+class FloatingWindowServiceModule(
         private val service: FloatingWindowService
 ) {
 
