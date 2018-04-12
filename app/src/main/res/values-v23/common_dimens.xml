@@ -3,6 +3,4 @@
 
     <dimen name="status_bar">24dp</dimen>
 
-    <dimen name="common_status_bar_plus_toolbar">72dp</dimen>
-
 </resources>

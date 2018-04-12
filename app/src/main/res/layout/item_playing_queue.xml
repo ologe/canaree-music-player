@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable name="isCurrentSong" type="boolean"/>
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
-        <variable name="index" type="String"/>
+        <variable name="trackIndex" type="String"/>
     </data>
 
     <FrameLayout
@@ -55,7 +55,7 @@
 
             <TextView
                 android:id="@+id/index"
-                android:text="@{index}"
+                android:text="@{trackIndex}"
                 tools:text="+1"
                 tools:layout_marginStart="8dp"
                 android:textStyle="bold"

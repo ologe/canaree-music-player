@@ -34,12 +34,12 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"
-        android:layout_marginTop="@dimen/common_status_bar_plus_toolbar"/>
+        android:layout_marginTop="120dp"/>
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/common_status_bar_plus_toolbar"
+        android:layout_marginTop="80dp"
         android:layout_height="wrap_content"
         android:elevation="0dp"
         android:stateListAnimator="@animator/playlist_track_chooser_app_bar"
@@ -131,8 +131,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_marginTop="160dp"
-        android:clipToPadding="false"/>
+        android:layout_marginTop="120dp"
+        android:clipToPadding="false"
+        app:layout_constraintHeight_max="420dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/save"

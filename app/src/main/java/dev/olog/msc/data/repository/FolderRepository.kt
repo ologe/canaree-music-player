@@ -68,6 +68,7 @@ class FolderRepository @Inject constructor(
     override fun insertMostPlayed(mediaId: MediaId): Completable {
         val songId = mediaId.leaf!!
         return songGateway.getByParam(songId)
+                .firstOrError()
                 .flatMapCompletable { song ->
                     CompletableSource { mostPlayedDao.insertOne(FolderMostPlayedEntity(0, song.id, song.folderPath)) }
                 }

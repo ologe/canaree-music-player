@@ -77,7 +77,7 @@ class NavigatorAboutImpl @Inject internal constructor(
     override fun toPrivacyPolicy() {
         if (allowed()){
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next/about")
+            intent.data = Uri.parse("https://deveugeniuolog.wixsite.com/next/privacy-policy")
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {

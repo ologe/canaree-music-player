@@ -51,10 +51,10 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
         binding.setVariable(BR.isCurrentSong, currentPosition == position)
         when {
-            currentPosition == -1 -> binding.setVariable(BR.index, "-")
-            position > currentPosition -> binding.setVariable(BR.index, "+${position - currentPosition}")
-            position < currentPosition -> binding.setVariable(BR.index, "${position - currentPosition}")
-            else -> binding.setVariable(BR.index, "-")
+            currentPosition == -1 -> binding.setVariable(BR.trackIndex, "-")
+            position > currentPosition -> binding.setVariable(BR.trackIndex, "+${position - currentPosition}")
+            position < currentPosition -> binding.setVariable(BR.trackIndex, "${position - currentPosition}")
+            else -> binding.setVariable(BR.trackIndex, "-")
         }
         val textColor = if (position < currentPosition) R.color.text_color_secondary else R.color.text_color_primary
         binding.root.index.setTextColor(ContextCompat.getColor(binding.root.context, textColor))

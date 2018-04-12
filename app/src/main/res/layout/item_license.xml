@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="license" type="dev.olog.msc.presentation.licenses.LicenseModel"/>
+        <variable name="licenseModel" type="dev.olog.msc.presentation.licenses.LicenseModel"/>
     </data>
 
     <LinearLayout
@@ -14,7 +14,7 @@
         android:background="?attr/selectableItemBackground">
 
         <TextView
-            android:text="@{license.name}"
+            android:text="@{licenseModel.name}"
             tools:text="Dagger"
             android:textStyle="bold"
             android:textSize="18dp"
@@ -27,7 +27,7 @@
             android:id="@+id/url"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@{license.url}"
+            android:text="@{licenseModel.url}"
             android:textColor="@color/item_selected"
             tools:text="https://github.com/google/dagger"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/license"
-            android:text="@{license.license}"
+            android:text="@{licenseModel.license}"
             tools:text="Copyright 2012 The Dagger Authors"
             android:textSize="12dp"
             android:textColor="@color/text_color_secondary"

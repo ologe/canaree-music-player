@@ -17,7 +17,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.makeDialog
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -30,15 +29,12 @@ class SetRingtoneDialogPresenter @Inject constructor(
 
     @TargetApi(Build.VERSION_CODES.M)
     fun execute() : Completable {
-        return Single.just(isMarshmallow())
-                .flatMapCompletable { m ->
-                    if (!m || (m && Settings.System.canWrite(application))) {
-                        setRingtone()
-                    } else {
-                        requestWritingSettingsPermission()
-                        Completable.never()
-                    }
-                }
+        if (!isMarshmallow() || (isMarshmallow()) && Settings.System.canWrite(application)){
+            return setRingtone()
+        } else {
+            requestWritingSettingsPermission()
+            return Completable.never()
+        }
     }
 
     private fun setRingtone(): Completable{

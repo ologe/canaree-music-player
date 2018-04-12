@@ -28,7 +28,7 @@ class LicensesFragmentAdapter @Inject constructor(
     }
 
     override fun bind(binding: ViewDataBinding, item: LicenseModel, position: Int) {
-        binding.setVariable(BR.license, item)
+        binding.setVariable(BR.licenseModel, item)
     }
 
 }

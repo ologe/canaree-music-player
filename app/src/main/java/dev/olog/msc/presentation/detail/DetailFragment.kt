@@ -54,11 +54,6 @@ class DetailFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        postponeEnterTransition()
-
-        adapter.onFirstEmission {
-            startPostponedEnterTransition()
-        }
 
         viewModel.mostPlayedLiveData
                 .subscribe(this, mostPlayedAdapter::updateDataSet)

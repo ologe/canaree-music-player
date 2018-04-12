@@ -106,6 +106,7 @@ class GenreRepository @Inject constructor(
         val songId = mediaId.leaf!!
         val genreId = mediaId.categoryValue.toLong()
         return songGateway.getByParam(songId)
+                .firstOrError()
                 .flatMapCompletable { song ->
                     CompletableSource { mostPlayedDao.insertOne(GenreMostPlayedEntity(0, song.id, genreId)) }
                 }
