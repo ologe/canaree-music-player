@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:cardCornerRadius="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="48dp"
+            android:layout_marginBottom="55dp"
+            android:background="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/error"
+            android:text="You are offline"
+            android:textColor="@color/text_color_primary"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp"
+            android:background="@color/background"
+            android:visibility="gone"/>
+
+        <include
+            layout="@layout/layout_toolbar"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"/>
+
+        <include
+            layout="@layout/layout_mini_player"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginStart="48dp"
+            android:layout_gravity="bottom"/>
+
+    </android.support.v7.widget.CardView>
+
+
+
+</FrameLayout>

@@ -13,6 +13,13 @@
         android:layout_height="match_parent"
         android:clipChildren="false">
 
+        <android.support.constraint.Guideline
+            android:id="@+id/half"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageButton
             android:id="@+id/back"
             app:layout_constraintTop_toBottomOf="@+id/statusBar"
@@ -38,18 +45,27 @@
             android:id="@+id/pager"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/half"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:focusable="false"
             android:clickable="false"/>
 
+        <View
+            android:background="@color/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/half"/>
+
         <dev.olog.msc.presentation.widget.InkPageIndicator
             android:id="@+id/pageIndicator"
-            app:layout_constraintTop_toBottomOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/half"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:layout_height="10dp"
@@ -58,7 +74,8 @@
             app:pageIndicatorColor="@color/light_grey"
             app:dotDiameter="5dp"
             app:dotGap="5dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/presetName"
@@ -67,13 +84,14 @@
             android:textColor="@android:color/black"
             android:textAllCaps="true"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/half"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
-            tools:visibility="visible"/>
+            tools:visibility="visible"
+            android:layout_marginBottom="48dp"/>
 
         <Switch
             android:id="@+id/powerSwitch"
@@ -145,9 +163,9 @@
         <dev.olog.msc.presentation.equalizer.widget.BandView
             android:id="@+id/band3"
             app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
-            app:layout_constraintBottom_toTopOf="@+id/presetName"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/half"
             android:layout_width="@dimen/eq_bar_width"
             android:layout_height="0dp"
             android:layout_marginBottom="32dp"
@@ -207,32 +225,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="@dimen/eq_guideline_percent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <dev.olog.msc.presentation.equalizer.widget.RadialKnob
             android:id="@+id/bassKnob"
-            app:layout_constraintTop_toBottomOf="@+id/guideline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/presetName"
+            app:layout_constraintStart_toEndOf="@+id/half"
             app:layout_constraintEnd_toStartOf="@+id/virtualizerKnob"
             android:layout_width="@dimen/knob_width"
             android:layout_height="@dimen/knob_height"
-            app:layout_constraintVertical_bias=".7"/>
+            app:layout_constraintVertical_bias=".5"/>
 
         <dev.olog.msc.presentation.equalizer.widget.RadialKnob
             android:id="@+id/virtualizerKnob"
-            app:layout_constraintTop_toBottomOf="@+id/guideline"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/powerSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/presetName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/bassKnob"
             android:layout_width="@dimen/knob_width"
             android:layout_height="@dimen/knob_height"
-            app:layout_constraintVertical_bias=".7"/>
+            app:layout_constraintVertical_bias=".5"/>
 
         <TextView
             android:text="Bass"
@@ -259,23 +270,22 @@
         <TextView
             android:id="@+id/replayGain"
             android:text="Replay Gain"
-            app:layout_constraintBottom_toTopOf="@+id/bassKnob"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/powerSwitch"
+            app:layout_constraintBottom_toBottomOf="@+id/powerSwitch"
+            app:layout_constraintStart_toEndOf="@+id/half"
             app:layout_constraintEnd_toStartOf="@+id/replayGainSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_chainStyle="packed"
             android:textStyle="bold"
-            android:textColor="@color/dark_grey"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"/>
+            android:textColor="@color/dark_grey" />
 
         <Switch
             android:id="@+id/replayGainSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/replayGain"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/half"
             app:layout_constraintStart_toEndOf="@+id/replayGain"
             app:layout_constraintBottom_toBottomOf="@+id/replayGain"
             android:layout_marginStart="8dp"

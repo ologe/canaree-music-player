@@ -3,10 +3,7 @@ package dev.olog.msc.presentation.equalizer
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.view.ViewPager
-import android.view.Gravity
-import android.view.Menu
 import android.view.View
-import android.widget.PopupMenu
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import dev.olog.msc.R
 import dev.olog.msc.interfaces.equalizer.IEqualizer
@@ -104,21 +101,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band5.setLevel = onBandLevelChange
 
         back.setOnClickListener { act.onBackPressed() }
-
-        spinner.setOnClickListener {
-            val popupMenu = PopupMenu(context, spinner, Gravity.BOTTOM)
-            val presets = presenter.getPresets()
-            val menu = popupMenu.menu
-            for (preset in presets) {
-                menu.add(Menu.NONE, preset.hashCode(), Menu.NONE, preset)
-            }
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                val position = presets.indexOfFirst { it.hashCode() == menuItem.itemId }
-                pager.setCurrentItem(position, true)
-                true
-            }
-            popupMenu.show()
-        }
     }
 
     override fun onPause() {
@@ -136,7 +118,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band5.setLevel = null
 
         back.setOnClickListener(null)
-        spinner.setOnClickListener(null)
     }
 
     private val onBassKnobChangeListener = object : RadialKnob.OnKnobChangeListener {
