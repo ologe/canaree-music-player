@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
@@ -50,6 +51,8 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
     @Inject lateinit var viewModel : PlaylistTracksChooserFragmentViewModel
     @Inject lateinit var adapter: PlaylistTracksChooserFragmentAdapter
     @Inject lateinit var safeTransition: SafeTransition
+
+    private var toast: Toast? = null
 
     private var errorDisposable : Disposable? = null
 
@@ -107,8 +110,11 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                 .subscribe(this, {
                     adapter.updateDataSet(it)
                     view.sidebar.onDataChanged(it)
-                    view.emptyStateText.toggleVisibility(it.isEmpty())
                 })
+
+        adapter.setAfterDataChanged({
+            view.emptyStateText.toggleVisibility(it.isEmpty())
+        })
 
         RxView.clicks(view.back)
                 .asLiveData()
@@ -123,6 +129,15 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                 .subscribe(this, {
                     view.filterList.toggleSelected()
                     viewModel.toggleShowOnlyFiltered()
+
+                    toast?.cancel()
+
+                    if (view.filterList.isSelected) {
+                        toast = act.toast(R.string.playlist_tracks_chooser_show_only_selected)
+                    } else {
+                        toast = act.toast(R.string.playlist_tracks_chooser_show_all)
+                    }
+
                 })
 
         view.sidebar.scrollableLayoutId = R.layout.item_choose_track

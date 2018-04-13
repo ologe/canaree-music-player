@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="related_artists_header">
+        <item>Artisti correlati alla cartella %s</item>
+        <item>Artisti correlati alla playlist %s</item>
+        <item>Invalid</item>
+        <item>Artisti correlati all\'album %s</item>
+        <item>Artisti correlati all\'artista %s</item>
+        <item>Artisti correlati al genere %s</item>
+    </string-array>
+
+</resources>

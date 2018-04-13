@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.interactor.detail.item.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -12,13 +13,18 @@ import dev.olog.msc.utils.k.extension.mapToList
 
 class RecentlyAddedFragmentViewModel(
         mediaId: MediaId,
-        useCase: GetRecentlyAddedUseCase
+        useCase: GetRecentlyAddedUseCase,
+        getItemTitleUseCase: GetItemTitleUseCase
 
 ) : ViewModel() {
+
+    val itemOrdinal = mediaId.category.ordinal
 
     val data : LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
             .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
             .asLiveData()
+
+    val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()
 
 }
 
@@ -27,7 +33,7 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
             R.layout.item_recently_added,
             MediaId.playableItem(parentId, id),
             title,
-            artist,
+            DisplayableItem.adjustArtist(artist),
             image,
             true,
             isRemix,

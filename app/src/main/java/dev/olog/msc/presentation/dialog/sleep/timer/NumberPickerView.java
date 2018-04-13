@@ -25,7 +25,7 @@ class NumberPickerView extends View {
     private static final int DEFAULT_TEXT_COLOR_NORMAL = 0XFF333333;
 
     // default text color of selected item
-    private static final int DEFAULT_TEXT_COLOR_SELECTED = 0XFFF56313;
+    private static final int DEFAULT_TEXT_COLOR_SELECTED = 0XFF2979FF;
 
     // default text size of normal item
     private static final int DEFAULT_TEXT_SIZE_NORMAL_SP = 14;

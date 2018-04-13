@@ -6,6 +6,7 @@ import android.content.res.Resources
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
+import dev.olog.msc.domain.interactor.detail.item.GetItemTitleUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
@@ -15,14 +16,19 @@ import dev.olog.msc.utils.k.extension.mapToList
 class RelatedArtistViewModel(
         resources: Resources,
         mediaId: MediaId,
-        useCase: GetRelatedArtistsUseCase
+        useCase: GetRelatedArtistsUseCase,
+        getItemTitleUseCase: GetItemTitleUseCase
 
 ): ViewModel() {
+
+    val itemOrdinal = mediaId.category.ordinal
 
     val data: LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
             .mapToList { it.toRelatedArtist(resources) }
             .map { it.sortedBy { it.title.toLowerCase() } }
             .asLiveData()
+
+    val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()
 
 }
 

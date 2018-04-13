@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.ViewSwitcher
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
+import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.subscribe
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
@@ -70,7 +71,7 @@ class AboutActivity : BaseActivity() {
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
         textView.gravity = Gravity.CENTER
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen(R.dimen.common_header_size).toFloat())
         textView.typeface = Typeface.DEFAULT_BOLD
         textView.setTextColor(ColorStateList.valueOf(
                 ContextCompat.getColor(this@AboutActivity, R.color.text_color_primary)))

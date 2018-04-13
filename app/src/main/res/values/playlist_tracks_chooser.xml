@@ -3,6 +3,9 @@
 
     <string name="playlist_tracks_chooser_no_tracks">Choose tracks for your new playlist</string>
 
+    <string name="playlist_tracks_chooser_show_only_selected">Show only selected tracks</string>
+    <string name="playlist_tracks_chooser_show_all">Show all</string>
+
     <plurals name="playlist_tracks_chooser_count">
         <item quantity="one">1 track selected</item>
         <item quantity="other">%d tracks selected</item>

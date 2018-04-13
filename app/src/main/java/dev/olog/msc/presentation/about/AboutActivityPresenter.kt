@@ -48,7 +48,7 @@ class AboutActivityPresenter @Inject constructor(
             DisplayableItem(R.layout.item_about, SPECIAL_THANKS_ID, context.getString(R.string.about_special_thanks_to), context.getString(R.string.about_special_thanks_to_description))
     )
 
-    private val trial = DisplayableItem(R.layout.item_about, BUY_PRO, context.getString(R.string.about_buy_pro), context.getString(R.string.about_buy_pro_description_trial))
+    private val trial = DisplayableItem(R.layout.item_about, BUY_PRO, context.getString(R.string.about_buy_pro), context.getString(R.string.about_buy_pro_description_trial), isExplicit = true)
     private val noPro = DisplayableItem(R.layout.item_about, BUY_PRO, context.getString(R.string.about_buy_pro), context.getString(R.string.about_buy_pro_description))
     private val alreadyPro = DisplayableItem(R.layout.item_about, BUY_PRO, context.getString(R.string.about_buy_pro), context.getString(R.string.premium_already_premium), isExplicit = true)
 

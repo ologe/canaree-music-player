@@ -43,7 +43,7 @@
 
         <dev.olog.msc.presentation.utils.PlayingFromTextView
             android:id="@+id/header"
-            tools:text="Playing from playlist"
+            android:text="@string/playing_queue_playing_from_all_tracks"
             android:textAllCaps="true"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
@@ -60,7 +60,7 @@
 
         <TextView
             android:id="@+id/subHeader"
-            tools:text="Wanksta - 50 Cent"
+            android:text="@string/common_all_tracks"
             android:textColor="@color/dark_grey"
             android:textStyle="bold"
             android:textSize="16dp"

@@ -69,7 +69,7 @@ ext {
     micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.0'
     micro_architecture_room = '1.0.0'
-    constraint_layout = '1.1.0-beta6'
+    constraint_layout = '1.1.0'
     glide = '4.6.1'
     exo_player = '2.7.3'
     sliding_panel = '3.4.0'

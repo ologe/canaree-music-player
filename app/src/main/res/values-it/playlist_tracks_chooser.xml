@@ -3,6 +3,8 @@
 
     <string name="playlist_tracks_chooser_no_tracks">Seleziona i brani da aggiungere alla playlist</string>
 
+    <string name="playlist_tracks_chooser_no_tracks_show_only_selected">Mostra solo i brani selezionati</string>
+    <string name="playlist_tracks_chooser_no_tracks_show_all">Mostra tutti i brani</string>
 
     <plurals name="playlist_tracks_chooser_count">
         <item quantity="one">1 brano selezionato</item>
