@@ -27,7 +27,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="@dimen/toolbar_elevation" />
 
-        <View
+        <dev.olog.msc.presentation.widget.StatusBarView
             android:id="@+id/statusBar"
             android:layout_width="0dp"
             android:layout_height="@dimen/status_bar"

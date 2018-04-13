@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
+    <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="@dimen/status_bar"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"/>
 

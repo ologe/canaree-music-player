@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
+    <dev.olog.msc.presentation.widget.StatusBarView
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
         android:background="@color/colorPrimaryDark"

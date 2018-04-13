@@ -3,9 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    tools:layout_marginTop="@dimen/status_bar">
+    android:orientation="vertical">
 
     <dev.olog.msc.presentation.dialog.sleep.timer.ScrollHmsPicker
         android:id="@+id/hms_picker"

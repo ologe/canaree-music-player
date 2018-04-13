@@ -32,7 +32,7 @@
         android:layout_marginBottom="8dp"
         android:paddingStart="16dp" />
 
-    <View
+    <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,13 +41,12 @@
         android:layout_height="@dimen/status_bar"
         android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"
-        android:visibility="gone"
+        android:visibility="invisible"
         tools:visibility="visible"/>
 
     <View
         android:id="@+id/toolbar"
-        android:layout_marginTop="@dimen/status_bar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="0dp"
@@ -59,8 +58,7 @@
 
     <ImageButton
         android:id="@+id/back"
-        android:layout_marginTop="@dimen/status_bar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/vd_back_arrow"
         android:padding="12dp"
@@ -74,8 +72,7 @@
 
     <ImageButton
         android:id="@+id/search"
-        android:layout_marginTop="@dimen/status_bar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toStartOf="@+id/more"
         android:src="@drawable/vd_search"
         android:padding="12dp"
@@ -90,8 +87,7 @@
 
     <ImageButton
         android:id="@+id/more"
-        android:layout_marginTop="@dimen/status_bar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/vd_more"
         android:padding="12dp"
@@ -112,9 +108,8 @@
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         android:maxLines="2"
-        android:layout_marginTop="@dimen/status_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="96dp"

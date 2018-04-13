@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="status_bar">0dp</dimen>
+    <dimen name="status_bar">24dp</dimen>
     <dimen name="toolbar">56dp</dimen>
     <dimen name="tab">40dp</dimen>
     <dimen name="toolbar_elevation">2dp</dimen>

@@ -8,7 +8,7 @@
     android:id="@+id/root"
     android:background="@color/background">
 
-    <View
+    <dev.olog.msc.presentation.widget.StatusBarView
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
         android:background="@color/colorPrimaryDark"
