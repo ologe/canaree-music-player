@@ -9,6 +9,7 @@ import dev.olog.msc.presentation.dialog.add.queue.di.AddQueueDialogInjector
 import dev.olog.msc.presentation.dialog.clear.playlist.di.ClearPlaylistDialogInjector
 import dev.olog.msc.presentation.dialog.create.playlist.di.NewPlaylistDialogInjector
 import dev.olog.msc.presentation.dialog.delete.di.DeleteDialogInjector
+import dev.olog.msc.presentation.dialog.remove.duplicates.di.RemoveDuplicatesDialogInjector
 import dev.olog.msc.presentation.dialog.rename.di.RenameDialogInjector
 import dev.olog.msc.presentation.dialog.set.ringtone.di.SetRingtoneDialogInjector
 import dev.olog.msc.presentation.edit.album.di.EditAlbumFragmentInjector
@@ -52,7 +53,8 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         RenameDialogInjector::class,
         ClearPlaylistDialogInjector::class,
         DeleteDialogInjector::class,
-        NewPlaylistDialogInjector::class
+        NewPlaylistDialogInjector::class,
+        RemoveDuplicatesDialogInjector::class
 ))
 @PerActivity
 interface MainActivitySubComponent : AndroidInjector<MainActivity> {

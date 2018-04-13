@@ -17,6 +17,7 @@
     <string name="popup_delete">Elimina dal dispositivo</string>
     <string name="popup_rename">Rinomina</string>
     <string name="popup_clear_playlist">Svuota playlist</string>
+    <string name="popup_remove_duplicates">Rimuovi duplicati</string>
 
     <string name="popup_equalizer">Equalizzatore</string>
     <string name="popup_sleep_timer">Timer di spegnimento</string>
@@ -27,7 +28,8 @@
     <string name="popup_positive_ok">OK</string>
     <string name="popup_positive_save">Salva</string>
     <string name="popup_positive_create">Crea</string>
-    <string name="popup_positive_delete">Rimuovi</string>
+    <string name="popup_positive_delete">Cancella</string>
+    <string name="popup_positive_remove">Rimuovi</string>
 
     <string name="popup_neutral_reset">Ripristina</string>
 

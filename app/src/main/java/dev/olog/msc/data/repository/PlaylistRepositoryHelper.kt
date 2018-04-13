@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import androidx.core.database.getLong
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.gateway.FavoriteGateway
@@ -79,11 +80,9 @@ class PlaylistRepositoryHelper @Inject constructor(
                 PlaylistConstants.HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAll() }
             }
         }
-        return Completable.create {
+        return Completable.fromCallable {
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
             contentResolver.delete(uri, null, null)
-
-            it.onComplete()
         }
     }
 
@@ -125,6 +124,25 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
         return MediaStore.Audio.Playlists.Members.moveItem(contentResolver, playlistId, from, to)
+    }
+
+    fun removeDuplicated(playlistId: Long) {
+        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
+        val cursor = contentResolver.query(uri, arrayOf(
+                    MediaStore.Audio.Playlists.Members._ID,
+                    MediaStore.Audio.Playlists.Members.AUDIO_ID
+                ), null, null, MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER)
+
+        val distinctTrackIds = mutableSetOf<Long>()
+
+        while (cursor.moveToNext()){
+            val trackId = cursor.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID)
+            distinctTrackIds.add(trackId)
+        }
+        cursor.close()
+
+        contentResolver.delete(uri, null, null)
+        addSongsToPlaylist(playlistId, distinctTrackIds.toList())
     }
 
 }

@@ -30,4 +30,6 @@ interface PlaylistGateway :
 
     fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable
 
+    fun removeDuplicated(playlistId: Long): Completable
+
 }

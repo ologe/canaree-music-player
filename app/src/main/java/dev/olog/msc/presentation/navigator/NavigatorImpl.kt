@@ -23,6 +23,7 @@ import dev.olog.msc.presentation.dialog.add.queue.AddQueueDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
 import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
 import dev.olog.msc.presentation.dialog.delete.DeleteDialog
+import dev.olog.msc.presentation.dialog.remove.duplicates.RemoveDuplicatesDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
@@ -313,5 +314,10 @@ class NavigatorImpl @Inject internal constructor(
     override fun toClearPlaylistDialog(mediaId: MediaId, itemTitle: String) {
         val fragment = ClearPlaylistDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, ClearPlaylistDialog.TAG)
+    }
+
+    override fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String) {
+        val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
+        fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
     }
 }

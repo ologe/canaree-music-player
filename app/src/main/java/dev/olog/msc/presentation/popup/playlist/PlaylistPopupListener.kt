@@ -63,10 +63,15 @@ class PlaylistPopupListener @Inject constructor(
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title, playlist.image)
+            R.id.removeDuplicates -> removeDuplicates()
         }
 
 
         return true
+    }
+
+    private fun removeDuplicates(){
+        navigator.toRemoveDuplicatesDialog(MediaId.playlistId(playlist.id), playlist.title)
     }
 
     private fun toCreatePlaylist(){

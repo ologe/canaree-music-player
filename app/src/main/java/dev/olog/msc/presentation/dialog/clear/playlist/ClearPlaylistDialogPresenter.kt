@@ -7,12 +7,12 @@ import javax.inject.Inject
 
 class ClearPlaylistDialogPresenter @Inject constructor(
         private val mediaId: MediaId,
-        private val clearPlaylistUseCase: ClearPlaylistUseCase
+        private val useCase: ClearPlaylistUseCase
 
 ) {
 
     fun execute(): Completable {
-        return clearPlaylistUseCase.execute(mediaId)
+        return useCase.execute(mediaId)
     }
 
 }

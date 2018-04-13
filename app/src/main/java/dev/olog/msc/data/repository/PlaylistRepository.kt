@@ -26,6 +26,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.toFlowable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
@@ -83,6 +84,7 @@ class PlaylistRepository @Inject constructor(
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
+            .throttleLast(350, TimeUnit.MILLISECONDS)
 
     override fun getAll(): Observable<List<Playlist>> {
         return cachedData
@@ -209,5 +211,9 @@ class PlaylistRepository @Inject constructor(
 
     override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
         return helper.moveItem(playlistId, from, to)
+    }
+
+    override fun removeDuplicated(playlistId: Long): Completable {
+        return Completable.fromCallable { helper.removeDuplicated(playlistId) }
     }
 }
