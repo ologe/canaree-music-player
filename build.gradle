@@ -61,7 +61,7 @@ ext {
         X.xxx - X major version, xxx minor version
      */
     versionCode = 4271003
-    versionName = '1.0.03'
+    versionName = '1.0.3'
 
     // App dependencies
     support_library = '27.1.1'

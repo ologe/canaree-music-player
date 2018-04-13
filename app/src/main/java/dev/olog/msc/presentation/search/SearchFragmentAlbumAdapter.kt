@@ -25,7 +25,7 @@ class SearchFragmentAlbumAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             navigator.toDetailFragment(item.mediaId)
-            viewModel.insertAlbumToRecent(item.mediaId)
+            viewModel.insertToRecent(item.mediaId)
         }
         viewHolder.setOnLongClickListener(controller) { item, _, _ ->
             navigator.toDialog(item, viewHolder.itemView)

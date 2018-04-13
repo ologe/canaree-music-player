@@ -21,6 +21,7 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.SwipeableView
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -60,6 +61,12 @@ class PlayerFragmentAdapter @Inject constructor(
                     } else false
                 }
             }
+            R.layout.fragment_player_controls -> {
+                viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
+                    val mediaId = MediaId.songId(viewModel.currentTrackId)
+                    navigator.toDialog(mediaId, view)
+                }
+            }
         }
     }
 
@@ -77,6 +84,7 @@ class PlayerFragmentAdapter @Inject constructor(
     private fun bindPlayerControls(view: View){
         mediaProvider.onMetadataChanged()
                 .takeUntil(RxView.detaches(view))
+                .doOnNext { viewModel.currentTrackId = it.getId() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     updateMetadata(view, it)

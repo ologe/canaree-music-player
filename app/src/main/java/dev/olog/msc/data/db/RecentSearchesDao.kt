@@ -32,7 +32,7 @@ abstract class RecentSearchesDao {
 
         return getAllImpl()
                 .toObservable()
-                .flatMapSingle {  it.toFlowable().flatMapMaybe { recentEntity ->
+                .flatMapSingle {  it.toFlowable().concatMapMaybe { recentEntity ->
                         when (recentEntity.dataType){
                             SONG -> songList.flattenAsFlowable { it }
                                     .filter { it.id == recentEntity.itemId }

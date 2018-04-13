@@ -9,7 +9,6 @@ import dev.olog.msc.domain.interactor.tab.GetAllArtistsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -102,37 +101,41 @@ class SearchFragmentViewModel(
         } else mutableListOf()
     }
 
-    fun insertSongToRecent(mediaId: MediaId): Completable {
-        return insertSearchSongUseCase.execute(mediaId.leaf!!)
-    }
-
-    fun insertAlbumToRecent(mediaId: MediaId) {
-        val albumId = mediaId.categoryValue.toLong()
-        insertSearchAlbumUseCase.execute(albumId)
-                .subscribe({}, Throwable::printStackTrace)
+    fun insertToRecent(mediaId: MediaId){
+        when {
+            mediaId.isLeaf -> insertSearchSongUseCase.execute(mediaId.leaf!!)
+            mediaId.isArtist -> insertSearchArtistUseCase.execute(mediaId.resolveId)
+            mediaId.isAlbum -> insertSearchAlbumUseCase.execute(mediaId.resolveId)
+            else -> throw IllegalArgumentException("invalid category ${mediaId.resolveId}")
+        }.subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
     }
 
-    fun insertArtistToRecent(mediaId: MediaId) {
-        val artistId = mediaId.categoryValue.toLong()
-        insertSearchArtistUseCase.execute(artistId)
-                .subscribe({}, Throwable::printStackTrace)
-                .addTo(subscriptions)
-    }
+//    fun insertSongToRecent(mediaId: MediaId) {
+//        insertSearchSongUseCase.execute(mediaId.leaf!!)
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
+//    }
+
+//    fun insertAlbumToRecent(mediaId: MediaId) {
+//        val albumId = mediaId.resolveId
+//        insertSearchAlbumUseCase.execute(albumId)
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
+//    }
+
+//    fun insertArtistToRecent(mediaId: MediaId) {
+//        val artistId = mediaId.resolveId
+//        insertSearchArtistUseCase.execute(artistId)
+//                .subscribe({}, Throwable::printStackTrace)
+//                .addTo(subscriptions)
+//    }
 
     fun deleteFromRecent(mediaId: MediaId){
         when (mediaId.category) {
-            MediaIdCategory.ALBUMS -> {
-                val albumId = mediaId.categoryValue.toLong()
-                deleteRecentSearchAlbumUseCase.execute(albumId)
-            }
-            MediaIdCategory.ARTISTS -> {
-                val artistId = mediaId.categoryValue.toLong()
-                deleteRecentSearchArtistUseCase.execute(artistId)
-            }
-            MediaIdCategory.SONGS -> {
-                deleteRecentSearchSongUseCase.execute(mediaId.leaf!!)
-            }
+            MediaIdCategory.ALBUMS -> deleteRecentSearchAlbumUseCase.execute(mediaId.resolveId)
+            MediaIdCategory.ARTISTS -> deleteRecentSearchArtistUseCase.execute(mediaId.resolveId)
+            MediaIdCategory.SONGS -> deleteRecentSearchSongUseCase.execute(mediaId.leaf!!)
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }.subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)

@@ -26,6 +26,8 @@ class PlayerFragmentViewModel @Inject constructor(
 
     private val miniQueue = MutableLiveData<List<DisplayableItem>>()
 
+    var currentTrackId : Long = -1
+
     fun observeMiniQueue() : LiveData<List<DisplayableItem>> = miniQueue
 
     fun updateQueue(list: List<DisplayableItem>){

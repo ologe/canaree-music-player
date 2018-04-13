@@ -42,7 +42,7 @@ class SearchFragmentAdapter @Inject constructor(
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
                     mediaProvider.playFromMediaId(item.mediaId)
-                    viewModel.insertSongToRecent(item.mediaId)
+                    viewModel.insertToRecent(item.mediaId)
 
                 }
                 viewHolder.setOnLongClickListener(controller) { item ,_, _ ->
@@ -66,6 +66,7 @@ class SearchFragmentAdapter @Inject constructor(
                     } else {
                         navigator.toDetailFragment(item.mediaId)
                     }
+                    viewModel.insertToRecent(item.mediaId)
                 }
                 viewHolder.setOnLongClickListener(controller) { item ,_, _ ->
                     navigator.toDialog(item, viewHolder.itemView)

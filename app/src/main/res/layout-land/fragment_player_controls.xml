@@ -7,7 +7,8 @@
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="24dp"
+        tools:layout_marginStart="350dp">
 
         <include
             android:id="@+id/playerToolbar"
@@ -72,7 +73,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/seekBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_title_text_size"
@@ -83,7 +84,6 @@
             android:scrollHorizontally="true"
             android:textStyle="bold"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
             android:clickable="false"
             android:focusable="false"/>
 
@@ -92,7 +92,7 @@
             tools:text="50 Cent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/remix"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_artist_text_size"
@@ -102,21 +102,35 @@
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="@dimen/player_artist_bottom_padding"
             android:layout_marginTop="4dp"
             android:clickable="false"
             android:focusable="false"
             android:paddingBottom="16dp"/>
 
+        <ImageButton
+            android:id="@+id/more"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/artist"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/vd_more"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:tint="@color/button_primary_tint"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
+
         <TextView
             android:id="@+id/explicit"
             app:layout_constraintTop_toTopOf="@+id/artist"
             app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
             style="@style/ExplicitView"
             android:visibility="gone"
             tools:visibility="visible"
