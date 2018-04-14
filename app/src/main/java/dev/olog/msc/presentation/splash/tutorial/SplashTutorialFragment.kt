@@ -32,6 +32,7 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
         cover = view.findViewById(R.id.cover)
         swipeableView = view.findViewById(R.id.swipeableView)
 
+        loadPhoneImage(view)
         loadImage(cover, progressive)
     }
 
@@ -86,6 +87,13 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     private fun loadPreviousImage(){
         progressive--
         loadImage(cover, progressive)
+    }
+
+    private fun loadPhoneImage(view: View){
+        GlideApp.with(context!!)
+                .load(R.drawable.phone_black)
+                .priority(Priority.IMMEDIATE)
+                .into(view.findViewById(R.id.phoneImage))
     }
 
     private fun loadImage(view: ImageView, position: Int){
