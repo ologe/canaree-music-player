@@ -35,7 +35,7 @@ class CategoriesFragment : BaseFragment() {
         view.viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count)
         view.viewPager.offscreenPageLimit = 3
 
-        view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty())
+        view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
     }
 
     override fun onResume() {

@@ -230,9 +230,9 @@ class PlayerFragmentAdapter @Inject constructor(
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
-                        view.previous.toggleVisibility(visible)
-                        view.playPause.toggleVisibility(visible)
-                        view.next.toggleVisibility(visible)
+                        view.previous.toggleVisibility(visible, true)
+                        view.playPause.toggleVisibility(visible, true)
+                        view.next.toggleVisibility(visible, true)
 
                     }, Throwable::printStackTrace)
 
@@ -255,8 +255,8 @@ class PlayerFragmentAdapter @Inject constructor(
         val duration = metadata.getDuration()
         view.duration.text = metadata.getDurationReadable()
         view.seekBar.max = duration.toInt()
-        view.remix.toggleVisibility(metadata.isRemix())
-        view.explicit.toggleVisibility(metadata.isExplicit())
+        view.remix.toggleVisibility(metadata.isRemix(), true)
+        view.explicit.toggleVisibility(metadata.isExplicit(), true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

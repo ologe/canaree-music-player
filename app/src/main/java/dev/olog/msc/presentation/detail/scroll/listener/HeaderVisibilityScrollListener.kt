@@ -13,7 +13,8 @@ class HeaderVisibilityScrollListener(
 ) : RecyclerView.OnScrollListener() {
 
     private val context = fragment.context!!
-    private val toolbarHeight = context.dimen(R.dimen.status_bar) + context.dimen(R.dimen.toolbar)
+    private val toolbarHeight = context.dimen(R.dimen.status_bar) + // todo status bar height on android P
+            context.dimen(R.dimen.toolbar)
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         val child = recyclerView.getChildAt(0)
@@ -25,16 +26,16 @@ class HeaderVisibilityScrollListener(
             val bottom = child.bottom
             val needDarkLayout = bottom - toolbarHeight < 0
 
-            view.statusBar.toggleVisibility(needDarkLayout)
-            view.toolbar.toggleVisibility(needDarkLayout)
-            view.headerText.toggleVisibility(needDarkLayout)
+            view.statusBar.toggleVisibility(needDarkLayout, false)
+            view.toolbar.toggleVisibility(needDarkLayout, false)
+            view.headerText.toggleVisibility(needDarkLayout, false)
 
             fragment.hasLightStatusBarColor = needDarkLayout
 
         } else {
-            view.statusBar.toggleVisibility(true)
-            view.toolbar.toggleVisibility(true)
-            view.headerText.toggleVisibility(true)
+            view.statusBar.toggleVisibility(true, false)
+            view.toolbar.toggleVisibility(true, false)
+            view.headerText.toggleVisibility(true, false)
 
             fragment.hasLightStatusBarColor = true
         }

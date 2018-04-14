@@ -97,7 +97,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                     }
                     header.text = text
 
-                    save.toggleVisibility(size > 0)
+                    save.toggleVisibility(size > 0, true)
                 })
     }
 
@@ -113,7 +113,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                 })
 
         adapter.setAfterDataChanged({
-            view.emptyStateText.toggleVisibility(it.isEmpty())
+            view.emptyStateText.toggleVisibility(it.isEmpty(), true)
         })
 
         RxView.clicks(view.back)

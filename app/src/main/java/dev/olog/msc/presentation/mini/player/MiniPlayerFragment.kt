@@ -99,7 +99,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         savedInstanceState?.let {
-            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE))
+            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
         val (title, subtitle) = presenter.getMetadata()
         view.title.text = title

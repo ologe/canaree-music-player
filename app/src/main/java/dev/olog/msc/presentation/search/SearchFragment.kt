@@ -113,8 +113,8 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         bestMatchDisposable = viewModel.getBestMatch(query)
                 .subscribe({
                     didYouMean.text = it
-                    didYouMeanHeader.toggleVisibility(it.isNotBlank())
-                    didYouMean.toggleVisibility(it.isNotBlank())
+                    didYouMeanHeader.toggleVisibility(it.isNotBlank(), true)
+                    didYouMean.toggleVisibility(it.isNotBlank(), true)
                 }, Throwable::printStackTrace)
     }
 
@@ -167,13 +167,13 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         val itemCount = list.size
         val isEmpty = itemCount == 0
         val queryLength = editText.text.toString().length
-        this.searchImage.toggleVisibility(isEmpty && queryLength < 2)
-        this.searchText.toggleVisibility(isEmpty && queryLength < 2)
-        this.list.toggleVisibility(!isEmpty)
+        this.searchImage.toggleVisibility(isEmpty && queryLength < 2, true)
+        this.searchText.toggleVisibility(isEmpty && queryLength < 2, true)
+        this.list.toggleVisibility(!isEmpty, true)
 
         val showEmptyState = isEmpty && queryLength >= 2
-        this.emptyStateText.toggleVisibility(showEmptyState)
-        this.emptyStateImage.toggleVisibility(showEmptyState)
+        this.emptyStateText.toggleVisibility(showEmptyState, true)
+        this.emptyStateImage.toggleVisibility(showEmptyState, true)
         if(showEmptyState){
             this.emptyStateImage.resumeAnimation()
         } else {

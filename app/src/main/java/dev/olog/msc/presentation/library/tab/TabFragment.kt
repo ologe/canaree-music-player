@@ -61,7 +61,7 @@ class TabFragment : BaseFragment() {
     }
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean){
-        emptyStateText.toggleVisibility(isEmpty)
+        emptyStateText.toggleVisibility(isEmpty, true)
         if (isEmpty){
             val emptyText = resources.getStringArray(R.array.tab_empty_state)
             emptyStateText.text = emptyText[category.ordinal]
@@ -83,7 +83,7 @@ class TabFragment : BaseFragment() {
         }
         view.sidebar.scrollableLayoutId = scrollableLayoutId
 
-        view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS)
+        view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS, true)
     }
 
     override fun onResume() {

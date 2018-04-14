@@ -30,7 +30,7 @@ class QuickActionView @JvmOverloads constructor(
     }
 
     private fun setupImage(){
-        toggleVisibility(AppConstants.QUICK_ACTION != Type.NONE)
+        toggleVisibility(AppConstants.QUICK_ACTION != Type.NONE, true)
 
         when (AppConstants.QUICK_ACTION){
             Type.NONE -> setImageDrawable(null)

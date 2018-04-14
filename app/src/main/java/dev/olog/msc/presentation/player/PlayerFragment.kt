@@ -124,9 +124,9 @@ class PlayerFragment : BaseFragment() {
             viewModel.observePlayerControlsVisibility()
                     .asLiveData()
                     .subscribe(this, {
-                        previous.toggleVisibility(it)
-                        playPause.toggleVisibility(it)
-                        next.toggleVisibility(it)
+                        previous.toggleVisibility(it, true)
+                        playPause.toggleVisibility(it, true)
+                        next.toggleVisibility(it, true)
                     })
 
             viewModel.skipToNextVisibility.asLiveData()
