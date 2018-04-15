@@ -7,8 +7,9 @@
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_marginTop="24dp"
-        tools:layout_marginStart="350dp">
+        android:layout_marginTop="8dp"
+        tools:layout_marginStart="350dp"
+        android:paddingEnd="@dimen/mini_queue_margin_end">
 
         <include
             android:id="@+id/playerToolbar"
@@ -121,8 +122,7 @@
             android:tint="@color/button_primary_tint"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
         <TextView
             android:id="@+id/explicit"
