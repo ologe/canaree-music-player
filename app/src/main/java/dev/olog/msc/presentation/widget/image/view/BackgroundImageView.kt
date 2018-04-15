@@ -20,13 +20,9 @@ class BackgroundImageView @JvmOverloads constructor(
         paint.color = 0x99_00_00_00.toInt()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        rect.set(0,0, width, height)
-    }
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        rect.set(0,0, width, height)
         canvas.drawRect(rect, paint)
     }
 
