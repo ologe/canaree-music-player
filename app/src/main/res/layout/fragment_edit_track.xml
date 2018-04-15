@@ -47,16 +47,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintDimensionRatio="1"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundCover"
                 android:layout_margin="16dp"
                 app:layout_constraintHeight_max="200dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 tools:src="@drawable/placeholder_folder"
                 tools:tint="@color/item_selected"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/autoTag"

@@ -52,7 +52,6 @@
                 android:layout_margin="16dp"
                 app:layout_constraintHeight_max="200dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
                 tools:src="@drawable/placeholder_folder"
                 tools:tint="@color/item_selected"
                 android:clickable="true"

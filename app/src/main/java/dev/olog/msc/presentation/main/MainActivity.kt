@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
@@ -17,6 +18,9 @@ import dev.olog.msc.presentation.base.HasBilling
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
+import dev.olog.msc.presentation.edit.album.EditAlbumFragment
+import dev.olog.msc.presentation.edit.artist.EditArtistFragment
+import dev.olog.msc.presentation.edit.track.EditTrackFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
@@ -127,12 +131,21 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             // prevent circular reveal crash
             return
         }
+        val editItem = findEditItemFragment()
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
         when {
+            editItem != null -> super.onBackPressed()
             playingQueue != null -> super.onBackPressed()
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
         }
+    }
+
+    private fun findEditItemFragment(): Fragment? {
+        val track = findFragmentByTag<Fragment>(EditTrackFragment.TAG)
+        val album = findFragmentByTag<Fragment>(EditAlbumFragment.TAG)
+        val artist = findFragmentByTag<Fragment>(EditArtistFragment.TAG)
+        return listOf(track, album, artist).firstOrNull { it != null }
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel
