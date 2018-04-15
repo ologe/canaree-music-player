@@ -91,14 +91,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            tools:listitem="@layout/item_tab_song"
+            tools:listitem="@layout/item_search_recent"
             android:paddingTop="@dimen/playing_queue_margin_vertical"
             android:paddingBottom="@dimen/playing_queue_margin_vertical"
-            android:paddingStart="@dimen/playing_queue_margin_horizontal"
-            android:paddingEnd="@dimen/playing_queue_margin_horizontal"
             android:clipToPadding="false"
             android:clipChildren="false"
-            tools:visibility="gone"/>
+            tools:visibility="visible"/>
 
         <ImageView
             android:id="@+id/searchImage"

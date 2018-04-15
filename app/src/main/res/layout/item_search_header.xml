@@ -10,7 +10,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp">
+        android:layout_marginStart="12dp"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal">
 
         <TextView
             android:text="@{item.title}"
