@@ -31,6 +31,8 @@ fun Cursor.toFakeSong(): Song {
     )
 }
 
+
+
 private fun extractFolder(path: String): String {
     val lastSep = path.lastIndexOf(File.separator)
     val prevSep = path.lastIndexOf(File.separator, lastSep - 1)

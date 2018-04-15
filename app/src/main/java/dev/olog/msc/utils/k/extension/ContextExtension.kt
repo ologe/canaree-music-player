@@ -36,6 +36,9 @@ fun Context.dipf(value: Int): Float = (value * resources.displayMetrics.density)
 
 fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
 
+fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
+fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
+
 inline fun Context.toast(message: Int): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)
         .apply {

@@ -41,6 +41,7 @@ class TabFragmentAdapter @Inject constructor(
             }
             R.layout.item_tab_album,
             R.layout.item_tab_artist,
+            R.layout.item_tab_auto_playlist,
             R.layout.item_tab_song -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
                     if (item.isPlayable){

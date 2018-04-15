@@ -16,7 +16,6 @@ class ResizeAnimation(
 
     override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
         val newHeight = startHeight + targetHeight * interpolatedTime
-        println(newHeight)
         view.layoutParams.height = newHeight.toInt()
         view.requestLayout()
     }

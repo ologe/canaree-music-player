@@ -57,6 +57,7 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS, SORT_ORDER, true
         ).mapToList { mapToSong(it) }
                 .map { removeBlacklisted(it) }
+                .map { mockDataIfNeeded(it) }
                 .onErrorReturn { listOf() }
     }
 
@@ -66,6 +67,18 @@ class SongRepository @Inject constructor(
         } else {
             cursor.toSong()
         }
+    }
+
+    private fun mockDataIfNeeded(original: List<Song>): List<Song> {
+        if (AppConstants.useFakeData && original.isEmpty()){
+            return (0 until 50)
+                    .map { Song(it.toLong(), it.toLong(), it.toLong(),
+                            "An awesome title", "An awesome artist", "An awesome album",
+                            "", (it * 1000000).toLong(), System.currentTimeMillis(),
+                            it.rem(3) == 0, it.rem(5) == 0,
+                            "storage/emulated/folder", "folder", -1, -1) }
+        }
+        return original
     }
 
     private fun removeBlacklisted(original: List<Song>): List<Song>{

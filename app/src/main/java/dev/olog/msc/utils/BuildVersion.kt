@@ -28,5 +28,5 @@ fun isOreo_MR1(): Boolean {
 
 fun isP(): Boolean {
 //    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-    return false
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1 // todo android preview bug
 }

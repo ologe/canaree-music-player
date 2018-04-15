@@ -73,8 +73,6 @@ class PlayerFading @Inject constructor(
      * from low to normal
      */
     private fun fadeIn(fromCurrentVolume: Boolean){
-        println("fade in request, duration $fadeTime")
-
         if (fadeTime == 0){
             exoPlayer.volume = playerVolume.getVolume()
             return
@@ -105,7 +103,6 @@ class PlayerFading @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     val current = MathUtils.clamp(exoPlayer.volume + delta, min, max)
-                    println("fading in, volume $current")
                     exoPlayer.volume = current
                 }, Throwable::printStackTrace)
 
@@ -115,8 +112,6 @@ class PlayerFading @Inject constructor(
      * from current to low
      */
     private fun fadeOut(fadeTime: Long = this.fadeTime.toLong()){
-        println("fade out request, duration $fadeTime")
-
         if (fadeTime == 0L){
             exoPlayer.volume = playerVolume.getVolume()
             return
@@ -138,7 +133,6 @@ class PlayerFading @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     val current = MathUtils.clamp(exoPlayer.volume - delta, min, max)
-                    println("fading out, volume $current")
                     exoPlayer.volume = current
 
                 }, { isFadingOut = false }, { isFadingOut = false })

@@ -8,9 +8,9 @@ fun View.toggleVisibility(visible: Boolean, gone: Boolean){
         this.visibility = View.VISIBLE
     } else {
         if (gone){
-            this.visibility = View.INVISIBLE
-        } else {
             this.visibility = View.GONE
+        } else {
+            this.visibility = View.INVISIBLE
         }
     }
 }
