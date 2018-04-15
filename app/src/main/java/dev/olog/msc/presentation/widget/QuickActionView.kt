@@ -13,10 +13,9 @@ import kotlin.properties.Delegates
 
 class QuickActionView @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet? = null
 
-) : AppCompatImageView(context, attrs, defStyleAttr), View.OnClickListener {
+) : AppCompatImageView(context, attrs), View.OnClickListener {
 
     private var currentMediaId by Delegates.notNull<MediaId>()
 

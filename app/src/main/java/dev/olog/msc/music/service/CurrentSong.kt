@@ -97,6 +97,7 @@ class CurrentSong @Inject constructor(
 
     private fun createMostPlayedId(entity: MediaEntity): Maybe<MediaId> {
         try {
+
             return Maybe.just(MediaId.playableItem(entity.mediaId, entity.id))
         } catch (ex: Exception){
             return Maybe.empty()

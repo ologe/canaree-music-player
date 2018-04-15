@@ -78,6 +78,41 @@
 
     </FrameLayout>
 
+    <dev.olog.msc.presentation.widget.fast.scroller.RxWaveSideBarView
+        android:id="@+id/sidebar"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        app:layout_constraintHeight_max="420dp"
+        app:layout_constraintTop_toBottomOf="@+id/filterWrapper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:fabSize="normal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/colorAccent"
+        android:tint="@android:color/white"
+        android:src="@drawable/vd_save"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        app:layout_constraintTop_toBottomOf="@+id/filterWrapper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_choose_track" />
+
     <FrameLayout
         android:id="@+id/filterWrapper"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -116,40 +151,5 @@
             android:background="?attr/selectableItemBackgroundBorderless" />
 
     </FrameLayout>
-
-    <dev.olog.msc.presentation.widget.fast.scroller.RxWaveSideBarView
-        android:id="@+id/sidebar"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        app:layout_constraintHeight_max="420dp"
-        app:layout_constraintTop_toBottomOf="@+id/filterWrapper"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:fabSize="normal"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="36dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:backgroundTint="@color/colorAccent"
-        android:tint="@android:color/white"
-        android:src="@drawable/vd_save"
-        android:visibility="gone"
-        tools:visibility="visible"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
-        app:layout_constraintTop_toBottomOf="@+id/filterWrapper"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        tools:listitem="@layout/item_choose_track" />
 
 </android.support.constraint.ConstraintLayout>

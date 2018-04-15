@@ -12,10 +12,9 @@ import dev.olog.msc.utils.isMarshmallow
 @Keep
 class AnimatedImageView @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet? = null
 
-) : AppCompatImageButton(context, attrs, defStyleAttr) {
+) : AppCompatImageButton(context, attrs, 0) {
 
     private val avd: AnimatedVectorDrawable
     private val animator: ViewPropertyAnimator = animate()

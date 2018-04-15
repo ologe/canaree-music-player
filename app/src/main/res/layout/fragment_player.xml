@@ -6,9 +6,10 @@
     android:orientation="vertical">
 
     <dev.olog.msc.presentation.widget.StatusBarView
+        android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
-        android:background="@color/background"/>
+        android:background="@color/status_bar_secondary"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"

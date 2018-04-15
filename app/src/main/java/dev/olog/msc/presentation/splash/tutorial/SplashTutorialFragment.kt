@@ -1,11 +1,14 @@
 package dev.olog.msc.presentation.splash.tutorial
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseFragment
@@ -91,9 +94,14 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
 
     private fun loadPhoneImage(view: View){
         GlideApp.with(context!!)
+                .asBitmap()
                 .load(R.drawable.phone_black)
                 .priority(Priority.IMMEDIATE)
-                .into(view.findViewById(R.id.phoneImage))
+                .into(object : SimpleTarget<Bitmap>(){
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        view.findViewById<ImageView>(R.id.phoneImage).setImageBitmap(resource)
+                    }
+                })
     }
 
     private fun loadImage(view: ImageView, position: Int){

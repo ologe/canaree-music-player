@@ -5,20 +5,19 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
-import android.widget.SeekBar
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
-import dev.olog.msc.presentation.SeekBarObservable
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
+import dev.olog.msc.presentation.widget.CustomSeekBar
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.ofType
+import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 class LyricsContent (
@@ -31,7 +30,7 @@ class LyricsContent (
     private val next = content.findViewById<AnimatedImageView>(R.id.next)
     private val playPause = content.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
     private val previous = content.findViewById<AnimatedImageView>(R.id.previous)
-    private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
+    private val seekBar = content.findViewById<CustomSeekBar>(R.id.seekBar)
     private val title = content.findViewById<TextView>(R.id.title)
     private val artist = content.findViewById<TextView>(R.id.artist)
 
@@ -46,7 +45,7 @@ class LyricsContent (
 
         musicServiceBinder.animatePlayPauseLiveData
                 .subscribe({
-                    handleSeekbarState(it == PlaybackStateCompat.STATE_PLAYING)
+                    handleSeekBarState(it == PlaybackStateCompat.STATE_PLAYING)
                     if (it == PlaybackStateCompat.STATE_PLAYING) {
                         playPause.animationPlay(true)
                     } else if (it == PlaybackStateCompat.STATE_PAUSED) {
@@ -101,7 +100,7 @@ class LyricsContent (
         seekBar.max = max.toInt()
     }
 
-    private fun handleSeekbarState(isPlaying: Boolean){
+    private fun handleSeekBarState(isPlaying: Boolean){
         updateDisposable.unsubscribe()
         if (isPlaying) {
             resumeSeekBar()
@@ -109,7 +108,7 @@ class LyricsContent (
     }
 
     private fun resumeSeekBar(){
-        updateDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
+        updateDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
                 .subscribe({ seekBar.incrementProgressBy(PROGRESS_BAR_INTERVAL) }, Throwable::printStackTrace)
     }
 
@@ -122,11 +121,13 @@ class LyricsContent (
     }
 
     private fun setupSeekBar(){
-        SeekBarObservable(seekBar).ofType<Pair<SeekBarObservable.Notification, Int>>()
-                .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
-                .map { (_, progress) -> progress.toLong() }
-                .subscribe(musicServiceBinder::seekTo, Throwable::printStackTrace)
-                .addTo(subscriptions)
+        seekBar.setListener(onProgressChanged = {
+
+        }, onStartTouch = {
+
+        }, onStopTouch = {
+            musicServiceBinder.seekTo(it.toLong())
+        })
     }
 
     override fun getUrl(item: String): String {

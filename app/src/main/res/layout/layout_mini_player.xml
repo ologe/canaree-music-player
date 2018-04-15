@@ -99,7 +99,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <SeekBar
+    <dev.olog.msc.presentation.widget.CustomSeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

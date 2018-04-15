@@ -11,10 +11,9 @@ import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 @Keep
 class AnimatedPlayPauseImageView @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet? = null
 
-) : AppCompatImageButton(context, attrs, defStyleAttr) {
+) : AppCompatImageButton(context, attrs, 0) {
 
     private val playAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
     private val pauseAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.msc.R
-import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.hasNotch
@@ -15,6 +14,7 @@ import dev.olog.msc.utils.k.extension.hasNotch
 class StatusBarView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
+
 ) : View(context, attrs) {
 
     private val defaultStatusBarHeight = context.dimen(R.dimen.status_bar)
@@ -22,12 +22,10 @@ class StatusBarView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = when {
-            !isMarshmallow() -> 0
             hasNotch -> statusBarHeightPlusNotch
             else -> defaultStatusBarHeight
         }
 
-//        super.onMeasure(widthMeasureSpec, height)
         setMeasuredDimension(widthMeasureSpec, height)
     }
 

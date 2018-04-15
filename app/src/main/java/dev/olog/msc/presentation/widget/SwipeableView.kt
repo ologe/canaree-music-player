@@ -11,10 +11,9 @@ private const val DEFAULT_SWIPED_THRESHOLD = 100
 
 class SwipeableView @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet? = null
 
-) : View(context, attrs, defStyleAttr) {
+) : View(context, attrs) {
 
     private val swipedThreshold = DEFAULT_SWIPED_THRESHOLD
     private var xDown = 0f

@@ -7,10 +7,9 @@ import dev.olog.msc.domain.entity.FavoriteEnum
 
 class LottieFavorite @JvmOverloads constructor(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+        attrs: AttributeSet? = null
 
-) : LottieAnimationView(context, attrs, defStyleAttr) {
+) : LottieAnimationView(context, attrs) {
 
     private var state : FavoriteEnum? = null
 

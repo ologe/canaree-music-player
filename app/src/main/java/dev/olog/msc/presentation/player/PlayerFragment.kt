@@ -1,12 +1,14 @@
 package dev.olog.msc.presentation.player
 
 import android.os.Bundle
+import android.support.v4.math.MathUtils
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
@@ -17,18 +19,21 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.player_controls.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.abs
 
-class PlayerFragment : BaseFragment() {
+class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
     @Inject lateinit var viewModel: PlayerFragmentViewModel
     @Inject lateinit var navigator: Navigator
@@ -146,6 +151,10 @@ class PlayerFragment : BaseFragment() {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        val showStatusBar = !isMarshmallow() && getSlidingPanel().isCollapsed()
+        val statusBarAlpha = if (showStatusBar) 1f else 0f
+        view.statusBar.alpha = statusBarAlpha
     }
 
     private fun animateSkipTo(toNext: Boolean) {
@@ -170,7 +179,7 @@ class PlayerFragment : BaseFragment() {
         seekBarDisposable.unsubscribe()
 
         if (isPlaying){
-            seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
+            seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
                     .map { (it + 1) * PROGRESS_BAR_INTERVAL + bookmark }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ viewModel.updateProgress(it.toInt()) }, Throwable::printStackTrace)
@@ -183,6 +192,7 @@ class PlayerFragment : BaseFragment() {
         swipeableView?.setOnSwipeListener(onSwipeListener)
         shuffle?.setOnClickListener { mediaProvider.toggleShuffleMode() }
         repeat?.setOnClickListener { mediaProvider.toggleRepeatMode() }
+        getSlidingPanel()!!.addPanelSlideListener(this)
     }
 
     override fun onPause() {
@@ -190,6 +200,7 @@ class PlayerFragment : BaseFragment() {
         swipeableView?.setOnSwipeListener(null)
         shuffle?.setOnClickListener(null)
         repeat?.setOnClickListener(null)
+        getSlidingPanel()!!.removePanelSlideListener(this)
     }
 
     override fun onStop() {
@@ -219,6 +230,15 @@ class PlayerFragment : BaseFragment() {
         }
     }
 
+    override fun onPanelSlide(panel: View?, slideOffset: Float) {
+        if (!isMarshmallow() && slideOffset in .9f..1f){
+            val alpha = (1 - slideOffset) * 10
+            statusBar.alpha = MathUtils.clamp(abs(1 - alpha), 0f, 1f)
+        }
+    }
+
+    override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
+    }
 
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {
         val description = this.description
@@ -233,7 +253,6 @@ class PlayerFragment : BaseFragment() {
                 trackNumber = "${this.queueId}"
         )
     }
-
 
     override fun provideLayoutId(): Int = R.layout.fragment_player
 }

@@ -25,3 +25,11 @@ fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
     }
     return this
 }
+
+fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
+    val result = mutableMapOf<K, MutableList<V>>()
+    for ((key, value) in this){
+        result[key] = value.toMutableList()
+    }
+    return result
+}

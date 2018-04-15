@@ -24,6 +24,7 @@
         app:layout_constraintBottom_toTopOf="@+id/text2"
         android:text="@string/splash_player_controls"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
         android:gravity="center"
         android:textColor="@color/text_color_primary"
         android:textSize="30dp"
@@ -44,8 +45,7 @@
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/text3"
@@ -59,34 +59,46 @@
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginStart="16dp" />
+
+    <ImageView
+        android:id="@+id/phoneImage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:src="@drawable/phone_black"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintWidth_max="350dp"
+        android:scaleType="fitXY"/>
 
     <FrameLayout
         android:id="@+id/phone"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@+id/phoneImage"
+        app:layout_constraintEnd_toEndOf="@+id/phoneImage"
+        app:layout_constraintTop_toTopOf="@+id/phoneImage"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:elevation="12dp"
-        android:background="@drawable/rounded_drawable"
-        app:layout_constraintWidth_max="400dp">
+        app:layout_constraintWidth_max="350dp">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="0dp"
             app:cardBackgroundColor="@color/background"
-            app:cardCornerRadius="4dp"
-            android:translationY="8dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="24dp"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:translationY="8dp">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

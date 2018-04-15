@@ -13,7 +13,6 @@ import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
-import dev.olog.msc.presentation.SeekBarObservable
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
@@ -25,7 +24,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.ofType
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
@@ -96,6 +94,15 @@ class PlayerFragmentAdapter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ onPlaybackStateChanged(view, it) }, Throwable::printStackTrace)
 
+        view.seekBar.setListener(
+                onProgressChanged = {
+                    view.bookmark.text = TextUtils.formatMillis(it)
+                }, onStartTouch = {
+
+                }, onStopTouch = {
+                    mediaProvider.seekTo(it.toLong())
+                })
+
         viewModel.observeProgress
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -141,22 +148,6 @@ class PlayerFragmentAdapter @Inject constructor(
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ navigator.toPlayingQueueFragment(view.playingQueue) }, Throwable::printStackTrace)
-
-        val seekBarObservable = SeekBarObservable(view.seekBar)
-                .share()
-
-        seekBarObservable.ofType<Int>()
-                .takeUntil(RxView.detaches(view))
-                .map { TextUtils.formatMillis(it) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view.bookmark::setText, Throwable::printStackTrace)
-
-        seekBarObservable.ofType<Pair<SeekBarObservable.Notification, Int>>()
-                .takeUntil(RxView.detaches(view))
-                .filter { (notification, _) -> notification == SeekBarObservable.Notification.STOP }
-                .map { (_, progress) -> progress.toLong() }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mediaProvider::seekTo, Throwable::printStackTrace)
 
         view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener{
             override fun onSwipedLeft() {

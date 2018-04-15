@@ -14,6 +14,7 @@ import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.android.synthetic.main.fragment_mini_player.view.*
 import java.util.concurrent.TimeUnit
@@ -163,7 +164,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
     private fun resumeProgressBar() {
         seekBarDisposable = Observable
-                .interval(PROGRESS_BAR_INTERVAL, TimeUnit.MILLISECONDS)
+                .interval(PROGRESS_BAR_INTERVAL, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .subscribe({
                     view!!.progressBar.incrementProgressBy(PROGRESS_BAR_INTERVAL.toInt())
                 }, Throwable::printStackTrace)

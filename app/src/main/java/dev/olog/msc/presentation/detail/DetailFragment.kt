@@ -65,15 +65,16 @@ class DetailFragment : BaseFragment() {
                 .subscribe(this, relatedArtistAdapter::updateDataSet)
 
         viewModel.observeData()
-                .subscribe(this, {
-                    if (it.isEmpty()){
+                .subscribe(this, { map ->
+                    val copy = map.deepCopy()
+                    if (copy.isEmpty()){
                         act.onBackPressed()
                     } else {
                         if (ctx.isLandscape){
                             // header in list is not used in landscape
-                            it[DetailFragmentDataType.HEADER]!!.clear()
+                            copy[DetailFragmentDataType.HEADER]!!.clear()
                         }
-                        adapter.updateDataSet(it)
+                        adapter.updateDataSet(copy)
                     }
                 })
 

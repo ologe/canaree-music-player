@@ -54,7 +54,7 @@
             tools:visibility="invisible"/>
 
         <!-- seekbar -->
-        <SeekBar
+        <dev.olog.msc.presentation.widget.CustomSeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:thumbTint="@color/progress_bar_tint"
             android:progressBackgroundTint="@color/progress_bar_secondary_tint"
             tools:progress="40"
-            tools:max="100"/>
+            tools:max="100" />
 
         <!-- bookmark -->
         <TextView
