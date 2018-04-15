@@ -38,7 +38,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     }
 
     @CallSuper
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         serviceStarted = true
 
         handleIntent(intent)

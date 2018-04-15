@@ -41,10 +41,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:adjustViewBounds="true"
-                tools:src="@android:color/holo_red_dark"
+                tools:src="@mipmap/ic_launcher"
                 android:clickable="false"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"/>
 
             <dev.olog.msc.presentation.widget.image.view.ShapeImageView
                 android:id="@+id/cover"
@@ -73,7 +74,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="16dp"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/albumLayout"

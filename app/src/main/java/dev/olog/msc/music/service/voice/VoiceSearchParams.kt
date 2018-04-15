@@ -71,23 +71,23 @@ class VoiceSearchParams(
                     MediaStore.Audio.Artists.ENTRY_CONTENT_TYPE -> {
                         // for an Artist focused search, both artist and genre are set:
                         isArtistFocus = true
-                        genre = extras.getString(genreKey)
-                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST)
+                        genre = extras.getString(genreKey) ?: "null"
+                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     MediaStore.Audio.Albums.ENTRY_CONTENT_TYPE -> {
                         // for an Album focused search, album, artist and genre are set:
                         isAlbumFocus = true
-                        album = extras.getString(MediaStore.EXTRA_MEDIA_ALBUM)
-                        genre = extras.getString(genreKey)
-                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST)
+                        album = extras.getString(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
+                        genre = extras.getString(genreKey) ?: "null"
+                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     MediaStore.Audio.Media.ENTRY_CONTENT_TYPE -> {
                         // for a Song focused search, title, album, artist and genre are set:
                         isSongFocus = true
-                        song = extras.getString(MediaStore.EXTRA_MEDIA_TITLE)
-                        album = extras.getString(MediaStore.EXTRA_MEDIA_ALBUM)
-                        genre = extras.getString(genreKey)
-                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST)
+                        song = extras.getString(MediaStore.EXTRA_MEDIA_TITLE) ?: "null"
+                        album = extras.getString(MediaStore.EXTRA_MEDIA_ALBUM) ?: "null"
+                        genre = extras.getString(genreKey) ?: "null"
+                        artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST) ?: "null"
                     }
                     else -> isUnstructured = true
                 }

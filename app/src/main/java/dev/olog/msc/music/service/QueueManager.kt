@@ -2,10 +2,10 @@ package dev.olog.msc.music.service
 
 import android.os.Bundle
 import android.support.v4.math.MathUtils
-import android.util.Log
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
+import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
@@ -30,7 +30,8 @@ class QueueManager @Inject constructor(
         private val shuffleMode: ShuffleMode,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
-        private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase
+        private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
+        private val genreGateway: GenreGateway
 
 ) : Queue {
 
@@ -145,7 +146,7 @@ class QueueManager @Inject constructor(
 
 
     override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {
-        Log.d("VoiceSearch", "Creating playing queue for musics from search: $query, params=$extras")
+//        Log.d("VoiceSearch", "Creating playing queue for musics from search: $query, params=$extras")
 
         val params = VoiceSearchParams(query, extras)
 
@@ -153,10 +154,11 @@ class QueueManager @Inject constructor(
 
         val songList = when {
             params.isUnstructured -> VoiceSearch.search(getSongListByParamUseCase.execute(mediaId), query)
-            params.isAlbumFocus -> VoiceSearch.filterByAlbum(getSongListByParamUseCase.execute(mediaId), params.album)
+            params.isAlbumFocus -> VoiceSearch.filterByAlbum(getSongListByParamUseCase.execute(mediaId), params.album, params.artist)
             params.isArtistFocus -> VoiceSearch.filterByArtist(getSongListByParamUseCase.execute(mediaId), params.artist)
-            params.isSongFocus -> VoiceSearch.filterByTitle(getSongListByParamUseCase.execute(mediaId), params.song)
-            else -> VoiceSearch.noFilter(getSongListByParamUseCase.execute(mediaId))
+            params.isSongFocus -> VoiceSearch.filterByTitle(getSongListByParamUseCase.execute(mediaId), params.song, params.artist)
+            params.isGenreFocus -> VoiceSearch.filterByGenre(genreGateway, params.genre)
+            else -> VoiceSearch.noFilter(getSongListByParamUseCase.execute(mediaId).map { it.shuffled() })
         }
 
         return songList

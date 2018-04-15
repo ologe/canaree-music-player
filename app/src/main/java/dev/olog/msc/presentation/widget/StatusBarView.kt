@@ -1,18 +1,13 @@
 package dev.olog.msc.presentation.widget
 
-import android.app.Activity
 import android.content.Context
-import android.os.Build
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.hasNotch
-import dev.olog.msc.utils.k.extension.px2dip
 
 /**
  * Custom status bar to handle device notch

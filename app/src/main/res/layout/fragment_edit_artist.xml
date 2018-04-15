@@ -51,7 +51,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/backgroundCover"
                 android:layout_margin="16dp"
                 app:layout_constraintHeight_max="200dp"
-                android:adjustViewBounds="true"
                 tools:src="@drawable/placeholder_folder"
                 tools:tint="@color/item_selected"
                 android:clickable="true"

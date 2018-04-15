@@ -1,7 +1,6 @@
 package dev.olog.msc.utils.k.extension
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
@@ -27,8 +26,9 @@ fun FragmentActivity.getTopFragment(): Fragment? {
 @SuppressLint("NewApi")
 fun View.hasNotch(): Boolean {
     if (isP()){
-        val displayCutout = rootWindowInsets.displayCutout
-        return displayCutout != null
+        // todo activated notch detection on release
+//        val displayCutout = rootWindowInsets.displayCutout
+//        return displayCutout != null
     }
     return false
 }
