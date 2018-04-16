@@ -9,9 +9,7 @@ import android.media.AudioManager
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -24,8 +22,7 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
-import dev.olog.msc.music.service.player.PlayerImpl
-import dev.olog.msc.music.service.player.PlayerVolume
+import dev.olog.msc.music.service.player.*
 import dev.olog.msc.music.service.volume.IPlayerVolume
 
 @Module(includes = arrayOf(MusicServiceModule.Binds::class))
@@ -81,9 +78,11 @@ class MusicServiceModule(
 
     @Provides
     @PerService
-    internal fun providePlayer(@ApplicationContext context: Context): SimpleExoPlayer {
-        val trackSelector = DefaultTrackSelector()
-        return ExoPlayerFactory.newSimpleInstance(context, trackSelector)
+    internal fun providePlayer(
+            @ApplicationContext context: Context,
+            simplePlayer: Lazy<SimplePlayer>,
+            crossfadePlayer: Lazy<CrossFadePlayer>): CustomExoPlayer {
+        return simplePlayer.get()
     }
 
     @Module

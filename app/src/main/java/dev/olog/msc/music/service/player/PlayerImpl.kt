@@ -3,78 +3,67 @@ package dev.olog.msc.music.service.player
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
-import android.view.KeyEvent
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.SimpleExoPlayer
 import dagger.Lazy
-import dev.olog.msc.BuildConfig
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.Noisy
 import dev.olog.msc.music.service.PlayerState
-import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.focus.AudioFocusBehavior
-import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.model.PlayerMediaEntity
-import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.msc.utils.k.extension.crashlyticsLog
-import dev.olog.msc.utils.k.extension.dispatchEvent
+import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerImpl @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
-        private val audioManager: Lazy<AudioManager>,
         private val playerState: PlayerState,
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
-        volume: IPlayerVolume,
-        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener,
-        private val mediaSourceFactory: MediaSourceFactory,
         private val audioFocus : AudioFocusBehavior,
-        private val exoPlayer: SimpleExoPlayer,
-        playerFading: PlayerFading
+        private val player: CustomExoPlayer,
+        playerFading: PlayerFading,
+        musicPreferencesUseCase: MusicPreferencesUseCase
 
 ) : Player,
         DefaultLifecycleObserver,
-        ExoPlayerListenerWrapper,
         PlayerLifecycle {
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
 
+    private var crossFadeTime = 0
+    private val crossFadeDurationDisposable = musicPreferencesUseCase
+            .observeCrossFade(true)
+            .subscribe({ crossFadeTime = it }, Throwable::printStackTrace)
+
+    private var timeDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
+            .filter { (player.getDuration() - player.getBookmark()) < crossFadeTime }
+            .map { player.getDuration() - player.getBookmark() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ player.crossFade() }, Throwable::printStackTrace)
+
     init {
         lifecycle.addObserver(this)
-        exoPlayer.addListener(this)
-        volume.listener = object : IPlayerVolume.Listener {
-            override fun onVolumeChanged(volume: Float) {
-                exoPlayer.volume = volume
-            }
-        }
-
-        exoPlayer.addAudioDebugListener(onAudioSessionIdChangeListener)
         playerFading.setPlayerLifecycle(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
-        onAudioSessionIdChangeListener.release()
-        exoPlayer.removeAudioDebugListener(onAudioSessionIdChangeListener)
         releaseFocus()
-        exoPlayer.removeListener(this)
-        exoPlayer.release()
+        timeDisposable.unsubscribe()
+        crossFadeDurationDisposable.unsubscribe()
     }
 
     override fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>) {
         val (entity, positionInQueue) = pairSongBookmark.first
         val bookmark = pairSongBookmark.second
-        val mediaSource = mediaSourceFactory.get(entity.id)
-        exoPlayer.prepare(mediaSource)
-        exoPlayer.playWhenReady = false
-        exoPlayer.seekTo(bookmark)
+        player.prepare(entity.id, bookmark)
 
         playerState.prepare(entity.id, bookmark)
         playerState.toggleSkipToActions(positionInQueue)
@@ -92,9 +81,7 @@ class PlayerImpl @Inject constructor(
 
         val entity = playerModel.mediaEntity
 
-        val mediaSource = mediaSourceFactory.get(entity.id)
-        exoPlayer.prepare(mediaSource, true, true)
-        exoPlayer.playWhenReady = hasFocus
+        player.play(entity.id, hasFocus)
 
         val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
                 0, entity.id)
@@ -113,7 +100,7 @@ class PlayerImpl @Inject constructor(
     override fun resume() {
         if (!requestFocus()) return
 
-        exoPlayer.playWhenReady = true
+        player.resume()
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark())
         listeners.forEach {
             it.onStateChanged(playbackState)
@@ -124,7 +111,7 @@ class PlayerImpl @Inject constructor(
     }
 
     override fun pause(stopService: Boolean) {
-        exoPlayer.playWhenReady = false
+        player.pause()
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark())
         listeners.forEach {
             it.onStateChanged(playbackState)
@@ -138,7 +125,7 @@ class PlayerImpl @Inject constructor(
     }
 
     override fun seekTo(millis: Long) {
-        exoPlayer.seekTo(millis)
+        player.seekTo(millis)
         val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
         val playbackState = playerState.update(state, millis)
         listeners.forEach {
@@ -153,31 +140,9 @@ class PlayerImpl @Inject constructor(
         }
     }
 
-    override fun onPlayerError(error: ExoPlaybackException) {
-        val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
-            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
-            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: $error"
-        }
+    override fun isPlaying(): Boolean = player.isPlaying()
 
-        crashlyticsLog("player error $what")
-
-        if (BuildConfig.DEBUG) {
-            Log.e("Player", "onPlayerError $what")
-        }
-    }
-
-    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-        if (playbackState == com.google.android.exoplayer2.Player.STATE_ENDED) {
-//            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
-            audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
-        }
-    }
-
-    override fun isPlaying(): Boolean = exoPlayer.playWhenReady
-
-    override fun getBookmark(): Long = exoPlayer.currentPosition
+    override fun getBookmark(): Long = player.getBookmark()
 
     override fun stopService() {
         serviceLifecycle.stop()
@@ -200,6 +165,6 @@ class PlayerImpl @Inject constructor(
     }
 
     override fun setVolume(volume: Float) {
-        exoPlayer.volume = volume
+        player.setVolume(volume)
     }
 }
