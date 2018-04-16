@@ -25,7 +25,6 @@ import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.withLatestFrom
 
 @Module
 class DetailFragmentModuleSongs {
@@ -61,19 +60,26 @@ class DetailFragmentModuleSongs {
             sortOrderUseCase: GetSortOrderUseCase,
             songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).withLatestFrom(sortOrderUseCase.execute(mediaId)) { songs, order ->
+        return useCase.execute(mediaId)
+                .flatMapSingle { songList ->
+                    sortOrderUseCase.execute(mediaId)
+                            .firstOrError()
+                            .map { sort -> songList.map { it.toDetailDisplayableItem(mediaId, sort) } }
+                }
+
+        /*return useCase.execute(mediaId).withLatestFrom(sortOrderUseCase.execute(mediaId)) { songs, order ->
             songs.map { it.toDetailDisplayableItem(mediaId, order) }
 
-        }.flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
-                        .map { createDurationFooter(context, songList.size, it) }
-                        .map {
-                            if (songList.isNotEmpty()){
-                                val list = songList.toMutableList()
-                                list.add(it)
-                                list
-                            } else mutableListOf()
-                        }
+        }*/.flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
+                .map { createDurationFooter(context, songList.size, it) }
+                .map {
+                    if (songList.isNotEmpty()){
+                        val list = songList.toMutableList()
+                        list.add(it)
+                        list
+                    } else mutableListOf()
                 }
+        }
     }
 
     @Provides

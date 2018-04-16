@@ -37,14 +37,18 @@
         android:gravity="center_vertical"
         android:paddingStart="8dp">
 
-        <SeekBar
+        <android.support.v7.widget.AppCompatSeekBar
             android:id="@+id/seekbar"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_width="@dimen/msbp_seekbar_width"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp"/>
+            android:paddingBottom="16dp"
+            android:progressDrawable="@drawable/seek_bar_progress"
+            android:progressTint="@color/progress_bar_tint"
+            android:thumbTint="@color/progress_bar_tint"
+            android:progressBackgroundTint="@color/progress_bar_secondary_tint"/>
 
         <LinearLayout
             android:id="@+id/value_holder"

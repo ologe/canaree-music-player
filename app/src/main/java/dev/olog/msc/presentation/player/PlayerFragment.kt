@@ -152,8 +152,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
 
-        val showStatusBar = !isMarshmallow() && getSlidingPanel().isCollapsed()
-        val statusBarAlpha = if (showStatusBar) 1f else 0f
+        val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar.alpha = statusBarAlpha
     }
 

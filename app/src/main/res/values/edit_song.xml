@@ -20,6 +20,10 @@
     <string name="edit_song_info_not_found">Info not found</string>
     <string name="edit_song_image_not_found">Image not found</string>
 
+    <string name="edit_track_update_success">Track info updated</string>
+    <string name="edit_album_update_success">Album info updated</string>
+    <string name="edit_artist_update_success">Artist info updated</string>
+
     <string name="edit_song_invalid_title">Title can not be null</string>
     <string name="edit_artist_invalid_title">Artist name can not be null</string>
     <string name="edit_song_invalid_disc_number">Invalid disc number</string>

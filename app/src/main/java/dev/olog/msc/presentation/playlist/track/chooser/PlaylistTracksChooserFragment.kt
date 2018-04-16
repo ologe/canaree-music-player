@@ -174,7 +174,6 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
             when {
                 editTextString.isBlank() -> showError(editTextLayout, R.string.popup_playlist_name_not_valid)
-                // todo title already exists
                 else -> {
                     viewModel.savePlaylist(editTextString)
                             .subscribe({}, Throwable::printStackTrace)

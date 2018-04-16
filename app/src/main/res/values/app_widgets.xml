@@ -30,4 +30,6 @@
     <dimen name="app_widget_three_cell">180dp</dimen>
     <dimen name="app_widget_four_cell">250dp</dimen>
 
+    <dimen name="app_widget_padding_bottom">0dp</dimen>
+
 </resources>

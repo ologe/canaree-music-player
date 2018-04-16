@@ -70,9 +70,12 @@ class EditAlbumFragment : BaseEditItemFragment() {
             )
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> {
+                    ctx.toast(R.string.edit_album_update_success)
+                    act.onBackPressed()
+                }
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
-                UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_info_year)
+                UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
                 UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
                 else -> throw IllegalArgumentException("invalid result $result")
             }

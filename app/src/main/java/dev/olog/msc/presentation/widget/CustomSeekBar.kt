@@ -1,9 +1,11 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatSeekBar
 import android.util.AttributeSet
 import android.widget.SeekBar
+import dev.olog.msc.R
 
 class CustomSeekBar @JvmOverloads constructor(
         context: Context,
@@ -14,6 +16,10 @@ class CustomSeekBar @JvmOverloads constructor(
     private var isTouched = false
 
     private var listener: SeekBar.OnSeekBarChangeListener? = null
+
+    init {
+        progressDrawable = ContextCompat.getDrawable(context, R.drawable.seek_bar_progress)
+    }
 
     fun setListener(onProgressChanged: (Int) -> Unit,
                     onStartTouch: (Int) -> Unit,

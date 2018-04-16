@@ -56,7 +56,10 @@ class EditArtistFragment : BaseEditItemFragment() {
             val result = viewModel.updateMetadata(artist.extractText())
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> {
+                    ctx.toast(R.string.edit_artist_update_success)
+                    act.onBackPressed()
+                }
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
                 UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
                 else -> throw IllegalArgumentException("invalid result $result")

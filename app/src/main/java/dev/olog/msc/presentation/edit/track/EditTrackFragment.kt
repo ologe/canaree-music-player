@@ -67,11 +67,14 @@ class EditTrackFragment : BaseEditItemFragment() {
                     trackNumber.extractText().trim())
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> {
+                    ctx.toast(R.string.edit_track_update_success)
+                    act.onBackPressed()
+                }
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
                 UpdateResult.ILLEGAL_DISC_NUMBER -> ctx.toast(R.string.edit_song_invalid_disc_number)
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> ctx.toast(R.string.edit_song_invalid_track_number)
-                UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_info_year)
+                UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
                 UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
             }
         }

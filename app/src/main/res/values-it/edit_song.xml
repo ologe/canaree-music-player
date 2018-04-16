@@ -15,6 +15,10 @@
     <string name="edit_song_info_not_found">Informazioni sul brano non trovate</string>
     <string name="edit_song_image_not_found">Immagine non trovata</string>
 
+    <string name="edit_track_update_success">Brano aggiornato</string>
+    <string name="edit_album_update_success">Album aggiornato</string>
+    <string name="edit_artist_update_success">Artista aggiornato</string>
+
     <string name="edit_song_invalid_title">Il titolo non può essere nullo</string>
     <string name="edit_artist_invalid_title">Il nome dell\'artista non può essere nullo</string>
     <string name="edit_song_invalid_disc_number"># disco non valido</string>
