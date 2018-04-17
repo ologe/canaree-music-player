@@ -44,7 +44,7 @@ class PlayerImpl @Inject constructor(
     override fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>) {
         val (entity, positionInQueue) = pairSongBookmark.first
         val bookmark = pairSongBookmark.second
-        player.prepare(entity.id, bookmark)
+        player.prepare(entity, bookmark)
 
         playerState.prepare(entity.id, bookmark)
         playerState.toggleSkipToActions(positionInQueue)
@@ -72,7 +72,7 @@ class PlayerImpl @Inject constructor(
 
         val entity = playerModel.mediaEntity
 
-        player.play(entity.id, hasFocus, skipType == SkipType.TRACK_ENDED)
+        player.play(entity, hasFocus, skipType == SkipType.TRACK_ENDED)
 
         val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
                 0, entity.id)

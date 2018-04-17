@@ -1,10 +1,12 @@
 package dev.olog.msc.music.service.player
 
+import dev.olog.msc.music.service.model.MediaEntity
+
 interface CustomExoPlayer {
 
-    fun prepare(songId: Long, bookmark: Long)
+    fun prepare(mediaEntity: MediaEntity, bookmark: Long)
 
-    fun play(songId: Long, hasFocus: Boolean, isTrackEnded: Boolean)
+    fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean)
 
     fun seekTo(where: Long)
 

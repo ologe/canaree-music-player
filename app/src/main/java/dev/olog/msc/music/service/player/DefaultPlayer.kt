@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.CallSuper
+import android.support.v4.math.MathUtils
 import android.util.Log
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -12,13 +13,14 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
+import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.crashlyticsLog
 
 abstract class DefaultPlayer(
         context: Context,
         lifecycle: Lifecycle,
-        private val mediaSourceFactory: MediaSourceFactory,
+        private val mediaSourceFactory: SourceFactory,
         volume: IPlayerVolume
 
 ) : CustomExoPlayer,
@@ -44,16 +46,16 @@ abstract class DefaultPlayer(
     }
 
     @CallSuper
-    override fun prepare(songId: Long, bookmark: Long) {
-        val mediaSource = mediaSourceFactory.get(songId)
+    override fun prepare(mediaEntity: MediaEntity, bookmark: Long) {
+        val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource)
         player.playWhenReady = false
         player.seekTo(bookmark)
     }
 
     @CallSuper
-    override fun play(songId: Long, hasFocus: Boolean, isTrackEnded: Boolean) {
-        val mediaSource = mediaSourceFactory.get(songId)
+    override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
+        val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource, true, true)
         player.playWhenReady = hasFocus
     }
@@ -70,7 +72,8 @@ abstract class DefaultPlayer(
 
     @CallSuper
     override fun seekTo(where: Long) {
-        player.seekTo(where)
+        val safeSeek = MathUtils.clamp(where.toInt(), 0, getDuration().toInt()).toLong()
+        player.seekTo(safeSeek)
     }
 
     @CallSuper

@@ -16,12 +16,12 @@ import javax.inject.Inject
 class SimplePlayer @Inject constructor(
         @ApplicationContext context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
-        mediaSourceFactory: MediaSourceFactory,
+        sourceFactory: DefaultSourceFactory,
         volume: IPlayerVolume,
         private val audioManager: Lazy<AudioManager>,
         private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-): DefaultPlayer(context, lifecycle, mediaSourceFactory, volume), CustomExoPlayer {
+): DefaultPlayer(context, lifecycle, sourceFactory, volume), CustomExoPlayer {
 
     init {
         player.addListener(this)
