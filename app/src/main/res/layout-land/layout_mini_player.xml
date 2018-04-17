@@ -61,7 +61,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <dev.olog.msc.presentation.widget.CustomSeekBar
+    <SeekBar
         android:id="@+id/seekBar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -5,13 +5,13 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
+import android.widget.SeekBar
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
-import dev.olog.msc.presentation.widget.CustomSeekBar
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -30,7 +30,7 @@ class LyricsContent (
     private val next = content.findViewById<AnimatedImageView>(R.id.next)
     private val playPause = content.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)
     private val previous = content.findViewById<AnimatedImageView>(R.id.previous)
-    private val seekBar = content.findViewById<CustomSeekBar>(R.id.seekBar)
+    private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
     private val title = content.findViewById<TextView>(R.id.title)
     private val artist = content.findViewById<TextView>(R.id.artist)
 
@@ -85,6 +85,7 @@ class LyricsContent (
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
+        seekBar.setOnSeekBarChangeListener(null)
         next.setOnClickListener(null)
         playPause.setOnClickListener(null)
         previous.setOnClickListener(null)
@@ -121,12 +122,18 @@ class LyricsContent (
     }
 
     private fun setupSeekBar(){
-        seekBar.setListener(onProgressChanged = {
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
-        }, onStartTouch = {
+            }
 
-        }, onStopTouch = {
-            musicServiceBinder.seekTo(it.toLong())
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                musicServiceBinder.seekTo(seekBar.progress.toLong())
+            }
         })
     }
 

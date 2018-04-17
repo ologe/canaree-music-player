@@ -48,18 +48,7 @@
             android:progressDrawable="@drawable/seek_bar_progress"
             android:progressTint="@color/progress_bar_tint"
             android:thumbTint="@color/progress_bar_tint"
-            android:progressBackgroundTint="@color/progress_bar_secondary_tint"
-            android:translationY="-8dp"/>
-
-        <View
-            android:clickable="false"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/seek_bar_progress"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="16dp"
-            android:layout_toStartOf="@+id/value_holder"/>
+            android:progressBackgroundTint="@color/progress_bar_secondary_tint"/>
 
         <LinearLayout
             android:id="@+id/value_holder"
