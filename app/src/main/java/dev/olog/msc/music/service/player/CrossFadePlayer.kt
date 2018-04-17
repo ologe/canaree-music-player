@@ -1,24 +1,28 @@
 package dev.olog.msc.music.service.player
 
-import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.media.AudioManager
-import android.util.Log
+import android.support.v4.math.MathUtils
 import android.view.KeyEvent
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dagger.Lazy
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
+import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 private enum class CurrentPlayer {
     PLAYER_NOT_SET,
@@ -26,16 +30,11 @@ private enum class CurrentPlayer {
     PLAYER_TWO
 }
 
-class CrossFadePlayer (
-        @ApplicationContext context: Context,
-        lifecycle: Lifecycle,
-        mediaSourceFactory: MediaSourceFactory,
-        private val audioManager: Lazy<AudioManager>
+class CrossFadePlayer @Inject constructor(
+        private val playerOne: SimpleCrossFadePlayer,
+        private val playerTwo: SimpleCrossFadePlayer
 
 ): CustomExoPlayer {
-
-    private val playerOne = SimpleCrossfadePlayer(context, lifecycle, mediaSourceFactory)
-    private val playerTwo = SimpleCrossfadePlayer(context, lifecycle, mediaSourceFactory)
 
     private var current = CurrentPlayer.PLAYER_NOT_SET
 
@@ -46,18 +45,13 @@ class CrossFadePlayer (
         player.prepare(songId, bookmark)
     }
 
-    override fun crossFade() {
-        getCurrentPlayer().fadeOut()
-        audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
-    }
-
-    override fun play(songId: Long, hasFocus: Boolean) {
+    override fun play(songId: Long, hasFocus: Boolean, isTrackEnded: Boolean) {
         assertMainThread()
         val player = getNextPlayer()
-        player.play(songId)
-        player.fadeIn()
-
-        getSecondaryPlayer().stop()
+        player.play(songId, hasFocus, isTrackEnded)
+        if (!isTrackEnded){
+            getSecondaryPlayer().stop()
+        }
     }
 
     override fun resume() {
@@ -66,10 +60,12 @@ class CrossFadePlayer (
 
     override fun pause() {
         getCurrentPlayer().pause()
+        getSecondaryPlayer().stop()
     }
 
     override fun seekTo(where: Long) {
         getCurrentPlayer().seekTo(where)
+        getSecondaryPlayer().stop()
     }
 
     override fun isPlaying(): Boolean = getCurrentPlayer().isPlaying()
@@ -81,7 +77,7 @@ class CrossFadePlayer (
         getSecondaryPlayer().setVolume(volume)
     }
 
-    private fun getNextPlayer(): SimpleCrossfadePlayer {
+    private fun getNextPlayer(): SimpleCrossFadePlayer {
         current = when (current){
             CurrentPlayer.PLAYER_NOT_SET,
             CurrentPlayer.PLAYER_TWO -> CurrentPlayer.PLAYER_ONE
@@ -95,7 +91,7 @@ class CrossFadePlayer (
         }
     }
 
-    private fun getCurrentPlayer(): SimpleCrossfadePlayer {
+    private fun getCurrentPlayer(): SimpleCrossFadePlayer {
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerOne
             CurrentPlayer.PLAYER_TWO -> playerTwo
@@ -103,7 +99,7 @@ class CrossFadePlayer (
         }
     }
 
-    private fun getSecondaryPlayer(): SimpleCrossfadePlayer{
+    private fun getSecondaryPlayer(): SimpleCrossFadePlayer{
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerTwo
             CurrentPlayer.PLAYER_TWO -> playerOne
@@ -113,101 +109,175 @@ class CrossFadePlayer (
 
 }
 
-class SimpleCrossfadePlayer(
-        context: Context,
-        lifecycle: Lifecycle,
-        private val mediaSourceFactory: MediaSourceFactory
+private var playerCount = 0
 
-): DefaultLifecycleObserver, ExoPlayerListenerWrapper {
+class SimpleCrossFadePlayer @Inject constructor(
+        @ApplicationContext context: Context,
+        @ServiceLifecycle lifecycle: Lifecycle,
+        mediaSourceFactory: MediaSourceFactory,
+        musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val audioManager: Lazy<AudioManager>,
+        private val volume: IPlayerVolume
 
-    private val trackSelector = DefaultTrackSelector()
-    private val player = ExoPlayerFactory.newSimpleInstance(context, trackSelector)
+): DefaultPlayer(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 
     private var isFadingOut = false
-    private var fadeOutDisposable : Disposable? = null
+    private var fadeDisposable : Disposable? = null
+
+    private var crossFadeTime = 0
+    private val crossFadeDurationDisposable = musicPreferencesUseCase
+            .observeCrossFade(true)
+            .subscribe({ crossFadeTime = it }, Throwable::printStackTrace)
+
+    private val timeDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
+            .filter { crossFadeTime > 0 } // crossFade enabled
+            .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
+            .filter { getDuration() > getBookmark() }
+            .filter { (getDuration() - getBookmark()) <= crossFadeTime }
+            .filter { !isFadingOut }
+            .map { getDuration() - getBookmark() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ fadeOut(it.toInt()) }, Throwable::printStackTrace)
+
+    private val currentPlayerNumber = playerCount++
 
     init {
-        lifecycle.addObserver(this)
+        player.addListener(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        fadeOutDisposable.unsubscribe()
+        super.onDestroy(owner)
+        player.removeListener(this)
+        cancelFade()
+        timeDisposable.unsubscribe()
+        crossFadeDurationDisposable.unsubscribe()
     }
 
-    fun prepare(songId: Long, bookmark: Long){
-        val mediaSource = mediaSourceFactory.get(songId)
-        player.prepare(mediaSource)
-        player.seekTo(bookmark)
+    override fun play(songId: Long, hasFocus: Boolean, isTrackEnded: Boolean) {
+        super.play(songId, hasFocus, isTrackEnded)
+//        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
+        if (isTrackEnded && crossFadeTime > 0){
+            fadeIn()
+        } else {
+            restoreDefaultVolume()
+        }
     }
 
-    fun play(songId: Long){
-        val mediaSource = mediaSourceFactory.get(songId)
-        player.prepare(mediaSource, true, true)
-        player.playWhenReady = true
+    override fun resume() {
+//        debug("resume")
+        cancelFade()
+        restoreDefaultVolume()
+        super.resume()
     }
 
-    fun resume(){
-        player.playWhenReady = false
+    override fun pause() {
+//        debug("pause")
+        cancelFade()
+        super.pause()
     }
 
-    fun pause(){
-        fadeOutDisposable.unsubscribe()
-        isFadingOut = false
-        player.playWhenReady = true
+    override fun seekTo(where: Long) {
+//        debug("seekTo")
+        cancelFade()
+        restoreDefaultVolume()
+        super.seekTo(where)
     }
 
-    fun seekTo(where: Long){
-        player.seekTo(where)
-    }
-
-    fun isPlaying(): Boolean = player.playWhenReady
-
-    fun getBookmark(): Long = player.currentPosition
-
-    fun getDuration(): Long = player.duration
-
-    fun setVolume(volume: Float){
-        player.volume = volume
+    override fun setVolume(volume: Float) {
+        cancelFade()
+        super.setVolume(volume)
     }
 
     fun stop(){
-        fadeOutDisposable.unsubscribe()
-        isFadingOut = false
+//        debug("stop")
         player.stop()
-    }
-
-    override fun onPlayerError(error: ExoPlaybackException) {
-        fadeOutDisposable.unsubscribe()
-        isFadingOut = false
-
-        val what = when (error.type) {
-            ExoPlaybackException.TYPE_SOURCE -> error.sourceException.message
-            ExoPlaybackException.TYPE_RENDERER -> error.rendererException.message
-            ExoPlaybackException.TYPE_UNEXPECTED -> error.unexpectedException.message
-            else -> "Unknown: $error"
-        }
-
-        if (BuildConfig.DEBUG) {
-            Log.e("Player", "onPlayerError $what")
-        }
+        cancelFade()
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-        when (playbackState){
+//        debug("new state $playbackState")
+        when (playbackState) {
             Player.STATE_ENDED -> {
-                isFadingOut = false
+                cancelFade()
                 player.stop()
+                if (crossFadeTime == 0){
+                    requestNextSong()
+                }
             }
         }
     }
 
-    fun fadeOut(){
+    private fun fadeIn() {
+//        debug("fading in")
+        cancelFade()
+        val (min, max, interval, delta) = CrossFadeModel(crossFadeTime, volume.getVolume())
+        player.volume = min
+
+        fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
+                .takeWhile { player.volume < max }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val current = MathUtils.clamp(player.volume + delta, min, max)
+                    player.volume = current
+                }, Throwable::printStackTrace)
+    }
+
+    private fun fadeOut(time: Int){
+        val state = player.playbackState
+        if (state == Player.STATE_IDLE || state == Player.STATE_ENDED){
+            return
+        }
+
+//        debug("fading out, was already fading?=$isFadingOut")
         isFadingOut = true
-        fadeOutDisposable.unsubscribe()
+        fadeDisposable.unsubscribe()
+        requestNextSong()
+
+        val (min, max, interval, delta) = CrossFadeModel(time, volume.getVolume())
+        player.volume = max
+
+        fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
+                .takeWhile { player.volume > min }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    val current = MathUtils.clamp(player.volume - delta, min, max)
+                    player.volume = current
+                }, { isFadingOut = false }, { isFadingOut = false })
     }
 
-    fun fadeIn() {
-
+    private fun cancelFade(){
+        isFadingOut = false
+        fadeDisposable.unsubscribe()
     }
+
+    private fun restoreDefaultVolume() {
+        player.volume = volume.getVolume()
+    }
+
+    private fun debug(message: String){
+        if (BuildConfig.DEBUG){
+            println("player $currentPlayerNumber, $message")
+        }
+    }
+
+    private fun requestNextSong(){
+//      audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
+        audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
+    }
+
+}
+
+private class CrossFadeModel(duration: Int, maxVolumeAllowed: Float) {
+
+    val min: Float = 0f
+    val max: Float= maxVolumeAllowed
+    val interval: Long = 200L
+    private val times: Long = duration / interval
+    val delta: Float = Math.abs(max - min) / times
+
+    operator fun component1() = min
+    operator fun component2() = max
+    operator fun component3() = interval
+    operator fun component4() = delta
 
 }

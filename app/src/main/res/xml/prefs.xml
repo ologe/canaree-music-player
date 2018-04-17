@@ -50,7 +50,7 @@
             android:defaultValue="0"
             android:enabled="true"
             app:msbp_minValue="0"
-            app:msbp_maxValue="10"
+            app:msbp_maxValue="12"
             app:msbp_interval="1"
             app:msbp_measurementUnit="s"
             app:msbp_minText="Off"/>

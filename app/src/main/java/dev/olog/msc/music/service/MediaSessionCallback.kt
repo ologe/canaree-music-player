@@ -19,6 +19,7 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.favorite.ToggleFavoriteUseCase
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue
+import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -121,7 +122,7 @@ class MediaSessionCallback @Inject constructor(
     override fun onSkipToPrevious() {
         doWhenReady ({
             val metadata = queue.handleSkipToPrevious(player.getBookmark())
-            player.playNext(metadata, false)
+            player.playNext(metadata, SkipType.SKIP_PREVIOUS)
         }, {
             context.toast(R.string.popup_error_message)
         })
@@ -134,7 +135,11 @@ class MediaSessionCallback @Inject constructor(
     private fun onSkipToNext(trackEnded: Boolean){
         doWhenReady ({
             val metadata = queue.handleSkipToNext(trackEnded)
-            player.playNext(metadata, true)
+            if (trackEnded){
+                player.playNext(metadata, SkipType.TRACK_ENDED)
+            } else {
+                player.playNext(metadata, SkipType.SKIP_NEXT)
+            }
         }, {
             context.toast(R.string.popup_error_message)
         })

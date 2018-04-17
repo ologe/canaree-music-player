@@ -6,19 +6,14 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.v4.media.session.PlaybackStateCompat
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.Noisy
 import dev.olog.msc.music.service.PlayerState
 import dev.olog.msc.music.service.focus.AudioFocusBehavior
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
+import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.music.service.model.PlayerMediaEntity
-import dev.olog.msc.utils.k.extension.unsubscribe
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerImpl @Inject constructor(
@@ -27,9 +22,8 @@ class PlayerImpl @Inject constructor(
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
         private val audioFocus : AudioFocusBehavior,
-        private val player: CustomExoPlayer,
-        playerFading: PlayerFading,
-        musicPreferencesUseCase: MusicPreferencesUseCase
+        private val player: CustomExoPlayer
+//        playerFading: PlayerFading
 
 ) : Player,
         DefaultLifecycleObserver,
@@ -37,27 +31,14 @@ class PlayerImpl @Inject constructor(
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
 
-    private var crossFadeTime = 0
-    private val crossFadeDurationDisposable = musicPreferencesUseCase
-            .observeCrossFade(true)
-            .subscribe({ crossFadeTime = it }, Throwable::printStackTrace)
-
-    private var timeDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())
-            .filter { (player.getDuration() - player.getBookmark()) < crossFadeTime }
-            .map { player.getDuration() - player.getBookmark() }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ player.crossFade() }, Throwable::printStackTrace)
-
     init {
         lifecycle.addObserver(this)
-        playerFading.setPlayerLifecycle(this)
+//        playerFading.setPlayerLifecycle(this)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
         releaseFocus()
-        timeDisposable.unsubscribe()
-        crossFadeDurationDisposable.unsubscribe()
     }
 
     override fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>) {
@@ -71,17 +52,27 @@ class PlayerImpl @Inject constructor(
         listeners.forEach { it.onPrepare(entity) }
     }
 
-    override fun playNext(playerModel: PlayerMediaEntity, nextTo: Boolean) {
-        playerState.skipTo(nextTo)
-        play(playerModel)
+    override fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType) {
+        when (skipType){
+            SkipType.SKIP_PREVIOUS -> playerState.skipTo(false)
+            SkipType.SKIP_NEXT,
+            SkipType.TRACK_ENDED -> playerState.skipTo(true)
+            else -> throw IllegalStateException("skip type can not be NONE")
+        }
+
+        playInternal(playerModel, skipType)
     }
 
     override fun play(playerModel: PlayerMediaEntity) {
+        playInternal(playerModel, SkipType.NONE)
+    }
+
+    private fun playInternal(playerModel: PlayerMediaEntity, skipType: SkipType){
         val hasFocus = requestFocus()
 
         val entity = playerModel.mediaEntity
 
-        player.play(entity.id, hasFocus)
+        player.play(entity.id, hasFocus, skipType == SkipType.TRACK_ENDED)
 
         val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
                 0, entity.id)

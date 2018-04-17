@@ -4,6 +4,7 @@ interface IPlayerVolume {
 
     var listener: IPlayerVolume.Listener?
 
+    fun getVolume(): Float
     fun normal(): Float
     fun ducked(): Float
 

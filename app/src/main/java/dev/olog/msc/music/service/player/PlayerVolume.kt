@@ -70,7 +70,7 @@ class PlayerVolume @Inject constructor(
         return hour <= 6 || hour >= 21
     }
 
-    fun getVolume(): Float {
+    override fun getVolume(): Float {
         return if (isDucking) volume.duck else volume.normal
     }
 

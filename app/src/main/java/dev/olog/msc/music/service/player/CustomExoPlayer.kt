@@ -4,7 +4,7 @@ interface CustomExoPlayer {
 
     fun prepare(songId: Long, bookmark: Long)
 
-    fun play(songId: Long, hasFocus: Boolean)
+    fun play(songId: Long, hasFocus: Boolean, isTrackEnded: Boolean)
 
     fun seekTo(where: Long)
 
@@ -19,7 +19,5 @@ interface CustomExoPlayer {
     fun getDuration(): Long
 
     fun setVolume(volume: Float)
-
-    fun crossFade()
 
 }

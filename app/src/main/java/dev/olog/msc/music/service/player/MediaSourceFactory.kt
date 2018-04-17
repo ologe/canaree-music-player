@@ -11,7 +11,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MediaSourceFactory @Inject constructor(
         @ApplicationContext context: Context
 ){

@@ -8,7 +8,7 @@ interface Player : PlayerLifecycle {
     fun getBookmark(): Long
 
     fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>)
-    fun playNext(playerModel: PlayerMediaEntity, nextTo: Boolean)
+    fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
     fun play(playerModel: PlayerMediaEntity)
 
     fun resume()
@@ -18,4 +18,11 @@ interface Player : PlayerLifecycle {
     fun stopService()
 
     fun setVolume(volume: Float)
+}
+
+enum class SkipType {
+    NONE,
+    SKIP_PREVIOUS,
+    SKIP_NEXT,
+    TRACK_ENDED
 }
