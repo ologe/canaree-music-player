@@ -36,9 +36,9 @@ android {
         }
 
         debug {
-            minifyEnabled false
-            useProguard false
-            multiDexEnabled true
+            minifyEnabled true
+            useProguard true
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "false")
             applicationIdSuffix ".debug"

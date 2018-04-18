@@ -12,6 +12,7 @@ import android.os.Vibrator
 import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
+import android.util.TypedValue
 import android.widget.Toast
 import dev.olog.msc.utils.isOreo
 
@@ -38,6 +39,10 @@ fun Context.dimen(@DimenRes resource: Int): Int = resources.getDimensionPixelSiz
 
 fun Context.px2dip(px: Int): Float = px.toFloat() / resources.displayMetrics.density
 fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
+
+fun Context.dpToPx(dp: Float): Int {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()
+}
 
 inline fun Context.toast(message: Int): Toast = Toast
         .makeText(this, message, Toast.LENGTH_SHORT)
