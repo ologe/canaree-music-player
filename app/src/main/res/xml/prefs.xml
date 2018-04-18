@@ -41,7 +41,6 @@
             android:key="@string/prefs_midnight_mode_key"
             android:defaultValue="false" />
 
-
         <!--suppress AndroidElementNotAllowed -->
         <dev.olog.msc.presentation.widget.prefs.SeekBarPreferenceCompat
             android:key="@string/prefs_cross_fade_key"
@@ -54,6 +53,12 @@
             app:msbp_interval="1"
             app:msbp_measurementUnit="s"
             app:msbp_minText="Off"/>
+
+        <SwitchPreference
+            android:title="@string/prefs_gapless_title"
+            android:summary="@string/prefs_gapless_summary"
+            android:key="@string/prefs_gapless_key"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 

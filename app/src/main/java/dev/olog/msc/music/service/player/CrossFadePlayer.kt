@@ -122,7 +122,6 @@ class SimpleCrossFadePlayer @Inject constructor(
 
 ): DefaultPlayer(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 
-    private var isFadingOut = false
     private var fadeDisposable : Disposable? = null
 
     private var crossFadeTime = 0
@@ -134,11 +133,11 @@ class SimpleCrossFadePlayer @Inject constructor(
             .filter { crossFadeTime > 0 } // crossFade enabled
             .filter { getDuration() > 0 && getBookmark() > 0 } // duration and bookmark strictly positive
             .filter { getDuration() > getBookmark() }
-            .filter { (getDuration() - getBookmark()) <= crossFadeTime }
-            .filter { !isFadingOut }
-            .map { getDuration() - getBookmark() }
+            .map { getDuration() - getBookmark() <= crossFadeTime }
+            .distinctUntilChanged()
+            .filter { it }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ fadeOut(it.toInt()) }, Throwable::printStackTrace)
+            .subscribe({ fadeOut(getDuration() - getBookmark()) }, Throwable::printStackTrace)
 
     private val currentPlayerNumber = playerCount++
 
@@ -155,7 +154,7 @@ class SimpleCrossFadePlayer @Inject constructor(
     }
 
     override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
-        super.play(mediaEntity.copy(isRemix = crossFadeTime > 0),
+        super.play(mediaEntity.copy(isRemix = crossFadeTime > 0, isExplicit = isTrackEnded && crossFadeTime > 0),
                 hasFocus, isTrackEnded)
 //        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
         if (isTrackEnded && crossFadeTime > 0){
@@ -182,19 +181,7 @@ class SimpleCrossFadePlayer @Inject constructor(
 //        debug("seekTo")
         cancelFade()
         restoreDefaultVolume()
-        super.seekTo(adjustSeek(where))
-    }
-
-    /*
-        When crossFade is enabled, recalculate seek
-     */
-    private fun adjustSeek(where: Long): Long {
-        if (crossFadeTime == 0){
-            return where
-        }
-        val duration = getDuration()
-        val realDuration = ClippedSourceFactory.getRealDuration(getDuration())
-        return where * duration / realDuration
+        super.seekTo(where)
     }
 
     override fun setVolume(volume: Float) {
@@ -212,8 +199,7 @@ class SimpleCrossFadePlayer @Inject constructor(
 //        debug("new state $playbackState")
         when (playbackState) {
             Player.STATE_ENDED -> {
-                cancelFade()
-                player.stop()
+                stop()
                 if (crossFadeTime == 0){
                     requestNextSong()
                 }
@@ -236,18 +222,17 @@ class SimpleCrossFadePlayer @Inject constructor(
                 }, Throwable::printStackTrace)
     }
 
-    private fun fadeOut(time: Int){
+    private fun fadeOut(time: Long){
         val state = player.playbackState
         if (state == Player.STATE_IDLE || state == Player.STATE_ENDED){
             return
         }
 
 //        debug("fading out, was already fading?=$isFadingOut")
-        isFadingOut = true
         fadeDisposable.unsubscribe()
         requestNextSong()
 
-        val (min, max, interval, delta) = CrossFadeModel(time, volume.getVolume())
+        val (min, max, interval, delta) = CrossFadeModel(time.toInt(), volume.getVolume())
         player.volume = max
 
         fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
@@ -256,11 +241,10 @@ class SimpleCrossFadePlayer @Inject constructor(
                 .subscribe({
                     val current = MathUtils.clamp(player.volume - delta, min, max)
                     player.volume = current
-                }, { isFadingOut = false }, { isFadingOut = false })
+                }, Throwable::printStackTrace)
     }
 
     private fun cancelFade(){
-        isFadingOut = false
         fadeDisposable.unsubscribe()
     }
 

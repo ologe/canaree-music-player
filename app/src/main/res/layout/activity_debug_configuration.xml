@@ -77,4 +77,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+            <!--android:text="Clip start"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"/>-->
+
+        <!--<SeekBar-->
+            <!--android:id="@+id/seekBarClipStart"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:max="10"-->
+            <!--android:progress="0"-->
+            <!--android:theme="@style/Widget.AppCompat.SeekBar.Discrete"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+            <!--android:text="Clip end"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"/>-->
+
+        <!--<SeekBar-->
+            <!--android:id="@+id/seekBarClipEnd"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:max="10"-->
+            <!--android:progress="0"-->
+            <!--android:theme="@style/Widget.AppCompat.SeekBar.Discrete"/>-->
+
+    <!--</LinearLayout>-->
+
 </LinearLayout>

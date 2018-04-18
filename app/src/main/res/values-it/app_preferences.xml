@@ -53,6 +53,9 @@
     <string name="prefs_cross_fade_title">Dissolvenza</string>
     <string name="prefs_cross_fade_summary">Consente la dissolvenza tra i brani</string>
 
+    <string name="prefs_gapless_title">Senza interruzioni</string>
+    <string name="prefs_gapless_summary">Consente la riproduzione senza interruzioni quando la dissolvenza è attiva</string>
+
     <!--icon shape-->
     <string name="prefs_icon_shape_title">Forma delle immagini</string>
 

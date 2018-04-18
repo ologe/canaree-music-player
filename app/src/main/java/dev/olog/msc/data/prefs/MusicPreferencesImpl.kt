@@ -136,4 +136,10 @@ class MusicPreferencesImpl @Inject constructor(
         return rxPreferences.getInteger(key, 0)
                 .asObservable()
     }
+
+    override fun observeGapless(): Observable<Boolean> {
+        val key = context.getString(R.string.prefs_gapless_key)
+        return rxPreferences.getBoolean(key, false)
+                .asObservable()
+    }
 }

@@ -34,5 +34,6 @@ interface MusicPreferencesGateway {
     fun setDefault(): Completable
 
     fun observeCrossFade(): Observable<Int>
+    fun observeGapless(): Observable<Boolean>
 
 }

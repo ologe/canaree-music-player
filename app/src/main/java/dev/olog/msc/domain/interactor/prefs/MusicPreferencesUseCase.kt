@@ -70,4 +70,8 @@ class MusicPreferencesUseCase @Inject constructor(
         return obs
     }
 
+    fun observeGapless(): Observable<Boolean> {
+        return gateway.observeGapless()
+    }
+
 }
