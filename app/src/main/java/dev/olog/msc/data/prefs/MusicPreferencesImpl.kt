@@ -120,6 +120,8 @@ class MusicPreferencesImpl @Inject constructor(
     override fun setDefault(): Completable {
         return Completable.create { emitter ->
             setMidnightMode(false)
+            setCrossFade(0)
+            setGapless(false)
 
             emitter.onComplete()
         }
@@ -129,6 +131,11 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_midnight_mode_key), enable)
         }
+    }
+
+    private fun setCrossFade(value: Int){
+        val key = context.getString(R.string.prefs_cross_fade_key)
+        preferences.edit { putInt(key, value) }
     }
 
     override fun observeCrossFade(): Observable<Int> {
@@ -142,4 +149,10 @@ class MusicPreferencesImpl @Inject constructor(
         return rxPreferences.getBoolean(key, false)
                 .asObservable()
     }
+
+    private fun setGapless(enabled: Boolean){
+        val key = context.getString(R.string.prefs_gapless_key)
+        preferences.edit { putBoolean(key, enabled) }
+    }
+
 }

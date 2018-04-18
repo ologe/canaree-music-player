@@ -3,6 +3,7 @@ package dev.olog.msc.data.prefs
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
+import io.reactivex.Completable
 import javax.inject.Inject
 
 class EqualizerPreferenceImpl @Inject constructor(
@@ -61,5 +62,12 @@ class EqualizerPreferenceImpl @Inject constructor(
         preferences.edit { putString(VIRTUALIZER_SETTINGS, settings) }
     }
 
+    override fun setDefault(): Completable {
+        return Completable.create {
+            setEqualizerEnabled(false)
+            setReplayGainEnabled(false)
 
+            it.onComplete()
+        }
+    }
 }

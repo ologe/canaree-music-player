@@ -1,6 +1,7 @@
 package dev.olog.msc.domain.interactor.prefs
 
 import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
+import io.reactivex.Completable
 import javax.inject.Inject
 
 class EqualizerPrefsUseCase @Inject constructor(
@@ -42,6 +43,10 @@ class EqualizerPrefsUseCase @Inject constructor(
 
     fun saveVirtualizerSettings(settings: String){
         gateway.saveVirtualizerSettings(settings)
+    }
+
+    fun setDefault(): Completable{
+        return gateway.setDefault()
     }
 
 }

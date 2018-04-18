@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.android.billingclient.api.*
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -42,7 +43,8 @@ private val TRIAL_TIME = TimeUnit.HOURS.toMillis(1L)
 class BillingImpl @Inject constructor(
         private val activity: AppCompatActivity,
         private val appPrefsUseCase: AppPreferencesUseCase,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val equalizerPrefsUseCase: EqualizerPrefsUseCase
 
 ) : IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {
 
@@ -174,6 +176,7 @@ class BillingImpl @Inject constructor(
         setDefaultDisposable.unsubscribe()
         setDefaultDisposable = appPrefsUseCase.setDefault()
                 .andThen(musicPreferencesUseCase.setDefault())
+                .andThen(equalizerPrefsUseCase.setDefault())
                 .subscribeOn(Schedulers.io())
                 .subscribe({}, Throwable::printStackTrace)
     }

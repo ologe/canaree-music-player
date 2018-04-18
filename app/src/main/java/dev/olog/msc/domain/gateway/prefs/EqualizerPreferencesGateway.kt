@@ -1,5 +1,7 @@
 package dev.olog.msc.domain.gateway.prefs
 
+import io.reactivex.Completable
+
 interface EqualizerPreferencesGateway {
 
     fun isEqualizerEnabled(): Boolean
@@ -15,5 +17,6 @@ interface EqualizerPreferencesGateway {
     fun getEqualizerSettings(): String
     fun getVirtualizerSettings(): String
     fun getBassBoostSettings(): String
+    fun setDefault(): Completable
 
 }
