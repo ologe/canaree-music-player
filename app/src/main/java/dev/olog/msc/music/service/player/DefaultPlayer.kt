@@ -12,13 +12,15 @@ import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.msc.BuildConfig
+import dev.olog.msc.R
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.crashlyticsLog
+import dev.olog.msc.utils.k.extension.toast
 
 abstract class DefaultPlayer(
-        context: Context,
+        private val context: Context,
         lifecycle: Lifecycle,
         private val mediaSourceFactory: SourceFactory,
         volume: IPlayerVolume
@@ -110,6 +112,7 @@ abstract class DefaultPlayer(
         if (BuildConfig.DEBUG) {
             Log.e("Player", "onPlayerError $what")
         }
+        context.applicationContext.toast(R.string.music_player_error)
     }
 
 }

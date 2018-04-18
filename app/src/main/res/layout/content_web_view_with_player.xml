@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/error"
-            android:text="You are offline"
+            android:text="@string/floating_window_offline"
             android:textColor="@color/text_color_primary"
             android:textSize="20sp"
             android:gravity="center"
@@ -44,6 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:layout_gravity="bottom"/>
+
+        <include
+            android:id="@+id/noTracks"
+            layout="@layout/content_web_view_empty_state" />
 
     </android.support.v7.widget.CardView>
 

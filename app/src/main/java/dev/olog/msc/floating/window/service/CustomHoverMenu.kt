@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
@@ -17,21 +18,23 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import java.net.URLEncoder
 import javax.inject.Inject
+import javax.inject.Provider
 import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
         @ServiceContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         musicServiceBinder: MusicServiceBinder,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase
+        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val isRepositoryEmptyUseCase: Provider<IsRepositoryEmptyUseCase>
 
 ) : HoverMenu(), DefaultLifecycleObserver {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
 
-    private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder)
-    private val videoContent = VideoContent(lifecycle, context)
+    private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder, isRepositoryEmptyUseCase.get())
+    private val videoContent = VideoContent(lifecycle, context, isRepositoryEmptyUseCase.get())
 
     private val subscriptions = CompositeDisposable()
 

@@ -19,6 +19,7 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -75,6 +76,12 @@ class ClippedSourceFactory @Inject constructor (
 
     override fun get(mediaEntity: MediaEntity): MediaSource {
         val mediaSource = sourceFactory.get(mediaEntity)
+
+        val isFlac = File(mediaEntity.path).path.endsWith(".flac")
+        if (isFlac){
+            // some .flac files are not seekable and clippable
+            return mediaSource
+        }
 
         if (!mediaEntity.isExplicit && isGapless){
             // isExplicit is used to know if track is ended by itself

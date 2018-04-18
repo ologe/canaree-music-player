@@ -111,6 +111,10 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         super.onResume()
         getSlidingPanel()!!.addPanelSlideListener(this)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
+
+        if (getSlidingPanel().isExpanded()){
+            view?.setGone()
+        }
     }
 
     override fun onPause() {
@@ -173,7 +177,8 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
     override fun onPanelSlide(panel: View?, slideOffset: Float) {
         view?.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
-        view?.visibility = if (slideOffset > .8f) View.GONE else View.VISIBLE
+        view?.toggleVisibility(slideOffset <= .8f, true)
+//        view?.visibility = if (slideOffset > .8f) View.GONE else View.VISIBLE
     }
 
     override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {

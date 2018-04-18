@@ -23,4 +23,7 @@
         <attr name="dockPosition" format="fraction" />
     </declare-styleable>
 
+    <string name="floating_window_offline">You are offline</string>
+    <string name="floating_window_no_tracks">Add first some track to the library</string>
+
 </resources>

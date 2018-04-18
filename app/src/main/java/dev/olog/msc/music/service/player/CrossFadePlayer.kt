@@ -12,6 +12,7 @@ import dev.olog.msc.BuildConfig
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.volume.IPlayerVolume
@@ -118,7 +119,8 @@ class SimpleCrossFadePlayer @Inject constructor(
         mediaSourceFactory: ClippedSourceFactory,
         musicPreferencesUseCase: MusicPreferencesUseCase,
         private val audioManager: Lazy<AudioManager>,
-        private val volume: IPlayerVolume
+        private val volume: IPlayerVolume,
+        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ): DefaultPlayer(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 
@@ -143,11 +145,14 @@ class SimpleCrossFadePlayer @Inject constructor(
 
     init {
         player.addListener(this)
+
+        player.addAudioDebugListener(onAudioSessionIdChangeListener)
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         player.removeListener(this)
+        player.removeAudioDebugListener(onAudioSessionIdChangeListener)
         cancelFade()
         timeDisposable.unsubscribe()
         crossFadeDurationDisposable.unsubscribe()
