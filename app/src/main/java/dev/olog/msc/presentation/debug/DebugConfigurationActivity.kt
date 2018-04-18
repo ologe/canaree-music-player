@@ -1,11 +1,14 @@
 package dev.olog.msc.presentation.debug
 
+import android.app.UiModeManager
+import android.content.Context
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.utils.k.extension.configuration
+import dev.olog.msc.utils.k.extension.isNightMode
 import kotlinx.android.synthetic.main.activity_debug_configuration.*
 
 class DebugConfigurationActivity: AppCompatActivity() {
@@ -31,6 +34,8 @@ class DebugConfigurationActivity: AppCompatActivity() {
 
 //        seekBarClipStart.progress = clipStart.toInt()
 //        seekBarClipEnd.progress = clipEnd.toInt()
+
+        nightMode.isChecked = isNightMode()
     }
 
     override fun onResume() {
@@ -60,6 +65,10 @@ class DebugConfigurationActivity: AppCompatActivity() {
 //                clipEnd = seekBar.progress.toLong()
 //            }
 //        })
+        nightMode.setOnCheckedChangeListener { _, isChecked ->
+            val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+            uiModeManager.nightMode = if (isChecked) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+        }
     }
 
     override fun onPause() {
@@ -67,6 +76,7 @@ class DebugConfigurationActivity: AppCompatActivity() {
         activateFakeData.setOnClickListener(null)
 //        seekBarClipStart.setOnSeekBarChangeListener(null)
 //        seekBarClipEnd.setOnSeekBarChangeListener(null)
+        nightMode.setOnCheckedChangeListener(null)
     }
 
 }

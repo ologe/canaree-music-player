@@ -34,9 +34,9 @@
             android:paddingTop="@dimen/player_seekBar_padding_top"
             android:paddingStart="@dimen/player_seekBar_padding_horizontal"
             android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
-            android:progressTint="@color/progress_bar_tint"
-            android:thumbTint="@color/progress_bar_tint"
-            android:progressBackgroundTint="@color/progress_bar_secondary_tint"
+            android:progressTint="@color/seek_bar_tint"
+            android:thumbTint="@color/seek_bar_tint"
+            android:progressBackgroundTint="@color/seek_bar_secondary_tint"
             tools:progress="40"/>
 
         <!-- bookmark -->

@@ -25,7 +25,7 @@ class ShuffleButton @JvmOverloads constructor(
     }
 
     private fun enable(){
-        setColorFilter(ContextCompat.getColor(context!!, R.color.item_selected))
+        setColorFilter(ContextCompat.getColor(context!!, R.color.player_selected_button))
     }
 
     private fun disable(){

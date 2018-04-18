@@ -32,12 +32,12 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun repeatOne(){
         setImageResource(R.drawable.vd_repeat_one)
-        setColorFilter(ContextCompat.getColor(context, R.color.item_selected))
+        setColorFilter(ContextCompat.getColor(context, R.color.player_selected_button))
     }
 
     private fun repeatAll(){
         setImageResource(R.drawable.vd_repeat)
-        setColorFilter(ContextCompat.getColor(context, R.color.item_selected))
+        setColorFilter(ContextCompat.getColor(context, R.color.player_selected_button))
     }
 
 }

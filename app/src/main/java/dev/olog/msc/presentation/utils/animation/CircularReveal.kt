@@ -11,12 +11,29 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import androidx.core.animation.addListener
+import dev.olog.msc.constants.AppConstants
+
+private fun startColor(): Int{
+    return if (AppConstants.IS_NIGHT_MODE){
+        0xFF282828.toInt()
+    } else {
+        0xfff0f0f0.toInt()
+    }
+}
+
+private fun endColor(): Int {
+    return if (AppConstants.IS_NIGHT_MODE){
+        0xFF131313.toInt()
+    } else {
+        Color.WHITE
+    }
+}
 
 class CircularReveal(
         private val x: Int,
         private val y: Int,
-        private val fromColor: Int = 0xfff0f0f0.toInt(), // grey
-        private val toColor: Int = Color.WHITE,
+        private val fromColor: Int = startColor(), // grey
+        private val toColor: Int = endColor(),
         private val onAppearFinished: (() -> Unit)? = null
 
 ) : Fade() {

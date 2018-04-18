@@ -117,7 +117,7 @@ public class WaveSideBarView extends View {
         mLettersPaint.setAntiAlias(true);
         mLettersPaint.setTextSize(mTextSize);
         mLettersPaint.setTextAlign(Paint.Align.CENTER);
-        mLettersPaint.setColor(ContextCompat.getColor(context, R.color.dark_grey));
+        mLettersPaint.setColor(ContextCompat.getColor(context, R.color.side_view_letter_paint));
 
         mSelectedLetterPaint.setAntiAlias(true);
         mSelectedLetterPaint.setTextSize(mTextSize);

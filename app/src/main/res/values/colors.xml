@@ -16,7 +16,6 @@
     <color name="background">@android:color/white</color>
     <color name="background_accent">@color/dark_grey</color>
 
-    <color name="nav_bar">@android:color/black</color>
     <color name="toolbar">#FAFAFA</color>
     <color name="status_bar">#c6c6c6</color>
     <color name="status_bar_secondary">#c6c6c6</color>
@@ -30,8 +29,10 @@
     <!--<color name="item_selected">#FF1744</color>-->
     <color name="item_selected">@color/accent</color>
 
-    <color name="progress_bar_tint">@color/dark_grey</color>
-    <color name="progress_bar_secondary_tint">@color/grey400</color>
+    <color name="seek_bar_tint">@color/dark_grey</color>
+    <color name="seek_bar_secondary_tint">@color/grey400</color>
+
+    <color name="progress_bar_tint">@color/accent</color>
 
     <!-- Colors for the Hover menu itself -->
     <color name="hover_selector_color">@android:color/white</color>
@@ -44,5 +45,10 @@
     <color name="hover_content_menu_item_title_color">#666666</color>
 
     <color name="mid_grey">#40606060</color>
+
+    <color name="background_mini_player">@color/background</color>
+
+    <color name="fab_background">@color/colorAccent</color>
+    <color name="fab_icon">@android:color/white</color>
 
 </resources>

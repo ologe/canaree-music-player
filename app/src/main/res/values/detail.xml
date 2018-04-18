@@ -45,5 +45,7 @@
     <string name="sort_by_custom">@string/common_custom</string>
     <string name="sort_by_track">@string/common_track_number</string>
 
+    <color name="detail_button_color_light">@android:color/white</color>
+    <color name="detail_button_color_dark">@color/dark_grey</color>
 
 </resources>

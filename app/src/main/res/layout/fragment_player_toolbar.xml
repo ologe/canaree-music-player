@@ -22,7 +22,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:alpha=".4"/>
+        android:alpha=".4"
+        android:tint="@color/button_primary_tint"/>
 
     <ImageButton
         android:id="@+id/floatingWindow"
@@ -30,7 +31,6 @@
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
         android:src="@drawable/vd_bird_singing_24dp"
-        android:tint="#424242"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:clickable="true"
@@ -40,7 +40,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite"
         android:scaleX=".85"
-        android:scaleY=".85"/>
+        android:scaleY=".85"
+        android:tint="@color/button_primary_tint"/>
 
     <dev.olog.msc.presentation.widget.LottieFavorite
         android:id="@+id/favorite"
@@ -57,7 +58,7 @@
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
         android:src="@drawable/vd_playing_queue"
-        android:tint="#424242"
+        android:tint="@color/button_primary_tint"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:clickable="true"

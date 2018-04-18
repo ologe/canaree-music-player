@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_activated="true">
+
+        <objectAnimator
+            android:propertyName="alpha"
+            android:valueFrom=".4"
+            android:valueTo="1"
+            android:valueType="floatType"
+            android:duration="@android:integer/config_shortAnimTime"
+            android:interpolator="@android:interpolator/fast_out_slow_in"/>
+
+
+    </item>
+
+    <item >
+
+        <objectAnimator
+            android:propertyName="alpha"
+            android:valueFrom="1"
+            android:valueTo=".6"
+            android:valueType="floatType"
+            android:duration="@android:integer/config_shortAnimTime"
+            android:interpolator="@android:interpolator/fast_out_slow_in"/>
+
+    </item>
+
+</selector>

@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/dpi"
         android:text="densityDpi : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -16,7 +17,7 @@
     <TextView
         android:id="@+id/fontScale"
         android:text="fontScale : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -24,7 +25,7 @@
     <TextView
         android:id="@+id/mcc"
         android:text="mcc(mobile country code) : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -32,7 +33,7 @@
     <TextView
         android:id="@+id/mnc"
         android:text="mnc(mobile network code) : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -40,7 +41,7 @@
     <TextView
         android:id="@+id/orientation"
         android:text="orientation : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -48,7 +49,7 @@
     <TextView
         android:id="@+id/screenHeight"
         android:text="screenHeightDp : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -56,7 +57,7 @@
     <TextView
         android:id="@+id/screenWidth"
         android:text="screenWidthDp : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -64,7 +65,7 @@
     <TextView
         android:id="@+id/smallestWidth"
         android:text="smallestScreenWidthDp : "
-        android:textColor="@android:color/black"
+        android:textColor="@color/text_color_primary"
         android:padding="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -72,6 +73,16 @@
     <Switch
         android:id="@+id/activateFakeData"
         android:text="use fake data"
+        android:textColor="@color/text_color_primary"
+        android:switchPadding="20dp"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/nightMode"
+        android:text="night mode"
+        android:textColor="@color/text_color_primary"
         android:switchPadding="20dp"
         android:padding="4dp"
         android:layout_width="match_parent"

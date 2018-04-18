@@ -24,4 +24,7 @@
         <item quantity="other">%1$s results</item>
     </plurals>
 
+    <color name="search_item_hint_message">@color/text_color_primary</color>
+    <color name="search_item_hint">@color/accent</color>
+
 </resources>

@@ -39,13 +39,14 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_back_arrow"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:tint="@color/button_primary_tint"/>
 
         <dev.olog.msc.presentation.utils.PlayingFromTextView
             android:id="@+id/header"
             android:text="@string/playing_queue_playing_from_all_tracks"
             android:textAllCaps="true"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/text_color_secondary"
             android:textStyle="bold"
             android:textSize="12dp"
             android:gravity="center|bottom"
@@ -61,7 +62,7 @@
         <TextView
             android:id="@+id/subHeader"
             android:text="@string/common_all_tracks"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/text_color_primary"
             android:textStyle="bold"
             android:textSize="16dp"
             android:gravity="center|top"

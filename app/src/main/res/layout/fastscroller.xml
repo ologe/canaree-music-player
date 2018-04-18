@@ -34,7 +34,7 @@
             android:layout_gravity="center_horizontal"
             tools:ignore="ContentDescription"
             tools:src="@drawable/fastscroll_handle"
-            android:tint="@color/dark_grey"/>
+            android:tint="@color/fast_scroller_handle"/>
 
     </FrameLayout>
 

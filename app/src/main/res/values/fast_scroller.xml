@@ -26,4 +26,6 @@
     <dimen name="fastscroll_scrollbar_padding_start">8dp</dimen>
     <dimen name="fastscroll_scrollbar_padding_end">4dp</dimen>
 
+    <color name="fast_scroller_handle">@color/dark_grey</color>
+
 </resources>

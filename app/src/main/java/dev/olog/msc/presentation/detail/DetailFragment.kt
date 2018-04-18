@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.detail
 
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
@@ -135,14 +134,15 @@ class DetailFragment : BaseFragment() {
 
     private fun removeLightStatusBar(){
         act.window.removeLightStatusBar()
-        back.setColorFilter(Color.WHITE)
-        search.setColorFilter(Color.WHITE)
-        more.setColorFilter(Color.WHITE)
+        val color = ContextCompat.getColor(ctx, R.color.detail_button_color_light)
+        back.setColorFilter(color)
+        search.setColorFilter(color)
+        more.setColorFilter(color)
     }
 
     private fun setLightStatusBar(){
         act.window.setLightStatusBar()
-        val color = ContextCompat.getColor(ctx, R.color.dark_grey)
+        val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
         back.setColorFilter(color)
         search.setColorFilter(color)
         more.setColorFilter(color)

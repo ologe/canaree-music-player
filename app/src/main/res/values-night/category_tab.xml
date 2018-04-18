@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="tab_layout_selected">@color/text_color_primary</color>
+    <color name="tab_layout_unselected">@color/text_color_secondary</color>
+
+</resources>

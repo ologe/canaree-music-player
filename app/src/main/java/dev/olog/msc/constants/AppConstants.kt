@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.QuickActionView
+import dev.olog.msc.utils.k.extension.isNightMode
 
 object AppConstants {
 
@@ -18,6 +19,7 @@ object AppConstants {
 
     var QUICK_ACTION = QuickActionView.Type.NONE
     var ICON_SHAPE = "round"
+    var IS_NIGHT_MODE = false
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -31,6 +33,7 @@ object AppConstants {
 
         QUICK_ACTION = getQuickAction(context)
         ICON_SHAPE = getIconShape(context)
+        IS_NIGHT_MODE = context.isNightMode()
     }
 
     fun updateQuickAction(context: Context){

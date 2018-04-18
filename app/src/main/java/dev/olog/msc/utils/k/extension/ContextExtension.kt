@@ -3,6 +3,7 @@
 package dev.olog.msc.utils.k.extension
 
 import android.annotation.SuppressLint
+import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -69,4 +70,8 @@ fun Context.vibrate(time: Long){
     } else {
         vibrator.vibrate(time)
     }
+}
+
+inline fun Context.isNightMode(): Boolean{
+    return (getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).nightMode == UiModeManager.MODE_NIGHT_YES
 }

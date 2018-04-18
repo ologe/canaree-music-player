@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FAFAFA"
+    android:background="@color/toolbar"
     android:elevation="2dp">
 
     <ImageButton
@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:padding="12dp"
-        android:src="@drawable/vd_back_arrow" />
+        android:src="@drawable/vd_back_arrow"
+        android:tint="@color/button_primary_tint"/>
 
     <ImageButton
         android:id="@+id/navigateNext"
@@ -22,7 +23,8 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:padding="12dp"
-        android:src="@drawable/vd_forward_arrow"/>
+        android:src="@drawable/vd_forward_arrow"
+        android:tint="@color/button_primary_tint"/>
 
     <ImageButton
         android:id="@+id/refresh"
@@ -31,14 +33,15 @@
         android:layout_height="match_parent"
         android:background="@null"
         android:padding="12dp"
-        android:src="@drawable/vd_refresh"/>
+        android:src="@drawable/vd_refresh"
+        android:tint="@color/button_primary_tint"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressTint="@color/accent"
+        android:progressTint="@color/progress_bar_tint"
         tools:progress="40"
         tools:max="100"
         android:max="100"
