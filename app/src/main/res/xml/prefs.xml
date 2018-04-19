@@ -105,12 +105,12 @@
             android:defaultValue="@string/prefs_icon_shape_rounded"
             android:key="@string/prefs_icon_shape_key"/>
 
-        <!--<SwitchPreference-->
-            <!--android:key="@string/prefs_dark_theme_key"-->
-            <!--android:title="@string/prefs_dark_theme_title"-->
-            <!--android:summaryOn="@string/prefs_dark_theme_summary_on"-->
-            <!--android:summaryOff="@string/prefs_dark_theme_summary_off"-->
-            <!--android:defaultValue="false"/>-->
+        <SwitchPreference
+            android:key="@string/prefs_dark_theme_key"
+            android:title="@string/prefs_dark_theme_title"
+            android:summaryOn="@string/prefs_dark_theme_summary_on"
+            android:summaryOff="@string/prefs_dark_theme_summary_off"
+            android:defaultValue="false"/>
 
 
     </PreferenceCategory>

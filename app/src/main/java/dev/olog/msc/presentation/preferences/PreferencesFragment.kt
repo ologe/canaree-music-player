@@ -18,14 +18,12 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
-    private lateinit var darkTheme : Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
-        darkTheme = preferenceScreen.findPreference(getString(R.string.prefs_dark_theme_key))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
