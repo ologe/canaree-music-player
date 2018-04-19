@@ -75,3 +75,8 @@ fun Context.vibrate(time: Long){
 inline fun Context.isNightMode(): Boolean{
     return (getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).nightMode == UiModeManager.MODE_NIGHT_YES
 }
+
+inline fun Context.updateNightMode(enable: Boolean){
+    val uiMode = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+    uiMode.nightMode = if (enable) UiModeManager.MODE_NIGHT_YES else UiModeManager.MODE_NIGHT_NO
+}

@@ -67,5 +67,9 @@
     <string name="prefs_auto_download_images_summary_on">Sempre</string>
     <string name="prefs_auto_download_images_summary_off">Solo su Wi-Fi</string>
 
+    <!--dark theme-->
+    <string name="prefs_dark_theme_title">Tema scuro</string>
+    <string name="prefs_dark_theme_summary_on">Tema scuro attivo</string>
+    <string name="prefs_dark_theme_summary_off">Tema chiaro</string>
 
 </resources>

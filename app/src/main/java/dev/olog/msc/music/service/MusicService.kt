@@ -126,6 +126,9 @@ class MusicService : BaseMusicService() {
         }
 
         if (CarHelper.isValidCarPackage(clientPackageName)){
+            grantUriPermission(CarHelper.AUTO_APP_PACKAGE_NAME,
+                    Uri.parse("content://media/external/audio/albumart"),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
         }
         if (WearHelper.isValidWearCompanionPackage(clientPackageName)){
@@ -137,9 +140,6 @@ class MusicService : BaseMusicService() {
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         if (parentId == MediaIdHelper.MEDIA_ID_ROOT){
-            grantUriPermission(CarHelper.AUTO_APP_PACKAGE_NAME,
-                    Uri.parse("content://media/external/audio/albumart"),
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
             result.sendResult(MediaIdHelper.getLibraryCategories(this))
             return
         }

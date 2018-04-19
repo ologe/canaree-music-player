@@ -30,11 +30,10 @@ class AboutActivityAdapter @Inject constructor(
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
                 AboutActivityPresenter.RATE_ID -> navigator.get().toMarket()
-                AboutActivityPresenter.REPORT_BUGS -> navigator.get().reportBugs()
-                AboutActivityPresenter.REQUEST_FEATURE -> navigator.get().requestFeature()
                 AboutActivityPresenter.PRIVACY_POLICY -> navigator.get().toPrivacyPolicy()
                 AboutActivityPresenter.BUY_PRO -> presenter.buyPro()
                 AboutActivityPresenter.COMMUNITY -> navigator.get().joinCommunity()
+                AboutActivityPresenter.BETA -> navigator.get().joinBeta()
             }
         }
     }

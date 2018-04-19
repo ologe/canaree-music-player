@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Divider">
-        <item name="android:background">#424242</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

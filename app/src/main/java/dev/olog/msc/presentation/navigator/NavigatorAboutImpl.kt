@@ -50,30 +50,6 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun reportBugs() {
-        if (allowed()){
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.facebook.com/groups/608390692835150")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
-        }
-    }
-
-    override fun requestFeature() {
-        if (allowed()){
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.facebook.com/groups/1352800471533229")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
-        }
-    }
-
     override fun toPrivacyPolicy() {
         if (allowed()){
             val intent = Intent(Intent.ACTION_VIEW)
@@ -101,7 +77,19 @@ class NavigatorAboutImpl @Inject internal constructor(
     override fun joinCommunity() {
         if (allowed()){
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.facebook.com/NextMusicApp")
+            intent.data = Uri.parse("https://plus.google.com/u/1/communities/112263979767803607353")
+            if (activity.packageManager.isIntentSafe(intent)) {
+                activity.startActivity(intent)
+            } else {
+                activity.toast(R.string.common_browser_not_found)
+            }
+        }
+    }
+
+    override fun joinBeta() {
+        if (allowed()){
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://play.google.com/apps/testing/dev.olog.msc")
             if (activity.packageManager.isIntentSafe(intent)) {
                 activity.startActivity(intent)
             } else {

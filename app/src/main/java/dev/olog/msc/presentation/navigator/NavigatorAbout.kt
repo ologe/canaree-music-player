@@ -8,14 +8,12 @@ interface NavigatorAbout {
 
     fun toMarket()
 
-    fun reportBugs()
-
-    fun requestFeature()
-
     fun toPrivacyPolicy()
 
     fun toDeveloperProfile()
 
     fun joinCommunity()
+
+    fun joinBeta()
 
 }

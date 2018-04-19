@@ -102,7 +102,7 @@
     <TextView
         android:id="@+id/headerText"
         tools:text="Selena Gomez"
-        android:textColor="@color/dark_grey"
+        android:textColor="@color/text_color_primary"
         android:textStyle="bold"
         android:textSize="18dp"
         android:gravity="center"

@@ -139,4 +139,10 @@
     <string name="prefs_auto_download_images_summary_on">Always</string>
     <string name="prefs_auto_download_images_summary_off">Only on Wi-Fi</string>
 
+    <!--dark theme-->
+    <string name="prefs_dark_theme_key" translatable="false">key_dark_theme</string>
+    <string name="prefs_dark_theme_title">Dark theme</string>
+    <string name="prefs_dark_theme_summary_on">Dark theme</string>
+    <string name="prefs_dark_theme_summary_off">Light theme</string>
+
 </resources>

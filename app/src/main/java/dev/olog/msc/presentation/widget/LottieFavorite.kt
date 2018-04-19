@@ -1,10 +1,8 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.FavoriteEnum
 
 class LottieFavorite @JvmOverloads constructor(
@@ -24,10 +22,8 @@ class LottieFavorite @JvmOverloads constructor(
     private fun toggleFavorite(isFavorite: Boolean) {
         cancelAnimation()
         if (isFavorite) {
-            removeFilter()
             progress = 1f
         } else {
-            applyFilter()
             progress = 0f
         }
     }
@@ -35,25 +31,11 @@ class LottieFavorite @JvmOverloads constructor(
     private fun animateFavorite(toFavorite: Boolean) {
         cancelAnimation()
         if (toFavorite) {
-            removeFilter()
             progress = .35f
             resumeAnimation()
         } else {
-            applyFilter()
             progress = 0f
         }
-    }
-
-    private fun applyFilter(){
-        if (AppConstants.IS_NIGHT_MODE){
-            setColorFilter(Color.WHITE)
-        } else {
-            removeFilter()
-        }
-    }
-
-    private fun removeFilter(){
-        setColorFilter(0)
     }
 
     fun onNextState(favoriteEnum: FavoriteEnum){

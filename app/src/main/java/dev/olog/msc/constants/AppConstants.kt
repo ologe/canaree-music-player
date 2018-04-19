@@ -4,7 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.QuickActionView
-import dev.olog.msc.utils.k.extension.isNightMode
+import dev.olog.msc.utils.k.extension.updateNightMode
 
 object AppConstants {
 
@@ -33,7 +33,7 @@ object AppConstants {
 
         QUICK_ACTION = getQuickAction(context)
         ICON_SHAPE = getIconShape(context)
-        IS_NIGHT_MODE = context.isNightMode()
+        IS_NIGHT_MODE = updateNightMode(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -42,6 +42,13 @@ object AppConstants {
 
     fun updateIconShape(context: Context){
         ICON_SHAPE = getIconShape(context)
+    }
+
+    fun updateNightMode(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val isNightMode = prefs.getBoolean(context.getString(R.string.prefs_dark_theme_key), false)
+        context.updateNightMode(isNightMode)
+        return isNightMode
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {

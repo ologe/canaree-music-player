@@ -40,7 +40,7 @@ class RateAppDialog @Inject constructor(
 
     private fun check(){
         disposable = updateCounter(activity)
-                .delay(2, TimeUnit.SECONDS)
+                .delay(2, TimeUnit.SECONDS, Schedulers.computation())
                 .filter { it }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

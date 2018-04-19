@@ -33,7 +33,8 @@
             android:layout_height="match_parent"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_back_arrow"
-            android:padding="12dp"/>
+            android:padding="12dp"
+            android:tint="@color/button_primary_tint"/>
 
         <TextSwitcher
             android:id="@+id/switcher"

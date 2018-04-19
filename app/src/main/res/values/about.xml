@@ -7,19 +7,16 @@
     <string name="about_version">Version</string>
 
     <string name="about_join_community">Community</string>
-    <string name="about_join_community_description">Join the community on Facebook</string>
+    <string name="about_join_community_description">Join the community</string>
+
+    <string name="about_beta">Beta</string>
+    <string name="about_beta_description">Try the newest features before anyone else</string>
 
     <string name="about_third_sw">Third-Party software</string>
     <string name="about_third_sw_description">Software that helped development</string>
 
     <string name="about_special_thanks_to">Special thanks to</string>
     <string name="about_special_thanks_to_description">Click to see</string>
-
-    <string name="about_support_report_bug">Report bugs</string>
-    <string name="about_support_report_bug_description">Go to Facebook group</string>
-
-    <string name="about_support_request_feature">Request feature</string>
-    <string name="about_support_request_feature_description">Go to Facebook group</string>
 
     <string name="about_support_rate">@string/rate_app_title</string>
     <string name="about_support_rate_description">@string/rate_app_message</string>
