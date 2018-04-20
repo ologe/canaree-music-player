@@ -11,6 +11,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -46,7 +47,14 @@ class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: String): Observable<Folder> {
-        return cachedData.map { it.first { it.path == param } }
+        return cachedData.map { folders ->
+            try {
+                folders.first { it.path == param }
+            } catch (ex: Exception){
+                crashlyticsLog("searched folder=$param, in folders=$folders")
+                throw ex
+            }
+        }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
