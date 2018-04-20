@@ -69,7 +69,7 @@
 
     <!--dark theme-->
     <string name="prefs_dark_theme_title">Tema scuro</string>
-    <string name="prefs_dark_theme_summary_on">Tema scuro attivo</string>
-    <string name="prefs_dark_theme_summary_off">Tema chiaro</string>
+    <string name="prefs_dark_theme_summary_on">Tema un po\' meno bianco</string>
+    <string name="prefs_dark_theme_summary_off">Tema bianco</string>
 
 </resources>

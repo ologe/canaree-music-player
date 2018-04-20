@@ -23,6 +23,7 @@ import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -71,23 +72,17 @@ class MediaSessionCallback @Inject constructor(
                         extras.getString(MusicConstants.ARGUMENT_SORT_TYPE) != null ||
                         extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING) != null -> {
                     queue.handlePlayFromMediaId(mediaId, extras)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(player::play, Throwable::printStackTrace)
-                            .addTo(subscriptions)
                 }
                 extras.getBoolean(MusicConstants.BUNDLE_MOST_PLAYED, false) -> {
                     queue.handlePlayMostPlayed(mediaId)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(player::play, Throwable::printStackTrace)
-                            .addTo(subscriptions)
                 }
                 extras.getBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, false) -> {
                     queue.handlePlayRecentlyPlayed(mediaId)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(player::play, Throwable::printStackTrace)
-                            .addTo(subscriptions)
                 }
-            }
+                else -> Single.error(Throwable("invalid case $extras"))
+            }.observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(player::play, Throwable::printStackTrace)
+                    .addTo(subscriptions)
         }
     }
 

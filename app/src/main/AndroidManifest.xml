@@ -110,8 +110,9 @@
         </provider>
 
         <!--car support-->
-        <meta-data android:name="com.google.android.gms.car.application"
-            android:resource="@xml/automotive_app_desc"/>
+        <!--temporarily disabled-->
+        <!--<meta-data android:name="com.google.android.gms.car.application"-->
+            <!--android:resource="@xml/automotive_app_desc"/>-->
 
         <!-- support to 2:1 screens -->
         <meta-data

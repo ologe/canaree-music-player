@@ -33,6 +33,7 @@
     <color name="seek_bar_secondary_tint">@color/grey400</color>
 
     <color name="progress_bar_tint">@color/accent</color>
+    <color name="progress_bar_secondary_tint">@color/background</color>
 
     <!-- Colors for the Hover menu itself -->
     <color name="hover_selector_color">@android:color/white</color>

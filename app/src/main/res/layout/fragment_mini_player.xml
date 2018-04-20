@@ -93,7 +93,7 @@
         style="@style/SizedProgressBar"
         android:max="@integer/common_high_number"
         android:progressTint="@color/progress_bar_tint"
-        android:progressBackgroundTint="@color/toolbar"
+        android:progressBackgroundTint="@color/progress_bar_secondary_tint"
         android:layout_width="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

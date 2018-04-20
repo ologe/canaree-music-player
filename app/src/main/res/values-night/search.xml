@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <color name="search_item_hint_message">@color/text_color_secondary</color>
-    <color name="search_item_hint">@color/text_color_primary</color>
-
-</resources>

@@ -4,36 +4,30 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.graphics.Color
+import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.transition.Fade
 import android.transition.TransitionValues
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import androidx.core.animation.addListener
-import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.R
 
-private fun startColor(): Int{
-    return if (AppConstants.IS_NIGHT_MODE){
-        0xFF282828.toInt()
-    } else {
-        0xfff0f0f0.toInt()
-    }
+private fun startColor(context: Context): Int{
+    return 0xfff0f0f0.toInt()
 }
 
-private fun endColor(): Int {
-    return if (AppConstants.IS_NIGHT_MODE){
-        0xFF131313.toInt()
-    } else {
-        Color.WHITE
-    }
+private fun endColor(context: Context): Int {
+    return ContextCompat.getColor(context, R.color.background)
 }
 
 class CircularReveal(
+        context: Context,
         private val x: Int,
         private val y: Int,
-        private val fromColor: Int = startColor(), // grey
-        private val toColor: Int = endColor(),
+        private val fromColor: Int = startColor(context), // grey
+        private val toColor: Int = endColor(context),
         private val onAppearFinished: (() -> Unit)? = null
 
 ) : Fade() {

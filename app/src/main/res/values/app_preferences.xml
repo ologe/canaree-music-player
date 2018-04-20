@@ -142,7 +142,7 @@
     <!--dark theme-->
     <string name="prefs_dark_theme_key" translatable="false">key_dark_theme</string>
     <string name="prefs_dark_theme_title">Dark theme</string>
-    <string name="prefs_dark_theme_summary_on">Dark theme</string>
-    <string name="prefs_dark_theme_summary_off">Light theme</string>
+    <string name="prefs_dark_theme_summary_on">Almost white theme</string>
+    <string name="prefs_dark_theme_summary_off">White theme</string>
 
 </resources>

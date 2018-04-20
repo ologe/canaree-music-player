@@ -28,7 +28,6 @@ class GlideModule : AppGlideModule() {
                 .setDefaultRequestOptions(defaultRequestOptions(context))
                 .setDiskCacheExecutor(GlideExecutor.newDiskCacheExecutor(IGNORE))
                 .setSourceExecutor(GlideExecutor.newSourceExecutor(IGNORE))
-                .build(context)
     }
 
     private fun defaultRequestOptions(context: Context): RequestOptions {
