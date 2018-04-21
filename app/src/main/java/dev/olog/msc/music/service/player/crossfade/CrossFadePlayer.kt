@@ -23,13 +23,13 @@ class CrossFadePlayer @Inject internal constructor(
         assertMainThread()
 
         val player = getNextPlayer()
-        player.prepare(mediaEntity.toSimpleCrossFadeModel(), bookmark)
+        player?.prepare(mediaEntity.toSimpleCrossFadeModel(), bookmark)
     }
 
     override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
         assertMainThread()
         val player = getNextPlayer()
-        player.play(mediaEntity.toSimpleCrossFadeModel(), hasFocus, isTrackEnded)
+        player?.play(mediaEntity.toSimpleCrossFadeModel(), hasFocus, isTrackEnded)
         if (!isTrackEnded){
             getSecondaryPlayer()?.stop()
         }
@@ -58,7 +58,7 @@ class CrossFadePlayer @Inject internal constructor(
         getSecondaryPlayer()?.setVolume(volume)
     }
 
-    private fun getNextPlayer(): CrossFadePlayerImpl {
+    private fun getNextPlayer(): CrossFadePlayerImpl? {
         val current = when (current){
             CurrentPlayer.PLAYER_NOT_SET,
             CurrentPlayer.PLAYER_TWO -> CurrentPlayer.PLAYER_ONE
@@ -70,7 +70,7 @@ class CrossFadePlayer @Inject internal constructor(
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerOne
             CurrentPlayer.PLAYER_TWO -> playerTwo
-            else -> throw IllegalStateException("invalid current player")
+            CurrentPlayer.PLAYER_NOT_SET -> null // it should not happen
         }
     }
 
@@ -78,7 +78,7 @@ class CrossFadePlayer @Inject internal constructor(
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerOne
             CurrentPlayer.PLAYER_TWO -> playerTwo
-            CurrentPlayer.PLAYER_NOT_SET -> null
+            CurrentPlayer.PLAYER_NOT_SET -> null // it should not happen
         }
     }
 
@@ -86,7 +86,7 @@ class CrossFadePlayer @Inject internal constructor(
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerTwo
             CurrentPlayer.PLAYER_TWO -> playerOne
-            CurrentPlayer.PLAYER_NOT_SET -> null
+            CurrentPlayer.PLAYER_NOT_SET -> null // it should not happen
         }
     }
 
