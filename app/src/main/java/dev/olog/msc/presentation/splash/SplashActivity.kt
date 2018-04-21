@@ -75,6 +75,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == STORAGE_PERMISSION_CODE){
+
             if (grantResults.isNotEmpty()){
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     onStoragePermissionGranted()
