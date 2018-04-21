@@ -34,7 +34,7 @@ class RxWaveSideBarView @JvmOverloads constructor(
 
         val list = data.asSequence()
                 .filter { it.type == scrollableLayoutId }
-                .map { it.title[0].toUpperCase() }
+                .mapNotNull { it.title.firstOrNull()?.toUpperCase() }
                 .distinctBy { it }
                 .map { it.toString() }
                 .toList()
