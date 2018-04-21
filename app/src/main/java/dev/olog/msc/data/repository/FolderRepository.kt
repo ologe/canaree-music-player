@@ -51,7 +51,7 @@ class FolderRepository @Inject constructor(
             try {
                 folders.first { it.path == param }
             } catch (ex: Exception){
-                crashlyticsLog("searched folder=$param, in folders=$folders")
+                crashlyticsLog("searched folder=$param, all folders path=${folders.map { it.path }}")
                 throw ex
             }
         }

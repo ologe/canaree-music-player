@@ -16,6 +16,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -72,7 +73,14 @@ class GenreRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Genre> {
-        return cachedData.map { it.first { it.id == param } }
+        return cachedData.map { genres ->
+            try {
+                genres.first { it.id == param }
+            } catch (ex: Exception){
+                crashlyticsLog("searched genre=$param, all genres id=${genres.map { it.id }}")
+                throw ex
+            }
+        }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

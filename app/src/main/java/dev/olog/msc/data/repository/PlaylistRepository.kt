@@ -19,6 +19,7 @@ import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -99,7 +100,14 @@ class PlaylistRepository @Inject constructor(
             getAllAutoPlaylists()
         } else getAll()
 
-        return result.map { it.first { it.id == param } }
+        return cachedData.map { playlists ->
+            try {
+                playlists.first { it.id == param }
+            } catch (ex: Exception){
+                crashlyticsLog("searched playlist=$param, all playlists id=${playlists.map { it.id }}")
+                throw ex
+            }
+        }
     }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {

@@ -64,7 +64,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
             viewPager.setCurrentItem(1, true)
         } else {
             ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), STORAGE_PERMISSION_CODE)
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), STORAGE_PERMISSION_CODE)
         }
     }
 

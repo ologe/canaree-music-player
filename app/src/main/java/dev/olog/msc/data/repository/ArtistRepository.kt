@@ -10,6 +10,7 @@ import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -80,7 +81,14 @@ class ArtistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Artist> {
-        return cachedData.map { it.first { it.id == param } }
+        return cachedData.map { artists ->
+            try {
+                artists.first { it.id == param }
+            } catch (ex: Exception){
+                crashlyticsLog("searched artist=$param, all artists id=${artists.map { it.id }}")
+                throw ex
+            }
+        }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

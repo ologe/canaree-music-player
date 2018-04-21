@@ -9,6 +9,7 @@ import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -56,7 +57,14 @@ class AlbumRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Album> {
-        return cachedData.map { it.first { it.id == param } }
+        return cachedData.map { albums ->
+            try {
+                albums.first { it.id == param }
+            } catch (ex: Exception){
+                crashlyticsLog("searched album=$param, all albums id=${albums.map { it.id }}")
+                throw ex
+            }
+        }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
