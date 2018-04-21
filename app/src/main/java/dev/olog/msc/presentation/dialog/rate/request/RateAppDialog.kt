@@ -54,6 +54,7 @@ class RateAppDialog @Inject constructor(
                             })
                             .setNegativeButton(R.string.rate_app_negative_button, { _, _ -> setNeverShowAgain() })
                             .setNeutralButton(R.string.rate_app_neutral_button, { _, _ ->  })
+                            .setCancelable(false)
                             .makeDialog()
 
                 }, Throwable::printStackTrace)
