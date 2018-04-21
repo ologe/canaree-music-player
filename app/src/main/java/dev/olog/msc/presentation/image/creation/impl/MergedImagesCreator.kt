@@ -27,7 +27,11 @@ object MergedImagesCreator {
                 .take(9)
                 .toList()
 
-        return doCreate(context, uris, parentFolder, itemId)
+        try {
+            return doCreate(context, uris, parentFolder, itemId)
+        } catch (ex: OutOfMemoryError){
+            return false
+        }
     }
 
     private fun getBitmap(context: Context, albumId: Long): Bitmap {
@@ -36,6 +40,7 @@ object MergedImagesCreator {
         return context.getBitmapAsync(model, 500, withError = false)
     }
 
+    @Throws(OutOfMemoryError::class)
     private fun doCreate(context: Context, uris: List<IdWithBitmap>, parentFolder: String, itemId: String) : Boolean {
         val imageDirectory = ImagesFolderUtils.getImageFolderFor(context, parentFolder)
 

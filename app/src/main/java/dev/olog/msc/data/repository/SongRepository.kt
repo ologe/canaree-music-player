@@ -5,7 +5,6 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.DURATION
-import android.provider.MediaStore.Audio.Media.TITLE
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.mapper.toFakeSong
@@ -38,9 +37,9 @@ private val PROJECTION = arrayOf(
         MediaStore.Audio.Media.DATE_ADDED
 )
 
-private const val SELECTION = "$TITLE NOT LIKE ? AND $DURATION > ?"
+private const val SELECTION = "$DURATION > ?"
 
-private val SELECTION_ARGS = arrayOf("AUD%", "20000")
+private val SELECTION_ARGS = arrayOf("20000")
 
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
