@@ -13,10 +13,7 @@ import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
 import dev.olog.msc.presentation.equalizer.ResizeAnimation
-import dev.olog.msc.utils.k.extension.dimen
-import dev.olog.msc.utils.k.extension.dip
-import dev.olog.msc.utils.k.extension.setPaddingBottom
-import dev.olog.msc.utils.k.extension.vibrate
+import dev.olog.msc.utils.k.extension.*
 
 class BandView (
         context: Context,
@@ -157,7 +154,7 @@ class BandView (
     }
 
     private fun updateHeight(height: Int, animate: Boolean){
-        val targetHeight = MathUtils.clamp(height, topMargin / 2, getHeight() - topMargin / 2)
+        val targetHeight = clamp(height, topMargin / 2, getHeight() - topMargin / 2)
 
         if (animate) {
             val resizeAnimation = ResizeAnimation(view, targetHeight - view.height)

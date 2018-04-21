@@ -21,10 +21,11 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
-import dev.olog.msc.music.service.player.CrossFadePlayer
+import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.player.CustomExoPlayer
 import dev.olog.msc.music.service.player.PlayerImpl
 import dev.olog.msc.music.service.player.PlayerVolume
+import dev.olog.msc.music.service.player.crossfade.CrossFadePlayer
 import dev.olog.msc.music.service.volume.IPlayerVolume
 
 @Module(includes = arrayOf(MusicServiceModule.Binds::class))
@@ -83,7 +84,7 @@ class MusicServiceModule(
     internal fun providePlayer(
             @ApplicationContext context: Context,
 //            simplePlayer: Lazy<SimplePlayer>,
-            crossfadePlayer: CrossFadePlayer): CustomExoPlayer {
+            crossfadePlayer: CrossFadePlayer): CustomExoPlayer<MediaEntity> {
         return crossfadePlayer
     }
 

@@ -3,7 +3,6 @@ package dev.olog.msc.music.service
 import android.annotation.SuppressLint
 import android.support.annotation.CheckResult
 import android.support.annotation.MainThread
-import android.support.v4.math.MathUtils
 import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCase
@@ -15,6 +14,7 @@ import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.assertMainThread
+import dev.olog.msc.utils.k.extension.clamp
 import dev.olog.msc.utils.k.extension.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
@@ -140,7 +140,7 @@ class QueueImpl @Inject constructor(
     @Contract(pure = true)
     @CheckResult
     private fun ensurePosition(list: List<MediaEntity>, position: Int): Int {
-        return MathUtils.clamp(position, 0, list.lastIndex)
+        return clamp(position, 0, list.lastIndex)
     }
 
     @MainThread

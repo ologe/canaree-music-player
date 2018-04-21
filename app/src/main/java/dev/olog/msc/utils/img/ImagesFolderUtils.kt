@@ -3,8 +3,8 @@ package dev.olog.msc.utils.img
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.support.v4.math.MathUtils
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.utils.k.extension.clamp
 import java.io.File
 
 object ImagesFolderUtils {
@@ -45,7 +45,7 @@ object ImagesFolderUtils {
         return ContentUris.withAppendedId(COVER_URI, albumId).toString()
     }
     private fun getFakeImage(albumId: Long): String {
-        val safe = MathUtils.clamp(albumId.rem(10).toInt(), 0, 10)
+        val safe = clamp(albumId.rem(10), 0, 10)
         return Uri.parse("file:///android_asset/images/$safe.jpg").toString()
     }
 

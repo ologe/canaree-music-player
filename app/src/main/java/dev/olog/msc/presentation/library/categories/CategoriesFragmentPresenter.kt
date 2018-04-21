@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.library.categories
 
-import android.support.v4.math.MathUtils
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.utils.k.extension.clamp
 import javax.inject.Inject
 
 class CategoriesFragmentPresenter @Inject constructor(
@@ -10,7 +10,7 @@ class CategoriesFragmentPresenter @Inject constructor(
 
     fun getViewPagerLastPage(totalPages: Int) : Int{
         val lastPage = appPrefsUseCase.getViewPagerLastVisitedPage()
-        return MathUtils.clamp(lastPage, 0, totalPages)
+        return clamp(lastPage, 0, totalPages)
     }
 
     fun setViewPagerLastPage(page: Int){

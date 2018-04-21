@@ -13,6 +13,7 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.interfaces.SkipType
+import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import javax.inject.Inject
 
@@ -22,8 +23,7 @@ class PlayerImpl @Inject constructor(
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
         private val audioFocus : AudioFocusBehavior,
-        private val player: CustomExoPlayer
-//        playerFading: PlayerFading
+        private val player: CustomExoPlayer<MediaEntity>
 
 ) : Player,
         DefaultLifecycleObserver,

@@ -9,6 +9,8 @@ import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
+import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.player.media.source.DefaultSourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import javax.inject.Inject
@@ -21,7 +23,7 @@ class SimplePlayer @Inject constructor(
         private val audioManager: Lazy<AudioManager>,
         private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-): DefaultPlayer(context, lifecycle, sourceFactory, volume), CustomExoPlayer {
+): DefaultPlayer<MediaEntity>(context, lifecycle, sourceFactory, volume) {
 
     init {
         player.addListener(this)

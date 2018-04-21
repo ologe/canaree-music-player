@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.CallSuper
-import android.support.v4.math.MathUtils
 import android.util.Log
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -14,18 +13,19 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
-import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
+import dev.olog.msc.utils.k.extension.clamp
 import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.toast
 
-abstract class DefaultPlayer(
+abstract class DefaultPlayer<T>(
         private val context: Context,
         lifecycle: Lifecycle,
-        private val mediaSourceFactory: SourceFactory,
+        private val mediaSourceFactory: SourceFactory<T>,
         volume: IPlayerVolume
 
-) : CustomExoPlayer,
+) : CustomExoPlayer<T>,
         ExoPlayerListenerWrapper,
         DefaultLifecycleObserver {
 
@@ -48,7 +48,7 @@ abstract class DefaultPlayer(
     }
 
     @CallSuper
-    override fun prepare(mediaEntity: MediaEntity, bookmark: Long) {
+    override fun prepare(mediaEntity: T, bookmark: Long) {
         val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource)
         player.playWhenReady = false
@@ -56,7 +56,7 @@ abstract class DefaultPlayer(
     }
 
     @CallSuper
-    override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
+    override fun play(mediaEntity: T, hasFocus: Boolean, isTrackEnded: Boolean) {
         val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource, true, true)
         player.playWhenReady = hasFocus
@@ -74,7 +74,7 @@ abstract class DefaultPlayer(
 
     @CallSuper
     override fun seekTo(where: Long) {
-        val safeSeek = MathUtils.clamp(where.toInt(), 0, getDuration().toInt()).toLong()
+        val safeSeek = clamp(where, 0L, getDuration())
         player.seekTo(safeSeek)
     }
 

@@ -1,4 +1,4 @@
-package dev.olog.msc.music.service.player
+package dev.olog.msc.music.service.player.crossfade
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
@@ -15,8 +15,9 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.player.DefaultPlayer
+import dev.olog.msc.music.service.player.media.source.ClippedSourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -26,94 +27,9 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private enum class CurrentPlayer {
-    PLAYER_NOT_SET,
-    PLAYER_ONE,
-    PLAYER_TWO
-}
-
-class CrossFadePlayer @Inject constructor(
-        private val playerOne: SimpleCrossFadePlayer,
-        private val playerTwo: SimpleCrossFadePlayer
-
-): CustomExoPlayer {
-
-    private var current = CurrentPlayer.PLAYER_NOT_SET
-
-    override fun prepare(mediaEntity: MediaEntity, bookmark: Long){
-        assertMainThread()
-
-        val player = getNextPlayer()
-        player.prepare(mediaEntity, bookmark)
-    }
-
-    override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
-        assertMainThread()
-        val player = getNextPlayer()
-        player.play(mediaEntity, hasFocus, isTrackEnded)
-        if (!isTrackEnded){
-            getSecondaryPlayer().stop()
-        }
-    }
-
-    override fun resume() {
-        getCurrentPlayer().resume()
-    }
-
-    override fun pause() {
-        getCurrentPlayer().pause()
-        getSecondaryPlayer().stop()
-    }
-
-    override fun seekTo(where: Long) {
-        getCurrentPlayer().seekTo(where)
-        getSecondaryPlayer().stop()
-    }
-
-    override fun isPlaying(): Boolean = getCurrentPlayer().isPlaying()
-    override fun getBookmark(): Long = getCurrentPlayer().getBookmark()
-    override fun getDuration(): Long = getCurrentPlayer().getDuration()
-
-    override fun setVolume(volume: Float) {
-        getCurrentPlayer().setVolume(volume)
-        getSecondaryPlayer().setVolume(volume)
-    }
-
-    private fun getNextPlayer(): SimpleCrossFadePlayer {
-        current = when (current){
-            CurrentPlayer.PLAYER_NOT_SET,
-            CurrentPlayer.PLAYER_TWO -> CurrentPlayer.PLAYER_ONE
-            CurrentPlayer.PLAYER_ONE -> CurrentPlayer.PLAYER_TWO
-        }
-
-        return when (current){
-            CurrentPlayer.PLAYER_ONE -> playerOne
-            CurrentPlayer.PLAYER_TWO -> playerTwo
-            else -> throw IllegalStateException("invalid current player")
-        }
-    }
-
-    private fun getCurrentPlayer(): SimpleCrossFadePlayer {
-        return when (current){
-            CurrentPlayer.PLAYER_ONE -> playerOne
-            CurrentPlayer.PLAYER_TWO -> playerTwo
-            else -> throw IllegalStateException("invalid secondary player")
-        }
-    }
-
-    private fun getSecondaryPlayer(): SimpleCrossFadePlayer{
-        return when (current){
-            CurrentPlayer.PLAYER_ONE -> playerTwo
-            CurrentPlayer.PLAYER_TWO -> playerOne
-            else -> throw IllegalStateException("invalid secondary player")
-        }
-    }
-
-}
-
 private var playerCount = 0
 
-class SimpleCrossFadePlayer @Inject constructor(
+class CrossFadePlayerImpl @Inject internal constructor(
         @ApplicationContext context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         mediaSourceFactory: ClippedSourceFactory,
@@ -122,7 +38,7 @@ class SimpleCrossFadePlayer @Inject constructor(
         private val volume: IPlayerVolume,
         private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
-): DefaultPlayer(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
+): DefaultPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 
     private var fadeDisposable : Disposable? = null
 
@@ -145,7 +61,6 @@ class SimpleCrossFadePlayer @Inject constructor(
 
     init {
         player.addListener(this)
-
         player.addAudioDebugListener(onAudioSessionIdChangeListener)
     }
 
@@ -158,11 +73,12 @@ class SimpleCrossFadePlayer @Inject constructor(
         crossFadeDurationDisposable.unsubscribe()
     }
 
-    override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
-        super.play(mediaEntity.copy(isRemix = crossFadeTime > 0, isExplicit = isTrackEnded && crossFadeTime > 0),
-                hasFocus, isTrackEnded)
-//        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
-        if (isTrackEnded && crossFadeTime > 0){
+    override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
+        cancelFade()
+        val updatedModel = mediaEntity.copy(trackEnded = isTrackEnded, crossFadeTime = crossFadeTime)
+        super.play(updatedModel, hasFocus, isTrackEnded)
+        //        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
+        if (isTrackEnded && crossFadeTime > 0) {
             fadeIn()
         } else {
             restoreDefaultVolume()
@@ -215,7 +131,7 @@ class SimpleCrossFadePlayer @Inject constructor(
     private fun fadeIn() {
 //        debug("fading in")
         cancelFade()
-        val (min, max, interval, delta) = CrossFadeModel(crossFadeTime, volume.getVolume())
+        val (min, max, interval, delta) = CrossFadeInternals(crossFadeTime, volume.getVolume())
         player.volume = min
 
         fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
@@ -237,7 +153,7 @@ class SimpleCrossFadePlayer @Inject constructor(
         fadeDisposable.unsubscribe()
         requestNextSong()
 
-        val (min, max, interval, delta) = CrossFadeModel(time.toInt(), volume.getVolume())
+        val (min, max, interval, delta) = CrossFadeInternals(time.toInt(), volume.getVolume())
         player.volume = max
 
         fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
@@ -268,19 +184,33 @@ class SimpleCrossFadePlayer @Inject constructor(
         audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
     }
 
-}
+    data class Model(
+            val mediaEntity: MediaEntity,
+            private val trackEnded: Boolean,
+            private val crossFadeTime: Int
+    ) {
 
-private class CrossFadeModel(duration: Int, maxVolumeAllowed: Float) {
+        val isFlac: Boolean = mediaEntity.path.endsWith(".flac")
+        val duration: Long = mediaEntity.duration
+        val isCrossFadeOn: Boolean = crossFadeTime > 0
+        val isTrackEnded: Boolean = trackEnded && isCrossFadeOn
+        val isGoodIdeaToClip = crossFadeTime >= 5000
 
-    val min: Float = 0f
-    val max: Float= maxVolumeAllowed
-    val interval: Long = 200L
-    private val times: Long = duration / interval
-    val delta: Float = Math.abs(max - min) / times
+    }
 
-    operator fun component1() = min
-    operator fun component2() = max
-    operator fun component3() = interval
-    operator fun component4() = delta
+    private class CrossFadeInternals(duration: Int, maxVolumeAllowed: Float) {
+
+        val min: Float = 0f
+        val max: Float= maxVolumeAllowed
+        val interval: Long = 200L
+        private val times: Long = duration / interval
+        val delta: Float = Math.abs(max - min) / times
+
+        operator fun component1() = min
+        operator fun component2() = max
+        operator fun component3() = interval
+        operator fun component4() = delta
+
+    }
 
 }

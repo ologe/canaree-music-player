@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.support.v4.math.MathUtils
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
+import dev.olog.msc.utils.k.extension.clamp
 
 private const val DEFAULT_PARALLAX = .4f
 private const val MAX_ALPHA = 85 //.3f
@@ -39,14 +39,14 @@ class ParallaxImageView(
 
         translationY = diff.toFloat() * parallax
 
-        val currentAlpha = MathUtils.clamp((diff * .1f).toInt(), 0, MAX_ALPHA)
+        val currentAlpha = clamp((diff * .1f).toInt(), 0, MAX_ALPHA)
         paint.alpha = currentAlpha
         invalidate()
     }
 
     fun setScrimColor(color: Int){
         paint.color = color
-        paint.alpha = MathUtils.clamp(translationY.toInt(), 0, MAX_ALPHA)
+        paint.alpha = clamp(translationY.toInt(), 0, MAX_ALPHA)
     }
 
     override fun onDraw(canvas: Canvas) {

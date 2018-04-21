@@ -1,7 +1,6 @@
 package dev.olog.msc.music.service
 
 import android.os.Bundle
-import android.support.v4.math.MathUtils
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
@@ -16,6 +15,7 @@ import dev.olog.msc.music.service.model.*
 import dev.olog.msc.music.service.voice.VoiceSearch
 import dev.olog.msc.music.service.voice.VoiceSearchParams
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.clamp
 import dev.olog.msc.utils.k.extension.swap
 import io.reactivex.Single
 import io.reactivex.functions.Function
@@ -53,8 +53,7 @@ class QueueManager @Inject constructor(
 
     private fun getLastSessionBookmark(mediaEntity: MediaEntity): Long {
         val bookmark = musicPreferencesUseCase.getBookmark().toInt()
-        return MathUtils.clamp(bookmark, 0,
-                mediaEntity.duration.toInt()).toLong()
+        return clamp(bookmark.toLong(), 0L, mediaEntity.duration)
     }
 
     override fun handleSkipToQueueItem(idInPlaylist: Long): PlayerMediaEntity {
@@ -203,7 +202,7 @@ class QueueManager @Inject constructor(
 
     private val lastSessionSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
         val idInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
-        val currentPosition = MathUtils.clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
+        val currentPosition = clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
         Pair(list, currentPosition)
     }
 
@@ -211,7 +210,7 @@ class QueueManager @Inject constructor(
         if (shuffleMode.isEnabled() || songId == -1L){
             Pair(list, 0)
         } else {
-            val position = MathUtils.clamp(list.indexOfFirst { it.id == songId }, 0, list.lastIndex)
+            val position = clamp(list.indexOfFirst { it.id == songId }, 0, list.lastIndex)
             Pair(list, position)
         }
     }
