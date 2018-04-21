@@ -31,39 +31,41 @@ class CrossFadePlayer @Inject internal constructor(
         val player = getNextPlayer()
         player.play(mediaEntity.toSimpleCrossFadeModel(), hasFocus, isTrackEnded)
         if (!isTrackEnded){
-            getSecondaryPlayer().stop()
+            getSecondaryPlayer()?.stop()
         }
     }
 
     override fun resume() {
-        getCurrentPlayer().resume()
+        getCurrentPlayer()?.resume()
     }
 
     override fun pause() {
-        getCurrentPlayer().pause()
-        getSecondaryPlayer().stop()
+        getCurrentPlayer()?.pause()
+        getSecondaryPlayer()?.stop()
     }
 
     override fun seekTo(where: Long) {
-        getCurrentPlayer().seekTo(where)
-        getSecondaryPlayer().stop()
+        getCurrentPlayer()?.seekTo(where)
+        getSecondaryPlayer()?.stop()
     }
 
-    override fun isPlaying(): Boolean = getCurrentPlayer().isPlaying()
-    override fun getBookmark(): Long = getCurrentPlayer().getBookmark()
-    override fun getDuration(): Long = getCurrentPlayer().getDuration()
+    override fun isPlaying(): Boolean = getCurrentPlayer()?.isPlaying() ?: false
+    override fun getBookmark(): Long = getCurrentPlayer()?.getBookmark() ?: 0L
+    override fun getDuration(): Long = getCurrentPlayer()?.getDuration() ?: 0L
 
     override fun setVolume(volume: Float) {
-        getCurrentPlayer().setVolume(volume)
-        getSecondaryPlayer().setVolume(volume)
+        getCurrentPlayer()?.setVolume(volume)
+        getSecondaryPlayer()?.setVolume(volume)
     }
 
     private fun getNextPlayer(): CrossFadePlayerImpl {
-        current = when (current){
+        val current = when (current){
             CurrentPlayer.PLAYER_NOT_SET,
             CurrentPlayer.PLAYER_TWO -> CurrentPlayer.PLAYER_ONE
             CurrentPlayer.PLAYER_ONE -> CurrentPlayer.PLAYER_TWO
         }
+
+        this.current = current
 
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerOne
@@ -72,19 +74,19 @@ class CrossFadePlayer @Inject internal constructor(
         }
     }
 
-    private fun getCurrentPlayer(): CrossFadePlayerImpl {
+    private fun getCurrentPlayer(): CrossFadePlayerImpl? {
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerOne
             CurrentPlayer.PLAYER_TWO -> playerTwo
-            else -> throw IllegalStateException("invalid secondary player")
+            CurrentPlayer.PLAYER_NOT_SET -> null
         }
     }
 
-    private fun getSecondaryPlayer(): CrossFadePlayerImpl {
+    private fun getSecondaryPlayer(): CrossFadePlayerImpl? {
         return when (current){
             CurrentPlayer.PLAYER_ONE -> playerTwo
             CurrentPlayer.PLAYER_TWO -> playerOne
-            else -> throw IllegalStateException("invalid secondary player")
+            CurrentPlayer.PLAYER_NOT_SET -> null
         }
     }
 
