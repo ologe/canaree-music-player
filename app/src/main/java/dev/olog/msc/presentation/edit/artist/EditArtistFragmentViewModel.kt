@@ -11,7 +11,10 @@ import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.msc.utils.media.store.notifyMediaStore
 import io.reactivex.disposables.Disposable
+import org.jaudiotagger.audio.exceptions.CannotReadException
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import org.jaudiotagger.tag.TagOptionSingleton
+import java.io.FileNotFoundException
 
 class EditArtistFragmentViewModel(
         application: Application,
@@ -61,6 +64,15 @@ class EditArtistFragmentViewModel(
             }
 
             return UpdateResult.OK
+        } catch (cre: CannotReadException) {
+            cre.printStackTrace()
+            return UpdateResult.CANNOT_READ
+        } catch (rofe: ReadOnlyFileException) {
+            rofe.printStackTrace()
+            return UpdateResult.READ_ONLY
+        } catch (fnf: FileNotFoundException) {
+            fnf.printStackTrace()
+            return UpdateResult.FILE_NOT_FOUND
         } catch (ex: Exception){
             ex.printStackTrace()
             return UpdateResult.ERROR

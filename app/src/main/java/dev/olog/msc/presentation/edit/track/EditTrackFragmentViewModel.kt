@@ -17,9 +17,15 @@ import dev.olog.msc.utils.media.store.notifyMediaStore
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.audio.exceptions.CannotReadException
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import org.jaudiotagger.tag.FieldKey
+import org.jaudiotagger.tag.TagException
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.IOException
 
 class EditTrackFragmentViewModel(
         application: Application,
@@ -29,6 +35,7 @@ class EditTrackFragmentViewModel(
 ) : AndroidViewModel(application) {
 
     private val displayedSong = MutableLiveData<DisplayableSong>()
+    private val taggerErrorLiveData = MutableLiveData<Throwable>()
 
     private var getSongDisposable : Disposable? = null
 
@@ -38,15 +45,31 @@ class EditTrackFragmentViewModel(
         TagOptionSingleton.getInstance().isAndroid = true
 
         getSongDisposable = presenter.getSong()
-                .subscribe({
-                    val song = it.toDisplayableSong()
+                .map { it.toDisplayableSong() }
+                .subscribe({ song ->
                     displayedSong.postValue(song)
-                }, Throwable::printStackTrace)
+                }, {
+                    it.printStackTrace()
+                    if (isTaggerError(it)){
+                        taggerErrorLiveData.postValue(it)
+                    }
+                })
+    }
+
+    private fun isTaggerError(throwable: Throwable): Boolean {
+        var isTaggerError = throwable is CannotReadException
+        isTaggerError = isTaggerError || throwable is TagException
+        isTaggerError = isTaggerError || throwable is ReadOnlyFileException
+        isTaggerError = isTaggerError || throwable is InvalidAudioFrameException
+        isTaggerError = isTaggerError || throwable is IOException
+        return isTaggerError
     }
 
     fun observeData(): LiveData<DisplayableSong> = displayedSong
 
     fun observeConnectivity() : Observable<String> = errorPublisher.observe()
+
+    fun observeTaggerErrors(): LiveData<Throwable> = taggerErrorLiveData
 
     fun fetchSongInfo(){
         fetchSongInfoDisposable.unsubscribe()
@@ -101,6 +124,15 @@ class EditTrackFragmentViewModel(
             notifyMediaStore(context, presenter.getPath())
 
             return UpdateResult.OK
+        } catch (cre: CannotReadException) {
+            cre.printStackTrace()
+            return UpdateResult.CANNOT_READ
+        } catch (rofe: ReadOnlyFileException) {
+            rofe.printStackTrace()
+            return UpdateResult.READ_ONLY
+        } catch (fnf: FileNotFoundException) {
+            fnf.printStackTrace()
+            return UpdateResult.FILE_NOT_FOUND
         } catch (ex: Exception){
             ex.printStackTrace()
             return UpdateResult.ERROR

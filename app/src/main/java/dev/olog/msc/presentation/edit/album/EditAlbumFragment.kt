@@ -10,6 +10,9 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_album.*
+import org.jaudiotagger.audio.exceptions.CannotReadException
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
+import java.io.IOException
 import javax.inject.Inject
 
 class EditAlbumFragment : BaseEditItemFragment() {
@@ -57,6 +60,20 @@ class EditAlbumFragment : BaseEditItemFragment() {
             }
             hideLoader()
         })
+
+        viewModel.observeTaggerErrors()
+                .subscribe(this, {
+                    when (it){
+                        is CannotReadException -> ctx.toast(R.string.edit_song_error_can_not_read)
+                        is IOException -> ctx.toast(R.string.edit_song_error_io)
+                        is ReadOnlyFileException -> ctx.toast(R.string.edit_song_error_read_only)
+                        else -> {
+                            // TagException, InvalidAudioFrameException
+                            ctx.toast(R.string.edit_song_error)
+                        }
+                    }
+                    act.onBackPressed()
+                })
     }
 
     override fun onResume() {
@@ -75,9 +92,13 @@ class EditAlbumFragment : BaseEditItemFragment() {
                     act.onBackPressed()
                 }
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
+                UpdateResult.ILLEGAL_DISC_NUMBER,
+                UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
                 UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
                 UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
-                else -> throw IllegalArgumentException("invalid result $result")
+                UpdateResult.CANNOT_READ -> ctx.toast(R.string.edit_song_cannot_read)
+                UpdateResult.READ_ONLY -> ctx.toast(R.string.edit_song_read_only)
+                UpdateResult.FILE_NOT_FOUND -> ctx.toast(R.string.edit_song_file_not_found)
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }

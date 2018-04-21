@@ -53,9 +53,10 @@ class EditTrackFragmentPresenter @Inject constructor(
             disc: String,
             track: String
 
-    ){
+    ) {
         val file = File(originalSong.path)
         val audioFile = AudioFileIO.read(file)
+
         val tag = audioFile.tagOrCreateAndSetDefault
         tag.setField(FieldKey.TITLE, title)
         tag.setField(FieldKey.ARTIST, artist)

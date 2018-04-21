@@ -61,8 +61,13 @@ class EditArtistFragment : BaseEditItemFragment() {
                     act.onBackPressed()
                 }
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
+                UpdateResult.ILLEGAL_DISC_NUMBER,
+                UpdateResult.ILLEGAL_TRACK_NUMBER,
+                UpdateResult.ILLEGAL_YEAR -> {}
                 UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
-                else -> throw IllegalArgumentException("invalid result $result")
+                UpdateResult.CANNOT_READ -> ctx.toast(R.string.edit_song_cannot_read)
+                UpdateResult.READ_ONLY -> ctx.toast(R.string.edit_song_read_only)
+                UpdateResult.FILE_NOT_FOUND -> ctx.toast(R.string.edit_song_file_not_found)
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }

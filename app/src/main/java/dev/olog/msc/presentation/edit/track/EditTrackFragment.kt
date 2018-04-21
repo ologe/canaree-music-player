@@ -9,6 +9,9 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
+import org.jaudiotagger.audio.exceptions.CannotReadException
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
+import java.io.IOException
 import javax.inject.Inject
 
 class EditTrackFragment : BaseEditItemFragment() {
@@ -52,6 +55,20 @@ class EditTrackFragment : BaseEditItemFragment() {
         viewModel.observeConnectivity()
                 .asLiveData()
                 .subscribe(this, { ctx.toast(it) })
+
+        viewModel.observeTaggerErrors()
+                .subscribe(this, {
+                    when (it){
+                        is CannotReadException -> ctx.toast(R.string.edit_song_error_can_not_read)
+                        is IOException -> ctx.toast(R.string.edit_song_error_io)
+                        is ReadOnlyFileException -> ctx.toast(R.string.edit_song_error_read_only)
+                        else -> {
+                            // TagException, InvalidAudioFrameException
+                            ctx.toast(R.string.edit_song_error)
+                        }
+                    }
+                    act.onBackPressed()
+                })
     }
 
     override fun onResume() {
@@ -76,6 +93,9 @@ class EditTrackFragment : BaseEditItemFragment() {
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> ctx.toast(R.string.edit_song_invalid_track_number)
                 UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
                 UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
+                UpdateResult.CANNOT_READ -> ctx.toast(R.string.edit_song_cannot_read)
+                UpdateResult.READ_ONLY -> ctx.toast(R.string.edit_song_read_only)
+                UpdateResult.FILE_NOT_FOUND -> ctx.toast(R.string.edit_song_file_not_found)
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }
