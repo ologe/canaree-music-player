@@ -23,6 +23,7 @@ import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
+import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -74,7 +75,11 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handleAppShortcutPlay(intent: Intent) {
-        mediaSession.controller.transportControls.play()
+        try {
+            mediaSession.controller.transportControls.play()
+        } catch (ex: Exception){
+            this.applicationContext.toast("Please check your storage permission, contact the developer if the problem persists")
+        }
     }
 
     override fun handleAppShortcutShuffle(intent: Intent) {
