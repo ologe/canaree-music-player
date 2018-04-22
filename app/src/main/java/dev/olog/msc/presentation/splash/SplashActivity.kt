@@ -9,16 +9,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.app.KeepDataAlive
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
-import dev.olog.msc.utils.k.extension.makeDialog
-import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
 private const val STORAGE_PERMISSION_CODE = 56891
@@ -63,21 +61,25 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         if (viewPager.currentItem == 0){
             viewPager.setCurrentItem(1, true)
         } else {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), STORAGE_PERMISSION_CODE)
+            requestStoragePermission()
         }
     }
 
     private fun requestStoragePermission(){
-        ActivityCompat.requestPermissions(this,
-                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), STORAGE_PERMISSION_CODE)
+        if (!isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)){
+            requestPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else if (!isPermissionGranted(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == STORAGE_PERMISSION_CODE){
 
             if (grantResults.isNotEmpty()){
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                var grantedPermissions = isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                grantedPermissions = grantedPermissions && isPermissionGranted(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (grantedPermissions){
                     onStoragePermissionGranted()
                     imageCreator.execute()
                     keepDataAlive.execute()
@@ -116,6 +118,15 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.fromParts("package", packageName, null))
         startActivity(intent)
+    }
+
+    private fun isPermissionGranted(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestPermission(permission: String){
+        ActivityCompat.requestPermissions(this,
+                arrayOf(permission), STORAGE_PERMISSION_CODE)
     }
 
 }
