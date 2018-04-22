@@ -8,4 +8,6 @@
     <string name="shortcut_shuffle">@string/common_shuffle</string>
     <string name="shortcut_search">@string/common_search</string>
 
+    <string name="shortcut_missing_storage_permission">Please enable first storage permission</string>
+
 </resources>
