@@ -59,19 +59,19 @@ class SwipeableView @JvmOverloads constructor(
     }
 
     private fun onActionDown(event: MotionEvent) : Boolean{
-        xDown = event.x
-        yDown = event.y
+        xDown = event.rawX
+        yDown = event.rawY
         return true
     }
 
     private fun onActionMove(event: MotionEvent) {
-        val isHorizontalScroll = Math.abs(event.x - xDown) > Math.abs(event.y - yDown)
+        val isHorizontalScroll = Math.abs(event.rawX - xDown) > (Math.abs(event.rawY - yDown) * 2)
         parent.requestDisallowInterceptTouchEvent(isHorizontalScroll)
     }
 
     private fun onActionUp(event: MotionEvent) : Boolean {
-        xUp = event.x
-        yUp = event.y
+        xUp = event.rawX
+        yUp = event.rawY
         val swipedHorizontally = Math.abs(xUp - xDown) > swipedThreshold
         val swipedVertically = Math.abs(yUp - yDown) > swipedThreshold
 
