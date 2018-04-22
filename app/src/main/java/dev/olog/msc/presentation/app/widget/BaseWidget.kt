@@ -41,8 +41,12 @@ abstract class BaseWidget : AbsWidgetApp() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         val remoteViews = RemoteViews(context.packageName, layoutId)
-        remoteViews.setImageViewBitmap(R.id.play,
-                ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!.toBitmap())
+
+        val playPauseIcon = if (IS_PLAYING){
+            ContextCompat.getDrawable(context, R.drawable.vd_pause_big)!!
+        } else ContextCompat.getDrawable(context, R.drawable.vd_play_big)!!
+
+        remoteViews.setImageViewBitmap(R.id.play, playPauseIcon.toBitmap())
 
         remoteViews.setOnClickPendingIntent(R.id.previous, buildPendingIntent(context, MusicConstants.ACTION_SKIP_PREVIOUS))
         remoteViews.setOnClickPendingIntent(R.id.play, buildPendingIntent(context, MusicConstants.ACTION_PLAY_PAUSE))
