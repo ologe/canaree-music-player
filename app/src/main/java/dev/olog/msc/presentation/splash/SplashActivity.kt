@@ -16,6 +16,8 @@ import dev.olog.msc.app.KeepDataAlive
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
+import dev.olog.msc.utils.k.extension.makeDialog
+import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
