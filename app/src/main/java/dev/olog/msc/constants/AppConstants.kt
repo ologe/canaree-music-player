@@ -6,6 +6,15 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.k.extension.updateNightMode
 
+enum class Theme {
+    DEFAULT, FLAT;
+
+    fun isDefault(): Boolean = this == DEFAULT
+
+    fun isFlat(): Boolean = this == FLAT
+
+}
+
 object AppConstants {
 
     private const val TAG = "AppConstants"
@@ -20,7 +29,9 @@ object AppConstants {
 
     var QUICK_ACTION = QuickActionView.Type.NONE
     var ICON_SHAPE = "round"
-    var IS_NIGHT_MODE = false
+
+    var THEME = Theme.DEFAULT
+    var IS_ADAPTIVE_COLOR = false
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -32,9 +43,10 @@ object AppConstants {
         UNKNOWN_ALBUM = context.getString(R.string.common_unknown_album)
         UNKNOWN_ARTIST = context.getString(R.string.common_unknown_artist)
 
-        QUICK_ACTION = getQuickAction(context)
-        ICON_SHAPE = getIconShape(context)
-        IS_NIGHT_MODE = updateNightMode(context)
+        updateQuickAction(context)
+        updateIconShape(context)
+        updateTheme(context)
+        updateAdaptiveColors(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -45,11 +57,33 @@ object AppConstants {
         ICON_SHAPE = getIconShape(context)
     }
 
-    fun updateNightMode(context: Context): Boolean {
+    fun updateNightMode(context: Context) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val isNightMode = prefs.getBoolean(context.getString(R.string.prefs_dark_theme_key), false)
         context.updateNightMode(isNightMode)
-        return isNightMode
+    }
+
+    fun updateTheme(context: Context){
+        THEME = getTheme(context)
+    }
+
+    fun updateAdaptiveColors(context: Context){
+        IS_ADAPTIVE_COLOR = isAdaptive(context)
+    }
+
+    private fun getTheme(context: Context): Theme {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val theme = prefs.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
+        return when (theme) {
+            context.getString(R.string.prefs_appearance_entry_value_default) -> Theme.DEFAULT
+            context.getString(R.string.prefs_appearance_entry_value_flat) -> Theme.FLAT
+            else -> throw IllegalStateException("invalid theme=$theme")
+        }
+    }
+
+    private fun isAdaptive(context: Context): Boolean{
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {

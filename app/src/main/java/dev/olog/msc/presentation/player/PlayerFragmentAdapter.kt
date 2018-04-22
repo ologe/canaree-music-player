@@ -59,7 +59,8 @@ class PlayerFragmentAdapter @Inject constructor(
                     } else false
                 }
             }
-            R.layout.fragment_player_controls -> {
+            R.layout.fragment_player_controls,
+            R.layout.fragment_player_controls_flat -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
                     val mediaId = MediaId.songId(viewModel.currentTrackId)
                     navigator.toDialog(mediaId, view)
@@ -71,7 +72,8 @@ class PlayerFragmentAdapter @Inject constructor(
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
         when (viewType){
-            R.layout.fragment_player_controls -> {
+            R.layout.fragment_player_controls,
+            R.layout.fragment_player_controls_flat -> {
                 bindPlayerControls(holder.itemView)
             }
         }
@@ -246,8 +248,8 @@ class PlayerFragmentAdapter @Inject constructor(
         val duration = metadata.getDuration()
         view.duration.text = metadata.getDurationReadable()
         view.seekBar.max = duration.toInt()
-        view.remix.toggleVisibility(metadata.isRemix(), true)
-        view.explicit.toggleVisibility(metadata.isExplicit(), true)
+        view.remix?.toggleVisibility(metadata.isRemix(), true)
+        view.explicit?.toggleVisibility(metadata.isExplicit(), true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -51,8 +52,10 @@ class PlayerFragmentViewModel @Inject constructor(
 
     val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, MediaId.headerId("load more"), "")
 
-    val playerControls = DisplayableItem(R.layout.fragment_player_controls,
-            MediaId.headerId("player controls id"), "")
+    fun playerControls(): DisplayableItem {
+        val id = if (AppConstants.THEME.isDefault()) R.layout.fragment_player_controls else R.layout.fragment_player_controls_flat
+        return DisplayableItem(id, MediaId.headerId("player controls id"), "")
+    }
 
     val onFavoriteStateChanged: Observable<FavoriteEnum> = observeFavoriteAnimationUseCase.execute()
 

@@ -10,9 +10,9 @@
     <string name="prefs_not_premium_action">Buy</string>
 
     <!--categories-->
-    <string name="prefs_category_general">General</string>
     <string name="prefs_category_library">Library</string>
     <string name="prefs_category_audio">Audio</string>
+    <string name="prefs_category_theme">Theme</string>
     <string name="prefs_category_other">Other</string>
 
 
@@ -144,5 +144,29 @@
     <string name="prefs_dark_theme_title">Dark theme</string>
     <string name="prefs_dark_theme_summary_on">Almost white theme</string>
     <string name="prefs_dark_theme_summary_off">White theme</string>
+
+    <!--appearance-->
+    <string name="prefs_appearance_key" translatable="false">key_appearance</string>
+    <string name="prefs_appearance_title">Appearance</string>
+    <string name="prefs_appearance_default">Default</string>
+    <string name="prefs_appearance_flat">Flat</string>
+
+    <string name="prefs_appearance_entry_value_default" translatable="false">default</string>
+    <string name="prefs_appearance_entry_value_flat" translatable="false">flat</string>
+
+    <string-array name="prefs_appearance_entry_values">
+        <item>@string/prefs_appearance_entry_value_default</item>
+        <item>@string/prefs_appearance_entry_value_flat</item>
+    </string-array>
+
+    <string-array name="prefs_appearance_entries">
+        <item>@string/prefs_appearance_default</item>
+        <item>@string/prefs_appearance_flat</item>
+    </string-array>
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
+    <string name="prefs_adaptive_colors_title">Use adaptive colors</string>
+    <string name="prefs_adaptive_colors_summary">Use the current song album cover colors</string>
 
 </resources>

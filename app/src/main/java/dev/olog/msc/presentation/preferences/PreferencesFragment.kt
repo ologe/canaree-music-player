@@ -18,12 +18,16 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
+//    private lateinit var isAdaptive: SwitchPreference
+//    private lateinit var theme: ListPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
+//        isAdaptive = preferenceScreen.findPreference(getString(R.string.prefs_adaptive_colors_key)) as SwitchPreference
+//        theme = preferenceScreen.findPreference(getString(R.string.prefs_appearance_key)) as ListPreference
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,6 +49,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                                 .show()
                     }
                 })
+
+//        val isDefaultTheme = theme.value == getString(R.string.prefs_appearance_entry_value_default)
+//        isAdaptive.isEnabled = !isDefaultTheme
     }
 
     override fun onResume() {
@@ -69,6 +76,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
+//        AppConstants.IS_ADAPTIVE_COLOR = isAdaptive.isEnabled && !AppConstants.THEME.isDefault()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -85,6 +93,15 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             AppConstants.updateNightMode(act)
             requestMainActivityToRecreate()
         }
+//        if (key == getString(R.string.prefs_appearance_key)){
+//            AppConstants.updateTheme(act)
+//            isAdaptive.isEnabled = !AppConstants.THEME.isDefault()
+//            requestMainActivityToRecreate()
+//        }
+//        if (key == getString(R.string.prefs_adaptive_colors_key)){
+//            AppConstants.updateAdaptiveColors(act)
+//            requestMainActivityToRecreate()
+//        }
     }
 
     private fun setIconShapeSummary(){

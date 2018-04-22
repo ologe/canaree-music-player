@@ -12,6 +12,7 @@
     <!--categories-->
     <string name="prefs_category_library">Libreria</string>
     <string name="prefs_category_audio">Audio</string>
+    <string name="prefs_category_theme">Tema</string>
     <string name="prefs_category_other">Altro</string>
 
 
@@ -71,5 +72,14 @@
     <string name="prefs_dark_theme_title">Tema scuro</string>
     <string name="prefs_dark_theme_summary_on">Tema un po\' meno bianco</string>
     <string name="prefs_dark_theme_summary_off">Tema bianco</string>
+
+    <!--appearance-->
+    <string name="prefs_appearance_title">Appearance</string>
+    <string name="prefs_appearance_default">Default</string>
+    <string name="prefs_appearance_flat">Flat</string>
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_title">Usa colori adattivi</string>
+    <string name="prefs_adaptive_colors_summary">Usa i colori dell\'album della canzone corrente</string>
 
 </resources>

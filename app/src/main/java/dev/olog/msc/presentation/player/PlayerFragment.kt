@@ -57,7 +57,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
                         copy.add(viewModel.footerLoadMore)
                     }
-                    copy.add(0, viewModel.playerControls)
+                    copy.add(0, viewModel.playerControls())
                     copy
                 }
                 .asLiveData()

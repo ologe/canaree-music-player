@@ -39,7 +39,8 @@
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
             android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
             android:stateListAnimator="@animator/elevate_on_activated"
-            app:cornerRadius="10" />
+            app:cornerRadius="10"
+            tools:tint="@android:color/holo_red_dark"/>
 
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"
@@ -60,18 +61,52 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/swipeableView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/shuffle"
+            app:layout_constraintEnd_toStartOf="@+id/repeat"
             android:max="@integer/common_high_number"
-            android:paddingBottom="@dimen/player_seekBar_padding_bottom"
-            android:paddingTop="@dimen/player_seekBar_padding_top"
-            android:paddingStart="@dimen/player_seekBar_padding_horizontal"
-            android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             android:progressTint="@color/seek_bar_tint"
             android:thumbTint="@color/seek_bar_tint"
             android:progressBackgroundTint="@color/seek_bar_secondary_tint"
             tools:progress="40"
             tools:max="100" />
+
+        <!-- shuffle -->
+        <dev.olog.msc.presentation.widget.ShuffleButton
+            android:id="@+id/shuffle"
+            android:layout_width="@dimen/player_shuffle_size"
+            android:layout_height="@dimen/player_shuffle_size"
+            android:padding="@dimen/player_shuffle_padding"
+            android:clickable="true"
+            android:focusable="true"
+            tools:src="@drawable/vd_shuffle"
+            android:tint="@color/button_primary_tint"
+            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginStart="8dp"/>
+
+        <!-- repeat -->
+        <dev.olog.msc.presentation.widget.RepeatButton
+            android:id="@+id/repeat"
+            android:layout_width="@dimen/player_shuffle_size"
+            android:layout_height="@dimen/player_shuffle_size"
+            android:padding="@dimen/player_shuffle_padding"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/vd_repeat"
+            tools:src="@drawable/vd_repeat"
+            tools:tint="@color/button_secondary_tint"
+            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            android:elevation="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/button_primary_tint"
+            android:layout_marginEnd="8dp"/>
 
         <!-- bookmark -->
         <TextView
@@ -96,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/seekBar"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/seekBar"
             android:layout_marginEnd="@dimen/player_duration_margin_end"
             android:clickable="false"
             android:focusable="false" />
@@ -106,98 +141,78 @@
             app:layout_constraintTop_toBottomOf="@+id/seekBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            layout="@layout/player_controls"
+            layout="@layout/player_controls_flat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
         <!-- title -->
         <TextView
             android:id="@+id/title"
-            tools:text="In Da Club"
-            app:layout_constraintTop_toBottomOf="@+id/playerControls"
-            app:layout_constraintStart_toStartOf="parent"
+            tools:text="In da club"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintStart_toStartOf="@+id/cover"
             app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintWidth_default="wrap"
             android:layout_width="0dp"
+            app:layout_constraintHorizontal_bias="0"
             android:layout_height="wrap_content"
+            android:background="#120f12"
             android:textSize="@dimen/player_title_text_size"
-            android:textColor="@color/text_color_primary"
-            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:elevation="20dp"
+            android:maxLines="2"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
             android:textStyle="bold"
-            android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:clickable="false"
             android:focusable="false"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:padding="6dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
 
         <TextView
             android:id="@+id/artist"
             tools:text="50 Cent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/remix"
-            android:layout_width="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/title"
+            app:layout_constraintStart_toStartOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="@+id/cover"
+            android:layout_width="wrap_content"
+            app:layout_constraintHorizontal_bias="0"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_artist_text_size"
-            android:textColor="@color/text_color_secondary"
+            android:textColor="#ddd"
+            android:background="#120f12"
+            android:elevation="20dp"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
-            android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="@dimen/player_artist_bottom_padding"
             android:layout_marginTop="4dp"
             android:clickable="false"
             android:focusable="false"
-            android:paddingBottom="16dp"
-            android:gravity="start|center_vertical" />
+            android:layout_marginStart="16dp"
+            android:padding="6dp" />
 
 
         <ImageButton
             android:id="@+id/more"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintEnd_toEndOf="@+id/cover"
             android:src="@drawable/vd_more"
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:tint="@color/button_primary_tint"
+            android:tint="@android:color/white"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
-
-        <TextView
-            android:id="@+id/explicit"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toStartOf="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/ExplicitView"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:clickable="false"
-            android:focusable="false"/>
-
-        <TextView
-            android:id="@+id/remix"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toStartOf="@+id/explicit"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RemixView"
-            app:layout_goneMarginEnd="16dp"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:clickable="false"
-            android:focusable="false"/>
+            android:layout_margin="16dp"
+            android:elevation="20dp"
+            android:background="#120f12"/>
 
     </android.support.constraint.ConstraintLayout>
 

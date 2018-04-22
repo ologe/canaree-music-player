@@ -63,6 +63,42 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/prefs_category_theme">
+
+        <!--<ListPreference-->
+            <!--android:title="@string/prefs_appearance_title"-->
+            <!--android:summary="@string/prefs_appearance_default"-->
+            <!--android:entries="@array/prefs_appearance_entries"-->
+            <!--android:entryValues="@array/prefs_appearance_entry_values"-->
+            <!--android:defaultValue="@string/prefs_appearance_entry_value_default"-->
+            <!--android:key="@string/prefs_appearance_key"-->
+            <!--android:negativeButtonText="@string/popup_negative_cancel"-->
+            <!--android:positiveButtonText="@string/popup_positive_save"/>-->
+
+        <!--<SwitchPreference-->
+            <!--android:title="@string/prefs_adaptive_colors_title"-->
+            <!--android:summary="@string/prefs_adaptive_colors_summary"-->
+            <!--android:key="@string/prefs_adaptive_colors_key"-->
+            <!--android:defaultValue="false" />-->
+
+        <ListPreference
+            android:title="@string/prefs_icon_shape_title"
+            tools:summary="@string/common_shape_rounded"
+            android:entries="@array/prefs_icon_shape_entries"
+            android:entryValues="@array/prefs_icon_shape_entry_values"
+            android:defaultValue="@string/prefs_icon_shape_rounded"
+            android:key="@string/prefs_icon_shape_key"/>
+
+        <SwitchPreference
+            android:key="@string/prefs_dark_theme_key"
+            android:title="@string/prefs_dark_theme_title"
+            android:summaryOn="@string/prefs_dark_theme_summary_on"
+            android:summaryOff="@string/prefs_dark_theme_summary_off"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/prefs_category_other">
 
         <SwitchPreference
@@ -96,22 +132,6 @@
             android:summaryOff="@string/prefs_player_controls_visibility_summary_off"
             android:key="@string/prefs_player_controls_visibility_key"
             android:defaultValue="false" />
-
-        <ListPreference
-            android:title="@string/prefs_icon_shape_title"
-            tools:summary="@string/common_shape_rounded"
-            android:entries="@array/prefs_icon_shape_entries"
-            android:entryValues="@array/prefs_icon_shape_entry_values"
-            android:defaultValue="@string/prefs_icon_shape_rounded"
-            android:key="@string/prefs_icon_shape_key"/>
-
-        <SwitchPreference
-            android:key="@string/prefs_dark_theme_key"
-            android:title="@string/prefs_dark_theme_title"
-            android:summaryOn="@string/prefs_dark_theme_summary_on"
-            android:summaryOff="@string/prefs_dark_theme_summary_off"
-            android:defaultValue="false"/>
-
 
     </PreferenceCategory>
 
