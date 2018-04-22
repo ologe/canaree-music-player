@@ -19,6 +19,7 @@ import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
 private const val STORAGE_PERMISSION_CODE = 56891

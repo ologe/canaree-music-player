@@ -1,16 +1,13 @@
 package dev.olog.msc.app.shortcuts
 
-import android.Manifest
 import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.support.annotation.RequiresApi
-import android.support.v4.content.ContextCompat
 import androidx.core.content.systemService
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
@@ -19,24 +16,20 @@ import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.msc.utils.isNougat_MR1
-import dev.olog.msc.utils.k.extension.toast
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
-class AppShortcutsImpl25(
+open class AppShortcutsImpl25(
         context: Context,
         @ProcessLifecycle lifecycle: Lifecycle
 
 ) : BaseAppShortcuts(context, lifecycle) {
 
-    private val shortcutManager : ShortcutManager = context.systemService<ShortcutManager>()
+    protected val shortcutManager : ShortcutManager = context.systemService<ShortcutManager>()
 
     init {
         shortcutManager.removeAllDynamicShortcuts()
-
-        val shortcuts = mutableListOf(search())
-        shuffle()?.let { shortcuts.add(it) }
-        play()?.let { shortcuts.add(it) }
-        shortcutManager.addDynamicShortcuts(shortcuts)
+        shortcutManager.addDynamicShortcuts(listOf(
+                search(), shuffle(), play()))
     }
 
     override fun disablePlay(){
@@ -47,7 +40,7 @@ class AppShortcutsImpl25(
 
     override fun enablePlay(){
         if (isNougat_MR1()){
-            play()?.let { shortcutManager.addDynamicShortcuts(listOf(it)) }
+            shortcutManager.addDynamicShortcuts(listOf(play()))
         }
     }
 
@@ -59,12 +52,7 @@ class AppShortcutsImpl25(
                 .build()
     }
 
-    private fun play(): ShortcutInfo? {
-        if (!checkStoragePermission(context)){
-            context.toast(R.string.shortcut_missing_storage_permission)
-            return null
-        }
-
+    private fun play(): ShortcutInfo {
         return ShortcutInfo.Builder(context, MusicConstants.ACTION_PLAY)
                 .setShortLabel(context.getString(R.string.shortcut_play))
                 .setIcon(Icon.createWithResource(context, R.drawable.shortcut_play))
@@ -72,12 +60,7 @@ class AppShortcutsImpl25(
                 .build()
     }
 
-    private fun shuffle(): ShortcutInfo? {
-        if (!checkStoragePermission(context)){
-            context.toast(R.string.shortcut_missing_storage_permission)
-            return null
-        }
-
+    private fun shuffle(): ShortcutInfo {
         return ShortcutInfo.Builder(context, MusicConstants.ACTION_SHUFFLE)
                 .setShortLabel(context.getString(R.string.shortcut_shuffle))
                 .setIcon(Icon.createWithResource(context, R.drawable.shortcut_shuffle))
@@ -101,11 +84,6 @@ class AppShortcutsImpl25(
         val intent = Intent(context, ShortcutsActivity::class.java)
         intent.action = MusicConstants.ACTION_SHUFFLE
         return intent
-    }
-
-    private fun checkStoragePermission(context: Context): Boolean{
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED
     }
 
 }

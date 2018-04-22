@@ -83,10 +83,14 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handleAppShortcutShuffle(intent: Intent) {
-        val bundle = Bundle()
-        bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId.shuffleAllId().toString())
-        mediaSession.controller.transportControls.sendCustomAction(
-                MusicConstants.ACTION_SHUFFLE, bundle)
+        try {
+            val bundle = Bundle()
+            bundle.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaId.shuffleAllId().toString())
+            mediaSession.controller.transportControls.sendCustomAction(
+                    MusicConstants.ACTION_SHUFFLE, bundle)
+        } catch (ex: Exception){
+            this.applicationContext.toast("Please check your storage permission, contact the developer if the problem persists")
+        }
     }
 
     override fun handlePlayPause(intent: Intent) {

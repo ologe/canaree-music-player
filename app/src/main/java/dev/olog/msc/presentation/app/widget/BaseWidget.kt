@@ -16,6 +16,7 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
+import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
 abstract class BaseWidget : AbsWidgetApp() {
@@ -25,6 +26,18 @@ abstract class BaseWidget : AbsWidgetApp() {
     }
 
     @Inject lateinit var musicPrefsUseCase: MusicPreferencesUseCase
+    @Inject lateinit var widgetClasses: WidgetClasses
+
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+        if (intent.action == "mobi.intuitit.android.hpp.ACTION_READY"){
+            val appWidgetManager = context.getSystemService(Context.APPWIDGET_SERVICE) as AppWidgetManager
+            for (clazz in widgetClasses.get()) {
+                val ids = context.getAppWidgetsIdsFor(clazz)
+                onUpdate(context, appWidgetManager, ids)
+            }
+        }
+    }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         val remoteViews = RemoteViews(context.packageName, layoutId)

@@ -4,6 +4,4 @@
     <string name="app_shortcut_added_to_home_screen">Scorciatoia aggiunta al launcher</string>
     <string name="app_shortcut_add_to_home_screen_not_supported">Il tuo launcher non supporta le scorciatoie</string>
 
-    <string name="shortcut_missing_storage_permission">Prima devi concedere il permisso di lettura della memoria</string>
-
 </resources>
