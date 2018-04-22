@@ -11,7 +11,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
@@ -82,7 +81,6 @@ class MusicServiceModule(
     @Provides
     @PerService
     internal fun providePlayer(
-            @ApplicationContext context: Context,
 //            simplePlayer: Lazy<SimplePlayer>,
             crossfadePlayer: CrossFadePlayer): CustomExoPlayer<MediaEntity> {
         return crossfadePlayer

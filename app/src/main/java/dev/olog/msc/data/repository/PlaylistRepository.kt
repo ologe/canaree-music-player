@@ -100,7 +100,7 @@ class PlaylistRepository @Inject constructor(
             getAllAutoPlaylists()
         } else getAll()
 
-        return cachedData.map { playlists ->
+        return result.map { playlists ->
             try {
                 playlists.first { it.id == param }
             } catch (ex: Exception){
