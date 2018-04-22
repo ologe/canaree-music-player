@@ -15,6 +15,7 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
+import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
 import dev.olog.msc.utils.isNougat_MR1
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -29,7 +30,8 @@ open class AppShortcutsImpl25(
     init {
         shortcutManager.removeAllDynamicShortcuts()
         shortcutManager.addDynamicShortcuts(listOf(
-                search(), shuffle(), play()))
+                playlistChooser(), search(), shuffle(), play()
+        ))
     }
 
     override fun disablePlay(){
@@ -68,6 +70,14 @@ open class AppShortcutsImpl25(
                 .build()
     }
 
+    private fun playlistChooser(): ShortcutInfo {
+        return ShortcutInfo.Builder(context, AppConstants.SHORTCUT_PLAYLIST_CHOOSER)
+                .setShortLabel(context.getString(R.string.shortcut_playlist_chooser))
+                .setIcon(Icon.createWithResource(context, R.drawable.shortcut_playlist_add))
+                .setIntent(createPlaylistChooserIntent())
+                .build()
+    }
+
     private fun createSearchIntent(): Intent {
         val intent = Intent(context, MainActivity::class.java)
         intent.action = AppConstants.SHORTCUT_SEARCH
@@ -83,6 +93,13 @@ open class AppShortcutsImpl25(
     private fun createShuffleIntent(): Intent {
         val intent = Intent(context, ShortcutsActivity::class.java)
         intent.action = MusicConstants.ACTION_SHUFFLE
+        return intent
+    }
+
+    private fun createPlaylistChooserIntent(): Intent {
+        val intent = Intent(context, PlaylistChooserActivity::class.java)
+        intent.action = AppConstants.SHORTCUT_PLAYLIST_CHOOSER
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         return intent
     }
 

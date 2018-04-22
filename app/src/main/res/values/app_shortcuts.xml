@@ -7,5 +7,6 @@
     <string name="shortcut_play">@string/common_play</string>
     <string name="shortcut_shuffle">@string/common_shuffle</string>
     <string name="shortcut_search">@string/common_search</string>
+    <string name="shortcut_playlist_chooser">Add a playlist</string>
 
 </resources>

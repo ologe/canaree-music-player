@@ -1,0 +1,20 @@
+package dev.olog.msc.presentation.shortcuts.playlist.chooser.di
+
+import android.app.Activity
+import android.arch.lifecycle.Lifecycle
+import dagger.Module
+import dagger.Provides
+import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
+
+@Module
+class PlaylistChooserActivityModule(private val activity: PlaylistChooserActivity) {
+
+    @Provides
+    fun provideActivity(): Activity= activity
+
+    @Provides
+    @ActivityLifecycle
+    fun provideLifecycle(): Lifecycle = activity.lifecycle
+
+}

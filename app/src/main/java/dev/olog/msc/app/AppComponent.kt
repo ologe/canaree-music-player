@@ -14,6 +14,7 @@ import dev.olog.msc.presentation.about.di.AboutActivityInjector
 import dev.olog.msc.presentation.app.widget.WidgetBindingModule
 import dev.olog.msc.presentation.main.di.MainActivityInjector
 import dev.olog.msc.presentation.preferences.di.PreferencesActivityInjector
+import dev.olog.msc.presentation.shortcuts.playlist.chooser.di.PlaylistChooserActivityInjector
 import dev.olog.msc.presentation.splash.di.SplashActivityInjector
 import javax.inject.Singleton
 
@@ -35,6 +36,7 @@ import javax.inject.Singleton
         MainActivityInjector::class,
         AboutActivityInjector::class,
         PreferencesActivityInjector::class,
+        PlaylistChooserActivityInjector::class,
 
 //        // music service
         MusicServiceInjector::class,

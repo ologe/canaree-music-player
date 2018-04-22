@@ -64,6 +64,9 @@
         <!--dummy shortcuts activity-->
         <activity android:name=".presentation.shortcuts.ShortcutsActivity"/>
 
+        <!--app shortcust playlist chooser-->
+        <activity android:name=".presentation.shortcuts.playlist.chooser.PlaylistChooserActivity"/>
+
         <!--debug configuration-->
         <activity android:name=".presentation.debug.DebugConfigurationActivity"/>
 
