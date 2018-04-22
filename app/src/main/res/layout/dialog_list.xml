@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/list"
-    android:layout_width="match_parent"
+<dev.olog.msc.presentation.widget.MaxHeightLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:clipChildren="false"
-    android:clipToPadding="false" />
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:layout_marginTop="64dp"
+    tools:layout_marginBottom="64dp"
+    app:maxHeightDp="@integer/blacklist_max_height"
+    android:layout_gravity="center">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        tools:listitem="@layout/dialog_blacklist_item"
+        tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+        tools:spanCount="2"/>
+
+</dev.olog.msc.presentation.widget.MaxHeightLinearLayout>

@@ -17,9 +17,9 @@ class BlacklistFragmentPresenter @Inject constructor(
 
     val data : Observable<List<BlacklistModel>> = getAllFoldersUnfiltered.execute()
             .mapToList { it.toDisplayableItem() }
-            .map {
+            .map { folders ->
                 val blacklisted = appPreferencesUseCase.getBlackList().map { it.toLowerCase() }
-                it.map { BlacklistModel(it, blacklisted.contains(it.subtitle!!.toLowerCase())) }
+                folders.map { BlacklistModel(it, blacklisted.contains(it.subtitle!!.toLowerCase())) }
             }
 
     private fun Folder.toDisplayableItem(): DisplayableItem {
