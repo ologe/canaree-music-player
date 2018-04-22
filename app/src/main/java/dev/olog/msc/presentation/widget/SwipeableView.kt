@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import dev.olog.msc.utils.k.extension.dip
+import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 private const val DEFAULT_SWIPED_THRESHOLD = 100
@@ -34,7 +35,7 @@ class SwipeableView @JvmOverloads constructor(
         this.swipeListener = null
     }
 
-    fun isTouching() = isTouchingPublisher.distinctUntilChanged()
+    fun isTouching(): Observable<Boolean> = isTouchingPublisher.distinctUntilChanged()
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (event.action) {
