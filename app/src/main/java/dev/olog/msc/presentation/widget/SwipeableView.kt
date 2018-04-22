@@ -40,6 +40,7 @@ class SwipeableView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
+                parent.requestDisallowInterceptTouchEvent(true)
                 isTouchingPublisher.onNext(true)
                 onActionDown(event)
             }
@@ -48,6 +49,7 @@ class SwipeableView @JvmOverloads constructor(
                 return true
             }
             MotionEvent.ACTION_UP  -> {
+                parent.requestDisallowInterceptTouchEvent(false)
                 isTouchingPublisher.onNext(false)
                 onActionUp(event)
             }
