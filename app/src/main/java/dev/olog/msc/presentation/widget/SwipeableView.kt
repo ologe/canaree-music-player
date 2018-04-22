@@ -40,11 +40,12 @@ class SwipeableView @JvmOverloads constructor(
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                parent.requestDisallowInterceptTouchEvent(true)
+//                parent.requestDisallowInterceptTouchEvent(true)
                 isTouchingPublisher.onNext(true)
                 onActionDown(event)
             }
             MotionEvent.ACTION_MOVE -> {
+                onActionMove(event)
                 isTouchingPublisher.onNext(true)
                 return true
             }
@@ -61,6 +62,11 @@ class SwipeableView @JvmOverloads constructor(
         xDown = event.x
         yDown = event.y
         return true
+    }
+
+    private fun onActionMove(event: MotionEvent) {
+        val isHorizontalScroll = Math.abs(event.x - xDown) > Math.abs(event.y - yDown)
+        parent.requestDisallowInterceptTouchEvent(isHorizontalScroll)
     }
 
     private fun onActionUp(event: MotionEvent) : Boolean {
