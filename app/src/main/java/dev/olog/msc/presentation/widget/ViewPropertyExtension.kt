@@ -12,9 +12,7 @@ private val colorEvaluator by lazy { ArgbEvaluator() }
 
 fun TextView.animateTextColor(to: Int){
     animate().cancel()
-    val from = if (background != null && background is ColorDrawable){
-        (background as ColorDrawable).color
-    } else ContextCompat.getColor(context, R.color.background)
+    val from = currentTextColor
     computeColors(from, to) { setTextColor(it) }
 }
 
