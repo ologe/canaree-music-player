@@ -74,12 +74,8 @@
     <string name="prefs_dark_theme_summary_off">Tema bianco</string>
 
     <!--appearance-->
-    <string name="prefs_appearance_title">Appearance</string>
-    <string name="prefs_appearance_default">Default</string>
+    <string name="prefs_appearance_title">Apparenza</string>
+    <string name="prefs_appearance_default">Normale</string>
     <string name="prefs_appearance_flat">Flat</string>
-
-    <!--adaptive colors-->
-    <string name="prefs_adaptive_colors_title">Usa colori adattivi</string>
-    <string name="prefs_adaptive_colors_summary">Usa i colori dell\'album della canzone corrente</string>
 
 </resources>

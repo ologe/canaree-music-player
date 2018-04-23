@@ -13,15 +13,26 @@ class RepeatButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
+    private var enabledColor = ContextCompat.getColor(context, R.color.player_selected_button)
+    private var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
+
     init {
         setImageResource(R.drawable.vd_repeat)
     }
 
     fun cycle(state: Int){
+        this.repeatMode = state
         when (state){
             PlaybackStateCompat.REPEAT_MODE_NONE -> repeatNone()
             PlaybackStateCompat.REPEAT_MODE_ONE -> repeatOne()
             PlaybackStateCompat.REPEAT_MODE_ALL -> repeatAll()
+        }
+    }
+
+    fun updateColor(color: Int){
+        this.enabledColor = color
+        if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE){
+            setColorFilter(this.enabledColor)
         }
     }
 
@@ -32,12 +43,12 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun repeatOne(){
         setImageResource(R.drawable.vd_repeat_one)
-        setColorFilter(ContextCompat.getColor(context, R.color.player_selected_button))
+        setColorFilter(enabledColor)
     }
 
     private fun repeatAll(){
         setImageResource(R.drawable.vd_repeat)
-        setColorFilter(ContextCompat.getColor(context, R.color.player_selected_button))
+        setColorFilter(enabledColor)
     }
 
 }

@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.utils.images;
 
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
 import android.support.v4.graphics.ColorUtils;
 import android.util.Log;
 
@@ -168,6 +169,18 @@ public class ColorUtil {
 
     public static boolean isColorLight(int backgroundColor) {
         return calculateLuminance(backgroundColor) > 0.5f;
+    }
+
+    public static int darker (int color, @FloatRange(from = 0f, to = 1f) float factor) {
+        int a = Color.alpha( color );
+        int r = Color.red( color );
+        int g = Color.green( color );
+        int b = Color.blue( color );
+
+        return Color.argb( a,
+                Math.max( (int)(r * factor), 0 ),
+                Math.max( (int)(g * factor), 0 ),
+                Math.max( (int)(b * factor), 0 ) );
     }
 
 }

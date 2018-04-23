@@ -31,7 +31,6 @@ object AppConstants {
     var ICON_SHAPE = "round"
 
     var THEME = Theme.DEFAULT
-    var IS_ADAPTIVE_COLOR = false
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -46,7 +45,6 @@ object AppConstants {
         updateQuickAction(context)
         updateIconShape(context)
         updateTheme(context)
-        updateAdaptiveColors(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -67,10 +65,6 @@ object AppConstants {
         THEME = getTheme(context)
     }
 
-    fun updateAdaptiveColors(context: Context){
-        IS_ADAPTIVE_COLOR = isAdaptive(context)
-    }
-
     private fun getTheme(context: Context): Theme {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val theme = prefs.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
@@ -79,11 +73,6 @@ object AppConstants {
             context.getString(R.string.prefs_appearance_entry_value_flat) -> Theme.FLAT
             else -> throw IllegalStateException("invalid theme=$theme")
         }
-    }
-
-    private fun isAdaptive(context: Context): Boolean{
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {

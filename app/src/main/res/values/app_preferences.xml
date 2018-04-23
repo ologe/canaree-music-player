@@ -164,9 +164,4 @@
         <item>@string/prefs_appearance_flat</item>
     </string-array>
 
-    <!--adaptive colors-->
-    <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
-    <string name="prefs_adaptive_colors_title">Use adaptive colors</string>
-    <string name="prefs_adaptive_colors_summary">Use the current song album cover colors</string>
-
 </resources>

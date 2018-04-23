@@ -3,6 +3,8 @@ package dev.olog.msc.presentation.player
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.support.v4.media.MediaMetadataCompat
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.FavoriteEnum
@@ -10,10 +12,21 @@ import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.images.ImageProcessor
+import dev.olog.msc.presentation.utils.images.ImageProcessorResult
+import dev.olog.msc.presentation.widget.image.view.toPlayerImage
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.getBitmapAsync
+import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.processors.BehaviorProcessor
 import io.reactivex.rxkotlin.Observables
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
@@ -25,6 +38,9 @@ class PlayerFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
+    private var disposable: Disposable? = null
+    private val colorsPublisher = BehaviorProcessor.create<ImageProcessorResult>()
+
     private val miniQueue = MutableLiveData<List<DisplayableItem>>()
 
     var currentTrackId : Long = -1
@@ -34,6 +50,20 @@ class PlayerFragmentViewModel @Inject constructor(
     fun updateQueue(list: List<DisplayableItem>){
         miniQueue.postValue(list)
     }
+
+    fun onMetadataChanged(context: Context, metadata: MediaMetadataCompat){
+        disposable.unsubscribe()
+        disposable = Single.fromCallable { true }
+                .filter { AppConstants.THEME.isFlat() }
+                .map { metadata.toPlayerImage() }
+                .map { context.getBitmapAsync(it, 200) }
+                .subscribeOn(Schedulers.io())
+                .map { ImageProcessor(context).processImage(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(colorsPublisher::onNext, Throwable::printStackTrace)
+    }
+
+    fun observeImageColors(): Flowable<ImageProcessorResult> = colorsPublisher
 
     fun observePlayerControlsVisibility(): Observable<Boolean> {
         return Observables.combineLatest(
@@ -64,5 +94,9 @@ class PlayerFragmentViewModel @Inject constructor(
 
     val skipToPreviousVisibility = musicPrefsUseCase
             .observeSkipToPreviousVisibility()
+
+    override fun onCleared() {
+        disposable.unsubscribe()
+    }
 
 }

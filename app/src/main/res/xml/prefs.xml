@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
@@ -29,7 +28,6 @@
 
         <SwitchPreference
             android:title="@string/prefs_used_equalizer_title"
-            android:summary=""
             android:defaultValue="true"
             android:key="@string/prefs_used_equalizer_key"
             android:summaryOn="@string/prefs_used_equalizer_summary_on"
@@ -65,25 +63,19 @@
     <PreferenceCategory
         android:title="@string/prefs_category_theme">
 
-        <!--<ListPreference-->
-            <!--android:title="@string/prefs_appearance_title"-->
-            <!--android:summary="@string/prefs_appearance_default"-->
-            <!--android:entries="@array/prefs_appearance_entries"-->
-            <!--android:entryValues="@array/prefs_appearance_entry_values"-->
-            <!--android:defaultValue="@string/prefs_appearance_entry_value_default"-->
-            <!--android:key="@string/prefs_appearance_key"-->
-            <!--android:negativeButtonText="@string/popup_negative_cancel"-->
-            <!--android:positiveButtonText="@string/popup_positive_save"/>-->
-
-        <!--<SwitchPreference-->
-            <!--android:title="@string/prefs_adaptive_colors_title"-->
-            <!--android:summary="@string/prefs_adaptive_colors_summary"-->
-            <!--android:key="@string/prefs_adaptive_colors_key"-->
-            <!--android:defaultValue="false" />-->
+        <ListPreference
+            android:title="@string/prefs_appearance_title"
+            android:summary="%s"
+            android:entries="@array/prefs_appearance_entries"
+            android:entryValues="@array/prefs_appearance_entry_values"
+            android:defaultValue="@string/prefs_appearance_entry_value_default"
+            android:key="@string/prefs_appearance_key"
+            android:negativeButtonText="@string/popup_negative_cancel"
+            android:positiveButtonText="@string/popup_positive_save"/>
 
         <ListPreference
             android:title="@string/prefs_icon_shape_title"
-            tools:summary="@string/common_shape_rounded"
+            android:summary="%s"
             android:entries="@array/prefs_icon_shape_entries"
             android:entryValues="@array/prefs_icon_shape_entry_values"
             android:defaultValue="@string/prefs_icon_shape_rounded"

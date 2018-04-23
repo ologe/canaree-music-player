@@ -13,19 +13,30 @@ class ShuffleButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
+    private var enabledColor = ContextCompat.getColor(context, R.color.player_selected_button)
+    private var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
+
     init {
         setImageResource(R.drawable.vd_shuffle)
     }
 
     fun cycle(state: Int){
+        this.shuffleMode = state
         when (state){
             PlaybackStateCompat.SHUFFLE_MODE_NONE -> disable()
             else -> enable()
         }
     }
 
+    fun updateColor(color: Int){
+        this.enabledColor = color
+        if (shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL){
+            setColorFilter(this.enabledColor)
+        }
+    }
+
     private fun enable(){
-        setColorFilter(ContextCompat.getColor(context!!, R.color.player_selected_button))
+        setColorFilter(enabledColor)
     }
 
     private fun disable(){

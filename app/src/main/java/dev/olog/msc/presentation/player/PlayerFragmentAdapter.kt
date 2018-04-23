@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.player
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
+import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -11,6 +12,7 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.HasSlidingPanel
@@ -19,14 +21,12 @@ import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.fragment_player_controls.view.*
-import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
-import kotlinx.android.synthetic.main.player_controls.view.*
 import javax.inject.Inject
 
 class PlayerFragmentAdapter @Inject constructor(
@@ -72,9 +72,28 @@ class PlayerFragmentAdapter @Inject constructor(
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
         when (viewType){
-            R.layout.fragment_player_controls,
-            R.layout.fragment_player_controls_flat -> {
+            R.layout.fragment_player_controls -> {
                 bindPlayerControls(holder.itemView)
+            }
+            R.layout.fragment_player_controls_flat -> {
+                val view = holder.itemView
+                bindPlayerControls(view)
+                viewModel.observeImageColors()
+                        .subscribe({
+                            view.title.apply {
+                                animateTextColor(it.primaryTextColor)
+                                animateBackgroundColor(it.background)
+                            }
+                            view.artist.apply {
+                                animateTextColor(it.secondaryTextColor)
+                                animateBackgroundColor(it.background)
+                            }
+                            view.seekBar.apply {
+                                thumbTintList = ColorStateList.valueOf(it.background)
+                                progressTintList = ColorStateList.valueOf(it.background)
+                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(it.background, .5f))
+                            }
+                        }, Throwable::printStackTrace)
             }
         }
     }
@@ -87,6 +106,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 .doOnNext { viewModel.currentTrackId = it.getId() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    viewModel.onMetadataChanged(activity, it)
                     updateMetadata(view, it)
                     updateImage(view, it)
                 }, Throwable::printStackTrace)
@@ -246,7 +266,10 @@ class PlayerFragmentAdapter @Inject constructor(
         view.artist.text = metadata.getArtist()
 
         val duration = metadata.getDuration()
-        view.duration.text = metadata.getDurationReadable()
+        val readableDuration = if (AppConstants.THEME.isFlat()){
+            metadata.getDurationReadable()
+        } else "${TextUtils.MIDDLE_DOT_SPACED}${metadata.getDurationReadable()}"
+        view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
         view.remix?.toggleVisibility(metadata.isRemix(), true)
         view.explicit?.toggleVisibility(metadata.isExplicit(), true)
@@ -259,7 +282,7 @@ class PlayerFragmentAdapter @Inject constructor(
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){
         val isPlaying = playbackState.isPlaying()
         if (isPlaying || playbackState.isPaused()){
-            view.nowPlaying.isActivated = isPlaying
+            view.nowPlaying?.isActivated = isPlaying
             view.cover?.isActivated = isPlaying
         }
     }
