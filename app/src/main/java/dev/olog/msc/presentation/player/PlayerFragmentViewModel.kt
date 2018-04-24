@@ -7,6 +7,7 @@ import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.constants.Theme
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -41,6 +42,8 @@ class PlayerFragmentViewModel @Inject constructor(
     private var disposable: Disposable? = null
     private val colorsPublisher = BehaviorProcessor.create<ImageProcessorResult>()
 
+    private var fullScreenVisible = true
+
     private val miniQueue = MutableLiveData<List<DisplayableItem>>()
 
     var currentTrackId : Long = -1
@@ -63,6 +66,11 @@ class PlayerFragmentViewModel @Inject constructor(
                 .subscribe(colorsPublisher::onNext, Throwable::printStackTrace)
     }
 
+    fun updateFullscreen(): Boolean {
+        fullScreenVisible = !fullScreenVisible
+        return fullScreenVisible
+    }
+
     fun observeImageColors(): Flowable<ImageProcessorResult> = colorsPublisher
 
     fun observePlayerControlsVisibility(): Observable<Boolean> {
@@ -83,7 +91,12 @@ class PlayerFragmentViewModel @Inject constructor(
     val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, MediaId.headerId("load more"), "")
 
     fun playerControls(): DisplayableItem {
-        val id = if (AppConstants.THEME.isDefault()) R.layout.fragment_player_controls else R.layout.fragment_player_controls_flat
+        val id = when (AppConstants.THEME) {
+            Theme.DEFAULT -> R.layout.fragment_player_controls
+            Theme.FLAT -> R.layout.fragment_player_controls_flat
+            Theme.SPOTIFY -> R.layout.fragment_player_controls_spotify
+            Theme.FULLSCREEN -> R.layout.fragment_player_controls_fullscreen
+        }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")
     }
 

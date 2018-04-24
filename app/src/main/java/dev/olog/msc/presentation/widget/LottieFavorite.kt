@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.FavoriteEnum
 
 class LottieFavorite @JvmOverloads constructor(
@@ -14,7 +15,12 @@ class LottieFavorite @JvmOverloads constructor(
     private var state : FavoriteEnum? = null
 
     init {
-        setAnimation("favorite.json")
+        if (AppConstants.THEME.isFullscreen()){
+            setAnimation("favorite_white.json")
+        } else {
+            setAnimation("favorite.json")
+        }
+
         scaleX = 1.15f
         scaleY = 1.15f
     }

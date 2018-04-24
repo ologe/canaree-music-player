@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/player_toolbar"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="@dimen/player_toolbar_margin_start"
+    android:paddingEnd="@dimen/player_toolbar_margin_end"
+    tools:background="@android:color/darker_gray">
+
+
+    <ImageButton
+        android:id="@+id/floatingWindow"
+        android:layout_gravity="end"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="0dp"
+        android:src="@drawable/vd_bird_singing_24dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playingQueue"
+        android:scaleX=".85"
+        android:scaleY=".85"
+        android:tint="@android:color/white"/>
+
+    <ImageButton
+        android:id="@+id/playingQueue"
+        android:layout_gravity="end"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="0dp"
+        android:src="@drawable/vd_playing_queue"
+        android:tint="@android:color/white"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</android.support.constraint.ConstraintLayout>

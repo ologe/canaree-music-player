@@ -77,5 +77,7 @@
     <string name="prefs_appearance_title">Apparenza</string>
     <string name="prefs_appearance_default">Normale</string>
     <string name="prefs_appearance_flat">Flat</string>
+    <string name="prefs_appearance_spotify">Famoso lettore musicale verde</string>
+    <string name="prefs_appearance_fullscreen">Schermo intero</string>
 
 </resources>

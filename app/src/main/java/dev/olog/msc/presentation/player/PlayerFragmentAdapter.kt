@@ -65,6 +65,8 @@ class PlayerFragmentAdapter @Inject constructor(
                 }
             }
             R.layout.fragment_player_controls,
+            R.layout.fragment_player_controls_spotify,
+            R.layout.fragment_player_controls_fullscreen,
             R.layout.fragment_player_controls_flat -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
                     val mediaId = MediaId.songId(viewModel.currentTrackId)
@@ -72,12 +74,26 @@ class PlayerFragmentAdapter @Inject constructor(
                 }
             }
         }
+        if (viewType == R.layout.fragment_player_controls_fullscreen){
+            viewHolder.setOnClickListener(R.id.cover, controller) { _, _, view ->
+                view.animate().cancel()
+                val layout = viewHolder.itemView.findViewById(R.id.scrim) as IntercettableTouchConstraintLayout
+                if (viewModel.updateFullscreen()){
+                    layout.animate().alpha(1f).withEndAction { layout.setTouchEnabled(true) }.duration = 300
+                } else {
+                    layout.animate().alpha(0f).withStartAction { layout.setTouchEnabled(false) }.duration = 300
+                }
+
+            }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
         when (viewType){
-            R.layout.fragment_player_controls -> {
+            R.layout.fragment_player_controls,
+            R.layout.fragment_player_controls_spotify,
+            R.layout.fragment_player_controls_fullscreen -> {
                 bindPlayerControls(holder.itemView)
             }
             R.layout.fragment_player_controls_flat -> {
@@ -203,7 +219,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view.favorite::onNextState, Throwable::printStackTrace)
 
-        if (activity.isPortrait){
+        if (activity.isPortrait || AppConstants.THEME.isFullscreen()){
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
                     .map { it.state }
@@ -271,7 +287,7 @@ class PlayerFragmentAdapter @Inject constructor(
         view.artist.text = metadata.getArtist()
 
         val duration = metadata.getDuration()
-        val readableDuration = if (AppConstants.THEME.isFlat()){
+        val readableDuration = if (!AppConstants.THEME.isDefault()){
             metadata.getDurationReadable()
         } else "${TextUtils.MIDDLE_DOT_SPACED}${metadata.getDurationReadable()}"
         view.duration.text = readableDuration

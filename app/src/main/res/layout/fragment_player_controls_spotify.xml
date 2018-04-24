@@ -7,12 +7,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:clipChildren="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:background="@color/background">
+        android:layout_height="wrap_content"
+        tools:background="@color/background"
+        android:layout_marginBottom="24dp">
 
         <include
             android:id="@+id/playerToolbar"
-            layout="@layout/fragment_player_toolbar_flat"
+            layout="@layout/fragment_player_toolbar_spotify"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +55,7 @@
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
+            app:layout_constraintTop_toBottomOf="@+id/artist"
             app:layout_constraintStart_toEndOf="@+id/bookmark"
             app:layout_constraintEnd_toStartOf="@+id/duration"
             android:max="@integer/common_high_number"
@@ -62,8 +63,6 @@
             android:paddingTop="18dp"
             android:progressTint="@color/seek_bar_tint"
             android:thumbTint="@color/seek_bar_tint"
-            tools:thumbTint="#64FFDA"
-            tools:progressTint="#64FFDA"
             android:progressBackgroundTint="@color/seek_bar_secondary_tint"
             tools:progress="40"
             tools:max="100" />
@@ -101,23 +100,30 @@
         <include
             android:id="@+id/playerControls"
             app:layout_constraintTop_toBottomOf="@+id/seekBar"
-            app:layout_constraintBottom_toTopOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             layout="@layout/player_controls"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
+        <dev.olog.msc.presentation.widget.LottieFavorite
+            android:id="@+id/favorite"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="0dp"
+            android:layout_gravity="end"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/artist"
+            app:layout_constraintStart_toStartOf="parent"/>
+
         <!-- title -->
         <TextView
             android:id="@+id/title"
             tools:text="In Da Club"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
+            app:layout_constraintStart_toEndOf="@+id/favorite"
             app:layout_constraintEnd_toStartOf="@+id/more"
-            app:layout_constraintBottom_toTopOf="@+id/artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintWidth_default="wrap"
             android:textSize="@dimen/player_title_text_size"
             android:textColor="@color/text_color_primary"
             android:singleLine="true"
@@ -128,48 +134,30 @@
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:clickable="false"
             android:focusable="false"
-            android:gravity="start"
-            android:textAllCaps="true"
-            app:layout_constraintHorizontal_bias="0"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            tools:background="#64FFDA"
-            android:layout_marginBottom="4dp"
-            android:letterSpacing="0.1"
-            android:layout_marginEnd="16dp"/>
+            android:gravity="center"
+            android:layout_marginTop="16dp"/>
 
         <TextView
             android:id="@+id/artist"
             tools:text="50 Cent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintStart_toEndOf="@+id/favorite"
             app:layout_constraintEnd_toStartOf="@+id/more"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintWidth_default="wrap"
             android:textSize="@dimen/player_artist_text_size"
-            android:textColor="@color/text_color_primary"
+            android:textColor="@color/text_color_secondary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="@dimen/player_artist_bottom_padding"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="24dp"
             android:clickable="false"
             android:focusable="false"
-            app:layout_constraintHorizontal_bias="0"
-            android:textAllCaps="true"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            tools:background="#64FFDA"
-            android:letterSpacing="0.1"
-            android:textStyle="bold"
-            android:layout_marginEnd="16dp"/>
+            android:gravity="center" />
 
 
         <ImageButton
@@ -180,12 +168,11 @@
             android:src="@drawable/vd_more"
             android:padding="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:tint="@color/button_primary_tint"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal" />
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
     </android.support.constraint.ConstraintLayout>
 

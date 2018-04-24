@@ -150,18 +150,26 @@
     <string name="prefs_appearance_title">Appearance</string>
     <string name="prefs_appearance_default">Default</string>
     <string name="prefs_appearance_flat">Flat</string>
+    <string name="prefs_appearance_spotify">Famous green music player</string>
+    <string name="prefs_appearance_fullscreen">Fullscreen</string>
 
     <string name="prefs_appearance_entry_value_default" translatable="false">default</string>
     <string name="prefs_appearance_entry_value_flat" translatable="false">flat</string>
+    <string name="prefs_appearance_entry_value_spotify" translatable="false">spotify</string>
+    <string name="prefs_appearance_entry_value_fullscreen" translatable="false">fullscreen</string>
 
     <string-array name="prefs_appearance_entry_values">
         <item>@string/prefs_appearance_entry_value_default</item>
         <item>@string/prefs_appearance_entry_value_flat</item>
+        <item>@string/prefs_appearance_entry_value_spotify</item>
+        <item>@string/prefs_appearance_entry_value_fullscreen</item>
     </string-array>
 
     <string-array name="prefs_appearance_entries">
         <item>@string/prefs_appearance_default</item>
         <item>@string/prefs_appearance_flat</item>
+        <item>@string/prefs_appearance_spotify</item>
+        <item>@string/prefs_appearance_fullscreen</item>
     </string-array>
 
 </resources>

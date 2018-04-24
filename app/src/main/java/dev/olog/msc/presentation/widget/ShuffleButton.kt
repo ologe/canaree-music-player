@@ -1,11 +1,13 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 
 class ShuffleButton @JvmOverloads constructor(
         context: Context,
@@ -40,7 +42,9 @@ class ShuffleButton @JvmOverloads constructor(
     }
 
     private fun disable(){
-        setColorFilter(ContextCompat.getColor(context!!, R.color.button_primary_tint))
+        val color = if (AppConstants.THEME.isFullscreen()) Color.WHITE
+        else ContextCompat.getColor(context!!, R.color.button_primary_tint)
+        setColorFilter(color)
     }
 
 }

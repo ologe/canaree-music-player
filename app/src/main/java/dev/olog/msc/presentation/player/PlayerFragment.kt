@@ -10,6 +10,7 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
@@ -74,7 +75,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
                 })
 
-        if (act.isLandscape){
+        if (act.isLandscape && !AppConstants.THEME.isFullscreen()){
             mediaProvider.onMetadataChanged()
                     .asLiveData()
                     .subscribe(this, cover::loadImage)
@@ -127,6 +128,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     .subscribe(this, { mediaProvider.skipToPrevious() })
 
             viewModel.observePlayerControlsVisibility()
+                    .filter { !AppConstants.THEME.isFullscreen() }
                     .asLiveData()
                     .subscribe(this, {
                         previous.toggleVisibility(it, true)
@@ -153,7 +155,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         adapter.touchHelper = touchHelper
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
-        view.statusBar.alpha = statusBarAlpha
+        view.statusBar?.alpha = statusBarAlpha
     }
 
     private fun animateSkipTo(toNext: Boolean) {
@@ -232,7 +234,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     override fun onPanelSlide(panel: View?, slideOffset: Float) {
         if (!isMarshmallow() && slideOffset in .9f..1f){
             val alpha = (1 - slideOffset) * 10
-            statusBar.alpha = MathUtils.clamp(abs(1 - alpha), 0f, 1f)
+            statusBar?.alpha = MathUtils.clamp(abs(1 - alpha), 0f, 1f)
         }
     }
 
@@ -253,5 +255,9 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         )
     }
 
-    override fun provideLayoutId(): Int = R.layout.fragment_player
+    override fun provideLayoutId(): Int {
+        return if(AppConstants.THEME.isFullscreen()){
+            R.layout.fragment_player_fullscreen
+        } else R.layout.fragment_player
+    }
 }
