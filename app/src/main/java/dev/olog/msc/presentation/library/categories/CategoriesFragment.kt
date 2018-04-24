@@ -6,9 +6,15 @@ import dev.olog.msc.R
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_library_categories.*
 import kotlinx.android.synthetic.main.fragment_library_categories.view.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CategoriesFragment : BaseFragment() {
@@ -29,6 +35,8 @@ class CategoriesFragment : BaseFragment() {
     private val onPageChangeListener by lazy(LazyThreadSafetyMode.NONE) {
         CategoriesOnPageChangeListener { presenter.setViewPagerLastPage(it) } }
 
+    private var floatingWindowTutorialDisposable: Disposable? = null
+
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.viewPager.adapter = pagerAdapter
         view.tabLayout.setupWithViewPager(view.viewPager)
@@ -44,6 +52,11 @@ class CategoriesFragment : BaseFragment() {
         search.setOnClickListener { navigator.toSearchFragment(search) }
         more.setOnClickListener { navigator.toMainPopup(it) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
+
+        floatingWindowTutorialDisposable = presenter.showFloatingWindowTutorialIfNeverShown()
+                .delay(2, TimeUnit.SECONDS, Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ TutorialTapTarget.floatingWindow(floatingWindow) }, Throwable::printStackTrace)
     }
 
     override fun onPause() {
@@ -52,6 +65,7 @@ class CategoriesFragment : BaseFragment() {
         search.setOnClickListener(null)
         more.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
+        floatingWindowTutorialDisposable.unsubscribe()
     }
 
     private fun startServiceOrRequestOverlayPermission(){

@@ -13,6 +13,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -146,6 +147,9 @@ class DetailFragmentViewModel(
         )
     }
 
+    fun showSortByTutorialIfNeverShown(): Completable {
+        return presenter.showSortByTutorialIfNeverShown()
+    }
 
 }
 

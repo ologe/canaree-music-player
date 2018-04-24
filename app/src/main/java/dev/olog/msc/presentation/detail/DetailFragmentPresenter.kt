@@ -4,6 +4,7 @@ import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.domain.interactor.MoveItemInPlaylistUseCase
 import dev.olog.msc.domain.interactor.RemoveFromPlaylistUseCase
 import dev.olog.msc.domain.interactor.detail.item.GetArtistFromAlbumUseCase
+import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
@@ -15,7 +16,8 @@ class DetailFragmentPresenter @Inject constructor(
         private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
         private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
         private val headers: DetailFragmentHeaders,
-        private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase
+        private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
+        private val tutorialPreferenceUseCase: TutorialPreferenceUseCase
 
 ) {
 
@@ -119,6 +121,10 @@ class DetailFragmentPresenter @Inject constructor(
             list.add(headers.no_songs)
         }
         return list
+    }
+
+    fun showSortByTutorialIfNeverShown(): Completable {
+        return tutorialPreferenceUseCase.sortByTutorial()
     }
 
 }

@@ -157,6 +157,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ok_http"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.ok_http"
     implementation "com.github.dmstocking:support-optional:$rootProject.optional_lib"
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.11.0'
+
 
     // debug
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"

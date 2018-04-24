@@ -10,6 +10,7 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import javax.inject.Singleton
 
 @Module
@@ -42,6 +43,12 @@ class PreferenceModule{
     @Provides
     @Singleton
     fun provideEqualizerPreferences(dataStore: EqualizerPreferenceImpl): EqualizerPreferencesGateway {
+        return dataStore
+    }
+
+    @Provides
+    @Singleton
+    fun provideTutorialPreferences(dataStore: TutorialPreferenceImpl): TutorialPreferenceGateway {
         return dataStore
     }
 

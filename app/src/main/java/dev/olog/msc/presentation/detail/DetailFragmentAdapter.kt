@@ -23,6 +23,7 @@ import dev.olog.msc.presentation.detail.DetailFragmentViewModel.Companion.NESTED
 import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
@@ -192,22 +193,28 @@ class DetailFragmentAdapter @Inject constructor(
                 }, false)
             }
             R.layout.item_detail_header_all_song -> {
-                val image = holder.itemView.sortImage
+                val sortText = holder.itemView.sort
+                val sortImage = holder.itemView.sortImage
 
                 viewModel.observeSorting()
                         .takeUntil(RxView.detaches(holder.itemView))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ (sort, arranging) ->
                             if (sort == SortType.CUSTOM){
-                                image.setImageResource(R.drawable.vd_remove)
+                                sortImage.setImageResource(R.drawable.vd_remove)
                             } else {
                                 if (arranging == SortArranging.ASCENDING){
-                                    image.setImageResource(R.drawable.vd_arrow_down)
+                                    sortImage.setImageResource(R.drawable.vd_arrow_down)
                                 } else {
-                                    image.setImageResource(R.drawable.vd_arrow_up)
+                                    sortImage.setImageResource(R.drawable.vd_arrow_up)
                                 }
                             }
 
+                        }, Throwable::printStackTrace)
+
+                viewModel.showSortByTutorialIfNeverShown()
+                        .subscribe({
+                            TutorialTapTarget.sortBy(sortText, sortImage)
                         }, Throwable::printStackTrace)
             }
         }
