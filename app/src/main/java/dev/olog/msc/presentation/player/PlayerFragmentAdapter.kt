@@ -261,6 +261,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
             viewModel.observePlayerControlsVisibility()
+                    .filter { !AppConstants.THEME.isFullscreen() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->

@@ -128,7 +128,6 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     .subscribe(this, { mediaProvider.skipToPrevious() })
 
             viewModel.observePlayerControlsVisibility()
-                    .filter { !AppConstants.THEME.isFullscreen() }
                     .asLiveData()
                     .subscribe(this, {
                         previous.toggleVisibility(it, true)
