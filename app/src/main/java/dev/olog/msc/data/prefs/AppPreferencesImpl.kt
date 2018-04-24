@@ -266,6 +266,7 @@ class AppPreferencesImpl @Inject constructor(
             setDefaultVisibleSections()
             hideClassicPlayerControls()
             setDefaultAutoDownloadImages()
+            setDefaultTheme()
 
             emitter.onComplete()
         }
@@ -293,6 +294,12 @@ class AppPreferencesImpl @Inject constructor(
     private fun hideClassicPlayerControls(){
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_player_controls_visibility_key), false)
+        }
+    }
+
+    private fun setDefaultTheme(){
+        preferences.edit {
+            putString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
         }
     }
 

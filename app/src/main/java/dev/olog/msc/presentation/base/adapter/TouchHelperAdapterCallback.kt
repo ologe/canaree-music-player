@@ -20,7 +20,7 @@ class TouchHelperAdapterCallback(
 
 ) : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-        ItemTouchHelper.END or ItemTouchHelper.START
+        ItemTouchHelper.RIGHT
 
 ) {
 
@@ -56,53 +56,40 @@ class TouchHelperAdapterCallback(
                              actionState: Int, isCurrentlyActive: Boolean) {
 
         when (actionState){
-            ItemTouchHelper.ACTION_STATE_SWIPE -> drawOnSwiped(c, recyclerView, viewHolder, dX)
+            ItemTouchHelper.ACTION_STATE_SWIPE -> drawOnSwiped(c, viewHolder, dX)
             ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMoved(viewHolder)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-    private fun drawOnSwiped(canvas: Canvas, recyclerView: RecyclerView,
-                             viewHolder: RecyclerView.ViewHolder, dx: Float){
+    private fun drawOnSwiped(canvas: Canvas, viewHolder: RecyclerView.ViewHolder, dx: Float){
 
         val view = viewHolder.itemView
-        drawDeleteBackground(canvas, recyclerView, view, dx)
+        drawDeleteBackground(canvas, view, dx)
         drawDeleteIcon(canvas, view, dx)
     }
 
-    private fun drawDeleteBackground(canvas: Canvas, recyclerView: RecyclerView,
-                                     view: View, dx: Float){
+    private fun drawDeleteBackground(canvas: Canvas, view: View, dx: Float){
 
-        if (dx >= 0){
-            deleteBackground.setBounds(recyclerView.left, view.top, (recyclerView.left + dx).toInt(), view.bottom)
-        } else {
-            deleteBackground.setBounds((recyclerView.right + dx).toInt(), view.top, recyclerView.right, view.bottom)
-        }
+        if (dx < 0) return
+        deleteBackground.setBounds(view.left, view.top, (view.left + dx).toInt(), view.bottom)
         deleteBackground.draw(canvas)
     }
 
     private fun drawDeleteIcon(canvas: Canvas, view: View, dx: Float){
+        if (dx < 0) return
+
         val itemHeight = view.bottom - view.top
 
         val deleteIcon = getDeleteIcon(view.context)
 
-        if (dx >= 0){
-            val deleteIconTop = view.top + (itemHeight - intrinsicHeight) / 2
-            val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
-            val deleteIconLeft = view.left + deleteIconMargin
-            val deleteIconRight = view.left + deleteIconMargin + intrinsicWidth
-            val deleteIconBottom = deleteIconTop + intrinsicHeight
-            // Draw the delete icon
-            deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
-        } else {
-            val deleteIconTop = view.top + (itemHeight - intrinsicHeight) / 2
-            val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
-            val deleteIconLeft = view.right - deleteIconMargin - intrinsicWidth
-            val deleteIconRight = view.right - deleteIconMargin
-            val deleteIconBottom = deleteIconTop + intrinsicHeight
-            // Draw the delete icon
-            deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
-        }
+        val deleteIconTop = view.top + (itemHeight - intrinsicHeight) / 2
+        val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+        val deleteIconLeft = view.left + deleteIconMargin
+        val deleteIconRight = view.left + deleteIconMargin + intrinsicWidth
+        val deleteIconBottom = deleteIconTop + intrinsicHeight
+        // Draw the delete icon
+        deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
 
         deleteIcon.draw(canvas)
         ViewCompat.setElevation(view, 0f)
