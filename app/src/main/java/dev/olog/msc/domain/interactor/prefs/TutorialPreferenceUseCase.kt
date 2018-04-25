@@ -22,4 +22,8 @@ class TutorialPreferenceUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    fun addLyricsTutorial(): Completable = gateway.editLyrics()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
 }

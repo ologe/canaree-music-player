@@ -23,6 +23,7 @@ import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
@@ -133,9 +134,11 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         }
         val editItem = findEditItemFragment()
         val playingQueue = findFragmentByTag<PlayingQueueFragment>(PlayingQueueFragment.TAG)
+        val offlineLyrics = findFragmentByTag<OfflineLyricsFragment>(OfflineLyricsFragment.TAG)
         when {
             editItem != null -> super.onBackPressed()
             playingQueue != null -> super.onBackPressed()
+            offlineLyrics != null -> super.onBackPressed()
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
         }

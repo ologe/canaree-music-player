@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dev.olog.msc.data.repository.*
 import dev.olog.msc.data.repository.last.fm.LastFmRepository
+import dev.olog.msc.data.repository.lyrics.OfflineLyricsRepository
 import dev.olog.msc.domain.gateway.*
 import javax.inject.Singleton
 
@@ -49,5 +50,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun provideLastFmRepository(repository: LastFmRepository): LastFmGateway
+
+    @Binds
+    @Singleton
+    abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
 
 }

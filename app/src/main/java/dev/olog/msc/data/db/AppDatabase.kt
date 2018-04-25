@@ -18,9 +18,11 @@ import dev.olog.msc.data.entity.*
 
         LastFmTrackEntity::class,
         LastFmAlbumEntity::class,
-        LastFmArtistEntity::class
+        LastFmArtistEntity::class,
 
-), version = 2, exportSchema = false)
+        OfflineLyricsEntity::class
+
+), version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -41,5 +43,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
 
     abstract fun lastFmDao() : LastFmDao
+
+    abstract fun offlineLyricsDao(): OfflineLyricsDao
 
 }

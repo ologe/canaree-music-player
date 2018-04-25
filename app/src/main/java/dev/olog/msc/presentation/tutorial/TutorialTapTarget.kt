@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.tutorial
 
 import android.app.Activity
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
@@ -41,10 +42,24 @@ object TutorialTapTarget {
     fun lyrics(view: View){
         val context = view.context
 
-        val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
+        val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
                 .cancelable(false)
-                .transparentTarget(true)
                 .outerCircleColor(R.color.accent)
+                .tintTarget(true)
+                .icon(ContextCompat.getDrawable(context, R.drawable.vd_lyrics))
+                .targetCircleColor(R.color.background)
+        TapTargetView.showFor(view.context as Activity, target)
+    }
+
+    fun addLyrics(view: View){
+        val context = view.context
+
+        val target = TapTarget.forView(view, context.getString(R.string.tutorial_add_lyrics))
+                .cancelable(false)
+                .outerCircleColor(R.color.accent)
+                .tintTarget(true)
+                .icon(ContextCompat.getDrawable(context, R.drawable.vd_edit))
+                .targetCircleColor(R.color.background)
         TapTargetView.showFor(view.context as Activity, target)
     }
 

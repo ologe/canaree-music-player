@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialog
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.mini.player.MiniPlayerFragment
+import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 
 @Module
 abstract class MainActivityFragmentsModule {
@@ -16,6 +17,9 @@ abstract class MainActivityFragmentsModule {
     abstract fun provideEqualizerFragment(): EqualizerFragment
 
     @ContributesAndroidInjector
-    abstract fun provideSleetTimerDialog() : SleepTimerPickerDialog
+    abstract fun provideSleepTimerDialog() : SleepTimerPickerDialog
+
+    @ContributesAndroidInjector
+    abstract fun provideOfflineLyricsFragment(): OfflineLyricsFragment
 
 }

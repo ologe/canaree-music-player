@@ -38,7 +38,8 @@ class SwipeableView @JvmOverloads constructor(
     fun isTouching(): Observable<Boolean> = isTouchingPublisher.distinctUntilChanged()
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return when (event.action) {
+
+        return when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
 //                parent.requestDisallowInterceptTouchEvent(true)
                 isTouchingPublisher.onNext(true)

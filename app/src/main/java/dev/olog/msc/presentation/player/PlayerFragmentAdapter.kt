@@ -14,7 +14,6 @@ import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
@@ -69,7 +68,7 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls_fullscreen,
             R.layout.fragment_player_controls_flat -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
-                    val mediaId = MediaId.songId(viewModel.currentTrackId)
+                    val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
             }
@@ -124,7 +123,7 @@ class PlayerFragmentAdapter @Inject constructor(
     private fun bindPlayerControls(view: View){
         mediaProvider.onMetadataChanged()
                 .takeUntil(RxView.detaches(view))
-                .doOnNext { viewModel.currentTrackId = it.getId() }
+                .doOnNext { viewModel.updateCurrentTrackId(it.getId()) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     viewModel.onMetadataChanged(activity, it)
@@ -175,13 +174,6 @@ class PlayerFragmentAdapter @Inject constructor(
                     .subscribe({ mediaProvider.toggleShuffleMode() }, Throwable::printStackTrace)
         }
 
-        RxView.clicks(view.floatingWindow)
-                .takeUntil(RxView.detaches(view))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity)
-                }, Throwable::printStackTrace)
-
         RxView.clicks(view.favorite)
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -218,6 +210,14 @@ class PlayerFragmentAdapter @Inject constructor(
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(view.favorite::onNextState, Throwable::printStackTrace)
+
+        if (!AppConstants.THEME.isFullscreen()){
+            RxView.clicks(view.lyrics)
+                    .takeUntil(RxView.detaches(view))
+                    .subscribe({
+                        navigator.toOfflineLyrics(view.lyrics)
+                    }, Throwable::printStackTrace)
+        }
 
         if (activity.isPortrait || AppConstants.THEME.isFullscreen()){
             mediaProvider.onStateChanged()

@@ -18,6 +18,7 @@ class TutorialPreferenceImpl @Inject constructor(
         private const val SORT_BY_SHOWN = "$TAG.SORT_BY_SHOWN"
         private const val FLOATING_WINDOW_SHOWN = "$TAG.FLOATING_WINDOW_SHOWN"
         private const val LYRICS_SHOWN = "$TAG.LYRICS_SHOWN"
+        private const val ADD_LYRICS_SHOWN = "$TAG.ADD_LYRICS_SHOWN"
     }
 
     override fun sortByTutorial(): Completable {
@@ -53,6 +54,17 @@ class TutorialPreferenceImpl @Inject constructor(
                 }
     }
 
+    override fun editLyrics(): Completable {
+        return rxPreferences.getBoolean(ADD_LYRICS_SHOWN, false)
+                .asObservable()
+                .firstOrError()
+                .flatMapCompletable {
+                    if (it) Completable.error(Throwable("already shown"))
+                    else Completable.complete()
+                            .doOnComplete { disableAddLyricsTutorial() }
+                }
+    }
+
     private fun disableSortByTutorial(){
         preferences.edit { putBoolean(SORT_BY_SHOWN, true) }
     }
@@ -62,7 +74,11 @@ class TutorialPreferenceImpl @Inject constructor(
     }
 
     private fun disableLyricsTutorial(){
-//        preferences.edit { putBoolean(LYRICS_SHOWN, true) }
+        preferences.edit { putBoolean(LYRICS_SHOWN, true) }
+    }
+
+    private fun disableAddLyricsTutorial(){
+        preferences.edit { putBoolean(ADD_LYRICS_SHOWN, true) }
     }
 
 }

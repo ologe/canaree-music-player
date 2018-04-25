@@ -18,10 +18,12 @@ import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -29,6 +31,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
+import kotlinx.android.synthetic.main.fragment_player_toolbar.*
 import kotlinx.android.synthetic.main.player_controls.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -44,6 +47,8 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     private lateinit var mediaProvider : MediaProvider
 
     private var seekBarDisposable : Disposable? = null
+
+    private var lyricsDisposable: Disposable? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -147,7 +152,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
-        view.list.setHasFixedSize(true)
+        view.list.isNestedScrollingEnabled = false
         val callback = TouchHelperAdapterCallback(adapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
@@ -206,6 +211,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     override fun onStop() {
         super.onStop()
         seekBarDisposable.unsubscribe()
+        lyricsDisposable.unsubscribe()
     }
 
     private val onSwipeListener = object : SwipeableView.SwipeListener {
@@ -238,6 +244,15 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     }
 
     override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
+        if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
+            lyricsDisposable.unsubscribe()
+            lyricsDisposable = Completable.timer(50, TimeUnit.MILLISECONDS, Schedulers.io())
+                    .andThen(viewModel.showLyricsTutorialIfNeverShown())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ lyrics?.let { TutorialTapTarget.lyrics(it) } }, {})
+        } else {
+            lyricsDisposable.unsubscribe()
+        }
     }
 
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {

@@ -12,6 +12,7 @@ import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
@@ -20,6 +21,7 @@ import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -35,18 +37,26 @@ class PlayerFragmentViewModel @Inject constructor(
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
         private val billing: IBilling,
         private val appPrefsUseCase: AppPreferencesUseCase,
-        musicPrefsUseCase: MusicPreferencesUseCase
+        musicPrefsUseCase: MusicPreferencesUseCase,
+        private val tutorialPreferenceUseCase: TutorialPreferenceUseCase
 
 ) : ViewModel() {
 
     private var disposable: Disposable? = null
+    private var insertLyrics: Disposable? = null
     private val colorsPublisher = BehaviorProcessor.create<ImageProcessorResult>()
 
     private var fullScreenVisible = true
 
     private val miniQueue = MutableLiveData<List<DisplayableItem>>()
 
-    var currentTrackId : Long = -1
+    private val currentTrackIdPublisher = BehaviorSubject.create<Long>()
+
+    fun getCurrentTrackId() = currentTrackIdPublisher.value!!
+
+    fun updateCurrentTrackId(trackId: Long){
+        currentTrackIdPublisher.onNext(trackId)
+    }
 
     fun observeMiniQueue() : LiveData<List<DisplayableItem>> = miniQueue
 
@@ -108,8 +118,15 @@ class PlayerFragmentViewModel @Inject constructor(
     val skipToPreviousVisibility = musicPrefsUseCase
             .observeSkipToPreviousVisibility()
 
+    fun showLyricsTutorialIfNeverShown(): Completable {
+        return tutorialPreferenceUseCase.lyricsTutorial()
+    }
+
     override fun onCleared() {
         disposable.unsubscribe()
+        insertLyrics.unsubscribe()
     }
+
+
 
 }

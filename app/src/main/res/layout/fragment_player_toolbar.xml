@@ -26,11 +26,11 @@
         android:tint="@color/button_primary_tint"/>
 
     <ImageButton
-        android:id="@+id/floatingWindow"
+        android:id="@+id/lyrics"
         android:layout_gravity="end"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
-        android:src="@drawable/vd_bird_singing_24dp"
+        android:src="@drawable/vd_lyrics"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:clickable="true"
@@ -39,8 +39,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite"
-        android:scaleX=".85"
-        android:scaleY=".85"
+        android:scaleX=".75"
+        android:scaleY=".75"
         android:tint="@color/button_primary_tint"/>
 
     <dev.olog.msc.presentation.widget.LottieFavorite

@@ -213,9 +213,7 @@ class DetailFragmentAdapter @Inject constructor(
                         }, Throwable::printStackTrace)
 
                 viewModel.showSortByTutorialIfNeverShown()
-                        .subscribe({
-                            TutorialTapTarget.sortBy(sortText, sortImage)
-                        }, Throwable::printStackTrace)
+                        .subscribe({ TutorialTapTarget.sortBy(sortText, sortImage) }, {})
             }
         }
     }

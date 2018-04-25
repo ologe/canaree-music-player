@@ -7,5 +7,6 @@ interface TutorialPreferenceGateway {
     fun sortByTutorial(): Completable
     fun floatingWindowTutorial(): Completable
     fun lyricsTutorial(): Completable
+    fun editLyrics(): Completable
 
 }
