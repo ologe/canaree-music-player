@@ -4,7 +4,7 @@
     <string name="tutorial_sort_by_text">Tap the text to change the sort type</string>
     <string name="tutorial_sort_by_arrow">Tap the arrow to reverse the sort</string>
 
-    <string name="tutorial_floating_window">The bird icon open a floating window with lyrics and youtube video</string>
+    <string name="tutorial_floating_window">Click to open a floating window with lyrics and youtube video</string>
     <string name="tutorial_lyrics">Long press the image to show saved lyrics</string>
     <string name="tutorial_add_lyrics">Add or update your lyrics here</string>
 
