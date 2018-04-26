@@ -64,6 +64,8 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
                     presenter.updateCurrentTrackId(it.getId())
                     presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
                     image.loadImage(it)
+                    header.text = it.getTitle()
+                    subHeader.text = it.getArtist()
                 })
 
         presenter.observeLyrics {
@@ -79,7 +81,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
         view.image.post { startPostponedEnterTransition() }
 
         tutorialDisposable = presenter.showAddLyricsIfNeverShown()
-                .subscribe({ TutorialTapTarget.addLyrics(view.edit) }, {})
+                .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit) }, {})
     }
 
     override fun onResume() {

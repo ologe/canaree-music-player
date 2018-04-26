@@ -10,15 +10,6 @@
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <dev.olog.msc.presentation.widget.StatusBarView
-        android:id="@+id/statusBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible"/>
-
     <dev.olog.msc.presentation.widget.image.view.PlayerImageView
         android:id="@+id/image"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,69 +34,129 @@
         android:layout_width="0dp"
         android:layout_height="0dp"/>
 
-    <ScrollView
-        android:id="@+id/scrollBar"
-        app:layout_constraintTop_toBottomOf="@+id/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:scrollbars="none"
-        android:overScrollMode="never">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text"
-            android:text="@string/offline_lyrics_empty"
-            tools:text="@tools:sample/lorem/random"
-            android:textSize="20dp"
-            android:textColor="@android:color/white"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="10dp"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"/>
+            android:background="@android:color/transparent"
+            app:elevation="0dp">
+
+            <dev.olog.msc.presentation.widget.StatusBarView
+                android:id="@+id/statusBar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/status_bar"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="invisible"
+                app:layout_scrollFlags="scroll"/>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll">
+
+                <ImageButton
+                    android:id="@+id/back"
+                    android:src="@drawable/vd_back_arrow"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/toolbar"
+                    android:tint="@android:color/white"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <TextView
+                    android:id="@+id/header"
+                    android:text="Wanksta"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="start"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/back"
+                    app:layout_constraintEnd_toStartOf="@+id/search"
+                    app:layout_constraintBottom_toTopOf="@+id/subHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:id="@+id/subHeader"
+                    android:text="50 Cent"
+                    android:textColor="#ccc"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:gravity="start"
+                    app:layout_constraintTop_toBottomOf="@+id/header"
+                    app:layout_constraintStart_toEndOf="@+id/back"
+                    app:layout_constraintEnd_toStartOf="@+id/search"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+
+                <ImageButton
+                    android:id="@+id/edit"
+                    android:src="@drawable/vd_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/toolbar"
+                    android:tint="@android:color/white"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <ImageButton
+                    android:id="@+id/search"
+                    android:src="@drawable/vd_search"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/toolbar"
+                    android:tint="@android:color/white"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <TextView
+                android:id="@+id/text"
+                android:text="@string/offline_lyrics_empty"
+                tools:text="@tools:sample/lorem/random"
+                android:textSize="20dp"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="10dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"/>
 
 
-    </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
-    <ImageButton
-        android:id="@+id/back"
-        android:src="@drawable/vd_back_arrow"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbar"
-        android:tint="@android:color/white"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
-
-    <ImageButton
-        android:id="@+id/edit"
-        android:src="@drawable/vd_edit"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbar"
-        android:tint="@android:color/white"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
-
-    <ImageButton
-        android:id="@+id/search"
-        android:src="@drawable/vd_search"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintEnd_toStartOf="@+id/edit"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbar"
-        android:tint="@android:color/white"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
+    </android.support.design.widget.CoordinatorLayout>
 
 </android.support.constraint.ConstraintLayout>

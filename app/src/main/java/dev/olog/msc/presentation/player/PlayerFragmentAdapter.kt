@@ -22,10 +22,15 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.widget.SwipeableView
+import dev.olog.msc.presentation.widget.animateBackgroundColor
+import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.fragment_player_controls.view.*
+import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
+import kotlinx.android.synthetic.main.player_controls.view.*
 import javax.inject.Inject
 
 class PlayerFragmentAdapter @Inject constructor(

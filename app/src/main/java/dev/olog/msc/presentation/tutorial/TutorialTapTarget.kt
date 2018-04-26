@@ -51,16 +51,26 @@ object TutorialTapTarget {
         TapTargetView.showFor(view.context as Activity, target)
     }
 
-    fun addLyrics(view: View){
-        val context = view.context
+    fun addLyrics(search: View, edit: View){
+        val context = search.context
 
-        val target = TapTarget.forView(view, context.getString(R.string.tutorial_add_lyrics))
+        val searchTarget = TapTarget.forView(search, context.getString(R.string.tutorial_search_lyrics))
+                .cancelable(false)
+                .outerCircleColor(R.color.accent)
+                .tintTarget(true)
+                .icon(ContextCompat.getDrawable(context, R.drawable.vd_search))
+                .targetCircleColor(R.color.background)
+
+        val editTarget = TapTarget.forView(edit, context.getString(R.string.tutorial_add_lyrics))
                 .cancelable(false)
                 .outerCircleColor(R.color.accent)
                 .tintTarget(true)
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_edit))
                 .targetCircleColor(R.color.background)
-        TapTargetView.showFor(view.context as Activity, target)
+
+        TapTargetSequence(search.context as Activity)
+                .targets(searchTarget, editTarget)
+                .start()
     }
 
 }
