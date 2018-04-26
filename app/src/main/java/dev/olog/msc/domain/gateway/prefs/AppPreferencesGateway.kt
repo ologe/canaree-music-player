@@ -1,6 +1,7 @@
 package dev.olog.msc.domain.gateway.prefs
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
+import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import io.reactivex.Completable
@@ -34,6 +35,14 @@ interface AppPreferencesGateway : Sorting {
 }
 
 interface Sorting {
+
+    fun getAllTracksSortOrder(): Observable<LibrarySortType>
+    fun getAllAlbumsSortOrder(): Observable<LibrarySortType>
+    fun getAllArtistSortOrder(): Observable<LibrarySortType>
+
+    fun setAllTracksSortOrder(sortType: LibrarySortType): Completable
+    fun setAllAlbumsSortOrder(sortType: LibrarySortType): Completable
+    fun setAllArtistsSortOrder(sortType: LibrarySortType): Completable
 
     fun getFolderSortOrder() : Observable<SortType>
     fun getPlaylistSortOrder() : Observable<SortType>

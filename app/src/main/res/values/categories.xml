@@ -40,5 +40,17 @@
         <item>No genres</item>
     </string-array>
 
+    <string name="category_sort_by">Sort by</string>
+    <string name="category_sort_by_title_az">Title A-Z</string>
+    <string name="category_sort_by_title_za">Title Z-A</string>
+    <string name="category_sort_by_artist_az">Artist A-Z</string>
+    <string name="category_sort_by_artist_za">Artist Z-A</string>
+    <string name="category_sort_by_album_az">Album A-Z</string>
+    <string name="category_sort_by_album_za">Album Z-A</string>
+    <string name="category_sort_by_duration_az">Duration asc</string>
+    <string name="category_sort_by_duration_za">Duration desc</string>
+    <string name="category_sort_by_recently_added_az">Recently added asc</string>
+    <string name="category_sort_by_recently_added_za">Recently added desc</string>
+
 
 </resources>

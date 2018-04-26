@@ -14,5 +14,16 @@
         <item>Nessun genere</item>
     </string-array>
 
+    <string name="category_sort_by">Ordina per</string>
+    <string name="category_sort_by_title_az">Titolo A-Z</string>
+    <string name="category_sort_by_title_za">Titolo Z-A</string>
+    <string name="category_sort_by_artist_az">Artista A-Z</string>
+    <string name="category_sort_by_artist_za">Artista Z-A</string>
+    <string name="category_sort_by_album_az">Album A-Z</string>
+    <string name="category_sort_by_album_za">Album Z-A</string>
+    <string name="category_sort_by_duration_az">Durata asc</string>
+    <string name="category_sort_by_duration_za">Durata desc</string>
+    <string name="category_sort_by_recently_added_az">Aggiunti di recente asc</string>
+    <string name="category_sort_by_recently_added_za">Aggiunti di recente desc</string>
 
 </resources>
