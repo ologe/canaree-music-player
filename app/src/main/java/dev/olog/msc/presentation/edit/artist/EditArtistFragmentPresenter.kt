@@ -47,9 +47,15 @@ class EditArtistFragmentPresenter @Inject constructor(
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault
 
-        tag.setField(FieldKey.ARTIST, artist)
-        tag.setField(FieldKey.ALBUM_ARTIST, artist)
+        catchNothing { tag.setField(FieldKey.ARTIST, artist) }
+        catchNothing { tag.setField(FieldKey.ALBUM_ARTIST, artist) }
         audioFile.commit()
+    }
+
+    private fun catchNothing(func:() -> Unit){
+        try {
+            func()
+        } catch (ex: Exception){}
     }
 
     @SuppressLint("RxLeakedSubscription")

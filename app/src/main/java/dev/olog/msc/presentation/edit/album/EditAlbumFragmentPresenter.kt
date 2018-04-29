@@ -50,15 +50,19 @@ class EditAlbumFragmentPresenter @Inject constructor(
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault
 
-        tag.setField(FieldKey.ALBUM, album)
-        tag.setField(FieldKey.ARTIST, artist)
-        tag.setField(FieldKey.ALBUM_ARTIST, artist)
-        tag.setField(FieldKey.GENRE, genre)
-        try {
-            tag.setField(FieldKey.YEAR, year)
-        } catch (ex: Exception){/*year often throws*/}
+        catchNothing { tag.setField(FieldKey.ALBUM, album) }
+        catchNothing { tag.setField(FieldKey.ARTIST, artist) }
+        catchNothing { tag.setField(FieldKey.ALBUM_ARTIST, artist) }
+        catchNothing { tag.setField(FieldKey.GENRE, genre) }
+        catchNothing { tag.setField(FieldKey.YEAR, year) }
 
         audioFile.commit()
+    }
+
+    private fun catchNothing(func:() -> Unit){
+        try {
+            func()
+        } catch (ex: Exception){}
     }
 
     @SuppressLint("RxLeakedSubscription")

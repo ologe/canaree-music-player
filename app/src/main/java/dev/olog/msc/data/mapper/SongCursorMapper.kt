@@ -25,16 +25,24 @@ fun Cursor.toSong(): Song {
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
     val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
+    var albumArtistName = artist
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val track = extractTrackNumber(trackNumber)
-    val disc = extractDiscNumber(trackNumber, track)
+    val disc = extractDiscNumber(trackNumber)
+
+    if (this.getColumnIndex("album_artist") != -1) {
+        val albumArtist = this.getString(this.getColumnIndex("album_artist"))
+        if (albumArtist != null){
+            albumArtistName = albumArtist
+        }
+    }
 
     return Song(
-            id, artistId, albumId, title, artist, album,
+            id, artistId, albumId, title, artist, album, albumArtistName,
             ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded, false, false, path,
             folder.capitalize(), disc, track)
@@ -52,28 +60,39 @@ fun Cursor.toUneditedSong(): Song {
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
     val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
+    var albumArtistName = artist
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
     val track = extractTrackNumber(trackNumber)
-    val disc = extractDiscNumber(trackNumber, track)
+    val disc = extractDiscNumber(trackNumber)
+
+    if (this.getColumnIndex("album_artist") != -1) {
+        val albumArtist = this.getString(this.getColumnIndex("album_artist"))
+        if (albumArtist != null){
+            albumArtistName = albumArtist
+        }
+    }
 
     return Song(
-            id, artistId, albumId, title, artist, album,
+            id, artistId, albumId, title, artist, album, albumArtistName,
             ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded, false, false, path,
             folder.capitalize(), disc, track)
 }
 
 private fun extractTrackNumber(originalTrackNumber: Int) : Int {
-    return originalTrackNumber % 1000
+    if (originalTrackNumber >= 1000){
+        return originalTrackNumber % 1000
+    }
+    return originalTrackNumber
 }
 
-private fun extractDiscNumber(originalTrackNumber: Int, realTrackNumber: Int): Int {
-    if (originalTrackNumber > 1000){
-        return (originalTrackNumber - realTrackNumber) / 1000
+private fun extractDiscNumber(originalTrackNumber: Int): Int {
+    if (originalTrackNumber >= 1000){
+        return originalTrackNumber / 1000
     }
     return 0
 }

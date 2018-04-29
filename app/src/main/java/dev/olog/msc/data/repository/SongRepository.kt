@@ -34,7 +34,9 @@ private val PROJECTION = arrayOf(
         MediaStore.Audio.Media.DATA,
         MediaStore.Audio.Media.YEAR,
         MediaStore.Audio.Media.TRACK,
-        MediaStore.Audio.Media.DATE_ADDED
+        MediaStore.Audio.Media.DATE_ADDED,
+        MediaStore.Audio.Media.IS_PODCAST,
+        "album_artist"
 )
 
 private const val SELECTION = "$DURATION > ?"
@@ -72,7 +74,8 @@ class SongRepository @Inject constructor(
         if (AppConstants.useFakeData && original.isEmpty()){
             return (0 until 50)
                     .map { Song(it.toLong(), it.toLong(), it.toLong(),
-                            "An awesome title", "An awesome artist", "An awesome album",
+                            "An awesome title", "An awesome artist",
+                            "An awesome album", "An awesome artist",
                             "", (it * 1000000).toLong(), System.currentTimeMillis(),
                             it.rem(3) == 0, it.rem(5) == 0,
                             "storage/emulated/folder", "folder", -1, -1) }

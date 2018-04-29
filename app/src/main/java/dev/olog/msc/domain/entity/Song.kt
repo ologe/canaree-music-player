@@ -9,6 +9,7 @@ data class Song (
         val title: String,
         val artist: String,
         val album: String,
+        val albumArtist: String,
         val image: String,
         val duration: Long,
         val dateAdded: Long,
