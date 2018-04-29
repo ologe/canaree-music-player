@@ -72,6 +72,8 @@ open class NotificationImpl21 @Inject constructor(
 
     @CallSuper
     protected open fun startChronometer(bookmark: Long){
+        println()
+
         builder.setWhen(System.currentTimeMillis() - bookmark)
                 .setShowWhen(true)
                 .setUsesChronometer(true)
@@ -96,7 +98,7 @@ open class NotificationImpl21 @Inject constructor(
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
         updateMetadataImpl(state.id, spannableTitle, artist, album, state.image)
-        updateState(state.isPlaying, state.bookmark)
+        updateState(state.isPlaying, state.bookmark - state.duration)
         updateFavorite(state.isFavorite)
 
         val notification = builder.build()

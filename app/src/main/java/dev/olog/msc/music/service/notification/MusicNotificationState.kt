@@ -12,6 +12,7 @@ data class MusicNotificationState (
         var image: String = "",
         var isPlaying: Boolean = false,
         var bookmark: Long = -1,
+        var duration: Long = -1,
         var isFavorite: Boolean = false
 ) {
 
@@ -21,7 +22,8 @@ data class MusicNotificationState (
                 artist.isNotBlank() &&
                 album.isNotBlank() &&
                 image.isNotBlank() &&
-                bookmark != -1L
+                bookmark != -1L &&
+                duration != -1L
     }
 
     fun updateMetadata(metadata: MediaEntity): Boolean {
@@ -30,6 +32,7 @@ data class MusicNotificationState (
         this.artist = metadata.artist
         this.album = metadata.album
         this.image = metadata.image
+        this.duration = metadata.duration
         return isValidState()
     }
 

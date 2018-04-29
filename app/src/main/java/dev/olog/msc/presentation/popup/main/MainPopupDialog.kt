@@ -85,7 +85,7 @@ class MainPopupDialog @Inject constructor(
         val sort = gateway.getAllAlbumsSortOrder()
         val item = when (sort.type){
             SortType.TITLE -> R.id.by_title
-            SortType.ALBUM -> R.id.by_album
+            SortType.ARTIST -> R.id.by_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
         val ascending = sort.arranging == SortArranging.ASCENDING

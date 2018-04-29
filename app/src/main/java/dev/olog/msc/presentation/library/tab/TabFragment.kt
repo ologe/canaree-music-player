@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import androidx.core.text.isDigitsOnly
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
@@ -119,8 +120,22 @@ class TabFragment : BaseFragment() {
 
         val position = when (letter){
             TextUtils.MIDDLE_DOT -> -1
-            "#" -> adapter.indexOf { it.type == scrollableItem }
-            "?" -> adapter.itemCount - 1
+            "#" -> adapter.indexOf {
+                if (it.type != scrollableItem){
+                    false
+                } else {
+                    if (it.title.isBlank()) false
+                    else it.title[0].toUpperCase().toString().isDigitsOnly()
+                }
+            }
+            "?" -> adapter.indexOf {
+                if (it.type != scrollableItem){
+                    false
+                } else {
+                    if (it.title.isBlank()) false
+                    else it.title[0].toUpperCase().toString() > "Z"
+                }
+            }
             else -> adapter.indexOf {
                 if (it.type != scrollableItem){
                     false

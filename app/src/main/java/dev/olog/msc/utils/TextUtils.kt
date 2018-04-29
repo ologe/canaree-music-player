@@ -1,5 +1,7 @@
 package dev.olog.msc.utils
 
+import kotlin.math.abs
+
 
 object TextUtils {
 
@@ -14,9 +16,10 @@ object TextUtils {
     @JvmStatic
     fun formatMillis(millis: Long, maintainZeros: Boolean = false): String {
 
-        val second = millis / 1000 % 60
-        val minute = millis / (1000 * 60) % 60
-        val hour = millis / (1000 * 60 * 60) % 24
+        val isNegative = millis < 0L
+        val second = abs(millis / 1000 % 60)
+        val minute = abs(millis / (1000 * 60) % 60)
+        val hour = abs(millis / (1000 * 60 * 60) % 24)
 
         if (hour == 0L && minute == 0L && second == 0L){
             if (maintainZeros){
@@ -28,15 +31,23 @@ object TextUtils {
         val formattedSeconds = if (second < 10) "0%d" else "%d"
         val formattedMinutes = if (minute < 10) "0%d" else "%d"
 
+        val result: String
+
         if (hour < 1){
             if (maintainZeros && minute < 10){
-                return String.format("0%d:$formattedSeconds", minute, second)
+                result = String.format("0%d:$formattedSeconds", minute, second)
+            } else {
+                result = String.format("%d:$formattedSeconds", minute, second)
             }
-
-            return String.format("%d:$formattedSeconds", minute, second)
+        } else {
+            result = String.format("%d:$formattedMinutes:$formattedMinutes", hour, minute, second)
         }
 
-        return String.format("%d:$formattedMinutes:$formattedMinutes", hour, minute, second)
+
+        if (isNegative){
+            return "-$result"
+        }
+        return result
     }
 
     @JvmStatic
