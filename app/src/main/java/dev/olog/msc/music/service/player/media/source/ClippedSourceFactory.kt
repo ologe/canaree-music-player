@@ -41,7 +41,7 @@ class ClippedSourceFactory @Inject constructor (
     }
 
 
-    /**
+    /*
      * Clip the media source only when gapless is On,
      * otherwise fallback to default media source.
      * NB -> some Flac files are not seekable and clippable, and when clipped,
