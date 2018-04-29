@@ -190,4 +190,10 @@
         <item>@string/prefs_appearance_fullscreen</item>
     </string-array>
 
+
+    <!--notch support-->
+    <string name="prefs_notch_support_key" translatable="false">key_notch_support</string>
+    <string name="prefs_notch_support_title">Notch support</string>
+    <string name="prefs_notch_support_summary">Increase status bar height</string>
+
 </resources>

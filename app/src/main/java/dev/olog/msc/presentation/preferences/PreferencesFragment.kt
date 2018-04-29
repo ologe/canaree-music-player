@@ -11,6 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
+import dev.olog.msc.utils.isP
 import dev.olog.msc.utils.k.extension.*
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -18,16 +19,22 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
+    private lateinit var notchSupport : Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
+        notchSupport = preferenceScreen.findPreference(getString(R.string.prefs_notch_support_key))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (isP()){
+            notchSupport.isVisible = false
+        }
 
         val billing = (act as PreferencesActivity).billing
         billing.observeIsPremium()
