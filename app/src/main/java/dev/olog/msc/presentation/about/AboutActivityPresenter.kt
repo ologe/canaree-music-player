@@ -67,7 +67,7 @@ class AboutActivityPresenter @Inject constructor(
     }
 
     fun buyPro(){
-        if (!billing.isPremium()){
+        if (!billing.isOnlyPremium()){
             billing.purchasePremium()
         }
     }

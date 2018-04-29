@@ -23,6 +23,7 @@ interface IBilling {
 
     fun isTrial(): Boolean
     fun isPremium(): Boolean
+    fun isOnlyPremium(): Boolean
     fun observeIsPremium(): Observable<Boolean>
     fun observeTrialPremiumState(): Observable<BillingState>
     fun purchasePremium()
@@ -150,6 +151,8 @@ class BillingImpl @Inject constructor(
     override fun isTrial(): Boolean = isTrialState
 
     override fun isPremium(): Boolean = isTrialState || isPremiumState
+
+    override fun isOnlyPremium(): Boolean = isPremiumState
 
     override fun observeIsPremium(): Observable<Boolean> {
         return Observables.combineLatest(premiumPublisher, trialPublisher,
