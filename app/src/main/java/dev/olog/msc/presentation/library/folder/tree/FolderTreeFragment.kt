@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject
 
-class FolderTreeFragment : BaseFragment() {
+class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
 
     companion object {
 
@@ -43,6 +43,20 @@ class FolderTreeFragment : BaseFragment() {
 
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bread_crumbs.setCallback(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        bread_crumbs.setCallback(null)
+    }
+
+    override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {
+        viewModel.nextFolder(crumb.file)
     }
 
     fun pop(): Boolean{

@@ -30,7 +30,7 @@ class FolderTreeFragmentViewModel(
 
     init {
         val root = Environment.getExternalStorageDirectory()
-        currentFile.postValue(root)
+        currentFile.value = root
     }
 
     fun observeFileName(): LiveData<File> = currentFile
@@ -69,20 +69,24 @@ class FolderTreeFragmentViewModel(
             return false
         }
         val parentFile = current.parentFile
-        currentFile.postValue(parentFile)
+        currentFile.value = parentFile
         return true
+    }
+
+    fun nextFolder(file: File){
+        currentFile.value = file
     }
 
     fun nextFolder(item: DisplayableItem){
         if (item.mediaId == BACK_HEADER_ID){
             if (currentFile.value!! != Environment.getExternalStorageDirectory()){
-                currentFile.postValue(currentFile.value!!.parentFile)
+                currentFile.value = currentFile.value!!.parentFile
             }
             return
         }
 
         val file = File(item.image)
-        currentFile.postValue(file)
+        currentFile.value = file
     }
 
     private fun backDisplableItem(): List<DisplayableItem> {
