@@ -7,6 +7,8 @@ import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -50,7 +52,7 @@ class CategoriesFragment : BaseFragment() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
         search.setOnClickListener { navigator.toSearchFragment(search) }
-        more.setOnClickListener { navigator.toMainPopup(it) }
+        more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
         floatingWindowTutorialDisposable = presenter.showFloatingWindowTutorialIfNeverShown()
@@ -66,6 +68,10 @@ class CategoriesFragment : BaseFragment() {
         more.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
         floatingWindowTutorialDisposable.unsubscribe()
+    }
+
+    private fun createMediaId(): MediaIdCategory {
+        return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
     }
 
     private fun startServiceOrRequestOverlayPermission(){

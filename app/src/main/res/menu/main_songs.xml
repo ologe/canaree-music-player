@@ -13,48 +13,43 @@
     <item android:id="@+id/about"
         android:title="@string/popup_about"/>
 
-    <!--<item android:id="@+id/sort_by"-->
-        <!--android:title="@string/detail_sort_by">-->
+    <item android:id="@+id/sort_by"
+        android:title="@string/detail_sort_by">
 
-        <!--<menu>-->
+        <menu>
 
-            <!--<group android:checkableBehavior="single">-->
+            <group android:checkableBehavior="single">
 
-                <!--<item android:id="@+id/by_title_az"-->
-                    <!--android:title="@string/category_sort_by_title_az" />-->
+                <item android:id="@+id/by_title"
+                    android:title="@string/category_sort_by_title"
+                    android:checked="true"/>
 
-                <!--<item android:id="@+id/by_title_za"-->
-                    <!--android:title="@string/category_sort_by_title_za" />-->
+                <item android:id="@+id/by_artist"
+                    android:title="@string/category_sort_by_artist" />
 
-                <!--<item android:id="@+id/by_artist_az"-->
-                    <!--android:title="@string/category_sort_by_artist_az" />-->
+                <item android:id="@+id/by_album"
+                    android:title="@string/category_sort_by_album" />
 
-                <!--<item android:id="@+id/by_artist_za"-->
-                    <!--android:title="@string/category_sort_by_artist_za" />-->
+                <item android:id="@+id/by_duration"
+                    android:title="@string/category_sort_by_duration" />
 
-                <!--<item android:id="@+id/by_album_az"-->
-                    <!--android:title="@string/category_sort_by_album_az" />-->
+                <item android:id="@+id/by_date"
+                    android:title="@string/category_sort_by_date" />
 
-                <!--<item android:id="@+id/by_album_za"-->
-                    <!--android:title="@string/category_sort_by_artist_za" />-->
+            </group>
 
-                <!--<item android:id="@+id/by_duration_asc"-->
-                    <!--android:title="@string/category_sort_by_duration_az" />-->
+            <group android:checkableBehavior="all">
 
-                <!--<item android:id="@+id/by_duration_desc"-->
-                    <!--android:title="@string/category_sort_by_duration_za" />-->
+                <item android:id="@+id/arranging"
+                    android:title="@string/category_sort_by_ascending"
+                    android:checked="true"/>
 
-                <!--<item android:id="@+id/by_data_asc"-->
-                    <!--android:title="@string/category_sort_by_recently_added_az" />-->
+            </group>
 
-                <!--<item android:id="@+id/by_data_desc"-->
-                    <!--android:title="@string/category_sort_by_recently_added_za" />-->
 
-            <!--</group>-->
+        </menu>
 
-        <!--</menu>-->
-
-    <!--</item>-->
+    </item>
 
 
 </menu>

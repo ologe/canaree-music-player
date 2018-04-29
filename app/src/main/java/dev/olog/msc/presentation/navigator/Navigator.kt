@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.navigator
 import android.view.View
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 
 interface Navigator {
 
@@ -29,9 +30,7 @@ interface Navigator {
     fun toDialog(item: DisplayableItem, anchor: View)
     fun toDialog(mediaId: MediaId, anchor: View)
 
-    fun toMainPopup(anchor: View)
-
-    fun toAboutActivity()
+    fun toMainPopup(anchor: View, category: MediaIdCategory)
 
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
 

@@ -13,30 +13,32 @@
     <item android:id="@+id/about"
         android:title="@string/popup_about"/>
 
-    <!--<item android:id="@+id/sort_by"-->
-        <!--android:title="@string/detail_sort_by">-->
+    <item android:id="@+id/sort_by"
+        android:title="@string/detail_sort_by">
 
-        <!--<menu>-->
+        <menu>
 
-            <!--<group android:checkableBehavior="single">-->
+            <group android:checkableBehavior="single">
 
-                <!--<item android:id="@+id/by_title_az"-->
-                    <!--android:title="@string/category_sort_by_title_az" />-->
+                <item android:id="@+id/by_title"
+                    android:title="@string/category_sort_by_title" />
 
-                <!--<item android:id="@+id/by_title_za"-->
-                    <!--android:title="@string/category_sort_by_title_za" />-->
+                <item android:id="@+id/by_artist"
+                    android:title="@string/category_sort_by_artist" />
 
-                <!--<item android:id="@+id/by_artist_az"-->
-                    <!--android:title="@string/category_sort_by_artist_az" />-->
+            </group>
 
-                <!--<item android:id="@+id/by_artist_za"-->
-                    <!--android:title="@string/category_sort_by_artist_za" />-->
+            <group android:checkableBehavior="all">
 
-            <!--</group>-->
+                <item android:id="@+id/arranging"
+                    android:title="@string/category_sort_by_ascending"
+                    android:checked="true"/>
 
-        <!--</menu>-->
+            </group>
 
-    <!--</item>-->
+        </menu>
+
+    </item>
 
 
 </menu>

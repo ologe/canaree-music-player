@@ -14,6 +14,8 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ChildFragmentManager
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.presentation.library.tab.TabFragment
+import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
 class CategoriesViewPager @Inject constructor(
@@ -36,6 +38,10 @@ class CategoriesViewPager @Inject constructor(
             .filter { it.visible }
 
     private val fragments = SparseArray<Fragment>()
+
+    fun getCategoryAtPosition(position: Int): MediaIdCategory {
+        return data[position].category
+    }
 
     override fun getItem(position: Int): Fragment {
         val category = data[position].category

@@ -7,6 +7,8 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
+import dev.olog.msc.domain.interactor.detail.sorting.library.GetAllAlbumsSortedUseCase
+import dev.olog.msc.domain.interactor.detail.sorting.library.GetAllSongsSortedUseCase
 import dev.olog.msc.domain.interactor.tab.*
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -59,7 +61,7 @@ class TabFragmentViewModelModule {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.SONGS)
     internal fun provideSongData(
-            useCase: GetAllSongsUseCase,
+            useCase: GetAllSongsSortedUseCase,
             headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
 
         return useCase.execute()
@@ -72,7 +74,7 @@ class TabFragmentViewModelModule {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumData(
-            useCase: GetAllAlbumsUseCase,
+            useCase: GetAllAlbumsSortedUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
             headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
 

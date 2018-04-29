@@ -36,13 +36,14 @@ interface AppPreferencesGateway : Sorting {
 
 interface Sorting {
 
-    fun getAllTracksSortOrder(): Observable<LibrarySortType>
-    fun getAllAlbumsSortOrder(): Observable<LibrarySortType>
-    fun getAllArtistSortOrder(): Observable<LibrarySortType>
+    fun getAllTracksSortOrder(): LibrarySortType
+    fun getAllAlbumsSortOrder(): LibrarySortType
 
-    fun setAllTracksSortOrder(sortType: LibrarySortType): Completable
-    fun setAllAlbumsSortOrder(sortType: LibrarySortType): Completable
-    fun setAllArtistsSortOrder(sortType: LibrarySortType): Completable
+    fun observeAllTracksSortOrder(): Observable<LibrarySortType>
+    fun observeAllAlbumsSortOrder(): Observable<LibrarySortType>
+
+    fun setAllTracksSortOrder(sortType: LibrarySortType)
+    fun setAllAlbumsSortOrder(sortType: LibrarySortType)
 
     fun getFolderSortOrder() : Observable<SortType>
     fun getPlaylistSortOrder() : Observable<SortType>

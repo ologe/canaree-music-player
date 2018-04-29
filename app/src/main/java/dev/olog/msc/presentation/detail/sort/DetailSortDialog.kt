@@ -56,7 +56,7 @@ class DetailSortDialog {
             SortType.ARTIST -> R.id.by_artist
             SortType.DURATION -> R.id.by_duration
             SortType.RECENTLY_ADDED ->R.id.by_recently_added
-            SortType.CUSTOM ->R.id.by_custom
+            SortType.CUSTOM -> R.id.by_custom
             SortType.TRACK_NUMBER ->R.id.by_track_number
         }
         menu.findItem(item).isChecked = true

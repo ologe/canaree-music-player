@@ -2,22 +2,15 @@ package dev.olog.msc.presentation.navigator
 
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
 import android.content.Intent
-import android.media.audiofx.AudioEffect
-import android.preference.PreferenceManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
-import android.view.Menu
 import android.view.View
-import android.widget.PopupMenu
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dev.olog.msc.BuildConfig
+import dagger.Lazy
 import dev.olog.msc.R
-import dev.olog.msc.presentation.about.AboutActivity
-import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.add.queue.AddQueueDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
@@ -26,27 +19,23 @@ import dev.olog.msc.presentation.dialog.delete.DeleteDialog
 import dev.olog.msc.presentation.dialog.remove.duplicates.RemoveDuplicatesDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
-import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
-import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment
 import dev.olog.msc.presentation.popup.PopupMenuFactory
-import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.splash.SplashActivity
-import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -56,7 +45,7 @@ private const val NEXT_REQUEST_THRESHOLD : Long = 400 // ms
 class NavigatorImpl @Inject internal constructor(
         private val activity: AppCompatActivity,
         private val popupFactory: PopupMenuFactory,
-        private val billing: IBilling
+        private val mainPopup: Lazy<MainPopupDialog>
 
 ) : DefaultLifecycleObserver, Navigator {
 
@@ -210,81 +199,8 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toMainPopup(anchor: View) {
-        val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
-        popup.inflate(R.menu.main)
-//        popup.addRotateAnimation(anchor)
-
-        if (BuildConfig.DEBUG){
-            popup.menu.add(Menu.NONE, -123, Menu.NONE, "configuration")
-        }
-
-        popup.setOnMenuItemClickListener {
-            when (it.itemId){
-                R.id.about -> this.toAboutActivity()
-                R.id.equalizer -> this.toEqualizer(anchor.context)
-                R.id.settings -> this.toSettingsActivity()
-                R.id.sleepTimer -> this.toSleepTimer()
-                -123 -> this.toDebugConfiguration()
-            }
-            true
-        }
-        popup.show()
-    }
-
-    private fun toDebugConfiguration(){
-        val intent = Intent(activity, DebugConfigurationActivity::class.java)
-        activity.startActivity(intent)
-    }
-
-    override fun toAboutActivity() {
-        val intent = Intent(activity, AboutActivity::class.java)
-        activity.startActivity(intent)
-    }
-
-    private fun toSettingsActivity(){
-        val intent = Intent(activity, PreferencesActivity::class.java)
-        activity.startActivityForResult(intent, PreferencesActivity.REQUEST_CODE)
-    }
-
-    private fun toSleepTimer(){
-        SleepTimerPickerDialogBuilder(activity.supportFragmentManager)
-                .setColorSelected(R.color.item_selected)
-                .show()
-    }
-
-    private fun toEqualizer(context: Context){
-        val useAppEqualizer = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(context.getString(R.string.prefs_used_equalizer_key), true)
-
-        if (billing.isPremium() && useAppEqualizer){
-            toBuiltInEqualizer()
-        } else {
-            searchForEqualizer()
-        }
-    }
-
-    private fun toBuiltInEqualizer(){
-
-        val categoriesFragment = activity.supportFragmentManager
-                .findFragmentByTag(CategoriesFragment.TAG)
-
-        activity.fragmentTransaction {
-            setReorderingAllowed(true)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            hide(categoriesFragment)
-            add(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
-            addToBackStack(EqualizerFragment.TAG)
-        }
-    }
-
-    private fun searchForEqualizer(){
-        val intent = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
-        if (intent.resolveActivity(activity.packageManager) != null){
-            activity.startActivity(intent)
-        } else {
-            activity.toast(R.string.equalizer_not_found)
-        }
+    override fun toMainPopup(anchor: View, category: MediaIdCategory) {
+        mainPopup.get().show(activity, anchor, category)
     }
 
     private fun allowed(): Boolean {
