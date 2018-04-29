@@ -7,7 +7,7 @@ import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.k.extension.updateNightMode
 
 enum class Theme {
-    DEFAULT, FLAT, SPOTIFY, FULLSCREEN;
+    DEFAULT, FLAT, SPOTIFY, FULLSCREEN, BIG_IMAGE;
 
     fun isDefault(): Boolean = this == DEFAULT
 
@@ -16,6 +16,8 @@ enum class Theme {
     fun isSpotify(): Boolean = this == SPOTIFY
 
     fun isFullscreen(): Boolean = this == FULLSCREEN
+
+    fun isBigImage(): Boolean = this == BIG_IMAGE
 
 }
 
@@ -77,6 +79,7 @@ object AppConstants {
             context.getString(R.string.prefs_appearance_entry_value_flat) -> Theme.FLAT
             context.getString(R.string.prefs_appearance_entry_value_spotify) -> Theme.SPOTIFY
             context.getString(R.string.prefs_appearance_entry_value_fullscreen) -> Theme.FULLSCREEN
+            context.getString(R.string.prefs_appearance_entry_value_big_image) -> Theme.BIG_IMAGE
             else -> throw IllegalStateException("invalid theme=$theme")
         }
     }

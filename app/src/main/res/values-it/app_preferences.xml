@@ -83,5 +83,6 @@
     <string name="prefs_appearance_flat">Flat</string>
     <string name="prefs_appearance_spotify">Famoso lettore musicale verde</string>
     <string name="prefs_appearance_fullscreen">Schermo intero</string>
+    <string name="prefs_appearance_big_image">Immagine grande</string>
 
 </resources>
