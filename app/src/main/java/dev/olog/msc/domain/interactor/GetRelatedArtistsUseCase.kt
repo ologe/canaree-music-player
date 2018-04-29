@@ -30,7 +30,7 @@ class GetRelatedArtistsUseCase @Inject constructor(
                             .flatMapSingle { getArtistUseCase.execute(it).firstOrError() }
                             .toList()
                     }.map {
-                        it.sortedWith(Comparator { o1, o2 -> collator.compare(o1, o2) })
+                        it.sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
                     }
         } else return Observable.just(emptyList())
     }
