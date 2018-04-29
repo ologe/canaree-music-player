@@ -9,12 +9,14 @@ import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import java.text.Collator
 import javax.inject.Inject
 
 class GetAllSongsSortedUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val getAllUseCase: GetAllSongsUseCase,
-        private val appPrefsGateway: AppPreferencesGateway
+        private val appPrefsGateway: AppPreferencesGateway,
+        private val collator: Collator
 
 
 ) : ObservableUseCase<List<Song>>(schedulers){
@@ -36,9 +38,9 @@ class GetAllSongsSortedUseCase @Inject constructor(
 
     private fun getAscendingComparator(sortType: SortType): Comparator<Song> {
         return when (sortType){
-            SortType.TITLE -> compareBy { it.title.toLowerCase() }
-            SortType.ARTIST -> compareBy { it.artist.toLowerCase() }
-            SortType.ALBUM -> compareBy { it.album.toLowerCase() }
+            SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }
+            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o1.artist, o2.artist) }
+            SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o1.album, o2.album) }
             SortType.DURATION -> compareBy { it.duration }
             SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
             else -> throw IllegalStateException("can't sort all tracks, invalid sort type $sortType")
@@ -47,9 +49,9 @@ class GetAllSongsSortedUseCase @Inject constructor(
 
     private fun getDescendingComparator(sortType: SortType): Comparator<Song> {
         return when (sortType){
-            SortType.TITLE -> compareByDescending { it.title.toLowerCase() }
-            SortType.ARTIST -> compareByDescending { it.artist.toLowerCase() }
-            SortType.ALBUM -> compareByDescending { it.album.toLowerCase() }
+            SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o2.title, o1.title) }
+            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o2.artist, o1.artist) }
+            SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o2.album, o1.album) }
             SortType.DURATION -> compareByDescending { it.duration }
             SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
             else -> throw IllegalStateException("can't sort all tracks, invalid sort type $sortType")

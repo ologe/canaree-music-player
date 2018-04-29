@@ -15,6 +15,8 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.presentation.app.widget.WidgetColored
+import java.text.Collator
+import java.util.*
 
 @Module
 class AppModule(private val app: App) {
@@ -57,6 +59,14 @@ class AppModule(private val app: App) {
     @Provides
     fun provideAlarmManager(): AlarmManager {
         return app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
+
+    @Provides
+    fun provideCollator(): Collator {
+        val instance = Collator.getInstance(Locale.UK)
+        instance.strength = Collator.SECONDARY
+//        instance.decomposition = Collator.CANONICAL_DECOMPOSITION
+        return instance
     }
 
 }

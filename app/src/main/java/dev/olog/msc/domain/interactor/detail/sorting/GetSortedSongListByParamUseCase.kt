@@ -9,6 +9,7 @@ import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import java.text.Collator
 import java.util.*
 import javax.inject.Inject
 
@@ -16,7 +17,8 @@ class GetSortedSongListByParamUseCase @Inject constructor(
         schedulers: IoScheduler,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getSortOrderUseCase: GetSortOrderUseCase,
-        private val getSortArrangingUseCase: GetSortArrangingUseCase
+        private val getSortArrangingUseCase: GetSortArrangingUseCase,
+        private val collator: Collator
 
 ) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(schedulers){
 
@@ -36,9 +38,9 @@ class GetSortedSongListByParamUseCase @Inject constructor(
 
     private fun getAscendingComparator(sortType: SortType): Comparator<Song> {
         return when (sortType){
-            SortType.TITLE -> compareBy { it.title.toLowerCase() }
-            SortType.ARTIST -> compareBy { it.artist.toLowerCase() }
-            SortType.ALBUM -> compareBy { it.album.toLowerCase() }
+            SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }
+            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o1.artist, o2.artist) }
+            SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o1.album, o2.album) }
             SortType.DURATION -> compareBy { it.duration }
             SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
             SortType.TRACK_NUMBER -> compareBy { it.trackNumber }
@@ -48,9 +50,9 @@ class GetSortedSongListByParamUseCase @Inject constructor(
 
     private fun getDescendingComparator(sortType: SortType): Comparator<Song> {
         return when (sortType){
-            SortType.TITLE -> compareByDescending { it.title.toLowerCase() }
-            SortType.ARTIST -> compareByDescending { it.artist.toLowerCase() }
-            SortType.ALBUM -> compareByDescending { it.album.toLowerCase() }
+            SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o2.title, o1.title) }
+            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o2.artist, o1.artist) }
+            SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o2.album, o1.album) }
             SortType.DURATION -> compareByDescending { it.duration }
             SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
             SortType.TRACK_NUMBER -> compareByDescending { it.trackNumber }

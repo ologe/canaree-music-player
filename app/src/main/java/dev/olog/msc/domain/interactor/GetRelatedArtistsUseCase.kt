@@ -8,12 +8,14 @@ import dev.olog.msc.domain.interactor.detail.item.GetArtistUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.toFlowable
+import java.text.Collator
 import javax.inject.Inject
 
 class GetRelatedArtistsUseCase @Inject constructor(
         executors: ComputationScheduler,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val getArtistUseCase: GetArtistUseCase
+        private val getArtistUseCase: GetArtistUseCase,
+        private val collator: Collator
 
 ) : ObservableUseCaseUseCaseWithParam<List<Artist>, MediaId>(executors) {
 
@@ -27,7 +29,9 @@ class GetRelatedArtistsUseCase @Inject constructor(
                             .map { MediaId.artistId(it.artistId) }
                             .flatMapSingle { getArtistUseCase.execute(it).firstOrError() }
                             .toList()
-                    }.map { it.sortedWith(compareBy { it.name.toLowerCase() }) }
+                    }.map {
+                        it.sortedWith(Comparator { o1, o2 -> collator.compare(o1, o2) })
+                    }
         } else return Observable.just(emptyList())
     }
 }
