@@ -29,7 +29,7 @@ class PlayerImageView @JvmOverloads constructor(
 
         GlideApp.with(context)
                 .load(model)
-                .error(CoverUtils.getGradient(context, mediaId))
+                .placeholder(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .override(800)
