@@ -12,11 +12,13 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import java.text.Collator
 import javax.inject.Inject
 
 class FavoriteRepository @Inject constructor(
     appDatabase: AppDatabase,
-    private val songGateway: SongGateway
+    private val songGateway: SongGateway,
+    private val collator: Collator
 
 ) : FavoriteGateway {
 
@@ -40,7 +42,7 @@ class FavoriteRepository @Inject constructor(
                 .toObservable()
                 .flatMap { favorites -> songGateway.getAll().map { songList ->
                     favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
-                            .sortedBy { it.title.toLowerCase() }
+                            .sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
                 } }
     }
 

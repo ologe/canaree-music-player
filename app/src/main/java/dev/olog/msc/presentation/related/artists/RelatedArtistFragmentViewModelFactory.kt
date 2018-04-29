@@ -6,13 +6,15 @@ import android.content.res.Resources
 import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.detail.item.GetItemTitleUseCase
 import dev.olog.msc.utils.MediaId
+import java.text.Collator
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModelFactory @Inject constructor(
         private val resources: Resources,
         private val mediaId: MediaId,
         private val getRelatedArtistsUseCase: GetRelatedArtistsUseCase,
-        private val getItemTitleUseCase: GetItemTitleUseCase
+        private val getItemTitleUseCase: GetItemTitleUseCase,
+        private val collator: Collator
 
 ) : ViewModelProvider.Factory {
 
@@ -22,7 +24,8 @@ class RelatedArtistFragmentViewModelFactory @Inject constructor(
                 resources,
                 mediaId,
                 getRelatedArtistsUseCase,
-                getItemTitleUseCase
+                getItemTitleUseCase,
+                collator
         ) as T
     }
 }

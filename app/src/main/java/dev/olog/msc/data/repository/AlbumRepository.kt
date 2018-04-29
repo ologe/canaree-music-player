@@ -14,6 +14,7 @@ import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import java.text.Collator
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
@@ -21,7 +22,8 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 class AlbumRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val collator: Collator
 
 ) : AlbumGateway {
 
@@ -39,7 +41,7 @@ class AlbumRepository @Inject constructor(
                             .distinctBy { it.albumId }
                             .map { song ->
                                 song.toAlbum(songList.count { it.albumId == song.albumId })
-                            }.sortedBy { it.title.toLowerCase() }
+                            }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
                             .toList()
                 }
     }

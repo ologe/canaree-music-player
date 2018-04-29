@@ -12,12 +12,14 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
+import java.text.Collator
 
 class RelatedArtistViewModel(
         resources: Resources,
         mediaId: MediaId,
         useCase: GetRelatedArtistsUseCase,
-        getItemTitleUseCase: GetItemTitleUseCase
+        getItemTitleUseCase: GetItemTitleUseCase,
+        collator: Collator
 
 ): ViewModel() {
 
@@ -25,7 +27,7 @@ class RelatedArtistViewModel(
 
     val data: LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
             .mapToList { it.toRelatedArtist(resources) }
-            .map { it.sortedBy { it.title.toLowerCase() } }
+            .map { it.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }) }
             .asLiveData()
 
     val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()

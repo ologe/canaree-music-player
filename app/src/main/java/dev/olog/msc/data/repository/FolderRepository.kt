@@ -16,6 +16,7 @@ import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
+import java.text.Collator
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -23,7 +24,8 @@ private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val songGateway: SongGateway,
-        appDatabase: AppDatabase
+        appDatabase: AppDatabase,
+        private val collator: Collator
 
 ): FolderGateway {
 
@@ -93,7 +95,7 @@ class FolderRepository @Inject constructor(
                 .map { song ->
                     song.toFolder(context,
                             songList.count { it.folderPath == song.folderPath }) // count song for all folder
-                }.sortedBy { it.title }
+                }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
                 .toList()
     }
 
