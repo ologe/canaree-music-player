@@ -65,8 +65,9 @@
 
     <!--auto download images-->
     <string name="prefs_auto_download_images_title">Scaricamento automatico immagini</string>
-    <string name="prefs_auto_download_images_summary_on">Sempre</string>
-    <string name="prefs_auto_download_images_summary_off">Solo su Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_mobile">Sempre</string>
+    <string name="prefs_auto_download_images_summary_wifi">Solo su Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_never">Mai</string>
 
     <!--dark theme-->
     <string name="prefs_dark_theme_title">Tema scuro</string>

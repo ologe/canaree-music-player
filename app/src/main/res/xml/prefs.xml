@@ -93,12 +93,13 @@
     <PreferenceCategory
         android:title="@string/prefs_category_other">
 
-        <SwitchPreference
+        <ListPreference
             android:title="@string/prefs_auto_download_images_title"
-            android:summaryOn="@string/prefs_auto_download_images_summary_on"
-            android:summaryOff="@string/prefs_auto_download_images_summary_off"
+            android:summary="%s"
             android:key="@string/prefs_auto_download_images_key"
-            android:checked="false"/>
+            android:entries="@array/prefs_auto_download_images_entries"
+            android:entryValues="@array/prefs_auto_download_images_entry_values"
+            android:defaultValue="@string/prefs_auto_download_images_entry_value_wifi" />
 
         <ListPreference
             android:title="@string/prefs_quick_action_title"
@@ -106,9 +107,7 @@
             android:entries="@array/prefs_quick_action_entries"
             android:entryValues="@array/prefs_quick_action_entry_values"
             android:defaultValue="@string/prefs_quick_action_entry_value_hide"
-            android:key="@string/prefs_quick_action_key"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@string/popup_positive_ok"/>
+            android:key="@string/prefs_quick_action_key" />
 
         <MultiSelectListPreference
             android:title="@string/prefs_detail_sections_title"

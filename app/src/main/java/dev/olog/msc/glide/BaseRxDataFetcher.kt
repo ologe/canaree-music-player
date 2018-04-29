@@ -101,12 +101,18 @@ abstract class BaseRxDataFetcher(
 
     private fun networkSafeAction(action: () -> Unit){
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val canDownloadOnMobile = prefs.getBoolean(context.getString(R.string.prefs_auto_download_images_key), false)
+        val downloadMode = prefs.getString(context.getString(R.string.prefs_auto_download_images_key), context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
 
         val isWifiActive = isOnWifi()
-        when {
-            isWifiActive -> action()
-            canDownloadOnMobile && !isWifiActive -> action()
+
+        when (downloadMode){
+            context.getString(R.string.prefs_auto_download_images_entry_value_never) -> {}
+            context.getString(R.string.prefs_auto_download_images_entry_value_wifi)-> {
+                if (isWifiActive){
+                    action()
+                }
+            }
+            context.getString(R.string.prefs_auto_download_images_entry_value_always) -> action()
         }
     }
 

@@ -134,10 +134,28 @@
     <string name="prefs_player_controls_visibility_summary_on">@string/common_visible</string>
     <string name="prefs_player_controls_visibility_summary_off">@string/common_hidden</string>
 
-    <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images</string>
+    <!--auto download images-->
+    <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images_2</string>
     <string name="prefs_auto_download_images_title">Auto download images</string>
-    <string name="prefs_auto_download_images_summary_on">Always</string>
-    <string name="prefs_auto_download_images_summary_off">Only on Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_mobile">Always</string>
+    <string name="prefs_auto_download_images_summary_wifi">Only on Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_never">Never</string>
+
+    <string name="prefs_auto_download_images_entry_value_always">always</string>
+    <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
+    <string name="prefs_auto_download_images_entry_value_never">never</string>
+
+    <string-array name="prefs_auto_download_images_entry_values">
+        <item>@string/prefs_auto_download_images_entry_value_never</item>
+        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
+        <item>@string/prefs_auto_download_images_entry_value_always</item>
+    </string-array>
+
+    <string-array name="prefs_auto_download_images_entries">
+        <item>@string/prefs_auto_download_images_entry_value_never</item>
+        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
+        <item>@string/prefs_auto_download_images_entry_value_always</item>
+    </string-array>
 
     <!--dark theme-->
     <string name="prefs_dark_theme_key" translatable="false">key_dark_theme</string>

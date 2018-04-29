@@ -279,7 +279,8 @@ class AppPreferencesImpl @Inject constructor(
 
     private fun setDefaultAutoDownloadImages(){
         preferences.edit {
-            putBoolean(context.getString(R.string.prefs_auto_download_images_key), false)
+            putString(context.getString(R.string.prefs_auto_download_images_key),
+                    context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
         }
     }
 
