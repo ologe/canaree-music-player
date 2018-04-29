@@ -57,7 +57,7 @@ class TabFragment : BaseFragment() {
                 viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
                         .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
             }
-            else -> {/*making the compiler happy*/}
+            else -> {/*making lint happy*/}
         }
     }
 

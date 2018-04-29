@@ -13,4 +13,23 @@
     <item android:id="@+id/about"
         android:title="@string/popup_about"/>
 
+    <!--<item android:id="@+id/view_as"-->
+        <!--android:title="@string/popup_view_as">-->
+
+        <!--<menu>-->
+
+            <!--<group android:checkableBehavior="single">-->
+
+                <!--<item android:id="@+id/as_list"-->
+                    <!--android:title="@string/popup_view_as_list" />-->
+
+                <!--<item android:id="@+id/as_grid"-->
+                    <!--android:title="@string/popup_view_as_grid" />-->
+
+            <!--</group>-->
+
+        <!--</menu>-->
+
+    <!--</item>-->
+
 </menu>
