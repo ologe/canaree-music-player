@@ -52,7 +52,7 @@ import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
-private const val NEXT_REQUEST_THRESHOLD : Long = 600 // ms
+private const val NEXT_REQUEST_THRESHOLD : Long = 400 // ms
 
 class NavigatorImpl @Inject internal constructor(
         private val activity: AppCompatActivity,

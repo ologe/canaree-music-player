@@ -13,7 +13,7 @@ import dev.olog.msc.utils.k.extension.isIntentSafe
 import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
-private const val NEXT_REQUEST_THRESHOLD: Long = 600 // ms
+private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
 
 class NavigatorAboutImpl @Inject internal constructor(
         private val activity: AppCompatActivity
