@@ -8,7 +8,6 @@ import androidx.core.database.getLong
 import androidx.core.database.getString
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.utils.TrackTitleUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import java.io.File
 
@@ -21,7 +20,8 @@ fun Cursor.toSong(): Song {
     val path = getString(MediaStore.MediaColumns.DATA)
     val folder = extractFolder(path)
 
-    val (title, isExplicit, isRemix) = TrackTitleUtils.adjust(getString(MediaStore.MediaColumns.TITLE))
+//    val (title, isExplicit, isRemix) = TrackTitleUtils.adjust(getString(MediaStore.MediaColumns.TITLE))
+    val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
     val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
@@ -36,7 +36,7 @@ fun Cursor.toSong(): Song {
     return Song(
             id, artistId, albumId, title, artist, album,
             ImagesFolderUtils.forAlbum(albumId),
-            duration, dateAdded, isRemix, isExplicit, path,
+            duration, dateAdded, false, false, path,
             folder.capitalize(), disc, track)
 }
 
