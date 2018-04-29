@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.msc.R
@@ -22,6 +23,7 @@ import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
+import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
@@ -127,6 +129,10 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     }
 
     override fun onBackPressed() {
+        if (tryPopFolderBack()){
+            return
+        }
+
         val topFragment = getTopFragment()
         if (topFragment != null && topFragment is HasSafeTransition && topFragment.isAnimating()){
             // prevent circular reveal crash
@@ -142,6 +148,18 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             slidingPanel.isExpanded() -> slidingPanel.collapse()
             else -> super.onBackPressed()
         }
+    }
+
+    private fun tryPopFolderBack(): Boolean {
+        val categories = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
+        val pager = categories?.view?.findViewById<ViewPager>(R.id.viewPager)
+        if (pager != null){
+            val currentItem = pager.adapter!!.instantiateItem(pager, pager.currentItem) as Fragment
+            if (currentItem is FolderTreeFragment){
+                return currentItem.pop()
+            }
+        }
+        return false
     }
 
     private fun findEditItemFragment(): Fragment? {

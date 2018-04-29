@@ -45,5 +45,9 @@ class FolderTreeFragment : BaseFragment() {
         view.fastScroller.showBubble(false)
     }
 
+    fun pop(): Boolean{
+        return viewModel.popFolder()
+    }
+
     override fun provideLayoutId(): Int = R.layout.fragment_folder_tree
 }

@@ -63,6 +63,16 @@ class FolderTreeFragmentViewModel(
                 .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
     }
 
+    fun popFolder(): Boolean{
+        val current = currentFile.value!!
+        if (current == Environment.getExternalStorageDirectory()){
+            return false
+        }
+        val parentFile = current.parentFile
+        currentFile.postValue(parentFile)
+        return true
+    }
+
     fun nextFolder(item: DisplayableItem){
         if (item.mediaId == BACK_HEADER_ID){
             if (currentFile.value!! != Environment.getExternalStorageDirectory()){
