@@ -15,6 +15,7 @@ import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
@@ -42,6 +43,7 @@ class GenreRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
+        private val appPrefsUseCase: AppPreferencesUseCase,
         appDatabase: AppDatabase
 
 ) : GenreGateway {
@@ -57,12 +59,40 @@ class GenreRepository @Inject constructor(
             val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
             val size = CommonQuery.getSize(contentResolver, uri)
             it.toGenre(context, size)
-        }.onErrorReturnItem(listOf())
+        }.map { removeBlacklisted(it) }
+                .onErrorReturnItem(listOf())
     }
 
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
+
+    private fun removeBlacklisted(list: MutableList<Genre>): List<Genre>{
+        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(contentResolver, appPrefsUseCase)
+        for (genre in list.toList()) {
+            val newSize = calculateNewGenreSize(genre.id, songsIds)
+            if (newSize == 0){
+                list.remove(genre)
+            } else {
+                list[list.indexOf(genre)] = genre.copy(size = newSize)
+            }
+
+        }
+        return list
+    }
+
+    private fun calculateNewGenreSize(id: Long, songIds: List<Long>): Int {
+        val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
+        val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Genres.Members.AUDIO_ID), null, null, null)
+        val list = mutableListOf<Long>()
+        while (cursor.moveToNext()){
+            list.add(cursor.getLong(0))
+        }
+        cursor.close()
+        list.retainAll(songIds)
+
+        return list.size
+    }
 
     override fun getAll(): Observable<List<Genre>> {
         return cachedData.emitThenDebounce()

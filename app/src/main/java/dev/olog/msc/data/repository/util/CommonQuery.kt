@@ -2,7 +2,10 @@ package dev.olog.msc.data.repository.util
 
 import android.content.ContentResolver
 import android.net.Uri
+import android.provider.BaseColumns
 import android.provider.MediaStore
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import java.io.File
 
 object CommonQuery {
 
@@ -33,5 +36,33 @@ object CommonQuery {
         cursor.close()
         return result
     }
+
+    fun getAllSongsIdNotBlackListd(
+            contentResolver: ContentResolver,
+            appPreferencesUseCase: AppPreferencesUseCase): List<Long> {
+
+        val list = mutableListOf<Pair<Long, String>>()
+        val cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                arrayOf(BaseColumns._ID, MediaStore.MediaColumns.DATA),
+                null, null, null)
+        while (cursor.moveToNext()){
+            list.add(cursor.getLong(0) to cursor.getString(1))
+        }
+        cursor.close()
+
+        return removeBlacklisted(appPreferencesUseCase.getBlackList(), list)
+    }
+
+    private fun removeBlacklisted(blackList: Set<String>, original: List<Pair<Long, String>>): List<Long>{
+        return original
+                .asSequence()
+                .filter {
+                    val folderPth = it.second.substring(0, it.second.lastIndexOf(File.separator))
+                    !blackList.contains(folderPth)
+                }
+                .map { it.first }
+                .toList()
+    }
+
 
 }

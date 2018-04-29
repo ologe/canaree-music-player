@@ -2,6 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.content.ContentResolver
 import android.content.Context
+import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.R
@@ -18,6 +19,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
@@ -54,7 +56,8 @@ class PlaylistRepository @Inject constructor(
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
         appDatabase: AppDatabase,
-        private val helper: PlaylistRepositoryHelper
+        private val helper: PlaylistRepositoryHelper,
+        private val appPrefsUseCase: AppPreferencesUseCase
 
 ) : PlaylistGateway {
 
@@ -79,13 +82,41 @@ class PlaylistRepository @Inject constructor(
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
             val size = CommonQuery.getSize(contentResolver, uri)
             it.toPlaylist(context, size)
-        }.onErrorReturnItem(listOf())
+        }.map { removeBlacklisted(it) }
+                .onErrorReturnItem(listOf())
     }
 
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
             .throttleLast(350, TimeUnit.MILLISECONDS)
+
+    private fun removeBlacklisted(list: MutableList<Playlist>): List<Playlist>{
+        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(contentResolver, appPrefsUseCase)
+        for (playlist in list.toList()) {
+            val newSize = calculateNewPlaylistSize(playlist.id, songsIds)
+            if (newSize == 0){
+                list.remove(playlist)
+            } else {
+                list[list.indexOf(playlist)] = playlist.copy(size = newSize)
+            }
+
+        }
+        return list
+    }
+
+    private fun calculateNewPlaylistSize(id: Long, songIds: List<Long>): Int {
+        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
+        val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Playlists.Members.AUDIO_ID), null, null, null)
+        val list = mutableListOf<Long>()
+        while (cursor.moveToNext()){
+            list.add(cursor.getLong(0))
+        }
+        cursor.close()
+        list.retainAll(songIds)
+
+        return list.size
+    }
 
     override fun getAll(): Observable<List<Playlist>> {
         return cachedData
