@@ -28,7 +28,6 @@
     <string name="prefs_library_categories_title">Categorie libreria</string>
     <string name="prefs_library_categories_summary">Configura la visibilità e l\'ordine delle categorie della libreria</string>
 
-
     <!--remember last tab-->
     <string name="prefs_remember_last_tab_title">Ricorda ultima scheda</string>
     <string name="prefs_remember_last_tab_summary">All\'avvio vai all\'ultima scheda aperta</string>
@@ -40,6 +39,10 @@
     <string name="prefs_blacklist_description">Premi per mostrare/nascondere</string>
     <string name="prefs_blacklist_error">Non puoi nascondere tutte le cartelle</string>
 
+    <!--folder hierarchy view-->
+    <string name="prefs_folder_tree_view_title">Vista gerarchica delle cartella</string>
+    <string name="prefs_folder_tree_view_summary_off">Disabilitato</string>
+    <string name="prefs_folder_tree_view_summary_on">Abilitato</string>
 
     <!--used equalizer-->
     <string name="prefs_used_equalizer_title">Equalizzatore</string>

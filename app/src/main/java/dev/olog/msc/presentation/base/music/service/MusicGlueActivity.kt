@@ -20,6 +20,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
+import java.io.File
 
 abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
 
@@ -163,6 +164,12 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
         val bundle = Bundle()
         bundle.putBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, true)
         getTransportControls()?.playFromMediaId(mediaId.toString(), bundle)
+    }
+
+    override fun playFolderTree(file: File) {
+        val bundle = Bundle()
+        bundle.putString(MusicConstants.ARGUMENT_PlAY_FOLDER_TREE_FILE, file.path)
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_PlAY_FOLDER_TREE, bundle)
     }
 
     override fun skipToQueueItem(idInPlaylist: Long) {

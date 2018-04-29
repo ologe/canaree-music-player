@@ -15,6 +15,9 @@ object MusicConstants {
     const val ACTION_REMOVE = TAG + "action.remove"
     const val ACTION_REMOVE_RELATIVE = TAG + "action.remove_relative"
 
+    const val ACTION_PlAY_FOLDER_TREE = TAG + "action.play.folder.tree"
+    const val ARGUMENT_PlAY_FOLDER_TREE_FILE = TAG + "argument.play.folder.tree.file"
+
     const val ARGUMENT_SWAP_FROM = "$TAG.argument.swap_from"
     const val ARGUMENT_SWAP_TO = "$TAG.argument.swap_to"
 

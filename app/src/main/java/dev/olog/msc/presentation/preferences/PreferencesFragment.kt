@@ -95,6 +95,15 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             AppConstants.updateTheme(act)
             requestMainActivityToRecreate()
         }
+        if (key == getString(R.string.prefs_notch_support_key)){
+            requestMainActivityToRecreate()
+        }
+        if (key == getString(R.string.prefs_folder_tree_view_key)){
+            requestMainActivityToRecreate()
+        }
+        if (key == getString(R.string.prefs_blacklist_key)){
+            requestMainActivityToRecreate()
+        }
     }
 
     private fun requestMainActivityToRecreate(){

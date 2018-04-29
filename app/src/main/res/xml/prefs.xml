@@ -21,6 +21,13 @@
             android:summary="@string/prefs_blacklist_summary"
             android:key="@string/prefs_blacklist_key"/>
 
+        <SwitchPreference
+            android:title="@string/prefs_folder_tree_view_title"
+            android:summaryOn="@string/prefs_folder_tree_view_summary_on"
+            android:summaryOff="@string/prefs_folder_tree_view_summary_off"
+            android:key="@string/prefs_folder_tree_view_key"
+            android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -62,12 +69,6 @@
 
     <PreferenceCategory
         android:title="@string/prefs_category_theme">
-
-        <SwitchPreference
-            android:key="@string/prefs_notch_support_key"
-            android:title="@string/prefs_notch_support_title"
-            android:summary="@string/prefs_notch_support_summary"
-            android:defaultValue="false"/>
 
         <ListPreference
             android:title="@string/prefs_appearance_title"
@@ -129,6 +130,12 @@
             android:summaryOff="@string/prefs_player_controls_visibility_summary_off"
             android:key="@string/prefs_player_controls_visibility_key"
             android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="@string/prefs_notch_support_key"
+            android:title="@string/prefs_notch_support_title"
+            android:summary="@string/prefs_notch_support_summary"
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
 

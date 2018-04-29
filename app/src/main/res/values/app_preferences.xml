@@ -87,6 +87,12 @@
     <string name="prefs_blacklist_description">Click to show/hide</string>
     <string name="prefs_blacklist_error">Can not blacklist all folders</string>
 
+    <!--folder tree-->
+    <string name="prefs_folder_tree_view_key" translatable="false">key_folder_tree_view</string>
+    <string name="prefs_folder_tree_view_title">Folder hierarchy view</string>
+    <string name="prefs_folder_tree_view_summary_off">Disabled</string>
+    <string name="prefs_folder_tree_view_summary_on">Enabled</string>
+
 
     <!--used equalizer-->
     <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
@@ -152,9 +158,9 @@
     </string-array>
 
     <string-array name="prefs_auto_download_images_entries">
-        <item>@string/prefs_auto_download_images_entry_value_never</item>
-        <item>@string/prefs_auto_download_images_entry_value_wifi</item>
-        <item>@string/prefs_auto_download_images_entry_value_always</item>
+        <item>@string/prefs_auto_download_images_summary_never</item>
+        <item>@string/prefs_auto_download_images_summary_wifi</item>
+        <item>@string/prefs_auto_download_images_summary_mobile</item>
     </string-array>
 
     <!--dark theme-->

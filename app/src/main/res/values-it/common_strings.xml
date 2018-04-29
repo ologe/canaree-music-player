@@ -28,6 +28,7 @@
     <string name="common_placeholder_album">Un album fantastico</string>
 
     <string name="common_empty_list">Lista vuota</string>
+    <string name="common_empty">Vuota</string>
 
     <plurals name="common_plurals_hours">
         <item quantity="one">%d ora</item>
@@ -47,6 +48,11 @@
     <plurals name="common_plurals_album">
         <item quantity="one">%d album</item>
         <item quantity="other">%d album</item>
+    </plurals>
+
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d cartella</item>
+        <item quantity="other">%d cartelle</item>
     </plurals>
 
     <string name="common_folder">Cartella</string>

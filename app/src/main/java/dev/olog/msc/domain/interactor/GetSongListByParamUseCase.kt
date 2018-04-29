@@ -34,7 +34,7 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.ALBUMS -> albumDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.ARTISTS -> artistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.GENRES -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
-            else -> throw AssertionError("invalid media id " + mediaId)
+            else -> throw AssertionError("invalid media id $mediaId")
         }
     }
 }

@@ -14,6 +14,8 @@ import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.IGNORE
 import com.bumptech.glide.module.AppGlideModule
 import com.bumptech.glide.request.RequestOptions
+import dev.olog.msc.glide.AudioFileCover
+import dev.olog.msc.glide.AudioFileCoverLoader
 import dev.olog.msc.glide.GlideImageLoader
 import dev.olog.msc.presentation.model.DisplayableItem
 import java.io.InputStream
@@ -46,6 +48,8 @@ class GlideModule : AppGlideModule() {
         val lastFmGateway = (context.applicationContext as App).lastFmGateway
         val factory = GlideImageLoader.Factory(context, lastFmGateway)
         registry.prepend(DisplayableItem::class.java, InputStream::class.java, factory)
+        registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
+
     }
 
     override fun isManifestParsingEnabled(): Boolean = false

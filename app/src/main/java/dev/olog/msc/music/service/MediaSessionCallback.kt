@@ -11,6 +11,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
+import androidx.core.os.bundleOf
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -28,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
+import java.io.File
 import javax.inject.Inject
 
 @PerService
@@ -195,6 +197,18 @@ class MediaSessionCallback @Inject constructor(
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(player::play, Throwable::printStackTrace)
                                 .addTo(subscriptions)
+                    })
+                }
+                MusicConstants.ACTION_PlAY_FOLDER_TREE -> {
+                    doWhenReady({
+                        doWhenReady ({
+                            val file = extras!!.getString(MusicConstants.ARGUMENT_PlAY_FOLDER_TREE_FILE)
+                            val mediaId = MediaId.folderId(file.substring(0, file.lastIndexOf(File.separator)))
+                            queue.handlePlayFolderTree(mediaId)
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(player::play, Throwable::printStackTrace)
+                                    .addTo(subscriptions)
+                        })
                     })
                 }
             }

@@ -6,6 +6,7 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.detail.item.GetFolderUseCase
 import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.music.service.GetPlayingQueueUseCase
@@ -29,6 +30,7 @@ class QueueManager @Inject constructor(
         private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val shuffleMode: ShuffleMode,
+        private val getFolderUseCase: GetFolderUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
         private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
@@ -88,6 +90,12 @@ class QueueManager @Inject constructor(
                         queueImpl.computePositionInQueue(list, position)) }
     }
 
+    override fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity> {
+//        return getFolderUseCase.execute(mediaId)
+//                .firstOrError()
+                return handlePlayFromMediaId(mediaId, null)
+    }
+
     private fun sortOnDemand(list: List<MediaEntity>, extras: Bundle?): List<MediaEntity> {
         return try {
             extras!!
@@ -144,7 +152,6 @@ class QueueManager @Inject constructor(
                         queueImpl.computePositionInQueue(list, position)) }
                 .doOnSuccess { shuffleMode.setEnabled(true) }
     }
-
 
     override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {
 //        Log.d("VoiceSearch", "Creating playing queue for musics from search: $query, params=$extras")

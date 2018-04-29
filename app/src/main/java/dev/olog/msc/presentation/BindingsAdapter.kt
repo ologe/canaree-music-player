@@ -8,12 +8,14 @@ import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
+import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
 import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
+import java.io.File
 import kotlin.math.absoluteValue
 
 object BindingsAdapter {
@@ -21,6 +23,20 @@ object BindingsAdapter {
     private const val OVERRIDE_SMALL = 150
     private const val OVERRIDE_MID = 300
     private const val OVERRIDE_BIG = 600
+
+    @JvmStatic
+    @BindingAdapter("fileAlbumLoader")
+    fun loadFile(view: ImageView, item: DisplayableItem){
+        val context = view.context
+        GlideApp.with(context).clear(view)
+
+        GlideApp.with(context)
+                .load(AudioFileCover(item.image))
+                .override(OVERRIDE_SMALL)
+                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.image.hashCode().toLong())))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(view)
+    }
 
     @JvmStatic
     private fun loadImageImpl(
