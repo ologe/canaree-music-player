@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.PopupMenu
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.presentation.utils.addRotateAnimation
 
 abstract class AbsPopup(
         view: View
@@ -22,9 +21,9 @@ abstract class AbsPopup(
     }
 
     init {
-        if (view.id == R.id.more){
-            addRotateAnimation(view)
-        }
+//        if (view.id == R.id.more){
+//            addRotateAnimation(view)
+//        }
     }
 
     fun addPlaylistChooser(context: Context, playlists: List<Playlist>){

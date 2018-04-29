@@ -42,7 +42,6 @@ import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.splash.SplashActivity
-import dev.olog.msc.presentation.utils.addRotateAnimation
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.collapse
@@ -214,7 +213,7 @@ class NavigatorImpl @Inject internal constructor(
     override fun toMainPopup(anchor: View) {
         val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
         popup.inflate(R.menu.main)
-        popup.addRotateAnimation(anchor)
+//        popup.addRotateAnimation(anchor)
 
         if (BuildConfig.DEBUG){
             popup.menu.add(Menu.NONE, -123, Menu.NONE, "configuration")
