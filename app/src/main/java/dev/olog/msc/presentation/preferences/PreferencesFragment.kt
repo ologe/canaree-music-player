@@ -90,7 +90,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             getString(R.string.prefs_dark_mode_key) -> {
                 AppTheme.updateDarkMode(act)
-                act.recreate()
                 requestMainActivityToRecreate()
             }
             getString(R.string.prefs_appearance_key) -> {

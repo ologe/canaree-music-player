@@ -10,7 +10,7 @@ import java.io.File
 
 object ImagesFolderUtils {
 
-    private val COVER_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
+    private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
 
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"

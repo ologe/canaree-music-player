@@ -2,7 +2,6 @@ package dev.olog.msc.app
 
 import android.app.AlarmManager
 import android.support.v7.preference.PreferenceManager
-import com.tspoon.traceur.Traceur
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
