@@ -1,7 +1,12 @@
 package dev.olog.msc.utils.k.extension
 
+import android.os.Environment
 import android.webkit.MimeTypeMap
 import java.io.File
+
+fun File.isStorageDir(): Boolean {
+    return this == Environment.getExternalStorageDirectory()
+}
 
 fun File.isAudioFile(): Boolean {
     return fileIsMimeType("audio/*", MimeTypeMap.getSingleton())  ||

@@ -95,12 +95,7 @@ class PlaylistRepository @Inject constructor(
         val songsIds = CommonQuery.getAllSongsIdNotBlackListd(contentResolver, appPrefsUseCase)
         for (playlist in list.toList()) {
             val newSize = calculateNewPlaylistSize(playlist.id, songsIds)
-            if (newSize == 0){
-                list.remove(playlist)
-            } else {
-                list[list.indexOf(playlist)] = playlist.copy(size = newSize)
-            }
-
+            list[list.indexOf(playlist)] = playlist.copy(size = newSize)
         }
         return list
     }

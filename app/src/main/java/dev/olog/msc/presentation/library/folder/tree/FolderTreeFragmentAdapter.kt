@@ -20,14 +20,14 @@ class FolderTreeFragmentAdapter @Inject constructor(
         private val viewModel: FolderTreeFragmentViewModel,
         private val mediaProvider: MediaProvider
 
-) : AbsAdapter<DisplayableItem>(lifecycle) {
+) : AbsAdapter<DisplayableFile>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){
             R.layout.item_folder_tree_directory,
             R.layout.item_folder_tree_track -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    val file = File(item.image)
+                    val file = item.asFile()
                     if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID || file.isDirectory){
                         viewModel.nextFolder(item)
                     } else {
@@ -39,7 +39,7 @@ class FolderTreeFragmentAdapter @Inject constructor(
 
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableFile, position: Int) {
         binding.setVariable(BR.item, item)
     }
 }
