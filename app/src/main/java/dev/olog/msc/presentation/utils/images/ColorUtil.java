@@ -24,9 +24,9 @@ public class ColorUtil {
         double luminance2 = calculateLuminance(color2);
 
         if (luminance1 >= luminance2){
-            return findContrastColor(color1, defaultBackgroundColor, true, 4.5);
+            return color1;
         } else {
-            return findContrastColor(color2, defaultBackgroundColor, true, 4.5);
+            return color2;
         }
     }
 
