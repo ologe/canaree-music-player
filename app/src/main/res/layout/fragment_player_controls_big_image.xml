@@ -10,16 +10,6 @@
         android:layout_height="wrap_content"
         tools:background="@color/background">
 
-        <dev.olog.msc.presentation.widget.StatusBarView
-            android:id="@+id/bar"
-            app:layout_constraintTop_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            tools:visibility="visible"/>
-
         <View
             android:id="@+id/fade"
             app:layout_constraintTop_toTopOf="parent"
@@ -61,11 +51,12 @@
         <include
             android:id="@+id/playerToolbar"
             layout="@layout/fragment_player_toolbar_big_image"
-            app:layout_constraintTop_toBottomOf="@+id/bar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="@dimen/player_toolbar" />
+            android:layout_height="@dimen/player_toolbar"
+            android:layout_marginTop="@dimen/status_bar"/>
 
         <!-- seekbar -->
         <dev.olog.msc.presentation.widget.CustomSeekBar
