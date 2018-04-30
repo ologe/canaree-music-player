@@ -13,7 +13,6 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
@@ -311,8 +310,6 @@ class PlayerFragmentAdapter @Inject constructor(
         } else "${TextUtils.MIDDLE_DOT_SPACED}${metadata.getDurationReadable()}"
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
-        view.remix?.toggleVisibility(metadata.isRemix(), true)
-        view.explicit?.toggleVisibility(metadata.isExplicit(), true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

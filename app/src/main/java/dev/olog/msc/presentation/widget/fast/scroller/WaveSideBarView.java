@@ -21,6 +21,7 @@ import java.util.ListIterator;
 
 import dev.olog.msc.R;
 import dev.olog.msc.utils.TextUtils;
+import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
 public class WaveSideBarView extends View {
 
@@ -117,7 +118,7 @@ public class WaveSideBarView extends View {
         mLettersPaint.setAntiAlias(true);
         mLettersPaint.setTextSize(mTextSize);
         mLettersPaint.setTextAlign(Paint.Align.CENTER);
-        mLettersPaint.setColor(ContextCompat.getColor(context, R.color.side_view_letter_paint));
+        mLettersPaint.setColor(ViewExtensionKt.textColorPrimary(this));
 
         mSelectedLetterPaint.setAntiAlias(true);
         mSelectedLetterPaint.setTextSize(mTextSize);

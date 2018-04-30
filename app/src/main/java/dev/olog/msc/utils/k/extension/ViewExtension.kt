@@ -1,5 +1,8 @@
 package dev.olog.msc.utils.k.extension
 
+import android.graphics.Color
+import android.support.v4.content.ContextCompat
+import android.util.TypedValue
 import android.view.View
 
 
@@ -33,4 +36,33 @@ fun View.setPaddingBottom(padding: Int) {
 
 fun View.toggleSelected(){
     this.isSelected = !this.isSelected
+}
+
+fun View.textColorPrimary(): Int {
+    return themeAttributeToColor(android.R.attr.textColorPrimary)
+}
+
+fun View.textColorSecondary(): Int {
+    return themeAttributeToColor(android.R.attr.textColorSecondary)
+}
+
+fun View.windowBackground(): Int {
+    return themeAttributeToColor(android.R.attr.windowBackground)
+}
+
+/*
+    Used to tint buttons
+ */
+fun View.textColorTertiary(): Int {
+    return themeAttributeToColor(android.R.attr.textColorTertiary)
+}
+
+private fun View.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
+    val outValue = TypedValue()
+    val theme = context.theme
+    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
+    if (resolved){
+        return ContextCompat.getColor(context, outValue.resourceId)
+    }
+    return fallbackColor
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/sliding_panel_peek"
     android:id="@+id/root"
-    android:background="@color/background_mini_player">
+    android:background="?android:attr/textColorTertiaryInverse">
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/next"
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginEnd="@dimen/mini_player_margin_end"
-        android:tint="@color/button_primary_tint"/>
+        android:tint="?android:attr/textColorTertiary"/>
 
     <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
@@ -34,7 +34,7 @@
         android:scaleX="1.1"
         android:scaleY="1.1"
         tools:rotation="90"
-        android:tint="@color/button_primary_tint"/>
+        android:tint="?android:attr/textColorTertiary"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/previous"
@@ -47,14 +47,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/playPause"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:tint="@color/button_primary_tint"/>
+        android:tint="?android:attr/textColorTertiary"/>
 
     <TextView
         android:id="@+id/title"
         tools:text="@tools:sample/lorem"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textColor="@color/text_color_primary"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,7 +74,7 @@
         tools:text="@tools:sample/lorem"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textColor="@color/text_color_secondary"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="13dp"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +92,7 @@
         android:id="@+id/progressBar"
         style="@style/SizedProgressBar"
         android:max="@integer/common_high_number"
-        android:progressTint="@color/progress_bar_tint"
+        android:progressTint="?android:attr/secondaryProgressTint"
         android:progressBackgroundTint="@color/progress_bar_secondary_tint"
         android:layout_width="0dp"
         app:layout_constraintTop_toTopOf="parent"

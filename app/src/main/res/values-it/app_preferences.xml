@@ -73,12 +73,19 @@
     <string name="prefs_auto_download_images_summary_never">Mai</string>
 
     <!--dark theme-->
-    <string name="prefs_dark_theme_title">Tema scuro</string>
-    <string name="prefs_dark_theme_summary_on">Tema un po\' meno bianco</string>
-    <string name="prefs_dark_theme_summary_off">Tema bianco</string>
+    <!--<string name="prefs_dark_theme_title">Tema scuro</string>-->
+    <!--<string name="prefs_dark_theme_summary_on">Tema un po\' meno bianco</string>-->
+    <!--<string name="prefs_dark_theme_summary_off">Tema bianco</string>-->
+
+    <!--dark mode-->
+    <string name="prefs_dark_mode_title">Tema</string>
+    <string name="prefs_dark_mode_white">Tema bianco</string>
+    <string name="prefs_dark_mode_gray">Tema un po\' meno bianco</string>
+    <string name="prefs_dark_mode_dark">Tema scuro</string>
+    <string name="prefs_dark_mode_black">Tema nero</string>
 
     <!--appearance-->
-    <string name="prefs_appearance_title">Apparenza</string>
+    <string name="prefs_appearance_title">Apparenza schermata Now Playing</string>
     <string name="prefs_appearance_default">Normale</string>
     <string name="prefs_appearance_flat">Flat</string>
     <string name="prefs_appearance_spotify">Famoso lettore musicale verde</string>

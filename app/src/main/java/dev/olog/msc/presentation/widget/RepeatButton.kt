@@ -1,14 +1,15 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.utils.k.extension.textColorPrimary
+import dev.olog.msc.utils.k.extension.textColorSecondary
+import dev.olog.msc.utils.k.extension.textColorTertiary
 
 class RepeatButton @JvmOverloads constructor(
         context: Context,
@@ -21,6 +22,10 @@ class RepeatButton @JvmOverloads constructor(
 
     init {
         setImageResource(R.drawable.vd_repeat)
+
+        if (AppTheme.isDarkTheme()){
+            enabledColor = textColorPrimary()
+        }
     }
 
     fun cycle(state: Int){
@@ -41,17 +46,22 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun repeatNone(){
         setImageResource(R.drawable.vd_repeat)
-        val color = if (AppTheme.isFullscreen()) Color.WHITE
-        else ContextCompat.getColor(context!!, R.color.button_primary_tint)
+
+        val color = if (AppTheme.isDarkTheme()){
+            alpha = .7f
+            textColorSecondary()
+        } else textColorTertiary()
         setColorFilter(color)
     }
 
     private fun repeatOne(){
+        alpha = 1f
         setImageResource(R.drawable.vd_repeat_one)
         setColorFilter(enabledColor)
     }
 
     private fun repeatAll(){
+        alpha = 1f
         setImageResource(R.drawable.vd_repeat)
         setColorFilter(enabledColor)
     }

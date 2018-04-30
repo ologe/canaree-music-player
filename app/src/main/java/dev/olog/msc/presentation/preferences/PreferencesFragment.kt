@@ -79,31 +79,26 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-        if (key == getString(R.string.prefs_quick_action_key)){
-            AppConstants.updateQuickAction(act)
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_icon_shape_key)){
-            AppConstants.updateIconShape(act)
-//            setIconShapeSummary()
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_dark_theme_key)){
-            AppConstants.updateNightMode(act)
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_appearance_key)){
-            AppTheme.updateTheme(act)
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_notch_support_key)){
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_folder_tree_view_key)){
-            requestMainActivityToRecreate()
-        }
-        if (key == getString(R.string.prefs_blacklist_key)){
-            requestMainActivityToRecreate()
+        when (key){
+            getString(R.string.prefs_quick_action_key) -> {
+                AppConstants.updateQuickAction(act)
+                requestMainActivityToRecreate()
+            }
+            getString(R.string.prefs_icon_shape_key) -> {
+                AppConstants.updateIconShape(act)
+                requestMainActivityToRecreate()
+            }
+            getString(R.string.prefs_dark_mode_key) -> {
+                AppTheme.updateDarkMode(act)
+                requestMainActivityToRecreate()
+            }
+            getString(R.string.prefs_appearance_key) -> {
+                AppTheme.updateTheme(act)
+                requestMainActivityToRecreate()
+            }
+            getString(R.string.prefs_notch_support_key),
+            getString(R.string.prefs_folder_tree_view_key),
+            getString(R.string.prefs_blacklist_key) -> requestMainActivityToRecreate()
         }
     }
 

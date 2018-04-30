@@ -24,14 +24,6 @@ fun MediaMetadataCompat.getDurationReadable(): String {
     return TextUtils.formatMillis(duration)
 }
 
-fun MediaMetadataCompat.isRemix(): Boolean {
-    return getLong(MusicConstants.IS_REMIX) == 1L
-}
-
-fun MediaMetadataCompat.isExplicit(): Boolean {
-    return getLong(MusicConstants.IS_EXPLICIT) == 1L
-}
-
 fun MediaMetadataCompat.getImage(): String {
     return getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
 }

@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background">#eee</color>
-    <!--<color name="background_accent">@color/text_color_secondary</color>-->
+    <color name="background_accent">@color/text_color_secondary</color>
 
-    <!--<color name="toolbar">#eeeeee</color>-->
-    <!--<color name="status_bar">#bcbcbc</color>-->
-    <!--<color name="status_bar_secondary">#c6c6c6</color>-->
+    <color name="toolbar">#eeeeee</color>
+    <color name="status_bar">#bcbcbc</color>
+    <color name="status_bar_secondary">#c6c6c6</color>
 
-    <!--<color name="text_color_primary">#fefefe</color>-->
-    <!--<color name="text_color_secondary">#aaaaaa</color>-->
+    <color name="text_color_primary">#fefefe</color>
+    <color name="text_color_secondary">#aaaaaa</color>
 
-    <!--<color name="button_primary_tint">@color/text_color_primary</color>-->
-    <!--<color name="button_secondary_tint">@color/text_color_primary</color>-->
+    <color name="button_primary_tint">@color/text_color_primary</color>
+    <color name="button_secondary_tint">@color/text_color_primary</color>
 
-    <!--<color name="seek_bar_tint">@color/text_color_primary</color>-->
-    <!--<color name="seek_bar_secondary_tint">@color/toolbar</color>-->
+    <color name="seek_bar_tint">@color/text_color_primary</color>
+    <color name="seek_bar_secondary_tint">@color/toolbar</color>
 
-    <!--<color name="progress_bar_tint">@android:color/white</color>-->
+    <color name="progress_bar_tint">@android:color/white</color>
 
-    <!--<color name="background_mini_player">@color/toolbar</color>-->
+    <color name="background_mini_player">@color/toolbar</color>
 
-    <!--<color name="fab_background">@color/text_color_primary</color>-->
-    <!--<color name="fab_icon">@color/dark_grey</color>-->
+    <color name="fab_background">@color/text_color_primary</color>
+    <color name="fab_icon">@color/dark_grey</color>
 
-    <!--<color name="item_selected">@color/text_color_secondary</color>-->
+    <color name="item_selected">@color/text_color_secondary</color>
 
 </resources>

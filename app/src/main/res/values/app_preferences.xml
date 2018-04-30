@@ -164,14 +164,14 @@
     </string-array>
 
     <!--dark theme-->
-    <string name="prefs_dark_theme_key" translatable="false">key_dark_theme</string>
-    <string name="prefs_dark_theme_title">Dark theme</string>
-    <string name="prefs_dark_theme_summary_on">Almost white theme</string>
-    <string name="prefs_dark_theme_summary_off">White theme</string>
+    <!--<string name="prefs_dark_theme_key" translatable="false">key_dark_theme</string>-->
+    <!--<string name="prefs_dark_theme_title">Dark theme</string>-->
+    <!--<string name="prefs_dark_theme_summary_on">Almost white theme</string>-->
+    <!--<string name="prefs_dark_theme_summary_off">White theme</string>-->
 
     <!--appearance-->
     <string name="prefs_appearance_key" translatable="false">key_appearance</string>
-    <string name="prefs_appearance_title">Appearance</string>
+    <string name="prefs_appearance_title">Now playing screen appearance</string>
     <string name="prefs_appearance_default">Default</string>
     <string name="prefs_appearance_flat">Flat</string>
     <string name="prefs_appearance_spotify">Famous green music player</string>
@@ -200,6 +200,32 @@
         <item>@string/prefs_appearance_big_image</item>
     </string-array>
 
+    <!--dark mode-->
+    <string name="prefs_dark_mode_key" translatable="false">key_dark_mode</string>
+    <string name="prefs_dark_mode_title">Theme</string>
+    <string name="prefs_dark_mode_white">White theme</string>
+    <string name="prefs_dark_mode_gray">Almost white theme</string>
+    <string name="prefs_dark_mode_dark">Dark theme</string>
+    <string name="prefs_dark_mode_black">Black theme</string>
+
+    <string name="prefs_dark_mode_entry_value_white" translatable="false">white</string>
+    <string name="prefs_dark_mode_entry_value_gray" translatable="false">gray</string>
+    <string name="prefs_dark_mode_entry_value_dark" translatable="false">dark</string>
+    <string name="prefs_dark_mode_entry_value_black" translatable="false">black</string>
+
+    <string-array name="prefs_dark_mode_entry_values">
+        <item>@string/prefs_dark_mode_entry_value_white</item>
+        <item>@string/prefs_dark_mode_entry_value_gray</item>
+        <item>@string/prefs_dark_mode_entry_value_dark</item>
+        <item>@string/prefs_dark_mode_entry_value_black</item>
+    </string-array>
+
+    <string-array name="prefs_dark_mode_entries">
+        <item>@string/prefs_dark_mode_white</item>
+        <item>@string/prefs_dark_mode_gray</item>
+        <item>@string/prefs_dark_mode_dark</item>
+        <item>@string/prefs_dark_mode_black</item>
+    </string-array>
 
     <!--notch support-->
     <string name="prefs_notch_support_key" translatable="false">key_notch_support</string>

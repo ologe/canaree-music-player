@@ -57,30 +57,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"/>
 
-            <TextView
-                android:id="@+id/explicit"
-                app:layout_constraintTop_toTopOf="@+id/firstText"
-                app:layout_constraintBottom_toBottomOf="@+id/firstText"
-                app:layout_constraintEnd_toStartOf="@+id/more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                style="@style/ExplicitView"
-                android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}"/>
-
-            <TextView
-                android:id="@+id/remix"
-                app:layout_constraintTop_toTopOf="@+id/firstText"
-                app:layout_constraintBottom_toBottomOf="@+id/firstText"
-                app:layout_constraintEnd_toStartOf="@+id/explicit"
-                style="@style/RemixView"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{item.isRemix ? View.VISIBLE : View.GONE}"/>
-
-
             <ImageButton
                 android:id="@+id/more"
                 app:layout_constraintTop_toTopOf="@id/cover"

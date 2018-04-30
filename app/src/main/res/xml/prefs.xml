@@ -71,14 +71,20 @@
         android:title="@string/prefs_category_theme">
 
         <ListPreference
+            android:title="@string/prefs_dark_mode_title"
+            android:summary="%s"
+            android:key="@string/prefs_dark_mode_key"
+            android:defaultValue="@string/prefs_dark_mode_entry_value_white"
+            android:entryValues="@array/prefs_dark_mode_entry_values"
+            android:entries="@array/prefs_dark_mode_entries" />
+
+        <ListPreference
             android:title="@string/prefs_appearance_title"
             android:summary="%s"
             android:entries="@array/prefs_appearance_entries"
             android:entryValues="@array/prefs_appearance_entry_values"
             android:defaultValue="@string/prefs_appearance_entry_value_default"
-            android:key="@string/prefs_appearance_key"
-            android:negativeButtonText="@string/popup_negative_cancel"
-            android:positiveButtonText="@string/popup_positive_save"/>
+            android:key="@string/prefs_appearance_key" />
 
         <ListPreference
             android:title="@string/prefs_icon_shape_title"
@@ -88,12 +94,12 @@
             android:defaultValue="@string/prefs_icon_shape_rounded"
             android:key="@string/prefs_icon_shape_key"/>
 
-        <SwitchPreference
-            android:key="@string/prefs_dark_theme_key"
-            android:title="@string/prefs_dark_theme_title"
-            android:summaryOn="@string/prefs_dark_theme_summary_on"
-            android:summaryOff="@string/prefs_dark_theme_summary_off"
-            android:defaultValue="false"/>
+        <!--<SwitchPreference-->
+            <!--android:key="@string/prefs_dark_theme_key"-->
+            <!--android:title="@string/prefs_dark_theme_title"-->
+            <!--android:summaryOn="@string/prefs_dark_theme_summary_on"-->
+            <!--android:summaryOff="@string/prefs_dark_theme_summary_off"-->
+            <!--android:defaultValue="false"/>-->
 
     </PreferenceCategory>
 

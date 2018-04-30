@@ -62,17 +62,17 @@
             android:paddingTop="@dimen/player_seekBar_padding_top"
             android:paddingStart="@dimen/player_seekBar_padding_horizontal"
             android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
-            android:progressTint="@color/seek_bar_tint"
-            android:thumbTint="@color/seek_bar_tint"
-            android:progressBackgroundTint="@color/seek_bar_secondary_tint"
             tools:progress="40"
-            tools:max="100" />
+            tools:max="100"
+            android:progressTint="?android:attr/progressTint"
+            android:thumbTint="?android:attr/progressTint"
+            android:progressBackgroundTint="?android:attr/progressBackgroundTint"/>
 
         <!-- bookmark -->
         <TextView
             android:id="@+id/bookmark"
             tools:text="0:00"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         <TextView
             android:id="@+id/duration"
             tools:text=" / 2:57"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_title_text_size"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
@@ -131,11 +131,11 @@
             tools:text="50 Cent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/remix"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_artist_text_size"
-            android:textColor="@color/text_color_secondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
@@ -159,40 +159,11 @@
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:tint="@color/button_primary_tint"
+            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
-
-        <TextView
-            android:id="@+id/explicit"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toStartOf="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/ExplicitView"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:clickable="false"
-            android:focusable="false"/>
-
-        <TextView
-            android:id="@+id/remix"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
-            app:layout_constraintEnd_toStartOf="@+id/explicit"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/RemixView"
-            app:layout_goneMarginEnd="16dp"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:clickable="false"
-            android:focusable="false"/>
 
     </android.support.constraint.ConstraintLayout>
 

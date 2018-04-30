@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,66 +8,66 @@
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:elevation="@dimen/toolbar_elevation"/>
+        android:background="?android:attr/colorPrimaryDark"
+        android:elevation="@dimen/toolbar_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="?android:attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/toolbar"
-        android:elevation="@dimen/toolbar_elevation">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar">
 
         <TextView
             android:id="@+id/header"
-            app:layout_constraintTop_toTopOf="@+id/more"
-            app:layout_constraintBottom_toBottomOf="@+id/more"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
             android:elevation="@dimen/toolbar_elevation"
+            android:gravity="center"
+            android:paddingTop="4dp"
             android:text="@string/category_header"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/main_toolbar_text_size"
             android:textStyle="bold"
-            android:textColor="@color/text_color_primary"
-            android:gravity="center"
-            android:paddingTop="4dp"/>
+            app:layout_constraintBottom_toBottomOf="@+id/more"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/more" />
 
         <ImageButton
             android:id="@+id/more"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:elevation="@dimen/toolbar_elevation"
-            android:tint="@color/button_primary_tint"
-            android:src="@drawable/vd_more"
             android:clickable="true"
-            android:focusable="true"/>
+            android:elevation="@dimen/toolbar_elevation"
+            android:focusable="true"
+            android:src="@drawable/vd_more"
+            android:tint="?android:attr/textColorTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/search"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/more"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="0dp"
-            android:elevation="@dimen/toolbar_elevation"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:tint="@color/button_primary_tint"
-            android:src="@drawable/vd_search"
             android:clickable="true"
-            android:focusable="true" />
+            android:elevation="@dimen/toolbar_elevation"
+            android:focusable="true"
+            android:src="@drawable/vd_search"
+            android:tint="?android:attr/textColorTertiary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/floatingWindow"
@@ -79,7 +78,7 @@
             android:layout_height="0dp"
             android:elevation="@dimen/toolbar_elevation"
             android:src="@drawable/vd_bird_singing_24dp"
-            android:tint="@color/button_primary_tint"
+            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -90,48 +89,48 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/CategoriesTabStyle"
         android:layout_width="0dp"
         android:layout_height="@dimen/tab"
-        app:tabSelectedTextColor="@color/tab_layout_selected"
-        app:tabTextColor="@color/tab_layout_unselected"
-        app:tabIndicatorColor="@color/tab_layout_selected"
+        android:background="?android:attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:tabGravity="center"
-        style="@style/CategoriesTabStyle"
-        android:background="@color/toolbar"
-        android:elevation="@dimen/toolbar_elevation">
+        app:tabIndicatorColor="?android:attr/colorPrimary"
+        app:tabSelectedTextColor="?android:attr/textColorPrimary"
+        app:tabTextColor="?android:attr/textColorSecondary">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Folders"/>
+            android:text="Folders" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Playlists"/>
+            android:text="Playlists" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tracks"/>
+            android:text="Tracks" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Albums"/>
+            android:text="Albums" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Artists"/>
+            android:text="Artists" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Genres"/>
+            android:text="Genres" />
 
     </android.support.design.widget.TabLayout>
 
@@ -139,25 +138,25 @@
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <TextView
         android:id="@+id/pagerEmptyState"
-        android:text="@string/category_no_tab_visible"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:textColor="@color/text_color_primary"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:text="@string/category_no_tab_visible"
+        android:textColor="@color/text_color_primary"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         tools:visibility="visible" />
 
 </android.support.constraint.ConstraintLayout>

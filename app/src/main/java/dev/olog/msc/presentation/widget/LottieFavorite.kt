@@ -15,7 +15,9 @@ class LottieFavorite @JvmOverloads constructor(
     private var state : FavoriteEnum? = null
 
     init {
-        if (AppTheme.isFullscreen() || AppTheme.isBigImage()){
+        var useWhiteIcon = AppTheme.isFullscreen() || AppTheme.isBigImage()
+        useWhiteIcon = useWhiteIcon || AppTheme.isDarkTheme()
+        if (useWhiteIcon){
             setAnimation("favorite_white.json")
         } else {
             setAnimation("favorite.json")

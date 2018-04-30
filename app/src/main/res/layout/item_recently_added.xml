@@ -59,7 +59,7 @@
                 android:id="@+id/secondText"
                 app:layout_constraintStart_toEndOf="@id/cover"
                 app:layout_constraintTop_toBottomOf="@+id/firstText"
-                app:layout_constraintEnd_toStartOf="@+id/remix"
+                app:layout_constraintEnd_toStartOf="@+id/more"
                 app:layout_constraintBottom_toBottomOf="@+id/cover"
                 android:text="@{item.subtitle}"
                 tools:text="@tools:sample/lorem"
@@ -68,30 +68,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:id="@+id/explicit"
-                app:layout_constraintTop_toTopOf="@+id/secondText"
-                app:layout_constraintBottom_toBottomOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                style="@style/ExplicitView"
-                android:visibility="@{item.isExplicit ? View.VISIBLE : View.GONE}"/>
-
-            <TextView
-                android:id="@+id/remix"
-                app:layout_constraintTop_toTopOf="@+id/secondText"
-                app:layout_constraintBottom_toBottomOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/explicit"
-                style="@style/RemixView"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{item.isRemix ? View.VISIBLE : View.GONE}"/>
-
 
             <ImageButton
                 android:id="@+id/more"
@@ -102,7 +78,7 @@
                 android:padding="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:tint="@color/button_primary_tint"
+                android:tint="?android:attr/textColorTertiary"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />
