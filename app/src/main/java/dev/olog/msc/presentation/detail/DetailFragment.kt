@@ -13,6 +13,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.widget.image.view.ShapeImageView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -79,7 +80,8 @@ class DetailFragment : BaseFragment() {
 
         viewModel.itemLiveData.subscribe(this, { item ->
             headerText.text = item[1].title
-            if (!isPortrait()){
+            val cover = view?.findViewById<View>(R.id.cover)
+            if (!isPortrait() && cover is ShapeImageView){
                 BindingsAdapter.loadBigAlbumImage(cover, item[0])
             }
         })
