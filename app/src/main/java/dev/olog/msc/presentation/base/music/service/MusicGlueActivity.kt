@@ -2,6 +2,8 @@ package dev.olog.msc.presentation.base.music.service
 
 import android.content.ComponentName
 import android.os.Bundle
+import android.provider.BaseColumns
+import android.provider.MediaStore
 import android.support.annotation.CallSuper
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -9,6 +11,7 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.core.database.getLong
 import androidx.core.os.bundleOf
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
@@ -167,9 +170,20 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
     }
 
     override fun playFolderTree(file: File) {
-        val bundle = Bundle()
-        bundle.putString(MusicConstants.ARGUMENT_PlAY_FOLDER_TREE_FILE, file.path)
-        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_PlAY_FOLDER_TREE, bundle)
+        val path = file.path
+        val folderMediaId = MediaId.folderId(path.substring(0, path.lastIndexOf(File.separator)))
+
+        val cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                arrayOf(BaseColumns._ID),
+                "${MediaStore.Audio.AudioColumns.DATA} = ?",
+                arrayOf(file.path), null)
+
+        cursor.moveToFirst()
+        val trackId = cursor.getLong(BaseColumns._ID)
+        cursor.close()
+        val trackMediaId = MediaId.playableItem(folderMediaId, trackId)
+
+        playFromMediaId(trackMediaId, null)
     }
 
     override fun skipToQueueItem(idInPlaylist: Long) {

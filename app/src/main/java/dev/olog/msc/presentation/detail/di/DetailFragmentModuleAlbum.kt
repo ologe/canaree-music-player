@@ -29,6 +29,7 @@ class DetailFragmentModuleAlbum {
             useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
+                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -40,6 +41,7 @@ class DetailFragmentModuleAlbum {
             useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
+                .onErrorReturnItem(listOf())
     }
 
 
@@ -52,6 +54,7 @@ class DetailFragmentModuleAlbum {
             useCase: GetAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
+                .onErrorReturnItem(listOf())
     }
 
 
@@ -64,6 +67,7 @@ class DetailFragmentModuleAlbum {
             useCase: GetAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
+                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -75,6 +79,7 @@ class DetailFragmentModuleAlbum {
             useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
+                .onErrorReturnItem(listOf())
     }
 }
 

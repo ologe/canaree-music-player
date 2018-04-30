@@ -12,6 +12,8 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.isAudioFile
+import dev.olog.msc.utils.k.extension.startWith
+import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
 import java.io.File
 import java.text.Collator
 
@@ -44,23 +46,27 @@ class FolderTreeFragmentViewModel(
         val sortedDirectory = filterFolders(directories)
         val sortedFiles = filterTracks(files)
 
-        val displayableItems = sortedDirectory.plus(sortedFiles).map { it.toDisplayableItem() }
+        val displayableItems = sortedDirectory.plus(sortedFiles)
 
         if (it == Environment.getExternalStorageDirectory()){
             displayableItems
         } else {
-            backDisplableItem().plus(displayableItems)
+            displayableItems.startWith(backDisplableItem)
         }
     })
 
-    private fun filterFolders(files: List<File>): List<File> {
+    private fun filterFolders(files: List<File>): List<DisplayableItem> {
         return files.filter { !it.isHidden && it.isDirectory && it.listFiles().isNotEmpty() }
                 .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                .map { it.toDisplayableItem() }
+                .startWithIfNotEmpty(foldersHeader)
     }
 
-    private fun filterTracks(files: List<File>): List<File> {
+    private fun filterTracks(files: List<File>): List<DisplayableItem> {
         return files.filter { it.isAudioFile() }
                 .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                .map { it.toDisplayableItem() }
+                .startWithIfNotEmpty(tracksHeader)
     }
 
     fun popFolder(): Boolean{
@@ -89,15 +95,15 @@ class FolderTreeFragmentViewModel(
         currentFile.value = file
     }
 
-    private fun backDisplableItem(): List<DisplayableItem> {
-        return listOf(
-                DisplayableItem(
-                        R.layout.item_folder_tree_directory,
-                        BACK_HEADER_ID,
-                        "..."
-                )
-        )
-    }
+    private val backDisplableItem: List<DisplayableItem> = listOf(
+            DisplayableItem(R.layout.item_folder_tree_directory, BACK_HEADER_ID, "...")
+    )
+
+    private val foldersHeader = DisplayableItem(
+            R.layout.item_folder_tree_header, MediaId.headerId("folder header"), context.getString(R.string.common_folders))
+
+    private val tracksHeader = DisplayableItem(
+            R.layout.item_folder_tree_header, MediaId.headerId("track header"), context.getString(R.string.common_tracks))
 
     private fun File.toDisplayableItem(): DisplayableItem {
         val isDirectory = this.isDirectory
@@ -123,7 +129,7 @@ class FolderTreeFragmentViewModel(
         }
 
         if (trackSize > 0){
-            size = context.resources.getQuantityString(R.plurals.common_plurals_song, trackSize, trackSize)
+            size += context.resources.getQuantityString(R.plurals.common_plurals_song, trackSize, trackSize)
         }
 
 

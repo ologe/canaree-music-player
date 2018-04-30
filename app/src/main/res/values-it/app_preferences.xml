@@ -40,7 +40,7 @@
     <string name="prefs_blacklist_error">Non puoi nascondere tutte le cartelle</string>
 
     <!--folder hierarchy view-->
-    <string name="prefs_folder_tree_view_title">Vista gerarchica delle cartella</string>
+    <string name="prefs_folder_tree_view_title">Vista gerarchica delle cartelle</string>
     <string name="prefs_folder_tree_view_summary_off">Disabilitato</string>
     <string name="prefs_folder_tree_view_summary_on">Abilitato</string>
 

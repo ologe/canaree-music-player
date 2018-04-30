@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/tab_margin_start"
+        android:paddingEnd="@dimen/tab_margin_start">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <View
+                android:id="@+id/cover"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="@dimen/item_song_cover_size"
+                android:layout_height="0dp"
+                android:layout_marginStart="12dp"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/firstText"
+                app:layout_constraintTop_toTopOf="@+id/cover"
+                app:layout_constraintStart_toEndOf="@+id/cover"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{item.title}"
+                tools:text="@tools:sample/lorem"
+                style="@style/Song.MainText"
+                android:textColor="@color/text_color_secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>

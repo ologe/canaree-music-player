@@ -199,18 +199,6 @@ class MediaSessionCallback @Inject constructor(
                                 .addTo(subscriptions)
                     })
                 }
-                MusicConstants.ACTION_PlAY_FOLDER_TREE -> {
-                    doWhenReady({
-                        doWhenReady ({
-                            val file = extras!!.getString(MusicConstants.ARGUMENT_PlAY_FOLDER_TREE_FILE)
-                            val mediaId = MediaId.folderId(file.substring(0, file.lastIndexOf(File.separator)))
-                            queue.handlePlayFolderTree(mediaId)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(player::play, Throwable::printStackTrace)
-                                    .addTo(subscriptions)
-                        })
-                    })
-                }
             }
         }
     }

@@ -57,7 +57,8 @@ class DetailFragmentModuleItem {
                 .flatMap { album ->
                     artistUseCase.execute(MediaId.artistId(album.artistId))
                             .map { album.toHeaderItem(it) }
-                }.asFlowable()
+                }.onErrorResumeNext(useCase.execute(mediaId).map { it.toHeaderItem(null) })
+                .asFlowable()
     }
 
     @Provides
@@ -128,24 +129,24 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
 }
 
-private fun Album.toHeaderItem(artist: Artist): List<DisplayableItem> {
+private fun Album.toHeaderItem(artist: Artist?): List<DisplayableItem> {
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.albumId(this.id),
-                    "",
-                    image = image
-            ),
-            // manage carefully because contains an invalid media id
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.albumId(artist.id.negate()),
-                    title,
-                    this.artist,
-                    artist.image
-            )
+    val image = DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.albumId(this.id),
+            "",
+            image = image
     )
+
+    val info = DisplayableItem( // manage carefully because contains an invalid media id
+            R.layout.item_detail_item_info,
+            if (artist != null) MediaId.albumId(artist.id.negate()) else MediaId.headerId("item info"),
+            title,
+            DisplayableItem.adjustArtist(this.artist),
+            artist?.image ?: ""
+    )
+
+    return listOf(image, info)
 }
 
 private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {

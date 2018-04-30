@@ -38,6 +38,7 @@ class DetailFragmentModuleSongs {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
+                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -48,6 +49,7 @@ class DetailFragmentModuleSongs {
             useCase: GetMostPlayedSongsUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId).mapToList { it.toMostPlayedDetailDisplayableItem(mediaId) }
+                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -92,6 +94,7 @@ class DetailFragmentModuleSongs {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRelatedArtist(resources)}
+                .onErrorReturnItem(listOf())
     }
 
 }
