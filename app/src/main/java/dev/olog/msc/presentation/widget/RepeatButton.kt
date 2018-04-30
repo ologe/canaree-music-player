@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.theme.AppTheme
 
 class RepeatButton @JvmOverloads constructor(
         context: Context,
@@ -40,7 +41,7 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun repeatNone(){
         setImageResource(R.drawable.vd_repeat)
-        val color = if (AppConstants.THEME.isFullscreen()) Color.WHITE
+        val color = if (AppTheme.isFullscreen()) Color.WHITE
         else ContextCompat.getColor(context!!, R.color.button_primary_tint)
         setColorFilter(color)
     }

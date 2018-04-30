@@ -23,6 +23,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
@@ -83,7 +84,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
                 })
 
-        if (act.isLandscape && !AppConstants.THEME.isFullscreen()){
+        if (act.isLandscape && !AppTheme.isFullscreen()){
             mediaProvider.onMetadataChanged()
                     .asLiveData()
                     .subscribe(this, cover::loadImage)
@@ -164,7 +165,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
 
-        if (isPortrait() && AppConstants.THEME.isBigImage()){
+        if (isPortrait() && AppTheme.isBigImage()){
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -281,7 +282,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     }
 
     override fun provideLayoutId(): Int {
-        return if(AppConstants.THEME.isFullscreen()){
+        return if(AppTheme.isFullscreen()){
             R.layout.fragment_player_fullscreen
         } else R.layout.fragment_player
     }

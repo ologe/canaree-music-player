@@ -6,21 +6,6 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.k.extension.updateNightMode
 
-enum class Theme {
-    DEFAULT, FLAT, SPOTIFY, FULLSCREEN, BIG_IMAGE;
-
-    fun isDefault(): Boolean = this == DEFAULT
-
-    fun isFlat(): Boolean = this == FLAT
-
-    fun isSpotify(): Boolean = this == SPOTIFY
-
-    fun isFullscreen(): Boolean = this == FULLSCREEN
-
-    fun isBigImage(): Boolean = this == BIG_IMAGE
-
-}
-
 object AppConstants {
 
     private const val TAG = "AppConstants"
@@ -36,8 +21,6 @@ object AppConstants {
     var QUICK_ACTION = QuickActionView.Type.NONE
     var ICON_SHAPE = "round"
 
-    var THEME = Theme.DEFAULT
-
     const val PROGRESS_BAR_INTERVAL = 250
 
     const val UNKNOWN = "<unknown>"
@@ -50,7 +33,6 @@ object AppConstants {
 
         updateQuickAction(context)
         updateIconShape(context)
-        updateTheme(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -65,23 +47,6 @@ object AppConstants {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val isNightMode = prefs.getBoolean(context.getString(R.string.prefs_dark_theme_key), false)
         context.updateNightMode(isNightMode)
-    }
-
-    fun updateTheme(context: Context){
-        THEME = getTheme(context)
-    }
-
-    private fun getTheme(context: Context): Theme {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val theme = prefs.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
-        return when (theme) {
-            context.getString(R.string.prefs_appearance_entry_value_default) -> Theme.DEFAULT
-            context.getString(R.string.prefs_appearance_entry_value_flat) -> Theme.FLAT
-            context.getString(R.string.prefs_appearance_entry_value_spotify) -> Theme.SPOTIFY
-            context.getString(R.string.prefs_appearance_entry_value_fullscreen) -> Theme.FULLSCREEN
-            context.getString(R.string.prefs_appearance_entry_value_big_image) -> Theme.BIG_IMAGE
-            else -> throw IllegalStateException("invalid theme=$theme")
-        }
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {

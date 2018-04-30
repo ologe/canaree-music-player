@@ -8,6 +8,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.app.App
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.removeLightStatusBar
@@ -69,7 +70,7 @@ class StatusBarColorBehavior @Inject constructor(
 
         when (newState){
             SlidingUpPanelLayout.PanelState.EXPANDED -> {
-                if (AppConstants.THEME.isFullscreen() || AppConstants.THEME.isBigImage()){
+                if (AppTheme.isFullscreen() || AppTheme.isBigImage()){
                     activity.window.removeLightStatusBar()
                 } else {
                     activity.window.setLightStatusBar()

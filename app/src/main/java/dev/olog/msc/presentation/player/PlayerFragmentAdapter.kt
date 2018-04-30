@@ -25,6 +25,7 @@ import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
@@ -236,7 +237,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     navigator.toOfflineLyrics(view.lyrics)
                 }, Throwable::printStackTrace)
 
-        if (activity.isPortrait || AppConstants.THEME.isFullscreen()){
+        if (activity.isPortrait || AppTheme.isFullscreen()){
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
                     .map { it.state }
@@ -278,7 +279,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
             viewModel.observePlayerControlsVisibility()
-                    .filter { !AppConstants.THEME.isFullscreen() }
+                    .filter { !AppTheme.isFullscreen() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
@@ -305,7 +306,7 @@ class PlayerFragmentAdapter @Inject constructor(
         view.artist.text = metadata.getArtist()
 
         val duration = metadata.getDuration()
-        val readableDuration = if (!AppConstants.THEME.isDefault()){
+        val readableDuration = if (!AppTheme.isDefault()){
             metadata.getDurationReadable()
         } else "${TextUtils.MIDDLE_DOT_SPACED}${metadata.getDurationReadable()}"
         view.duration.text = readableDuration

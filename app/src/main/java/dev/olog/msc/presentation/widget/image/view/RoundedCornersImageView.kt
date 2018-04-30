@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewOutlineProvider
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.k.extension.dip
 
 private const val DEFAULT_RADIUS = 5
@@ -29,7 +29,7 @@ open class RoundedCornersImageView @JvmOverloads constructor(
         clipToOutline = true
         outlineProvider = RoundedOutlineProvider()
 
-        if (!AppConstants.THEME.isFlat() && !AppConstants.THEME.isFullscreen() || !AppConstants.THEME.isBigImage()){
+        if (!AppTheme.isFlat() && !AppTheme.isFullscreen() || !AppTheme.isBigImage()){
             val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner) as GradientDrawable
             drawable.cornerRadius = context.dip(radius).toFloat()
             background = drawable

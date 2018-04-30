@@ -7,7 +7,6 @@ import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.constants.Theme
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -18,6 +17,7 @@ import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
 import dev.olog.msc.presentation.widget.image.view.toPlayerImage
 import dev.olog.msc.pro.IBilling
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -67,7 +67,7 @@ class PlayerFragmentViewModel @Inject constructor(
     fun onMetadataChanged(context: Context, metadata: MediaMetadataCompat){
         disposable.unsubscribe()
         disposable = Single.fromCallable { true }
-                .filter { AppConstants.THEME.isFlat() || AppConstants.THEME.isBigImage() }
+                .filter { AppTheme.isFlat() || AppTheme.isBigImage() }
                 .map { metadata.toPlayerImage() }
                 .map { context.getBitmapAsync(it, 200) }
                 .subscribeOn(Schedulers.io())
@@ -101,12 +101,13 @@ class PlayerFragmentViewModel @Inject constructor(
     val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, MediaId.headerId("load more"), "")
 
     fun playerControls(): DisplayableItem {
-        val id = when (AppConstants.THEME) {
-            Theme.DEFAULT -> R.layout.fragment_player_controls
-            Theme.FLAT -> R.layout.fragment_player_controls_flat
-            Theme.SPOTIFY -> R.layout.fragment_player_controls_spotify
-            Theme.FULLSCREEN -> R.layout.fragment_player_controls_fullscreen
-            Theme.BIG_IMAGE -> R.layout.fragment_player_controls_big_image
+        val id = when {
+            AppTheme.isDefault() -> R.layout.fragment_player_controls
+            AppTheme.isFlat() -> R.layout.fragment_player_controls_flat
+            AppTheme.isSpotify() -> R.layout.fragment_player_controls_spotify
+            AppTheme.isFullscreen() -> R.layout.fragment_player_controls_fullscreen
+            AppTheme.isBigImage() -> R.layout.fragment_player_controls_big_image
+            else -> throw IllegalStateException("invalid theme")
         }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")
     }

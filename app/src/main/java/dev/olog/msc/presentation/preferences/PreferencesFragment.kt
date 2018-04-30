@@ -11,6 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.isP
 import dev.olog.msc.utils.k.extension.*
 
@@ -92,7 +93,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             requestMainActivityToRecreate()
         }
         if (key == getString(R.string.prefs_appearance_key)){
-            AppConstants.updateTheme(act)
+            AppTheme.updateTheme(act)
             requestMainActivityToRecreate()
         }
         if (key == getString(R.string.prefs_notch_support_key)){

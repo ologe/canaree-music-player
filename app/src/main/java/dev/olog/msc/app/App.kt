@@ -12,6 +12,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
 
@@ -38,13 +39,14 @@ class App : DaggerApplication() {
         if (BuildConfig.DEBUG){
 //            Stetho.initializeWithDefaults(this)
 //            LeakCanary.install(this)
-            StrictMode.initialize()
-            Traceur.enableLogging()
+//            StrictMode.initialize()
+//            Traceur.enableLogging()
         }
     }
 
     private fun initializeConstants(){
         AppConstants.initialize(this)
+        AppTheme.initialize(this)
         PreferenceManager.setDefaultValues(this, R.xml.prefs, false)
     }
 
