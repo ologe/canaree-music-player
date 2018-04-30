@@ -1,5 +1,6 @@
 package dev.olog.msc.theme
 
+import android.app.Application
 import android.content.Context
 import android.support.v7.preference.PreferenceManager
 import dev.olog.msc.R
@@ -16,8 +17,8 @@ object AppTheme {
 
     private var THEME = Theme.DEFAULT
 
-    fun initialize(context: Context){
-        updateTheme(context)
+    fun initialize(app: Application){
+        updateTheme(app)
     }
 
     fun isDefault(): Boolean = THEME == Theme.DEFAULT
