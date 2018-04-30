@@ -67,7 +67,7 @@ class PlayerFragmentViewModel @Inject constructor(
     fun onMetadataChanged(context: Context, metadata: MediaMetadataCompat){
         disposable.unsubscribe()
         disposable = Single.fromCallable { true }
-                .filter { AppConstants.THEME.isFlat() }
+                .filter { AppConstants.THEME.isFlat() || AppConstants.THEME.isBigImage() }
                 .map { metadata.toPlayerImage() }
                 .map { context.getBitmapAsync(it, 200) }
                 .subscribeOn(Schedulers.io())
@@ -106,6 +106,7 @@ class PlayerFragmentViewModel @Inject constructor(
             Theme.FLAT -> R.layout.fragment_player_controls_flat
             Theme.SPOTIFY -> R.layout.fragment_player_controls_spotify
             Theme.FULLSCREEN -> R.layout.fragment_player_controls_fullscreen
+            Theme.BIG_IMAGE -> R.layout.fragment_player_controls_big_image
         }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")
     }

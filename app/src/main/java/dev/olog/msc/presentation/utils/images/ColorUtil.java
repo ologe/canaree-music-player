@@ -19,6 +19,16 @@ public class ColorUtil {
         return ColorUtils.calculateLuminance(backgroundColor);
     }
 
+    public static int getLighterColor(int color1, int color2, int defaultBackgroundColor){
+        double luminance1 = calculateLuminance(color1);
+        double luminance2 = calculateLuminance(color2);
+        if (luminance1 >= luminance2){
+            return color1;
+        } else {
+            return color2;
+        }
+    }
+
     /**
      * Returns the contrast ratio between {@code foreground} and {@code background}.
      * {@code background} must be opaque.

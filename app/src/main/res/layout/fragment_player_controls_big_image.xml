@@ -10,6 +10,16 @@
         android:layout_height="wrap_content"
         tools:background="@color/background">
 
+        <dev.olog.msc.presentation.widget.StatusBarView
+            android:id="@+id/bar"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            tools:visibility="visible"/>
+
         <View
             android:id="@+id/fade"
             app:layout_constraintTop_toTopOf="parent"
@@ -19,15 +29,6 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:background="@drawable/vd_fade"/>
-
-        <include
-            android:id="@+id/playerToolbar"
-            layout="@layout/fragment_player_toolbar_big_image"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/player_toolbar" />
 
         <dev.olog.msc.presentation.widget.image.view.PlayerImageView
             android:id="@+id/cover"
@@ -49,20 +50,30 @@
             app:layout_constraintTop_toTopOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            android:layout_marginBottom="5dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"
             android:focusable="true"
             tools:visibility="invisible" />
 
+        <include
+            android:id="@+id/playerToolbar"
+            layout="@layout/fragment_player_toolbar_big_image"
+            app:layout_constraintTop_toBottomOf="@+id/bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/player_toolbar" />
+
         <!-- seekbar -->
         <dev.olog.msc.presentation.widget.CustomSeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/swipeableView"
-            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
+            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintTop_toBottomOf="@+id/cover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:max="@integer/common_high_number"
@@ -112,7 +123,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             layout="@layout/player_controls"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
 
         <!-- title -->
         <TextView
@@ -133,7 +145,8 @@
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:clickable="false"
             android:focusable="false"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:id="@+id/artist"

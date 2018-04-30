@@ -5,9 +5,12 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.v4.app.FragmentManager
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import dev.olog.msc.app.App
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.msc.utils.k.extension.removeLightStatusBar
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -65,7 +68,13 @@ class StatusBarColorBehavior @Inject constructor(
         }
 
         when (newState){
-            SlidingUpPanelLayout.PanelState.EXPANDED -> activity.window.setLightStatusBar()
+            SlidingUpPanelLayout.PanelState.EXPANDED -> {
+                if (AppConstants.THEME.isFullscreen() || AppConstants.THEME.isBigImage()){
+                    activity.window.removeLightStatusBar()
+                } else {
+                    activity.window.setLightStatusBar()
+                }
+            }
             SlidingUpPanelLayout.PanelState.COLLAPSED -> {
                 searchForDetailFragmentOnPortraitMode()?.adjustStatusBarColor()
                     ?: activity.window.setLightStatusBar()

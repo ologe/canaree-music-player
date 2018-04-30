@@ -1,6 +1,9 @@
 package dev.olog.msc.presentation.player
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.math.MathUtils
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -160,6 +163,14 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
+
+        if (isPortrait() && AppConstants.THEME.isBigImage()){
+            val set = ConstraintSet()
+            set.clone(view as ConstraintLayout)
+            set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+            set.applyTo(view)
+        }
+
     }
 
     private fun animateSkipTo(toNext: Boolean) {

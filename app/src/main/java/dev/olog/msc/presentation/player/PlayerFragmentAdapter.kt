@@ -5,6 +5,7 @@ import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
@@ -66,7 +67,8 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls,
             R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_fullscreen,
-            R.layout.fragment_player_controls_flat -> {
+            R.layout.fragment_player_controls_flat,
+            R.layout.fragment_player_controls_big_image -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
@@ -95,6 +97,19 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls_fullscreen -> {
                 bindPlayerControls(holder.itemView)
             }
+            R.layout.fragment_player_controls_big_image -> {
+                val view = holder.itemView
+                bindPlayerControls(view)
+                viewModel.observeImageColors()
+                        .subscribe({
+                            view.seekBar.apply {
+                                val color = ColorUtil.findContrastColor(it.background, it.background, true, 4.5)
+                                thumbTintList = ColorStateList.valueOf(color)
+                                progressTintList = ColorStateList.valueOf(color)
+                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(it.background, .5f))
+                            }
+                        }, Throwable::printStackTraceOnDebug)
+            }
             R.layout.fragment_player_controls_flat -> {
                 val view = holder.itemView
                 bindPlayerControls(view)
@@ -113,6 +128,10 @@ class PlayerFragmentAdapter @Inject constructor(
                                 progressTintList = ColorStateList.valueOf(it.background)
                                 progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(it.background, .5f))
                             }
+                            val color = ColorUtil.getLighterColor(it.primaryTextColor, it.background,
+                                    ContextCompat.getColor(activity, R.color.background))
+                            view.shuffle.updateColor(color)
+                            view.repeat.updateColor(color)
                         }, Throwable::printStackTrace)
             }
         }
