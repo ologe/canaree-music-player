@@ -7,6 +7,7 @@ import android.graphics.drawable.LayerDrawable
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.R
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.tint
@@ -63,9 +64,14 @@ object CoverUtils {
 
         val icon = drawable.getDrawable(1) as Drawable
 
-        icon.tint(0xFF_26_26_26.toInt())
-        val pos = (position) % COLORS.size
-        gradient.colors = COLORS[Math.abs(pos)]
+        if (AppTheme.isDarkTheme()){
+            icon.tint(0xFF_88898c.toInt())
+            gradient.colors = intArrayOf(0xff_282828.toInt(), 0xff_282828.toInt())
+        } else {
+            icon.tint(0xFF_26_26_26.toInt())
+            val pos = (position) % COLORS.size
+            gradient.colors = COLORS[Math.abs(pos)]
+        }
 
         return drawable
     }

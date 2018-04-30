@@ -27,7 +27,7 @@
             android:layout_width="@dimen/item_shuffle_cover_size"
             android:layout_height="@dimen/item_shuffle_cover_size"
             android:src="@drawable/vd_shuffle"
-            android:tint="@color/button_primary_tint"
+            android:tint="?android:attr/textColorTertiary"
             android:padding="@dimen/item_shuffle_padding"
             android:layout_marginTop="8dp"/>
 
@@ -42,7 +42,7 @@
             android:layout_marginStart="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:gravity="center_vertical" />
 
     </android.support.constraint.ConstraintLayout>

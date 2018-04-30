@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"
-        android:background="@color/colorPrimaryDark"
+        android:background="?android:attr/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"/>
 
     <android.support.constraint.ConstraintLayout
@@ -28,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
-        android:background="@color/toolbar">
+        android:background="?android:attr/colorPrimary">
 
         <ImageButton
             android:id="@+id/back"
@@ -40,13 +40,13 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_back_arrow"
             android:padding="12dp"
-            android:tint="@color/button_primary_tint"/>
+            android:tint="?android:attr/textColorTertiary"/>
 
         <dev.olog.msc.presentation.utils.PlayingFromTextView
             android:id="@+id/header"
             android:text="@string/playing_queue_playing_from_all_tracks"
             android:textAllCaps="true"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
             android:textSize="12dp"
             android:gravity="center|bottom"
@@ -62,7 +62,7 @@
         <TextView
             android:id="@+id/subHeader"
             android:text="@string/common_all_tracks"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
             android:textSize="16dp"
             android:gravity="center|top"

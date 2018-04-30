@@ -16,7 +16,7 @@
         android:clickable="true"
         android:focusable="true"
         tools:src="@drawable/vd_shuffle"
-        tools:tint="@color/item_selected"
+        android:tint="?android:attr/textColorTertiary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/previous"
         app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,8 @@
         android:focusable="true"
         android:visibility="visible"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        android:tint="?android:attr/textColorTertiary"/>
 
     <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
@@ -62,7 +63,8 @@
         android:focusable="true"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:tint="?android:attr/textColorTertiary"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/next"
@@ -78,7 +80,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:tint="?android:attr/textColorTertiary"/>
 
     <!-- repeat -->
     <dev.olog.msc.presentation.widget.RepeatButton
@@ -90,7 +93,7 @@
         android:focusable="true"
         android:src="@drawable/vd_repeat"
         tools:src="@drawable/vd_repeat"
-        tools:tint="@color/button_secondary_tint"
+        android:tint="?android:attr/textColorTertiary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/next"

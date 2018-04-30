@@ -62,7 +62,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/status_bar"
         android:elevation="@dimen/toolbar_elevation"
-        android:background="@color/colorPrimaryDark"/>
+        android:background="?android:attr/colorPrimaryDark"/>
 
     <View
         android:id="@+id/toolbar"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        android:background="@color/toolbar"
+        android:background="?android:attr/colorPrimary"
         android:elevation="@dimen/toolbar_elevation" />
 
     <TextView
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         tools:text="Selena Gomez"
-        android:textColor="@color/dark_grey"
+        android:textColor="?android:attr/textColorPrimary"
         android:maxLines="2"
         android:textStyle="bold"
         android:textSize="18dp"
@@ -100,7 +100,7 @@
         android:padding="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@color/button_primary_tint"
+        android:tint="?android:attr/textColorTertiary"
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -115,7 +115,7 @@
         android:padding="12dp"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:tint="@color/button_primary_tint"
+        android:tint="?android:attr/textColorTertiary"
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
@@ -130,7 +130,7 @@
         android:padding="12dp"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:tint="@color/dark_grey"
+        android:tint="?android:attr/textColorTertiary"
         android:clickable="true"
         android:focusable="true"
         android:layout_gravity="end"

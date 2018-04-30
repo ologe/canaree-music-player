@@ -22,7 +22,7 @@
             android:text="@{item.title}"
             tools:text="Version"
             android:textStyle="bold"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -32,7 +32,7 @@
             android:text="@{item.subtitle}"
             tools:text="1.0"
             android:textSize="14dp"
-            android:textColor="@{item.isExplicit ? @color/item_selected : @color/text_color_secondary}"
+            android:textColor="?android:attr/textColorSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -18,6 +18,8 @@ private fun AlertDialog.tintNegativeButton(){
 private fun AlertDialog.tintNeutralButton(){
     getButton(DialogInterface.BUTTON_NEUTRAL)
             .setTextColor(ContextCompat.getColor(context!!, R.color.dark_grey))
+
+
 }
 
 fun AlertDialog.Builder.makeDialog(): AlertDialog{

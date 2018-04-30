@@ -5,21 +5,24 @@ import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.transition.Fade
 import android.transition.TransitionValues
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import androidx.core.animation.addListener
-import dev.olog.msc.R
+import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.utils.k.extension.windowBackground
 
 private fun startColor(context: Context): Int{
+    if (AppTheme.isDarkTheme()){
+        return context.windowBackground()
+    }
     return 0xfff0f0f0.toInt()
 }
 
 private fun endColor(context: Context): Int {
-    return ContextCompat.getColor(context, R.color.background)
+    return context.windowBackground()
 }
 
 class CircularReveal(

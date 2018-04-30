@@ -58,8 +58,7 @@
         <activity android:name=".presentation.about.AboutActivity" />
 
         <!--settings activity-->
-        <activity android:name=".presentation.preferences.PreferencesActivity"
-            android:theme="@style/SettingsTheme"/>
+        <activity android:name=".presentation.preferences.PreferencesActivity" />
 
         <!--dummy shortcuts activity-->
         <activity android:name=".presentation.shortcuts.ShortcutsActivity"/>

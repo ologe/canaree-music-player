@@ -14,6 +14,7 @@ import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.image.view.ShapeImageView
+import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*
@@ -143,6 +144,10 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun setLightStatusBar(){
+        if (AppTheme.isDarkTheme()){
+            return
+        }
+
         act.window.setLightStatusBar()
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
         back.setColorFilter(color)

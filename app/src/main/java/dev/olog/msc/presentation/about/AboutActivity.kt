@@ -1,10 +1,8 @@
 package dev.olog.msc.presentation.about
 
-import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.Gravity
@@ -16,6 +14,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.textColorPrimary
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
 
@@ -73,8 +72,7 @@ class AboutActivity : BaseActivity() {
         textView.gravity = Gravity.CENTER
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen(R.dimen.common_header_size).toFloat())
         textView.typeface = Typeface.DEFAULT_BOLD
-        textView.setTextColor(ColorStateList.valueOf(
-                ContextCompat.getColor(this@AboutActivity, R.color.text_color_primary)))
+        textView.setTextColor(textColorPrimary())
         textView
     }
 

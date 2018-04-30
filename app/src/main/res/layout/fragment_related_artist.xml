@@ -9,13 +9,13 @@
     <dev.olog.msc.presentation.widget.StatusBarView
         android:layout_width="match_parent"
         android:layout_height="@dimen/status_bar"
-        android:background="@color/colorPrimaryDark"
+        android:background="?android:attr/colorPrimaryDark"
         android:elevation="@dimen/toolbar_elevation"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar"
-        android:background="@color/toolbar"
+        android:background="?android:attr/colorPrimary"
         android:elevation="@dimen/toolbar_elevation">
 
 
@@ -25,7 +25,7 @@
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:tint="@color/button_primary_tint"
+            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/header"
             android:text="@string/common_related_artists"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
             android:textSize="@dimen/common_header_size"
             android:gravity="center"

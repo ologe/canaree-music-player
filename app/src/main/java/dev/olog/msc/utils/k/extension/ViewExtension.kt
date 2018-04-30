@@ -1,5 +1,6 @@
 package dev.olog.msc.utils.k.extension
 
+import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
@@ -39,30 +40,35 @@ fun View.toggleSelected(){
 }
 
 fun View.textColorPrimary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorPrimary)
+    return context.themeAttributeToColor(android.R.attr.textColorPrimary)
 }
 
 fun View.textColorSecondary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorSecondary)
+    return context.themeAttributeToColor(android.R.attr.textColorSecondary)
 }
 
 fun View.windowBackground(): Int {
+    return context.themeAttributeToColor(android.R.attr.windowBackground)
+}
+// Used to tint buttons
+fun View.textColorTertiary(): Int {
+    return context.themeAttributeToColor(android.R.attr.textColorTertiary)
+}
+
+fun Context.textColorPrimary(): Int {
+    return themeAttributeToColor(android.R.attr.textColorPrimary)
+}
+
+fun Context.windowBackground(): Int {
     return themeAttributeToColor(android.R.attr.windowBackground)
 }
 
-/*
-    Used to tint buttons
- */
-fun View.textColorTertiary(): Int {
-    return themeAttributeToColor(android.R.attr.textColorTertiary)
-}
-
-private fun View.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
+private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
     val outValue = TypedValue()
-    val theme = context.theme
+    val theme = this.theme
     val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
     if (resolved){
-        return ContextCompat.getColor(context, outValue.resourceId)
+        return ContextCompat.getColor(this, outValue.resourceId)
     }
     return fallbackColor
 }

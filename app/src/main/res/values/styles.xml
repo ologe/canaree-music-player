@@ -11,6 +11,7 @@
         <item name="android:windowBackground">@color/background</item>
         <item name="android:colorControlNormal">@color/dark_grey</item>
         <item name="android:colorControlActivated">@color/item_selected</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme"/>
@@ -18,9 +19,13 @@
     <!--white theme-->
     <style name="AppThemeWhite" parent="AppTheme">
         <item name="android:textColorPrimary">@color/dark_grey</item>
+
         <item name="android:textColorSecondary">@color/grey600</item>
+        <item name="android:textColorSecondaryInverse">@color/item_selected</item>
+
         <!--button-->
         <item name="android:textColorTertiary">@color/dark_grey</item>
+
         <item name="android:progressTint">@color/seek_bar_tint</item>
         <item name="android:thumbTint">@color/seek_bar_tint</item>
         <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
@@ -41,31 +46,42 @@
     <style name="AppThemeDark" parent="AppTheme">
         <item name="android:windowBackground">@color/theme_dark_background</item>
         <item name="android:textColorPrimary">@color/theme_dark_text_primary</item>
+
         <item name="android:textColorSecondary">@color/theme_dark_text_secondary</item>
+        <item name="android:textColorSecondaryInverse">@color/text_color_secondary</item>
+
         <item name="android:textColorTertiary">@color/theme_dark_text_primary</item>
+
         <item name="android:progressTint">@color/theme_dark_seek_bar_tint</item>
         <item name="android:thumbTint">@color/theme_dark_seek_bar_tint</item>
         <item name="android:progressBackgroundTint">@color/theme_dark_seek_bar_secondary_tint</item>
         <item name="android:colorPrimary">@color/theme_dark_text_toolbar</item>
         <item name="android:colorPrimaryDark">@color/theme_dark_text_status_bar</item>
+        <item name="android:colorAccent">@color/text_color_secondary</item>
         <!--miniplayer-->
         <item name="android:textColorTertiaryInverse">@color/theme_dark_text_toolbar</item>
         <item name="android:popupMenuStyle">@style/DarkPopupStyle</item>
+        <item name="android:alertDialogStyle">@style/DarkAlertStyle</item>
 
         <item name="android:secondaryProgressTint">@android:color/white</item>
+        <item name="android:colorControlActivated">@android:color/white</item>
+        <item name="android:colorControlNormal">@color/text_color_secondary</item>
     </style>
 
+    <!--dark popup-->
     <style name="DarkPopupStyle" parent="@android:style/Widget.PopupMenu">
         <item name="android:popupBackground">?android:attr/colorPrimary</item>
     </style>
 
-    <!--black theme-->
-    <style name="AppThemeBlack" parent="AppThemeDark">
-        <item name="android:windowBackground">@color/theme_black_background</item>
+    <!--dark alert-->
+    <style name="DarkAlertStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/theme_dark_text_toolbar</item>
     </style>
 
-    <style name="SettingsTheme" parent="AppTheme">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    <!--black theme-->
+    <style name="AppThemeBlack" parent="AppThemeDark">
+        <item name="android:windowBackground">@color/theme_dark_popup_background</item>
     </style>
+
 
 </resources>

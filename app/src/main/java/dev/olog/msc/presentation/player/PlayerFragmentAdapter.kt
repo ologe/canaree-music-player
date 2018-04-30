@@ -123,15 +123,15 @@ class PlayerFragmentAdapter @Inject constructor(
                                 animateTextColor(it.secondaryTextColor)
                                 animateBackgroundColor(it.background)
                             }
-                            view.seekBar.apply {
-                                thumbTintList = ColorStateList.valueOf(it.background)
-                                progressTintList = ColorStateList.valueOf(it.background)
-                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(it.background, .5f))
-                            }
-                            val color = ColorUtil.getLighterColor(it.primaryTextColor, it.background,
+                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background,
                                     ContextCompat.getColor(activity, R.color.background))
-                            view.shuffle.updateColor(color)
-                            view.repeat.updateColor(color)
+                            view.seekBar.apply {
+                                thumbTintList = ColorStateList.valueOf(accentColor)
+                                progressTintList = ColorStateList.valueOf(accentColor)
+                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(accentColor, .5f))
+                            }
+                            view.shuffle.updateColor(accentColor)
+                            view.repeat.updateColor(accentColor)
                         }, Throwable::printStackTrace)
             }
         }
