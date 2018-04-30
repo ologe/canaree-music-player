@@ -43,8 +43,8 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
     override fun errorMessageForBlankForm(): Int = R.string.popup_playlist_name_not_valid
 
-//    override fun errorMessageForInvalidForm(currentValue: String): Int = R.string.popup_playlist_name_already_exist
-    override fun errorMessageForInvalidForm(currentValue: String): Int = 0
+    override fun errorMessageForInvalidForm(currentValue: String): Int = R.string.popup_playlist_name_already_exist
+//    override fun errorMessageForInvalidForm(currentValue: String): Int = 0
 
     override fun positiveAction(currentValue: String): Completable {
         return presenter.execute(currentValue)
@@ -52,8 +52,8 @@ class NewPlaylistDialog : BaseEditTextDialog() {
 
     override fun initialTextFieldValue(): String = ""
 
-//    override fun isStringValid(string: String): Boolean = presenter.isStringValid(string)
-    override fun isStringValid(string: String): Boolean = true
+    override fun isStringValid(string: String): Boolean = presenter.isStringValid(string)
+//    override fun isStringValid(string: String): Boolean = true
 
     override fun successMessage(context: Context, currentValue: String): CharSequence {
         if (mediaId.isLeaf){
