@@ -27,11 +27,12 @@ class FolderTreeFragmentAdapter @Inject constructor(
             R.layout.item_folder_tree_directory,
             R.layout.item_folder_tree_track -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    val file = item.asFile()
-                    if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID || file.isDirectory){
-                        viewModel.nextFolder(item)
-                    } else {
-                        mediaProvider.playFolderTree(file)
+                    when {
+                        item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID -> {
+                            viewModel.goBack()
+                        }
+                        item.isFile() && item.asFile().isDirectory -> viewModel.nextFolder(item.asFile())
+                        else -> mediaProvider.playFolderTree(item.asFile())
                     }
                 }
             }

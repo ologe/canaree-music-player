@@ -3,13 +3,14 @@ package dev.olog.msc.utils.img
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
+import android.provider.MediaStore
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.utils.k.extension.clamp
 import java.io.File
 
 object ImagesFolderUtils {
 
-    private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
+    private val COVER_URI = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI
 
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"

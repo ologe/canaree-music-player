@@ -22,6 +22,15 @@ public class ColorUtil {
     public static int getLighterColor(int color1, int color2, int defaultBackgroundColor){
         double luminance1 = calculateLuminance(color1);
         double luminance2 = calculateLuminance(color2);
+
+        if (isColorLight(color1) && isColorLight(color2)){
+            if (luminance1 >= luminance2){
+                return color2;
+            } else {
+                return color1;
+            }
+        }
+
         if (luminance1 >= luminance2){
             return color1;
         } else {

@@ -67,7 +67,7 @@ class AudioFileCoverFetcher(
     }
 
     override fun cancel() {
-        cleanup()
+
     }
 
     override fun getDataSource(): DataSource = DataSource.LOCAL

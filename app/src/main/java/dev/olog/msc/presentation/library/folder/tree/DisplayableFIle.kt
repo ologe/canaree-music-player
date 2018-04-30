@@ -12,6 +12,7 @@ data class DisplayableFile(
         val path: String?
 ) :BaseModel {
 
+    fun isFile(): Boolean = path != null
     fun asFile(): File = File(path)
 
 }

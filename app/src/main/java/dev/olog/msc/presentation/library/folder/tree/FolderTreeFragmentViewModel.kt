@@ -78,18 +78,18 @@ class FolderTreeFragmentViewModel(
         return true
     }
 
-    fun nextFolder(file: File){
-        currentFile.value = file
+    fun goBack(){
+        if (!currentFile.value!!.isStorageDir()){
+            currentFile.value = currentFile.value!!.parentFile
+        }
     }
 
     fun nextFolder(item: DisplayableFile){
-        if (item.mediaId == BACK_HEADER_ID){
-            if (!currentFile.value!!.isStorageDir()){
-                currentFile.value = currentFile.value!!.parentFile
-            }
-            return
-        }
         nextFolder(item.asFile())
+    }
+
+    fun nextFolder(file: File){
+        currentFile.value = file
     }
 
     private val backDisplableItem: List<DisplayableFile> = listOf(

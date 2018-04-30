@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.msc.presentation.library.folder.tree.DisplayableFile"/>
     </data>
 
     <FrameLayout
@@ -39,7 +38,7 @@
                 android:layout_width="@dimen/item_song_cover_size"
                 android:layout_height="@dimen/item_song_cover_size"
                 tools:src="@drawable/placeholder_folder"
-                app:imageSong="@{item}"
+                app:fileDirLoader="@{item}"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                 android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
