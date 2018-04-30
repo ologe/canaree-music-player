@@ -1,10 +1,11 @@
 package dev.olog.msc.presentation.base
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.Completable
@@ -19,7 +20,7 @@ abstract class BaseDialog : BaseDialogFragment() {
 
         val application = activity!!.application
 
-        val builder = AlertDialog.Builder(context)
+        val builder = ThemedDialog.builder(ctx)
                 .setTitle(title(application))
                 .setMessage(message(application))
                 .setNegativeButton(negativeButtonMessage(application), null)

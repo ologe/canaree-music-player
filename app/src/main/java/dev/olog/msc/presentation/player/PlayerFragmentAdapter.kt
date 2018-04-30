@@ -5,7 +5,6 @@ import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
-import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.MotionEvent
@@ -87,6 +86,10 @@ class PlayerFragmentAdapter @Inject constructor(
 
             }
         }
+        if (viewType == R.layout.fragment_player_controls_fullscreen){
+            viewHolder.itemView.findViewById<View>(R.id.skipNext).setOnClickListener { mediaProvider.skipToNext() }
+            viewHolder.itemView.findViewById<View>(R.id.skipPrev).setOnClickListener { mediaProvider.skipToPrevious() }
+        }
     }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
@@ -101,6 +104,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 val view = holder.itemView
                 bindPlayerControls(view)
                 viewModel.observeImageColors()
+                        .filter { activity.isPortrait && AppTheme.isWhiteTheme() }
                         .subscribe({
                             view.seekBar.apply {
                                 val color = ColorUtil.findContrastColor(it.background, it.background, true, 4.5)
@@ -123,8 +127,7 @@ class PlayerFragmentAdapter @Inject constructor(
                                 animateTextColor(it.secondaryTextColor)
                                 animateBackgroundColor(it.background)
                             }
-                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background,
-                                    ContextCompat.getColor(activity, R.color.background))
+                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background, activity.windowBackground())
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
@@ -305,9 +308,12 @@ class PlayerFragmentAdapter @Inject constructor(
         view.artist.text = metadata.getArtist()
 
         val duration = metadata.getDuration()
-        val readableDuration = if (!AppTheme.isDefault()){
-            metadata.getDurationReadable()
-        } else "${TextUtils.MIDDLE_DOT_SPACED}${metadata.getDurationReadable()}"
+
+        var readableDuration = metadata.getDurationReadable()
+        if (!activity.isPortrait && AppTheme.isBigImage() || AppTheme.isDefault()){
+            readableDuration = "${TextUtils.MIDDLE_DOT_SPACED}$readableDuration"
+        }
+
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
     }

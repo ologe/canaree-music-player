@@ -13,6 +13,9 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
+import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
 import javax.inject.Inject
 
@@ -34,7 +37,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
-        val builder = AlertDialog.Builder(context)
+        val builder = ThemedDialog.builder(ctx)
                 .setTitle(R.string.prefs_library_categories_title)
                 .setView(view)
                 .setNeutralButton(R.string.popup_neutral_reset, null)

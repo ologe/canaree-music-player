@@ -46,10 +46,10 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:progressDrawable="@drawable/seek_bar_progress"
-            android:progressTint="@color/seek_bar_tint"
-            android:thumbTint="@color/seek_bar_tint"
-            android:progressBackgroundTint="@color/seek_bar_secondary_tint"
-            android:translationY="-8dp"/>
+            android:translationY="-8dp"
+            android:progressTint="?android:attr/progressTint"
+            android:thumbTint="?android:attr/progressTint"
+            android:progressBackgroundTint="?android:attr/progressBackgroundTint"/>
 
         <View
             android:clickable="false"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:paddingRight="4dp"
                         android:textSize="14sp"
-                        android:textColor="@color/text_color_primary"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:maxLines="1"
                         tools:text="Off"/>
 
@@ -103,7 +103,7 @@
                         android:textSize="14sp"
                         android:ellipsize="marquee"
                         android:singleLine="true"
-                        android:textColor="@color/text_color_primary" />
+                        android:textColor="?android:attr/textColorPrimary"/>
 
                 </LinearLayout>
 

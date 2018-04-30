@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.preferences.blacklist
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -11,10 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.makeDialog
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.toast
+import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.utils.k.extension.*
 import javax.inject.Inject
 
 class BlacklistFragment : BaseDialogFragment() {
@@ -40,7 +37,7 @@ class BlacklistFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
-        val builder = AlertDialog.Builder(context)
+        val builder = ThemedDialog.builder(ctx)
                 .setTitle(R.string.prefs_blacklist_title)
                 .setMessage(R.string.prefs_blacklist_description)
                 .setView(view)

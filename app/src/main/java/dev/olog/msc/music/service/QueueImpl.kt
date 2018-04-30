@@ -206,6 +206,10 @@ class QueueImpl @Inject constructor(
     fun handleSwap(from: Int, to: Int) {
         assertMainThread()
 
+        if (from !in 0..playingQueue.lastIndex || to !in 0..playingQueue.lastIndex){
+            return
+        }
+
         playingQueue.swap(from, to)
 
         val currentInIdPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
@@ -224,6 +228,11 @@ class QueueImpl @Inject constructor(
     @MainThread
     fun handleRemove(position: Int) {
         assertMainThread()
+
+        if (position !in 0..playingQueue.lastIndex){
+            return
+        }
+
         if (position >= 0 || position < playingQueue.size){
             // todo case only one song
 
@@ -238,7 +247,8 @@ class QueueImpl @Inject constructor(
 
     @MainThread
     fun handleRemoveRelative(position: Int) {
-        handleRemove(position + currentSongPosition + 1)
+        val realPosition = position + currentSongPosition + 1
+        handleRemove(realPosition)
     }
 
     fun computePositionInQueue(list: List<MediaEntity>, position: Int): PositionInQueue {

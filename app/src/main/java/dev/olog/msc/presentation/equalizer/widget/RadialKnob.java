@@ -52,6 +52,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
 import dev.olog.msc.R;
+import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
 public class RadialKnob extends View {
 
@@ -120,7 +121,7 @@ public class RadialKnob extends View {
         mTextPaint.setElegantTextHeight(true);
         mTextPaint.setFakeBoldText(true);
         mTextPaint.setTextSize(res.getDimension(R.dimen.radial_text_size));
-        mTextPaint.setColor(Color.BLACK);
+        mTextPaint.setColor(ViewExtensionKt.textColorPrimary(this));
 
         mTextOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2,
                 getResources().getDisplayMetrics());

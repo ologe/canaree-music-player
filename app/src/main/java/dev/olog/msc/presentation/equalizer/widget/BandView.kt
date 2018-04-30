@@ -79,7 +79,7 @@ class BandView (
         currentLevel.scaleX = 1.5f
         currentLevel.scaleY = 1.5f
         currentLevel.setPaddingBottom(context.dip(2))
-
+        currentLevel.setTextColor(textColorPrimary())
 
         addView(currentLevel)
     }
@@ -90,7 +90,7 @@ class BandView (
                 normalWidth, LinearLayout.LayoutParams.MATCH_PARENT)
 
         view.layoutParams = params
-        view.setBackgroundResource(R.color.dark_grey)
+        view.setBackgroundColor(textColorPrimary())
         view.alpha = getAlphaBasedOnPosition()
         view.elevation = resources.getDimension(R.dimen.eq_bar_elevation)
 

@@ -12,7 +12,7 @@
         android:id="@+id/presetName"
         tools:text="Normal"
         android:textSize="20dp"
-        android:textColor="@color/dark_grey"
+        android:textColor="?android:attr/textColorPrimary"
         android:textAllCaps="true"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"

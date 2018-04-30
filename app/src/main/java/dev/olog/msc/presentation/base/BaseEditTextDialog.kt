@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.base
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -12,6 +11,8 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import dev.olog.msc.R
 import dev.olog.msc.presentation.utils.ImeUtils
+import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -37,7 +38,7 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
 
         val application = activity!!.application
 
-        val builder = AlertDialog.Builder(context)
+        val builder = ThemedDialog.builder(ctx)
                 .setTitle(title())
                 .setView(R.layout.layout_edit_text)
                 .setNegativeButton(negativeButtonMessage(application), null)

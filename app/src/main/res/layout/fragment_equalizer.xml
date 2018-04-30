@@ -12,6 +12,19 @@
         android:layout_height="match_parent"
         android:clipChildren="false">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
         <ImageButton
             android:id="@+id/back"
             android:layout_width="wrap_content"
@@ -104,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="60"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             app:layout_constraintEnd_toEndOf="@+id/band1"
             app:layout_constraintStart_toStartOf="@+id/band1"
@@ -125,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="230"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             app:layout_constraintEnd_toEndOf="@+id/band2"
             app:layout_constraintStart_toStartOf="@+id/band2"
@@ -148,7 +161,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="910"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             app:layout_constraintEnd_toEndOf="@+id/band3"
             app:layout_constraintStart_toStartOf="@+id/band3"
@@ -169,7 +182,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3k"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             app:layout_constraintEnd_toEndOf="@+id/band4"
             app:layout_constraintStart_toStartOf="@+id/band4"
@@ -190,7 +203,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="14k"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             app:layout_constraintEnd_toEndOf="@+id/band5"
             app:layout_constraintStart_toStartOf="@+id/band5"
@@ -228,7 +241,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:text="Bass"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorSecondary"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/bassKnob"
             app:layout_constraintEnd_toEndOf="@+id/bassKnob"
@@ -239,7 +252,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:text="Virtualizer"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorSecondary"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/virtualizerKnob"
             app:layout_constraintEnd_toEndOf="@+id/virtualizerKnob"
@@ -268,20 +281,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/replayGain"
             app:layout_constraintTop_toTopOf="@+id/replayGain"
-            tools:checked="true" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:clickable="false"
-            android:focusable="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            tools:checked="true"
+            android:textColor="?android:attr/textColorPrimary"/>
 
     </android.support.constraint.ConstraintLayout>
 

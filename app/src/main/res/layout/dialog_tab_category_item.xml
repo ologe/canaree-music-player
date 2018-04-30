@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:text="Songs"
+            android:textColor="?android:attr/textColorPrimary"
             android:text="@{item.asString(context)}"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
@@ -41,7 +42,7 @@
             android:src="@drawable/vd_drag_handle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:tint="@color/button_primary_tint"
+            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />

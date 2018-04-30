@@ -28,7 +28,7 @@
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/toolbar"
-            android:tint="@color/dark_grey"
+            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -52,7 +52,7 @@
             android:clickable="false"/>
 
         <View
-            android:background="@color/background"
+            android:background="?android:attr/windowBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/back"
@@ -102,7 +102,8 @@
             android:padding="16dp"
             tools:text="@string/common_switch_off"
             android:switchPadding="8dp"
-            tools:checked="true"/>
+            tools:checked="true"
+            android:textColor="?android:attr/textColorPrimary"/>
 
         <View
             android:id="@+id/dottedLine"
@@ -133,7 +134,7 @@
             app:layout_constraintStart_toStartOf="@+id/band1"
             app:layout_constraintEnd_toEndOf="@+id/band1"
             android:text="60"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -154,7 +155,7 @@
             app:layout_constraintStart_toStartOf="@+id/band2"
             app:layout_constraintEnd_toEndOf="@+id/band2"
             android:text="230"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -177,7 +178,7 @@
             app:layout_constraintStart_toStartOf="@+id/band3"
             app:layout_constraintEnd_toEndOf="@+id/band3"
             android:text="910"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -198,7 +199,7 @@
             app:layout_constraintStart_toStartOf="@+id/band4"
             app:layout_constraintEnd_toEndOf="@+id/band4"
             android:text="3k"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -219,7 +220,7 @@
             app:layout_constraintStart_toStartOf="@+id/band5"
             app:layout_constraintEnd_toEndOf="@+id/band5"
             android:text="14k"
-            android:textColor="@color/dark_grey"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/eq_bar_band_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -253,7 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:textStyle="bold"
-            android:textColor="@color/dark_grey"/>
+            android:textColor="?android:attr/textColorSecondary"/>
 
         <TextView
             android:text="Virtualizer"
@@ -264,7 +265,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:textStyle="bold"
-            android:textColor="@color/dark_grey"/>
+            android:textColor="?android:attr/textColorSecondary"/>
 
         <TextView
             android:id="@+id/replayGain"
@@ -277,7 +278,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_chainStyle="packed"
             android:textStyle="bold"
-            android:textColor="@color/dark_grey" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <Switch
             android:id="@+id/replayGainSwitch"

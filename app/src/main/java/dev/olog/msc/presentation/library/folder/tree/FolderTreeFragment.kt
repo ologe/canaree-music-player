@@ -1,12 +1,16 @@
 package dev.olog.msc.presentation.library.folder.tree
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
+import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.windowBackground
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject
@@ -43,6 +47,13 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
 
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
+
+        if (AppTheme.isDarkTheme()){
+            view.bread_crumbs.setBackgroundColor(ctx.windowBackground())
+        }
+        if (AppTheme.isGrayMode()){
+            view.bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
+        }
     }
 
     override fun onResume() {

@@ -27,6 +27,7 @@ import java.util.Vector;
 
 import dev.olog.msc.R;
 import dev.olog.msc.utils.ThreadUtilsKt;
+import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 import kotlin.collections.CollectionsKt;
 import kotlin.io.FilesKt;
 
@@ -136,8 +137,8 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
     private SelectionCallback mCallback;
 
     private void init() {
-        contentColorActivated = ContextCompat.getColor(getContext(), R.color.accent);
-        contentColorDeactivated = ContextCompat.getColor(getContext(), R.color.text_color_secondary);
+        contentColorActivated = ViewExtensionKt.textColorPrimary(this);
+        contentColorDeactivated = ViewExtensionKt.textColorSecondary(this);
         setMinimumHeight((int) getResources().getDimension(R.dimen.tab));
         setClipToPadding(false);
         setHorizontalScrollBarEnabled(false);

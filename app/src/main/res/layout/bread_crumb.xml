@@ -19,7 +19,7 @@
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
         android:textAllCaps="true"
-        android:textColor="#fff"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp"
         tools:ignore="RtlSymmetry,UnusedAttribute"
         tools:text="Storage"
@@ -32,6 +32,7 @@
         android:visibility="gone"
         app:srcCompat="@drawable/vd_arrow_right"
         tools:tint="#000"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        android:tint="?android:attr/textColorSecondary"/>
 
 </LinearLayout>

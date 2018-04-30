@@ -61,17 +61,17 @@
             android:max="@integer/common_high_number"
             android:paddingBottom="18dp"
             android:paddingTop="18dp"
-            android:progressTint="@color/seek_bar_tint"
-            android:thumbTint="@color/seek_bar_tint"
-            android:progressBackgroundTint="@color/seek_bar_secondary_tint"
             tools:progress="40"
-            tools:max="100" />
+            tools:max="100"
+            android:progressTint="?android:attr/progressTint"
+            android:thumbTint="?android:attr/progressTint"
+            android:progressBackgroundTint="?android:attr/progressBackgroundTint"/>
 
         <!-- bookmark -->
         <TextView
             android:id="@+id/bookmark"
             tools:text="0:00"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
         <TextView
             android:id="@+id/duration"
             tools:text=" / 2:57"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_title_text_size"
-            android:textColor="@color/text_color_primary"
+            android:textColor="?android:attr/textColorPrimary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
@@ -145,7 +145,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_artist_text_size"
-            android:textColor="@color/text_color_secondary"
+            android:textColor="?android:attr/textColorSecondary"
             android:singleLine="true"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
@@ -166,7 +166,7 @@
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:tint="@color/button_primary_tint"
+            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />

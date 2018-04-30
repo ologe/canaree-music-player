@@ -25,6 +25,24 @@
             android:scaleY="1.05"
             android:scaleX="1.05"/>
 
+        <View
+            android:id="@+id/skipNext"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="100dp"
+            android:layout_width="64dp"
+            android:layout_height="0dp"/>
+
+        <View
+            android:id="@+id/skipPrev"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="100dp"
+            android:layout_width="64dp"
+            android:layout_height="0dp"/>
+
         <dev.olog.msc.utils.k.extension.IntercettableTouchConstraintLayout
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -172,7 +190,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
         </dev.olog.msc.utils.k.extension.IntercettableTouchConstraintLayout>
-
 
     </android.support.constraint.ConstraintLayout>
 
