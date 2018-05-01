@@ -18,7 +18,7 @@
             android:id="@+id/scrim"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background"
+            android:background="?android:attr/windowBackground"
             android:visibility="gone" />
 
         <android.support.constraint.ConstraintLayout

@@ -7,7 +7,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition

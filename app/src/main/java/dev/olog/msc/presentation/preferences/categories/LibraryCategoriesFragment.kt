@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.preferences.categories
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -12,8 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog

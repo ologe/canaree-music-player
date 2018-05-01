@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable

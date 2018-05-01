@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base.adapter
+package dev.olog.msc.presentation.base.adapter.drag
 
 import android.content.Context
 import android.graphics.Canvas

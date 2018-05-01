@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.player
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
-import android.support.design.widget.CoordinatorLayout
 import android.support.v4.math.MathUtils
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -13,11 +12,10 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.adapter.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
