@@ -72,7 +72,8 @@ class DetailFragmentAdapter @Inject constructor(
 
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
-            R.layout.item_detail_song_with_drag_handle -> {
+            R.layout.item_detail_song_with_drag_handle,
+            R.layout.item_detail_song_with_track_and_image -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
                     viewModel.detailSortDataUseCase(item.mediaId) {
                         mediaProvider.playFromMediaId(item.mediaId, it)

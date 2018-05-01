@@ -40,7 +40,7 @@ class FavoriteRepository @Inject constructor(
     override fun getAll(): Observable<List<Song>> {
         return favoriteDao.getAllImpl()
                 .toObservable()
-                .flatMap { favorites -> songGateway.getAll().map { songList ->
+                .switchMap { favorites -> songGateway.getAll().map { songList ->
                     favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
                             .sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
                 } }

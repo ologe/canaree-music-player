@@ -130,6 +130,7 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
+        parentId.isFolder && sortType == SortType.TRACK_NUMBER -> R.layout.item_detail_song_with_track_and_image
         else -> R.layout.item_detail_song
     }
 
