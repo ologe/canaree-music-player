@@ -22,7 +22,6 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.crashlyticsLog
-import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -183,20 +182,18 @@ class PlaylistRepository @Inject constructor(
     private fun getPlaylistSongs(playlistId: Long) : Observable<List<Song>> {
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
 
-        return songGateway.getAll()
-                .flatMapSingle { rxContentResolver.createQuery(
-                        uri, SONG_PROJECTION, SONG_SELECTION,
-                        SONG_SELECTION_ARGS, SONG_SORT_ORDER, false
+        return rxContentResolver.createQuery(
+                uri, SONG_PROJECTION, SONG_SELECTION,
+                SONG_SELECTION_ARGS, SONG_SORT_ORDER, false
 
-                ).mapToList { it.toPlaylistSong() }
-                        .flatMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
-                            playlistSongs.asSequence()
-                                    .mapNotNull { playlistSong ->
-                                        val song = songs.firstOrNull { it.id == playlistSong.songId }
-                                        song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
-                                    }.toList()
-                        }}.firstOrError()
-                }
+        ).mapToList { it.toPlaylistSong() }
+                .flatMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
+                    playlistSongs.asSequence()
+                            .mapNotNull { playlistSong ->
+                                val song = songs.firstOrNull { it.id == playlistSong.songId }
+                                song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
+                            }.toList()
+                }}
     }
 
     override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {
@@ -204,9 +201,7 @@ class PlaylistRepository @Inject constructor(
         if (PlaylistConstants.isAutoPlaylist(playlistId)){
             return Observable.just(listOf())
         }
-        val observable = mostPlayedDao.getAll(playlistId, songGateway.getAll())
-
-        return observable.emitThenDebounce()
+        return mostPlayedDao.getAll(playlistId, songGateway.getAll())
     }
 
     override fun insertMostPlayed(mediaId: MediaId): Completable {

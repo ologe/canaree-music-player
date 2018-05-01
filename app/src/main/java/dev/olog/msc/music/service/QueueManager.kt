@@ -15,6 +15,7 @@ import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*
 import dev.olog.msc.music.service.voice.VoiceSearch
 import dev.olog.msc.music.service.voice.VoiceSearchParams
+import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.clamp
 import dev.olog.msc.utils.k.extension.swap
@@ -262,7 +263,7 @@ private fun getAscendingComparator(sortType: SortType, collator: Collator): Comp
         SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o1.album, o2.album) }
         SortType.DURATION -> compareBy { it.duration }
         SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
-        SortType.TRACK_NUMBER -> compareBy { it.trackNumber }
+        SortType.TRACK_NUMBER -> ComparatorUtils.getMediaEntityAscendingTrackNumberComparator()
         SortType.CUSTOM -> compareBy { 0 }
     }
 }
@@ -274,7 +275,7 @@ private fun getDescendingComparator(sortType: SortType, collator: Collator): Com
         SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o2.album, o1.album) }
         SortType.DURATION -> compareByDescending { it.duration }
         SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
-        SortType.TRACK_NUMBER -> compareByDescending { it.trackNumber }
+        SortType.TRACK_NUMBER -> ComparatorUtils.getMediaEntityDescendingTrackNumberComparator()
         SortType.CUSTOM -> compareByDescending { 0 }
     }
 }

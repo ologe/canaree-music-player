@@ -13,7 +13,6 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.crashlyticsLog
-import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -64,18 +63,14 @@ class FolderRepository @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(path: String): Observable<List<Song>> {
-        val observable = songGateway.getAll().map {
+        return songGateway.getAll().map {
             it.asSequence().filter { it.folderPath == path}.toList()
         }.distinctUntilChanged()
-
-        return observable.emitThenDebounce()
     }
 
     override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {
         val folderPath = mediaId.categoryValue
-        val observable = mostPlayedDao.getAll(folderPath, songGateway.getAll())
-
-        return observable.emitThenDebounce()
+        return mostPlayedDao.getAll(folderPath, songGateway.getAll())
     }
 
     override fun insertMostPlayed(mediaId: MediaId): Completable {

@@ -56,12 +56,12 @@ class DetailFragmentViewModel(
 
     private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
             Observables.combineLatest(
-                    item[currentCategory]!!.toObservable(),
-                    data[MOST_PLAYED]!!,
-                    data[RECENTLY_ADDED]!!,
-                    albums[currentCategory]!!,
-                    data[RELATED_ARTISTS]!!,
-                    data[SONGS]!!,
+                    item[currentCategory]!!.toObservable().doOnNext { println("item") },
+                    data[MOST_PLAYED]!!.doOnNext { println("most") },
+                    data[RECENTLY_ADDED]!!.doOnNext { println("recent") },
+                    albums[currentCategory]!!.doOnNext { println("album") },
+                    data[RELATED_ARTISTS]!!.doOnNext { println("artist") },
+                    data[SONGS]!!.doOnNext { println("tracks") },
                     getVisibleTabsUseCase.execute(),
                     { item, mostPlayed, recent, albums, artists, songs, visibility ->
                         presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)

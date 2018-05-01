@@ -58,13 +58,8 @@ class FolderTreeFragmentViewModel(
 
                 var start = System.currentTimeMillis()
                 val (directories, files) = childrens.partition { it.isDirectory }
-                println("1 ${System.currentTimeMillis() - start}")
-                start = System.currentTimeMillis()
                 val sortedDirectory = filterFolders(directories)
-                println("2 ${System.currentTimeMillis() - start}")
-                start = System.currentTimeMillis()
                 val sortedFiles = filterTracks(files)
-                println("3 ${System.currentTimeMillis() - start}")
 
                 val displayableItems = sortedDirectory.plus(sortedFiles)
 

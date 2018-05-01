@@ -6,12 +6,14 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import java.text.Collator
 import java.util.*
 import javax.inject.Inject
+import kotlin.Comparator
 
 class GetSortedSongListByParamUseCase @Inject constructor(
         schedulers: IoScheduler,
@@ -43,7 +45,7 @@ class GetSortedSongListByParamUseCase @Inject constructor(
             SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o1.album, o2.album) }
             SortType.DURATION -> compareBy { it.duration }
             SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
-            SortType.TRACK_NUMBER -> compareBy { it.trackNumber }
+            SortType.TRACK_NUMBER -> ComparatorUtils.getAscendingTrackNumberComparator()
             SortType.CUSTOM -> compareBy { 0 }
         }
     }
@@ -55,9 +57,11 @@ class GetSortedSongListByParamUseCase @Inject constructor(
             SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o2.album, o1.album) }
             SortType.DURATION -> compareByDescending { it.duration }
             SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
-            SortType.TRACK_NUMBER -> compareByDescending { it.trackNumber }
+            SortType.TRACK_NUMBER -> ComparatorUtils.getDescendingTrackNumberComparator()
             SortType.CUSTOM -> compareByDescending { 0 }
         }
     }
+
+
 
 }

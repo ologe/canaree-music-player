@@ -7,7 +7,6 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 fun Disposable?.unsubscribe(){
     this?.let {
@@ -43,16 +42,6 @@ fun <T, R> Observable<List<T>>.mapToList(mapper: (T) -> R): Observable<List<R>> 
 
 fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
     return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
-}
-
-fun <T> Observable<T>.emitThenDebounce( // todo is really needed?
-        timeOut: Long = 1L,
-        timeUnit: TimeUnit = TimeUnit.SECONDS): Observable<T> {
-
-    return Observable.concat(
-            this.take(1),
-            this.skip(1).debounce(timeOut, timeUnit)
-    )
 }
 
 fun <T> Single<T>.defer(): Single<T> {

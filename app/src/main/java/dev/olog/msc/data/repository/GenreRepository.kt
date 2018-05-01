@@ -18,7 +18,6 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.crashlyticsLog
-import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -94,9 +93,7 @@ class GenreRepository @Inject constructor(
         return list.size
     }
 
-    override fun getAll(): Observable<List<Genre>> {
-        return cachedData.emitThenDebounce()
-    }
+    override fun getAll(): Observable<List<Genre>> = cachedData
 
     override fun getAllNewRequest(): Observable<List<Genre>> {
         return queryAllData()
@@ -117,7 +114,7 @@ class GenreRepository @Inject constructor(
     override fun observeSongListByParam(genreId: Long): Observable<List<Song>> {
         val uri = MediaStore.Audio.Genres.Members.getContentUri("external", genreId)
 
-        val observable = rxContentResolver.createQuery(
+        return rxContentResolver.createQuery(
                 uri,SONG_PROJECTION,
                 SONG_SELECTION,
                 SONG_SELECTION_ARGS,
@@ -129,15 +126,12 @@ class GenreRepository @Inject constructor(
                             .mapNotNull { id -> songs.firstOrNull { it.id == id } }
                             .toList()
                 }}.distinctUntilChanged()
-
-        return observable.emitThenDebounce()
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {
         val genreId = mediaId.categoryValue.toLong()
-        val observable = mostPlayedDao.getAll(genreId, songGateway.getAll())
-        return observable.emitThenDebounce()
+        return mostPlayedDao.getAll(genreId, songGateway.getAll())
     }
 
     override fun insertMostPlayed(mediaId: MediaId): Completable {

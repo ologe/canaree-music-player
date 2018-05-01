@@ -11,7 +11,6 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.k.extension.crashlyticsLog
-import dev.olog.msc.utils.k.extension.emitThenDebounce
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -95,15 +94,13 @@ class ArtistRepository @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(artistId: Long): Observable<List<Song>> {
-        val observable = songGateway.getAll().map {
+        return songGateway.getAll().map {
             it.asSequence().filter { it.artistId == artistId }.toList()
         }.distinctUntilChanged()
-
-        return observable.emitThenDebounce()
     }
 
     override fun getLastPlayed(): Observable<List<Artist>> {
-        val observable = Observables.combineLatest(
+        return Observables.combineLatest(
                 getAll(),
                 lastPlayedDao.getAll().toObservable(),
                 { all, lastPlayed ->
@@ -117,7 +114,6 @@ class ArtistRepository @Inject constructor(
                         .toList()
             }
         })
-        return observable.emitThenDebounce()
     }
 
     override fun addLastPlayed(id: Long): Completable {
