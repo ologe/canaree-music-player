@@ -111,10 +111,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         super.onResume()
         getSlidingPanel()!!.addPanelSlideListener(this)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
-
-        if (getSlidingPanel().isExpanded()){
-            view?.setGone()
-        }
+        view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
     }
 
     override fun onPause() {
