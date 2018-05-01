@@ -5,11 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 
 class TouchHelperAdapterCallback(
-        private val adapter : TouchableAdapter
+        private val adapter : TouchableAdapter,
+        private val horizontalDirections: Int = ItemTouchHelper.RIGHT
 
 ) : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-        ItemTouchHelper.RIGHT
+        horizontalDirections
 
 ) {
 

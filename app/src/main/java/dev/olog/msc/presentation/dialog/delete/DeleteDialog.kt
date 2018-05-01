@@ -43,7 +43,7 @@ class DeleteDialog: BaseDialog() {
     }
 
     override fun negativeButtonMessage(context: Context): Int {
-        return R.string.popup_negative_cancel
+        return R.string.popup_negative_no
     }
 
     override fun positiveButtonMessage(context: Context): Int {

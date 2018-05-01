@@ -20,7 +20,8 @@
         android:layout_margin="32dp"
         android:layout_gravity="center"
         app:cardCornerRadius="2dp"
-        app:layout_constraintWidth_max="350dp">
+        app:layout_constraintWidth_max="350dp"
+        android:background="?android:attr/windowBackground">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -60,7 +61,7 @@
             <TextView
                 android:id="@+id/albumsUpdated"
                 tools:text="Your changes will be applied to 5 song"
-                android:textColor="@color/accent"
+                android:textColor="?android:attr/textColorSecondaryInverse"
                 android:textSize="14dp"
                 app:layout_constraintTop_toBottomOf="@+id/backgroundCover"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +85,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/album"
                     android:textSize="14dp"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -104,6 +106,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/artist"
                     android:textSize="14dp"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -124,6 +127,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/genre"
                     android:textSize="14dp"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -145,6 +149,7 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/year"
                     android:textSize="14dp"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textFilter"/>
@@ -166,7 +171,7 @@
             <Button
                 android:id="@+id/cancelButton"
                 android:text="@string/popup_negative_cancel"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
