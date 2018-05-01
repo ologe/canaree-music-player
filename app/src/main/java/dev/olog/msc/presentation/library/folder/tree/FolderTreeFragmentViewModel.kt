@@ -3,7 +3,12 @@ package dev.olog.msc.presentation.library.folder.tree
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import android.database.ContentObserver
+import android.net.Uri
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
@@ -15,7 +20,7 @@ import java.io.File
 import java.text.Collator
 
 class FolderTreeFragmentViewModel(
-        context: Context,
+        private val context: Context,
         private val appPreferencesUseCase: AppPreferencesUseCase,
         private val collator: Collator
 
@@ -25,7 +30,22 @@ class FolderTreeFragmentViewModel(
         val BACK_HEADER_ID = MediaId.folderId("back header")
     }
 
+    private val observer = object : ContentObserver(Handler(Looper.getMainLooper())){
+        override fun onChange(selfChange: Boolean) {
+            currentFile.onNext(currentFile.value!!)
+        }
+    }
+
     private val currentFile = BehaviorSubject.createDefault(Environment.getExternalStorageDirectory())
+
+
+    init {
+        context.contentResolver.registerContentObserver(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, observer)
+    }
+
+    override fun onCleared() {
+        context.contentResolver.unregisterContentObserver(observer)
+    }
 
     fun observeFileName(): LiveData<File> = currentFile.asLiveData()
 
