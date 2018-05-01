@@ -47,7 +47,7 @@
                 android:id="@+id/firstText"
                 app:layout_constraintTop_toTopOf="@+id/cover"
                 app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintBottom_toTopOf="@+id/secondText"
+                app:layout_constraintBottom_toBottomOf="@+id/cover"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@{item.title}"
                 tools:text="@tools:sample/lorem"
@@ -55,20 +55,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"/>
-
-            <TextView
-                android:id="@+id/secondText"
-                app:layout_constraintStart_toEndOf="@id/cover"
-                app:layout_constraintTop_toBottomOf="@+id/firstText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@+id/cover"
-                android:text="@{item.subtitle}"
-                tools:text="@tools:sample/lorem"
-                style="@style/Song.SecondaryText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="4dp" />
 
         </android.support.constraint.ConstraintLayout>
 

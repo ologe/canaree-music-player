@@ -10,6 +10,7 @@ import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.emitThenDebounce
@@ -25,7 +26,8 @@ class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase,
-        private val collator: Collator
+        private val collator: Collator,
+        private val appPreferencesUseCase: AppPreferencesUseCase
 
 ): FolderGateway {
 
@@ -53,7 +55,8 @@ class FolderRepository @Inject constructor(
             try {
                 folders.first { it.path == param }
             } catch (ex: Exception){
-                crashlyticsLog("searched folder=$param, all folders path=${folders.map { it.path }}")
+                crashlyticsLog("searched folder=$param, all folders path=${folders.map { it.path }}, " +
+                        "blacklisted folder=${appPreferencesUseCase.getBlackList()}")
                 throw ex
             }
         }

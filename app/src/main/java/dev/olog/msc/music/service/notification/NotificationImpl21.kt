@@ -70,20 +70,10 @@ open class NotificationImpl21 @Inject constructor(
 
     protected open fun extendInitialization(){}
 
-    @CallSuper
     protected open fun startChronometer(bookmark: Long){
-        println()
-
-        builder.setWhen(System.currentTimeMillis() - bookmark)
-                .setShowWhen(true)
-                .setUsesChronometer(true)
     }
 
-    @CallSuper
     protected open fun stopChronometer(bookmark: Long){
-        builder.setWhen(0)
-                .setShowWhen(false)
-                .setUsesChronometer(false)
     }
 
     override fun update(state: MusicNotificationState): Notification {

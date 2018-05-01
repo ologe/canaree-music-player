@@ -28,7 +28,6 @@
     <string name="common_placeholder_album">Un album fantastico</string>
 
     <string name="common_empty_list">Lista vuota</string>
-    <string name="common_empty">Vuota</string>
 
     <plurals name="common_plurals_hours">
         <item quantity="one">%d ora</item>

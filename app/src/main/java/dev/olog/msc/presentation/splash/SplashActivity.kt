@@ -73,6 +73,10 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
             requestPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
         } else if (!isPermissionGranted(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        } else {
+            onStoragePermissionGranted()
+            imageCreator.execute()
+            keepDataAlive.execute()
         }
     }
 

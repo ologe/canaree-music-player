@@ -1,24 +1,21 @@
 package dev.olog.msc.presentation.library.folder.tree
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.os.Environment
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.k.extension.isAudioFile
-import dev.olog.msc.utils.k.extension.isStorageDir
-import dev.olog.msc.utils.k.extension.startWith
-import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
+import dev.olog.msc.utils.k.extension.*
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import java.io.File
 import java.text.Collator
 
 class FolderTreeFragmentViewModel(
-        private val context: Context,
+        context: Context,
         private val appPreferencesUseCase: AppPreferencesUseCase,
         private val collator: Collator
 
@@ -28,44 +25,53 @@ class FolderTreeFragmentViewModel(
         val BACK_HEADER_ID = MediaId.folderId("back header")
     }
 
-    private val currentFile = MutableLiveData<File>()
+    private val currentFile = BehaviorSubject.createDefault(Environment.getExternalStorageDirectory())
 
-    init {
-        val root = Environment.getExternalStorageDirectory()
-        currentFile.value = root
-    }
+    fun observeFileName(): LiveData<File> = currentFile.asLiveData()
 
-    fun observeFileName(): LiveData<File> = currentFile
+    fun observeChildrens(): LiveData<List<DisplayableFile>> = currentFile.subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.io())
+            .map {
+                val blackList = appPreferencesUseCase.getBlackList()
+                val childrens = it.listFiles()
+                        .filter { if (it.isDirectory) !blackList.contains(it.path) else !blackList.contains(it.parentFile.path) }
 
-    fun observeChildrens(): LiveData<List<DisplayableFile>> = Transformations.map(currentFile, {
-        val blackList = appPreferencesUseCase.getBlackList()
-        val childrens = it.listFiles()
-                .filter { if (it.isDirectory) !blackList.contains(it.path) else !blackList.contains(it.parentFile.path) }
+                var start = System.currentTimeMillis()
+                val (directories, files) = childrens.partition { it.isDirectory }
+                println("1 ${System.currentTimeMillis() - start}")
+                start = System.currentTimeMillis()
+                val sortedDirectory = filterFolders(directories)
+                println("2 ${System.currentTimeMillis() - start}")
+                start = System.currentTimeMillis()
+                val sortedFiles = filterTracks(files)
+                println("3 ${System.currentTimeMillis() - start}")
 
-        val (directories, files) = childrens.partition { it.isDirectory }
-        val sortedDirectory = filterFolders(directories)
-        val sortedFiles = filterTracks(files)
+                val displayableItems = sortedDirectory.plus(sortedFiles)
 
-        val displayableItems = sortedDirectory.plus(sortedFiles)
-
-        if (it == Environment.getExternalStorageDirectory()){
-            displayableItems
-        } else {
-            displayableItems.startWith(backDisplableItem)
-        }
-    })
+                if (it == Environment.getExternalStorageDirectory()){
+                    displayableItems
+                } else {
+                    displayableItems.startWith(backDisplableItem)
+                }
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .asLiveData()
 
     private fun filterFolders(files: List<File>): List<DisplayableFile> {
-        return files.filter { !it.isHidden && it.isDirectory && it.listFiles().isNotEmpty() }
+        return files.asSequence()
+                .filter { it.isDirectory }
                 .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
                 .map { it.toDisplayableItem() }
+                .toList()
                 .startWithIfNotEmpty(foldersHeader)
     }
 
     private fun filterTracks(files: List<File>): List<DisplayableFile> {
-        return files.filter { it.isAudioFile() }
+        return files.asSequence()
+                .filter { it.isAudioFile() }
                 .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
                 .map { it.toDisplayableItem() }
+                .toList()
                 .startWithIfNotEmpty(tracksHeader)
     }
 
@@ -74,22 +80,18 @@ class FolderTreeFragmentViewModel(
         if (current.isStorageDir()){
             return false
         }
-        currentFile.value = current.parentFile
+        currentFile.onNext(current.parentFile)
         return true
     }
 
     fun goBack(){
         if (!currentFile.value!!.isStorageDir()){
-            currentFile.value = currentFile.value!!.parentFile
+            currentFile.onNext(currentFile.value!!.parentFile)
         }
     }
 
-    fun nextFolder(item: DisplayableFile){
-        nextFolder(item.asFile())
-    }
-
     fun nextFolder(file: File){
-        currentFile.value = file
+        currentFile.onNext(file)
     }
 
     private val backDisplableItem: List<DisplayableFile> = listOf(
@@ -105,43 +107,14 @@ class FolderTreeFragmentViewModel(
     private fun File.toDisplayableItem(): DisplayableFile {
         val isDirectory = this.isDirectory
         val id = if (isDirectory) R.layout.item_folder_tree_directory else R.layout.item_folder_tree_track
-        val size = calculateFolderSize(this)
 
         return DisplayableFile(
                 type = id,
                 mediaId = MediaId.folderId(this.path),
                 title = this.name,
-                subtitle = size,
+                subtitle = null,
                 path =  this.path
         )
     }
-
-    private fun calculateFolderSize(file: File): String {
-        val (directories, files) = (file.listFiles() ?: arrayOf()).partition { it.isDirectory }
-        val sortedDirectory = filterFolders(directories)
-        val sortedFiles = filterTracks(files)
-
-        var result = ""
-        val dirSize = sortedDirectory.size
-        val trackSize = sortedFiles.size
-
-        if (dirSize == 0 && trackSize == 0){
-            result = context.getString(R.string.common_empty)
-        }
-
-        if (dirSize > 0){
-            result = context.resources.getQuantityString(R.plurals.common_plurals_folder, dirSize, dirSize)
-            if (trackSize > 0){
-                result += TextUtils.MIDDLE_DOT_SPACED
-            }
-        }
-
-        if (trackSize > 0){
-            result += context.resources.getQuantityString(R.plurals.common_plurals_song, trackSize, trackSize)
-        }
-        return result
-    }
-
-
 
 }

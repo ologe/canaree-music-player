@@ -35,6 +35,6 @@
         android:layout_height="0dp"
         android:clickable="true"
         android:focusable="true"
-        tools:visibility="gone"/>
+        tools:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

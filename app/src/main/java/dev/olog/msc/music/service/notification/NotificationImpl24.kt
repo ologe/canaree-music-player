@@ -22,12 +22,17 @@ open class NotificationImpl24 @Inject constructor(
 ) : NotificationImpl21(service, token, notificationManager) {
 
     override fun startChronometer(bookmark: Long) {
-        super.startChronometer(bookmark)
+        builder.setWhen(System.currentTimeMillis() - bookmark)
+                .setShowWhen(true)
+                .setUsesChronometer(true)
         builder.setSubText(null)
     }
 
     override fun stopChronometer(bookmark: Long) {
-        super.stopChronometer(bookmark)
+        builder.setWhen(0)
+                .setShowWhen(false)
+                .setUsesChronometer(false)
+
         builder.setSubText(TextUtils.formatMillis(bookmark, true))
     }
 
