@@ -22,6 +22,7 @@ import dev.olog.msc.presentation.player.EditLyricsDialog
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
@@ -64,6 +65,8 @@ class OfflineLyricsContent(
                     this.trackId = it.id
                     lyricsDisposable.unsubscribe()
                     lyricsDisposable = observeUseCase.execute(it.id)
+                            .map { if (it.isBlank()) context.getString(R.string.offline_lyrics_empty) else it }
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(lyricsText::setText, Throwable::printStackTrace)
                     loadImage(it.id, it.image)
                 }, Throwable::printStackTrace)
@@ -105,8 +108,8 @@ class OfflineLyricsContent(
     }
 
     private fun updateLyrics(lyrics: String){
-        lyricsDisposable.unsubscribe()
-        lyricsDisposable = insertUseCase.execute(OfflineLyrics(trackId, lyrics))
+        updateLyricsDisposable.unsubscribe()
+        updateLyricsDisposable = insertUseCase.execute(OfflineLyrics(trackId, lyrics))
                 .subscribe({}, Throwable::printStackTrace)
     }
 }

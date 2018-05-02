@@ -47,7 +47,7 @@
         <item name="android:textColorPrimary">@color/theme_dark_text_primary</item>
 
         <item name="android:textColorSecondary">@color/theme_dark_text_secondary</item>
-        <item name="android:textColorSecondaryInverse">@color/text_color_secondary</item>
+        <item name="android:textColorSecondaryInverse">@color/theme_dark_text_primary</item>
 
         <item name="android:textColorTertiary">@color/theme_dark_text_primary</item>
 

@@ -3,6 +3,6 @@
 
     <item android:state_enabled="true" android:color="?android:attr/textColorSecondaryInverse"/>
 
-    <item android:color="#BDBDBD"/>
+    <item android:color="?android:attr/textColorSecondary"/>
 
 </selector>
