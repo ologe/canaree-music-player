@@ -9,6 +9,8 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
+import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
+import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
@@ -26,15 +28,19 @@ class CustomHoverMenu @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         musicServiceBinder: MusicServiceBinder,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
-        private val isRepositoryEmptyUseCase: Provider<IsRepositoryEmptyUseCase>
+        isRepositoryEmptyUseCase: Provider<IsRepositoryEmptyUseCase>,
+        observeUseCase: ObserveOfflineLyricsUseCase,
+        insertUseCase: InsertOfflineLyricsUseCase
 
 ) : HoverMenu(), DefaultLifecycleObserver {
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
+    private val offlineLyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
 
     private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder, isRepositoryEmptyUseCase.get())
     private val videoContent = VideoContent(lifecycle, context, isRepositoryEmptyUseCase.get())
+    private val offlineLyricsContent = OfflineLyricsContent(lifecycle, context, musicServiceBinder, observeUseCase, insertUseCase)
 
     private val subscriptions = CompositeDisposable()
 
@@ -76,8 +82,14 @@ class CustomHoverMenu @Inject constructor(
             videoContent
     )
 
+    private val offlineLyricsSection = Section(
+            SectionId("offline_lyrics"),
+            createTabView(offlineLyricsColors, R.drawable.vd_lyrics_wrapper),
+            offlineLyricsContent
+    )
+
     private val sections: List<Section> = listOf(
-        lyricsSection, videoSection
+        lyricsSection, videoSection, offlineLyricsSection
     )
 
     private fun createTabView(backgroundColors: IntArray, @DrawableRes icon: Int): TabView {

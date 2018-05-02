@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp">
+
+        <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="20dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <ImageView
+                android:id="@+id/image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:src="@android:color/holo_red_light"
+                android:clickable="false"
+                android:focusable="false"
+                android:transitionName="player_view"
+                android:scaleType="centerCrop"/>
+
+            <View
+                android:background="#9000"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:paddingStart="48dp"
+                android:background="@color/toolbar">
+
+                <TextView
+                    android:id="@+id/header"
+                    tools:text="Wanksta"
+                    android:textColor="@color/text_color_primary"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="start|center_vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    app:layout_constraintBottom_toTopOf="@+id/subHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingTop="4dp"/>
+
+                <TextView
+                    android:id="@+id/subHeader"
+                    tools:text="50 Cent"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:gravity="start|center_vertical"
+                    android:textColor="@color/text_color_secondary"
+                    app:layout_constraintTop_toBottomOf="@+id/header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+
+                <ImageButton
+                    android:id="@+id/edit"
+                    android:src="@drawable/vd_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/toolbar"
+                    android:textColor="@color/button_primary_tint"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:background="@null"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <ScrollView
+                android:id="@+id/scrollBar"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="16dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:scrollbars="none"
+                android:overScrollMode="never">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:text="@string/offline_lyrics_empty"
+                    tools:text="@tools:sample/lorem/random"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="10dp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_horizontal"/>
+
+
+            </ScrollView>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

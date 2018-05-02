@@ -18,6 +18,7 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState
+import dev.olog.msc.presentation.widget.image.view.toPlayerImage
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -132,14 +133,9 @@ class MusicServiceBinder @Inject constructor(
             .filter { it.isPlaying() || it.isPaused() }
             .map { it.position }
 
-    val onMetadataChanged : Observable<Pair<String, String>> = metadataPublisher
-            .map {
-                var artist = it.getArtist().toString()
-                if (artist == AppConstants.UNKNOWN){
-                    artist = AppConstants.UNKNOWN_ARTIST
-                }
-
-                it.getString(MediaMetadataCompat.METADATA_KEY_TITLE) to artist
+    val onMetadataChanged : Observable<MusicServiceMetadata> = metadataPublisher
+            .map { MusicServiceMetadata(it.getId(), it.getTitle().toString(),
+                    it.getArtist().toString(), it.toPlayerImage())
             }
 
     val onMaxChangedLiveData: Observable<Long> = metadataPublisher

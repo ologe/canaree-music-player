@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/header"
-                    android:text="Wanksta"
+                    tools:text="Wanksta"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:textSize="20dp"
@@ -89,7 +89,7 @@
 
                 <TextView
                     android:id="@+id/subHeader"
-                    android:text="50 Cent"
+                    tools:text="50 Cent"
                     android:textColor="#ccc"
                     android:textStyle="bold"
                     android:textSize="16dp"

@@ -123,6 +123,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
     override fun onStop() {
         super.onStop()
         seekBarDisposable.unsubscribe()
+        playPause.setIsFirstAnimation(true)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

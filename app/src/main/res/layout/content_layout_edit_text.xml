@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/editText"
+        android:hint="@string/offline_lyrics_edit_hint"
+        android:textSize="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:layout_marginEnd="48dp"/>
+
+    <ImageButton
+        android:id="@+id/clear"
+        android:background="@null"
+        android:src="@drawable/vd_clear"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:padding="12dp"
+        android:layout_gravity="end"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:tint="?android:attr/textColorTertiary"/>
+
+</FrameLayout>

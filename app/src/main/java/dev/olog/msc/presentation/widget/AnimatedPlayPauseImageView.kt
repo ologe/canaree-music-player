@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.annotation.Keep
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
@@ -25,9 +26,9 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     }
 
     private fun setupBackground(play: Boolean) {
-        val drawable = if (play) playAnimation else pauseAnimation
+        val drawableInt = if (play) R.drawable.vd_playpause_pause else R.drawable.vd_playpause_play
+        val drawable = ContextCompat.getDrawable(context, drawableInt)
         setImageDrawable(drawable)
-        drawable.jumpToCurrentState()
     }
 
     fun animationPlay(animate: Boolean) {
@@ -48,14 +49,8 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        isFirstAnimation = true
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        isFirstAnimation = false
+    fun setIsFirstAnimation(isFirst: Boolean){
+        this.isFirstAnimation = isFirst
     }
 
     private fun setupAndAnimate(animate: Boolean, avd: AnimatedVectorDrawable) {

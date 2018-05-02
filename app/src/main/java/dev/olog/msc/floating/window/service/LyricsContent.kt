@@ -65,8 +65,8 @@ class LyricsContent (
 
         musicServiceBinder.onMetadataChanged
                 .subscribe({
-                    title.text = it.first
-                    artist.text = it.second
+                    title.text = it.title
+                    artist.text = it.artist
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
