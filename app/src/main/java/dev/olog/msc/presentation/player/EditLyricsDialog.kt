@@ -3,11 +3,14 @@ package dev.olog.msc.presentation.player
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.view.View
+import android.view.WindowManager
 import android.widget.EditText
 import dev.olog.msc.R
+import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.makeDialog
 
 object EditLyricsDialog {
@@ -51,7 +54,14 @@ object EditLyricsDialog {
                 .setNegativeButton(R.string.popup_negative_back, null)
                 .setCancelable(false)
 
-        val dialog = builder.makeDialog()
+
+        val dialog = builder.create()
+        val windowType = if (isOreo())
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        else
+            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+        dialog.window.setType(windowType)
+        dialog.show()
 
         val editText = dialog.findViewById<EditText>(R.id.editText)
         if (currentText != context.getString(R.string.offline_lyrics_empty)){

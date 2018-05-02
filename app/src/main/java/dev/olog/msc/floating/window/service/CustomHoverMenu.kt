@@ -36,7 +36,7 @@ class CustomHoverMenu @Inject constructor(
 
     private val youtubeColors = intArrayOf(0xffe02773.toInt(), 0xfffe4e33.toInt())
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
-    private val offlineLyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
+    private val offlineLyricsColors = intArrayOf(0xFFa3ffaa.toInt(), 0xFF1bffbc.toInt())
 
     private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder, isRepositoryEmptyUseCase.get())
     private val videoContent = VideoContent(lifecycle, context, isRepositoryEmptyUseCase.get())
