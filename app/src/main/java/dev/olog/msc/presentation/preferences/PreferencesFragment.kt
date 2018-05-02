@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.preferences
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -8,12 +9,18 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.isP
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -21,6 +28,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
     private lateinit var notchSupport : Preference
+    private lateinit var deleteCache : Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -28,6 +36,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
         notchSupport = preferenceScreen.findPreference(getString(R.string.prefs_notch_support_key))
+        deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +78,11 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             true
         }
+
+        deleteCache.setOnPreferenceClickListener {
+            showDeleteAllCacheDialog()
+            true
+        }
     }
 
     override fun onPause() {
@@ -76,6 +90,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
+        deleteCache.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -104,6 +119,27 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     private fun requestMainActivityToRecreate(){
         act.setResult(Activity.RESULT_OK)
+    }
+
+    private fun showDeleteAllCacheDialog(){
+        ThemedDialog.builder(ctx)
+                .setTitle(R.string.prefs_delete_cached_images_title)
+                .setMessage(R.string.are_you_sure)
+                .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
+                    val disp = Completable.fromCallable {
+                        GlideApp.get(ctx.applicationContext).clearDiskCache()
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)).listFiles().forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.PLAYLIST)).listFiles().forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)).listFiles().forEach { it.delete() }
+                    }.observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({
+                                requestMainActivityToRecreate()
+                                ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
+                            }, Throwable::printStackTraceOnDebug)
+                })
+                .setNegativeButton(R.string.popup_negative_no, null)
+                .makeDialog()
     }
 
 }

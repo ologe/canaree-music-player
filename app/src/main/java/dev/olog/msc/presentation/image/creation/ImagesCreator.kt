@@ -9,12 +9,14 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.util.GetAllFoldersNewRequestUseCase
 import dev.olog.msc.domain.interactor.util.GetAllGenresNewRequestUseCase
 import dev.olog.msc.domain.interactor.util.GetAllPlaylistsNewRequestUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -29,7 +31,8 @@ class ImagesCreator @Inject constructor(
 
         private val folderImagesCreator: FolderImagesCreator,
         private val playlistImagesCreator: PlaylistImagesCreator,
-        private val genreImagesCreator: GenreImagesCreator
+        private val genreImagesCreator: GenreImagesCreator,
+        private val appPreferencesUseCase: AppPreferencesUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -63,25 +66,33 @@ class ImagesCreator @Inject constructor(
     fun execute() {
         unsubscribe()
 
-        getAllFoldersUseCase.execute()
-                .onErrorReturnItem(listOf())
-                .subscribe({
+        Observables.combineLatest(
+                getAllFoldersUseCase.execute().onErrorReturnItem(listOf()),
+                appPreferencesUseCase.observeAutoCreateImages(), { folders, create ->
+            if (create) folders else listOf()
+        }).subscribe({
                     folderDisposable.unsubscribe()
                     folderDisposable = folderImagesCreator.execute()
                             .subscribe({}, Throwable::printStackTrace)
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        getAllPlaylistsUseCase.execute()
-                .subscribe({
+        Observables.combineLatest(
+                getAllPlaylistsUseCase.execute().onErrorReturnItem(listOf()),
+                appPreferencesUseCase.observeAutoCreateImages(), { playlists, create ->
+            if (create) playlists else listOf()
+        }).subscribe({
                     playlistDisposable.unsubscribe()
                     playlistDisposable = playlistImagesCreator.execute(it)
                             .subscribe({}, Throwable::printStackTrace)
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        getAllGenresUseCase.execute()
-                .subscribe({
+        Observables.combineLatest(
+                getAllGenresUseCase.execute().onErrorReturnItem(listOf()),
+                appPreferencesUseCase.observeAutoCreateImages(), { genres, create ->
+            if (create) genres else listOf()
+        }).subscribe({
                     genreDisposable.unsubscribe()
                     genreDisposable = genreImagesCreator.execute(it)
                             .subscribe({}, Throwable::printStackTrace)

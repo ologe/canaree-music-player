@@ -46,4 +46,8 @@ class AppPreferencesUseCase @Inject constructor(
         return gateway.setDefault()
     }
 
+    fun observeAutoCreateImages(): Observable<Boolean> {
+        return gateway.observeAutoCreateImages()
+    }
+
 }

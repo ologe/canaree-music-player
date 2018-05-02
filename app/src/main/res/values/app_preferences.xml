@@ -163,11 +163,12 @@
         <item>@string/prefs_auto_download_images_summary_mobile</item>
     </string-array>
 
-    <!--dark theme-->
-    <!--<string name="prefs_dark_theme_key" translatable="false">key_dark_theme</string>-->
-    <!--<string name="prefs_dark_theme_title">Dark theme</string>-->
-    <!--<string name="prefs_dark_theme_summary_on">Almost white theme</string>-->
-    <!--<string name="prefs_dark_theme_summary_off">White theme</string>-->
+
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_key" translatable="false">key_auto_create_image</string>
+    <string name="prefs_auto_create_images_title">Auto create folder, playlist and genre images</string>
+    <string name="prefs_auto_create_images_summary_on">Enabled</string>
+    <string name="prefs_auto_create_images_summary_off">Disabled</string>
 
     <!--appearance-->
     <string name="prefs_appearance_key" translatable="false">key_appearance</string>
@@ -231,5 +232,11 @@
     <string name="prefs_notch_support_key" translatable="false">key_notch_support</string>
     <string name="prefs_notch_support_title">Notch support</string>
     <string name="prefs_notch_support_summary">Increase status bar height</string>
+
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_key" translatable="false">key_delete_cached_images</string>
+    <string name="prefs_delete_cached_images_title">Delete cache</string>
+    <string name="prefs_delete_cached_images_summary">Delete all cached images</string>
+    <string name="prefs_delete_cached_images_success">Cache deleted</string>
 
 </resources>

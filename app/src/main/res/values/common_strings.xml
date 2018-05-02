@@ -31,6 +31,8 @@
 
     <string name="network_not_available">Please check your network connection</string>
 
+    <string name="are_you_sure">Are you sure?</string>
+
     <plurals name="common_plurals_hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

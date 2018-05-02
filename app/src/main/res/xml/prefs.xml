@@ -94,25 +94,10 @@
             android:defaultValue="@string/prefs_icon_shape_rounded"
             android:key="@string/prefs_icon_shape_key"/>
 
-        <!--<SwitchPreference-->
-            <!--android:key="@string/prefs_dark_theme_key"-->
-            <!--android:title="@string/prefs_dark_theme_title"-->
-            <!--android:summaryOn="@string/prefs_dark_theme_summary_on"-->
-            <!--android:summaryOff="@string/prefs_dark_theme_summary_off"-->
-            <!--android:defaultValue="false"/>-->
-
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/prefs_category_other">
-
-        <ListPreference
-            android:title="@string/prefs_auto_download_images_title"
-            android:summary="%s"
-            android:key="@string/prefs_auto_download_images_key"
-            android:entries="@array/prefs_auto_download_images_entries"
-            android:entryValues="@array/prefs_auto_download_images_entry_values"
-            android:defaultValue="@string/prefs_auto_download_images_entry_value_wifi" />
 
         <ListPreference
             android:title="@string/prefs_quick_action_title"
@@ -142,6 +127,26 @@
             android:title="@string/prefs_notch_support_title"
             android:summary="@string/prefs_notch_support_summary"
             android:defaultValue="false"/>
+
+        <ListPreference
+            android:title="@string/prefs_auto_download_images_title"
+            android:summary="%s"
+            android:key="@string/prefs_auto_download_images_key"
+            android:entries="@array/prefs_auto_download_images_entries"
+            android:entryValues="@array/prefs_auto_download_images_entry_values"
+            android:defaultValue="@string/prefs_auto_download_images_entry_value_wifi" />
+
+        <SwitchPreference
+            android:title="@string/prefs_auto_create_images_title"
+            android:summaryOn="@string/prefs_auto_create_images_summary_on"
+            android:summaryOff="@string/prefs_auto_create_images_summary_off"
+            android:key="@string/prefs_auto_create_images_key"
+            android:defaultValue="true" />
+
+        <Preference
+            android:title="@string/prefs_delete_cached_images_title"
+            android:summary="@string/prefs_delete_cached_images_summary"
+            android:key="@string/prefs_delete_cached_images_key"/>
 
     </PreferenceCategory>
 

@@ -29,6 +29,8 @@
 
     <string name="common_empty_list">Lista vuota</string>
 
+    <string name="are_you_sure">Sei sicuro?</string>
+
     <plurals name="common_plurals_hours">
         <item quantity="one">%d ora</item>
         <item quantity="other">%d ore</item>

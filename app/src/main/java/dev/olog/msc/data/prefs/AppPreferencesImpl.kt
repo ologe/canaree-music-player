@@ -279,10 +279,15 @@ class AppPreferencesImpl @Inject constructor(
         }
     }
 
+    override fun observeAutoCreateImages(): Observable<Boolean> {
+        return rxPreferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
+                .asObservable()
+    }
+
     private fun setDefaultAutoDownloadImages(){
         preferences.edit {
-            putString(context.getString(R.string.prefs_auto_download_images_key),
-                    context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
+            putString(context.getString(R.string.prefs_auto_download_images_key), context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
+            putBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
         }
     }
 
@@ -308,6 +313,7 @@ class AppPreferencesImpl @Inject constructor(
     private fun setDefaultTheme(){
         preferences.edit {
             putString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
+            putString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_white))
         }
     }
 

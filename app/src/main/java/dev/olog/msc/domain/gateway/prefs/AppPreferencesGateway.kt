@@ -32,6 +32,8 @@ interface AppPreferencesGateway : Sorting {
 
     fun setDefault(): Completable
 
+    fun observeAutoCreateImages(): Observable<Boolean>
+
 }
 
 interface Sorting {

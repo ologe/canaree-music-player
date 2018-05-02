@@ -72,10 +72,10 @@
     <string name="prefs_auto_download_images_summary_wifi">Solo su Wi-Fi</string>
     <string name="prefs_auto_download_images_summary_never">Mai</string>
 
-    <!--dark theme-->
-    <!--<string name="prefs_dark_theme_title">Tema scuro</string>-->
-    <!--<string name="prefs_dark_theme_summary_on">Tema un po\' meno bianco</string>-->
-    <!--<string name="prefs_dark_theme_summary_off">Tema bianco</string>-->
+    <!--auto create images-->
+    <string name="prefs_auto_create_images_title">Crea automaticamente immagini per cartelle, playlist e generi</string>
+    <string name="prefs_auto_create_images_summary_on">Abilitato</string>
+    <string name="prefs_auto_create_images_summary_off">Disabilitato</string>
 
     <!--dark mode-->
     <string name="prefs_dark_mode_title">Tema</string>
@@ -91,5 +91,10 @@
     <string name="prefs_appearance_spotify">Famoso lettore musicale verde</string>
     <string name="prefs_appearance_fullscreen">Schermo intero</string>
     <string name="prefs_appearance_big_image">Immagine grande</string>
+
+    <!--delete cached images-->
+    <string name="prefs_delete_cached_images_title">Emimina cache</string>
+    <string name="prefs_delete_cached_images_summary">Elimina tutte le immagini scaricate</string>
+    <string name="prefs_delete_cached_images_success">Cache cancellate con successo</string>
 
 </resources>
