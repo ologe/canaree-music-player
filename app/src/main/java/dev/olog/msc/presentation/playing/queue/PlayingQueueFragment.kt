@@ -87,7 +87,7 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        val callback = TouchHelperAdapterCallback(adapter)
+        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper

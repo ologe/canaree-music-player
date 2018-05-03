@@ -47,7 +47,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
 
-        val callback = TouchHelperAdapterCallback(adapter)
+        val callback = TouchHelperAdapterCallback(adapter, 0)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(list)
         adapter.touchHelper = touchHelper

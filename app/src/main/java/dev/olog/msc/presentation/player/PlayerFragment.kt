@@ -155,7 +155,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.isNestedScrollingEnabled = false
-        val callback = TouchHelperAdapterCallback(adapter)
+        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
