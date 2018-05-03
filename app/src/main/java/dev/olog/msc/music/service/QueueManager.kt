@@ -246,9 +246,18 @@ class QueueManager @Inject constructor(
         queueImpl.onRepeatModeChanged()
     }
 
-    override fun addQueueItem(songIds: List<Long>): PositionInQueue {
+    override fun playLater(songIds: List<Long>): PositionInQueue {
         val currentPositionInQueue = getCurrentPositionInQueue()
-        queueImpl.addQueueItem(songIds)
+        queueImpl.playLater(songIds)
+        return when (currentPositionInQueue){
+            PositionInQueue.BOTH -> PositionInQueue.FIRST
+            else -> PositionInQueue.IN_MIDDLE
+        }
+    }
+
+    override fun playNext(songIds: List<Long>): PositionInQueue {
+        val currentPositionInQueue = getCurrentPositionInQueue()
+        queueImpl.playNext(songIds)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
             else -> PositionInQueue.IN_MIDDLE

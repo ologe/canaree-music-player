@@ -38,7 +38,9 @@ interface Navigator {
 
     fun toAddToFavoriteDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
 
-    fun toAddToQueueDialog(mediaId: MediaId, listSize: Int, itemTitle: String)
+    fun toPlayLater(mediaId: MediaId, listSize: Int, itemTitle: String)
+
+    fun toPlayNext(mediaId: MediaId, listSize: Int, itemTitle: String)
 
     fun toRenameDialog(mediaId: MediaId, itemTitle: String)
 

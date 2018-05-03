@@ -53,7 +53,8 @@ class PlaylistPopupListener @Inject constructor(
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
             R.id.addToFavorite -> addToFavorite()
-            R.id.addToQueue -> addToQueue()
+            R.id.playLater -> playLater()
+            R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.rename -> rename()
             R.id.clear -> clearPlaylist()
@@ -98,11 +99,19 @@ class PlaylistPopupListener @Inject constructor(
         }
     }
 
-    private fun addToQueue(){
+    private fun playLater(){
         if (song == null){
-            navigator.toAddToQueueDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toPlayLater(getMediaId(), playlist.size, playlist.title)
         } else {
-            navigator.toAddToQueueDialog(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+        }
+    }
+
+    private fun playNext(){
+        if (song == null){
+            navigator.toPlayNext(getMediaId(), playlist.size, playlist.title)
+        } else {
+            navigator.toPlayNext(getMediaId(), -1, song!!.title)
         }
     }
 

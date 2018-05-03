@@ -12,10 +12,11 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
-import dev.olog.msc.presentation.dialog.add.queue.AddQueueDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
 import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
 import dev.olog.msc.presentation.dialog.delete.DeleteDialog
+import dev.olog.msc.presentation.dialog.play.later.PlayLaterDialog
+import dev.olog.msc.presentation.dialog.play.next.PlayNextDialog
 import dev.olog.msc.presentation.dialog.remove.duplicates.RemoveDuplicatesDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
@@ -219,9 +220,14 @@ class NavigatorImpl @Inject internal constructor(
         fragment.show(activity.supportFragmentManager, AddFavoriteDialog.TAG)
     }
 
-    override fun toAddToQueueDialog(mediaId: MediaId, listSize: Int, itemTitle: String) {
-        val fragment = AddQueueDialog.newInstance(mediaId, listSize, itemTitle)
-        fragment.show(activity.supportFragmentManager, AddQueueDialog.TAG)
+    override fun toPlayLater(mediaId: MediaId, listSize: Int, itemTitle: String) {
+        val fragment = PlayLaterDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, PlayLaterDialog.TAG)
+    }
+
+    override fun toPlayNext(mediaId: MediaId, listSize: Int, itemTitle: String) {
+        val fragment = PlayNextDialog.newInstance(mediaId, listSize, itemTitle)
+        fragment.show(activity.supportFragmentManager, PlayNextDialog.TAG)
     }
 
     override fun toRenameDialog(mediaId: MediaId, itemTitle: String) {

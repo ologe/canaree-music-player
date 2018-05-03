@@ -43,7 +43,8 @@ class SongPopupListener @Inject constructor(
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
             R.id.addToFavorite -> addToFavorite()
-            R.id.addToQueue -> addToQueue()
+            R.id.playLater -> playLater()
+            R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song.albumId))
@@ -68,8 +69,12 @@ class SongPopupListener @Inject constructor(
         mediaProvider.shuffle(getMediaId())
     }
 
-    private fun addToQueue(){
-        navigator.toAddToQueueDialog(getMediaId(), -1, song.title)
+    private fun playLater(){
+        navigator.toPlayLater(getMediaId(), -1, song.title)
+    }
+
+    private fun playNext(){
+        navigator.toPlayNext(getMediaId(), -1, song.title)
     }
 
     private fun addToFavorite(){

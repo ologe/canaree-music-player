@@ -6,7 +6,8 @@
     <string name="popup_add_to_playlist">Add to playlist..</string>
     <string name="popup_add_to_favorites">Add to favorites</string>
     <string name="popup_add_to_home_screen">Add to home screen</string>
-    <string name="popup_add_to_queue">Add to queue</string>
+    <string name="popup_play_next">Play next</string>
+    <string name="popup_play_later">Play later</string>
     <string name="popup_edit_song_info">Edit song</string>
     <string name="popup_edit_album_info">Edit album</string>
     <string name="popup_edit_artist_info">Edit artist</string>

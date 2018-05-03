@@ -52,7 +52,8 @@ class GenrePopupListener @Inject constructor(
             R.id.play -> playFromMediaId()
             R.id.playShuffle -> playShuffle()
             R.id.addToFavorite -> addToFavorite()
-            R.id.addToQueue -> addToQueue()
+            R.id.playLater -> playLater()
+            R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
@@ -81,11 +82,19 @@ class GenrePopupListener @Inject constructor(
         mediaProvider.shuffle(getMediaId())
     }
 
-    private fun addToQueue(){
+    private fun playLater(){
         if (song == null){
-            navigator.toAddToQueueDialog(getMediaId(), genre.size, genre.name)
+            navigator.toPlayLater(getMediaId(), genre.size, genre.name)
         } else {
-            navigator.toAddToQueueDialog(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+        }
+    }
+
+    private fun playNext(){
+        if (song == null){
+            navigator.toPlayNext(getMediaId(), genre.size, genre.name)
+        } else {
+            navigator.toPlayNext(getMediaId(), -1, song!!.title)
         }
     }
 

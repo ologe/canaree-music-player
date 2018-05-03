@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="add_song_x_to_play_later"><![CDATA[Add <b>%1$s</b> to play later?]]></string>
+
+    <plurals name="add_xx_songs_to_play_later">
+        <item quantity="one"><![CDATA[Add <b>%1$d song</b> to play later?]]></item>
+        <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to play later?]]></item>
+    </plurals>
+
+    <string name="song_x_added_to_play_later">%1$s added to the play later</string>
+    <plurals name="xx_songs_added_to_play_later">
+        <item quantity="one">%1$d song added to play later</item>
+        <item quantity="other">%1$d songs added to play later</item>
+    </plurals>
+
+</resources>

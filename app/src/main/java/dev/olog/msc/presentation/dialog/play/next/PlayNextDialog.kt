@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.add.queue
+package dev.olog.msc.presentation.dialog.play.next
 
 import android.content.Context
 import android.content.DialogInterface
@@ -11,17 +11,17 @@ import dev.olog.msc.utils.k.extension.withArguments
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class AddQueueDialog : BaseDialog() {
+class PlayNextDialog : BaseDialog() {
 
     companion object {
-        const val TAG = "AddQueueDialog"
+        const val TAG = "PlayNextDialog"
         const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
         const val ARGUMENTS_LIST_SIZE = "$TAG.arguments.list_size"
         const val ARGUMENTS_ITEM_TITLE = "$TAG.arguments.item_title"
 
         @JvmStatic
-        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): AddQueueDialog {
-            return AddQueueDialog().withArguments(
+        fun newInstance(mediaId: MediaId, listSize: Int, itemTitle: String): PlayNextDialog {
+            return PlayNextDialog().withArguments(
                     ARGUMENTS_MEDIA_ID to mediaId.toString(),
                     ARGUMENTS_LIST_SIZE to listSize,
                     ARGUMENTS_ITEM_TITLE to itemTitle
@@ -32,10 +32,10 @@ class AddQueueDialog : BaseDialog() {
     @Inject lateinit var mediaId: MediaId
     @Inject @JvmField var listSize: Int = 0
     @Inject lateinit var title: String
-    @Inject lateinit var presenter: AddQueueDialogPresenter
+    @Inject lateinit var presenter: PlayNextDialogPresenter
 
     override fun title(context: Context): CharSequence {
-        return context.getString(R.string.popup_add_to_queue)
+        return context.getString(R.string.popup_play_next)
     }
 
     override fun message(context: Context): CharSequence {
@@ -52,8 +52,8 @@ class AddQueueDialog : BaseDialog() {
 
     override fun successMessage(context: Context): CharSequence {
         return if (mediaId.isLeaf){
-            context.getString(R.string.song_x_added_to_queue, title)
-        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_queue, listSize, listSize)
+            context.getString(R.string.song_x_added_to_play_next, title)
+        } else context.resources.getQuantityString(R.plurals.xx_songs_added_to_play_next, listSize, listSize)
     }
 
     override fun failMessage(context: Context): CharSequence {
@@ -67,9 +67,9 @@ class AddQueueDialog : BaseDialog() {
 
     private fun createMessage() : String {
         if (mediaId.isAll || mediaId.isLeaf){
-            return getString(R.string.add_song_x_to_queue, title)
+            return getString(R.string.add_song_x_to_play_next, title)
         }
-        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_queue, listSize, listSize)
+        return context!!.resources.getQuantityString(R.plurals.add_xx_songs_to_play_next, listSize, listSize)
     }
 
 }

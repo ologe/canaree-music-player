@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.dialog.add.queue
+package dev.olog.msc.presentation.dialog.play.later
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -9,7 +9,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AddQueueDialogPresenter @Inject constructor(
+class PlayLaterDialogPresenter @Inject constructor(
         private val mediaId: MediaId,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 ) {

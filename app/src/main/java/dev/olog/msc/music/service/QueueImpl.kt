@@ -266,16 +266,15 @@ class QueueImpl @Inject constructor(
     }
 
     @SuppressLint("RxLeakedSubscription")
-    fun addQueueItem(songIds: List<Long>) {
+    fun playLater(songIds: List<Long>) {
         var maxProgressive = playingQueue.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
         maxProgressive += 1
 
         Single.just(songIds)
                 .observeOn(Schedulers.computation())
-                .map { assertBackgroundThread(); it }
                 .flattenAsObservable { it }
-                .flatMapSingle { getSongUseCase.execute(MediaId.songId(it)).firstOrError() }
-                .map { it.toMediaEntity(maxProgressive, MediaId.songId(it.id)) }
+                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it)).firstElement() }
+                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -285,5 +284,28 @@ class QueueImpl @Inject constructor(
                     onRepeatModeChanged() // not really but updates mini queue
                 }, Throwable::printStackTrace)
     }
+
+    @SuppressLint("RxLeakedSubscription")
+    fun playNext(songIds: List<Long>) {
+        val before = playingQueue.take(currentSongPosition)
+        val after = playingQueue.drop(currentSongPosition)
+
+        Single.just(songIds)
+                .observeOn(Schedulers.computation())
+                .flattenAsObservable { it }
+                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it)).firstElement() }
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    var currentProgressive = before.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
+                    val listToAdd = it.map { it.toMediaEntity(currentProgressive++, MediaId.songId(it.id)) }
+                    val afterListUpdated = after.map { it.copy(idInPlaylist = currentProgressive++) }
+
+                    val copy = before.plus(listToAdd).plus(afterListUpdated)
+                    updatePlayingQueueAndPersist(copy)
+                    onRepeatModeChanged() // not really but updates mini queue
+                }, Throwable::printStackTrace)
+    }
+
 
 }
