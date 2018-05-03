@@ -80,10 +80,14 @@ class DetailFragment : BaseFragment() {
                 })
 
         viewModel.itemLiveData.subscribe(this, { item ->
-            headerText.text = item[1].title
-            val cover = view?.findViewById<View>(R.id.cover)
-            if (!isPortrait() && cover is ShapeImageView){
-                BindingsAdapter.loadBigAlbumImage(cover, item[0])
+            if (item.isNotEmpty()){
+                headerText.text = item[1].title
+                val cover = view?.findViewById<View>(R.id.cover)
+                if (!isPortrait() && cover is ShapeImageView){
+                    BindingsAdapter.loadBigAlbumImage(cover, item[0])
+                }
+            } else {
+                act.onBackPressed()
             }
         })
     }
