@@ -27,7 +27,7 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private const val SECONDS_TO_DESTROY = 120L // 2 min
+private const val MINUTES_TO_DESTROY = 30L
 
 @PerService
 class MusicNotificationManager @Inject constructor(
@@ -35,7 +35,7 @@ class MusicNotificationManager @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         private val audioManager: Lazy<AudioManager>,
         private val notificationImpl: INotification,
-        private val observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
+        observeFavoriteUseCase: ObserveFavoriteAnimationUseCase,
         playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
@@ -170,7 +170,7 @@ class MusicNotificationManager @Inject constructor(
         stopServiceAfterDelayDisposable.unsubscribe()
 
         stopServiceAfterDelayDisposable = Single
-                .timer(SECONDS_TO_DESTROY, TimeUnit.SECONDS)
+                .timer(MINUTES_TO_DESTROY, TimeUnit.MINUTES)
                 .subscribe({ audioManager.get().dispatchEvent(KEYCODE_MEDIA_STOP) },
                         Throwable::printStackTrace)
 
