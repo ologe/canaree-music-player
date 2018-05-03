@@ -98,9 +98,12 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
 
         mediaProvider.onStateChanged()
                 .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
-                .map { it.state == PlaybackState.STATE_PLAYING }
                 .asLiveData()
-                .subscribe(this, { handleSeekBarState(it) })
+                .subscribe(this, {
+                    val isPlaying = it.state == PlaybackState.STATE_PLAYING
+                    seekBar.progress = it.position.toInt()
+                    handleSeekBarState(isPlaying)
+                })
 
     }
 
