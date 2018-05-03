@@ -39,9 +39,9 @@ class App : DaggerApplication() {
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
 //            Stetho.initializeWithDefaults(this)
-            LeakCanary.install(this)
+//            LeakCanary.install(this)
 //            StrictMode.initialize()
-            Traceur.enableLogging()
+//            Traceur.enableLogging()
         }
     }
 
