@@ -9,6 +9,7 @@ import dev.olog.msc.presentation.dialog.play.next.di.PlayNextDialogInjector
 import dev.olog.msc.presentation.dialog.clear.playlist.di.ClearPlaylistDialogInjector
 import dev.olog.msc.presentation.dialog.create.playlist.di.NewPlaylistDialogInjector
 import dev.olog.msc.presentation.dialog.delete.di.DeleteDialogInjector
+import dev.olog.msc.presentation.dialog.play.later.di.PlayLaterDialogInjector
 import dev.olog.msc.presentation.dialog.remove.duplicates.di.RemoveDuplicatesDialogInjector
 import dev.olog.msc.presentation.dialog.rename.di.RenameDialogInjector
 import dev.olog.msc.presentation.dialog.set.ringtone.di.SetRingtoneDialogInjector
@@ -51,6 +52,7 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
         // dialogs
         AddFavoriteDialogInjector::class,
         PlayNextDialogInjector::class,
+        PlayLaterDialogInjector::class,
         SetRingtoneDialogInjector::class,
         RenameDialogInjector::class,
         ClearPlaylistDialogInjector::class,

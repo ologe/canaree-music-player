@@ -11,6 +11,7 @@ import androidx.core.content.edit
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.presentation.utils.openPlayStore
+import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
@@ -45,7 +46,7 @@ class RateAppDialog @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    AlertDialog.Builder(activity)
+                    ThemedDialog.builder(activity)
                             .setTitle(R.string.rate_app_title)
                             .setMessage(R.string.rate_app_message)
                             .setPositiveButton(R.string.rate_app_positive_button, { _, _ ->

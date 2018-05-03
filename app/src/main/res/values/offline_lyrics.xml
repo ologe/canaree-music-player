@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="offline_lyrics_empty">No lyrics found</string>
+    <string name="offline_lyrics_empty">No lyrics</string>
 
     <string name="offline_lyrics_edit_title">Add lyrics</string>
     <string name="offline_lyrics_edit_hint">Paste your lyrics here</string>

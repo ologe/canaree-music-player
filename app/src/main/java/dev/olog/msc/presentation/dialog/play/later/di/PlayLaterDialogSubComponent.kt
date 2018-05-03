@@ -7,7 +7,7 @@ import dev.olog.msc.presentation.dialog.play.later.PlayLaterDialog
 import dev.olog.msc.presentation.dialog.play.next.di.PlayNextDialogModule
 
 @Subcomponent(modules = arrayOf(
-        PlayNextDialogModule::class
+        PlayLaterDialogModule::class
 ))
 @PerFragment
 interface PlayLaterDialogSubComponent : AndroidInjector<PlayLaterDialog> {

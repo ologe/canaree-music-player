@@ -287,8 +287,8 @@ class QueueImpl @Inject constructor(
 
     @SuppressLint("RxLeakedSubscription")
     fun playNext(songIds: List<Long>) {
-        val before = playingQueue.take(currentSongPosition)
-        val after = playingQueue.drop(currentSongPosition)
+        val before = playingQueue.take(currentSongPosition + 1)
+        val after = playingQueue.drop(currentSongPosition + 1)
 
         Single.just(songIds)
                 .observeOn(Schedulers.computation())

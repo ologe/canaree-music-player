@@ -34,10 +34,9 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
         this.currentArtist = artist
     }
 
-    fun observeLyrics(mapper: (String) -> String): Observable<String> {
+    fun observeLyrics(): Observable<String> {
         return currentTrackIdPublisher.switchMap { id ->
             observeUseCase.execute(id)
-                    .map { mapper(it) }
         }
     }
 
