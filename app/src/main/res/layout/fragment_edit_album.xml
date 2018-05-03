@@ -21,7 +21,7 @@
         android:layout_gravity="center"
         app:cardCornerRadius="2dp"
         app:layout_constraintWidth_max="350dp"
-        android:background="?android:attr/windowBackground">
+        app:cardBackgroundColor="?android:attr/windowBackground">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

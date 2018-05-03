@@ -10,18 +10,18 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import dev.olog.msc.R
+import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.makeDialog
 
 object EditLyricsDialog {
 
     fun show(context: Context, currentText: String, updateFunc: (String) -> Unit){
-        val builder = AlertDialog.Builder(context)
+        val builder = ThemedDialog.builder(context)
                 .setTitle(R.string.offline_lyrics_edit_title)
                 .setView(R.layout.layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)
                 .setNegativeButton(R.string.popup_negative_back, null)
-                .setCancelable(false)
 
         val dialog = builder.makeDialog()
 

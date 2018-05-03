@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.database.ContentObserver
-import android.net.Uri
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -47,7 +46,8 @@ class FolderTreeFragmentViewModel(
         context.contentResolver.unregisterContentObserver(observer)
     }
 
-    fun observeFileName(): LiveData<File> = currentFile.asLiveData()
+    fun observeFileName(): LiveData<File> = currentFile
+            .asLiveData()
 
     fun observeChildrens(): LiveData<List<DisplayableFile>> = currentFile.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
@@ -56,7 +56,6 @@ class FolderTreeFragmentViewModel(
                 val childrens = it.listFiles()
                         .filter { if (it.isDirectory) !blackList.contains(it.path) else !blackList.contains(it.parentFile.path) }
 
-                var start = System.currentTimeMillis()
                 val (directories, files) = childrens.partition { it.isDirectory }
                 val sortedDirectory = filterFolders(directories)
                 val sortedFiles = filterTracks(files)

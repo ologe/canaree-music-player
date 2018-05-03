@@ -20,7 +20,8 @@
         android:layout_margin="32dp"
         android:layout_gravity="center"
         app:cardCornerRadius="2dp"
-        app:layout_constraintWidth_max="500dp">
+        app:layout_constraintWidth_max="500dp"
+        app:cardBackgroundColor="?android:attr/windowBackground">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

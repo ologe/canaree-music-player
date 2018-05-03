@@ -1,11 +1,16 @@
 package dev.olog.msc.presentation.offline.lyrics
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.view.View
+import android.widget.SeekBar
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.doOnPreDraw
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
@@ -18,14 +23,18 @@ import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.utils.blur.FastBlur
 import dev.olog.msc.presentation.widget.image.view.toPlayerImage
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics_2.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics_2.view.*
+import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import java.net.URLEncoder
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
@@ -49,6 +58,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
     @Inject lateinit var presenter: OfflineLyricsFragmentPresenter
     @Inject lateinit var safeTransition: SafeTransition
     private var tutorialDisposable: Disposable? = null
+    private var updateDisposable : Disposable? = null
 
     private lateinit var mediaProvider: MediaProvider
 
@@ -74,6 +84,8 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
                     loadBackgroundImage(it)
                     header.text = it.getTitle()
                     subHeader.text = it.getArtist()
+                    seekBar.max = it.getDuration().toInt()
+                    seekBar.progress = 0
                 })
 
         presenter.observeLyrics()
@@ -84,6 +96,12 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
                     text.text = it
                 })
 
+        mediaProvider.onStateChanged()
+                .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
+                .map { it.state == PlaybackState.STATE_PLAYING }
+                .asLiveData()
+                .subscribe(this, { handleSeekBarState(it) })
+
     }
 
     private fun loadBackgroundImage(metadata: MediaMetadataCompat){
@@ -91,12 +109,18 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
         val mediaId = metadata.getMediaId()
         GlideApp.with(ctx).clear(image)
 
+        val radius = 8
+        val sampling = 6
+
+        val placeholder = FastBlur.blur(CoverUtils.getGradient(ctx, mediaId).toBitmap(100, 100, Bitmap.Config.RGB_565), radius, false)
+                .toDrawable(resources)
+
         GlideApp.with(ctx)
                 .load(model)
-                .placeholder(CoverUtils.getGradient(ctx, mediaId))
+                .placeholder(placeholder)
                 .priority(Priority.IMMEDIATE)
-                .transform(BlurTransformation(10, 6))
-                .override(800)
+                .transform(BlurTransformation(radius, sampling))
+                .override(500)
                 .into(image)
     }
 
@@ -107,10 +131,6 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
 
         tutorialDisposable = presenter.showAddLyricsIfNeverShown()
                 .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit) }, {})
-
-        view.scrollView.doOnPreDraw {
-            it.setPaddingTop(view.statusBar.height * 3)
-        }
 
         view.scrollView.setClickBehavior { mediaProvider.playPause() }
     }
@@ -137,6 +157,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
 
         fakeNext.setOnClickListener { mediaProvider.skipToNext() }
         fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
+        seekBar.setOnSeekBarChangeListener(seekBarListener)
     }
 
     override fun onPause() {
@@ -148,12 +169,38 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
 
         fakeNext.setOnClickListener(null)
         fakePrev.setOnClickListener(null)
+        seekBar.setOnSeekBarChangeListener(null)
     }
 
     override fun onStop() {
         super.onStop()
         presenter.onStop()
         tutorialDisposable.unsubscribe()
+        updateDisposable.unsubscribe()
+    }
+
+    private fun handleSeekBarState(isPlaying: Boolean){
+        updateDisposable.unsubscribe()
+        if (isPlaying) {
+            resumeSeekBar()
+        }
+    }
+
+    private fun resumeSeekBar(){
+        updateDisposable = Observable.interval(250L, TimeUnit.MILLISECONDS)
+                .subscribe({ seekBar.incrementProgressBy(250) }, Throwable::printStackTrace)
+    }
+
+    private val seekBarListener = object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar) {
+            mediaProvider.seekTo(seekBar.progress.toLong())
+        }
     }
 
     override fun isAnimating(): Boolean = safeTransition.isAnimating

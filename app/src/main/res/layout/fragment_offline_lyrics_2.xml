@@ -68,6 +68,36 @@
         app:layout_constraintStart_toStartOf="@+id/wrapper"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <dev.olog.msc.presentation.widget.ClickableScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:padding="16dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/back"
+        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintEnd_toEndOf="@+id/wrapper"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/wrapper">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="start"
+            android:lineSpacingExtra="10dp"
+            android:text="@string/offline_lyrics_empty"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            tools:text="@tools:sample/lorem/random" />
+
+    </dev.olog.msc.presentation.widget.ClickableScrollView>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/wrapper"
         android:layout_width="0dp"
@@ -112,7 +142,7 @@
             tools:text="50 Cent" />
 
         <!-- seekbar -->
-        <dev.olog.msc.presentation.widget.CustomSeekBar
+        <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -160,42 +190,10 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <dev.olog.msc.presentation.widget.ClickableScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:padding="16dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
-        app:layout_constraintEnd_toEndOf="@+id/wrapper"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/wrapper"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="start"
-            android:lineSpacingExtra="10dp"
-            android:text="@string/offline_lyrics_empty"
-            android:textColor="@android:color/white"
-            android:textSize="16dp"
-            tools:text="@tools:sample/lorem/random" />
-
-    </dev.olog.msc.presentation.widget.ClickableScrollView>
-
     <View
         android:id="@+id/fakeNext"
-        android:layout_width="64dp"
+        android:layout_width="48dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
         android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/wrapper"
         app:layout_constraintEnd_toEndOf="parent"
@@ -203,11 +201,9 @@
 
     <View
         android:id="@+id/fakePrev"
-        android:layout_width="64dp"
+        android:layout_width="48dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/wrapper"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/back"
