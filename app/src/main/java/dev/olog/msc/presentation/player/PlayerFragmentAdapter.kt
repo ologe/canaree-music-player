@@ -105,6 +105,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 val view = holder.itemView
                 bindPlayerControls(view)
                 viewModel.observeImageColors()
+                        .takeUntil(RxView.detaches(view).asFlowable())
                         .filter { activity.isPortrait && AppTheme.isWhiteTheme() }
                         .subscribe({
                             view.seekBar.apply {
@@ -119,6 +120,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 val view = holder.itemView
                 bindPlayerControls(view)
                 viewModel.observeImageColors()
+                        .takeUntil(RxView.detaches(view).asFlowable())
                         .subscribe({
                             view.title.apply {
                                 animateTextColor(it.primaryTextColor)
