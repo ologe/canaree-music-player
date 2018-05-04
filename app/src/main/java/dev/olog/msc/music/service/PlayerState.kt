@@ -67,9 +67,14 @@ class PlayerState @Inject constructor(
         }
 
         val playbackState = builder.build()
-        mediaSession.setPlaybackState(playbackState)
 
         notifyWidgetsOfStateChanged(isPlaying, bookmark)
+
+        try {
+            mediaSession.setPlaybackState(playbackState)
+        } catch (ignored: IllegalStateException) {
+            // random crash
+        }
 
         return playbackState
     }

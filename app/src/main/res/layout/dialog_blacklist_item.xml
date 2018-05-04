@@ -64,7 +64,9 @@
             style="@style/Album.MainText"
             android:text="@{item.title}"
 
-            tools:text="@tools:sample/lorem"/>
+            tools:text="@tools:sample/lorem"
+            android:singleLine="true"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/secondText"
@@ -80,7 +82,8 @@
 
             tools:text="@tools:sample/lorem"
             tools:visibility="visible"
-            android:ellipsize="start"/>
+            android:ellipsize="start"
+            android:singleLine="true" />
 
     </android.support.constraint.ConstraintLayout>
 
