@@ -6,17 +6,14 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
 import dev.olog.msc.presentation.widget.image.view.toPlayerImage
-import dev.olog.msc.pro.IBilling
 import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
@@ -28,15 +25,12 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.processors.BehaviorProcessor
-import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-        private val billing: IBilling,
-        private val appPrefsUseCase: AppPreferencesUseCase,
         musicPrefsUseCase: MusicPreferencesUseCase,
         private val tutorialPreferenceUseCase: TutorialPreferenceUseCase
 
@@ -82,13 +76,6 @@ class PlayerFragmentViewModel @Inject constructor(
     }
 
     fun observeImageColors(): Flowable<ImageProcessorResult> = colorsPublisher
-
-    fun observePlayerControlsVisibility(): Observable<Boolean> {
-        return Observables.combineLatest(
-                billing.observeIsPremium(),
-                appPrefsUseCase.observePlayerControlsVisibility(), { premium, show -> premium && show }
-        )
-    }
 
     private val progressPublisher = BehaviorSubject.createDefault(0)
 

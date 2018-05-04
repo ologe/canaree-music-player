@@ -42,6 +42,7 @@ import kotlin.math.abs
 class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
     @Inject lateinit var viewModel: PlayerFragmentViewModel
+    @Inject lateinit var presenter: PlayerFragmentPresenter
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var adapter : PlayerFragmentAdapter
     private lateinit var layoutManager : LinearLayoutManager
@@ -134,7 +135,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     .asLiveData()
                     .subscribe(this, { mediaProvider.skipToPrevious() })
 
-            viewModel.observePlayerControlsVisibility()
+            presenter.observePlayerControlsVisibility()
                     .asLiveData()
                     .subscribe(this, {
                         previous.toggleVisibility(it, true)

@@ -38,7 +38,8 @@ class PlayerFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator,
-        private val viewModel: PlayerFragmentViewModel
+        private val viewModel: PlayerFragmentViewModel,
+        private val presenter: PlayerFragmentPresenter
 
 ): AbsAdapter<DisplayableItem>(lifecycle) {
 
@@ -280,7 +281,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
-            viewModel.observePlayerControlsVisibility()
+            presenter.observePlayerControlsVisibility()
                     .filter { !AppTheme.isFullscreen() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
