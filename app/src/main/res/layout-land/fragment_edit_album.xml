@@ -178,7 +178,7 @@
             <Button
                 android:id="@+id/cancelButton"
                 android:text="@string/popup_negative_cancel"
-                android:textColor="@color/dark_grey"
+                android:textColor="?android:textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"

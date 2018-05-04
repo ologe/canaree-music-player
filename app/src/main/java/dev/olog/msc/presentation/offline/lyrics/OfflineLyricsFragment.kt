@@ -85,7 +85,6 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
                     header.text = it.getTitle()
                     subHeader.text = it.getArtist()
                     seekBar.max = it.getDuration().toInt()
-                    seekBar.progress = 0
                 })
 
         presenter.observeLyrics()
