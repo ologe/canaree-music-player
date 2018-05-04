@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.view.doOnPreDraw
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
@@ -32,7 +31,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics_2.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics_2.view.*
-import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -114,7 +112,9 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
         val radius = 8
         val sampling = 6
 
-        val placeholder = FastBlur.blur(CoverUtils.getGradient(ctx, mediaId).toBitmap(100, 100, Bitmap.Config.RGB_565), radius, false)
+        val drawable = CoverUtils.getGradient(ctx, mediaId)
+        val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
+        val placeholder = FastBlur.blur(bitmap, radius, false)
                 .toDrawable(resources)
 
         GlideApp.with(ctx)

@@ -45,65 +45,11 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"/>
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:paddingStart="48dp"
-                android:background="@color/toolbar">
-
-                <TextView
-                    android:id="@+id/header"
-                    tools:text="Wanksta"
-                    android:textColor="@color/text_color_primary"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:gravity="start|center_vertical"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/edit"
-                    app:layout_constraintBottom_toTopOf="@+id/subHeader"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingTop="4dp"/>
-
-                <TextView
-                    android:id="@+id/subHeader"
-                    tools:text="50 Cent"
-                    android:textStyle="bold"
-                    android:textSize="16dp"
-                    android:gravity="start|center_vertical"
-                    android:textColor="@color/text_color_secondary"
-                    app:layout_constraintTop_toBottomOf="@+id/header"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/edit"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:ellipsize="end"
-                    android:maxLines="1" />
-
-                <ImageButton
-                    android:id="@+id/edit"
-                    android:src="@drawable/vd_edit"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/toolbar"
-                    android:textColor="@color/button_primary_tint"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:background="@null"/>
-
-            </android.support.constraint.ConstraintLayout>
-
             <ScrollView
                 android:id="@+id/scrollBar"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/toolbar"
+                app:layout_constraintStart_toStartOf="@+id/toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -115,18 +61,95 @@
 
                 <TextView
                     android:id="@+id/text"
-                    android:text="@string/offline_lyrics_empty"
-                    tools:text="@tools:sample/lorem/random"
-                    android:textSize="20dp"
-                    android:textColor="@android:color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="start"
                     android:lineSpacingExtra="10dp"
-                    android:gravity="center_horizontal"
-                    android:layout_gravity="center_horizontal"/>
-
+                    android:text="@string/offline_lyrics_empty"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp"
+                    tools:text="@tools:sample/lorem/random" />
 
             </ScrollView>
+
+            <TextView
+                android:id="@+id/emptyState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/offline_lyrics_empty"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/toolbar"
+                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="80dp"/>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/toolbar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp">
+
+                <TextView
+                    android:id="@+id/header"
+                    tools:text="Wanksta"
+                    android:textColor="@color/text_color_primary"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:gravity="start|center_vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"/>
+
+                <TextView
+                    android:id="@+id/subHeader"
+                    tools:text="50 Cent"
+                    android:textStyle="bold"
+                    android:textSize="14dp"
+                    android:gravity="start|center_vertical"
+                    android:textColor="@color/text_color_secondary"
+                    app:layout_constraintTop_toBottomOf="@+id/header"
+                    app:layout_constraintStart_toStartOf="@+id/header"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <ImageButton
+                    android:id="@+id/edit"
+                    android:src="@drawable/vd_edit"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/toolbar"
+                    android:textColor="@color/button_primary_tint"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:background="@null"/>
+
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
 
