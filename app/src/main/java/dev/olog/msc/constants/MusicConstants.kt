@@ -28,6 +28,7 @@ object MusicConstants {
 
     const val IS_EXPLICIT = "$TAG.IS_EXPLICIT"
     const val IS_REMIX = "$TAG.IS_REMIX"
+    const val PATH = "$TAG.PATH"
 
     const val EXTRA_QUEUE_CATEGORY = "$TAG.extra.queue_category"
 

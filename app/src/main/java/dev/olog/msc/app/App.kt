@@ -2,7 +2,6 @@ package dev.olog.msc.app
 
 import android.app.AlarmManager
 import android.support.v7.preference.PreferenceManager
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -38,7 +37,7 @@ class App : DaggerApplication() {
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
 //            Stetho.initializeWithDefaults(this)
-            LeakCanary.install(this)
+//            LeakCanary.install(this)
 //            StrictMode.initialize()
 //            Traceur.enableLogging()
         }

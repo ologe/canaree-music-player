@@ -1,0 +1,42 @@
+package dev.olog.msc.presentation.widget.audiowave
+
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.FrameLayout
+import android.widget.ProgressBar
+import dev.olog.msc.R
+import java.io.File
+
+class AudioWaveViewWrapper @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null
+
+) : FrameLayout(context, attrs) {
+
+    private val audioBar : AudioWaveView
+    private val progressBar: ProgressBar
+
+    init {
+        val view = LayoutInflater.from(context).inflate(R.layout.layout_audio_view, null, false)
+        addView(view)
+        audioBar = view.findViewById(R.id.wave)
+        progressBar = view.findViewById(R.id.progressBar)
+    }
+
+    fun onTrackChanged(path: String){
+        val file = File(path)
+        audioBar.setRawData(file.readBytes())
+    }
+
+    fun updateProgress(progress: Int){
+        progressBar.progress = progress
+        val relativeProgress = 100f * progress.toFloat() / progressBar.max.toFloat()
+        audioBar.progress = relativeProgress
+    }
+
+    fun updateMax(max: Long){
+        this.progressBar.max = max.toInt()
+    }
+
+}

@@ -12,6 +12,7 @@ import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
@@ -23,6 +24,8 @@ import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
+import dev.olog.msc.presentation.widget.audiowave.AudioWaveView
+import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
@@ -31,6 +34,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
+import java.io.File
 import javax.inject.Inject
 
 class PlayerFragmentAdapter @Inject constructor(
@@ -146,11 +150,17 @@ class PlayerFragmentAdapter @Inject constructor(
     @SuppressLint("RxLeakedSubscription")
     // using -> takeUntil(RxView.detaches(view))
     private fun bindPlayerControls(view: View){
+
+        val waveWrapper : AudioWaveViewWrapper? = view.findViewById(R.id.waveWrapper)
+
         mediaProvider.onMetadataChanged()
                 .takeUntil(RxView.detaches(view))
                 .doOnNext { viewModel.updateCurrentTrackId(it.getId()) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    waveWrapper?.onTrackChanged(it.getString(MusicConstants.PATH))
+                    waveWrapper?.updateMax(it.getDuration())
+
                     viewModel.onMetadataChanged(activity, it)
                     updateMetadata(view, it)
                     updateImage(view, it)
@@ -173,7 +183,10 @@ class PlayerFragmentAdapter @Inject constructor(
         viewModel.observeProgress
                 .takeUntil(RxView.detaches(view))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view.seekBar::setProgress, Throwable::printStackTrace)
+                .subscribe({
+                    view.seekBar.setProgress(it)
+                    waveWrapper?.updateProgress(it)
+                }, Throwable::printStackTrace)
 
         if (view.repeat != null){
             mediaProvider.onRepeatModeChanged()

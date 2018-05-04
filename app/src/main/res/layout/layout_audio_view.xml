@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@android:color/black"
+    android:elevation="11dp">
+
+    <View
+        android:id="@+id/fade"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/vd_fade"/>
+
+    <dev.olog.msc.presentation.widget.audiowave.AudioWaveView
+        android:id="@+id/wave"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:animateExpansion="false"
+        app:chunkWidth="3dp"
+        app:chunkHeight="48dp"
+        app:minChunkHeight="2dp"
+        app:chunkSpacing="1dp"
+        app:chunkRadius="0dp"
+        app:waveColor="@android:color/white"
+        app:progress="50"
+        tools:visibility="invisible"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:max="@integer/common_high_number"
+        tools:max="100"
+        tools:progress="50"
+        android:progressTint="@android:color/white"
+        style="@style/SizedProgressBar"
+        android:scaleY="1.2"/>
+
+</FrameLayout>
