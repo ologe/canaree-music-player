@@ -27,8 +27,6 @@ class EnhancedShuffle @Inject constructor(
     }
 
     fun shuffle(list: MutableList<MediaEntity>): List<MediaEntity>{
-        assertMainThread()
-
         val halfListSize = list.size / 2
 
         lastListened = lastListened.take(halfListSize).toMutableList()
@@ -37,7 +35,7 @@ class EnhancedShuffle @Inject constructor(
 
         for (l in lastListened.reversed()) {
             val index = shuffled.indexOfFirst { it.id == l }
-            if (index < halfListSize){
+            if (index in 0..halfListSize){
                 val item = shuffled[index]
                 shuffled.removeAt(index)
                 shuffled.add(item)

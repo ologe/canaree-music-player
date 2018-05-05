@@ -6,7 +6,6 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetFolderUseCase
 import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.music.service.GetPlayingQueueUseCase
@@ -31,12 +30,12 @@ class QueueManager @Inject constructor(
         private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val shuffleMode: ShuffleMode,
-        private val getFolderUseCase: GetFolderUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
         private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
         private val genreGateway: GenreGateway,
-        private val collator: Collator
+        private val collator: Collator,
+        private val enhancedShuffle: EnhancedShuffle
 
 ) : Queue {
 
@@ -94,7 +93,7 @@ class QueueManager @Inject constructor(
     override fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity> {
 //        return getFolderUseCase.execute(mediaId)
 //                .firstOrError()
-                return handlePlayFromMediaId(mediaId, null)
+        return handlePlayFromMediaId(mediaId, null)
     }
 
     private fun sortOnDemand(list: List<MediaEntity>, extras: Bundle?): List<MediaEntity> {
@@ -144,14 +143,17 @@ class QueueManager @Inject constructor(
     override fun handlePlayShuffle(mediaId: MediaId): Single<PlayerMediaEntity> {
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
+                .map {
+                    shuffleMode.setEnabled(true)
+                    it
+                }
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
-                .map { it.shuffled() }
+                .map { enhancedShuffle.shuffle(it.toMutableList()) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { Pair(it, 0) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }
                 .map { (list, position) -> list[position].toPlayerMediaEntity(
                         queueImpl.computePositionInQueue(list, position)) }
-                .doOnSuccess { shuffleMode.setEnabled(true) }
     }
 
     override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {
@@ -228,8 +230,8 @@ class QueueManager @Inject constructor(
     private fun shuffleIfNeeded(songId: Long) = Function<List<MediaEntity>, List<MediaEntity>> { l ->
         var list = l.toList()
         if (shuffleMode.isEnabled()){
-            val item = list.firstOrNull { it.id == songId }
-            list = list.shuffled()
+            val item = list.firstOrNull { it.id == songId } ?: l
+            list = enhancedShuffle.shuffle(list.toMutableList())
             val songPosition = list.indexOf(item)
             if (songPosition != 0 && songPosition != -1){
                 list.swap(0, songPosition)
