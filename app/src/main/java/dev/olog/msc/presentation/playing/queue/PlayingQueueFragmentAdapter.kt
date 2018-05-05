@@ -12,9 +12,7 @@ import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
-import dev.olog.msc.utils.k.extension.elevateSongOnTouch
-import dev.olog.msc.utils.k.extension.setOnClickListener
-import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
 
@@ -56,8 +54,9 @@ class PlayingQueueFragmentAdapter @Inject constructor(
             position < currentPosition -> binding.setVariable(BR.trackIndex, "${position - currentPosition}")
             else -> binding.setVariable(BR.trackIndex, "-")
         }
-        val textColor = if (position < currentPosition) R.color.text_color_secondary else R.color.text_color_primary
-        binding.root.index.setTextColor(ContextCompat.getColor(binding.root.context, textColor))
+        val view = binding.root
+        val textColor = if (position < currentPosition) view.context.textColorSecondary() else view.context.textColorPrimary()
+        binding.root.index.setTextColor(textColor)
     }
 
     override fun onMoved(from: Int, to: Int) {

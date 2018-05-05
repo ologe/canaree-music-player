@@ -19,8 +19,6 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     private val playAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
     private val pauseAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)
 
-    private var isFirstAnimation = true
-
     init {
         setupBackground(false)
     }
@@ -32,25 +30,11 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     }
 
     fun animationPlay(animate: Boolean) {
-        if (isFirstAnimation){
-            isFirstAnimation = false
-            setupBackground(true)
-        } else {
-            setupAndAnimate(animate, playAnimation)
-        }
+        setupAndAnimate(animate, playAnimation)
     }
 
     fun animationPause(animate: Boolean) {
-        if (isFirstAnimation){
-            isFirstAnimation = false
-            setupBackground(false)
-        } else {
-            setupAndAnimate(animate, pauseAnimation)
-        }
-    }
-
-    fun setIsFirstAnimation(isFirst: Boolean){
-        this.isFirstAnimation = isFirst
+        setupAndAnimate(animate, pauseAnimation)
     }
 
     private fun setupAndAnimate(animate: Boolean, avd: AnimatedVectorDrawable) {
