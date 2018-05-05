@@ -33,7 +33,8 @@ class QueueImpl @Inject constructor(
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val queueMediaSession: MediaSessionQueue,
         private val getSongUseCase: GetSongUseCase,
-        private val mediaSessionDescription: MediaSessionDescription
+        private val mediaSessionDescription: MediaSessionDescription,
+        private val enhancedShuffle: EnhancedShuffle
 ) {
 
     private var savePlayingQueueDisposable: Disposable? = null
@@ -147,7 +148,9 @@ class QueueImpl @Inject constructor(
     fun shuffle(){
         assertMainThread()
 
-        playingQueue.shuffle()
+        val copy = enhancedShuffle.shuffle(playingQueue)
+        playingQueue.clear()
+        playingQueue.addAll(copy)
 
         val currentIdInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
         val songPosition = playingQueue.indexOfFirst { it.idInPlaylist == currentIdInPlaylist }
