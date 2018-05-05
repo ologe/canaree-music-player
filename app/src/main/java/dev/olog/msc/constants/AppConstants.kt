@@ -8,6 +8,8 @@ import dev.olog.msc.utils.k.extension.updateNightMode
 
 object AppConstants {
 
+    const val FILE_PROVIDER_PATH = "dev.olog.msc.fileprovider"
+
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 

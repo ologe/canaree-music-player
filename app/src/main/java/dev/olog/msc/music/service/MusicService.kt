@@ -23,10 +23,13 @@ import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
+import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.k.extension.getUriForFile
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import java.io.File
 import javax.inject.Inject
 
 class MusicService : BaseMusicService() {
@@ -135,9 +138,7 @@ class MusicService : BaseMusicService() {
         }
 
         if (CarHelper.isValidCarPackage(clientPackageName)){
-            grantUriPermission(CarHelper.AUTO_APP_PACKAGE_NAME,
-                    Uri.parse("content://media/external/audio/albumart"),
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            grantUriPermissions(CarHelper.AUTO_APP_PACKAGE_NAME)
             return BrowserRoot(MediaIdHelper.MEDIA_ID_ROOT, null)
         }
         if (WearHelper.isValidWearCompanionPackage(clientPackageName)){
@@ -174,6 +175,28 @@ class MusicService : BaseMusicService() {
                 .subscribe(result::sendResult, Throwable::printStackTrace)
                 .addTo(subsriptions)
 
+    }
+
+    private fun grantUriPermissions(packageName: String){
+        grantUriPermission(packageName,
+                Uri.parse("content://media/external/audio/albumart"),
+                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        grantUriPermission(packageName,
+                getUriForFile(File(cacheDir.path)),
+                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        grantUriPermission(packageName,
+                getUriForFile(ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.FOLDER)),
+                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        grantUriPermission(packageName,
+                getUriForFile(ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.PLAYLIST)),
+                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        grantUriPermission(packageName,
+                getUriForFile(ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.GENRE)),
+                Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {

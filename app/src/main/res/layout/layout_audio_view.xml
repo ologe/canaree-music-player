@@ -11,7 +11,7 @@
         android:id="@+id/fade"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/vd_fade"/>
+        android:background="@drawable/vd_fade_audio_bar"/>
 
     <dev.olog.msc.presentation.widget.audiowave.AudioWaveView
         android:id="@+id/wave"
