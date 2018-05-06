@@ -82,6 +82,9 @@ ext {
     gson = '2.8.2'
     ok_http = '3.10.0'
     optional_lib = '1.2'
+    last_fm_binding = '0.1.2'
+    aes_crypto = '1.1.0'
+    tap_target = '1.11.0'
 
     // reactive
     rx_java = '2.1.12'

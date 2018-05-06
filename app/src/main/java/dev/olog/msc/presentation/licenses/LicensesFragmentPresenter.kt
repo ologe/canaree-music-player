@@ -148,6 +148,27 @@ class LicensesFragmentPresenter @Inject constructor(
             apache()
     )
 
+    private val TAP_TARGET_VIEW = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("TapTargetView"),
+            "TapTargetView", "https://github.com/KeepSafe/TapTargetView",
+            apache()
+    )
+
+    private val AES_CRYPTO = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("java-aes-crypto"),
+            "java-aes-crypto", "https://github.com/tozny/java-aes-crypto",
+            mit()
+    )
+
+    private val LAST_FM_BINDING = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("last_fm_binding"),
+            "Last.fm API Bindings for Java\n", "https://github.com/jkovacs/lastfm-java",
+            lastFmBinding()
+    )
+
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
             ANDROID_SUPPORT_LIBRARIES,
@@ -170,7 +191,10 @@ class LicensesFragmentPresenter @Inject constructor(
             RETROFIT,
             OK_HTTP,
             J_AUDIO_TAGGER,
-            OPTIONAL
+            OPTIONAL,
+            TAP_TARGET_VIEW,
+            AES_CRYPTO,
+            LAST_FM_BINDING
     )
 
     private fun apache(): String {
@@ -218,4 +242,14 @@ class LicensesFragmentPresenter @Inject constructor(
                     .use { it.readText() }
         }
     }
+
+    private fun lastFmBinding(): String{
+        return cachedLicenses.getOrPut("lastfm") {
+            context.assets
+                    .open("licenses/lastfm.txt")
+                    .bufferedReader()
+                    .use { it.readText() }
+        }
+    }
+
 }
