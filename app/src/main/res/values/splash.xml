@@ -7,7 +7,7 @@
     <string name="splash_player_tutorial_2">Click the image\'s edges or swipe to skip</string>
 
     <string name="splash_storage_permission">Storage permission</string>
-    <string name="splash_storage_permission_disabled">Please accept storage permission to use the app</string>
+    <string name="splash_storage_permission_disabled">Please grant storage permission to use the app</string>
 
     <dimen name="splash_placeholder_size">140dp</dimen>
 
