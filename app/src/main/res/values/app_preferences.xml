@@ -239,4 +239,9 @@
     <string name="prefs_delete_cached_images_summary">Delete all cached images</string>
     <string name="prefs_delete_cached_images_success">Cache deleted</string>
 
+    <!--last fm credentials-->
+    <string name="prefs_last_fm_credentials_key" translatable="false">key_last_fm_credentials</string>
+    <string name="prefs_last_fm_credentials_title">Last.fm user credentials</string>
+    <string name="prefs_last_fm_credentials_summary">Set username and password for your Last.fm account</string>
+
 </resources>

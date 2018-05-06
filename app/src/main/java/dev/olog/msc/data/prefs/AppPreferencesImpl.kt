@@ -6,10 +6,7 @@ import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.domain.entity.LibraryCategoryBehavior
-import dev.olog.msc.domain.entity.LibrarySortType
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
@@ -59,6 +56,9 @@ class AppPreferencesImpl @Inject constructor(
         private const val CATEGORY_ALBUM_VISIBILITY = "$TAG.CATEGORY_ALBUM_VISIBILITY"
         private const val CATEGORY_ARTIST_VISIBILITY = "$TAG.CATEGORY_ARTIST_VISIBILITY"
         private const val CATEGORY_GENRE_VISIBILITY = "$TAG.CATEGORY_GENRE_VISIBILITY"
+
+        private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME"
+        private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD"
 
         private const val BLACKLIST = "$TAG.BLACKLIST"
     }
@@ -356,6 +356,38 @@ class AppPreferencesImpl @Inject constructor(
         preferences.edit {
             putInt(ALL_ALBUMS_SORT_ORDER, sortType.type.ordinal)
             putInt(ALL_ALBUMS_SORT_ARRANGING, sortType.arranging.ordinal)
+        }
+    }
+
+    /*
+        Must be encrypted
+     */
+    override fun getLastFmCredentials(): UserCredendials {
+        return UserCredendials(
+                preferences.getString(LAST_FM_USERNAME, ""),
+                preferences.getString(LAST_FM_PASSWORD, "")
+        )
+    }
+
+    /*
+        Must be encrypted
+     */
+    override fun observeLastFmCredentials(): Observable<UserCredendials> {
+        return rxPreferences.getString(LAST_FM_USERNAME, "")
+                .asObservable()
+                .map { UserCredendials(
+                        it,
+                        preferences.getString(LAST_FM_PASSWORD, "")
+                ) }
+    }
+
+    /*
+        Must be encrypted
+     */
+    override fun setLastFmCredentials(user: UserCredendials) {
+        preferences.edit {
+            putString(LAST_FM_USERNAME, user.username)
+            putString(LAST_FM_PASSWORD, user.password)
         }
     }
 }

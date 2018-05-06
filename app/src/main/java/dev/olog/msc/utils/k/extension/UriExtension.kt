@@ -7,5 +7,10 @@ import dev.olog.msc.constants.AppConstants
 import java.io.File
 
 fun Context.getUriForFile(file: File): Uri {
-    return FileProvider.getUriForFile(this, AppConstants.FILE_PROVIDER_PATH, file)
+    try {
+        return FileProvider.getUriForFile(this, AppConstants.FILE_PROVIDER_PATH, file)
+    } catch (ex: Exception){
+        return Uri.EMPTY
+    }
+
 }

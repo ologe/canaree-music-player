@@ -13,6 +13,7 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
+import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
 import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.img.ImagesFolderUtils
@@ -29,6 +30,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var iconShape : Preference
     private lateinit var notchSupport : Preference
     private lateinit var deleteCache : Preference
+    private lateinit var lastFmCredentials: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -37,6 +39,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
         notchSupport = preferenceScreen.findPreference(getString(R.string.prefs_notch_support_key))
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
+        lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,6 +86,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             showDeleteAllCacheDialog()
             true
         }
+        lastFmCredentials.setOnPreferenceClickListener {
+            act.fragmentTransaction {
+                setReorderingAllowed(true)
+                add(LastFmCredentialsFragment.newInstance(), LastFmCredentialsFragment.TAG)
+            }
+            true
+        }
     }
 
     override fun onPause() {
@@ -91,6 +101,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         libraryCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
         deleteCache.onPreferenceClickListener = null
+        lastFmCredentials.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

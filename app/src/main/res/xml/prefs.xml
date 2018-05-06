@@ -99,6 +99,11 @@
     <PreferenceCategory
         android:title="@string/prefs_category_other">
 
+        <Preference
+            android:key="@string/prefs_last_fm_credentials_key"
+            android:title="@string/prefs_last_fm_credentials_title"
+            android:summary="@string/prefs_last_fm_credentials_summary"/>
+
         <ListPreference
             android:title="@string/prefs_quick_action_title"
             android:summary="@string/prefs_quick_action_summary"

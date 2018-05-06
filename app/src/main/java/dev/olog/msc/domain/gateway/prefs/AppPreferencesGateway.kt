@@ -1,9 +1,6 @@
 package dev.olog.msc.domain.gateway.prefs
 
-import dev.olog.msc.domain.entity.LibraryCategoryBehavior
-import dev.olog.msc.domain.entity.LibrarySortType
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.msc.domain.entity.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 
@@ -33,6 +30,10 @@ interface AppPreferencesGateway : Sorting {
     fun setDefault(): Completable
 
     fun observeAutoCreateImages(): Observable<Boolean>
+
+    fun getLastFmCredentials(): UserCredendials
+    fun observeLastFmCredentials(): Observable<UserCredendials>
+    fun setLastFmCredentials(user: UserCredendials)
 
 }
 

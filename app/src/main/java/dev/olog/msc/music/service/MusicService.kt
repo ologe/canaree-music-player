@@ -47,6 +47,7 @@ class MusicService : BaseMusicService() {
     @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
     @Inject lateinit var mediaItemGenerator: Lazy<MediaItemGenerator>
     @Inject lateinit var alarmManager: AlarmManager
+    @Inject lateinit var lastFmScrobbling: LastFmScrobbling
 
     private val subsriptions = CompositeDisposable()
 
