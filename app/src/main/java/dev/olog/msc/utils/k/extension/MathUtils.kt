@@ -17,3 +17,21 @@ fun clamp(value: Long, min: Long, max: Long): Long {
     }
     return value
 }
+
+fun indexOfClosest(value: Int, list: List<Int>): Int {
+    var min = Integer.MAX_VALUE
+    var closestIndex = -1
+
+    for (index in 0..list.lastIndex){
+        val v = list[index]
+
+        val diff = Math.abs(v - value)
+
+        if (diff < min) {
+            min = diff
+            closestIndex = index
+        }
+    }
+
+    return closestIndex
+}

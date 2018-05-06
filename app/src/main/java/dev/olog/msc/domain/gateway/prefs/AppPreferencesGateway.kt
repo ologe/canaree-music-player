@@ -35,6 +35,9 @@ interface AppPreferencesGateway : Sorting {
     fun observeLastFmCredentials(): Observable<UserCredendials>
     fun setLastFmCredentials(user: UserCredendials)
 
+    fun getSyncAdjustment(): Long
+    fun setSyncAdjustment(value: Long)
+
 }
 
 interface Sorting {

@@ -51,6 +51,7 @@ class LastFmScrobbling @Inject constructor(
         playerLifecycle.addListener(this)
 
         Caller.getInstance().userAgent = "dev.olog.msc"
+        Caller.getInstance().isDebugMode = false
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

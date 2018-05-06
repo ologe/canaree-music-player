@@ -6,6 +6,7 @@ import dev.olog.msc.domain.gateway.OfflineLyricsGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.get
 import io.reactivex.Observable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -30,6 +31,14 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
 
     private fun getLyricsFromMetadata(song: Song): String {
         val file = File(song.path)
+
+        val fileName = file.nameWithoutExtension
+        val lyricsFile = File(file.parentFile, "$fileName.lrc")
+
+        if (file.exists()){
+            return lyricsFile.bufferedReader().use { it.readText() }
+        }
+
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagAndConvertOrCreateAndSetDefault
         return tag.getFirst(FieldKey.LYRICS)

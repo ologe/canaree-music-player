@@ -5,5 +5,8 @@
 
     <string name="offline_lyrics_edit_title">Add lyrics</string>
     <string name="offline_lyrics_edit_hint">Paste your lyrics here</string>
+    <string name="offline_lyrics_adjust_sync">Adjust synchronization</string>
+    <string name="offline_lyrics_adjust_sync_hint">Milliseconds</string>
+    <string name="offline_lyrics_adjust_sync_error">Only digits</string>
 
 </resources>

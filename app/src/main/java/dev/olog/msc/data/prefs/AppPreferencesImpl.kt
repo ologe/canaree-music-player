@@ -9,6 +9,7 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.clamp
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -59,6 +60,8 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME"
         private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD"
+
+        private const val SYNC_ADJUSTMENT = "$TAG.SYNC_ADJUSTMENT"
 
         private const val BLACKLIST = "$TAG.BLACKLIST"
     }
@@ -274,6 +277,7 @@ class AppPreferencesImpl @Inject constructor(
             hideClassicPlayerControls()
             setDefaultAutoDownloadImages()
             setDefaultTheme()
+            setLastFmCredentials(UserCredendials("", ""))
 
             emitter.onComplete()
         }
@@ -389,5 +393,14 @@ class AppPreferencesImpl @Inject constructor(
             putString(LAST_FM_USERNAME, user.username)
             putString(LAST_FM_PASSWORD, user.password)
         }
+    }
+
+
+    override fun getSyncAdjustment(): Long {
+        return preferences.getLong(SYNC_ADJUSTMENT, 0)
+    }
+
+    override fun setSyncAdjustment(value: Long) {
+        preferences.edit { putLong(SYNC_ADJUSTMENT, value) }
     }
 }

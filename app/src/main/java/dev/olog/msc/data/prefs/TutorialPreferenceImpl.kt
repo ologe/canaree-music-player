@@ -18,7 +18,7 @@ class TutorialPreferenceImpl @Inject constructor(
         private const val SORT_BY_SHOWN = "$TAG.SORT_BY_SHOWN"
         private const val FLOATING_WINDOW_SHOWN = "$TAG.FLOATING_WINDOW_SHOWN"
         private const val LYRICS_SHOWN = "$TAG.LYRICS_SHOWN"
-        private const val ADD_LYRICS_SHOWN = "$TAG.ADD_LYRICS_SHOWN"
+        private const val ADD_LYRICS_SHOWN = "$TAG.ADD_LYRICS_SHOWN_2"
     }
 
     override fun sortByTutorial(): Completable {

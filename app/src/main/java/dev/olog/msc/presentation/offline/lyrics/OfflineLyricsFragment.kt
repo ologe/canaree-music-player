@@ -1,16 +1,20 @@
 package dev.olog.msc.presentation.offline.lyrics
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
+import android.support.design.widget.TextInputLayout
 import android.support.v4.media.MediaMetadataCompat
 import android.view.View
 import android.widget.SeekBar
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.text.isDigitsOnly
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
@@ -24,6 +28,7 @@ import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
 import dev.olog.msc.presentation.utils.blur.FastBlur
 import dev.olog.msc.presentation.widget.image.view.toPlayerImage
+import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
@@ -31,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics_2.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics_2.view.*
+import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -86,11 +92,12 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
                 })
 
         presenter.observeLyrics()
+                .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
                 .subscribe(this, {
                     emptyState.toggleVisibility(it.isEmpty(), true)
-                    text.text = it
+                    text.setText(it)
                 })
 
         mediaProvider.onStateChanged()
@@ -132,7 +139,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
         view.image.post { startPostponedEnterTransition() }
 
         tutorialDisposable = presenter.showAddLyricsIfNeverShown()
-                .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit) }, {})
+                .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) }, {})
 
         view.scrollView.setClickBehavior { mediaProvider.playPause() }
     }
@@ -157,9 +164,34 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
         }
         act.window.removeLightStatusBar()
 
-        fakeNext.setOnClickListener { mediaProvider.skipToNext() }
-        fakePrev.setOnClickListener { mediaProvider.skipToPrevious() }
+        fakeNext.setOnTouchListener(CustomTouchListener(ctx, { mediaProvider.skipToNext() }))
+        fakePrev.setOnTouchListener(CustomTouchListener(ctx, { mediaProvider.skipToPrevious() }))
         seekBar.setOnSeekBarChangeListener(seekBarListener)
+
+        sync.setOnClickListener {
+            val builder = ThemedDialog.builder(ctx)
+                    .setTitle(R.string.offline_lyrics_adjust_sync)
+                    .setView(R.layout.layout_edit_text_simple)
+                    .setPositiveButton(R.string.popup_positive_ok, null)
+                    .setNegativeButton(R.string.popup_negative_cancel, null)
+
+            val dialog = builder.makeDialog()
+
+            val editText = dialog.findViewById<TextInputEditText>(R.id.editText)
+            val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
+            editTextLayout.hint = getString(R.string.offline_lyrics_adjust_sync_hint)
+            editText.setText(presenter.getSyncAdjustement())
+
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+                val text = editText.text.toString()
+                if (text.isDigitsOnly() || (text.isNotBlank() && text[0] == '-' && text.substring(1).isDigitsOnly())){
+                    presenter.updateSyncAdjustement(text.toLong())
+                    dialog.dismiss()
+                } else {
+                    toast(getString(R.string.offline_lyrics_adjust_sync_error))
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -169,9 +201,10 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
         search.setOnClickListener(null)
         act.window.setLightStatusBar()
 
-        fakeNext.setOnClickListener(null)
-        fakePrev.setOnClickListener(null)
+        fakeNext.setOnTouchListener(null)
+        fakePrev.setOnTouchListener(null)
         seekBar.setOnSeekBarChangeListener(null)
+        sync.setOnClickListener(null)
     }
 
     override fun onStop() {

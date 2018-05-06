@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/editTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textColorHint="?android:attr/textColorSecondary">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editText"
+            android:hint="@string/new_playlist_hint"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textColorHint="?android:attr/textColorSecondary"
+            android:backgroundTint="?android:attr/textColorSecondaryInverse"
+            tools:text="Some text"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+</FrameLayout>

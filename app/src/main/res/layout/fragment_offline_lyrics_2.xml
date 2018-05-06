@@ -93,9 +93,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="start"
             android:lineSpacingExtra="10dp"
-            android:text="@string/offline_lyrics_empty"
-            android:textColor="@android:color/white"
-            android:textSize="16dp"
+
             tools:text="@tools:sample/lorem/random" />
 
     </dev.olog.msc.presentation.widget.ClickableScrollView>
@@ -128,9 +126,9 @@
             android:layout_marginTop="16dp"
             android:ellipsize="end"
             android:gravity="start"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="20dp"
+            android:textSize="22dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/edit"
             app:layout_constraintStart_toStartOf="parent"
@@ -169,6 +167,7 @@
             app:layout_constraintEnd_toEndOf="@+id/header"
             app:layout_constraintStart_toStartOf="@+id/header"
             app:layout_constraintTop_toBottomOf="@+id/subHeader"
+            app:layout_constraintVertical_bias="1"
             tools:max="100"
             tools:progress="40"
             tools:progressTint="@color/dark_grey" />
@@ -176,9 +175,9 @@
 
         <ImageButton
             android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/toolbar"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:layout_marginTop="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
@@ -189,8 +188,8 @@
 
         <ImageButton
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/toolbar"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
@@ -198,6 +197,18 @@
             android:tint="?android:attr/textColorTertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit" />
+
+        <ImageButton
+            android:id="@+id/sync"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="@dimen/common_icon_size"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            android:src="@drawable/vd_sync"
+            android:tint="?android:attr/textColorTertiary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search" />
 
     </android.support.constraint.ConstraintLayout>
 

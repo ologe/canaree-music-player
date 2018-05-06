@@ -58,7 +58,7 @@ class CategoriesFragment : BaseFragment() {
         floatingWindowTutorialDisposable = presenter.showFloatingWindowTutorialIfNeverShown()
                 .delay(2, TimeUnit.SECONDS, Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ TutorialTapTarget.floatingWindow(floatingWindow) }, Throwable::printStackTrace)
+                .subscribe({ TutorialTapTarget.floatingWindow(floatingWindow) }, {})
     }
 
     override fun onPause() {

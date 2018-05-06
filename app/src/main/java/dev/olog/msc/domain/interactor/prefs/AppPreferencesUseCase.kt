@@ -50,4 +50,11 @@ class AppPreferencesUseCase @Inject constructor(
         return gateway.observeAutoCreateImages()
     }
 
+    fun getSyncAdjustment(): Long {
+        return gateway.getSyncAdjustment()
+    }
+    fun setSyncAdjustment(value: Long) {
+        gateway.setSyncAdjustment(value)
+    }
+
 }

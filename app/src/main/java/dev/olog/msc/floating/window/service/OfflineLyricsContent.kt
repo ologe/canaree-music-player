@@ -130,4 +130,5 @@ class OfflineLyricsContent(
         updateLyricsDisposable = insertUseCase.execute(OfflineLyrics(trackId, lyrics))
                 .subscribe({}, Throwable::printStackTrace)
     }
+
 }
