@@ -6,7 +6,6 @@ import dev.olog.msc.domain.gateway.OfflineLyricsGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.domain.interactor.detail.item.GetSongUseCase
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.get
 import io.reactivex.Observable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
@@ -35,7 +34,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
         val fileName = file.nameWithoutExtension
         val lyricsFile = File(file.parentFile, "$fileName.lrc")
 
-        if (file.exists()){
+        if (lyricsFile.exists()){
             return lyricsFile.bufferedReader().use { it.readText() }
         }
 
