@@ -62,17 +62,17 @@ class NavigatorAboutImpl @Inject internal constructor(
         }
     }
 
-    override fun toDeveloperProfile() {
-        if (allowed()){
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://www.facebook.com/eugeniu.olog")
-            if (activity.packageManager.isIntentSafe(intent)) {
-                activity.startActivity(intent)
-            } else {
-                activity.toast(R.string.common_browser_not_found)
-            }
-        }
-    }
+//    override fun toDeveloperProfile() {
+//        if (allowed()){
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.data = Uri.parse("https://www.facebook.com/eugeniu.olog")
+//            if (activity.packageManager.isIntentSafe(intent)) {
+//                activity.startActivity(intent)
+//            } else {
+//                activity.toast(R.string.common_browser_not_found)
+//            }
+//        }
+//    }
 
     override fun joinCommunity() {
         if (allowed()){

@@ -10,7 +10,7 @@ interface NavigatorAbout {
 
     fun toPrivacyPolicy()
 
-    fun toDeveloperProfile()
+//    fun toDeveloperProfile()
 
     fun joinCommunity()
 

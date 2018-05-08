@@ -23,7 +23,7 @@ class AboutActivityAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             when (item.mediaId){
-                AboutActivityPresenter.AUTHOR_ID -> navigator.get().toDeveloperProfile()
+//                AboutActivityPresenter.AUTHOR_ID -> navigator.get().toDeveloperProfile()
                 AboutActivityPresenter.THIRD_SW_ID -> navigator.get().toLicensesFragment()
                 AboutActivityPresenter.SPECIAL_THANKS_ID -> navigator.get().toSpecialThanksFragment()
                 AboutActivityPresenter.RATE_ID -> navigator.get().toMarket()
