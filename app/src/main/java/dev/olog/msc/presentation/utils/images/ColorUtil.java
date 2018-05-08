@@ -22,10 +22,17 @@ public class ColorUtil {
     public static int getLighterColor(int color1, int color2, int defaultBackgroundColor){
         double luminance1 = calculateLuminance(color1);
         double luminance2 = calculateLuminance(color2);
+        float ratio = 2;
 
         if (luminance1 >= luminance2){
+            if (luminance1 <= .15f){
+                return findContrastColor(color1, defaultBackgroundColor, true, ratio);
+            }
             return color1;
         } else {
+            if (luminance2 <= .15f){
+                return findContrastColor(color2, defaultBackgroundColor, true, ratio);
+            }
             return color2;
         }
     }

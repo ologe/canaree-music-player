@@ -26,7 +26,7 @@ open class RoundedCornersImageView @JvmOverloads constructor(
         radius = a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS)
         a.recycle()
 
-        val rounded = AppTheme.isDefault() || AppTheme.isSpotify()
+        val rounded = AppTheme.isDefault() || AppTheme.isSpotify() || AppTheme.isPlain()
 
         if (rounded){
             val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner) as GradientDrawable

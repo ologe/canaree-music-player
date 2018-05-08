@@ -72,7 +72,8 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_fullscreen,
             R.layout.fragment_player_controls_flat,
-            R.layout.fragment_player_controls_big_image -> {
+            R.layout.fragment_player_controls_big_image,
+            R.layout.fragment_player_controls_plain-> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
@@ -143,6 +144,18 @@ class PlayerFragmentAdapter @Inject constructor(
                             view.shuffle.updateColor(accentColor)
                             view.repeat.updateColor(accentColor)
                         }, Throwable::printStackTrace)
+            }
+            R.layout.fragment_player_controls_plain -> {
+                val view = holder.itemView
+                bindPlayerControls(view)
+                viewModel.observeImageColors()
+                        .takeUntil(RxView.detaches(view).asFlowable())
+                        .subscribe({
+                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background, activity.windowBackground())
+                            view.artist.animateTextColor(accentColor)
+                            view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
+                        }, Throwable::printStackTraceOnDebug)
+
             }
         }
     }
@@ -298,6 +311,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
             presenter.observePlayerControlsVisibility()
                     .filter { !AppTheme.isFullscreen() }
+                    .filter { !AppTheme.isPlain() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
@@ -326,7 +340,7 @@ class PlayerFragmentAdapter @Inject constructor(
         val duration = metadata.getDuration()
 
         var readableDuration = metadata.getDurationReadable()
-        if (!activity.isPortrait && AppTheme.isBigImage() || AppTheme.isDefault()){
+        if (!activity.isPortrait && AppTheme.isBigImage() || AppTheme.isDefault() || AppTheme.isPlain()){
             readableDuration = "${TextUtils.MIDDLE_DOT_SPACED}$readableDuration"
         }
 

@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
 import dev.olog.msc.R
+import dev.olog.msc.theme.AppTheme
 
 private val colorEvaluator by lazy { ArgbEvaluator() }
 
@@ -18,10 +19,11 @@ fun TextView.animateTextColor(to: Int){
 
 fun View.animateBackgroundColor(to: Int){
     animate().cancel()
+
     val from = if (background != null && background is ColorDrawable){
         (background as ColorDrawable).color
     } else ContextCompat.getColor(context, R.color.background)
-    computeColors(from, to) { setBackgroundColor(it) }
+    computeColors(from, to) {setBackgroundColor(it) }
 }
 
 private fun computeColors(from: Int, to: Int, func: (Int) -> Unit){
