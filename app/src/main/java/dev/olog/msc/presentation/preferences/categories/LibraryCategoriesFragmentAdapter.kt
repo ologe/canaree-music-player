@@ -69,7 +69,11 @@ class LibraryCategoriesFragmentAdapter (
     override fun onInteractionEnd(position: Int) {
     }
 
-    override fun onSwiped(position: Int) {
+    override fun onSwipedLeft(position: Int) {
+        throw IllegalStateException("operation not supported")
+    }
+
+    override fun onSwipedRight(position: Int) {
         throw IllegalStateException("operation not supported")
     }
 

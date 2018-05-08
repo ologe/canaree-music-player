@@ -25,10 +25,14 @@ class TouchHelperAnimationController {
         viewHolder.itemView.findViewById<View>(R.id.scrim)?.setVisible()
     }
 
-    fun drawSwipe(canvas: Canvas, viewHolder: RecyclerView.ViewHolder, dx: Float){
+    fun drawSwipeRight(canvas: Canvas, viewHolder: RecyclerView.ViewHolder, dx: Float){
         val view = viewHolder.itemView
         drawDeleteBackground(canvas, view, dx)
         drawDeleteIcon(canvas, view, dx)
+    }
+
+    fun drawSwipeLeft(canvas: Canvas, viewHolder: RecyclerView.ViewHolder, dx: Float){
+
     }
 
     fun clear(viewHolder: RecyclerView.ViewHolder){

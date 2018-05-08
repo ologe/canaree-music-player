@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.support.v4.content.ContextCompat
 import android.view.MotionEvent
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -67,14 +66,14 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         super.onMoved(from, to)
     }
 
-    override fun onSwiped(position: Int) {
+    override fun onSwipedRight(position: Int) {
         if (currentPosition == position){
             currentPosition = -1
         }
         if (currentPosition > position){
             currentPosition--
         }
-        super.onSwiped(position)
+        super.onSwipedRight(position)
     }
 
     override fun onInteractionEnd(position: Int) {
@@ -92,7 +91,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     override val onDragAction = { from: Int, to: Int -> mediaProvider.swap(from, to) }
 
-    override val onSwipeAction = { position: Int ->
+    override val onSwipeRightAction = { position: Int ->
         mediaProvider.remove(position)
     }
 

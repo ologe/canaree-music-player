@@ -33,7 +33,10 @@ class TouchHelperAdapterCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
-            adapter.onSwiped(viewHolder.adapterPosition)
+            when (direction){
+                ItemTouchHelper.RIGHT -> adapter.onSwipedRight(viewHolder.adapterPosition)
+                ItemTouchHelper.LEFT -> adapter.onSwipedLeft(viewHolder.adapterPosition)
+            }
         }
     }
 
@@ -43,7 +46,13 @@ class TouchHelperAdapterCallback(
                              actionState: Int, isCurrentlyActive: Boolean) {
 
         when (actionState){
-            ItemTouchHelper.ACTION_STATE_SWIPE -> animationsController.drawSwipe(c, viewHolder, dX)
+            ItemTouchHelper.ACTION_STATE_SWIPE -> {
+                if (dX > 0){
+                    animationsController.drawSwipeRight(c, viewHolder, dX)
+                } else {
+                    animationsController.drawSwipeLeft(c, viewHolder, dX)
+                }
+            }
             ItemTouchHelper.ACTION_STATE_DRAG -> animationsController.drawMove(viewHolder)
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)

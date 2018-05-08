@@ -242,13 +242,13 @@ class DetailFragmentAdapter @Inject constructor(
 
     override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
 
-    override fun onSwiped(position: Int) {
-        onSwipeAction.invoke(position)
+    override fun onSwipedRight(position: Int) {
+        onSwipeRightAction.invoke(position)
         controller.remove(position)
         notifyItemRemoved(position)
     }
 
-    override val onSwipeAction = { position: Int ->
+    override val onSwipeRightAction = { position: Int ->
         viewModel.removeFromPlaylist(controller.getItem(position))
     }
 

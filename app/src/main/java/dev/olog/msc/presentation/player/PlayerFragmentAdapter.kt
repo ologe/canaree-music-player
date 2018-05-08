@@ -389,7 +389,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
     override val onDragAction = { from: Int, to: Int -> mediaProvider.swapRelative(from, to) }
 
-    override val onSwipeAction = { position: Int -> mediaProvider.removeRelative(position) }
+    override val onSwipeRightAction = { position: Int -> mediaProvider.removeRelative(position) }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
         return viewType == R.layout.item_mini_queue

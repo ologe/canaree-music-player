@@ -113,7 +113,8 @@ abstract class AbsAdapter<Model : BaseModel>(
 
     protected open val onDragAction: ((from: Int, to: Int) -> Any)? = null
 
-    protected open val onSwipeAction : ((position: Int) -> Any)? = null
+    protected open val onSwipeLeftAction : ((position: Int) -> Any)? = null
+    protected open val onSwipeRightAction : ((position: Int) -> Any)? = null
 
     /*
         Relative position is calculated from first interactive item,
@@ -130,18 +131,24 @@ abstract class AbsAdapter<Model : BaseModel>(
         onDragAction!!.invoke(relativeFrom, relativeTo)
     }
 
+    override fun onSwipedLeft(position: Int) {
+        val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
+        val relativePosition = position - positionPivot
+        onSwipeLeftAction?.invoke(relativePosition)
+    }
+
     /*
         Relative position is calculated from first interactive item,
         because there are items that isn't
      */
-    override fun onSwiped(position: Int) {
+    override fun onSwipedRight(position: Int) {
         val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
         val relativePosition = position - positionPivot
 
         controller.remove(position)
         notifyItemRemoved(position)
         // swipe action must be defined
-        onSwipeAction!!.invoke(relativePosition)
+        onSwipeRightAction?.invoke(relativePosition)
     }
 
     override fun onInteractionEnd(position: Int) {
