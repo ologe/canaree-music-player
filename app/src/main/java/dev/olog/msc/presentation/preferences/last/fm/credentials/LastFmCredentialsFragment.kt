@@ -37,6 +37,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
 
         val builder = ThemedDialog.builder(ctx)
                 .setTitle(R.string.prefs_last_fm_credentials_title)
+                .setMessage(R.string.prefs_last_fm_credentials_message)
                 .setView(view)
                 .setPositiveButton(R.string.credentials_button_positive, null)
                 .setNegativeButton(R.string.credentials_button_negative, null)
@@ -56,9 +57,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
                     password.text.toString()
             )
             val disp = updateLastFmUserCredentials.execute(user)
-                    .subscribe({
-                        dismiss()
-                    }, Throwable::printStackTrace)
+                    .subscribe({ dismiss() }, Throwable::printStackTrace)
         }
 
         return dialog

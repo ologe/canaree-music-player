@@ -94,6 +94,7 @@
 
     <!--delete cached images-->
     <string name="prefs_delete_cached_images_title">Emimina cache</string>
+    <string name="prefs_last_fm_credentials_message">Le credenziali saranno crittografate</string>
     <string name="prefs_delete_cached_images_summary">Elimina tutte le immagini scaricate</string>
     <string name="prefs_delete_cached_images_success">Cache cancellate con successo</string>
 

@@ -241,7 +241,8 @@
 
     <!--last fm credentials-->
     <string name="prefs_last_fm_credentials_key" translatable="false">key_last_fm_credentials</string>
-    <string name="prefs_last_fm_credentials_title">Last.fm user credentials</string>
+    <string name="prefs_last_fm_credentials_title">Last.fm credentials</string>
+    <string name="prefs_last_fm_credentials_message">Credentials will be encrypted</string>
     <string name="prefs_last_fm_credentials_summary">Set username and password for your Last.fm account</string>
 
 </resources>
