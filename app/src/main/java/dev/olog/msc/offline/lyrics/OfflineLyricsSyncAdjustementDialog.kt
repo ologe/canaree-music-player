@@ -24,7 +24,7 @@ object OfflineLyricsSyncAdjustementDialog {
         var dialog = builder.create()
         if (forService) {
             dialog.enableForService()
-            dialog = builder.show()
+            dialog.show()
         } else {
             dialog = builder.makeDialog()
         }
