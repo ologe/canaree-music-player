@@ -39,4 +39,13 @@ class RecentlyAddedFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return viewType == R.layout.item_recently_added
+    }
+
+    override val onSwipeLeftAction = { position: Int ->
+        val item = controller.getItem(position)
+        mediaProvider.addToPlayNext(item.mediaId)
+    }
+
 }

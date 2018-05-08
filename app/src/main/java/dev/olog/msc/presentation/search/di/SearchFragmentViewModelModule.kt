@@ -188,9 +188,11 @@ private fun SearchResult.toSearchDisplayableItem(context: Context) : Displayable
 
     val isPlayable = this.itemType == RecentSearchesTypes.SONG
 
-    val layout = if (this.itemType == RecentSearchesTypes.ARTIST) {
-        R.layout.item_search_recent_artist
-    } else R.layout.item_search_recent
+    val layout = when (this.itemType){
+        RecentSearchesTypes.ARTIST -> R.layout.item_search_recent_artist
+        RecentSearchesTypes.ALBUM -> R.layout.item_search_recent_album
+        else -> R.layout.item_search_recent
+    }
 
     return DisplayableItem(
             layout,

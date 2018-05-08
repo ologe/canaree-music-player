@@ -59,6 +59,7 @@ class SearchFragmentAdapter @Inject constructor(
                 }
             }
             R.layout.item_search_recent,
+            R.layout.item_search_recent_album,
             R.layout.item_search_recent_artist -> {
                 viewHolder.setOnClickListener(controller) { item, _, _  ->
                     if (item.isPlayable){
@@ -79,6 +80,7 @@ class SearchFragmentAdapter @Inject constructor(
         when (viewType){
             R.layout.item_search_song,
             R.layout.item_search_recent,
+            R.layout.item_search_recent_album,
             R.layout.item_search_recent_artist -> viewHolder.elevateSongOnTouch()
         }
     }
@@ -97,6 +99,16 @@ class SearchFragmentAdapter @Inject constructor(
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
         binding.setVariable(BR.item, item)
+    }
+
+    override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        return viewType == R.layout.item_search_song ||
+                viewType == R.layout.item_search_recent
+    }
+
+    override val onSwipeLeftAction = { position: Int ->
+        val item = controller.getItem(position)
+        mediaProvider.addToPlayNext(item.mediaId)
     }
 
 }

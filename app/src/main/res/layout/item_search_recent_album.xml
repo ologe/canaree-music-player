@@ -12,24 +12,16 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground">
-
-        <View
-            android:id="@+id/scrim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:attr/windowBackground"
-            android:visibility="gone"/>
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/playing_queue_margin_horizontal"
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/playing_queue_margin_horizontal"
-            android:paddingEnd="@dimen/playing_queue_margin_horizontal">
+            android:layout_height="wrap_content">
 
             <View
-                android:id="@+id/separator"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cover"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,14 +41,14 @@
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                 android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
                 tools:src="@drawable/placeholder_folder"
-                app:imageSong="@{item}"/>
+                app:imageAlbum="@{item}" />
 
             <TextView
                 android:id="@+id/firstText"
                 app:layout_constraintTop_toTopOf="@+id/cover"
                 app:layout_constraintStart_toEndOf="@+id/cover"
                 app:layout_constraintBottom_toTopOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintEnd_toStartOf="@+id/clear"
                 android:text="@{item.title}"
                 tools:text="@tools:sample/lorem"
                 style="@style/Song.MainText"
@@ -66,32 +58,30 @@
 
             <TextView
                 android:id="@+id/secondText"
-                app:layout_constraintStart_toEndOf="@id/cover"
                 app:layout_constraintTop_toBottomOf="@+id/firstText"
-                app:layout_constraintEnd_toStartOf="@+id/more"
+                app:layout_constraintStart_toEndOf="@+id/cover"
                 app:layout_constraintBottom_toBottomOf="@+id/cover"
+                app:layout_constraintEnd_toStartOf="@+id/clear"
                 android:text="@{item.subtitle}"
                 tools:text="@tools:sample/lorem"
                 style="@style/Song.SecondaryText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="4dp" />
+                android:layout_marginStart="16dp"/>
 
             <ImageButton
-                android:id="@+id/more"
-                app:layout_constraintTop_toTopOf="@id/cover"
-                app:layout_constraintBottom_toBottomOf="@id/cover"
+                android:id="@+id/clear"
+                app:layout_constraintTop_toTopOf="@+id/cover"
+                app:layout_constraintBottom_toBottomOf="@+id/cover"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/vd_more"
-                android:padding="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:tint="?android:attr/textColorTertiary"
+                android:tint="@color/button_primary_tint"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
-
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/vd_clear"
+                android:padding="12dp"/>
 
         </android.support.constraint.ConstraintLayout>
 

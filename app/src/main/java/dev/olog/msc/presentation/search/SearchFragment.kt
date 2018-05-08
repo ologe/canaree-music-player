@@ -3,10 +3,12 @@ package dev.olog.msc.presentation.search
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.utils.ImeUtils
@@ -124,6 +126,11 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         view.list.layoutManager = layoutManager
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
+
+        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
 
         viewModel.doOnFirstAccess {
             showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)

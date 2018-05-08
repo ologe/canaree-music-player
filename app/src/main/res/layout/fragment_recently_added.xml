@@ -52,8 +52,6 @@
         tools:listitem="@layout/item_tab_song"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
         android:paddingBottom="@dimen/playing_queue_margin_vertical"
-        android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
         android:clipChildren="false"
         android:clipToPadding="false"/>
 

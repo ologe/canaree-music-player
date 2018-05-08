@@ -2,9 +2,11 @@ package dev.olog.msc.presentation.recently.added
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
@@ -44,6 +46,11 @@ class RecentlyAddedFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.setHasFixedSize(true)
+
+        val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
     }
 
     override fun onResume() {
