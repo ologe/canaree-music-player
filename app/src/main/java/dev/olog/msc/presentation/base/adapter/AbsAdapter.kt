@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 
@@ -131,10 +133,15 @@ abstract class AbsAdapter<Model : BaseModel>(
         onDragAction!!.invoke(relativeFrom, relativeTo)
     }
 
-    override fun onSwipedLeft(position: Int) {
-        val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
-        val relativePosition = position - positionPivot
-        onSwipeLeftAction?.invoke(relativePosition)
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+        val position = viewHolder.adapterPosition
+        val context = viewHolder.itemView.context
+
+//        val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
+//        val relativePosition = position - positionPivot
+        onSwipeLeftAction?.invoke(position)
+        notifyItemChanged(position)
+        context.toast(R.string.common_added_to_play_next)
     }
 
     /*

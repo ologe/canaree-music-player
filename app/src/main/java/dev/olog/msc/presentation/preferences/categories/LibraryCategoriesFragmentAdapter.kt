@@ -69,7 +69,7 @@ class LibraryCategoriesFragmentAdapter (
     override fun onInteractionEnd(position: Int) {
     }
 
-    override fun onSwipedLeft(position: Int) {
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
         throw IllegalStateException("operation not supported")
     }
 

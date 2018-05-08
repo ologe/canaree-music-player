@@ -11,7 +11,6 @@ class TouchHelperAdapterCallback(
 ) : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         horizontalDirections
-
 ) {
 
     private val animationsController = TouchHelperAnimationController()
@@ -35,7 +34,7 @@ class TouchHelperAdapterCallback(
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             when (direction){
                 ItemTouchHelper.RIGHT -> adapter.onSwipedRight(viewHolder.adapterPosition)
-                ItemTouchHelper.LEFT -> adapter.onSwipedLeft(viewHolder.adapterPosition)
+                ItemTouchHelper.LEFT -> adapter.onSwipedLeft(viewHolder)
             }
         }
     }

@@ -16,10 +16,17 @@ import dev.olog.msc.utils.k.extension.setVisible
 
 class TouchHelperAnimationController {
 
-    private val deleteBackground = ColorDrawable(0xfff44336.toInt())
+    private val deleteBackground = ColorDrawable(0xFF_f44336.toInt())
+    private val playNextBackground = ColorDrawable(0xFF_2979FF.toInt())
+
     private var deleteIcon: Drawable? = null
-    private var intrinsicWidth = 0
-    private var intrinsicHeight = 0
+    private var playNextIcon: Drawable? = null
+
+    private var deleteIntrinsicWidth = 0
+    private var deleteIntrinsicHeight = 0
+
+    private var playNextIntrinsicWidth = 0
+    private var playNextIntrinsicHeight = 0
 
     fun drawMove(viewHolder: RecyclerView.ViewHolder){
         viewHolder.itemView.findViewById<View>(R.id.scrim)?.setVisible()
@@ -32,7 +39,9 @@ class TouchHelperAnimationController {
     }
 
     fun drawSwipeLeft(canvas: Canvas, viewHolder: RecyclerView.ViewHolder, dx: Float){
-
+        val view = viewHolder.itemView
+        drawPlayNextBackground(canvas, view, dx)
+        drawPlayNextIcon(canvas, view, dx)
     }
 
     fun clear(viewHolder: RecyclerView.ViewHolder){
@@ -41,10 +50,15 @@ class TouchHelperAnimationController {
     }
 
     private fun drawDeleteBackground(canvas: Canvas, view: View, dx: Float){
-
         if (dx < 0) return
         deleteBackground.setBounds(view.left, view.top, (view.left + dx).toInt(), view.bottom)
         deleteBackground.draw(canvas)
+    }
+
+    private fun drawPlayNextBackground(canvas: Canvas, view: View, dx: Float){
+        if (dx > 0) return
+        playNextBackground.setBounds((view.right + dx).toInt(), view.top, view.right, view.bottom)
+        playNextBackground.draw(canvas)
     }
 
     private fun drawDeleteIcon(canvas: Canvas, view: View, dx: Float){
@@ -54,11 +68,11 @@ class TouchHelperAnimationController {
 
         val deleteIcon = getDeleteIcon(view.context)
 
-        val deleteIconTop = view.top + (itemHeight - intrinsicHeight) / 2
-        val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
+        val deleteIconTop = view.top + (itemHeight - deleteIntrinsicHeight) / 2
+        val deleteIconMargin = (itemHeight - deleteIntrinsicHeight) / 2
         val deleteIconLeft = view.left + deleteIconMargin
-        val deleteIconRight = view.left + deleteIconMargin + intrinsicWidth
-        val deleteIconBottom = deleteIconTop + intrinsicHeight
+        val deleteIconRight = view.left + deleteIconMargin + deleteIntrinsicWidth
+        val deleteIconBottom = deleteIconTop + deleteIntrinsicHeight
         // Draw the delete icon
         deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
 
@@ -66,14 +80,43 @@ class TouchHelperAnimationController {
         ViewCompat.setElevation(view, 0f)
     }
 
+    private fun drawPlayNextIcon(canvas: Canvas, view: View, dx: Float){
+        if (dx > 0) return
+
+        val itemHeight = view.bottom - view.top
+
+        val playNextIcon = getPlayNextIcon(view.context)
+
+        val playNextIconTop = view.top + (itemHeight - playNextIntrinsicHeight) / 2
+        val playNextIconMargin = (itemHeight - playNextIntrinsicHeight) / 2
+        val playNextIconLeft = view.right - playNextIconMargin - playNextIntrinsicWidth
+        val playNextIconRight = view.right - playNextIconMargin
+        val playNextIconBottom = playNextIconTop + playNextIntrinsicHeight
+        // Draw the delete icon
+        playNextIcon.setBounds(playNextIconLeft, playNextIconTop, playNextIconRight, playNextIconBottom)
+
+        playNextIcon.draw(canvas)
+        ViewCompat.setElevation(view, 0f)
+    }
+
     private fun getDeleteIcon(context: Context): Drawable{
         if (deleteIcon == null){
             deleteIcon = ContextCompat.getDrawable(context, R.drawable.vd_delete)
             deleteIcon!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
-            intrinsicWidth = deleteIcon!!.intrinsicWidth
-            intrinsicHeight = deleteIcon!!.intrinsicHeight
+            deleteIntrinsicWidth = deleteIcon!!.intrinsicWidth
+            deleteIntrinsicHeight = deleteIcon!!.intrinsicHeight
         }
         return deleteIcon!!
+    }
+
+    private fun getPlayNextIcon(context: Context): Drawable {
+        if (playNextIcon == null){
+            playNextIcon = ContextCompat.getDrawable(context, R.drawable.vd_playlist_add)
+            playNextIcon!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
+            playNextIntrinsicWidth = playNextIcon!!.intrinsicWidth
+            playNextIntrinsicHeight = playNextIcon!!.intrinsicHeight
+        }
+        return playNextIcon!!
     }
 
 }

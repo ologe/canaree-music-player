@@ -6,6 +6,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.support.annotation.CallSuper
 import android.support.v4.media.MediaBrowserCompat
+import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -267,5 +268,13 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
                 MusicConstants.ARGUMENT_REMOVE_POSITION to position
         )
         getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REMOVE_RELATIVE, bundle)
+    }
+
+    override fun addToPlayNext(mediaId: MediaId) {
+        val trackId = "${mediaId.leaf!!}"
+        val item = MediaDescriptionCompat.Builder()
+                .setMediaId(trackId)
+                .build()
+        MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE)
     }
 }

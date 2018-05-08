@@ -97,12 +97,16 @@ class DetailFragment : BaseFragment() {
         view.list.adapter = adapter
         view.list.recycledViewPool = recycledViewPool
         view.list.setHasFixedSize(true)
-        if (adapter.hasTouchBehavior){
-            val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.RIGHT)
-            val touchHelper = ItemTouchHelper(callback)
-            touchHelper.attachToRecyclerView(view.list)
-            adapter.touchHelper = touchHelper
+
+        var swipeDirections = ItemTouchHelper.LEFT
+        if (adapter.canSwipeRight){
+            swipeDirections = swipeDirections or ItemTouchHelper.RIGHT
         }
+        val callback = TouchHelperAdapterCallback(adapter, swipeDirections)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(view.list)
+        adapter.touchHelper = touchHelper
+
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 

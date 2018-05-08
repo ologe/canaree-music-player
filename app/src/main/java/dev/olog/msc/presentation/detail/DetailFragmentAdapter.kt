@@ -231,16 +231,29 @@ class DetailFragmentAdapter @Inject constructor(
         binding.setVariable(BR.item, item)
     }
 
-    val hasTouchBehavior : Boolean
+    val canSwipeRight : Boolean
         get() {
             if (mediaId.isPlaylist){
-                val playlistId = mediaId.categoryValue.toLong()
+                val playlistId = mediaId.resolveId
                 return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
             }
             return false
         }
 
+    val hasTouchBehavior : Boolean
+        get() {
+            if (mediaId.isPlaylist){
+                val playlistId = mediaId.resolveId
+                return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
+            }
+            return true
+        }
+
     override val onDragAction = { from: Int, to: Int -> viewModel.moveItemInPlaylist(from, to) }
+
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+        super.onSwipedLeft(viewHolder)
+    }
 
     override fun onSwipedRight(position: Int) {
         onSwipeRightAction.invoke(position)
@@ -252,9 +265,17 @@ class DetailFragmentAdapter @Inject constructor(
         viewModel.removeFromPlaylist(controller.getItem(position))
     }
 
+    override val onSwipeLeftAction = { position: Int ->
+        val item = controller.getItem(position)
+        mediaProvider.addToPlayNext(item.mediaId)
+    }
+
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
-        return hasTouchBehavior &&
-                        (viewType == R.layout.item_detail_song_with_drag_handle ||
-                        viewType == R.layout.item_detail_song)
+        val isValidLayout = viewType == R.layout.item_detail_song ||
+                viewType == R.layout.item_detail_song_with_drag_handle ||
+                viewType == R.layout.item_detail_song_with_track ||
+                viewType == R.layout.item_detail_song_with_track_and_image
+
+        return hasTouchBehavior && isValidLayout
     }
 }

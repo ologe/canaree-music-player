@@ -33,6 +33,8 @@ interface MediaProvider {
     fun toggleShuffleMode()
     fun toggleRepeatMode()
 
+    fun addToPlayNext(mediaId: MediaId)
+
     fun togglePlayerFavorite()
 
     fun swap(from: Int, to: Int)
