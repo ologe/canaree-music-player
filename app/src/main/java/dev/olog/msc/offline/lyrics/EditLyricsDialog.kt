@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.player
+package dev.olog.msc.offline.lyrics
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,6 +12,7 @@ import android.widget.EditText
 import dev.olog.msc.R
 import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.isOreo
+import dev.olog.msc.utils.k.extension.enableForService
 import dev.olog.msc.utils.k.extension.makeDialog
 
 object EditLyricsDialog {
@@ -42,8 +43,6 @@ object EditLyricsDialog {
             editText.setText("")
             dialog.dismiss()
         }
-
-        dialog.show()
     }
 
     fun showForService(context: Context, currentText: String, updateFunc: (String) -> Unit){
@@ -56,11 +55,7 @@ object EditLyricsDialog {
 
 
         val dialog = builder.create()
-        val windowType = if (isOreo())
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        else
-            WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-        dialog.window.setType(windowType)
+        dialog.enableForService()
         dialog.show()
 
         val editText = dialog.findViewById<EditText>(R.id.editText)

@@ -11,6 +11,7 @@ import io.reactivex.Completable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
+import java.io.PrintWriter
 import javax.inject.Inject
 
 class InsertOfflineLyricsUseCase @Inject constructor(
@@ -31,13 +32,33 @@ class InsertOfflineLyricsUseCase @Inject constructor(
 
     fun saveLyricsOnMetadata(song: Song, lyrics: String): Completable {
         return Completable.create {
-            val file = File(song.path)
-            val audioFile = AudioFileIO.read(file)
-            val tag = audioFile.tagAndConvertOrCreateAndSetDefault
-            tag.setField(FieldKey.LYRICS, lyrics)
-            audioFile.commit()
+            updateTrackMetadata(song.path, lyrics)
+            updateFileIfAny(song.path, lyrics)
 
             it.onComplete()
+        }
+    }
+
+    private fun updateTrackMetadata(path: String, lyrics: String){
+        val file = File(path)
+        val audioFile = AudioFileIO.read(file)
+        val tag = audioFile.tagAndConvertOrCreateAndSetDefault
+        tag.setField(FieldKey.LYRICS, lyrics)
+        audioFile.commit()
+    }
+
+    private fun updateFileIfAny(path: String, lyrics: String){
+        val file = File(path)
+        val fileName = file.nameWithoutExtension
+        val lyricsFile = File(file.parentFile, "$fileName.lrc")
+
+        if (lyricsFile.exists()){
+            lyricsFile.printWriter().use { out ->
+                val lines = lyrics.split("\n")
+                lines.forEach {
+                    out.println(it)
+                }
+            }
         }
     }
 

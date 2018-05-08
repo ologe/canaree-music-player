@@ -29,8 +29,7 @@ class CustomHoverMenu @Inject constructor(
         musicServiceBinder: MusicServiceBinder,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         isRepositoryEmptyUseCase: Provider<IsRepositoryEmptyUseCase>,
-        observeUseCase: ObserveOfflineLyricsUseCase,
-        insertUseCase: InsertOfflineLyricsUseCase
+        offlineLyricsContentPresenter: OfflineLyricsContentPresenter
 
 ) : HoverMenu(), DefaultLifecycleObserver {
 
@@ -40,7 +39,7 @@ class CustomHoverMenu @Inject constructor(
 
     private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder, isRepositoryEmptyUseCase.get())
     private val videoContent = VideoContent(lifecycle, context, isRepositoryEmptyUseCase.get())
-    private val offlineLyricsContent = OfflineLyricsContent(lifecycle, context, musicServiceBinder, observeUseCase, insertUseCase)
+    private val offlineLyricsContent = OfflineLyricsContent(lifecycle, context, musicServiceBinder, offlineLyricsContentPresenter)
 
     private val subscriptions = CompositeDisposable()
 

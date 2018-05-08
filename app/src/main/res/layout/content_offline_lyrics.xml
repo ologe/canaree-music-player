@@ -89,6 +89,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginBottom="80dp"/>
 
+            <View
+                android:id="@+id/fakeNext"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <View
+                android:id="@+id/fakePrev"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/toolbar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/toolbar"
                 android:layout_width="0dp"
@@ -125,29 +142,61 @@
                     android:textSize="14dp"
                     android:gravity="start|center_vertical"
                     android:textColor="@color/text_color_secondary"
-                    app:layout_constraintTop_toBottomOf="@+id/header"
+                    app:layout_constraintEnd_toEndOf="@+id/header"
                     app:layout_constraintStart_toStartOf="@+id/header"
-                    app:layout_constraintEnd_toStartOf="@+id/edit"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/header"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_marginTop="4dp" />
+
+                <!-- seekbar -->
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="8dp"
+                    android:max="@integer/common_high_number"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
+                    android:thumbTint="@color/dark_grey"
+                    android:progressTint="@color/dark_grey"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/header"
+                    app:layout_constraintStart_toStartOf="@+id/header"
+                    app:layout_constraintTop_toBottomOf="@+id/subHeader"
+                    app:layout_constraintVertical_bias="1"
+                    tools:max="100"
+                    tools:progress="40"
+                    tools:progressTint="@color/dark_grey" />
 
                 <ImageButton
                     android:id="@+id/edit"
                     android:src="@drawable/vd_edit"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/sync"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/toolbar"
-                    android:textColor="@color/button_primary_tint"
+                    android:tint="@color/button_primary_tint"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:background="@null"/>
+
+                <ImageButton
+                    android:id="@+id/sync"
+                    android:layout_width="@dimen/common_icon_size"
+                    android:layout_height="@dimen/common_icon_size"
+                    android:background="@null"
+                    android:paddingEnd="12dp"
+                    android:paddingStart="12dp"
+                    android:src="@drawable/vd_sync"
+                    android:tint="@color/button_primary_tint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edit"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 

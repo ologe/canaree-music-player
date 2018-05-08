@@ -5,88 +5,94 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.graphics.Bitmap
+import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.domain.entity.OfflineLyrics
-import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
-import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.floating.window.service.api.Content
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.glide.transformation.BlurTransformation
+import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.player.EditLyricsDialog
+import dev.olog.msc.offline.lyrics.EditLyricsDialog
+import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.presentation.utils.blur.FastBlur
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.addTo
+import java.util.concurrent.TimeUnit
 
 class OfflineLyricsContent(
         lifecycle: Lifecycle,
         private val context: Context,
-        musicServiceBinder: MusicServiceBinder,
-        private val observeUseCase: ObserveOfflineLyricsUseCase,
-        private val insertUseCase: InsertOfflineLyricsUseCase
+        private val musicServiceBinder: MusicServiceBinder,
+        private val presenter: OfflineLyricsContentPresenter
 
 ) : Content, DefaultLifecycleObserver {
 
     private val subscriptions = CompositeDisposable()
-    private var lyricsDisposable: Disposable? = null
-    private var updateLyricsDisposable: Disposable? = null
+    private var updateDisposable : Disposable? = null
 
     val content : View = LayoutInflater.from(context).inflate(R.layout.content_offline_lyrics, null)
 
     private val header = content.findViewById<TextView>(R.id.header)
     private val subHeader = content.findViewById<TextView>(R.id.subHeader)
     private val edit = content.findViewById<ImageButton>(R.id.edit)
+    private val sync = content.findViewById<ImageButton>(R.id.sync)
     private val lyricsText = content.findViewById<TextView>(R.id.text)
     private val image = content.findViewById<ImageView>(R.id.image)
     private val emptyState = content.findViewById<TextView>(R.id.emptyState)
-
-    private var trackId: Long = -1
+    private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
+    private val fakeNext = content.findViewById<View>(R.id.fakeNext)
+    private val fakePrev = content.findViewById<View>(R.id.fakePrev)
+    private val scrollView = content.findViewById<ScrollView>(R.id.scrollBar)
 
     init {
         lifecycle.addObserver(this)
 
         musicServiceBinder.onMetadataChanged
                 .subscribe({
+                    presenter.updateCurrentTrackId(it.id)
+                    loadImage(it.id, it.image)
                     header.text = it.title
                     subHeader.text = it.artist
+                    updateProgressBarMax(it.duration)
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        musicServiceBinder.onMetadataChanged
+        musicServiceBinder.animatePlayPauseLiveData
                 .subscribe({
-                    this.trackId = it.id
-                    lyricsDisposable.unsubscribe()
-                    lyricsDisposable = observeUseCase.execute(it.id)
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({
-                                emptyState.toggleVisibility(it.isEmpty(), true)
-                                lyricsText.text = it
-                            }, Throwable::printStackTrace)
-                    loadImage(it.id, it.image)
+                    handleSeekBarState(it == PlaybackStateCompat.STATE_PLAYING)
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
+
+        presenter.observeLyrics()
+                .map { presenter.transformLyrics(context, seekBar.progress, it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    emptyState.toggleVisibility(it.isEmpty(), true)
+                    lyricsText.setText(it)
+                }, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
+        setupSeekBar()
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
         subscriptions.clear()
-        lyricsDisposable.unsubscribe()
-        updateLyricsDisposable.unsubscribe()
+        updateDisposable.unsubscribe()
     }
 
     private fun loadImage(id: Long, image: DisplayableItem){
@@ -115,20 +121,58 @@ class OfflineLyricsContent(
 
     override fun onShown() {
         edit.setOnClickListener {
-            EditLyricsDialog.showForService(context, lyricsText.text.toString(), { newLyrics ->
-                updateLyrics(newLyrics)
+            EditLyricsDialog.showForService(context, presenter.getOriginalLyrics(), { newLyrics ->
+                presenter.updateLyrics(newLyrics)
             })
         }
+        sync.setOnClickListener {
+            OfflineLyricsSyncAdjustementDialog.show(context, presenter.getSyncAdjustement(), true) {
+                presenter.updateSyncAdjustement(it)
+            }
+        }
+        fakeNext.setOnTouchListener(NoScrollTouchListener(context, { musicServiceBinder.skipToNext() }))
+        fakePrev.setOnTouchListener(NoScrollTouchListener(context, { musicServiceBinder.skipToPrevious() }))
+        scrollView.setOnTouchListener(NoScrollTouchListener(context, { musicServiceBinder.playPause() }))
     }
 
     override fun onHidden() {
         edit.setOnClickListener(null)
+        sync.setOnClickListener(null)
+        fakeNext.setOnTouchListener(null)
+        fakePrev.setOnTouchListener(null)
+        scrollView.setOnTouchListener(null)
     }
 
-    private fun updateLyrics(lyrics: String){
-        updateLyricsDisposable.unsubscribe()
-        updateLyricsDisposable = insertUseCase.execute(OfflineLyrics(trackId, lyrics))
-                .subscribe({}, Throwable::printStackTrace)
+    private fun handleSeekBarState(isPlaying: Boolean){
+        updateDisposable.unsubscribe()
+        if (isPlaying) {
+            resumeSeekBar()
+        }
+    }
+
+    private fun updateProgressBarMax(max: Long) {
+        seekBar.max = max.toInt()
+    }
+
+    private fun resumeSeekBar(){
+        updateDisposable = Observable.interval(AppConstants.PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
+                .subscribe({ seekBar.incrementProgressBy(AppConstants.PROGRESS_BAR_INTERVAL) }, Throwable::printStackTrace)
+    }
+
+    private fun setupSeekBar(){
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                musicServiceBinder.seekTo(seekBar.progress.toLong())
+            }
+        })
     }
 
 }

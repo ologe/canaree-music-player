@@ -6,5 +6,6 @@ data class MusicServiceMetadata(
         val id: Long,
         val title: String,
         val artist: String,
-        val image: DisplayableItem
+        val image: DisplayableItem,
+        val duration: Long
 )

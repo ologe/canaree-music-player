@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.offline.lyrics
+package dev.olog.msc.offline.lyrics
 
 import android.content.Context
 import android.view.MotionEvent
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import java.lang.Math.abs
 
-class CustomTouchListener(
+class NoScrollTouchListener(
         context: Context,
         private val action: () -> Unit
 ) : View.OnTouchListener {

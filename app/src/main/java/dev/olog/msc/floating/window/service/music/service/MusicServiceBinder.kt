@@ -115,6 +115,14 @@ class MusicServiceBinder @Inject constructor(
         mediaController?.transportControls?.seekTo(progress)
     }
 
+    fun skipToNext() {
+        mediaController?.transportControls?.skipToNext()
+    }
+
+    fun skipToPrevious() {
+        mediaController?.transportControls?.skipToPrevious()
+    }
+
     val animatePlayPauseLiveData: Observable<Int> = statePublisher
             .filter { it.isPlaying() || it.isPaused() }
             .map { it.state }
@@ -135,7 +143,7 @@ class MusicServiceBinder @Inject constructor(
 
     val onMetadataChanged : Observable<MusicServiceMetadata> = metadataPublisher
             .map { MusicServiceMetadata(it.getId(), it.getTitle().toString(),
-                    it.getArtist().toString(), it.toPlayerImage())
+                    it.getArtist().toString(), it.toPlayerImage(), it.getDuration())
             }
 
     val onMaxChangedLiveData: Observable<Long> = metadataPublisher
