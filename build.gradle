@@ -60,8 +60,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 10271026
-    versionName = '1.0.26'
+    versionCode = 10271027
+    versionName = '1.0.27'
 
     // App dependencies
     support_library = '27.1.1'
@@ -87,7 +87,7 @@ ext {
     tap_target = '1.11.0'
 
     // reactive
-    rx_java = '2.1.12'
+    rx_java = '2.1.13'
     rx_android = '2.0.2'
     rx_binding = '2.1.1'
     rx_preferences = '2.0.0-RC3'
@@ -95,7 +95,7 @@ ext {
 //    reactive_network = '0.12.3'
 
     // dependency injection
-    dagger = '2.15'
+    dagger = '2.16'
 
     // debug
     rxjava_debug = '1.2.2'
