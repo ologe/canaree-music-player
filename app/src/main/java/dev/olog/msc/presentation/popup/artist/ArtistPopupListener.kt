@@ -7,7 +7,7 @@ import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
+import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
@@ -19,7 +19,7 @@ class ArtistPopupListener @Inject constructor(
         private val activity: Activity,
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
-        getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
+        getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 

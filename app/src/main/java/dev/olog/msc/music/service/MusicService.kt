@@ -11,6 +11,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.core.widget.toast
 import dagger.Lazy
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
@@ -25,7 +26,6 @@ import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.getUriForFile
-import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo

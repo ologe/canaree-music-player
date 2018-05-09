@@ -6,20 +6,20 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.FileProvider
 import android.widget.PopupMenu
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
+import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
-import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.io.File
 
 abstract class AbsPopupListener(
-        getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
+        getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase
 
 ) : PopupMenu.OnMenuItemClickListener {

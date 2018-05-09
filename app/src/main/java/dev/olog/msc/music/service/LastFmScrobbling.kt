@@ -3,7 +3,6 @@ package dev.olog.msc.music.service
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import android.support.v4.media.session.PlaybackStateCompat
 import de.umass.lastfm.Authenticator
 import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
@@ -12,8 +11,8 @@ import de.umass.lastfm.scrobble.ScrobbleData
 import dev.olog.msc.api.last.fm.LAST_FM_API_KEY
 import dev.olog.msc.api.last.fm.LAST_FM_API_SECRET
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.entity.UserCredendials
-import dev.olog.msc.domain.interactor.scrobble.ObserveLastFmUserCredentials
+import dev.olog.msc.domain.entity.UserCredentials
+import dev.olog.msc.domain.interactor.last.fm.scrobble.ObserveLastFmUserCredentials
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -35,7 +34,7 @@ class LastFmScrobbling @Inject constructor(
 ) : DefaultLifecycleObserver, PlayerLifecycle.Listener {
 
     private var session: Session? = null
-    private var userCredentials : UserCredendials? = null
+    private var userCredentials : UserCredentials? = null
 
     private val credendialsDisposable = observeLastFmUserCredentials.execute()
             .filter { it.username.isNotBlank() }

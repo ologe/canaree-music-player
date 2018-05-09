@@ -4,13 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.presentation.licenses.LicensesFragment
 import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
 import dev.olog.msc.presentation.utils.openPlayStore
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.isIntentSafe
-import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms

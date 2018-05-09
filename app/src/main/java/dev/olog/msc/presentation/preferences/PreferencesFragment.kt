@@ -147,7 +147,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                             .subscribe({
                                 requestMainActivityToRecreate()
                                 ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
-                            }, Throwable::printStackTraceOnDebug)
+                            }, Throwable::printStackTrace)
                 })
                 .setNegativeButton(R.string.popup_negative_no, null)
                 .makeDialog()

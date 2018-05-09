@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.msc.domain.interactor.music.service.ObservePlayingQueueUseCase
+import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import javax.inject.Inject
 

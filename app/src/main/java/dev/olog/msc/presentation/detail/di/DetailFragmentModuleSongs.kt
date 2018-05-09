@@ -12,12 +12,12 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
-import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
-import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
-import dev.olog.msc.domain.interactor.detail.sorting.GetSortOrderUseCase
-import dev.olog.msc.domain.interactor.detail.sorting.GetSortedSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
+import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
+import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId

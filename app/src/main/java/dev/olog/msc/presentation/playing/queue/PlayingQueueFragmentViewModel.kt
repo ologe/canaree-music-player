@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.playing.queue
 import android.arch.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.interactor.music.service.ObservePlayingQueueUseCase
+import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId

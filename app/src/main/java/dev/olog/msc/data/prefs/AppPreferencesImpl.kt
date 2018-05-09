@@ -9,7 +9,6 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.k.extension.clamp
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -277,7 +276,7 @@ class AppPreferencesImpl @Inject constructor(
             hideClassicPlayerControls()
             setDefaultAutoDownloadImages()
             setDefaultTheme()
-            setLastFmCredentials(UserCredendials("", ""))
+            setLastFmCredentials(UserCredentials("", ""))
 
             emitter.onComplete()
         }
@@ -366,8 +365,8 @@ class AppPreferencesImpl @Inject constructor(
     /*
         Must be encrypted
      */
-    override fun getLastFmCredentials(): UserCredendials {
-        return UserCredendials(
+    override fun getLastFmCredentials(): UserCredentials {
+        return UserCredentials(
                 preferences.getString(LAST_FM_USERNAME, ""),
                 preferences.getString(LAST_FM_PASSWORD, "")
         )
@@ -376,10 +375,10 @@ class AppPreferencesImpl @Inject constructor(
     /*
         Must be encrypted
      */
-    override fun observeLastFmCredentials(): Observable<UserCredendials> {
+    override fun observeLastFmCredentials(): Observable<UserCredentials> {
         return rxPreferences.getString(LAST_FM_USERNAME, "")
                 .asObservable()
-                .map { UserCredendials(
+                .map { UserCredentials(
                         it,
                         preferences.getString(LAST_FM_PASSWORD, "")
                 ) }
@@ -388,7 +387,7 @@ class AppPreferencesImpl @Inject constructor(
     /*
         Must be encrypted
      */
-    override fun setLastFmCredentials(user: UserCredendials) {
+    override fun setLastFmCredentials(user: UserCredentials) {
         preferences.edit {
             putString(LAST_FM_USERNAME, user.username)
             putString(LAST_FM_PASSWORD, user.password)

@@ -4,9 +4,15 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.msc.domain.interactor.search.*
-import dev.olog.msc.domain.interactor.tab.GetAllAlbumsUseCase
-import dev.olog.msc.domain.interactor.tab.GetAllArtistsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
+import dev.olog.msc.domain.interactor.search.delete.ClearRecentSearchesUseCase
+import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchAlbumUseCase
+import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchArtistUseCase
+import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchSongUseCase
+import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchAlbumUseCase
+import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchArtistUseCase
+import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchSongUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import javax.inject.Inject
 

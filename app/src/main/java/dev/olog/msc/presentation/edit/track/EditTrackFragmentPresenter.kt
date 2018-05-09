@@ -5,7 +5,7 @@ import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.detail.item.GetUneditedSongUseCase
+import dev.olog.msc.domain.interactor.item.GetUneditedSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest

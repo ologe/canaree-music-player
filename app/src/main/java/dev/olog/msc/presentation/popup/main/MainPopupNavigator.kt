@@ -5,6 +5,7 @@ import android.media.audiofx.AudioEffect
 import android.preference.PreferenceManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
@@ -14,7 +15,6 @@ import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(

@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.logStackStace
-import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

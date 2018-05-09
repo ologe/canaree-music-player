@@ -9,7 +9,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.msc.utils.media.store.notifyMediaStore
+import dev.olog.msc.utils.media.store.notifyMediaStoreItemChanged
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
@@ -60,7 +60,7 @@ class EditArtistFragmentViewModel(
             presenter.updateSongList(artist)
             presenter.getSongList()
             for (song in presenter.songList) {
-                notifyMediaStore(context, song.path)
+                notifyMediaStoreItemChanged(context, song.path)
             }
 
             return UpdateResult.OK

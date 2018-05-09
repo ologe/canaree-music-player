@@ -3,12 +3,12 @@ package dev.olog.msc.pro
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.support.v7.app.AppCompatActivity
+import androidx.core.widget.toast
 import com.android.billingclient.api.*
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
-import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

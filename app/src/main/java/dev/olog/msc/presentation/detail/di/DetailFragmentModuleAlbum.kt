@@ -10,7 +10,7 @@ import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.interactor.detail.siblings.*
+import dev.olog.msc.domain.interactor.all.sibling.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory

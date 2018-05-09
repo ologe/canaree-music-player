@@ -4,7 +4,7 @@ buildscript {
 
     ext {
         kotlin_version = '1.2.41'
-        gradle_plugin = '3.1.2'
+        gradle_plugin = '3.2.0-alpha14'
         google_services = '3.1.1'
         fabric = '1.25.1'
         firebase_plugin = '1.1.5'
@@ -19,7 +19,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha14'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"
@@ -68,7 +68,7 @@ ext {
     firebase = '15.0.2'
     micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.0'
-    micro_architecture_room = '1.0.0'
+    micro_architecture_room = '1.1.0'
     constraint_layout = '1.1.0'
     glide = '4.7.1'
 //    exo_player = '2.7.3'

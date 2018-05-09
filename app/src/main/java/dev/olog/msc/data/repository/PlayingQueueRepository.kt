@@ -5,7 +5,7 @@ import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.PlayingQueueGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
+import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
 import io.reactivex.Observable

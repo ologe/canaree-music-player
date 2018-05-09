@@ -31,9 +31,9 @@ interface AppPreferencesGateway : Sorting {
 
     fun observeAutoCreateImages(): Observable<Boolean>
 
-    fun getLastFmCredentials(): UserCredendials
-    fun observeLastFmCredentials(): Observable<UserCredendials>
-    fun setLastFmCredentials(user: UserCredendials)
+    fun getLastFmCredentials(): UserCredentials
+    fun observeLastFmCredentials(): Observable<UserCredentials>
+    fun setLastFmCredentials(user: UserCredentials)
 
     fun getSyncAdjustment(): Long
     fun setSyncAdjustment(value: Long)

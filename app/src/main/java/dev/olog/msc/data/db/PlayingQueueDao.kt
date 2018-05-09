@@ -6,7 +6,7 @@ import android.arch.persistence.room.Query
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
+import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.*

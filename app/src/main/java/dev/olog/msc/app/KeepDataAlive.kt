@@ -9,9 +9,9 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
-import dev.olog.msc.domain.interactor.tab.GetAllGenresUseCase
-import dev.olog.msc.domain.interactor.tab.GetAllPlaylistsUseCase
-import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
+import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Observables

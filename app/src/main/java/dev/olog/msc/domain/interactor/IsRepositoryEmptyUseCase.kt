@@ -2,7 +2,7 @@ package dev.olog.msc.domain.interactor
 
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
-import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import io.reactivex.Observable
 import javax.inject.Inject
 

@@ -3,14 +3,14 @@ package dev.olog.msc.presentation.dialog.create.playlist
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.dialog.CreatePlaylistUseCase
-import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
+import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class NewPlaylistDialogPresenter @Inject constructor(
         private val mediaId: MediaId,
-        playlists: GetPlaylistBlockingUseCase,
+        playlists: GetPlaylistsBlockingUseCase,
         private val createPlaylistUseCase: CreatePlaylistUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase
 

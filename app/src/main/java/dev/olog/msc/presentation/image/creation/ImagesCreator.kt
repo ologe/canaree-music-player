@@ -10,9 +10,9 @@ import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.domain.interactor.util.GetAllFoldersNewRequestUseCase
-import dev.olog.msc.domain.interactor.util.GetAllGenresNewRequestUseCase
-import dev.olog.msc.domain.interactor.util.GetAllPlaylistsNewRequestUseCase
+import dev.olog.msc.domain.interactor.all.newrequest.GetAllFoldersNewRequestUseCase
+import dev.olog.msc.domain.interactor.all.newrequest.GetAllGenresNewRequestUseCase
+import dev.olog.msc.domain.interactor.all.newrequest.GetAllPlaylistsNewRequestUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

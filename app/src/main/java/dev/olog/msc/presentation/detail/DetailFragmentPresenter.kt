@@ -1,9 +1,9 @@
 package dev.olog.msc.presentation.detail
 
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.domain.interactor.MoveItemInPlaylistUseCase
-import dev.olog.msc.domain.interactor.RemoveFromPlaylistUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetArtistFromAlbumUseCase
+import dev.olog.msc.domain.interactor.playlist.MoveItemInPlaylistUseCase
+import dev.olog.msc.domain.interactor.playlist.RemoveFromPlaylistUseCase
+import dev.olog.msc.domain.interactor.item.GetArtistFromAlbumUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId

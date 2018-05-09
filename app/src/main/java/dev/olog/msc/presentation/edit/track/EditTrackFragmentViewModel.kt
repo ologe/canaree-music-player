@@ -13,7 +13,7 @@ import dev.olog.msc.utils.exception.NoNetworkException
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.msc.utils.media.store.notifyMediaStore
+import dev.olog.msc.utils.media.store.notifyMediaStoreItemChanged
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
@@ -121,7 +121,7 @@ class EditTrackFragmentViewModel(
         try {
             presenter.deleteLastFmEntry()
             presenter.updateSong(title, artist, album, genre, year, disc, track)
-            notifyMediaStore(context, presenter.getPath())
+            notifyMediaStoreItemChanged(context, presenter.getPath())
 
             return UpdateResult.OK
         } catch (cre: CannotReadException) {

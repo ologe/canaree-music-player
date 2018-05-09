@@ -10,7 +10,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.detail.item.*
+import dev.olog.msc.domain.interactor.item.*
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory

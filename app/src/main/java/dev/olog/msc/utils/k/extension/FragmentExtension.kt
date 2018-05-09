@@ -12,8 +12,6 @@ fun <T: Fragment> T.withArguments(vararg params: Pair<String, Any>) : T {
     return this
 }
 
-inline fun Fragment.toast(message: CharSequence) = activity!!.toast(message)
-
 inline val Fragment.ctx : Context
     get() = context!!
 

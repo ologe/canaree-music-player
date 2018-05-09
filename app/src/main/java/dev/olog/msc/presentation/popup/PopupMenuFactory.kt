@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.popup
 
 import android.view.View
 import android.widget.PopupMenu
-import dev.olog.msc.domain.interactor.detail.item.*
+import dev.olog.msc.domain.interactor.item.*
 import dev.olog.msc.presentation.popup.album.AlbumPopup
 import dev.olog.msc.presentation.popup.artist.ArtistPopup
 import dev.olog.msc.presentation.popup.folder.FolderPopup

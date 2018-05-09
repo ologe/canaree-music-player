@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.interactor.GetRelatedArtistsUseCase
-import dev.olog.msc.domain.interactor.detail.item.GetItemTitleUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
+import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils

@@ -8,10 +8,10 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
 import dev.olog.msc.domain.entity.LastMetadata
-import dev.olog.msc.domain.interactor.detail.most.played.InsertMostPlayedUseCase
+import dev.olog.msc.domain.interactor.all.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
-import dev.olog.msc.domain.interactor.music.service.InsertHistorySongUseCase
+import dev.olog.msc.domain.interactor.playing.queue.InsertHistorySongUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity

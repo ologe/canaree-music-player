@@ -6,11 +6,11 @@ import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.widget.EditText
 import androidx.core.text.isDigitsOnly
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService
 import dev.olog.msc.utils.k.extension.makeDialog
-import dev.olog.msc.utils.k.extension.toast
 
 object OfflineLyricsSyncAdjustementDialog {
 

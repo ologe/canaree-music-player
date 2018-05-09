@@ -5,10 +5,10 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.GenreGateway
-import dev.olog.msc.domain.interactor.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.detail.most.played.GetMostPlayedSongsUseCase
-import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
-import dev.olog.msc.domain.interactor.music.service.GetPlayingQueueUseCase
+import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
+import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*

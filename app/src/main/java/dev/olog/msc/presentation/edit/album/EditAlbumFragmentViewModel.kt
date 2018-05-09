@@ -11,7 +11,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
-import dev.olog.msc.utils.media.store.notifyMediaStore
+import dev.olog.msc.utils.media.store.notifyMediaStoreItemChanged
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.audio.exceptions.CannotReadException
@@ -89,7 +89,7 @@ class EditAlbumFragmentViewModel(
             presenter.deleteLastFmEntry()
             presenter.updateSongList(album, artist, genre, year)
             for (song in presenter.songList) {
-                notifyMediaStore(context, song.path)
+                notifyMediaStoreItemChanged(context, song.path)
             }
 
             return UpdateResult.OK

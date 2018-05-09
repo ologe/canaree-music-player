@@ -7,13 +7,13 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
-import dev.olog.msc.domain.interactor.detail.item.*
+import dev.olog.msc.domain.interactor.item.*
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
-import dev.olog.msc.utils.k.extension.negate
+import dev.olog.msc.utils.k.extension.asNegative
 import io.reactivex.Flowable
 
 @Module
@@ -140,7 +140,7 @@ private fun Album.toHeaderItem(artist: Artist?): List<DisplayableItem> {
 
     val info = DisplayableItem( // manage carefully because contains an invalid media id
             R.layout.item_detail_item_info,
-            if (artist != null) MediaId.albumId(artist.id.negate()) else MediaId.headerId("item info"),
+            if (artist != null) MediaId.albumId(artist.id.asNegative()) else MediaId.headerId("item info"),
             title,
             DisplayableItem.adjustArtist(this.artist),
             artist?.image ?: ""

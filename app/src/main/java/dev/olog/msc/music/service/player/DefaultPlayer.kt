@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.annotation.CallSuper
 import android.util.Log
+import androidx.core.widget.toast
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -17,7 +18,6 @@ import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.clamp
 import dev.olog.msc.utils.k.extension.crashlyticsLog
-import dev.olog.msc.utils.k.extension.toast
 
 abstract class DefaultPlayer<T>(
         private val context: Context,

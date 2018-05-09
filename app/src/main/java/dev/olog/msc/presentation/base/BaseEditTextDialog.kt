@@ -9,12 +9,12 @@ import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
-import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Observable

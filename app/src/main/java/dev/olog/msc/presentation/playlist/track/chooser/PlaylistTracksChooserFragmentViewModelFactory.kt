@@ -2,8 +2,8 @@ package dev.olog.msc.presentation.playlist.track.chooser
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.msc.domain.interactor.InsertCustomTrackListToPlaylist
-import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import javax.inject.Inject
 
 class PlaylistTracksChooserFragmentViewModelFactory @Inject constructor(

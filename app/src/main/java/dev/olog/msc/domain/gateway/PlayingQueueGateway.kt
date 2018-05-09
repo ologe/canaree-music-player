@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.gateway
 
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.interactor.music.service.UpdatePlayingQueueUseCaseRequest
+import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

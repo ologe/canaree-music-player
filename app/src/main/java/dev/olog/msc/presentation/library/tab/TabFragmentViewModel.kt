@@ -2,8 +2,8 @@ package dev.olog.msc.presentation.library.tab
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.msc.domain.interactor.tab.InsertLastPlayedAlbumUseCase
-import dev.olog.msc.domain.interactor.tab.InsertLastPlayedArtistUseCase
+import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
+import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory

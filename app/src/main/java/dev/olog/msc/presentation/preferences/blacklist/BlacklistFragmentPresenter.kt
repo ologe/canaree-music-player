@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.preferences.blacklist
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.domain.interactor.prefs.GetAllFoldersUnfiltered
+import dev.olog.msc.domain.interactor.all.GetAllFoldersUnfiltered
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.mapToList

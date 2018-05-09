@@ -7,10 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.UserCredendials
-import dev.olog.msc.domain.interactor.scrobble.GetLastFmUserCredentials
-import dev.olog.msc.domain.interactor.scrobble.ObserveLastFmUserCredentials
-import dev.olog.msc.domain.interactor.scrobble.UpdateLastFmUserCredentials
+import dev.olog.msc.domain.entity.UserCredentials
+import dev.olog.msc.domain.interactor.last.fm.scrobble.GetLastFmUserCredentials
+import dev.olog.msc.domain.interactor.last.fm.scrobble.UpdateLastFmUserCredentials
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
@@ -52,7 +51,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
         val dialog = builder.makeDialog()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-            val user = UserCredendials(
+            val user = UserCredentials(
                     userName.text.toString(),
                     password.text.toString()
             )

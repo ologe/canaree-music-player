@@ -9,9 +9,9 @@ import androidx.core.util.contains
 import androidx.core.util.isEmpty
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.InsertCustomTrackListRequest
-import dev.olog.msc.domain.interactor.InsertCustomTrackListToPlaylist
-import dev.olog.msc.domain.interactor.tab.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
+import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
+import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData

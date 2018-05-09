@@ -2,8 +2,8 @@ package dev.olog.msc.presentation.recently.added
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.msc.domain.interactor.detail.item.GetItemTitleUseCase
-import dev.olog.msc.domain.interactor.detail.recent.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.GetItemTitleUseCase
+import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject
 

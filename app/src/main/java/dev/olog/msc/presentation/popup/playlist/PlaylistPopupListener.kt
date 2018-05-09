@@ -2,25 +2,25 @@ package dev.olog.msc.presentation.popup.playlist
 
 import android.app.Activity
 import android.view.MenuItem
+import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.domain.interactor.dialog.GetPlaylistBlockingUseCase
+import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(
         private val activity: Activity,
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
-        getPlaylistBlockingUseCase: GetPlaylistBlockingUseCase,
+        getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 
