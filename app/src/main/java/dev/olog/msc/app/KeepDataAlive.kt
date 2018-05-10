@@ -1,12 +1,10 @@
 package dev.olog.msc.app
 
-import android.Manifest
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
-import android.content.pm.PackageManager
-import android.support.v4.content.ContextCompat
+import dev.olog.msc.Permissions
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
@@ -35,8 +33,7 @@ class KeepDataAlive @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        val storagePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (storagePermission == PackageManager.PERMISSION_GRANTED){
+        if (Permissions.canReadStorage(context)){
             execute()
         }
     }

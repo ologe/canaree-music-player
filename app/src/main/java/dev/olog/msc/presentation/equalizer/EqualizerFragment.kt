@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import dev.olog.msc.R
-import dev.olog.msc.interfaces.equalizer.IEqualizer
+import dev.olog.msc.music.service.equalizer.IEqualizer
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.equalizer.widget.RadialKnob
 import dev.olog.msc.utils.k.extension.act

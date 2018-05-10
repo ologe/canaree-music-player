@@ -3,7 +3,7 @@ package dev.olog.msc.utils.k.extension
 import android.graphics.Color
 import android.view.View
 import android.view.Window
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.isOreo
 

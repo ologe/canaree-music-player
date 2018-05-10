@@ -1,4 +1,4 @@
-package dev.olog.msc.interfaces.equalizer
+package dev.olog.msc.music.service.equalizer
 
 interface IBassBoost {
 

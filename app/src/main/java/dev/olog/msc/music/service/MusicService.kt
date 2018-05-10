@@ -13,6 +13,7 @@ import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.widget.toast
 import dagger.Lazy
+import dev.olog.msc.FileProvider
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.music.service.helper.CarHelper
@@ -25,11 +26,9 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.getUriForFile
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import java.io.File
 import javax.inject.Inject
 
 class MusicService : BaseMusicService() {
@@ -184,19 +183,22 @@ class MusicService : BaseMusicService() {
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         grantUriPermission(packageName,
-                getUriForFile(File(cacheDir.path)),
+                FileProvider.getUriForPath(this, cacheDir.path),
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
+        val folderDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.FOLDER)
         grantUriPermission(packageName,
-                getUriForFile(ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.FOLDER)),
+                FileProvider.getUriForFile(this, folderDir),
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
+        val playlistDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.PLAYLIST)
         grantUriPermission(packageName,
-                getUriForFile(ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.PLAYLIST)),
+                FileProvider.getUriForFile(this, playlistDir),
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
+        val genreDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.GENRE)
         grantUriPermission(packageName,
-                getUriForFile(ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.GENRE)),
+                FileProvider.getUriForFile(this, genreDir),
                 Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
 

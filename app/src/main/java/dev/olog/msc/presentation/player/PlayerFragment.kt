@@ -19,9 +19,9 @@ import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.*

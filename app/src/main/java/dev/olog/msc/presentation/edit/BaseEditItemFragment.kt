@@ -11,13 +11,14 @@ import android.widget.ImageView
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
+import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 
-abstract class BaseEditItemFragment : BaseFragment() {
+abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
 
     private var progressDialog: ProgressDialog? = null
 

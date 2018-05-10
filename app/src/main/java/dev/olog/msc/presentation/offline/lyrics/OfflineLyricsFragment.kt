@@ -15,11 +15,12 @@ import com.bumptech.glide.Priority
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.glide.transformation.BlurTransformation
+import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
@@ -37,7 +38,7 @@ import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class OfflineLyricsFragment : BaseFragment(), HasSafeTransition {
+class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
 
     companion object {
         const val TAG = "OfflineLyricsFragment"

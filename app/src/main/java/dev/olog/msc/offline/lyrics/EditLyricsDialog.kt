@@ -3,15 +3,12 @@ package dev.olog.msc.offline.lyrics
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Build
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.view.View
-import android.view.WindowManager
 import android.widget.EditText
 import dev.olog.msc.R
-import dev.olog.msc.theme.ThemedDialog
-import dev.olog.msc.utils.isOreo
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService
 import dev.olog.msc.utils.k.extension.makeDialog
 

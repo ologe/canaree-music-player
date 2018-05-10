@@ -13,8 +13,8 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.image.view.ShapeImageView
-import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*

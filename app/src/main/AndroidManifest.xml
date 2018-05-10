@@ -1,5 +1,6 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="dev.olog.msc"
     android:installLocation="internalOnly">
 
@@ -27,14 +28,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        android:name=".app.App">
+        android:name=".app.App"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!--main activity-->
         <activity
             android:name=".presentation.main.MainActivity"
             android:launchMode="singleTop"
             android:rotationAnimation="rotate"
-            android:colorMode="wideColorGamut">
+            android:colorMode="wideColorGamut"
+            tools:ignore="UnusedAttribute">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

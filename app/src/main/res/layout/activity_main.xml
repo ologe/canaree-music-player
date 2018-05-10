@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/slidingPanel"
     android:layout_width="match_parent"
@@ -9,7 +8,6 @@
     sothree:umanoShadowHeight="@dimen/sliding_panel_shadow"
     sothree:umanoPanelHeight="@dimen/sliding_panel_peek"
     sothree:umanoParallaxOffset="@dimen/sliding_panel_parallax"
-    sothree:umanoScrollableView="@+id/innerPanel"
     sothree:umanoInitialState="collapsed">
 
     <FrameLayout

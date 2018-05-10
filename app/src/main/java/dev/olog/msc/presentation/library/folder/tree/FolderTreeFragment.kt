@@ -6,8 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
-import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.windowBackground

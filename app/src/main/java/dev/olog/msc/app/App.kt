@@ -11,7 +11,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
 

@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
 import dev.olog.msc.R
-import dev.olog.msc.theme.AppTheme
 
 private val colorEvaluator by lazy { ArgbEvaluator() }
 

@@ -2,14 +2,14 @@ package dev.olog.msc.app
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.msc.interfaces.equalizer.IBassBoost
-import dev.olog.msc.interfaces.equalizer.IEqualizer
-import dev.olog.msc.interfaces.equalizer.IReplayGain
-import dev.olog.msc.interfaces.equalizer.IVirtualizer
-import dev.olog.msc.music.service.equalizer.BassBoostImpl
-import dev.olog.msc.music.service.equalizer.EqualizerImpl
-import dev.olog.msc.music.service.equalizer.ReplayGainImpl
-import dev.olog.msc.music.service.equalizer.VirtualizerImpl
+import dev.olog.msc.music.service.equalizer.IBassBoost
+import dev.olog.msc.music.service.equalizer.IEqualizer
+import dev.olog.msc.music.service.equalizer.IReplayGain
+import dev.olog.msc.music.service.equalizer.IVirtualizer
+import dev.olog.msc.music.service.equalizer.impl.BassBoostImpl
+import dev.olog.msc.music.service.equalizer.impl.EqualizerImpl
+import dev.olog.msc.music.service.equalizer.impl.ReplayGainImpl
+import dev.olog.msc.music.service.equalizer.impl.VirtualizerImpl
 import javax.inject.Singleton
 
 @Module

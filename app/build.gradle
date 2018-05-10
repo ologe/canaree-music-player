@@ -114,7 +114,7 @@ dependencies {
     lintChecks project(':lint')
 
     // data binding
-//    kapt "com.android.databinding:compiler:$gradle_plugin"
+    kapt "com.android.databinding:compiler:$gradle_plugin"
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -125,8 +125,8 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:$rootProject.micro_architecture"
     implementation "android.arch.lifecycle:reactivestreams:$rootProject.micro_architecture"
 
-//    navigation
-    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
+//    work manager
+    implementation "android.arch.work:work-runtime-ktx:1.0.0-alpha01"
 
     // support
     implementation "com.android.support:support-compat:$rootProject.support_library"

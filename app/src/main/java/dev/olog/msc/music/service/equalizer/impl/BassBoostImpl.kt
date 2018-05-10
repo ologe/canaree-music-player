@@ -1,8 +1,8 @@
-package dev.olog.msc.music.service.equalizer
+package dev.olog.msc.music.service.equalizer.impl
 
 import android.media.audiofx.BassBoost
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.msc.interfaces.equalizer.IBassBoost
+import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.utils.k.extension.printStackTraceOnDebug
 import javax.inject.Inject
 

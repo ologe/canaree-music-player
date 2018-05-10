@@ -8,10 +8,6 @@ import com.google.android.exoplayer2.audio.AudioRendererEventListener
 import com.google.android.exoplayer2.decoder.DecoderCounters
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.interfaces.equalizer.IBassBoost
-import dev.olog.msc.interfaces.equalizer.IEqualizer
-import dev.olog.msc.interfaces.equalizer.IReplayGain
-import dev.olog.msc.interfaces.equalizer.IVirtualizer
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable

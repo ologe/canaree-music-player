@@ -5,10 +5,8 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.v4.app.FragmentManager
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dev.olog.msc.app.App
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.removeLightStatusBar

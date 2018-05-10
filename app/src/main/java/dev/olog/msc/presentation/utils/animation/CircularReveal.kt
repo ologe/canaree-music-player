@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import androidx.core.animation.addListener
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.windowBackground
 
 private fun startColor(context: Context): Int{

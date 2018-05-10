@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.core.widget.toast
-import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
 import io.reactivex.Completable

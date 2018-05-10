@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.equalizer
 
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.msc.interfaces.equalizer.IBassBoost
-import dev.olog.msc.interfaces.equalizer.IEqualizer
-import dev.olog.msc.interfaces.equalizer.IReplayGain
-import dev.olog.msc.interfaces.equalizer.IVirtualizer
+import dev.olog.msc.music.service.equalizer.IBassBoost
+import dev.olog.msc.music.service.equalizer.IEqualizer
+import dev.olog.msc.music.service.equalizer.IReplayGain
+import dev.olog.msc.music.service.equalizer.IVirtualizer
 import io.reactivex.Observable
 import javax.inject.Inject
 

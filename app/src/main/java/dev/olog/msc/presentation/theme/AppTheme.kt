@@ -1,4 +1,4 @@
-package dev.olog.msc.theme
+package dev.olog.msc.presentation.theme
 
 import android.app.Application
 import android.content.Context

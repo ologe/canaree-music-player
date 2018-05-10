@@ -12,7 +12,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
 import javax.inject.Inject

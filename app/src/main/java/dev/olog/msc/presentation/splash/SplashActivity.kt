@@ -1,28 +1,22 @@
 package dev.olog.msc.presentation.splash
 
-import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.view.View
+import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.KeepDataAlive
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
-import dev.olog.msc.utils.k.extension.makeDialog
+import dev.olog.msc.utils.k.extension.simpleDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
-
-private const val STORAGE_PERMISSION_CODE = 56891
 
 class SplashActivity : BaseActivity(), View.OnClickListener {
 
@@ -69,10 +63,8 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun requestStoragePermission(){
-        if (!isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)){
-            requestPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-        } else if (!isPermissionGranted(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            requestPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (!Permissions.canReadStorage(this)){
+            Permissions.requestReadStorage(this)
         } else {
             onStoragePermissionGranted()
             imageCreator.execute()
@@ -81,18 +73,13 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == STORAGE_PERMISSION_CODE){
-
-            if (grantResults.isNotEmpty()){
-                var grantedPermissions = isPermissionGranted(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                grantedPermissions = grantedPermissions && isPermissionGranted(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                if (grantedPermissions){
-                    onStoragePermissionGranted()
-                    imageCreator.execute()
-                    keepDataAlive.execute()
-                } else {
-                    onStoragePermissionDenied()
-                }
+        if (Permissions.checkWriteCode(requestCode)){
+            if (Permissions.canReadStorage(this)){
+                onStoragePermissionGranted()
+                imageCreator.execute()
+                keepDataAlive.execute()
+            } else {
+                onStoragePermissionDenied()
             }
         }
     }
@@ -109,15 +96,13 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onStoragePermissionDenied(){
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            // user disabled permission
-            AlertDialog.Builder(this)
-                    .setTitle(R.string.splash_storage_permission)
-                    .setMessage(R.string.splash_storage_permission_disabled)
-                    .setPositiveButton(R.string.popup_positive_ok, { _, _ -> toSettings() })
-                    .setNegativeButton(R.string.popup_negative_no, null)
-                    .makeDialog()
+        if (Permissions.hasUserDisabledReadStorage(this)){
+            simpleDialog {
+                setTitle(R.string.splash_storage_permission)
+                setMessage(R.string.splash_storage_permission_disabled)
+                setPositiveButton(R.string.popup_positive_ok, { _, _ -> toSettings() })
+                setNegativeButton(R.string.popup_negative_no, null)
+            }
         }
     }
 
@@ -125,15 +110,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.fromParts("package", packageName, null))
         startActivity(intent)
-    }
-
-    private fun isPermissionGranted(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun requestPermission(permission: String){
-        ActivityCompat.requestPermissions(this,
-                arrayOf(permission), STORAGE_PERMISSION_CODE)
     }
 
 }

@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewOutlineProvider
 import dev.olog.msc.R
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.dip
 
 private const val DEFAULT_RADIUS = 5

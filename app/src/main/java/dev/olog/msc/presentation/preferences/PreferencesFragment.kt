@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.preferences
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -14,8 +13,8 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
-import dev.olog.msc.theme.AppTheme
-import dev.olog.msc.theme.ThemedDialog
+import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.isP
 import dev.olog.msc.utils.k.extension.*

@@ -1,4 +1,4 @@
-package dev.olog.msc.theme
+package dev.olog.msc.presentation.theme
 
 import android.app.AlertDialog
 import android.content.Context

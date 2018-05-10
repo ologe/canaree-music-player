@@ -7,7 +7,7 @@ import android.graphics.drawable.LayerDrawable
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.R
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.tint

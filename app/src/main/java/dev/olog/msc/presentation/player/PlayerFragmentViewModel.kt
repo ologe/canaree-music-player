@@ -11,10 +11,10 @@ import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
 import dev.olog.msc.presentation.widget.image.view.toPlayerImage
-import dev.olog.msc.theme.AppTheme
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.msc.utils.k.extension.unsubscribe

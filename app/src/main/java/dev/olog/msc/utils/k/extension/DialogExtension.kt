@@ -6,7 +6,7 @@ import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.view.WindowManager
 import dev.olog.msc.R
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.isOreo
 
 private fun AlertDialog.tintPositiveButton(){

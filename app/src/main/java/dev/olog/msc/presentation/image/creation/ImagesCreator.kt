@@ -9,10 +9,10 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllFoldersNewRequestUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllGenresNewRequestUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllPlaylistsNewRequestUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -46,7 +46,7 @@ class ImagesCreator @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        val storagePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val storagePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
         if (storagePermission == PackageManager.PERMISSION_GRANTED){
             execute()
         }

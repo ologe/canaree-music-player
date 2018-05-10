@@ -6,6 +6,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
+import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject
 
-class PlayingQueueFragment : BaseFragment(), HasSafeTransition {
+class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
 
     companion object {
         const val TAG = "PlayingQueueFragment"

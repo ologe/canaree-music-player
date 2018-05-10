@@ -6,8 +6,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.theme.AppTheme
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.textColorPrimary
 import dev.olog.msc.utils.k.extension.textColorSecondary
 import dev.olog.msc.utils.k.extension.textColorTertiary

@@ -9,8 +9,8 @@ class MainActivityPresenter @Inject constructor(
         val isRepositoryEmptyUseCase: IsRepositoryEmptyUseCase
 ) {
 
-    fun isFirstAccess(hasStoragePermission: Boolean) : Boolean {
-        return appPreferencesUseCase.isFirstAccess() || !hasStoragePermission
+    fun isFirstAccess() : Boolean {
+        return appPreferencesUseCase.isFirstAccess()
     }
 
 
