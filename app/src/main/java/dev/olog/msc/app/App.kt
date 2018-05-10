@@ -1,6 +1,8 @@
 package dev.olog.msc.app
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.content.Context
 import android.support.v7.preference.PreferenceManager
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -15,6 +17,8 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
 
+@SuppressLint("StaticFieldLeak")
+lateinit var app: Context
 
 class App : DaggerApplication() {
 
@@ -28,6 +32,8 @@ class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        app = this
 
         initializeDebug()
         initializeConstants()

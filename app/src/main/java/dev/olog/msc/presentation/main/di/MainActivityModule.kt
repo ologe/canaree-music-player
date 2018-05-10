@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.main.di
 
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
@@ -30,6 +31,9 @@ class MainActivityModule(
     @Provides
     @ActivityLifecycle
     internal fun provideLifecycle(): Lifecycle = activity.lifecycle
+
+    @Provides
+    internal fun provideLifecycleOwner(): LifecycleOwner = activity
 
     @Provides
     internal fun provideActivity(): Activity = activity

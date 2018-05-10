@@ -1,13 +1,13 @@
 package dev.olog.msc.glide
 
 import android.content.Context
-import android.net.wifi.WifiManager
 import android.preference.PreferenceManager
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import com.bumptech.glide.load.data.HttpUrlFetcher
 import com.bumptech.glide.load.model.GlideUrl
+import dev.olog.msc.NetworkUtils
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.defer
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -92,18 +92,11 @@ abstract class BaseRxDataFetcher(
                 Single.just(false), { _, _ -> false })
     }
 
-    private fun isOnWifi(): Boolean {
-        val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager?
-
-        return wifiManager?.isWifiEnabled ?: false &&
-                wifiManager?.connectionInfo?.networkId != -1
-    }
-
     private fun networkSafeAction(action: () -> Unit){
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val downloadMode = prefs.getString(context.getString(R.string.prefs_auto_download_images_key), context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
 
-        val isWifiActive = isOnWifi()
+        val isWifiActive = NetworkUtils.isOnWiFi(context)
 
         when (downloadMode){
             context.getString(R.string.prefs_auto_download_images_entry_value_never) -> {}

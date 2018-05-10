@@ -3,12 +3,10 @@ package dev.olog.msc.presentation.edit.track
 import android.app.Application
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dev.olog.msc.presentation.ErrorPublisher
 import javax.inject.Inject
 
 class EditTrackFragmentViewModelFactory @Inject constructor(
         private val application: Application,
-        private val connectionPublisher: ErrorPublisher,
         private val presenter: EditTrackFragmentPresenter
 
 ) : ViewModelProvider.Factory {
@@ -17,7 +15,6 @@ class EditTrackFragmentViewModelFactory @Inject constructor(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return EditTrackFragmentViewModel(
                 application,
-                connectionPublisher,
                 presenter
         ) as T
     }

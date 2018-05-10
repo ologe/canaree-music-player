@@ -42,12 +42,6 @@ object AppConstants {
         ICON_SHAPE = getIconShape(context)
     }
 
-//    fun updateNightMode(context: Context) {
-//        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-//        val isNightMode = prefs.getBoolean(context.getString(R.string.prefs_dark_theme_key), false)
-//        context.updateNightMode(isNightMode)
-//    }
-
     private fun getQuickAction(context: Context): QuickActionView.Type {
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val quickAction = preferences.getString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))

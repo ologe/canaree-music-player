@@ -5,16 +5,15 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import androidx.core.text.isDigitsOnly
+import com.crashlytics.android.Crashlytics
+import dev.olog.msc.NetworkUtils
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.presentation.ErrorPublisher
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.track.model.DisplayableSong
-import dev.olog.msc.utils.exception.NoNetworkException
 import dev.olog.msc.utils.k.extension.context
 import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.msc.utils.media.store.notifyMediaStoreItemChanged
-import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.audio.exceptions.CannotReadException
@@ -29,7 +28,6 @@ import java.io.IOException
 
 class EditTrackFragmentViewModel(
         application: Application,
-        private val errorPublisher: ErrorPublisher,
         private val presenter: EditTrackFragmentPresenter
 
 ) : AndroidViewModel(application) {
@@ -50,6 +48,7 @@ class EditTrackFragmentViewModel(
                     displayedSong.postValue(song)
                 }, {
                     it.printStackTrace()
+                    Crashlytics.logException(it)
                     if (isTaggerError(it)){
                         taggerErrorLiveData.postValue(it)
                     }
@@ -67,11 +66,14 @@ class EditTrackFragmentViewModel(
 
     fun observeData(): LiveData<DisplayableSong> = displayedSong
 
-    fun observeConnectivity() : Observable<String> = errorPublisher.observe()
-
     fun observeTaggerErrors(): LiveData<Throwable> = taggerErrorLiveData
 
     fun fetchSongInfo(){
+        if (!NetworkUtils.isConnected(context)){
+            // TODO show message
+            return
+        }
+
         fetchSongInfoDisposable.unsubscribe()
         fetchSongInfoDisposable = presenter.fetchData()
                 .map { it.get()!! }
@@ -83,11 +85,8 @@ class EditTrackFragmentViewModel(
                             album = newValue.album
                     ))
                 }, { throwable ->
-                    when (throwable){
-                        is NoNetworkException -> errorPublisher.noNetwork()
-                        is NoSuchElementException -> errorPublisher.noResultsFound()
-                        else -> throwable.printStackTrace()
-                    }
+                    throwable.printStackTrace()
+                    Crashlytics.logException(throwable)
                     displayedSong.postValue(null)
                 })
     }
@@ -118,6 +117,8 @@ class EditTrackFragmentViewModel(
             track.isNotBlank() && !track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
 
+//        presenter.updateSong(title, artist, album, genre, year, disc, track)
+//        return UpdateResult.OK
         try {
             presenter.deleteLastFmEntry()
             presenter.updateSong(title, artist, album, genre, year, disc, track)

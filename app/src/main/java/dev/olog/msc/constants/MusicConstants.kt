@@ -26,8 +26,6 @@ object MusicConstants {
     const val ARGUMENT_SORT_TYPE = "$TAG.argument.sort.type"
     const val ARGUMENT_SORT_ARRANGING = "$TAG.argument.sort.arranging"
 
-    const val IS_EXPLICIT = "$TAG.IS_EXPLICIT"
-    const val IS_REMIX = "$TAG.IS_REMIX"
     const val PATH = "$TAG.PATH"
 
     const val EXTRA_QUEUE_CATEGORY = "$TAG.extra.queue_category"

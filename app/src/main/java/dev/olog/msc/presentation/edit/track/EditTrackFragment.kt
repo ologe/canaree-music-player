@@ -8,7 +8,6 @@ import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
-import kotlinx.android.synthetic.main.fragment_edit_track.*
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.IOException
@@ -52,10 +51,6 @@ class EditTrackFragment : BaseEditItemFragment() {
             hideLoader()
         })
 
-        viewModel.observeConnectivity()
-                .asLiveData()
-                .subscribe(this, { ctx.toast(it) })
-
         viewModel.observeTaggerErrors()
                 .subscribe(this, {
                     when (it){
@@ -85,7 +80,7 @@ class EditTrackFragment : BaseEditItemFragment() {
 
             when (result){
                 UpdateResult.OK -> {
-                    ctx.toast(R.string.edit_track_update_success)
+//                    ctx.toast(R.string.edit_track_update_success)
                     act.onBackPressed()
                 }
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)

@@ -9,6 +9,7 @@ import dev.olog.msc.domain.interactor.item.GetUneditedSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
+import dev.olog.msc.domain.interactor.update.UpdateTrackUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
@@ -20,6 +21,7 @@ class EditTrackFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
         private val getSongUseCase: GetUneditedSongUseCase,
         private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
+        private val updateTrackUseCase: UpdateTrackUseCase,
         private val deleteLastFmTrackUseCase: DeleteLastFmTrackUseCase
 
 ) {
@@ -81,5 +83,38 @@ class EditTrackFragmentPresenter @Inject constructor(
         deleteLastFmTrackUseCase.execute(originalSong.id)
                 .subscribe({}, Throwable::printStackTrace)
     }
+
+//    fun updateSong(
+//            title: String,
+//            artist: String,
+//            album: String,
+//            genre: String,
+//            year: String,
+//            disc: String,
+//            track: String
+//
+//    ) {
+//
+//        val updateWork = updateTrackUseCase.execute(mapOf(
+//                UpdateTrackUseCase.PATH to originalSong.path,
+//                UpdateTrackUseCase.NEW_TITLE to title,
+//                UpdateTrackUseCase.NEW_ARTIST to artist,
+//                UpdateTrackUseCase.NEW_ALBUM to album,
+//                UpdateTrackUseCase.NEW_GENRE to genre,
+//                UpdateTrackUseCase.NEW_YEAR to year,
+//                UpdateTrackUseCase.NEW_DISC_NO to disc,
+//                UpdateTrackUseCase.NEW_TRACK_NO to track
+//
+//        ))
+//
+//        workManager.beginWith(deleteLastFmEntry())
+//                .then(updateWork)
+//                .enqueue()
+//    }
+//
+//    private fun deleteLastFmEntry(): OneTimeWorkRequest {
+//        return deleteLastFmTrackUseCase.execute(mapOf(
+//                DeleteLastFmTrackUseCase.TRACK_ID to originalSong.id))
+//    }
 
 }
