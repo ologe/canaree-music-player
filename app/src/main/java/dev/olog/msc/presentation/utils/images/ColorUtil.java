@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.v4.graphics.ColorUtils;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 
 public class ColorUtil {
@@ -35,6 +36,12 @@ public class ColorUtil {
             }
             return color2;
         }
+    }
+
+    public static int getAccentColor(Palette palette) {
+        return palette.getLightVibrantColor(palette.getVibrantColor(palette.getLightMutedColor(palette.getMutedColor(
+                0xFF_2979FF
+        ))));
     }
 
     /**

@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.support.v7.graphics.Palette
 import android.view.MotionEvent
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
@@ -30,6 +31,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
@@ -142,9 +144,12 @@ class PlayerFragmentAdapter @Inject constructor(
                 val view = holder.itemView
                 bindPlayerControls(view)
                 viewModel.observeImageColors()
+                        .observeOn(Schedulers.computation())
                         .takeUntil(RxView.detaches(view).asFlowable())
-                        .subscribe({
-                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background, activity.windowBackground())
+                        .map { Palette.from(it.bitmap).generate() }
+                        .map { ColorUtil.getAccentColor(it) }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ accentColor ->
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
