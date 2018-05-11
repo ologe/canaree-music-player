@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.preferences
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.StyleRes
 import dagger.android.AndroidInjection
@@ -15,6 +16,7 @@ class PreferencesActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val REQUEST_CODE = 1221
+        const val EXTRA_NEED_TO_RECREATE = "EXTRA_NEED_TO_RECREATE"
     }
 
     @Inject lateinit var billing: IBilling
@@ -25,6 +27,10 @@ class PreferencesActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
         setContentView(R.layout.activity_preferences)
+
+        if (intent?.extras?.getBoolean(EXTRA_NEED_TO_RECREATE, false) == true) {
+            setResult(Activity.RESULT_OK)
+        }
     }
 
     override fun onResume() {

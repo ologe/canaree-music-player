@@ -143,6 +143,9 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls_fullscreen -> {
                 val view = holder.itemView
                 bindPlayerControls(view)
+                view.playPause.useLightImage()
+                view.next.useLightImage()
+                view.previous.useLightImage()
                 viewModel.observeImageColors()
                         .observeOn(Schedulers.computation())
                         .takeUntil(RxView.detaches(view).asFlowable())
@@ -153,7 +156,6 @@ class PlayerFragmentAdapter @Inject constructor(
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
-                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(accentColor, .5f))
                             }
                             view.artist.animateTextColor(accentColor)
                             view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)

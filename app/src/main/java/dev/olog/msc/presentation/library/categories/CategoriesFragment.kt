@@ -1,14 +1,16 @@
 package dev.olog.msc.presentation.library.categories
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -46,6 +48,11 @@ class CategoriesFragment : BaseFragment() {
         view.viewPager.offscreenPageLimit = 3
 
         view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
+
+        if (AppTheme.isWhiteTheme()){
+            // theming not working
+            view.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(ctx, R.color.dark_grey))
+        }
     }
 
     override fun onResume() {

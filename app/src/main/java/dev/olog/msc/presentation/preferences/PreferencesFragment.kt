@@ -1,12 +1,14 @@
 package dev.olog.msc.presentation.preferences
 
 import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
+import androidx.core.os.bundleOf
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
@@ -40,6 +42,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
         lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
     }
+
+    private var needsToRecreate = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -115,7 +119,10 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             getString(R.string.prefs_dark_mode_key) -> {
                 AppTheme.updateDarkMode(act)
-                requestMainActivityToRecreate()
+                act.finish()
+                act.startActivity(Intent(act, act::class.java),
+                        bundleOf(PreferencesActivity.EXTRA_NEED_TO_RECREATE to needsToRecreate)
+                )
             }
             getString(R.string.prefs_appearance_key) -> {
                 AppTheme.updateTheme(act)
@@ -128,6 +135,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     }
 
     private fun requestMainActivityToRecreate(){
+        needsToRecreate = true
         act.setResult(Activity.RESULT_OK)
     }
 

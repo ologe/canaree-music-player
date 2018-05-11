@@ -33,6 +33,10 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
         setImageDrawable(drawable)
     }
 
+    fun useLightImage(){
+        imageTintList = ColorStateList.valueOf(0xFF_F5F5F5.toInt())
+    }
+
     fun animationPlay(animate: Boolean) {
         setupAndAnimate(animate, playAnimation)
     }

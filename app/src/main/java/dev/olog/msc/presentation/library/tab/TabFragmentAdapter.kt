@@ -70,7 +70,8 @@ class TabFragmentAdapter @Inject constructor(
 
         when (viewType){
             R.layout.item_tab_album,
-            R.layout.item_tab_artist -> viewHolder.elevateAlbumOnTouch()
+            R.layout.item_tab_artist,
+            R.layout.item_tab_auto_playlist -> viewHolder.elevateAlbumOnTouch()
             R.layout.item_tab_song -> viewHolder.elevateSongOnTouch()
         }
     }

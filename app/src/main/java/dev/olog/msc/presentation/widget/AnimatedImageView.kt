@@ -34,6 +34,10 @@ class AnimatedImageView @JvmOverloads constructor(
         a.recycle()
     }
 
+    fun useLightImage(){
+        imageTintList = ColorStateList.valueOf(0xFF_F5F5F5.toInt())
+    }
+
     fun playAnimation() {
         stopPreviousAnimation()
         avd.start()
