@@ -125,9 +125,6 @@ dependencies {
     implementation "android.arch.lifecycle:common-java8:$rootProject.micro_architecture"
     implementation "android.arch.lifecycle:reactivestreams:$rootProject.micro_architecture"
 
-//    work manager
-    implementation "android.arch.work:work-runtime-ktx:1.0.0-alpha01"
-
     // support
     implementation "com.android.support:support-compat:$rootProject.support_library"
     implementation "com.android.support:support-v4:$rootProject.support_library"

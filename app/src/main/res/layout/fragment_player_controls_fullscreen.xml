@@ -25,25 +25,7 @@
             android:scaleY="1.05"
             android:scaleX="1.05"/>
 
-        <View
-            android:id="@+id/skipNext"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="100dp"
-            android:layout_width="64dp"
-            android:layout_height="0dp"/>
-
-        <View
-            android:id="@+id/skipPrev"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="100dp"
-            android:layout_width="64dp"
-            android:layout_height="0dp"/>
-
-        <dev.olog.msc.utils.k.extension.IntercettableTouchConstraintLayout
+        <android.support.constraint.ConstraintLayout
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +36,18 @@
             android:background="@drawable/gradient_fullscreen"
             android:clickable="false"
             android:focusable="false">
+
+            <dev.olog.msc.presentation.widget.SwipeableView
+                android:id="@+id/swipeableView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                tools:visibility="invisible"/>
 
             <include
                 android:id="@+id/playerToolbar"
@@ -146,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="26dp"
                 android:textColor="@android:color/white"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:ellipsize="marquee"
                 android:textStyle="bold"
                 android:clickable="false"
@@ -189,7 +183,7 @@
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
-        </dev.olog.msc.utils.k.extension.IntercettableTouchConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 

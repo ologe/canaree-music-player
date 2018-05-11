@@ -8,6 +8,7 @@ import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
+import kotlinx.android.synthetic.main.fragment_edit_track.*
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.IOException

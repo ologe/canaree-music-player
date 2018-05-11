@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
@@ -47,10 +48,14 @@ class RepeatButton @JvmOverloads constructor(
     private fun repeatNone(){
         setImageResource(R.drawable.vd_repeat)
 
-        val color = if (AppTheme.isDarkTheme()){
-            alpha = .7f
-            textColorSecondary()
-        } else textColorTertiary()
+        val color = when {
+            AppTheme.isFullscreen() -> Color.WHITE
+            AppTheme.isDarkTheme() -> {
+                alpha = .7f
+                textColorSecondary()
+            }
+            else -> textColorTertiary()
+        }
         setColorFilter(color)
     }
 

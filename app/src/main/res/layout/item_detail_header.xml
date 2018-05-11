@@ -39,9 +39,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
             android:textColor="?android:attr/textColorSecondaryInverse"
+            tools:textColor="@color/accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{item.explicit ? View.VISIBLE : View.GONE }"/>
+            android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"
+            tools:visibility="visible"/>
 
     </android.support.constraint.ConstraintLayout>
 

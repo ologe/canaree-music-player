@@ -78,30 +78,14 @@ class PlayerFragmentAdapter @Inject constructor(
                 }
             }
         }
-        if (viewType == R.layout.fragment_player_controls_fullscreen){
-            viewHolder.setOnClickListener(R.id.cover, controller) { _, _, view ->
-                view.animate().cancel()
-                val layout = viewHolder.itemView.findViewById(R.id.scrim) as IntercettableTouchConstraintLayout
-                if (viewModel.updateFullscreen()){
-                    layout.animate().alpha(1f).withEndAction { layout.setTouchEnabled(true) }.duration = 300
-                } else {
-                    layout.animate().alpha(0f).withStartAction { layout.setTouchEnabled(false) }.duration = 300
-                }
 
-            }
-        }
-        if (viewType == R.layout.fragment_player_controls_fullscreen){
-            viewHolder.itemView.findViewById<View>(R.id.skipNext).setOnClickListener { mediaProvider.skipToNext() }
-            viewHolder.itemView.findViewById<View>(R.id.skipPrev).setOnClickListener { mediaProvider.skipToPrevious() }
-        }
     }
 
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
         when (viewType){
             R.layout.fragment_player_controls,
-            R.layout.fragment_player_controls_spotify,
-            R.layout.fragment_player_controls_fullscreen -> {
+            R.layout.fragment_player_controls_spotify -> {
                 bindPlayerControls(holder.itemView)
             }
             R.layout.fragment_player_controls_big_image -> {
@@ -153,7 +137,24 @@ class PlayerFragmentAdapter @Inject constructor(
                             view.artist.animateTextColor(accentColor)
                             view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
                         }, Throwable::printStackTraceOnDebug)
-
+            }
+            R.layout.fragment_player_controls_fullscreen -> {
+                val view = holder.itemView
+                bindPlayerControls(view)
+                viewModel.observeImageColors()
+                        .takeUntil(RxView.detaches(view).asFlowable())
+                        .subscribe({
+                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background, activity.windowBackground())
+                            view.seekBar.apply {
+                                thumbTintList = ColorStateList.valueOf(accentColor)
+                                progressTintList = ColorStateList.valueOf(accentColor)
+                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(accentColor, .5f))
+                            }
+                            view.artist.animateTextColor(accentColor)
+                            view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
+                            view.shuffle.updateColor(accentColor)
+                            view.repeat.updateColor(accentColor)
+                        }, Throwable::printStackTraceOnDebug)
             }
         }
     }

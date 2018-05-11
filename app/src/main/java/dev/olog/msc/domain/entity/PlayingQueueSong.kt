@@ -15,8 +15,6 @@ data class PlayingQueueSong (
         val image: String,
         val duration: Long,
         val dateAdded: Long,
-        val isRemix: Boolean,
-        val isExplicit: Boolean,
         val path: String,
         val folder: String,
         val discNumber: Int,

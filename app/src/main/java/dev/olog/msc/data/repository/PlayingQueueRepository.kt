@@ -49,8 +49,6 @@ class PlayingQueueRepository @Inject constructor(
                 this.image,
                 this.duration,
                 this.dateAdded,
-                this.isRemix,
-                this.isExplicit,
                 this.path,
                 this.folder,
                 this.discNumber,

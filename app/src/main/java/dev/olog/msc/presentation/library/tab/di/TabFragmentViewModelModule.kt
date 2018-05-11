@@ -8,10 +8,10 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.all.*
-import dev.olog.msc.domain.interactor.all.sorted.GetAllAlbumsSortedUseCase
-import dev.olog.msc.domain.interactor.all.sorted.GetAllSongsSortedUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedArtistsUseCase
+import dev.olog.msc.domain.interactor.all.sorted.GetAllAlbumsSortedUseCase
+import dev.olog.msc.domain.interactor.all.sorted.GetAllSongsSortedUseCase
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -195,9 +195,7 @@ private fun Song.toTabDisplayableItem(): DisplayableItem {
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
-            true,
-            isRemix,
-            isExplicit
+            true
     )
 }
 

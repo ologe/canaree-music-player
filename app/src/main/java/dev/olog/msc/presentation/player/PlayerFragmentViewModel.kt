@@ -40,8 +40,6 @@ class PlayerFragmentViewModel @Inject constructor(
     private var insertLyrics: Disposable? = null
     private val colorsPublisher = BehaviorProcessor.create<ImageProcessorResult>()
 
-    private var fullScreenVisible = true
-
     private val miniQueue = MutableLiveData<List<DisplayableItem>>()
 
     private val currentTrackIdPublisher = BehaviorSubject.create<Long>()
@@ -61,18 +59,13 @@ class PlayerFragmentViewModel @Inject constructor(
     fun onMetadataChanged(context: Context, metadata: MediaMetadataCompat){
         disposable.unsubscribe()
         disposable = Single.fromCallable { true }
-                .filter { AppTheme.isFlat() || AppTheme.isBigImage() || AppTheme.isPlain() }
+                .filter { AppTheme.isFlat() || AppTheme.isBigImage() || AppTheme.isPlain() || AppTheme.isFullscreen() }
                 .map { metadata.toPlayerImage() }
                 .map { context.getBitmapAsync(it, 200) }
                 .subscribeOn(Schedulers.io())
                 .map { ImageProcessor(context).processImage(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(colorsPublisher::onNext, Throwable::printStackTrace)
-    }
-
-    fun updateFullscreen(): Boolean {
-        fullScreenVisible = !fullScreenVisible
-        return fullScreenVisible
     }
 
     fun observeImageColors(): Flowable<ImageProcessorResult> = colorsPublisher

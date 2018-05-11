@@ -69,8 +69,6 @@ abstract class PlayingQueueDao {
                 this.image,
                 this.duration,
                 this.dateAdded,
-                this.isRemix,
-                this.isExplicit,
                 this.path,
                 this.folder,
                 this.discNumber,

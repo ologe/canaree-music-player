@@ -13,10 +13,10 @@ import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.SearchResult
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
@@ -152,9 +152,7 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem{
             title,
             DisplayableItem.adjustArtist(artist),
             image,
-            true,
-            isRemix,
-            isExplicit
+            true
     )
 }
 

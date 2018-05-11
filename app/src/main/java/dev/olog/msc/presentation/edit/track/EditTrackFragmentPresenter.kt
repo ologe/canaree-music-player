@@ -9,7 +9,6 @@ import dev.olog.msc.domain.interactor.item.GetUneditedSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
-import dev.olog.msc.domain.interactor.update.UpdateTrackUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
@@ -21,7 +20,6 @@ class EditTrackFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
         private val getSongUseCase: GetUneditedSongUseCase,
         private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
-        private val updateTrackUseCase: UpdateTrackUseCase,
         private val deleteLastFmTrackUseCase: DeleteLastFmTrackUseCase
 
 ) {

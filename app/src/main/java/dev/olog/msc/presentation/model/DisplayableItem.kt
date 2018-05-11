@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.model
 
 import android.content.res.Resources
+import android.os.Bundle
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.base.BaseModel
@@ -13,9 +14,8 @@ data class DisplayableItem (
         val subtitle: String? = null,
         val image: String = "",
         val isPlayable: Boolean = false,
-        val isRemix: Boolean = false,
-        val isExplicit: Boolean = false,
-        val trackNumber: String = ""
+        val trackNumber: String = "",
+        val extra: Bundle? = null
 
 ) : BaseModel {
 

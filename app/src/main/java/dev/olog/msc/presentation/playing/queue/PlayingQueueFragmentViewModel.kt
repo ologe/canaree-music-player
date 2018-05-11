@@ -41,8 +41,6 @@ class PlayingQueueFragmentViewModel(
                 DisplayableItem.adjustArtist(artist),
                 image,
                 true,
-                isRemix,
-                isExplicit,
                 this.idInPlaylist.toString()
         )
     }

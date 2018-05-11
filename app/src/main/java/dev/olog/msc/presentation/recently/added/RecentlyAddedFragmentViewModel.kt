@@ -35,9 +35,7 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
             title,
             DisplayableItem.adjustArtist(artist),
             image,
-            true,
-            isRemix,
-            isExplicit
+            true
     )
 }
 

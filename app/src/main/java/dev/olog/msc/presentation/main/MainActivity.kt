@@ -27,9 +27,8 @@ import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.getTopFragment
-import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.*
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 private const val SPLASH_REQUEST_CODE = 0
@@ -45,9 +44,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     lateinit var statusBarColorBehavior: StatusBarColorBehavior
     @Suppress("unused") @Inject
     lateinit var rateAppDialog : RateAppDialog
-
-//    @Suppress("unused") @Inject
-//    lateinit var workManagerLiveData: WorkManagerLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

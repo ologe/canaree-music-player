@@ -53,7 +53,7 @@
             android:textSize="@dimen/item_header_sec_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{item.explicit ? View.VISIBLE : View.GONE }"/>
+            android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"/>
 
     </android.support.constraint.ConstraintLayout>
 

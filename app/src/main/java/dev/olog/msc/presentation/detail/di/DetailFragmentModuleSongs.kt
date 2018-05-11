@@ -12,12 +12,12 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
-import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
+import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -152,8 +152,6 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
             subtitle,
             this.image,
             true,
-            this.isRemix,
-            this.isExplicit,
             track
     )
 }
@@ -165,9 +163,7 @@ private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): Displayab
             this.title,
             DisplayableItem.adjustArtist(this.artist),
             this.image,
-            true,
-            this.isRemix,
-            this.isExplicit
+            true
     )
 }
 
@@ -178,8 +174,6 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
             this.title,
             DisplayableItem.adjustArtist(this.artist),
             this.image,
-            true,
-            this.isRemix,
-            this.isExplicit
+            true
     )
 }
