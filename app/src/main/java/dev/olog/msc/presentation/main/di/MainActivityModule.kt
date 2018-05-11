@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.main.di
 import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +13,8 @@ import dev.olog.msc.dagger.qualifier.ActivityContext
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.edit.EditItemViewModel
+import dev.olog.msc.presentation.edit.EditItemViewModelFactory
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.pro.BillingImpl
 import dev.olog.msc.pro.IBilling
@@ -50,5 +53,10 @@ class MainActivityModule(
     @Provides
     @PerActivity
     internal fun provideBilling(impl: BillingImpl): IBilling = impl
+
+    @Provides
+    fun provideEditItemViewModel(factory: EditItemViewModelFactory): EditItemViewModel {
+        return ViewModelProviders.of(activity, factory).get(EditItemViewModel::class.java)
+    }
 
 }

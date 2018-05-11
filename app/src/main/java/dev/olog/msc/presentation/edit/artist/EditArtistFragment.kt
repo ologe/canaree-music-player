@@ -4,6 +4,8 @@ import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
+import dev.olog.msc.presentation.edit.EditItemViewModel
+import dev.olog.msc.presentation.edit.UpdateArtistInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -25,6 +27,8 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     @Inject lateinit var viewModel: EditArtistFragmentViewModel
+    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var mediaId: MediaId
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -53,21 +57,15 @@ class EditArtistFragment : BaseEditItemFragment() {
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            val result = viewModel.updateMetadata(artist.extractText())
+            val result = editItemViewModel.updateArtist(UpdateArtistInfo(
+                    mediaId,
+                    artist.extractText()
+            ))
 
             when (result){
-                UpdateResult.OK -> {
-                    ctx.toast(R.string.edit_artist_update_success)
-                    act.onBackPressed()
-                }
+                UpdateResult.OK -> act.onBackPressed()
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
-                UpdateResult.ILLEGAL_DISC_NUMBER,
-                UpdateResult.ILLEGAL_TRACK_NUMBER,
-                UpdateResult.ILLEGAL_YEAR -> {}
-                UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
-                UpdateResult.CANNOT_READ -> ctx.toast(R.string.edit_song_cannot_read)
-                UpdateResult.READ_ONLY -> ctx.toast(R.string.edit_song_read_only)
-                UpdateResult.FILE_NOT_FOUND -> ctx.toast(R.string.edit_song_file_not_found)
+                else -> {}
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }
@@ -80,7 +78,6 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     override fun onLoaderCancelled() {
-
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_edit_artist

@@ -3,12 +3,14 @@
 package dev.olog.msc.presentation.edit
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Priority
+import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.DrawsOnTop
@@ -26,6 +28,14 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (!Permissions.canWriteStorage(ctx)){
+            Permissions.requestWriteStorage(act)
+            act.onBackPressed()
+        }
     }
 
     @CallSuper

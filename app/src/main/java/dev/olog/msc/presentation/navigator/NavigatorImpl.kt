@@ -10,7 +10,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
 import dev.olog.msc.presentation.dialog.create.playlist.NewPlaylistDialog
@@ -20,6 +19,7 @@ import dev.olog.msc.presentation.dialog.play.next.PlayNextDialog
 import dev.olog.msc.presentation.dialog.remove.duplicates.RemoveDuplicatesDialog
 import dev.olog.msc.presentation.dialog.rename.RenameDialog
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
+import dev.olog.msc.presentation.edit.EditItemDialogFactory
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
@@ -29,6 +29,7 @@ import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment
 import dev.olog.msc.presentation.popup.PopupMenuFactory
+import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
@@ -46,7 +47,8 @@ private const val NEXT_REQUEST_THRESHOLD : Long = 400 // ms
 class NavigatorImpl @Inject internal constructor(
         private val activity: AppCompatActivity,
         private val popupFactory: PopupMenuFactory,
-        private val mainPopup: Lazy<MainPopupDialog>
+        private val mainPopup: Lazy<MainPopupDialog>,
+        private val editItemDialogFactory: EditItemDialogFactory
 
 ) : DefaultLifecycleObserver, Navigator {
 
@@ -154,25 +156,45 @@ class NavigatorImpl @Inject internal constructor(
 
     override fun toEditInfoFragment(mediaId: MediaId) {
         if (allowed()) {
-            val fragment = when {
-                mediaId.isLeaf -> EditTrackFragment.newInstance(mediaId)
-                mediaId.isAlbum -> EditAlbumFragment.newInstance(mediaId)
-                mediaId.isArtist -> EditArtistFragment.newInstance(mediaId)
-                else -> throw IllegalArgumentException("invalid media id $mediaId")
-            }
-            val tag = when {
-                mediaId.isLeaf -> EditTrackFragment.TAG
-                mediaId.isAlbum -> EditAlbumFragment.TAG
-                mediaId.isArtist -> EditArtistFragment.TAG
+            when {
+                mediaId.isLeaf -> {
+                    editItemDialogFactory.toEditTrack(mediaId, {
+                        val tag = EditTrackFragment.TAG
+                        activity.fragmentTransaction {
+                            setReorderingAllowed(true)
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            add(android.R.id.content, EditTrackFragment.newInstance(mediaId), tag)
+                            addToBackStack(tag)
+                        }
+                    })
+                }
+                mediaId.isAlbum -> {
+                    editItemDialogFactory.toEditAlbum(mediaId, {
+                        val tag = EditAlbumFragment.TAG
+                        activity.fragmentTransaction {
+                            setReorderingAllowed(true)
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            add(android.R.id.content, EditAlbumFragment.newInstance(mediaId), tag)
+                            addToBackStack(tag)
+                        }
+                    })
+                }
+                mediaId.isArtist -> {
+                    editItemDialogFactory.toEditArtist(mediaId, {
+                        val tag = EditArtistFragment.TAG
+                        activity.fragmentTransaction {
+                            setReorderingAllowed(true)
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            add(android.R.id.content, EditArtistFragment.newInstance(mediaId), tag)
+                            addToBackStack(tag)
+                        }
+                    })
+                }
                 else -> throw IllegalArgumentException("invalid media id $mediaId")
             }
 
-            activity.fragmentTransaction {
-                setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                add(android.R.id.content, fragment, tag)
-                addToBackStack(tag)
-            }
+
+
         }
     }
 

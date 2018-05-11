@@ -5,14 +5,13 @@ import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
+import dev.olog.msc.presentation.edit.EditItemViewModel
+import dev.olog.msc.presentation.edit.UpdateAlbumInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_album.*
-import org.jaudiotagger.audio.exceptions.CannotReadException
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
-import java.io.IOException
 import javax.inject.Inject
 
 class EditAlbumFragment : BaseEditItemFragment() {
@@ -29,6 +28,8 @@ class EditAlbumFragment : BaseEditItemFragment() {
     }
 
     @Inject lateinit var viewModel: EditAlbumFragmentViewModel
+    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var mediaId: MediaId
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -60,45 +61,25 @@ class EditAlbumFragment : BaseEditItemFragment() {
             }
             hideLoader()
         })
-
-        viewModel.observeTaggerErrors()
-                .subscribe(this, {
-                    when (it){
-                        is CannotReadException -> ctx.toast(R.string.edit_song_error_can_not_read)
-                        is IOException -> ctx.toast(R.string.edit_song_error_io)
-                        is ReadOnlyFileException -> ctx.toast(R.string.edit_song_error_read_only)
-                        else -> {
-                            // TagException, InvalidAudioFrameException
-                            ctx.toast(R.string.edit_song_error)
-                        }
-                    }
-                    act.onBackPressed()
-                })
     }
 
     override fun onResume() {
         super.onResume()
         okButton.setOnClickListener {
-            val result = viewModel.updateMetadata(
-                    album.extractText(),
-                    artist.extractText(),
-                    genre.extractText(),
+            val result = editItemViewModel.updateAlbum(UpdateAlbumInfo(
+                    mediaId,
+                    album.extractText().trim(),
+                    artist.extractText().trim(),
+                    genre.extractText().trim(),
                     year.extractText().trim()
-            )
+            ))
 
             when (result){
-                UpdateResult.OK -> {
-                    ctx.toast(R.string.edit_album_update_success)
-                    act.onBackPressed()
-                }
+                UpdateResult.OK -> act.onBackPressed()
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
+                UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
                 UpdateResult.ILLEGAL_DISC_NUMBER,
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
-                UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
-                UpdateResult.ERROR -> ctx.toast(R.string.popup_error_message)
-                UpdateResult.CANNOT_READ -> ctx.toast(R.string.edit_song_cannot_read)
-                UpdateResult.READ_ONLY -> ctx.toast(R.string.edit_song_read_only)
-                UpdateResult.FILE_NOT_FOUND -> ctx.toast(R.string.edit_song_file_not_found)
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }
