@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressTint="@color/progress_bar_tint"
+        android:progressTint="@color/accent"
         tools:progress="40"
         tools:max="100"
         android:max="100"

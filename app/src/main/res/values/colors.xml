@@ -8,6 +8,7 @@
 
     <!--<item name="accent">#FF1744</item>-->
     <color name="accent">#2979FF</color>
+    <color name="accent_secondary">#1DE9B6</color>
 
     <color name="colorPrimary">@color/dark_grey</color>
     <color name="colorPrimaryDark">@color/status_bar</color>
@@ -48,8 +49,5 @@
     <color name="mid_grey">#40606060</color>
 
     <color name="background_mini_player">@color/background</color>
-
-    <color name="fab_background">@color/colorAccent</color>
-    <color name="fab_icon">@android:color/white</color>
 
 </resources>

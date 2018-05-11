@@ -31,15 +31,13 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
+        <dev.olog.msc.presentation.theme.HighlightTextView
             android:id="@+id/seeMore"
             app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
-            android:textColor="?android:attr/textColorSecondaryInverse"
-            tools:textColor="@color/accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"

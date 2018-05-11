@@ -10,8 +10,10 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.isOreo
 
 private fun AlertDialog.tintPositiveButton(){
-    val color = if (AppTheme.isDarkTheme()) Color.WHITE else ContextCompat.getColor(context!!, R.color.item_selected)
-    getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(color)
+    val color = if (AppTheme.isDarkTheme()) R.color.accent_secondary else R.color.accent
+    getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(
+            ContextCompat.getColor(context!!, color)
+    )
 }
 
 private fun AlertDialog.tintNegativeButton(){

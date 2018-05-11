@@ -50,7 +50,6 @@
             android:padding="12dp"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
@@ -141,8 +140,7 @@
             android:paddingBottom="16dp"
             android:maxLines="1"
             android:background="@null"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textColorHint="?android:attr/textColorSecondary" />
+            android:textColor="?android:attr/textColorPrimary" />
 
         <ImageButton
             android:id="@+id/clear"
@@ -151,7 +149,6 @@
             android:padding="12dp"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />

@@ -15,7 +15,6 @@
         android:clickable="true"
         android:focusable="true"
         tools:src="@drawable/vd_shuffle"
-        android:tint="?android:attr/textColorTertiary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +40,6 @@
         android:visibility="visible"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:tint="?android:attr/textColorTertiary"
         android:layout_marginEnd="8dp"
         android:scaleX="0.8"
         android:scaleY="0.8"/>
@@ -79,7 +77,6 @@
         android:clickable="true"
         android:focusable="true"
         android:visibility="visible"
-        android:tint="?android:attr/textColorTertiary"
         android:layout_marginStart="8dp"
         android:scaleX="0.9"
         android:scaleY="0.9"/>
@@ -100,7 +97,6 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginStart="16dp"
         app:layout_goneMarginStart="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:tint="?android:attr/textColorTertiary"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

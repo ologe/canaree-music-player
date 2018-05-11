@@ -7,6 +7,7 @@ import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.msc.R
+import dev.olog.msc.presentation.theme.AppTheme
 
 object TutorialTapTarget {
 
@@ -16,12 +17,12 @@ object TutorialTapTarget {
         val textTarget = TapTarget.forView(text, context.getString(R.string.tutorial_sort_by_text))
                 .cancelable(false)
                 .transparentTarget(true)
-                .outerCircleColor(R.color.accent)
+                .tint()
 
         val arrowTarget = TapTarget.forView(arrow, context.getString(R.string.tutorial_sort_by_arrow))
                 .cancelable(false)
                 .transparentTarget(true)
-                .outerCircleColor(R.color.accent)
+                .tint()
 
         TapTargetSequence(text.context as Activity)
                 .targets(textTarget, arrowTarget)
@@ -35,7 +36,7 @@ object TutorialTapTarget {
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
                 .cancelable(false)
                 .transparentTarget(true)
-                .outerCircleColor(R.color.accent)
+                .tint()
         TapTargetView.showFor(view.context as Activity, target)
     }
 
@@ -44,10 +45,9 @@ object TutorialTapTarget {
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
                 .cancelable(false)
-                .outerCircleColor(R.color.accent)
-                .tintTarget(true)
+                .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_lyrics))
-                .targetCircleColor(R.color.background)
+
         TapTargetView.showFor(view.context as Activity, target)
     }
 
@@ -56,28 +56,35 @@ object TutorialTapTarget {
 
         val searchTarget = TapTarget.forView(search, context.getString(R.string.tutorial_search_lyrics))
                 .cancelable(false)
-                .outerCircleColor(R.color.accent)
-                .tintTarget(true)
+                .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_search))
-                .targetCircleColor(R.color.background)
 
         val editTarget = TapTarget.forView(edit, context.getString(R.string.tutorial_add_lyrics))
                 .cancelable(false)
-                .outerCircleColor(R.color.accent)
-                .tintTarget(true)
+                .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_edit))
-                .targetCircleColor(R.color.background)
 
         val syncLyrics = TapTarget.forView(sync, context.getString(R.string.tutorial_adjust_sync))
                 .cancelable(false)
-                .outerCircleColor(R.color.accent)
-                .tintTarget(true)
+                .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_sync))
-                .targetCircleColor(R.color.background)
 
         TapTargetSequence(search.context as Activity)
                 .targets(editTarget, searchTarget, syncLyrics)
                 .start()
+    }
+
+    private fun TapTarget.tint(): TapTarget {
+        val accentColor = if (AppTheme.isDarkTheme()) R.color.accent_secondary else R.color.accent
+        val backgroundColor = when {
+            AppTheme.isDarkMode() -> R.color.theme_dark_background
+            AppTheme.isBlackMode() -> R.color.theme_black_background
+            else -> R.color.background
+        }
+
+        return this.tintTarget(true)
+                .outerCircleColor(accentColor)
+                .targetCircleColor(backgroundColor)
     }
 
 }

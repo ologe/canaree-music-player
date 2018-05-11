@@ -26,8 +26,7 @@
             android:src="@drawable/vd_back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="12dp"
-            android:tint="?android:attr/textColorTertiary"/>
+            android:padding="12dp" />
 
         <ImageButton
             android:id="@+id/clear"
@@ -36,8 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="12dp"
-            android:layout_gravity="end"
-            android:tint="?android:attr/textColorTertiary"/>
+            android:layout_gravity="end" />
 
         <EditText
             android:id="@+id/editText"
@@ -50,9 +48,7 @@
             android:maxLines="1"
             android:inputType="text"
             android:textSize="18dp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textColorHint="?android:attr/textColorSecondary"
-            android:backgroundTint="?android:attr/textColorSecondaryInverse" />
+            android:textColor="?android:attr/textColorPrimary" />
 
     </FrameLayout>
 
@@ -103,7 +99,7 @@
             android:clipChildren="false"
             tools:visibility="visible"/>
 
-        <ImageView
+        <ImageButton
             android:id="@+id/searchImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,10 +108,10 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/vd_search_big"
+            android:background="@null"
             android:layout_marginBottom="48dp"
             android:visibility="gone"
-            tools:visibility="visible"
-            android:tint="?android:attr/textColorTertiary"/>
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/searchText"

@@ -19,7 +19,7 @@
             android:layout_height="1dp"
             style="@style/Divider" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,9 +27,9 @@
             android:layout_width="@dimen/item_shuffle_cover_size"
             android:layout_height="@dimen/item_shuffle_cover_size"
             android:src="@drawable/vd_shuffle"
-            android:tint="?android:attr/textColorTertiary"
             android:padding="@dimen/item_shuffle_padding"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:background="@null"/>
 
         <TextView
             android:id="@+id/text"

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--white theme-->
+    <style name="AppThemeWhite" parent="AppTheme">
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColorSecondaryInverse">@color/accent</item>
+        <!--used for miniplayer background-->
+        <item name="android:textColorTertiaryInverse">@color/background</item>
+
+        <item name="imageButtonStyle">@style/ImageButtonLight</item>
+        <item name="seekBarStyle">@style/SeekBarLight</item>
+        <item name="android:tabWidgetStyle">@style/TabLayoutLight</item>
+    </style>
+
+    <!--gray theme-->
+    <style name="AppThemeGray" parent="AppThemeWhite">
+        <item name="android:windowBackground">@color/theme_gray_background</item>
+    </style>
+
+    <style name="ImageButtonLight" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">@color/dark_grey</item>
+    </style>
+
+    <style name="SeekBarLight" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressTint">@color/seek_bar_tint</item>
+        <item name="android:thumbTint">@color/seek_bar_tint</item>
+        <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
+    </style>
+
+    <style name="TabLayoutLight" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/tab_layout_selected</item>
+        <item name="tabSelectedTextColor">@color/tab_layout_selected</item>
+        <item name="tabTextColor">@color/tab_layout_unselected</item>
+    </style>
+
+</resources>

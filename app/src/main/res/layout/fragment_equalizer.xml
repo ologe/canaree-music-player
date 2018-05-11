@@ -35,7 +35,6 @@
             android:focusable="true"
             android:padding="12dp"
             android:src="@drawable/vd_back_arrow"
-            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/statusBar" />
 

@@ -11,7 +11,7 @@
         android:paddingEnd="@dimen/tab_margin_end"
         android:background="?attr/selectableItemBackground">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/img"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +19,7 @@
             android:layout_width="@dimen/item_shuffle_cover_size"
             android:layout_height="@dimen/item_shuffle_cover_size"
             android:src="@drawable/vd_shuffle"
-            android:tint="?android:attr/textColorTertiary"
+            android:background="@null"
             android:padding="@dimen/item_shuffle_padding"
             android:layout_marginStart="16dp" />
 

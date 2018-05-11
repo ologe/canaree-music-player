@@ -56,13 +56,11 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <android.support.design.widget.FloatingActionButton
+    <dev.olog.msc.presentation.theme.ThemedFAB
         android:id="@+id/fab"
         app:fabSize="normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/fab_background"
-        android:tint="@color/fab_icon"
         android:src="@drawable/vd_add"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="16dp"

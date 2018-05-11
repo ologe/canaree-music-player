@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.playlist.track.chooser
 
-import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StringRes
@@ -15,6 +14,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
@@ -156,7 +156,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
     }
 
     private fun showCreateDialog(){
-        val builder = AlertDialog.Builder(act)
+        val builder = ThemedDialog.builder(act)
                 .setTitle(R.string.popup_new_playlist)
                 .setView(R.layout.layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)

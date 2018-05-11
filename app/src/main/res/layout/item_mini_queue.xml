@@ -89,7 +89,6 @@
                 android:padding="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:tint="?android:attr/textColorTertiary"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />

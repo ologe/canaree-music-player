@@ -1,6 +1,5 @@
 package dev.olog.msc.offline.lyrics
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.support.design.widget.TextInputEditText
@@ -43,7 +42,7 @@ object EditLyricsDialog {
     }
 
     fun showForService(context: Context, currentText: String, updateFunc: (String) -> Unit){
-        val builder = AlertDialog.Builder(context)
+        val builder = ThemedDialog.builder(context)
                 .setTitle(R.string.offline_lyrics_edit_title)
                 .setView(R.layout.content_layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)

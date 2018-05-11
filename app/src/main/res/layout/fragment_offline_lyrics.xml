@@ -160,9 +160,6 @@
             android:max="@integer/common_high_number"
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
-            android:progressBackgroundTint="?android:attr/progressBackgroundTint"
-            android:progressTint="?android:attr/progressTint"
-            android:thumbTint="?android:attr/progressTint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/header"
             app:layout_constraintStart_toStartOf="@+id/header"
@@ -182,7 +179,6 @@
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             android:src="@drawable/vd_edit"
-            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -194,7 +190,6 @@
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             android:src="@drawable/vd_search"
-            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit" />
 
@@ -206,7 +201,6 @@
             android:paddingEnd="12dp"
             android:paddingStart="12dp"
             android:src="@drawable/vd_sync"
-            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search" />
 

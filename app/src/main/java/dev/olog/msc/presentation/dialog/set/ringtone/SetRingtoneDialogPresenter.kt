@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.dialog.set.ringtone
 
 import android.annotation.TargetApi
-import android.app.AlertDialog
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
@@ -13,6 +12,7 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
 import dev.olog.msc.R
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.makeDialog
@@ -44,7 +44,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
 
     @TargetApi(23)
     private fun requestWritingSettingsPermission(){
-        AlertDialog.Builder(activity)
+        ThemedDialog.builder(activity)
                 .setTitle(R.string.popup_permission)
                 .setMessage(R.string.popup_request_permission_write_settings)
                 .setNegativeButton(R.string.popup_negative_cancel, null)

@@ -63,10 +63,7 @@
             android:paddingStart="@dimen/player_seekBar_padding_horizontal"
             android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
             tools:progress="40"
-            tools:max="100"
-            android:progressTint="?android:attr/progressTint"
-            android:thumbTint="?android:attr/progressTint"
-            android:progressBackgroundTint="?android:attr/progressBackgroundTint"/>
+            tools:max="100" />
 
         <!-- bookmark -->
         <TextView
@@ -159,7 +156,6 @@
             android:padding="12dp"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"

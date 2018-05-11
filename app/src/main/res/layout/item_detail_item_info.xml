@@ -45,7 +45,7 @@
             android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"
             tools:visibility="visible"/>
 
-        <TextView
+        <dev.olog.msc.presentation.theme.HighlightTextView
             android:id="@+id/subtitle"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintStart_toEndOf="@+id/artistImage"
@@ -53,7 +53,6 @@
             android:text="@{item.subtitle}"
             tools:text="50 Cent"
             android:textSize="@dimen/item_detail_main_header_subtitle_size"
-            android:textColor="?android:attr/textColorSecondaryInverse"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:gravity="center_vertical"

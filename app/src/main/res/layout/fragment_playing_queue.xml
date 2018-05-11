@@ -39,8 +39,7 @@
             android:layout_height="0dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/vd_back_arrow"
-            android:padding="12dp"
-            android:tint="?android:attr/textColorTertiary"/>
+            android:padding="12dp" />
 
         <dev.olog.msc.presentation.utils.PlayingFromTextView
             android:id="@+id/header"

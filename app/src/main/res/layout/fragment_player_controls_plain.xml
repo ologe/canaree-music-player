@@ -55,9 +55,6 @@
             android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
             tools:progress="40"
             tools:max="100"
-            android:progressTint="?android:attr/progressTint"
-            android:thumbTint="?android:attr/progressTint"
-            android:progressBackgroundTint="?android:attr/progressBackgroundTint"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="8dp"/>
@@ -157,7 +154,6 @@
             android:padding="12dp"
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
-            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -177,8 +173,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/more"
             app:layout_constraintEnd_toStartOf="@+id/favorite"
             android:scaleX=".75"
-            android:scaleY=".75"
-            android:tint="?android:attr/textColorTertiary"/>
+            android:scaleY=".75" />
 
         <dev.olog.msc.presentation.widget.LottieFavorite
             android:id="@+id/favorite"
@@ -194,7 +189,6 @@
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
             android:src="@drawable/vd_playing_queue"
-            android:tint="?android:attr/textColorTertiary"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:clickable="true"

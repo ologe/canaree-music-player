@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.theme;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
@@ -27,7 +26,8 @@ public class HighlightImageButton extends AppCompatImageButton {
 
     private void initialize(Context context){
         if (AppTheme.INSTANCE.isDarkTheme()){
-            setColorFilter(Color.WHITE);
+            int color = ContextCompat.getColor(context, R.color.accent_secondary);
+            setColorFilter(color);
         } else {
             int color = ContextCompat.getColor(context, R.color.accent);
             setColorFilter(color);

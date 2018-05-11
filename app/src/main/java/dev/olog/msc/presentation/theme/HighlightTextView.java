@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.theme;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
@@ -27,7 +26,8 @@ public class HighlightTextView extends AppCompatTextView {
 
     private void initialize(Context context){
         if (AppTheme.INSTANCE.isDarkTheme()){
-            setTextColor(Color.WHITE);
+            int color = ContextCompat.getColor(context, R.color.accent_secondary);
+            setTextColor(color);
         } else {
             setTextColor(ContextCompat.getColor(context, R.color.accent));
         }

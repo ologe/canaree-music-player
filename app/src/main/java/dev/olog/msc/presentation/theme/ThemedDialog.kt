@@ -2,16 +2,17 @@ package dev.olog.msc.presentation.theme
 
 import android.app.AlertDialog
 import android.content.Context
-import dev.olog.msc.R
 
 object ThemedDialog {
 
     fun builder(context: Context): AlertDialog.Builder {
-        return when {
-            AppTheme.isDarkMode() -> AlertDialog.Builder(context, R.style.DarkAlert)
-            AppTheme.isBlackMode() -> AlertDialog.Builder(context, R.style.BlackAlert)
-            else -> AlertDialog.Builder(context)
-        }
+        return AlertDialog.Builder(context)
+//        return when {
+//            AppTheme.isDarkMode() -> AlertDialog.Builder(context, R.style.AppThemeDark)
+//            AppTheme.isBlackMode() -> AlertDialog.Builder(context, R.style.AppThemeBlack)
+//            else -> AlertDialog.Builder(context)
+//        }
     }
+
 
 }

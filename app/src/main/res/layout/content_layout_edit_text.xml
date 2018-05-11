@@ -25,7 +25,6 @@
         android:layout_gravity="end"
         android:paddingEnd="16dp"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:tint="?android:attr/textColorTertiary"/>
+        android:paddingBottom="16dp" />
 
 </FrameLayout>

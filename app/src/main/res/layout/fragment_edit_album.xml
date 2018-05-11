@@ -80,8 +80,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/albumsUpdated"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textColorHint="?android:attr/textColorSecondary">
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/album"
@@ -102,8 +101,7 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/albumLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textColorHint="?android:attr/textColorSecondary">
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/artist"
@@ -124,8 +122,7 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintTop_toBottomOf="@+id/artistLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textColorHint="?android:attr/textColorSecondary">
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/genre"
@@ -147,8 +144,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/genreLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_chainStyle="packed"
-                android:textColorHint="?android:attr/textColorSecondary">
+                app:layout_constraintHorizontal_chainStyle="packed">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/year"

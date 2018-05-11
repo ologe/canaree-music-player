@@ -46,10 +46,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:progressDrawable="@drawable/seek_bar_progress"
-            android:translationY="-8dp"
-            android:progressTint="?android:attr/progressTint"
-            android:thumbTint="?android:attr/progressTint"
-            android:progressBackgroundTint="?android:attr/progressBackgroundTint"/>
+            android:translationY="-8dp" />
 
         <View
             android:clickable="false"

@@ -50,7 +50,6 @@
             android:elevation="@dimen/toolbar_elevation"
             android:focusable="true"
             android:src="@drawable/vd_more"
-            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +63,6 @@
             android:elevation="@dimen/toolbar_elevation"
             android:focusable="true"
             android:src="@drawable/vd_search"
-            android:tint="?android:attr/textColorTertiary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/more"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +76,6 @@
             android:layout_height="0dp"
             android:elevation="@dimen/toolbar_elevation"
             android:src="@drawable/vd_bird_singing_24dp"
-            android:tint="?android:attr/textColorTertiary"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -97,10 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:tabGravity="center"
-        app:tabIndicatorColor="?android:attr/textColorPrimary"
-        app:tabSelectedTextColor="?android:attr/textColorPrimary"
-        app:tabTextColor="?android:attr/textColorSecondary">
+        app:tabGravity="center">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
