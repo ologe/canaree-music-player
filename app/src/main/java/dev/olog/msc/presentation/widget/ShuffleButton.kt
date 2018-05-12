@@ -8,7 +8,6 @@ import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.textColorPrimary
 import dev.olog.msc.utils.k.extension.textColorSecondary
 import dev.olog.msc.utils.k.extension.textColorTertiary
 
@@ -18,14 +17,16 @@ class ShuffleButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
-    private var enabledColor = ContextCompat.getColor(context, R.color.player_selected_button)
+    private var enabledColor : Int
     private var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_shuffle)
 
-        if (AppTheme.isDarkTheme()){
-            enabledColor = textColorPrimary()
+        enabledColor = if (AppTheme.isDarkTheme()){
+            ContextCompat.getColor(context, R.color.accent_secondary)
+        } else {
+            ContextCompat.getColor(context, R.color.accent)
         }
     }
 

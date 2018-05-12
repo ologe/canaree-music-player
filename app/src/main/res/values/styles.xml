@@ -12,8 +12,8 @@
     <!-- Base dark application theme. -->
     <style name="BaseDarkTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/theme_dark_text_toolbar</item>
-        <item name="colorPrimaryDark">@color/theme_dark_text_status_bar</item>
+        <item name="colorPrimary">@color/theme_dark_toolbar</item>
+        <item name="colorPrimaryDark">@color/theme_dark_status_bar</item>
         <item name="colorAccent">@color/accent_secondary</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>

@@ -4,11 +4,13 @@
     <!--dark theme-->
     <style name="AppThemeDark" parent="BaseDarkTheme">
         <item name="android:windowBackground">@color/theme_dark_background</item>
+        <item name="android:colorPrimary">@color/theme_dark_toolbar</item>
+        <item name="android:colorPrimaryDark">@color/theme_dark_status_bar</item>
 
         <!--text color-->
         <item name="android:textColorSecondaryInverse">@color/accent_secondary</item>
         <!--miniplayer-->
-        <item name="android:textColorTertiaryInverse">@color/theme_dark_text_toolbar</item>
+        <item name="android:textColorTertiaryInverse">@color/theme_dark_toolbar</item>
 
         <item name="imageButtonStyle">@style/ImageButton</item>
         <item name="seekBarStyle">@style/SeekBar</item>

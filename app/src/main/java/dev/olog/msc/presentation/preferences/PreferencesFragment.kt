@@ -119,6 +119,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             getString(R.string.prefs_dark_mode_key) -> {
                 AppTheme.updateDarkMode(act)
+                requestMainActivityToRecreate()
                 act.finish()
                 act.startActivity(Intent(act, act::class.java),
                         bundleOf(PreferencesActivity.EXTRA_NEED_TO_RECREATE to needsToRecreate)

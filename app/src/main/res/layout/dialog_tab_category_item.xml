@@ -12,15 +12,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="16dp"
         android:background="?attr/selectableItemBackground" >
-
-        <View
-            android:id="@+id/scrim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:attr/windowBackground"
-            android:visibility="gone"/>
 
         <CheckBox
             android:id="@+id/checkBox"

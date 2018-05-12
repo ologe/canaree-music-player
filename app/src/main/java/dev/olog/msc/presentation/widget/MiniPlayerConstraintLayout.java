@@ -28,7 +28,7 @@ public class MiniPlayerConstraintLayout extends ConstraintLayout {
         if (AppTheme.INSTANCE.isWhiteTheme()){
             setBackgroundResource(R.color.background);
         } else if (AppTheme.INSTANCE.isDarkMode()){
-            setBackgroundResource(R.color.theme_dark_text_toolbar);
+            setBackgroundResource(R.color.theme_dark_toolbar);
         } else {
             setBackgroundResource(R.color.theme_black_background);
         }

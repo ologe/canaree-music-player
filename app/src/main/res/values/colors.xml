@@ -50,4 +50,6 @@
 
     <color name="background_mini_player">@color/background</color>
 
+    <color name="dark_dialog_background">#424242</color>
+
 </resources>

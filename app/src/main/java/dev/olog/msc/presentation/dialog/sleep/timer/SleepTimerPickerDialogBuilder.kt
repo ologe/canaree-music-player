@@ -3,15 +3,17 @@ package dev.olog.msc.presentation.dialog.sleep.timer
 import android.content.DialogInterface
 import android.support.annotation.ColorRes
 import android.support.v4.app.FragmentManager
+import dev.olog.msc.R
+import dev.olog.msc.presentation.theme.AppTheme
 
 class SleepTimerPickerDialogBuilder(private val fragmentManager: FragmentManager) {
     private var reference: Int = -1
     @ColorRes
-    private var colorBackground: Int = android.R.color.white
+    var colorBackground: Int = if (AppTheme.isDarkTheme()) R.color.dark_dialog_background else android.R.color.white
     @ColorRes
     private var colorNormal: Int = android.R.color.darker_gray
     @ColorRes
-    private var colorSelected: Int = android.R.color.holo_red_light
+    private var colorSelected = if (AppTheme.isDarkTheme()) R.color.accent_secondary else R.color.accent
     private var dismissListener: DialogInterface.OnDismissListener? = null
 
     fun setReference(r: Int): SleepTimerPickerDialogBuilder = apply { reference = r }
