@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.DURATION
+import androidx.core.database.getLong
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.mapper.toFakeSong
@@ -12,7 +13,9 @@ import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.data.mapper.toUneditedSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -48,7 +51,8 @@ private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 class SongRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
-        private val appPrefsUseCase: AppPreferencesUseCase
+        private val appPrefsUseCase: AppPreferencesUseCase,
+        private val usedImageGateway: UsedImageGateway
 
 ) : SongGateway {
 
@@ -59,6 +63,7 @@ class SongRepository @Inject constructor(
         ).mapToList { mapToSong(it) }
                 .map { removeBlacklisted(it) }
                 .map { mockDataIfNeeded(it) }
+                .map { updateImages(it) }
                 .onErrorReturn { listOf() }
     }
 
@@ -67,6 +72,20 @@ class SongRepository @Inject constructor(
             cursor.toFakeSong()
         } else {
             cursor.toSong()
+        }
+    }
+
+    private fun updateImages(list: List<Song>): List<Song>{
+        val allForTracks = usedImageGateway.getAllForTracks()
+        val allForAlbums = usedImageGateway.getAllForAlbums()
+        if (allForTracks.isEmpty()){
+            return list
+        }
+        return list.map { song ->
+            val image = allForTracks.firstOrNull { it.id == song.id }?.image // search for track image
+                    ?: allForAlbums.firstOrNull { it.id == song.albumId }?.image  // search for track album image
+                    ?: song.image // use default
+            song.copy(image = image)
         }
     }
 
@@ -108,8 +127,14 @@ class SongRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",
                 arrayOf("$songId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
-        ).mapToOne { it.toUneditedSong() }
-                .distinctUntilChanged()
+        ).mapToOne {
+            val id = it.getLong(BaseColumns._ID)
+            val albumId = it.getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
+            val trackImage = usedImageGateway.getForTrack(id)
+            val albumImage = usedImageGateway.getForAlbum(albumId)
+            val image = trackImage ?: albumImage ?: ImagesFolderUtils.forAlbum(albumId)
+            it.toUneditedSong(image)
+        }.distinctUntilChanged()
     }
 
     override fun getAllUnfiltered(): Observable<List<Song>> {

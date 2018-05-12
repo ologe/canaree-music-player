@@ -3,6 +3,7 @@ package dev.olog.msc.glide
 import android.content.Context
 import android.net.Uri
 import android.webkit.URLUtil
+import androidx.core.net.toUri
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader

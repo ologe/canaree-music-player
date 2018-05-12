@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v14.preference.SwitchPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.core.os.bundleOf
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
@@ -32,6 +34,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var notchSupport : Preference
     private lateinit var deleteCache : Preference
     private lateinit var lastFmCredentials: Preference
+    private lateinit var autoCreateImages: SwitchPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -41,6 +44,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         notchSupport = preferenceScreen.findPreference(getString(R.string.prefs_notch_support_key))
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
         lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
+        autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key)) as SwitchPreference
     }
 
     private var needsToRecreate = false
@@ -67,6 +71,14 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                                 .show()
                     }
                 })
+
+        val lowRam = isLowMemoryDevice(ctx)
+        if (lowRam){
+            autoCreateImages.isChecked = false
+            autoCreateImages.isEnabled = false
+            autoCreateImages.summaryOff = getString(R.string.prefs_auto_create_images_summary_low_memory)
+        }
+
     }
 
     override fun onResume() {

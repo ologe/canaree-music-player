@@ -1,18 +1,22 @@
 package dev.olog.msc.presentation.image.creation
 
 import android.Manifest
+import android.app.Activity
+import android.app.ActivityManager
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
+import androidx.core.content.systemService
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllFoldersNewRequestUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllGenresNewRequestUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllPlaylistsNewRequestUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -65,6 +69,10 @@ class ImagesCreator @Inject constructor(
 
     fun execute() {
         unsubscribe()
+
+        if (isLowMemoryDevice(context)){
+            return
+        }
 
         Observables.combineLatest(
                 getAllFoldersUseCase.execute().onErrorReturnItem(listOf()),

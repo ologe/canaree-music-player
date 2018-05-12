@@ -43,4 +43,6 @@
         <item quantity="other">Your changes will be applied to %d songs</item>
     </plurals>
 
+    <string name="edit_song_change_album_art">Pick an image</string>
+
 </resources>

@@ -90,7 +90,8 @@ data class UpdateSongInfo(
         val genre: String,
         val year: String,
         val disc: String,
-        val track: String
+        val track: String,
+        val image: String?
 )
 
 data class UpdateAlbumInfo(
@@ -98,10 +99,12 @@ data class UpdateAlbumInfo(
         val title: String,
         val artist: String,
         val genre: String,
-        val year: String
+        val year: String,
+        val image: String?
 )
 
 data class UpdateArtistInfo(
         val mediaId: MediaId,
-        val name: String
+        val name: String,
+        val image: String?
 )

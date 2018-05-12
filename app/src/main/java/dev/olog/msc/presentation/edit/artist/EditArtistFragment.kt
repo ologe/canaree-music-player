@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.edit.artist
 
+import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
@@ -59,7 +60,8 @@ class EditArtistFragment : BaseEditItemFragment() {
         okButton.setOnClickListener {
             val result = editItemViewModel.updateArtist(UpdateArtistInfo(
                     mediaId,
-                    artist.extractText()
+                    artist.extractText(),
+                    viewModel.getNewImage()
             ))
 
             when (result){
@@ -75,6 +77,14 @@ class EditArtistFragment : BaseEditItemFragment() {
         super.onPause()
         okButton.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
+    }
+
+    override fun restoreImage() {
+        viewModel.updateImage(null)
+    }
+
+    override fun onImagePicked(uri: Uri) {
+        viewModel.updateImage(uri.toString())
     }
 
     override fun onLoaderCancelled() {

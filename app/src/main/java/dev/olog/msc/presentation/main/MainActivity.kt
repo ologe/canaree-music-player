@@ -51,7 +51,8 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 
         if (savedInstanceState == null){
             val canReadStorage = Permissions.canReadStorage(this)
-            val toFirstAccess = !canReadStorage || presenter.isFirstAccess()
+            val isFirstAccess = presenter.isFirstAccess()
+            val toFirstAccess = !canReadStorage || isFirstAccess
             if (toFirstAccess){
                 navigator.toFirstAccess(SPLASH_REQUEST_CODE)
             } else {

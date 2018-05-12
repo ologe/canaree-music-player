@@ -7,6 +7,7 @@ import com.crashlytics.android.Crashlytics
 import dev.olog.msc.NetworkUtils
 import dev.olog.msc.app.app
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -36,6 +37,23 @@ class EditTrackFragmentViewModel(
                     it.printStackTrace()
                     Crashlytics.logException(it)
                 })
+    }
+
+    fun updateImage(image: String){
+        val oldValue = displayedSong.value!!
+        val newValue = oldValue.copy(image = image)
+        displayedSong.postValue(newValue)
+    }
+
+    fun getNewImage(): String? {
+        val albumId = getSong().albumId
+        val original = ImagesFolderUtils.forAlbum(albumId)
+        val current = displayedSong.value!!.image
+        if (original == current){
+            return null
+        } else {
+            return current
+        }
     }
 
     fun observeData(): LiveData<DisplayableSong> = displayedSong

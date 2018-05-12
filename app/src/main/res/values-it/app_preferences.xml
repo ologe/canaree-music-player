@@ -76,6 +76,7 @@
     <string name="prefs_auto_create_images_title">Crea automaticamente immagini per cartelle, playlist e generi</string>
     <string name="prefs_auto_create_images_summary_on">Abilitato</string>
     <string name="prefs_auto_create_images_summary_off">Disabilitato</string>
+    <string name="prefs_auto_create_images_summary_low_memory">Disabilitato su dispositivi con memoria limitata</string>
 
     <!--dark mode-->
     <string name="prefs_dark_mode_title">Tema</string>

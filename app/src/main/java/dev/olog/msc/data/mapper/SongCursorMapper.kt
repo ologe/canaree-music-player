@@ -40,7 +40,7 @@ fun Cursor.toSong(): Song {
             folder.capitalize(), disc, track)
 }
 
-fun Cursor.toUneditedSong(): Song {
+fun Cursor.toUneditedSong(image: String): Song {
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -62,8 +62,7 @@ fun Cursor.toUneditedSong(): Song {
 
     return Song(
             id, artistId, albumId, title, artist, album,
-            ImagesFolderUtils.forAlbum(albumId),
-            duration, dateAdded, path,
+            image, duration, dateAdded, path,
             folder.capitalize(), disc, track)
 }
 

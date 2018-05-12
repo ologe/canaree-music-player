@@ -4,11 +4,14 @@ package dev.olog.msc.presentation.edit
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
 import android.view.WindowManager
 import android.widget.ImageView
+import androidx.core.net.toUri
 import com.bumptech.glide.Priority
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
@@ -16,9 +19,13 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.msc.utils.k.extension.makeDialog
+
+private const val PICK_IMAGE_CODE = 456
 
 abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
 
@@ -52,8 +59,13 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
         GlideApp.with(ctx).clear(background)
         GlideApp.with(ctx).clear(image)
 
+        val img = model.image
+        val load: Any = if (img.startsWith("content://com.android.providers.media.documents/document")){
+            img.toUri()
+        } else model
+
         val builder = GlideApp.with(ctx)
-                .load(model)
+                .load(load)
                 .placeholder(CoverUtils.getGradient(ctx, model.mediaId))
                 .override(500)
                 .priority(Priority.IMMEDIATE)
@@ -80,6 +92,36 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
         progressDialog?.dismiss()
         progressDialog = null
     }
+
+    protected fun changeImage(){
+        ThemedDialog.builder(ctx)
+                .setItems(arrayOf("Pick an image", "Restore default"), { _, which ->
+                    if (which == 0){
+                        openImagePicker()
+                    } else {
+                        restoreImage()
+                    }
+                })
+                .makeDialog()
+    }
+
+    private fun openImagePicker(){
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        this.startActivityForResult(Intent.createChooser(intent, getString(R.string.edit_song_change_album_art)),
+                dev.olog.msc.presentation.edit.PICK_IMAGE_CODE)
+    }
+
+    protected abstract fun restoreImage()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PICK_IMAGE_CODE){
+            data?.let { onImagePicked(it.data) }
+        }
+    }
+
+    protected abstract fun onImagePicked(uri: Uri)
 
     abstract fun onLoaderCancelled()
 

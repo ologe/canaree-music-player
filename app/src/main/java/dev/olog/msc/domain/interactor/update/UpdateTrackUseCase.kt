@@ -2,6 +2,7 @@ package dev.olog.msc.domain.interactor.update
 
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.catchNothing
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.msc.notifyItemChanged
 import io.reactivex.Completable
@@ -11,7 +12,8 @@ import java.io.File
 import javax.inject.Inject
 
 class UpdateTrackUseCase @Inject constructor(
-        schedulers: IoSchedulers
+        schedulers: IoSchedulers,
+        private val gateway: UsedImageGateway
 
 ): CompletableUseCaseWithParam<UpdateTrackUseCase.Data>(schedulers){
 
@@ -28,6 +30,11 @@ class UpdateTrackUseCase @Inject constructor(
 
                 audioFile.commit()
 
+                if (param.id != null){
+                    gateway.setForTrack(param.id, param.image)
+                }
+
+
                 notifyItemChanged(param.path)
 
                 it.onComplete()
@@ -38,7 +45,9 @@ class UpdateTrackUseCase @Inject constructor(
     }
 
     data class Data(
+            val id: Long?,
             val path: String,
+            val image: String?,
             val fields: Map<FieldKey, String>
     )
 

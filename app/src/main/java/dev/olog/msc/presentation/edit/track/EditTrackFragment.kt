@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.edit.track
 
 import android.arch.lifecycle.Observer
+import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
@@ -10,6 +11,7 @@ import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.UpdateSongInfo
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import javax.inject.Inject
@@ -51,7 +53,7 @@ class EditTrackFragment : BaseEditItemFragment() {
                 genre.setText(it.genre)
                 disc.setText(it.disc)
                 trackNumber.setText(it.track)
-                val model = DisplayableItem(0, MediaId.songId(it.id), "", it.image)
+                val model = DisplayableItem(0, MediaId.songId(it.id), "", image = it.image)
                 setImage(model)
             }
             hideLoader()
@@ -69,8 +71,9 @@ class EditTrackFragment : BaseEditItemFragment() {
                     genre.extractText().trim(),
                     year.extractText().trim(),
                     disc.extractText().trim(),
-                    trackNumber.extractText().trim())
-            )
+                    trackNumber.extractText().trim(),
+                    viewModel.getNewImage()
+            ))
 
             when (result){
                 UpdateResult.OK -> act.onBackPressed()
@@ -85,9 +88,10 @@ class EditTrackFragment : BaseEditItemFragment() {
             if (viewModel.fetchSongInfo()) {
                 showLoader(R.string.edit_song_fetching_info)
             } else {
-                ctx.toast("No internet connection")
+                ctx.toast(R.string.common_no_internet)
             }
         }
+        picker.setOnClickListener { changeImage() }
     }
 
     override fun onPause() {
@@ -95,6 +99,17 @@ class EditTrackFragment : BaseEditItemFragment() {
         okButton.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
         autoTag.setOnClickListener(null)
+        picker.setOnClickListener(null)
+    }
+
+    override fun onImagePicked(uri: Uri) {
+        viewModel.updateImage(uri.toString())
+    }
+
+    override fun restoreImage() {
+        val albumId = viewModel.getSong().albumId
+        val uri = ImagesFolderUtils.forAlbum(albumId)
+        viewModel.updateImage(uri)
     }
 
     override fun onLoaderCancelled() {

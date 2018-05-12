@@ -3,8 +3,10 @@ package dev.olog.msc.presentation.edit.album
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -14,7 +16,7 @@ import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
 
 class EditAlbumFragmentViewModel(
-        presenter: EditAlbumFragmentPresenter
+        private val presenter: EditAlbumFragmentPresenter
 
 ) : ViewModel() {
 
@@ -36,6 +38,25 @@ class EditAlbumFragmentViewModel(
                     it.printStackTrace()
                 })
     }
+
+    fun updateImage(image: String){
+        val oldValue = displayedAlbum.value!!
+        val newValue = oldValue.copy(image = image)
+        displayedAlbum.postValue(newValue)
+    }
+
+    fun getNewImage(): String? {
+        val albumId = getAlbum().id
+        val original = ImagesFolderUtils.forAlbum(albumId)
+        val current = displayedAlbum.value!!.image
+        if (original == current){
+            return null
+        } else {
+            return current
+        }
+    }
+
+    fun getAlbum(): Album = presenter.getAlbum()
 
     fun observeData(): LiveData<DisplayableAlbum> = displayedAlbum
 

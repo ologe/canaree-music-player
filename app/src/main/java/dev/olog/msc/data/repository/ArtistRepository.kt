@@ -10,6 +10,7 @@ import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.utils.k.extension.crashlyticsLog
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -23,7 +24,8 @@ class ArtistRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase,
-        private val collator: Collator
+        private val collator: Collator,
+        private val usedImageGateway: UsedImageGateway
 
 ) : ArtistGateway {
 
@@ -36,6 +38,18 @@ class ArtistRepository @Inject constructor(
         ).mapToOne { 0 }
                 .flatMap { songGateway.getAll() }
                 .map { mapToArtists(it) }
+                .map { updateImages(it) }
+    }
+
+    private fun updateImages(list: List<Artist>): List<Artist>{
+        val allForArtists = usedImageGateway.getAllForArtists()
+        if (allForArtists.isEmpty()){
+            return list
+        }
+        return list.map { artist ->
+            val image = allForArtists.firstOrNull { it.id == artist.id }?.image ?: artist.image
+            artist.copy(image = image)
+        }
     }
 
     private fun mapToArtists(songList: List<Song>): List<Artist> {

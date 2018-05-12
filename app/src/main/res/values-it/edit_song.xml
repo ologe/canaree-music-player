@@ -38,4 +38,6 @@
         <item quantity="other">I cambiamenti verrano applicati a %d brani</item>
     </plurals>
 
+    <string name="edit_song_change_album_art">Scegli un\'immagine</string>
+
 </resources>

@@ -4,6 +4,7 @@ import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.item.GetUneditedSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
@@ -14,7 +15,8 @@ import javax.inject.Inject
 class EditTrackFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
         private val getSongUseCase: GetUneditedSongUseCase,
-        private val getLastFmTrackUseCase: GetLastFmTrackUseCase
+        private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
+        private val usedImageGateway: UsedImageGateway
 
 ) {
 
@@ -26,7 +28,12 @@ class EditTrackFragmentPresenter @Inject constructor(
                 .map { it.copy(
                         artist = if (it.artist == AppConstants.UNKNOWN) "" else it.artist,
                         album = if (it.album == AppConstants.UNKNOWN) "" else it.album
-                ) }.doOnSuccess { originalSong = it }
+                ) }.doOnSuccess {
+                    val usedImage = usedImageGateway.getForTrack(it.id)
+                            ?: usedImageGateway.getForAlbum(it.albumId)
+                            ?: it.image
+                    originalSong = it.copy(image = usedImage)
+                }
     }
 
     fun fetchData(): Single<Optional<LastFmTrack?>> {

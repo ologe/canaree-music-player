@@ -1,10 +1,12 @@
 package dev.olog.msc.domain.interactor.update
 
 import dev.olog.msc.app.IoSchedulers
+import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
+import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
@@ -12,7 +14,8 @@ import javax.inject.Inject
 class UpdateMultipleTracksUseCase @Inject constructor(
         schedulers: IoSchedulers,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val updateTrackUseCase: UpdateTrackUseCase
+        private val updateTrackUseCase: UpdateTrackUseCase,
+        private val gateway: UsedImageGateway
 
 ): CompletableUseCaseWithParam<UpdateMultipleTracksUseCase.Data>(schedulers){
 
@@ -21,13 +24,22 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                 .firstOrError()
                 .flatMapObservable { Observable.fromIterable(it) }
                 .flatMapCompletable { updateTrackUseCase.execute(
-                        UpdateTrackUseCase.Data(it.path, param.fields)
-                ) }
+                        UpdateTrackUseCase.Data(null, it.path, null, param.fields)
+                ) }.andThen({
+                    if (param.mediaId.isArtist){
+                        gateway.setForArtist(param.mediaId.resolveId, param.image)
+                    } else if (param.mediaId.isAlbum){
+                        gateway.setForAlbum(param.mediaId.resolveId, param.image)
+                    } else {
+                        throw IllegalStateException("invalid media id category ${param.mediaId}")
+                    }
+                })
 
     }
 
     data class Data(
             val mediaId: MediaId,
+            val image: String?,
             val fields: Map<FieldKey, String>
     )
 

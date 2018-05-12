@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.edit.album
 
 import android.arch.lifecycle.Observer
+import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
@@ -10,6 +11,7 @@ import dev.olog.msc.presentation.edit.UpdateAlbumInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_album.*
 import javax.inject.Inject
@@ -71,7 +73,8 @@ class EditAlbumFragment : BaseEditItemFragment() {
                     album.extractText().trim(),
                     artist.extractText().trim(),
                     genre.extractText().trim(),
-                    year.extractText().trim()
+                    year.extractText().trim(),
+                    viewModel.getNewImage()
             ))
 
             when (result){
@@ -89,6 +92,16 @@ class EditAlbumFragment : BaseEditItemFragment() {
         super.onPause()
         okButton.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
+    }
+
+    override fun restoreImage() {
+        val albumId = viewModel.getAlbum().id
+        val uri = ImagesFolderUtils.forAlbum(albumId)
+        viewModel.updateImage(uri)
+    }
+
+    override fun onImagePicked(uri: Uri) {
+        viewModel.updateImage(uri.toString())
     }
 
     override fun onLoaderCancelled() {

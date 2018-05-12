@@ -55,4 +55,8 @@ abstract class RepositoryModule {
     @Singleton
     abstract fun provideLyricsRepository(repository: OfflineLyricsRepository): OfflineLyricsGateway
 
+    @Binds
+    @Singleton
+    abstract fun provideUsedImageRepository(repository: UsedImageRepository): UsedImageGateway
+
 }
