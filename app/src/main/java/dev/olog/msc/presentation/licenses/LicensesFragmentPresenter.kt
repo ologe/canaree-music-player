@@ -165,8 +165,15 @@ class LicensesFragmentPresenter @Inject constructor(
     private val LAST_FM_BINDING = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("last_fm_binding"),
-            "Last.fm API Bindings for Java\n", "https://github.com/jkovacs/lastfm-java",
+            "Last.fm API Bindings for Java", "https://github.com/jkovacs/lastfm-java",
             lastFmBinding()
+    )
+
+    private val CUSTOM_TABS = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("custom tabs"),
+            "Android CustomTabs", "https://github.com/saschpe/android-customtabs",
+            apache()
     )
 
     val data : List<LicenseModel> = listOf(
@@ -194,7 +201,8 @@ class LicensesFragmentPresenter @Inject constructor(
             OPTIONAL,
             TAP_TARGET_VIEW,
             AES_CRYPTO,
-            LAST_FM_BINDING
+            LAST_FM_BINDING,
+            CUSTOM_TABS
     )
 
     private fun apache(): String {

@@ -182,6 +182,7 @@ dependencies {
     implementation "com.getkeepsafe.taptargetview:taptargetview:$rootProject.tap_target"
     implementation "com.github.tozny:java-aes-crypto:$rootProject.aes_crypto"
     implementation "de.u-mass:lastfm-java:$rootProject.last_fm_binding"
+    implementation 'saschpe.android:customtabs:1.1.2'
 
     // debug
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"

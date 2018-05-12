@@ -15,6 +15,7 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
+import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks
 import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
@@ -38,6 +39,8 @@ class App : DaggerApplication() {
         initializeDebug()
         initializeConstants()
         resetSleepTimer()
+
+        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
     }
 
     private fun initializeDebug(){

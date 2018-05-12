@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.view.View
 import android.widget.SeekBar
@@ -21,6 +23,7 @@ import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
@@ -34,6 +37,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.*
 import kotlinx.android.synthetic.main.fragment_offline_lyrics.view.*
+import saschpe.android.customtabs.CustomTabsHelper
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -147,16 +151,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
             })
         }
         back.setOnClickListener { act.onBackPressed() }
-        search.setOnClickListener {
-            val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
-            val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (act.packageManager.isIntentSafe(intent)) {
-                startActivity(intent)
-            } else {
-                act.toast(R.string.common_browser_not_found)
-            }
-        }
+        search.setOnClickListener { searchLyrics() }
         act.window.removeLightStatusBar()
 
         fakeNext.setOnTouchListener(NoScrollTouchListener(ctx, { mediaProvider.skipToNext() }))
@@ -169,6 +164,26 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                 presenter.updateSyncAdjustement(it)
             }
         }
+    }
+
+    private fun searchLyrics(){
+        val toolbarColor = if (AppTheme.isWhiteTheme()) R.color.toolbar else R.color.theme_dark_toolbar
+        val customTabIntent = CustomTabsIntent.Builder()
+                .enableUrlBarHiding()
+                .setToolbarColor(ContextCompat.getColor(ctx, toolbarColor))
+                .build()
+        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+
+        val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
+        val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
+        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, { _, _ ->
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            if (act.packageManager.isIntentSafe(intent)) {
+                startActivity(intent)
+            } else {
+                act.toast(R.string.common_browser_not_found)
+            }
+        })
     }
 
     override fun onPause() {

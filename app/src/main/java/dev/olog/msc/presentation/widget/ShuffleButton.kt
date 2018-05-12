@@ -49,7 +49,6 @@ class ShuffleButton @JvmOverloads constructor(
             this.enabledColor = color
         }
 
-        this.enabledColor = color
         if (shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL){
             setColorFilter(this.enabledColor)
         }
