@@ -8,6 +8,7 @@ import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.utils.k.extension.textColorSecondary
 import dev.olog.msc.utils.k.extension.textColorTertiary
 
@@ -17,17 +18,19 @@ class ShuffleButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
+    private val defaultEnabledColor: Int
     private var enabledColor : Int
     private var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_shuffle)
 
-        enabledColor = if (AppTheme.isDarkTheme()){
+        defaultEnabledColor = if (AppTheme.isDarkTheme()){
             ContextCompat.getColor(context, R.color.accent_secondary)
         } else {
             ContextCompat.getColor(context, R.color.accent)
         }
+        enabledColor = defaultEnabledColor
     }
 
     fun cycle(state: Int){
@@ -39,6 +42,13 @@ class ShuffleButton @JvmOverloads constructor(
     }
 
     fun updateColor(color: Int){
+        val colorLuminance = ColorUtil.calculateLuminance(color)
+        if (colorLuminance > .7 || colorLuminance < .3){
+            this.enabledColor = defaultEnabledColor
+        } else {
+            this.enabledColor = color
+        }
+
         this.enabledColor = color
         if (shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL){
             setColorFilter(this.enabledColor)
