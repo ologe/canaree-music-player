@@ -10,7 +10,8 @@
         android:layout_marginTop="8dp"
         tools:layout_marginStart="350dp"
         android:layout_marginBottom="16dp"
-        android:paddingEnd="@dimen/mini_queue_margin_end">
+        android:paddingEnd="@dimen/mini_queue_margin_end"
+        android:id="@+id/playerRoot">
 
         <include
             android:id="@+id/playerToolbar"

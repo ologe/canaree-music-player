@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:background="@color/background"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="24dp"
+        android:id="@+id/playerRoot">
 
         <include
             android:id="@+id/playerToolbar"
@@ -35,7 +36,8 @@
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
             android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
             android:stateListAnimator="@animator/elevate_on_activated"
-            app:cornerRadius="10" />
+            app:cornerRadius="10"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"

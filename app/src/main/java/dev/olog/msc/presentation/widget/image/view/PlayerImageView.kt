@@ -42,6 +42,12 @@ class PlayerImageView @JvmOverloads constructor(
         }
     }
 
+    fun forceRipple(x: Float, y: Float){
+        background.setHotspot(x, y)
+        isPressed = true
+        isPressed = false
+    }
+
 }
 
 fun MediaMetadataCompat.toPlayerImage(): DisplayableItem {

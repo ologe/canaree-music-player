@@ -8,7 +8,8 @@
         android:clipChildren="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@android:color/darker_gray">
+        tools:background="@android:color/darker_gray"
+        android:id="@+id/playerRoot">
 
         <dev.olog.msc.presentation.widget.image.view.PlayerImageView
             android:id="@+id/cover"
@@ -23,7 +24,8 @@
             android:focusable="true"
             android:scaleType="centerCrop"
             android:scaleY="1.05"
-            android:scaleX="1.05"/>
+            android:scaleX="1.05"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <android.support.constraint.ConstraintLayout
             app:layout_constraintTop_toTopOf="parent"

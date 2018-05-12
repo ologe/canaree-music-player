@@ -1,9 +1,13 @@
 package dev.olog.msc.presentation.widget
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
+import dev.olog.msc.R
+import dev.olog.msc.presentation.widget.image.view.PlayerImageView
 import dev.olog.msc.utils.k.extension.dip
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -109,11 +113,23 @@ class SwipeableView @JvmOverloads constructor(
             when {
                 xDown < sixtyFourDip -> swipeListener?.onLeftEdgeClick()
                 (width - xDown) < sixtyFourDip -> swipeListener?.onRightEdgeClick()
-                else -> swipeListener?.onClick()
+                else -> {
+                    swipeListener?.onClick()
+                    dispatchRipple(event.rawX, event.rawY)
+                }
             }
             return true
         }
         return false
+    }
+
+    private fun dispatchRipple(x: Float, y: Float){
+        val activity = context as Activity
+        val root = activity.findViewById<View>(R.id.playerRoot)
+        val imageView = root.findViewById<ImageView>(R.id.cover)
+        if (imageView is PlayerImageView){
+            imageView.forceRipple(x, y)
+        }
     }
 
     interface SwipeListener {
