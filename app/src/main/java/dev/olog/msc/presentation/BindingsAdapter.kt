@@ -60,8 +60,12 @@ object BindingsAdapter {
 
         GlideApp.with(context).clear(view)
 
+        val load: Any = if (ImagesFolderUtils.isChoosedImage(item.image)){
+            item.image
+        } else item
+
         GlideApp.with(context)
-                .load(item)
+                .load(load)
                 .override(override)
                 .priority(priority)
                 .placeholder(CoverUtils.getGradient(context, mediaId))

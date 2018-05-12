@@ -21,6 +21,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog
@@ -60,7 +61,7 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
         GlideApp.with(ctx).clear(image)
 
         val img = model.image
-        val load: Any = if (img.startsWith("content://com.android.providers.media.documents/document")){
+        val load: Any = if (ImagesFolderUtils.isChoosedImage(img)){
             img.toUri()
         } else model
 

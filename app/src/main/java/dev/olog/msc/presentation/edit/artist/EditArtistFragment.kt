@@ -71,12 +71,14 @@ class EditArtistFragment : BaseEditItemFragment() {
             }
         }
         cancelButton.setOnClickListener { act.onBackPressed() }
+        picker.setOnClickListener { changeImage() }
     }
 
     override fun onPause() {
         super.onPause()
         okButton.setOnClickListener(null)
         cancelButton.setOnClickListener(null)
+        picker.setOnClickListener(null)
     }
 
     override fun restoreImage() {

@@ -24,6 +24,10 @@ object ImagesFolderUtils {
         return folderName
     }
 
+    fun isChoosedImage(image: String): Boolean{
+        return image.startsWith("content://com.android.providers.media.documents/document")
+    }
+
     fun forFolder(context: Context, folderPath: String): String{
         val normalizedPath = folderPath.replace(File.separator, "")
         if (AppConstants.useFakeData){

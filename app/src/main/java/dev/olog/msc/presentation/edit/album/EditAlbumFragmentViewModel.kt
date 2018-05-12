@@ -25,18 +25,20 @@ class EditAlbumFragmentViewModel(
     private val displayedAlbum = MutableLiveData<DisplayableAlbum>()
 
     private var songListDisposable: Disposable? = null
+    private var albumDisposable: Disposable? = null
 
     init {
         TagOptionSingleton.getInstance().isAndroid = true
 
+        albumDisposable = presenter.observeAlbum()
+                .subscribe({
+                    displayedAlbum.postValue(it.first.toDisplayableAlbum(it.second))
+                }, Throwable::printStackTrace)
+
         songListDisposable = presenter.getSongList()
-                .map { it[0].toDisplayableAlbum() to it }
-                .subscribe({ (album, songList) ->
-                    displayedAlbum.postValue(album)
-                    songListLiveData.postValue(songList)
-                }, {
-                    it.printStackTrace()
-                })
+                .subscribe({
+                    songListLiveData.postValue(it)
+                }, Throwable::printStackTrace)
     }
 
     fun updateImage(image: String){
@@ -62,14 +64,14 @@ class EditAlbumFragmentViewModel(
 
     fun observeSongList(): LiveData<List<Song>> = songListLiveData
 
-    private fun Song.toDisplayableAlbum(): DisplayableAlbum {
+    private fun Album.toDisplayableAlbum(path: String): DisplayableAlbum {
         val file = File(path)
         val audioFile = AudioFileIO.read(file)
         val tag = audioFile.tagOrCreateAndSetDefault
 
         return DisplayableAlbum(
-                this.albumId,
-                this.album,
+                this.id,
+                this.title,
                 DisplayableItem.adjustArtist(this.artist),
                 tag.get(FieldKey.GENRE),
                 tag.get(FieldKey.YEAR),

@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.edit.artist
 
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetArtistUseCase
 import dev.olog.msc.utils.MediaId
@@ -12,8 +11,7 @@ import javax.inject.Inject
 class EditArtistFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
         private val getArtistUseCase: GetArtistUseCase,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase,
-        private val usedImageGateway: UsedImageGateway
+        private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {
 
@@ -23,10 +21,7 @@ class EditArtistFragmentPresenter @Inject constructor(
     fun observeArtist(): Single<Artist> {
         return getArtistUseCase.execute(mediaId)
                 .firstOrError()
-                .doOnSuccess {
-                    val image = usedImageGateway.getForArtist(it.id)
-                    originalArtist = it.copy(image = image ?: "")
-                }
+                .doOnSuccess { originalArtist = it }
     }
 
     fun getSongList(): Single<List<Song>> {
