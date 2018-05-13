@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
+import android.os.Debug
 import android.support.v7.preference.PreferenceManager
 import com.facebook.stetho.Stetho
 import com.tspoon.traceur.Traceur

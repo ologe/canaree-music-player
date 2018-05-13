@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.presentation.library.folder.tree.DisplayableFile
@@ -17,6 +18,7 @@ import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import io.reactivex.Single
 import kotlin.math.absoluteValue
 
 object BindingsAdapter {

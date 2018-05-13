@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.library.tab
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import dagger.Lazy
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -10,7 +11,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class TabFragmentViewModelFactory @Inject constructor(
-        private val data: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
+        private val data: Lazy<Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
         private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase
 

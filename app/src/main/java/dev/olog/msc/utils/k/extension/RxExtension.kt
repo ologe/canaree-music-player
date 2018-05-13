@@ -44,6 +44,10 @@ fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
     return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
 }
 
+fun <T> Observable<T>.defer(): Observable<T> {
+    return Observable.defer { this }
+}
+
 fun <T> Single<T>.defer(): Single<T> {
     return Single.defer { this }
 }

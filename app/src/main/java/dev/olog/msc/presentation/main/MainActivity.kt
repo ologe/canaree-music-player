@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Debug
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat

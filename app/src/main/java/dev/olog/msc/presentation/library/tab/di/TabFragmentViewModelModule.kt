@@ -17,6 +17,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
+import dev.olog.msc.utils.k.extension.defer
 import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.msc.utils.k.extension.startWith
 import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
@@ -35,6 +36,7 @@ class TabFragmentViewModelModule {
             useCase: GetAllFoldersUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute().mapToList { it.toTabDisplayableItem(resources) }
+                .defer()
     }
 
     @Provides
@@ -49,14 +51,16 @@ class TabFragmentViewModelModule {
         val playlistObs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
                 .map { it.startWithIfNotEmpty(headers.allPlaylistHeader) }
+                .defer()
 
         val autoPlaylistObs = autoPlaylistUseCase.execute()
                 .mapToList { it.toAutoPlaylist() }
                 .map { it.startWith(headers.autoPlaylistHeader) }
+                .defer()
 
         return Observables.combineLatest(playlistObs, autoPlaylistObs, { playlist, autoPlaylist ->
             autoPlaylist.plus(playlist)
-        })
+        }).defer()
     }
 
     @Provides
@@ -69,6 +73,7 @@ class TabFragmentViewModelModule {
         return useCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
                 .map { it.startWithIfNotEmpty(headers.shuffleHeader) }
+                .defer()
     }
 
 
@@ -83,6 +88,7 @@ class TabFragmentViewModelModule {
         val allObs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
                 .map { it.toMutableList() }
+                .defer()
 
         val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem() }
@@ -90,8 +96,10 @@ class TabFragmentViewModelModule {
                     if (it.isNotEmpty()) headers.albumHeaders else it
                 }
                 .distinctUntilChanged()
+                .defer()
 
         return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
+                .defer()
     }
 
 
@@ -107,6 +115,7 @@ class TabFragmentViewModelModule {
         val allObs = useCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
                 .map { it.toMutableList() }
+                .defer()
 
         val lastPlayedObs = lastPlayedArtistsUseCase.execute()
                 .mapToList { it.toTabDisplayableItem(resources) }
@@ -114,8 +123,10 @@ class TabFragmentViewModelModule {
                     if (it.isNotEmpty()) headers.artistHeaders else it
                 }
                 .distinctUntilChanged()
+                .defer()
 
         return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
+                .defer()
     }
 
 
@@ -128,6 +139,7 @@ class TabFragmentViewModelModule {
             useCase: GetAllGenresUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute().mapToList { it.toTabDisplayableItem(resources) }
+                .defer()
     }
 
     @Provides
@@ -137,6 +149,7 @@ class TabFragmentViewModelModule {
             useCase: GetLastPlayedAlbumsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem() }
+                .defer()
     }
 
     @Provides
@@ -147,6 +160,7 @@ class TabFragmentViewModelModule {
             useCase: GetLastPlayedArtistsUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem(resources) }
+                .defer()
     }
 
 }
