@@ -46,8 +46,8 @@ class PlayerImageView @JvmOverloads constructor(
     fun forceRipple(x: Float, y: Float){
         if (isMarshmallow()){
             background.setHotspot(x, y)
-//            isPressed = true
-//            isPressed = false
+            isPressed = true
+            isPressed = false
         } else {
             // ripple looks bad on lollipop
         }
