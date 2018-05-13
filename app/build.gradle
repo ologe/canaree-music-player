@@ -58,13 +58,13 @@ android {
         }
 
         debug {
-            minifyEnabled false
-            useProguard false
-            multiDexEnabled true
+            minifyEnabled true
+//            useProguard true
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "false")
             applicationIdSuffix ".debug"
-//            debuggable false
+            debuggable true
         }
     }
 
@@ -114,7 +114,7 @@ dependencies {
     lintChecks project(':lint')
 
     // data binding
-    kapt "com.android.databinding:compiler:$gradle_plugin"
+//    kapt "com.android.databinding:compiler:$gradle_plugin"
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

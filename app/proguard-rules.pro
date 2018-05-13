@@ -20,8 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# move classes to root package
-
 # Preverification is irrelevant for the dex compiler and the Dalvik VM, from
 #https://github.com/facebook/proguard/blob/master/examples/android.pro
 -dontpreverify
