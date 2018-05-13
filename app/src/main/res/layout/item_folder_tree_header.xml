@@ -39,7 +39,7 @@
                 android:text="@{item.title}"
                 tools:text="@tools:sample/lorem"
                 style="@style/Song.MainText"
-                android:textColor="@color/text_color_secondary"
+                android:textColor="?android:colorAccent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp" />

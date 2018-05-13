@@ -78,7 +78,7 @@ class SongRepository @Inject constructor(
     private fun updateImages(list: List<Song>): List<Song>{
         val allForTracks = usedImageGateway.getAllForTracks()
         val allForAlbums = usedImageGateway.getAllForAlbums()
-        if (allForTracks.isEmpty()){
+        if (allForTracks.isEmpty() && allForAlbums.isEmpty()){
             return list
         }
         return list.map { song ->

@@ -50,7 +50,7 @@ class EditArtistFragment : BaseEditItemFragment() {
         viewModel.observeData()
                 .subscribe(this, {
                     artist.setText(it.title)
-                    val model = DisplayableItem(0, MediaId.artistId(it.id), "")
+                    val model = DisplayableItem(0, MediaId.artistId(it.id), "", image = it.image ?: "")
                     setImage(model)
                 })
     }

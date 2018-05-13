@@ -81,10 +81,14 @@ object BindingsAdapter {
         val artistId = item.mediaId.categoryValue.toLong().absoluteValue
         val artistMediaId = MediaId.artistId(artistId)
 
+        val load: Any = if (ImagesFolderUtils.isChoosedImage(item.image)){
+            item.image
+        } else item.copy(mediaId = artistMediaId)
+
         GlideApp.with(view.context).clear(view)
 
         GlideApp.with(view.context)
-                .load(item.copy(mediaId = artistMediaId))
+                .load(load)
                 .override(50)
                 .placeholder(CoverUtils.getGradient(view.context, artistMediaId))
                 .transition(DrawableTransitionOptions.withCrossFade())
