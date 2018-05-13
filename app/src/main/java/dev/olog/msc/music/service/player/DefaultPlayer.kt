@@ -7,6 +7,7 @@ import android.content.Context
 import android.support.annotation.CallSuper
 import android.util.Log
 import androidx.core.widget.toast
+import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -30,7 +31,8 @@ abstract class DefaultPlayer<T>(
         DefaultLifecycleObserver {
 
     private val trackSelector = DefaultTrackSelector()
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector)
+    private val factory = DefaultRenderersFactory(context, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(factory, trackSelector)
 
     init {
         lifecycle.addObserver(this)

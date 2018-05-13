@@ -57,11 +57,11 @@ ext {
 //    buildToolsVersion = '28.0.0-rc1'
 
     /*  version code
-        >= 4 - abi split, for old compatibility
+        99 - for old compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 10271100
+    versionCode = 99271100
     versionName = '1.1.0'
 
     // App dependencies
