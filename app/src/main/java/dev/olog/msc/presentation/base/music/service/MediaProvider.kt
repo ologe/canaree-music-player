@@ -34,6 +34,7 @@ interface MediaProvider {
     fun toggleRepeatMode()
 
     fun addToPlayNext(mediaId: MediaId)
+    fun moveToPlayNext(mediaId: MediaId)
 
     fun togglePlayerFavorite()
 

@@ -1,11 +1,16 @@
 package dev.olog.msc.presentation.utils.images;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+
+import dev.olog.msc.R;
+import dev.olog.msc.presentation.theme.AppTheme;
 
 public class ColorUtil {
 
@@ -20,22 +25,35 @@ public class ColorUtil {
         return ColorUtils.calculateLuminance(backgroundColor);
     }
 
-    public static int getLighterColor(int color1, int color2, int defaultBackgroundColor){
+    public static int getLighterColor(Context context, int color1, int color2){
         double luminance1 = calculateLuminance(color1);
         double luminance2 = calculateLuminance(color2);
-        float ratio = 2;
+
+        int defaultColor = AppTheme.INSTANCE.isDarkTheme()
+                ? ContextCompat.getColor(context, R.color.accent_secondary)
+                : ContextCompat.getColor(context, R.color.accent);
 
         if (luminance1 >= luminance2){
-            if (luminance1 <= .15f){
-                return findContrastColor(color1, defaultBackgroundColor, true, ratio);
+            if (luminance1 > .7 || luminance1 < .3){
+                return defaultColor;
             }
             return color1;
         } else {
-            if (luminance2 <= .15f){
-                return findContrastColor(color2, defaultBackgroundColor, true, ratio);
+            if (luminance2 > .7 || luminance2 < .3){
+                return defaultColor;
             }
             return color2;
         }
+    }
+
+    public static int ensureVisibility(Context context, int color){
+        double luminance = calculateLuminance(color);
+        if (luminance > .7 || luminance < .3){
+            return AppTheme.INSTANCE.isDarkTheme()
+                    ? ContextCompat.getColor(context, R.color.accent_secondary)
+                    : ContextCompat.getColor(context, R.color.accent);
+        }
+        return color;
     }
 
     public static int getAccentColor(Palette palette) {

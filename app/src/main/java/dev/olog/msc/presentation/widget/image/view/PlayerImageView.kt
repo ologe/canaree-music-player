@@ -9,6 +9,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId
 import dev.olog.msc.utils.k.extension.isPaused
@@ -43,9 +44,13 @@ class PlayerImageView @JvmOverloads constructor(
     }
 
     fun forceRipple(x: Float, y: Float){
-        background.setHotspot(x, y)
-        isPressed = true
-        isPressed = false
+        if (isMarshmallow()){
+            background.setHotspot(x, y)
+//            isPressed = true
+//            isPressed = false
+        } else {
+            // ripple looks bad on lollipop
+        }
     }
 
 }

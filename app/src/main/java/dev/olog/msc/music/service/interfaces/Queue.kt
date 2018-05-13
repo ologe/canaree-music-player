@@ -47,5 +47,6 @@ interface Queue {
     fun playLater(songIds: List<Long>) : PositionInQueue
 
     fun playNext(songIds: List<Long>) : PositionInQueue
+    fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
 
 }

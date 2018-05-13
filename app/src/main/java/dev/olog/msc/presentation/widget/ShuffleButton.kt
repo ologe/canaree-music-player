@@ -42,12 +42,7 @@ class ShuffleButton @JvmOverloads constructor(
     }
 
     fun updateColor(color: Int){
-        val colorLuminance = ColorUtil.calculateLuminance(color)
-        if (colorLuminance > .7 || colorLuminance < .3){
-            this.enabledColor = defaultEnabledColor
-        } else {
-            this.enabledColor = color
-        }
+        this.enabledColor = color
 
         if (shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL){
             setColorFilter(this.enabledColor)

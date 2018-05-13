@@ -43,12 +43,7 @@ class RepeatButton @JvmOverloads constructor(
     }
 
     fun updateColor(color: Int){
-        val colorLuminance = ColorUtil.calculateLuminance(color)
-        if (colorLuminance > .7 || colorLuminance < .3){
-            this.enabledColor = defaultEnabledColor
-        } else {
-            this.enabledColor = color
-        }
+        this.enabledColor = color
 
         if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE){
             setColorFilter(this.enabledColor)

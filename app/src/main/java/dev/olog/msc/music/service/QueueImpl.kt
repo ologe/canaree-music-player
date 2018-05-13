@@ -309,5 +309,31 @@ class QueueImpl @Inject constructor(
                 }, Throwable::printStackTrace)
     }
 
+    fun moveToPlayNext(idInPlaylist: Int) {
+        assertMainThread()
+        var copy = playingQueue.toMutableList()
+
+        val indexOf = copy
+                .asSequence()
+                .take(50)
+                .indexOfFirst { it.idInPlaylist == idInPlaylist }
+
+        val item = copy[indexOf]
+        copy.removeAt(indexOf)
+        copy.add(currentSongPosition + 1, item)
+
+        copy = copy.mapIndexed { index, mediaEntity -> mediaEntity.copy(idInPlaylist = index) }
+                .toMutableList()
+
+        // updating mini queue
+        var list = copy.drop(currentSongPosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
+        list = handleQueueOnRepeatMode(list, copy[currentSongPosition])
+
+        val activeId = copy[currentSongPosition].idInPlaylist.toLong()
+        queueMediaSession.onNext(MediaSessionQueueModel(activeId, list))
+
+        updatePlayingQueueAndPersist(copy)
+    }
+
 
 }

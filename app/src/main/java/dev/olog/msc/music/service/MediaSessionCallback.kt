@@ -239,18 +239,34 @@ class MediaSessionCallback @Inject constructor(
     }
 
 
-
+    /**
+        Play later
+     */
     override fun onAddQueueItem(description: MediaDescriptionCompat) {
+
         val split = description.mediaId!!.split(",")
         val position = queue.playLater(split.map { it.trim().toLong() })
         playerState.toggleSkipToActions(position)
     }
 
+    /**
+        When [index] == [Int.MAX_VALUE] -> play next
+        When [index] == [Int.MAX_VALUE-1] -> move to play next
+     */
     override fun onAddQueueItem(description: MediaDescriptionCompat, index: Int) {
-        if (index == Int.MAX_VALUE){
-            val split = description.mediaId!!.split(",")
-            val position = queue.playNext(split.map { it.trim().toLong() })
-            playerState.toggleSkipToActions(position)
+        when (index){
+            Int.MAX_VALUE -> {
+                // play next
+                val split = description.mediaId!!.split(",")
+                val position = queue.playNext(split.map { it.trim().toLong() })
+                playerState.toggleSkipToActions(position)
+            }
+            Int.MAX_VALUE - 1 -> {
+                // play next
+                val split = description.mediaId!!.split(",")
+                val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
+                playerState.toggleSkipToActions(position)
+            }
         }
     }
 

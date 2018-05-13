@@ -277,4 +277,12 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
                 .build()
         MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE)
     }
+
+    override fun moveToPlayNext(mediaId: MediaId) {
+        val trackId = "${mediaId.leaf!!}"
+        val item = MediaDescriptionCompat.Builder()
+                .setMediaId(trackId)
+                .build()
+        MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE - 1)
+    }
 }

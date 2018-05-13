@@ -101,5 +101,6 @@
     <string name="common_browser_not_found">Browser not found</string>
 
     <string name="common_added_to_play_next">Added to play next</string>
+    <string name="common_moved_to_play_next">Moved to play next</string>
 
 </resources>

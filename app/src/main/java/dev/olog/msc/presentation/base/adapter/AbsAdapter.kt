@@ -137,8 +137,6 @@ abstract class AbsAdapter<Model : BaseModel>(
         val position = viewHolder.adapterPosition
         val context = viewHolder.itemView.context
 
-//        val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
-//        val relativePosition = position - positionPivot
         onSwipeLeftAction?.invoke(position)
         notifyItemChanged(position)
         context.toast(R.string.common_added_to_play_next)

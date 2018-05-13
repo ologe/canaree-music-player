@@ -8,6 +8,7 @@ import android.databinding.ViewDataBinding
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
+import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
@@ -87,23 +88,9 @@ class PlayerFragmentAdapter @Inject constructor(
         val viewType = holder.itemViewType
         when (viewType){
             R.layout.fragment_player_controls,
-            R.layout.fragment_player_controls_spotify -> {
-                bindPlayerControls(holder.itemView)
-            }
+            R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_big_image -> {
-                val view = holder.itemView
-                bindPlayerControls(view)
-                viewModel.observeImageColors()
-                        .takeUntil(RxView.detaches(view).asFlowable())
-                        .filter { activity.isPortrait && AppTheme.isWhiteTheme() }
-                        .subscribe({
-                            view.seekBar.apply {
-                                val color = ColorUtil.findContrastColor(it.background, it.background, true, 4.5)
-                                thumbTintList = ColorStateList.valueOf(color)
-                                progressTintList = ColorStateList.valueOf(color)
-                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(it.background, .5f))
-                            }
-                        }, Throwable::printStackTraceOnDebug)
+                bindPlayerControls(holder.itemView)
             }
             R.layout.fragment_player_controls_flat -> {
                 val view = holder.itemView
@@ -119,26 +106,25 @@ class PlayerFragmentAdapter @Inject constructor(
                                 animateTextColor(it.secondaryTextColor)
                                 animateBackgroundColor(it.background)
                             }
-                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background, activity.windowBackground())
+                            val accentColor = ColorUtil.getLighterColor(activity, it.primaryTextColor, it.background)
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
-                                progressBackgroundTintList = ColorStateList.valueOf(ColorUtil.darker(accentColor, .5f))
                             }
                             view.shuffle.updateColor(accentColor)
                             view.repeat.updateColor(accentColor)
                         }, Throwable::printStackTrace)
             }
-            R.layout.fragment_player_controls_plain -> {
-                val view = holder.itemView
-                bindPlayerControls(view)
-                viewModel.observeImageColors()
-                        .takeUntil(RxView.detaches(view).asFlowable())
-                        .subscribe({
-                            val accentColor = ColorUtil.getLighterColor(it.primaryTextColor, it.background, activity.windowBackground())
-                            view.artist.animateTextColor(accentColor)
-                            view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
-                        }, Throwable::printStackTraceOnDebug)
+            R.layout.fragment_player_controls_plain -> { // at the moment not used
+//                val view = holder.itemView
+//                bindPlayerControls(view)
+//                viewModel.observeImageColors()
+//                        .takeUntil(RxView.detaches(view).asFlowable())
+//                        .subscribe({
+//                            val accentColor = ColorUtil.getLighterColor(activity, it.primaryTextColor, it.background)
+//                            view.artist.animateTextColor(accentColor)
+//                            view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
+//                        }, Throwable::printStackTraceOnDebug)
             }
             R.layout.fragment_player_controls_fullscreen -> {
                 val view = holder.itemView
@@ -151,6 +137,7 @@ class PlayerFragmentAdapter @Inject constructor(
                         .takeUntil(RxView.detaches(view).asFlowable())
                         .map { Palette.from(it.bitmap).generate() }
                         .map { ColorUtil.getAccentColor(it) }
+                        .map { ColorUtil.ensureVisibility(activity, it) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ accentColor ->
                             view.seekBar.apply {
@@ -396,6 +383,22 @@ class PlayerFragmentAdapter @Inject constructor(
     override val onDragAction = { from: Int, to: Int -> mediaProvider.swapRelative(from, to) }
 
     override val onSwipeRightAction = { position: Int -> mediaProvider.removeRelative(position) }
+
+    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+        // not working properly
+//        val position = viewHolder.adapterPosition
+//        val context = viewHolder.itemView.context
+//
+//        onSwipeLeftAction.invoke(position)
+//        notifyItemRemoved(position)
+//        context.toast(R.string.common_moved_to_play_next)
+    }
+
+    override val onSwipeLeftAction = { position : Int ->
+//        val item = controller.getItem(position)
+//        val mediaId = MediaId.songId(item.trackNumber.toLong())
+//        mediaProvider.moveToPlayNext(mediaId)
+    }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
         return viewType == R.layout.item_mini_queue
