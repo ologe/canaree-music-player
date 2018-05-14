@@ -115,7 +115,7 @@ class SwipeableView @JvmOverloads constructor(
                 (width - xDown) < sixtyFourDip -> swipeListener?.onRightEdgeClick()
                 else -> {
                     swipeListener?.onClick()
-                    dispatchRipple(event.rawX, event.rawY)
+                    dispatchRipple(event.x, event.y)
                 }
             }
             return true

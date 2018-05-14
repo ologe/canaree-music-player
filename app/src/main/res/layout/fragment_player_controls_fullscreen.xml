@@ -24,8 +24,7 @@
             android:focusable="true"
             android:scaleType="centerCrop"
             android:scaleY="1.05"
-            android:scaleX="1.05"
-            android:background="?attr/selectableItemBackgroundBorderless"/>
+            android:scaleX="1.05" />
 
         <android.support.constraint.ConstraintLayout
             app:layout_constraintTop_toTopOf="parent"

@@ -100,14 +100,7 @@ class GenreRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Genre> {
-        return cachedData.map { genres ->
-            try {
-                genres.first { it.id == param }
-            } catch (ex: Exception){
-                crashlyticsLog("searched genre=$param, all genres id=${genres.map { it.id }}")
-                throw ex
-            }
-        }
+        return cachedData.map { it.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

@@ -164,8 +164,11 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSkipToQueueItem(id: Long) {
-        val mediaEntity = queue.handleSkipToQueueItem(id)
-        player.play(mediaEntity)
+        try {
+            val mediaEntity = queue.handleSkipToQueueItem(id)
+            player.play(mediaEntity)
+        } catch (ex: Exception){}
+
     }
 
     override fun onSeekTo(pos: Long) {

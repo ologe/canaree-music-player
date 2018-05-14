@@ -96,14 +96,7 @@ class ArtistRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Artist> {
-        return cachedData.map { artists ->
-            try {
-                artists.first { it.id == param }
-            } catch (ex: Exception){
-                crashlyticsLog("searched artist=$param, all artists id=${artists.map { it.id }}")
-                throw ex
-            }
-        }
+        return cachedData.map { it.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

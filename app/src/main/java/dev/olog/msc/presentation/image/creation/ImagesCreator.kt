@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import androidx.core.content.systemService
+import dev.olog.msc.Permissions
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllFoldersNewRequestUseCase
@@ -50,8 +51,7 @@ class ImagesCreator @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        val storagePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-        if (storagePermission == PackageManager.PERMISSION_GRANTED){
+        if (Permissions.canReadStorage(context)){
             execute()
         }
     }
@@ -68,6 +68,10 @@ class ImagesCreator @Inject constructor(
     }
 
     fun execute() {
+        if (!Permissions.canReadStorage(context)){
+            return
+        }
+
         unsubscribe()
 
         if (isLowMemoryDevice(context)){

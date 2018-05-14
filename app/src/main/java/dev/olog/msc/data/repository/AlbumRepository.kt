@@ -74,14 +74,7 @@ class AlbumRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Album> {
-        return cachedData.map { albums ->
-            try {
-                albums.first { it.id == param }
-            } catch (ex: Exception){
-                crashlyticsLog("searched album=$param, all albums id=${albums.map { it.id }}")
-                throw ex
-            }
-        }
+        return cachedData.map { it.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

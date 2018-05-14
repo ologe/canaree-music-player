@@ -47,6 +47,10 @@ class KeepDataAlive @Inject constructor(
     }
 
     fun execute(){
+        if (!Permissions.canReadStorage(context)){
+            return
+        }
+
         unsubscribe()
 
         disposable = Observables.combineLatest(

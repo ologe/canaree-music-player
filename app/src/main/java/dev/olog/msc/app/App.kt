@@ -3,10 +3,7 @@ package dev.olog.msc.app
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
-import android.os.Debug
 import android.support.v7.preference.PreferenceManager
-import com.facebook.stetho.Stetho
-import com.tspoon.traceur.Traceur
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -18,7 +15,6 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
-import saschpe.android.customtabs.CustomTabsActivityLifecycleCallbacks
 import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
@@ -43,12 +39,12 @@ class App : DaggerApplication() {
         initializeConstants()
         resetSleepTimer()
 
-        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallbacks())
+        registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
     }
 
     private fun initializeDebug(){
         if (BuildConfig.DEBUG){
-            Stetho.initializeWithDefaults(this)
+//            Stetho.initializeWithDefaults(this)
 //            LeakCanary.install(this)
 //            StrictMode.initialize()
 //            Traceur.enableLogging()

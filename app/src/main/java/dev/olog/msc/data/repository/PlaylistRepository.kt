@@ -125,14 +125,7 @@ class PlaylistRepository @Inject constructor(
             getAllAutoPlaylists()
         } else getAll()
 
-        return result.map { playlists ->
-            try {
-                playlists.first { it.id == param }
-            } catch (ex: Exception){
-                crashlyticsLog("searched playlist=$param, all playlists id=${playlists.map { it.id }}")
-                throw ex
-            }
-        }
+        return result.map { it.first { it.id == param } }
     }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {

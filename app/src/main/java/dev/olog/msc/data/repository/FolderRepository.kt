@@ -10,9 +10,7 @@ import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.crashlyticsLog
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -25,8 +23,7 @@ class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase,
-        private val collator: Collator,
-        private val appPreferencesUseCase: AppPreferencesUseCase
+        private val collator: Collator
 
 ): FolderGateway {
 
@@ -50,15 +47,7 @@ class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: String): Observable<Folder> {
-        return cachedData.map { folders ->
-            try {
-                folders.first { it.path == param }
-            } catch (ex: Exception){
-                crashlyticsLog("searched folder=$param, all folders path=${folders.map { it.path }}, " +
-                        "blacklisted folder=${appPreferencesUseCase.getBlackList()}")
-                throw ex
-            }
-        }
+        return cachedData.map { it.first { it.path == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
