@@ -15,12 +15,10 @@ object TutorialTapTarget {
         val context = text.context
 
         val textTarget = TapTarget.forView(text, context.getString(R.string.tutorial_sort_by_text))
-                .cancelable(false)
                 .transparentTarget(true)
                 .tint()
 
         val arrowTarget = TapTarget.forView(arrow, context.getString(R.string.tutorial_sort_by_arrow))
-                .cancelable(false)
                 .transparentTarget(true)
                 .tint()
 
@@ -34,7 +32,6 @@ object TutorialTapTarget {
         val context = view.context
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
-                .cancelable(false)
                 .transparentTarget(true)
                 .tint()
         TapTargetView.showFor(view.context as Activity, target)
@@ -44,7 +41,6 @@ object TutorialTapTarget {
         val context = view.context
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
-                .cancelable(false)
                 .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_lyrics))
 
@@ -55,17 +51,14 @@ object TutorialTapTarget {
         val context = search.context
 
         val searchTarget = TapTarget.forView(search, context.getString(R.string.tutorial_search_lyrics))
-                .cancelable(false)
                 .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_search))
 
         val editTarget = TapTarget.forView(edit, context.getString(R.string.tutorial_add_lyrics))
-                .cancelable(false)
                 .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_edit))
 
         val syncLyrics = TapTarget.forView(sync, context.getString(R.string.tutorial_adjust_sync))
-                .cancelable(false)
                 .tint()
                 .icon(ContextCompat.getDrawable(context, R.drawable.vd_sync))
 
