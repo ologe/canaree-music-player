@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import dev.olog.msc.R
+import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
@@ -59,7 +60,7 @@ class CategoriesFragment : BaseFragment() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
         search.setOnClickListener { navigator.toSearchFragment(search) }
-        more.setOnClickListener { navigator.toMainPopup(it, createMediaId()) }
+        more.setOnClickListener { catchNothing { navigator.toMainPopup(it, createMediaId()) } }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
         floatingWindowTutorialDisposable = presenter.showFloatingWindowTutorialIfNeverShown()

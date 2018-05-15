@@ -147,14 +147,13 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 
     private fun tryPopFolderBack(): Boolean {
         val categories = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
-        val pager = categories?.view?.findViewById<ViewPager>(R.id.viewPager)
-        if (pager != null){
-            val currentItem = pager.adapter!!.instantiateItem(pager, pager.currentItem) as Fragment
-            if (currentItem is FolderTreeFragment){
-                return currentItem.pop()
-            }
-        }
-        return false
+        categories?.view?.findViewById<ViewPager>(R.id.viewPager)?.let { pager ->
+            val currentItem = pager.adapter?.instantiateItem(pager, pager.currentItem) as Fragment
+            return if (currentItem is FolderTreeFragment){
+                currentItem.pop()
+            } else false
+
+        } ?: return false
     }
 
     override fun getSlidingPanel(): SlidingUpPanelLayout? = slidingPanel

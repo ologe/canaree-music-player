@@ -45,11 +45,11 @@ class CurrentSong @Inject constructor(
     private val insertToMostPlayedFlowable = publisher
             .observeOn(Schedulers.io())
             .flatMapMaybe { createMostPlayedId(it) }
-            .flatMapCompletable { insertMostPlayedUseCase.execute(it) }
+            .flatMapCompletable { insertMostPlayedUseCase.execute(it).onErrorComplete() }
 
     private val insertHistorySongFlowable = publisher
             .observeOn(Schedulers.io())
-            .flatMapCompletable { insertHistorySongUseCase.execute(it.id) }
+            .flatMapCompletable { insertHistorySongUseCase.execute(it.id).onErrorComplete() }
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
