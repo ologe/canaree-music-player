@@ -30,14 +30,14 @@
 -classobfuscationdictionary windows.txt
 -packageobfuscationdictionary windows.txt
 
--dontwarn java.nio.**
--dontwarn org.jaudiotagger.**
 -dontwarn com.google.errorprone.annotations.*
 
 #jaudiotagger
 -keep class org.jsoup.** { *; }
 -keep class java.nio** { *; }
 -keep class org.jaudiotagger.** { *; }
+-dontwarn java.nio.**
+-dontwarn org.jaudiotagger.**
 
 #glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -46,9 +46,6 @@
   **[] $VALUES;
   public *;
 }
-#If you're targeting any API level less than Android API 27, also include:
-#```pro
--dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
 
 # for retrofit
 

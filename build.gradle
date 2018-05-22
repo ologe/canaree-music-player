@@ -101,7 +101,7 @@ ext {
     // debug
     rxjava_debug = '1.2.2'
     leak_canary = '1.5.4'
-    crashlytics = '2.9.1@aar'
+    crashlytics = '2.9.1'
 
     // test
     junit = '4.12'

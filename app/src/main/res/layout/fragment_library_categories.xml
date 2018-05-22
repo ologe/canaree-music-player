@@ -75,7 +75,7 @@
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="0dp"
             android:elevation="@dimen/toolbar_elevation"
-            android:src="@drawable/vd_bird_singing_24dp"
+            android:src="@drawable/vd_search_text"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
