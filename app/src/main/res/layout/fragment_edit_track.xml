@@ -78,7 +78,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/autoTag"
                 app:layout_constraintTop_toTopOf="@+id/autoTag"
                 app:fabSize="mini"
-                android:src="@drawable/vd_photo"
+                android:src="@drawable/vd_image_search"
                 android:tint="@android:color/white"
                 android:layout_marginEnd="8dp"/>
 

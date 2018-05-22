@@ -30,7 +30,7 @@
         android:layout_gravity="end"
         android:layout_width="@dimen/common_icon_size"
         android:layout_height="0dp"
-        android:src="@drawable/vd_lyrics"
+        android:src="@drawable/vd_offline_lyrics"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:clickable="true"
@@ -39,8 +39,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite"
-        android:scaleX=".75"
-        android:scaleY=".75" />
+        />
 
     <dev.olog.msc.presentation.widget.LottieFavorite
         android:id="@+id/favorite"

@@ -126,7 +126,7 @@ class SwipeableView @JvmOverloads constructor(
     private fun dispatchRipple(x: Float, y: Float){
         val activity = context as Activity
         val root = activity.findViewById<View>(R.id.playerRoot)
-        val imageView = root.findViewById<ImageView>(R.id.cover)
+        val imageView = root?.findViewById<ImageView>(R.id.cover)
         if (imageView is PlayerImageView){
             imageView.forceRipple(x, y)
         }

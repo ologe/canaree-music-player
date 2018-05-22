@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         app:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
-        android:src="@drawable/vd_save"
+        android:src="@drawable/vd_playlist_save"
         android:visibility="gone"
         tools:visibility="visible"/>
 

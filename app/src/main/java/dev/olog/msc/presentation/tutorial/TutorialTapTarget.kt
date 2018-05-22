@@ -42,7 +42,7 @@ object TutorialTapTarget {
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_lyrics))
                 .tint()
-                .icon(ContextCompat.getDrawable(context, R.drawable.vd_lyrics))
+                .icon(ContextCompat.getDrawable(context, R.drawable.vd_offline_lyrics))
 
         TapTargetView.showFor(view.context as Activity, target)
     }

@@ -84,7 +84,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:fabSize="mini"
-                android:src="@drawable/vd_photo"
+                android:src="@drawable/vd_image_search"
                 android:tint="@android:color/white"
                 android:layout_margin="8dp"/>
 
