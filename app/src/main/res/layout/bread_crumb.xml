@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,24 +14,25 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="sans-serif"
         android:paddingEnd="8dp"
-        android:paddingRight="8dp"
         android:textAllCaps="true"
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp"
-        tools:ignore="RtlSymmetry,UnusedAttribute"
         tools:text="Storage"
-        tools:textColor="#000" />
+        tools:textColor="#000"
+        android:textStyle="bold"/>
 
-    <android.support.v7.widget.AppCompatImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:scaleType="fitXY"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="20sp"
+        tools:text="¬"
+        tools:textColor="#999"
         android:visibility="gone"
-        app:srcCompat="@drawable/vd_arrow_right"
-        tools:tint="#000"
-        tools:visibility="visible"
-        android:tint="?android:attr/textColorSecondary"/>
+        tools:visibility="visible"/>
 
 </LinearLayout>

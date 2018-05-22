@@ -1,20 +1,16 @@
 package dev.olog.msc.presentation.widget;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.os.Build;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,8 +24,6 @@ import java.util.Vector;
 import dev.olog.msc.R;
 import dev.olog.msc.utils.ThreadUtilsKt;
 import dev.olog.msc.utils.k.extension.ViewExtensionKt;
-import kotlin.collections.CollectionsKt;
-import kotlin.io.FilesKt;
 
 public class BreadCrumbLayout extends HorizontalScrollView implements View.OnClickListener {
 
@@ -181,10 +175,7 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
         view.setTag(mCrumbs.size());
         view.setOnClickListener(this);
 
-        ImageView iv = (ImageView) view.getChildAt(1);
-        if (iv.getDrawable() != null) {
-            iv.getDrawable().setAutoMirrored(true);
-        }
+        TextView iv = (TextView) view.getChildAt(1);
         iv.setVisibility(View.GONE);
 
         mChildFrame.addView(view, new ViewGroup.LayoutParams(
@@ -337,14 +328,13 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
         LinearLayout child = (LinearLayout) view;
         TextView tv = (TextView) child.getChildAt(0);
         tv.setTextColor(contentColor);
-        ImageView iv = (ImageView) child.getChildAt(1);
-        iv.setColorFilter(contentColor, PorterDuff.Mode.SRC_IN);
+        TextView image = (TextView) child.getChildAt(1);
         if (noArrowIfAlone && getChildCount() == 1)
-            iv.setVisibility(View.GONE);
+            image.setVisibility(View.GONE);
         else if (allowArrowVisible)
-            iv.setVisibility(View.VISIBLE);
+            image.setVisibility(View.VISIBLE);
         else
-            iv.setVisibility(View.GONE);
+            image.setVisibility(View.GONE);
         return tv;
     }
 

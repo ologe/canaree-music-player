@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.presentation.library.folder.tree.DisplayableFile
 import dev.olog.msc.presentation.model.DisplayableItem

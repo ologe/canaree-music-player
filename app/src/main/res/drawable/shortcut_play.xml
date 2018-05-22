@@ -4,9 +4,9 @@
     <item android:drawable="@drawable/shortcut_background"/>
 
     <item android:drawable="@drawable/vd_colored_play"
-        android:top="12dp"
-        android:bottom="12dp"
-        android:right="12dp"
-        android:left="12dp"/>
+        android:top="8dp"
+        android:bottom="8dp"
+        android:right="8dp"
+        android:left="8dp"/>
 
 </layer-list>
