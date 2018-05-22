@@ -100,6 +100,8 @@ android {
     }
 
     kapt {
+        useBuildCache = true
+
         javacOptions {
             option("-Xmaxerrs", 500)
             correctErrorTypes = true
