@@ -121,9 +121,12 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         val sampling = 6
 
         val drawable = CoverUtils.getGradient(ctx, mediaId)
-        val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
-        val placeholder = FastBlur.blur(bitmap, radius, false)
-                .toDrawable(resources)
+        val placeholder = try {
+            val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
+            FastBlur.blur(bitmap, radius, false).toDrawable(resources)
+        } catch (ex: IllegalArgumentException){
+            drawable
+        }
 
         GlideApp.with(ctx)
                 .load(model)

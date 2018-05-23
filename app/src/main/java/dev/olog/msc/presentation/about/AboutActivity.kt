@@ -30,8 +30,8 @@ class AboutActivity : BaseActivity() {
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
 
-        switcher.setFactory(factory)
-        switcher.setCurrentText(getString(R.string.about))
+        switcher?.setFactory(factory)
+        switcher?.setCurrentText(getString(R.string.about))
         setInAnimation()
 
         presenter.observeData()
@@ -58,7 +58,7 @@ class AboutActivity : BaseActivity() {
         setOutAnimation()
         val stack = supportFragmentManager.backStackEntryCount
         if (stack == 1){
-            switcher.setText(getString(R.string.about))
+            switcher?.setText(getString(R.string.about))
         }
 
         super.onBackPressed()

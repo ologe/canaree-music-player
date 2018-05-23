@@ -46,14 +46,19 @@ class EditTrackFragmentViewModel(
     }
 
     fun getNewImage(): String? {
-        val albumId = getSong().albumId
-        val original = ImagesFolderUtils.forAlbum(albumId)
-        val current = displayedSong.value!!.image
-        if (original == current){
+        try {
+            val albumId = getSong().albumId
+            val original = ImagesFolderUtils.forAlbum(albumId)
+            val current = displayedSong.value!!.image
+            if (original == current){
+                return null
+            } else {
+                return current
+            }
+        } catch (ex: KotlinNullPointerException){
             return null
-        } else {
-            return current
         }
+
     }
 
     fun observeData(): LiveData<DisplayableSong> = displayedSong

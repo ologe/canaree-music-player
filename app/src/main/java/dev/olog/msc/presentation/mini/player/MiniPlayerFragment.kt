@@ -29,7 +29,6 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
     }
 
     @Inject lateinit var viewModel: MiniPlayerFragmentPresenter
-    @Inject lateinit var presenter: MiniPlayerPresenter
 
     private var seekBarDisposable: Disposable? = null
 
@@ -102,7 +101,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
-        val (title, subtitle) = presenter.getMetadata()
+        val (title, subtitle) = viewModel.getMetadata()
         view.title.text = title
         view.artist.text = DisplayableItem.adjustArtist(subtitle)
     }

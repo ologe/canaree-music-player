@@ -5,7 +5,7 @@ import dev.olog.msc.utils.k.extension.asLiveData
 import javax.inject.Inject
 
 class MiniPlayerFragmentPresenter @Inject constructor(
-        musicPrefsUseCase: MusicPreferencesUseCase
+        private val musicPrefsUseCase: MusicPreferencesUseCase
 
 )  {
 
@@ -16,5 +16,7 @@ class MiniPlayerFragmentPresenter @Inject constructor(
     val skipToPreviousVisibility = musicPrefsUseCase
             .observeSkipToPreviousVisibility()
             .asLiveData()
+
+    fun getMetadata() = musicPrefsUseCase.getLastMetadata()
 
 }
