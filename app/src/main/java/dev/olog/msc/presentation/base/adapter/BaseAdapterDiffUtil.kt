@@ -16,17 +16,17 @@ class BaseAdapterDiffUtil<Model : BaseModel>(
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldItem = oldList[oldItemPosition]
-        val newItem = newList[newItemPosition]
-        return oldItem.mediaId == newItem.mediaId
+        val oldItem : Model?= oldList[oldItemPosition]
+        val newItem : Model?= newList[newItemPosition]
+        return oldItem?.mediaId == newItem?.mediaId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldItem = oldList[oldItemPosition]
-        val newItem = newList[newItemPosition]
+        val oldItem : Model? = oldList[oldItemPosition]
+        val newItem : Model? = newList[newItemPosition]
 
         var areTheSame = oldItem == newItem
-        if (extendAreItemTheSame != null){
+        if (extendAreItemTheSame != null && oldItem != null && newItem != null){
             areTheSame = areTheSame && extendAreItemTheSame
                     .invoke(oldItemPosition, newItemPosition, oldItem, newItem)
         }

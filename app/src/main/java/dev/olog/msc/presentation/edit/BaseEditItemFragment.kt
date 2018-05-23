@@ -38,14 +38,6 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (!Permissions.canWriteStorage(ctx)){
-            Permissions.requestWriteStorage(act)
-            act.onBackPressed()
-        }
-    }
-
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()

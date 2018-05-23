@@ -9,6 +9,7 @@ import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.hasNotch
+import dev.olog.msc.utils.k.extension.isPortrait
 
 /**
  * Custom status bar to handle device notch
@@ -26,10 +27,12 @@ class StatusBarView @JvmOverloads constructor(
     init {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1){
-            hasNotch = prefs.getBoolean(context.getString(R.string.prefs_notch_support_key), false)
-        } else {
-            hasNotch = this.hasNotch()
+        if (context.isPortrait){
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1){
+                hasNotch = prefs.getBoolean(context.getString(R.string.prefs_notch_support_key), false)
+            } else {
+                hasNotch = this.hasNotch()
+            }
         }
     }
 

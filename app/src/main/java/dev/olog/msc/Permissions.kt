@@ -10,10 +10,9 @@ import android.support.v4.content.ContextCompat
 object Permissions {
 
     private const val READ_CODE = 100
-    private const val WRITE_CODE = READ_CODE + 1
 
-    private const val READ_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE
-    private const val WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    private const val READ_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
+//    private const val WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
 
     fun checkWriteCode(code: Int): Boolean {
         return code == READ_CODE
@@ -23,24 +22,12 @@ object Permissions {
         return hasPermission(context, READ_STORAGE)
     }
 
-    fun canWriteStorage(context: Context): Boolean {
-        return hasPermission(context, WRITE_STORAGE)
-    }
-
     fun requestReadStorage(activity: Activity){
         requestPermissions(activity, READ_STORAGE, READ_CODE)
     }
 
-    fun requestWriteStorage(activity: Activity){
-        requestPermissions(activity, WRITE_STORAGE, WRITE_CODE)
-    }
-
     fun hasUserDisabledReadStorage(activity: Activity): Boolean {
         return hasUserDisabledPermission(activity, READ_STORAGE)
-    }
-
-    fun hasUserDisabledWriteStorage(activity: Activity): Boolean {
-        return hasUserDisabledPermission(activity, WRITE_STORAGE)
     }
 
     private fun hasPermission(context: Context, permission: String): Boolean{

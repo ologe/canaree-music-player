@@ -129,20 +129,23 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     }
 
     override fun onBackPressed() {
-        if (tryPopFolderBack()){
-            return
-        }
-
-        val topFragment = getTopFragment()
-
-        when {
-            topFragment is HasSafeTransition && topFragment.isAnimating() -> {
-//              prevents circular reveal crash
+        try {
+            if (tryPopFolderBack()){
+                return
             }
-            topFragment is DrawsOnTop -> super.onBackPressed()
-            slidingPanel.isExpanded() -> slidingPanel.collapse()
-            else -> super.onBackPressed()
-        }
+
+            val topFragment = getTopFragment()
+
+            when {
+                topFragment is HasSafeTransition && topFragment.isAnimating() -> {
+//              prevents circular reveal crash
+                }
+                topFragment is DrawsOnTop -> super.onBackPressed()
+                slidingPanel.isExpanded() -> slidingPanel.collapse()
+                else -> super.onBackPressed()
+            }
+        } catch (ex: IllegalStateException){ /*random fragment manager crashes */}
+
     }
 
     private fun tryPopFolderBack(): Boolean {

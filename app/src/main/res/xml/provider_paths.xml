@@ -15,4 +15,9 @@
     <!--files in the root of your app's external storage area-->
     <external-files-path name="name" path="path" />
 
+
+    <files-path path="folder/" name="folder" />
+    <files-path path="genre/" name="genre" />
+    <files-path path="playlist/" name="playlist" />
+
 </paths>

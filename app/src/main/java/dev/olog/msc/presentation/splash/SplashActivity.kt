@@ -9,6 +9,7 @@ import android.view.View
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.KeepDataAlive
+import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
 import dev.olog.msc.presentation.image.creation.ImagesCreator
@@ -23,6 +24,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     @Inject lateinit var adapter : SplashActivityViewPagerAdapter
     @Inject lateinit var imageCreator: ImagesCreator
     @Inject lateinit var keepDataAlive: KeepDataAlive
+    @Inject lateinit var songGateway: SongGateway
     private var disposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,8 +69,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
             Permissions.requestReadStorage(this)
         } else {
             onStoragePermissionGranted()
-            imageCreator.execute()
-            keepDataAlive.execute()
         }
     }
 
@@ -76,8 +76,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         if (Permissions.checkWriteCode(requestCode)){
             if (Permissions.canReadStorage(this)){
                 onStoragePermissionGranted()
-                imageCreator.execute()
-                keepDataAlive.execute()
             } else {
                 onStoragePermissionDenied()
             }
@@ -85,6 +83,9 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onStoragePermissionGranted(){
+        imageCreator.execute()
+        keepDataAlive.execute()
+
         ExplainTrialDialog.show(this, {
             finishActivity()
         })
@@ -94,6 +95,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
         setResult(Activity.RESULT_OK)
         finish()
     }
+
 
     private fun onStoragePermissionDenied(){
         if (Permissions.hasUserDisabledReadStorage(this)){

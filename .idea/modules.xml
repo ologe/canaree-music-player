@@ -23,7 +23,6 @@
       <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/library/ui/exoplayer-library-ui.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/ui/exoplayer-library-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils/exoplayer-testutils.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils/exoplayer-testutils.iml" />
       <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/opus/extensions-exoplayer-extension-opus.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/opus/extensions-exoplayer-extension-opus.iml" />
       <module fileurl="file://$PROJECT_DIR$/lint/lint.iml" filepath="$PROJECT_DIR$/lint/lint.iml" />
       <module fileurl="file://$PROJECT_DIR$/music.iml" filepath="$PROJECT_DIR$/music.iml" />
     </modules>
