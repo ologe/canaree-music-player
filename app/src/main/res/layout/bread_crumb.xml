@@ -30,7 +30,7 @@
         android:paddingStart="8dp"
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="20sp"
-        tools:text="¬"
+        android:text="¬"
         tools:textColor="#999"
         android:visibility="gone"
         tools:visibility="visible"/>

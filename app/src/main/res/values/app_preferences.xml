@@ -90,8 +90,8 @@
     <!--folder tree-->
     <string name="prefs_folder_tree_view_key" translatable="false">key_folder_tree_view</string>
     <string name="prefs_folder_tree_view_title">Folder hierarchy view</string>
-    <string name="prefs_folder_tree_view_summary_off">Disabled</string>
-    <string name="prefs_folder_tree_view_summary_on">Enabled</string>
+    <string name="prefs_folder_tree_view_summary_off">@string/common_disabled</string>
+    <string name="prefs_folder_tree_view_summary_on">@string/common_enabled</string>
 
 
     <!--used equalizer-->
@@ -167,8 +167,8 @@
     <!--auto create images-->
     <string name="prefs_auto_create_images_key" translatable="false">key_auto_create_image</string>
     <string name="prefs_auto_create_images_title">Auto create folder, playlist and genre images</string>
-    <string name="prefs_auto_create_images_summary_on">Enabled</string>
-    <string name="prefs_auto_create_images_summary_off">Disabled</string>
+    <string name="prefs_auto_create_images_summary_on">@string/common_enabled</string>
+    <string name="prefs_auto_create_images_summary_off">@string/common_disabled</string>
     <string name="prefs_auto_create_images_summary_low_memory">Disabled on low memory devices</string>
 
     <!--appearance-->
@@ -249,5 +249,11 @@
     <string name="prefs_last_fm_credentials_title">Last.fm credentials</string>
     <string name="prefs_last_fm_credentials_message">Credentials will be encrypted</string>
     <string name="prefs_last_fm_credentials_summary">Set username and password for your Last.fm account</string>
+
+    <!--daynight-->
+    <string name="prefs_day_night_key" translatable="false">key_day_night</string>
+    <string name="prefs_day_night_title">Day-Night mode</string>
+    <string name="prefs_day_night_summary_on">@string/common_enabled</string>
+    <string name="prefs_day_night_summary_off">@string/common_disabled</string>
 
 </resources>

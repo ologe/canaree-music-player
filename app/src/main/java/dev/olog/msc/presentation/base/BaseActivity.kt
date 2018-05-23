@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StyleRes
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatDelegate
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme

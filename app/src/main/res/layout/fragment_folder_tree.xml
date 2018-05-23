@@ -26,7 +26,8 @@
         android:layout_height="@dimen/tab"
         android:paddingEnd="8dp"
         android:paddingStart="60dp"
-        android:background="@color/status_bar"/>
+        android:background="?android:attr/windowBackground"
+        android:elevation="1dp"/>
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
         android:id="@+id/fastScroller"
@@ -58,5 +59,15 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"/>
+
+    <dev.olog.msc.presentation.theme.ThemedFAB
+        android:id="@+id/fab"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vd_sdcard"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

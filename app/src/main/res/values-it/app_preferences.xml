@@ -41,8 +41,6 @@
 
     <!--folder hierarchy view-->
     <string name="prefs_folder_tree_view_title">Vista gerarchica delle cartelle</string>
-    <string name="prefs_folder_tree_view_summary_off">Disabilitato</string>
-    <string name="prefs_folder_tree_view_summary_on">Abilitato</string>
 
     <!--used equalizer-->
     <string name="prefs_used_equalizer_title">Equalizzatore</string>
@@ -74,8 +72,6 @@
 
     <!--auto create images-->
     <string name="prefs_auto_create_images_title">Crea automaticamente immagini per cartelle, playlist e generi</string>
-    <string name="prefs_auto_create_images_summary_on">Abilitato</string>
-    <string name="prefs_auto_create_images_summary_off">Disabilitato</string>
     <string name="prefs_auto_create_images_summary_low_memory">Disabilitato su dispositivi con memoria limitata</string>
 
     <!--dark mode-->
@@ -98,5 +94,8 @@
     <string name="prefs_last_fm_credentials_message">Le credenziali saranno crittografate</string>
     <string name="prefs_delete_cached_images_summary">Elimina tutte le immagini scaricate</string>
     <string name="prefs_delete_cached_images_success">Cache cancellate con successo</string>
+
+    <!--daynight-->
+    <string name="prefs_day_night_title">Modalità giorno-notte</string>
 
 </resources>

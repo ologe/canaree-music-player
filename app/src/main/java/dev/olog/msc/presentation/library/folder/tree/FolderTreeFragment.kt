@@ -10,6 +10,7 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.windowBackground
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
@@ -38,6 +39,12 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
 
         viewModel.observeChildrens()
                 .subscribe(this, adapter::updateDataSet)
+
+        viewModel.observeIsExternal()
+                .subscribe(this, {
+                    fab.toggleVisibility(it.isEnabled, true)
+                    fab.setBackgroundResource(if (it.isExternal) R.drawable.vd_sdcard else R.drawable.vd_internal_storage)
+                })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -59,11 +66,14 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
     override fun onResume() {
         super.onResume()
         bread_crumbs.setCallback(this)
+        fab.setOnClickListener { viewModel.toggleIsExternal() }
+
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
+        fab.setOnClickListener(null)
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {

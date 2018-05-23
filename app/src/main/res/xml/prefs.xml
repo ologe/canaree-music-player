@@ -94,6 +94,13 @@
             android:defaultValue="@string/prefs_icon_shape_rounded"
             android:key="@string/prefs_icon_shape_key"/>
 
+        <!--<SwitchPreference-->
+            <!--android:key="@string/prefs_day_night_key"-->
+            <!--android:title="@string/prefs_day_night_title"-->
+            <!--android:summaryOff="@string/prefs_day_night_summary_off"-->
+            <!--android:summaryOn="@string/prefs_day_night_summary_on"-->
+            <!--android:defaultValue="false"/>-->
+
     </PreferenceCategory>
 
     <PreferenceCategory

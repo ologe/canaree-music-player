@@ -94,4 +94,7 @@
     <string name="common_added_to_play_next">Aggiunto da riprodurre come successivo</string>
     <string name="common_moved_to_play_next">Verrà riprodotto come successivo</string>
 
+    <string name="common_enabled">Abilitato</string>
+    <string name="common_disabled">Disabilitato</string>
+
 </resources>

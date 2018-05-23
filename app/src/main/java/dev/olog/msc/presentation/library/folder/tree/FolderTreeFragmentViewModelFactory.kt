@@ -9,7 +9,6 @@ import java.text.Collator
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModelFactory @Inject constructor(
-        @ApplicationContext private val context: Context,
         private val appPreferencesUseCase: AppPreferencesUseCase,
         private val collator: Collator
 
@@ -17,7 +16,6 @@ class FolderTreeFragmentViewModelFactory @Inject constructor(
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return FolderTreeFragmentViewModel(
-                context,
                 appPreferencesUseCase,
                 collator
         ) as T
