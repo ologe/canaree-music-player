@@ -214,7 +214,7 @@ class FolderTreeFragmentViewModel(
             sdcardpath = "/storage/sdcard/"
         }
 
-        if (sdcardpath != null && File(sdcardpath) != Environment.getExternalStorageDirectory()){
+        if (sdcardpath != null && File(sdcardpath).path != Environment.getExternalStorageDirectory().path){
             return File(sdcardpath)
         }
         return null

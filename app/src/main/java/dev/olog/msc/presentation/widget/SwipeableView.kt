@@ -6,7 +6,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
+import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.widget.image.view.PlayerImageView
 import dev.olog.msc.utils.k.extension.dip
 import io.reactivex.Observable
@@ -18,7 +20,7 @@ class SwipeableView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
-) : View(context, attrs) {
+) : View(context, attrs), SlidingUpPanelLayout.PanelSlideListener {
 
     private val swipedThreshold = DEFAULT_SWIPED_THRESHOLD
     private var xDown = 0f
@@ -29,6 +31,7 @@ class SwipeableView @JvmOverloads constructor(
     private val isTouchingPublisher = PublishSubject.create<Boolean>()
 
     private var canDisallowParentTouch = true
+    private var isTouchEnabled = true
 
     private val sixtyFourDip by lazy(LazyThreadSafetyMode.NONE) { context.dip(64) }
 
@@ -36,9 +39,15 @@ class SwipeableView @JvmOverloads constructor(
         this.swipeListener = swipeListener
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        ((context as Activity?) as HasSlidingPanel?)?.addPanelSlideListener(this)
+    }
+
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         this.swipeListener = null
+        ((context as Activity?) as HasSlidingPanel?)?.removePanelSlideListener(this)
     }
 
     fun isTouching(): Observable<Boolean> = isTouchingPublisher.distinctUntilChanged()
@@ -96,13 +105,13 @@ class SwipeableView @JvmOverloads constructor(
             val swipedLeft = xUp < xDown
 
             if (swipedRight) {
-                if (swipeListener != null) {
+                if (swipeListener != null && isTouchEnabled) {
                     swipeListener!!.onSwipedRight()
                     return true
                 }
             }
             if (swipedLeft) {
-                if (swipeListener != null) {
+                if (swipeListener != null && isTouchEnabled) {
                     swipeListener!!.onSwipedLeft()
                     return true
                 }
@@ -111,11 +120,13 @@ class SwipeableView @JvmOverloads constructor(
 
         if (!swipedHorizontally && !swipedVertically) {
             when {
-                xDown < sixtyFourDip -> swipeListener?.onLeftEdgeClick()
-                (width - xDown) < sixtyFourDip -> swipeListener?.onRightEdgeClick()
+                xDown < sixtyFourDip && isTouchEnabled -> swipeListener?.onLeftEdgeClick()
+                ((width - xDown) < sixtyFourDip) && isTouchEnabled-> swipeListener?.onRightEdgeClick()
                 else -> {
-                    swipeListener?.onClick()
-                    dispatchRipple(event.x, event.y)
+                    if (isTouchEnabled){
+                        swipeListener?.onClick()
+                        dispatchRipple(event.x, event.y)
+                    }
                 }
             }
             return true
@@ -130,6 +141,14 @@ class SwipeableView @JvmOverloads constructor(
         if (imageView is PlayerImageView){
             imageView.forceRipple(x, y)
         }
+    }
+
+    override fun onPanelSlide(panel: View?, slideOffset: Float) {
+
+    }
+
+    override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState) {
+        isTouchEnabled = newState == SlidingUpPanelLayout.PanelState.EXPANDED
     }
 
     interface SwipeListener {

@@ -26,8 +26,7 @@
         android:layout_height="@dimen/tab"
         android:paddingEnd="8dp"
         android:paddingStart="60dp"
-        android:background="?android:attr/windowBackground"
-        android:elevation="1dp"/>
+        android:background="?android:attr/windowBackground" />
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
         android:id="@+id/fastScroller"

@@ -179,14 +179,12 @@
     <string name="prefs_appearance_spotify">Famous green music player</string>
     <string name="prefs_appearance_fullscreen">Fullscreen</string>
     <string name="prefs_appearance_big_image">Big image</string>
-    <string name="prefs_appearance_big_plain">Plain</string>
 
     <string name="prefs_appearance_entry_value_default" translatable="false">default</string>
     <string name="prefs_appearance_entry_value_flat" translatable="false">flat</string>
     <string name="prefs_appearance_entry_value_spotify" translatable="false">spotify</string>
     <string name="prefs_appearance_entry_value_fullscreen" translatable="false">fullscreen</string>
     <string name="prefs_appearance_entry_value_big_image" translatable="false">big_image</string>
-    <string name="prefs_appearance_entry_value_plain" translatable="false">plain</string>
 
     <string-array name="prefs_appearance_entry_values">
         <item>@string/prefs_appearance_entry_value_default</item>

@@ -8,7 +8,7 @@ import dev.olog.msc.R
 object AppTheme {
 
     enum class Theme {
-        DEFAULT, FLAT, SPOTIFY, FULLSCREEN, BIG_IMAGE, PLAIN;
+        DEFAULT, FLAT, SPOTIFY, FULLSCREEN, BIG_IMAGE;
     }
 
     enum class DarkMode {
@@ -28,7 +28,6 @@ object AppTheme {
     fun isSpotify(): Boolean = THEME == Theme.SPOTIFY
     fun isFullscreen(): Boolean = THEME == Theme.FULLSCREEN
     fun isBigImage(): Boolean = THEME == Theme.BIG_IMAGE
-    fun isPlain(): Boolean = THEME == Theme.PLAIN
 
     fun isWhiteMode(): Boolean = DARK_MODE == DarkMode.NONE
     fun isGrayMode(): Boolean = DARK_MODE == DarkMode.LIGHT
@@ -55,7 +54,6 @@ object AppTheme {
             context.getString(R.string.prefs_appearance_entry_value_spotify) -> Theme.SPOTIFY
             context.getString(R.string.prefs_appearance_entry_value_fullscreen) -> Theme.FULLSCREEN
             context.getString(R.string.prefs_appearance_entry_value_big_image) -> Theme.BIG_IMAGE
-            context.getString(R.string.prefs_appearance_entry_value_plain) -> Theme.PLAIN
             else -> throw IllegalStateException("invalid theme=$theme")
         }
     }

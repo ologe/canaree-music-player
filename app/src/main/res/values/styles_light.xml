@@ -26,6 +26,7 @@
         <item name="android:progressTint">@color/seek_bar_tint</item>
         <item name="android:thumbTint">@color/seek_bar_tint</item>
         <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
     </style>
 
 </resources>

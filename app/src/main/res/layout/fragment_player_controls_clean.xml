@@ -7,22 +7,31 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:clipChildren="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:background="@color/background"
         android:id="@+id/playerRoot">
+
+        <include
+            android:id="@+id/playerToolbar"
+            layout="@layout/fragment_player_toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/player_toolbar" />
 
         <dev.olog.msc.presentation.widget.image.view.PlayerImageView
             android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
             tools:src="@drawable/placeholder_musical_note"
             android:clickable="false"
             android:focusable="false"
-            android:layout_marginTop="@dimen/player_cover_margin_horizontal"
+            android:layout_marginTop="@dimen/player_cover_margin_vertical"
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
             android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
             android:stateListAnimator="@animator/elevate_on_activated"
@@ -46,19 +55,16 @@
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/playerControls"
+            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:max="@integer/common_high_number"
             android:paddingBottom="@dimen/player_seekBar_padding_bottom"
-            android:paddingTop="20dp"
-            android:paddingStart="20dp"
+            android:paddingTop="@dimen/player_seekBar_padding_top"
+            android:paddingStart="@dimen/player_seekBar_padding_horizontal"
             android:paddingEnd="@dimen/player_seekBar_padding_horizontal"
             tools:progress="40"
-            tools:max="100"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="8dp"/>
+            tools:max="100" />
 
         <!-- bookmark -->
         <TextView
@@ -68,8 +74,7 @@
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
             app:layout_constraintEnd_toStartOf="@+id/duration"
             android:layout_marginStart="32dp"
             android:clickable="false"
@@ -83,22 +88,18 @@
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/artist"
-            app:layout_constraintBottom_toBottomOf="@+id/artist"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+            android:layout_marginEnd="@dimen/player_duration_margin_end"
             android:clickable="false"
             android:focusable="false" />
 
         <include
             android:id="@+id/playerControls"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/artist"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            layout="@layout/player_controls_plain"
+            layout="@layout/player_controls"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
@@ -106,10 +107,9 @@
         <TextView
             android:id="@+id/title"
             tools:text="In Da Club"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/swipeableView"
+            app:layout_constraintTop_toBottomOf="@+id/playerControls"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_title_text_size"
@@ -120,16 +120,16 @@
             android:scrollHorizontally="true"
             android:textStyle="bold"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
             android:clickable="false"
-            android:focusable="false" />
+            android:focusable="false"
+            android:gravity="start"/>
 
         <TextView
             android:id="@+id/artist"
             tools:text="50 Cent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_artist_text_size"
@@ -139,64 +139,28 @@
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
-            android:layout_marginEnd="@dimen/player_title_margin_horizontal"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="@dimen/player_artist_bottom_padding"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:clickable="false"
             android:focusable="false"
-            android:textAllCaps="true"/>
+            android:paddingBottom="16dp"
+            android:gravity="start|center_vertical" />
 
 
         <ImageButton
             android:id="@+id/more"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="@+id/artist"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/vd_more"
             android:padding="12dp"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="6dp"/>
-
-        <ImageButton
-            android:id="@+id/lyrics"
-            android:layout_gravity="end"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:src="@drawable/vd_lyrics"
-            android:padding="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintBottom_toBottomOf="@+id/more"
-            app:layout_constraintEnd_toStartOf="@+id/favorite"
-            android:scaleX=".75"
-            android:scaleY=".75" />
-
-        <dev.olog.msc.presentation.widget.LottieFavorite
-            android:id="@+id/favorite"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:layout_gravity="end"
-            app:layout_constraintBottom_toBottomOf="@+id/more"
-            app:layout_constraintEnd_toStartOf="@+id/playingQueue"/>
-
-        <ImageButton
-            android:id="@+id/playingQueue"
-            android:layout_gravity="end"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:src="@drawable/vd_playing_queue"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintBottom_toBottomOf="@+id/more"
-            app:layout_constraintEnd_toStartOf="@+id/more"/>
+            android:layout_marginEnd="@dimen/player_title_margin_horizontal"/>
 
     </android.support.constraint.ConstraintLayout>
 

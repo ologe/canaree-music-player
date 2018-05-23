@@ -32,6 +32,7 @@
         <item name="android:progressTint">#F5F5F5</item>
         <item name="android:thumbTint">#F5F5F5</item>
         <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
     </style>
 
 </resources>
