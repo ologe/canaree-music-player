@@ -34,12 +34,12 @@ public class ColorUtil {
                 : ContextCompat.getColor(context, R.color.accent);
 
         if (luminance1 >= luminance2){
-            if (luminance1 > .7 || luminance1 < .3){
+            if (luminance1 > .8 || luminance1 < .2){
                 return defaultColor;
             }
             return color1;
         } else {
-            if (luminance2 > .7 || luminance2 < .3){
+            if (luminance2 > .8 || luminance2 < .2){
                 return defaultColor;
             }
             return color2;
