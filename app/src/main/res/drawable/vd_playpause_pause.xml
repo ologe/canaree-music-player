@@ -1,20 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<vector
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:width="18dp"
-  android:height="18dp"
-  android:tint="@color/dark_grey"
-  android:viewportHeight="18"
-  android:viewportWidth="18">
-
-  <group
-    android:name="iconGroup"
-    android:pivotX="9"
-    android:pivotY="9">
-
-    <path
-      android:name="iconPath"
-      android:fillColor="@color/dark_grey"
-      android:pathData="@string/path_pause"/>
-  </group>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M8,19L8,19c1.1,0 2,-0.9 2,-2V7c0,-1.1 -0.9,-2 -2,-2h0C6.9,5 6,5.9 6,7v10C6,18.1 6.9,19 8,19zM14,7v10c0,1.1 0.9,2 2,2h0c1.1,0 2,-0.9 2,-2V7c0,-1.1 -0.9,-2 -2,-2h0C14.9,5 14,5.9 14,7z"/>
 </vector>

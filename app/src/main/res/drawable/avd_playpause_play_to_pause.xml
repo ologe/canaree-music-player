@@ -1,38 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
 <animated-vector
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:aapt="http://schemas.android.com/aapt"
-      android:drawable="@drawable/vd_playpause_pause">
-
-  <target android:name="iconGroup">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+  <aapt:attr name="android:drawable">
+    <vector
+        android:name="vector"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24"
+        android:viewportHeight="24">
+      <group
+          android:name="group"
+          android:pivotX="12"
+          android:pivotY="12">
+        <path
+            android:name="path"
+            android:pathData="M 8 6.82 L 8 17.18 C 8 17.97 8.87 18.45 9.54 18.02 L 17.68 12.84 C 18.3 12.45 18.3 11.55 17.68 11.15 L 9.54 5.98 C 8.87 5.55 8 6.03 8 6.82 Z"
+            android:fillColor="#000"
+            android:strokeWidth="1"/>
+      </group>
+    </vector>
+  </aapt:attr>
+  <target android:name="path">
+    <aapt:attr name="android:animation">
+      <objectAnimator
+          android:propertyName="pathData"
+          android:duration="@integer/play"
+          android:valueFrom="M 8 12.165 C 8 11.636 8 11.107 8 10.579 L 8 6.82 C 8 6.82 8 6.82 8 6.82 C 8 6.03 8.87 5.55 9.54 5.98 L 17.051 10.75 C 17.261 10.884 17.47 11.017 17.68 11.15 C 18.012 11.364 18.166 11.721 18.143 12.067 L 8 12.165 M 9.54 18.02 C 8.87 18.45 8 17.97 8 17.18 C 8 16.28 8 15.38 8 14.479 C 8 13.708 8 12.937 8 12.165 L 17.448 12.073 L 18.143 12.067 C 18.123 12.367 17.968 12.659 17.68 12.84 C 17.535 12.932 17.39 13.024 17.246 13.116 L 9.54 18.02"
+          android:valueTo="M 7 10 C 5.9 10 5 9.1 5 8 L 5 8 C 5 7.562 5.143 7.156 5.384 6.826 C 5.748 6.326 6.338 6 7 6 L 17 6 C 18.1 6 19 6.9 19 8 C 19 9.1 18.1 10 17 10 L 7 10 M 7 18 C 6.554 18 6.142 17.852 5.808 17.604 C 5.319 17.238 5 16.654 5 16 C 5 14.9 5.9 14 7 14 L 17 14 L 17 14 C 18.1 14 19 14.9 19 16 C 19 17.1 18.1 18 17 18 L 7 18"
+          android:valueType="pathType"
+          android:interpolator="@android:interpolator/fast_out_slow_in"/>
+    </aapt:attr>
+  </target>
+  <target android:name="group">
     <aapt:attr name="android:animation">
       <set>
         <objectAnimator
-          android:duration="@integer/play"
-          android:interpolator="@android:interpolator/fast_out_slow_in"
-          android:propertyName="rotation"
-          android:valueFrom="90"
-          android:valueTo="180"/>
+            android:propertyName="rotation"
+            android:duration="@integer/play"
+            android:valueFrom="0"
+            android:valueTo="90"
+            android:valueType="floatType"
+            android:interpolator="@android:interpolator/fast_out_slow_in"/>
         <objectAnimator
-          android:duration="@integer/play"
-          android:interpolator="@android:interpolator/fast_out_slow_in"
-          android:propertyName="translateX"
-          android:valueFrom="0.75"
-          android:valueTo="0"/>
+            android:propertyName="scaleX"
+            android:duration="@integer/play"
+            android:valueFrom="1.1"
+            android:valueTo="1"
+            android:valueType="floatType"
+            android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        <objectAnimator
+            android:propertyName="scaleY"
+            android:duration="@integer/play"
+            android:valueFrom="1.1"
+            android:valueTo="1"
+            android:valueType="floatType"
+            android:interpolator="@android:interpolator/fast_out_slow_in"/>
       </set>
     </aapt:attr>
   </target>
-
-  <target android:name="iconPath">
-    <aapt:attr name="android:animation">
-      <objectAnimator
-        android:duration="@integer/play"
-        android:interpolator="@android:interpolator/fast_out_slow_in"
-        android:propertyName="pathData"
-        android:valueFrom="@string/path_play"
-        android:valueTo="@string/path_pause"
-        android:valueType="pathType"/>
-    </aapt:attr>
-  </target>
-
 </animated-vector>
