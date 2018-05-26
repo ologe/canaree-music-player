@@ -6,7 +6,7 @@
         <item>Altre playlist</item>
         <item/>
         <item/>
-        <item>Album</item>
+        <item>@string/common_albums</item>
         <item>Altri generi</item>
     </string-array>
 

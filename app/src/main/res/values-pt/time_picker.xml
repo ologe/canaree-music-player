@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="scroll_hms_picker_stop">Parar</string>
+    <string name="sleep_timer_set">Definir temporizador</string>
+    <string name="sleep_timer_can_not_be_set">Tempo tem de ser mais do que 0 segundos</string>
+
+</resources>

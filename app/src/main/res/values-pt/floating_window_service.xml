@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="floating_window_notification_channel_title">Janela flutuante</string>
+    <string name="floating_window_notification_channel_description">Janela flutuante</string>
+    <string name="floating_window_notification_content_text">Clica para fechar</string>
+    <string name="floating_window_offline">Estás offline</string>
+    <string name="floating_window_no_tracks">Adiciona primeiro algumas faixas à biblioteca</string>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="remove_duplicates_message"><![CDATA[Remover todos os duplicados da lista de reprodução <b>%1$s</b>?]]></string>
+    <string name="remove_duplicates_success">Duplicados removidos da lista de reprodução %1$s</string>
+
+</resources>

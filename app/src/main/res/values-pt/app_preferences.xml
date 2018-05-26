@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="settings">Configurações</string>
+    <string name="prefs_not_premium">Comprar a versão Pro para customizar</string>
+    <string name="prefs_not_premium_action">Comprar</string>
+
+    <!-- categories -->
+    <string name="prefs_category_library">Biblioteca</string>
+    <string name="prefs_category_audio">Audio</string>
+    <string name="prefs_category_theme">Tema</string>
+    <string name="prefs_category_other">Outro</string>
+
+    <!-- quick action -->
+    <string name="prefs_quick_action_title">Ação rápida</string>
+
+    <!-- Fuzzy -->
+    <string name="prefs_quick_action_summary">Mudar a ação do pequeno ícone próximo das imagens</string>
+
+    <!-- detail visible sections -->
+    <string name="prefs_detail_sections_title">Secções visíveis</string>
+    <string name="prefs_detail_sections_summary">Configurar as secções visíveis na vista detalhada</string>
+
+    <!-- library categories -->
+    <!-- Fuzzy -->
+    <string name="prefs_library_categories_title">Categorias da biblioteca</string>
+
+    <!-- Fuzzy -->
+    <string name="prefs_library_categories_summary">Configurar a visibilidade e a ordem das categorias da biblioteca</string>
+
+    <!-- remember last tab -->
+    <string name="prefs_remember_last_tab_title">Lembrar a última aba</string>
+    <string name="prefs_remember_last_tab_summary">Ir para a última aba aberta ao iniciar</string>
+
+    <!-- blacklist -->
+    <string name="prefs_blacklist_title">Lista negra</string>
+    <string name="prefs_blacklist_summary">Esconder pastas da biblioteca</string>
+    <string name="prefs_blacklist_description">Clicar para mostrar/esconder</string>
+    <string name="prefs_blacklist_error">Não é possível colocar todas as pastas na lista negra</string>
+
+    <!-- folder tree -->
+    <string name="prefs_folder_tree_view_title">Visualização de hierarquia de pastas</string>
+
+    <!-- used equalizer -->
+    <string name="prefs_used_equalizer_title">Equalizador</string>
+    <string name="prefs_used_equalizer_summary_on">Usar o equalizador da aplicação</string>
+    <string name="prefs_used_equalizer_summary_off">Usar o equalizador do sistema (caso exista)</string>
+
+    <!-- midnight mode -->
+    <string name="prefs_lower_volume_on_night_title">Modo Meia-Noite</string>
+    <string name="prefs_lower_volume_on_night_summary">Baixa o volume máximo à noite</string>
+
+    <!-- crossfade -->
+    <string name="prefs_cross_fade_title">Crossfade</string>
+    <string name="prefs_cross_fade_summary">"Permite crossfade entre músicas</string>
+
+    <!-- gapless -->
+    <string name="prefs_gapless_title">Reprodução sem intervalo</string>
+    <string name="prefs_gapless_summary">Permite reprodução sem intervalo quando crossfade está ligado</string>
+
+    <!-- icon shape -->
+    <string name="prefs_icon_shape_title">Forma do ícone</string>
+
+    <!-- show player controls -->
+    <string name="prefs_player_controls_visibility_title">Controlos de reprodução clássicos</string>
+
+    <!-- auto download images -->
+    <string name="prefs_auto_download_images_title">Fazer download de imagens automaticamente</string>
+    <string name="prefs_auto_download_images_summary_mobile">Sempre</string>
+    <string name="prefs_auto_download_images_summary_wifi">Apenas em Wi-Fi</string>
+    <string name="prefs_auto_download_images_summary_never">Nunca</string>
+    <string name="prefs_auto_download_images_entry_value_always">sempre</string>
+    <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
+    <string name="prefs_auto_download_images_entry_value_never">nunca</string>
+
+    <!-- auto create images -->
+    <string name="prefs_auto_create_images_title">Criar automaticamente imagens de pasta, lista de reprodução e género</string>
+
+    <!-- appearance -->
+    <string name="prefs_appearance_title">Aparência do ecrã de reprodução</string>
+    <string name="prefs_appearance_default">Padrão</string>
+    <string name="prefs_appearance_flat">Plano</string>
+    <string name="prefs_appearance_spotify">Famoso reprodutor de música verde</string>
+    <string name="prefs_appearance_fullscreen">Tela cheia</string>
+    <string name="prefs_appearance_big_image">Imagem grande</string>
+
+    <!-- dark mode -->
+    <string name="prefs_dark_mode_title">Tema</string>
+    <string name="prefs_dark_mode_white">Tema branco</string>
+    <string name="prefs_dark_mode_gray">Tema quase branco</string>
+    <string name="prefs_dark_mode_dark">Tema escuro</string>
+    <string name="prefs_dark_mode_black">Tema preto</string>
+
+    <!-- notch support -->
+    <!-- Fuzzy -->
+    <string name="prefs_notch_support_title">Suporte de entalhe</string>
+
+    <!-- Fuzzy -->
+    <string name="prefs_notch_support_summary">Aumentar a altura da barra de status</string>
+
+    <!-- delete cached images -->
+    <string name="prefs_delete_cached_images_title">Apagar o cache</string>
+    <string name="prefs_delete_cached_images_summary">Apagar todas as imagens no cache</string>
+    <string name="prefs_delete_cached_images_success">Cache apagado</string>
+
+</resources>

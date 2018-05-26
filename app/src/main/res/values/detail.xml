@@ -21,7 +21,7 @@
         <item>Other playlists</item>
         <item/>
         <item/>
-        <item>Albums</item>
+        <item>@string/common_albums</item>
         <item>Other genres</item>
     </string-array>
 
