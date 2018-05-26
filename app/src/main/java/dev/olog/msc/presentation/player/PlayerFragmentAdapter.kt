@@ -11,6 +11,11 @@ import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.SeekBar
+import android.widget.TextView
+import androidx.core.view.forEach
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -73,7 +78,8 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_fullscreen,
             R.layout.fragment_player_controls_flat,
-            R.layout.fragment_player_controls_big_image -> {
+            R.layout.fragment_player_controls_big_image,
+            R.layout.fragment_player_controls_clean -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
@@ -90,6 +96,26 @@ class PlayerFragmentAdapter @Inject constructor(
             R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_big_image -> {
                 bindPlayerControls(holder.itemView)
+            }
+            R.layout.fragment_player_controls_clean -> {
+                bindPlayerControls(holder.itemView)
+                if (AppTheme.isWhiteTheme()){
+                    val group = holder.itemView as ViewGroup
+                    group.forEachRecursively {
+                        when {
+                            it is ImageButton -> it.setColorFilter(0xFF_929cb0.toInt())
+                            it is TextView && it.id == R.id.title -> it.setTextColor(0xFF_49515e.toInt())
+                            it is TextView && it.id == R.id.album -> it.setTextColor(0xFF_797f8b.toInt())
+                            it is TextView -> it.setTextColor(0xFF_aeb5c3.toInt())
+                            it is SeekBar -> {
+                                it.thumbTintList = ColorStateList.valueOf(0xFF_929cb0.toInt())
+                                it.progressTintList = ColorStateList.valueOf(0xFF_929cb0.toInt())
+                                it.progressBackgroundTintList = ColorStateList.valueOf(0xFF_dbdee5.toInt())
+                            }
+                        }
+                    }
+                }
+
             }
             R.layout.fragment_player_controls_flat -> {
                 val view = holder.itemView
@@ -110,8 +136,8 @@ class PlayerFragmentAdapter @Inject constructor(
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
                             }
-                            view.shuffle.updateColor(accentColor)
-                            view.repeat.updateColor(accentColor)
+                            view.shuffle.updateSelectedColor(accentColor)
+                            view.repeat.updateSelectedColor(accentColor)
                         }, Throwable::printStackTrace)
             }
             R.layout.fragment_player_controls_fullscreen -> {
@@ -134,8 +160,8 @@ class PlayerFragmentAdapter @Inject constructor(
                             }
                             view.artist.animateTextColor(accentColor)
                             view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
-                            view.shuffle.updateColor(accentColor)
-                            view.repeat.updateColor(accentColor)
+                            view.shuffle.updateSelectedColor(accentColor)
+                            view.repeat.updateSelectedColor(accentColor)
                         }, Throwable::printStackTraceOnDebug)
             }
         }
@@ -315,12 +341,17 @@ class PlayerFragmentAdapter @Inject constructor(
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
         view.title.text = metadata.getTitle()
-        view.artist.text = metadata.getArtist()
+        if (!AppTheme.isClean()){
+            view.artist.text = metadata.getArtist()
+        } else {
+            view.artist.text = metadata.getAlbum()
+            view.findViewById<TextView>(R.id.album).text = metadata.getArtist()
+        }
 
         val duration = metadata.getDuration()
 
         var readableDuration = metadata.getDurationReadable()
-        if (!activity.isPortrait && AppTheme.isBigImage() || AppTheme.isDefault()){
+        if (!activity.isPortrait && AppTheme.isBigImage() || AppTheme.isDefault() || !AppTheme.isClean()){
             readableDuration = "${TextUtils.MIDDLE_DOT_SPACED}$readableDuration"
         }
 

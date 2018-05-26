@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.images.ColorUtil
+import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.textColorSecondary
 import dev.olog.msc.utils.k.extension.textColorTertiary
 
@@ -18,19 +19,19 @@ class RepeatButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
-    private val defaultEnabledColor: Int
-    private var enabledColor: Int
+    private val defaultSelectedColor: Int
+    private var selectedColor: Int
     private var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_repeat)
 
-        defaultEnabledColor = if (AppTheme.isDarkTheme()){
+        defaultSelectedColor = if (AppTheme.isDarkTheme()){
             ContextCompat.getColor(context, R.color.accent_secondary)
         } else {
             ContextCompat.getColor(context, R.color.accent)
         }
-        enabledColor = defaultEnabledColor
+        selectedColor = defaultSelectedColor
     }
 
     fun cycle(state: Int){
@@ -42,11 +43,11 @@ class RepeatButton @JvmOverloads constructor(
         }
     }
 
-    fun updateColor(color: Int){
-        this.enabledColor = color
+    fun updateSelectedColor(color: Int){
+        this.selectedColor = color
 
         if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE){
-            setColorFilter(this.enabledColor)
+            setColorFilter(this.selectedColor)
         }
     }
 
@@ -54,6 +55,7 @@ class RepeatButton @JvmOverloads constructor(
         setImageResource(R.drawable.vd_repeat)
 
         val color = when {
+            context.isPortrait && AppTheme.isClean() -> 0xFF_929cb0.toInt()
             AppTheme.isFullscreen() -> Color.WHITE
             AppTheme.isDarkTheme() -> {
                 alpha = .7f
@@ -67,13 +69,13 @@ class RepeatButton @JvmOverloads constructor(
     private fun repeatOne(){
         alpha = 1f
         setImageResource(R.drawable.vd_repeat_one)
-        setColorFilter(enabledColor)
+        setColorFilter(selectedColor)
     }
 
     private fun repeatAll(){
         alpha = 1f
         setImageResource(R.drawable.vd_repeat)
-        setColorFilter(enabledColor)
+        setColorFilter(selectedColor)
     }
 
 }

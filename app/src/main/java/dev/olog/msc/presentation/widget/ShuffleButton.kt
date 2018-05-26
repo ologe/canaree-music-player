@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.images.ColorUtil
+import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.textColorSecondary
 import dev.olog.msc.utils.k.extension.textColorTertiary
 
@@ -41,7 +42,7 @@ class ShuffleButton @JvmOverloads constructor(
         }
     }
 
-    fun updateColor(color: Int){
+    fun updateSelectedColor(color: Int){
         this.enabledColor = color
 
         if (shuffleMode == PlaybackStateCompat.SHUFFLE_MODE_ALL){
@@ -56,6 +57,7 @@ class ShuffleButton @JvmOverloads constructor(
 
     private fun disable(){
         val color = when {
+            context.isPortrait && AppTheme.isClean() -> 0xFF_929cb0.toInt()
             AppTheme.isFullscreen() -> Color.WHITE
             AppTheme.isDarkTheme() -> {
                 alpha = .7f

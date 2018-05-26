@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.forEach
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean){
@@ -83,4 +85,14 @@ private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: 
         return ContextCompat.getColor(this, outValue.resourceId)
     }
     return fallbackColor
+}
+
+inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit){
+    forEach {
+        if (it is ViewGroup){
+            it.forEach(action)
+        } else {
+            action(it)
+        }
+    }
 }

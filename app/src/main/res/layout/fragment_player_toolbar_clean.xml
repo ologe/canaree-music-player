@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/player_toolbar"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView
+        android:id="@+id/album"
+        tools:text="Snoop Dogg"
+        android:textSize="@dimen/player_now_playing_size"
+        android:textStyle="bold"
+        android:scaleX=".7"
+        android:scaleY=".7"
+        android:textColor="?android:attr/textColorSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"/>
+
+</FrameLayout>

@@ -83,7 +83,7 @@ class CustomHoverMenu @Inject constructor(
 
     private val offlineLyricsSection = Section(
             SectionId("offline_lyrics"),
-            createTabView(offlineLyricsColors, R.drawable.vd_lyrics_wrapper),
+            createTabView(offlineLyricsColors, R.drawable.vd_offline_lyrics_wrapper),
             offlineLyricsContent
     )
 

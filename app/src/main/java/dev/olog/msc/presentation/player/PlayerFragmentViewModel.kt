@@ -87,6 +87,7 @@ class PlayerFragmentViewModel @Inject constructor(
             AppTheme.isSpotify() -> R.layout.fragment_player_controls_spotify
             AppTheme.isFullscreen() -> R.layout.fragment_player_controls_fullscreen
             AppTheme.isBigImage() -> R.layout.fragment_player_controls_big_image
+            AppTheme.isClean() -> R.layout.fragment_player_controls_clean
             else -> throw IllegalStateException("invalid theme")
         }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")

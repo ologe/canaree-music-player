@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.airbnb.lottie.LottieAnimationView
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.utils.k.extension.isPortrait
 
 class LottieFavorite @JvmOverloads constructor(
         context: Context,
@@ -17,11 +18,12 @@ class LottieFavorite @JvmOverloads constructor(
     init {
         var useWhiteIcon = AppTheme.isFullscreen()
         useWhiteIcon = useWhiteIcon || AppTheme.isDarkTheme()
-        if (useWhiteIcon){
-            setAnimation("favorite_white.json")
-        } else {
-            setAnimation("favorite.json")
+        val icon = when {
+            context.isPortrait && AppTheme.isClean() -> "favorite_gray"
+            useWhiteIcon -> "favorite_white"
+            else -> "favorite"
         }
+        setAnimation("$icon.json")
 
         scaleX = 1.15f
         scaleY = 1.15f

@@ -15,6 +15,11 @@ fun MediaMetadataCompat.getArtist(): CharSequence {
     return DisplayableItem.adjustArtist(artist.toString())
 }
 
+fun MediaMetadataCompat.getAlbum(): CharSequence {
+    val album = getText(MediaMetadataCompat.METADATA_KEY_ALBUM)
+    return DisplayableItem.adjustAlbum(album.toString())
+}
+
 fun MediaMetadataCompat.getDuration(): Long {
     return getLong(MediaMetadataCompat.METADATA_KEY_DURATION)
 }

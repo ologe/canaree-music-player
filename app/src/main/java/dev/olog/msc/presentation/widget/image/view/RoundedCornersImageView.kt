@@ -23,17 +23,16 @@ open class RoundedCornersImageView @JvmOverloads constructor(
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.RoundedCornersImageView)
-        radius = a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS)
+        radius = context.dip(a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS))
         a.recycle()
 
-        val rounded = AppTheme.isDefault() || AppTheme.isSpotify()
+        val rounded = AppTheme.isDefault() || AppTheme.isSpotify() || AppTheme.isClean()
 
         if (rounded){
             val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner) as GradientDrawable
             drawable.cornerRadius = context.dip(radius).toFloat()
             background = drawable
             clipToOutline = true
-
         }
         outlineProvider = RoundedOutlineProvider()
     }

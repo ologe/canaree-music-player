@@ -41,13 +41,18 @@ class SwipeableView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        ((context as Activity?) as HasSlidingPanel?)?.addPanelSlideListener(this)
+        if (!isInEditMode && context is HasSlidingPanel){
+            ((context as Activity) as HasSlidingPanel).addPanelSlideListener(this)
+        }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         this.swipeListener = null
-        ((context as Activity?) as HasSlidingPanel?)?.removePanelSlideListener(this)
+        if (context is HasSlidingPanel){
+            ((context as Activity) as HasSlidingPanel).removePanelSlideListener(this)
+
+        }
     }
 
     fun isTouching(): Observable<Boolean> = isTouchingPublisher.distinctUntilChanged()

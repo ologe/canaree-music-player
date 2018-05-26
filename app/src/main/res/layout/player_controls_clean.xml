@@ -23,16 +23,17 @@
         android:elevation="2dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginEnd="16dp"
-        app:layout_goneMarginEnd="0dp"/>
+        app:layout_goneMarginEnd="0dp"
+        tools:tint="#929cb0"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/previous"
         app:avd="@drawable/avd_music_previous"
         tools:src="@drawable/vd_music_previous"
         android:background="@null"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
-        android:padding="10dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/shuffle"
         app:layout_constraintTop_toTopOf="parent"
@@ -41,13 +42,14 @@
         android:focusable="true"
         android:visibility="visible"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        tools:tint="#929cb0"/>
 
     <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
-        android:padding="8dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="6dp"
         tools:src="@drawable/vd_playpause_play"
         android:background="@null"
         android:scaleX="1.2"
@@ -60,23 +62,25 @@
         android:focusable="true"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:visibility="visible" />
+        android:visibility="visible"
+        tools:tint="#929cb0"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/next"
         app:avd="@drawable/avd_music_next"
         tools:src="@drawable/vd_music_next"
         android:background="@null"
-        android:layout_width="@dimen/player_shuffle_size"
-        android:layout_height="@dimen/player_shuffle_size"
-        android:padding="10dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/playPause"
         app:layout_constraintEnd_toStartOf="@+id/repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible" />
+        android:visibility="visible"
+        tools:tint="#929cb0"/>
 
     <!-- repeat -->
     <dev.olog.msc.presentation.widget.RepeatButton
@@ -88,7 +92,6 @@
         android:focusable="true"
         android:src="@drawable/vd_repeat"
         tools:src="@drawable/vd_repeat"
-        tools:tint="@color/button_secondary_tint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/next"
@@ -96,6 +99,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginStart="16dp"
         app:layout_goneMarginStart="0dp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:tint="#929cb0"/>
 
 </android.support.constraint.ConstraintLayout>
