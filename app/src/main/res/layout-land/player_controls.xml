@@ -22,7 +22,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         android:elevation="2dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@null"
         app:layout_goneMarginEnd="0dp"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
@@ -93,7 +93,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/next"
         android:elevation="2dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@null"
         app:layout_goneMarginStart="0dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
