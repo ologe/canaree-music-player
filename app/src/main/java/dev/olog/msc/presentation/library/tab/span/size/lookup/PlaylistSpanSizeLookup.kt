@@ -26,4 +26,5 @@ class PlaylistSpanSizeLookup(
 
         return spanCount / span
     }
+
 }

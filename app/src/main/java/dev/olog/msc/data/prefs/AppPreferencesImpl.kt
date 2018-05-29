@@ -57,6 +57,12 @@ class AppPreferencesImpl @Inject constructor(
         private const val CATEGORY_ARTIST_VISIBILITY = "$TAG.CATEGORY_ARTIST_VISIBILITY"
         private const val CATEGORY_GENRE_VISIBILITY = "$TAG.CATEGORY_GENRE_VISIBILITY"
 
+        private const val CATEGORY_FOLDER_SPAN_COUNT = "$TAG.CATEGORY_FOLDER_SPAN_COUNT"
+        private const val CATEGORY_PLAYLIST_SPAN_COUNT = "$TAG.CATEGORY_PLAYLIST_SPAN_COUNT"
+        private const val CATEGORY_ALBUM_SPAN_COUNT = "$TAG.CATEGORY_ALBUM_SPAN_COUNT"
+        private const val CATEGORY_ARTIST_SPAN_COUNT = "$TAG.CATEGORY_ARTIST_SPAN_COUNT"
+        private const val CATEGORY_GENRE_SPAN_COUNT = "$TAG.CATEGORY_GENRE_SPAN_COUNT"
+
         private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME"
         private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD"
 
@@ -402,4 +408,6 @@ class AppPreferencesImpl @Inject constructor(
     override fun setSyncAdjustment(value: Long) {
         preferences.edit { putLong(SYNC_ADJUSTMENT, value) }
     }
+
+
 }

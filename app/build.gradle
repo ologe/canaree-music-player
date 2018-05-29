@@ -23,7 +23,7 @@ android {
         renderscriptTargetApi rootProject.ext.compileSdkVersion
         renderscriptSupportModeEnabled true
 
-        resConfigs "en", "it"
+//        resConfigs "en", "it"
     }
 
     splits {
