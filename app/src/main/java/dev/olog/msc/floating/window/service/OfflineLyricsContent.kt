@@ -78,6 +78,10 @@ class OfflineLyricsContent(
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
+        musicServiceBinder.onBookmarkChangedLiveData
+                .subscribe({ seekBar.progress = it.toInt() }, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
         presenter.observeLyrics()
                 .map { presenter.transformLyrics(context, seekBar.progress, it) }
                 .observeOn(AndroidSchedulers.mainThread())
