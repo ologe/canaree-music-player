@@ -80,14 +80,14 @@ class RepeatButton @JvmOverloads constructor(
         alpha = 1f
 //        setImageResource(R.drawable.vd_repeat_one)
 //        setColorFilter(selectedColor)
-        animateAvd(selectedColor, R.drawable.repeat_hide, R.drawable.repeat_show)
+        animateAvd(selectedColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
     }
 
     private fun repeatAll(){
         alpha = 1f
 //        setImageResource(R.drawable.vd_repeat)
 //        setColorFilter(selectedColor)
-        animateAvd(selectedColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
+        animateAvd(selectedColor, R.drawable.repeat_hide, R.drawable.repeat_show)
     }
 
     private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int){

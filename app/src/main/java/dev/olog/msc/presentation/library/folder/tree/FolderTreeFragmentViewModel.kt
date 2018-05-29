@@ -190,9 +190,9 @@ class FolderTreeFragmentViewModel(
         if (File("mnt/sdcard1/").exists() && File("mnt/sdcard1/").canRead()) {
             sdcardpath = "mnt/sdcard1/"
         }
-        if (File("mnt/sdcard/").exists() && File("mnt/sdcard/").canRead()) {
-            sdcardpath = "mnt/sdcard/"
-        }
+//        if (File("mnt/sdcard/").exists() && File("mnt/sdcard/").canRead()) {
+//            sdcardpath = "mnt/sdcard/"
+//        }
 
         //Storages
         if (File("/storage/removable/sdcard1/").exists() && File("/storage/removable/sdcard1/").canRead()) {
@@ -210,9 +210,9 @@ class FolderTreeFragmentViewModel(
         if (File("/storage/sdcard0/").exists() && File("/storage/sdcard0/").canRead()) {
             sdcardpath = "/storage/sdcard0/"
         }
-        if (File("/storage/sdcard/").exists() && File("/storage/sdcard/").canRead()) {
-            sdcardpath = "/storage/sdcard/"
-        }
+//        if (File("/storage/sdcard/").exists() && File("/storage/sdcard/").canRead()) {
+//            sdcardpath = "/storage/sdcard/"
+//        }
 
         if (sdcardpath != null && File(sdcardpath).path != Environment.getExternalStorageDirectory().path){
             return File(sdcardpath)
