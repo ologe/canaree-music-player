@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.support.annotation.Keep
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageButton
@@ -38,19 +39,24 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     }
 
     fun animationPlay(animate: Boolean) {
-        setupAndAnimate(animate, playAnimation)
+        if (animate){
+            setAvd(playAnimation)
+        } else {
+            setImageResource(R.drawable.vd_playpause_pause)
+        }
     }
 
     fun animationPause(animate: Boolean) {
-        setupAndAnimate(animate, pauseAnimation)
+        if (animate){
+            setAvd(pauseAnimation)
+        } else {
+            setImageResource(R.drawable.vd_playpause_play)
+        }
     }
 
-    private fun setupAndAnimate(animate: Boolean, avd: AnimatedVectorDrawable) {
+    private fun setAvd(avd: AnimatedVectorDrawable){
         setImageDrawable(avd)
-        if (animate)
-            avd.start()
-        else
-            avd.jumpToCurrentState()
+        avd.start()
     }
 
 }

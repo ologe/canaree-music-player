@@ -6,13 +6,11 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.graphics.drawable.Animatable2Compat
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat
-import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.textColorSecondary
@@ -24,19 +22,12 @@ class ShuffleButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
-    private val defaultEnabledColor: Int
-    private var enabledColor : Int
+    private val defaultEnabledColor: Int = getColor()
+    private var enabledColor : Int = defaultEnabledColor
     private var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_shuffle)
-
-        defaultEnabledColor = if (AppTheme.isDarkTheme()){
-            ContextCompat.getColor(context, R.color.accent_secondary)
-        } else {
-            ContextCompat.getColor(context, R.color.accent)
-        }
-        enabledColor = defaultEnabledColor
     }
 
     fun cycle(state: Int){
@@ -59,12 +50,16 @@ class ShuffleButton @JvmOverloads constructor(
 
     private fun enable(){
         alpha = 1f
-//        setColorFilter(enabledColor)
         animateAvd(enabledColor)
     }
 
     private fun disable(){
-        val color = when {
+        val color = getColor()
+        animateAvd(color)
+    }
+
+    private fun getColor(): Int{
+        return when {
             context.isPortrait && AppTheme.isClean() -> 0xFF_929cb0.toInt()
             AppTheme.isFullscreen() -> Color.WHITE
             AppTheme.isDarkTheme() -> {
@@ -73,8 +68,6 @@ class ShuffleButton @JvmOverloads constructor(
             }
             else -> textColorTertiary()
         }
-//        setColorFilter(color)
-        animateAvd(color)
     }
 
     private fun animateAvd(@ColorInt endColor: Int){
