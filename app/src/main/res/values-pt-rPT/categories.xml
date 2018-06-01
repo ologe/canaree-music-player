@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="CategoriesTabStyle" parent="BaseTab">
-        <item name="tabMode">fixed</item>
-    </style>
+    <dimen name="main_toolbar_text_size">28dp</dimen>
 
 </resources>
