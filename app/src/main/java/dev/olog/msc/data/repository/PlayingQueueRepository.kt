@@ -45,6 +45,7 @@ class PlayingQueueRepository @Inject constructor(
                 this.albumId,
                 this.title,
                 this.artist,
+                this.albumArtist,
                 this.album,
                 this.image,
                 this.duration,

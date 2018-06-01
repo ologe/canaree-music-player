@@ -44,9 +44,11 @@ interface Sorting {
 
     fun getAllTracksSortOrder(): LibrarySortType
     fun getAllAlbumsSortOrder(): LibrarySortType
+    fun getAllArtistsSortOrder(): LibrarySortType
 
     fun observeAllTracksSortOrder(): Observable<LibrarySortType>
     fun observeAllAlbumsSortOrder(): Observable<LibrarySortType>
+    fun observeAllArtistsSortOrder(): Observable<LibrarySortType>
 
     fun setAllTracksSortOrder(sortType: LibrarySortType)
     fun setAllAlbumsSortOrder(sortType: LibrarySortType)

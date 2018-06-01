@@ -11,6 +11,7 @@ data class PlayingQueueSong (
         val albumId: Long,
         val title: String,
         val artist: String,
+        val albumArtist: String,
         val album: String,
         val image: String,
         val duration: Long,

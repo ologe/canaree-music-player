@@ -11,6 +11,7 @@ import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllAlbumsSortedUseCase
+import dev.olog.msc.domain.interactor.all.sorted.GetAllArtistsSortedUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllSongsSortedUseCase
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -108,7 +109,7 @@ class TabFragmentViewModelModule {
     @MediaIdCategoryKey(MediaIdCategory.ARTISTS)
     internal fun provideArtistData(
             resources: Resources,
-            useCase: GetAllArtistsUseCase,
+            useCase: GetAllArtistsSortedUseCase,
             lastPlayedArtistsUseCase: GetLastPlayedArtistsUseCase,
             headers: TabFragmentHeaders) : Observable<List<DisplayableItem>> {
 

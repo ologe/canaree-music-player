@@ -1,29 +1,29 @@
 package dev.olog.msc.domain.interactor.all.sorted
 
-import dev.olog.msc.domain.entity.Album
+import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
-import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import java.text.Collator
 import javax.inject.Inject
 
-class GetAllAlbumsSortedUseCase @Inject constructor(
+class GetAllArtistsSortedUseCase @Inject constructor(
         schedulers: IoScheduler,
-        private val getAllUseCase: GetAllAlbumsUseCase,
+        private val getAllUseCase: GetAllArtistsUseCase,
         private val appPrefsGateway: AppPreferencesGateway,
         private val collator: Collator
 
-) : ObservableUseCase<List<Album>>(schedulers){
+) : ObservableUseCase<List<Artist>>(schedulers){
 
-    override fun buildUseCaseObservable(): Observable<List<Album>> {
+    override fun buildUseCaseObservable(): Observable<List<Artist>> {
         return Observables.combineLatest(
                 getAllUseCase.execute(),
-                appPrefsGateway.observeAllAlbumsSortOrder(),
+                appPrefsGateway.observeAllArtistsSortOrder(),
                 { tracks, order ->
                     val (sort, arranging) = order
 
@@ -35,21 +35,19 @@ class GetAllAlbumsSortedUseCase @Inject constructor(
                 })
     }
 
-    private fun getAscendingComparator(sortType: SortType): Comparator<Album> {
+    private fun getAscendingComparator(sortType: SortType): Comparator<Artist> {
         return when (sortType){
-            SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }
-            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o1.artist, o2.artist) }
+            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o1.name, o2.name) }
             SortType.ALBUM_ARTIST -> Comparator { o1, o2 -> collator.compare(o1.albumArtist, o2.albumArtist) }
-            else -> throw IllegalStateException("can't sort all albums, invalid sort type $sortType")
+            else -> throw IllegalStateException("can't sort all artists, invalid sort type $sortType")
         }
     }
 
-    private fun getDescendingComparator(sortType: SortType): Comparator<Album> {
+    private fun getDescendingComparator(sortType: SortType): Comparator<Artist> {
         return when (sortType){
-            SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o2.title, o1.title) }
-            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o2.artist, o1.artist) }
+            SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o2.name, o1.name) }
             SortType.ALBUM_ARTIST -> Comparator { o1, o2 -> collator.compare(o2.albumArtist, o1.albumArtist) }
-            else -> throw IllegalStateException("can't sort all albums, invalid sort type $sortType")
+            else -> throw IllegalStateException("can't sort all artists, invalid sort type $sortType")
         }
     }
 

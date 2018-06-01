@@ -20,9 +20,6 @@
 
             <group android:checkableBehavior="single">
 
-                <item android:id="@+id/by_title"
-                    android:title="@string/category_sort_by_title" />
-
                 <item android:id="@+id/by_artist"
                     android:title="@string/category_sort_by_artist" />
 
@@ -44,21 +41,21 @@
     </item>
 
     <!--<item android:id="@+id/view_as"-->
-        <!--android:title="@string/popup_view_as">-->
+    <!--android:title="@string/popup_view_as">-->
 
-        <!--<menu>-->
+    <!--<menu>-->
 
-            <!--<group android:checkableBehavior="single">-->
+    <!--<group android:checkableBehavior="single">-->
 
-                <!--<item android:id="@+id/as_list"-->
-                    <!--android:title="@string/popup_view_as_list" />-->
+    <!--<item android:id="@+id/as_list"-->
+    <!--android:title="@string/popup_view_as_list" />-->
 
-                <!--<item android:id="@+id/as_grid"-->
-                    <!--android:title="@string/popup_view_as_grid" />-->
+    <!--<item android:id="@+id/as_grid"-->
+    <!--android:title="@string/popup_view_as_grid" />-->
 
-            <!--</group>-->
+    <!--</group>-->
 
-        <!--</menu>-->
+    <!--</menu>-->
 
     <!--</item>-->
 

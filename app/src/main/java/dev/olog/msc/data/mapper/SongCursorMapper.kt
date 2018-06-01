@@ -26,6 +26,14 @@ fun Cursor.toSong(): Song {
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
     val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
 
+    var albumArtist = artist
+    val albumArtistIndex = this.getColumnIndex("album_artist")
+    if (albumArtistIndex != -1) {
+        this.getString(albumArtistIndex)?.also {
+            albumArtist = it
+        }
+    }
+
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
@@ -34,7 +42,7 @@ fun Cursor.toSong(): Song {
     val disc = extractDiscNumber(trackNumber)
 
     return Song(
-            id, artistId, albumId, title, artist, album,
+            id, artistId, albumId, title, artist, albumArtist, album,
             ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded, path,
             folder.capitalize(), disc, track)
@@ -60,8 +68,16 @@ fun Cursor.toUneditedSong(image: String): Song {
     val track = extractTrackNumber(trackNumber)
     val disc = extractDiscNumber(trackNumber)
 
+    var albumArtist = artist
+    val albumArtistIndex = this.getColumnIndex("album_artist")
+    if (albumArtistIndex != -1) {
+        this.getString(albumArtistIndex)?.also {
+            albumArtist = it
+        }
+    }
+
     return Song(
-            id, artistId, albumId, title, artist, album,
+            id, artistId, albumId, title, artist, albumArtist, album,
             image, duration, dateAdded, path,
             folder.capitalize(), disc, track)
 }

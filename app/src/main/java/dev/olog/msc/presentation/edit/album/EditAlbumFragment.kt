@@ -55,6 +55,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
                 else -> {
                     album.setText(it.title)
                     artist.setText(it.artist)
+                    albumArtist.setText(it.albumArtist)
                     year.setText(it.year)
                     genre.setText(it.genre)
                     val model = DisplayableItem(0, MediaId.albumId(it.id), "", image = it.image)
@@ -72,6 +73,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
                     mediaId,
                     album.extractText().trim(),
                     artist.extractText().trim(),
+                    albumArtist.extractText().trim(),
                     genre.extractText().trim(),
                     year.extractText().trim(),
                     viewModel.getNewImage()

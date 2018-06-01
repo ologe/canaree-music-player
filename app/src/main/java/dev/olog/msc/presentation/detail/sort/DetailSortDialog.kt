@@ -24,6 +24,7 @@ class DetailSortDialog {
                 R.id.by_title -> SortType.TITLE
                 R.id.by_artist -> SortType.ARTIST
                 R.id.by_album -> SortType.ALBUM
+                R.id.by_album_artist -> SortType.ALBUM_ARTIST
                 R.id.by_duration -> SortType.DURATION
                 R.id.by_recently_added -> SortType.RECENTLY_ADDED
                 R.id.by_custom -> SortType.CUSTOM
@@ -55,6 +56,7 @@ class DetailSortDialog {
             SortType.TITLE -> R.id.by_title
             SortType.ALBUM -> R.id.by_album
             SortType.ARTIST -> R.id.by_artist
+            SortType.ALBUM_ARTIST -> R.id.by_album_artist
             SortType.DURATION -> R.id.by_duration
             SortType.RECENTLY_ADDED ->R.id.by_recently_added
             SortType.CUSTOM -> R.id.by_custom

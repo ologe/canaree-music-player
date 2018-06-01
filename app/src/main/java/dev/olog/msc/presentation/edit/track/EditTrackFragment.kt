@@ -48,6 +48,7 @@ class EditTrackFragment : BaseEditItemFragment() {
             } else {
                 title.setText(it.title)
                 artist.setText(it.artist)
+                albumArtist.setText(it.albumArtist)
                 album.setText(it.album)
                 year.setText(it.year)
                 genre.setText(it.genre)
@@ -67,6 +68,7 @@ class EditTrackFragment : BaseEditItemFragment() {
                     viewModel.getSong(),
                     title.extractText().trim(),
                     artist.extractText().trim(),
+                    albumArtist.extractText().trim(),
                     album.extractText().trim(),
                     genre.extractText().trim(),
                     year.extractText().trim(),

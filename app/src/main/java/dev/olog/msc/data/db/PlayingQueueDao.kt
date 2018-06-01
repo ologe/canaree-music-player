@@ -65,6 +65,7 @@ abstract class PlayingQueueDao {
                 this.albumId,
                 this.title,
                 this.artist,
+                this.albumArtist,
                 this.album,
                 this.image,
                 this.duration,

@@ -3,6 +3,7 @@
 
     <string name="edit_info_title">@string/common_track</string>
     <string name="edit_info_artist">@string/common_artist</string>
+    <string name="edit_info_album_artist">Album artist</string>
     <string name="edit_info_album">@string/common_album</string>
     <string name="edit_info_genre">@string/common_genre</string>
     <string name="edit_info_year">Year</string>

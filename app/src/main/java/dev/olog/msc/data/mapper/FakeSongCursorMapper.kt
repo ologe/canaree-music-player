@@ -24,6 +24,7 @@ fun Cursor.toFakeSong(): Song {
             id, artistId, albumId,
             "An awesome song",
             "An awesome artist",
+            "An awesome album artist",
             "An awesome album",
             ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded,

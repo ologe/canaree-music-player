@@ -43,6 +43,7 @@
     <string name="category_sort_by">Sort by</string>
     <string name="category_sort_by_title">Title</string>
     <string name="category_sort_by_artist">Artist</string>
+    <string name="category_sort_by_album_artist">Album artist</string>
     <string name="category_sort_by_album">Album</string>
     <string name="category_sort_by_duration">Duration</string>
     <string name="category_sort_by_date">Date</string>

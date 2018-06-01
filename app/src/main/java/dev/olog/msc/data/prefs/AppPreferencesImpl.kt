@@ -34,6 +34,8 @@ class AppPreferencesImpl @Inject constructor(
         private const val ALL_SONGS_SORT_ARRANGING = "$TAG.ALL_SONGS_SORT_ARRANGING"
         private const val ALL_ALBUMS_SORT_ORDER = "$TAG.ALL_ALBUMS_SORT_ORDER"
         private const val ALL_ALBUMS_SORT_ARRANGING = "$TAG.ALL_ALBUMS_SORT_ARRANGING"
+        private const val ALL_ARTISTS_SORT_ORDER = "$TAG.ALL_ARTISTS_SORT_ORDER"
+        private const val ALL_ARTISTS_SORT_ARRANGING = "$TAG.ALL_ARTISTS_SORT_ARRANGING"
 
         private const val DETAIL_SORT_FOLDER_ORDER = "$TAG.DETAIL_SORT_FOLDER_ORDER"
         private const val DETAIL_SORT_PLAYLIST_ORDER = "$TAG.DETAIL_SORT_PLAYLIST_ORDER"
@@ -338,6 +340,12 @@ class AppPreferencesImpl @Inject constructor(
         return LibrarySortType(SortType.values()[sort], SortArranging.values()[arranging])
     }
 
+    override fun getAllArtistsSortOrder(): LibrarySortType {
+        val sort = preferences.getInt(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal)
+        val arranging = preferences.getInt(ALL_ARTISTS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal)
+        return LibrarySortType(SortType.values()[sort], SortArranging.values()[arranging])
+    }
+
     override fun observeAllTracksSortOrder(): Observable<LibrarySortType> {
         return Observables.combineLatest(
                 rxPreferences.getInteger(ALL_SONGS_SORT_ORDER, SortType.TITLE.ordinal).asObservable(),
@@ -350,6 +358,14 @@ class AppPreferencesImpl @Inject constructor(
         return Observables.combineLatest(
                 rxPreferences.getInteger(ALL_ALBUMS_SORT_ORDER, SortType.TITLE.ordinal).asObservable(),
                 rxPreferences.getInteger(ALL_ALBUMS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal).asObservable(), //ascending default
+                { sort, arranging -> LibrarySortType(SortType.values()[sort], SortArranging.values()[arranging]) }
+        )
+    }
+
+    override fun observeAllArtistsSortOrder(): Observable<LibrarySortType> {
+        return Observables.combineLatest(
+                rxPreferences.getInteger(ALL_ARTISTS_SORT_ORDER, SortType.ARTIST.ordinal).asObservable(),
+                rxPreferences.getInteger(ALL_ARTISTS_SORT_ARRANGING, SortArranging.ASCENDING.ordinal).asObservable(), //ascending default
                 { sort, arranging -> LibrarySortType(SortType.values()[sort], SortArranging.values()[arranging]) }
         )
     }

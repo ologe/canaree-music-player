@@ -31,6 +31,8 @@ class EditItemPresenter @Inject constructor(
     }
 
     fun updateSingle(info: UpdateSongInfo): Completable {
+        val albumArtist = if (info.albumArtist.isBlank()) info.artist else info.albumArtist
+
         return updateTrackUseCase.execute(UpdateTrackUseCase.Data(
                 info.originalSong.id,
                 info.originalSong.path,
@@ -38,7 +40,7 @@ class EditItemPresenter @Inject constructor(
                 mapOf(
                         FieldKey.TITLE to info.title,
                         FieldKey.ARTIST to info.artist,
-                        FieldKey.ALBUM_ARTIST to info.artist,
+                        FieldKey.ALBUM_ARTIST to albumArtist,
                         FieldKey.ALBUM to info.album,
                         FieldKey.GENRE to info.genre,
                         FieldKey.YEAR to info.year,
@@ -49,13 +51,14 @@ class EditItemPresenter @Inject constructor(
     }
 
     fun updateAlbum(info: UpdateAlbumInfo): Completable {
+        val albumArtist = if (info.albumArtist.isBlank()) info.artist else info.albumArtist
         return updateMultipleTracksUseCase.execute(UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
                 info.image,
                 mapOf(
                         FieldKey.ALBUM to info.title,
                         FieldKey.ARTIST to info.artist,
-                        FieldKey.ALBUM_ARTIST to info.artist,
+                        FieldKey.ALBUM_ARTIST to albumArtist,
                         FieldKey.GENRE to info.genre,
                         FieldKey.YEAR to info.year
                 )
@@ -64,12 +67,13 @@ class EditItemPresenter @Inject constructor(
 
 
     fun updateArtist(info: UpdateArtistInfo): Completable {
+        val albumArtist = if (info.albumArtist.isBlank()) info.name else info.albumArtist
         return updateMultipleTracksUseCase.execute(UpdateMultipleTracksUseCase.Data(
                 info.mediaId,
                 info.image,
                 mapOf(
                         FieldKey.ARTIST to info.name,
-                        FieldKey.ALBUM_ARTIST to info.name
+                        FieldKey.ALBUM_ARTIST to albumArtist
                 )
         ))
     }

@@ -4,6 +4,7 @@ data class DisplayableSong(
         val id: Long,
         val title: String,
         val artist: String,
+        val albumArtist: String,
         val album: String,
         val genre: String,
         val year: String,

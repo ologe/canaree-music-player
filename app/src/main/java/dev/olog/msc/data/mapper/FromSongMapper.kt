@@ -26,6 +26,7 @@ fun Song.toAlbum(songCount: Int) : Album {
             this.artistId,
             this.album,
             this.artist,
+            this.albumArtist,
             ImagesFolderUtils.forAlbum(this.albumId),
             songCount
     )
@@ -35,6 +36,7 @@ fun Song.toArtist(songCount: Int, albumsCount: Int) : Artist {
     return Artist(
             this.artistId,
             this.artist,
+            this.albumArtist,
             songCount,
             albumsCount,
             ""
@@ -45,6 +47,7 @@ fun Song.toFakeArtist(songCount: Int, albumsCount: Int) : Artist {
     return Artist(
             this.artistId,
             this.artist,
+            this.albumArtist,
             songCount,
             albumsCount,
             getFakeImage(this.artistId)

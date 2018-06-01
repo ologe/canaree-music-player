@@ -94,7 +94,7 @@ class SongRepository @Inject constructor(
             return (0 until 50)
                     .map { Song(it.toLong(), it.toLong(), it.toLong(),
                             "An awesome title", "An awesome artist",
-                            "An awesome album",
+                            "An awesome album artist", "An awesome album",
                             "", (it * 1000000).toLong(), System.currentTimeMillis(),
                             "storage/emulated/folder", "folder", -1, -1) }
         }

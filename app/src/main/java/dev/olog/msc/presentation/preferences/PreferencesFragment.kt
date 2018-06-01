@@ -1,14 +1,11 @@
 package dev.olog.msc.presentation.preferences
 
 import android.app.Activity
-import android.app.UiModeManager
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v14.preference.SwitchPreference
-import android.support.v7.app.AppCompatDelegate
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.view.View
@@ -38,7 +35,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var deleteCache : Preference
     private lateinit var lastFmCredentials: Preference
     private lateinit var autoCreateImages: SwitchPreference
-//    private lateinit var dayNightMode: SwitchPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -49,7 +45,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
         lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key)) as SwitchPreference
-//        dayNightMode = preferenceScreen.findPreference(getString(R.string.prefs_day_night_key)) as SwitchPreference
     }
 
     private var needsToRecreate = false
@@ -83,9 +78,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             autoCreateImages.isEnabled = false
             autoCreateImages.summaryOff = getString(R.string.prefs_auto_create_images_summary_low_memory)
         }
-
-        val isNightAuto = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_AUTO
-//        dayNightMode.isChecked = isNightAuto
     }
 
     override fun onResume() {
@@ -115,17 +107,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             true
         }
-//        dayNightMode.setOnPreferenceChangeListener { _, newValue ->
-//            val enable = newValue as Boolean
-//            AppCompatDelegate.setDefaultNightMode(if (enable) AppCompatDelegate.MODE_NIGHT_AUTO
-//                else AppCompatDelegate.MODE_NIGHT_NO)
-//            requestMainActivityToRecreate()
-//            act.finish()
-//            act.startActivity(Intent(act, act::class.java),
-//                    bundleOf(PreferencesActivity.EXTRA_NEED_TO_RECREATE to needsToRecreate)
-//            )
-//            true
-//        }
     }
 
     override fun onPause() {
@@ -135,7 +116,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         blacklist.onPreferenceClickListener = null
         deleteCache.onPreferenceClickListener = null
         lastFmCredentials.onPreferenceClickListener = null
-//        dayNightMode.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {

@@ -27,6 +27,7 @@ class MainPopupDialog @Inject constructor(
         val layoutId = when (category){
             MediaIdCategory.ALBUMS -> R.menu.main_albums
             MediaIdCategory.SONGS -> R.menu.main_songs
+            MediaIdCategory.ARTISTS -> R.menu.main_artists
             else -> R.menu.main
         }
         popup.inflate(layoutId)
@@ -34,6 +35,7 @@ class MainPopupDialog @Inject constructor(
         val sortModel = when(category){
             MediaIdCategory.ALBUMS -> initializeAlbumSort(popup.menu)
             MediaIdCategory.SONGS -> initializeTracksSort(popup.menu)
+            MediaIdCategory.ARTISTS -> initializeArtistSort(popup.menu)
             else -> null
         }
 //        popup.addRotateAnimation(anchor)
@@ -70,6 +72,7 @@ class MainPopupDialog @Inject constructor(
             SortType.TITLE -> R.id.by_title
             SortType.ALBUM -> R.id.by_album
             SortType.ARTIST -> R.id.by_artist
+            SortType.ALBUM_ARTIST -> R.id.by_album_artist
             SortType.DURATION -> R.id.by_duration
             SortType.RECENTLY_ADDED ->R.id.by_date
             else -> throw IllegalStateException("invalid for tracks ${sort.type}")
@@ -86,6 +89,21 @@ class MainPopupDialog @Inject constructor(
         val item = when (sort.type){
             SortType.TITLE -> R.id.by_title
             SortType.ARTIST -> R.id.by_artist
+            SortType.ALBUM_ARTIST -> R.id.by_album_artist
+            else -> throw IllegalStateException("invalid for albums ${sort.type}")
+        }
+        val ascending = sort.arranging == SortArranging.ASCENDING
+        menu.findItem(item).isChecked = true
+        menu.findItem(R.id.arranging).isChecked = ascending
+
+        return sort
+    }
+
+    private fun initializeArtistSort(menu: Menu): LibrarySortType {
+        val sort = gateway.getAllArtistsSortOrder()
+        val item = when (sort.type){
+            SortType.ARTIST -> R.id.by_artist
+            SortType.ALBUM_ARTIST -> R.id.by_album_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
         val ascending = sort.arranging == SortArranging.ASCENDING

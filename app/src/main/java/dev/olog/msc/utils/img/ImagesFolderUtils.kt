@@ -47,7 +47,8 @@ object ImagesFolderUtils {
         if (AppConstants.useFakeData){
             return getFakeImage(albumId)
         }
-        return ContentUris.withAppendedId(COVER_URI, albumId).toString()
+        return Uri.withAppendedPath(COVER_URI, albumId.toString()).toString()
+//        return ContentUris.withAppendedId(COVER_URI, albumId).toString()
     }
     private fun getFakeImage(albumId: Long): String {
         val safe = clamp(albumId.rem(10), 0, 10)

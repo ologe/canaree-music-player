@@ -1,6 +1,7 @@
 package dev.olog.msc.glide
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.webkit.URLUtil
 import androidx.core.net.toUri

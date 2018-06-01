@@ -86,6 +86,7 @@ data class UpdateSongInfo(
         val originalSong: Song,
         val title: String,
         val artist: String,
+        val albumArtist: String,
         val album: String,
         val genre: String,
         val year: String,
@@ -98,6 +99,7 @@ data class UpdateAlbumInfo(
         val mediaId: MediaId,
         val title: String,
         val artist: String,
+        val albumArtist: String,
         val genre: String,
         val year: String,
         val image: String?
@@ -106,5 +108,6 @@ data class UpdateAlbumInfo(
 data class UpdateArtistInfo(
         val mediaId: MediaId,
         val name: String,
+        val albumArtist: String,
         val image: String?
 )

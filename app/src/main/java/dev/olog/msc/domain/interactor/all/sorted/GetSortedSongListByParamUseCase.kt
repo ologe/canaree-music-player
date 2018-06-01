@@ -44,6 +44,7 @@ class GetSortedSongListByParamUseCase @Inject constructor(
             SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }
             SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o1.artist, o2.artist) }
             SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o1.album, o2.album) }
+            SortType.ALBUM_ARTIST -> Comparator { o1, o2 -> collator.compare(o1.albumArtist, o2.albumArtist) }
             SortType.DURATION -> compareBy { it.duration }
             SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
             SortType.TRACK_NUMBER -> ComparatorUtils.getAscendingTrackNumberComparator()
@@ -56,6 +57,7 @@ class GetSortedSongListByParamUseCase @Inject constructor(
             SortType.TITLE -> Comparator { o1, o2 -> collator.compare(o2.title, o1.title) }
             SortType.ARTIST -> Comparator { o1, o2 -> collator.compare(o2.artist, o1.artist) }
             SortType.ALBUM -> Comparator { o1, o2 -> collator.compare(o2.album, o1.album) }
+            SortType.ALBUM_ARTIST -> Comparator { o1, o2 -> collator.compare(o2.albumArtist, o1.albumArtist) }
             SortType.DURATION -> compareByDescending { it.duration }
             SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
             SortType.TRACK_NUMBER -> ComparatorUtils.getDescendingTrackNumberComparator()

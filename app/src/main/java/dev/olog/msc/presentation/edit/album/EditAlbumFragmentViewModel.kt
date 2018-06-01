@@ -72,7 +72,8 @@ class EditAlbumFragmentViewModel(
         return DisplayableAlbum(
                 this.id,
                 this.title,
-                DisplayableItem.adjustArtist(this.artist),
+                tag.get(FieldKey.ARTIST),
+                tag.get(FieldKey.ALBUM_ARTIST),
                 tag.get(FieldKey.GENRE),
                 tag.get(FieldKey.YEAR),
                 this.image

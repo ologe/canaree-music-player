@@ -100,7 +100,8 @@ class EditTrackFragmentViewModel(
         return DisplayableSong(
                 this.id,
                 this.title,
-                artist,
+                tag.get(FieldKey.ARTIST),
+                tag.get(FieldKey.ALBUM_ARTIST),
                 album,
                 tag.get(FieldKey.GENRE),
                 tag.get(FieldKey.YEAR),

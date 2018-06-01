@@ -60,6 +60,7 @@ class EditArtistFragmentViewModel(
         return DisplayableArtist(
                 this.id,
                 this.name,
+                this.albumArtist,
                 this.image
         )
     }
