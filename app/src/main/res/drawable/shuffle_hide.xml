@@ -1,0 +1,56 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group android:name="upper_arrow">
+                <clip-path
+                    android:name="upper_arrow_mask"
+                    android:pathData="M 2 6 L 7 2 L 23 18 L 17 23 Z"/>
+                <path
+                    android:name="upper_arrow_path"
+                    android:pathData="M 10.59 9.17 L 6.12 4.7 C 5.73 4.31 5.1 4.31 4.71 4.7 C 4.32 5.09 4.32 5.72 4.71 6.11 L 9.17 10.57 L 10.59 9.17 Z M 14.83 13.41 L 13.42 14.82 L 16.55 17.95 L 15.35 19.15 C 15.04 19.46 15.26 20 15.71 20 L 19.5 20 C 19.78 20 20 19.78 20 19.5 L 20 15.71 C 20 15.26 19.46 15.04 19.15 15.36 L 17.96 16.55 L 14.83 13.41 Z"
+                    android:fillColor="#000000"/>
+                <clip-path
+                    android:name="mask_1"
+                    android:pathData="M 18 23 L 22 17 L 23 18 L 19 24 Z"/>
+            </group>
+            <group android:name="full_arrow">
+                <clip-path
+                    android:name="mask"
+                    android:pathData="M 6 22 L 2 17 L 18 1 L 23 6 Z"/>
+                <path
+                    android:name="full_arrow_path"
+                    android:pathData="M 15.35 4.85 L 16.54 6.04 L 4.7 17.88 C 4.31 18.27 4.31 18.9 4.7 19.29 C 5.09 19.68 5.72 19.68 6.11 19.29 L 17.96 7.46 L 19.15 8.65 C 19.46 8.96 20 8.74 20 8.29 L 20 4.5 C 20 4.22 19.78 4 19.5 4 L 15.71 4 C 15.26 4 15.04 4.54 15.35 4.85 Z"
+                    android:fillColor="#000000"/>
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="upper_arrow_mask">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="pathData"
+                android:duration="150"
+                android:valueFrom="M 2 6 L 7 2 L 23 18 L 17 23 Z"
+                android:valueTo="M 18 23 L 22 17 L 23 18 L 19 24 Z"
+                android:valueType="pathType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+    <target android:name="mask">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="pathData"
+                android:duration="150"
+                android:valueFrom="M 6 22 L 2 17 L 18 1 L 23 6 Z"
+                android:valueTo="M 23 6 L 18 1 L 19 0 L 24 5 Z"
+                android:valueType="pathType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+</animated-vector>
