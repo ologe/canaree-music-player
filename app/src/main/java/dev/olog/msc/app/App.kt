@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
+import android.support.v4.os.BuildCompat
 import android.support.v7.preference.PreferenceManager
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
