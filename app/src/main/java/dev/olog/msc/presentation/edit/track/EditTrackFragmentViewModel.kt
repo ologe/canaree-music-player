@@ -40,8 +40,8 @@ class EditTrackFragmentViewModel(
     }
 
     fun updateImage(image: String){
-        val oldValue = displayedSong.value!!
-        val newValue = oldValue.copy(image = image)
+        val oldValue = displayedSong.value
+        val newValue = oldValue?.copy(image = image)
         displayedSong.postValue(newValue)
     }
 
