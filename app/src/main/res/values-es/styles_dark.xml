@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--dark theme-->
+    <style name="AppThemeDark" parent="BaseDarkTheme">
+        <item name="android:windowBackground">@color/theme_dark_background</item>
+        <item name="android:colorPrimary">@color/theme_dark_toolbar</item>
+        <item name="android:colorPrimaryDark">@color/theme_dark_status_bar</item>
+
+        <!--text color-->
+        <item name="android:textColorSecondaryInverse">@color/accent_secondary</item>
+        <!--miniplayer-->
+        <item name="android:textColorTertiaryInverse">@color/theme_dark_toolbar</item>
+
+        <item name="imageButtonStyle">@style/ImageButton</item>
+        <item name="seekBarStyle">@style/SeekBar</item>
+    </style>
+
+    <!--black theme-->
+    <style name="AppThemeBlack" parent="AppThemeDark">
+        <item name="android:windowBackground">@color/theme_black_background</item>
+        <item name="android:colorPrimary">@color/theme_black_background</item>
+        <item name="android:colorPrimaryDark">@color/theme_black_background</item>
+        <item name="android:textColorTertiaryInverse">@color/theme_black_background</item>
+    </style>
+
+    <style name="ImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">#F5F5F5</item>
+    </style>
+
+    <style name="SeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressTint">#F5F5F5</item>
+        <item name="android:thumbTint">#F5F5F5</item>
+        <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
+    </style>
+
+</resources>
