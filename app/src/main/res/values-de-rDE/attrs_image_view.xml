@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AnimatedImageView">
+        <attr name="avd" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ForegroundImageView">
+        <attr name="android:foreground"/>
+    </declare-styleable>
+
+    <declare-styleable name="ParallaxView">
+        <attr name="parallax" format="float"/>
+    </declare-styleable>
+
+    <declare-styleable name="RoundedCornersImageView">
+        <attr name="cornerRadius" format="integer"/>
+    </declare-styleable>
+
+</resources>
