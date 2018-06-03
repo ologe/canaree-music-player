@@ -7,4 +7,5 @@
   <string name="tutorial_lyrics">Mostrar letra guardada</string>
   <string name="tutorial_add_lyrics">Adicionar ou mudar letra</string>
   <string name="tutorial_search_lyrics">Procurar letra na internet</string>
+  <string name="tutorial_adjust_sync">Ajustar a sincronização (apenas para letras de músicas sincronizadas)</string>
 </resources>
