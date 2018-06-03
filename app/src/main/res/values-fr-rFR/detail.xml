@@ -7,32 +7,4 @@
   <dimen name="detail_album_margin_horizontal">8dp</dimen>
   <dimen name="detail_header_margin_start">16dp</dimen>
   <dimen name="detail_header_margin_end">8dp</dimen>
-  <string name="detail_most_played">@string/common_most_played</string>
-  <string name="detail_recently_added">@string/common_recently_added</string>
-  <string name="detail_albums">@string/common_albums</string>
-  <string name="detail_tracks">@string/common_tracks</string>
-  <string-array name="detail_album_header">
-    <item>Other folders</item>
-    <item>Other playlists</item>
-    <item></item>
-    <item></item>
-    <item>@string/common_albums</item>
-    <item>Other genres</item>
-  </string-array>
-  <string name="detail_see_all">see all</string>
-  <string name="detail_more_albums_by">More by %s</string>
-  <string name="detail_related_artists">@string/common_related_artists</string>
-  <string name="detail_no_tracks">@string/common_no_tracks</string>
-  <plurals name="detail_xx_new_songs">
-    <item quantity="one">%d new track</item>
-    <item quantity="other">%d new tracks</item>
-  </plurals>
-  <string name="detail_sort_by">Sort by</string>
-  <string name="sort_by_title">@string/common_title</string>
-  <string name="sort_by_artist">@string/common_artist</string>
-  <string name="sort_by_album">@string/common_album</string>
-  <string name="sort_by_duration">@string/common_duration</string>
-  <string name="sort_by_recently_added">@string/common_recently_added</string>
-  <string name="sort_by_custom">@string/common_custom</string>
-  <string name="sort_by_track">@string/common_track_number</string>
 </resources>
