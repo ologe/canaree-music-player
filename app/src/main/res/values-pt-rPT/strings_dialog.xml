@@ -24,10 +24,12 @@
   <string name="popup_negative_cancel">Cancelar</string>
   <string name="popup_negative_no">Não</string>
   <string name="popup_negative_back">Para trás</string>
+  <string name="popup_positive_ok">OK</string>
   <string name="popup_positive_save">Guardar</string>
   <string name="popup_positive_create">Criar</string>
   <string name="popup_positive_delete">Apagar</string>
   <string name="popup_positive_remove">Remover</string>
+  <string name="popup_neutral_reset">Repor</string>
   <string name="popup_error_message">Alguma coisa correu mal</string>
   <string name="share_song_x"><![CDATA[Partilhar <b><font color="black">%1$s</b></font>…]]></string>
   <string name="popup_permission">Permissão</string>
