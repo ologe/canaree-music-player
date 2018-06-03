@@ -52,4 +52,7 @@
   <dimen name="text_size_normal_item">36dp</dimen>
   <dimen name="text_size_selected_item">52dp</dimen>
   <dimen name="text_size_label">20dp</dimen>
+  <string name="scroll_hms_picker_stop">Parar</string>
+  <string name="sleep_timer_set">Definir temporizador</string>
+  <string name="sleep_timer_can_not_be_set">Tempo tem de ser mais do que 0 segundos</string>
 </resources>
