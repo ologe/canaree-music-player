@@ -90,16 +90,16 @@ class TabFragment : BaseFragment() {
 
         view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS, true)
 
-        if (category == MediaIdCategory.ALBUMS){
-            viewModel.observeAlbumSpanSize(category)
-                    .asLiveData()
-                    .subscribe(this, { (one, two) ->
-                        val spanSizeLookup = gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup
-                        spanSizeLookup.updateSpan(one, two)
-                        gridLayoutManager.spanSizeLookup = spanSizeLookup
-                        view.list.invalidate()
-                    })
-        }
+//        if (category == MediaIdCategory.ALBUMS){
+//            viewModel.observeAlbumSpanSize(category)
+//                    .asLiveData()
+//                    .subscribe(this, { (one, two) ->
+//                        val spanSizeLookup = gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup
+//                        spanSizeLookup.updateSpan(one, two)
+//                        gridLayoutManager.spanSizeLookup = spanSizeLookup
+//                        view.list.invalidate()
+//                    })
+//        }
     }
 
     override fun onResume() {

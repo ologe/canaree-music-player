@@ -22,8 +22,6 @@ android {
 
         renderscriptTargetApi rootProject.ext.compileSdkVersion
         renderscriptSupportModeEnabled true
-
-//        resConfigs "en", "it"
     }
 
     splits {
@@ -51,8 +49,8 @@ android {
             minifyEnabled true
             useProguard true
             multiDexEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "true")
             debuggable false
         }
@@ -60,11 +58,11 @@ android {
         debug {
             minifyEnabled false
             useProguard false
-            multiDexEnabled true
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "false")
             applicationIdSuffix ".debug"
-//            debuggable false
+            debuggable false
         }
     }
 

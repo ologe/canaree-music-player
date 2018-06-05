@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="playing_queue">Coda di riproduzione</string>
-
-    <string name="playing_queue_playing_from_x">Riproduzione da %s:</string>
-    <string name="playing_queue_playing_from_all_tracks">Riproduzione da:</string>
-
-</resources>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="equalizer_not_found">Equalizzatore non trovato</string>
-    <string name="equalizer_error">Spiacente, per qualche motivo l\'equalizzatore non funziona</string>
-
-</resources>

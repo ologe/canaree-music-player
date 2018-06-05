@@ -52,7 +52,7 @@
 
     <!-- crossfade -->
     <string name="prefs_cross_fade_title">Crossfade</string>
-    <string name="prefs_cross_fade_summary">"Permite crossfade entre músicas</string>
+    <string name="prefs_cross_fade_summary">Permite crossfade entre músicas</string>
 
     <!-- gapless -->
     <string name="prefs_gapless_title">Reprodução sem intervalo</string>

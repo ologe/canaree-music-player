@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="remove_duplicates_message">
-        <![CDATA[Rimuovere tutti i duplicati dalla playlist <b>%1$s</b>?]]>
-    </string>
-    <string name="remove_duplicates_success">Duplicati rimossi dalla playlist %1$s</string>
-
-</resources>
