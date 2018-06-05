@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="mini_player_margin_start">16dp</dimen>
+    <dimen name="mini_player_margin_end">0dp</dimen>
+
+    <style name="MiniPlayerText">
+        <item name="android:gravity">bottom</item>
+    </style>
+
+    <style name="MiniPlayerSubText">
+        <item name="android:gravity">top</item>
+    </style>
+
+    <style name="SizedProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:translationY">-7dp</item>
+    </style>
+
+</resources>

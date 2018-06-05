@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="theme_dark_background">#131313</color>
+    <color name="theme_dark_popup_background">#323232</color>
+    <color name="theme_dark_text_primary">#fefefe</color>
+    <color name="theme_dark_text_secondary">#aaaaaa</color>
+
+    <color name="theme_dark_status_bar">#282828</color>
+    <color name="theme_dark_toolbar">#282828</color>
+
+    <color name="theme_dark_seek_bar_tint">#fefefe</color>
+    <color name="theme_dark_seek_bar_secondary_tint">#aaaaaa</color>
+
+</resources>
