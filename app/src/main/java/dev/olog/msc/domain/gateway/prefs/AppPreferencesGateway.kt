@@ -38,6 +38,8 @@ interface AppPreferencesGateway : Sorting {
     fun getSyncAdjustment(): Long
     fun setSyncAdjustment(value: Long)
 
+    fun observeAlbumSpanSize(): Observable<GridSpanSize>
+    fun setAlbumSpanSize(spanSize: Int)
 }
 
 interface Sorting {
@@ -52,6 +54,7 @@ interface Sorting {
 
     fun setAllTracksSortOrder(sortType: LibrarySortType)
     fun setAllAlbumsSortOrder(sortType: LibrarySortType)
+    fun setAllArtistsSortOrder(sortType: LibrarySortType)
 
     fun getFolderSortOrder() : Observable<SortType>
     fun getPlaylistSortOrder() : Observable<SortType>
@@ -67,5 +70,4 @@ interface Sorting {
 
     fun getSortArranging(): Observable<SortArranging>
     fun toggleSortArranging(): Completable
-
 }

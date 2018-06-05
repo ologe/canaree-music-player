@@ -8,5 +8,6 @@ abstract class AbsSpanSizeLookup : GridLayoutManager.SpanSizeLookup() {
 
     fun getSpanSize() = spanCount
 
+    abstract fun updateSpan(oneHanded: Int, twoHanded: Int)
 
 }

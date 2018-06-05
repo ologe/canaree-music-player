@@ -8,11 +8,14 @@ import androidx.core.text.isDigitsOnly
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.library.tab.span.size.lookup.AbsSpanSizeLookup
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
+import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
@@ -71,7 +74,8 @@ class TabFragment : BaseFragment() {
 
     @CallSuper
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = layoutManager.get()
+        val gridLayoutManager = layoutManager.get()
+        view.list.layoutManager = gridLayoutManager
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
 
@@ -85,6 +89,17 @@ class TabFragment : BaseFragment() {
         view.sidebar.scrollableLayoutId = scrollableLayoutId
 
         view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS, true)
+
+        if (category == MediaIdCategory.ALBUMS){
+            viewModel.observeAlbumSpanSize(category)
+                    .asLiveData()
+                    .subscribe(this, { (one, two) ->
+                        val spanSizeLookup = gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup
+                        spanSizeLookup.updateSpan(one, two)
+                        gridLayoutManager.spanSizeLookup = spanSizeLookup
+                        view.list.invalidate()
+                    })
+        }
     }
 
     override fun onResume() {

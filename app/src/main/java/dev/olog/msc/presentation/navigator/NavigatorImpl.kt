@@ -192,9 +192,6 @@ class NavigatorImpl @Inject internal constructor(
                 }
                 else -> throw IllegalArgumentException("invalid media id $mediaId")
             }
-
-
-
         }
     }
 

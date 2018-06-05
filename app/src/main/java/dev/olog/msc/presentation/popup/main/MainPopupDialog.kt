@@ -40,6 +40,8 @@ class MainPopupDialog @Inject constructor(
         }
 //        popup.addRotateAnimation(anchor)
 
+        generateGridSpanCount(popup.menu)
+
         if (BuildConfig.DEBUG){
             popup.menu.add(Menu.NONE, -123, Menu.NONE, "configuration")
         }
@@ -52,11 +54,10 @@ class MainPopupDialog @Inject constructor(
                 R.id.sleepTimer -> navigator.toSleepTimer()
                 -123 -> navigator.toDebugConfiguration()
                 else -> {
-                    if (category == MediaIdCategory.ALBUMS){
-                        handleAllAlbumsSorting(it, sortModel!!)
-                    }
-                    if (category == MediaIdCategory.SONGS) {
-                        handleAllSongsSorting(it, sortModel!!)
+                    when (category){
+                        MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
+                        MediaIdCategory.SONGS -> handleAllSongsSorting(it, sortModel!!)
+                        MediaIdCategory.ARTISTS -> handleAllArtistsSorting(it, sortModel!!)
                     }
                 }
             }
@@ -66,13 +67,16 @@ class MainPopupDialog @Inject constructor(
         popup.show()
     }
 
+    private fun generateGridSpanCount(menu: Menu){
+
+    }
+
     private fun initializeTracksSort(menu: Menu): LibrarySortType {
         val sort = gateway.getAllTracksSortOrder()
         val item = when (sort.type){
             SortType.TITLE -> R.id.by_title
             SortType.ALBUM -> R.id.by_album
             SortType.ARTIST -> R.id.by_artist
-            SortType.ALBUM_ARTIST -> R.id.by_album_artist
             SortType.DURATION -> R.id.by_duration
             SortType.RECENTLY_ADDED ->R.id.by_date
             else -> throw IllegalStateException("invalid for tracks ${sort.type}")
@@ -89,7 +93,6 @@ class MainPopupDialog @Inject constructor(
         val item = when (sort.type){
             SortType.TITLE -> R.id.by_title
             SortType.ARTIST -> R.id.by_artist
-            SortType.ALBUM_ARTIST -> R.id.by_album_artist
             else -> throw IllegalStateException("invalid for albums ${sort.type}")
         }
         val ascending = sort.arranging == SortArranging.ASCENDING
@@ -154,6 +157,23 @@ class MainPopupDialog @Inject constructor(
         gateway.setAllAlbumsSortOrder(model)
     }
 
+    private fun handleAllArtistsSorting(menuItem: MenuItem, sort: LibrarySortType){
+        var model = sort
 
+        model = if (menuItem.itemId == R.id.arranging){
+            val isAscending = !menuItem.isChecked
+            val newArranging = if (isAscending) SortArranging.ASCENDING else SortArranging.DESCENDING
+            model.copy(arranging = newArranging)
+        } else {
+            val newSortType = when (menuItem.itemId){
+                R.id.by_artist -> SortType.ARTIST
+                R.id.by_album_artist -> SortType.ALBUM_ARTIST
+                else -> null
+            } ?: return
+            model.copy(type = newSortType)
+        }
+
+        gateway.setAllArtistsSortOrder(model)
+    }
 
 }

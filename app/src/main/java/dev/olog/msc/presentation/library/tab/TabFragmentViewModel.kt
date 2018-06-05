@@ -3,8 +3,10 @@ package dev.olog.msc.presentation.library.tab
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dagger.Lazy
+import dev.olog.msc.domain.entity.GridSpanSize
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -17,7 +19,8 @@ import io.reactivex.rxkotlin.addTo
 class TabFragmentViewModel constructor(
         private val data: Lazy<Map<MediaIdCategory, Observable<List<DisplayableItem>>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
-        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase
+        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
+        private val appPreferencesUseCase: AppPreferencesUseCase
 
 ) : ViewModel() {
 
@@ -47,6 +50,10 @@ class TabFragmentViewModel constructor(
 
     override fun onCleared() {
         subscriptions.clear()
+    }
+
+    fun observeAlbumSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {
+        return appPreferencesUseCase.observeSpanSize(category)
     }
 
 }

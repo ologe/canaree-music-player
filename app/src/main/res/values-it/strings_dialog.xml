@@ -44,8 +44,4 @@
         Per poter cambiare la suoneria l\'app deve disporre del seguente permesso
     </string>
 
-    <string name="popup_view_as">Visualizza come</string>
-    <string name="popup_view_as_list">Lista</string>
-    <string name="popup_view_as_grid">Griglia</string>
-
 </resources>

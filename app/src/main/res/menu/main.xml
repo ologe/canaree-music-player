@@ -13,23 +13,16 @@
     <item android:id="@+id/about"
         android:title="@string/popup_about"/>
 
-    <!--<item android:id="@+id/view_as"-->
-        <!--android:title="@string/popup_view_as">-->
+    <!--<group>-->
 
-        <!--<menu>-->
+        <!--<item-->
+            <!--android:id="@+id/gridSpan"-->
+            <!--android:title="@string/popup_grid_size">-->
 
-            <!--<group android:checkableBehavior="single">-->
+            <!--<menu/>-->
 
-                <!--<item android:id="@+id/as_list"-->
-                    <!--android:title="@string/popup_view_as_list" />-->
+        <!--</item>-->
 
-                <!--<item android:id="@+id/as_grid"-->
-                    <!--android:title="@string/popup_view_as_grid" />-->
-
-            <!--</group>-->
-
-        <!--</menu>-->
-
-    <!--</item>-->
+    <!--</group>-->
 
 </menu>

@@ -1,9 +1,12 @@
 package dev.olog.msc.domain.interactor.prefs
 
+import dev.olog.msc.domain.entity.GridSpanSize
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -40,6 +43,7 @@ class AppPreferencesUseCase @Inject constructor(
     fun observePlayerControlsVisibility(): Observable<Boolean> {
         return gateway.observePlayerControlsVisibility()
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun setDefault(): Completable {
@@ -48,6 +52,8 @@ class AppPreferencesUseCase @Inject constructor(
 
     fun observeAutoCreateImages(): Observable<Boolean> {
         return gateway.observeAutoCreateImages()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getSyncAdjustment(): Long {
@@ -55,6 +61,22 @@ class AppPreferencesUseCase @Inject constructor(
     }
     fun setSyncAdjustment(value: Long) {
         gateway.setSyncAdjustment(value)
+    }
+
+    fun setAlbumSpanSize(category: MediaIdCategory, spanSize: Int){
+        when (category){
+            MediaIdCategory.ALBUMS -> gateway.setAlbumSpanSize(spanSize)
+        }
+
+    }
+
+    fun observeSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {
+        return when (category) {
+            MediaIdCategory.ALBUMS -> gateway.observeAlbumSpanSize()
+            else -> Observable.empty()
+
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
 }

@@ -46,8 +46,6 @@
         Please accept the following permission in order to change the ringtone
     </string>
 
-    <string name="popup_view_as">View as</string>
-    <string name="popup_view_as_list">List</string>
-    <string name="popup_view_as_grid">Grid</string>
+    <string name="popup_grid_size">Grid size</string>
 
 </resources>
