@@ -7,6 +7,7 @@ import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.graphics.drawable.Animatable2Compat
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
@@ -23,12 +24,18 @@ class RepeatButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
-    private val defaultSelectedColor: Int = getColor()
-    private var selectedColor: Int = defaultSelectedColor
+    private val defaultEnabledColor: Int
+    private var enabledColor: Int
     private var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_repeat)
+        defaultEnabledColor = if (AppTheme.isDarkTheme()){
+            ContextCompat.getColor(context, R.color.accent_secondary)
+        } else {
+            ContextCompat.getColor(context, R.color.accent)
+        }
+        enabledColor = defaultEnabledColor
     }
 
     fun cycle(state: Int){
@@ -43,10 +50,10 @@ class RepeatButton @JvmOverloads constructor(
     }
 
     fun updateSelectedColor(color: Int){
-        this.selectedColor = color
+        this.enabledColor = color
 
         if (repeatMode != PlaybackStateCompat.REPEAT_MODE_NONE){
-            setColorFilter(this.selectedColor)
+            setColorFilter(this.enabledColor)
         }
     }
 
@@ -57,12 +64,12 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun repeatOne(){
         alpha = 1f
-        animateAvd(selectedColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
+        animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show_one)
     }
 
     private fun repeatAll(){
         alpha = 1f
-        animateAvd(selectedColor, R.drawable.repeat_hide, R.drawable.repeat_show)
+        animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show)
     }
 
     private fun getColor(): Int {

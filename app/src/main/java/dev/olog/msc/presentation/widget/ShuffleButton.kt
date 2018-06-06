@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.graphics.drawable.Animatable2Compat
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
@@ -22,12 +23,18 @@ class ShuffleButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
-    private val defaultEnabledColor: Int = getColor()
-    private var enabledColor : Int = defaultEnabledColor
+    private val defaultEnabledColor: Int
+    private var enabledColor : Int
     private var shuffleMode = PlaybackStateCompat.SHUFFLE_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_shuffle)
+        defaultEnabledColor = if (AppTheme.isDarkTheme()){
+            ContextCompat.getColor(context, R.color.accent_secondary)
+        } else {
+            ContextCompat.getColor(context, R.color.accent)
+        }
+        enabledColor = defaultEnabledColor
     }
 
     fun cycle(state: Int){
