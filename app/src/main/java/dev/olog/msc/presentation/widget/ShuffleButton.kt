@@ -21,7 +21,7 @@ class ShuffleButton @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
-) : AppCompatImageButton(context, attrs) {
+) : AppCompatImageButton(context, attrs), DefaultTint {
 
     private val defaultEnabledColor: Int
     private var enabledColor : Int
@@ -35,6 +35,7 @@ class ShuffleButton @JvmOverloads constructor(
             ContextCompat.getColor(context, R.color.accent)
         }
         enabledColor = defaultEnabledColor
+        setColorFilter(getDefaultColor())
     }
 
     fun cycle(state: Int){
@@ -61,20 +62,8 @@ class ShuffleButton @JvmOverloads constructor(
     }
 
     private fun disable(){
-        val color = getColor()
+        val color = getDefaultColor()
         animateAvd(color)
-    }
-
-    private fun getColor(): Int{
-        return when {
-            context.isPortrait && AppTheme.isClean() -> 0xFF_929cb0.toInt()
-            AppTheme.isFullscreen() -> Color.WHITE
-            AppTheme.isDarkTheme() -> {
-                alpha = .7f
-                textColorSecondary()
-            }
-            else -> textColorTertiary()
-        }
     }
 
     private fun animateAvd(@ColorInt endColor: Int){

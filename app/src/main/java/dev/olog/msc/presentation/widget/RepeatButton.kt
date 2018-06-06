@@ -22,7 +22,7 @@ class RepeatButton @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
-) : AppCompatImageButton(context, attrs) {
+) : AppCompatImageButton(context, attrs), DefaultTint {
 
     private val defaultEnabledColor: Int
     private var enabledColor: Int
@@ -36,6 +36,7 @@ class RepeatButton @JvmOverloads constructor(
             ContextCompat.getColor(context, R.color.accent)
         }
         enabledColor = defaultEnabledColor
+        setColorFilter(getDefaultColor())
     }
 
     fun cycle(state: Int){
@@ -58,7 +59,7 @@ class RepeatButton @JvmOverloads constructor(
     }
 
     private fun repeatNone(){
-        val color = getColor()
+        val color = getDefaultColor()
         animateAvd(color, R.drawable.repeat_hide_one, R.drawable.repeat_show)
     }
 
@@ -70,18 +71,6 @@ class RepeatButton @JvmOverloads constructor(
     private fun repeatAll(){
         alpha = 1f
         animateAvd(enabledColor, R.drawable.repeat_hide, R.drawable.repeat_show)
-    }
-
-    private fun getColor(): Int {
-        return when {
-            context.isPortrait && AppTheme.isClean() -> 0xFF_929cb0.toInt()
-            AppTheme.isFullscreen() -> Color.WHITE
-            AppTheme.isDarkTheme() -> {
-                alpha = .7f
-                textColorSecondary()
-            }
-            else -> textColorTertiary()
-        }
     }
 
     private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int){

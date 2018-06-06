@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import com.jakewharton.rxbinding2.view.RxView
@@ -28,9 +29,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.images.ColorUtil
-import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.msc.presentation.widget.animateBackgroundColor
-import dev.olog.msc.presentation.widget.animateTextColor
+import dev.olog.msc.presentation.widget.*
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
@@ -171,6 +170,10 @@ class PlayerFragmentAdapter @Inject constructor(
     private fun bindPlayerControls(view: View){
 
         val waveWrapper : AudioWaveViewWrapper? = view.findViewById(R.id.waveWrapper)
+
+        view.findViewById<AnimatedImageView>(R.id.next).setDefaultColor()
+        view.findViewById<AnimatedImageView>(R.id.previous).setDefaultColor()
+        view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).setDefaultColor()
 
         mediaProvider.onMetadataChanged()
                 .takeUntil(RxView.detaches(view))
@@ -350,7 +353,7 @@ class PlayerFragmentAdapter @Inject constructor(
         val duration = metadata.getDuration()
 
         var readableDuration = metadata.getDurationReadable()
-        if (!activity.isPortrait && AppTheme.isBigImage() || AppTheme.isDefault() || !AppTheme.isClean()){
+        if (AppTheme.isDefault()){
             readableDuration = "${TextUtils.MIDDLE_DOT_SPACED}$readableDuration"
         }
 

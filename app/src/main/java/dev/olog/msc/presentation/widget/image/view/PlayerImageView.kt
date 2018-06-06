@@ -79,7 +79,7 @@ class PlayerImageView @JvmOverloads constructor(
             val lightAlpha = .3f
 
             imageView.foreground = RippleUtils.create(palette, darkAlpha,
-                    lightAlpha, fallbackColor, false)
+                    lightAlpha, fallbackColor, true)
         }
 
     }

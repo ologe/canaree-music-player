@@ -14,9 +14,16 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
+        disableDayNight()
         setTheme(getActivityTheme())
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
+    }
+
+    private fun disableDayNight(){
+        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 
     @StyleRes
