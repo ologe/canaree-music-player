@@ -6,11 +6,13 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.DURATION
 import androidx.core.database.getLong
+import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.mapper.toFakeSong
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.data.mapper.toUneditedSong
+import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
@@ -62,6 +64,7 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS, SORT_ORDER, true
         ).mapToList { mapToSong(it) }
                 .map { removeBlacklisted(it) }
+                .map { adjustImages(it) }
                 .map { mockDataIfNeeded(it) }
                 .map { updateImages(it) }
                 .onErrorReturn { listOf() }
@@ -99,6 +102,11 @@ class SongRepository @Inject constructor(
                             "storage/emulated/folder", "folder", -1, -1) }
         }
         return original
+    }
+
+    private fun adjustImages(original: List<Song>): List<Song> {
+        val images = CommonQuery.searchForImages()
+        return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), "")) }
     }
 
     private fun removeBlacklisted(original: List<Song>): List<Song>{

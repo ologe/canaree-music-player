@@ -24,7 +24,7 @@ fun Context.getBitmapAsync(
 
     val placeholder = CoverUtils.getGradient(this, model.mediaId)
 
-    val onlyFromCache = !ImageUtils.isRealImage(this, model.image)
+    val onlyFromCache = !ImageUtils.isRealImage(model.image)
     val load : Any = if (!onlyFromCache) model.image else model
 
     val error = GlideApp.with(this)
@@ -61,7 +61,7 @@ fun Context.getBitmap(
 
     val placeholder = CoverUtils.getGradient(this, model.mediaId)
 
-    val onlyFromCache = !ImageUtils.isRealImage(this, model.image)
+    val onlyFromCache = !ImageUtils.isRealImage(model.image)
     val load : Any = if (!onlyFromCache) model.image else model
 
     val error = GlideApp.with(this)

@@ -5,6 +5,7 @@ package dev.olog.msc.presentation.edit
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.CallSuper
@@ -19,9 +20,11 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.makeDialog

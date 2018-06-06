@@ -47,7 +47,9 @@ class GlideImageLoader(
                 }
                 else -> {
                     // use default album image
-                    uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+                    val file = File(model.image)
+                    val uri = if (file.exists()) Uri.fromFile(file) else Uri.EMPTY
+                    uriLoader.buildLoadData(uri, width, height, options)
                 }
             }
         }
@@ -67,7 +69,7 @@ class GlideImageLoader(
 
     private fun notAnImage(model: DisplayableItem): Boolean {
         if (!URLUtil.isNetworkUrl(model.image)){
-            return !ImageUtils.isRealImage(context, model.image)
+            return !ImageUtils.isRealImage(model.image)
         }
         return false
     }

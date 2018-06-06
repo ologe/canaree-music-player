@@ -4,22 +4,13 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import java.io.File
 import java.io.InputStream
 
 object ImageUtils {
 
-    fun isRealImage(context: Context, image: String): Boolean {
-        var input: InputStream? = null
-        var result: Boolean
-        try {
-            input = context.contentResolver.openInputStream(Uri.parse(image))
-            result = true
-        } catch (ex: Exception){
-            result = false
-        } finally {
-            input?.close()
-        }
-        return result
+    fun isRealImage(image: String): Boolean {
+        return File(image).exists()
     }
 
     fun getBitmap(context: Context, uri: Uri, reqWidth: Int, reqHeight: Int): Bitmap? {

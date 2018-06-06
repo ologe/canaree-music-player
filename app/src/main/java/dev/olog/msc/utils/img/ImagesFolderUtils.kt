@@ -4,13 +4,12 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.utils.k.extension.clamp
 import java.io.File
 
 object ImagesFolderUtils {
-
-    private val COVER_URI = Uri.parse("content://media/external/audio/albumart")
 
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"
@@ -47,8 +46,17 @@ object ImagesFolderUtils {
         if (AppConstants.useFakeData){
             return getFakeImage(albumId)
         }
-        return Uri.withAppendedPath(COVER_URI, albumId.toString()).toString()
-//        return ContentUris.withAppendedId(COVER_URI, albumId).toString()
+
+        val uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId)
+        val cursor = app.contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM_ART), null,
+                null, null)
+
+        cursor.moveToFirst()
+
+        val result = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART)) ?: ""
+        cursor.close()
+
+        return result
     }
     private fun getFakeImage(albumId: Long): String {
         val safe = clamp(albumId.rem(10), 0, 10)

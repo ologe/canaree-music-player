@@ -20,7 +20,6 @@ fun Cursor.toSong(): Song {
     val path = getString(MediaStore.MediaColumns.DATA)
     val folder = extractFolder(path)
 
-//    val (title, isExplicit, isRemix) = TrackTitleUtils.adjust(getString(MediaStore.MediaColumns.TITLE))
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
@@ -43,7 +42,7 @@ fun Cursor.toSong(): Song {
 
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
-            ImagesFolderUtils.forAlbum(albumId),
+            "",
             duration, dateAdded, path,
             folder.capitalize(), disc, track)
 }
