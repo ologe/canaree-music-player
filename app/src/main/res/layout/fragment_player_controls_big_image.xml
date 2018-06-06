@@ -23,7 +23,7 @@
             android:clickable="false"
             android:focusable="false"
             android:stateListAnimator="@animator/elevate_on_activated"
-            app:cornerRadius="10" />
+            app:imageViewCornerRadius="10" />
 
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"

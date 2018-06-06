@@ -151,7 +151,7 @@ class DetailFragmentAdapter @Inject constructor(
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
         list.adapter = adapter
-        list.recycledViewPool = recycledViewPool
+        list.setRecycledViewPool(recycledViewPool)
 
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(list)
@@ -163,7 +163,7 @@ class DetailFragmentAdapter @Inject constructor(
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
         list.adapter = adapter
-        list.recycledViewPool = recycledViewPool
+        list.setRecycledViewPool(recycledViewPool)
     }
 
     override fun onViewDetachedFromWindow(holder: DataBoundViewHolder) {

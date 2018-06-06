@@ -247,7 +247,7 @@ class RxFastScroller @JvmOverloads constructor(
                     .distinctUntilChanged()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ position ->
-                        mRecyclerView!!.layoutManager.scrollToPosition(position)
+                        mRecyclerView?.layoutManager?.scrollToPosition(position)
                     }, Throwable::printStackTrace)
         }
     }
@@ -381,8 +381,8 @@ class RxFastScroller @JvmOverloads constructor(
     }
 
     private fun setRecyclerViewPosition(y: Float) {
-        if (mRecyclerView != null && mRecyclerView!!.adapter != null) {
-            val itemCount = mRecyclerView!!.adapter.itemCount
+        if (mRecyclerView != null && mRecyclerView?.adapter != null) {
+            val itemCount = mRecyclerView!!.adapter!!.itemCount
             val proportion: Float
 
             if (mHandleView!!.y == 0f) {

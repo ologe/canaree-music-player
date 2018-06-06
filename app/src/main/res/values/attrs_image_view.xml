@@ -14,7 +14,7 @@
     </declare-styleable>
 
     <declare-styleable name="RoundedCornersImageView">
-        <attr name="cornerRadius" format="integer"/>
+        <attr name="imageViewCornerRadius" format="integer"/>
     </declare-styleable>
 
 </resources>

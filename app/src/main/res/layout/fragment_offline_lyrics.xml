@@ -26,7 +26,7 @@
         android:focusable="false"
         android:scaleType="centerCrop"
         android:transitionName="player_view"
-        app:cornerRadius="0"
+        app:imageViewCornerRadius="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

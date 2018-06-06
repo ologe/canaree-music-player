@@ -19,9 +19,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
-
-//        renderscriptTargetApi 27
-//        renderscriptSupportModeEnabled true
     }
 
     bundle {
@@ -96,12 +93,11 @@ android {
             correctErrorTypes = true
         }
     }
-}
 
+}
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     lintChecks project(':lint')
 
     // data binding
@@ -151,7 +147,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
-//    implementation "com.github.pwittchen:reactivenetwork-rx2:$rootProject.reactive_network"
+
+    //    implementation "com.github.pwittchen:reactivenetwork-rx2:$rootProject.reactive_network"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
@@ -178,8 +175,10 @@ dependencies {
 
     // debug
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"
-//    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
-//    debugImplementation 'com.tspoon.traceur:traceur:1.0.1'
+
+    //    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+
+    //    debugImplementation 'com.tspoon.traceur:traceur:1.0.1'
     debugImplementation 'nl.littlerobots.rxlint:rxlint:1.6.1'
 
     // firebase
@@ -187,7 +186,6 @@ dependencies {
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
         transitive = true
     }
-
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

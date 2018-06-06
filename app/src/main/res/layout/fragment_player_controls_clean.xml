@@ -50,7 +50,7 @@
                 android:layout_marginStart="@dimen/player_cover_margin_horizontal"
                 android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
                 android:stateListAnimator="@animator/elevate_on_activated_high"
-                app:cornerRadius="20" />
+                app:imageViewCornerRadius="20" />
 
             <!-- seekbar -->
             <dev.olog.msc.presentation.widget.CustomSeekBar

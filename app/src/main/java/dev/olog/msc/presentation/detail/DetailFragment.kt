@@ -95,7 +95,7 @@ class DetailFragment : BaseFragment() {
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = layoutManager.get()
         view.list.adapter = adapter
-        view.list.recycledViewPool = recycledViewPool
+        view.list.setRecycledViewPool(recycledViewPool)
         view.list.setHasFixedSize(true)
 
         var swipeDirections = ItemTouchHelper.LEFT

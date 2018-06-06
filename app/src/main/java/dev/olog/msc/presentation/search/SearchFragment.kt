@@ -124,7 +124,7 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         layoutManager = LinearLayoutManager(context!!)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
-        view.list.recycledViewPool = recycledViewPool
+        view.list.setRecycledViewPool(recycledViewPool)
         view.list.setHasFixedSize(true)
 
         val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)

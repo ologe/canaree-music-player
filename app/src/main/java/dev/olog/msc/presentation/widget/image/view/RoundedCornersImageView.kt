@@ -23,7 +23,7 @@ open class RoundedCornersImageView @JvmOverloads constructor(
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.RoundedCornersImageView)
-        radius = context.dip(a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS))
+        radius = context.dip(a.getInt(R.styleable.RoundedCornersImageView_imageViewCornerRadius, DEFAULT_RADIUS))
         a.recycle()
 
         val rounded = AppTheme.isDefault() || AppTheme.isSpotify() || AppTheme.isClean()

@@ -29,7 +29,7 @@
             app:imageBigAlbum="@{item}"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            app:cornerRadius="0"/>
+            app:imageViewCornerRadius="0"/>
 
         <View
             android:id="@+id/fade"

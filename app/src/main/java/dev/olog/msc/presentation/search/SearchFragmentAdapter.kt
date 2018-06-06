@@ -90,7 +90,7 @@ class SearchFragmentAdapter @Inject constructor(
                 LinearLayoutManager.HORIZONTAL, false)
         list.layoutManager = layoutManager
         list.adapter = adapter
-        list.recycledViewPool = recycledViewPool
+        list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
         val snapHelper = LinearSnapHelper()

@@ -48,7 +48,7 @@ class ParallaxRecyclerView(
         return when (layoutManager){
             is LinearLayoutManager -> layoutManager.findFirstVisibleItemPosition()
             is GridLayoutManager -> layoutManager.findFirstVisibleItemPosition()
-            else -> throw IllegalArgumentException("invalid layout manager class ${layoutManager::class}")
+            else -> throw IllegalArgumentException("invalid layout manager class ${layoutManager!!::class}")
         }
     }
 

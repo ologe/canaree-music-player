@@ -27,7 +27,7 @@ class ShapeImageView @JvmOverloads constructor(
 
     init {
         val a = context.obtainStyledAttributes(R.styleable.RoundedCornersImageView)
-        radius = a.getInt(R.styleable.RoundedCornersImageView_cornerRadius, DEFAULT_RADIUS)
+        radius = a.getInt(R.styleable.RoundedCornersImageView_imageViewCornerRadius, DEFAULT_RADIUS)
         a.recycle()
 
         clipToOutline = true
