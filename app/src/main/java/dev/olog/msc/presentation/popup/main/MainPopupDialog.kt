@@ -68,7 +68,7 @@ class MainPopupDialog @Inject constructor(
     }
 
     private fun generateGridSpanCount(menu: Menu){
-
+        
     }
 
     private fun initializeTracksSort(menu: Menu): LibrarySortType {

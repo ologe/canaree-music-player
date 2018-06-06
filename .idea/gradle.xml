@@ -7,24 +7,10 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/cast" />
             <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/ffmpeg" />
             <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/flac" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/gvr" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/ima" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/jobdispatcher" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/leanback" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/mediasession" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/okhttp" />
             <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/opus" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/rtmp" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/vp9" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/all" />
             <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/core" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/dash" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/hls" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/smoothstreaming" />
-            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/ui" />
             <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils" />
             <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils_robolectric" />
             <option value="$PROJECT_DIR$" />

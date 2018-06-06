@@ -27,6 +27,9 @@
 # Reduce the size of the output some more.
 -allowaccessmodification
 
+# SlidingPanel weird warning
+-dontwarn android.graphics.Canvas
+
 -classobfuscationdictionary windows.txt
 -packageobfuscationdictionary windows.txt
 

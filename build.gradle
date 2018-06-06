@@ -5,11 +5,11 @@ buildscript {
     ext {
         kotlin_version = '1.2.41'
 //        gradle_plugin = '3.1.2'
-        gradle_plugin = '3.1.2'
+        gradle_plugin = '3.2.0-alpha16'
         google_services = '3.1.1'
-        fabric = '1.25.1'
+        fabric = '1.25.4'
         firebase_plugin = '1.1.5'
-        lintVersion = '26.1.0-beta1'
+        lintVersion = '26.1.2'
     }
 
 
@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha16'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"
@@ -47,21 +47,21 @@ ext {
     // Sdk and tools
     minSdkVersion = 21
     targetSdkVersion = 27
-    compileSdkVersion = 27
-    buildToolsVersion = '27.0.3'
+//    compileSdkVersion = 27
+//    buildToolsVersion = '27.0.3'
 
     // android P test
 //    minSdkVersion = 21
 //    targetSdkVersion = 'P'
-//    compileSdkVersion = 'android-P'
-//    buildToolsVersion = '28.0.0-rc1'
+    compileSdkVersion = 'android-P'
+    buildToolsVersion = '28.0.0-rc2'
 
     /*  version code
-        99 - for old compatibility
+        999 - for old compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 100_27_1_1_03
+    versionCode = 999_27_1_1_03
     versionName = '1.1.3'
 
     // App dependencies
@@ -101,7 +101,7 @@ ext {
     // debug
     rxjava_debug = '1.2.2'
     leak_canary = '1.5.4'
-    crashlytics = '2.9.1'
+    crashlytics = '2.9.3'
 
     // test
     junit = '4.12'
