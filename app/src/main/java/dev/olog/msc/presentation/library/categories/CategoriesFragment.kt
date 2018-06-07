@@ -49,11 +49,6 @@ class CategoriesFragment : BaseFragment() {
         view.viewPager.offscreenPageLimit = 3
 
         view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
-
-        if (AppTheme.isWhiteTheme()){
-            // theming not working
-            view.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(ctx, R.color.dark_grey))
-        }
     }
 
     override fun onResume() {

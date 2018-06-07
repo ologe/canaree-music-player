@@ -134,11 +134,11 @@
             android:key="@string/prefs_player_controls_visibility_key"
             android:defaultValue="false" />
 
-        <SwitchPreference
-            android:key="@string/prefs_notch_support_key"
-            android:title="@string/prefs_notch_support_title"
-            android:summary="@string/prefs_notch_support_summary"
-            android:defaultValue="false"/>
+        <!--<SwitchPreference-->
+            <!--android:key="@string/prefs_notch_support_key"-->
+            <!--android:title="@string/prefs_notch_support_title"-->
+            <!--android:summary="@string/prefs_notch_support_summary"-->
+            <!--android:defaultValue="false"/>-->
 
         <ListPreference
             android:title="@string/prefs_auto_download_images_title"

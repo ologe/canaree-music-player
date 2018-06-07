@@ -2,14 +2,16 @@
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="tabStyle">@style/DefaultTabLayout</item>
+        <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
+        <item name="textInputStyle">@style/DefaultTextBox</item>
+
+        <!--for design time-->
         <item name="colorPrimary">@color/toolbar</item>
         <item name="colorPrimaryDark">@color/status_bar</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowFullscreen">true</item>
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="tabStyle">@style/DefaultTabLayout</item>
-        <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
     </style>
 
     <!-- Base dark application theme. -->
@@ -17,6 +19,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="tabStyle">@style/DefaultTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
+        <item name="textInputStyle">@style/DefaultTextBox</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme"/>
@@ -37,13 +40,37 @@
         <item name="tabTextColor">?android:attr/textColorSecondary</item>
         <item name="tabIndicatorColor">?attr/colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicator">@drawable/rounded_line</item>
     </style>
 
 
     <style name="DefaultMaterialCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">16dp</item>
         <item name="cardBackgroundColor">?android:attr/windowBackground</item>
         <item name="cardElevation">12dp</item>
+    </style>
+
+    <style name="DefaultTextBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+    </style>
+    
+    <style name="EditItemEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">14dp</item>
+        <item name="android:inputType">textFilter</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    
+    <style name="PositiveButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="DefaultButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    
+    <style name="EditItemSubHeader">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
 </resources>

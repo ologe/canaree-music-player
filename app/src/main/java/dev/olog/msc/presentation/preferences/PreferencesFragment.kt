@@ -31,7 +31,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var libraryCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
-    private lateinit var notchSupport : Preference
     private lateinit var deleteCache : Preference
     private lateinit var lastFmCredentials: Preference
     private lateinit var autoCreateImages: SwitchPreference
@@ -41,7 +40,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
-        notchSupport = preferenceScreen.findPreference(getString(R.string.prefs_notch_support_key))
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
         lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key)) as SwitchPreference
@@ -51,10 +49,6 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (isP()){
-            notchSupport.isVisible = false
-        }
 
         val billing = (act as PreferencesActivity).billing
         billing.observeIsPremium()

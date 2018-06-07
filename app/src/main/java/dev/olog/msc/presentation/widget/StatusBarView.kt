@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.msc.R
+import dev.olog.msc.utils.isP
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.hasNotch
@@ -25,14 +26,8 @@ class StatusBarView @JvmOverloads constructor(
     private var hasNotch = false
 
     init {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-
-        if (context.isPortrait){
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O_MR1){
-                hasNotch = prefs.getBoolean(context.getString(R.string.prefs_notch_support_key), false)
-            } else {
-                hasNotch = this.hasNotch()
-            }
+        if (context.isPortrait && !isInEditMode){
+            hasNotch = this.hasNotch()
         }
     }
 

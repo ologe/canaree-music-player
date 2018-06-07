@@ -171,9 +171,9 @@ class PlayerFragmentAdapter @Inject constructor(
 
         val waveWrapper : AudioWaveViewWrapper? = view.findViewById(R.id.waveWrapper)
 
-        view.findViewById<AnimatedImageView>(R.id.next).setDefaultColor()
-        view.findViewById<AnimatedImageView>(R.id.previous).setDefaultColor()
-        view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause).setDefaultColor()
+        view.findViewById<AnimatedImageView>(R.id.next)?.setDefaultColor()
+        view.findViewById<AnimatedImageView>(R.id.previous)?.setDefaultColor()
+        view.findViewById<AnimatedPlayPauseImageView>(R.id.playPause)?.setDefaultColor()
 
         mediaProvider.onMetadataChanged()
                 .takeUntil(RxView.detaches(view))
