@@ -16,9 +16,11 @@
         android:paddingEnd="16dp">
 
         <View
+            android:id="@+id/separator"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            style="@style/Divider"/>
+            android:layout_height="2dp"
+            android:alpha=".1"
+            android:background="@drawable/dotted_line"/>
 
         <TextView
             android:layout_marginTop="8dp"
@@ -26,7 +28,7 @@
             tools:text="3 Songs, 9 Minutes"
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:padding="12dp"
             android:gravity="center"
             android:layout_width="match_parent"

@@ -8,11 +8,11 @@
 
     <!--<item name="accent">#FF1744</item>-->
     <color name="accent">#2979FF</color>
-    <color name="accent_secondary">#1DE9B6</color>
+    <color name="accent_secondary">#f8cf5f</color>
 
     <color name="colorPrimary">@color/dark_grey</color>
     <color name="colorPrimaryDark">@color/status_bar</color>
-    <color name="colorAccent">@color/dark_grey</color>
+    <color name="colorAccent">@color/accent</color>
 
     <color name="background">@android:color/white</color>
     <color name="background_accent">@color/dark_grey</color>

@@ -16,8 +16,9 @@
             app:layout_constraintStart_toStartOf="@+id/img"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="1dp"
-            style="@style/Divider" />
+            android:layout_height="2dp"
+            android:alpha=".1"
+            android:background="@drawable/dotted_line"/>
 
         <ImageButton
             android:id="@+id/img"

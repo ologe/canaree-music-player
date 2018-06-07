@@ -102,8 +102,13 @@ class DetailFragmentAdapter @Inject constructor(
                 }
 
             }
-
+            R.layout.item_detail_footer -> {
+                viewHolder.itemView.findViewById<View>(R.id.separator)
+                        .setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+            }
             R.layout.item_detail_shuffle -> {
+                viewHolder.itemView.findViewById<View>(R.id.separator)
+                        .setLayerType(View.LAYER_TYPE_SOFTWARE, null)
                 viewHolder.setOnClickListener(controller) { _, _, _ ->
                     mediaProvider.shuffle(mediaId)
                 }

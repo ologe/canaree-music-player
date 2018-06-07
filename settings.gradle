@@ -1,4 +1,4 @@
-include ':app', ':lint', 'exoplayer-library-core', 'exoplayer-extension-flac', 'exoplayer-extension-opus', 'exoplayer-extension-ffmpeg'
+include ':app', ':lint'
 
 gradle.ext.exoplayerRoot = 'C:\\Users\\Eugi\\AndroidStudioProjects\\exoplayer\\ExoPlayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'

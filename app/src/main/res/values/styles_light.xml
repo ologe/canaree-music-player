@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <!--white theme-->
     <style name="AppThemeWhite" parent="AppTheme">
+        <item name="android:windowFullscreen">false</item>
+
+        <item name="colorPrimary">@color/toolbar</item>
+        <item name="colorPrimaryDark">@color/status_bar</item>
+        <item name="colorAccent">@color/accent</item>
 
         <item name="android:windowBackground">@color/background</item>
+
         <item name="android:textColorSecondaryInverse">@color/accent</item>
+
         <!--used for miniplayer background-->
         <item name="android:textColorTertiaryInverse">@color/background</item>
 
         <item name="imageButtonStyle">@style/ImageButtonLight</item>
         <item name="seekBarStyle">@style/SeekBarLight</item>
+        <item name="textInputStyle">@style/LightTextBox</item>
     </style>
 
     <!--gray theme-->
@@ -28,5 +37,12 @@
         <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
         <item name="android:thumb">@drawable/seekbar_thumb</item>
     </style>
+
+
+    <style name="LightTextBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+    </style>
+
+
 
 </resources>

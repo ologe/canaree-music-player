@@ -78,15 +78,12 @@
             android:src="@drawable/vd_search_text"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleX=".85"
-            android:scaleY=".85"/>
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/CategoriesTabStyle"
         android:layout_width="0dp"
         android:layout_height="@dimen/tab"
         android:background="?android:attr/colorPrimary"
@@ -94,7 +91,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:tabGravity="center">
+        app:tabIndicator="@drawable/rounded_line">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
