@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.detail.di
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import dagger.Module
 import dagger.Provides
@@ -37,13 +38,6 @@ class DetailFragmentModule(
     internal fun provideViewModel(factory: DetailFragmentViewModelFactory): DetailFragmentViewModel {
         return ViewModelProviders.of(fragment, factory)
                 .get(DetailFragmentViewModel::class.java)
-    }
-
-    @Provides
-    internal fun provideLayoutManager(adapter: DetailFragmentAdapter): GridLayoutManager {
-        val layoutManager = GridLayoutManager(fragment.context, 2)
-        layoutManager.spanSizeLookup = DetailFragmentSpanSizeLookup(adapter)
-        return layoutManager
     }
 
 }

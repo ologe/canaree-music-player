@@ -59,6 +59,18 @@ class DetailFragmentPresenter @Inject constructor(
 
     ): MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>> {
 
+        if (mediaId.isArtist){
+            // swap albums to top
+            return mutableMapOf(
+                    DetailFragmentDataType.HEADER to item.toMutableList(),
+                    DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item),
+                    DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
+                    DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
+                    DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
+                    DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2])
+            )
+        }
+
         return mutableMapOf(
                 DetailFragmentDataType.HEADER to item.toMutableList(),
                 DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
@@ -91,16 +103,18 @@ class DetailFragmentPresenter @Inject constructor(
     }
 
     private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: List<DisplayableItem>) : MutableList<DisplayableItem>{
-        val albumsList = list.toMutableList()
-        if (albumsList.isNotEmpty()){
+        if (list.isNotEmpty()){
+            val size = list.size
             val artist = when {
                 mediaId.isAlbum -> item[1].subtitle
                 else -> null
             }
-            albumsList.add(0, headers.albums(artist))
+            list.clear()
+            list.addAll(0, headers.albums(artist, size))
+        } else {
+            list.clear()
         }
-
-        return albumsList
+        return list
     }
 
     private fun handleRelatedArtistsHeader(list: MutableList<DisplayableItem>, isEnabled: Boolean) : MutableList<DisplayableItem>{

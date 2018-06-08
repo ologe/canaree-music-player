@@ -16,6 +16,4 @@
     <dimen name="item_shuffle_text_size">18dp</dimen>
     <dimen name="item_shuffle_padding">14dp</dimen>
 
-    <dimen name="item_detail_footer_text_size">16dp</dimen>
-
 </resources>

@@ -19,17 +19,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@{item.title}"
-            tools:text="Recently played"
-            android:textSize="@dimen/item_header_text_size"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
+            tools:text="@string/common_all_tracks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:textAppearance="@style/Headline6"/>
 
-        <dev.olog.msc.presentation.theme.HighlightTextView
+        <TextView
             android:id="@+id/sort"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -37,7 +35,7 @@
             android:text="@{item.subtitle}"
             tools:text="@string/detail_sort_by"
             android:textSize="@dimen/item_header_sec_text_size"
-            tools:textColor="@color/accent"
+            android:textColor="?attr/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
@@ -46,7 +44,7 @@
             android:paddingStart="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
-        <dev.olog.msc.presentation.theme.HighlightImageButton
+        <ImageButton
             android:id="@+id/sortImage"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintTop_toTopOf="@+id/sort"
@@ -55,7 +53,7 @@
             tools:src="@drawable/vd_arrow_up"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            tools:tint="@color/accent"
+            android:tint="?attr/colorAccent"
             android:padding="6dp"
             android:layout_marginEnd="8dp"/>
 

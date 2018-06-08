@@ -7,25 +7,29 @@
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal">
+        android:paddingEnd="@dimen/playing_queue_margin_horizontal"
+        android:orientation="vertical">
 
         <TextView
             android:text="@string/search_recent_searches"
             tools:text="Recently played"
-            android:textSize="@dimen/item_header_text_size"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:textAppearance="@style/Headline6"/>
 
-    </FrameLayout>
+        <dev.olog.msc.presentation.widget.DottedSeparator
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
 
 </layout>

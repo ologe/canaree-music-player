@@ -16,7 +16,8 @@
         android:layout_height="0dp"
         tools:listitem="@layout/item_tab_song"
         android:clipToPadding="false"
-        tools:layout_marginTop="350dp"/>
+        tools:layout_marginTop="350dp"
+        android:paddingBottom="16dp"/>
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
         android:id="@+id/fastScroller"

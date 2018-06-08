@@ -10,15 +10,13 @@
         android:paddingBottom="8dp"
         android:background="?attr/selectableItemBackground">
 
-        <View
+        <dev.olog.msc.presentation.widget.DottedSeparator
             android:id="@+id/separator"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@+id/img"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:alpha=".1"
-            android:background="@drawable/dotted_line"/>
+            android:layout_height="2dp" />
 
         <ImageButton
             android:id="@+id/img"

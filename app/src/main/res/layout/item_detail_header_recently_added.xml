@@ -15,43 +15,53 @@
         android:paddingStart="@dimen/detail_header_margin_start"
         android:paddingEnd="@dimen/detail_header_margin_end"
         android:paddingTop="@dimen/item_detail_header_padding_top"
-        android:paddingBottom="12dp">
+        android:paddingBottom="12dp"
+        android:layout_marginTop="12dp">
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.subtitle}"
+            android:textColor="?attr/colorAccent"
+            android:textSize="@dimen/item_header_sec_text_size"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="5 new songs" />
 
         <TextView
             android:id="@+id/title"
             android:text="@{item.title}"
             tools:text="Recently played"
-            android:textSize="@dimen/item_header_text_size"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textAppearance="@style/Headline6"/>
 
-        <dev.olog.msc.presentation.theme.HighlightTextView
-            android:text="@{item.subtitle}"
-            tools:text="5 new songs"
-            android:textSize="@dimen/item_header_sec_text_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/title" />
-
-        <dev.olog.msc.presentation.theme.HighlightTextView
+        <TextView
             android:id="@+id/seeMore"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/sep"
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
+            android:textColor="?attr/colorAccent"
             android:textSize="@dimen/item_header_sec_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"/>
+
+        <dev.olog.msc.presentation.widget.DottedSeparator
+            android:id="@+id/sep"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="@dimen/detail_header_margin_end"/>
 
     </android.support.constraint.ConstraintLayout>
 

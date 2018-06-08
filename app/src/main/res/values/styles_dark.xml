@@ -13,8 +13,6 @@
         <item name="android:colorPrimary">@color/theme_dark_toolbar</item>
         <item name="android:colorPrimaryDark">@color/theme_dark_status_bar</item>
 
-        <!--text color-->
-        <item name="android:textColorSecondaryInverse">@color/accent_secondary</item>
         <!--miniplayer-->
         <item name="android:textColorTertiaryInverse">@color/theme_dark_toolbar</item>
 

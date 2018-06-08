@@ -12,8 +12,6 @@
 
         <item name="android:windowBackground">@color/background</item>
 
-        <item name="android:textColorSecondaryInverse">@color/accent</item>
-
         <!--used for miniplayer background-->
         <item name="android:textColorTertiaryInverse">@color/background</item>
 

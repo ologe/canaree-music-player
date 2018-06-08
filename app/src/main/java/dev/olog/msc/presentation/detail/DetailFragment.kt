@@ -4,6 +4,7 @@ package dev.olog.msc.presentation.detail
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
@@ -43,9 +44,9 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var relatedArtistAdapter: DetailRelatedArtistsAdapter
+    @Inject lateinit var albumsAdapter: DetailAlbumsAdapter
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var layoutManager: Provider<GridLayoutManager>
     @Inject lateinit var detailListMargin: DetailListMargin
     private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
 
@@ -64,6 +65,11 @@ class DetailFragment : BaseFragment() {
 
         viewModel.relatedArtistsLiveData
                 .subscribe(this, relatedArtistAdapter::updateDataSet)
+
+        viewModel.albumsLiveData
+                .subscribe(this, {
+                    albumsAdapter.updateDataSet(it)
+                })
 
         viewModel.observeData()
                 .subscribe(this, { map ->
@@ -93,7 +99,7 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = layoutManager.get()
+        view.list.layoutManager = LinearLayoutManager(ctx)
         view.list.adapter = adapter
         view.list.setRecycledViewPool(recycledViewPool)
         view.list.setHasFixedSize(true)

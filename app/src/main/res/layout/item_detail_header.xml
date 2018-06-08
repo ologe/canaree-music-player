@@ -21,27 +21,35 @@
             android:id="@+id/title"
             android:text="@{item.title}"
             tools:text="Recently played"
-            android:textSize="@dimen/item_header_text_size"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:textAppearance="@style/Headline6"/>
 
-        <dev.olog.msc.presentation.theme.HighlightTextView
+        <TextView
             android:id="@+id/seeMore"
             app:layout_constraintTop_toTopOf="@+id/title"
             app:layout_constraintBottom_toBottomOf="@+id/title"
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/detail_see_all"
+            android:textColor="?attr/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{item.extra.getBoolean(`visible`) ? View.VISIBLE : View.GONE }"
             tools:visibility="visible"/>
+
+        <dev.olog.msc.presentation.widget.DottedSeparator
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="@dimen/detail_header_margin_end"/>
 
     </android.support.constraint.ConstraintLayout>
 

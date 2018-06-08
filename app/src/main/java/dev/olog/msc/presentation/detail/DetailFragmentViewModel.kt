@@ -55,7 +55,7 @@ class DetailFragmentViewModel(
             .onErrorReturnItem(listOf())
             .asLiveData()
 
-    private val dataMapLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = DetailLiveData()
+    private val dataMapLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = MutableLiveData()
 
     private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
             Observables.combineLatest(
@@ -96,6 +96,9 @@ class DetailFragmentViewModel(
 
     val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
             .map { it.take(RELATED_ARTISTS_TO_SEE) }
+            .asLiveData()
+
+    val albumsLiveData: LiveData<List<DisplayableItem>> = albums[currentCategory]!!
             .asLiveData()
 
     val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!

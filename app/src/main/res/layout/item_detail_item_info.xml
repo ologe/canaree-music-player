@@ -16,60 +16,56 @@
 
         <TextView
             android:id="@+id/title"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@{item.title}"
-            tools:text="Animal Ambition: An Untamed Desire to Win"
-            android:textSize="@dimen/item_detail_main_header_title_size"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
             android:layout_marginStart="@dimen/detail_header_margin_start"
             android:layout_marginEnd="@dimen/detail_header_margin_start"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:scrollHorizontally="true"/>
+            android:paddingTop="12dp"
+            android:text="@{item.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Animal Ambition: An Untamed Desire to Win"
+            android:lineSpacingMultiplier=".9"
+            android:textAppearance="@style/Headline4" />
 
-        <dev.olog.msc.presentation.widget.image.view.CircularImageView
-            android:id="@+id/artistImage"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            tools:src="@drawable/placeholder_artist"
-            android:layout_marginTop="4dp"
-            app:albumsArtistImage="@{item}"
-            android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"
-            tools:visibility="visible"/>
+        <!--<dev.olog.msc.presentation.widget.image.view.CircularImageView-->
+            <!--android:id="@+id/artistImage"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/title"-->
+            <!--app:layout_constraintStart_toStartOf="@+id/title"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--tools:src="@drawable/placeholder_artist"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--app:albumsArtistImage="@{item}"-->
+            <!--android:visibility="@{item.mediaId.isAlbum ? View.VISIBLE : View.GONE}"-->
+            <!--tools:visibility="visible"/>-->
 
-        <dev.olog.msc.presentation.theme.HighlightTextView
+        <TextView
             android:id="@+id/subtitle"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toEndOf="@+id/artistImage"
+            app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintEnd_toEndOf="@+id/title"
             android:text="@{item.subtitle}"
             tools:text="50 Cent"
             android:textSize="@dimen/item_detail_main_header_subtitle_size"
+            android:textColor="?attr/colorAccent"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:ellipsize="end"
-            android:layout_marginStart="8dp"
-            app:layout_goneMarginStart="0dp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginStart="2dp"/>
 
         <View
             android:id="@+id/clickableArtist"
-            app:layout_constraintTop_toTopOf="@+id/title"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintEnd_toEndOf="@+id/title"
-            app:layout_constraintBottom_toBottomOf="@+id/subtitle"
             android:layout_width="0dp"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/subtitle"
+            app:layout_constraintEnd_toEndOf="@+id/title"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toTopOf="@+id/title"
+            tools:visibility="gone"/>
 
     </android.support.constraint.ConstraintLayout>
 

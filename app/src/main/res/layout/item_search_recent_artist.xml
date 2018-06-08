@@ -21,15 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <View
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                style="@style/Divider"
-                android:layout_marginStart="12dp" />
-
             <dev.olog.msc.presentation.widget.image.view.CircularImageView
                 android:id="@+id/cover"
                 android:layout_width="@dimen/item_song_cover_size"

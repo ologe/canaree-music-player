@@ -30,16 +30,13 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
-            android:elevation="@dimen/toolbar_elevation"
             android:gravity="center"
             android:paddingTop="4dp"
             android:text="@string/category_header"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/main_toolbar_text_size"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/more"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/more" />
+            app:layout_constraintTop_toTopOf="@+id/more"
+            android:textAppearance="@style/Headline5"/>
 
         <ImageButton
             android:id="@+id/more"

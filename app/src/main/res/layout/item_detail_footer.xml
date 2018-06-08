@@ -15,12 +15,10 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp">
 
-        <View
+        <dev.olog.msc.presentation.widget.DottedSeparator
             android:id="@+id/separator"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:alpha=".1"
-            android:background="@drawable/dotted_line"/>
+            android:layout_height="2dp" />
 
         <TextView
             android:layout_marginTop="8dp"

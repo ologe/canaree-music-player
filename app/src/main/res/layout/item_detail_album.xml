@@ -5,18 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/item_tab_album_last_player_width"
         android:layout_height="wrap_content"
-        tools:layout_width="200dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:paddingStart="@dimen/detail_album_margin_horizontal"
-        android:paddingEnd="@dimen/detail_album_margin_horizontal">
+        android:layout_margin="5dp">
 
         <dev.olog.msc.presentation.widget.image.view.ShapeImageView
             android:id="@+id/cover"
@@ -28,7 +23,6 @@
             app:layout_constraintDimensionRatio="1"
             app:imageAlbum="@{item}"
             tools:src="@drawable/placeholder_folder"/>
-
 
         <dev.olog.msc.presentation.widget.QuickActionView
             style="@style/QuickActionStyle"
@@ -67,7 +61,7 @@
             android:text="@{item.subtitle}"
 
             tools:text="@tools:sample/lorem"
-            tools:visibility="visible" />
+            />
 
     </android.support.constraint.ConstraintLayout>
 

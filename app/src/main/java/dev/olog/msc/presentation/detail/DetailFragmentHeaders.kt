@@ -33,13 +33,19 @@ class DetailFragmentHeaders @Inject constructor(
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
-    fun albums(artistName: String?) : DisplayableItem {
+    fun albums(artistName: String?, size: Int) = listOf(
+            albumHeader(artistName, size),
+            DisplayableItem(R.layout.item_detail_albums_list, MediaId.headerId("albums horiz list"), "")
+    )
+
+    private fun albumHeader(artistName: String?, size: Int) : DisplayableItem {
         if (artistName != null){
             return DisplayableItem(R.layout.item_detail_header_albums, MediaId.headerId("detail albums"),
                     context.getString(R.string.detail_more_albums_by, artistName))
         }
         return DisplayableItem(R.layout.item_detail_header_albums, MediaId.headerId("detail albums"),
-                context.resources.getStringArray(R.array.detail_album_header)[mediaId.source])
+                context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]
+        )
     }
 
     val shuffle = DisplayableItem(R.layout.item_detail_shuffle, MediaId.headerId("detail shuffle"), "")

@@ -40,6 +40,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val recentlyAddedAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,
         private val relatedArtistsAdapter: DetailRelatedArtistsAdapter,
+        private val albumsAdapter: DetailAlbumsAdapter,
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
         private val viewModel: DetailFragmentViewModel,
@@ -69,7 +70,10 @@ class DetailFragmentAdapter @Inject constructor(
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalListAsList(list, relatedArtistsAdapter)
             }
-
+            R.layout.item_detail_albums_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                setupHorizontalListAsList(list, albumsAdapter)
+            }
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
             R.layout.item_detail_song_with_drag_handle,
@@ -92,23 +96,7 @@ class DetailFragmentAdapter @Inject constructor(
                     } else false
                 }
             }
-            R.layout.item_detail_album,
-            R.layout.item_detail_album_mini -> {
-                viewHolder.setOnClickListener(controller) { item, _,_ ->
-                    navigator.toDetailFragment(item.mediaId)
-                }
-                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
-                    navigator.toDialog(item, viewHolder.itemView)
-                }
-
-            }
-            R.layout.item_detail_footer -> {
-                viewHolder.itemView.findViewById<View>(R.id.separator)
-                        .setLayerType(View.LAYER_TYPE_SOFTWARE, null)
-            }
             R.layout.item_detail_shuffle -> {
-                viewHolder.itemView.findViewById<View>(R.id.separator)
-                        .setLayerType(View.LAYER_TYPE_SOFTWARE, null)
                 viewHolder.setOnClickListener(controller) { _, _, _ ->
                     mediaProvider.shuffle(mediaId)
                 }
@@ -141,11 +129,9 @@ class DetailFragmentAdapter @Inject constructor(
         }
 
         when (viewType){
-            R.layout.item_detail_album -> viewHolder.elevateAlbumOnTouch()
             R.layout.item_detail_song,
             R.layout.item_detail_song_with_track,
-            R.layout.item_detail_song_with_drag_handle,
-            R.layout.item_detail_album_mini-> viewHolder.elevateSongOnTouch()
+            R.layout.item_detail_song_with_drag_handle -> viewHolder.elevateSongOnTouch()
         }
     }
 

@@ -85,7 +85,7 @@ class DetailFragmentModuleAlbum {
 
 private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album_mini,
+            R.layout.item_detail_album,
             MediaId.folderId(path),
             title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
@@ -95,7 +95,7 @@ private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableIte
 
 private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album_mini,
+            R.layout.item_detail_album,
             MediaId.playlistId(id),
             title,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
@@ -115,7 +115,7 @@ private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem
 
 private fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album_mini,
+            R.layout.item_detail_album,
             MediaId.genreId(id),
             name,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),

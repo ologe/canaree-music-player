@@ -75,7 +75,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/didYouMeanHeader"
-            android:textColor="?android:attr/textColorSecondaryInverse"
+            android:textColor="?attr/colorAccent"
             android:textSize="16dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
