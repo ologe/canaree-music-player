@@ -10,21 +10,18 @@
         android:textSize="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:layout_marginEnd="48dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="64dp"/>
 
     <ImageButton
         android:id="@+id/clear"
         android:background="@null"
         android:src="@drawable/vd_clear"
         android:layout_width="48dp"
-        android:layout_height="match_parent"
-        android:padding="12dp"
-        android:layout_gravity="end"
-        android:paddingEnd="16dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginEnd="16dp"/>
 
 </FrameLayout>

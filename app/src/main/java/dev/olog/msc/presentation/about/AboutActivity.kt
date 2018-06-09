@@ -1,10 +1,8 @@
 package dev.olog.msc.presentation.about
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
@@ -12,9 +10,7 @@ import android.widget.TextView
 import android.widget.ViewSwitcher
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
-import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.textColorPrimary
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
 
@@ -65,14 +61,11 @@ class AboutActivity : BaseActivity() {
     }
 
     private val factory = ViewSwitcher.ViewFactory {
-        val textView = TextView(this@AboutActivity)
+        val textView = TextView(this@AboutActivity, null, R.style.Headline6_Alt)
         textView.layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
         textView.gravity = Gravity.CENTER
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, dimen(R.dimen.common_header_size).toFloat())
-        textView.typeface = Typeface.DEFAULT_BOLD
-        textView.setTextColor(textColorPrimary())
         textView
     }
 

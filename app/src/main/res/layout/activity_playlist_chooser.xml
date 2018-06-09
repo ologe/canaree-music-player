@@ -30,15 +30,12 @@
         <TextView
             android:id="@+id/headerText"
             android:text="@string/playlist_chooser_header"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold"
-            android:textSize="18dp"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
-            android:elevation="@dimen/toolbar_elevation" />
+            android:textAppearance="@style/Headline6.Alt"/>
 
     </FrameLayout>
 
