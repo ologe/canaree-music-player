@@ -39,16 +39,7 @@ class SearchFragmentViewModel(
 
 ) : ViewModel() {
 
-    private var isFirstAccess = true
-
     private val subscriptions = CompositeDisposable()
-
-    fun doOnFirstAccess(func: () -> Unit){
-        if (isFirstAccess){
-            isFirstAccess = false
-            func()
-        }
-    }
 
     fun setNewQuery(newQuery: String){
         queryText.value = newQuery.trim()

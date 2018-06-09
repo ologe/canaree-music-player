@@ -80,16 +80,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         tools:text="Selena Gomez"
-        android:textColor="?android:attr/textColorPrimary"
-        android:maxLines="2"
-        android:textStyle="bold"
-        android:textSize="18dp"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
-        android:elevation="2dp"/>
+        android:elevation="@dimen/toolbar_elevation"
+        android:textAppearance="@style/Headline6.Alt" />
 
     <ImageButton
         android:id="@+id/back"
@@ -132,6 +129,6 @@
         android:focusable="true"
         android:layout_gravity="end"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:elevation="@dimen/toolbar_elevation"/>
+        android:elevation="@dimen/toolbar_elevation" />
 
 </android.support.constraint.ConstraintLayout>

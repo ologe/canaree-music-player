@@ -5,6 +5,7 @@ import android.content.Context
 
 object ThemedDialog {
 
+    @JvmStatic
     fun builder(context: Context): AlertDialog.Builder {
         return AlertDialog.Builder(context)
 //        return when {

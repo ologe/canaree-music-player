@@ -26,12 +26,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
-        android:textSize="30dp"
-        android:text="@string/welcome_to_app"
-        app:layout_constraintVertical_bias=".35"
-        android:textStyle="bold"
-        android:textColor="@color/text_color_primary"
+        android:text="@string/app_name"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Headline5" />
 
 </android.support.constraint.ConstraintLayout>

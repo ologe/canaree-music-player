@@ -16,12 +16,9 @@ import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
 import dev.olog.msc.utils.k.extension.*
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment(), HasSafeTransition {
@@ -52,8 +49,6 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
     private var bestMatchDisposable : Disposable? = null
 
     private var queryDisposable : Disposable? = null
-
-    private var showKeyboardDisposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,12 +126,6 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
-
-        viewModel.doOnFirstAccess {
-            showKeyboardDisposable = Single.timer(1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ ImeUtils.showIme(view.editText) }, Throwable::printStackTrace)
-        }
     }
 
     override fun onResume() {
@@ -191,7 +180,6 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
     override fun onStop() {
         super.onStop()
         ImeUtils.hideIme(editText)
-        showKeyboardDisposable.unsubscribe()
         bestMatchDisposable.unsubscribe()
     }
 

@@ -30,16 +30,6 @@
             android:paddingStart="@dimen/mini_queue_margin_start"
             android:paddingEnd="@dimen/mini_queue_margin_end">
 
-            <View
-                android:id="@+id/separator"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                style="@style/Divider"
-                android:layout_marginStart="12dp"/>
-
             <dev.olog.msc.presentation.widget.image.view.ShapeImageView
                 android:id="@+id/cover"
                 app:layout_constraintTop_toTopOf="parent"

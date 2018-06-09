@@ -27,6 +27,4 @@ public class ScrimView extends View {
         setBackgroundColor(color);
     }
 
-
-
 }

@@ -30,14 +30,16 @@ class ParallaxRecyclerView(
     private val parallaxScrollListener = object : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            val firstVisible = findFirstVisibleItemPosition()
-            if (firstVisible > 0) return
+            if (!isInEditMode){
+                val firstVisible = findFirstVisibleItemPosition()
+                if (firstVisible > 0) return
 
-            val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
-            if (viewHolder != null){
-                val img = viewHolder.itemView.findViewById<View>(R.id.cover)
-                if (img != null && img is ParallaxImageView){
-                    img.translateY(viewHolder.itemView)
+                val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
+                if (viewHolder != null){
+                    val img = viewHolder.itemView.findViewById<View>(R.id.cover)
+                    if (img != null && img is ParallaxImageView){
+                        img.translateY(viewHolder.itemView)
+                    }
                 }
             }
         }

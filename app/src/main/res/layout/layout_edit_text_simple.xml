@@ -8,15 +8,14 @@
         android:id="@+id/editTextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:hint="@string/new_playlist_hint"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
-        <dev.olog.msc.presentation.theme.ThemedTextInputEditText
+        <android.support.design.widget.TextInputEditText
             android:id="@+id/editText"
-            android:hint="@string/new_playlist_hint"
-            android:textSize="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
             tools:text="Some text"/>
 
     </android.support.design.widget.TextInputLayout>

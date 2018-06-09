@@ -17,6 +17,7 @@
 
         <item name="imageButtonStyle">@style/ImageButtonLight</item>
         <item name="seekBarStyle">@style/SeekBarLight</item>
+        <item name="floatingActionButtonStyle">@style/LightFab</item>
     </style>
 
     <!--gray theme-->
@@ -35,6 +36,10 @@
         <item name="android:thumb">@drawable/seekbar_thumb</item>
     </style>
 
+    <style name="LightFab" parent="DefaultFab">
+        <item name="backgroundTint">@color/dark_grey</item>
+        <item name="tint">@android:color/white</item>
+    </style>
 
 
 </resources>

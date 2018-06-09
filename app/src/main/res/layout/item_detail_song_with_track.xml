@@ -21,14 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <View
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/firstText"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                style="@style/Divider" />
-
             <TextView
                 android:id="@+id/index"
                 android:text="@{item.trackNumber}"

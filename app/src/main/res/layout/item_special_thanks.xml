@@ -26,7 +26,7 @@
             android:layout_height="0dp"
             app:layout_constraintDimensionRatio="1"
             android:src="@drawable/vd_folder"
-            tools:tint="@color/dark_grey"
+            android:tint="?android:attr/textColorPrimary"
             app:imageSpecialThanks="@{item}"/>
 
         <TextView

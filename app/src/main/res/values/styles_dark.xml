@@ -18,6 +18,7 @@
 
         <item name="imageButtonStyle">@style/ImageButton</item>
         <item name="seekBarStyle">@style/SeekBar</item>
+        <item name="floatingActionButtonStyle">@style/DarkFab</item>
     </style>
 
     <!--black theme-->
@@ -37,6 +38,11 @@
         <item name="android:thumbTint">#F5F5F5</item>
         <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
         <item name="android:thumb">@drawable/seekbar_thumb</item>
+    </style>
+
+    <style name="DarkFab" parent="DefaultFab">
+        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="tint">@color/dark_grey</item>
     </style>
 
 </resources>

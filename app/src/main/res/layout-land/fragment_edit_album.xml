@@ -89,7 +89,8 @@
                 app:fabSize="mini"
                 android:src="@drawable/vd_image_search"
                 android:tint="@android:color/white"
-                android:layout_margin="8dp"/>
+                android:layout_margin="8dp"
+                style="@style/SecondaryFab"/>
 
             <ScrollView
                 android:layout_width="0dp"

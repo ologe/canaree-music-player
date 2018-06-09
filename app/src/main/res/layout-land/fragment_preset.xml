@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:focusable="false"
         android:clickable="false"
-        android:layout_marginBottom="48dp"/>
+        android:layout_marginBottom="48dp"
+        android:fontFamily="@font/roboto_slab_bold"/>
 
 </android.support.constraint.ConstraintLayout>

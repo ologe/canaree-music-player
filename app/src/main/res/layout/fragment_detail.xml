@@ -100,20 +100,17 @@
     <TextView
         android:id="@+id/headerText"
         tools:text="Selena Gomez"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textStyle="bold"
-        android:textSize="18dp"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        android:maxLines="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="96dp"
         android:layout_marginEnd="96dp"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible"
+        android:textAppearance="@style/Headline6.Alt" />
 
 </android.support.constraint.ConstraintLayout>

@@ -10,20 +10,16 @@
 
     <TextView
         android:id="@+id/nowPlaying"
-        android:textSize="@dimen/player_now_playing_size"
         android:text="@string/player_now_playing"
-        android:textStyle="bold"
         android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
-        android:stateListAnimator="@animator/now_playing"
-        android:textColor="?android:attr/textColorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:alpha=".4"
-        android:tint="@color/button_primary_tint"/>
+        android:textAppearance="@style/NowPlaying"
+        android:stateListAnimator="@animator/now_playing"/>
 
     <ImageButton
         android:id="@+id/lyrics"

@@ -82,7 +82,8 @@
                 app:fabSize="mini"
                 android:src="@drawable/vd_image_search"
                 android:tint="@android:color/white"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="16dp"
+                style="@style/SecondaryFab"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/artistLayout"

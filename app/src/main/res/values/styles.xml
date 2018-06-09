@@ -6,6 +6,7 @@
         <item name="tabStyle">@style/DefaultTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
         <item name="textInputStyle">@style/DefaultTextBox</item>
+        <item name="floatingActionButtonStyle">@style/LightFab</item>
 
         <!--for design time-->
         <item name="colorPrimary">@color/toolbar</item>
@@ -43,7 +44,6 @@
         <item name="tabIndicator">@drawable/rounded_line</item>
     </style>
 
-
     <style name="DefaultMaterialCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">16dp</item>
         <item name="cardBackgroundColor">?android:attr/windowBackground</item>
@@ -73,29 +73,20 @@
         <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
-    <style name="Headline4" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/roboto_slab_bold</item>
-        <item name="android:textSize">@dimen/item_detail_main_header_title_size</item>
-        <item name="android:lineSpacingMultiplier">.9</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:maxLines">3</item>
-        <item name="android:ellipsize">end</item>
+    <style name="DefaultFab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="fabSize">normal</item>
     </style>
 
-    <style name="Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">@font/roboto_slab_bold</item>
-        <item name="android:textSize">@dimen/main_toolbar_text_size</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    <style name="SecondaryFab" parent="DefaultFab">
+        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="tint">?android:attr/windowBackground</item>
     </style>
 
-    <style name="Headline6">
-        <item name="android:textSize">@dimen/item_header_text_size</item>
+    <style name="NowPlaying">
+        <item name="android:textSize">@dimen/player_now_playing_size</item>
+        <item name="android:fontFamily">@font/roboto_slab_bold</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0.0125</item>
-
+        <item name="android:alpha">.4</item>
     </style>
 
 </resources>
