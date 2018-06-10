@@ -12,7 +12,7 @@
         <item name="android:gravity">top</item>
     </style>
 
-    <style name="SizedProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+    <style name="SizedProgressBar" parent="@style/DefaultHorizontalProgressBar">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:translationY">-7dp</item>
     </style>

@@ -30,9 +30,9 @@
     </style>
 
     <style name="SeekBarLight" parent="Widget.AppCompat.SeekBar">
-        <item name="android:progressTint">@color/seek_bar_tint</item>
-        <item name="android:thumbTint">@color/seek_bar_tint</item>
-        <item name="android:progressBackgroundTint">@color/seek_bar_secondary_tint</item>
+        <item name="android:progressTint">@color/dark_grey</item>
+        <item name="android:thumbTint">@color/dark_grey</item>
+        <item name="android:progressBackgroundTint">@color/grey400</item>
         <item name="android:thumb">@drawable/seekbar_thumb</item>
     </style>
 

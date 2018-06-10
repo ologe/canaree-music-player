@@ -84,7 +84,7 @@
         android:layout_marginTop="2dp"
         android:scrollHorizontally="true"/>
 
-    <dev.olog.msc.presentation.theme.ThemedProgressBar
+    <ProgressBar
         android:id="@+id/progressBar"
         style="@style/SizedProgressBar"
         android:max="@integer/common_high_number"

@@ -7,6 +7,7 @@
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
         <item name="textInputStyle">@style/DefaultTextBox</item>
         <item name="floatingActionButtonStyle">@style/LightFab</item>
+        <item name="seekBarStyle">@style/SeekBarLight</item>
 
         <!--for design time-->
         <item name="colorPrimary">@color/toolbar</item>
@@ -87,6 +88,11 @@
         <item name="android:fontFamily">@font/roboto_slab_bold</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:alpha">.4</item>
+    </style>
+
+    <style name="DefaultHorizontalProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressTint">?attr/colorAccent</item>
+        <item name="android:progressBackgroundTint">@android:color/transparent</item>
     </style>
 
 </resources>

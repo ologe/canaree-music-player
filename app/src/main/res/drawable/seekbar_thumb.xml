@@ -2,10 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/accent"/>
+            <solid android:color="#000"/>
             <size
-                android:width="10dp"
-                android:height="10dp"/>
+                android:width="9dp"
+                android:height="9dp"/>
         </shape>
     </item>
 </layer-list>
