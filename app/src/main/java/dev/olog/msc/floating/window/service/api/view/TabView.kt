@@ -36,7 +36,7 @@ class TabView(
 
         val padding = context.dip(14)
         setPadding(padding, padding, padding, padding)
-        imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.dark_grey))
+        setColorFilter(ContextCompat.getColor(context, R.color.dark_grey))
     }
 
     fun setHidden(animate: Boolean){

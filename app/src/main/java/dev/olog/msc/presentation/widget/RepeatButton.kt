@@ -22,7 +22,7 @@ class RepeatButton @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
-) : AppCompatImageButton(context, attrs), DefaultTint {
+) : AppCompatImageButton(context, attrs) {
 
     private val defaultEnabledColor: Int
     private var enabledColor: Int
@@ -85,6 +85,18 @@ class RepeatButton @JvmOverloads constructor(
             }
         })
         hideDrawable.start()
+    }
+
+    private fun getDefaultColor(): Int {
+        return when {
+            context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_929cb0.toInt()
+            AppTheme.isFullscreen() -> Color.WHITE
+            AppTheme.isDarkTheme() -> {
+                alpha = .7f
+                textColorSecondary()
+            }
+            else -> textColorTertiary()
+        }
     }
 
 }

@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.core.widget.toast
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.makeDialog
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -32,7 +31,7 @@ abstract class BaseDialog : BaseDialogFragment() {
                             .subscribe({}, Throwable::printStackTrace)
                 })
 
-        return builder.makeDialog()
+        return builder.show()
     }
 
     protected abstract fun title(context: Context): CharSequence

@@ -22,7 +22,7 @@ class LicensesFragmentAdapter @Inject constructor(
                 .url.movementMethod = LinkMovementMethod.getInstance()
 
         viewHolder.setOnClickListener(controller) { _, _, _ ->
-            val maxLines = if (viewHolder.itemView.license.maxLines > 5) 5 else Int.MAX_VALUE
+            val maxLines = if (viewHolder.itemView.license.maxLines > 10) 10 else Int.MAX_VALUE
             viewHolder.itemView.license.maxLines = maxLines
         }
     }

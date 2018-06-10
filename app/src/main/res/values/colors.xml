@@ -31,7 +31,7 @@
     <color name="item_selected">@color/accent</color>
 
     <color name="seek_bar_tint">@color/dark_grey</color>
-    <color name="seek_bar_secondary_tint">@color/grey400</color>
+    <color name="seek_bar_secondary_tint">#757575</color>
 
     <color name="progress_bar_tint">@color/accent</color>
     <color name="progress_bar_secondary_tint">@color/background</color>

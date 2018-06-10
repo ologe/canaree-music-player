@@ -163,7 +163,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                             }, Throwable::printStackTrace)
                 })
                 .setNegativeButton(R.string.popup_negative_no, null)
-                .makeDialog()
+                .show()
     }
 
 }

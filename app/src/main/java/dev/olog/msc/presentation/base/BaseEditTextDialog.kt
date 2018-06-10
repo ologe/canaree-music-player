@@ -14,7 +14,6 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -44,11 +43,11 @@ abstract class BaseEditTextDialog : BaseDialogFragment() {
                 .setNegativeButton(negativeButtonMessage(application), null)
                 .setPositiveButton(positiveButtonMessage(application), null)
 
-        val dialog = builder.makeDialog()
+        val dialog = builder.show()
 
-        editText = dialog.findViewById(R.id.editText)
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
-        clearButton = dialog.findViewById(R.id.clear)
+        editText = dialog.findViewById(R.id.editText)!!
+        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
+        clearButton = dialog.findViewById(R.id.clear)!!
 
         editText.setText(initialTextFieldValue())
 

@@ -49,7 +49,7 @@ class BlacklistFragment : BaseDialogFragment() {
         list.adapter = adapter
         list.layoutManager = GridLayoutManager(context, 3)
 
-        val dialog = builder.makeDialog()
+        val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
                     val allIsBlacklisted = adapter.data.all { it.isBlacklisted }

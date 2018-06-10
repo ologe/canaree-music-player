@@ -27,7 +27,8 @@
                 android:layout_height="@dimen/tab"
                 android:paddingEnd="8dp"
                 android:paddingStart="60dp"
-                android:background="?android:attr/windowBackground" />
+                android:background="?android:attr/windowBackground"
+                app:layout_scrollFlags="scroll|enterAlways"/>
 
         </android.support.design.widget.AppBarLayout>
 

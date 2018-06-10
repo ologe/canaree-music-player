@@ -15,7 +15,6 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
-import dev.olog.msc.utils.k.extension.makeDialog
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -52,7 +51,7 @@ class SetRingtoneDialogPresenter @Inject constructor(
                     val packageName = application.packageName
                     val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:$packageName"))
                     activity.startActivity(intent)
-                }).makeDialog()
+                }).show()
     }
 
     private fun writeSettings() : Boolean {

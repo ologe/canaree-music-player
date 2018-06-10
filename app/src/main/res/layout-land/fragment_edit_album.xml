@@ -192,7 +192,6 @@
 
             <android.support.design.button.MaterialButton
                 android:id="@+id/okButton"
-                app:layout_constraintTop_toBottomOf="@+id/yearLayout"
                 android:layout_margin="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -211,7 +210,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
                 app:layout_constraintEnd_toStartOf="@+id/okButton"
-                style="@style/DefaultButton"/>
+                style="@style/PositiveButton"/>
 
         </android.support.constraint.ConstraintLayout>
 

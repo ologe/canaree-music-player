@@ -204,7 +204,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
                 app:layout_constraintEnd_toStartOf="@+id/okButton"
-                style="@style/DefaultButton"/>
+                style="@style/PositiveButton"/>
 
         </android.support.constraint.ConstraintLayout>
 

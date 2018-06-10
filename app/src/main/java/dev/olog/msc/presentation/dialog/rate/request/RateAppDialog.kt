@@ -11,7 +11,6 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.openPlayStore
-import dev.olog.msc.utils.k.extension.makeDialog
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -55,7 +54,7 @@ class RateAppDialog @Inject constructor(
                             .setNegativeButton(R.string.rate_app_negative_button, { _, _ -> setNeverShowAgain() })
                             .setNeutralButton(R.string.rate_app_neutral_button, { _, _ ->  })
                             .setCancelable(false)
-                            .makeDialog()
+                            .show()
 
                 }, Throwable::printStackTrace)
     }

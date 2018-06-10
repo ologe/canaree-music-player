@@ -2,25 +2,33 @@ package dev.olog.msc.presentation.widget
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.annotation.Keep
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
+import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.msc.utils.k.extension.textColorTertiary
 
 @Keep
 class AnimatedPlayPauseImageView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 
-) : AppCompatImageButton(context, attrs, 0), DefaultTint {
+) : AppCompatImageButton(context, attrs, 0) {
 
     private val playAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_play_to_pause)
     private val pauseAnimation = context.getAnimatedVectorDrawable(R.drawable.avd_playpause_pause_to_play)
 
     init {
+        if (AppTheme.isDarkTheme()){
+            setColorFilter(0xFF_FFFFFF.toInt())
+        }
+
         setupBackground(false)
     }
 
@@ -35,7 +43,7 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     }
 
     fun useLightImage(){
-        imageTintList = ColorStateList.valueOf(0xFF_F5F5F5.toInt())
+        setColorFilter(0xFF_F5F5F5.toInt())
     }
 
     fun animationPlay(animate: Boolean) {
@@ -57,6 +65,14 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
     private fun setAvd(avd: AnimatedVectorDrawable){
         setImageDrawable(avd)
         avd.start()
+    }
+
+    private fun getDefaultColor(): Int{
+        return when {
+            context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_929cb0.toInt()
+            AppTheme.isFullscreen() || AppTheme.isDarkTheme() -> Color.WHITE
+            else -> textColorTertiary()
+        }
     }
 
 }

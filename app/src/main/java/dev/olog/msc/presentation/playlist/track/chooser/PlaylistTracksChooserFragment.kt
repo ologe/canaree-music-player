@@ -162,11 +162,11 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                 .setPositiveButton(R.string.popup_positive_ok, null)
                 .setNegativeButton(R.string.popup_negative_cancel, null)
 
-        val dialog = builder.makeDialog()
+        val dialog = builder.show()
 
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
-        val clearButton = dialog.findViewById<View>(R.id.clear)
+        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
+        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
+        val clearButton = dialog.findViewById<View>(R.id.clear)!!
         clearButton.setOnClickListener { editText.setText("") }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {

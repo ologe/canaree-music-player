@@ -2,6 +2,8 @@ package dev.olog.msc.presentation.about
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.widget.TextViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.animation.AnimationUtils
@@ -61,10 +63,11 @@ class AboutActivity : BaseActivity() {
     }
 
     private val factory = ViewSwitcher.ViewFactory {
-        val textView = TextView(this@AboutActivity, null, R.style.Headline6_Alt)
+        val textView = TextView(this@AboutActivity)
         textView.layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT
         )
+        TextViewCompat.setTextAppearance(textView, R.style.Headline6_Alt)
         textView.gravity = Gravity.CENTER
         textView
     }

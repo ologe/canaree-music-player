@@ -10,4 +10,6 @@
 
     <dimen name="common_header_size">16dp</dimen>
 
+    <dimen name="default_corner_radius">4dp</dimen>
+
 </resources>

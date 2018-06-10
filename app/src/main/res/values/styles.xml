@@ -13,6 +13,7 @@
         <item name="colorPrimaryDark">@color/status_bar</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowFullscreen">true</item>
+
     </style>
 
     <!-- Base dark application theme. -->
@@ -45,9 +46,8 @@
     </style>
 
     <style name="DefaultMaterialCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">16dp</item>
+        <item name="cardCornerRadius">@dimen/default_corner_radius</item>
         <item name="cardBackgroundColor">?android:attr/windowBackground</item>
-        <item name="cardElevation">12dp</item>
     </style>
 
     <style name="DefaultTextBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">

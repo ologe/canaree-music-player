@@ -1,10 +1,10 @@
 package dev.olog.msc.utils.k.extension
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AlertDialog
 import android.view.View
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.isP
@@ -37,5 +37,5 @@ fun View.hasNotch(): Boolean {
 fun FragmentActivity.simpleDialog(builder: AlertDialog.Builder.() -> AlertDialog.Builder){
     ThemedDialog.builder(this)
             .builder()
-            .makeDialog()
+            .show()
 }

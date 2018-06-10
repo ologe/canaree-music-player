@@ -14,7 +14,6 @@ import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.makeDialog
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : BaseDialogFragment() {
@@ -52,7 +51,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         touchHelper.attachToRecyclerView(list)
         adapter.touchHelper = touchHelper
 
-        val dialog = builder.makeDialog()
+        val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
                     val defaultData = presenter.getDefaultDataSet()

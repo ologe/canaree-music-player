@@ -28,7 +28,6 @@ import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.makeDialog
 
 private const val PICK_IMAGE_CODE = 456
 
@@ -104,7 +103,7 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
                         restoreImage()
                     }
                 })
-                .makeDialog()
+                .show()
     }
 
     private fun openImagePicker(){

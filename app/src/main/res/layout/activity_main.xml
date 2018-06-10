@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/slidingPanel"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoShadowHeight="@dimen/sliding_panel_shadow"
-    sothree:umanoPanelHeight="@dimen/sliding_panel_peek"
-    sothree:umanoParallaxOffset="@dimen/sliding_panel_parallax"
-    sothree:umanoInitialState="collapsed">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/slidingPanel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoShadowHeight="@dimen/sliding_panel_shadow"
+        sothree:umanoPanelHeight="@dimen/sliding_panel_peek"
+        sothree:umanoParallaxOffset="@dimen/sliding_panel_parallax"
+        sothree:umanoInitialState="collapsed">
 
-    <FrameLayout
-        android:id="@+id/playerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <fragment
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="dev.olog.msc.presentation.player.PlayerFragment"
-            android:tag="@string/player_fragment_tag" />
+            android:layout_height="match_parent"/>
 
-        <fragment
+        <FrameLayout
+            android:id="@+id/playerLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sliding_panel_peek"
-            android:name="dev.olog.msc.presentation.mini.player.MiniPlayerFragment"
-            android:tag="@string/mini_player_fragment_tag" />
+            android:layout_height="match_parent">
 
-    </FrameLayout>
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="dev.olog.msc.presentation.player.PlayerFragment"
+                android:tag="@string/player_fragment_tag" />
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sliding_panel_peek"
+                android:name="dev.olog.msc.presentation.mini.player.MiniPlayerFragment"
+                android:tag="@string/mini_player_fragment_tag" />
+
+        </FrameLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</FrameLayout>

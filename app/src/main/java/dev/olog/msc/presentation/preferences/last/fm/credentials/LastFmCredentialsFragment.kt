@@ -13,7 +13,6 @@ import dev.olog.msc.domain.interactor.last.fm.scrobble.UpdateLastFmUserCredentia
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.makeDialog
 import javax.inject.Inject
 
 class LastFmCredentialsFragment : BaseDialogFragment() {
@@ -48,7 +47,7 @@ class LastFmCredentialsFragment : BaseDialogFragment() {
         userName.setText(credentials.username)
         password.setText(credentials.password)
 
-        val dialog = builder.makeDialog()
+        val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val user = UserCredentials(

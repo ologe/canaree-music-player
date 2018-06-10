@@ -16,23 +16,23 @@
         <TextView
             android:text="@{licenseModel.name}"
             tools:text="Dagger"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:textColor="@color/text_color_primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textAppearance="@style/Headline5"/>
 
         <TextView
             android:id="@+id/url"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="16dp"
             android:text="@{licenseModel.url}"
             android:textColor="@color/item_selected"
             tools:text="https://github.com/google/dagger"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoLink="web"/>
+            android:autoLink="web"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/license"
@@ -42,16 +42,15 @@
             android:textColor="@color/text_color_secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="5"
-            android:ellipsize="end"/>
+            android:maxLines="10"
+            android:ellipsize="end" />
 
-        <View
+        <dev.olog.msc.presentation.widget.DottedSeparator
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            style="@style/Divider"
+            android:layout_height="2dp"
             android:layout_marginTop="16dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="64dp"/>
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"/>
 
     </LinearLayout>
 

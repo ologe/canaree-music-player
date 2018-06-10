@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.theme
 
-import android.app.AlertDialog
 import android.content.Context
+import android.support.v7.app.AlertDialog
 
 object ThemedDialog {
 
@@ -14,6 +14,5 @@ object ThemedDialog {
 //            else -> AlertDialog.Builder(context)
 //        }
     }
-
 
 }

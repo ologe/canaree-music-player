@@ -4,13 +4,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
-import android.widget.EditText
 import androidx.core.text.isDigitsOnly
 import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService
-import dev.olog.msc.utils.k.extension.makeDialog
 
 object OfflineLyricsSyncAdjustementDialog {
 
@@ -26,13 +24,13 @@ object OfflineLyricsSyncAdjustementDialog {
             dialog.enableForService()
             dialog.show()
         } else {
-            dialog = builder.makeDialog()
+            dialog = builder.show()
         }
 
-        val editText : EditText = dialog.findViewById<TextInputEditText>(R.id.editText)
+        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
         editText.setText(currentValue)
         if (!forService){
-            val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
+            val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
             editTextLayout.hint = ctx.getString(R.string.offline_lyrics_adjust_sync_hint)
         } else {
             editText.hint = ctx.getString(R.string.offline_lyrics_adjust_sync_hint)

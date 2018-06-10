@@ -9,7 +9,6 @@ import android.widget.EditText
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService
-import dev.olog.msc.utils.k.extension.makeDialog
 
 object EditLyricsDialog {
 
@@ -20,15 +19,15 @@ object EditLyricsDialog {
                 .setPositiveButton(R.string.popup_positive_ok, null)
                 .setNegativeButton(R.string.popup_negative_back, null)
 
-        val dialog = builder.makeDialog()
+        val dialog = builder.show()
 
-        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)
-        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)
+        val editText = dialog.findViewById<TextInputEditText>(R.id.editText)!!
+        val editTextLayout = dialog.findViewById<TextInputLayout>(R.id.editTextLayout)!!
         editTextLayout.hint = context.getString(R.string.offline_lyrics_edit_hint)
         if (currentText != context.getString(R.string.offline_lyrics_empty)){
             editText.setText(currentText)
         }
-        dialog.findViewById<View>(R.id.clear).setOnClickListener { editText.setText("") }
+        dialog.findViewById<View>(R.id.clear)!!.setOnClickListener { editText.setText("") }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             updateFunc(editText.text.toString())
@@ -54,11 +53,11 @@ object EditLyricsDialog {
         dialog.enableForService()
         dialog.show()
 
-        val editText = dialog.findViewById<EditText>(R.id.editText)
+        val editText = dialog.findViewById<EditText>(R.id.editText)!!
         if (currentText != context.getString(R.string.offline_lyrics_empty)){
             editText.setText(currentText)
         }
-        dialog.findViewById<View>(R.id.clear).setOnClickListener { editText.setText("") }
+        dialog.findViewById<View>(R.id.clear)!!.setOnClickListener { editText.setText("") }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             updateFunc(editText.text.toString())
