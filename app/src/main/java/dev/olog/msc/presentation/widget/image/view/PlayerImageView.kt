@@ -2,23 +2,18 @@ package dev.olog.msc.presentation.widget.image.view
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
 import android.util.AttributeSet
-import android.widget.ImageView
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.presentation.BindingsAdapter
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.utils.images.RippleTarget
-import dev.olog.msc.presentation.widget.parallax.ParallaxImageView
 import dev.olog.msc.utils.RippleUtils
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.isMarshmallow
@@ -42,7 +37,7 @@ class PlayerImageView @JvmOverloads constructor(
                 .placeholder(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .override(Target.SIZE_ORIGINAL)
+                .override(if (AppConstants.useFakeData) 800 else Target.SIZE_ORIGINAL)
                 .into(Ripple(this))
     }
 

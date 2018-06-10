@@ -106,7 +106,7 @@ class SongRepository @Inject constructor(
 
     private fun adjustImages(original: List<Song>): List<Song> {
         val images = CommonQuery.searchForImages()
-        return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), "")) }
+        return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
     }
 
     private fun removeBlacklisted(original: List<Song>): List<Song>{

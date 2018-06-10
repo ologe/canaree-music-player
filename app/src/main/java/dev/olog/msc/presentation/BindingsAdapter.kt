@@ -9,6 +9,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import dev.olog.msc.app.GlideApp
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.presentation.library.folder.tree.DisplayableFile
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -18,13 +19,11 @@ import dev.olog.msc.presentation.widget.QuickActionView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import kotlin.math.absoluteValue
 
 object BindingsAdapter {
 
     private const val OVERRIDE_SMALL = 150
     private const val OVERRIDE_MID = 300
-    private const val OVERRIDE_BIG = Target.SIZE_ORIGINAL
 
     @JvmStatic
     @BindingAdapter("fileTrackLoader")
@@ -74,34 +73,6 @@ object BindingsAdapter {
                 .into(RippleTarget(view, mediaId.isLeaf))
     }
 
-    @BindingAdapter("albumsArtistImage")
-    @JvmStatic
-    fun loadAlbumsArtistImage(view: ImageView, item: DisplayableItem){
-        if (!item.mediaId.isAlbum) return
-
-        val artistId = item.mediaId.categoryValue.toLong().absoluteValue
-        val artistMediaId = MediaId.artistId(artistId)
-
-        val load: Any = if (ImagesFolderUtils.isChoosedImage(item.image)){
-            item.image
-        } else item.copy(mediaId = artistMediaId)
-
-        GlideApp.with(view.context).clear(view)
-
-        GlideApp.with(view.context)
-                .load(load)
-                .override(50)
-                .placeholder(CoverUtils.getGradient(view.context, artistMediaId))
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(view)
-    }
-
-    @BindingAdapter("backgroundDrawable")
-    @JvmStatic
-    fun loadBackgroundDrawable(view: ImageView, item: DisplayableItem){
-        view.background = CoverUtils.onlyGradient(view.context, item.mediaId.resolveId.toInt())
-    }
-
     @BindingAdapter("imageSong")
     @JvmStatic
     fun loadSongImage(view: ImageView, item: DisplayableItem) {
@@ -117,7 +88,7 @@ object BindingsAdapter {
     @BindingAdapter("imageBigAlbum")
     @JvmStatic
     fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, OVERRIDE_BIG, Priority.IMMEDIATE)
+        loadImageImpl(view, item, if (AppConstants.useFakeData) 1000 else Target.SIZE_ORIGINAL, Priority.IMMEDIATE)
     }
 
     @BindingAdapter("imageSpecialThanks")

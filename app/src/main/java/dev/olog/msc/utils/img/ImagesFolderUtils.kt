@@ -59,7 +59,8 @@ object ImagesFolderUtils {
         return result
     }
     private fun getFakeImage(albumId: Long): String {
-        val safe = clamp(albumId.rem(10), 0, 10)
+        val size = 10L
+        val safe = clamp(albumId.rem(size), 0, size - 1)
         return Uri.parse("file:///android_asset/images/$safe.jpg").toString()
     }
 

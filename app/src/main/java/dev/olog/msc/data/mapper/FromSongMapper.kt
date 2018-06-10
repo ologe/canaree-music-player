@@ -13,7 +13,7 @@ fun Song.toFolder(context: Context, songCount: Int) : Folder {
     val folderImage = ImagesFolderUtils.forFolder(context, this.folderPath)
 
     return Folder(
-            this.folder,
+            this.folder.capitalize(),
             this.folderPath,
             songCount,
             folderImage
