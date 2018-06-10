@@ -39,8 +39,8 @@ android {
             minifyEnabled true
             useProguard true
             multiDexEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("bool", "FIREBASE_ENABLED", "true")
             debuggable false
         }
@@ -120,6 +120,7 @@ dependencies {
     implementation "com.android.support:support-media-compat:$rootProject.support_library"
     implementation "com.android.support:recyclerview-v7:$rootProject.support_library"
     implementation "com.android.support:cardview-v7:$rootProject.support_library"
+    implementation "com.android.support:customtabs:$rootProject.support_library"
     implementation "com.android.support:design:$rootProject.support_library"
     implementation "com.android.support:preference-v14:$rootProject.support_library"
     implementation "com.android.support:palette-v7:$rootProject.support_library"
