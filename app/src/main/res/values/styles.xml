@@ -8,6 +8,7 @@
         <item name="textInputStyle">@style/DefaultTextBox</item>
         <item name="floatingActionButtonStyle">@style/LightFab</item>
         <item name="seekBarStyle">@style/SeekBarLight</item>
+        <item name="imageButtonStyle">@style/ImageButtonLight</item>
 
         <!--for design time-->
         <item name="colorPrimary">@color/toolbar</item>

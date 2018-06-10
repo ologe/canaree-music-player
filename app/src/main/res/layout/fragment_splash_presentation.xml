@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/root">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/logo"
         android:layout_marginTop="64dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         android:src="@drawable/vd_bird_singing"
-        android:tint="@color/button_primary_tint"
+        android:background="@null"
         android:layout_width="@dimen/splash_placeholder_size"
         android:layout_height="@dimen/splash_placeholder_size"
         android:layout_marginBottom="124dp"/>
