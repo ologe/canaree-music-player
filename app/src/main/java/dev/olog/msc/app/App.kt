@@ -32,7 +32,6 @@ class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
         app = this
 
         initializeDebug()

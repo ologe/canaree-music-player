@@ -87,7 +87,8 @@ class MusicNotificationManager @Inject constructor(
                             }
                         }
                         is PlaybackStateCompat -> {
-                            if (currentState.updateState(it)){
+                            val state = currentState.updateState(it)
+                            if (state){
                                 publishNotification(100)
                             }
                         }

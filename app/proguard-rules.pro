@@ -42,6 +42,9 @@
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**
 
+#sliding panel
+-keep class android.support.design.stateful.ExtendableSavedState
+
 #glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule

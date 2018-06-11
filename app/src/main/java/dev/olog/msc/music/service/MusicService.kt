@@ -52,6 +52,7 @@ class MusicService : BaseMusicService() {
 
     override fun onCreate() {
         super.onCreate()
+
         sessionToken = mediaSession.sessionToken
 
         mediaSession.setFlags(

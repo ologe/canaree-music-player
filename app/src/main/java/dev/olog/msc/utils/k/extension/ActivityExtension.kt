@@ -28,8 +28,7 @@ fun FragmentActivity.getTopFragment(): Fragment? {
 @SuppressLint("NewApi")
 fun View.hasNotch(): Boolean {
     if (isP()){
-        val displayCutout = rootWindowInsets.displayCutout
-        return displayCutout != null
+        return rootWindowInsets?.displayCutout != null
     }
     return false
 }

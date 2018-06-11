@@ -82,7 +82,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
 
     override fun start() {
         if (!serviceStarted) {
-            val intent = Intent(this, this::class.java)
+            val intent = Intent(this, MusicService::class.java)
             intent.action = ACTION_KEEP_SERVICE_ALIVE
             ContextCompat.startForegroundService(this, intent)
 
