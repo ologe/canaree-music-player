@@ -47,12 +47,12 @@ class RateAppDialog @Inject constructor(
                     ThemedDialog.builder(activity)
                             .setTitle(R.string.rate_app_title)
                             .setMessage(R.string.rate_app_message)
-                            .setPositiveButton(R.string.rate_app_positive_button, { _, _ ->
+                            .setPositiveButton(R.string.rate_app_positive_button) { _, _ ->
                                 setNeverShowAgain()
                                 openPlayStore(activity)
-                            })
-                            .setNegativeButton(R.string.rate_app_negative_button, { _, _ -> setNeverShowAgain() })
-                            .setNeutralButton(R.string.rate_app_neutral_button, { _, _ ->  })
+                            }
+                            .setNegativeButton(R.string.rate_app_negative_button) { _, _ -> setNeverShowAgain() }
+                            .setNeutralButton(R.string.rate_app_neutral_button) { _, _ ->  }
                             .setCancelable(false)
                             .show()
 

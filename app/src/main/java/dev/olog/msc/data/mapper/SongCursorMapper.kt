@@ -8,7 +8,6 @@ import androidx.core.database.getLong
 import androidx.core.database.getString
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import java.io.File
 
 
@@ -40,11 +39,14 @@ fun Cursor.toSong(): Song {
     val track = extractTrackNumber(trackNumber)
     val disc = extractDiscNumber(trackNumber)
 
+    val isPodcast = getInt(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0
+
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
             "",
             duration, dateAdded, path,
-            folder.capitalize(), disc, track)
+            folder.capitalize(), disc, track,
+            isPodcast)
 }
 
 fun Cursor.toUneditedSong(image: String): Song {
@@ -75,10 +77,13 @@ fun Cursor.toUneditedSong(image: String): Song {
         }
     }
 
+    val isPodcast = getInt(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0
+
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
             image, duration, dateAdded, path,
-            folder.capitalize(), disc, track)
+            folder.capitalize(), disc, track,
+            isPodcast)
 }
 
 private fun extractTrackNumber(originalTrackNumber: Int) : Int {

@@ -6,7 +6,6 @@ import android.support.annotation.StyleRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatDelegate
 import dagger.android.support.DaggerAppCompatActivity
-import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.setLightStatusBar
@@ -19,7 +18,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         setTheme(getActivityTheme())
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
-        Permissions.requestForegroundService(this)
     }
 
     private fun disableDayNight(){

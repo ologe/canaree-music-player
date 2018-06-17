@@ -95,10 +95,10 @@ class MediaSessionCallback @Inject constructor(
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         queue.handlePlayFromGoogleSearch(query, extras)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(player::play, {
+                .subscribe(player::play) {
                     playerState.setEmptyQueue()
                     it.printStackTrace()
-                })
+                }
                 .addTo(subscriptions)
     }
 
@@ -200,6 +200,8 @@ class MediaSessionCallback @Inject constructor(
                                 .addTo(subscriptions)
                     })
                 }
+                MusicConstants.ACTION_FORWARD_10_SECONDS -> player.forwardTenSeconds()
+                MusicConstants.ACTION_REPLAY_10_SECONDS -> player.replayTenSeconds()
             }
         }
     }

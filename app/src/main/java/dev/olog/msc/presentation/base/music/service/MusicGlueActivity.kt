@@ -20,7 +20,6 @@ import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.crashlyticsLog
 import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -291,5 +290,13 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
                 .setMediaId(trackId)
                 .build()
         MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE - 1)
+    }
+
+    override fun replayTenSeconds() {
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REPLAY_10_SECONDS, null)
+    }
+
+    override fun forwardTenSeconds() {
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_FORWARD_10_SECONDS, null)
     }
 }

@@ -41,7 +41,7 @@ object EditLyricsDialog {
     }
 
     fun showForService(context: Context, currentText: String, updateFunc: (String) -> Unit){
-        val builder = ThemedDialog.builder(context)
+        val builder = ThemedDialog.frameworkBuilder(context)
                 .setTitle(R.string.offline_lyrics_edit_title)
                 .setView(R.layout.content_layout_edit_text)
                 .setPositiveButton(R.string.popup_positive_ok, null)

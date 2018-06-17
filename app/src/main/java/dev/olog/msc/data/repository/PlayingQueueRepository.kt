@@ -53,7 +53,8 @@ class PlayingQueueRepository @Inject constructor(
                 this.path,
                 this.folder,
                 this.discNumber,
-                this.trackNumber
+                this.trackNumber,
+                this.isPodcast
         )
     }
 

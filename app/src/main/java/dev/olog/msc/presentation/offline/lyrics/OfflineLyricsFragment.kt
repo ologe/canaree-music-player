@@ -83,32 +83,32 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         mediaProvider.onMetadataChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(this) {
                     presenter.updateCurrentTrackId(it.getId())
                     presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
                     loadBackgroundImage(it)
                     header.text = it.getTitle()
                     subHeader.text = it.getArtist()
                     seekBar.max = it.getDuration().toInt()
-                })
+                }
 
         presenter.observeLyrics()
                 .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(this) {
                     emptyState.toggleVisibility(it.isEmpty(), true)
                     text.setText(it)
-                })
+                }
 
         mediaProvider.onStateChanged()
                 .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(this) {
                     val isPlaying = it.state == PlaybackState.STATE_PLAYING
                     seekBar.progress = it.position.toInt()
                     handleSeekBarState(isPlaying)
-                })
+                }
 
     }
 
@@ -149,9 +149,9 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
     override fun onResume() {
         super.onResume()
         edit.setOnClickListener {
-            EditLyricsDialog.show(act, presenter.getOriginalLyrics(), { newLyrics ->
+            EditLyricsDialog.show(act, presenter.getOriginalLyrics()) { newLyrics ->
                 presenter.updateLyrics(newLyrics)
-            })
+            }
         }
         back.setOnClickListener { act.onBackPressed() }
         search.setOnClickListener { searchLyrics() }
@@ -163,7 +163,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         seekBar.setOnSeekBarChangeListener(seekBarListener)
 
         sync.setOnClickListener {
-            OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement(), false) {
+            OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement()) {
                 presenter.updateSyncAdjustement(it)
             }
         }
@@ -179,14 +179,14 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
 
         val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
         val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri, { _, _ ->
+        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri) { _, _ ->
             val intent = Intent(Intent.ACTION_VIEW, uri)
             if (act.packageManager.isIntentSafe(intent)) {
                 startActivity(intent)
             } else {
                 act.toast(R.string.common_browser_not_found)
             }
-        })
+        }
     }
 
     override fun onPause() {

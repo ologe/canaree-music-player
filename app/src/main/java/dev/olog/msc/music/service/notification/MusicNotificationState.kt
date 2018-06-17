@@ -1,7 +1,6 @@
 package dev.olog.msc.music.service.notification
 
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.msc.BuildConfig
 import dev.olog.msc.music.service.model.MediaEntity
 import java.util.concurrent.TimeUnit
 
@@ -18,18 +17,6 @@ data class MusicNotificationState (
 ) {
 
     private fun isValidState(): Boolean{
-        if (BuildConfig.DEBUG){
-            println(id)
-            println(title)
-            println(artist)
-            println(album)
-            println(image)
-            println(bookmark)
-            println(duration)
-
-        }
-
-
         return id != -1L &&
                 title.isNotBlank() &&
                 artist.isNotBlank() &&

@@ -18,10 +18,10 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.floating.window.service.api.Content
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.glide.transformation.BlurTransformation
-import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
-import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
+import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.blur.FastBlur
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
@@ -125,18 +125,18 @@ class OfflineLyricsContent(
 
     override fun onShown() {
         edit.setOnClickListener {
-            EditLyricsDialog.showForService(context, presenter.getOriginalLyrics(), { newLyrics ->
+            EditLyricsDialog.showForService(context, presenter.getOriginalLyrics()) { newLyrics ->
                 presenter.updateLyrics(newLyrics)
-            })
+            }
         }
         sync.setOnClickListener {
-            OfflineLyricsSyncAdjustementDialog.show(context, presenter.getSyncAdjustement(), true) {
+            OfflineLyricsSyncAdjustementDialog.showForService(context, presenter.getSyncAdjustement()) {
                 presenter.updateSyncAdjustement(it)
             }
         }
-        fakeNext.setOnTouchListener(NoScrollTouchListener(context, { musicServiceBinder.skipToNext() }))
-        fakePrev.setOnTouchListener(NoScrollTouchListener(context, { musicServiceBinder.skipToPrevious() }))
-        scrollView.setOnTouchListener(NoScrollTouchListener(context, { musicServiceBinder.playPause() }))
+        fakeNext.setOnTouchListener(NoScrollTouchListener(context) { musicServiceBinder.skipToNext() })
+        fakePrev.setOnTouchListener(NoScrollTouchListener(context) { musicServiceBinder.skipToPrevious() })
+        scrollView.setOnTouchListener(NoScrollTouchListener(context) { musicServiceBinder.playPause() })
     }
 
     override fun onHidden() {

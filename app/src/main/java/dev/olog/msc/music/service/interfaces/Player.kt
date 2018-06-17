@@ -15,6 +15,9 @@ interface Player : PlayerLifecycle {
     fun pause(stopService: Boolean)
     fun seekTo(millis: Long)
 
+    fun forwardTenSeconds()
+    fun replayTenSeconds()
+
     fun stopService()
 
     fun setVolume(volume: Float)

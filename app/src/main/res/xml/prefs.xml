@@ -8,7 +8,7 @@
         <Preference
             android:title="@string/prefs_library_categories_title"
             android:summary="@string/prefs_library_categories_summary"
-            android:key="@string/prefs_library_categories_key"/>
+            android:key="@string/prefs_library_categories_key" />
 
         <SwitchPreference
             android:title="@string/prefs_remember_last_tab_title"
@@ -57,7 +57,7 @@
             app:msbp_maxValue="12"
             app:msbp_interval="1"
             app:msbp_measurementUnit="s"
-            app:msbp_minText="Off"/>
+            app:msbp_minText="Off" />
 
         <SwitchPreference
             android:title="@string/prefs_gapless_title"

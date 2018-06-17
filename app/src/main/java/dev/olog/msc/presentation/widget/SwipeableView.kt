@@ -30,7 +30,6 @@ class SwipeableView @JvmOverloads constructor(
     private var swipeListener: SwipeListener? = null
     private val isTouchingPublisher = PublishSubject.create<Boolean>()
 
-//    private var canDisallowParentTouch = true
     private var isTouchEnabled = true
 
     private val sixtyFourDip by lazy(LazyThreadSafetyMode.NONE) { context.dip(64) }
@@ -57,10 +56,6 @@ class SwipeableView @JvmOverloads constructor(
 
     fun isTouching(): Observable<Boolean> = isTouchingPublisher.distinctUntilChanged()
 
-    fun setCanDisallowParentTouch(enabled: Boolean){
-//        canDisallowParentTouch = enabled
-    }
-
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
         return when (event.actionMasked) {
@@ -74,9 +69,6 @@ class SwipeableView @JvmOverloads constructor(
                 return true
             }
             MotionEvent.ACTION_UP  -> {
-//                if (canDisallowParentTouch){
-//                    parent.requestDisallowInterceptTouchEvent(false)
-//                }
                 isTouchingPublisher.onNext(false)
                 onActionUp(event)
             }
@@ -91,10 +83,6 @@ class SwipeableView @JvmOverloads constructor(
     }
 
     private fun onActionMove(event: MotionEvent) {
-        val isHorizontalScroll = Math.abs(event.x - xDown) > (Math.abs(event.y - yDown) * 2)
-//        if (canDisallowParentTouch){
-//            parent.requestDisallowInterceptTouchEvent(isHorizontalScroll)
-//        }
     }
 
     private fun onActionUp(event: MotionEvent) : Boolean {

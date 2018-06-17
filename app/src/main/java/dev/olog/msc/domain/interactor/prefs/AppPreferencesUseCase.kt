@@ -67,7 +67,6 @@ class AppPreferencesUseCase @Inject constructor(
         when (category){
             MediaIdCategory.ALBUMS -> gateway.setAlbumSpanSize(spanSize)
         }
-
     }
 
     fun observeSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {

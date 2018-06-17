@@ -5,6 +5,6 @@
     <string name="rate_app_message">Leave a positive rating if you appreciate my work</string>
     <string name="rate_app_positive_button">Rate</string>
     <string name="rate_app_negative_button">No, thanks</string>
-    <string name="rate_app_neutral_button">Remind me later</string>
+    <string name="rate_app_neutral_button">Later</string>
 
 </resources>

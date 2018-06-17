@@ -34,7 +34,7 @@ class RippleTarget(
         }
     }
 
-    override fun onGenerated(palette: Palette) {
+    override fun onGenerated(palette: Palette?) {
         if (!isLeaf && imageView is ForegroundImageView){
             val fallbackColor = ContextCompat.getColor(view.context, R.color.mid_grey)
             val darkAlpha = if (isMarshmallow()) .4f else .1f

@@ -44,4 +44,7 @@ interface MediaProvider {
     fun remove(position: Int)
     fun removeRelative(position: Int)
 
+    fun replayTenSeconds()
+    fun forwardTenSeconds()
+
 }

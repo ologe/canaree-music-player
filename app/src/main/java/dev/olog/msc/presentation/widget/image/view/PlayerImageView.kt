@@ -68,7 +68,7 @@ class PlayerImageView @JvmOverloads constructor(
             }
         }
 
-        override fun onGenerated(palette: Palette) {
+        override fun onGenerated(palette: Palette?) {
             val fallbackColor = 0x40606060
             val darkAlpha = .3f
             val lightAlpha = .3f

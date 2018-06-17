@@ -41,3 +41,7 @@ fun MediaMetadataCompat.getMediaId(): MediaId {
 fun MediaMetadataCompat.getId(): Long {
     return getMediaId().leaf!!
 }
+
+fun MediaMetadataCompat.isPodcast(): Boolean {
+    return getLong(MusicConstants.IS_PODCAST) != 0L
+}

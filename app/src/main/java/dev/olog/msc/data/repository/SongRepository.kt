@@ -99,7 +99,7 @@ class SongRepository @Inject constructor(
                             "An awesome title", "An awesome artist",
                             "An awesome album artist", "An awesome album",
                             "", (it * 1000000).toLong(), System.currentTimeMillis(),
-                            "storage/emulated/folder", "folder", -1, -1) }
+                            "storage/emulated/folder", "folder", -1, -1, false) }
         }
         return original
     }
@@ -167,7 +167,7 @@ class SongRepository @Inject constructor(
                 .filter { it.exists() }
                 .map { it.delete() }
                 .toSingle()
-                .toCompletable()
+                .ignoreElement()
 
     }
 

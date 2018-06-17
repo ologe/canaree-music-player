@@ -15,6 +15,8 @@ import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PlayerMediaEntity
+import dev.olog.msc.utils.k.extension.clamp
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayerImpl @Inject constructor(
@@ -129,6 +131,16 @@ class PlayerImpl @Inject constructor(
         } else {
             serviceLifecycle.stop()
         }
+    }
+
+    override fun forwardTenSeconds() {
+        val newBookmark = player.getBookmark() + TimeUnit.SECONDS.toMillis(10)
+        seekTo(clamp(newBookmark, 0, player.getDuration()))
+    }
+
+    override fun replayTenSeconds() {
+        val newBookmark = player.getBookmark() - TimeUnit.SECONDS.toMillis(10)
+        seekTo(clamp(newBookmark, 0, player.getDuration()))
     }
 
     override fun isPlaying(): Boolean = player.isPlaying()

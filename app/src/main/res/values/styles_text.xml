@@ -35,4 +35,12 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <style name="NowPlaying">
+        <item name="android:textSize">@dimen/player_now_playing_size</item>
+        <item name="android:fontFamily">@font/roboto_slab_bold</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:alpha">.4</item>
+    </style>
+
+
 </resources>

@@ -14,6 +14,8 @@ object MusicConstants {
     const val ACTION_SWAP_RELATIVE = TAG + "action.swap_relative"
     const val ACTION_REMOVE = TAG + "action.remove"
     const val ACTION_REMOVE_RELATIVE = TAG + "action.remove_relative"
+    const val ACTION_FORWARD_10_SECONDS = TAG + "action.forward_10_seconds"
+    const val ACTION_REPLAY_10_SECONDS = TAG + "action.replay_10_seconds"
 
     const val ARGUMENT_SWAP_FROM = "$TAG.argument.swap_from"
     const val ARGUMENT_SWAP_TO = "$TAG.argument.swap_to"
@@ -26,8 +28,9 @@ object MusicConstants {
     const val ARGUMENT_SORT_TYPE = "$TAG.argument.sort.type"
     const val ARGUMENT_SORT_ARRANGING = "$TAG.argument.sort.arranging"
 
-    const val PATH = "$TAG.PATH"
-
     const val EXTRA_QUEUE_CATEGORY = "$TAG.extra.queue_category"
+
+    const val PATH = "$TAG.PATH"
+    const val IS_PODCAST = "$TAG.extra.is_podcast"
 
 }

@@ -10,16 +10,9 @@ import android.support.v4.content.ContextCompat
 object Permissions {
 
     private const val READ_CODE = 100
-    private const val FOREGROUND_CODE = 101
 
     private const val READ_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
 //    private const val WRITE_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
-
-    fun requestForegroundService(activity: Activity){
-//        if (isP() && !hasPermission(activity, Manifest.permission.FOREGROUND_SERVICE)){
-//            requestPermissions(activity, Manifest.permission.FOREGROUND_SERVICE, FOREGROUND_CODE)
-//        }
-    }
 
     fun checkWriteCode(code: Int): Boolean {
         return code == READ_CODE

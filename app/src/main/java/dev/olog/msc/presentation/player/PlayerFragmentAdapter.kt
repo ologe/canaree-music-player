@@ -5,6 +5,9 @@ import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.ConstraintSet
+import android.support.transition.TransitionManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
@@ -13,7 +16,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import com.jakewharton.rxbinding2.view.RxView
@@ -165,7 +167,7 @@ class PlayerFragmentAdapter @Inject constructor(
         }
     }
 
-    @SuppressLint("RxLeakedSubscription")
+    @SuppressLint("RxLeakedSubscription", "CheckResult")
     // using -> takeUntil(RxView.detaches(view))
     private fun bindPlayerControls(view: View){
 
@@ -277,6 +279,14 @@ class PlayerFragmentAdapter @Inject constructor(
                     navigator.toOfflineLyrics(view.lyrics)
                 }, Throwable::printStackTrace)
 
+        RxView.clicks(view.replay)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({ mediaProvider.replayTenSeconds() }, Throwable::printStackTrace)
+
+        RxView.clicks(view.forward)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({ mediaProvider.forwardTenSeconds() }, Throwable::printStackTrace)
+
         if (activity.isPortrait || AppTheme.isFullscreen()){
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
@@ -359,6 +369,17 @@ class PlayerFragmentAdapter @Inject constructor(
 
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
+
+
+        val isPodcast = metadata.isPodcast()
+        val playerControlsRoot = view.findViewById(R.id.playerControls) as ConstraintLayout
+        val set = ConstraintSet()
+        set.clone(playerControlsRoot)
+        // TODO -> GONE animation is broken on constraint layout 1.1.2
+        set.setVisibility(R.id.replay, if (isPodcast) View.VISIBLE else View.GONE)
+        set.setVisibility(R.id.forward, if (isPodcast) View.VISIBLE else View.GONE)
+        TransitionManager.beginDelayedTransition(playerControlsRoot)
+        set.applyTo(playerControlsRoot)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

@@ -328,7 +328,7 @@ class RxFastScroller @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 mRecyclerView?.stopScroll()
-                if (event.x < mHandleView!!.x - ViewCompat.getPaddingStart(mHandleView)) {
+                if (event.x < mHandleView!!.x - ViewCompat.getPaddingStart(mHandleView!!)) {
                     return false
                 }
 

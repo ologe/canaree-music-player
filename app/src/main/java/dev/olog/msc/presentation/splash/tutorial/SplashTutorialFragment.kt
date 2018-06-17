@@ -37,7 +37,6 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
 
         loadPhoneImage(view)
         loadImage(cover, progressive)
-        swipeableView.setCanDisallowParentTouch(false)
     }
 
     override fun onResume() {

@@ -41,7 +41,7 @@ class MainPopupNavigator @Inject constructor(
     private fun toBuiltInEqualizer(){
 
         val categoriesFragment = activity.supportFragmentManager
-                .findFragmentByTag(CategoriesFragment.TAG)
+                .findFragmentByTag(CategoriesFragment.TAG) ?: return
 
         activity.fragmentTransaction {
             setReorderingAllowed(true)

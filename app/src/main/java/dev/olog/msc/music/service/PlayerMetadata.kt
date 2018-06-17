@@ -54,6 +54,7 @@ class PlayerMetadata @Inject constructor(
                 .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, entity.image)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putString(MusicConstants.PATH, entity.path)
+                .putLong(MusicConstants.IS_PODCAST, if (entity.isPodcast) 1 else 0)
 
         mediaSession.setMetadata(builder.build())
 
