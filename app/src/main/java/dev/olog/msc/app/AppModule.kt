@@ -14,7 +14,8 @@ import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.app.widget.WidgetClasses
-import dev.olog.msc.presentation.app.widget.WidgetColored
+import dev.olog.msc.presentation.app.widget.defaul.WidgetColored
+import dev.olog.msc.presentation.app.widget.queue.WidgetColoredWithQueue
 import java.text.Collator
 import java.util.*
 
@@ -45,7 +46,8 @@ class AppModule(private val app: App) {
         return object : WidgetClasses {
             override fun get(): List<Class<out AppWidgetProvider>> {
                 return listOf(
-                        WidgetColored::class.java
+                        WidgetColored::class.java,
+                        WidgetColoredWithQueue::class.java
                 )
             }
         }

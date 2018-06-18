@@ -94,8 +94,8 @@
 
 
         <!--widget -->
-        <receiver android:name=".presentation.app.widget.WidgetColored"
-            android:label="@string/app_name">
+        <receiver android:name=".presentation.app.widget.defaul.WidgetColored"
+            android:label="@string/app_widget_default">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -103,6 +103,24 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_colored"/>
         </receiver>
+
+
+        <!--widget with queue-->
+        <receiver android:name=".presentation.app.widget.queue.WidgetColoredWithQueue"
+            android:label="@string/app_widget_with_queue">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_colored_with_queue"/>
+        </receiver>
+
+        <!--widget with queue service-->
+        <service
+            android:name=".presentation.app.widget.queue.QueueWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
 
         <!--provide storage permission to share intents-->
         <provider

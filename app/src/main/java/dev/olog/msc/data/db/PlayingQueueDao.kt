@@ -3,6 +3,7 @@ package dev.olog.msc.data.db
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import dev.olog.msc.data.entity.MiniQueueEntity
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.entity.Song
@@ -10,6 +11,7 @@ import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseReq
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.*
+import io.reactivex.schedulers.Schedulers
 
 @Dao
 abstract class PlayingQueueDao {
@@ -23,8 +25,41 @@ abstract class PlayingQueueDao {
     @Query("DELETE FROM playing_queue")
     internal abstract fun deleteAllImpl()
 
+    @Query("""
+        SELECT *
+        FROM mini_queue
+        ORDER BY timeAdded
+    """)
+    internal abstract fun getMiniQueueImpl(): Flowable<List<MiniQueueEntity>>
+
+    fun observeMiniQueue(songList: Single<List<Song>>): Observable<List<Song>> {
+        return getMiniQueueImpl()
+                .subscribeOn(Schedulers.io())
+                .toObservable()
+                .flatMapSingle { ids -> songList.flatMap { songs ->
+                    val result : List<Song> = ids
+                            .asSequence()
+                            .mapNotNull { entity -> songs
+                                    .firstOrNull { it.id == entity.id }
+                                    ?.copy(trackNumber = entity.idInPlaylist)
+                            }.toList()
+                    Single.just(result)
+                } }
+    }
+
+    fun updateMiniQueue(list: List<Pair<Int, Long>>) {
+        deleteMiniQueueImpl()
+        insertMiniQueueImpl(list.map { MiniQueueEntity(it.first, it.second, System.nanoTime()) })
+    }
+
     @Insert
     internal abstract fun insertAllImpl(list: List<PlayingQueueEntity>)
+
+    @Query("DELETE FROM mini_queue")
+    internal abstract fun deleteMiniQueueImpl()
+
+    @Insert
+    internal abstract fun insertMiniQueueImpl(list: List<MiniQueueEntity>)
 
     fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<PlayingQueueSong>> {
         return this.getAllImpl()

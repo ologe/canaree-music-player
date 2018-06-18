@@ -6,6 +6,7 @@ object WidgetConstants {
     const val METADATA_CHANGED = "$TAG.METADATA_CHANGED"
     const val STATE_CHANGED = "$TAG.STATE_CHANGED"
     const val ACTION_CHANGED = "$TAG.ACTION_CHANGED"
+    const val QUEUE_CHANGED = "$TAG.QUEUE_CHANGED"
 
 //    arguments metadata
     const val ARGUMENT_SONG_ID = "$TAG.ARGUMENT_SONG_ID"

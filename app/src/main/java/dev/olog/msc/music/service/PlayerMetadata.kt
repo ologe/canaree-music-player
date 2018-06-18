@@ -16,8 +16,6 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
-private const val IMAGE_SIZE = 300
-
 @PerService
 class PlayerMetadata @Inject constructor(
         @ApplicationContext private val context: Context,

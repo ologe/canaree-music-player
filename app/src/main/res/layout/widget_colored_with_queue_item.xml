@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingStart="@dimen/tab_margin_start"
+    android:paddingEnd="@dimen/tab_margin_start"
+    android:orientation="horizontal"
+    android:id="@+id/root">
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="@dimen/item_song_cover_size"
+        android:layout_height="@dimen/item_song_cover_size"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+        android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+        tools:src="@tools:sample/avatars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+        android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <TextView
+            android:id="@+id/firstText"
+            tools:text="@tools:sample/first_names"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            style="@style/Song.MainText" />
+
+        <TextView
+            android:id="@+id/secondText"
+            tools:text="@tools:sample/last_names"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            style="@style/Song.SecondaryText"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

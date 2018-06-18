@@ -14,6 +14,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.FloatingWindowService
 import dev.olog.msc.utils.isOreo
+import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -88,9 +89,7 @@ class FloatingWindowNotification @Inject constructor(
     private fun createContentIntent() : PendingIntent {
         val intent = Intent(service, FloatingWindowService::class.java)
         intent.action = FloatingWindowService.ACTION_STOP
-
-        return PendingIntent.getService(service, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        return intent.asServicePendingIntent(service, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
 }

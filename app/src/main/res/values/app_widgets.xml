@@ -32,4 +32,7 @@
 
     <dimen name="app_widget_padding_bottom">0dp</dimen>
 
+    <string name="app_widget_default">@string/app_name</string>
+    <string name="app_widget_with_queue">With queue</string>
+
 </resources>

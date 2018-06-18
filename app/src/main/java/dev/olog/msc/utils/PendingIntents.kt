@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import dev.olog.msc.music.service.MusicService
+import dev.olog.msc.utils.k.extension.asServicePendingIntent
 
 object PendingIntents {
 
@@ -13,7 +14,7 @@ object PendingIntents {
     fun stopMusicServiceIntent(context: Context): PendingIntent {
         val intent = Intent(context, MusicService::class.java)
         intent.action = ACTION_STOP_SLEEP_END
-        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        return intent.asServicePendingIntent(context, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
 }

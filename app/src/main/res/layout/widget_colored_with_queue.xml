@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:layoutDirection="ltr">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_widget_two_cell"
+        android:id="@+id/background">
+
+        <FrameLayout
+            android:id="@+id/guideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="@dimen/app_widget_two_cell"
+            android:layout_height="@dimen/app_widget_two_cell"
+            android:src="@drawable/placeholder_musical_note"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/media_actions" />
+
+        <LinearLayout
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/widget_content_margin_top"
+            android:layout_marginStart="@dimen/widget_content_margin_start"
+            android:layout_marginBottom="24dp"
+            android:minHeight="@dimen/widget_min_content_height"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/guideline">
+
+            <TextView
+                android:id="@+id/title"
+                android:text="@string/common_placeholder_title"
+                android:textAppearance="@style/WidgetTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fadingEdge="horizontal"
+                android:textAlignment="viewStart"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_marginTop="0.5dp"
+                android:text="@string/common_placeholder_title"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fadingEdge="horizontal"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/WidgetSubtitle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/media_actions"
+            android:orientation="horizontal"
+            android:layoutDirection="ltr"
+            android:layout_height="42dp"
+            android:layout_width="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/guideline"
+            tools:layout_alignParentBottom="false"
+            android:layout_below="@+id/text"
+            android:paddingBottom="12dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/previous"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/vd_skip_previous" />
+
+
+            <ImageButton
+                android:id="@+id/play"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/vd_play_big"/>
+
+
+            <ImageButton
+                android:id="@+id/next"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:src="@drawable/vd_skip_next"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/queue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdge="vertical"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
+
+</LinearLayout>

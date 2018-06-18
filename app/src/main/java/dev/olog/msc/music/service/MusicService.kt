@@ -26,6 +26,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -107,6 +108,11 @@ class MusicService : BaseMusicService() {
 
     override fun handleSkipPrevious(intent: Intent) {
         callback.onSkipToPrevious()
+    }
+
+    override fun handleSkipToItem(intent: Intent) {
+        val id = intent.getIntExtra(MusicConstants.EXTRA_SKIP_TO_ITEM_ID, -1)
+        callback.onSkipToQueueItem(id.toLong())
     }
 
     override fun handleMediaButton(intent: Intent) {
@@ -206,9 +212,7 @@ class MusicService : BaseMusicService() {
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
         val intent = Intent(Intent.ACTION_MEDIA_BUTTON)
         intent.setClass(this, this.javaClass)
-
-        return PendingIntent.getService(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        return intent.asServicePendingIntent(this, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildSessionActivityPendingIntent(): PendingIntent {

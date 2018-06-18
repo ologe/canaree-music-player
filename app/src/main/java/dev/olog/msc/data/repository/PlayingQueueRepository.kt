@@ -36,6 +36,14 @@ class PlayingQueueRepository @Inject constructor(
         return playingQueueDao.insert(list)
     }
 
+    override fun observeMiniQueue(): Observable<List<Song>> {
+        return playingQueueDao.observeMiniQueue(songGateway.getAll().firstOrError())
+    }
+
+    override fun updateMiniQueue(tracksId: List<Pair<Int, Long>>) {
+        playingQueueDao.updateMiniQueue(tracksId)
+    }
+
     private fun Song.toPlayingQueueSong(progressive: Int): PlayingQueueSong {
         return PlayingQueueSong(
                 this.id,

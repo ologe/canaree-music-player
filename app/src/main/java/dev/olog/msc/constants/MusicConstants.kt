@@ -8,6 +8,8 @@ object MusicConstants {
     const val ACTION_PLAY_PAUSE = "$TAG.action.play"
     const val ACTION_SKIP_NEXT = "$TAG.action.skip.next"
     const val ACTION_SKIP_PREVIOUS = "$TAG.action.skip.previous"
+    const val ACTION_SKIP_TO_ITEM = "$TAG.action.skip.to.item"
+    const val EXTRA_SKIP_TO_ITEM_ID = "$TAG.extra.skip.to.item.id"
     const val ACTION_TOGGLE_FAVORITE = "$TAG.action.toggle.favorite"
 
     const val ACTION_SWAP = TAG + "action.swap"

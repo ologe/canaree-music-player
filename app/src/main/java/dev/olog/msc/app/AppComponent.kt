@@ -42,6 +42,9 @@ import javax.inject.Singleton
         MusicServiceInjector::class,
         EqualizerModule::class,
 
+//        queue widget
+//        WidgetColoredWithQueueInjector::class,
+
 //        // floating info service
         FloatingWindowServiceInjector::class
 ))

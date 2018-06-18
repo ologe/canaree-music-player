@@ -7,6 +7,7 @@ import dev.olog.msc.data.entity.*
 
 @Database(entities = arrayOf(
         PlayingQueueEntity::class,
+        MiniQueueEntity::class,
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
         GenreMostPlayedEntity::class,
@@ -26,7 +27,7 @@ import dev.olog.msc.data.entity.*
         UsedAlbumImageEntity::class,
         UsedArtistImageEntity::class
 
-), version = 4, exportSchema = false)
+), version = 5, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao

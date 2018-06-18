@@ -16,6 +16,7 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
+import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import javax.inject.Inject
 
@@ -100,8 +101,7 @@ abstract class BaseWidget : AbsWidgetApp() {
     private fun buildPendingIntent(context: Context, action: String): PendingIntent? {
         val intent = Intent(context, MusicService::class.java)
         intent.action = action
-        return PendingIntent.getService(context, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT)
+        return intent.asServicePendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
     private fun buildContentIntent(context: Context): PendingIntent {
