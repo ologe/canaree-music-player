@@ -258,4 +258,9 @@
     <string name="prefs_day_night_summary_on">@string/common_enabled</string>
     <string name="prefs_day_night_summary_off">@string/common_disabled</string>
 
+    <!--accent color chooser-->
+    <string name="prefs_accent_color_key" translatable="false">key_accent_color</string>
+    <string name="prefs_accent_color_title">Accent color</string>
+    <string name="prefs_accent_color_summary">Change the accent theme color</string>
+
 </resources>

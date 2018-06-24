@@ -6,10 +6,13 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v14.preference.SwitchPreference
+import android.support.v4.content.ContextCompat
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.support.v7.preference.PreferenceManager
 import android.view.View
 import androidx.core.os.bundleOf
+import com.afollestad.materialdialogs.color.ColorChooserDialog
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
@@ -20,7 +23,6 @@ import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentia
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.isP
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,6 +36,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var deleteCache : Preference
     private lateinit var lastFmCredentials: Preference
     private lateinit var autoCreateImages: SwitchPreference
+    private lateinit var accentColorChooser: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
@@ -43,6 +46,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
         lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key)) as SwitchPreference
+        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_accent_color_key))
     }
 
     private var needsToRecreate = false
@@ -55,16 +59,16 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 .take(2) // take current and after check values
                 .distinctUntilChanged()
                 .asLiveData()
-                .subscribe(this, { isPremium ->
+                .subscribe(this) { isPremium ->
                     forEach(preferenceScreen) { it.isEnabled = isPremium }
 
                     if (!isPremium) {
                         val v = act.window.decorView.findViewById<View>(android.R.id.content)
                         Snackbar.make(v, R.string.prefs_not_premium, Snackbar.LENGTH_INDEFINITE)
-                                .setAction(R.string.prefs_not_premium_action, { billing.purchasePremium() })
+                                .setAction(R.string.prefs_not_premium_action) { billing.purchasePremium() }
                                 .show()
                     }
-                })
+                }
 
         val lowRam = isLowMemoryDevice(ctx)
         if (lowRam){
@@ -72,6 +76,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             autoCreateImages.isEnabled = false
             autoCreateImages.summaryOff = getString(R.string.prefs_auto_create_images_summary_low_memory)
         }
+
     }
 
     override fun onResume() {
@@ -101,6 +106,18 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             }
             true
         }
+        accentColorChooser.setOnPreferenceClickListener {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(act)
+            val key = if (AppTheme.isWhiteTheme()) "color_accent_light" else "color_accent_light"
+            val defaultColor = ContextCompat.getColor(act, (if (AppTheme.isWhiteTheme()) R.color.accent else R.color.accent_secondary))
+            ColorChooserDialog.Builder(ctx, R.string.prefs_accent_color_title)
+                    .allowUserColorInput(false)
+                    .dynamicButtonColor(false)
+                    .accentMode(true)
+                    .preselect(prefs.getInt(key, defaultColor))
+                    .show(act)
+            true
+        }
     }
 
     override fun onPause() {
@@ -110,6 +127,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         blacklist.onPreferenceClickListener = null
         deleteCache.onPreferenceClickListener = null
         lastFmCredentials.onPreferenceClickListener = null
+        accentColorChooser.onPreferenceClickListener = null
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -140,7 +158,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         }
     }
 
-    private fun requestMainActivityToRecreate(){
+    fun requestMainActivityToRecreate(){
         needsToRecreate = true
         act.setResult(Activity.RESULT_OK)
     }
@@ -149,7 +167,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         ThemedDialog.builder(ctx)
                 .setTitle(R.string.prefs_delete_cached_images_title)
                 .setMessage(R.string.are_you_sure)
-                .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
+                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
                     val disp = Completable.fromCallable {
                         GlideApp.get(ctx.applicationContext).clearDiskCache()
                         ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)).listFiles().forEach { it.delete() }
@@ -161,7 +179,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                                 requestMainActivityToRecreate()
                                 ctx.applicationContext.toast(R.string.prefs_delete_cached_images_success)
                             }, Throwable::printStackTrace)
-                })
+                }
                 .setNegativeButton(R.string.popup_negative_no, null)
                 .show()
     }

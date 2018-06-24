@@ -78,6 +78,11 @@
             android:entryValues="@array/prefs_dark_mode_entry_values"
             android:entries="@array/prefs_dark_mode_entries" />
 
+        <Preference
+            android:key="@string/prefs_accent_color_key"
+            android:summary="@string/prefs_accent_color_summary"
+            android:title="@string/prefs_accent_color_title" />
+
         <ListPreference
             android:title="@string/prefs_appearance_title"
             android:summary="%s"

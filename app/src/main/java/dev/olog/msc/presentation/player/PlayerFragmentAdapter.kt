@@ -279,15 +279,16 @@ class PlayerFragmentAdapter @Inject constructor(
                     navigator.toOfflineLyrics(view.lyrics)
                 }, Throwable::printStackTrace)
 
-        RxView.clicks(view.replay)
+        RxView.clicks(view.findViewById(R.id.replay))
                 .takeUntil(RxView.detaches(view))
                 .subscribe({ mediaProvider.replayTenSeconds() }, Throwable::printStackTrace)
 
-        RxView.clicks(view.forward)
+        RxView.clicks(view.findViewById(R.id.forward))
                 .takeUntil(RxView.detaches(view))
                 .subscribe({ mediaProvider.forwardTenSeconds() }, Throwable::printStackTrace)
 
         if (activity.isPortrait || AppTheme.isFullscreen()){
+
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
                     .map { it.state }
@@ -352,6 +353,7 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
+        val context = view.context
         view.title.text = metadata.getTitle()
         if (!AppTheme.isClean()){
             view.artist.text = metadata.getArtist()
@@ -363,7 +365,7 @@ class PlayerFragmentAdapter @Inject constructor(
         val duration = metadata.getDuration()
 
         var readableDuration = metadata.getDurationReadable()
-        if (AppTheme.isDefault()){
+        if (AppTheme.isDefault() || (context.isLandscape && !AppTheme.isFullscreen())){
             readableDuration = "${TextUtils.MIDDLE_DOT_SPACED}$readableDuration"
         }
 
@@ -372,7 +374,8 @@ class PlayerFragmentAdapter @Inject constructor(
 
 
         val isPodcast = metadata.isPodcast()
-        val playerControlsRoot = view.findViewById(R.id.playerControls) as ConstraintLayout
+        val playerControlsRoot: ConstraintLayout = view.findViewById(R.id.playerControls)
+                ?: view.findViewById(R.id.playerRoot) as ConstraintLayout
         val set = ConstraintSet()
         set.clone(playerControlsRoot)
         // TODO -> GONE animation is broken on constraint layout 1.1.2

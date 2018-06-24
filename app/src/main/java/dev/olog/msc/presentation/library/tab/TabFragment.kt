@@ -8,14 +8,11 @@ import androidx.core.text.isDigitsOnly
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.library.tab.span.size.lookup.AbsSpanSizeLookup
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
@@ -45,20 +42,20 @@ class TabFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.observeData(category)
-                .subscribe(this, { list ->
+                .subscribe(this) { list ->
                     handleEmptyStateVisibility(list.isEmpty())
                     adapter.updateDataSet(list)
                     sidebar.onDataChanged(list)
-                })
+                }
 
         when (category){
             MediaIdCategory.ALBUMS -> {
                 viewModel.observeData(MediaIdCategory.RECENT_ALBUMS)
-                        .subscribe(this, { lastAlbumsAdapter.get().updateDataSet(it) })
+                        .subscribe(this) { lastAlbumsAdapter.get().updateDataSet(it) }
             }
             MediaIdCategory.ARTISTS -> {
                 viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
-                        .subscribe(this, { lastArtistsAdapter.get().updateDataSet(it) })
+                        .subscribe(this) { lastArtistsAdapter.get().updateDataSet(it) }
             }
             else -> {/*making lint happy*/}
         }

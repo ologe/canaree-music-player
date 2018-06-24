@@ -77,13 +77,14 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
         mediaProvider.onStateChanged()
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(this) {
                     val bookmark = it.extractBookmark()
                     viewModel.updateProgress(bookmark)
                     handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
-                })
+                }
 
         if (act.isLandscape && !AppTheme.isFullscreen()){
+
             mediaProvider.onMetadataChanged()
                     .asLiveData()
                     .subscribe(this, cover::loadImage)
@@ -114,34 +115,34 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                             it == PlaybackStateCompat.STATE_PAUSED
                     }.distinctUntilChanged()
                     .asLiveData()
-                    .subscribe(this, { state ->
+                    .subscribe(this) { state ->
 
                         if (state == PlaybackStateCompat.STATE_PLAYING){
                             playAnimation(true)
                         } else {
                             pauseAnimation(true)
                         }
-                    })
+                    }
 
             RxView.clicks(next)
                     .asLiveData()
-                    .subscribe(this, { mediaProvider.skipToNext() })
+                    .subscribe(this) { mediaProvider.skipToNext() }
 
             RxView.clicks(playPause)
                     .asLiveData()
-                    .subscribe(this, { mediaProvider.playPause() })
+                    .subscribe(this) { mediaProvider.playPause() }
 
             RxView.clicks(previous)
                     .asLiveData()
-                    .subscribe(this, { mediaProvider.skipToPrevious() })
+                    .subscribe(this) { mediaProvider.skipToPrevious() }
 
             presenter.observePlayerControlsVisibility()
                     .asLiveData()
-                    .subscribe(this, {
+                    .subscribe(this) {
                         previous.toggleVisibility(it, true)
                         playPause.toggleVisibility(it, true)
                         next.toggleVisibility(it, true)
-                    })
+                    }
 
             viewModel.skipToNextVisibility.asLiveData()
                     .subscribe(this, next::updateVisibility)

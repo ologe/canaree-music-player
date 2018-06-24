@@ -2,7 +2,6 @@ package dev.olog.msc.data.repository
 
 import android.content.ContentResolver
 import android.content.Context
-import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import dev.olog.msc.R
@@ -21,7 +20,6 @@ import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.crashlyticsLog
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -83,6 +81,7 @@ class PlaylistRepository @Inject constructor(
             it.toPlaylist(context, size)
         }.map { removeBlacklisted(it) }
                 .onErrorReturnItem(listOf())
+                .doOnError { it.printStackTrace() }
     }
 
     private val cachedData = queryAllData()
@@ -132,13 +131,12 @@ class PlaylistRepository @Inject constructor(
         return Observables.combineLatest(
                 songGateway.getAll().map { it.count() }.distinctUntilChanged(), // last added
                 favoriteGateway.getAll().map { it.count() }.distinctUntilChanged(), // favorites
-                historyDao.getAllAsSongs(songGateway.getAll().firstOrError()).map { it.count() }, // history
-                { last, favorites, history -> listOf(
+                historyDao.getAllAsSongs(songGateway.getAll().firstOrError()).map { it.count() } // history
+                ) { last, favorites, history -> listOf(
                         createAutoPlaylist(PlaylistConstants.LAST_ADDED_ID, autoPlaylistTitles[0], last),
                         createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1], favorites),
                         createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2], history)
                 ) }
-        )
     }
 
     override fun insertSongToHistory(songId: Long): Completable {
@@ -150,7 +148,8 @@ class PlaylistRepository @Inject constructor(
                 SELECTION, SELECTION_ARGS, SORT_ORDER)
         val list = mutableListOf<Playlist>()
         while (cursor.moveToNext()){
-            list.add(cursor.toPlaylist(context, -1))
+            val playlist = cursor.toPlaylist(context, -1)
+            list.add(playlist)
         }
         cursor.close()
         return list

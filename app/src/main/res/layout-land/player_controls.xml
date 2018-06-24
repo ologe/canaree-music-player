@@ -52,7 +52,6 @@
         android:background="@null"
         android:scaleX="1.2"
         android:scaleY="1.2"
-        tools:rotation="90"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/previous"
         app:layout_constraintEnd_toStartOf="@+id/next"

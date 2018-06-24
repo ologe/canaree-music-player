@@ -10,12 +10,13 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 
-abstract class BaseActivity : DaggerAppCompatActivity() {
+abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         disableDayNight()
         setTheme(getActivityTheme())
+        themeAccentColor(theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
     }
@@ -39,5 +40,6 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     internal fun <T : Fragment> findFragmentByTag(tag: String): T? {
         return supportFragmentManager.findFragmentByTag(tag) as T?
     }
+
 
 }
