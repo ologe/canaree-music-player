@@ -39,28 +39,6 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
     @Inject lateinit var navigator : Lazy<Navigator>
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.observeData(category)
-                .subscribe(this) { list ->
-                    handleEmptyStateVisibility(list.isEmpty())
-                    adapter.updateDataSet(list)
-                    sidebar.onDataChanged(list)
-                }
-
-        when (category){
-            MediaIdCategory.ALBUMS -> {
-                viewModel.observeData(MediaIdCategory.RECENT_ALBUMS)
-                        .subscribe(this) { lastAlbumsAdapter.get().updateDataSet(it) }
-            }
-            MediaIdCategory.ARTISTS -> {
-                viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
-                        .subscribe(this) { lastArtistsAdapter.get().updateDataSet(it) }
-            }
-            else -> {/*making lint happy*/}
-        }
-    }
-
     private fun handleEmptyStateVisibility(isEmpty: Boolean){
         emptyStateText.toggleVisibility(isEmpty, true)
         if (isEmpty){
@@ -90,13 +68,32 @@ class TabFragment : BaseFragment() {
 //        if (category == MediaIdCategory.ALBUMS){
 //            viewModel.observeAlbumSpanSize(category)
 //                    .asLiveData()
-//                    .subscribe(this, { (one, two) ->
+//                    .subscribe(viewLifecycleOwner, { (one, two) ->
 //                        val spanSizeLookup = gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup
 //                        spanSizeLookup.updateSpan(one, two)
 //                        gridLayoutManager.spanSizeLookup = spanSizeLookup
 //                        view.list.invalidate()
 //                    })
 //        }
+
+        viewModel.observeData(category)
+                .subscribe(viewLifecycleOwner) { list ->
+                    handleEmptyStateVisibility(list.isEmpty())
+                    adapter.updateDataSet(list)
+                    sidebar.onDataChanged(list)
+                }
+
+        when (category){
+            MediaIdCategory.ALBUMS -> {
+                viewModel.observeData(MediaIdCategory.RECENT_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.get().updateDataSet(it) }
+            }
+            MediaIdCategory.ARTISTS -> {
+                viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.get().updateDataSet(it) }
+            }
+            else -> {/*making lint happy*/}
+        }
     }
 
     override fun onResume() {

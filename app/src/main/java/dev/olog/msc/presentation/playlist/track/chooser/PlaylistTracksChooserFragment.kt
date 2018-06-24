@@ -90,7 +90,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
         }
 
         viewModel.observeSelectedCount()
-                .subscribe(this, { size ->
+                .subscribe(this) { size ->
                     val text = when (size){
                         0 -> getString(R.string.playlist_tracks_chooser_no_tracks)
                         else -> resources.getQuantityString(R.plurals.playlist_tracks_chooser_count, size, size)
@@ -98,7 +98,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                     header.text = text
 
                     save.toggleVisibility(size > 0, true)
-                })
+                }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -107,10 +107,10 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
         view.list.setHasFixedSize(true)
 
         viewModel.getAllSongs(filter(view))
-                .subscribe(this, {
+                .subscribe(this) {
                     adapter.updateDataSet(it)
                     view.sidebar.onDataChanged(it)
-                })
+                }
 
         adapter.setAfterDataChanged({
             view.emptyStateText.toggleVisibility(it.isEmpty(), true)
@@ -118,15 +118,15 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
         RxView.clicks(view.back)
                 .asLiveData()
-                .subscribe(this, { act.onBackPressed() })
+                .subscribe(this) { act.onBackPressed() }
 
         RxView.clicks(view.save)
                 .asLiveData()
-                .subscribe(this, { showCreateDialog() })
+                .subscribe(this) { showCreateDialog() }
 
         RxView.clicks(view.filterList)
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(this) {
                     view.filterList.toggleSelected()
                     viewModel.toggleShowOnlyFiltered()
 
@@ -138,7 +138,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                         toast = act.toast(R.string.playlist_tracks_chooser_show_all)
                     }
 
-                })
+                }
 
         view.sidebar.scrollableLayoutId = R.layout.item_choose_track
     }

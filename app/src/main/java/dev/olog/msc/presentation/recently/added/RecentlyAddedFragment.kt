@@ -35,11 +35,11 @@ class RecentlyAddedFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
-        viewModel.itemTitle.subscribe(this, { itemTitle ->
+        viewModel.itemTitle.subscribe(this) { itemTitle ->
             val headersArray = resources.getStringArray(R.array.recently_added_header)
             val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
             this.header.text = header
-        })
+        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

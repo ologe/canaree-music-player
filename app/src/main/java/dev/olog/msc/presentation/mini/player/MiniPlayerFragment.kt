@@ -32,28 +32,33 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
     private var seekBarDisposable: Disposable? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        savedInstanceState?.let {
+            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
+        }
+        val (modelTitle, modelSubtitle) = viewModel.getMetadata()
+        view.title.text = modelTitle
+        view.artist.text = DisplayableItem.adjustArtist(modelSubtitle)
 
         val media = activity as MediaProvider
 
         media.onMetadataChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(viewLifecycleOwner) {
                     title.text = it.getTitle()
                     artist.text = it.getArtist()
                     updateProgressBarMax(it.getDuration())
-                })
+                }
 
         media.onStateChanged()
                 .filter { it.isPlaying()|| it.isPaused() }
                 .distinctUntilChanged()
                 .asLiveData()
-                .subscribe(this, {
+                .subscribe(viewLifecycleOwner) {
                     updateProgressBarProgress(it.position)
                     handleProgressBar(it.isPlaying())
-                })
+                }
 
         media.onStateChanged()
                 .map { it.state }
@@ -61,14 +66,14 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                         it == PlaybackStateCompat.STATE_PAUSED
                 }.distinctUntilChanged()
                 .asLiveData()
-                .subscribe(this, { state ->
+                .subscribe(viewLifecycleOwner) { state ->
 
                     if (state == PlaybackStateCompat.STATE_PLAYING){
                         playAnimation(true)
                     } else {
                         pauseAnimation(true)
                     }
-                })
+                }
 
         media.onStateChanged()
                 .map { it.state }
@@ -76,34 +81,25 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                         state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
                 .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
                 .asLiveData()
-                .subscribe(this, this::animateSkipTo)
+                .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
         RxView.clicks(next)
                 .asLiveData()
-                .subscribe(this, { media.skipToNext() })
+                .subscribe(viewLifecycleOwner) { media.skipToNext() }
 
         RxView.clicks(playPause)
                 .asLiveData()
-                .subscribe(this, { media.playPause() })
+                .subscribe(viewLifecycleOwner) { media.playPause() }
 
         RxView.clicks(previous)
                 .asLiveData()
-                .subscribe(this, { media.skipToPrevious() })
+                .subscribe(viewLifecycleOwner) { media.skipToPrevious() }
 
         viewModel.skipToNextVisibility
-                .subscribe(this, next::updateVisibility)
+                .subscribe(viewLifecycleOwner, next::updateVisibility)
 
         viewModel.skipToPreviousVisibility
-                .subscribe(this, previous::updateVisibility)
-    }
-
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        savedInstanceState?.let {
-            view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
-        }
-        val (title, subtitle) = viewModel.getMetadata()
-        view.title.text = title
-        view.artist.text = DisplayableItem.adjustArtist(subtitle)
+                .subscribe(viewLifecycleOwner, previous::updateVisibility)
     }
 
     override fun onResume() {

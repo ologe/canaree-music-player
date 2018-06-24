@@ -40,20 +40,20 @@ class EditArtistFragment : BaseEditItemFragment() {
                 .subscribe(this, okButton::setEnabled)
 
         viewModel.observeSongList()
-                .subscribe(this, {
+                .subscribe(this) {
                     val size = it.size
                     val text = resources.getQuantityString(
                             R.plurals.edit_item_xx_tracks_will_be_updated, size, size)
                     albumsUpdated.text =  text
-                })
+                }
 
         viewModel.observeData()
-                .subscribe(this, {
+                .subscribe(this) {
                     artist.setText(it.title)
                     albumArtist.setText(it.albumArtist)
                     val model = DisplayableItem(0, MediaId.artistId(it.id), "", image = it.image ?: "")
                     setImage(model)
-                })
+                }
     }
 
     override fun onResume() {

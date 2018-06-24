@@ -80,31 +80,6 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         super.onDetach()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel.searchData.subscribe(this, { (map, query) ->
-
-            didYouMean.setGone()
-            didYouMeanHeader.setGone()
-
-            if (query.isNotBlank()){
-                val isEmpty = map.map { it.value }
-                        .map { it.isEmpty() }
-                        .reduce { all, current -> all && current }
-                if (isEmpty){
-                    searchForBestMatch(query)
-                }
-            }
-
-            val albums = map[SearchFragmentType.ALBUMS]!!.toList()
-            val artists = map[SearchFragmentType.ARTISTS]!!.toList()
-            albumAdapter.updateDataSet(albums)
-            artistAdapter.updateDataSet(artists)
-            adapter.updateDataSet(viewModel.adjustDataMap(map))
-        })
-    }
-
     private fun searchForBestMatch(query: String){
         bestMatchDisposable.unsubscribe()
         bestMatchDisposable = viewModel.getBestMatch(query)
@@ -126,6 +101,27 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        viewModel.searchData.subscribe(viewLifecycleOwner) { (map, query) ->
+
+            didYouMean.setGone()
+            didYouMeanHeader.setGone()
+
+            if (query.isNotBlank()){
+                val isEmpty = map.map { it.value }
+                        .map { it.isEmpty() }
+                        .reduce { all, current -> all && current }
+                if (isEmpty){
+                    searchForBestMatch(query)
+                }
+            }
+
+            val albums = map[SearchFragmentType.ALBUMS]!!.toList()
+            val artists = map[SearchFragmentType.ARTISTS]!!.toList()
+            albumAdapter.updateDataSet(albums)
+            artistAdapter.updateDataSet(artists)
+            adapter.updateDataSet(viewModel.adjustDataMap(map))
+        }
     }
 
     override fun onResume() {

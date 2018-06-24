@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.detail
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -21,7 +20,6 @@ import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
-import javax.inject.Provider
 import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.properties.Delegates
 
@@ -50,52 +48,8 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var detailListMargin: DetailListMargin
     private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
 
-    internal var hasLightStatusBarColor by Delegates.observable(false, { _, _, new ->
+    internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
         adjustStatusBarColor(new)
-    })
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel.mostPlayedLiveData
-                .subscribe(this, mostPlayedAdapter::updateDataSet)
-
-        viewModel.recentlyAddedLiveData
-                .subscribe(this, recentlyAddedAdapter::updateDataSet)
-
-        viewModel.relatedArtistsLiveData
-                .subscribe(this, relatedArtistAdapter::updateDataSet)
-
-        viewModel.albumsLiveData
-                .subscribe(this, {
-                    albumsAdapter.updateDataSet(it)
-                })
-
-        viewModel.observeData()
-                .subscribe(this, { map ->
-                    val copy = map.deepCopy()
-                    if (copy.isEmpty()){
-                        act.onBackPressed()
-                    } else {
-                        if (ctx.isLandscape){
-                            // header in list is not used in landscape
-                            copy[DetailFragmentDataType.HEADER]!!.clear()
-                        }
-                        adapter.updateDataSet(copy)
-                    }
-                })
-
-        viewModel.itemLiveData.subscribe(this, { item ->
-            if (item.isNotEmpty()){
-                headerText.text = item[1].title
-                val cover = view?.findViewById<View>(R.id.cover)
-                if (!isPortrait() && cover is ShapeImageView){
-                    BindingsAdapter.loadBigAlbumImage(cover, item[0])
-                }
-            } else {
-                act.onBackPressed()
-            }
-        })
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -117,6 +71,46 @@ class DetailFragment : BaseFragment() {
         view.fastScroller.showBubble(false)
 
         view.cover?.setVisible()
+
+        viewModel.mostPlayedLiveData
+                .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
+
+        viewModel.recentlyAddedLiveData
+                .subscribe(viewLifecycleOwner, recentlyAddedAdapter::updateDataSet)
+
+        viewModel.relatedArtistsLiveData
+                .subscribe(viewLifecycleOwner, relatedArtistAdapter::updateDataSet)
+
+        viewModel.albumsLiveData
+                .subscribe(viewLifecycleOwner) {
+                    albumsAdapter.updateDataSet(it)
+                }
+
+        viewModel.observeData()
+                .subscribe(viewLifecycleOwner) { map ->
+                    val copy = map.deepCopy()
+                    if (copy.isEmpty()){
+                        act.onBackPressed()
+                    } else {
+                        if (ctx.isLandscape){
+                            // header in list is not used in landscape
+                            copy[DetailFragmentDataType.HEADER]!!.clear()
+                        }
+                        adapter.updateDataSet(copy)
+                    }
+                }
+
+        viewModel.itemLiveData.subscribe(viewLifecycleOwner) { item ->
+            if (item.isNotEmpty()){
+                headerText.text = item[1].title
+                val cover = view?.findViewById<View>(R.id.cover)
+                if (!isPortrait() && cover is ShapeImageView){
+                    BindingsAdapter.loadBigAlbumImage(cover, item[0])
+                }
+            } else {
+                act.onBackPressed()
+            }
+        }
     }
 
     override fun onResume() {

@@ -56,100 +56,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mediaProvider = (activity as MediaProvider)
 
-        mediaProvider.onQueueChanged()
-                .distinctUntilChanged()
-                .mapToList { it.toDisplayableItem() }
-                .map { queue ->
-                    val copy = queue.toMutableList()
-                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                        copy.add(viewModel.footerLoadMore)
-                    }
-                    copy.add(0, viewModel.playerControls())
-                    copy
-                }
-                .asLiveData()
-                .subscribe(this, viewModel::updateQueue)
-
-        viewModel.observeMiniQueue()
-                .subscribe(this, adapter::updateDataSet)
-
-        mediaProvider.onStateChanged()
-                .asLiveData()
-                .subscribe(this) {
-                    val bookmark = it.extractBookmark()
-                    viewModel.updateProgress(bookmark)
-                    handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
-                }
-
-        if (act.isLandscape && !AppTheme.isFullscreen()){
-
-            mediaProvider.onMetadataChanged()
-                    .asLiveData()
-                    .subscribe(this, cover::loadImage)
-
-            mediaProvider.onStateChanged()
-                    .asLiveData()
-                    .subscribe(this, cover::toggleElevation)
-
-            mediaProvider.onRepeatModeChanged()
-                    .asLiveData()
-                    .subscribe(this, repeat::cycle)
-
-            mediaProvider.onShuffleModeChanged()
-                    .asLiveData()
-                    .subscribe(this, shuffle::cycle)
-
-            mediaProvider.onStateChanged()
-                    .map { it.state }
-                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
-                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
-                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
-                    .asLiveData()
-                    .subscribe(this, this::animateSkipTo)
-
-            mediaProvider.onStateChanged()
-                    .map { it.state }
-                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
-                            it == PlaybackStateCompat.STATE_PAUSED
-                    }.distinctUntilChanged()
-                    .asLiveData()
-                    .subscribe(this) { state ->
-
-                        if (state == PlaybackStateCompat.STATE_PLAYING){
-                            playAnimation(true)
-                        } else {
-                            pauseAnimation(true)
-                        }
-                    }
-
-            RxView.clicks(next)
-                    .asLiveData()
-                    .subscribe(this) { mediaProvider.skipToNext() }
-
-            RxView.clicks(playPause)
-                    .asLiveData()
-                    .subscribe(this) { mediaProvider.playPause() }
-
-            RxView.clicks(previous)
-                    .asLiveData()
-                    .subscribe(this) { mediaProvider.skipToPrevious() }
-
-            presenter.observePlayerControlsVisibility()
-                    .asLiveData()
-                    .subscribe(this) {
-                        previous.toggleVisibility(it, true)
-                        playPause.toggleVisibility(it, true)
-                        next.toggleVisibility(it, true)
-                    }
-
-            viewModel.skipToNextVisibility.asLiveData()
-                    .subscribe(this, next::updateVisibility)
-
-            viewModel.skipToPreviousVisibility.asLiveData()
-                    .subscribe(this, previous::updateVisibility)
-        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -172,6 +79,100 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
             set.applyTo(view)
         }
 
+        mediaProvider = (activity as MediaProvider)
+
+        mediaProvider.onQueueChanged()
+                .distinctUntilChanged()
+                .mapToList { it.toDisplayableItem() }
+                .map { queue ->
+                    val copy = queue.toMutableList()
+                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
+                        copy.add(viewModel.footerLoadMore)
+                    }
+                    copy.add(0, viewModel.playerControls())
+                    copy
+                }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner, viewModel::updateQueue)
+
+        viewModel.observeMiniQueue()
+                .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        mediaProvider.onStateChanged()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    val bookmark = it.extractBookmark()
+                    viewModel.updateProgress(bookmark)
+                    handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
+                }
+
+        if (act.isLandscape && !AppTheme.isFullscreen()){
+
+            mediaProvider.onMetadataChanged()
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner, cover::loadImage)
+
+            mediaProvider.onStateChanged()
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner, cover::toggleElevation)
+
+            mediaProvider.onRepeatModeChanged()
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner, repeat::cycle)
+
+            mediaProvider.onShuffleModeChanged()
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner, shuffle::cycle)
+
+            mediaProvider.onStateChanged()
+                    .map { it.state }
+                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
+                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
+                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner, this::animateSkipTo)
+
+            mediaProvider.onStateChanged()
+                    .map { it.state }
+                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
+                            it == PlaybackStateCompat.STATE_PAUSED
+                    }.distinctUntilChanged()
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner) { state ->
+
+                        if (state == PlaybackStateCompat.STATE_PLAYING){
+                            playAnimation(true)
+                        } else {
+                            pauseAnimation(true)
+                        }
+                    }
+
+            RxView.clicks(next)
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner) { mediaProvider.skipToNext() }
+
+            RxView.clicks(playPause)
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner) { mediaProvider.playPause() }
+
+            RxView.clicks(previous)
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner) { mediaProvider.skipToPrevious() }
+
+            presenter.observePlayerControlsVisibility()
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner) {
+                        previous.toggleVisibility(it, true)
+                        playPause.toggleVisibility(it, true)
+                        next.toggleVisibility(it, true)
+                    }
+
+            viewModel.skipToNextVisibility.asLiveData()
+                    .subscribe(viewLifecycleOwner, next::updateVisibility)
+
+            viewModel.skipToPreviousVisibility.asLiveData()
+                    .subscribe(viewLifecycleOwner, previous::updateVisibility)
+        }
     }
 
     private fun animateSkipTo(toNext: Boolean) {
