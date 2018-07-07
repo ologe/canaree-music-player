@@ -9,7 +9,7 @@ buildscript {
         google_services = '4.0.1'
         fabric = '1.25.4'
         firebase_plugin = '1.1.5'
-        lintVersion = '26.1.2'
+        lintVersion = '26.1.3'
     }
 
 
