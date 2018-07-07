@@ -7,7 +7,10 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
-import dev.olog.msc.domain.interactor.all.*
+import dev.olog.msc.domain.interactor.all.GetAllAutoPlaylistUseCase
+import dev.olog.msc.domain.interactor.all.GetAllFoldersUseCase
+import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
+import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllAlbumsSortedUseCase
@@ -59,9 +62,9 @@ class TabFragmentViewModelModule {
                 .map { it.startWith(headers.autoPlaylistHeader) }
                 .defer()
 
-        return Observables.combineLatest(playlistObs, autoPlaylistObs, { playlist, autoPlaylist ->
+        return Observables.combineLatest(playlistObs, autoPlaylistObs) { playlist, autoPlaylist ->
             autoPlaylist.plus(playlist)
-        }).defer()
+        }.defer()
     }
 
     @Provides

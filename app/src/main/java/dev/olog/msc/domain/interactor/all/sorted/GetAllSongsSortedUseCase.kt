@@ -5,8 +5,8 @@ import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import java.text.Collator
@@ -24,16 +24,16 @@ class GetAllSongsSortedUseCase @Inject constructor(
     override fun buildUseCaseObservable(): Observable<List<Song>> {
         return Observables.combineLatest(
                 getAllUseCase.execute(),
-                appPrefsGateway.observeAllTracksSortOrder(),
-                { tracks, order ->
-                    val (sort, arranging) = order
+                appPrefsGateway.observeAllTracksSortOrder()
+            ) { tracks, order ->
+                val (sort, arranging) = order
 
-                    if (arranging == SortArranging.ASCENDING){
-                        tracks.sortedWith(getAscendingComparator(sort))
-                    } else {
-                        tracks.sortedWith(getDescendingComparator(sort))
-                    }
-                })
+                if (arranging == SortArranging.ASCENDING){
+                    tracks.sortedWith(getAscendingComparator(sort))
+                } else {
+                    tracks.sortedWith(getDescendingComparator(sort))
+                }
+            }
     }
 
     private fun getAscendingComparator(sortType: SortType): Comparator<Song> {

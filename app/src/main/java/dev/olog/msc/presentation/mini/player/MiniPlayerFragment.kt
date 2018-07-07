@@ -83,23 +83,27 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .asLiveData()
                 .subscribe(viewLifecycleOwner, this::animateSkipTo)
 
-        RxView.clicks(next)
+        RxView.clicks(view.next)
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { media.skipToNext() }
 
-        RxView.clicks(playPause)
+        RxView.clicks(view.playPause)
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { media.playPause() }
 
-        RxView.clicks(previous)
+        RxView.clicks(view.previous)
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { media.skipToPrevious() }
 
         viewModel.skipToNextVisibility
-                .subscribe(viewLifecycleOwner, next::updateVisibility)
+                .subscribe(viewLifecycleOwner) {
+                    view.next.updateVisibility(it)
+                }
 
         viewModel.skipToPreviousVisibility
-                .subscribe(viewLifecycleOwner, previous::updateVisibility)
+                .subscribe(viewLifecycleOwner) {
+                    view.previous.updateVisibility(it)
+                }
     }
 
     override fun onResume() {

@@ -5,7 +5,7 @@ buildscript {
     ext {
         kotlin_version = '1.2.50'
 //        gradle_plugin = '3.1.2'
-        gradle_plugin = '3.2.0-beta01'
+        gradle_plugin = '3.2.0-beta02'
         google_services = '4.0.1'
         fabric = '1.25.4'
         firebase_plugin = '1.1.5'
@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta01'
+        classpath 'com.android.tools.build:gradle:3.2.0-beta02'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"

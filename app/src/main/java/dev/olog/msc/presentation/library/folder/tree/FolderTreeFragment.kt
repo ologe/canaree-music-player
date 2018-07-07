@@ -10,7 +10,6 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.windowBackground
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
@@ -29,24 +28,6 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
     @Inject lateinit var adapter: FolderTreeFragmentAdapter
     @Inject lateinit var viewModel: FolderTreeFragmentViewModel
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel.observeFileName()
-                .subscribe(this, {
-                    bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
-                })
-
-        viewModel.observeChildrens()
-                .subscribe(this, adapter::updateDataSet)
-
-        viewModel.observeIsExternal()
-                .subscribe(this, {
-                    fab.toggleVisibility(it.isEnabled, true)
-                    fab.setBackgroundResource(if (it.isExternal) R.drawable.vd_sdcard else R.drawable.vd_internal_storage)
-                })
-    }
-
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.adapter = adapter
         view.list.layoutManager = LinearLayoutManager(context)
@@ -61,19 +42,24 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
         if (AppTheme.isGrayMode()){
             view.bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
         }
+
+        viewModel.observeFileName()
+                .subscribe(viewLifecycleOwner) {
+                    bread_crumbs.setActiveOrAdd(BreadCrumbLayout.Crumb(it), false)
+                }
+
+        viewModel.observeChildrens()
+                .subscribe(viewLifecycleOwner, adapter::updateDataSet)
     }
 
     override fun onResume() {
         super.onResume()
         bread_crumbs.setCallback(this)
-        fab.setOnClickListener { viewModel.toggleIsExternal() }
-
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
-        fab.setOnClickListener(null)
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {

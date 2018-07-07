@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.library.folder.tree
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.database.ContentObserver
 import android.os.Environment
@@ -29,32 +28,15 @@ class FolderTreeFragmentViewModel(
         val BACK_HEADER_ID = MediaId.folderId("back header")
     }
 
-    private val isExternalLiveData = MutableLiveData<ExternalStorageModel>()
-
-    init {
-        isExternalLiveData.value = ExternalStorageModel(false, searchSdRoot() != null)
-    }
-
-    fun observeIsExternal() : LiveData<ExternalStorageModel> = isExternalLiveData
-
-    fun toggleIsExternal(){
-        val isExternal = isExternalLiveData.value!!.isExternal
-        val sdRoot = searchSdRoot()
-        if (isExternal){
-            currentFile.onNext(sdRoot ?: Environment.getExternalStorageDirectory())
-        } else {
-            currentFile.onNext(Environment.getExternalStorageDirectory())
-        }
-        isExternalLiveData.value = ExternalStorageModel(!isExternal, sdRoot != null)
-    }
-
     private val observer = object : ContentObserver(Handler(Looper.getMainLooper())){
         override fun onChange(selfChange: Boolean) {
             currentFile.onNext(currentFile.value!!)
         }
     }
 
-    private val currentFile = BehaviorSubject.createDefault(Environment.getExternalStorageDirectory())
+    private val currentFile = BehaviorSubject.createDefault(Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_MUSIC
+    ))
 
 
     init {
@@ -73,7 +55,7 @@ class FolderTreeFragmentViewModel(
             .map {
                 val blackList = appPreferencesUseCase.getBlackList()
                 val childrens = it.listFiles()
-                        .filter { if (it.isDirectory) !blackList.contains(it.path) else !blackList.contains(it.parentFile.path) }
+                        .filter { if (it.isDirectory) !blackList.contains(it.absolutePath) else !blackList.contains(it.parentFile.absolutePath) }
 
                 val (directories, files) = childrens.partition { it.isDirectory }
                 val sortedDirectory = filterFolders(directories)
@@ -81,7 +63,7 @@ class FolderTreeFragmentViewModel(
 
                 val displayableItems = sortedDirectory.plus(sortedFiles)
 
-                if (it == Environment.getExternalStorageDirectory()){
+                if (it.path == "/"){
                     displayableItems
                 } else {
                     displayableItems.startWith(backDisplableItem)
@@ -149,75 +131,4 @@ class FolderTreeFragmentViewModel(
                 path =  this.path
         )
     }
-
-    private fun searchSdRoot(): File? {
-        var sdcardpath : String? = null
-
-        //Datas
-        if (File("/data/sdext4/").exists() && File("/data/sdext4/").canRead()) {
-            sdcardpath = "/data/sdext4/"
-        }
-        if (File("/data/sdext3/").exists() && File("/data/sdext3/").canRead()) {
-            sdcardpath = "/data/sdext3/"
-        }
-        if (File("/data/sdext2/").exists() && File("/data/sdext2/").canRead()) {
-            sdcardpath = "/data/sdext2/"
-        }
-        if (File("/data/sdext1/").exists() && File("/data/sdext1/").canRead()) {
-            sdcardpath = "/data/sdext1/"
-        }
-        if (File("/data/sdext/").exists() && File("/data/sdext/").canRead()) {
-            sdcardpath = "/data/sdext/"
-        }
-
-        //MNTS
-
-        if (File("mnt/sdcard/external_sd/").exists() && File("mnt/sdcard/external_sd/").canRead()) {
-            sdcardpath = "mnt/sdcard/external_sd/"
-        }
-        if (File("mnt/extsdcard/").exists() && File("mnt/extsdcard/").canRead()) {
-            sdcardpath = "mnt/extsdcard/"
-        }
-        if (File("mnt/external_sd/").exists() && File("mnt/external_sd/").canRead()) {
-            sdcardpath = "mnt/external_sd/"
-        }
-        if (File("mnt/emmc/").exists() && File("mnt/emmc/").canRead()) {
-            sdcardpath = "mnt/emmc/"
-        }
-        if (File("mnt/sdcard0/").exists() && File("mnt/sdcard0/").canRead()) {
-            sdcardpath = "mnt/sdcard0/"
-        }
-        if (File("mnt/sdcard1/").exists() && File("mnt/sdcard1/").canRead()) {
-            sdcardpath = "mnt/sdcard1/"
-        }
-//        if (File("mnt/sdcard/").exists() && File("mnt/sdcard/").canRead()) {
-//            sdcardpath = "mnt/sdcard/"
-//        }
-
-        //Storages
-        if (File("/storage/removable/sdcard1/").exists() && File("/storage/removable/sdcard1/").canRead()) {
-            sdcardpath = "/storage/removable/sdcard1/"
-        }
-        if (File("/storage/external_SD/").exists() && File("/storage/external_SD/").canRead()) {
-            sdcardpath = "/storage/external_SD/"
-        }
-        if (File("/storage/ext_sd/").exists() && File("/storage/ext_sd/").canRead()) {
-            sdcardpath = "/storage/ext_sd/"
-        }
-        if (File("/storage/sdcard1/").exists() && File("/storage/sdcard1/").canRead()) {
-            sdcardpath = "/storage/sdcard1/"
-        }
-        if (File("/storage/sdcard0/").exists() && File("/storage/sdcard0/").canRead()) {
-            sdcardpath = "/storage/sdcard0/"
-        }
-//        if (File("/storage/sdcard/").exists() && File("/storage/sdcard/").canRead()) {
-//            sdcardpath = "/storage/sdcard/"
-//        }
-
-        if (sdcardpath != null && File(sdcardpath).path != Environment.getExternalStorageDirectory().path){
-            return File(sdcardpath)
-        }
-        return null
-    }
-
 }
