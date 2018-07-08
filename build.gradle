@@ -48,7 +48,7 @@ ext {
     minSdkVersion = 21
     targetSdkVersion = 28
     compileSdkVersion = 28
-    buildToolsVersion = '28.0.0'
+    buildToolsVersion = '28.0.1'
 
     /*  version code
         999 - for old compatibility
@@ -63,7 +63,7 @@ ext {
     firebase = '16.0.1'
     micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.0'
-    micro_architecture_room = '1.1.0'
+    micro_architecture_room = '1.1.1'
     constraint_layout = '1.1.2'
     glide = '4.7.1'
 //    exo_player = '2.7.3'
@@ -82,7 +82,7 @@ ext {
     tap_target = '1.11.0'
 
     // reactive
-    rx_java = '2.1.15'
+    rx_java = '2.1.16'
     rx_android = '2.0.2'
     rx_binding = '2.1.1'
     rx_preferences = '2.0.0'
