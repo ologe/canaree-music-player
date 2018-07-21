@@ -48,7 +48,6 @@ class PlayerMetadata @Inject constructor(
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, entity.artist)
                 .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, entity.album)
                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, entity.duration)
-//                .putBitmap(MediaMetadataCompat.METADATA_KEY_ART, bitmap.orElse(null)) // very slow method
                 .putString(MediaMetadataCompat.METADATA_KEY_ART_URI, entity.image)
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, entity.image)
                 .putString(MusicConstants.PATH, entity.path)

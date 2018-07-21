@@ -77,8 +77,9 @@
     <color name="md_yellow_A100">#FFFF82</color>
     <color name="md_yellow_A200">#FFFF00</color>
     <color name="md_yellow_A400">#FFEA00</color>
+    <color name="md_yellow_A700">#FFD600</color>
     <!--not really yellow a700 but better-->
-    <color name="md_yellow_A700">#f8cf5f</color>
+    <color name="md_yellow_A700_alt">#f8cf5f</color>
 
     <!--amber-->
     <color name="md_amber_A100">#FFE57F</color>
@@ -340,7 +341,7 @@
     </style>
 
     <style name="ThemeAccentYellow700">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A700_alt</item>
     </style>
 
     <!--AMBER-->

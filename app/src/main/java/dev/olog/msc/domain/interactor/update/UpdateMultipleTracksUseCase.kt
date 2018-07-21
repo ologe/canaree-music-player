@@ -6,7 +6,6 @@ import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
-import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
@@ -25,7 +24,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                 .flatMapObservable { Observable.fromIterable(it) }
                 .flatMapCompletable { updateTrackUseCase.execute(
                         UpdateTrackUseCase.Data(null, it.path, null, param.fields)
-                ) }.andThen({
+                ) }.andThen {
                     if (param.mediaId.isArtist){
                         gateway.setForArtist(param.mediaId.resolveId, param.image)
                     } else if (param.mediaId.isAlbum){
@@ -33,7 +32,7 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                     } else {
                         throw IllegalStateException("invalid media id category ${param.mediaId}")
                     }
-                })
+                }
 
     }
 

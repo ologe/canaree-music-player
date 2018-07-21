@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.core.database.getStringOrNull
 import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.utils.k.extension.clamp
@@ -51,10 +52,13 @@ object ImagesFolderUtils {
         val cursor = app.contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM_ART), null,
                 null, null)
 
-        cursor.moveToFirst()
+        var result = ""
 
-        val result = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART)) ?: ""
-        cursor.close()
+        cursor.use {
+            if (it.moveToFirst()){
+                result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART) ?: ""
+            }
+        }
 
         return result
     }
