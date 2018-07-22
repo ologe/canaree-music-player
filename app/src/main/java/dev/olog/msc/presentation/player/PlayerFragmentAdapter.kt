@@ -131,7 +131,7 @@ class PlayerFragmentAdapter @Inject constructor(
                                 animateTextColor(it.secondaryTextColor)
                                 animateBackgroundColor(it.background)
                             }
-                            val accentColor = ColorUtil.getLighterColor(activity, it.primaryTextColor, it.background)
+                            val accentColor = ColorUtil.getAccentColor(activity, it)
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
@@ -364,11 +364,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
         val duration = metadata.getDuration()
 
-        var readableDuration = metadata.getDurationReadable()
-        if (AppTheme.isDefault() || (context.isLandscape && !AppTheme.isFullscreen())){
-            readableDuration = "${TextUtils.MIDDLE_DOT_SPACED}$readableDuration"
-        }
-
+        val readableDuration = metadata.getDurationReadable()
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
 
@@ -386,14 +382,14 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
-        view.cover?.loadImage(metadata) ?: return
+        view.bigCover?.loadImage(metadata) ?: return
     }
 
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){
         val isPlaying = playbackState.isPlaying()
         if (isPlaying || playbackState.isPaused()){
             view.nowPlaying?.isActivated = isPlaying
-            view.cover?.isActivated = isPlaying
+            view.bigCover?.isActivated = isPlaying
         }
     }
 

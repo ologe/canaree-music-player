@@ -53,12 +53,6 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
     private var lyricsDisposable: Disposable? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
-
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
@@ -110,19 +104,19 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
             mediaProvider.onMetadataChanged()
                     .asLiveData()
-                    .subscribe(viewLifecycleOwner, cover::loadImage)
+                    .subscribe(viewLifecycleOwner) { bigCover?.loadImage(it) }
 
             mediaProvider.onStateChanged()
                     .asLiveData()
-                    .subscribe(viewLifecycleOwner, cover::toggleElevation)
+                    .subscribe(viewLifecycleOwner) { bigCover?.toggleElevation(it) }
 
             mediaProvider.onRepeatModeChanged()
                     .asLiveData()
-                    .subscribe(viewLifecycleOwner, repeat::cycle)
+                    .subscribe(viewLifecycleOwner) { repeat?.cycle(it) }
 
             mediaProvider.onShuffleModeChanged()
                     .asLiveData()
-                    .subscribe(viewLifecycleOwner, shuffle::cycle)
+                    .subscribe(viewLifecycleOwner) { shuffle?.cycle(it)  }
 
             mediaProvider.onStateChanged()
                     .map { it.state }
@@ -147,17 +141,21 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                         }
                     }
 
-            RxView.clicks(next)
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { mediaProvider.skipToNext() }
-
-            RxView.clicks(playPause)
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { mediaProvider.playPause() }
-
-            RxView.clicks(previous)
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { mediaProvider.skipToPrevious() }
+            next?.apply {
+                RxView.clicks(this)
+                        .asLiveData()
+                        .subscribe(viewLifecycleOwner) { mediaProvider.skipToNext() }
+            }
+            playPause?.apply {
+                RxView.clicks(this)
+                        .asLiveData()
+                        .subscribe(viewLifecycleOwner) { mediaProvider.playPause() }
+            }
+            previous?.apply {
+                RxView.clicks(this)
+                        .asLiveData()
+                        .subscribe(viewLifecycleOwner) { mediaProvider.skipToPrevious() }
+            }
 
             presenter.observePlayerControlsVisibility()
                     .asLiveData()
@@ -168,10 +166,10 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     }
 
             viewModel.skipToNextVisibility.asLiveData()
-                    .subscribe(viewLifecycleOwner, next::updateVisibility)
+                    .subscribe(viewLifecycleOwner) { next?.updateVisibility(it) }
 
             viewModel.skipToPreviousVisibility.asLiveData()
-                    .subscribe(viewLifecycleOwner, previous::updateVisibility)
+                    .subscribe(viewLifecycleOwner) { previous?.updateVisibility(it) }
         }
     }
 

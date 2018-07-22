@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <dev.olog.msc.presentation.widget.image.view.PlayerImageView
-                android:id="@+id/cover"
+                android:id="@+id/bigCover"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
@@ -62,8 +62,8 @@
                 android:paddingEnd="0dp"
                 android:paddingStart="0dp"
                 android:paddingTop="20dp"
-                app:layout_constraintEnd_toEndOf="@+id/cover"
-                app:layout_constraintStart_toStartOf="@+id/cover"
+                app:layout_constraintEnd_toEndOf="@+id/bigCover"
+                app:layout_constraintStart_toStartOf="@+id/bigCover"
                 app:layout_constraintTop_toBottomOf="@+id/artist"
                 app:layout_constraintBottom_toTopOf="@+id/playerControls"
                 tools:max="100"
@@ -123,7 +123,7 @@
             <TextView
                 android:id="@+id/title"
                 tools:text="Gz And Hustlas"
-                app:layout_constraintTop_toBottomOf="@+id/cover"
+                app:layout_constraintTop_toBottomOf="@+id/bigCover"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="0dp"

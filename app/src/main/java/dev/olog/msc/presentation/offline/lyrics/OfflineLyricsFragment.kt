@@ -94,6 +94,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
 
         presenter.observeLyrics()
                 .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
+                .map { text.precomputeText(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
                 .subscribe(this) {
@@ -109,7 +110,6 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                     seekBar.progress = it.position.toInt()
                     handleSeekBarState(isPlaying)
                 }
-
     }
 
     private fun loadBackgroundImage(metadata: MediaMetadataCompat){
@@ -157,9 +157,9 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         search.setOnClickListener { searchLyrics() }
         act.window.removeLightStatusBar()
 
-        fakeNext.setOnTouchListener(NoScrollTouchListener(ctx, { mediaProvider.skipToNext() }))
-        fakePrev.setOnTouchListener(NoScrollTouchListener(ctx, { mediaProvider.skipToPrevious() }))
-        scrollView.setOnTouchListener(NoScrollTouchListener(ctx, { mediaProvider.playPause() }))
+        fakeNext.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToNext() })
+        fakePrev.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToPrevious() })
+        scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
         seekBar.setOnSeekBarChangeListener(seekBarListener)
 
         sync.setOnClickListener {

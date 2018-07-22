@@ -43,12 +43,11 @@ abstract class BaseOfflineLyricsPresenter constructor(
         return Observables.combineLatest(
                 currentTrackIdPublisher.switchMap { id ->
                     observeUseCase.execute(id)
-                }, Observable.interval(1, TimeUnit.SECONDS, Schedulers.io()).startWith(0),
-                { lyrics, _ ->
+                }, Observable.interval(1, TimeUnit.SECONDS, Schedulers.io()).startWith(0)
+                ) { lyrics, _ ->
                     this.originalLyrics = lyrics
                     lyrics
                 }
-        )
     }
 
     fun getOriginalLyrics() = originalLyrics

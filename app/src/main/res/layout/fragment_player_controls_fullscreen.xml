@@ -12,7 +12,7 @@
         android:id="@+id/playerRoot">
 
         <dev.olog.msc.presentation.widget.image.view.PlayerImageView
-            android:id="@+id/cover"
+            android:id="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"

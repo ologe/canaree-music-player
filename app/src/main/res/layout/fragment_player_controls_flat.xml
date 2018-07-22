@@ -21,7 +21,7 @@
             android:layout_height="@dimen/player_toolbar" />
 
         <dev.olog.msc.presentation.widget.image.view.PlayerImageView
-            android:id="@+id/cover"
+            android:id="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
@@ -40,10 +40,10 @@
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"
             android:elevation="20dp"
-            app:layout_constraintTop_toTopOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/bigCover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintBottom_toBottomOf="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"
@@ -104,7 +104,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             layout="@layout/player_controls"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_bias=".9"/>
 
         <!-- title -->
         <TextView

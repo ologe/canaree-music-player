@@ -22,7 +22,7 @@
             android:layout_height="@dimen/player_toolbar" />
 
         <dev.olog.msc.presentation.widget.image.view.PlayerImageView
-            android:id="@+id/cover"
+            android:id="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
@@ -41,10 +41,10 @@
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"
             android:elevation="20dp"
-            app:layout_constraintTop_toTopOf="@+id/cover"
+            app:layout_constraintTop_toTopOf="@+id/bigCover"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/cover"
+            app:layout_constraintBottom_toBottomOf="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"
@@ -83,7 +83,7 @@
         <!-- duration -->
         <TextView
             android:id="@+id/duration"
-            tools:text=" / 2:57"
+            tools:text="2:57"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"

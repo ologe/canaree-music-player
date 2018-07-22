@@ -16,6 +16,8 @@ public class ColorUtil {
 
     private static final String TAG = "ColorUtil";
     private static final ThreadLocal<double[]> TEMP_ARRAY = new ThreadLocal<>();
+    private static final float LUMINANCE_LOWER = .3f;
+    private static final float LUMINANCE_UPPER = .9f;
 
     /**
      * Returns the luminance of a color as a float between {@code 0.0} and {@code 1.0}.
@@ -25,30 +27,26 @@ public class ColorUtil {
         return ColorUtils.calculateLuminance(backgroundColor);
     }
 
-    public static int getLighterColor(Context context, int color1, int color2){
-        double luminance1 = calculateLuminance(color1);
-        double luminance2 = calculateLuminance(color2);
-
+    public static int getAccentColor(Context context, ImageProcessorResult colors){
+        int choice = colors.getPrimaryTextColor();
+        double luminance = calculateLuminance(choice);
+        if (luminance > LUMINANCE_LOWER && luminance < LUMINANCE_UPPER){
+            return choice;
+        }
+        choice = colors.getBackground();
+        luminance = calculateLuminance(choice);
+        if (luminance > LUMINANCE_LOWER && luminance < LUMINANCE_UPPER){
+            return choice;
+        }
         int defaultColor = AppTheme.INSTANCE.isDarkTheme()
                 ? ContextCompat.getColor(context, R.color.accent_secondary)
                 : ContextCompat.getColor(context, R.color.accent);
-
-        if (luminance1 >= luminance2){
-            if (luminance1 > .9 || luminance1 < .1){
-                return defaultColor;
-            }
-            return color1;
-        } else {
-            if (luminance2 > .9 || luminance2 < .1){
-                return defaultColor;
-            }
-            return color2;
-        }
+        return defaultColor;
     }
 
     public static int ensureVisibility(Context context, int color){
         double luminance = calculateLuminance(color);
-        if (luminance > .7 || luminance < .3){
+        if (luminance > LUMINANCE_UPPER || luminance < LUMINANCE_LOWER){
             return AppTheme.INSTANCE.isDarkTheme()
                     ? ContextCompat.getColor(context, R.color.accent_secondary)
                     : ContextCompat.getColor(context, R.color.accent);
