@@ -17,7 +17,7 @@
   <string name="popup_set_as_ringtone">Imposta come suoneria</string>
   <string name="popup_delete">Elimina dal dispositivo</string>
   <string name="popup_rename">Rinomina</string>
-  <string name="popup_clear_playlist">Svuota playlist</string>
+  <string name="popup_clear_playlist">Rimuovi tutti i brani</string>
   <string name="popup_remove_duplicates">Rimuovi duplicati</string>
   <string name="popup_equalizer">Equalizzatore</string>
   <string name="popup_sleep_timer">Timer di spegnimento</string>
@@ -34,7 +34,4 @@
   <string name="popup_request_permission_write_settings">
         Per poter cambiare la suoneria l\'app deve disporre del seguente permesso
     </string>
-  <string name="popup_view_as">Visualizza come</string>
-  <string name="popup_view_as_list">Lista</string>
-  <string name="popup_view_as_grid">Griglia</string>
 </resources>

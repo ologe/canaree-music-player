@@ -7,7 +7,9 @@ import android.view.View
 import androidx.core.text.isDigitsOnly
 import dagger.Lazy
 import dev.olog.msc.R
+import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
@@ -64,17 +66,6 @@ class TabFragment : BaseFragment() {
         view.sidebar.scrollableLayoutId = scrollableLayoutId
 
         view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS, true)
-
-//        if (category == MediaIdCategory.ALBUMS){
-//            viewModel.observeAlbumSpanSize(category)
-//                    .asLiveData()
-//                    .subscribe(viewLifecycleOwner, { (one, two) ->
-//                        val spanSizeLookup = gridLayoutManager.spanSizeLookup as AbsSpanSizeLookup
-//                        spanSizeLookup.updateSpan(one, two)
-//                        gridLayoutManager.spanSizeLookup = spanSizeLookup
-//                        view.list.invalidate()
-//                    })
-//        }
 
         viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
@@ -133,30 +124,54 @@ class TabFragment : BaseFragment() {
                 if (it.type != scrollableItem){
                     false
                 } else {
-                    if (it.title.isBlank()) false
-                    else it.title[0].toUpperCase().toString().isDigitsOnly()
+                    val sorting = getCurrentSorting(it)
+                    if (sorting.isBlank()) false
+                    else sorting[0].toUpperCase().toString().isDigitsOnly()
                 }
             }
             "?" -> adapter.indexOf {
                 if (it.type != scrollableItem){
                     false
                 } else {
-                    if (it.title.isBlank()) false
-                    else it.title[0].toUpperCase().toString() > "Z"
+                    val sorting = getCurrentSorting(it)
+                    if (sorting.isBlank()) false
+                    else sorting[0].toUpperCase().toString() > "Z"
                 }
             }
             else -> adapter.indexOf {
                 if (it.type != scrollableItem){
                     false
                 } else {
-                    if (it.title.isBlank()) false
-                    else it.title[0].toUpperCase().toString() == letter
+                    val sorting = getCurrentSorting(it)
+                    if (sorting.isBlank()) false
+                    else sorting[0].toUpperCase().toString() == letter
                 }
             }
         }
         if (position != -1){
             val layoutManager = list.layoutManager as GridLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
+        }
+    }
+
+    private fun getCurrentSorting(item: DisplayableItem): String {
+        return when (category){
+            MediaIdCategory.SONGS -> {
+                val sortOrder = viewModel.getAllTracksSortOrder()
+                when (sortOrder.type){
+                    SortType.ARTIST -> item.subtitle!!
+                    SortType.ALBUM -> item.subtitle!!.substring(item.subtitle.indexOf(TextUtils.MIDDLE_DOT) + 1).trim()
+                    else -> item.title
+                }
+            }
+            MediaIdCategory.ALBUMS -> {
+                val sortOrder = viewModel.getAllAlbumsSortOrder()
+                when (sortOrder.type){
+                    SortType.TITLE -> item.title
+                    else -> item.subtitle!!
+                }
+            }
+            else -> item.title
         }
     }
 

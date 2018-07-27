@@ -17,6 +17,7 @@
         <item name="android:windowFullscreen">true</item>
 
         <item name="buttonStyle">@style/DefaultButton</item>
+        <item name="materialButtonStyle">@style/DefaultButton</item>
     </style>
 
     <!-- Base dark application theme. -->
@@ -55,12 +56,12 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     
-    <style name="PositiveButton" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="PositiveButton" parent="DefaultButton">
         <item name="android:textColor">?attr/colorAccent</item>
     </style>
 
     <style name="DefaultButton" parent="Widget.MaterialComponents.Button.TextButton">
-
+        <item name="android:letterSpacing">0</item>
     </style>
     
     <style name="EditItemSubHeader">

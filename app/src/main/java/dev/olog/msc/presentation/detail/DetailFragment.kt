@@ -45,7 +45,6 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var albumsAdapter: DetailAlbumsAdapter
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var detailListMargin: DetailListMargin
     private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
@@ -103,7 +102,7 @@ class DetailFragment : BaseFragment() {
         viewModel.itemLiveData.subscribe(viewLifecycleOwner) { item ->
             if (item.isNotEmpty()){
                 headerText.text = item[1].title
-                val cover = view?.findViewById<View>(R.id.cover)
+                val cover = view.findViewById<View>(R.id.cover)
                 if (!isPortrait() && cover is ShapeImageView){
                     BindingsAdapter.loadBigAlbumImage(cover, item[0])
                 }
@@ -117,7 +116,6 @@ class DetailFragment : BaseFragment() {
         super.onResume()
         if (ctx.isPortrait){
             list.addOnScrollListener(recyclerOnScrollListener)
-            list.addItemDecoration(detailListMargin)
         }
         back.setOnClickListener { act.onBackPressed() }
         search.setOnClickListener { navigator.toSearchFragment(search) }
@@ -128,7 +126,7 @@ class DetailFragment : BaseFragment() {
         super.onPause()
         if (ctx.isPortrait){
             list.removeOnScrollListener(recyclerOnScrollListener)
-            list.removeItemDecoration(detailListMargin)
+//            list.removeItemDecoration(detailListMargin)
         }
         back.setOnClickListener(null)
         search.setOnClickListener(null)

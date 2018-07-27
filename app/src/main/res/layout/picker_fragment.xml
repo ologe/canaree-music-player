@@ -28,28 +28,24 @@
         android:clickable="true"
         android:focusable="true"/>
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/button_ok"
         app:layout_constraintTop_toBottomOf="@+id/hms_picker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/DialogButton"
-        android:textColor="?attr/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@android:string/ok"
+        android:text="@string/popup_positive_ok"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="8dp" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/button_cancel"
-        style="@style/DialogButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@android:string/cancel"
-        android:textColor="?attr/colorAccent"
+        android:text="@string/popup_negative_cancel"
         app:layout_constraintTop_toTopOf="@+id/button_ok"
         app:layout_constraintEnd_toStartOf="@+id/button_ok"
-        app:layout_constraintBottom_toBottomOf="@+id/button_ok"/>
+        app:layout_constraintBottom_toBottomOf="@+id/button_ok" />
 
 </android.support.constraint.ConstraintLayout>

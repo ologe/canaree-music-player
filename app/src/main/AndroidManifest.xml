@@ -36,7 +36,6 @@
         <activity
             android:name=".presentation.main.MainActivity"
             android:launchMode="singleTop"
-            android:rotationAnimation="rotate"
             android:colorMode="wideColorGamut"
             tools:ignore="UnusedAttribute">
 

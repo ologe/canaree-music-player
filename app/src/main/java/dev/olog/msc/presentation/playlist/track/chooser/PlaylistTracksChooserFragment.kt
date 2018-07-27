@@ -15,6 +15,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
+import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
@@ -118,7 +119,10 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
         RxView.clicks(view.back)
                 .asLiveData()
-                .subscribe(this) { act.onBackPressed() }
+                .subscribe(this) {
+                    ImeUtils.hideIme(filter)
+                    act.onBackPressed()
+                }
 
         RxView.clicks(view.save)
                 .asLiveData()

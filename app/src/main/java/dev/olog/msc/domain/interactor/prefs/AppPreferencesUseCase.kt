@@ -2,6 +2,7 @@ package dev.olog.msc.domain.interactor.prefs
 
 import dev.olog.msc.domain.entity.GridSpanSize
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
+import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
@@ -61,6 +62,18 @@ class AppPreferencesUseCase @Inject constructor(
     }
     fun setSyncAdjustment(value: Long) {
         gateway.setSyncAdjustment(value)
+    }
+
+    fun getAllTracksSortOrder(): LibrarySortType {
+        return gateway.getAllTracksSortOrder()
+    }
+
+    fun getAllAlbumsSortOrder(): LibrarySortType {
+        return gateway.getAllAlbumsSortOrder()
+    }
+
+    fun getAllArtistsSortOrder(): LibrarySortType {
+        return gateway.getAllArtistsSortOrder()
     }
 
     fun setAlbumSpanSize(category: MediaIdCategory, spanSize: Int){

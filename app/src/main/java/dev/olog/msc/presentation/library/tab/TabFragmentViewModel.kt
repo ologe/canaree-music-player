@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.library.tab
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import dagger.Lazy
-import dev.olog.msc.domain.entity.GridSpanSize
+import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -52,8 +52,20 @@ class TabFragmentViewModel constructor(
         subscriptions.clear()
     }
 
-    fun observeAlbumSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {
-        return appPreferencesUseCase.observeSpanSize(category)
+    fun getAllTracksSortOrder(): LibrarySortType {
+        return appPreferencesUseCase.getAllTracksSortOrder()
     }
+
+    fun getAllAlbumsSortOrder(): LibrarySortType {
+        return appPreferencesUseCase.getAllAlbumsSortOrder()
+    }
+
+    fun getAllArtistsSortOrder(): LibrarySortType {
+        return appPreferencesUseCase.getAllArtistsSortOrder()
+    }
+
+//    fun observeAlbumSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {
+//        return appPreferencesUseCase.observeSpanSize(category)
+//    }
 
 }

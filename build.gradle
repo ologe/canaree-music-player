@@ -59,7 +59,7 @@ ext {
     versionName = '1.2.1'
 
     // App dependencies
-    support_library = '28.0.0-alpha3'
+    support_library = '28.0.0-beta01'
     firebase = '16.0.1'
     micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.0'
@@ -82,9 +82,10 @@ ext {
     tap_target = '1.11.0'
 
     // reactive
-    rx_java = '2.1.16'
+    rx_java = '2.1.17'
     rx_android = '2.0.2'
     rx_binding = '2.1.1'
+
     rx_preferences = '2.0.0'
     rx_kotlin = '2.2.0'
 //    reactive_network = '0.12.3'

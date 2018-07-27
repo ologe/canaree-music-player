@@ -13,9 +13,4 @@
   <string name="popup_permission">Oprávnění</string>
   <string name="popup_request_permission_write_settings">        Prosíme aby jste přijali následující oprávnění ke změně vyzvánění
     </string>
-  <string name="popup_view_as">Zobrazit jako</string>
-  <string name="popup_view_as_list">Zobrazit
-
-(if verb)</string>
-  <string name="popup_view_as_grid">Mřižka</string>
 </resources>
