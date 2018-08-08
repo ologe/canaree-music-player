@@ -29,7 +29,7 @@ class AudioFocusBehavior @Inject constructor(
 
     fun abandonFocus(){
         if (isOreo() && lastFocusRequest != null){
-            audioManager.get().abandonAudioFocusRequest(lastFocusRequest)
+            audioManager.get().abandonAudioFocusRequest(lastFocusRequest!!)
         } else {
             @Suppress("DEPRECATION")
             audioManager.get().abandonAudioFocus(this)
@@ -51,7 +51,7 @@ class AudioFocusBehavior @Inject constructor(
                 .setAcceptsDelayedFocusGain(true)
                 .build()
 
-        val focus = audioManager.get().requestAudioFocus(lastFocusRequest)
+        val focus = audioManager.get().requestAudioFocus(lastFocusRequest!!)
         return focus == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
     }
 

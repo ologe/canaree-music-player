@@ -39,6 +39,12 @@
         <item name="tabIndicatorColor">?attr/colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabIndicator">@drawable/rounded_line</item>
+        <item name="tabUnboundedRipple">true</item>
+        <item name="tabTextAppearance">@style/DefaultTabLayoutTextAppearance</item>
+    </style>
+
+    <style name="DefaultTabLayoutTextAppearance" parent="TextAppearance.MaterialComponents.Tab">
+        <item name="android:letterSpacing">0</item>
     </style>
 
     <style name="DefaultMaterialCard" parent="Widget.MaterialComponents.CardView">
