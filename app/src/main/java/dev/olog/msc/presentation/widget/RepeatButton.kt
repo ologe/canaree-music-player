@@ -13,10 +13,7 @@ import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
-import dev.olog.msc.utils.k.extension.isPortrait
-import dev.olog.msc.utils.k.extension.textColorSecondary
-import dev.olog.msc.utils.k.extension.textColorTertiary
+import dev.olog.msc.utils.k.extension.*
 
 class RepeatButton @JvmOverloads constructor(
         context: Context,
@@ -24,18 +21,12 @@ class RepeatButton @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs) {
 
-    private val defaultEnabledColor: Int
     private var enabledColor: Int
     private var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
 
     init {
         setImageResource(R.drawable.vd_repeat)
-        defaultEnabledColor = if (AppTheme.isDarkTheme()){
-            ContextCompat.getColor(context, R.color.accent_secondary)
-        } else {
-            ContextCompat.getColor(context, R.color.accent)
-        }
-        enabledColor = defaultEnabledColor
+        enabledColor = context.colorAccent()
         setColorFilter(getDefaultColor())
     }
 

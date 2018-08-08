@@ -13,6 +13,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.setGone
 import dev.olog.msc.utils.k.extension.setVisible
+import dev.olog.msc.utils.k.extension.windowBackground
 
 class TouchHelperAnimationController {
 
@@ -102,7 +103,7 @@ class TouchHelperAnimationController {
     private fun getDeleteIcon(context: Context): Drawable{
         if (deleteIcon == null){
             deleteIcon = ContextCompat.getDrawable(context, R.drawable.vd_delete)
-            deleteIcon!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
+            deleteIcon!!.setColorFilter(context.windowBackground(), PorterDuff.Mode.SRC_ATOP)
             deleteIntrinsicWidth = deleteIcon!!.intrinsicWidth
             deleteIntrinsicHeight = deleteIcon!!.intrinsicHeight
         }
@@ -112,7 +113,7 @@ class TouchHelperAnimationController {
     private fun getPlayNextIcon(context: Context): Drawable {
         if (playNextIcon == null){
             playNextIcon = ContextCompat.getDrawable(context, R.drawable.vd_playlist_add)
-            playNextIcon!!.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
+            playNextIcon!!.setColorFilter(context.windowBackground(), PorterDuff.Mode.SRC_ATOP)
             playNextIntrinsicWidth = playNextIcon!!.intrinsicWidth
             playNextIntrinsicHeight = playNextIcon!!.intrinsicHeight
         }

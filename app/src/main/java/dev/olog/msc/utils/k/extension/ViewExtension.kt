@@ -49,10 +49,6 @@ fun View.textColorSecondary(): Int {
     return context.themeAttributeToColor(android.R.attr.textColorSecondary)
 }
 
-fun View.textColorSecondaryInverse(): Int {
-    return context.themeAttributeToColor(android.R.attr.textColorSecondaryInverse)
-}
-
 fun View.windowBackground(): Int {
     return context.themeAttributeToColor(android.R.attr.windowBackground)
 }
@@ -61,16 +57,16 @@ fun View.textColorTertiary(): Int {
     return context.themeAttributeToColor(android.R.attr.textColorTertiary)
 }
 
+fun Context.colorAccent(): Int {
+    return themeAttributeToColor(android.R.attr.colorAccent)
+}
+
 fun Context.textColorPrimary(): Int {
     return themeAttributeToColor(android.R.attr.textColorPrimary)
 }
 
 fun Context.textColorSecondary(): Int {
     return themeAttributeToColor(android.R.attr.textColorSecondary)
-}
-
-fun Context.textColorSecondaryInverse(): Int {
-    return themeAttributeToColor(android.R.attr.textColorSecondaryInverse)
 }
 
 fun Context.windowBackground(): Int {

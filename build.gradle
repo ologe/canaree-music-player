@@ -3,9 +3,9 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.2.51'
+        kotlin_version = '1.2.60'
 //        gradle_plugin = '3.1.2'
-        gradle_plugin = '3.2.0-beta04'
+        gradle_plugin = '3.2.0-beta05'
         google_services = '4.0.1'
         fabric = '1.25.4'
         firebase_plugin = '1.1.5'
@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta04'
+        classpath 'com.android.tools.build:gradle:3.2.0-beta05'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.gms:google-services:$google_services"
         classpath "io.fabric.tools:gradle:$fabric"
@@ -48,18 +48,18 @@ ext {
     minSdkVersion = 21
     targetSdkVersion = 28
     compileSdkVersion = 28
-    buildToolsVersion = '28.0.1'
+    buildToolsVersion = '28.0.2'
 
     /*  version code
         999 - for old compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_27_1_2_01
-    versionName = '1.2.1'
+    versionCode = 999_27_1_2_02
+    versionName = '1.2.2'
 
     // App dependencies
-    support_library = '28.0.0-beta01'
+    support_library = '28.0.0-rc01'
     firebase = '16.0.1'
     micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.0'
@@ -82,7 +82,7 @@ ext {
     tap_target = '1.11.0'
 
     // reactive
-    rx_java = '2.1.17'
+    rx_java = '2.2.0'
     rx_android = '2.0.2'
     rx_binding = '2.1.1'
 
@@ -91,7 +91,7 @@ ext {
 //    reactive_network = '0.12.3'
 
     // dependency injection
-    dagger = '2.16'
+    dagger = '2.17'
 
     // debug
     rxjava_debug = '1.2.2'
