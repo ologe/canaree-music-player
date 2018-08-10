@@ -74,7 +74,7 @@
     <color name="md_lime_A700">#AEEA00</color>
 
     <!--yellow -->
-    <color name="md_yellow_A100">#FFFF82</color>
+    <color name="md_yellow_A100">#FFFF8D</color>
     <color name="md_yellow_A200">#FFFF00</color>
     <color name="md_yellow_A400">#FFEA00</color>
     <color name="md_yellow_A700">#FFD600</color>
@@ -97,7 +97,7 @@
     <color name="md_deep_orange_A100">#FF9E80</color>
     <color name="md_deep_orange_A200">#FF6E40</color>
     <color name="md_deep_orange_A400">#FF3D00</color>
-    <color name="md_deep_orange_A700">#DD2600</color>
+    <color name="md_deep_orange_A700">#DD2C00</color>
 
 
     <!--RED-->
