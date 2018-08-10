@@ -52,18 +52,19 @@ class FolderTreeFragmentViewModel(
 
     fun observeChildrens(): LiveData<List<DisplayableFile>> = currentFile.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .map {
+            .map { file ->
                 val blackList = appPreferencesUseCase.getBlackList()
-                val childrens = it.listFiles()
-                        .filter { if (it.isDirectory) !blackList.contains(it.absolutePath) else !blackList.contains(it.parentFile.absolutePath) }
+                val children: List<File> = file.listFiles()
+                        ?.filter { if (file.isDirectory) !blackList.contains(file.absolutePath) else !blackList.contains(file.parentFile.absolutePath) }
+                        ?: listOf()
 
-                val (directories, files) = childrens.partition { it.isDirectory }
+                val (directories, files) = children.partition { it.isDirectory }
                 val sortedDirectory = filterFolders(directories)
                 val sortedFiles = filterTracks(files)
 
                 val displayableItems = sortedDirectory.plus(sortedFiles)
 
-                if (it.path == "/"){
+                if (file.path == "/"){
                     displayableItems
                 } else {
                     displayableItems.startWith(backDisplableItem)

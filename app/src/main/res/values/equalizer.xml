@@ -21,9 +21,9 @@
     <!--knob-->
     <color name="radial_knob_arc_bg">@color/grey600</color>
     <color name="radial_knob_arc_bg_disabled">#6c6c6c</color>
-    <color name="highlight">@color/accent</color>
+    <color name="highlight">?attr/colorAccent</color>
 
-    <dimen name="radial_text_size">18dp</dimen>
+    <dimen name="radial_text_size">16dp</dimen>
     <dimen name="radial_knob_stroke">22dp</dimen>
     <dimen name="radial_rect_padding">11dp</dimen>
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import dev.olog.msc.R
+import dev.olog.msc.utils.k.extension.crashlyticsLog
 import java.io.File
 
 class AudioWaveViewWrapper @JvmOverloads constructor(
@@ -25,8 +26,14 @@ class AudioWaveViewWrapper @JvmOverloads constructor(
     }
 
     fun onTrackChanged(path: String){
-        val file = File(path)
-        audioBar.setRawData(file.readBytes())
+        try {
+            val file = File(path)
+            audioBar.setRawData(file.readBytes())
+        } catch (ex: OutOfMemoryError){
+            ex.printStackTrace()
+            crashlyticsLog(ex.message ?: "failed loading raw data $path when loading audiowave")
+        }
+
     }
 
     fun updateProgress(progress: Int){

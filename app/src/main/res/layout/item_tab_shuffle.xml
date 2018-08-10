@@ -7,8 +7,16 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingStart="@dimen/tab_margin_start"
-        android:paddingEnd="@dimen/tab_margin_end"
-        android:background="?attr/selectableItemBackground">
+        android:paddingEnd="@dimen/tab_margin_end">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackground"
+            app:layout_constraintBottom_toTopOf="@+id/separator"
+            app:layout_constraintTop_toBottomOf="@+id/img"
+            app:layout_constraintStart_toStartOf="@+id/img"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <dev.olog.msc.presentation.widget.DottedSeparator
             android:id="@+id/separator"

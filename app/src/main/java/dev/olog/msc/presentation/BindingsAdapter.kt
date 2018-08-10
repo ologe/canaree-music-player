@@ -53,7 +53,8 @@ object BindingsAdapter {
             view: ImageView,
             item: DisplayableItem,
             override: Int,
-            priority: Priority = Priority.HIGH){
+            priority: Priority = Priority.HIGH,
+            crossfade: Boolean = true){
 
         val mediaId = item.mediaId
         val context = view.context
@@ -64,13 +65,15 @@ object BindingsAdapter {
             item.image
         } else item
 
-        GlideApp.with(context)
+        var builder = GlideApp.with(context)
                 .load(load)
                 .override(override)
                 .priority(priority)
                 .placeholder(CoverUtils.getGradient(context, mediaId))
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(RippleTarget(view, mediaId.isLeaf))
+        if (crossfade){
+            builder = builder.transition(DrawableTransitionOptions.withCrossFade())
+        }
+        builder.into(RippleTarget(view, mediaId.isLeaf))
     }
 
     @BindingAdapter("imageSong")
@@ -88,7 +91,7 @@ object BindingsAdapter {
     @BindingAdapter("imageBigAlbum")
     @JvmStatic
     fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, if (AppConstants.useFakeData) 1000 else Target.SIZE_ORIGINAL, Priority.IMMEDIATE)
+        loadImageImpl(view, item, if (AppConstants.useFakeData) 1000 else Target.SIZE_ORIGINAL, Priority.IMMEDIATE, crossfade = false)
     }
 
     @BindingAdapter("imageSpecialThanks")

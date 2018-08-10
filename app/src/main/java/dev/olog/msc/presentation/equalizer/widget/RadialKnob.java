@@ -52,6 +52,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
 import dev.olog.msc.R;
+import dev.olog.msc.presentation.utils.images.ColorUtil;
 import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
 public class RadialKnob extends View {
@@ -111,9 +112,9 @@ public class RadialKnob extends View {
         super(context, attrs, defStyle);
 
         Resources res = getResources();
+        mHighlightColor = ViewExtensionKt.colorAccent(getContext());
         mBackgroundArcColor = res.getColor(R.color.radial_knob_arc_bg);
         mBackgroundArcColorDisabled = res.getColor(R.color.radial_knob_arc_bg_disabled);
-        mHighlightColor = res.getColor(R.color.highlight);
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
