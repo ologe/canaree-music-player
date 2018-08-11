@@ -5,8 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.graphics.drawable.Animatable2Compat
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat
-import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
@@ -60,7 +58,7 @@ class ShuffleButton @JvmOverloads constructor(
     private fun animateAvd(@ColorInt endColor: Int){
         val hideDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_hide)
         setImageDrawable(hideDrawable)
-        AnimatedVectorDrawableCompat.registerAnimationCallback(hideDrawable, object : Animatable2Compat.AnimationCallback(){
+        hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback(){
             override fun onAnimationEnd(drawable: Drawable?) {
                 val showDrawable = context.getAnimatedVectorDrawable(R.drawable.shuffle_show)
                 setColorFilter(endColor)

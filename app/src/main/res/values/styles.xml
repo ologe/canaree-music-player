@@ -61,13 +61,10 @@
         <item name="android:inputType">textFilter</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
-    
-    <style name="PositiveButton" parent="DefaultButton">
-        <item name="android:textColor">?attr/colorAccent</item>
-    </style>
 
     <style name="DefaultButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:letterSpacing">0</item>
+        <item name="android:textColor">?attr/colorAccent</item>
     </style>
     
     <style name="EditItemSubHeader">

@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.graphics.drawable.Animatable2Compat
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat
-import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
@@ -67,7 +65,7 @@ class RepeatButton @JvmOverloads constructor(
     private fun animateAvd(@ColorInt endColor: Int, @DrawableRes hideAnim: Int, @DrawableRes showAnim: Int){
         val hideDrawable = context.getAnimatedVectorDrawable(hideAnim)
         setImageDrawable(hideDrawable)
-        AnimatedVectorDrawableCompat.registerAnimationCallback(hideDrawable, object : Animatable2Compat.AnimationCallback(){
+        hideDrawable.registerAnimationCallback(object : Animatable2Compat.AnimationCallback(){
             override fun onAnimationEnd(drawable: Drawable?) {
                 val showDrawable = context.getAnimatedVectorDrawable(showAnim)
                 setColorFilter(endColor)

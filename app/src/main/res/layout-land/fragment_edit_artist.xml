@@ -141,8 +141,7 @@
                 android:textColor="@color/activated_button"
                 tools:textColor="@color/accent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/PositiveButton"/>
+                android:layout_height="wrap_content" />
 
             <android.support.design.button.MaterialButton
                 android:id="@+id/cancelButton"
@@ -151,8 +150,7 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
-                app:layout_constraintEnd_toStartOf="@+id/okButton"
-                style="@style/PositiveButton"/>
+                app:layout_constraintEnd_toStartOf="@+id/okButton" />
 
         </android.support.constraint.ConstraintLayout>
 

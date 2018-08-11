@@ -2,14 +2,14 @@ package dev.olog.msc.presentation.widget
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.annotation.Keep
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.isMarshmallow
+import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.textColorTertiary
 
@@ -20,7 +20,7 @@ class AnimatedImageView @JvmOverloads constructor(
 
 ) : AppCompatImageButton(context, attrs, 0) {
 
-    private val avd: AnimatedVectorDrawable
+    private val avd: AnimatedVectorDrawableCompat
     private val animator: ViewPropertyAnimator = animate()
 
     init {
@@ -31,7 +31,8 @@ class AnimatedImageView @JvmOverloads constructor(
         val a = context.theme.obtainStyledAttributes(
                 attrs, R.styleable.AnimatedImageView, 0, 0)
 
-        avd = a.getDrawable(R.styleable.AnimatedImageView_avd) as AnimatedVectorDrawable
+        val resId = a.getResourceId(R.styleable.AnimatedImageView_avd, -1)
+        avd = context.getAnimatedVectorDrawable(resId)
         setImageDrawable(avd)
         a.recycle()
     }
@@ -50,10 +51,7 @@ class AnimatedImageView @JvmOverloads constructor(
     }
 
     private fun stopPreviousAnimation() {
-        if (isMarshmallow()) {
-            avd.reset()
-        } else
-            avd.stop()
+        avd.stop()
     }
 
     fun updateVisibility(show: Boolean) {

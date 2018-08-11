@@ -55,8 +55,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_27_1_2_03
-    versionName = '1.2.3'
+    versionCode = 999_27_1_2_04
+    versionName = '1.2.4'
 
     // App dependencies
     support_library = '28.0.0-rc01'

@@ -32,7 +32,7 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
 
         presenter.isEqualizerAvailable()
                 .asLiveData()
-                .subscribe(this, { isEqAvailable ->
+                .subscribe(this) { isEqAvailable ->
                     if (snackBar != null){
                         if (isEqAvailable){
                             snackBar?.dismiss()
@@ -44,7 +44,7 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
                             snackBar!!.show()
                         }
                     }
-                })
+                }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {

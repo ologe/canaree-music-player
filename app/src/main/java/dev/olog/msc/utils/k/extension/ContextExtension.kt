@@ -5,11 +5,11 @@ package dev.olog.msc.utils.k.extension
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.support.annotation.DimenRes
 import android.support.annotation.DrawableRes
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.util.TypedValue
 import android.widget.Toast
 import dev.olog.msc.utils.isOreo
@@ -20,8 +20,8 @@ val Context.isPortrait: Boolean
 val Context.isLandscape: Boolean
     get() = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawable {
-    return this.getDrawable(id) as AnimatedVectorDrawable
+fun Context.getAnimatedVectorDrawable (@DrawableRes id: Int): AnimatedVectorDrawableCompat {
+    return AnimatedVectorDrawableCompat.create(this, id)!!
 }
 
 //returns dip(dp) dimension value in pixels

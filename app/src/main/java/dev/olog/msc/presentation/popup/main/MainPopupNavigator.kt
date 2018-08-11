@@ -72,8 +72,7 @@ class MainPopupNavigator @Inject constructor(
     }
 
     fun toSleepTimer(){
-        SleepTimerPickerDialogBuilder(activity.supportFragmentManager)
-//                .setColorSelected(R.color.item_selected)
+        SleepTimerPickerDialogBuilder(activity, activity.supportFragmentManager)
                 .show()
     }
 

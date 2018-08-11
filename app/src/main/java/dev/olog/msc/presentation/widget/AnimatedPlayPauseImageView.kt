@@ -1,10 +1,9 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.support.annotation.Keep
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
@@ -62,7 +61,7 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
         }
     }
 
-    private fun setAvd(avd: AnimatedVectorDrawable){
+    private fun setAvd(avd: AnimatedVectorDrawableCompat){
         setImageDrawable(avd)
         avd.start()
     }
