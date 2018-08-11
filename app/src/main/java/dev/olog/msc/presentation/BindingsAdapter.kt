@@ -23,7 +23,7 @@ import dev.olog.msc.utils.img.ImagesFolderUtils
 object BindingsAdapter {
 
     private const val OVERRIDE_SMALL = 150
-    private const val OVERRIDE_MID = 300
+    private const val OVERRIDE_MID = 400
 
     @JvmStatic
     @BindingAdapter("fileTrackLoader")
