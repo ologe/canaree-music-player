@@ -60,7 +60,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/tab_margin_start"
+        android:paddingEnd="@dimen/tab_margin_start">
 
         <TextView
             android:id="@+id/didYouMeanHeader"
@@ -103,7 +105,7 @@
             android:paddingBottom="@dimen/playing_queue_margin_vertical"
             android:clipToPadding="false"
             android:clipChildren="false"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <ImageButton
             android:id="@+id/searchImage"

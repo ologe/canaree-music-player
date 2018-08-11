@@ -88,6 +88,8 @@
         android:layout_height="0dp"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
         android:paddingBottom="@dimen/playing_queue_margin_vertical"
+        android:paddingStart="@dimen/tab_margin_start"
+        android:paddingEnd="@dimen/tab_margin_start"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_mini_queue"/>

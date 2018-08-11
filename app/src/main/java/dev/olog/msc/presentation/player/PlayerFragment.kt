@@ -141,17 +141,17 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                         }
                     }
 
-            next?.apply {
+            view.findViewById<View>(R.id.next)?.apply {
                 RxView.clicks(this)
                         .asLiveData()
                         .subscribe(viewLifecycleOwner) { mediaProvider.skipToNext() }
             }
-            playPause?.apply {
+            view.findViewById<View>(R.id.playPause)?.apply {
                 RxView.clicks(this)
                         .asLiveData()
                         .subscribe(viewLifecycleOwner) { mediaProvider.playPause() }
             }
-            previous?.apply {
+            view.findViewById<View>(R.id.previous)?.apply {
                 RxView.clicks(this)
                         .asLiveData()
                         .subscribe(viewLifecycleOwner) { mediaProvider.skipToPrevious() }
