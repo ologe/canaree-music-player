@@ -6,7 +6,7 @@ import android.support.annotation.ColorRes
 import android.support.v4.app.FragmentManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.colorAccent
+import dev.olog.msc.utils.k.extension.colorAccentId
 
 class SleepTimerPickerDialogBuilder(
         context: Context,
@@ -19,7 +19,7 @@ class SleepTimerPickerDialogBuilder(
     @ColorRes
     private var colorNormal: Int = android.R.color.darker_gray
     @ColorRes
-    private var colorSelected = context.colorAccent()
+    private var colorSelected = context.colorAccentId()
     private var dismissListener: DialogInterface.OnDismissListener? = null
 
     fun setReference(r: Int): SleepTimerPickerDialogBuilder = apply { reference = r }

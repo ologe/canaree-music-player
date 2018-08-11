@@ -61,6 +61,10 @@ fun Context.colorAccent(): Int {
     return themeAttributeToColor(android.R.attr.colorAccent)
 }
 
+fun Context.colorAccentId(): Int {
+    return themeAttributeToResId(android.R.attr.colorAccent)
+}
+
 fun Context.textColorPrimary(): Int {
     return themeAttributeToColor(android.R.attr.textColorPrimary)
 }
@@ -81,6 +85,16 @@ private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: 
         return ContextCompat.getColor(this, outValue.resourceId)
     }
     return fallbackColor
+}
+
+private fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
+    val outValue = TypedValue()
+    val theme = this.theme
+    val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
+    if (resolved) {
+        return outValue.resourceId
+    }
+    return -1
 }
 
 inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit){
