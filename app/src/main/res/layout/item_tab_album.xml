@@ -14,7 +14,7 @@
         tools:layout_width="150dp"
         android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/item_album_margin"
         tools:background="@color/background">
 
         <dev.olog.msc.presentation.widget.image.view.ShapeImageView

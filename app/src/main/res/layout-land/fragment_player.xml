@@ -57,7 +57,7 @@
 
     <include
         android:id="@+id/playerControls"
-        app:layout_constraintTop_toBottomOf="@+id/cover"
+        app:layout_constraintTop_toBottomOf="@+id/swipeableView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintBottom_toBottomOf="parent"

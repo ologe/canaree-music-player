@@ -2,59 +2,56 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingStart="@dimen/tab_margin_start"
-        android:paddingEnd="@dimen/tab_margin_end">
+        android:orientation="vertical">
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            app:layout_constraintBottom_toTopOf="@+id/separator"
-            app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintStart_toStartOf="@+id/img"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:paddingTop="8dp"
+            android:paddingStart="@dimen/tab_margin_start"
+            android:paddingEnd="@dimen/tab_margin_end">
+
+            <ImageButton
+                android:id="@+id/img"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="@dimen/item_shuffle_cover_size"
+                android:layout_height="@dimen/item_shuffle_cover_size"
+                android:src="@drawable/vd_shuffle"
+                android:background="@null"
+                android:padding="@dimen/item_shuffle_padding"
+                android:layout_marginStart="16dp" />
+
+            <TextView
+                android:id="@+id/text"
+                app:layout_constraintTop_toTopOf="@+id/img"
+                app:layout_constraintBottom_toBottomOf="@+id/img"
+                app:layout_constraintStart_toEndOf="@+id/img"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/common_shuffle"
+                android:textSize="@dimen/item_shuffle_text_size"
+                android:layout_marginStart="16dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorPrimary"
+                android:gravity="center_vertical" />
+
+        </android.support.constraint.ConstraintLayout>
 
         <dev.olog.msc.presentation.widget.DottedSeparator
             android:id="@+id/separator"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img"
-            app:layout_constraintStart_toStartOf="@+id/img"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginEnd="12dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:paddingStart="@dimen/tab_margin_start"
+            android:paddingEnd="@dimen/tab_margin_end"/>
 
-        <ImageButton
-            android:id="@+id/img"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="@dimen/item_shuffle_cover_size"
-            android:layout_height="@dimen/item_shuffle_cover_size"
-            android:src="@drawable/vd_shuffle"
-            android:background="@null"
-            android:padding="@dimen/item_shuffle_padding"
-            android:layout_marginStart="16dp" />
-
-        <TextView
-            android:id="@+id/text"
-            app:layout_constraintTop_toTopOf="@+id/img"
-            app:layout_constraintBottom_toBottomOf="@+id/img"
-            app:layout_constraintStart_toEndOf="@+id/img"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/common_shuffle"
-            android:textSize="@dimen/item_shuffle_text_size"
-            android:layout_marginStart="16dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
-            android:gravity="center_vertical" />
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
 </layout>

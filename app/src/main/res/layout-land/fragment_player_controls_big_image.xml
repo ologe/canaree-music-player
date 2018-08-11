@@ -46,15 +46,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+            app:layout_constraintEnd_toStartOf="@+id/spacing"
+            android:layout_marginEnd="4dp"
+            android:clickable="false"
+            android:focusable="false" />
+
+        <!--spacing-->
+        <TextView
+            android:id="@+id/spacing"
+            android:text="@string/common_spacing"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/player_bookmark_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/seekBar"
             app:layout_constraintEnd_toStartOf="@+id/duration"
-            android:layout_marginStart="32dp"
+            android:layout_marginEnd="4dp"
             android:clickable="false"
             android:focusable="false" />
 
         <!-- duration -->
         <TextView
             android:id="@+id/duration"
-            tools:text=" / 2:57"
+            tools:text="2:57"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/player_bookmark_text_size"
             android:layout_width="wrap_content"
