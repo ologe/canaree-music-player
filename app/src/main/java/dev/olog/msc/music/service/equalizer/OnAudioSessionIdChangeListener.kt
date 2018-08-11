@@ -20,8 +20,7 @@ class OnAudioSessionIdChangeListener @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         private val equalizer: IEqualizer,
         private val virtualizer: IVirtualizer,
-        private val bassBoost: IBassBoost,
-        private val replayGain: IReplayGain
+        private val bassBoost: IBassBoost
 
 ) : AudioRendererEventListener, DefaultLifecycleObserver {
 
@@ -56,13 +55,11 @@ class OnAudioSessionIdChangeListener @Inject constructor(
         equalizer.onAudioSessionIdChanged(audioSessionId)
         virtualizer.onAudioSessionIdChanged(audioSessionId)
         bassBoost.onAudioSessionIdChanged(audioSessionId)
-        replayGain.onAudioSessionIdChanged(audioSessionId)
     }
 
     fun release(){
         equalizer.release()
         virtualizer.release()
         bassBoost.release()
-        replayGain.release()
     }
 }

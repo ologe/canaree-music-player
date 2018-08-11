@@ -58,17 +58,11 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         }
 
         view.powerSwitch.isChecked = presenter.isEqualizerEnabled()
-        view.replayGainSwitch.isChecked = presenter.isReplayGainEnabled()
 
         view.bassKnob.setMax(100)
         view.virtualizerKnob.setMax(100)
         view.bassKnob.setValue(presenter.getBassStrength())
         view.virtualizerKnob.setValue(presenter.getVirtualizerStrength())
-
-        if (!presenter.isReplayGainEnabled()){
-            view.replayGainSwitch.visibility = View.GONE
-            view.replayGain.visibility = View.GONE
-        }
 
         view.band1.initializeBandHeight(presenter.getBandLevel(0))
         view.band2.initializeBandHeight(presenter.getBandLevel(1))
@@ -88,7 +82,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
 
     override fun onResume() {
         super.onResume()
-        replayGainSwitch.setOnCheckedChangeListener { _, isChecked -> presenter.setReplayGainEnabled(isChecked) }
         bassKnob.setOnKnobChangeListener(onBassKnobChangeListener)
         virtualizerKnob.setOnKnobChangeListener(onVirtualizerKnobChangeListener)
         pager.addOnPageChangeListener(onPageChangeListener)
@@ -105,7 +98,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
 
     override fun onPause() {
         super.onPause()
-        replayGainSwitch.setOnCheckedChangeListener(null)
         bassKnob.setOnKnobChangeListener(null)
         virtualizerKnob.setOnKnobChangeListener(null)
         pager.removeOnPageChangeListener(onPageChangeListener)

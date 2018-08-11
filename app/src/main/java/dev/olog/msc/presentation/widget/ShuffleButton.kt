@@ -75,9 +75,9 @@ class ShuffleButton @JvmOverloads constructor(
             AppTheme.isFullscreen() -> Color.WHITE
             AppTheme.isDarkTheme() -> {
                 alpha = .7f
-                textColorSecondary()
+                context.textColorSecondary()
             }
-            else -> textColorTertiary()
+            else -> context.textColorTertiary()
         }
     }
 

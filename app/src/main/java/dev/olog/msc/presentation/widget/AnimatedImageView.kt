@@ -65,7 +65,7 @@ class AnimatedImageView @JvmOverloads constructor(
         return when {
             context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_929cb0.toInt()
             AppTheme.isFullscreen() || AppTheme.isDarkTheme() -> Color.WHITE
-            else -> textColorTertiary()
+            else -> context.textColorTertiary()
         }
     }
 

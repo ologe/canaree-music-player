@@ -79,7 +79,7 @@ class BandView (
         currentLevel.scaleX = 1.5f
         currentLevel.scaleY = 1.5f
         currentLevel.setPaddingBottom(context.dip(2))
-        currentLevel.setTextColor(textColorPrimary())
+        currentLevel.setTextColor(context.textColorPrimary())
 
         addView(currentLevel)
     }
@@ -90,7 +90,7 @@ class BandView (
                 normalWidth, LinearLayout.LayoutParams.MATCH_PARENT)
 
         view.layoutParams = params
-        view.setBackgroundColor(textColorPrimary())
+        view.setBackgroundColor(context.colorAccent())
         view.alpha = getAlphaBasedOnPosition()
         view.elevation = resources.getDimension(R.dimen.eq_bar_elevation)
 
@@ -171,7 +171,7 @@ class BandView (
     }
 
     private fun getAlphaBasedOnPosition(): Float {
-        return if (bandIndex % 2 == 0) .6f else .5f
+        return if (bandIndex % 2 == 0) .5f else .4f
     }
 
     fun onPresetChange(band: Int, level: Float) {

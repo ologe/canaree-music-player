@@ -4,11 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.music.service.equalizer.IEqualizer
-import dev.olog.msc.music.service.equalizer.IReplayGain
 import dev.olog.msc.music.service.equalizer.IVirtualizer
 import dev.olog.msc.music.service.equalizer.impl.BassBoostImpl
 import dev.olog.msc.music.service.equalizer.impl.EqualizerImpl
-import dev.olog.msc.music.service.equalizer.impl.ReplayGainImpl
 import dev.olog.msc.music.service.equalizer.impl.VirtualizerImpl
 import javax.inject.Singleton
 
@@ -26,9 +24,5 @@ abstract class EqualizerModule {
     @Binds
     @Singleton
     abstract fun provideVirtualizer(virtualizerIml: VirtualizerImpl): IVirtualizer
-
-    @Binds
-    @Singleton
-    abstract fun provideReplayGain(replayGainImpl: ReplayGainImpl): IReplayGain
 
 }

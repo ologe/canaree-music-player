@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:currentPageIndicatorColor="@color/dark_grey"
+            app:currentPageIndicatorColor="?attr/colorAccent"
             app:dotDiameter="5dp"
             app:dotGap="5dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -238,50 +238,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
             android:text="Bass"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/bassKnob"
+            app:layout_constraintTop_toBottomOf="@+id/bassKnob"
             app:layout_constraintEnd_toEndOf="@+id/bassKnob"
-            app:layout_constraintStart_toStartOf="@+id/bassKnob" />
+            app:layout_constraintStart_toStartOf="@+id/bassKnob"
+            android:translationY="-10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
             android:text="Virtualizer"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/virtualizerKnob"
+            app:layout_constraintTop_toBottomOf="@+id/virtualizerKnob"
             app:layout_constraintEnd_toEndOf="@+id/virtualizerKnob"
-            app:layout_constraintStart_toStartOf="@+id/virtualizerKnob" />
-
-        <TextView
-            android:id="@+id/replayGain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:text="Replay Gain"
-            android:textColor="@color/dark_grey"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/bassKnob"
-            app:layout_constraintEnd_toStartOf="@+id/replayGainSwitch"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Switch
-            android:id="@+id/replayGainSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/replayGain"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/replayGain"
-            app:layout_constraintTop_toTopOf="@+id/replayGain"
-            tools:checked="true"
-            android:textColor="?android:attr/textColorPrimary"/>
+            app:layout_constraintStart_toStartOf="@+id/virtualizerKnob"
+            android:translationY="-10dp"/>
 
     </android.support.constraint.ConstraintLayout>
 

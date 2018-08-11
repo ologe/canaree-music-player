@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.equalizer
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.music.service.equalizer.IEqualizer
-import dev.olog.msc.music.service.equalizer.IReplayGain
 import dev.olog.msc.music.service.equalizer.IVirtualizer
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -12,7 +11,6 @@ class EqualizerFragmentPresenter @Inject constructor(
         private val equalizer: IEqualizer,
         private val bassBoost: IBassBoost,
         private val virtualizer: IVirtualizer,
-        private val replayGain: IReplayGain,
         private val equalizerPrefsUseCase: EqualizerPrefsUseCase
 ) {
 
@@ -39,15 +37,6 @@ class EqualizerFragmentPresenter @Inject constructor(
 
     fun setBandLevel(band: Int, level: Float){
         equalizer.setBandLevel(band, level * 100)
-    }
-
-    fun isReplayGainEnabled(): Boolean {
-        return replayGain.isImplementedByDevice() && equalizerPrefsUseCase.isReplayGainEnabled()
-    }
-
-    fun setReplayGainEnabled(enabled: Boolean) {
-        replayGain.setEnabled(enabled)
-        equalizerPrefsUseCase.setReplayGainEnabled(enabled)
     }
 
     fun getBassStrength(): Int = bassBoost.getStrength() / 10

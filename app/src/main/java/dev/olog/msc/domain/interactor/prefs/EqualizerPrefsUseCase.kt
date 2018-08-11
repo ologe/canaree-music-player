@@ -15,12 +15,6 @@ class EqualizerPrefsUseCase @Inject constructor(
         gateway.setEqualizerEnabled(enabled)
     }
 
-    fun isReplayGainEnabled() = gateway.isReplayGainEnabled()
-
-    fun setReplayGainEnabled(enabled: Boolean) {
-        gateway.setReplayGainEnabled(enabled)
-    }
-
     fun getEqualizerSettings(): String {
         return gateway.getEqualizerSettings()
     }

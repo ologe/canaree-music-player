@@ -44,6 +44,8 @@ import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -52,6 +54,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
 import dev.olog.msc.R;
+import dev.olog.msc.presentation.theme.AppTheme;
 import dev.olog.msc.presentation.utils.images.ColorUtil;
 import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
@@ -92,6 +95,7 @@ public class RadialKnob extends View {
     private RectF mRectF, mOuterRect = new RectF(), mInnerRect = new RectF();
     private float mLastAngle;
     private Long mLastVibrateTime;
+    private int dividerColor;
     private int mHighlightColor;
     private int mBackgroundArcColor;
     private int mBackgroundArcColorDisabled;
@@ -113,8 +117,9 @@ public class RadialKnob extends View {
 
         Resources res = getResources();
         mHighlightColor = ViewExtensionKt.colorAccent(getContext());
-        mBackgroundArcColor = res.getColor(R.color.radial_knob_arc_bg);
+        mBackgroundArcColor = ColorUtils.setAlphaComponent(mHighlightColor, (int) (255 * 0.5));
         mBackgroundArcColorDisabled = res.getColor(R.color.radial_knob_arc_bg_disabled);
+        dividerColor = AppTheme.INSTANCE.isDarkTheme() ? Color.WHITE : ContextCompat.getColor(getContext(),  R.color.dark_grey);
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
@@ -122,7 +127,7 @@ public class RadialKnob extends View {
         mTextPaint.setElegantTextHeight(true);
         mTextPaint.setFakeBoldText(true);
         mTextPaint.setTextSize(res.getDimension(R.dimen.radial_text_size));
-        mTextPaint.setColor(ViewExtensionKt.textColorPrimary(this));
+        mTextPaint.setColor(ViewExtensionKt.textColorPrimary(getContext()));
 
         mTextOffset = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2,
                 getResources().getDisplayMetrics());
@@ -284,7 +289,7 @@ public class RadialKnob extends View {
         mStopY = mTmp[1];
 
         mPaint.setStrokeWidth(mHandleWidth);
-        mPaint.setColor(Color.WHITE);
+        mPaint.setColor(dividerColor);
         canvas.drawLine(mStartX, mStartY, mStopX, mStopY, mPaint);
 
         canvas.drawText(getProgressText(),
