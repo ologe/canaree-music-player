@@ -33,7 +33,7 @@ class StatusBarView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = when {
-            hasNotch -> statusBarHeightPlusNotch
+            hasNotch && context.isPortrait -> statusBarHeightPlusNotch
             else -> defaultStatusBarHeight
         }
 
