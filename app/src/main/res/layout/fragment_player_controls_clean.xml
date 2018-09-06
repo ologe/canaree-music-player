@@ -16,7 +16,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="48dp"
             android:paddingStart="36dp"
             android:paddingEnd="36dp"
             android:clipToPadding="false"
@@ -212,7 +212,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1.2"
+            app:layout_constraintDimensionRatio="1.1"
             android:clickable="true"
             android:focusable="true"
             tools:visibility="invisible" />
