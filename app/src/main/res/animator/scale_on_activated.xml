@@ -6,14 +6,14 @@
             <objectAnimator
                 android:propertyName="scaleX"
                 android:valueFrom="1"
-                android:valueTo="1.2"
-                android:duration="350"
+                android:valueTo="1.25"
+                android:duration="250"
                 android:interpolator="@android:interpolator/fast_out_slow_in"/>
             <objectAnimator
                 android:propertyName="scaleY"
                 android:valueFrom="1"
-                android:valueTo="1.2"
-                android:duration="350"
+                android:valueTo="1.25"
+                android:duration="250"
                 android:interpolator="@android:interpolator/fast_out_slow_in"/>
 
         </set>
@@ -23,15 +23,15 @@
         <set>
             <objectAnimator
                 android:propertyName="scaleX"
-                android:valueFrom="1.2"
+                android:valueFrom="1.25"
                 android:valueTo="1"
-                android:duration="350"
+                android:duration="250"
                 android:interpolator="@android:interpolator/fast_out_slow_in"/>
             <objectAnimator
                 android:propertyName="scaleY"
-                android:valueFrom="1.2"
+                android:valueFrom="1.25"
                 android:valueTo="1"
-                android:duration="350"
+                android:duration="250"
                 android:interpolator="@android:interpolator/fast_out_slow_in"/>
 
         </set>

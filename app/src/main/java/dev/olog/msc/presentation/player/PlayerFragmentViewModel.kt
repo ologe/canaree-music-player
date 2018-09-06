@@ -59,7 +59,7 @@ class PlayerFragmentViewModel @Inject constructor(
     fun onMetadataChanged(context: Context, metadata: MediaMetadataCompat){
         disposable.unsubscribe()
         disposable = Single.fromCallable { true }
-                .filter { AppTheme.isFlat() || AppTheme.isBigImage() || AppTheme.isFullscreen() }
+                .filter { AppTheme.isFlat() || AppTheme.isBigImage() || AppTheme.isFullscreen() || AppTheme.isClean() }
                 .map { metadata.toPlayerImage() }
                 .map { context.getBitmapAsync(it, 200) }
                 .subscribeOn(Schedulers.io())

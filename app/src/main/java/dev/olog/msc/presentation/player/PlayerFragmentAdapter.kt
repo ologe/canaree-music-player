@@ -120,7 +120,6 @@ class PlayerFragmentAdapter @Inject constructor(
                             .takeUntil(RxView.detaches(view).asFlowable())
                             .map { Palette.from(it.bitmap).generate() }
                             .map { ColorUtil.getAccentColor(it) }
-                            .map { ColorUtil.ensureVisibility(activity, it) }
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ accentColor ->
                                 view.artist.apply { animateTextColor(accentColor) }
