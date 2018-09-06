@@ -22,7 +22,7 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         android:elevation="2dp"
         android:background="@null"
-        tools:tint="#929cb0"/>
+        tools:tint="#8d91a6"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/previous"
@@ -41,8 +41,8 @@
         android:visibility="visible"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        tools:tint="#929cb0"
-        app:layout_goneMarginStart="16dp"/>
+        app:layout_goneMarginStart="16dp"
+        tools:tint="#8d91a6"/>
 
     <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
@@ -62,7 +62,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:visibility="visible"
-        tools:tint="#929cb0"/>
+        tools:tint="#8d91a6"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/next"
@@ -79,8 +79,8 @@
         android:clickable="true"
         android:focusable="true"
         android:visibility="visible"
-        tools:tint="#929cb0"
-        app:layout_goneMarginEnd="16dp"/>
+        app:layout_goneMarginEnd="16dp"
+        tools:tint="#8d91a6"/>
 
     <!-- repeat -->
     <dev.olog.msc.presentation.widget.RepeatButton
@@ -98,7 +98,7 @@
         android:elevation="2dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:tint="#929cb0"/>
+        tools:tint="#8d91a6"/>
 
 
     <ImageButton
@@ -115,7 +115,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="gone"
+        tools:tint="#8d91a6"/>
 
     <ImageButton
         android:id="@+id/forward"
@@ -131,6 +132,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

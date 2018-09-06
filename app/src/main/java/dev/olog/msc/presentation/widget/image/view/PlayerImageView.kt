@@ -19,13 +19,13 @@ import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
 
-class PlayerImageView @JvmOverloads constructor(
+open class PlayerImageView @JvmOverloads constructor(
         context: Context,
         attr: AttributeSet? = null
 
 ) : RoundedCornersImageView(context, attr) {
 
-    fun loadImage(metadata: MediaMetadataCompat){
+    open fun loadImage(metadata: MediaMetadataCompat){
         val mediaId = metadata.getMediaId()
 
         val model = metadata.toPlayerImage()

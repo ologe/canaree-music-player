@@ -68,7 +68,7 @@ class AnimatedPlayPauseImageView @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int{
         return when {
-            context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_929cb0.toInt()
+            context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_8d91a6.toInt()
             AppTheme.isFullscreen() || AppTheme.isDarkTheme() -> Color.WHITE
             else -> context.textColorTertiary()
         }

@@ -89,6 +89,7 @@ class PlayerFragmentAdapter @Inject constructor(
 
     }
 
+    @SuppressLint("RxLeakedSubscription")
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
         when (viewType){
@@ -98,22 +99,32 @@ class PlayerFragmentAdapter @Inject constructor(
                 bindPlayerControls(holder.itemView)
             }
             R.layout.fragment_player_controls_clean -> {
+                val view = holder.itemView
                 bindPlayerControls(holder.itemView)
                 if (AppTheme.isWhiteTheme()){
                     val group = holder.itemView as ViewGroup
                     group.forEachRecursively {
                         when {
-                            it is ImageButton -> it.setColorFilter(0xFF_929cb0.toInt())
-                            it is TextView && it.id == R.id.title -> it.setTextColor(0xFF_49515e.toInt())
-                            it is TextView && it.id == R.id.album -> it.setTextColor(0xFF_797f8b.toInt())
-                            it is TextView -> it.setTextColor(0xFF_aeb5c3.toInt())
+                            it is ImageButton -> it.setColorFilter(0xFF_8d91a6.toInt())
+                            it is TextView && it.id == R.id.title -> it.setTextColor(0xFF_585858.toInt())
+                            it is TextView && it.id != R.id.artist-> it.setTextColor(0xFF_8d91a6.toInt())
                             it is SeekBar -> {
-                                it.thumbTintList = ColorStateList.valueOf(0xFF_929cb0.toInt())
-                                it.progressTintList = ColorStateList.valueOf(0xFF_929cb0.toInt())
+                                it.thumbTintList = ColorStateList.valueOf(0xFF_8d91a6.toInt())
+                                it.progressTintList = ColorStateList.valueOf(0xFF_8d91a6.toInt())
                                 it.progressBackgroundTintList = ColorStateList.valueOf(0xFF_dbdee5.toInt())
                             }
                         }
                     }
+                    viewModel.observeImageColors()
+                            .observeOn(Schedulers.computation())
+                            .takeUntil(RxView.detaches(view).asFlowable())
+                            .map { Palette.from(it.bitmap).generate() }
+                            .map { ColorUtil.getAccentColor(it) }
+                            .map { ColorUtil.ensureVisibility(activity, it) }
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ accentColor ->
+                                view.artist.apply { animateTextColor(accentColor) }
+                            }, Throwable::printStackTrace)
                 }
 
             }
@@ -353,14 +364,8 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun updateMetadata(view: View, metadata: MediaMetadataCompat){
-        val context = view.context
         view.title.text = metadata.getTitle()
-        if (!AppTheme.isClean()){
-            view.artist.text = metadata.getArtist()
-        } else {
-            view.artist.text = metadata.getAlbum()
-            view.findViewById<TextView>(R.id.album).text = metadata.getArtist()
-        }
+        view.artist.text = metadata.getArtist()
 
         val duration = metadata.getDuration()
 
