@@ -23,7 +23,6 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.widget.image.view.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.dpToPx
 import dev.olog.msc.utils.k.extension.getMediaId
 import kotlin.properties.Delegates
@@ -61,8 +60,6 @@ class PlayerShadowImageView @JvmOverloads constructor(
             shadowColor = typedArray.getColor(R.styleable.ShadowView_shadowColor, DEFAULT_COLOR)
             radiusOffset = typedArray.getFloat(R.styleable.ShadowView_radiusOffset, DEFAULT_RADIUS)
             typedArray.recycle()
-
-            clipToOutline = true
         }
     }
 
@@ -156,15 +153,14 @@ class PlayerShadowImageView @JvmOverloads constructor(
                 0f, 0f, 1f, 0f, BRIGHTNESS,
                 0f, 0f, 0f, 1f, 0f)).apply { setSaturation(SATURATION) }
 
-        background = RoundedBitmapDrawableFactory.create(resources, blur).apply {
+        background = BitmapDrawable(resources, blur).apply {
             this.colorFilter = ColorMatrixColorFilter(colorMatrix)
-            this.cornerRadius = context.dip(8).toFloat()
             applyShadowColor(this)
         }
         //super.setImageDrawable(null)
     }
 
-    private fun applyShadowColor(bitmapDrawable: Drawable) {
+    private fun applyShadowColor(bitmapDrawable: BitmapDrawable) {
         if (shadowColor != DEFAULT_COLOR) {
             bitmapDrawable.colorFilter = PorterDuffColorFilter(shadowColor, PorterDuff.Mode.SRC_IN)
         }
