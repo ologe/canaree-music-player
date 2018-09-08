@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.search
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,6 +16,8 @@ import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -39,10 +42,12 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
         }
     }
 
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<SearchFragmentViewModel>(viewModelFactory) }
+
     @Inject lateinit var adapter : SearchFragmentAdapter
     @Inject lateinit var albumAdapter: SearchFragmentAlbumAdapter
     @Inject lateinit var artistAdapter: SearchFragmentArtistAdapter
-    @Inject lateinit var viewModel: SearchFragmentViewModel
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var safeTransition: SafeTransition
     private lateinit var layoutManager: LinearLayoutManager

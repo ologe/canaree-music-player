@@ -1,21 +1,22 @@
 package dev.olog.msc.presentation.library.tab.di
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.FragmentActivity
+import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.GridLayoutManager
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.library.tab.TabFragment
 import dev.olog.msc.presentation.library.tab.TabFragmentAdapter
 import dev.olog.msc.presentation.library.tab.TabFragmentViewModel
-import dev.olog.msc.presentation.library.tab.TabFragmentViewModelFactory
 import dev.olog.msc.presentation.library.tab.span.size.lookup.*
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.isPortrait
 
-@Module
+@Module(includes = [TabFragmentModule.Binding::class])
 class TabFragmentModule(
         private val fragment: TabFragment
 ) {
@@ -32,13 +33,6 @@ class TabFragmentModule(
     @Provides
     @FragmentLifecycle
     internal fun provideLifecycle(): Lifecycle = fragment.lifecycle
-
-    // using 'FragmentActivity' scope to share this viewModel through all
-    // tab fragments
-    @Provides
-    internal fun provideViewModel(activity: FragmentActivity, factory: TabFragmentViewModelFactory): TabFragmentViewModel {
-        return ViewModelProviders.of(activity, factory).get(TabFragmentViewModel::class.java)
-    }
 
     @Provides
     internal fun provideSpanSizeLookup(category: MediaIdCategory, adapter: TabFragmentAdapter)
@@ -63,5 +57,14 @@ class TabFragmentModule(
         return layoutManager
     }
 
+    @Module
+    interface Binding {
+
+        @Binds
+        @IntoMap
+        @ViewModelKey(TabFragmentViewModel::class)
+        fun provideViewModel(viewModel: TabFragmentViewModel): ViewModel
+
+    }
 
 }

@@ -1,24 +1,18 @@
 package dev.olog.msc.presentation.library.folder.tree.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragmentViewModel
-import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragmentViewModelFactory
 
 @Module
-class FolderTreeFragmentModule(private val fragment: FolderTreeFragment) {
+internal abstract class FolderTreeFragmentModule {
 
-    @Provides
-    @FragmentLifecycle
-    fun provideLifecycle() : Lifecycle = fragment.lifecycle
-
-    @Provides
-    fun provideViewModel(factory: FolderTreeFragmentViewModelFactory): FolderTreeFragmentViewModel{
-        return ViewModelProviders.of(fragment, factory).get(FolderTreeFragmentViewModel::class.java)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(FolderTreeFragmentViewModel::class)
+    internal abstract fun provideViewModel(viewModel: FolderTreeFragmentViewModel): ViewModel
 
 }

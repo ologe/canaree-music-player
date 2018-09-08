@@ -15,8 +15,9 @@ import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
 import java.io.File
+import javax.inject.Inject
 
-class EditTrackFragmentViewModel(
+class EditTrackFragmentViewModel @Inject constructor(
         private val presenter: EditTrackFragmentPresenter
 
 ) : ViewModel() {

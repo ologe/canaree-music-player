@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.library.tab
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.widget.GridLayoutManager
@@ -11,6 +12,8 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.parentViewModelProvider
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
@@ -33,8 +36,10 @@ class TabFragment : BaseFragment() {
         }
     }
 
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { parentViewModelProvider<TabFragmentViewModel>(viewModelFactory) }
+
     @Inject lateinit var adapter: TabFragmentAdapter
-    @Inject lateinit var viewModel: TabFragmentViewModel
     @Inject lateinit var category: MediaIdCategory
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>

@@ -12,5 +12,4 @@ abstract class BaseDialogFragment : DialogFragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-
 }

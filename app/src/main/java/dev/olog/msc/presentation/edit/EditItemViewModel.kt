@@ -13,8 +13,9 @@ import io.reactivex.rxkotlin.addTo
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.FileNotFoundException
+import javax.inject.Inject
 
-class EditItemViewModel(
+class EditItemViewModel @Inject constructor(
         private val presenter: EditItemPresenter
 
 ) : ViewModel() {

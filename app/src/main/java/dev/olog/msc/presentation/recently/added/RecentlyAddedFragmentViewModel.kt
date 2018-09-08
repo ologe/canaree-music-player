@@ -10,8 +10,9 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
+import javax.inject.Inject
 
-class RecentlyAddedFragmentViewModel(
+class RecentlyAddedFragmentViewModel @Inject constructor(
         mediaId: MediaId,
         useCase: GetRecentlyAddedUseCase,
         getItemTitleUseCase: GetItemTitleUseCase

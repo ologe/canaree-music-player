@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.detail
 
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -14,6 +15,8 @@ import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.image.view.ShapeImageView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
@@ -36,7 +39,9 @@ class DetailFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: DetailFragmentViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<DetailFragmentViewModel>(viewModelFactory) }
+
     @Inject lateinit var mediaId: MediaId
     @Inject lateinit var adapter: DetailFragmentAdapter
     @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter

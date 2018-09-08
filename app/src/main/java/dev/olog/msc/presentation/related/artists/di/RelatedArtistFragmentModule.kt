@@ -1,16 +1,20 @@
 package dev.olog.msc.presentation.related.artists.di
 
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
-import dev.olog.msc.presentation.related.artists.RelatedArtistFragmentViewModelFactory
-import dev.olog.msc.presentation.related.artists.RelatedArtistViewModel
+import dev.olog.msc.presentation.related.artists.RelatedArtistFragmentViewModel
+
 import dev.olog.msc.utils.MediaId
 
-@Module
+@Module(includes = [RelatedArtistFragmentModule.Binding::class])
 class RelatedArtistFragmentModule(
         private val fragment: RelatedArtistFragment
 ) {
@@ -25,10 +29,14 @@ class RelatedArtistFragmentModule(
         return MediaId.fromString(mediaId)
     }
 
-    @Provides
-    internal fun provideViewModel(factory: RelatedArtistFragmentViewModelFactory): RelatedArtistViewModel {
+    @Module
+    interface Binding {
 
-        return ViewModelProviders.of(fragment, factory).get(RelatedArtistViewModel::class.java)
+        @Binds
+        @IntoMap
+        @ViewModelKey(RelatedArtistFragmentViewModel::class)
+        fun provideViewModel(factory: RelatedArtistFragmentViewModel): ViewModel
+
     }
 
 }

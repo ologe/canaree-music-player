@@ -11,8 +11,9 @@ import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class PlayingQueueFragmentViewModel(
+class PlayingQueueFragmentViewModel @Inject constructor(
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         observePlayingQueueUseCase: ObservePlayingQueueUseCase
 

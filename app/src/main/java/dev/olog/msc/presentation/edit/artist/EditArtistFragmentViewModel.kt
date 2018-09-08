@@ -5,12 +5,12 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
+import javax.inject.Inject
 
-class EditArtistFragmentViewModel(
+class EditArtistFragmentViewModel @Inject constructor(
         private val presenter: EditArtistFragmentPresenter
 
 ) : ViewModel(){

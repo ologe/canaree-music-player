@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.player
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.ConstraintSet
@@ -21,6 +22,8 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
@@ -41,10 +44,11 @@ import kotlin.math.abs
 
 class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
-    @Inject lateinit var viewModel: PlayerFragmentViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<PlayerFragmentViewModel>(viewModelFactory) }
     @Inject lateinit var presenter: PlayerFragmentPresenter
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var adapter : PlayerFragmentAdapter
+
     private lateinit var layoutManager : LinearLayoutManager
 
     private lateinit var mediaProvider : MediaProvider
@@ -54,6 +58,9 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     private var lyricsDisposable: Disposable? = null
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        val adapter = PlayerFragmentAdapter(lifecycle, activity as MediaProvider,
+                navigator, viewModel, presenter)
+
         layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager

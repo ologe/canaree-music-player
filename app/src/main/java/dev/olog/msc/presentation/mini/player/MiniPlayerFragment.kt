@@ -28,7 +28,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         private const val BUNDLE_IS_VISIBLE = "$TAG.BUNDLE_IS_VISIBLE"
     }
 
-    @Inject lateinit var viewModel: MiniPlayerFragmentPresenter
+    @Inject lateinit var presenter: MiniPlayerFragmentPresenter
 
     private var seekBarDisposable: Disposable? = null
 
@@ -36,7 +36,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         savedInstanceState?.let {
             view.toggleVisibility(it.getBoolean(BUNDLE_IS_VISIBLE), true)
         }
-        val (modelTitle, modelSubtitle) = viewModel.getMetadata()
+        val (modelTitle, modelSubtitle) = presenter.getMetadata()
         view.title.text = modelTitle
         view.artist.text = DisplayableItem.adjustArtist(modelSubtitle)
 
@@ -95,12 +95,12 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) { media.skipToPrevious() }
 
-        viewModel.skipToNextVisibility
+        presenter.skipToNextVisibility
                 .subscribe(viewLifecycleOwner) {
                     view.next.updateVisibility(it)
                 }
 
-        viewModel.skipToPreviousVisibility
+        presenter.skipToPreviousVisibility
                 .subscribe(viewLifecycleOwner) {
                     view.previous.updateVisibility(it)
                 }

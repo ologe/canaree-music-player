@@ -96,13 +96,13 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
 
     protected fun changeImage(){
         ThemedDialog.builder(ctx)
-                .setItems(arrayOf("Pick an image", "Restore default"), { _, which ->
+                .setItems(arrayOf("Pick an image", "Restore default")) { _, which ->
                     if (which == 0){
                         openImagePicker()
                     } else {
                         restoreImage()
                     }
-                })
+                }
                 .show()
     }
 

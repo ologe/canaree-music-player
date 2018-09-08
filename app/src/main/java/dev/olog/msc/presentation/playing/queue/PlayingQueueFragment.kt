@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.playing.queue
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -13,6 +14,7 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
@@ -37,7 +39,7 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         }
     }
 
-    @Inject lateinit var viewModel : PlayingQueueFragmentViewModel
+    @Inject lateinit var viewModelFactory : ViewModelProvider.Factory
     @Inject lateinit var adapter: PlayingQueueFragmentAdapter
     @Inject lateinit var safeTransition: SafeTransition
     private lateinit var layoutManager : LinearLayoutManager
@@ -56,6 +58,7 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         postponeEnterTransition()
 
         val mediaProvider = (activity as MediaProvider)
+        val viewModel = viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory)
 
         mediaProvider.onExtrasChanged()
                 .map { it.getInt(MusicConstants.EXTRA_QUEUE_CATEGORY) }

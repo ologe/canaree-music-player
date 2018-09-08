@@ -1,20 +1,17 @@
 package dev.olog.msc.presentation.edit.artist.di
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragmentViewModel
-import dev.olog.msc.presentation.edit.artist.EditArtistFragmentViewModelFactory
 import dev.olog.msc.utils.MediaId
 
-@Module
+@Module(includes = [EditArtistFragmentModule.Binding::class])
 class EditArtistFragmentModule(private val fragment: EditArtistFragment) {
-
-    @Provides
-    fun provideViewModel(factory: EditArtistFragmentViewModelFactory): EditArtistFragmentViewModel {
-        return ViewModelProviders.of(fragment, factory).get(EditArtistFragmentViewModel::class.java)
-    }
 
     @Provides
     fun provideMediaId(): MediaId {
@@ -22,5 +19,14 @@ class EditArtistFragmentModule(private val fragment: EditArtistFragment) {
         return MediaId.fromString(mediaId)
     }
 
+    @Module
+    interface Binding {
+
+        @Binds
+        @IntoMap
+        @ViewModelKey(EditArtistFragmentViewModel::class)
+        fun provideViewModel(viewModel: EditArtistFragmentViewModel): ViewModel
+
+    }
 
 }

@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.edit.album
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -10,6 +11,8 @@ import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateAlbumInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
@@ -29,12 +32,14 @@ class EditAlbumFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: EditAlbumFragmentViewModel
-    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<EditAlbumFragmentViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { viewModelProvider<EditItemViewModel>(viewModelFactory) }
     @Inject lateinit var mediaId: MediaId
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         RxTextView.afterTextChangeEvents(album)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
@@ -42,12 +47,12 @@ class EditAlbumFragment : BaseEditItemFragment() {
                 .subscribe(this, okButton::setEnabled)
 
         viewModel.observeSongList()
-                .subscribe(this, {
+                .subscribe(this) {
                     val size = it.size
                     val text = resources.getQuantityString(
                             R.plurals.edit_item_xx_tracks_will_be_updated, size, size)
                     albumsUpdated.text =  text
-                })
+                }
 
         viewModel.observeData().observe(this, Observer {
             when (it){

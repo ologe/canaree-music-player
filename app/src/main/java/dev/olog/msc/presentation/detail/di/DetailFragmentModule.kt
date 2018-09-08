@@ -1,18 +1,20 @@
 package dev.olog.msc.presentation.detail.di
 
 import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.RecyclerView
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.presentation.detail.*
+import dev.olog.msc.presentation.detail.DetailFragment
+import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.utils.MediaId
 
-@Module
+@Module(includes = [DetailFragmentModule.Binding::class])
 class DetailFragmentModule(
         private val fragment: DetailFragment
 ) {
@@ -34,10 +36,14 @@ class DetailFragmentModule(
     @PerFragment
     fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
 
-    @Provides
-    internal fun provideViewModel(factory: DetailFragmentViewModelFactory): DetailFragmentViewModel {
-        return ViewModelProviders.of(fragment, factory)
-                .get(DetailFragmentViewModel::class.java)
+    @Module
+    interface Binding {
+
+        @Binds
+        @IntoMap
+        @ViewModelKey(DetailFragmentViewModel::class)
+        fun provideViewModel(viewModel: DetailFragmentViewModel): ViewModel
+
     }
 
 }

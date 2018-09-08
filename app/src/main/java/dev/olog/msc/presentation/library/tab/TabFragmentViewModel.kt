@@ -15,8 +15,9 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import javax.inject.Inject
 
-class TabFragmentViewModel constructor(
+class TabFragmentViewModel @Inject constructor(
         private val data: Lazy<Map<MediaIdCategory, Observable<List<DisplayableItem>>>>,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
         private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,

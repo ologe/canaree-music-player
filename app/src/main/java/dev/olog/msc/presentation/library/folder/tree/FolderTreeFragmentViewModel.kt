@@ -17,8 +17,9 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.io.File
 import java.text.Collator
+import javax.inject.Inject
 
-class FolderTreeFragmentViewModel(
+class FolderTreeFragmentViewModel @Inject constructor(
         private val appPreferencesUseCase: AppPreferencesUseCase,
         private val collator: Collator
 

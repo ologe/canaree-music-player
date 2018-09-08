@@ -20,7 +20,7 @@ class RelatedArtistFragmentViewModelFactory @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return RelatedArtistViewModel(
+        return RelatedArtistFragmentViewModel(
                 resources,
                 mediaId,
                 getRelatedArtistsUseCase,

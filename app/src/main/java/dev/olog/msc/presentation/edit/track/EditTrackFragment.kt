@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.edit.track
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -10,6 +11,8 @@ import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.UpdateSongInfo
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
@@ -30,8 +33,9 @@ class EditTrackFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: EditTrackFragmentViewModel
-    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { viewModelProvider<EditItemViewModel>(viewModelFactory) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

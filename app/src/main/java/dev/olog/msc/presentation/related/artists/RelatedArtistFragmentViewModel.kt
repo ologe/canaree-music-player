@@ -13,8 +13,9 @@ import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
 import java.text.Collator
+import javax.inject.Inject
 
-class RelatedArtistViewModel(
+class RelatedArtistFragmentViewModel @Inject constructor(
         resources: Resources,
         mediaId: MediaId,
         useCase: GetRelatedArtistsUseCase,
@@ -32,19 +33,19 @@ class RelatedArtistViewModel(
 
     val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()
 
-}
+    private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
+        val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
+        val albums = if (this.albums == 0) "" else {
+            "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
+        }
 
-private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
-    val songs = resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs)
-    val albums = if (this.albums == 0) "" else {
-        "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
+        return DisplayableItem(
+                R.layout.item_related_artist,
+                MediaId.artistId(id),
+                this.name,
+                "$albums$songs",
+                this.image
+        )
     }
 
-    return DisplayableItem(
-            R.layout.item_related_artist,
-            MediaId.artistId(id),
-            this.name,
-            "$albums$songs",
-            this.image
-    )
 }

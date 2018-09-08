@@ -21,8 +21,9 @@ import dev.olog.msc.utils.k.extension.toggle
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import javax.inject.Inject
 
-class PlaylistTracksChooserFragmentViewModel(
+class PlaylistTracksChooserFragmentViewModel @Inject constructor(
         private val getAllSongsUseCase: GetAllSongsUseCase,
         private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
@@ -37,21 +38,20 @@ class PlaylistTracksChooserFragmentViewModel(
     }
 
     fun getAllSongs(filter: Observable<String>): LiveData<List<DisplayableItem>> {
-        return Transformations.switchMap(showOnlyFiltered, { onlyFiltered ->
+        return Transformations.switchMap(showOnlyFiltered) { onlyFiltered ->
             if (onlyFiltered){
                 getAllSongsUseCase.execute()
-                        .map { it.filter { selectedIds.contains(it.id) } }
+                        .map { songs -> songs.filter { selectedIds.contains(it.id) } }
             } else {
                 Observables.combineLatest(
-                        filter, getAllSongsUseCase.execute(),
-                        { query, tracks -> tracks.filter { it.title.contains(query, true)  ||
-                                it.artist.contains(query, true) ||
-                                it.album.contains(query, true)
-                        } }
-                )
+                        filter, getAllSongsUseCase.execute()
+                ) { query, tracks -> tracks.filter { it.title.contains(query, true)  ||
+                        it.artist.contains(query, true) ||
+                        it.album.contains(query, true)
+                } }
             }.mapToList { it.toDisplayableItem() }
                     .asLiveData()
-        })
+        }
     }
 
     fun toggleItem(mediaId: MediaId){

@@ -21,11 +21,11 @@ fun View.toggleVisibility(visible: Boolean, gone: Boolean){
     }
 }
 
-fun View.setGone(){
+inline fun View.setGone(){
     this.visibility = View.GONE
 }
 
-fun View.setVisible(){
+inline fun View.setVisible(){
     this.visibility = View.VISIBLE
 }
 
@@ -33,11 +33,11 @@ fun View.setPaddingTop(padding: Int) {
     setPadding(paddingLeft, padding, paddingRight, paddingBottom)
 }
 
-fun View.setPaddingBottom(padding: Int) {
+inline fun View.setPaddingBottom(padding: Int) {
     setPadding(paddingLeft, paddingTop, paddingRight, padding)
 }
 
-fun View.toggleSelected(){
+inline fun View.toggleSelected(){
     this.isSelected = !this.isSelected
 }
 

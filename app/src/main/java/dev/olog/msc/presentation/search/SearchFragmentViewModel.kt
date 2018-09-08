@@ -22,8 +22,9 @@ import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.addTo
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import me.xdrop.fuzzywuzzy.model.ExtractedResult
+import javax.inject.Inject
 
-class SearchFragmentViewModel(
+class SearchFragmentViewModel @Inject constructor(
         private val queryText: MutableLiveData<String>,
         val searchData: LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>,
         private val searchHeaders: SearchFragmentHeaders,
@@ -48,11 +49,11 @@ class SearchFragmentViewModel(
     fun getBestMatch(query: String): Single<String> {
         return Singles.zip(
                 getAllArtistsUseCase.execute().firstOrError(),
-                getAllAlbumsUseCase.execute().firstOrError(),
-                { artists, albums -> listOf(
-                        artists.map { it.name },
-                        albums.map { it.title }
-                ) })
+                getAllAlbumsUseCase.execute().firstOrError()
+        ) { artists, albums -> listOf(
+                artists.map { it.name },
+                albums.map { it.title }
+        ) }
                 .flattenAsFlowable { it }
                 .parallel()
                 .map { extractBest(query, it) }

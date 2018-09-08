@@ -5,17 +5,12 @@ import android.databinding.ViewDataBinding
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.setOnClickListener
-import java.io.File
-import javax.inject.Inject
 
-@PerFragment
-class FolderTreeFragmentAdapter @Inject constructor(
+class FolderTreeFragmentAdapter (
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: FolderTreeFragmentViewModel,
         private val mediaProvider: MediaProvider

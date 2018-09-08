@@ -57,13 +57,13 @@ class AboutActivityPresenter @Inject constructor(
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> {
-        return billing.observeTrialPremiumState().withLatestFrom(Observable.just(data), { state, data ->
+        return billing.observeTrialPremiumState().withLatestFrom(Observable.just(data)) { state, data ->
             when {
                 state.isBought -> listOf(alreadyPro).plus(data)
                 state.isTrial -> listOf(trial).plus(data)
                 else -> listOf(noPro).plus(data)
             }
-        }).asLiveData()
+        }.asLiveData()
     }
 
     fun buyPro(){

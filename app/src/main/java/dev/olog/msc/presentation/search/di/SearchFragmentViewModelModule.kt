@@ -48,7 +48,7 @@ class SearchFragmentViewModelModule {
             queryLiveData: MutableLiveData<String>)
             : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>> {
 
-        return Transformations.switchMap(queryLiveData, { input ->
+        return Transformations.switchMap(queryLiveData) { input ->
 
             if (input.isBlank()) {
                 provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
@@ -69,22 +69,22 @@ class SearchFragmentViewModelModule {
                             Observables.combineLatest(
                                     provideSearchByArtist(getAllArtistsUseCase, input),
                                     provideSearchByAlbum(getAllAlbumsUseCase, input),
-                                    provideSearchBySong(getAllSongsUseCase, input),
-                                    { artists, albums, songs ->
-                                        mutableMapOf(
-                                                SearchFragmentType.RECENT to mutableListOf(),
-                                                SearchFragmentType.ARTISTS to artists.toMutableList(),
-                                                SearchFragmentType.ALBUMS to albums.toMutableList(),
-                                                SearchFragmentType.SONGS to songs.toMutableList()
-                                        )
-                                    })
+                                    provideSearchBySong(getAllSongsUseCase, input)
+                            ) { artists, albums, songs ->
+                                mutableMapOf(
+                                        SearchFragmentType.RECENT to mutableListOf(),
+                                        SearchFragmentType.ARTISTS to artists.toMutableList(),
+                                        SearchFragmentType.ALBUMS to albums.toMutableList(),
+                                        SearchFragmentType.SONGS to songs.toMutableList()
+                                )
+                            }
                         }
                         .map { it to input }
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             }
-        })
+        }
     }
 
     private fun provideSearchBySong(
@@ -92,7 +92,7 @@ class SearchFragmentViewModelModule {
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return getAllSongsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
+                .flatMapSingle { songs -> songs.toFlowable()
                         .filter { it.title.contains(query, true)  ||
                                 it.artist.contains(query, true) ||
                                 it.album.contains(query, true)
@@ -106,7 +106,7 @@ class SearchFragmentViewModelModule {
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return getAllAlbumsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
+                .flatMapSingle { albums -> albums.toFlowable()
                         .filter { it.title.contains(query, true)  ||
                                 it.artist.contains(query, true)
                         }.map { it.toSearchDisplayableItem() }
@@ -119,7 +119,7 @@ class SearchFragmentViewModelModule {
             query: String): Observable<MutableList<DisplayableItem>> {
 
         return getAllArtistsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
+                .flatMapSingle { artists -> artists.toFlowable()
                         .filter { it.name.contains(query, true) }
                         .map { it.toSearchDisplayableItem() }
                         .toList()

@@ -10,6 +10,7 @@ import dev.olog.msc.data.RepositoryModule
 import dev.olog.msc.data.prefs.PreferenceModule
 import dev.olog.msc.floating.window.service.di.FloatingWindowServiceInjector
 import dev.olog.msc.music.service.di.MusicServiceInjector
+import dev.olog.msc.presentation.ViewModelModule
 import dev.olog.msc.presentation.about.di.AboutActivityInjector
 import dev.olog.msc.presentation.app.widget.WidgetBindingModule
 import dev.olog.msc.presentation.main.di.MainActivityInjector
@@ -37,6 +38,7 @@ import javax.inject.Singleton
         AboutActivityInjector::class,
         PreferencesActivityInjector::class,
         PlaylistChooserActivityInjector::class,
+        ViewModelModule::class,
 
 //        // music service
         MusicServiceInjector::class,

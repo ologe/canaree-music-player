@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.playlist.track.chooser
 
+import android.arch.lifecycle.ViewModelProvider
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StringRes
@@ -19,6 +20,8 @@ import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
@@ -49,7 +52,8 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
         }
     }
 
-    @Inject lateinit var viewModel : PlaylistTracksChooserFragmentViewModel
+    @Inject lateinit var viewModelFactory : ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<PlaylistTracksChooserFragmentViewModel>(viewModelFactory) }
     @Inject lateinit var adapter: PlaylistTracksChooserFragmentAdapter
     @Inject lateinit var safeTransition: SafeTransition
 

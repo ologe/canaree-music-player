@@ -23,13 +23,13 @@ abstract class BaseDialog : BaseDialogFragment() {
                 .setTitle(title(application))
                 .setMessage(message(application))
                 .setNegativeButton(negativeButtonMessage(application), null)
-                .setPositiveButton(positiveButtonMessage(application), { dialog, which ->
+                .setPositiveButton(positiveButtonMessage(application)) { dialog, which ->
                     disposable = positiveAction(dialog, which)
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnComplete { application.toast(successMessage(application)) }
                             .doOnError { application.toast(failMessage(application)) }
                             .subscribe({}, Throwable::printStackTrace)
-                })
+                }
 
         return builder.show()
     }

@@ -1,26 +1,23 @@
 package dev.olog.msc.presentation.player.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
+import dagger.android.ContributesAndroidInjector
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.presentation.player.PlayerFragment
 import dev.olog.msc.presentation.player.PlayerFragmentViewModel
-import dev.olog.msc.presentation.player.PlayerFragmentViewModelFactory
 
 @Module
-class PlayerFragmentModule(
-       private val fragment: PlayerFragment
-) {
+internal abstract class PlayerFragmentModule {
 
-    @Provides
-    @FragmentLifecycle
-    fun provideLifecycle() : Lifecycle = fragment.lifecycle
+    @ContributesAndroidInjector
+    abstract fun proviewFragment(): PlayerFragment
 
-    @Provides
-    fun provideViewModel(factory: PlayerFragmentViewModelFactory): PlayerFragmentViewModel {
-        return ViewModelProviders.of(fragment, factory).get(PlayerFragmentViewModel::class.java)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(PlayerFragmentViewModel::class)
+    internal abstract fun provideViewModel(viewModel: PlayerFragmentViewModel): ViewModel
 
 }

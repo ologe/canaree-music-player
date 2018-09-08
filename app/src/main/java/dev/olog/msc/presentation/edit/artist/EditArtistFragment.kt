@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.edit.artist
 
+import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.os.Bundle
 import com.jakewharton.rxbinding2.widget.RxTextView
@@ -9,6 +10,8 @@ import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateArtistInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
@@ -27,12 +30,17 @@ class EditArtistFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: EditArtistFragmentViewModel
-    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<EditArtistFragmentViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { viewModelProvider<EditItemViewModel>(viewModelFactory) }
+
     @Inject lateinit var mediaId: MediaId
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+
         RxTextView.afterTextChangeEvents(artist)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }

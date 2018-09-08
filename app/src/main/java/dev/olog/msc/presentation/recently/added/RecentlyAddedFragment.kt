@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.recently.added
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -7,6 +8,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
@@ -28,11 +30,14 @@ class RecentlyAddedFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: RecentlyAddedFragmentViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var adapter: RecentlyAddedFragmentAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val viewModel: RecentlyAddedFragmentViewModel = viewModelProvider(viewModelFactory)
+
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
         viewModel.itemTitle.subscribe(this) { itemTitle ->

@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.player
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
@@ -41,10 +40,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
-import javax.inject.Inject
 
-class PlayerFragmentAdapter @Inject constructor(
-        private val activity: Activity,
+class PlayerFragmentAdapter (
         @FragmentLifecycle lifecycle: Lifecycle,
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator,
@@ -141,7 +138,7 @@ class PlayerFragmentAdapter @Inject constructor(
                                 animateTextColor(it.secondaryTextColor)
                                 animateBackgroundColor(it.background)
                             }
-                            val accentColor = ColorUtil.getAccentColor(activity, it)
+                            val accentColor = ColorUtil.getAccentColor(view.context, it)
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
@@ -161,7 +158,7 @@ class PlayerFragmentAdapter @Inject constructor(
                         .takeUntil(RxView.detaches(view).asFlowable())
                         .map { Palette.from(it.bitmap).generate() }
                         .map { ColorUtil.getAccentColor(it) }
-                        .map { ColorUtil.ensureVisibility(activity, it) }
+                        .map { ColorUtil.ensureVisibility(view.context, it) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ accentColor ->
                             view.seekBar.apply {
@@ -195,7 +192,7 @@ class PlayerFragmentAdapter @Inject constructor(
                     waveWrapper?.onTrackChanged(it.getString(MusicConstants.PATH))
                     waveWrapper?.updateMax(it.getDuration())
 
-                    viewModel.onMetadataChanged(activity, it)
+                    viewModel.onMetadataChanged(view.context, it)
                     updateMetadata(view, it)
                     updateImage(view, it)
                 }, Throwable::printStackTrace)
@@ -297,7 +294,7 @@ class PlayerFragmentAdapter @Inject constructor(
                 .takeUntil(RxView.detaches(view))
                 .subscribe({ mediaProvider.forwardTenSeconds() }, Throwable::printStackTrace)
 
-        if (activity.isPortrait || AppTheme.isFullscreen()){
+        if (view.context.isPortrait || AppTheme.isFullscreen()){
 
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
@@ -398,7 +395,7 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun animateSkipTo(view: View, toNext: Boolean) {
-        val hasSlidingPanel = activity as HasSlidingPanel
+        val hasSlidingPanel = (view.context) as HasSlidingPanel
         if (hasSlidingPanel.getSlidingPanel().isCollapsed()) return
 
         if (toNext) {
@@ -409,13 +406,13 @@ class PlayerFragmentAdapter @Inject constructor(
     }
 
     private fun playAnimation(view: View, animate: Boolean) {
-        val hasSlidingPanel = activity as HasSlidingPanel
+        val hasSlidingPanel = (view.context) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPlay(isPanelExpanded && animate)
     }
 
     private fun pauseAnimation(view: View, animate: Boolean) {
-        val hasSlidingPanel = activity as HasSlidingPanel
+        val hasSlidingPanel = (view.context) as HasSlidingPanel
         val isPanelExpanded = hasSlidingPanel.getSlidingPanel().isExpanded()
         view.playPause.animationPause(isPanelExpanded && animate)
     }

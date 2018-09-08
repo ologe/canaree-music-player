@@ -1,10 +1,12 @@
 package dev.olog.msc.presentation.related.artists
 
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.subscribe
@@ -28,18 +30,20 @@ class RelatedArtistFragment: BaseFragment() {
     }
 
     @Inject lateinit var adapter: RelatedArtistFragmentAdapter
-    @Inject lateinit var viewModel: RelatedArtistViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        val viewModel = viewModelProvider<RelatedArtistFragmentViewModel>(viewModelFactory)
+
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
-        viewModel.itemTitle.subscribe(this, { itemTitle ->
+        viewModel.itemTitle.subscribe(this) { itemTitle ->
             val headersArray = resources.getStringArray(R.array.related_artists_header)
             val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
             this.header.text = header
-        })
+        }
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
