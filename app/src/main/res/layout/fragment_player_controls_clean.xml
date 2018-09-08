@@ -127,7 +127,7 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="52dp"
                 android:textStyle="bold"
                 tools:textColor="#585858"/>
 

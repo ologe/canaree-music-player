@@ -1,7 +1,6 @@
 <resources>
 
 
-    <attr name="abc" format="reference"></attr>
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -29,6 +28,9 @@
         <item name="tabStyle">@style/DefaultTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
         <item name="textInputStyle">@style/DefaultTextBox</item>
+
+        <item name="buttonStyle">@style/DefaultButton</item>
+        <item name="materialButtonStyle">@style/DefaultButton</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme"/>
@@ -58,6 +60,7 @@
 
     <style name="DefaultTextBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="android:textSize">16dp</item>
     </style>
     
     <style name="EditItemEditText" parent="DefaultTextBox">
@@ -72,7 +75,10 @@
     </style>
 
     <style name="PositiveButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:letterSpacing">0</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
     
     <style name="EditItemSubHeader">

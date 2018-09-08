@@ -42,7 +42,6 @@
 
     <style name="DarkFab" parent="DefaultFab">
         <item name="backgroundTint">?attr/colorAccent</item>
-        <item name="tint">@color/dark_grey</item>
     </style>
 
 </resources>

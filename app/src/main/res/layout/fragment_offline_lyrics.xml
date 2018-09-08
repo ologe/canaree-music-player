@@ -107,104 +107,116 @@
         android:layout_height="120dp"
         android:background="@drawable/vd_fade"/>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.card.MaterialCardView
         android:id="@+id/wrapper"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:cardCornerRadius="12dp"
+        android:translationY="8dp">
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="0dp"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/edit"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Wanksta" />
-
-        <TextView
-            android:id="@+id/subHeader"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="14dp"
-            app:layout_constraintEnd_toEndOf="@+id/header"
-            app:layout_constraintStart_toStartOf="@+id/header"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            tools:text="50 Cent" />
-
-        <!-- seekbar -->
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="8dp"
-            android:max="@integer/common_high_number"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
+            android:paddingStart="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/header"
-            app:layout_constraintStart_toStartOf="@+id/header"
-            app:layout_constraintTop_toBottomOf="@+id/subHeader"
-            app:layout_constraintVertical_bias="1"
-            tools:max="100"
-            tools:progress="40"
-            tools:progressTint="@color/dark_grey" />
-
-
-        <ImageButton
-            android:id="@+id/edit"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:layout_marginTop="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingEnd="12dp"
-            android:paddingStart="12dp"
-            android:src="@drawable/vd_edit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="8dp">
 
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingEnd="12dp"
-            android:paddingStart="12dp"
-            android:src="@drawable/vd_search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit" />
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/edit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Wanksta" />
 
-        <ImageButton
-            android:id="@+id/sync"
-            android:layout_width="@dimen/common_icon_size"
-            android:layout_height="@dimen/common_icon_size"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:paddingEnd="12dp"
-            android:paddingStart="12dp"
-            android:src="@drawable/vd_sync"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search" />
+            <TextView
+                android:id="@+id/subHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:maxLines="1"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="@+id/header"
+                app:layout_constraintStart_toStartOf="@+id/header"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                tools:text="50 Cent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <!-- seekbar -->
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:max="@integer/common_high_number"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/header"
+                app:layout_constraintStart_toStartOf="@+id/header"
+                app:layout_constraintTop_toBottomOf="@+id/subHeader"
+                app:layout_constraintVertical_bias="1"
+                tools:max="100"
+                tools:progress="40"
+                tools:progressTint="@color/dark_grey" />
+
+
+            <ImageButton
+                android:id="@+id/edit"
+                android:layout_width="@dimen/common_icon_size"
+                android:layout_height="@dimen/common_icon_size"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:src="@drawable/vd_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="@dimen/common_icon_size"
+                android:layout_height="@dimen/common_icon_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:src="@drawable/vd_search"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit" />
+
+            <ImageButton
+                android:id="@+id/sync"
+                android:layout_width="@dimen/common_icon_size"
+                android:layout_height="@dimen/common_icon_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:src="@drawable/vd_sync"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.card.MaterialCardView>
 
     <View
         android:id="@+id/fakeNext"

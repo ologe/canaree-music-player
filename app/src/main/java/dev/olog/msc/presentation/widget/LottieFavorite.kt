@@ -19,7 +19,7 @@ class LottieFavorite @JvmOverloads constructor(
         var useWhiteIcon = AppTheme.isFullscreen()
         useWhiteIcon = useWhiteIcon || AppTheme.isDarkTheme()
         val icon = when {
-            context.isPortrait && AppTheme.isClean() && AppTheme.isWhiteTheme() -> "favorite_gray"
+            AppTheme.isClean() && AppTheme.isWhiteTheme() -> "favorite_gray"
             useWhiteIcon -> "favorite_white"
             else -> "favorite"
         }

@@ -37,8 +37,7 @@
     </style>
 
     <style name="LightFab" parent="DefaultFab">
-        <item name="backgroundTint">@color/dark_grey</item>
-        <item name="tint">@android:color/white</item>
+        <item name="backgroundTint">?attr/colorAccent</item>
     </style>
 
 </resources>

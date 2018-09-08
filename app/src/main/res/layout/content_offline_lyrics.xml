@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="@color/background"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="12dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp">
@@ -106,99 +106,111 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/toolbar"
-                android:layout_width="0dp"
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/toolbar"
+                app:cardCornerRadius="12dp"
+                android:translationY="8dp"
+                android:background="?android:attr/windowBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="32dp">
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/toolbar">
 
-                <TextView
-                    android:id="@+id/header"
-                    tools:text="Wanksta"
-                    android:textColor="@color/text_color_primary"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
-                    android:gravity="start|center_vertical"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/edit"
-                    android:layout_width="0dp"
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"/>
-
-                <TextView
-                    android:id="@+id/subHeader"
-                    tools:text="50 Cent"
-                    android:textStyle="bold"
-                    android:textSize="14dp"
-                    android:gravity="start|center_vertical"
-                    android:textColor="@color/text_color_secondary"
-                    app:layout_constraintEnd_toEndOf="@+id/header"
-                    app:layout_constraintStart_toStartOf="@+id/header"
-                    app:layout_constraintTop_toBottomOf="@+id/header"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:layout_marginTop="4dp" />
-
-                <!-- seekbar -->
-                <SeekBar
-                    android:id="@+id/seekBar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="8dp"
-                    android:max="@integer/common_high_number"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp"
-                    android:thumbTint="@color/dark_grey"
-                    android:progressTint="@color/dark_grey"
+                    android:background="@color/toolbar"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/header"
-                    app:layout_constraintStart_toStartOf="@+id/header"
-                    app:layout_constraintTop_toBottomOf="@+id/subHeader"
-                    app:layout_constraintVertical_bias="1"
-                    tools:max="100"
-                    tools:progress="40"
-                    tools:progressTint="@color/dark_grey" />
-
-                <ImageButton
-                    android:id="@+id/edit"
-                    android:src="@drawable/vd_edit"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@+id/sync"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/toolbar"
-                    android:tint="@color/button_primary_tint"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:background="@null"/>
+                    android:paddingStart="32dp">
 
-                <ImageButton
-                    android:id="@+id/sync"
-                    android:layout_width="@dimen/common_icon_size"
-                    android:layout_height="@dimen/common_icon_size"
-                    android:background="@null"
-                    android:paddingEnd="12dp"
-                    android:paddingStart="12dp"
-                    android:src="@drawable/vd_sync"
-                    android:tint="@color/button_primary_tint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/edit"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    <TextView
+                        android:id="@+id/header"
+                        tools:text="Wanksta"
+                        android:textColor="@color/text_color_primary"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:gravity="start|center_vertical"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/edit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingTop="4dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"/>
 
-            </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/subHeader"
+                        tools:text="50 Cent"
+                        android:textStyle="bold"
+                        android:textSize="14dp"
+                        android:gravity="start|center_vertical"
+                        android:textColor="@color/text_color_secondary"
+                        app:layout_constraintEnd_toEndOf="@+id/header"
+                        app:layout_constraintStart_toStartOf="@+id/header"
+                        app:layout_constraintTop_toBottomOf="@+id/header"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:layout_marginTop="4dp" />
+
+                    <!-- seekbar -->
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
+                        android:max="@integer/common_high_number"
+                        android:paddingBottom="16dp"
+                        android:paddingTop="16dp"
+                        android:thumbTint="@color/dark_grey"
+                        android:progressTint="@color/dark_grey"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/header"
+                        app:layout_constraintStart_toStartOf="@+id/header"
+                        app:layout_constraintTop_toBottomOf="@+id/subHeader"
+                        app:layout_constraintVertical_bias="1"
+                        tools:max="100"
+                        tools:progress="40"
+                        tools:progressTint="@color/dark_grey" />
+
+                    <ImageButton
+                        android:id="@+id/edit"
+                        android:src="@drawable/vd_edit"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/sync"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/toolbar"
+                        android:tint="@color/button_primary_tint"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:background="@null"/>
+
+                    <ImageButton
+                        android:id="@+id/sync"
+                        android:layout_width="@dimen/common_icon_size"
+                        android:layout_height="@dimen/common_icon_size"
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:paddingStart="12dp"
+                        android:src="@drawable/vd_sync"
+                        android:tint="@color/button_primary_tint"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/edit"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
 
         </android.support.constraint.ConstraintLayout>
 

@@ -288,8 +288,10 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     }
 
     override fun provideLayoutId(): Int {
-        return if(AppTheme.isFullscreen()){
-            R.layout.fragment_player_fullscreen
-        } else R.layout.fragment_player
+        return when {
+            AppTheme.isFullscreen() -> R.layout.fragment_player_fullscreen
+            AppTheme.isClean() -> R.layout.fragment_player_clean
+            else -> R.layout.fragment_player
+        }
     }
 }
