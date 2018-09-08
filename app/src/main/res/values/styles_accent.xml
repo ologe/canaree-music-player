@@ -29,6 +29,7 @@
     <color name="md_indigo_A100">#8C9EFF</color>
     <color name="md_indigo_A200">#536DFE</color>
     <color name="md_indigo_A400">#3D5AFE</color>
+    <color name="md_indigo_A400_alt">#4768fd</color>
     <color name="md_indigo_A700">#304FFE</color>
 
     <!--blue-->
@@ -187,7 +188,7 @@
     </style>
 
     <style name="ThemeAccentIndigo400">
-        <item name="colorAccent">@color/md_indigo_A400</item>
+        <item name="colorAccent">@color/md_indigo_A400_alt</item>
     </style>
 
     <style name="ThemeAccentIndigo700">

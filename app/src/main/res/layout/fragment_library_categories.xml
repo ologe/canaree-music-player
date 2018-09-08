@@ -82,7 +82,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
-        android:layout_height="@dimen/tab"
+        android:layout_height="50dp"
         android:background="?android:attr/colorPrimary"
         android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"

@@ -133,15 +133,16 @@
 
             <android.support.design.button.MaterialButton
                 android:id="@+id/okButton"
-                android:layout_margin="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/albumArtistLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="@string/popup_positive_save"
-                android:textColor="@color/activated_button"
-                tools:textColor="@color/accent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/PositiveButton"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"/>
 
             <android.support.design.button.MaterialButton
                 android:id="@+id/cancelButton"
@@ -150,7 +151,8 @@
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/okButton"
                 app:layout_constraintTop_toTopOf="@+id/okButton"
-                app:layout_constraintEnd_toStartOf="@+id/okButton" />
+                app:layout_constraintEnd_toStartOf="@+id/okButton"
+                android:layout_marginEnd="16dp" />
 
         </android.support.constraint.ConstraintLayout>
 

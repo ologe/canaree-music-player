@@ -32,7 +32,4 @@
   <string name="share_song_x"><![CDATA[Partilhar <b><font color="black">%1$s</b></font>…]]></string>
   <string name="popup_permission">Permissão</string>
   <string name="popup_request_permission_write_settings">Por favor aceita a permissão para mudar o toque</string>
-  <string name="popup_view_as">Ver como</string>
-  <string name="popup_view_as_list">Lista</string>
-  <string name="popup_view_as_grid">Grade</string>
 </resources>

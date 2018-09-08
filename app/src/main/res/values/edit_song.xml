@@ -46,4 +46,6 @@
 
     <string name="edit_song_change_album_art">Pick an image</string>
 
+    <dimen name="edit_item_min_height">260dp</dimen>
+
 </resources>
