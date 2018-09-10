@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.app.app
+import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
@@ -23,7 +24,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class EditItemDialogFactory @Inject constructor(
-        @ProcessLifecycle lifecycle: Lifecycle,
+        @ActivityLifecycle lifecycle: Lifecycle,
         private val getSongUseCase: GetSongUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 

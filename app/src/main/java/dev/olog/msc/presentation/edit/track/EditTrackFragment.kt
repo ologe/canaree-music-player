@@ -58,6 +58,9 @@ class EditTrackFragment : BaseEditItemFragment() {
                 genre.setText(it.genre)
                 disc.setText(it.disc)
                 trackNumber.setText(it.track)
+                bitrate.text = it.bitrate
+                format.text = it.format
+                sampling.text = it.sampling
                 val model = DisplayableItem(0, MediaId.songId(it.id), "", image = it.image)
                 setImage(model)
             }
@@ -82,14 +85,14 @@ class EditTrackFragment : BaseEditItemFragment() {
             ))
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> dismiss()
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
                 UpdateResult.ILLEGAL_DISC_NUMBER -> ctx.toast(R.string.edit_song_invalid_disc_number)
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> ctx.toast(R.string.edit_song_invalid_track_number)
                 UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
             }
         }
-        cancelButton.setOnClickListener { act.onBackPressed() }
+        cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {
             if (viewModel.fetchSongInfo()) {
                 showLoader(R.string.edit_song_fetching_info)

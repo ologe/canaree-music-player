@@ -19,6 +19,7 @@ import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.library.tab.TabFragment
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class CategoriesViewPager @Inject constructor(
@@ -40,7 +41,7 @@ class CategoriesViewPager @Inject constructor(
     private val data = prefsUseCase.getLibraryCategories()
             .filter { it.visible }
 
-    private val fragments = SparseArray<Fragment>()
+    private val fragments = SparseArray<WeakReference<Fragment>>()
 
     fun getCategoryAtPosition(position: Int): MediaIdCategory {
         return data[position].category
@@ -53,7 +54,7 @@ class CategoriesViewPager @Inject constructor(
             FolderTreeFragment.newInstance()
         } else TabFragment.newInstance(category)
 
-        fragments.put(position, fragment)
+        fragments.put(position, WeakReference(fragment))
         return fragment
     }
 
@@ -71,7 +72,7 @@ class CategoriesViewPager @Inject constructor(
     fun clearFragments(){
         val transaction = fragmentManager.beginTransaction()
         fragments.forEach { _, fragment ->
-            transaction.remove(fragment)
+            fragment.get()?.let { transaction.remove(it) }
         }
         fragments.clear()
         transaction.commitNowAllowingStateLoss()

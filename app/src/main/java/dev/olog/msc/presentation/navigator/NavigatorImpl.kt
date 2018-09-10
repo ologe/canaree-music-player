@@ -158,37 +158,22 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()) {
             when {
                 mediaId.isLeaf -> {
-                    editItemDialogFactory.toEditTrack(mediaId, {
-                        val tag = EditTrackFragment.TAG
-                        activity.fragmentTransaction {
-                            setReorderingAllowed(true)
-                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            add(android.R.id.content, EditTrackFragment.newInstance(mediaId), tag)
-                            addToBackStack(tag)
-                        }
-                    })
+                    editItemDialogFactory.toEditTrack(mediaId) {
+                        val instance = EditTrackFragment.newInstance(mediaId)
+                        instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
+                    }
                 }
                 mediaId.isAlbum -> {
-                    editItemDialogFactory.toEditAlbum(mediaId, {
-                        val tag = EditAlbumFragment.TAG
-                        activity.fragmentTransaction {
-                            setReorderingAllowed(true)
-                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            add(android.R.id.content, EditAlbumFragment.newInstance(mediaId), tag)
-                            addToBackStack(tag)
-                        }
-                    })
+                    editItemDialogFactory.toEditAlbum(mediaId) {
+                        val instance = EditAlbumFragment.newInstance(mediaId)
+                        instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
+                    }
                 }
                 mediaId.isArtist -> {
-                    editItemDialogFactory.toEditArtist(mediaId, {
-                        val tag = EditArtistFragment.TAG
-                        activity.fragmentTransaction {
-                            setReorderingAllowed(true)
-                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            add(android.R.id.content, EditArtistFragment.newInstance(mediaId), tag)
-                            addToBackStack(tag)
-                        }
-                    })
+                    editItemDialogFactory.toEditArtist(mediaId) {
+                        val instance = EditArtistFragment.newInstance(mediaId)
+                        instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)
+                    }
                 }
                 else -> throw IllegalArgumentException("invalid media id $mediaId")
             }

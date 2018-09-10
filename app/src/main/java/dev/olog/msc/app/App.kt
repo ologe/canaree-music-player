@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
 import android.support.v7.preference.PreferenceManager
+import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -32,8 +33,12 @@ class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        app = this
+        if (LeakCanary.isInAnalyzerProcess(this)){
+            return
+        }
+        LeakCanary.install(this)
 
+        app = this
         initializeDebug()
         initializeConstants()
         resetSleepTimer()

@@ -75,12 +75,12 @@ class EditArtistFragment : BaseEditItemFragment() {
             ))
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> dismiss()
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_artist_invalid_title)
                 else -> {}
             }
         }
-        cancelButton.setOnClickListener { act.onBackPressed() }
+        cancelButton.setOnClickListener { dismiss() }
         picker.setOnClickListener { changeImage() }
     }
 

@@ -19,6 +19,7 @@ import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.DrawsOnTop
+import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.AppTheme
@@ -31,7 +32,7 @@ import dev.olog.msc.utils.k.extension.ctx
 
 private const val PICK_IMAGE_CODE = 456
 
-abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
+abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
 
@@ -54,10 +55,8 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
     }
 
     protected fun setImage(model: DisplayableItem){
-        val background = view!!.findViewById<ImageView>(R.id.backgroundCover)
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
-        GlideApp.with(ctx).clear(background)
         GlideApp.with(ctx).clear(image)
 
         val img = model.image
@@ -65,14 +64,12 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
             img.toUri()
         } else model
 
-        val builder = GlideApp.with(ctx)
+        GlideApp.with(ctx)
                 .load(load)
                 .placeholder(CoverUtils.getGradient(ctx, model.mediaId))
                 .override(500)
                 .priority(Priority.IMMEDIATE)
-
-        builder.into(image)
-        builder.into(background)
+                .into(image)
     }
 
     protected fun showLoader(@StringRes resId: Int){

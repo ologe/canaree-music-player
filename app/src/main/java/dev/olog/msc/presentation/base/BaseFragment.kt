@@ -55,8 +55,4 @@ abstract class BaseFragment : DaggerFragment() {
         return context != null && context!!.isPortrait
     }
 
-    protected fun <T> getArgument(key: String): T {
-        return arguments!!.get(key) as T
-    }
-
 }

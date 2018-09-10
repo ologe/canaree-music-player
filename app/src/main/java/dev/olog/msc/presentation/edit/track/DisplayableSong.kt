@@ -10,5 +10,8 @@ data class DisplayableSong(
         val year: String,
         val disc: String,
         val track: String,
-        val image: String
+        val image: String,
+        val bitrate: String,
+        val format: String,
+        val sampling: String
 )

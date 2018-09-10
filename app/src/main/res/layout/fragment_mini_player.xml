@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<dev.olog.msc.presentation.widget.MiniPlayerConstraintLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/sliding_panel_peek"
-    android:id="@+id/root">
+    android:id="@+id/root"
+    android:background="?attr/miniPlayerColor">
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/next"
@@ -95,4 +96,4 @@
         tools:progress="40"
         tools:max="100" />
 
-</dev.olog.msc.presentation.widget.MiniPlayerConstraintLayout>
+</android.support.constraint.ConstraintLayout>

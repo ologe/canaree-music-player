@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Debug
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -19,6 +18,7 @@ import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.HasBilling
 import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
 import dev.olog.msc.presentation.library.categories.CategoriesFragment
@@ -141,6 +141,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 //              prevents circular reveal crash
                 }
                 topFragment is DrawsOnTop -> super.onBackPressed()
+                topFragment is DimBottomSheetDialogFragment -> supportFragmentManager.popBackStack()
                 slidingPanel.isExpanded() -> slidingPanel.collapse()
                 else -> super.onBackPressed()
             }

@@ -96,6 +96,7 @@ class EditTrackFragmentViewModel @Inject constructor(
     private fun Song.toDisplayableSong(): DisplayableSong {
         val file = File(path)
         val audioFile = AudioFileIO.read(file)
+        val audioHeader = audioFile.audioHeader
         val tag = audioFile.tagOrCreateAndSetDefault
 
         return DisplayableSong(
@@ -108,7 +109,10 @@ class EditTrackFragmentViewModel @Inject constructor(
                 tag.get(FieldKey.YEAR),
                 tag.get(FieldKey.DISC_NO),
                 tag.get(FieldKey.TRACK),
-                this.image
+                this.image,
+                audioHeader.bitRate + " kb/s",
+                audioHeader.format,
+                audioHeader.sampleRate +  " Hz"
         )
     }
 
