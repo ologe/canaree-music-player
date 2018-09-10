@@ -87,14 +87,17 @@ ext {
 
     rx_preferences = '2.0.0'
     rx_kotlin = '2.2.0'
-//    reactive_network = '0.12.3'
+    rx_lint = '1.6.1'
+
+    custom_tabs = '1.1.2'
+    material_dialogs = '0.9.6.0'
 
     // dependency injection
     dagger = '2.17'
 
     // debug
     rxjava_debug = '1.2.2'
-    leak_canary = '1.5.4'
+    leak_canary = '1.6.1'
     crashlytics = '2.9.3'
 
     // test

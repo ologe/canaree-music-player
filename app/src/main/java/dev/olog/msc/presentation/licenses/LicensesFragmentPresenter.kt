@@ -56,10 +56,10 @@ class LicensesFragmentPresenter @Inject constructor(
             "Rx Preferences", "https://github.com/f2prateek/rx-preferences",
             apache())
 
-    private val RX_NETWORK = LicenseModel(
+    private val RX_LINT = LicenseModel(
             R.layout.item_license,
-            MediaId.headerId("rxNetwork"),
-            "ReactiveNetwork", "https://github.com/pwittchen/ReactiveNetwork",
+            MediaId.headerId("rxLint"),
+            "rxlint", "https://bitbucket.org/littlerobots/rxlint",
             apache())
 
     private val SQL_BRITE = LicenseModel(
@@ -176,6 +176,48 @@ class LicensesFragmentPresenter @Inject constructor(
             apache()
     )
 
+    private val LEAK_CANARY = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("leakCanary"),
+            "LeakCanary", "https://github.com/square/leakcanary",
+            apache()
+    )
+
+    private val MATERIAL_DIALOGS = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("Material Dialogs"),
+            "Material Dialogs", "https://github.com/afollestad/material-dialogs",
+            apache()
+    )
+
+    private val TRACEUR = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("traceur"),
+            "Traceur", "https://github.com/T-Spoon/Traceur",
+            apache()
+    )
+
+    private val LIBAVCODEC = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("libavcodec"),
+            "libavcodec", "http://git.videolan.org/?p=ffmpeg.git",
+            gnu()
+    )
+
+    private val LIBAVRESAMPLE = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("libavresample"),
+            "libavresample", "http://git.videolan.org/?p=ffmpeg.git",
+            gnu()
+    )
+
+    private val LIBAVUTIL = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("libavutil"),
+            "libavutil", "http://git.videolan.org/?p=ffmpeg.git",
+            gnu()
+    )
+
     val data : List<LicenseModel> = listOf(
             ANDROID_OPEN_SOURCE_PROJECT,
             ANDROID_SUPPORT_LIBRARIES,
@@ -184,7 +226,7 @@ class LicensesFragmentPresenter @Inject constructor(
             RX_ANDROID,
             RX_PREFERENCES,
             RX_BINDING,
-            RX_NETWORK,
+            RX_LINT,
             SQL_BRITE,
             SLIDING_PANEL,
             EXO_PLAYER,
@@ -202,7 +244,13 @@ class LicensesFragmentPresenter @Inject constructor(
             TAP_TARGET_VIEW,
             AES_CRYPTO,
             LAST_FM_BINDING,
-            CUSTOM_TABS
+            CUSTOM_TABS,
+            LEAK_CANARY,
+            MATERIAL_DIALOGS,
+            TRACEUR,
+            LIBAVCODEC,
+            LIBAVRESAMPLE,
+            LIBAVUTIL
     )
 
     private fun apache(): String {
