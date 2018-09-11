@@ -8,7 +8,9 @@
     android:orientation="vertical"
     android:background="@color/background"
     android:elevation="2dp"
-    android:id="@+id/root">
+    android:id="@+id/root"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
@@ -83,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/wrapper"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
@@ -104,6 +106,80 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/wrapper"
         android:paddingStart="16dp" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/wrapper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:elevation="@dimen/toolbar_elevation">
+
+        <!-- Workaround for b/72034805 — BAB shadow can't extend beyond bounds nor concave shape -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bab_fake_shadow"
+            android:layout_gravity="bottom"/>
+
+        <android.support.design.bottomappbar.BottomAppBar
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="100dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    tools:text="Wanksta"
+                    android:fontFamily="@font/roboto_slab_bold"/>
+
+                <TextView
+                    android:id="@+id/artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:textColor="?attr/colorAccent"
+                    android:textSize="14dp"
+                    tools:text="50 Cent" />
+
+            </LinearLayout>
+
+        </android.support.design.bottomappbar.BottomAppBar>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/bar"
+            android:src="@drawable/vd_play"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 </android.support.constraint.ConstraintLayout>

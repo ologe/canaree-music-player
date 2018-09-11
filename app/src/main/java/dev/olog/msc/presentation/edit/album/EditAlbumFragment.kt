@@ -34,7 +34,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast { viewModelProvider<EditAlbumFragmentViewModel>(viewModelFactory) }
-    private val editItemViewModel by lazyFast { viewModelProvider<EditItemViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory) }
     @Inject lateinit var mediaId: MediaId
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

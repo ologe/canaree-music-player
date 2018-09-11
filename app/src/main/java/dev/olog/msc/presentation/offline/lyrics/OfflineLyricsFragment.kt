@@ -162,7 +162,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
         seekBar.setOnSeekBarChangeListener(seekBarListener)
 
-        sync.setOnClickListener {
+        sync.setOnClickListener { _ ->
             OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement()) {
                 presenter.updateSyncAdjustement(it)
             }

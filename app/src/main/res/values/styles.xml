@@ -19,6 +19,7 @@
         <item name="buttonStyle">@style/DefaultButton</item>
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
+        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
 
         <item name="scrimColor">#DDCCCCCC</item>
         <item name="miniPlayerColor">?android:attr/windowBackground</item>
@@ -35,6 +36,7 @@
         <item name="buttonStyle">@style/DefaultButton</item>
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
+        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
 
         <item name="scrimColor">#AA232323</item>
         <item name="miniPlayerColor">@color/theme_dark_toolbar</item>
@@ -122,6 +124,13 @@
     <style name="EditItemCardView" parent="DefaultMaterialCard">
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">0dp</item>
+        <item name="android:translationY">12dp</item>
+    </style>
+
+    <style name="DefaultBottomBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="fabCradleRoundedCornerRadius">20dp</item>
+        <item name="fabAlignmentMode">end</item>
+        <item name="backgroundTint">@color/toolbar</item>
     </style>
 
 </resources>

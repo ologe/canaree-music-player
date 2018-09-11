@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
+import android.os.Looper
 import android.support.v7.preference.PreferenceManager
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
@@ -16,6 +17,8 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.PendingIntents
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
@@ -39,11 +42,18 @@ class App : DaggerApplication() {
         LeakCanary.install(this)
 
         app = this
+        initRxMainScheduler()
         initializeDebug()
         initializeConstants()
         resetSleepTimer()
 
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
+    }
+
+    private fun initRxMainScheduler(){
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+            AndroidSchedulers.from(Looper.getMainLooper(), true)
+        }
     }
 
     private fun initializeDebug(){

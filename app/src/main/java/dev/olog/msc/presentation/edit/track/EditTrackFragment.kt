@@ -35,7 +35,7 @@ class EditTrackFragment : BaseEditItemFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast { viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory) }
-    private val editItemViewModel by lazyFast { viewModelProvider<EditItemViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

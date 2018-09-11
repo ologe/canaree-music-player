@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="sliding_panel_peek">55dp</dimen>
+    <dimen name="sliding_panel_peek">60dp</dimen>
     <dimen name="sliding_panel_parallax">20dp</dimen>
     <dimen name="sliding_panel_shadow">2dp</dimen>
 

@@ -70,6 +70,13 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                 .asLiveData()
                 .subscribe(this, subHeader::setText)
 
+        mediaProvider.onMetadataChanged()
+                .asLiveData()
+                .subscribe(this) {
+                    title.text = it.getTitle()
+                    artist.text = it.getArtist()
+                }
+
         viewModel.data.subscribe(this, adapter::updateDataSet)
 
         adapter.onFirstEmission {
