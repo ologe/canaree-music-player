@@ -8,24 +8,16 @@ import android.provider.Settings
 import android.view.View
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
-import dev.olog.msc.app.KeepDataAlive
-import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
-import dev.olog.msc.presentation.image.creation.ImagesCreator
+import dev.olog.msc.updatePermissionValve
 import dev.olog.msc.utils.k.extension.simpleDialog
-import dev.olog.msc.utils.k.extension.unsubscribe
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_splash.*
 import javax.inject.Inject
 
 class SplashActivity : BaseActivity(), View.OnClickListener {
 
     @Inject lateinit var adapter : SplashActivityViewPagerAdapter
-    @Inject lateinit var imageCreator: ImagesCreator
-    @Inject lateinit var keepDataAlive: KeepDataAlive
-    @Inject lateinit var songGateway: SongGateway
-    private var disposable : Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +41,6 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     override fun onPause() {
         super.onPause()
         next.setOnClickListener(null)
-    }
-
-    override fun onDestroy() {
-        disposable.unsubscribe()
-        super.onDestroy()
     }
 
     override fun onClick(v: View?) {
@@ -83,12 +70,11 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onStoragePermissionGranted(){
-        imageCreator.execute()
-        keepDataAlive.execute()
+        updatePermissionValve(true)
 
-        ExplainTrialDialog.show(this, {
+        ExplainTrialDialog.show(this) {
             finishActivity()
-        })
+        }
     }
 
     private fun finishActivity(){

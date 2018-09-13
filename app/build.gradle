@@ -41,7 +41,6 @@ android {
             multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue("bool", "FIREBASE_ENABLED", "true")
             debuggable false
         }
 
@@ -50,7 +49,6 @@ android {
             useProguard false
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue("bool", "FIREBASE_ENABLED", "false")
             applicationIdSuffix ".debug"
 //            debuggable false
         }
@@ -149,12 +147,12 @@ dependencies {
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+    implementation "com.github.akarnokd:rxjava2-extensions:$rootProject.rx_java_ext"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
     implementation "com.jakewharton.rxbinding2:rxbinding:$rootProject.rx_binding"
-
-    //    implementation "com.github.pwittchen:reactivenetwork-rx2:$rootProject.reactive_network"
+    debugImplementation "nl.littlerobots.rxlint:rxlint:$rootProject.rx_lint"
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
@@ -186,9 +184,6 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary"
 
     //    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
-
-    implementation 'com.tspoon.traceur:traceur:1.0.1'
-    debugImplementation "nl.littlerobots.rxlint:rxlint:$rootProject.rx_lint"
 
     // firebase
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"

@@ -1,7 +1,6 @@
 package dev.olog.msc.data.repository
 
 import android.content.Context
-import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.FolderMostPlayedEntity
@@ -16,8 +15,6 @@ import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import java.text.Collator
 import javax.inject.Inject
-
-private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
 class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,

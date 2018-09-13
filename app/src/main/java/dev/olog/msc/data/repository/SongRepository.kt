@@ -17,6 +17,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -68,6 +69,7 @@ class SongRepository @Inject constructor(
                 .map { mockDataIfNeeded(it) }
                 .map { updateImages(it) }
                 .onErrorReturn { listOf() }
+                .onlyWithStoragePermission()
     }
 
     private fun mapToSong(cursor: Cursor): Song {
@@ -143,6 +145,7 @@ class SongRepository @Inject constructor(
             val image = trackImage ?: albumImage ?: ImagesFolderUtils.forAlbum(albumId)
             it.toUneditedSong(image)
         }.distinctUntilChanged()
+                .onlyWithStoragePermission()
     }
 
     override fun getAllUnfiltered(): Observable<List<Song>> {
@@ -155,6 +158,7 @@ class SongRepository @Inject constructor(
                 false
         ).mapToList { it.toSong() }
                 .onErrorReturnItem(listOf())
+                .onlyWithStoragePermission()
     }
 
     override fun deleteSingle(songId: Long): Completable {

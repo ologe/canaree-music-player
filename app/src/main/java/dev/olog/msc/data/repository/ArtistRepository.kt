@@ -11,7 +11,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.utils.k.extension.crashlyticsLog
+import dev.olog.msc.onlyWithStoragePermission
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -39,6 +39,7 @@ class ArtistRepository @Inject constructor(
                 .flatMap { songGateway.getAll() }
                 .map { mapToArtists(it) }
                 .map { updateImages(it) }
+                .onlyWithStoragePermission()
     }
 
     private fun updateImages(list: List<Artist>): List<Artist>{

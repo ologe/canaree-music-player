@@ -19,6 +19,7 @@ import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -82,6 +83,7 @@ class PlaylistRepository @Inject constructor(
         }.map { removeBlacklisted(it) }
                 .onErrorReturnItem(listOf())
                 .doOnError { it.printStackTrace() }
+                .onlyWithStoragePermission()
     }
 
     private val cachedData = queryAllData()
@@ -185,7 +187,7 @@ class PlaylistRepository @Inject constructor(
                                 val song = songs.firstOrNull { it.id == playlistSong.songId }
                                 song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
                             }.toList()
-                }}
+                }}.onlyWithStoragePermission()
     }
 
     override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {

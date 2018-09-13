@@ -50,15 +50,14 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState == null){
-            val canReadStorage = Permissions.canReadStorage(this)
-            val isFirstAccess = presenter.isFirstAccess()
-            val toFirstAccess = !canReadStorage || isFirstAccess
-            if (toFirstAccess){
-                navigator.toFirstAccess(SPLASH_REQUEST_CODE)
-            } else {
-                navigator.toLibraryCategories()
-            }
+        val canReadStorage = Permissions.canReadStorage(this)
+        val isFirstAccess = presenter.isFirstAccess()
+        val toFirstAccess = !canReadStorage || isFirstAccess
+        if (toFirstAccess){
+            navigator.toFirstAccess(SPLASH_REQUEST_CODE)
+            return
+        } else {
+            navigator.toLibraryCategories()
         }
 
         presenter.isRepositoryEmptyUseCase.execute()

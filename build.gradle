@@ -84,6 +84,7 @@ ext {
     rx_java = '2.2.2'
     rx_android = '2.1.0'
     rx_binding = '2.1.1'
+    rx_java_ext = '0.20.3'
 
     rx_preferences = '2.0.0'
     rx_kotlin = '2.3.0'

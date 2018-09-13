@@ -16,8 +16,8 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.crashlyticsLog
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -60,6 +60,7 @@ class GenreRepository @Inject constructor(
             it.toGenre(context, size)
         }.map { removeBlacklisted(it) }
                 .onErrorReturnItem(listOf())
+                .onlyWithStoragePermission()
     }
 
     private val cachedData = queryAllData()
@@ -100,7 +101,7 @@ class GenreRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Genre> {
-        return cachedData.map { it.first { it.id == param } }
+        return cachedData.map { list -> list.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
@@ -119,6 +120,7 @@ class GenreRepository @Inject constructor(
                             .mapNotNull { id -> songs.firstOrNull { it.id == id } }
                             .toList()
                 }}.distinctUntilChanged()
+                .onlyWithStoragePermission()
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
