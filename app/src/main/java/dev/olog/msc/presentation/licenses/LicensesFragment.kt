@@ -29,7 +29,7 @@ class LicensesFragment : BaseFragment(){
         Single.just(presenter.data)
                 .toFlowable()
                 .asLiveData()
-                .subscribe(this, adapter::updateDataSet)
+                .subscribe(viewLifecycleOwner, adapter::updateDataSet)
     }
 
     override fun onResume() {

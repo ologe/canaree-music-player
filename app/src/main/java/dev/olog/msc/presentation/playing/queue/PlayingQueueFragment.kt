@@ -2,9 +2,11 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.presentation.DrawsOnTop
@@ -14,6 +16,7 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.*
@@ -44,6 +47,8 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
     @Inject lateinit var safeTransition: SafeTransition
     private lateinit var layoutManager : LinearLayoutManager
 
+    private val viewModel by lazyFast { viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null){
@@ -57,37 +62,12 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         super.onActivityCreated(savedInstanceState)
         postponeEnterTransition()
 
-        val mediaProvider = (activity as MediaProvider)
-        val viewModel = viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory)
-
-        mediaProvider.onExtrasChanged()
-                .map { it.getInt(MusicConstants.EXTRA_QUEUE_CATEGORY) }
-                .map { MediaIdCategory.values()[it] }
-                .asLiveData()
-                .subscribe(this, header::setText)
-
-        mediaProvider.onQueueTitleChanged()
-                .asLiveData()
-                .subscribe(this, subHeader::setText)
-
-        mediaProvider.onMetadataChanged()
-                .asLiveData()
-                .subscribe(this) {
-                    title.text = it.getTitle()
-                    artist.text = it.getArtist()
-                }
-
-        viewModel.data.subscribe(this, adapter::updateDataSet)
-
         adapter.onFirstEmission {
             val songId = viewModel.getCurrentSongId()
             adapter.updateCurrentPosition(songId)
             layoutManager.scrollToPositionWithOffset(adapter.currentPosition, ctx.dip(20))
             startPostponedEnterTransition()
         }
-
-        viewModel.observeCurrentSongId
-                .subscribe(this, adapter::updateCurrentPosition)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -102,6 +82,48 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        val mediaProvider = (activity as MediaProvider)
+
+        mediaProvider.onExtrasChanged()
+                .map { it.getInt(MusicConstants.EXTRA_QUEUE_CATEGORY) }
+                .map { MediaIdCategory.values()[it] }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner, view.header::setText)
+
+        mediaProvider.onQueueTitleChanged()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner, view.subHeader::setText)
+
+        mediaProvider.onMetadataChanged()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    title.text = it.getTitle()
+                    artist.text = it.getArtist()
+                }
+
+        mediaProvider.onStateChanged()
+                .map { it.state }
+                .filter { it == PlaybackStateCompat.STATE_PLAYING ||
+                        it == PlaybackStateCompat.STATE_PAUSED
+                }.distinctUntilChanged()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { state ->
+                    if (state == PlaybackStateCompat.STATE_PLAYING){
+                        playPause.animationPlay(true)
+                    } else {
+                        playPause.animationPause(true)
+                    }
+                }
+
+        viewModel.observeCurrentSongId
+                .subscribe(viewLifecycleOwner, adapter::updateCurrentPosition)
+
+        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        RxView.clicks(view.playPause)
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { mediaProvider.playPause() }
     }
 
     override fun onResume() {

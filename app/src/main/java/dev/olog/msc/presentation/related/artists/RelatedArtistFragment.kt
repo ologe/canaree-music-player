@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.act
@@ -32,24 +33,20 @@ class RelatedArtistFragment: BaseFragment() {
     @Inject lateinit var adapter: RelatedArtistFragmentAdapter
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val viewModel = viewModelProvider<RelatedArtistFragmentViewModel>(viewModelFactory)
-
-        viewModel.data.subscribe(this, adapter::updateDataSet)
-
-        viewModel.itemTitle.subscribe(this) { itemTitle ->
-            val headersArray = resources.getStringArray(R.array.related_artists_header)
-            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-            this.header.text = header
-        }
-    }
+    private val viewModel by lazyFast { viewModelProvider<RelatedArtistFragmentViewModel>(viewModelFactory) }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = GridLayoutManager(context!!, if (isPortrait()) 2 else 3)
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
+
+        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.itemTitle.subscribe(viewLifecycleOwner) { itemTitle ->
+            val headersArray = resources.getStringArray(R.array.related_artists_header)
+            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
+            this.header.text = header
+        }
     }
 
     override fun onResume() {

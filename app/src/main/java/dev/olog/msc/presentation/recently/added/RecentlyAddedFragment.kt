@@ -8,6 +8,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.subscribe
@@ -33,19 +34,7 @@ class RecentlyAddedFragment : BaseFragment() {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var adapter: RecentlyAddedFragmentAdapter
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val viewModel: RecentlyAddedFragmentViewModel = viewModelProvider(viewModelFactory)
-
-        viewModel.data.subscribe(this, adapter::updateDataSet)
-
-        viewModel.itemTitle.subscribe(this) { itemTitle ->
-            val headersArray = resources.getStringArray(R.array.recently_added_header)
-            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-            this.header.text = header
-        }
-    }
+    private val viewModel by lazyFast { viewModelProvider<RecentlyAddedFragmentViewModel>(viewModelFactory) }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.adapter = adapter
@@ -56,6 +45,14 @@ class RecentlyAddedFragment : BaseFragment() {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.itemTitle.subscribe(viewLifecycleOwner) { itemTitle ->
+            val headersArray = resources.getStringArray(R.array.recently_added_header)
+            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
+            this.header.text = header
+        }
     }
 
     override fun onResume() {

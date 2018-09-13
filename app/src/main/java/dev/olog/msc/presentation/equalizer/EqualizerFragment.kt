@@ -27,26 +27,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
     private lateinit var adapter : PresetPagerAdapter
     private var snackBar: Snackbar? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        presenter.isEqualizerAvailable()
-                .asLiveData()
-                .subscribe(this) { isEqAvailable ->
-                    if (snackBar != null){
-                        if (isEqAvailable){
-                            snackBar?.dismiss()
-                        } // else, already shown
-                    } else {
-                        // error snackBar now shown
-                        if (!isEqAvailable){
-                            snackBar = Snackbar.make(root, R.string.equalizer_error, Snackbar.LENGTH_INDEFINITE)
-                            snackBar!!.show()
-                        }
-                    }
-                }
-    }
-
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         val presets = presenter.getPresets()
         adapter = PresetPagerAdapter(childFragmentManager, presets.toMutableList())
@@ -73,10 +53,26 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         RxCompoundButton.checkedChanges(view.powerSwitch)
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
-                .subscribe(this) { isChecked ->
+                .subscribe(viewLifecycleOwner) { isChecked ->
                     val text = if(isChecked) R.string.common_switch_on else R.string.common_switch_off
                     view.powerSwitch.text = getString(text)
                     presenter.setEqualizerEnabled(isChecked)
+                }
+
+        presenter.isEqualizerAvailable()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isEqAvailable ->
+                    if (snackBar != null){
+                        if (isEqAvailable){
+                            snackBar?.dismiss()
+                        } // else, already shown
+                    } else {
+                        // error snackBar now shown
+                        if (!isEqAvailable){
+                            snackBar = Snackbar.make(root, R.string.equalizer_error, Snackbar.LENGTH_INDEFINITE)
+                            snackBar!!.show()
+                        }
+                    }
                 }
     }
 

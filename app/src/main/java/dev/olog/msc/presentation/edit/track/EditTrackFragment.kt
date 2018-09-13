@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
@@ -17,6 +18,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
+import kotlinx.android.synthetic.main.fragment_edit_track.view.*
 import javax.inject.Inject
 
 class EditTrackFragment : BaseEditItemFragment() {
@@ -40,12 +42,6 @@ class EditTrackFragment : BaseEditItemFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        RxTextView.afterTextChangeEvents(title)
-                .map { it.view().text.toString() }
-                .map { it.isNotBlank() }
-                .asLiveData()
-                .subscribe(this, okButton::setEnabled)
-
         viewModel.observeData().observe(this, Observer {
             if (it == null){
                 ctx.toast(R.string.edit_song_info_not_found)
@@ -66,6 +62,14 @@ class EditTrackFragment : BaseEditItemFragment() {
             }
             hideLoader()
         })
+    }
+
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        RxTextView.afterTextChangeEvents(view.title)
+                .map { it.view().text.toString() }
+                .map { it.isNotBlank() }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
     }
 
     override fun onResume() {

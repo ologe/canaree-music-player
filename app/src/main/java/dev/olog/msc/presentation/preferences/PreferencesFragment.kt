@@ -59,7 +59,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 .take(2) // take current and after check values
                 .distinctUntilChanged()
                 .asLiveData()
-                .subscribe(this) { isPremium ->
+                .subscribe(viewLifecycleOwner) { isPremium ->
                     forEach(preferenceScreen) { it.isEnabled = isPremium }
 
                     if (!isPremium) {

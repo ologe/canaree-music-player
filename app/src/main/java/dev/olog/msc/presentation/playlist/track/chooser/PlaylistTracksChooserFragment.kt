@@ -93,9 +93,15 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
         adapter.onFirstEmission {
             startPostponedEnterTransition()
         }
+    }
+
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.adapter = adapter
+        view.list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
-                .subscribe(this) { size ->
+                .subscribe(viewLifecycleOwner) { size ->
                     val text = when (size){
                         0 -> getString(R.string.playlist_tracks_chooser_no_tracks)
                         else -> resources.getQuantityString(R.plurals.playlist_tracks_chooser_count, size, size)
@@ -104,15 +110,9 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
                     save.toggleVisibility(size > 0, true)
                 }
-    }
-
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = LinearLayoutManager(context)
-        view.list.adapter = adapter
-        view.list.setHasFixedSize(true)
 
         viewModel.getAllSongs(filter(view))
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     adapter.updateDataSet(it)
                     view.sidebar.onDataChanged(it)
                 }
@@ -123,18 +123,18 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
         RxView.clicks(view.back)
                 .asLiveData()
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     ImeUtils.hideIme(filter)
                     act.onBackPressed()
                 }
 
         RxView.clicks(view.save)
                 .asLiveData()
-                .subscribe(this) { showCreateDialog() }
+                .subscribe(viewLifecycleOwner) { showCreateDialog() }
 
         RxView.clicks(view.filterList)
                 .asLiveData()
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     view.filterList.toggleSelected()
                     viewModel.toggleShowOnlyFiltered()
 

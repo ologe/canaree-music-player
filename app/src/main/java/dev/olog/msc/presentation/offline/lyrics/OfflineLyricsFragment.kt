@@ -65,7 +65,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
     private var tutorialDisposable: Disposable? = null
     private var updateDisposable : Disposable? = null
 
-    private lateinit var mediaProvider: MediaProvider
+    private val mediaProvider by lazy { activity as MediaProvider }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,42 +74,6 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
             val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
             safeTransition.execute(this, CircularReveal(ctx, x, y, toColor = Color.BLACK))
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        mediaProvider = activity as MediaProvider
-
-        mediaProvider.onMetadataChanged()
-                .observeOn(AndroidSchedulers.mainThread())
-                .asLiveData()
-                .subscribe(this) {
-                    presenter.updateCurrentTrackId(it.getId())
-                    presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
-                    loadBackgroundImage(it)
-                    header.text = it.getTitle()
-                    subHeader.text = it.getArtist()
-                    seekBar.max = it.getDuration().toInt()
-                }
-
-        presenter.observeLyrics()
-                .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
-                .map { text.precomputeText(it) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .asLiveData()
-                .subscribe(this) {
-                    emptyState.toggleVisibility(it.isEmpty(), true)
-                    text.setText(it)
-                }
-
-        mediaProvider.onStateChanged()
-                .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
-                .asLiveData()
-                .subscribe(this) {
-                    val isPlaying = it.state == PlaybackState.STATE_PLAYING
-                    seekBar.progress = it.position.toInt()
-                    handleSeekBarState(isPlaying)
-                }
     }
 
     private fun loadBackgroundImage(metadata: MediaMetadataCompat){
@@ -167,6 +131,37 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                 presenter.updateSyncAdjustement(it)
             }
         }
+
+        mediaProvider.onMetadataChanged()
+                .observeOn(AndroidSchedulers.mainThread())
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    presenter.updateCurrentTrackId(it.getId())
+                    presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
+                    loadBackgroundImage(it)
+                    header.text = it.getTitle()
+                    subHeader.text = it.getArtist()
+                    seekBar.max = it.getDuration().toInt()
+                }
+
+        presenter.observeLyrics()
+                .map { presenter.transformLyrics(ctx, seekBar.progress, it) }
+                .map { text.precomputeText(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    emptyState.toggleVisibility(it.isEmpty(), true)
+                    text.text = it
+                }
+
+        mediaProvider.onStateChanged()
+                .filter { it.state == PlaybackState.STATE_PLAYING || it.state == PlaybackState.STATE_PAUSED }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    val isPlaying = it.state == PlaybackState.STATE_PLAYING
+                    seekBar.progress = it.position.toInt()
+                    handleSeekBarState(isPlaying)
+                }
     }
 
     private fun searchLyrics(){

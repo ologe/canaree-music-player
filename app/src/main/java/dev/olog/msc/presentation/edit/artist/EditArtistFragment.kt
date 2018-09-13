@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.edit.artist
 import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
@@ -15,6 +16,7 @@ import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_artist.*
+import kotlinx.android.synthetic.main.fragment_edit_artist.view.*
 import javax.inject.Inject
 
 class EditArtistFragment : BaseEditItemFragment() {
@@ -40,15 +42,17 @@ class EditArtistFragment : BaseEditItemFragment() {
         super.onActivityCreated(savedInstanceState)
 
         mediaId = MediaId.fromString(getArgument(ARGUMENTS_MEDIA_ID))
+    }
 
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         RxTextView.afterTextChangeEvents(artist)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
-                .subscribe(this, okButton::setEnabled)
+                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
 
         viewModel.observeSongList()
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     val size = it.size
                     val text = resources.getQuantityString(
                             R.plurals.edit_item_xx_tracks_will_be_updated, size, size)
@@ -56,7 +60,7 @@ class EditArtistFragment : BaseEditItemFragment() {
                 }
 
         viewModel.observeData()
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     artist.setText(it.title)
                     albumArtist.setText(it.albumArtist)
                     val model = DisplayableItem(0, MediaId.artistId(it.id), "", image = it.image ?: "")
