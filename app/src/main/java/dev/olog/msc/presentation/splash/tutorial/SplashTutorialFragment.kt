@@ -15,6 +15,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.widget.StoppingViewPager
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 
@@ -93,7 +94,7 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     }
 
     private fun loadPhoneImage(view: View){
-        GlideApp.with(context!!)
+        GlideApp.with(ctx)
                 .asBitmap()
                 .load(R.drawable.phone_black)
                 .priority(Priority.IMMEDIATE)
@@ -105,12 +106,12 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     }
 
     private fun loadImage(view: ImageView, position: Int){
-        GlideApp.with(context!!).clear(view)
+        GlideApp.with(ctx).clear(view)
 
-        GlideApp.with(context!!)
+        GlideApp.with(ctx)
                 .load(Uri.EMPTY)
                 .centerCrop()
-                .placeholder(CoverUtils.getGradient(context!!, position))
+                .placeholder(CoverUtils.getGradient(ctx, position))
                 .priority(Priority.IMMEDIATE)
                 .override(400)
                 .into(view)
