@@ -30,7 +30,7 @@ abstract class FolderMostPlayedDao {
     fun getAll(folderPath: String, songList: Observable<List<Song>>): Observable<List<Song>> {
         return this.query(folderPath)
                 .toObservable()
-                .flatMap { mostPlayedSongs -> songList.map { songList ->
+                .switchMap { mostPlayedSongs -> songList.map { songList ->
                     mostPlayedSongs.mapNotNull { mostPlayed ->
                         val song = songList.firstOrNull { it.id == mostPlayed.songId }
                         if (song != null) song to mostPlayed.timesPlayed
