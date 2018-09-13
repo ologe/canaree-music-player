@@ -62,6 +62,13 @@ class LicensesFragmentPresenter @Inject constructor(
             "rxlint", "https://bitbucket.org/littlerobots/rxlint",
             apache())
 
+    private val RX_JAVA_EXTENSION = LicenseModel(
+            R.layout.item_license,
+            MediaId.headerId("RxJava2Extensions"),
+            "RxJava2Extensions", "https://github.com/akarnokd/RxJava2Extensions",
+            apache())
+
+
     private val SQL_BRITE = LicenseModel(
             R.layout.item_license,
             MediaId.headerId("sqlbrite"),
@@ -227,6 +234,7 @@ class LicensesFragmentPresenter @Inject constructor(
             RX_PREFERENCES,
             RX_BINDING,
             RX_LINT,
+            RX_JAVA_EXTENSION,
             SQL_BRITE,
             SLIDING_PANEL,
             EXO_PLAYER,
