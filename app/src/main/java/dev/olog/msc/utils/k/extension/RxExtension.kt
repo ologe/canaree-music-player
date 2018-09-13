@@ -2,11 +2,13 @@ package dev.olog.msc.utils.k.extension
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
+import hu.akarnokd.rxjava2.operators.FlowableTransformers
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 fun Disposable?.unsubscribe(){
     this?.let {
@@ -42,6 +44,16 @@ fun <T, R> Observable<List<T>>.mapToList(mapper: (T) -> R): Observable<List<R>> 
 
 fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
     return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
+}
+
+fun <T> Observable<T>.debounceFirst(timeout: Long = 1L, unit: TimeUnit = TimeUnit.SECONDS): Observable<T>{
+    return this.asFlowable()
+            .compose(FlowableTransformers.debounceFirst(timeout, unit))
+            .toObservable()
+}
+
+fun <T> Flowable<T>.debounceFirst(timeout: Long = 1L, unit: TimeUnit = TimeUnit.SECONDS): Flowable<T>{
+    return this.compose(FlowableTransformers.debounceFirst(timeout, unit))
 }
 
 fun <T> Observable<T>.defer(): Observable<T> {
