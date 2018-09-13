@@ -50,7 +50,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var albumsAdapter: DetailAlbumsAdapter
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
-    private val recyclerOnScrollListener by lazy(NONE) { HeaderVisibilityScrollListener(this) }
+    private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
         adjustStatusBarColor(new)
@@ -149,9 +149,9 @@ class DetailFragment : BaseFragment() {
     private fun removeLightStatusBar(){
         act.window.removeLightStatusBar()
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_light)
-        back.setColorFilter(color)
-        search.setColorFilter(color)
-        more.setColorFilter(color)
+        view?.back?.setColorFilter(color)
+        view?.search?.setColorFilter(color)
+        view?.more?.setColorFilter(color)
     }
 
     private fun setLightStatusBar(){
@@ -161,9 +161,9 @@ class DetailFragment : BaseFragment() {
 
         act.window.setLightStatusBar()
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
-        back.setColorFilter(color)
-        search.setColorFilter(color)
-        more.setColorFilter(color)
+        view?.back?.setColorFilter(color)
+        view?.search?.setColorFilter(color)
+        view?.more?.setColorFilter(color)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
