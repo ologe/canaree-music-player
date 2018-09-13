@@ -13,7 +13,7 @@ import java.text.Collator
 import javax.inject.Inject
 
 class GetRelatedArtistsUseCase @Inject constructor(
-        executors: ComputationScheduler,
+        private val executors: ComputationScheduler,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getArtistUseCase: GetArtistUseCase,
         private val collator: Collator
@@ -24,15 +24,14 @@ class GetRelatedArtistsUseCase @Inject constructor(
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Artist>> {
         if (!mediaId.isArtist && !mediaId.isAlbum){
             return getSongListByParamUseCase.execute(mediaId)
-                    .flatMapSingle { it.toFlowable()
+                    .switchMapSingle { songList -> songList.toFlowable()
                             .filter { it.artist != AppConstants.UNKNOWN }
                             .distinct { it.artistId }
                             .map { MediaId.artistId(it.artistId) }
-                            .flatMapSingle { getArtistUseCase.execute(it).firstOrError() }
-                            .toList()
-                    }.map {
-                        it.sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                            .flatMapSingle { getArtistUseCase.execute(it).firstOrError().subscribeOn(executors.worker) }
+                            .toSortedList { o1, o2 -> collator.compare(o1.name, o2.name) }
                     }
-        } else return Observable.just(emptyList())
+        }
+        return Observable.just(emptyList())
     }
 }

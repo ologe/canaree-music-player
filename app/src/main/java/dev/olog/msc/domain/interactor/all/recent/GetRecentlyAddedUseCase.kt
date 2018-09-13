@@ -24,7 +24,7 @@ class GetRecentlyAddedUseCase @Inject constructor(
         if (mediaId.isFolder || mediaId.isGenre){
             return getSongListByParamUseCase.execute(mediaId)
                     .map { if (it.size >= 5) it else listOf() }
-                    .map { it.filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= TWO_WEEKS } }
+                    .map { songList -> songList.filter { (System.currentTimeMillis() - it.dateAdded * 1000) <= TWO_WEEKS } }
         }
         return Observable.just(listOf())
     }
