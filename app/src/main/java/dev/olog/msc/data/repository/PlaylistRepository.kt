@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
+import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -21,6 +22,7 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -75,15 +77,16 @@ class PlaylistRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, false
-        ).mapToList {
-            val id = it.extractId()
-            val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
-            val size = CommonQuery.getSize(contentResolver, uri)
-            it.toPlaylist(context, size)
-        }.map { removeBlacklisted(it) }
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToList {
+                    val id = it.extractId()
+                    val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
+                    val size = CommonQuery.getSize(contentResolver, uri)
+                    it.toPlaylist(context, size)
+                })
+                .map { removeBlacklisted(it) }
                 .onErrorReturnItem(listOf())
-                .doOnError { it.printStackTrace() }
-                .onlyWithStoragePermission()
     }
 
     private val cachedData = queryAllData()
@@ -126,7 +129,7 @@ class PlaylistRepository @Inject constructor(
             getAllAutoPlaylists()
         } else getAll()
 
-        return result.map { it.first { it.id == param } }
+        return result.map { list -> list.first { it.id == param } }
     }
 
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
@@ -168,7 +171,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     private fun getLastAddedSongs() : Observable<List<Song>>{
-        return songGateway.getAll().flatMapSingle {
+        return songGateway.getAll().switchMapSingle {
             it.toFlowable().toSortedList { o1, o2 ->  (o2.dateAdded - o1.dateAdded).toInt() }
         }
     }
@@ -179,9 +182,10 @@ class PlaylistRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 uri, SONG_PROJECTION, SONG_SELECTION,
                 SONG_SELECTION_ARGS, SONG_SORT_ORDER, false
-
-        ).mapToList { it.toPlaylistSong() }
-                .flatMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToList { it.toPlaylistSong() })
+                .switchMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
                     playlistSongs.asSequence()
                             .mapNotNull { playlistSong ->
                                 val song = songs.firstOrNull { it.id == playlistSong.songId }

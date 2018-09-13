@@ -8,6 +8,7 @@ import android.provider.MediaStore.Audio.Media.DURATION
 import androidx.core.database.getLong
 import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
+import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.mapper.toFakeSong
 import dev.olog.msc.data.mapper.toSong
@@ -19,6 +20,7 @@ import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -63,13 +65,14 @@ class SongRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
-        ).mapToList { mapToSong(it) }
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToList { mapToSong(it) })
                 .map { removeBlacklisted(it) }
                 .map { adjustImages(it) }
                 .map { mockDataIfNeeded(it) }
                 .map { updateImages(it) }
                 .onErrorReturn { listOf() }
-                .onlyWithStoragePermission()
     }
 
     private fun mapToSong(cursor: Cursor): Song {
@@ -130,22 +133,23 @@ class SongRepository @Inject constructor(
     }
 
     override fun getByParam(param: Long): Observable<Song> {
-        return cachedData.map { it.first { it.id == param } }
+        return cachedData.map { list -> list.first { it.id == param } }
     }
 
     override fun getUneditedByParam(songId: Long): Observable<Song> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",
                 arrayOf("$songId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
-        ).mapToOne {
-            val id = it.getLong(BaseColumns._ID)
-            val albumId = it.getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
-            val trackImage = usedImageGateway.getForTrack(id)
-            val albumImage = usedImageGateway.getForAlbum(albumId)
-            val image = trackImage ?: albumImage ?: ImagesFolderUtils.forAlbum(albumId)
-            it.toUneditedSong(image)
-        }.distinctUntilChanged()
-                .onlyWithStoragePermission()
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToOne {
+                    val id = it.getLong(BaseColumns._ID)
+                    val albumId = it.getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
+                    val trackImage = usedImageGateway.getForTrack(id)
+                    val albumImage = usedImageGateway.getForAlbum(albumId)
+                    val image = trackImage ?: albumImage ?: ImagesFolderUtils.forAlbum(albumId)
+                    it.toUneditedSong(image)
+        }).distinctUntilChanged()
     }
 
     override fun getAllUnfiltered(): Observable<List<Song>> {
@@ -156,9 +160,10 @@ class SongRepository @Inject constructor(
                 SELECTION_ARGS,
                 SORT_ORDER,
                 false
-        ).mapToList { it.toSong() }
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToList { it.toSong() })
                 .onErrorReturnItem(listOf())
-                .onlyWithStoragePermission()
     }
 
     override fun deleteSingle(songId: Long): Completable {

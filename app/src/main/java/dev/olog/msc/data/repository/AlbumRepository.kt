@@ -2,6 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
+import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
@@ -12,6 +13,7 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -35,8 +37,10 @@ class AlbumRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, arrayOf("count(*) as size"), null,
                 null, " size ASC LIMIT 1", true
-        ).mapToOne { 0 }
-                .flatMap { songGateway.getAll() }
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToOne { 0 })
+                .switchMap { songGateway.getAll() }
                 .map { songList ->
                     songList.asSequence()
                             .filter { it.album != AppConstants.UNKNOWN }
@@ -46,7 +50,6 @@ class AlbumRepository @Inject constructor(
                             }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
                             .toList()
                 }.map { updateImages(it) }
-                .onlyWithStoragePermission()
     }
 
     private fun updateImages(list: List<Album>): List<Album>{

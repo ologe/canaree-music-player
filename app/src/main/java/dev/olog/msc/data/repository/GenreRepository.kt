@@ -5,6 +5,7 @@ import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
+import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.GenreMostPlayedEntity
@@ -18,6 +19,7 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -53,14 +55,15 @@ class GenreRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, true
-        ).mapToList {
-            val id = it.extractId()
-            val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
-            val size = CommonQuery.getSize(contentResolver, uri)
-            it.toGenre(context, size)
-        }.map { removeBlacklisted(it) }
-                .onErrorReturnItem(listOf())
-                .onlyWithStoragePermission()
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToList {
+                    val id = it.extractId()
+                    val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
+                    val size = CommonQuery.getSize(contentResolver, uri)
+                    it.toGenre(context, size)
+                }).map { removeBlacklisted(it) }
+                        .onErrorReturnItem(listOf())
     }
 
     private val cachedData = queryAllData()
@@ -114,13 +117,14 @@ class GenreRepository @Inject constructor(
                 SONG_SELECTION_ARGS,
                 SONG_SORT_ORDER,
                 false
-        ).mapToList { it.extractId() }
-                .flatMapSingle { ids -> songGateway.getAll().firstOrError().map { songs ->
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToList { it.extractId() })
+                .switchMapSingle { ids -> songGateway.getAll().firstOrError().map { songs ->
                     ids.asSequence()
                             .mapNotNull { id -> songs.firstOrNull { it.id == id } }
                             .toList()
                 }}.distinctUntilChanged()
-                .onlyWithStoragePermission()
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

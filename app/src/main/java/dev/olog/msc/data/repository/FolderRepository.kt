@@ -44,13 +44,13 @@ class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: String): Observable<Folder> {
-        return cachedData.map { it.first { it.path == param } }
+        return cachedData.map { list -> list.first { it.path == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(path: String): Observable<List<Song>> {
-        return songGateway.getAll().map {
-            it.asSequence().filter { it.folderPath == path}.toList()
+        return songGateway.getAll().map { list ->
+            list.asSequence().filter { it.folderPath == path}.toList()
         }.distinctUntilChanged()
     }
 
