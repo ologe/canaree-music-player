@@ -40,7 +40,7 @@ class EditAlbumFragment : BaseEditItemFragment() {
     @Inject lateinit var mediaId: MediaId
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        RxTextView.afterTextChangeEvents(album)
+        RxTextView.afterTextChangeEvents(view.album)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()

@@ -45,7 +45,7 @@ class EditArtistFragment : BaseEditItemFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        RxTextView.afterTextChangeEvents(artist)
+        RxTextView.afterTextChangeEvents(view.artist)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
