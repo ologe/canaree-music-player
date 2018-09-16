@@ -1,5 +1,9 @@
 <resources>
 
+    <!--<style name="Test" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">-->
+        <!--TODO -->
+    <!--</style>-->
+
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
@@ -31,7 +35,7 @@
         <item name="tabStyle">@style/DefaultTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
         <item name="textInputStyle">@style/DefaultTextBox</item>
-        <item name="floatingActionButtonStyle">@style/DefaultFab</item>
+        <item name="floatingActionButtonStyle">@style/DarkFab</item>
 
         <item name="buttonStyle">@style/DefaultButton</item>
         <item name="materialButtonStyle">@style/DefaultButton</item>
@@ -98,6 +102,10 @@
         <item name="android:tint">@color/transparent_white</item>
     </style>
 
+    <style name="DarkFab" parent="DefaultFab">
+        <item name="android:tint">@color/transparent_black</item>
+    </style>
+
     <style name="DefaultHorizontalProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressTint">?attr/colorAccent</item>
         <item name="android:progressBackgroundTint">@android:color/transparent</item>
@@ -122,7 +130,7 @@
     </style>
 
     <style name="EditItemCardView" parent="DefaultMaterialCard">
-        <item name="cardCornerRadius">16dp</item>
+        <item name="cardCornerRadius">@dimen/big_default_corner_radius</item>
         <item name="cardElevation">0dp</item>
         <item name="android:translationY">12dp</item>
     </style>

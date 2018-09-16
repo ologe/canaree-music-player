@@ -47,5 +47,6 @@
     <color name="dark_dialog_background">#424242</color>
 
     <color name="transparent_white">#E6FFFFFF</color>
+    <color name="transparent_black">#E6000000</color>
 
 </resources>

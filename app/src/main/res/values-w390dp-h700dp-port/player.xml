@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--toolbar-->
+    <dimen name="player_toolbar">56dp</dimen>
+
+
+    <!--seekbar-->
+    <dimen name="player_seekBar_padding_bottom">24dp</dimen>
+    <dimen name="player_seekBar_padding_top">12dp</dimen>
+
+    <!--metadata-->
+    <dimen name="player_title_margin_top">4dp</dimen>
+    <dimen name="dotted_separator_margin">18dp</dimen>
+
+</resources>

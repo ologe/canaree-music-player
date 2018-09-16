@@ -140,6 +140,9 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
     </application>
 

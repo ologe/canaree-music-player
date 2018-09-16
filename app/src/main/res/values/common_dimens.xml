@@ -11,5 +11,6 @@
     <dimen name="common_header_size">16dp</dimen>
 
     <dimen name="default_corner_radius">8dp</dimen>
+    <dimen name="big_default_corner_radius">16dp</dimen>
 
 </resources>
