@@ -19,6 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DetailFragmentViewModel @Inject constructor(
@@ -58,16 +59,17 @@ class DetailFragmentViewModel @Inject constructor(
 
     private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
             Observables.combineLatest(
-                    item[currentCategory]!!.toObservable().debounceFirst(),
-                    data[MOST_PLAYED]!!.debounceFirst(),
-                    data[RECENTLY_ADDED]!!.debounceFirst(),
-                    albums[currentCategory]!!.debounceFirst(),
-                    data[RELATED_ARTISTS]!!.debounceFirst(),
-                    data[SONGS]!!.debounceFirst(),
+                    item[currentCategory]!!.toObservable().debounceFirst(1, TimeUnit.SECONDS).distinctUntilChanged(),
+                    data[MOST_PLAYED]!!.debounceFirst(500, TimeUnit.MILLISECONDS).distinctUntilChanged(),
+                    data[RECENTLY_ADDED]!!.debounceFirst(1, TimeUnit.SECONDS).distinctUntilChanged(),
+                    albums[currentCategory]!!.debounceFirst(500, TimeUnit.MILLISECONDS).distinctUntilChanged(),
+                    data[RELATED_ARTISTS]!!.debounceFirst(500, TimeUnit.MILLISECONDS).distinctUntilChanged(),
+                    data[SONGS]!!.debounceFirst(50, TimeUnit.MILLISECONDS).distinctUntilChanged(),
                     getVisibleTabsUseCase.execute()
             ) { item, mostPlayed, recent, albums, artists, songs, visibility ->
                 presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
             }.onErrorReturnItem(mutableMapOf())
+                    .debounceFirst(100, TimeUnit.MILLISECONDS)
 
     override fun onCleared() {
         subscriptions.clear()
