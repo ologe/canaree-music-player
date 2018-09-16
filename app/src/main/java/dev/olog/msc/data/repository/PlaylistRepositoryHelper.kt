@@ -50,7 +50,7 @@ class PlaylistRepositoryHelper @Inject constructor(
         val cursor = contentResolver.query(uri, arrayOf("max(${MediaStore.Audio.Playlists.Members.PLAY_ORDER})"),
                 null, null, null)
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             var maxId = cursor.getInt(0) + 1
 
             val arrayOf = mutableListOf<ContentValues>()
@@ -64,7 +64,7 @@ class PlaylistRepositoryHelper @Inject constructor(
             contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
             contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
         }
-        cursor.close()
+        cursor?.close()
     }
 
     fun deletePlaylist(playlistId: Long): Completable {
@@ -135,11 +135,11 @@ class PlaylistRepositoryHelper @Inject constructor(
 
         val distinctTrackIds = mutableSetOf<Long>()
 
-        while (cursor.moveToNext()){
+        while (cursor != null && cursor.moveToNext()){
             val trackId = cursor.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID)
             distinctTrackIds.add(trackId)
         }
-        cursor.close()
+        cursor?.close()
 
         contentResolver.delete(uri, null, null)
         addSongsToPlaylist(playlistId, distinctTrackIds.toList())
