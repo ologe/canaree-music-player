@@ -149,7 +149,7 @@ class DetailFragment : BaseFragment() {
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_light)
         view?.back?.setColorFilter(color)
         view?.search?.setColorFilter(color)
-        view?.more?.setColorFilter(color)
+        more?.setColorFilter(color)
     }
 
     private fun setLightStatusBar(){
@@ -161,7 +161,7 @@ class DetailFragment : BaseFragment() {
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
         view?.back?.setColorFilter(color)
         view?.search?.setColorFilter(color)
-        view?.more?.setColorFilter(color)
+        more?.setColorFilter(color)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
