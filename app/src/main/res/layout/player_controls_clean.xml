@@ -44,7 +44,7 @@
         app:layout_goneMarginStart="16dp"
         tools:tint="#8d91a6"/>
 
-    <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
+    <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="64dp"
         android:layout_height="64dp"

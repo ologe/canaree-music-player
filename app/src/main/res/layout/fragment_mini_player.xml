@@ -21,7 +21,7 @@
         android:layout_marginEnd="@dimen/mini_player_margin_end"
         android:padding="5dp"/>
 
-    <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
+    <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="40dp"
         android:layout_height="0dp"

@@ -29,7 +29,7 @@
             android:clickable="true"
             android:focusable="true"/>
 
-        <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
+        <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
             android:id="@+id/playPause"
             android:layout_width="40dp"
             android:layout_height="0dp"

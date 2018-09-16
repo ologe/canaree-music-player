@@ -47,7 +47,7 @@
             android:id="@+id/header"
             android:text="@string/playing_queue_playing_from_all_tracks"
             android:textAllCaps="true"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textColor="?attr/colorAccent"
             android:textSize="12dp"
             android:gravity="center|bottom"
             app:layout_constraintTop_toTopOf="parent"
@@ -94,7 +94,7 @@
         android:paddingEnd="@dimen/tab_margin_start"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_mini_queue"/>
+        tools:listitem="@layout/item_mini_queue" />
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
         android:id="@+id/fastScroller"
@@ -121,7 +121,7 @@
         <!-- Workaround for b/72034805 — BAB shadow can't extend beyond bounds nor concave shape -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="@dimen/sliding_panel_peek"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bab_fake_shadow"
             android:layout_gravity="bottom"/>
@@ -129,56 +129,55 @@
         <android.support.design.bottomappbar.BottomAppBar
             android:id="@+id/bar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_gravity="bottom">
+            android:layout_height="@dimen/sliding_panel_peek"
+            android:layout_gravity="bottom"
+            style="@style/Widget.MaterialComponents.BottomAppBar">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginEnd="100dp">
+                android:layout_marginEnd="100dp"
+                android:layout_marginStart="@dimen/mini_player_margin_start">
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
                     android:ellipsize="end"
                     android:gravity="start"
                     android:maxLines="1"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="16dp"
-                    android:textStyle="bold"
                     tools:text="Wanksta"
-                    android:fontFamily="@font/roboto_slab_bold"/>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/artist"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="2dp"
                     android:ellipsize="end"
                     android:gravity="start"
                     android:maxLines="1"
-                    android:textColor="?attr/colorAccent"
+                    android:textColor="?android:attr/textColorSecondary"
                     android:textSize="14dp"
-                    tools:text="50 Cent" />
+                    tools:text="50 Cent"
+                    android:layout_marginBottom="6dp"/>
 
             </LinearLayout>
 
         </android.support.design.bottomappbar.BottomAppBar>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/play"
+        <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageViewFab
+            android:id="@+id/playPause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/bar"
             android:src="@drawable/vd_play"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            app:rippleColor="@android:color/transparent"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

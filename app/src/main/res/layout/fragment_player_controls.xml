@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:clipChildren="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -136,7 +135,8 @@
             android:layout_marginStart="@dimen/player_title_margin_horizontal"
             android:clickable="false"
             android:focusable="false"
-            android:gravity="start"/>
+            android:gravity="start"
+            android:layout_marginTop="@dimen/player_title_margin_top"/>
 
         <TextView
             android:id="@+id/artist"
@@ -181,8 +181,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="@dimen/dotted_separator_margin"
+            android:layout_marginBottom="@dimen/dotted_separator_margin"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_width="0dp"

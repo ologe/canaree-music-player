@@ -107,7 +107,6 @@
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/wrapper"
         app:layout_constraintEnd_toStartOf="@+id/search"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toBottomOf="@+id/back">
 

@@ -2,23 +2,29 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/AppThemeWhite"
+    android:clipToPadding="false"
+    android:clipChildren="false">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="@dimen/big_default_corner_radius"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
 
         <WebView
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="48dp"
-            android:layout_marginBottom="96dp"
+            android:layout_marginBottom="80dp"
             android:background="@android:color/white"/>
 
         <TextView
@@ -39,15 +45,137 @@
             android:layout_height="48dp"
             android:layout_gravity="top"/>
 
-        <include
-            layout="@layout/layout_mini_player"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_gravity="bottom"/>
+        <!--<include-->
+            <!--layout="@layout/layout_mini_player"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="96dp"-->
+            <!--android:layout_gravity="bottom"/>-->
 
         <include
             android:id="@+id/noTracks"
             layout="@layout/content_web_view_empty_state" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:elevation="@dimen/toolbar_elevation"
+            android:layout_gravity="bottom">
+
+            <!-- Workaround for b/72034805 — BAB shadow can't extend beyond bounds nor concave shape -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bab_fake_shadow"
+                android:layout_gravity="bottom"/>
+
+            <android.support.design.bottomappbar.BottomAppBar
+                android:id="@+id/bar"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="bottom"
+                style="@style/Widget.MaterialComponents.BottomAppBar">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="100dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        tools:text="@tools:sample/lorem/random"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/dark_grey"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:gravity="bottom"
+                        android:layout_marginBottom="2dp"
+                        android:scrollHorizontally="true" />
+
+                    <TextView
+                        android:id="@+id/artist"
+                        tools:text="@tools:sample/lorem/random"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grey600"
+                        android:textSize="13dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/previous"
+                        android:layout_marginStart="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:gravity="top"
+                        android:layout_marginTop="2dp"
+                        android:scrollHorizontally="true"/>
+
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:paddingTop="12dp"
+                        android:thumbTint="@color/dark_grey"
+                        android:progressTint="@color/dark_grey"
+                        tools:progress="40"
+                        android:max="@integer/common_high_number"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </LinearLayout>
+
+            </android.support.design.bottomappbar.BottomAppBar>
+
+            <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageViewFab
+                android:id="@+id/playPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_anchor="@id/bar"
+                android:src="@drawable/vd_play"
+                android:clickable="true"
+                android:focusable="true"
+                app:rippleColor="@android:color/transparent" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <dev.olog.msc.presentation.widget.AnimatedImageView
+            android:id="@+id/next"
+            app:avd="@drawable/avd_music_next"
+            tools:src="@drawable/vd_music_next"
+            android:background="@null"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"/>
+
+        <dev.olog.msc.presentation.widget.AnimatedImageView
+            android:id="@+id/previous"
+            app:avd="@drawable/avd_music_previous"
+            tools:src="@drawable/vd_music_previous"
+            android:background="@null"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"/>
 
     </android.support.v7.widget.CardView>
 

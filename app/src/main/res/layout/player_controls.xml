@@ -42,7 +42,7 @@
         android:layout_marginBottom="8dp"
         app:layout_goneMarginStart="16dp" />
 
-    <dev.olog.msc.presentation.widget.AnimatedPlayPauseImageView
+    <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
         android:layout_width="@dimen/player_shuffle_size"
         android:layout_height="@dimen/player_shuffle_size"

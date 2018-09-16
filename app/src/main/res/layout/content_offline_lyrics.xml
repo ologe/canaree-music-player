@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:theme="@style/AppThemeWhite">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/background"
-        app:cardCornerRadius="12dp"
+        app:cardCornerRadius="@dimen/big_default_corner_radius"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp">
@@ -33,7 +33,6 @@
                 tools:src="@android:color/holo_red_light"
                 android:clickable="false"
                 android:focusable="false"
-                android:transitionName="player_view"
                 android:scaleType="centerCrop"/>
 
             <View
@@ -45,19 +44,30 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"/>
 
+            <View
+                android:id="@+id/fade"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:background="@drawable/vd_fade"/>
+
             <ScrollView
                 android:id="@+id/scrollBar"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/toolbar"
-                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:padding="16dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:scrollbars="none"
-                android:overScrollMode="never">
+                android:overScrollMode="never"
+                android:layout_marginEnd="48dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginStart="24dp">
 
                 <TextView
                     android:id="@+id/text"
@@ -78,22 +88,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/offline_lyrics_empty"
-                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="25sp"
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/toolbar"
-                app:layout_constraintStart_toStartOf="@+id/toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="80dp"/>
+                android:layout_marginBottom="80dp"
+                android:textStyle="bold"
+                android:fontFamily="@font/roboto_slab_bold"/>
 
             <View
                 android:id="@+id/fakeNext"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/toolbar"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
@@ -101,116 +112,109 @@
                 android:id="@+id/fakePrev"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/toolbar"
+                app:layout_constraintBottom_toTopOf="@+id/wrapper"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/wrapper"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                android:translationY="8dp"
-                android:background="?android:attr/windowBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:id="@+id/toolbar">
+                app:layout_constraintStart_toStartOf="parent">
 
-                <android.support.constraint.ConstraintLayout
+                <android.support.design.bottomappbar.BottomAppBar
+                    android:id="@+id/bar"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="100dp">
+
+                        <TextView
+                            android:id="@+id/header"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:maxLines="1"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="22dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/edit"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Wanksta"
+                            android:fontFamily="@font/roboto_slab_bold"/>
+
+                        <TextView
+                            android:id="@+id/subHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:maxLines="1"
+                            android:textColor="?attr/colorAccent"
+                            android:textSize="14dp"
+                            tools:text="50 Cent" />
+
+                        <!-- seekbar -->
+                        <SeekBar
+                            android:id="@+id/seekBar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginTop="8dp"
+                            android:max="@integer/common_high_number"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/header"
+                            app:layout_constraintStart_toStartOf="@+id/header"
+                            app:layout_constraintTop_toBottomOf="@+id/subHeader"
+                            app:layout_constraintVertical_bias="1"
+                            tools:max="100"
+                            tools:progress="40"
+                            tools:progressTint="@color/dark_grey" />
+
+                    </LinearLayout>
+
+                </android.support.design.bottomappbar.BottomAppBar>
+
+                <dev.olog.msc.presentation.widget.BottomAppBarFab
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/toolbar"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:paddingStart="32dp">
+                    app:layout_anchor="@id/bar"
+                    android:src="@drawable/vd_edit"
+                    android:clickable="true"
+                    android:focusable="true" />
 
-                    <TextView
-                        android:id="@+id/header"
-                        tools:text="Wanksta"
-                        android:textColor="@color/text_color_primary"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:gravity="start|center_vertical"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/edit"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:paddingTop="4dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"/>
+            </android.support.design.widget.CoordinatorLayout>
 
-                    <TextView
-                        android:id="@+id/subHeader"
-                        tools:text="50 Cent"
-                        android:textStyle="bold"
-                        android:textSize="14dp"
-                        android:gravity="start|center_vertical"
-                        android:textColor="@color/text_color_secondary"
-                        app:layout_constraintEnd_toEndOf="@+id/header"
-                        app:layout_constraintStart_toStartOf="@+id/header"
-                        app:layout_constraintTop_toBottomOf="@+id/header"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:layout_marginTop="4dp" />
-
-                    <!-- seekbar -->
-                    <SeekBar
-                        android:id="@+id/seekBar"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="8dp"
-                        android:max="@integer/common_high_number"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
-                        android:thumbTint="@color/dark_grey"
-                        android:progressTint="@color/dark_grey"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/header"
-                        app:layout_constraintStart_toStartOf="@+id/header"
-                        app:layout_constraintTop_toBottomOf="@+id/subHeader"
-                        app:layout_constraintVertical_bias="1"
-                        tools:max="100"
-                        tools:progress="40"
-                        tools:progressTint="@color/dark_grey" />
-
-                    <ImageButton
-                        android:id="@+id/edit"
-                        android:src="@drawable/vd_edit"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@+id/sync"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/toolbar"
-                        android:tint="@color/button_primary_tint"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:background="@null"/>
-
-                    <ImageButton
-                        android:id="@+id/sync"
-                        android:layout_width="@dimen/common_icon_size"
-                        android:layout_height="@dimen/common_icon_size"
-                        android:background="@null"
-                        android:paddingEnd="12dp"
-                        android:paddingStart="12dp"
-                        android:src="@drawable/vd_sync"
-                        android:tint="@color/button_primary_tint"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/edit"
-                        app:layout_constraintBottom_toBottomOf="parent" />
-
-                </android.support.constraint.ConstraintLayout>
-
-            </android.support.v7.widget.CardView>
+            <ImageButton
+                android:id="@+id/sync"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/toolbar"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:src="@drawable/vd_sync"
+                android:tint="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"/>
 
         </android.support.constraint.ConstraintLayout>
 
