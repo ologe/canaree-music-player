@@ -32,6 +32,7 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.widget.*
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
+import dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
