@@ -2,6 +2,7 @@ package dev.olog.msc.utils.k.extension
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.LiveDataReactiveStreams
+import dev.olog.msc.FlowableFirstThenDebounce
 import hu.akarnokd.rxjava2.operators.FlowableTransformers
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -46,14 +47,14 @@ fun <T, R> Single<List<T>>.mapToList(mapper: ((T) -> R)): Single<List<R>> {
     return flatMap { Flowable.fromIterable(it).map(mapper).toList() }
 }
 
-fun <T> Observable<T>.debounceFirst(timeout: Long = 1L, unit: TimeUnit = TimeUnit.SECONDS): Observable<T>{
+fun <T> Observable<T>.debounceFirst(timeout: Long = 200L, unit: TimeUnit = TimeUnit.MILLISECONDS): Observable<T>{
     return this.asFlowable()
-            .compose(FlowableTransformers.debounceFirst(timeout, unit))
+            .compose(FlowableFirstThenDebounce.get(timeout, unit))
             .toObservable()
 }
 
-fun <T> Flowable<T>.debounceFirst(timeout: Long = 1L, unit: TimeUnit = TimeUnit.SECONDS): Flowable<T>{
-    return this.compose(FlowableTransformers.debounceFirst(timeout, unit))
+fun <T> Flowable<T>.debounceFirst(timeout: Long = 200L, unit: TimeUnit = TimeUnit.MILLISECONDS): Flowable<T>{
+    return this.compose(FlowableFirstThenDebounce.get(timeout, unit))
 }
 
 fun <T> Observable<T>.defer(): Observable<T> {
