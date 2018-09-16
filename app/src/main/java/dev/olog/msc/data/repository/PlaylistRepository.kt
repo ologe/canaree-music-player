@@ -92,7 +92,6 @@ class PlaylistRepository @Inject constructor(
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
-            .throttleLast(350, TimeUnit.MILLISECONDS)
 
     private fun removeBlacklisted(list: MutableList<Playlist>): List<Playlist>{
         val songsIds = CommonQuery.getAllSongsIdNotBlackListd(contentResolver, appPrefsUseCase)
@@ -107,10 +106,10 @@ class PlaylistRepository @Inject constructor(
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
         val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Playlists.Members.AUDIO_ID), null, null, null)
         val list = mutableListOf<Long>()
-        while (cursor.moveToNext()){
+        while (cursor != null && cursor.moveToNext()){
             list.add(cursor.getLong(0))
         }
-        cursor.close()
+        cursor?.close()
         list.retainAll(songIds)
 
         return list.size
@@ -152,11 +151,11 @@ class PlaylistRepository @Inject constructor(
         val cursor = contentResolver.query(MEDIA_STORE_URI, PROJECTION,
                 SELECTION, SELECTION_ARGS, SORT_ORDER)
         val list = mutableListOf<Playlist>()
-        while (cursor.moveToNext()){
+        while (cursor != null && cursor.moveToNext()){
             val playlist = cursor.toPlaylist(context, -1)
             list.add(playlist)
         }
-        cursor.close()
+        cursor?.close()
         return list
     }
 
@@ -183,7 +182,6 @@ class PlaylistRepository @Inject constructor(
                 uri, SONG_PROJECTION, SONG_SELECTION,
                 SONG_SELECTION_ARGS, SONG_SORT_ORDER, false
         ).onlyWithStoragePermission()
-                .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { it.toPlaylistSong() })
                 .switchMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
                     playlistSongs.asSequence()
@@ -191,7 +189,7 @@ class PlaylistRepository @Inject constructor(
                                 val song = songs.firstOrNull { it.id == playlistSong.songId }
                                 song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
                             }.toList()
-                }}.onlyWithStoragePermission()
+                }}
     }
 
     override fun getMostPlayed(mediaId: MediaId): Observable<List<Song>> {
