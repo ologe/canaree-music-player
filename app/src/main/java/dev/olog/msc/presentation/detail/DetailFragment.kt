@@ -111,8 +111,6 @@ class DetailFragment : BaseFragment() {
                 if (!isPortrait() && cover is ShapeImageView){
                     BindingsAdapter.loadBigAlbumImage(cover, item[0])
                 }
-            } else {
-                act.onBackPressed()
             }
         }
     }

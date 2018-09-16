@@ -23,8 +23,8 @@ class GetPlaylistSiblingsUseCase @Inject internal constructor(
             gateway.getAllAutoPlaylists()
         } else gateway.getAll()
 
-        return observable.map {
-            it.asSequence()
+        return observable.map { playlists ->
+            playlists.asSequence()
                     .filter { it.id != playlistId } // remove itself
                     .filter { it.size > 0 } // remove empty list
                     .toList()
