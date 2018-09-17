@@ -66,7 +66,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintDimensionRatio=".6"
-        android:translationY="150dp"
+        android:translationY="100dp"
         android:clipChildren="false"
         android:clipToPadding="false">
 
