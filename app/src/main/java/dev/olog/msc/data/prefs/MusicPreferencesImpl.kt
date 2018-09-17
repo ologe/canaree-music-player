@@ -95,9 +95,9 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun getLastMetadata(): LastMetadata {
         return LastMetadata(
-                preferences.getString(LAST_TITLE, ""),
-                preferences.getString(LAST_SUBTITLE, ""),
-                preferences.getString(LAST_IMAGE, ""),
+                preferences.getString(LAST_TITLE, "")!!,
+                preferences.getString(LAST_SUBTITLE, "")!!,
+                preferences.getString(LAST_IMAGE, "")!!,
                 preferences.getLong(LAST_ID, -1)
         )
     }
