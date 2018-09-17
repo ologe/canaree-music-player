@@ -45,7 +45,7 @@ class QueueManager @Inject constructor(
 
     override fun prepare(): Single<Pair<PlayerMediaEntity, Long>> {
         return getPlayingQueueUseCase.execute()
-                .map { it.map { it.toMediaEntity() } }
+                .map { list -> list.map { it.toMediaEntity() } }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .map { lastSessionSong.apply(it) }
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list, position) }
@@ -65,14 +65,19 @@ class QueueManager @Inject constructor(
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
-    override fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity {
+    override fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getNextSong(trackEnded)
+        return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
+    }
+
+    override fun getPlayingSong(): PlayerMediaEntity {
+        val mediaEntity = queueImpl.getCurrentSong()
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
-    override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity {
+    override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
-        return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
+        return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue())
     }
 
     override fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity> {
@@ -91,16 +96,14 @@ class QueueManager @Inject constructor(
     }
 
     override fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity> {
-//        return getFolderUseCase.execute(mediaId)
-//                .firstOrError()
         return handlePlayFromMediaId(mediaId, null)
     }
 
     private fun sortOnDemand(list: List<MediaEntity>, extras: Bundle?): List<MediaEntity> {
         return try {
             extras!!
-            val sortOrder = SortType.valueOf(extras.getString(MusicConstants.ARGUMENT_SORT_TYPE))
-            val arranging = SortArranging.valueOf(extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING))
+            val sortOrder = SortType.valueOf(extras.getString(MusicConstants.ARGUMENT_SORT_TYPE)!!)
+            val arranging = SortArranging.valueOf(extras.getString(MusicConstants.ARGUMENT_SORT_ARRANGING)!!)
             return if (arranging == SortArranging.ASCENDING){
                 list.sortedWith(getAscendingComparator(sortOrder, collator))
             } else {

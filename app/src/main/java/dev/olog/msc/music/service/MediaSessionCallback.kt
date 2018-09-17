@@ -86,6 +86,7 @@ class MediaSessionCallback @Inject constructor(
         }
     }
 
+    @Suppress("MoveLambdaOutsideParentheses")
     override fun onPlay() {
         doWhenReady ({
             player.resume()
@@ -116,28 +117,32 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToPrevious() {
         doWhenReady ({
-            val metadata = queue.handleSkipToPrevious(player.getBookmark())
-            player.playNext(metadata, SkipType.SKIP_PREVIOUS)
-        }, {
-            context.toast(R.string.popup_error_message)
-        })
+            queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
+                player.playNext(metadata, SkipType.SKIP_PREVIOUS)
+            }
+        }, { context.toast(R.string.popup_error_message) })
     }
 
     private fun onTrackEnded(){
         onSkipToNext(true)
     }
 
+    /**
+     * Try to skip to next song, if can't, restart current
+     */
     private fun onSkipToNext(trackEnded: Boolean){
         doWhenReady ({
             val metadata = queue.handleSkipToNext(trackEnded)
-            if (trackEnded){
-                player.playNext(metadata, SkipType.TRACK_ENDED)
+            if (metadata != null){
+                val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
+                player.playNext(metadata, skipType)
             } else {
-                player.playNext(metadata, SkipType.SKIP_NEXT)
+                val currentSong = queue.getPlayingSong()
+                player.play(currentSong)
+                player.pause(true)
+                player.seekTo(0L)
             }
-        }, {
-            context.toast(R.string.popup_error_message)
-        })
+        }, { context.toast(R.string.popup_error_message) })
     }
 
     private fun doWhenReady(action: () -> Unit, error: (() -> Unit)? = null){
@@ -183,6 +188,7 @@ class MediaSessionCallback @Inject constructor(
         toggleFavoriteUseCase.execute()
     }
 
+    @Suppress("MoveLambdaOutsideParentheses")
     override fun onCustomAction(action: String?, extras: Bundle?) {
         if (action != null){
             when (action){
@@ -192,7 +198,7 @@ class MediaSessionCallback @Inject constructor(
                 MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
                 MusicConstants.ACTION_SHUFFLE -> {
                     doWhenReady ({
-                        val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                        val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)!!
                         val mediaId = MediaId.fromString(mediaIdAsString)
                         queue.handlePlayShuffle(mediaId)
                                 .observeOn(AndroidSchedulers.mainThread())

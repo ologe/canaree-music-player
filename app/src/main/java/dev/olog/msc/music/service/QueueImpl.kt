@@ -98,7 +98,13 @@ class QueueImpl @Inject constructor(
 
     @CheckResult
     @MainThread
-    fun getNextSong(trackEnded: Boolean) : MediaEntity {
+    fun getCurrentSong(): MediaEntity{
+        return playingQueue[currentSongPosition]
+    }
+
+    @CheckResult
+    @MainThread
+    fun getNextSong(trackEnded: Boolean) : MediaEntity? {
         assertMainThread()
 
         if (repeatMode.isRepeatOne() && trackEnded){
@@ -106,20 +112,21 @@ class QueueImpl @Inject constructor(
         }
 
         var newPosition = currentSongPosition + 1
-        if (newPosition > playingQueue.lastIndex) {
-            newPosition = if (repeatMode.isRepeatAll()) 0
-                            else playingQueue.lastIndex
+        if (newPosition > playingQueue.lastIndex && repeatMode.isRepeatAll()) {
+            newPosition = 0
         }
 
-        val safePosition = ensurePosition(playingQueue, newPosition)
-        val media = playingQueue[safePosition]
-        updateCurrentSongPosition(playingQueue, newPosition)
-        return media
+        if (isPositionValid(playingQueue, newPosition)){
+            val media = playingQueue[newPosition]
+            updateCurrentSongPosition(playingQueue, newPosition)
+            return media
+        }
+        return null
     }
 
     @CheckResult
     @MainThread
-    fun getPreviousSong(playerBookmark: Long) : MediaEntity {
+    fun getPreviousSong(playerBookmark: Long) : MediaEntity? {
         assertMainThread()
 
         if (/*repeatMode.isRepeatOne() || */playerBookmark > SKIP_TO_PREVIOUS_THRESHOLD){
@@ -127,20 +134,34 @@ class QueueImpl @Inject constructor(
         }
 
         var newPosition = currentSongPosition - 1
-        if (newPosition < 0) {
-            newPosition = if (repeatMode.isRepeatAll()) playingQueue.lastIndex else 0
+
+        if (currentSongPosition == 0 && newPosition < 0 && !repeatMode.isRepeatAll()){
+            // restart song from beginning if is first
+            return playingQueue[currentSongPosition]
         }
 
-        val safePosition = ensurePosition(playingQueue, newPosition)
-        val media = playingQueue[safePosition]
-        updateCurrentSongPosition(playingQueue, newPosition)
-        return media
+        if (newPosition < 0 && repeatMode.isRepeatAll()) {
+            newPosition = playingQueue.lastIndex
+        }
+
+        if (isPositionValid(playingQueue, newPosition)){
+            val media = playingQueue[newPosition]
+            updateCurrentSongPosition(playingQueue, newPosition)
+            return media
+        }
+        return null
     }
 
     @Contract(pure = true)
     @CheckResult
     private fun ensurePosition(list: List<MediaEntity>, position: Int): Int {
         return clamp(position, 0, list.lastIndex)
+    }
+
+    @Contract(pure = true)
+    @CheckResult
+    private fun isPositionValid(list: List<MediaEntity>, position: Int): Boolean{
+        return position in 0 .. list.lastIndex
     }
 
     @MainThread

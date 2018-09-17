@@ -14,9 +14,9 @@ interface Queue {
 
     fun prepare(): Single<Pair<PlayerMediaEntity, Long>>
 
-    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity
+    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
 
-    fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity
+    fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
 
     fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity>
 
@@ -31,6 +31,8 @@ interface Queue {
     fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
+
+    fun getPlayingSong(): PlayerMediaEntity
 
     fun handleSwap(extras: Bundle)
     fun handleSwapRelative(extras: Bundle)
