@@ -18,40 +18,40 @@
         app:layout_constraintBottom_toTopOf="@+id/text2"
         android:text="@string/splash_player_controls"
         android:layout_marginTop="24dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintVertical_chainStyle="packed"
-        android:textAppearance="@style/Headline4"/>
+        android:textAppearance="@style/Headline4"
+        android:scaleX=".9"
+        android:scaleY=".9"/>
 
     <TextView
         android:id="@+id/text2"
         app:layout_constraintTop_toBottomOf="@+id/text1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text1"
+        app:layout_constraintEnd_toEndOf="@+id/text1"
         app:layout_constraintBottom_toTopOf="@+id/text3"
         android:layout_marginTop="16dp"
         android:text="@string/splash_player_tutorial_1"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:textAppearance="@style/Body1"/>
 
     <TextView
         android:id="@+id/text3"
         app:layout_constraintTop_toBottomOf="@+id/text2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text1"
+        app:layout_constraintEnd_toEndOf="@+id/text1"
         app:layout_constraintBottom_toTopOf="@+id/phone"
         android:layout_marginTop="8dp"
         android:text="@string/splash_player_tutorial_2"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:textAppearance="@style/Body1"/>
 
     <android.support.constraint.ConstraintLayout
