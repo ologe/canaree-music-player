@@ -18,6 +18,7 @@ import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_player.*
 
 class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
 
@@ -36,7 +37,6 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
         cover = view.findViewById(R.id.cover)
         swipeableView = view.findViewById(R.id.swipeableView)
 
-        loadPhoneImage(view)
         loadImage(cover, progressive)
     }
 
@@ -79,7 +79,7 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     }
 
     private fun setActivated(activated: Boolean){
-        cover.isActivated = activated
+        coverWrapper.isActivated = activated
         nowPlaying.isActivated = activated
     }
 
@@ -91,18 +91,6 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
     private fun loadPreviousImage(){
         progressive--
         loadImage(cover, progressive)
-    }
-
-    private fun loadPhoneImage(view: View){
-        GlideApp.with(ctx)
-                .asBitmap()
-                .load(R.drawable.phone_black)
-                .priority(Priority.IMMEDIATE)
-                .into(object : SimpleTarget<Bitmap>(){
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        view.findViewById<ImageView>(R.id.phoneImage).setImageBitmap(resource)
-                    }
-                })
     }
 
     private fun loadImage(view: ImageView, position: Int){

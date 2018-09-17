@@ -147,7 +147,7 @@
                             android:gravity="start"
                             android:maxLines="1"
                             android:textColor="?android:attr/textColorPrimary"
-                            android:textSize="22dp"
+                            android:textSize="@dimen/offline_lyrics_title_size"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/edit"
                             app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +166,7 @@
                             android:gravity="start"
                             android:maxLines="1"
                             android:textColor="?attr/colorAccent"
-                            android:textSize="14dp"
+                            android:textSize="@dimen/offline_lyrics_artist_size"
                             tools:text="50 Cent" />
 
                         <!-- seekbar -->
@@ -186,7 +186,8 @@
                             app:layout_constraintVertical_bias="1"
                             tools:max="100"
                             tools:progress="40"
-                            tools:progressTint="@color/dark_grey" />
+                            tools:progressTint="@color/dark_grey"
+                            style="@style/SeekBarLight"/>
 
                     </LinearLayout>
 
@@ -214,7 +215,7 @@
                 android:tint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="24dp"/>
+                android:layout_marginTop="8dp"/>
 
         </android.support.constraint.ConstraintLayout>
 

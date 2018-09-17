@@ -115,7 +115,11 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
             mediaProvider.onStateChanged()
                     .asLiveData()
-                    .subscribe(viewLifecycleOwner) { bigCover?.toggleElevation(it) }
+                    .subscribe(viewLifecycleOwner) { state ->
+                        if (state.isPlaying() || state.isPaused()){
+                            coverWrapper?.isActivated = state.isPlaying()
+                        }
+                    }
 
             mediaProvider.onRepeatModeChanged()
                     .asLiveData()

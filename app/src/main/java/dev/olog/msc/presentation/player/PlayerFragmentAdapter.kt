@@ -130,16 +130,17 @@ class PlayerFragmentAdapter (
                 bindPlayerControls(view)
                 viewModel.observeImageColors()
                         .takeUntil(RxView.detaches(view).asFlowable())
-                        .subscribe({
+                        .map { it to Palette.from(it.bitmap).generate() }
+                        .map { it.first to ColorUtil.getAccentColor(it.second) }
+                        .subscribe({ (imageProcessor, accentColor) ->
                             view.title.apply {
-                                animateTextColor(it.primaryTextColor)
-                                animateBackgroundColor(it.background)
+                                animateTextColor(imageProcessor.primaryTextColor)
+                                animateBackgroundColor(imageProcessor.background)
                             }
                             view.artist.apply {
-                                animateTextColor(it.secondaryTextColor)
-                                animateBackgroundColor(it.background)
+                                animateTextColor(imageProcessor.secondaryTextColor)
+                                animateBackgroundColor(imageProcessor.background)
                             }
-                            val accentColor = ColorUtil.getAccentColor(view.context, it)
                             view.seekBar.apply {
                                 thumbTintList = ColorStateList.valueOf(accentColor)
                                 progressTintList = ColorStateList.valueOf(accentColor)
@@ -159,7 +160,6 @@ class PlayerFragmentAdapter (
                         .takeUntil(RxView.detaches(view).asFlowable())
                         .map { Palette.from(it.bitmap).generate() }
                         .map { ColorUtil.getAccentColor(it) }
-                        .map { ColorUtil.ensureVisibility(view.context, it) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ accentColor ->
                             view.seekBar.apply {
@@ -391,7 +391,7 @@ class PlayerFragmentAdapter (
         val isPlaying = playbackState.isPlaying()
         if (isPlaying || playbackState.isPaused()){
             view.nowPlaying?.isActivated = isPlaying
-            view.bigCover?.isActivated = isPlaying
+            view.coverWrapper?.isActivated = isPlaying
         }
     }
 

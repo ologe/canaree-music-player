@@ -15,7 +15,7 @@ class ShadowImageView @JvmOverloads constructor(
         context: Context,
         attr: AttributeSet? = null
 
-) : RoundedCornersImageView(context, attr) {
+) : ForegroundImageView(context, attr) {
 
     companion object {
         private const val DEFAULT_RADIUS = 0.5f

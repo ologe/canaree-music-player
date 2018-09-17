@@ -21,30 +21,41 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/player_toolbar" />
 
-        <dev.olog.msc.presentation.widget.image.view.PlayerImageView
-            android:id="@+id/bigCover"
+        <android.support.design.card.MaterialCardView
+            android:id="@+id/coverWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/playerToolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1"
-            tools:src="@drawable/placeholder_musical_note"
-            android:clickable="false"
-            android:focusable="false"
             android:layout_marginTop="@dimen/player_cover_margin_vertical"
             android:layout_marginStart="@dimen/player_cover_margin_horizontal"
             android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
+            android:clickable="false"
+            android:focusable="false"
+            app:cardCornerRadius="@dimen/default_corner_radius"
             android:stateListAnimator="@animator/elevate_on_activated"
-            app:imageViewCornerRadius="10" />
+            android:clipToPadding="false"
+            android:clipChildren="false">
+
+            <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+                android:id="@+id/bigCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@drawable/placeholder_musical_note"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </android.support.design.card.MaterialCardView>
 
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"
             android:elevation="20dp"
-            app:layout_constraintTop_toTopOf="@+id/bigCover"
+            app:layout_constraintTop_toTopOf="@+id/coverWrapper"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="@+id/bigCover"
+            app:layout_constraintBottom_toBottomOf="@+id/coverWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:clickable="true"
@@ -60,10 +71,11 @@
             app:layout_constraintStart_toEndOf="@+id/bookmark"
             app:layout_constraintEnd_toStartOf="@+id/duration"
             android:max="@integer/common_high_number"
-            android:paddingBottom="18dp"
-            android:paddingTop="18dp"
+            android:paddingBottom="@dimen/player_seekBar_spotify_padding"
+            android:paddingTop="@dimen/player_seekBar_spotify_padding"
             tools:progress="40"
-            tools:max="100" />
+            tools:max="100"
+            android:layout_marginTop="@dimen/player_seekBar_spotify_margin_top"/>
 
         <!-- bookmark -->
         <TextView
@@ -132,7 +144,7 @@
             android:clickable="false"
             android:focusable="false"
             android:gravity="center"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="@dimen/player_spotify_title_margin_top"/>
 
         <TextView
             android:id="@+id/artist"

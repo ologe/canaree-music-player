@@ -107,7 +107,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/wrapper"
-        android:paddingStart="16dp" />
+        android:paddingStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"/>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/wrapper"
@@ -121,7 +123,7 @@
         <!-- Workaround for b/72034805 — BAB shadow can't extend beyond bounds nor concave shape -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sliding_panel_peek"
+            android:layout_height="?actionBarSize"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bab_fake_shadow"
             android:layout_gravity="bottom"/>
@@ -129,7 +131,7 @@
         <android.support.design.bottomappbar.BottomAppBar
             android:id="@+id/bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sliding_panel_peek"
+            android:layout_height="?actionBarSize"
             android:layout_gravity="bottom"
             style="@style/Widget.MaterialComponents.BottomAppBar">
 
@@ -150,7 +152,8 @@
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="16dp"
                     tools:text="Wanksta"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp"/>
 
                 <TextView
                     android:id="@+id/artist"

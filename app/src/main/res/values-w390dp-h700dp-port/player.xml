@@ -9,7 +9,12 @@
     <dimen name="player_seekBar_padding_bottom">24dp</dimen>
     <dimen name="player_seekBar_padding_top">12dp</dimen>
 
+
+    <dimen name="player_seekBar_spotify_padding">24dp</dimen>
+    <dimen name="player_seekBar_spotify_margin_top">8dp</dimen>
+
     <!--metadata-->
+    <dimen name="player_spotify_title_margin_top">24dp</dimen>
     <dimen name="player_title_margin_top">4dp</dimen>
     <dimen name="dotted_separator_margin">18dp</dimen>
 

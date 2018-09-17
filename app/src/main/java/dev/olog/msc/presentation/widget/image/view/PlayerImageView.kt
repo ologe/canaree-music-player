@@ -23,7 +23,7 @@ open class PlayerImageView @JvmOverloads constructor(
         context: Context,
         attr: AttributeSet? = null
 
-) : RoundedCornersImageView(context, attr) {
+) : ForegroundImageView(context, attr) {
 
     open fun loadImage(metadata: MediaMetadataCompat){
         val mediaId = metadata.getMediaId()
@@ -39,12 +39,6 @@ open class PlayerImageView @JvmOverloads constructor(
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .override(if (AppConstants.useFakeData) 800 else Target.SIZE_ORIGINAL)
                 .into(Ripple(this))
-    }
-
-    fun toggleElevation(state: PlaybackStateCompat){
-        if (state.isPlaying() || state.isPaused()){
-            isActivated = state.isPlaying()
-        }
     }
 
     fun forceRipple(x: Float, y: Float){

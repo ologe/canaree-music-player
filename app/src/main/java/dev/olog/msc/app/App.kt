@@ -70,7 +70,7 @@ class App : BaseApp() {
         RxJavaProtocolValidator.setOnViolationHandler { it.printStackTrace() }
         RxJavaProtocolValidator.enable()
 
-        LeakCanary.install(this)
+//        LeakCanary.install(this)
         if (BuildConfig.DEBUG) {
 //            Stetho.initializeWithDefaults(this)
 //            StrictMode.initialize()

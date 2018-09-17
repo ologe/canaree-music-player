@@ -160,7 +160,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="22dp"
+                    android:textSize="@dimen/offline_lyrics_title_size"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/edit"
                     app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:textColor="?attr/colorAccent"
-                    android:textSize="14dp"
+                    android:textSize="@dimen/offline_lyrics_artist_size"
                     tools:text="50 Cent" />
 
                 <!-- seekbar -->
