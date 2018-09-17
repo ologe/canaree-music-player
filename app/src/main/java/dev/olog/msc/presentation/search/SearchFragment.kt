@@ -48,6 +48,9 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
     @Inject lateinit var adapter : SearchFragmentAdapter
     @Inject lateinit var albumAdapter: SearchFragmentAlbumAdapter
     @Inject lateinit var artistAdapter: SearchFragmentArtistAdapter
+    @Inject lateinit var genreAdapter: SearchFragmentGenreAdapter
+    @Inject lateinit var playlistAdapter: SearchFragmentPlaylistAdapter
+    @Inject lateinit var folderAdapter: SearchFragmentFolderAdapter
     @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
     @Inject lateinit var safeTransition: SafeTransition
     private lateinit var layoutManager: LinearLayoutManager
@@ -123,8 +126,14 @@ class SearchFragment : BaseFragment(), HasSafeTransition {
 
             val albums = map[SearchFragmentType.ALBUMS]!!.toList()
             val artists = map[SearchFragmentType.ARTISTS]!!.toList()
+            val playlists = map[SearchFragmentType.PLAYLISTS]!!.toList()
+            val genres = map[SearchFragmentType.GENRES]!!.toList()
+            val folders = map[SearchFragmentType.FOLDERS]!!.toList()
             albumAdapter.updateDataSet(albums)
             artistAdapter.updateDataSet(artists)
+            playlistAdapter.updateDataSet(playlists)
+            genreAdapter.updateDataSet(genres)
+            folderAdapter.updateDataSet(folders)
             adapter.updateDataSet(viewModel.adjustDataMap(map))
         }
     }

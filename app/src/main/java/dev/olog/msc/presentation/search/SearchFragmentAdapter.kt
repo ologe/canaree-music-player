@@ -22,6 +22,9 @@ class SearchFragmentAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val albumAdapter: SearchFragmentAlbumAdapter,
         private val artistAdapter: SearchFragmentArtistAdapter,
+        private val folderAdapter: SearchFragmentFolderAdapter,
+        private val playlistAdapter: SearchFragmentPlaylistAdapter,
+        private val genreAdapter: SearchFragmentGenreAdapter,
         private val recycledViewPool: RecyclerView.RecycledViewPool,
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator,
@@ -38,6 +41,18 @@ class SearchFragmentAdapter @Inject constructor(
             R.layout.item_search_artists_horizontal_list -> {
                 val list = viewHolder.itemView as RecyclerView
                 setupHorizontalList(list, artistAdapter)
+            }
+            R.layout.item_search_folder_horizontal_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                setupHorizontalList(list, folderAdapter)
+            }
+            R.layout.item_search_playlists_horizontal_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                setupHorizontalList(list, playlistAdapter)
+            }
+            R.layout.item_search_genre_horizontal_list -> {
+                val list = viewHolder.itemView as RecyclerView
+                setupHorizontalList(list, genreAdapter)
             }
             R.layout.item_search_song -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->

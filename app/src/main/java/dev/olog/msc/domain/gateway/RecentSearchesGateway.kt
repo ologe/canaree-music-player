@@ -11,10 +11,16 @@ interface RecentSearchesGateway {
     fun insertSong(songId: Long): Completable
     fun insertAlbum(albumId: Long): Completable
     fun insertArtist(artistId: Long): Completable
+    fun insertPlaylist(playlistId: Long): Completable
+    fun insertGenre(genreId: Long): Completable
+    fun insertFolder(folderId: Long): Completable
 
     fun deleteSong(itemId: Long): Completable
     fun deleteAlbum(itemId: Long): Completable
     fun deleteArtist(itemId: Long): Completable
+    fun deletePlaylist(itemId: Long): Completable
+    fun deleteFolder(itemId: Long): Completable
+    fun deleteGenre(itemId: Long): Completable
     fun deleteAll(): Completable
 
 }
