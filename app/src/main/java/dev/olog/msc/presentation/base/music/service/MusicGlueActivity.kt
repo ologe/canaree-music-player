@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.base.music.service
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Bundle
@@ -172,22 +173,24 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
         getTransportControls()?.playFromMediaId(mediaId.toString(), bundle)
     }
 
+    @SuppressLint("Recycle")
     override fun playFolderTree(file: File) {
         try {
             val path = file.path
             val folderMediaId = MediaId.folderId(path.substring(0, path.lastIndexOf(File.separator)))
 
-            val cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     arrayOf(BaseColumns._ID),
                     "${MediaStore.Audio.AudioColumns.DATA} = ?",
-                    arrayOf(file.path), null)
+                    arrayOf(file.path), null)?.let { cursor ->
 
-            cursor.moveToFirst()
-            val trackId = cursor.getLong(BaseColumns._ID)
-            cursor.close()
-            val trackMediaId = MediaId.playableItem(folderMediaId, trackId)
+                cursor.moveToFirst()
+                val trackId = cursor.getLong(BaseColumns._ID)
+                cursor.close()
+                val trackMediaId = MediaId.playableItem(folderMediaId, trackId)
 
-            playFromMediaId(trackMediaId, null)
+                playFromMediaId(trackMediaId, null)
+            }
         } catch (ex: CursorIndexOutOfBoundsException){
             ex.logStackStace()
         }
@@ -228,11 +231,11 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
     }
 
     override fun toggleShuffleMode() {
-        getTransportControls()?.setShuffleMode(-1)
+        getTransportControls()?.setShuffleMode(PlaybackStateCompat.SHUFFLE_MODE_INVALID)
     }
 
     override fun toggleRepeatMode() {
-        getTransportControls()?.setRepeatMode(-1)
+        getTransportControls()?.setRepeatMode(PlaybackStateCompat.REPEAT_MODE_INVALID)
     }
 
     override fun togglePlayerFavorite() {
