@@ -22,8 +22,14 @@ class NotificationImpl26 @Inject constructor(
     override fun extendInitialization() {
         builder.setColorized(true)
 
-        createChannel()
+        if (!nowPlayingChannelExists()){
+            createChannel()
+        }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun nowPlayingChannelExists() =
+            notificationManager.get().getNotificationChannel(INotification.CHANNEL_ID) != null
 
     private fun createChannel(){
         // create notification channel
