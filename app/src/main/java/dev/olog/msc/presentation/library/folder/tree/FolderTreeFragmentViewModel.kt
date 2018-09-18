@@ -35,13 +35,13 @@ class FolderTreeFragmentViewModel @Inject constructor(
         }
     }
 
-    private val currentFile = BehaviorSubject.createDefault(Environment.getExternalStoragePublicDirectory(
-            Environment.DIRECTORY_MUSIC
-    ))
-
+    private val currentFile = BehaviorSubject.createDefault(appPreferencesUseCase.getDefaultMusicFolder())
 
     init {
-        app.contentResolver.registerContentObserver(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, observer)
+        app.contentResolver.registerContentObserver(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                true,
+                observer)
     }
 
     override fun onCleared() {
@@ -109,6 +109,10 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun nextFolder(file: File){
         currentFile.onNext(file)
+    }
+
+    fun updateDefaultFolder(file: File){
+        appPreferencesUseCase.setDefaultMusicFolder(file.safeGetCanonicalFile())
     }
 
     private val backDisplableItem: List<DisplayableFile> = listOf(

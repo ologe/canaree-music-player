@@ -13,6 +13,7 @@ import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
 import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.msc.utils.k.extension.safeGetCanonicalFile
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.windowBackground
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
@@ -68,7 +69,7 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {
-        viewModel.nextFolder(crumb.file)
+        viewModel.nextFolder(crumb.file.safeGetCanonicalFile())
     }
 
     fun pop(): Boolean{

@@ -9,6 +9,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -89,6 +90,11 @@ class AppPreferencesUseCase @Inject constructor(
 
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getDefaultMusicFolder(): File = gateway.getDefaultMusicFolder()
+    fun setDefaultMusicFolder(file: File) {
+        gateway.setDefaultMusicFolder(file)
     }
 
 }

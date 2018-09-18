@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="folder_set_default_title">Default folder</string>
+    <string name="folder_set_default_message"><![CDATA[
+Set <b>%s</b> as default folder?
+    ]]></string>
+
+</resources>

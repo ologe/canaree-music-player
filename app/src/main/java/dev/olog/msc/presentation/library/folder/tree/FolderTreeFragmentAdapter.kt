@@ -2,13 +2,14 @@ package dev.olog.msc.presentation.library.folder.tree
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
+import android.support.v4.app.FragmentActivity
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.utils.k.extension.setOnClickListener
+import dev.olog.msc.utils.k.extension.*
 
 class FolderTreeFragmentAdapter (
         @FragmentLifecycle lifecycle: Lifecycle,
@@ -28,6 +29,24 @@ class FolderTreeFragmentAdapter (
                         }
                         item.isFile() && item.asFile().isDirectory -> viewModel.nextFolder(item.asFile())
                         else -> mediaProvider.playFolderTree(item.asFile())
+                    }
+                }
+                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
+                    if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID){
+                        return@setOnLongClickListener
+                    }
+                    var file = item.asFile()
+                    if (!file.isDirectory){
+                        file = file.parentFile
+                    }
+                    val context = viewHolder.itemView.context
+                    (context as FragmentActivity).simpleDialog {
+                        setTitle(R.string.folder_set_default_title)
+                        setMessage(context.getString(R.string.folder_set_default_message, file.name).asHtml())
+                        setPositiveButton(R.string.popup_positive_ok) { _,_ ->
+                            viewModel.updateDefaultFolder(file)
+                        }
+                        setNegativeButton(R.string.popup_negative_cancel, null)
                     }
                 }
             }

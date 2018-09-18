@@ -2,6 +2,7 @@ package dev.olog.msc.data.prefs.app
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Environment
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
@@ -15,9 +16,11 @@ import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.configuration
 import dev.olog.msc.utils.k.extension.isOneHanded
 import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.msc.utils.k.extension.safeGetCanonicalPath
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import java.io.File
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
@@ -69,6 +72,8 @@ class AppPreferencesImpl @Inject constructor(
         private const val SYNC_ADJUSTMENT = "$TAG.SYNC_ADJUSTMENT"
 
         private const val BLACKLIST = "$TAG.BLACKLIST"
+
+        private const val DEFAULT_MUSIC_FOLDER = "$TAG.DEFAULT_MUSIC_FOLDER"
     }
 
     override fun isFirstAccess(): Boolean {
@@ -313,6 +318,27 @@ class AppPreferencesImpl @Inject constructor(
             preferences.edit { putInt(CATEGORY_ALBUM_SPAN_COUNT_ONE_HANDED, spanSize) }
         } else {
             preferences.edit { putInt(CATEGORY_ALBUM_SPAN_COUNT_TWO_HANDED, spanSize) }
+        }
+    }
+
+    override fun getDefaultMusicFolder(): File {
+        val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
+        var startFolder = File("/")
+        if (musicDir.exists() && musicDir.isDirectory){
+            startFolder = musicDir
+        } else {
+            val externalStorage = Environment.getExternalStorageDirectory()
+            if (externalStorage.exists() && externalStorage.isDirectory){
+                startFolder = externalStorage
+            }
+        }
+
+        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, startFolder.path))
+    }
+
+    override fun setDefaultMusicFolder(file: File) {
+        preferences.edit {
+            putString(DEFAULT_MUSIC_FOLDER, file.safeGetCanonicalPath())
         }
     }
 }
