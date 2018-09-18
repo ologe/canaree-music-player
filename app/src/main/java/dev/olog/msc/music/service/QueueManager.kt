@@ -1,5 +1,6 @@
 package dev.olog.msc.music.service
 
+import android.net.Uri
 import android.os.Bundle
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.SortArranging
@@ -8,6 +9,7 @@ import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.item.GetSongByFileUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.Queue
@@ -22,6 +24,7 @@ import io.reactivex.Single
 import io.reactivex.functions.Function
 import java.text.Collator
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
@@ -33,6 +36,7 @@ class QueueManager @Inject constructor(
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,
         private val getRecentlyAddedUseCase: GetRecentlyAddedUseCase,
+        private val getSongByFileUseCase: GetSongByFileUseCase,
         private val genreGateway: GenreGateway,
         private val collator: Collator,
         private val enhancedShuffle: EnhancedShuffle
@@ -157,6 +161,16 @@ class QueueManager @Inject constructor(
                 .doOnSuccess { (list, position) -> queueImpl.updateCurrentSongPosition(list,position) }
                 .map { (list, position) -> list[position].toPlayerMediaEntity(
                         queueImpl.computePositionInQueue(list, position)) }
+    }
+
+    override fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity> {
+        return getSongByFileUseCase.execute(uri)
+                .delay(500, TimeUnit.MILLISECONDS)
+                .map { it.toMediaEntity(0, MediaId.songId(it.id)) }
+                .map { listOf(it) }
+                .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
+                .doOnSuccess { list -> queueImpl.updateCurrentSongPosition(list, 0) }
+                .map { list -> list[0].toPlayerMediaEntity(PositionInQueue.BOTH) }
     }
 
     override fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity> {

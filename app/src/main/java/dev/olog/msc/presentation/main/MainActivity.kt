@@ -13,6 +13,7 @@ import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.DrawsOnTop
@@ -89,7 +90,14 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                 val mediaId = MediaId.fromString(string)
                 navigator.toDetailFragment(mediaId)
             }
+            Intent.ACTION_VIEW -> {
+                val serviceIntent = Intent(this, MusicService::class.java)
+                serviceIntent.action = MusicConstants.ACTION_PLAY_FROM_URI
+                serviceIntent.data = intent.data
+                ContextCompat.startForegroundService(this, serviceIntent)
+            }
         }
+        setIntent(null)
     }
 
     private fun handleEmptyRepository(isEmpty: Boolean){

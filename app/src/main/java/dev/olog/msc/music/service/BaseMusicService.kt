@@ -66,6 +66,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
             MusicConstants.ACTION_SKIP_PREVIOUS -> handleSkipPrevious(intent)
             MusicConstants.ACTION_SKIP_TO_ITEM -> handleSkipToItem(intent)
             MusicConstants.ACTION_TOGGLE_FAVORITE -> handleToggleFavorite()
+            MusicConstants.ACTION_PLAY_FROM_URI -> handlePlayFromUri(intent)
             PendingIntents.ACTION_STOP_SLEEP_END -> handleSleepTimerEnd(intent)
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> handlePlayFromVoiceSearch(intent)
             else -> handleMediaButton(intent)
@@ -81,6 +82,7 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     protected abstract fun handleSleepTimerEnd(intent: Intent)
     protected abstract fun handlePlayFromVoiceSearch(intent: Intent)
     protected abstract fun handleToggleFavorite()
+    protected abstract fun handlePlayFromUri(intent: Intent)
 
     override fun start() {
         if (!serviceStarted) {

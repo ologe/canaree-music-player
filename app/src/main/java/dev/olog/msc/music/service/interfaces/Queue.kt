@@ -1,5 +1,6 @@
 package dev.olog.msc.music.service.interfaces
 
+import android.net.Uri
 import android.os.Bundle
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
@@ -31,6 +32,8 @@ interface Queue {
     fun handlePlayFolderTree(mediaId: MediaId): Single<PlayerMediaEntity>
 
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
+
+    fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity>
 
     fun getPlayingSong(): PlayerMediaEntity
 

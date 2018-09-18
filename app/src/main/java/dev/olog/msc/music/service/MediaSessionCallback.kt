@@ -5,6 +5,7 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -95,6 +96,16 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         queue.handlePlayFromGoogleSearch(query, extras)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(player::play) {
+                    playerState.setEmptyQueue()
+                    it.printStackTrace()
+                }
+                .addTo(subscriptions)
+    }
+
+    override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
+        queue.handlePlayFromUri(uri)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(player::play) {
                     playerState.setEmptyQueue()

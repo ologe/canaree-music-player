@@ -134,6 +134,12 @@ class MusicService : BaseMusicService() {
         callback.onPlayFromSearch(query, voiceParams)
     }
 
+    override fun handlePlayFromUri(intent: Intent) {
+        intent.data?.let { uri ->
+            callback.onPlayFromUri(uri, null)
+        }
+    }
+
     private fun resetSleepTimer(){
         sleepTimerUseCase.reset()
         alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))

@@ -5,6 +5,7 @@ object MusicConstants {
     private const val TAG = "MusicConstants"
     const val ACTION_PLAY = "$TAG.shortcut.play"
     const val ACTION_SHUFFLE = "$TAG.action.play_shuffle"
+    const val ACTION_PLAY_FROM_URI = "$TAG.action.play_uri"
     const val ACTION_PLAY_PAUSE = "$TAG.action.play"
     const val ACTION_SKIP_NEXT = "$TAG.action.skip.next"
     const val ACTION_SKIP_PREVIOUS = "$TAG.action.skip.previous"
