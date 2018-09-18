@@ -103,14 +103,17 @@ class PlayerImpl @Inject constructor(
         noisy.get().register()
     }
 
-    override fun pause(stopService: Boolean) {
+    override fun pause(stopService: Boolean, releaseFocus: Boolean) {
         player.pause()
         val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark())
         listeners.forEach {
             it.onStateChanged(playbackState)
         }
         noisy.get().unregister()
-        releaseFocus()
+
+        if (releaseFocus){
+            releaseFocus()
+        }
 
         if (stopService) {
             serviceLifecycle.stop()

@@ -12,7 +12,7 @@ interface Player : PlayerLifecycle {
     fun play(playerModel: PlayerMediaEntity)
 
     fun resume()
-    fun pause(stopService: Boolean)
+    fun pause(stopService: Boolean, releaseFocus: Boolean = true)
     fun seekTo(millis: Long)
 
     fun forwardTenSeconds()
