@@ -323,7 +323,7 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun getDefaultMusicFolder(): File {
         val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
-        var startFolder = File("/")
+        var startFolder = File(File.separator)
         if (musicDir.exists() && musicDir.isDirectory){
             startFolder = musicDir
         } else {

@@ -16,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.io.File
+import java.lang.Exception
 import java.text.Collator
 import javax.inject.Inject
 
@@ -94,16 +95,31 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun popFolder(): Boolean{
         val current = currentFile.value!!
-        if (current.isStorageDir()){
+        if (current == File(File.separator)){
             return false
         }
-        currentFile.onNext(current.parentFile)
-        return true
+
+        val parent = current.parentFile
+        if (parent?.listFiles() == null || parent.listFiles().isEmpty()){
+            return false
+        }
+        try {
+            currentFile.onNext(current.parentFile)
+            return true
+        } catch (e: Exception){
+            return false
+        }
     }
 
     fun goBack(){
-        if (!currentFile.value!!.isStorageDir()){
-            currentFile.onNext(currentFile.value!!.parentFile)
+        val file = currentFile.value!!
+        if (!file.isStorageDir()){
+            currentFile.onNext(file.parentFile)
+            return
+        }
+        val parent = file.parentFile
+        if (parent.listFiles()?.isNotEmpty() == true){
+            currentFile.onNext(parent)
         }
     }
 
