@@ -14,10 +14,6 @@ class PodcastPlaylistSpanSizeLookup(
     private val isTablet = smallestWidthDip >= 600
 
     override fun getSpanSize(position: Int): Int {
-        when (position){
-            0 -> return spanCount
-        }
-
         var span = if (isPortrait) 3 else 4
 
         if (isTablet) {
