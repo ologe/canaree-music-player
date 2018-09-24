@@ -25,9 +25,12 @@ import dev.olog.msc.data.entity.*
 
         UsedTrackImageEntity::class,
         UsedAlbumImageEntity::class,
-        UsedArtistImageEntity::class
+        UsedArtistImageEntity::class,
 
-), version = 5, exportSchema = false)
+        PodcastPlaylist::class,
+        PodcastPlaylistTrack::class
+
+), version = 9, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -52,5 +55,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun offlineLyricsDao(): OfflineLyricsDao
 
     abstract fun usedImageDao(): UsedImageDao
+
+    abstract fun podcastPlaylistDao(): PodcastPlaylistDao
 
 }
