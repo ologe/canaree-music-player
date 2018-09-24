@@ -41,6 +41,7 @@ class ArtistRepository @Inject constructor(
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne { 0 })
                 .switchMap { songGateway.getAll() }
+                .map { list -> list.filter { !it.isPodcast } }
                 .map { mapToArtists(it) }
                 .map { updateImages(it) }
 

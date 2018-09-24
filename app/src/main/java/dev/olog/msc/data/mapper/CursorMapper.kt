@@ -10,6 +10,7 @@ import androidx.core.database.getStringOrNull
 import dev.olog.msc.data.entity.PlaylistSongEntity
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.utils.img.ImagesFolderUtils
 
 fun Cursor.toGenre(context: Context, genreSize: Int) : Genre {
@@ -31,7 +32,8 @@ fun Cursor.toPlaylist(context: Context, playlistSize: Int) : Playlist {
             id,
             name,
             playlistSize,
-            ImagesFolderUtils.forPlaylist(context, id)
+            ImagesFolderUtils.forPlaylist(context, id),
+            PlaylistType.TRACK
     )
 }
 

@@ -41,6 +41,7 @@ class AlbumRepository @Inject constructor(
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne { 0 })
                 .switchMap { songGateway.getAll() }
+                .map { list -> list.filter { !it.isPodcast } }
                 .map { songList ->
                     songList.asSequence()
                             .filter { it.album != AppConstants.UNKNOWN }

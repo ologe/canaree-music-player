@@ -6,7 +6,10 @@ import android.provider.MediaStore
 import androidx.core.database.getInt
 import androidx.core.database.getLong
 import androidx.core.database.getString
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
+import org.jaudiotagger.audio.AudioFileIO
+import org.jaudiotagger.tag.FieldKey
 import java.io.File
 
 
@@ -21,7 +24,7 @@ fun Cursor.toSong(): Song {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
+    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder, path)
 
     var albumArtist = artist
     val albumArtistIndex = this.getColumnIndex("album_artist")
@@ -45,8 +48,7 @@ fun Cursor.toSong(): Song {
             "",
             duration, dateAdded, path,
             folder.capitalize(), disc, track,
-            isPodcast
-    )
+            isPodcast)
 }
 
 fun Cursor.toUneditedSong(image: String): Song {
@@ -60,7 +62,7 @@ fun Cursor.toUneditedSong(image: String): Song {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
+    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder, path)
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
@@ -82,7 +84,8 @@ fun Cursor.toUneditedSong(image: String): Song {
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
             image, duration, dateAdded, path,
-            folder.capitalize(), disc, track, isPodcast)
+            folder.capitalize(), disc, track,
+            isPodcast)
 }
 
 internal fun extractTrackNumber(originalTrackNumber: Int) : Int {
@@ -92,7 +95,7 @@ internal fun extractTrackNumber(originalTrackNumber: Int) : Int {
     return originalTrackNumber
 }
 
-internal  fun extractDiscNumber(originalTrackNumber: Int): Int {
+internal fun extractDiscNumber(originalTrackNumber: Int): Int {
     if (originalTrackNumber >= 1000){
         return originalTrackNumber / 1000
     }
@@ -105,12 +108,30 @@ internal fun extractFolder(path: String): String {
     return path.substring(prevSep + 1, lastSep)
 }
 
-//internal fun adjustAlbum(album: String, folder: String): String {
-//    val hasUnknownAlbum = album == folder
-//    return if (hasUnknownAlbum) {
-//        AppConstants.UNKNOWN
-//    } else {
-//        album
-//    }
-//}
+
+private typealias FolderPath = String
+private typealias RealAlbum = String
+private val realAlbums = mutableMapOf<FolderPath, RealAlbum>()
+
+internal fun adjustAlbum(album: String, folder: String, path: String): String {
+    val hasUnknownAlbum = album == folder
+    if (hasUnknownAlbum) {
+        try {
+            if (realAlbums[path] == null){
+                val audioFile = AudioFileIO.read(File(path))
+                realAlbums[path] = audioFile.tagOrCreateAndSetDefault.getFirst(FieldKey.ALBUM)
+            }
+            val realAlbum = realAlbums[path]
+            if (realAlbum.isNullOrBlank()){
+                return AppConstants.UNKNOWN
+            } else {
+                return realAlbum!!
+            }
+        } catch (ex: Throwable){
+            return AppConstants.UNKNOWN
+        }
+    } else {
+        return album
+    }
+}
 

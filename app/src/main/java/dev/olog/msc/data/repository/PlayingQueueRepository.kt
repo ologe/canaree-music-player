@@ -48,7 +48,7 @@ class PlayingQueueRepository @Inject constructor(
         return PlayingQueueSong(
                 this.id,
                 progressive,
-                MediaId.songId(this.id),
+                MediaId.songId(this),
                 this.artistId,
                 this.albumId,
                 this.title,

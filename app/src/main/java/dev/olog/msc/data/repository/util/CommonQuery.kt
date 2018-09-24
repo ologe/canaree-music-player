@@ -46,7 +46,7 @@ object CommonQuery {
         val list = mutableListOf<Pair<Long, String>>()
         val cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 arrayOf(BaseColumns._ID, MediaStore.MediaColumns.DATA),
-                null, null, null)
+                "${MediaStore.Audio.Media.IS_PODCAST} = 0", null, null)
         while (cursor.moveToNext()){
             list.add(cursor.getLong(0) to cursor.getString(1))
         }

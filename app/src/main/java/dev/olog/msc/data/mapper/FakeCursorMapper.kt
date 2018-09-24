@@ -7,7 +7,6 @@ import androidx.core.database.getLong
 import androidx.core.database.getString
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import java.io.File
 
 fun Cursor.toFakeSong(): Song {
     val id = getLong(BaseColumns._ID)
@@ -31,12 +30,4 @@ fun Cursor.toFakeSong(): Song {
             path, folder, -1, -1,
             false
     )
-}
-
-
-
-private fun extractFolder(path: String): String {
-    val lastSep = path.lastIndexOf(File.separator)
-    val prevSep = path.lastIndexOf(File.separator, lastSep - 1)
-    return path.substring(prevSep + 1, lastSep)
 }
