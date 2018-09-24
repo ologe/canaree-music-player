@@ -1,9 +1,9 @@
-package dev.olog.msc.presentation.library.categories.di
+package dev.olog.msc.presentation.library.categories.track.di
 
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.presentation.library.categories.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 
 @Subcomponent(modules = arrayOf(
         CategoriesFragmentModule::class

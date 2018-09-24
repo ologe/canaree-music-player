@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.library.categories
+package dev.olog.msc.presentation.library.categories.track
 
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase

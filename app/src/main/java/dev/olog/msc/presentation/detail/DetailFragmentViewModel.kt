@@ -68,7 +68,8 @@ class DetailFragmentViewModel @Inject constructor(
                     getVisibleTabsUseCase.execute()
             ) { item, mostPlayed, recent, albums, artists, songs, visibility ->
                 presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
-            }.onErrorReturnItem(mutableMapOf())
+            }.doOnError { it.printStackTrace() }
+                    .onErrorReturnItem(mutableMapOf())
                     .debounceFirst(100, TimeUnit.MILLISECONDS)
 
     override fun onCleared() {

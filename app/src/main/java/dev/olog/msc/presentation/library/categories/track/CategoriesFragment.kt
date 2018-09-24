@@ -1,17 +1,15 @@
-package dev.olog.msc.presentation.library.categories
+package dev.olog.msc.presentation.library.categories.track
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -37,9 +35,6 @@ class CategoriesFragment : BaseFragment() {
     @Inject lateinit var presenter : CategoriesFragmentPresenter
     @Inject lateinit var navigator: Navigator
 
-    private val onPageChangeListener by lazy(LazyThreadSafetyMode.NONE) {
-        CategoriesOnPageChangeListener { presenter.setViewPagerLastPage(it) } }
-
     private var floatingWindowTutorialDisposable: Disposable? = null
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +49,6 @@ class CategoriesFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewPager.addOnPageChangeListener(onPageChangeListener)
-        search.setOnClickListener { navigator.toSearchFragment(search) }
         more.setOnClickListener { catchNothing { navigator.toMainPopup(it, createMediaId()) } }
         floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
 
@@ -67,7 +61,6 @@ class CategoriesFragment : BaseFragment() {
     override fun onPause() {
         super.onPause()
         viewPager.removeOnPageChangeListener(onPageChangeListener)
-        search.setOnClickListener(null)
         more.setOnClickListener(null)
         floatingWindow.setOnClickListener(null)
         floatingWindowTutorialDisposable.unsubscribe()
@@ -79,6 +72,20 @@ class CategoriesFragment : BaseFragment() {
 
     private fun startServiceOrRequestOverlayPermission(){
         FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+    }
+
+    private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
+        override fun onPageScrollStateChanged(state: Int) {
+            presenter.setViewPagerLastPage(state)
+        }
+
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+        }
+
+        override fun onPageSelected(position: Int) {
+
+        }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_library_categories

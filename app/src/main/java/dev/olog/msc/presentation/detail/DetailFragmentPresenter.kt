@@ -1,9 +1,10 @@
 package dev.olog.msc.presentation.detail
 
 import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.msc.domain.interactor.item.GetArtistFromAlbumUseCase
 import dev.olog.msc.domain.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.msc.domain.interactor.playlist.RemoveFromPlaylistUseCase
-import dev.olog.msc.domain.interactor.item.GetArtistFromAlbumUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -35,11 +36,16 @@ class DetailFragmentPresenter @Inject constructor(
     fun removeFromPlaylist(item: DisplayableItem): Completable {
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
+        val playlistType = if (item.mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == PlaylistConstants.FAVORITE_LIST_ID){
             // favorites use songId instead of idInPlaylist
-            return removeFromPlaylistUseCase.execute(playlistId to item.mediaId.leaf!!)
+            return removeFromPlaylistUseCase.execute(RemoveFromPlaylistUseCase.Input(
+                    playlistId, item.mediaId.leaf!!, playlistType
+            ))
         }
-        return removeFromPlaylistUseCase.execute(playlistId to item.trackNumber.toLong())
+        return removeFromPlaylistUseCase.execute(RemoveFromPlaylistUseCase.Input(
+                playlistId, item.trackNumber.toLong(), playlistType
+        ))
     }
 
     fun moveInPlaylist(from: Int, to: Int){

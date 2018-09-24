@@ -7,19 +7,14 @@ import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.domain.entity.GridSpanSize
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.UserCredentials
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.Sorting
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.k.extension.configuration
-import dev.olog.msc.utils.k.extension.isOneHanded
-import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.safeGetCanonicalPath
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
 import java.io.File
 import javax.inject.Inject
 
@@ -54,17 +49,6 @@ class AppPreferencesImpl @Inject constructor(
         private const val CATEGORY_ALBUM_VISIBILITY = "$TAG.CATEGORY_ALBUM_VISIBILITY"
         private const val CATEGORY_ARTIST_VISIBILITY = "$TAG.CATEGORY_ARTIST_VISIBILITY"
         private const val CATEGORY_GENRE_VISIBILITY = "$TAG.CATEGORY_GENRE_VISIBILITY"
-
-        private const val CATEGORY_FOLDER_SPAN_COUNT_ONE_HANDED = "$TAG.CATEGORY_FOLDER_SPAN_COUNT_ONE_HANDED"
-        private const val CATEGORY_FOLDER_SPAN_COUNT_TWO_HANDED = "$TAG.CATEGORY_FOLDER_SPAN_COUNT_TWO_HANDED"
-        private const val CATEGORY_PLAYLIST_SPAN_COUNT_ONE_HANDED = "$TAG.CATEGORY_PLAYLIST_SPAN_COUNT_ONE_HANDED"
-        private const val CATEGORY_PLAYLIST_SPAN_COUNT_TWO_HANDED = "$TAG.CATEGORY_PLAYLIST_SPAN_COUNT_TWO_HANDED"
-        private const val CATEGORY_ALBUM_SPAN_COUNT_ONE_HANDED = "$TAG.CATEGORY_ALBUM_SPAN_COUNT_ONE_HANDED"
-        private const val CATEGORY_ALBUM_SPAN_COUNT_TWO_HANDED = "$TAG.CATEGORY_ALBUM_SPAN_COUNT_TWO_HANDED"
-        private const val CATEGORY_ARTIST_SPAN_COUNT_ONE_HANDED = "$TAG.CATEGORY_ARTIST_SPAN_COUNT_ONE_HANDED"
-        private const val CATEGORY_ARTIST_SPAN_COUNT_TWO_HANDED = "$TAG.CATEGORY_ARTIST_SPAN_COUNT_TWO_HANDED"
-        private const val CATEGORY_GENRE_SPAN_COUNT_ONE_HANDED = "$TAG.CATEGORY_GENRE_SPAN_COUNT_ONE_HANDED"
-        private const val CATEGORY_GENRE_SPAN_COUNT_TWO_HANDED = "$TAG.CATEGORY_GENRE_SPAN_COUNT_TWO_HANDED"
 
         private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME"
         private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD"
@@ -180,7 +164,7 @@ class AppPreferencesImpl @Inject constructor(
     }
 
     override fun getBlackList(): Set<String> {
-        return preferences.getStringSet(BLACKLIST, setOf())
+        return preferences.getStringSet(BLACKLIST, setOf())!!
     }
 
     override fun setBlackList(set: Set<String>) {
@@ -303,22 +287,6 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun setSyncAdjustment(value: Long) {
         preferences.edit { putLong(SYNC_ADJUSTMENT, value) }
-    }
-
-    override fun observeAlbumSpanSize(): Observable<GridSpanSize> {
-        return Observables.combineLatest(
-                rxPreferences.getInteger(CATEGORY_ALBUM_SPAN_COUNT_ONE_HANDED, 2).asObservable(),
-                rxPreferences.getInteger(CATEGORY_ALBUM_SPAN_COUNT_TWO_HANDED, 4).asObservable(),
-                { one, two -> GridSpanSize(one, two) }
-        )
-    }
-
-    override fun setAlbumSpanSize(spanSize: Int) {
-        if (context.isOneHanded()){
-            preferences.edit { putInt(CATEGORY_ALBUM_SPAN_COUNT_ONE_HANDED, spanSize) }
-        } else {
-            preferences.edit { putInt(CATEGORY_ALBUM_SPAN_COUNT_TWO_HANDED, spanSize) }
-        }
     }
 
     override fun getDefaultMusicFolder(): File {
