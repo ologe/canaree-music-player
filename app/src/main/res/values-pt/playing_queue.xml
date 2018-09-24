@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="playing_queue">Fila de reprodução</string>
+    <string name="playing_queue">Fila</string>
     <string name="playing_queue_playing_from_x">A reproduzir de %s:</string>
     <string name="playing_queue_playing_from_all_tracks">A reproduzir de:</string>
 

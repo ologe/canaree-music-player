@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="playing_queue">Playing queue</string>
+    <string name="playing_queue">Queue</string>
 
     <dimen name="playing_queue_margin_horizontal">8dp</dimen>
     <dimen name="playing_queue_margin_vertical">8dp</dimen>

@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/background"
-    android:elevation="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:id="@+id/root"
     android:clipChildren="false"
     android:clipToPadding="false">
@@ -24,59 +21,50 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/statusBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
+        android:background="?android:attr/colorPrimary"
         android:elevation="@dimen/toolbar_elevation"
-        android:background="?android:attr/colorPrimary">
-
-        <ImageButton
-            android:id="@+id/back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/vd_back_arrow"
-            android:padding="12dp" />
-
-        <dev.olog.msc.presentation.utils.PlayingFromTextView
-            android:id="@+id/header"
-            android:text="@string/playing_queue_playing_from_all_tracks"
-            android:textAllCaps="true"
-            android:textColor="?attr/colorAccent"
-            android:textSize="12dp"
-            android:gravity="center|bottom"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/subHeader"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp"
-            android:fontFamily="@font/roboto_slab_bold" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar">
 
         <TextView
-            android:id="@+id/subHeader"
-            android:text="@string/common_all_tracks"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:gravity="center|top"
-            app:layout_constraintTop_toBottomOf="@+id/header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginEnd="48dp"
-            android:ellipsize="end"
-            android:maxLines="1"/>
+            android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
+            android:gravity="center"
+            android:text="@string/playing_queue"
+            app:layout_constraintBottom_toBottomOf="@+id/more"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/more"
+            android:textAppearance="@style/Headline5"/>
+
+        <ImageButton
+            android:id="@+id/more"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:elevation="@dimen/toolbar_elevation"
+            android:focusable="true"
+            android:src="@drawable/vd_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/floatingWindow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="0dp"
+            android:elevation="@dimen/toolbar_elevation"
+            android:src="@drawable/vd_search_text"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -85,16 +73,14 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="@dimen/playing_queue_margin_vertical"
         android:paddingBottom="@dimen/playing_queue_margin_vertical"
-        android:paddingStart="@dimen/tab_margin_start"
-        android:paddingEnd="@dimen/tab_margin_start"
         android:clipChildren="false"
         android:clipToPadding="false"
-        tools:listitem="@layout/item_mini_queue" />
+        tools:listitem="@layout/item_playing_queue" />
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxFastScroller
         android:id="@+id/fastScroller"
@@ -106,82 +92,8 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
         android:paddingStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"/>
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/wrapper"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:elevation="@dimen/toolbar_elevation">
-
-        <!-- Workaround for b/72034805 — BAB shadow can't extend beyond bounds nor concave shape -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bab_fake_shadow"
-            android:layout_gravity="bottom"/>
-
-        <android.support.design.bottomappbar.BottomAppBar
-            android:id="@+id/bar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_gravity="bottom"
-            style="@style/Widget.MaterialComponents.BottomAppBar">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginEnd="100dp"
-                android:layout_marginStart="@dimen/mini_player_margin_start">
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="start"
-                    android:maxLines="1"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="16dp"
-                    tools:text="Wanksta"
-                    android:textStyle="bold"
-                    android:layout_marginTop="2dp"/>
-
-                <TextView
-                    android:id="@+id/artist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:gravity="start"
-                    android:maxLines="1"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textSize="14dp"
-                    tools:text="50 Cent"
-                    android:layout_marginBottom="6dp"/>
-
-            </LinearLayout>
-
-        </android.support.design.bottomappbar.BottomAppBar>
-
-        <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageViewFab
-            android:id="@+id/playPause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@id/bar"
-            android:src="@drawable/vd_play"
-            android:clickable="true"
-            android:focusable="true"
-            app:rippleColor="@android:color/transparent"/>
-
-    </android.support.design.widget.CoordinatorLayout>
 
 </android.support.constraint.ConstraintLayout>

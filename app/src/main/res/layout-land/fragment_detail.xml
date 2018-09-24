@@ -76,15 +76,13 @@
 
     <TextView
         android:id="@+id/headerText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintEnd_toStartOf="@+id/more"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         tools:text="Selena Gomez"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
         android:elevation="@dimen/toolbar_elevation"
         android:textAppearance="@style/Headline6.Alt" />
 
@@ -115,20 +113,5 @@
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="@dimen/toolbar_elevation"/>
-
-    <ImageButton
-        android:id="@+id/search"
-        app:layout_constraintTop_toTopOf="@+id/headerText"
-        app:layout_constraintEnd_toStartOf="@+id/more"
-        app:layout_constraintBottom_toBottomOf="@+id/headerText"
-        android:src="@drawable/vd_search"
-        android:padding="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_gravity="end"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:elevation="@dimen/toolbar_elevation" />
 
 </android.support.constraint.ConstraintLayout>

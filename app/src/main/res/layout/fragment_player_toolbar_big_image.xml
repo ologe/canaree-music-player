@@ -24,7 +24,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favorite"
+        app:layout_constraintEnd_toEndOf="parent"
         android:tint="@android:color/white"/>
 
     <dev.olog.msc.presentation.widget.LottieFavorite
@@ -34,23 +34,6 @@
         android:layout_gravity="end"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/playingQueue"/>
-
-    <ImageButton
-        android:id="@+id/playingQueue"
-        android:layout_gravity="end"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="0dp"
-        android:src="@drawable/vd_playing_queue"
-        android:tint="@android:color/white"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        app:layout_constraintEnd_toStartOf="@+id/lyrics"/>
 
 </android.support.constraint.ConstraintLayout>

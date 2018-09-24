@@ -3,7 +3,7 @@
 
     <string name="search_did_you_mean">Did you mean:</string>
 
-    <string name="search_hint">@string/common_search</string>
+    <string name="search_hint">@string/search_recent_empty_state</string>
 
     <string name="search_songs">@string/common_tracks</string>
     <string name="search_albums">@string/common_albums</string>

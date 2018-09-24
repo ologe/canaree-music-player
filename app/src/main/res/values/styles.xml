@@ -1,13 +1,9 @@
 <resources>
 
-    <!--<style name="Test" parent="@style/ThemeOverlay.MaterialComponents.Dialog.Alert">-->
-        <!--TODO -->
-    <!--</style>-->
-
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
-        <item name="tabStyle">@style/DefaultTabLayout</item>
+        <item name="tabStyle">@style/AppTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
         <item name="textInputStyle">@style/DefaultTextBox</item>
         <item name="floatingActionButtonStyle">@style/DefaultFab</item>
@@ -24,6 +20,7 @@
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
         <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
+        <item name="bottomNavigationStyle">@style/AppBottomNavigationBar</item>
 
         <item name="scrimColor">#DDCCCCCC</item>
         <item name="miniPlayerColor">?android:attr/windowBackground</item>
@@ -31,8 +28,10 @@
 
     <!-- Base dark application theme. -->
     <style name="BaseDarkTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
-        <item name="tabStyle">@style/DefaultTabLayout</item>
+        <item name="tabStyle">@style/AppTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
         <item name="textInputStyle">@style/DefaultTextBox</item>
         <item name="floatingActionButtonStyle">@style/DarkFab</item>
@@ -41,6 +40,7 @@
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
         <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
+        <item name="bottomNavigationStyle">@style/AppBottomNavigationBar</item>
 
         <item name="scrimColor">#AA232323</item>
         <item name="miniPlayerColor">@color/theme_dark_toolbar</item>
@@ -59,8 +59,9 @@
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabUnboundedRipple">true</item>
         <item name="tabTextAppearance">@style/DefaultTabLayoutTextAppearance</item>
-
     </style>
+
+    <style name="AppTabLayout" parent="DefaultTabLayout"/>
 
     <style name="DefaultTabLayoutTextAppearance" parent="TextAppearance.MaterialComponents.Tab">
         <item name="android:letterSpacing">0</item>
@@ -112,9 +113,7 @@
         <item name="android:progressBackgroundTint">@android:color/transparent</item>
     </style>
 
-    <style name="DefaultPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
 
-    </style>
 
     <style name="DefaultChip" parent="Widget.MaterialComponents.Chip.Action">
         <item name="android:textAppearance">@style/ChipTextAppearance</item>
@@ -140,6 +139,16 @@
         <item name="fabCradleRoundedCornerRadius">20dp</item>
         <item name="fabAlignmentMode">end</item>
         <item name="backgroundTint">@color/toolbar</item>
+    </style>
+
+    <style name="DefaultBottomNavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
+        <item name="android:background">?attr/miniPlayerColor</item>
+    </style>
+
+    <style name="AppBottomNavigationBar" parent="DefaultBottomNavigationBar">
+        <item name="labelVisibilityMode">unlabeled</item>
     </style>
 
 </resources>

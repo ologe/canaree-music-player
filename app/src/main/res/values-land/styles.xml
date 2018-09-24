@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="DefaultTabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabIndicatorFullWidth">true</item>
+    <style name="AppTabLayout" parent="DefaultTabLayout">
         <item name="tabMode">fixed</item>
         <item name="tabGravity">center</item>
-        <item name="tabSelectedTextColor">?attr/colorAccent</item>
-        <item name="tabTextColor">?android:attr/textColorSecondary</item>
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
-        <item name="tabIndicatorHeight">2dp</item>
-        <item name="tabIndicator">@drawable/tab_indicator</item>
-        <item name="tabUnboundedRipple">true</item>
-        <item name="tabTextAppearance">@style/DefaultTabLayoutTextAppearance</item>
+    </style>
 
+    <style name="AppBottomNavigationBar" parent="DefaultBottomNavigationBar">
+        <item name="labelVisibilityMode">unlabeled</item>
     </style>
 
 </resources>

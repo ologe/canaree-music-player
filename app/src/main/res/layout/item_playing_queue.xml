@@ -28,9 +28,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/playing_queue_margin_horizontal"
-            android:paddingEnd="@dimen/playing_queue_margin_horizontal">
+            android:layout_height="wrap_content">
 
             <dev.olog.msc.presentation.widget.image.view.ShapeImageView
                 android:id="@+id/cover"

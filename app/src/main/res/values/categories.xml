@@ -40,6 +40,11 @@
         <item>No genres</item>
     </string-array>
 
+    <string-array name="tab_empty_podcast">
+        <item>No podcasts</item>
+        <item>No playlist</item>
+    </string-array>
+
     <string name="category_sort_by">Sort by</string>
     <string name="category_sort_by_title">Title</string>
     <string name="category_sort_by_artist">Artist</string>

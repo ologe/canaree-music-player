@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DefaultPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
+        <item name="checkBoxPreferenceStyle">@style/CheckBoxPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/SwitchPreferenceCompat</item>
+        <item name="switchPreferenceStyle">@style/SwitchPreference</item>
+        <item name="preferenceCategoryStyle">@style/PreferenceCategory</item>
+        <item name="preferenceStyle">@style/Preference</item>
+        <item name="preferenceFragmentListStyle">@style/ListPreference</item>
+    </style>
+
+    <style name="CheckBoxPreference" parent="Preference.CheckBoxPreference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="SwitchPreferenceCompat" parent="Preference.SwitchPreferenceCompat.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="SwitchPreference" parent="Preference.SwitchPreference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="PreferenceCategory" parent="@style/Preference.Category.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference" parent="Preference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="ListPreference" parent="@style/PreferenceFragmentList.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+</resources>

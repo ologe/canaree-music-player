@@ -13,6 +13,7 @@
         android:id="@+id/more"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/favorite"
         android:src="@drawable/vd_more"
         android:padding="12dp"
         android:layout_width="wrap_content"
@@ -22,8 +23,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginBottom="8dp"
         android:rotation="90"
-        tools:tint="#8d91a6"
-        android:layout_marginEnd="32dp"/>
+        tools:tint="#8d91a6" />
 
     <ImageButton
         android:id="@+id/lyrics"
@@ -35,7 +35,7 @@
         android:clickable="true"
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintStart_toEndOf="@+id/playingQueue"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/favorite"
         app:layout_constraintBottom_toBottomOf="@+id/more"
         tools:tint="#8d91a6"/>
@@ -48,20 +48,5 @@
         app:layout_constraintEnd_toStartOf="@+id/more"
         app:layout_constraintStart_toEndOf="@+id/lyrics"
         app:layout_constraintBottom_toBottomOf="@+id/more" />
-
-    <ImageButton
-        android:id="@+id/playingQueue"
-        android:layout_width="@dimen/common_icon_size"
-        android:layout_height="@dimen/common_icon_size"
-        android:src="@drawable/vd_playing_queue"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/more"
-        tools:tint="#8d91a6"
-        android:layout_marginStart="32dp"/>
 
 </android.support.constraint.ConstraintLayout>
