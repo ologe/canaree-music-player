@@ -75,16 +75,11 @@ class CategoriesFragment : BaseFragment() {
     }
 
     private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
-        override fun onPageScrollStateChanged(state: Int) {
-            presenter.setViewPagerLastPage(state)
-        }
-
-        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-        }
+        override fun onPageScrollStateChanged(state: Int) {}
+        override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
         override fun onPageSelected(position: Int) {
-
+            presenter.setViewPagerLastPage(position)
         }
     }
 
