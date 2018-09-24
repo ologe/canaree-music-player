@@ -34,7 +34,7 @@ object BindingsAdapter {
         GlideApp.with(context)
                 .load(AudioFileCover(item.path!!))
                 .override(OVERRIDE_SMALL)
-                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong())))
+                .placeholder(CoverUtils.getGradient(context, MediaId.songId(item.path.hashCode().toLong(), false)))
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(view)
     }

@@ -7,4 +7,5 @@ object RecentSearchesTypes {
     const val FOLDER = 3
     const val PLAYLIST = 4
     const val GENRE = 5
+    const val PODCAST = 6
 }

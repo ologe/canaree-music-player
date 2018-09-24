@@ -8,22 +8,24 @@ import android.widget.PopupMenu
 import androidx.core.widget.toast
 import dev.olog.msc.FileProvider
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.Playlist
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 abstract class AbsPopupListener(
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
-        private val addToPlaylistUseCase: AddToPlaylistUseCase
+        private val addToPlaylistUseCase: AddToPlaylistUseCase,
+        var playlistType: PlaylistType
 
 ) : PopupMenu.OnMenuItemClickListener {
 
-    val playlists: List<Playlist> = getPlaylistBlockingUseCase.execute()
+    val playlists by lazyFast { getPlaylistBlockingUseCase.execute(playlistType) }
 
     @SuppressLint("RxLeakedSubscription")
     protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId, listSize: Int, title: String){

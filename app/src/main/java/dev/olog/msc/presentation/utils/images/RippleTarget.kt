@@ -24,8 +24,8 @@ class RippleTarget(
     private val imageView = WeakReference(view)
 
     init {
-        if (isLeaf && imageView is ForegroundImageView){
-            imageView.foreground = null
+        if (isLeaf && view is ForegroundImageView){
+            view.foreground = null
         }
     }
 

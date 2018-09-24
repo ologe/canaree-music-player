@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.text.isDigitsOnly
 import dagger.Lazy
 import dev.olog.msc.R
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -43,14 +44,25 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var category: MediaIdCategory
     @Inject lateinit var lastAlbumsAdapter : Lazy<TabFragmentLastPlayedAlbumsAdapter>
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
+    @Inject lateinit var newAlbumsAdapter : Lazy<TabFragmentNewAlbumsAdapter>
+    @Inject lateinit var newArtistsAdapter : Lazy<TabFragmentNewArtistsAdapter>
     @Inject lateinit var layoutManager: Provider<GridLayoutManager>
     @Inject lateinit var navigator : Lazy<Navigator>
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean){
         emptyStateText.toggleVisibility(isEmpty, true)
         if (isEmpty){
-            val emptyText = resources.getStringArray(R.array.tab_empty_state)
-            emptyStateText.text = emptyText[category.ordinal]
+             if (category == MediaIdCategory.PODCASTS || category == MediaIdCategory.PODCASTS_PLAYLIST){
+                 val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
+                 if (category == MediaIdCategory.PODCASTS) {
+                     emptyStateText.text = emptyText[0]
+                 } else {
+                     emptyStateText.text = emptyText[1]
+                 }
+            } else {
+                 val emptyText = resources.getStringArray(R.array.tab_empty_state)
+                 emptyStateText.text = emptyText[category.ordinal]
+            }
         }
     }
 
@@ -64,13 +76,14 @@ class TabFragment : BaseFragment() {
         applyMarginToList(view)
 
         val scrollableLayoutId = when (category) {
-            MediaIdCategory.SONGS -> R.layout.item_tab_song
+            MediaIdCategory.SONGS, MediaIdCategory.PODCASTS -> R.layout.item_tab_song
             MediaIdCategory.ARTISTS -> R.layout.item_tab_artist
             else -> R.layout.item_tab_album
         }
         view.sidebar.scrollableLayoutId = scrollableLayoutId
 
-        view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS, true)
+        view.fab.toggleVisibility(category == MediaIdCategory.PLAYLISTS ||
+                category == MediaIdCategory.PODCASTS_PLAYLIST, true)
 
         viewModel.observeData(category)
                 .subscribe(viewLifecycleOwner) { list ->
@@ -83,10 +96,14 @@ class TabFragment : BaseFragment() {
             MediaIdCategory.ALBUMS -> {
                 viewModel.observeData(MediaIdCategory.RECENT_ALBUMS)
                         .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.get().updateDataSet(it) }
+                viewModel.observeData(MediaIdCategory.NEW_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.get().updateDataSet(it) }
             }
             MediaIdCategory.ARTISTS -> {
                 viewModel.observeData(MediaIdCategory.RECENT_ARTISTS)
                         .subscribe(viewLifecycleOwner) { lastArtistsAdapter.get().updateDataSet(it) }
+                viewModel.observeData(MediaIdCategory.NEW_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.get().updateDataSet(it) }
             }
             else -> {/*making lint happy*/}
         }
@@ -95,7 +112,14 @@ class TabFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         sidebar.setListener(letterTouchListener)
-        fab.setOnClickListener { navigator.get().toChooseTracksForPlaylistFragment(fab) }
+        fab.setOnClickListener {
+            if (category == MediaIdCategory.PLAYLISTS){
+                navigator.get().toChooseTracksForPlaylistFragment(PlaylistType.TRACK)
+            } else {
+                navigator.get().toChooseTracksForPlaylistFragment(PlaylistType.PODCAST)
+            }
+
+        }
     }
 
     override fun onPause() {
@@ -105,7 +129,7 @@ class TabFragment : BaseFragment() {
     }
 
     private fun applyMarginToList(view: View){
-        if (category == MediaIdCategory.SONGS){
+        if (category == MediaIdCategory.SONGS || category == MediaIdCategory.PODCASTS){
             // start/end margin is set in item
             view.list.setPadding(view.list.paddingLeft, view.list.paddingTop,
                     view.list.paddingRight, ctx.dimen(R.dimen.tab_margin_bottom))

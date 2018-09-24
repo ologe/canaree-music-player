@@ -18,7 +18,7 @@ import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import javax.inject.Inject
 
 @PerFragment
-class TabFragmentLastPlayedAlbumsAdapter @Inject constructor(
+class TabFragmentNewAlbumsAdapter @Inject constructor(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val navigator: Navigator
 
@@ -44,4 +44,5 @@ class TabFragmentLastPlayedAlbumsAdapter @Inject constructor(
         }
         super.onViewRecycled(holder)
     }
+
 }

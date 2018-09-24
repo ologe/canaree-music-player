@@ -1,5 +1,8 @@
 package dev.olog.msc.utils
 
+import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.floating.window.service.music.service.MusicServiceMetadata
+
 enum class MediaIdCategory {
     FOLDERS,
     PLAYLISTS,
@@ -7,8 +10,12 @@ enum class MediaIdCategory {
     ALBUMS,
     ARTISTS,
     GENRES,
+    PODCASTS,
+    PODCASTS_PLAYLIST,
     RECENT_ALBUMS,
     RECENT_ARTISTS,
+    NEW_ALBUMS,
+    NEW_ARTISTS,
     HEADER
 }
 
@@ -40,8 +47,19 @@ class MediaId private constructor(
             return MediaId(MediaIdCategory.PLAYLISTS, value.toString())
         }
 
-        fun songId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "", value)
+        fun songId(id: Long, isPodcast: Boolean): MediaId {
+            val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
+            return MediaId(category, "", id)
+        }
+
+        fun songId(metadata: MusicServiceMetadata): MediaId {
+            val category = if (metadata.isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
+            return MediaId(category, "", metadata.id)
+        }
+
+        fun songId(song: Song): MediaId {
+            val category = if (song.isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
+            return MediaId(category, "", song.id)
         }
 
         fun albumId(value: Long): MediaId {
@@ -143,6 +161,7 @@ class MediaId private constructor(
     val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
     val isArtist : Boolean = category == MediaIdCategory.ARTISTS
     val isGenre : Boolean = category == MediaIdCategory.GENRES
+    val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
 
     fun assertPlaylist(){
         if (!isPlaylist){

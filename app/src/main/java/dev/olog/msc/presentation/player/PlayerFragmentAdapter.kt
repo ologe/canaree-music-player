@@ -5,8 +5,6 @@ import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
 import android.databinding.ViewDataBinding
 import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
-import android.support.transition.TransitionManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
@@ -30,7 +28,10 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.images.ColorUtil
-import dev.olog.msc.presentation.widget.*
+import dev.olog.msc.presentation.widget.AnimatedImageView
+import dev.olog.msc.presentation.widget.SwipeableView
+import dev.olog.msc.presentation.widget.animateBackgroundColor
+import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
 import dev.olog.msc.utils.MediaId
@@ -79,7 +80,7 @@ class PlayerFragmentAdapter (
             R.layout.fragment_player_controls_big_image,
             R.layout.fragment_player_controls_clean -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
-                    val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
+                    val mediaId = MediaId.songId(viewModel.getCurrentTrackId(), false)
                     navigator.toDialog(mediaId, view)
                 }
             }
@@ -249,11 +250,6 @@ class PlayerFragmentAdapter (
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ mediaProvider.togglePlayerFavorite() }, Throwable::printStackTrace)
 
-        RxView.clicks(view.playingQueue)
-                .takeUntil(RxView.detaches(view))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ navigator.toPlayingQueueFragment(view.playingQueue) }, Throwable::printStackTrace)
-
         view.swipeableView?.setOnSwipeListener(object : SwipeableView.SwipeListener{
             override fun onSwipedLeft() {
                 mediaProvider.skipToNext()
@@ -370,17 +366,11 @@ class PlayerFragmentAdapter (
         view.duration.text = readableDuration
         view.seekBar.max = duration.toInt()
 
-
         val isPodcast = metadata.isPodcast()
         val playerControlsRoot: ConstraintLayout = view.findViewById(R.id.playerControls)
                 ?: view.findViewById(R.id.playerRoot) as ConstraintLayout
-        val set = ConstraintSet()
-        set.clone(playerControlsRoot)
-        // TODO -> GONE animation is broken on constraint layout 1.1.2
-        set.setVisibility(R.id.replay, if (isPodcast) View.VISIBLE else View.GONE)
-        set.setVisibility(R.id.forward, if (isPodcast) View.VISIBLE else View.GONE)
-        TransitionManager.beginDelayedTransition(playerControlsRoot)
-        set.applyTo(playerControlsRoot)
+        playerControlsRoot.findViewById<View>(R.id.replay).toggleVisibility(isPodcast, true)
+        playerControlsRoot.findViewById<View>(R.id.forward).toggleVisibility(isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

@@ -16,7 +16,8 @@ import dev.olog.msc.presentation.dialog.set.ringtone.di.SetRingtoneDialogInjecto
 import dev.olog.msc.presentation.edit.album.di.EditAlbumFragmentInjector
 import dev.olog.msc.presentation.edit.artist.di.EditArtistFragmentInjector
 import dev.olog.msc.presentation.edit.track.di.EditTrackFragmentInjector
-import dev.olog.msc.presentation.library.categories.di.CategoriesFragmentInjector
+import dev.olog.msc.presentation.library.categories.podcast.di.CategoriesPodcastFragmentInjector
+import dev.olog.msc.presentation.library.categories.track.di.CategoriesFragmentInjector
 import dev.olog.msc.presentation.library.folder.tree.di.FolderTreeFragmentModule
 import dev.olog.msc.presentation.library.tab.di.TabFragmentInjector
 import dev.olog.msc.presentation.main.MainActivity
@@ -35,6 +36,7 @@ import dev.olog.msc.presentation.search.di.SearchFragmentInjector
 //
 //        // fragments
         CategoriesFragmentInjector::class,
+        CategoriesPodcastFragmentInjector::class,
         TabFragmentInjector::class,
         FolderTreeFragmentModule::class,
         DetailFragmentInjector::class,

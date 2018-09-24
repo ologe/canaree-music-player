@@ -191,7 +191,7 @@ class SearchFragmentViewModelModule {
 private fun Song.toSearchDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_search_song,
-            MediaId.songId(id),
+            MediaId.songId(this),
             title,
             DisplayableItem.adjustArtist(artist),
             image,

@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.popup.song
+package dev.olog.msc.presentation.popup.podcast
 
 import android.app.Activity
 import android.view.MenuItem
@@ -7,37 +7,35 @@ import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject
 
-class SongPopupListener @Inject constructor(
+class PodcastPopupListener @Inject constructor(
         private val activity: Activity,
         private val navigator: Navigator,
-        private val mediaProvider: MediaProvider,
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, PlaylistType.TRACK) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, PlaylistType.PODCAST) {
 
-    private lateinit var song: Song
+    private lateinit var podcast: Song
 
-    fun setData(song: Song): SongPopupListener{
-        this.song = song
+    fun setData(podcast: Song): PodcastPopupListener{
+        this.podcast = podcast
         return this
     }
 
     private fun getMediaId(): MediaId {
-        return MediaId.songId(song)
+        return MediaId.songId(podcast)
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), -1, song.title)
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), -1, podcast.title)
 
         when (itemId){
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
@@ -46,10 +44,8 @@ class SongPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song.albumId))
-            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song.artistId))
-            R.id.share -> share(activity, song)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song)
+            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(podcast.albumId))
+            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(podcast.artistId))
         }
 
 
@@ -57,23 +53,23 @@ class SongPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist(){
-        navigator.toCreatePlaylistDialog(getMediaId(), -1, song.title)
+        navigator.toCreatePlaylistDialog(getMediaId(), -1, podcast.title)
     }
 
     private fun playLater(){
-        navigator.toPlayLater(getMediaId(), -1, song.title)
+        navigator.toPlayLater(getMediaId(), -1, podcast.title)
     }
 
     private fun playNext(){
-        navigator.toPlayNext(getMediaId(), -1, song.title)
+        navigator.toPlayNext(getMediaId(), -1, podcast.title)
     }
 
     private fun addToFavorite(){
-        navigator.toAddToFavoriteDialog(getMediaId(), -1, song.title)
+        navigator.toAddToFavoriteDialog(getMediaId(), -1, podcast.title)
     }
 
     private fun delete(){
-        navigator.toDeleteDialog(getMediaId(), -1, song.title)
+        navigator.toDeleteDialog(getMediaId(), -1, podcast.title)
     }
 
 }

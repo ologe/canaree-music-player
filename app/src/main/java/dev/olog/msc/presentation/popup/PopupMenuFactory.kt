@@ -8,6 +8,7 @@ import dev.olog.msc.presentation.popup.artist.ArtistPopup
 import dev.olog.msc.presentation.popup.folder.FolderPopup
 import dev.olog.msc.presentation.popup.genre.GenrePopup
 import dev.olog.msc.presentation.popup.playlist.PlaylistPopup
+import dev.olog.msc.presentation.popup.podcast.PodcastPopup
 import dev.olog.msc.presentation.popup.song.SongPopup
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -31,10 +32,11 @@ class PopupMenuFactory @Inject constructor(
         return when (category){
             MediaIdCategory.FOLDERS -> getFolderPopup(view, mediaId)
             MediaIdCategory.PLAYLISTS -> getPlaylistPopup(view, mediaId)
-            MediaIdCategory.SONGS -> getSongPopup(view, mediaId)
+            MediaIdCategory.SONGS-> getSongPopup(view, mediaId)
             MediaIdCategory.ALBUMS -> getAlbumPopup(view, mediaId)
             MediaIdCategory.ARTISTS -> getArtistPopup(view, mediaId)
             MediaIdCategory.GENRES -> getGenrePopup(view, mediaId)
+            MediaIdCategory.PODCASTS -> getPodcastPopup(view, mediaId)
             else -> throw IllegalArgumentException("invalid category $category")
         }
     }
@@ -114,6 +116,13 @@ class PopupMenuFactory @Inject constructor(
                                 .subscribeOn(AndroidSchedulers.mainThread())
                     }
                 }
+    }
+
+    private fun getPodcastPopup(view: View, mediaId: MediaId): Single<PopupMenu> {
+        return getSongUseCase.execute(mediaId)
+                .firstOrError()
+                .observeOn(AndroidSchedulers.mainThread())
+                .map { PodcastPopup(view, it, listenerFactory.podcast(it)) }
     }
 
 }

@@ -12,7 +12,6 @@ import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
@@ -22,7 +21,7 @@ class MainPopupDialog @Inject constructor(
 
 ){
 
-    fun show(activity: Activity, anchor: View, category: MediaIdCategory){
+    fun show(activity: Activity, anchor: View, category: MediaIdCategory?){
         val popup = PopupMenu(activity, anchor, Gravity.BOTTOM or Gravity.END)
         val layoutId = when (category){
             MediaIdCategory.ALBUMS -> R.menu.main_albums

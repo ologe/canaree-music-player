@@ -41,6 +41,10 @@ class SpecialThanksPresenter @Inject constructor(
                     context.getString(R.string.about_icon_made_by_x_from_y, "Nikita Golubev", "www.flaticon.com "),
                     R.drawable.vd_genre), // genre icon
             SpecialThanksModel(R.layout.item_special_thanks,
+                    MediaId.headerId("podcast img id"),
+                    "Radio by Jardson Almeida from the Noun Project",
+                    R.drawable.vd_podcast), // genre icon
+            SpecialThanksModel(R.layout.item_special_thanks,
                     MediaId.headerId("video img id"),
                     context.getString(R.string.about_icon_made_by_x_from_y, "Freepik", "www.flaticon.com "),
                     R.drawable.vd_video), // video

@@ -77,16 +77,15 @@ object CoverUtils {
     }
 
     @DrawableRes
-    private fun getDrawable(source: Int): Int {
-        when (source) {
-            MediaIdCategory.FOLDERS.ordinal -> return R.drawable.placeholder_folder
-            MediaIdCategory.PLAYLISTS.ordinal -> return R.drawable.placeholder_playlist
-            MediaIdCategory.SONGS.ordinal -> return R.drawable.placeholder_musical_note
-            MediaIdCategory.ALBUMS.ordinal -> return R.drawable.placeholder_album
-            MediaIdCategory.ARTISTS.ordinal -> return R.drawable.placeholder_artist
-            MediaIdCategory.GENRES.ordinal -> return R.drawable.placeholder_genre
-        }
-        throw IllegalArgumentException("invalid source $source")
+    private fun getDrawable(source: Int): Int = when (source) {
+        MediaIdCategory.FOLDERS.ordinal -> R.drawable.placeholder_folder
+        MediaIdCategory.PLAYLISTS.ordinal -> R.drawable.placeholder_playlist
+        MediaIdCategory.SONGS.ordinal -> R.drawable.placeholder_musical_note
+        MediaIdCategory.ALBUMS.ordinal -> R.drawable.placeholder_album
+        MediaIdCategory.ARTISTS.ordinal -> R.drawable.placeholder_artist
+        MediaIdCategory.GENRES.ordinal -> R.drawable.placeholder_genre
+        MediaIdCategory.PODCASTS.ordinal -> R.drawable.placeholder_podcast
+        else -> throw IllegalArgumentException("invalid source $source")
     }
 
 }

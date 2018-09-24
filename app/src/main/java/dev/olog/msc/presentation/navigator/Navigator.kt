@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.navigator
 
 import android.view.View
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -10,18 +11,19 @@ interface Navigator {
     fun toFirstAccess(requestCode: Int)
 
     fun toLibraryCategories()
+    fun toPodcastCategories()
 
     fun toDetailFragment(mediaId: MediaId)
 
-    fun toSearchFragment(icon: View?)
+    fun toSearchFragment()
 
     fun toRelatedArtists(mediaId: MediaId)
 
     fun toRecentlyAdded(mediaId: MediaId)
 
-    fun toPlayingQueueFragment(icon: View)
+    fun toPlayingQueueFragment()
 
-    fun toChooseTracksForPlaylistFragment(icon: View)
+    fun toChooseTracksForPlaylistFragment(type: PlaylistType)
 
     fun toEditInfoFragment(mediaId: MediaId)
 
@@ -30,7 +32,7 @@ interface Navigator {
     fun toDialog(item: DisplayableItem, anchor: View)
     fun toDialog(mediaId: MediaId, anchor: View)
 
-    fun toMainPopup(anchor: View, category: MediaIdCategory)
+    fun toMainPopup(anchor: View, category: MediaIdCategory?)
 
     fun toSetRingtoneDialog(mediaId: MediaId, title: String, artist: String)
 

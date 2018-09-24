@@ -3,12 +3,13 @@ package dev.olog.msc.presentation.search
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.msc.domain.interactor.all.*
-import dev.olog.msc.domain.interactor.search.delete.*
-import dev.olog.msc.domain.interactor.search.insert.*
+import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
+import dev.olog.msc.domain.interactor.search.delete.ClearRecentSearchesUseCase
+import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchUseCase
+import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -22,18 +23,8 @@ class SearchFragmentViewModel @Inject constructor(
         private val queryText: MutableLiveData<String>,
         val searchData: LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>>,
         private val searchHeaders: SearchFragmentHeaders,
-        private val insertSearchSongUseCase: InsertRecentSearchSongUseCase,
-        private val insertSearchAlbumUseCase: InsertRecentSearchAlbumUseCase,
-        private val insertSearchArtistUseCase: InsertRecentSearchArtistUseCase,
-        private val insertSearchPlaylistUseCase: InsertRecentSearchPlaylistUseCase,
-        private val insertSearchGenreUseCase: InsertRecentSearchGenreUseCase,
-        private val insertSearchFolderUseCase: InsertRecentSearchFolderUseCase,
-        private val deleteRecentSearchSongUseCase: DeleteRecentSearchSongUseCase,
-        private val deleteRecentSearchAlbumUseCase: DeleteRecentSearchAlbumUseCase,
-        private val deleteRecentSearchArtistUseCase: DeleteRecentSearchArtistUseCase,
-        private val deleteRecentSearchPlaylistUseCase: DeleteRecentSearchPlaylistUseCase,
-        private val deleteRecentSearchGenreUseCase: DeleteRecentSearchGenreUseCase,
-        private val deleteRecentSearchFolderUseCase: DeleteRecentSearchFolderUseCase,
+        private val insertRecentUse: InsertRecentSearchUseCase,
+        private val deleteRecentSearchUseCase: DeleteRecentSearchUseCase,
         private val clearRecentSearchesUseCase: ClearRecentSearchesUseCase,
         private val getAllArtistsUseCase: GetAllArtistsUseCase,
         private val getAllAlbumsUseCase: GetAllAlbumsUseCase
@@ -124,28 +115,14 @@ class SearchFragmentViewModel @Inject constructor(
     }
 
     fun insertToRecent(mediaId: MediaId){
-        when {
-            mediaId.isLeaf -> insertSearchSongUseCase.execute(mediaId.leaf!!)
-            mediaId.isArtist -> insertSearchArtistUseCase.execute(mediaId.resolveId)
-            mediaId.isAlbum -> insertSearchAlbumUseCase.execute(mediaId.resolveId)
-            mediaId.isPlaylist -> insertSearchPlaylistUseCase.execute(mediaId.resolveId)
-            mediaId.isFolder -> insertSearchFolderUseCase.execute(mediaId.resolveId)
-            mediaId.isGenre -> insertSearchGenreUseCase.execute(mediaId.resolveId)
-            else -> throw IllegalArgumentException("invalid category ${mediaId.resolveId}")
-        }.subscribe({}, Throwable::printStackTrace)
+        insertRecentUse.execute(mediaId)
+                .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
     }
 
     fun deleteFromRecent(mediaId: MediaId){
-        when (mediaId.category) {
-            MediaIdCategory.ALBUMS -> deleteRecentSearchAlbumUseCase.execute(mediaId.resolveId)
-            MediaIdCategory.ARTISTS -> deleteRecentSearchArtistUseCase.execute(mediaId.resolveId)
-            MediaIdCategory.PLAYLISTS -> deleteRecentSearchPlaylistUseCase.execute(mediaId.resolveId)
-            MediaIdCategory.FOLDERS -> deleteRecentSearchFolderUseCase.execute(mediaId.resolveId)
-            MediaIdCategory.GENRES -> deleteRecentSearchGenreUseCase.execute(mediaId.resolveId)
-            MediaIdCategory.SONGS -> deleteRecentSearchSongUseCase.execute(mediaId.leaf!!)
-            else -> throw IllegalArgumentException("invalid media id $mediaId")
-        }.subscribe({}, Throwable::printStackTrace)
+        deleteRecentSearchUseCase.execute(mediaId)
+                .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
     }
 

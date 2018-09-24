@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.msc.Permissions
@@ -22,7 +23,7 @@ import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
-import dev.olog.msc.presentation.library.categories.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
@@ -51,6 +52,12 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        slidingPanel.panelHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
+
+        presenter.isRepositoryEmptyUseCase.execute()
+                .asLiveData()
+                .subscribe(this, this::handleEmptyRepository)
+
         val canReadStorage = Permissions.canReadStorage(this)
         val isFirstAccess = presenter.isFirstAccess()
         val toFirstAccess = !canReadStorage || isFirstAccess
@@ -61,10 +68,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             navigator.toLibraryCategories()
         }
 
-        presenter.isRepositoryEmptyUseCase.execute()
-                .asLiveData()
-                .subscribe(this, this::handleEmptyRepository)
-
         intent?.let { handleIntent(it) }
     }
 
@@ -73,12 +76,55 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         intent?.let { handleIntent(it) }
     }
 
+    override fun onResume() {
+        super.onResume()
+        bottomNavigation.setOnNavigationItemSelectedListener {
+            when (it.itemId){
+                R.id.navigation_songs -> navigator.toLibraryCategories()
+                R.id.navigation_search -> navigator.toSearchFragment()
+                R.id.navigation_podcasts -> navigator.toPodcastCategories()
+                R.id.navigation_queue -> navigator.toPlayingQueueFragment()
+                else -> throw IllegalArgumentException("invalid item")
+            }
+            true
+        }
+        bottomNavigation.setOnNavigationItemReselectedListener {
+            when (it.itemId){
+                R.id.navigation_songs -> navigator.toLibraryCategories()
+                R.id.navigation_search -> navigator.toSearchFragment()
+                R.id.navigation_podcasts -> navigator.toPodcastCategories()
+                R.id.navigation_queue -> navigator.toPlayingQueueFragment()
+                else -> throw IllegalArgumentException("invalid item")
+            }
+        }
+        slidingPanel.addPanelSlideListener(onPanelSlide)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        bottomNavigation.setOnNavigationItemSelectedListener(null)
+        bottomNavigation.setOnNavigationItemReselectedListener(null)
+        slidingPanel.removePanelSlideListener(onPanelSlide)
+    }
+
+    private val onPanelSlide = object : SlidingUpPanelLayout.PanelSlideListener {
+
+        override fun onPanelSlide(panel: View, slideOffset: Float) {
+            bottomWrapper.translationY = bottomWrapper.height * slideOffset
+        }
+
+        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {}
+    }
+
     private fun handleIntent(intent: Intent) {
         when (intent.action){
             FloatingWindowsConstants.ACTION_START_SERVICE -> {
                 FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
             }
-            AppConstants.SHORTCUT_SEARCH -> { navigator.toSearchFragment(null) }
+            AppConstants.SHORTCUT_SEARCH -> {
+                bottomNavigation.selectedItemId = R.id.navigation_search
+                navigator.toSearchFragment()
+            }
             AppConstants.ACTION_CONTENT_VIEW -> slidingPanel.expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
                 val serviceIntent = Intent(this, MusicService::class.java)
@@ -103,6 +149,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     private fun handleEmptyRepository(isEmpty: Boolean){
         if (isEmpty && slidingPanel.panelState != HIDDEN){
             slidingPanel.panelState = HIDDEN
+
         } else if (!isEmpty && slidingPanel.panelState == HIDDEN){
             slidingPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
         }
@@ -130,9 +177,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     }
 
     private fun recreateActivity(){
-        val fragment = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
-        fragment?.pagerAdapter?.clearFragments()
-        recreate()
+        navigator.toLibraryCategories()
     }
 
     override fun onBackPressed() {
@@ -145,7 +190,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 
             when {
                 topFragment is HasSafeTransition && topFragment.isAnimating() -> {
-//              prevents circular reveal crash
+//                  prevents circular reveal crash
                 }
                 topFragment is DrawsOnTop -> super.onBackPressed()
                 topFragment is DimBottomSheetDialogFragment -> supportFragmentManager.popBackStack()

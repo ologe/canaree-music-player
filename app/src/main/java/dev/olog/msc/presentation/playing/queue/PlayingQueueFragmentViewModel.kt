@@ -37,7 +37,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         return DisplayableItem(
                 R.layout.item_playing_queue,
-                MediaId.songId(this.id),
+                MediaId.songId(this.id, this.isPodcast),
                 title,
                 DisplayableItem.adjustArtist(artist),
                 image,
