@@ -7,5 +7,6 @@ data class MusicServiceMetadata(
         val title: String,
         val artist: String,
         val image: DisplayableItem,
-        val duration: Long
+        val duration: Long,
+        val isPodcast: Boolean
 )

@@ -39,9 +39,6 @@ interface AppPreferencesGateway : Sorting {
     fun getSyncAdjustment(): Long
     fun setSyncAdjustment(value: Long)
 
-    fun observeAlbumSpanSize(): Observable<GridSpanSize>
-    fun setAlbumSpanSize(spanSize: Int)
-
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 

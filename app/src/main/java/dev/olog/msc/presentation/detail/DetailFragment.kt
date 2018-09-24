@@ -23,7 +23,6 @@ import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
-import kotlin.LazyThreadSafetyMode.NONE
 import kotlin.properties.Delegates
 
 class DetailFragment : BaseFragment() {
@@ -121,7 +120,6 @@ class DetailFragment : BaseFragment() {
             list.addOnScrollListener(recyclerOnScrollListener)
         }
         back.setOnClickListener { act.onBackPressed() }
-        search.setOnClickListener { navigator.toSearchFragment(search) }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
     }
 
@@ -132,7 +130,6 @@ class DetailFragment : BaseFragment() {
 //            list.removeItemDecoration(detailListMargin)
         }
         back.setOnClickListener(null)
-        search.setOnClickListener(null)
         more.setOnClickListener(null)
     }
 
@@ -148,7 +145,6 @@ class DetailFragment : BaseFragment() {
         act.window.removeLightStatusBar()
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_light)
         view?.back?.setColorFilter(color)
-        view?.search?.setColorFilter(color)
         more?.setColorFilter(color)
     }
 
@@ -160,7 +156,6 @@ class DetailFragment : BaseFragment() {
         act.window.setLightStatusBar()
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
         view?.back?.setColorFilter(color)
-        view?.search?.setColorFilter(color)
         more?.setColorFilter(color)
     }
 

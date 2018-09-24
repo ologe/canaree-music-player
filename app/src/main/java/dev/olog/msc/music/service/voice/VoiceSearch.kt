@@ -11,13 +11,13 @@ import io.reactivex.Single
 object VoiceSearch {
 
     fun noFilter(flowable: Observable<List<Song>>): Single<List<MediaEntity>> {
-        val mediaId = MediaId.songId(-1)
+        val mediaId = MediaId.songId(-1, false)
         return flowable.firstOrError()
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
     }
 
-    fun filterByAlbum(flowable: Observable<List<Song>>, album: String, artist: String): Single<List<MediaEntity>> {
-        val mediaId = MediaId.songId(-1)
+    fun filterByAlbum(flowable: Observable<List<Song>>, album: String): Single<List<MediaEntity>> {
+        val mediaId = MediaId.songId(-1, false)
         return flowable.firstOrError()
                 .map {
                     it.asSequence()
@@ -28,7 +28,7 @@ object VoiceSearch {
     }
 
     fun filterByArtist(flowable: Observable<List<Song>>, artist: String): Single<List<MediaEntity>> {
-        val mediaId = MediaId.songId(-1)
+        val mediaId = MediaId.songId(-1, false)
         return flowable.firstOrError()
                 .map {
                     it.asSequence()
@@ -38,8 +38,8 @@ object VoiceSearch {
                 }
     }
 
-    fun filterByTitle(flowable: Observable<List<Song>>, title: String, artist: String): Single<List<MediaEntity>> {
-        val mediaId = MediaId.songId(-1)
+    fun filterByTitle(flowable: Observable<List<Song>>, title: String): Single<List<MediaEntity>> {
+        val mediaId = MediaId.songId(-1, false)
         return flowable.firstOrError()
                 .map {
                     it.asSequence()
@@ -50,7 +50,7 @@ object VoiceSearch {
     }
 
     fun search(flowable: Observable<List<Song>>, param: String): Single<List<MediaEntity>> {
-        val mediaId = MediaId.songId(-1)
+        val mediaId = MediaId.songId(-1, false)
         return flowable.firstOrError().map {
             it.filter { it.title.toLowerCase() == param ||
                     it.artist.toLowerCase() == param ||

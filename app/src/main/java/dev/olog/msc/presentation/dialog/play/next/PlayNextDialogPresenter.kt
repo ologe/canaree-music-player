@@ -20,9 +20,9 @@ class PlayNextDialogPresenter @Inject constructor(
         } else {
             getSongListByParamUseCase.execute(mediaId)
                     .firstOrError()
-                    .map { it.map { it.id }.joinToString() }
+                    .map { songList -> songList.asSequence().map { it.id }.joinToString() }
         }.map { mediaController.addQueueItem(newMediaDescriptionItem(it), Int.MAX_VALUE) }
-                .toCompletable()
+                .ignoreElement()
     }
 
     private fun newMediaDescriptionItem(songId: String): MediaDescriptionCompat {

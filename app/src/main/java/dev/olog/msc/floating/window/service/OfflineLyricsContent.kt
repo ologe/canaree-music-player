@@ -17,6 +17,7 @@ import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.floating.window.service.api.Content
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
+import dev.olog.msc.floating.window.service.music.service.MusicServiceMetadata
 import dev.olog.msc.glide.transformation.BlurTransformation
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
@@ -65,7 +66,7 @@ class OfflineLyricsContent(
         musicServiceBinder.onMetadataChanged
                 .subscribe({
                     presenter.updateCurrentTrackId(it.id)
-                    loadImage(it.id, it.image)
+                    loadImage(it, it.image)
                     header.text = it.title
                     subHeader.text = it.artist
                     updateProgressBarMax(it.duration)
@@ -99,13 +100,13 @@ class OfflineLyricsContent(
         updateDisposable.unsubscribe()
     }
 
-    private fun loadImage(id: Long, image: DisplayableItem){
+    private fun loadImage(metadata: MusicServiceMetadata, image: DisplayableItem){
         GlideApp.with(context).clear(this.image)
 
         val radius = 8
         val sampling = 6
 
-        val drawable = CoverUtils.getGradient(context, MediaId.songId(id))
+        val drawable = CoverUtils.getGradient(context, MediaId.songId(metadata))
         val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
         val placeholder = FastBlur.blur(bitmap, radius, false)
                 .toDrawable(content.resources)

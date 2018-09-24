@@ -101,7 +101,7 @@ class MediaSessionQueue @Inject constructor(
 
     private fun MediaEntity.toQueueItem() : MediaSessionCompat.QueueItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.songId(this.id).toString())
+                .setMediaId(MediaId.songId(this.id, this.isPodcast).toString())
                 .setTitle(this.title)
                 .setSubtitle(DisplayableItem.adjustArtist(this.artist))
                 .setMediaUri(Uri.parse(this.image))

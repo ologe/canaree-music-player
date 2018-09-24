@@ -14,7 +14,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
-import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
@@ -68,11 +68,7 @@ class DetailFragmentModuleSongs {
                             .firstOrError()
                             .map { sort -> songList.map { it.toDetailDisplayableItem(mediaId, sort) } }
                 }
-
-        /*return useCase.execute(mediaId).withLatestFrom(sortOrderUseCase.execute(mediaId)) { songs, order ->
-            songs.map { it.toDetailDisplayableItem(mediaId, order) }
-
-        }*/.flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
+                .flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
                 .map { createDurationFooter(context, songList.size, it) }
                 .map {
                     if (songList.isNotEmpty()){

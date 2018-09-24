@@ -8,6 +8,8 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
 import dev.olog.msc.domain.entity.LastMetadata
+import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
+import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.domain.interactor.all.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
@@ -33,6 +35,8 @@ class CurrentSong @Inject constructor(
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
         private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
+        private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
+        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
         playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
@@ -50,6 +54,16 @@ class CurrentSong @Inject constructor(
     private val insertHistorySongFlowable = publisher
             .observeOn(Schedulers.io())
             .flatMapCompletable { insertHistorySongUseCase.execute(it.id).onErrorComplete() }
+
+    private val insertLastPlayedAlbumFlowable = publisher
+            .observeOn(Schedulers.io())
+            .filter { it.mediaId.isAlbum }
+            .flatMapCompletable { insertLastPlayedAlbumUseCase.execute(it.albumId).onErrorComplete() }
+
+    private val insertLastPlayedArtistFlowable = publisher
+            .observeOn(Schedulers.io())
+            .filter { it.mediaId.isArtist }
+            .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it.artistId).onErrorComplete() }
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
@@ -73,6 +87,11 @@ class CurrentSong @Inject constructor(
                 .addTo(subscriptions)
         insertHistorySongFlowable.subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
+        insertLastPlayedAlbumFlowable.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+        insertLastPlayedArtistFlowable.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

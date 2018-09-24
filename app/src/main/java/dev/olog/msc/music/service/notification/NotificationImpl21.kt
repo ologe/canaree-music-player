@@ -7,7 +7,6 @@ import android.app.Service
 import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Typeface
-import android.support.annotation.CallSuper
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.media.session.MediaButtonReceiver
@@ -122,7 +121,7 @@ open class NotificationImpl21 @Inject constructor(
             album: String,
             image: String){
 
-        val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
+        val model = DisplayableItem(0, MediaId.songId(id, false), "", image = image)
         val bitmap = service.getBitmapAsync(model, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
                 .setContentTitle(title)

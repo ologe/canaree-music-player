@@ -17,6 +17,7 @@ class RenameUseCase @Inject constructor(
     override fun buildUseCaseObservable(param: Pair<MediaId, String>): Completable {
         val (mediaId, newTitle) = param
         return when {
+            mediaId.isPodcast -> playlistGateway.renamePodcastPlaylist(mediaId.categoryValue.toLong(), newTitle)
             mediaId.isPlaylist -> playlistGateway.renamePlaylist(mediaId.categoryValue.toLong(), newTitle)
             else -> Completable.error(IllegalArgumentException("not a folder nor a playlist, $mediaId"))
         }

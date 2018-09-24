@@ -22,7 +22,7 @@ class InsertOfflineLyricsUseCase @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(offlineLyrics: OfflineLyrics): Completable {
-        return getSongUseCase.execute(MediaId.songId(offlineLyrics.trackId))
+        return getSongUseCase.execute(MediaId.songId(offlineLyrics.trackId, false))
                 .firstOrError()
                 .flatMapCompletable { saveLyricsOnMetadata(it, offlineLyrics.lyrics) }
                 .andThen(gateway.saveLyrics(offlineLyrics))

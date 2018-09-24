@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.dialog.rename
 
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
 import dev.olog.msc.utils.MediaId
@@ -14,7 +15,8 @@ class RenameDialogPresenter @Inject constructor(
 
 ) {
 
-    private val existingPlaylists = getPlaylistSiblingsUseCase.execute()
+    private val existingPlaylists = getPlaylistSiblingsUseCase
+            .execute(if (mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK)
             .map { it.title }
             .map { it.toLowerCase() }
 

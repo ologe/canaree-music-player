@@ -11,7 +11,6 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
@@ -143,8 +142,9 @@ class MusicServiceBinder @Inject constructor(
 
     val onMetadataChanged : Observable<MusicServiceMetadata> = metadataPublisher
             .map { MusicServiceMetadata(it.getId(), it.getTitle().toString(),
-                    it.getArtist().toString(), it.toPlayerImage(), it.getDuration())
-            }
+                    it.getArtist().toString(), it.toPlayerImage(), it.getDuration(),
+                    it.isPodcast()
+            ) }
 
     val onMaxChangedLiveData: Observable<Long> = metadataPublisher
             .map { it.getDuration() }

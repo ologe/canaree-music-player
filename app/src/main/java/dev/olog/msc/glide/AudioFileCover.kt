@@ -9,7 +9,9 @@ import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import com.bumptech.glide.signature.ObjectKey
+import org.jaudiotagger.audio.AudioFileIO
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.InputStream
 
 data class AudioFileCover(
@@ -41,21 +43,22 @@ class AudioFileCoverFetcher(
 
 ) : DataFetcher<InputStream> {
 
-    private val stream: InputStream? = null
+    private var stream: InputStream? = null
 
     override fun loadData(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>) {
         val retriever = MediaMetadataRetriever()
         try {
             retriever.setDataSource(model.filePath)
-            val picture = retriever.embeddedPicture
+            val picture = retriever.embeddedPicture ?: AudioFileIO.read(File(model.filePath))
+                    .tagOrCreateAndSetDefault.firstArtwork.binaryData
             if (picture != null){
-                callback.onDataReady(ByteArrayInputStream(picture))
-            } else {
-
+                stream = ByteArrayInputStream(picture)
+                callback.onDataReady(stream)
             }
         } catch (ex: Exception){
 
         } finally {
+            stream?.close()
             retriever.release()
         }
     }

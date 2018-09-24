@@ -1,10 +1,8 @@
 package dev.olog.msc.domain.interactor.prefs
 
-import dev.olog.msc.domain.entity.GridSpanSize
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -75,21 +73,6 @@ class AppPreferencesUseCase @Inject constructor(
 
     fun getAllArtistsSortOrder(): LibrarySortType {
         return gateway.getAllArtistsSortOrder()
-    }
-
-    fun setAlbumSpanSize(category: MediaIdCategory, spanSize: Int){
-        when (category){
-            MediaIdCategory.ALBUMS -> gateway.setAlbumSpanSize(spanSize)
-        }
-    }
-
-    fun observeSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {
-        return when (category) {
-            MediaIdCategory.ALBUMS -> gateway.observeAlbumSpanSize()
-            else -> Observable.empty()
-
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getDefaultMusicFolder(): File = gateway.getDefaultMusicFolder()

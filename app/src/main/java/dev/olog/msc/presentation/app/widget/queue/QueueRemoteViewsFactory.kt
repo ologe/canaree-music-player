@@ -80,7 +80,7 @@ class QueueRemoteViewsFactory @Inject constructor(
         return WidgetItem(
                 this.id,
                 this.trackNumber,
-                MediaId.songId(this.id),
+                MediaId.songId(this),
                 this.title,
                 DisplayableItem.adjustArtist(this.artist),
                 this.image

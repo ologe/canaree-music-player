@@ -52,9 +52,7 @@ private val PROJECTION = arrayOf(
         "album_artist"
 )
 
-private const val SELECTION = "$DURATION > ?"
-
-private val SELECTION_ARGS = arrayOf("20000")
+private const val SELECTION = "$DURATION > 20000"
 
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
@@ -69,7 +67,7 @@ class SongRepository @Inject constructor(
     private fun queryAllData(): Observable<List<Song>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
-                SELECTION_ARGS, SORT_ORDER, true
+                null, SORT_ORDER, true
         ).onlyWithStoragePermission()
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { mapToSong(it) })
@@ -221,7 +219,7 @@ class SongRepository @Inject constructor(
                 MEDIA_STORE_URI,
                 PROJECTION,
                 SELECTION,
-                SELECTION_ARGS,
+                null,
                 SORT_ORDER,
                 false
         ).onlyWithStoragePermission()

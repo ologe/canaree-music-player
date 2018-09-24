@@ -296,8 +296,8 @@ class QueueImpl @Inject constructor(
         Single.just(songIds)
                 .observeOn(Schedulers.computation())
                 .flattenAsObservable { it }
-                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it)).firstElement() }
-                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
+                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it, false)).firstElement() }
+                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id, false)) }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -316,12 +316,12 @@ class QueueImpl @Inject constructor(
         Single.just(songIds)
                 .observeOn(Schedulers.computation())
                 .flattenAsObservable { it }
-                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it)).firstElement() }
+                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it, false)).firstElement() }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     var currentProgressive = before.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
-                    val listToAdd = it.map { it.toMediaEntity(currentProgressive++, MediaId.songId(it.id)) }
+                    val listToAdd = it.map { it.toMediaEntity(currentProgressive++, MediaId.songId(it.id, false)) }
                     val afterListUpdated = after.map { it.copy(idInPlaylist = currentProgressive++) }
 
                     val copy = before.plus(listToAdd).plus(afterListUpdated)
