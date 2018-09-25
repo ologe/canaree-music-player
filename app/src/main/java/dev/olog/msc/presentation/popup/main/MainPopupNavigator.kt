@@ -3,15 +3,16 @@ package dev.olog.msc.presentation.popup.main
 import android.content.Intent
 import android.media.audiofx.AudioEffect
 import android.preference.PreferenceManager
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilder
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.fragmentTransaction
@@ -38,16 +39,18 @@ class MainPopupNavigator @Inject constructor(
         }
     }
 
-    private fun toBuiltInEqualizer(){
+    private fun getFragmentOnFragmentContainer(): Fragment? {
+        return activity.supportFragmentManager.fragments
+                .firstOrNull { (it.view?.parent as View?)?.id == R.id.fragmentContainer  }
+    }
 
-        val categoriesFragment = activity.supportFragmentManager
-                .findFragmentByTag(CategoriesFragment.TAG) ?: return
+    private fun toBuiltInEqualizer(){
 
         activity.fragmentTransaction {
             setReorderingAllowed(true)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            hide(categoriesFragment)
-            add(R.id.fragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
+            getFragmentOnFragmentContainer()?.let { hide(it) }
+            replace(R.id.upperFragmentContainer, EqualizerFragment(), EqualizerFragment.TAG)
             addToBackStack(EqualizerFragment.TAG)
         }
     }

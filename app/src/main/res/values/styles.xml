@@ -24,6 +24,8 @@
 
         <item name="scrimColor">#DDCCCCCC</item>
         <item name="miniPlayerColor">?android:attr/windowBackground</item>
+
+        <item name="dialogCornerRadius">@dimen/default_corner_radius</item>
     </style>
 
     <!-- Base dark application theme. -->

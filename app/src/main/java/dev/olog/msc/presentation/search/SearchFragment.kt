@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import android.view.WindowManager
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
@@ -113,6 +114,7 @@ class SearchFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         clear.setOnClickListener { editText.setText("") }
         root.setOnClickListener { ImeUtils.showIme(editText) }
         didYouMean.setOnClickListener { editText.setText(didYouMean.text.toString()) }
@@ -132,6 +134,7 @@ class SearchFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
+        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
         clear.setOnClickListener(null)
         root.setOnClickListener(null)
         didYouMean.setOnClickListener(null)

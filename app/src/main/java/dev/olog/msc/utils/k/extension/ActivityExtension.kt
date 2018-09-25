@@ -16,9 +16,11 @@ fun FragmentActivity.fragmentTransaction(func: FragmentTransaction.() -> Fragmen
             .commitAllowingStateLoss()
 }
 
-fun FragmentTransaction.hideFragmnetIfExists(activity: FragmentActivity, tag: String){
+fun FragmentTransaction.hideFragmentsIfExists(activity: FragmentActivity, tags: List<String>){
     val manager = activity.supportFragmentManager
-    manager.findFragmentByTag(tag)?.let { hide(it) }
+    tags.forEach { tag ->
+        manager.findFragmentByTag(tag)?.let { hide(it) }
+    }
 }
 
 fun FragmentActivity.getTopFragment(): Fragment? {

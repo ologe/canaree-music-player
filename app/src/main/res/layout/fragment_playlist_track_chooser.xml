@@ -6,8 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clipChildren="false"
-    android:clipToPadding="false"
-    android:background="@color/background">
+    android:clipToPadding="false">
 
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"

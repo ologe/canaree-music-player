@@ -7,6 +7,12 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/ffmpeg" />
+            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/flac" />
+            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/opus" />
+            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/core" />
+            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils" />
+            <option value="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils_robolectric" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/lint" />

@@ -10,7 +10,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import dev.olog.msc.R;
-import dev.olog.msc.utils.k.extension.ContextExtensionKt;
 
 class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, View.OnClickListener {
 
@@ -132,8 +131,6 @@ class PreferenceControllerDelegate implements SeekBar.OnSeekBarChangeListener, V
         valueHolderView = view.findViewById(R.id.value_holder);
 
         setEnabled(isEnabled(), true);
-        view.setPadding(ContextExtensionKt.dip(view.getContext(), 56),
-                view.getPaddingTop(), view.getPaddingRight(), view.getPaddingBottom());
     }
 
     @Override

@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.navigator
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -40,7 +41,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.hideFragmnetIfExists
+import dev.olog.msc.utils.k.extension.hideFragmentsIfExists
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -72,12 +73,31 @@ class NavigatorImpl @Inject internal constructor(
         activity.startActivityForResult(intent, requestCode)
     }
 
-    override fun toLibraryCategories() {
+    private fun anyFragmentOnUpperFragmentContainer(): Boolean {
+        return activity.supportFragmentManager.fragments
+                .any { (it.view?.parent as View?)?.id == R.id.upperFragmentContainer  }
+    }
+
+    private fun getFragmentOnFragmentContainer(): Fragment? {
+        return activity.supportFragmentManager.fragments
+                .firstOrNull { (it.view?.parent as View?)?.id == R.id.fragmentContainer  }
+    }
+
+    override fun toLibraryCategories(forceRecreate: Boolean) {
+        if (anyFragmentOnUpperFragmentContainer()){
+            activity.onBackPressed()
+        }
+
         activity.fragmentTransaction {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmnetIfExists(activity, SearchFragment.TAG)
-            hideFragmnetIfExists(activity, PlayingQueueFragment.TAG)
-            hideFragmnetIfExists(activity, CategoriesPodcastFragment.TAG)
+            hideFragmentsIfExists(activity, listOf(
+                    SearchFragment.TAG,
+                    PlayingQueueFragment.TAG,
+                    CategoriesPodcastFragment.TAG
+            ))
+            if (forceRecreate){
+                return@fragmentTransaction replace(R.id.fragmentContainer, CategoriesFragment.newInstance(), CategoriesFragment.TAG)
+            }
             val fragment = activity.supportFragmentManager.findFragmentByTag(CategoriesFragment.TAG)
             if (fragment == null){
                replace(R.id.fragmentContainer, CategoriesFragment.newInstance(), CategoriesFragment.TAG)
@@ -88,11 +108,17 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toPodcastCategories() {
+        if (anyFragmentOnUpperFragmentContainer()){
+            activity.onBackPressed()
+        }
+
         activity.fragmentTransaction {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmnetIfExists(activity, SearchFragment.TAG)
-            hideFragmnetIfExists(activity, PlayingQueueFragment.TAG)
-            hideFragmnetIfExists(activity, CategoriesFragment.TAG)
+            hideFragmentsIfExists(activity, listOf(
+                    SearchFragment.TAG,
+                    PlayingQueueFragment.TAG,
+                    CategoriesFragment.TAG
+            ))
             val fragment = activity.supportFragmentManager.findFragmentByTag(CategoriesPodcastFragment.TAG)
             if (fragment == null){
                 replace(R.id.fragmentContainer, CategoriesPodcastFragment.newInstance(), CategoriesPodcastFragment.TAG)
@@ -103,11 +129,17 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toSearchFragment() {
+        if (anyFragmentOnUpperFragmentContainer()){
+            activity.onBackPressed()
+        }
+
         activity.fragmentTransaction {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmnetIfExists(activity, CategoriesPodcastFragment.TAG)
-            hideFragmnetIfExists(activity, PlayingQueueFragment.TAG)
-            hideFragmnetIfExists(activity, CategoriesFragment.TAG)
+            hideFragmentsIfExists(activity, listOf(
+                    CategoriesPodcastFragment.TAG,
+                    PlayingQueueFragment.TAG,
+                    CategoriesFragment.TAG
+            ))
             val fragment = activity.supportFragmentManager.findFragmentByTag(SearchFragment.TAG)
             if (fragment == null){
                 replace(R.id.fragmentContainer, SearchFragment.newInstance(), SearchFragment.TAG)
@@ -118,11 +150,17 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toPlayingQueueFragment() {
+        if (anyFragmentOnUpperFragmentContainer()){
+            activity.onBackPressed()
+        }
+
         activity.fragmentTransaction {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmnetIfExists(activity, CategoriesPodcastFragment.TAG)
-            hideFragmnetIfExists(activity, SearchFragment.TAG)
-            hideFragmnetIfExists(activity, CategoriesFragment.TAG)
+            hideFragmentsIfExists(activity, listOf(
+                    CategoriesPodcastFragment.TAG,
+                    SearchFragment.TAG,
+                    CategoriesFragment.TAG
+            ))
             val fragment = activity.supportFragmentManager.findFragmentByTag(PlayingQueueFragment.TAG)
             if (fragment == null){
                 replace(R.id.fragmentContainer, PlayingQueueFragment.newInstance(), PlayingQueueFragment.TAG)
@@ -137,18 +175,11 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).collapse()
 
-            val categoriesFragment = activity.supportFragmentManager
-                    .findFragmentByTag(CategoriesFragment.TAG)
-
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                if (categoriesFragment != null && categoriesFragment.isVisible){
-                    hide(categoriesFragment)
-                    add(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
-                } else {
-                    replace(R.id.fragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
-                }
+                getFragmentOnFragmentContainer()?.let { hide(it) }
+                replace(R.id.upperFragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
             }
         }
@@ -157,8 +188,10 @@ class NavigatorImpl @Inject internal constructor(
     override fun toRelatedArtists(mediaId: MediaId) {
         if (allowed()){
             activity.fragmentTransaction {
+                setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.fragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
+                getFragmentOnFragmentContainer()?.let { hide(it) }
+                replace(R.id.upperFragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
             }
         }
@@ -169,7 +202,8 @@ class NavigatorImpl @Inject internal constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                replace(R.id.fragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
+                getFragmentOnFragmentContainer()?.let { hide(it) }
+                replace(R.id.upperFragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
             }
         }
@@ -218,7 +252,8 @@ class NavigatorImpl @Inject internal constructor(
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(R.id.fragmentContainer, PlaylistTracksChooserFragment.newInstance(type), PlaylistTracksChooserFragment.TAG)
+                getFragmentOnFragmentContainer()?.let { hide(it) }
+                replace(R.id.upperFragmentContainer, PlaylistTracksChooserFragment.newInstance(type), PlaylistTracksChooserFragment.TAG)
                 addToBackStack(PlaylistTracksChooserFragment.TAG)
             }
         }

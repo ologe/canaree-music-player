@@ -64,8 +64,8 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         if (toFirstAccess){
             navigator.toFirstAccess(SPLASH_REQUEST_CODE)
             return
-        } else {
-            navigator.toLibraryCategories()
+        } else if (savedInstanceState == null) {
+            bottomNavigate(bottomNavigation.selectedItemId, false)
         }
 
         intent?.let { handleIntent(it) }
@@ -79,25 +79,20 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     override fun onResume() {
         super.onResume()
         bottomNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId){
-                R.id.navigation_songs -> navigator.toLibraryCategories()
-                R.id.navigation_search -> navigator.toSearchFragment()
-                R.id.navigation_podcasts -> navigator.toPodcastCategories()
-                R.id.navigation_queue -> navigator.toPlayingQueueFragment()
-                else -> throw IllegalArgumentException("invalid item")
-            }
+           bottomNavigate(it.itemId, false)
             true
         }
-        bottomNavigation.setOnNavigationItemReselectedListener {
-            when (it.itemId){
-                R.id.navigation_songs -> navigator.toLibraryCategories()
-                R.id.navigation_search -> navigator.toSearchFragment()
-                R.id.navigation_podcasts -> navigator.toPodcastCategories()
-                R.id.navigation_queue -> navigator.toPlayingQueueFragment()
-                else -> throw IllegalArgumentException("invalid item")
-            }
-        }
         slidingPanel.addPanelSlideListener(onPanelSlide)
+    }
+
+    private fun bottomNavigate(itemId: Int, forceRecreate: Boolean){
+        when (itemId){
+            R.id.navigation_songs -> navigator.toLibraryCategories(forceRecreate)
+            R.id.navigation_search -> navigator.toSearchFragment()
+            R.id.navigation_podcasts -> navigator.toPodcastCategories()
+            R.id.navigation_queue -> navigator.toPlayingQueueFragment()
+            else -> throw IllegalArgumentException("invalid item")
+        }
     }
 
     override fun onPause() {
@@ -159,11 +154,11 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         if (resultCode == Activity.RESULT_OK){
             when (requestCode){
                 SPLASH_REQUEST_CODE -> {
-                    navigator.toLibraryCategories()
+                    bottomNavigate(bottomNavigation.selectedItemId, false)
                     return
                 }
                 PreferencesActivity.REQUEST_CODE -> {
-                    recreateActivity()
+                    bottomNavigate(bottomNavigation.selectedItemId, true)
                     return
                 }
             }
@@ -174,10 +169,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    private fun recreateActivity(){
-        navigator.toLibraryCategories()
     }
 
     override fun onBackPressed() {
