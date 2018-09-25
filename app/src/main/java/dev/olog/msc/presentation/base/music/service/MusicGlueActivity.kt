@@ -1,11 +1,7 @@
 package dev.olog.msc.presentation.base.music.service
 
-import android.annotation.SuppressLint
 import android.content.ComponentName
-import android.database.CursorIndexOutOfBoundsException
 import android.os.Bundle
-import android.provider.BaseColumns
-import android.provider.MediaStore
 import android.support.annotation.CallSuper
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -14,20 +10,17 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.core.database.getLong
 import androidx.core.os.bundleOf
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
-import java.io.File
 
 abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
 
@@ -171,29 +164,6 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
         val bundle = Bundle()
         bundle.putBoolean(MusicConstants.BUNDLE_RECENTLY_PLAYED, true)
         getTransportControls()?.playFromMediaId(mediaId.toString(), bundle)
-    }
-
-    @SuppressLint("Recycle")
-    override fun playFolderTree(file: File) {
-        try {
-            val path = file.path
-            val folderMediaId = MediaId.folderId(path.substring(0, path.lastIndexOf(File.separator)))
-
-            contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    arrayOf(BaseColumns._ID),
-                    "${MediaStore.Audio.AudioColumns.DATA} = ?",
-                    arrayOf(file.path), null)?.let { cursor ->
-
-                cursor.moveToFirst()
-                val trackId = cursor.getLong(BaseColumns._ID)
-                cursor.close()
-                val trackMediaId = MediaId.playableItem(folderMediaId, trackId)
-
-                playFromMediaId(trackMediaId, null)
-            }
-        } catch (ex: CursorIndexOutOfBoundsException){
-            ex.logStackStace()
-        }
     }
 
     override fun skipToQueueItem(idInPlaylist: Long) {

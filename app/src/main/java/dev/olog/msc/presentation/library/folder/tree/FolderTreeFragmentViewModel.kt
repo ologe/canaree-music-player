@@ -1,12 +1,15 @@
 package dev.olog.msc.presentation.library.folder.tree
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.database.ContentObserver
-import android.os.Environment
+import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
 import android.os.Looper
+import android.provider.BaseColumns
 import android.provider.MediaStore
+import androidx.core.database.getLong
 import dev.olog.msc.R
 import dev.olog.msc.app.app
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -16,7 +19,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.io.File
-import java.lang.Exception
 import java.text.Collator
 import javax.inject.Inject
 
@@ -129,6 +131,29 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun updateDefaultFolder(file: File){
         appPreferencesUseCase.setDefaultMusicFolder(file.safeGetCanonicalFile())
+    }
+
+    @SuppressLint("Recycle")
+    fun createMediaId(item: DisplayableFile): MediaId? {
+        try {
+            val file = item.asFile()
+            val path = file.path
+            val folderMediaId = MediaId.folderId(path.substring(0, path.lastIndexOf(File.separator)))
+
+            app.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    arrayOf(BaseColumns._ID),
+                    "${MediaStore.Audio.AudioColumns.DATA} = ?",
+                    arrayOf(file.path), null)?.let { cursor ->
+
+                cursor.moveToFirst()
+                val trackId = cursor.getLong(BaseColumns._ID)
+                cursor.close()
+                return MediaId.playableItem(folderMediaId, trackId)
+            }
+        } catch (ex: CursorIndexOutOfBoundsException){
+            ex.logStackStace()
+        }
+        return null
     }
 
     private val backDisplableItem: List<DisplayableFile> = listOf(

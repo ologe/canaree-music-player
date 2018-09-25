@@ -8,6 +8,7 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
@@ -31,10 +32,11 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
     }
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var navigator: Navigator
     private val viewModel by lazyFast { viewModelProvider<FolderTreeFragmentViewModel>(viewModelFactory) }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        val adapter = FolderTreeFragmentAdapter(lifecycle, viewModel, activity as MediaProvider)
+        val adapter = FolderTreeFragmentAdapter(lifecycle, viewModel, activity as MediaProvider, navigator)
         view.list.adapter = adapter
         view.list.layoutManager = LinearLayoutManager(context)
         view.list.setHasFixedSize(true)

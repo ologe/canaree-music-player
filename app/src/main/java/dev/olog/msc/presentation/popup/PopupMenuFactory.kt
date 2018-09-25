@@ -31,7 +31,8 @@ class PopupMenuFactory @Inject constructor(
         val category = mediaId.category
         return when (category){
             MediaIdCategory.FOLDERS -> getFolderPopup(view, mediaId)
-            MediaIdCategory.PLAYLISTS -> getPlaylistPopup(view, mediaId)
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.PODCASTS_PLAYLIST -> getPlaylistPopup(view, mediaId)
             MediaIdCategory.SONGS-> getSongPopup(view, mediaId)
             MediaIdCategory.ALBUMS -> getAlbumPopup(view, mediaId)
             MediaIdCategory.ARTISTS -> getArtistPopup(view, mediaId)

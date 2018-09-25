@@ -9,12 +9,17 @@ import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.utils.k.extension.asHtml
+import dev.olog.msc.utils.k.extension.setOnClickListener
+import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import dev.olog.msc.utils.k.extension.simpleDialog
 
 class FolderTreeFragmentAdapter (
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: FolderTreeFragmentViewModel,
-        private val mediaProvider: MediaProvider
+        private val mediaProvider: MediaProvider,
+        private val navigator: Navigator
 
 ) : AbsAdapter<DisplayableFile>(lifecycle) {
 
@@ -24,29 +29,34 @@ class FolderTreeFragmentAdapter (
             R.layout.item_folder_tree_track -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
                     when {
-                        item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID -> {
-                            viewModel.goBack()
-                        }
+                        item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID -> viewModel.goBack()
                         item.isFile() && item.asFile().isDirectory -> viewModel.nextFolder(item.asFile())
-                        else -> mediaProvider.playFolderTree(item.asFile())
+                        else -> {
+                            viewModel.createMediaId(item)?.let { mediaId ->
+                                mediaProvider.playFromMediaId(mediaId, null)
+                            }
+
+                        }
                     }
                 }
-                viewHolder.setOnLongClickListener(controller) { item, _, _ ->
+                viewHolder.setOnLongClickListener(controller) { item, _, view ->
                     if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID){
                         return@setOnLongClickListener
                     }
-                    var file = item.asFile()
-                    if (!file.isDirectory){
-                        file = file.parentFile
-                    }
-                    val context = viewHolder.itemView.context
-                    (context as FragmentActivity).simpleDialog {
-                        setTitle(R.string.folder_set_default_title)
-                        setMessage(context.getString(R.string.folder_set_default_message, file.name).asHtml())
-                        setPositiveButton(R.string.popup_positive_ok) { _,_ ->
-                            viewModel.updateDefaultFolder(file)
+                    if(item.asFile().isDirectory){
+                        val context = viewHolder.itemView.context
+                        (context as FragmentActivity).simpleDialog {
+                            setTitle(R.string.folder_set_default_title)
+                            setMessage(context.getString(R.string.folder_set_default_message, item.asFile().name).asHtml())
+                            setPositiveButton(R.string.popup_positive_ok) { _,_ ->
+                                viewModel.updateDefaultFolder(item.asFile())
+                            }
+                            setNegativeButton(R.string.popup_negative_cancel, null)
                         }
-                        setNegativeButton(R.string.popup_negative_cancel, null)
+                    } else {
+                        viewModel.createMediaId(item)?.let { mediaId ->
+                            navigator.toDialog(mediaId, view)
+                        }
                     }
                 }
             }
