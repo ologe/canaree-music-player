@@ -53,12 +53,12 @@ class BaseAdapterDataController<Model : BaseModel>
             list: List<Model>,
             extendAreItemTheSame: ((Int, Int, Model, Model) -> Boolean)?): AdapterData<Model> {
 
-        if (list.size > 400){
-            return AdapterData(list, null)
-        } else {
+//        if (list.size > 400){
+//            return AdapterData(list, null)
+//        } else {
             val diffCallback = BaseAdapterDiffUtil(data.toList(), list, extendAreItemTheSame)
             return AdapterData(list, DiffUtil.calculateDiff(diffCallback))
-        }
+//        }
     }
 
     private fun updateData(newData: List<Model>) {

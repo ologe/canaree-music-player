@@ -18,6 +18,15 @@ fun clamp(value: Long, min: Long, max: Long): Long {
     return value
 }
 
+fun clamp(value: Float, min: Float, max: Float): Float {
+    if (value < min) {
+        return min
+    } else if (value > max) {
+        return max
+    }
+    return value
+}
+
 fun indexOfClosest(value: Int, list: List<Int>): Int {
     var min = Integer.MAX_VALUE
     var closestIndex = -1

@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.msc.utils.k.extension
 
 import android.content.Context
@@ -27,6 +29,10 @@ inline fun View.setGone(){
 
 inline fun View.setVisible(){
     this.visibility = View.VISIBLE
+}
+
+inline fun View.setInvisible(){
+    this.visibility = View.INVISIBLE
 }
 
 fun View.setPaddingTop(padding: Int) {
