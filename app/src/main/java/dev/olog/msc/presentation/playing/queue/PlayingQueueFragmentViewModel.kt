@@ -8,6 +8,7 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
@@ -19,10 +20,8 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    val data = Observable.merge(
-            observePlayingQueueUseCase.execute().take(1),
-            observePlayingQueueUseCase.execute().skip(1)
-                    .debounce(1, TimeUnit.SECONDS))
+    val data = observePlayingQueueUseCase.execute()
+            .debounceFirst()
             .distinctUntilChanged()
             .mapToList { it.toPlayingQueueDisplayableItem() }
             .asLiveData()

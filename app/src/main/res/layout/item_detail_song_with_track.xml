@@ -12,57 +12,75 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:paddingStart="@dimen/detail_margin_horizontal"
-        android:paddingEnd="@dimen/detail_margin_horizontal"
-        android:background="?attr/selectableItemBackground">
+        android:background="#e2e3e7">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/root"
+        <ImageView
+            android:id="@+id/playNextIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vd_playlist_add"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="16dp"
+            tools:tint="@color/dark_grey"/>
+
+        <FrameLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/detail_margin_horizontal"
+            android:paddingEnd="@dimen/detail_margin_horizontal"
+            android:background="?android:windowBackground">
 
-            <TextView
-                android:id="@+id/index"
-                android:text="@{item.trackNumber}"
-                tools:text="100"
-                android:textStyle="bold"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="16dp"
-                app:layout_constraintTop_toTopOf="@+id/firstText"
-                app:layout_constraintBottom_toBottomOf="@+id/firstText"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="@dimen/item_song_cover_size"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/firstText"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/index"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/more"
-                android:text="@{item.title}"
-                android:textSize="16dp"
-                tools:text="@tools:sample/lorem"
-                style="@style/Song.MainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"/>
+                <TextView
+                    android:id="@+id/index"
+                    android:text="@{item.trackNumber}"
+                    tools:text="100"
+                    android:textStyle="bold"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="16dp"
+                    app:layout_constraintTop_toTopOf="@+id/firstText"
+                    app:layout_constraintBottom_toBottomOf="@+id/firstText"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="@dimen/item_song_cover_size"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"/>
 
-            <ImageButton
-                android:id="@+id/more"
-                app:layout_constraintTop_toTopOf="@id/cover"
-                app:layout_constraintBottom_toBottomOf="@id/cover"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/vd_more"
-                android:padding="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                <TextView
+                    android:id="@+id/firstText"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/index"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/more"
+                    android:text="@{item.title}"
+                    android:textSize="16dp"
+                    tools:text="@tools:sample/lorem"
+                    style="@style/Song.MainText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"/>
 
-        </android.support.constraint.ConstraintLayout>
+                <ImageButton
+                    android:id="@+id/more"
+                    app:layout_constraintTop_toTopOf="@id/cover"
+                    app:layout_constraintBottom_toBottomOf="@id/cover"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/vd_more"
+                    android:padding="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </FrameLayout>
 
     </FrameLayout>
 

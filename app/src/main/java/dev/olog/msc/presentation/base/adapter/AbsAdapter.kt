@@ -156,9 +156,6 @@ abstract class AbsAdapter<Model : BaseModel>(
         onSwipeRightAction?.invoke(relativePosition)
     }
 
-    override fun onInteractionEnd(position: Int) {
-    }
-
     override fun canInteractWithViewHolder(viewType: Int): Boolean? = null
 
 }

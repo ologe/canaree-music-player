@@ -12,69 +12,94 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:paddingStart="@dimen/playing_queue_margin_horizontal"
-        android:paddingEnd="@dimen/playing_queue_margin_horizontal">
+        android:background="?attr/selectableItemBackground">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/root"
+        <View
+            android:id="@+id/background"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            tools:background="@android:color/holo_red_light"
+            android:visibility="invisible"/>
 
-            <dev.olog.msc.presentation.widget.image.view.ShapeImageView
-                android:id="@+id/cover"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="@dimen/item_song_cover_size"
-                android:layout_height="@dimen/item_song_cover_size"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
-                android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
-                tools:src="@drawable/placeholder_folder"
-                app:imageAlbum="@{item}" />
+        <ImageView
+            android:id="@+id/playNextIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vd_playlist_add"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="16dp"
+            tools:tint="@color/dark_grey"/>
 
-            <TextView
-                android:id="@+id/firstText"
-                app:layout_constraintTop_toTopOf="@+id/cover"
-                app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintBottom_toTopOf="@+id/secondText"
-                app:layout_constraintEnd_toStartOf="@+id/clear"
-                android:text="@{item.title}"
-                tools:text="@tools:sample/lorem"
-                style="@style/Song.MainText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"/>
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/playing_queue_margin_horizontal"
+            android:paddingEnd="@dimen/playing_queue_margin_horizontal"
+            android:background="?android:windowBackground">
 
-            <TextView
-                android:id="@+id/secondText"
-                app:layout_constraintTop_toBottomOf="@+id/firstText"
-                app:layout_constraintStart_toEndOf="@+id/cover"
-                app:layout_constraintBottom_toBottomOf="@+id/cover"
-                app:layout_constraintEnd_toStartOf="@+id/clear"
-                android:text="@{item.subtitle}"
-                tools:text="@tools:sample/lorem"
-                style="@style/Song.SecondaryText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"/>
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/clear"
-                app:layout_constraintTop_toTopOf="@+id/cover"
-                app:layout_constraintBottom_toBottomOf="@+id/cover"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:tint="@color/button_primary_tint"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/vd_clear"
-                android:padding="12dp"/>
+                <dev.olog.msc.presentation.widget.image.view.ShapeImageView
+                    android:id="@+id/cover"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="@dimen/item_song_cover_size"
+                    android:layout_height="@dimen/item_song_cover_size"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+                    android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"
+                    tools:src="@drawable/placeholder_folder"
+                    app:imageAlbum="@{item}" />
 
-        </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/firstText"
+                    app:layout_constraintTop_toTopOf="@+id/cover"
+                    app:layout_constraintStart_toEndOf="@+id/cover"
+                    app:layout_constraintBottom_toTopOf="@+id/secondText"
+                    app:layout_constraintEnd_toStartOf="@+id/clear"
+                    android:text="@{item.title}"
+                    tools:text="@tools:sample/lorem"
+                    style="@style/Song.MainText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"/>
+
+                <TextView
+                    android:id="@+id/secondText"
+                    app:layout_constraintTop_toBottomOf="@+id/firstText"
+                    app:layout_constraintStart_toEndOf="@+id/cover"
+                    app:layout_constraintBottom_toBottomOf="@+id/cover"
+                    app:layout_constraintEnd_toStartOf="@+id/clear"
+                    android:text="@{item.subtitle}"
+                    tools:text="@tools:sample/lorem"
+                    style="@style/Song.SecondaryText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"/>
+
+                <ImageButton
+                    android:id="@+id/clear"
+                    app:layout_constraintTop_toTopOf="@+id/cover"
+                    app:layout_constraintBottom_toBottomOf="@+id/cover"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:tint="@color/button_primary_tint"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/vd_clear"
+                    android:padding="12dp"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </FrameLayout>
 
     </FrameLayout>
 

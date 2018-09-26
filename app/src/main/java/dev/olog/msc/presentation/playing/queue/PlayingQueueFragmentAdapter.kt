@@ -24,6 +24,12 @@ class PlayingQueueFragmentAdapter @Inject constructor(
 
     var currentPosition : Int = -1
 
+    init {
+        setAfterDataChanged({
+            notifyItemRangeChanged(0, it.size)
+        }, true)
+    }
+
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
             mediaProvider.skipToQueueItem(item.trackNumber.toLong())
@@ -62,7 +68,6 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         if (currentPosition == from){
             currentPosition = to
         }
-
         super.onMoved(from, to)
     }
 
@@ -73,11 +78,7 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         if (currentPosition > position){
             currentPosition--
         }
-        super.onSwipedRight(position)
-    }
-
-    override fun onInteractionEnd(position: Int) {
-        notifyItemRangeChanged(0, controller.getSize())
+        onSwipeRightAction.invoke(position)
     }
 
     fun updateCurrentPosition(idInPlaylist: Int) {
