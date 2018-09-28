@@ -14,11 +14,11 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/dialog_blacklist_item"
         tools:layoutManager="android.support.v7.widget.GridLayoutManager"
-        tools:spanCount="2"/>
+        tools:spanCount="2"
+        android:requiresFadingEdge="vertical"/>
 
 </dev.olog.msc.presentation.widget.MaxHeightLinearLayout>

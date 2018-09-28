@@ -10,11 +10,10 @@
             android:summary="@string/prefs_library_categories_summary"
             android:key="@string/prefs_library_categories_key" />
 
-        <SwitchPreference
-            android:title="@string/prefs_remember_last_tab_title"
-            android:summary="@string/prefs_remember_last_tab_summary"
-            android:key="@string/prefs_remember_last_tab_key"
-            android:defaultValue="true"/>
+        <Preference
+            android:title="@string/prefs_podcast_library_categories_title"
+            android:summary="@string/prefs_podcast_library_categories_summary"
+            android:key="@string/prefs_podcast_library_categories_key" />
 
         <Preference
             android:title="@string/prefs_blacklist_title"

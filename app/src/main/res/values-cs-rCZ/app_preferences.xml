@@ -20,9 +20,7 @@
   <!--library categories-->
   <string name="prefs_library_categories_title">Kategorie knihovny</string>
   <string name="prefs_library_categories_summary">Konfigurovat viditelnost a pořadí kategorií knihovny</string>
-  <!--remember last tab-->
-  <string name="prefs_remember_last_tab_title">Zapamatovat poslední záložku</string>
-  <string name="prefs_remember_last_tab_summary">Při startu přejít na poslední otevřenou kartu</string>
+
   <!--blacklist-->
   <string name="prefs_blacklist_title">Černá listina</string>
   <string name="prefs_blacklist_summary">Skrýt složky z knihovny</string>

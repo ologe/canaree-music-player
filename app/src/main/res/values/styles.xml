@@ -26,6 +26,7 @@
         <item name="miniPlayerColor">?android:attr/windowBackground</item>
 
         <item name="dialogCornerRadius">@dimen/default_corner_radius</item>
+        <item name="android:colorEdgeEffect">@color/dark_grey</item>
     </style>
 
     <!-- Base dark application theme. -->

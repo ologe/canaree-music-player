@@ -14,6 +14,13 @@
         android:layout_height="64dp"
         android:background="#e2e3e7">
 
+        <View
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="@android:color/holo_red_light"
+            android:visibility="invisible"/>
+
         <ImageView
             android:id="@+id/playNextIcon"
             android:layout_width="wrap_content"

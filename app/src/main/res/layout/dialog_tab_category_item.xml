@@ -13,15 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:background="#e2e3e7">
+        android:background="?android:windowBackground">
 
         <FrameLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/tab_margin_start"
-            android:paddingEnd="@dimen/tab_margin_start"
-            android:background="?android:windowBackground">
+            android:paddingEnd="@dimen/tab_margin_start">
 
             <CheckBox
                 android:id="@+id/checkBox"

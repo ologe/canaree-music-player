@@ -8,6 +8,7 @@
         <item/>
         <item>@string/common_albums</item>
         <item>Outros gêneros</item>
+        <item>Outros podcast</item>
     </string-array>
 
     <string name="detail_see_all">ver tudo</string>

@@ -15,8 +15,10 @@
     </string-array>
 
     <string-array name="tab_empty_podcast">
-        <item>Sem podcast</item>
         <item>Sem listas de reprodução</item>
+        <item>Sem podcast</item>
+        <item>Sem álbum</item>
+        <item>Sem artista</item>
     </string-array>
 
     <string name="category_sort_by">Ordenar por</string>

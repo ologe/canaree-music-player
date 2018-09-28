@@ -73,12 +73,10 @@
     <string name="prefs_library_categories_title">Library categories</string>
     <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
 
-
-    <!--remember last tab-->
-    <string name="prefs_remember_last_tab_key" translatable="false">key_remember_last_tab</string>
-    <string name="prefs_remember_last_tab_title">Remember last tab</string>
-    <string name="prefs_remember_last_tab_summary">Go to the last opened tab on launch</string>
-
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_key" translatable="false">key_podcast_library_categories</string>
+    <string name="prefs_podcast_library_categories_title">Podcast categories</string>
+    <string name="prefs_podcast_library_categories_summary">Configure visibility and order of podcast categories</string>
 
     <!--blacklist-->
     <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
