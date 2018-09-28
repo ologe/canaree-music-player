@@ -32,8 +32,7 @@ fun Cursor.toPlaylist(context: Context, playlistSize: Int) : Playlist {
             id,
             name,
             playlistSize,
-            ImagesFolderUtils.forPlaylist(context, id),
-            PlaylistType.TRACK
+            ImagesFolderUtils.forPlaylist(context, id)
     )
 }
 

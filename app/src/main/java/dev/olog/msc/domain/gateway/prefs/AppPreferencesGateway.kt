@@ -11,12 +11,19 @@ interface AppPreferencesGateway : Sorting {
 
     fun getVisibleTabs(): Observable<BooleanArray>
 
-    fun getViewPagerLastVisitedPage(): Int
-    fun setViewPagerLastVisitedPage(lastPage: Int)
+    fun getViewPagerLibraryLastPage(): Int
+    fun setViewPagerLibraryLastPage(lastPage: Int)
+
+    fun getViewPagerPodcastLastPage(): Int
+    fun setViewPagerPodcastLastPage(lastPage: Int)
 
     fun getLibraryCategories() : List<LibraryCategoryBehavior>
     fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior>
     fun setLibraryCategories(behavior: List<LibraryCategoryBehavior>)
+
+    fun getPodcastLibraryCategories() : List<LibraryCategoryBehavior>
+    fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>
+    fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>)
 
     fun getBlackList(): Set<String>
     fun setBlackList(set: Set<String>)
@@ -63,12 +70,14 @@ interface Sorting {
     fun getAlbumSortOrder() : Observable<SortType>
     fun getArtistSortOrder() : Observable<SortType>
     fun getGenreSortOrder() : Observable<SortType>
+    fun getPodcastPlaylistSortOrder() : Observable<SortType>
 
     fun setFolderSortOrder(sortType: SortType) : Completable
     fun setPlaylistSortOrder(sortType: SortType) : Completable
     fun setAlbumSortOrder(sortType: SortType) : Completable
     fun setArtistSortOrder(sortType: SortType) : Completable
     fun setGenreSortOrder(sortType: SortType) : Completable
+    fun setPodcastPlaylistSortOrder(sortType: SortType) : Completable
 
     fun getSortArranging(): Observable<SortArranging>
     fun toggleSortArranging(): Completable

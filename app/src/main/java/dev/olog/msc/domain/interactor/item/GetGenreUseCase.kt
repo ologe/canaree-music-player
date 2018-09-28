@@ -16,8 +16,6 @@ class GetGenreUseCase @Inject internal constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<Genre> {
-        val genreId = mediaId.categoryValue.toLong()
-
-        return gateway.getByParam(genreId)
+        return gateway.getByParam(mediaId.resolveId)
     }
 }

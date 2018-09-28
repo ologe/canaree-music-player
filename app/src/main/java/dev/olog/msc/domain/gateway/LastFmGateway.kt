@@ -1,9 +1,7 @@
 package dev.olog.msc.domain.gateway
 
 import com.github.dmstocking.optional.java.util.Optional
-import dev.olog.msc.domain.entity.LastFmAlbum
-import dev.olog.msc.domain.entity.LastFmArtist
-import dev.olog.msc.domain.entity.LastFmTrack
+import dev.olog.msc.domain.entity.*
 import io.reactivex.Single
 
 interface LastFmGateway {
@@ -22,5 +20,22 @@ interface LastFmGateway {
     fun shouldFetchArtist(artistId: Long): Single<Boolean>
     fun getArtist(artistId: Long): Single<Optional<LastFmArtist?>>
     fun deleteArtist(artistId: Long)
+
+    // podcast
+
+    fun shouldFetchPodcast(podcastId: Long): Single<Boolean>
+    fun getPodcast(podcastId: Long): Single<Optional<LastFmPodcast?>>
+    fun deletePodcast(podcastId: Long)
+
+    fun shouldFetchPodcastImage(podcastId: Long): Single<Boolean>
+    fun getPodcastImage(podcastId: Long): Single<Optional<String?>>
+
+    fun shouldFetchPodcastAlbum(podcastId: Long): Single<Boolean>
+    fun getPodcastAlbum(podcastId: Long): Single<Optional<LastFmPodcastAlbum?>>
+    fun deletePodcastAlbum(podcastId: Long)
+
+    fun shouldFetchPodcastArtist(podcastId: Long): Single<Boolean>
+    fun getPodcastArtistImage(podcastId: Long): Single<Optional<LastFmPodcastArtist?>>
+    fun deleteArtistImage(podcastId: Long)
 
 }

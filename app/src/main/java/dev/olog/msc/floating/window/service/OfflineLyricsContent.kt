@@ -106,7 +106,7 @@ class OfflineLyricsContent(
         val radius = 8
         val sampling = 6
 
-        val drawable = CoverUtils.getGradient(context, MediaId.songId(metadata))
+        val drawable = CoverUtils.getGradient(context, MediaId.songId(metadata.id))
         val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
         val placeholder = FastBlur.blur(bitmap, radius, false)
                 .toDrawable(content.resources)

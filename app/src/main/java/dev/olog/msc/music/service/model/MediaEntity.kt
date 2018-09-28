@@ -1,6 +1,7 @@
 package dev.olog.msc.music.service.model
 
 import dev.olog.msc.domain.entity.PlayingQueueSong
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.MediaId
 
@@ -42,7 +43,29 @@ fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
             this.folder,
             this.discNumber,
             this.trackNumber,
-            this.isPodcast
+            false
+    )
+}
+
+fun Podcast.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
+    return MediaEntity(
+            this.id,
+            progressive,
+            MediaId.playableItem(mediaId, this.id),
+            this.artistId,
+            this.albumId,
+            this.title,
+            this.artist,
+            this.albumArtist,
+            this.album,
+            this.image,
+            this.duration,
+            this.dateAdded,
+            this.path,
+            this.folder,
+            this.discNumber,
+            this.trackNumber,
+            true
     )
 }
 

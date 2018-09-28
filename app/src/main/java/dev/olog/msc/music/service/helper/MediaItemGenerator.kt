@@ -65,7 +65,7 @@ class MediaItemGenerator @Inject constructor(
 
     private fun Song.toMediaItem() : MediaBrowserCompat.MediaItem {
         val description = MediaDescriptionCompat.Builder()
-                .setMediaId(MediaId.songId(this).toString())
+                .setMediaId(MediaId.songId(this.id).toString())
                 .setTitle(this.title)
                 .setSubtitle(this.artist)
                 .setDescription(this.album)

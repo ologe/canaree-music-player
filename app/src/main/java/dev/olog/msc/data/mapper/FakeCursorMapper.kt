@@ -5,6 +5,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.core.database.getLong
 import androidx.core.database.getString
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.img.ImagesFolderUtils
 
@@ -27,7 +28,29 @@ fun Cursor.toFakeSong(): Song {
             "An awesome album",
             ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded,
-            path, folder, -1, -1,
-            false
+            path, folder, -1, -1
+    )
+}
+
+fun Cursor.toFakePodcast(): Podcast {
+    val id = getLong(BaseColumns._ID)
+    val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
+    val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
+
+    val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
+    val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
+
+    val path = getString(MediaStore.MediaColumns.DATA)
+    val folder = extractFolder(path)
+
+    return Podcast(
+            id, artistId, albumId,
+            "An awesome song",
+            "An awesome artist",
+            "An awesome album artist",
+            "An awesome album",
+            ImagesFolderUtils.forAlbum(albumId),
+            duration, dateAdded,
+            path, folder, -1, -1
     )
 }

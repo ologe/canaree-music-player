@@ -9,16 +9,17 @@ import javax.inject.Inject
 
 class RemoveFromPlaylistUseCase @Inject constructor(
         scheduler: IoScheduler,
-        private val gateway: PlaylistGateway
+        private val playlistGateway: PlaylistGateway,
+        private val podcastPlaylistGateway: PlaylistGateway
 
 ): CompletableUseCaseWithParam<RemoveFromPlaylistUseCase.Input>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(input: Input): Completable {
         if (input.type == PlaylistType.PODCAST){
-            return gateway.removeFromPodcastPlaylist(input.playlistId, input.idInPlaylist)
+            return podcastPlaylistGateway.removeFromPlaylist(input.playlistId, input.idInPlaylist)
         }
-        return gateway.removeFromPlaylist(input.playlistId, input.idInPlaylist)
+        return playlistGateway.removeFromPlaylist(input.playlistId, input.idInPlaylist)
     }
 
     class Input(

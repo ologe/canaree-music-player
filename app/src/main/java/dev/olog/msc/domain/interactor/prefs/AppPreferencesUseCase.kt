@@ -21,6 +21,7 @@ class AppPreferencesUseCase @Inject constructor(
     fun getLibraryCategories() : List<LibraryCategoryBehavior> {
         return gateway.getLibraryCategories()
     }
+
     fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior> {
         return gateway.getDefaultLibraryCategories()
     }
@@ -28,9 +29,25 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setLibraryCategories(behavior)
     }
 
-    fun getViewPagerLastVisitedPage(): Int = gateway.getViewPagerLastVisitedPage()
+    fun getPodcastLibraryCategories() : List<LibraryCategoryBehavior> {
+        return gateway.getPodcastLibraryCategories()
+    }
+
+    fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>{
+        return gateway.getDefaultPodcastLibraryCategories()
+    }
+    fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>){
+        gateway.setPodcastLibraryCategories(behavior)
+    }
+
+    fun getViewPagerLibraryLastPage(): Int = gateway.getViewPagerLibraryLastPage()
     fun setViewPagerLastVisitedPage(lastPage: Int) {
-        gateway.setViewPagerLastVisitedPage(lastPage)
+        gateway.setViewPagerLibraryLastPage(lastPage)
+    }
+
+    fun getViewPagerPodcastLastPage(): Int = gateway.getViewPagerPodcastLastPage()
+    fun setViewPagerPodcastLastPage(lastPage: Int){
+        gateway.setViewPagerPodcastLastPage(lastPage)
     }
 
     fun getBlackList(): Set<String> {

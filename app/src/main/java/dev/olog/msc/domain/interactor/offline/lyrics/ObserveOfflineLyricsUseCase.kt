@@ -22,7 +22,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(id: Long): Observable<String> {
         return gateway.observeLyrics(id)
-                .switchMap { lyrics -> getSongUseCase.execute(MediaId.songId(id, false))
+                .switchMap { lyrics -> getSongUseCase.execute(MediaId.songId(id))
                         .map { getLyricsFromMetadata(it) }
                         .onErrorReturnItem(lyrics)
                 }

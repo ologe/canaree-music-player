@@ -3,8 +3,8 @@ package dev.olog.msc.data.db
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
-import dev.olog.msc.data.entity.PodcastPlaylist
-import dev.olog.msc.data.entity.PodcastPlaylistTrack
+import dev.olog.msc.data.entity.PodcastPlaylistEntity
+import dev.olog.msc.data.entity.PodcastPlaylistTrackEntity
 import io.reactivex.Flowable
 
 @Dao
@@ -16,7 +16,7 @@ abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylists(): Flowable<List<PodcastPlaylist>>
+    abstract fun getAllPlaylists(): Flowable<List<PodcastPlaylistEntity>>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -24,7 +24,7 @@ abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         GROUP BY playlistId
     """)
-    abstract fun getAllPlaylistsBlocking(): List<PodcastPlaylist>
+    abstract fun getAllPlaylistsBlocking(): List<PodcastPlaylistEntity>
 
     @Query("""
         SELECT playlist.*, count(*) as size
@@ -33,7 +33,7 @@ abstract class PodcastPlaylistDao {
         where playlist.id = :id
         GROUP BY playlistId
     """)
-    abstract fun getPlaylist(id: Long): Flowable<PodcastPlaylist>
+    abstract fun getPlaylist(id: Long): Flowable<PodcastPlaylistEntity>
 
     @Query("""
         SELECT tracks.*
@@ -41,10 +41,18 @@ abstract class PodcastPlaylistDao {
             ON playlist.id = tracks.playlistId
         WHERE playlistId = :playlistId
     """)
-    abstract fun getPlaylistTracks(playlistId: Long): Flowable<List<PodcastPlaylistTrack>>
+    abstract fun getPlaylistTracks(playlistId: Long): Flowable<List<PodcastPlaylistTrackEntity>>
+
+    @Query("""
+        SELECT max(idInPlaylist)
+        FROM podcast_playlist playlist JOIN podcast_playlist_tracks tracks
+            ON playlist.id = tracks.playlistId
+        WHERE playlistId = :playlistId
+    """)
+    abstract fun getPlaylistMaxId(playlistId: Long): Int
 
     @Insert
-    abstract fun createPlaylist(playlist: PodcastPlaylist): Long
+    abstract fun createPlaylist(playlist: PodcastPlaylistEntity): Long
 
     @Query("""
         UPDATE podcast_playlist SET name = :name WHERE id = :id
@@ -55,7 +63,7 @@ abstract class PodcastPlaylistDao {
     abstract fun deletePlaylist(id: Long)
 
     @Insert
-    abstract fun insertTracks(tracks: List<PodcastPlaylistTrack>)
+    abstract fun insertTracks(tracks: List<PodcastPlaylistTrackEntity>)
 
     @Query("""
         DELETE FROM podcast_playlist_tracks

@@ -6,12 +6,9 @@ import android.provider.MediaStore
 import androidx.core.database.getInt
 import androidx.core.database.getLong
 import androidx.core.database.getString
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.Song
-import java.io.File
+import dev.olog.msc.domain.entity.Podcast
 
-
-fun Cursor.toSong(): Song {
+fun Cursor.toPodcast(): Podcast {
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -39,14 +36,14 @@ fun Cursor.toSong(): Song {
     val track = extractTrackNumber(trackNumber)
     val disc = extractDiscNumber(trackNumber)
 
-    return Song(
+    return Podcast(
             id, artistId, albumId, title, artist, albumArtist, album,
             "",
             duration, dateAdded, path,
             folder.capitalize(), disc, track)
 }
 
-fun Cursor.toUneditedSong(image: String): Song {
+fun Cursor.toUneditedPodcast(image: String): Podcast {
     val id = getLong(BaseColumns._ID)
     val artistId = getLong(MediaStore.Audio.AudioColumns.ARTIST_ID)
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
@@ -74,38 +71,8 @@ fun Cursor.toUneditedSong(image: String): Song {
         }
     }
 
-    return Song(
+    return Podcast(
             id, artistId, albumId, title, artist, albumArtist, album,
             image, duration, dateAdded, path,
             folder.capitalize(), disc, track)
-}
-
-internal fun extractTrackNumber(originalTrackNumber: Int) : Int {
-    if (originalTrackNumber >= 1000){
-        return originalTrackNumber % 1000
-    }
-    return originalTrackNumber
-}
-
-internal fun extractDiscNumber(originalTrackNumber: Int): Int {
-    if (originalTrackNumber >= 1000){
-        return originalTrackNumber / 1000
-    }
-    return 0
-}
-
-internal fun extractFolder(path: String): String {
-    val lastSep = path.lastIndexOf(File.separator)
-    val prevSep = path.lastIndexOf(File.separator, lastSep - 1)
-    return path.substring(prevSep + 1, lastSep)
-}
-
-
-internal fun adjustAlbum(album: String, folder: String): String {
-    val hasUnknownAlbum = album == folder
-    return if (hasUnknownAlbum) {
-        AppConstants.UNKNOWN
-    } else {
-        album
-    }
 }

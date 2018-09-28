@@ -109,7 +109,7 @@ abstract class PlayingQueueDao {
                 this.folder,
                 this.discNumber,
                 this.trackNumber,
-                this.isPodcast
+                false
         )
     }
 
