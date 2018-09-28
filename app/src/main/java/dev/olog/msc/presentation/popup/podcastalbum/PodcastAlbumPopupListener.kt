@@ -1,12 +1,11 @@
-package dev.olog.msc.presentation.popup.podcastplaylist
+package dev.olog.msc.presentation.popup.podcastalbum
 
 import android.app.Activity
 import android.view.MenuItem
-import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.PodcastPlaylist
+import dev.olog.msc.domain.entity.PodcastAlbum
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -16,7 +15,7 @@ import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.msc.utils.MediaId
 import javax.inject.Inject
 
-class PodcastPlaylistPopupListener @Inject constructor(
+class PodcastAlbumPopupListener @Inject constructor(
         private val activity: Activity,
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
@@ -26,27 +25,27 @@ class PodcastPlaylistPopupListener @Inject constructor(
 
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, true) {
 
-    private lateinit var playlist: PodcastPlaylist
+    private lateinit var album: PodcastAlbum
     private var song: Podcast? = null
 
-    fun setData(playlist: PodcastPlaylist, song: Podcast?): PodcastPlaylistPopupListener {
-        this.playlist = playlist
+    fun setData(album: PodcastAlbum, song: Podcast?): PodcastAlbumPopupListener{
+        this.album = album
         this.song = song
         return this
     }
 
     private fun getMediaId(): MediaId {
         if (song != null){
-            return MediaId.playableItem(MediaId.podcastPlaylistId(playlist.id), song!!.id)
+            return MediaId.playableItem(MediaId.albumId(album.id), song!!.id)
         } else {
-            return MediaId.podcastPlaylistId(playlist.id)
+            return MediaId.albumId(album.id)
         }
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {
         val itemId = menuItem.itemId
 
-        onPlaylistSubItemClick(activity, itemId, getMediaId(), playlist.size, playlist.title)
+        onPlaylistSubItemClick(activity, itemId, getMediaId(), album.songs, album.title)
 
         when (itemId){
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
@@ -56,50 +55,34 @@ class PodcastPlaylistPopupListener @Inject constructor(
             R.id.playLater -> playLater()
             R.id.playNext -> playNext()
             R.id.delete -> delete()
-            R.id.rename -> rename()
-            R.id.clear -> clearPlaylist()
-            R.id.viewInfo -> viewInfo(navigator, getMediaId())
+            R.id.viewArtist -> viewArtist()
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
-            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title, playlist.image)
-            R.id.removeDuplicates -> removeDuplicates()
+            R.id.viewInfo -> viewInfo(navigator, getMediaId())
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), album.title, album.image)
         }
-
 
         return true
     }
 
-    private fun removeDuplicates(){
-        navigator.toRemoveDuplicatesDialog(MediaId.playlistId(playlist.id), playlist.title)
-    }
-
     private fun toCreatePlaylist(){
         if (song == null){
-            navigator.toCreatePlaylistDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toCreatePlaylistDialog(getMediaId(), album.songs, album.title)
         } else {
             navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
         }
     }
 
     private fun playFromMediaId(){
-        if (playlist.size == 0){
-            activity.toast(R.string.common_empty_list)
-        } else {
-            mediaProvider.playFromMediaId(getMediaId())
-        }
+        mediaProvider.playFromMediaId(getMediaId())
     }
 
     private fun playShuffle(){
-        if (playlist.size == 0){
-            activity.toast(R.string.common_empty_list)
-        } else {
-            mediaProvider.shuffle(getMediaId())
-        }
+        mediaProvider.shuffle(getMediaId())
     }
 
     private fun playLater(){
         if (song == null){
-            navigator.toPlayLater(getMediaId(), playlist.size, playlist.title)
+            navigator.toPlayLater(getMediaId(), album.songs, album.title)
         } else {
             navigator.toPlayLater(getMediaId(), -1, song!!.title)
         }
@@ -107,7 +90,7 @@ class PodcastPlaylistPopupListener @Inject constructor(
 
     private fun playNext(){
         if (song == null){
-            navigator.toPlayNext(getMediaId(), playlist.size, playlist.title)
+            navigator.toPlayNext(getMediaId(), album.songs, album.title)
         } else {
             navigator.toPlayNext(getMediaId(), -1, song!!.title)
         }
@@ -116,7 +99,7 @@ class PodcastPlaylistPopupListener @Inject constructor(
 
     private fun addToFavorite(){
         if (song == null){
-            navigator.toAddToFavoriteDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toAddToFavoriteDialog(getMediaId(), album.songs, album.title)
         } else {
             navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
         }
@@ -124,18 +107,14 @@ class PodcastPlaylistPopupListener @Inject constructor(
 
     private fun delete(){
         if (song == null){
-            navigator.toDeleteDialog(getMediaId(), playlist.size, playlist.title)
+            navigator.toDeleteDialog(getMediaId(), album.songs, album.title)
         } else {
             navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
         }
     }
 
-    private fun rename(){
-        navigator.toRenameDialog(getMediaId(), playlist.title)
-    }
-
-    private fun clearPlaylist(){
-        navigator.toClearPlaylistDialog(getMediaId(), playlist.title)
+    private fun viewArtist(){
+        navigator.toDetailFragment(MediaId.artistId(album.artistId))
     }
 
 

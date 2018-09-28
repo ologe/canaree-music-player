@@ -4,15 +4,15 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastPlaylist
-import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 
 class PodcastPlaylistPopup(
         view: View,
         playlist: PodcastPlaylist,
-        song: Song?,
+        song: Podcast?,
         listener: AbsPopupListener
 
 ) : AbsPopup(view) {
@@ -21,7 +21,7 @@ class PodcastPlaylistPopup(
         if (song == null){
             inflate(R.menu.dialog_podcast_playlist)
         } else {
-            inflate(R.menu.dialog_song)
+            inflate(R.menu.dialog_podcast)
         }
 
         addPlaylistChooser(view.context, listener.playlists)

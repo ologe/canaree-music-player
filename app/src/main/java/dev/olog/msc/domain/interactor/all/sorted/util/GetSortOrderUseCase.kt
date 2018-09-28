@@ -20,11 +20,13 @@ class GetSortOrderUseCase @Inject constructor(
         val category = mediaId.category
         return when (category){
             MediaIdCategory.FOLDERS -> gateway.getFolderSortOrder()
-            MediaIdCategory.PLAYLISTS -> gateway.getPlaylistSortOrder()
-            MediaIdCategory.ALBUMS -> gateway.getAlbumSortOrder()
-            MediaIdCategory.ARTISTS -> gateway.getArtistSortOrder()
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.getPlaylistSortOrder()
+            MediaIdCategory.ALBUMS,
+            MediaIdCategory.PODCASTS_ALBUMS -> gateway.getAlbumSortOrder()
+            MediaIdCategory.ARTISTS,
+            MediaIdCategory.PODCASTS_ARTISTS -> gateway.getArtistSortOrder()
             MediaIdCategory.GENRES -> gateway.getGenreSortOrder()
-            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.getPodcastPlaylistSortOrder()
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }

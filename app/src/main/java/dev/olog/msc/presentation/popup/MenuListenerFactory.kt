@@ -7,6 +7,8 @@ import dev.olog.msc.presentation.popup.folder.FolderPopupListener
 import dev.olog.msc.presentation.popup.genre.GenrePopupListener
 import dev.olog.msc.presentation.popup.playlist.PlaylistPopupListener
 import dev.olog.msc.presentation.popup.podcast.PodcastPopupListener
+import dev.olog.msc.presentation.popup.podcastalbum.PodcastAlbumPopupListener
+import dev.olog.msc.presentation.popup.podcastartist.PodcastArtistPopupListener
 import dev.olog.msc.presentation.popup.podcastplaylist.PodcastPlaylistPopupListener
 import dev.olog.msc.presentation.popup.song.SongPopupListener
 import javax.inject.Inject
@@ -20,7 +22,9 @@ class MenuListenerFactory @Inject constructor(
         private val artistPopupListener: Provider<ArtistPopupListener>,
         private val genrePopupListener: Provider<GenrePopupListener>,
         private val podcastPopupListener: Provider<PodcastPopupListener>,
-        private val podcastPlaylistPopupListener: Provider<PodcastPlaylistPopupListener>
+        private val podcastPlaylistPopupListener: Provider<PodcastPlaylistPopupListener>,
+        private val podcastAlbumPopupListener: Provider<PodcastAlbumPopupListener>,
+        private val podcastArtistPopupListener: Provider<PodcastArtistPopupListener>
 ) {
 
     fun folder(folder: Folder, song: Song?) = folderPopupListener.get().setData(folder, song)
@@ -30,6 +34,8 @@ class MenuListenerFactory @Inject constructor(
     fun artist(artist: Artist, song: Song?) = artistPopupListener.get().setData(artist, song)
     fun genre(genre: Genre, song: Song?) = genrePopupListener.get().setData(genre, song)
     fun podcast(podcast: Podcast) = podcastPopupListener.get().setData(podcast)
-    fun podcastPlaylist(podcastPlaylist: PodcastPlaylist, song: Song?) = podcastPlaylistPopupListener.get().setData(podcastPlaylist, song)
+    fun podcastPlaylist(podcastPlaylist: PodcastPlaylist, song: Podcast?) = podcastPlaylistPopupListener.get().setData(podcastPlaylist, song)
+    fun podcastAlbum(podcastAlbum: PodcastAlbum, song: Podcast?) = podcastAlbumPopupListener.get().setData(podcastAlbum, song)
+    fun podcastArtist(podcastArtist: PodcastArtist, song: Podcast?) = podcastArtistPopupListener.get().setData(podcastArtist, song)
 
 }

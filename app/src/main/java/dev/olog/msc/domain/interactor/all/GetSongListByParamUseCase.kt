@@ -21,7 +21,9 @@ class GetSongListByParamUseCase @Inject constructor(
         private val folderDataStore: FolderGateway,
         private val songDataStore: SongGateway,
         private val podcastDataStore: PodcastGateway,
-        private val podcastPlaylistDataStore: PodcastPlaylistGateway
+        private val podcastPlaylistDataStore: PodcastPlaylistGateway,
+        private val podcastAlbumDataStore: PodcastArtistGateway,
+        private val podcastArtistDataStore: PodcastAlbumGateway
 
 ) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(schedulers) {
 
@@ -40,6 +42,10 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.PODCASTS -> podcastDataStore.getAll().mapToList { it.toSong() }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistDataStore.observeSongListByParam(mediaId.resolveId)
+            MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumDataStore.observeSongListByParam(mediaId.resolveId)
+                    .mapToList { it.toSong() }
+            MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistDataStore.observeSongListByParam(mediaId.resolveId)
+                    .mapToList { it.toSong() }
             else -> throw AssertionError("invalid media id $mediaId")
         }
     }

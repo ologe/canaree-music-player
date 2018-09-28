@@ -35,7 +35,7 @@ interface LastFmGateway {
     fun deletePodcastAlbum(podcastId: Long)
 
     fun shouldFetchPodcastArtist(podcastId: Long): Single<Boolean>
-    fun getPodcastArtistImage(podcastId: Long): Single<Optional<LastFmPodcastArtist?>>
-    fun deleteArtistImage(podcastId: Long)
+    fun getPodcastArtist(podcastId: Long): Single<Optional<LastFmPodcastArtist?>>
+    fun deletePodcastArtist(podcastId: Long)
 
 }

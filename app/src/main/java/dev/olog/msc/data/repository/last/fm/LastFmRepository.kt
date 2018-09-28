@@ -132,11 +132,11 @@ class LastFmRepository @Inject constructor(
         return lastFmRepoPodcastArtist.shouldFetch(podcastId)
     }
 
-    override fun getPodcastArtistImage(podcastId: Long): Single<Optional<LastFmPodcastArtist?>> {
+    override fun getPodcastArtist(podcastId: Long): Single<Optional<LastFmPodcastArtist?>> {
         return lastFmRepoPodcastArtist.get(podcastId)
     }
 
-    override fun deleteArtistImage(podcastId: Long) {
+    override fun deletePodcastArtist(podcastId: Long) {
         lastFmRepoPodcastArtist.delete(podcastId)
     }
 }

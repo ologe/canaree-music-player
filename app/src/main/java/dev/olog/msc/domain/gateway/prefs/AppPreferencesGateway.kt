@@ -70,14 +70,12 @@ interface Sorting {
     fun getAlbumSortOrder() : Observable<SortType>
     fun getArtistSortOrder() : Observable<SortType>
     fun getGenreSortOrder() : Observable<SortType>
-    fun getPodcastPlaylistSortOrder() : Observable<SortType>
 
     fun setFolderSortOrder(sortType: SortType) : Completable
     fun setPlaylistSortOrder(sortType: SortType) : Completable
     fun setAlbumSortOrder(sortType: SortType) : Completable
     fun setArtistSortOrder(sortType: SortType) : Completable
     fun setGenreSortOrder(sortType: SortType) : Completable
-    fun setPodcastPlaylistSortOrder(sortType: SortType) : Completable
 
     fun getSortArranging(): Observable<SortArranging>
     fun toggleSortArranging(): Completable

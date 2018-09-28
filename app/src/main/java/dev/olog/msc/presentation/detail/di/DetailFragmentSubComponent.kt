@@ -10,7 +10,10 @@ import dev.olog.msc.presentation.detail.DetailFragment
         DetailFragmentModule::class,
         DetailFragmentModuleSongs::class,
         DetailFragmentModuleAlbum::class,
-        DetailFragmentModuleItem::class
+        DetailFragmentModuleItem::class,
+
+        DetailFragmentModulePodcastAlbum::class,
+        DetailFragmentModulePodcastItem::class
 ))
 @PerFragment
 interface DetailFragmentSubComponent : AndroidInjector<DetailFragment> {

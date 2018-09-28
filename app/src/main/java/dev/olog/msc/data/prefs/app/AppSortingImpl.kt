@@ -32,7 +32,6 @@ class AppSortingImpl (
         private const val DETAIL_SORT_ALBUM_ORDER = "$TAG.DETAIL_SORT_ALBUM_ORDER"
         private const val DETAIL_SORT_ARTIST_ORDER = "$TAG.DETAIL_SORT_ARTIST_ORDER"
         private const val DETAIL_SORT_GENRE_ORDER = "$TAG.DETAIL_SORT_GENRE_ORDER"
-        private const val DETAIL_SORT_PODCAST_PLAYLIST_ORDER = "$TAG.DETAIL_SORT_PODCAST_PLAYLIST_ORDER"
 
         private const val DETAIL_SORT_ARRANGING = "$TAG.DETAIL_SORT_ARRANGING"
     }
@@ -67,12 +66,6 @@ class AppSortingImpl (
                 .map { ordinal -> SortType.values()[ordinal] }
     }
 
-    override fun getPodcastPlaylistSortOrder(): Observable<SortType> {
-        return rxPreferences.getInteger(DETAIL_SORT_PODCAST_PLAYLIST_ORDER, SortType.TITLE.ordinal)
-                .asObservable()
-                .map { ordinal -> SortType.values()[ordinal] }
-    }
-
     override fun setFolderSortOrder(sortType: SortType) : Completable{
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_FOLDER_ORDER, sortType.ordinal) } }
     }
@@ -91,10 +84,6 @@ class AppSortingImpl (
 
     override fun setGenreSortOrder(sortType: SortType) : Completable{
         return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_GENRE_ORDER, sortType.ordinal) } }
-    }
-
-    override fun setPodcastPlaylistSortOrder(sortType: SortType): Completable {
-        return Completable.fromCallable { preferences.edit { putInt(DETAIL_SORT_PODCAST_PLAYLIST_ORDER, sortType.ordinal) } }
     }
 
     override fun getSortArranging(): Observable<SortArranging> {
