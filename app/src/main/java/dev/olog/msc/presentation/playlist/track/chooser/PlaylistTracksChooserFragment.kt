@@ -147,7 +147,6 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val editTextString = editText.text.toString()
-
             when {
                 editTextString.isBlank() -> showError(editTextLayout, R.string.popup_playlist_name_not_valid)
                 else -> {

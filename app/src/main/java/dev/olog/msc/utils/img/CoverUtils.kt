@@ -79,7 +79,8 @@ object CoverUtils {
     @DrawableRes
     private fun getDrawable(source: Int): Int = when (source) {
         MediaIdCategory.FOLDERS.ordinal -> R.drawable.placeholder_folder
-        MediaIdCategory.PLAYLISTS.ordinal -> R.drawable.placeholder_playlist
+        MediaIdCategory.PLAYLISTS.ordinal,
+        MediaIdCategory.PODCASTS_PLAYLIST.ordinal -> R.drawable.placeholder_playlist
         MediaIdCategory.SONGS.ordinal -> R.drawable.placeholder_musical_note
         MediaIdCategory.ALBUMS.ordinal -> R.drawable.placeholder_album
         MediaIdCategory.ARTISTS.ordinal -> R.drawable.placeholder_artist

@@ -7,6 +7,7 @@ import dev.olog.msc.presentation.popup.folder.FolderPopupListener
 import dev.olog.msc.presentation.popup.genre.GenrePopupListener
 import dev.olog.msc.presentation.popup.playlist.PlaylistPopupListener
 import dev.olog.msc.presentation.popup.podcast.PodcastPopupListener
+import dev.olog.msc.presentation.popup.podcastplaylist.PodcastPlaylistPopupListener
 import dev.olog.msc.presentation.popup.song.SongPopupListener
 import javax.inject.Inject
 import javax.inject.Provider
@@ -18,7 +19,8 @@ class MenuListenerFactory @Inject constructor(
         private val albumPopupListener: Provider<AlbumPopupListener>,
         private val artistPopupListener: Provider<ArtistPopupListener>,
         private val genrePopupListener: Provider<GenrePopupListener>,
-        private val podcastPopupListener: Provider<PodcastPopupListener>
+        private val podcastPopupListener: Provider<PodcastPopupListener>,
+        private val podcastPlaylistPopupListener: Provider<PodcastPlaylistPopupListener>
 ) {
 
     fun folder(folder: Folder, song: Song?) = folderPopupListener.get().setData(folder, song)
@@ -27,6 +29,7 @@ class MenuListenerFactory @Inject constructor(
     fun album(album: Album, song: Song?) = albumPopupListener.get().setData(album, song)
     fun artist(artist: Artist, song: Song?) = artistPopupListener.get().setData(artist, song)
     fun genre(genre: Genre, song: Song?) = genrePopupListener.get().setData(genre, song)
-    fun podcast(podcast: Song) = podcastPopupListener.get().setData(podcast)
+    fun podcast(podcast: Podcast) = podcastPopupListener.get().setData(podcast)
+    fun podcastPlaylist(podcastPlaylist: PodcastPlaylist, song: Song?) = podcastPlaylistPopupListener.get().setData(podcastPlaylist, song)
 
 }

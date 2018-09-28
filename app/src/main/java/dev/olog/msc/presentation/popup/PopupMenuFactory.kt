@@ -9,6 +9,7 @@ import dev.olog.msc.presentation.popup.folder.FolderPopup
 import dev.olog.msc.presentation.popup.genre.GenrePopup
 import dev.olog.msc.presentation.popup.playlist.PlaylistPopup
 import dev.olog.msc.presentation.popup.podcast.PodcastPopup
+import dev.olog.msc.presentation.popup.podcastplaylist.PodcastPlaylistPopup
 import dev.olog.msc.presentation.popup.song.SongPopup
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -23,6 +24,8 @@ class PopupMenuFactory @Inject constructor(
         private val getAlbumUseCase: GetAlbumUseCase,
         private val getArtistUseCase: GetArtistUseCase,
         private val getGenreUseCase: GetGenreUseCase,
+        private val getPodcastUseCase: GetPodcastUseCase,
+        private val getPodcastPlaylistUseCase: GetPodcastPlaylistUseCase,
         private val listenerFactory: MenuListenerFactory
 
 ){
@@ -31,13 +34,13 @@ class PopupMenuFactory @Inject constructor(
         val category = mediaId.category
         return when (category){
             MediaIdCategory.FOLDERS -> getFolderPopup(view, mediaId)
-            MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> getPlaylistPopup(view, mediaId)
+            MediaIdCategory.PLAYLISTS -> getPlaylistPopup(view, mediaId)
             MediaIdCategory.SONGS-> getSongPopup(view, mediaId)
             MediaIdCategory.ALBUMS -> getAlbumPopup(view, mediaId)
             MediaIdCategory.ARTISTS -> getArtistPopup(view, mediaId)
             MediaIdCategory.GENRES -> getGenrePopup(view, mediaId)
             MediaIdCategory.PODCASTS -> getPodcastPopup(view, mediaId)
+            MediaIdCategory.PODCASTS_PLAYLIST -> getPodcastPlaylistPopup(view, mediaId)
             else -> throw IllegalArgumentException("invalid category $category")
         }
     }
@@ -120,10 +123,24 @@ class PopupMenuFactory @Inject constructor(
     }
 
     private fun getPodcastPopup(view: View, mediaId: MediaId): Single<PopupMenu> {
-        return getSongUseCase.execute(mediaId)
+        return getPodcastUseCase.execute(mediaId)
                 .firstOrError()
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { PodcastPopup(view, it, listenerFactory.podcast(it)) }
+    }
+
+    private fun getPodcastPlaylistPopup(view: View, mediaId: MediaId): Single<PopupMenu> {
+        return getPodcastPlaylistUseCase.execute(mediaId).firstOrError()
+                .flatMap { playlist ->
+                    if (mediaId.isLeaf){
+                        getSongUseCase.execute(mediaId).firstOrError()
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .map { PodcastPlaylistPopup(view, playlist, it, listenerFactory.podcastPlaylist(playlist, it)) }
+                    } else {
+                        Single.just(PodcastPlaylistPopup(view, playlist, null, listenerFactory.podcastPlaylist(playlist, null)))
+                                .subscribeOn(AndroidSchedulers.mainThread())
+                    }
+                }
     }
 
 }

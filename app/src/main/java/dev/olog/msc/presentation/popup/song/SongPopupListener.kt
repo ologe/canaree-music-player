@@ -3,11 +3,9 @@ package dev.olog.msc.presentation.popup.song
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
-import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
@@ -17,11 +15,10 @@ import javax.inject.Inject
 class SongPopupListener @Inject constructor(
         private val activity: Activity,
         private val navigator: Navigator,
-        private val mediaProvider: MediaProvider,
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, PlaylistType.TRACK) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var song: Song
 
@@ -31,7 +28,7 @@ class SongPopupListener @Inject constructor(
     }
 
     private fun getMediaId(): MediaId {
-        return MediaId.songId(song)
+        return MediaId.songId(song.id)
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {

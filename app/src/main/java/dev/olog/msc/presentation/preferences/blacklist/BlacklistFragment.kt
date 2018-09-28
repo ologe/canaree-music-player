@@ -27,6 +27,13 @@ class BlacklistFragment : BaseDialogFragment() {
     @Inject lateinit var presenter: BlacklistFragmentPresenter
     private lateinit var adapter : BlacklistFragmentAdapter
 
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter.data.asLiveData()
+                .subscribe(this, adapter::updateDataSet)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
@@ -57,12 +64,6 @@ class BlacklistFragment : BaseDialogFragment() {
                 }
 
         return dialog
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter.data.asLiveData()
-                .subscribe(viewLifecycleOwner, adapter::updateDataSet)
     }
 
     private fun notifyMediaStore(){

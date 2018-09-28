@@ -3,8 +3,7 @@ package dev.olog.msc.presentation.popup.podcast
 import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.PlaylistType
-import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.navigator.Navigator
@@ -19,17 +18,17 @@ class PodcastPopupListener @Inject constructor(
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, PlaylistType.PODCAST) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, true) {
 
-    private lateinit var podcast: Song
+    private lateinit var podcast: Podcast
 
-    fun setData(podcast: Song): PodcastPopupListener{
+    fun setData(podcast: Podcast): PodcastPopupListener{
         this.podcast = podcast
         return this
     }
 
     private fun getMediaId(): MediaId {
-        return MediaId.songId(podcast)
+        return MediaId.podcastId(podcast.id)
     }
 
     override fun onMenuItemClick(menuItem: MenuItem): Boolean {

@@ -7,13 +7,15 @@ import android.arch.lifecycle.ViewModel
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
-import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlaylistType
-import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.playlist.track.chooser.model.PlaylistTrack
+import dev.olog.msc.presentation.playlist.track.chooser.model.toDisplayableItem
+import dev.olog.msc.presentation.playlist.track.chooser.model.toPlaylistTrack
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
@@ -27,6 +29,7 @@ import javax.inject.Inject
 class PlaylistTracksChooserFragmentViewModel @Inject constructor(
         private val playlistType: PlaylistType,
         private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val getAllPodcastsUseCase: GetAllPodcastUseCase,
         private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {
@@ -47,7 +50,8 @@ class PlaylistTracksChooserFragmentViewModel @Inject constructor(
             } else {
                 Observables.combineLatest(
                         filter, getPlaylistTypeTracks()
-                ) { query, tracks -> tracks.filter { it.title.contains(query, true)  ||
+                ) { query, tracks -> tracks.filter {
+                        it.title.contains(query, true)  ||
                         it.artist.contains(query, true) ||
                         it.album.contains(query, true)
                 } }
@@ -56,14 +60,11 @@ class PlaylistTracksChooserFragmentViewModel @Inject constructor(
         }
     }
 
-    private fun getPlaylistTypeTracks(): Observable<List<Song>> = when (playlistType) {
-        PlaylistType.PODCAST -> getAllSongsUseCase.execute()
-                .map { list -> list.filter { it.isPodcast } }
-        PlaylistType.TRACK -> getAllSongsUseCase.execute()
-                .map { list -> list.filter { !it.isPodcast } }
-
+    private fun getPlaylistTypeTracks(): Observable<List<PlaylistTrack>> = when (playlistType) {
+        PlaylistType.PODCAST -> getAllPodcastsUseCase.execute().mapToList { it.toPlaylistTrack() }
+        PlaylistType.TRACK -> getAllSongsUseCase.execute().mapToList { it.toPlaylistTrack() }
         PlaylistType.AUTO -> throw IllegalArgumentException("type auto not valid")
-    }.map {list -> list.sortedBy { it.title.toLowerCase() } }
+    }.map { list -> list.sortedBy { it.title.toLowerCase() } }
 
     fun toggleItem(mediaId: MediaId){
         val id = mediaId.resolveId
@@ -91,17 +92,6 @@ class PlaylistTracksChooserFragmentViewModel @Inject constructor(
         return insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(
                 playlistTitle, selectedIds.toList(), playlistType
         ))
-    }
-
-    private fun Song.toDisplayableItem(): DisplayableItem {
-        return DisplayableItem(
-                R.layout.item_choose_track,
-                MediaId.songId(this),
-                this.title,
-                DisplayableItem.adjustArtist(this.artist),
-                this.image,
-                true
-        )
     }
 
 }

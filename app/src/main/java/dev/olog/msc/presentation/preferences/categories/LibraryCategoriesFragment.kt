@@ -13,17 +13,23 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.ThemedDialog
+import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.msc.utils.k.extension.withArguments
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : BaseDialogFragment() {
 
     companion object {
         const val TAG = "LibraryCategoriesFragment"
+        const val TYPE = "$TAG.TYPE"
 
         @JvmStatic
-        fun newInstance(): LibraryCategoriesFragment {
-            return LibraryCategoriesFragment()
+        fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
+            return LibraryCategoriesFragment().withArguments(
+                    TYPE to category.ordinal
+            )
         }
     }
 
@@ -34,6 +40,8 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
+        val category: MediaIdCategory = MediaIdCategory.values()[arguments!!.getInt(TYPE)]
+
         val builder = ThemedDialog.builder(ctx)
                 .setTitle(R.string.prefs_library_categories_title)
                 .setView(view)
@@ -42,7 +50,7 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 .setPositiveButton(R.string.popup_positive_save, null)
 
         val list = view.findViewById<RecyclerView>(R.id.list)
-        adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet().toMutableList())
+        adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet(category).toMutableList())
         list.adapter = adapter
         list.layoutManager = LinearLayoutManager(context)
 
@@ -54,12 +62,12 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                    val defaultData = presenter.getDefaultDataSet()
+                    val defaultData = presenter.getDefaultDataSet(category)
                     adapter.updateDataSet(defaultData)
                 }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                    presenter.setDataSet(adapter.data)
+                    presenter.setDataSet(category, adapter.data)
                     activity!!.setResult(Activity.RESULT_OK)
                     dismiss()
                 }

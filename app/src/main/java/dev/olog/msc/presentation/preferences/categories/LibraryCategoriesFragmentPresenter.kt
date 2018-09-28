@@ -2,22 +2,34 @@ package dev.olog.msc.presentation.preferences.categories
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
 class LibraryCategoriesFragmentPresenter @Inject constructor(
         private val appPreferencesUseCase: AppPreferencesUseCase
 ){
 
-    fun getDefaultDataSet(): List<LibraryCategoryBehavior>{
+    fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior>{
+        if (category == MediaIdCategory.PODCASTS){
+            return appPreferencesUseCase.getDefaultPodcastLibraryCategories()
+        }
         return appPreferencesUseCase.getDefaultLibraryCategories()
     }
 
-    fun getDataSet() : List<LibraryCategoryBehavior> {
+    fun getDataSet(category: MediaIdCategory) : List<LibraryCategoryBehavior> {
+        if (category == MediaIdCategory.PODCASTS){
+            return appPreferencesUseCase.getPodcastLibraryCategories()
+        }
         return appPreferencesUseCase.getLibraryCategories()
     }
 
-    fun setDataSet(list: List<LibraryCategoryBehavior>){
-        appPreferencesUseCase.setLibraryCategories(list)
+    fun setDataSet(category: MediaIdCategory, list: List<LibraryCategoryBehavior>){
+        if (category == MediaIdCategory.PODCASTS){
+            appPreferencesUseCase.setPodcastLibraryCategories(list)
+        } else {
+            appPreferencesUseCase.setLibraryCategories(list)
+        }
+
     }
 
 }

@@ -5,7 +5,6 @@ import android.view.MenuItem
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
@@ -24,7 +23,7 @@ class ArtistPopupListener @Inject constructor(
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, PlaylistType.TRACK) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var artist: Artist
     private var song: Song? = null

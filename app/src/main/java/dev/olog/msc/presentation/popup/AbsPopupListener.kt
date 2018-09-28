@@ -21,11 +21,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 abstract class AbsPopupListener(
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         private val addToPlaylistUseCase: AddToPlaylistUseCase,
-        var playlistType: PlaylistType
+        private val podcastPlaylist: Boolean
 
 ) : PopupMenu.OnMenuItemClickListener {
 
-    val playlists by lazyFast { getPlaylistBlockingUseCase.execute(playlistType) }
+    val playlists by lazyFast { getPlaylistBlockingUseCase.execute(if (podcastPlaylist) PlaylistType.PODCAST
+                                                                    else PlaylistType.TRACK) }
 
     @SuppressLint("RxLeakedSubscription")
     protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId, listSize: Int, title: String){

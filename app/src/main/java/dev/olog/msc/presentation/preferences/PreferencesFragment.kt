@@ -22,6 +22,7 @@ import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragmen
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Completable
@@ -31,6 +32,7 @@ import io.reactivex.schedulers.Schedulers
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var libraryCategories : Preference
+    private lateinit var podcastCategories : Preference
     private lateinit var blacklist : Preference
     private lateinit var iconShape : Preference
     private lateinit var deleteCache : Preference
@@ -41,6 +43,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.prefs, rootKey)
         libraryCategories = preferenceScreen.findPreference(getString(R.string.prefs_library_categories_key))
+        podcastCategories = preferenceScreen.findPreference(getString(R.string.prefs_podcast_library_categories_key))
         blacklist = preferenceScreen.findPreference(getString(R.string.prefs_blacklist_key))
         iconShape = preferenceScreen.findPreference(getString(R.string.prefs_icon_shape_key))
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
@@ -83,8 +86,13 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         super.onResume()
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         libraryCategories.setOnPreferenceClickListener {
-            LibraryCategoriesFragment.newInstance().show(activity!!.supportFragmentManager,
-                    LibraryCategoriesFragment.TAG)
+            LibraryCategoriesFragment.newInstance(MediaIdCategory.SONGS)
+                    .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
+            true
+        }
+        podcastCategories.setOnPreferenceClickListener {
+            LibraryCategoriesFragment.newInstance(MediaIdCategory.PODCASTS)
+                    .show(activity!!.supportFragmentManager, LibraryCategoriesFragment.TAG)
             true
         }
         blacklist.setOnPreferenceClickListener {
@@ -124,6 +132,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         super.onPause()
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         libraryCategories.onPreferenceClickListener = null
+        podcastCategories.onPreferenceClickListener = null
         blacklist.onPreferenceClickListener = null
         deleteCache.onPreferenceClickListener = null
         lastFmCredentials.onPreferenceClickListener = null

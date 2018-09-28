@@ -6,7 +6,6 @@ import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
@@ -25,15 +24,14 @@ class PlaylistPopupListener @Inject constructor(
         addToPlaylistUseCase: AddToPlaylistUseCase,
         private val appShortcuts: AppShortcuts
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, PlaylistType.TRACK) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var playlist: Playlist
     private var song: Song? = null
 
-    fun setData(playlist: Playlist, song: Song?): PlaylistPopupListener{
+    fun setData(playlist: Playlist, song: Song?): PlaylistPopupListener {
         this.playlist = playlist
         this.song = song
-        this.playlistType = playlist.type
         return this
     }
 

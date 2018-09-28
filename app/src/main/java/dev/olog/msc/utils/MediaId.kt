@@ -1,8 +1,5 @@
 package dev.olog.msc.utils
 
-import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.floating.window.service.music.service.MusicServiceMetadata
-
 enum class MediaIdCategory {
     FOLDERS,
     PLAYLISTS,
@@ -10,12 +7,18 @@ enum class MediaIdCategory {
     ALBUMS,
     ARTISTS,
     GENRES,
-    PODCASTS,
+
     PODCASTS_PLAYLIST,
+    PODCASTS,
+    PODCASTS_ARTISTS,
+    PODCASTS_ALBUMS,
+
     RECENT_ALBUMS,
     RECENT_ARTISTS,
+
     NEW_ALBUMS,
     NEW_ARTISTS,
+
     HEADER
 }
 
@@ -47,27 +50,32 @@ class MediaId private constructor(
             return MediaId(MediaIdCategory.PLAYLISTS, value.toString())
         }
 
-        fun songId(id: Long, isPodcast: Boolean): MediaId {
-            val category = if (isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-            return MediaId(category, "", id)
+        fun podcastId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS, "", value)
         }
 
-        fun songId(metadata: MusicServiceMetadata): MediaId {
-            val category = if (metadata.isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-            return MediaId(category, "", metadata.id)
+        fun podcastPlaylistId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS_PLAYLIST, value.toString())
         }
 
-        fun songId(song: Song): MediaId {
-            val category = if (song.isPodcast) MediaIdCategory.PODCASTS else MediaIdCategory.SONGS
-            return MediaId(category, "", song.id)
+        fun songId(id: Long): MediaId {
+            return MediaId(MediaIdCategory.SONGS, "", id)
         }
 
         fun albumId(value: Long): MediaId {
             return MediaId(MediaIdCategory.ALBUMS, value.toString())
         }
 
+        fun podcastAlbumId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS_ALBUMS, value.toString())
+        }
+
         fun artistId(value: Long): MediaId {
             return MediaId(MediaIdCategory.ARTISTS, value.toString())
+        }
+
+        fun podcastArtistId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS_ARTISTS, value.toString())
         }
 
         fun genreId(value: Long): MediaId {
@@ -162,6 +170,7 @@ class MediaId private constructor(
     val isArtist : Boolean = category == MediaIdCategory.ARTISTS
     val isGenre : Boolean = category == MediaIdCategory.GENRES
     val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
+    val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
 
     fun assertPlaylist(){
         if (!isPlaylist){
