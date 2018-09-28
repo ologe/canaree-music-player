@@ -10,14 +10,11 @@ import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
-import dev.olog.msc.data.entity.PodcastPlaylist
-import dev.olog.msc.data.entity.PodcastPlaylistTrack
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toPlaylist
 import dev.olog.msc.data.mapper.toPlaylistSong
 import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
@@ -26,7 +23,6 @@ import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.debounceFirst
-import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -68,12 +64,11 @@ class PlaylistRepository @Inject constructor(
 
     private val mostPlayedDao = appDatabase.playlistMostPlayedDao()
     private val historyDao = appDatabase.historyDao()
-    private val podcastPlaylistDao = appDatabase.podcastPlaylistDao()
 
     private val autoPlaylistTitles = resources.getStringArray(R.array.common_auto_playlists)
 
     private fun createAutoPlaylist(id: Long, title: String, listSize: Int) : Playlist {
-        return Playlist(id, title, listSize, "", PlaylistType.AUTO)
+        return Playlist(id, title, listSize, "")
     }
 
     private fun queryAllData(): Observable<List<Playlist>> {
@@ -134,6 +129,7 @@ class PlaylistRepository @Inject constructor(
         return result.map { list -> list.first { it.id == param } }
     }
 
+
     override fun getAllAutoPlaylists(): Observable<List<Playlist>> {
         return Observables.combineLatest(
                 songGateway.getAll().map { it.count() }.distinctUntilChanged(), // last added
@@ -144,12 +140,6 @@ class PlaylistRepository @Inject constructor(
                         createAutoPlaylist(PlaylistConstants.FAVORITE_LIST_ID, autoPlaylistTitles[1], favorites),
                         createAutoPlaylist(PlaylistConstants.HISTORY_LIST_ID, autoPlaylistTitles[2], history)
                 ) }
-    }
-
-    override fun getAllPodcastPlaylsts(): Observable<List<Playlist>> {
-        return podcastPlaylistDao.getAllPlaylists()
-                .mapToList { it.toPlaylist() }
-                .toObservable()
     }
 
     override fun insertSongToHistory(songId: Long): Completable {
@@ -166,11 +156,6 @@ class PlaylistRepository @Inject constructor(
         }
         cursor?.close()
         return list
-    }
-
-    override fun getPlaylistsPodcastBlocking(): List<Playlist> {
-        return podcastPlaylistDao.getAllPlaylistsBlocking()
-                .map { it.toPlaylist() }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
@@ -228,57 +213,27 @@ class PlaylistRepository @Inject constructor(
         return helper.deletePlaylist(playlistId)
     }
 
-    override fun deletePodcastPlaylist(playlistId: Long): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.deletePlaylist(playlistId) }
-    }
-
     override fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>): Completable {
         return Completable.fromCallable { helper.addSongsToPlaylist(playlistId, songIds) }
     }
 
-    override fun addSongsToPodcastPlaylist(playlistId: Long, songIds: List<Long>): Completable {
-        return Completable.fromCallable {
-            println(podcastPlaylistDao.getAllPlaylistsBlocking())
-            val tracks = songIds.map {
-                PodcastPlaylistTrack(playlistId = playlistId, idInPlaylist = it)
-            }
-            podcastPlaylistDao.insertTracks(tracks)
-        }
-    }
+
 
 
     override fun clearPlaylist(playlistId: Long): Completable {
         return helper.clearPlaylist(playlistId)
     }
 
-    override fun clearPodcastPlaylist(playlistId: Long): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.clearPlaylist(playlistId) }
-    }
-
     override fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long) : Completable{
         return helper.removeSongFromPlaylist(playlistId, idInPlaylist)
-    }
-
-    override fun removeFromPodcastPlaylist(playlistId: Long, idInPlaylist: Long): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.deleteTrack(playlistId, idInPlaylist) }
     }
 
     override fun createPlaylist(playlistName: String): Single<Long> {
         return helper.createPlaylist(playlistName)
     }
 
-    override fun createPodcastPlaylist(playlistName: String): Single<Long> {
-        return Single.fromCallable { podcastPlaylistDao.createPlaylist(
-                PodcastPlaylist(name = playlistName, size = 0)
-        ) }
-    }
-
     override fun renamePlaylist(playlistId: Long, newTitle: String): Completable {
         return helper.renamePlaylist(playlistId, newTitle)
-    }
-
-    override fun renamePodcastPlaylist(playlistId: Long, newTitle: String): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.renamePlaylist(playlistId, newTitle) }
     }
 
     override fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
@@ -287,9 +242,5 @@ class PlaylistRepository @Inject constructor(
 
     override fun removeDuplicated(playlistId: Long): Completable {
         return Completable.fromCallable { helper.removeDuplicated(playlistId) }
-    }
-
-    override fun removePodcastDuplicated(playlistId: Long): Completable {
-        return Completable.fromCallable { podcastPlaylistDao.removeDuplicated(playlistId) }
     }
 }

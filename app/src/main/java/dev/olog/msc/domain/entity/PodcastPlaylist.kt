@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.entity
 
-data class Playlist (
+data class PodcastPlaylist (
         val id: Long,
         val title: String,
         val size: Int,

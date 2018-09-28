@@ -28,7 +28,6 @@ class FolderRepository @Inject constructor(
 
     private fun queryAllData(): Observable<List<Folder>> {
         return songGateway.getAll()
-                .map { list -> list.filter { !it.isPodcast } }
                 .map(this::mapToFolderList)
     }
 

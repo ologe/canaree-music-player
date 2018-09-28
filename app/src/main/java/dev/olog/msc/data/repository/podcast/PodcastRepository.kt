@@ -1,4 +1,4 @@
-package dev.olog.msc.data.repository
+package dev.olog.msc.data.repository.podcast
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
@@ -8,19 +8,18 @@ import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Media.DURATION
 import androidx.core.database.getLong
 import androidx.core.database.getString
 import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.data.mapper.toFakeSong
-import dev.olog.msc.data.mapper.toSong
-import dev.olog.msc.data.mapper.toUneditedSong
+import dev.olog.msc.data.mapper.toFakePodcast
+import dev.olog.msc.data.mapper.toPodcast
+import dev.olog.msc.data.mapper.toUneditedPodcast
 import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.entity.Podcast
+import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.onlyWithStoragePermission
@@ -48,29 +47,28 @@ private val PROJECTION = arrayOf(
         MediaStore.Audio.Media.YEAR,
         MediaStore.Audio.Media.TRACK,
         MediaStore.Audio.Media.DATE_ADDED,
-        MediaStore.Audio.Media.IS_PODCAST,
         "album_artist"
 )
 
-private const val SELECTION = "$DURATION > 20000 AND ${MediaStore.Audio.Media.IS_PODCAST} = 0"
+private const val SELECTION = "${MediaStore.Audio.Media.DURATION} > 20000 AND ${MediaStore.Audio.Media.IS_PODCAST} <> 0"
 
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
-class SongRepository @Inject constructor(
+class PodcastRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private  val rxContentResolver: BriteContentResolver,
         private  val appPrefsUseCase: AppPreferencesUseCase,
         private  val usedImageGateway: UsedImageGateway
 
-) : SongGateway {
+): PodcastGateway {
 
-    private fun queryAllData(): Observable<List<Song>> {
+    private fun queryAllData(): Observable<List<Podcast>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 null, SORT_ORDER, true
         ).onlyWithStoragePermission()
                 .debounceFirst()
-                .lift(SqlBrite.Query.mapToList { mapToSong(it) })
+                .lift(SqlBrite.Query.mapToList { mapToPodcast(it) })
                 .map { removeBlacklisted(it) }
                 .map { adjustImages(it) }
                 .map { mockDataIfNeeded(it) }
@@ -78,32 +76,32 @@ class SongRepository @Inject constructor(
                 .onErrorReturn { listOf() }
     }
 
-    private fun mapToSong(cursor: Cursor): Song {
+    private fun mapToPodcast(cursor: Cursor): Podcast {
         return if (AppConstants.useFakeData){
-            cursor.toFakeSong()
+            cursor.toFakePodcast()
         } else {
-            cursor.toSong()
+            cursor.toPodcast()
         }
     }
 
-    private fun updateImages(list: List<Song>): List<Song>{
+    private fun updateImages(list: List<Podcast>): List<Podcast>{
         val allForTracks = usedImageGateway.getAllForTracks()
         val allForAlbums = usedImageGateway.getAllForAlbums()
         if (allForTracks.isEmpty() && allForAlbums.isEmpty()){
             return list
         }
-        return list.map { song ->
-            val image = allForTracks.firstOrNull { it.id == song.id }?.image // search for track image
-                    ?: allForAlbums.firstOrNull { it.id == song.albumId }?.image  // search for track album image
-                    ?: song.image // use default
-            song.copy(image = image)
+        return list.map { podcast ->
+            val image = allForTracks.firstOrNull { it.id == podcast.id }?.image // search for track image
+                    ?: allForAlbums.firstOrNull { it.id == podcast.albumId }?.image  // search for track album image
+                    ?: podcast.image // use default
+            podcast.copy(image = image)
         }
     }
 
-    private fun mockDataIfNeeded(original: List<Song>): List<Song> {
+    private fun mockDataIfNeeded(original: List<Podcast>): List<Podcast> {
         if (AppConstants.useFakeData && original.isEmpty()){
             return (0 until 50)
-                    .map { Song(it.toLong(), it.toLong(), it.toLong(),
+                    .map { Podcast(it.toLong(), it.toLong(), it.toLong(),
                             "An awesome title", "An awesome artist",
                             "An awesome album artist", "An awesome album",
                             "", (it * 1000000).toLong(), System.currentTimeMillis(),
@@ -112,12 +110,12 @@ class SongRepository @Inject constructor(
         return original
     }
 
-    private fun adjustImages(original: List<Song>): List<Song> {
+    private fun adjustImages(original: List<Podcast>): List<Podcast> {
         val images = CommonQuery.searchForImages()
         return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
     }
 
-    private fun removeBlacklisted(original: List<Song>): List<Song>{
+    private fun removeBlacklisted(original: List<Podcast>): List<Podcast>{
         val blackListed = appPrefsUseCase.getBlackList()
         if (blackListed.isNotEmpty()){
             return original.filter { !blackListed.contains(it.folderPath) }
@@ -129,18 +127,18 @@ class SongRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    override fun getAll(): Observable<List<Song>> = cachedData
+    override fun getAll(): Observable<List<Podcast>> = cachedData
 
-    override fun getAllNewRequest(): Observable<List<Song>> {
+    override fun getAllNewRequest(): Observable<List<Podcast>> {
         return queryAllData()
     }
 
-    override fun getByParam(param: Long): Observable<Song> {
+    override fun getByParam(param: Long): Observable<Podcast> {
         return cachedData.map { list -> list.first { it.id == param } }
     }
 
     @SuppressLint("Recycle")
-    override fun getByUri(uri: Uri): Single<Song> {
+    override fun getByUri(uri: Uri): Single<Podcast> {
         return Single.fromCallable { getByUriInternal(uri) }
                 .map { it.toLong() }
                 .flatMap { getByParam(it).firstOrError() }
@@ -198,10 +196,10 @@ class SongRepository @Inject constructor(
         return path
     }
 
-    override fun getUneditedByParam(songId: Long): Observable<Song> {
+    override fun getUneditedByParam(podcastId: Long): Observable<Podcast> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",
-                arrayOf("$songId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
+                arrayOf("$podcastId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
         ).onlyWithStoragePermission()
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne {
@@ -210,11 +208,11 @@ class SongRepository @Inject constructor(
                     val trackImage = usedImageGateway.getForTrack(id)
                     val albumImage = usedImageGateway.getForAlbum(albumId)
                     val image = trackImage ?: albumImage ?: ImagesFolderUtils.forAlbum(albumId)
-                    it.toUneditedSong(image)
-        }).distinctUntilChanged()
+                    it.toUneditedPodcast(image)
+                }).distinctUntilChanged()
     }
 
-    override fun getAllUnfiltered(): Observable<List<Song>> {
+    override fun getAllUnfiltered(): Observable<List<Podcast>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI,
                 PROJECTION,
@@ -224,16 +222,16 @@ class SongRepository @Inject constructor(
                 false
         ).onlyWithStoragePermission()
                 .debounceFirst()
-                .lift(SqlBrite.Query.mapToList { it.toSong() })
+                .lift(SqlBrite.Query.mapToList { it.toPodcast() })
                 .onErrorReturnItem(listOf())
     }
 
-    override fun deleteSingle(songId: Long): Completable {
+    override fun deleteSingle(podcastId: Long): Completable {
         return Single.fromCallable {
-            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$songId"))
+            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$podcastId"))
         }
                 .filter { it > 0 }
-                .flatMapSingle { getByParam(songId).firstOrError() }
+                .flatMapSingle { getByParam(podcastId).firstOrError() }
                 .map { File(it.path) }
                 .filter { it.exists() }
                 .map { it.delete() }
@@ -242,11 +240,10 @@ class SongRepository @Inject constructor(
 
     }
 
-    override fun deleteGroup(songList: List<Song>): Completable {
-        return Flowable.fromIterable(songList)
+    override fun deleteGroup(podcastList: List<Podcast>): Completable {
+        return Flowable.fromIterable(podcastList)
                 .map { it.id }
                 .flatMapCompletable { deleteSingle(it).subscribeOn(Schedulers.io()) }
     }
 
 }
-

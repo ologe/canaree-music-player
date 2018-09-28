@@ -24,7 +24,7 @@ class DeleteUseCase @Inject constructor(
         }
 
         return when {
-            mediaId.isPodcast && !mediaId.isLeaf -> playlistGateway.deletePodcastPlaylist(mediaId.categoryValue.toLong())
+            mediaId.isPodcastPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryValue.toLong())
             mediaId.isPlaylist -> playlistGateway.deletePlaylist(mediaId.categoryValue.toLong())
             else -> getSongListByParamUseCase.execute(mediaId)
                     .flatMapCompletable { songGateway.deleteGroup(it) }

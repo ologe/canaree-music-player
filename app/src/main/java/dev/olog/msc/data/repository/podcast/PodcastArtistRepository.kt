@@ -1,4 +1,4 @@
-package dev.olog.msc.data.repository
+package dev.olog.msc.data.repository.podcast
 
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
@@ -7,46 +7,42 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.data.mapper.toFakeArtist
-import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.gateway.ArtistGateway
-import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.domain.entity.Podcast
+import dev.olog.msc.domain.entity.PodcastArtist
+import dev.olog.msc.domain.gateway.PodcastArtistGateway
+import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
 import java.text.Collator
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
-class ArtistRepository @Inject constructor(
+class PodcastArtistRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
-        private val songGateway: SongGateway,
-        appDatabase: AppDatabase,
+        private val podcastGateway: PodcastGateway,
         private val collator: Collator,
         private val usedImageGateway: UsedImageGateway
 
-) : ArtistGateway {
+) : PodcastArtistGateway {
 
-    private val lastPlayedDao = appDatabase.lastPlayedArtistDao()
-
-    private fun queryAllData(): Observable<List<Artist>> {
+    private fun queryAllData(): Observable<List<PodcastArtist>> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, arrayOf("count(*) as size"), null,
                 null, " size ASC LIMIT 1", true
         ).onlyWithStoragePermission()
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne { 0 })
-                .switchMap { songGateway.getAll() }
+                .switchMap { podcastGateway.getAll() }
                 .map { mapToArtists(it) }
                 .map { updateImages(it) }
 
     }
 
-    private fun updateImages(list: List<Artist>): List<Artist>{
+    private fun updateImages(list: List<PodcastArtist>): List<PodcastArtist>{
         val allForArtists = usedImageGateway.getAllForArtists()
         if (allForArtists.isEmpty()){
             return list
@@ -57,7 +53,7 @@ class ArtistRepository @Inject constructor(
         }
     }
 
-    private fun mapToArtists(songList: List<Song>): List<Artist> {
+    private fun mapToArtists(songList: List<Podcast>): List<PodcastArtist> {
         return songList.asSequence()
                 .filter { it.artist != AppConstants.UNKNOWN }
                 .distinctBy { it.artistId }
@@ -69,7 +65,7 @@ class ArtistRepository @Inject constructor(
                 .toList()
     }
 
-    private fun mapSongToArtist(song: Song, songCount: Int, albumCount: Int): Artist {
+    private fun mapSongToArtist(song: Podcast, songCount: Int, albumCount: Int): PodcastArtist {
         return if (AppConstants.useFakeData){
             song.toFakeArtist(songCount, albumCount)
         } else {
@@ -77,14 +73,14 @@ class ArtistRepository @Inject constructor(
         }
     }
 
-    private fun countAlbums(artistId: Long, songList: List<Song>): Int {
+    private fun countAlbums(artistId: Long, songList: List<Podcast>): Int {
         return songList.asSequence()
                 .distinctBy { it.albumId }
                 .filter { it.album != AppConstants.UNKNOWN }
                 .count { it.artistId == artistId }
     }
 
-    private fun countTracks(artistId: Long, songList: List<Song>): Int {
+    private fun countTracks(artistId: Long, songList: List<Podcast>): Int {
         return songList.count { it.artistId == artistId }
     }
 
@@ -92,44 +88,31 @@ class ArtistRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    override fun getAll(): Observable<List<Artist>> {
+    override fun getAll(): Observable<List<PodcastArtist>> {
         return cachedData
     }
 
-    override fun getAllNewRequest(): Observable<List<Artist>> {
+    override fun getAllNewRequest(): Observable<List<PodcastArtist>> {
         return queryAllData()
     }
 
-    override fun getByParam(param: Long): Observable<Artist> {
+    override fun getByParam(param: Long): Observable<PodcastArtist> {
         return cachedData.map { it.first { it.id == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(artistId: Long): Observable<List<Song>> {
-        return songGateway.getAll().map {
+    override fun observeSongListByParam(artistId: Long): Observable<List<Podcast>> {
+        return podcastGateway.getAll().map {
             it.asSequence().filter { it.artistId == artistId }.toList()
         }.distinctUntilChanged()
     }
 
-    override fun getLastPlayed(): Observable<List<Artist>> {
-        return Observables.combineLatest(
-                getAll(),
-                lastPlayedDao.getAll().toObservable(),
-                { all, lastPlayed ->
-
-            if (all.size < 10) {
-                listOf()
-            } else {
-                lastPlayed.asSequence()
-                        .mapNotNull { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
-                        .take(10)
-                        .toList()
-            }
-        })
+    override fun getLastPlayed(): Observable<List<PodcastArtist>> {
+        TODO()
     }
 
     override fun addLastPlayed(id: Long): Completable {
-        return lastPlayedDao.insertOne(id)
+        TODO()
     }
 
 }
