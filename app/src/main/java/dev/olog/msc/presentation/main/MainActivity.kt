@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
@@ -82,6 +81,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
            bottomNavigate(it.itemId, false)
             true
         }
+        bottomNavigation.setOnNavigationItemReselectedListener { bottomNavigate(it.itemId, true) }
         slidingPanel.addPanelSlideListener(onPanelSlide)
     }
 
@@ -105,7 +105,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     private val onPanelSlide = object : SlidingUpPanelLayout.PanelSlideListener {
 
         override fun onPanelSlide(panel: View, slideOffset: Float) {
-            bottomWrapper.translationY = bottomWrapper.height * slideOffset
+            bottomWrapper.translationY = bottomWrapper.height * clamp(slideOffset, 0f, 1f)
         }
 
         override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {}
@@ -142,11 +142,10 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     }
 
     private fun handleEmptyRepository(isEmpty: Boolean){
-        if (isEmpty && slidingPanel.panelState != HIDDEN){
-            slidingPanel.panelState = HIDDEN
-
-        } else if (!isEmpty && slidingPanel.panelState == HIDDEN){
-            slidingPanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        if (isEmpty){
+            slidingPanel.panelHeight = dimen(R.dimen.bottom_navigation_height)
+        } else {
+            slidingPanel.panelHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         }
     }
 

@@ -166,7 +166,7 @@ class QueueManager @Inject constructor(
     override fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity> {
         return getSongByFileUseCase.execute(uri)
                 .delay(500, TimeUnit.MILLISECONDS)
-                .map { it.toMediaEntity(0, MediaId.songId(it)) }
+                .map { it.toMediaEntity(0, MediaId.songId(it.id)) }
                 .map { listOf(it) }
                 .doOnSuccess(queueImpl::updatePlayingQueueAndPersist)
                 .doOnSuccess { list -> queueImpl.updateCurrentSongPosition(list, 0) }
@@ -178,7 +178,7 @@ class QueueManager @Inject constructor(
 
         val params = VoiceSearchParams(query, extras)
 
-        val mediaId = MediaId.songId(-1, false)
+        val mediaId = MediaId.songId(-1)
 
         val songList = when {
             params.isUnstructured -> VoiceSearch.search(getSongListByParamUseCase.execute(mediaId), query)

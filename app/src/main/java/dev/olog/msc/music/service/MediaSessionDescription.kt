@@ -42,7 +42,7 @@ class MediaSessionDescription @Inject constructor(
         val mediaId = if (songList.isNotEmpty()){
             songList[0].mediaId
         } else {
-            MediaId.songId(-1, false)
+            MediaId.songId(-1)
         }
         bundle.putInt(MusicConstants.EXTRA_QUEUE_CATEGORY, mediaId.category.ordinal)
         mediaSession.setExtras(bundle)

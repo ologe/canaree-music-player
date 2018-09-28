@@ -44,7 +44,7 @@ open class WidgetColored : BaseWidget() {
 
     private fun WidgetMetadata.toDisplayableItem(): DisplayableItem {
         return DisplayableItem(
-                0, MediaId.songId(this.id, false), "", image = this.image
+                0, MediaId.songId(this.id), "", image = this.image
         )
     }
 

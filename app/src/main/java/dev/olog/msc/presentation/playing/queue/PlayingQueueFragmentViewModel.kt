@@ -10,8 +10,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.k.extension.mapToList
-import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PlayingQueueFragmentViewModel @Inject constructor(
@@ -36,7 +34,7 @@ class PlayingQueueFragmentViewModel @Inject constructor(
 
         return DisplayableItem(
                 R.layout.item_playing_queue,
-                MediaId.songId(this.id, this.isPodcast),
+                MediaId.songId(this.id),
                 title,
                 DisplayableItem.adjustArtist(artist),
                 image,

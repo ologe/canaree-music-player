@@ -24,6 +24,7 @@ class GetSortOrderUseCase @Inject constructor(
             MediaIdCategory.ALBUMS -> gateway.getAlbumSortOrder()
             MediaIdCategory.ARTISTS -> gateway.getArtistSortOrder()
             MediaIdCategory.GENRES -> gateway.getGenreSortOrder()
+            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.getPodcastPlaylistSortOrder()
             else -> throw IllegalArgumentException("invalid media id $mediaId")
         }
     }

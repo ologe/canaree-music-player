@@ -84,7 +84,6 @@ class TabFragmentViewModelModule {
             headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
 
         return useCase.execute()
-                .map { list -> list.filter { !it.isPodcast } }
                 .mapToList { it.toTabDisplayableItem() }
                 .map { it.startWithIfNotEmpty(headers.shuffleHeader) }
                 .defer()
@@ -93,11 +92,10 @@ class TabFragmentViewModelModule {
     @Provides
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS)
-    internal fun providePodcastData(useCase: GetAllSongsSortedUseCase)
+    internal fun providePodcastData(useCase: GetAllPodcastUseCase)
             : Observable<List<DisplayableItem>> {
 
         return useCase.execute()
-                .map { list -> list.filter { it.isPodcast } }
                 .mapToList { it.toTabDisplayableItem() }
                 .defer()
     }
@@ -128,6 +126,17 @@ class TabFragmentViewModelModule {
                 .defer()
 
         return Observables.combineLatest(allObs, lastPlayedObs) { all, recent -> recent.plus(all) }
+                .defer()
+    }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ALBUMS)
+    internal fun providePodcastAlbumData(
+            useCase: GetAllPodcastAlbumsUseCase): Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabDisplayableItem() }
                 .defer()
     }
 
@@ -162,7 +171,17 @@ class TabFragmentViewModelModule {
                 .defer()
     }
 
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ARTISTS)
+    internal fun providePodcastArtistsData(
+            useCase: GetAllPodcastArtistsUseCase,
+            resources: Resources): Observable<List<DisplayableItem>> {
 
+        return useCase.execute()
+                .mapToList { it.toTabDisplayableItem(resources) }
+                .defer()
+    }
 
     @Provides
     @IntoMap
@@ -258,13 +277,40 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
     )
 }
 
+private fun PodcastPlaylist.toTabDisplayableItem(resources: Resources): DisplayableItem {
+
+    val size = DisplayableItem.handleSongListSize(resources, size)
+
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaId.podcastPlaylistId(id),
+            title,
+            size,
+            this.image
+    )
+}
+
 private fun Song.toTabDisplayableItem(): DisplayableItem {
     val artist = DisplayableItem.adjustArtist(this.artist)
     val album = DisplayableItem.adjustAlbum(this.album)
 
     return DisplayableItem(
             R.layout.item_tab_song,
-            MediaId.songId(this),
+            MediaId.songId(this.id),
+            title,
+            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            image,
+            true
+    )
+}
+
+private fun Podcast.toTabDisplayableItem(): DisplayableItem {
+    val artist = DisplayableItem.adjustArtist(this.artist)
+    val album = DisplayableItem.adjustAlbum(this.album)
+
+    return DisplayableItem(
+            R.layout.item_tab_song,
+            MediaId.podcastId(this.id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
@@ -282,7 +328,31 @@ private fun Album.toTabDisplayableItem(): DisplayableItem{
     )
 }
 
+private fun PodcastAlbum.toTabDisplayableItem(): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_tab_album,
+            MediaId.albumId(id),
+            title,
+            DisplayableItem.adjustArtist(artist),
+            image
+    )
+}
+
 private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
+
+    return DisplayableItem(
+            R.layout.item_tab_artist,
+            MediaId.artistId(id),
+            name,
+            albums + songs,
+            this.image
+    )
+}
+
+private fun PodcastArtist.toTabDisplayableItem(resources: Resources): DisplayableItem{
     val songs = DisplayableItem.handleSongListSize(resources, songs)
     var albums = DisplayableItem.handleAlbumListSize(resources, albums)
     if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED

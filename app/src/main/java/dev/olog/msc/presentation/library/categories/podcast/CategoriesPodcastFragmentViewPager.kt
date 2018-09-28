@@ -4,32 +4,37 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ChildFragmentManager
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.presentation.library.tab.TabFragment
 import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
 class CategoriesPodcastFragmentViewPager @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ChildFragmentManager private val fragmentManager: FragmentManager
+        @ChildFragmentManager private val fragmentManager: FragmentManager,
+        prefsUseCase: AppPreferencesUseCase
 
 ) : FragmentStatePagerAdapter(fragmentManager) {
 
-    override fun getItem(position: Int): Fragment {
-        return when (position){
-            0 -> return TabFragment.newInstance(MediaIdCategory.PODCASTS)
-            else -> TabFragment.newInstance(MediaIdCategory.PODCASTS_PLAYLIST)
-        }
+    private val data = prefsUseCase.getPodcastLibraryCategories()
+            .filter { it.visible }
+
+    fun getCategoryAtPosition(position: Int): MediaIdCategory {
+        return data[position].category
     }
 
-    override fun getCount(): Int = 2
+    override fun getItem(position: Int): Fragment {
+        val category = data[position].category
+        return TabFragment.newInstance(category)
+    }
+
+    override fun getCount(): Int = data.size
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.getString(when(position){
-            0 -> R.string.common_podcast
-            else -> R.string.common_playlists
-        })
+        return data[position].asString(context)
     }
+
+    fun isEmpty() = data.isEmpty()
 }

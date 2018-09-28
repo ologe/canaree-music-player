@@ -52,18 +52,19 @@ class TabFragment : BaseFragment() {
     private fun handleEmptyStateVisibility(isEmpty: Boolean){
         emptyStateText.toggleVisibility(isEmpty, true)
         if (isEmpty){
-             if (category == MediaIdCategory.PODCASTS || category == MediaIdCategory.PODCASTS_PLAYLIST){
+             if (isPodcastFragment()){
                  val emptyText = resources.getStringArray(R.array.tab_empty_podcast)
-                 if (category == MediaIdCategory.PODCASTS) {
-                     emptyStateText.text = emptyText[0]
-                 } else {
-                     emptyStateText.text = emptyText[1]
-                 }
+                 emptyStateText.text = emptyText[category.ordinal - 6]
             } else {
                  val emptyText = resources.getStringArray(R.array.tab_empty_state)
                  emptyStateText.text = emptyText[category.ordinal]
             }
         }
+    }
+
+    private fun isPodcastFragment(): Boolean {
+        return category == MediaIdCategory.PODCASTS || category == MediaIdCategory.PODCASTS_PLAYLIST ||
+                category == MediaIdCategory.PODCASTS_ALBUMS || category == MediaIdCategory.PODCASTS_ARTISTS
     }
 
     @CallSuper

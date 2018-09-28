@@ -12,7 +12,7 @@ class CategoriesFragmentPresenter @Inject constructor(
 ) {
 
     fun getViewPagerLastPage(totalPages: Int) : Int{
-        val lastPage = appPrefsUseCase.getViewPagerLastVisitedPage()
+        val lastPage = appPrefsUseCase.getViewPagerLibraryLastPage()
         return clamp(lastPage, 0, totalPages)
     }
 

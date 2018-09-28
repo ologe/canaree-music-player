@@ -57,7 +57,7 @@ class EditTrackFragment : BaseEditItemFragment() {
                 bitrate.text = it.bitrate
                 format.text = it.format
                 sampling.text = it.sampling
-                val model = DisplayableItem(0, MediaId.songId(it.id, false), "", image = it.image)
+                val model = DisplayableItem(0, MediaId.songId(it.id), "", image = it.image)
                 setImage(model)
             }
             hideLoader()

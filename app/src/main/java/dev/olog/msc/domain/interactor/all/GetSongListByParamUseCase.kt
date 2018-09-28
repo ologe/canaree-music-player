@@ -1,11 +1,13 @@
 package dev.olog.msc.domain.interactor.all
 
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.entity.toSong
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.*
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
 import javax.inject.Inject
 
@@ -17,7 +19,9 @@ class GetSongListByParamUseCase @Inject constructor(
         private val albumDataStore: AlbumGateway,
         private val artistDataStore: ArtistGateway,
         private val folderDataStore: FolderGateway,
-        private val songDataStore: SongGateway
+        private val songDataStore: SongGateway,
+        private val podcastDataStore: PodcastGateway,
+        private val podcastPlaylistDataStore: PodcastPlaylistGateway
 
 ) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(schedulers) {
 
@@ -30,11 +34,12 @@ class GetSongListByParamUseCase @Inject constructor(
         return when (mediaId.category) {
             MediaIdCategory.FOLDERS -> folderDataStore.observeSongListByParam(mediaId.categoryValue)
             MediaIdCategory.PLAYLISTS -> playlistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
-            MediaIdCategory.SONGS -> songDataStore.getAll().map { list -> list.filter { !it.isPodcast } }
+            MediaIdCategory.SONGS -> songDataStore.getAll()
             MediaIdCategory.ALBUMS -> albumDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.ARTISTS -> artistDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.GENRES -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
-            MediaIdCategory.PODCASTS -> songDataStore.getAll().map { list -> list.filter { it.isPodcast } }
+            MediaIdCategory.PODCASTS -> podcastDataStore.getAll().mapToList { it.toSong() }
+            MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistDataStore.observeSongListByParam(mediaId.resolveId)
             else -> throw AssertionError("invalid media id $mediaId")
         }
     }

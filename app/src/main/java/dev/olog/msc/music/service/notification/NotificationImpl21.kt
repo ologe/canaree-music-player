@@ -121,7 +121,7 @@ open class NotificationImpl21 @Inject constructor(
             album: String,
             image: String){
 
-        val model = DisplayableItem(0, MediaId.songId(id, false), "", image = image)
+        val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
         val bitmap = service.getBitmapAsync(model, INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
                 .setContentTitle(title)

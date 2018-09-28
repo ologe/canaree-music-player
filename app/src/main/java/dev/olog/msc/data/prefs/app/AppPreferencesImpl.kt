@@ -31,6 +31,7 @@ class AppPreferencesImpl @Inject constructor(
         private const val FIRST_ACCESS = "$TAG.FIRST_ACCESS"
 
         private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
+        private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
 
         private const val SLEEP_TIME = "$TAG.SLEEP_TIME"
         private const val SLEEP_FROM = "$TAG.FROM_WHEN"
@@ -49,6 +50,16 @@ class AppPreferencesImpl @Inject constructor(
         private const val CATEGORY_ALBUM_VISIBILITY = "$TAG.CATEGORY_ALBUM_VISIBILITY"
         private const val CATEGORY_ARTIST_VISIBILITY = "$TAG.CATEGORY_ARTIST_VISIBILITY"
         private const val CATEGORY_GENRE_VISIBILITY = "$TAG.CATEGORY_GENRE_VISIBILITY"
+
+        private const val CATEGORY_PODCAST_PLAYLIST_ORDER = "$TAG.CATEGORY_PODCAST_PLAYLIST_ORDER"
+        private const val CATEGORY_PODCAST_ORDER = "$TAG.CATEGORY_PODCAST_ORDER"
+        private const val CATEGORY_PODCAST_ALBUM_ORDER = "$TAG.CATEGORY_PODCAST_ALBUM_ORDER"
+        private const val CATEGORY_PODCAST_ARTIST_ORDER = "$TAG.CATEGORY_PODCAST_ARTIST_ORDER"
+
+        private const val CATEGORY_PODCAST_PLAYLIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_PODCAST_PLAYLIST_VISIBILITY"
+        private const val CATEGORY_PODCAST_VISIBILITY = "$TAG.CATEGORY_PODCAST_VISIBILITY"
+        private const val CATEGORY_PODCAST_ALBUM_VISIBILITY = "$TAG.CATEGORY_PODCAST_ALBUM_VISIBILITY"
+        private const val CATEGORY_PODCAST_ARTIST_VISIBILITY = "$TAG.CATEGORY_PODCAST_ARTIST_VISIBILITY"
 
         private const val LAST_FM_USERNAME = "$TAG.LAST_FM_USERNAME"
         private const val LAST_FM_PASSWORD = "$TAG.LAST_FM_PASSWORD"
@@ -70,16 +81,20 @@ class AppPreferencesImpl @Inject constructor(
         return isFirstAccess
     }
 
-    override fun getViewPagerLastVisitedPage(): Int {
-        val remember = preferences.getBoolean(context.getString(R.string.prefs_remember_last_tab_key), true)
-        if (remember){
-            return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
-        }
-        return 2
+    override fun getViewPagerLibraryLastPage(): Int {
+        return preferences.getInt(VIEW_PAGER_LAST_PAGE, 2)
     }
 
-    override fun setViewPagerLastVisitedPage(lastPage: Int) {
+    override fun setViewPagerLibraryLastPage(lastPage: Int) {
         preferences.edit { putInt(VIEW_PAGER_LAST_PAGE, lastPage) }
+    }
+
+    override fun getViewPagerPodcastLastPage(): Int {
+        return preferences.getInt(VIEW_PAGER_PODCAST_LAST_PAGE, 2)
+    }
+
+    override fun setViewPagerPodcastLastPage(lastPage: Int) {
+        preferences.edit { putInt(VIEW_PAGER_PODCAST_LAST_PAGE, lastPage) }
     }
 
     override fun getVisibleTabs(): Observable<BooleanArray> {
@@ -160,6 +175,59 @@ class AppPreferencesImpl @Inject constructor(
             val genre = behavior.first { it.category == MediaIdCategory.GENRES }
             putInt(CATEGORY_GENRE_ORDER, genre.order)
             putBoolean(CATEGORY_GENRE_VISIBILITY, genre.visible)
+        }
+    }
+
+    override fun getPodcastLibraryCategories(): List<LibraryCategoryBehavior> {
+        return listOf(
+                LibraryCategoryBehavior(
+                        MediaIdCategory.PODCASTS_PLAYLIST,
+                        preferences.getBoolean(CATEGORY_PODCAST_PLAYLIST_VISIBILITY, true),
+                        preferences.getInt(CATEGORY_PODCAST_PLAYLIST_ORDER, 0)
+                ),
+                LibraryCategoryBehavior(
+                        MediaIdCategory.PODCASTS,
+                        preferences.getBoolean(CATEGORY_PODCAST_VISIBILITY, true),
+                        preferences.getInt(CATEGORY_PODCAST_ORDER, 1)
+                ),
+                LibraryCategoryBehavior(
+                        MediaIdCategory.PODCASTS_ALBUMS,
+                        preferences.getBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, true),
+                        preferences.getInt(CATEGORY_PODCAST_ALBUM_ORDER, 2)
+                ),
+                LibraryCategoryBehavior(
+                        MediaIdCategory.PODCASTS_ARTISTS,
+                        preferences.getBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, true),
+                        preferences.getInt(CATEGORY_PODCAST_ARTIST_ORDER, 3)
+                )
+        ).sortedBy { it.order }
+    }
+
+    override fun getDefaultPodcastLibraryCategories(): List<LibraryCategoryBehavior> {
+        return MediaIdCategory.values()
+                .drop(6)
+                .take(4)
+                .mapIndexed { index, category -> LibraryCategoryBehavior(category, true, index) }
+    }
+
+    override fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>) {
+        preferences.edit {
+
+            val playlist = behavior.first { it.category == MediaIdCategory.PODCASTS_PLAYLIST }
+            putInt(CATEGORY_PODCAST_PLAYLIST_ORDER, playlist.order)
+            putBoolean(CATEGORY_PODCAST_PLAYLIST_VISIBILITY, playlist.visible)
+
+            val song = behavior.first { it.category == MediaIdCategory.PODCASTS }
+            putInt(CATEGORY_PODCAST_ORDER, song.order)
+            putBoolean(CATEGORY_PODCAST_VISIBILITY, song.visible)
+
+            val album = behavior.first { it.category == MediaIdCategory.PODCASTS_ALBUMS }
+            putInt(CATEGORY_PODCAST_ALBUM_ORDER, album.order)
+            putBoolean(CATEGORY_PODCAST_ALBUM_VISIBILITY, album.visible)
+
+            val artist = behavior.first { it.category == MediaIdCategory.PODCASTS_ARTISTS }
+            putInt(CATEGORY_PODCAST_ARTIST_ORDER, artist.order)
+            putBoolean(CATEGORY_PODCAST_ARTIST_VISIBILITY, artist.visible)
         }
     }
 

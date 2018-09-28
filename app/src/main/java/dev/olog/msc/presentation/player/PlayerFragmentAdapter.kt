@@ -80,7 +80,7 @@ class PlayerFragmentAdapter (
             R.layout.fragment_player_controls_big_image,
             R.layout.fragment_player_controls_clean -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
-                    val mediaId = MediaId.songId(viewModel.getCurrentTrackId(), false)
+                    val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
                 }
             }

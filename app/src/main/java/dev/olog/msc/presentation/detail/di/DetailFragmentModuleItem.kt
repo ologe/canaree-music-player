@@ -86,6 +86,20 @@ class DetailFragmentModuleItem {
                 .map { it.toHeaderItem(resources) }
                 .asFlowable()
     }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.PODCASTS_PLAYLIST)
+    internal fun providePodcastPlaylistItem(
+            resources: Resources,
+            mediaId: MediaId,
+            useCase: GetPodcastPlaylistUseCase) : Flowable<List<DisplayableItem>> {
+
+        return useCase.execute(mediaId)
+                .map { it.toHeaderItem(resources) }
+                .asFlowable()
+    }
+
 }
 
 
@@ -116,6 +130,29 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
             DisplayableItem(
                     R.layout.item_detail_item_image,
                     MediaId.playlistId(this.id),
+                    "",
+                    image = image
+            ),
+            DisplayableItem(
+                    R.layout.item_detail_item_info,
+                    MediaId.headerId("item info"),
+                    title,
+                    listSize
+            )
+    )
+
+}
+
+
+private fun PodcastPlaylist.toHeaderItem(resources: Resources): List<DisplayableItem> {
+    val listSize = if (this.size == -1){ "" } else {
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
+    }
+
+    return listOf(
+            DisplayableItem(
+                    R.layout.item_detail_item_image,
+                    MediaId.podcastPlaylistId(this.id),
                     "",
                     image = image
             ),
