@@ -177,10 +177,12 @@ public class RadialKnob extends View {
     private OnTouchListener onKnobTouchListener = (v, event) -> {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                getParent().requestDisallowInterceptTouchEvent(true);
                 resize(true);
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
                 resize(false);
                 return true;
         }

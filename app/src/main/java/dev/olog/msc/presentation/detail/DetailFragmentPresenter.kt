@@ -112,7 +112,7 @@ class DetailFragmentPresenter @Inject constructor(
         if (list.isNotEmpty()){
             val size = list.size
             val artist = when {
-                mediaId.isAlbum -> item[1].subtitle
+                mediaId.isAlbum -> item[0].subtitle
                 else -> null
             }
             list.clear()

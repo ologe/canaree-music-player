@@ -7,7 +7,7 @@ import android.view.View
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import dev.olog.msc.R
 import dev.olog.msc.music.service.equalizer.IEqualizer
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.equalizer.widget.RadialKnob
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.asLiveData
@@ -17,10 +17,15 @@ import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer.view.*
 import javax.inject.Inject
 
-class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
+class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listener {
 
     companion object {
         const val TAG = "EqualizerFragment"
+
+        @JvmStatic
+        fun newInstance(): EqualizerFragment {
+            return EqualizerFragment()
+        }
     }
 
     @Inject lateinit var presenter: EqualizerFragmentPresenter
@@ -88,8 +93,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band3.setLevel = onBandLevelChange
         band4.setLevel = onBandLevelChange
         band5.setLevel = onBandLevelChange
-
-        back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
@@ -104,8 +107,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band3.setLevel = null
         band4.setLevel = null
         band5.setLevel = null
-
-        back.setOnClickListener(null)
     }
 
     private val onBassKnobChangeListener = object : RadialKnob.OnKnobChangeListener {

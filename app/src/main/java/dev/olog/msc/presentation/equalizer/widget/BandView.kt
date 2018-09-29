@@ -58,13 +58,12 @@ class BandView (
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val y = event.rawY
 
-        when (event.actionMasked){
+        return when (event.actionMasked){
             MotionEvent.ACTION_DOWN -> startInteraction(y)
             MotionEvent.ACTION_MOVE -> onMoveInteraction(y)
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> endInteraction()
+            else -> super.onTouchEvent(event)
         }
-
-        return super.onTouchEvent(event)
     }
 
     private fun createCurrentLevelTextView(){
@@ -109,7 +108,7 @@ class BandView (
         })
     }
 
-    private fun startInteraction(y: Float){
+    private fun startInteraction(y: Float): Boolean {
         lastTouchY = y
         isInteracting = true
 
@@ -118,9 +117,13 @@ class BandView (
         currentLevel.visibility = View.VISIBLE
 
         context.vibrate(40)
+
+        parent.requestDisallowInterceptTouchEvent(true)
+
+        return true
     }
 
-    private fun onMoveInteraction(y: Float){
+    private fun onMoveInteraction(y: Float): Boolean{
         val dy = y - lastTouchY
         posY -= dy
         lastTouchY = y
@@ -140,13 +143,19 @@ class BandView (
 
         val height = (1 - EqHelper.projectY(level)) * (height - topMargin)
         updateHeight(height.toInt(), false)
+
+        return true
     }
 
-    private fun endInteraction(){
+    private fun endInteraction(): Boolean{
         isInteracting = false
         updateWidth(1f)
         view.alpha = getAlphaBasedOnPosition()
         currentLevel.visibility = View.GONE
+
+        parent.requestDisallowInterceptTouchEvent(false)
+
+        return true
     }
 
     private fun updateWidth(scaleX: Float){
