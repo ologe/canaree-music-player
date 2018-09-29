@@ -75,6 +75,7 @@ class SongRepository @Inject constructor(
                 .map { adjustImages(it) }
                 .map { mockDataIfNeeded(it) }
                 .map { updateImages(it) }
+                .doOnError { it.printStackTrace() }
                 .onErrorReturn { listOf() }
     }
 
@@ -225,6 +226,7 @@ class SongRepository @Inject constructor(
         ).onlyWithStoragePermission()
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { it.toSong() })
+                .doOnError { it.printStackTrace() }
                 .onErrorReturnItem(listOf())
     }
 
