@@ -19,7 +19,7 @@ class GlideAlbumFetcher(
     private val id = mediaId.resolveId
 
     override fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): Single<String> {
-        return if (mediaId.isPodcastArtist){
+        return if (mediaId.isPodcastAlbum){
             lastFmGateway.getPodcastAlbum(id).map { it.get()!!.image }
         } else {
             lastFmGateway.getAlbum(id).map { it.get()!!.image }
@@ -27,7 +27,7 @@ class GlideAlbumFetcher(
     }
 
     override fun shouldFetch(): Single<Boolean> {
-        return if (mediaId.isPodcastArtist){
+        return if (mediaId.isPodcastAlbum){
             lastFmGateway.shouldFetchPodcastAlbum(id)
         } else {
             lastFmGateway.shouldFetchAlbum(id)
