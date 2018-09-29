@@ -37,8 +37,9 @@ class ParallaxRecyclerView(
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
                 if (viewHolder != null){
                     val img = viewHolder.itemView.findViewById<View>(R.id.cover)
+                    val textWrapper = viewHolder.itemView.findViewById<View>(R.id.textWrapper)
                     if (img != null && img is ParallaxImageView){
-                        img.translateY(viewHolder.itemView)
+                        img.translateY(viewHolder.itemView, textWrapper)
                     }
                 }
             }

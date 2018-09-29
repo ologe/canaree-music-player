@@ -25,7 +25,6 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
@@ -50,13 +49,13 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int){
         when (viewType) {
-            R.layout.item_detail_item_info -> {
-                if (mediaId.isAlbum){
-                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { _, _, _ ->
-                        viewModel.artistMediaId { navigator.toDetailFragment(it) }
-                    }
-                }
-            }
+//            R.layout.item_detail_item_image -> {
+//                if (mediaId.isAlbum){
+//                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { _, _, _ ->
+//                        viewModel.artistMediaId { navigator.toDetailFragment(it) }
+//                    }
+//                }
+//            }
 
             R.layout.item_detail_most_played_list -> {
                 val list = viewHolder.itemView as RecyclerView

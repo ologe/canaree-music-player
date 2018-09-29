@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.detail.scroll.listener
 
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.utils.k.extension.dimen
-import dev.olog.msc.utils.k.extension.hasNotch
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
@@ -26,7 +26,7 @@ class HeaderVisibilityScrollListener(
         val view = fragment.view!!
 
         if (holder.itemViewType == R.layout.item_detail_item_image) {
-            val bottom = child.bottom
+            val bottom = child.bottom - child.findViewById<View>(R.id.textWrapper).height
             val needDarkLayout = bottom - toolbarHeight < 0
 
             view.statusBar.toggleVisibility(needDarkLayout, false)
