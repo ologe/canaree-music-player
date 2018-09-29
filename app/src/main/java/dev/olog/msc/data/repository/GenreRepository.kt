@@ -63,7 +63,8 @@ class GenreRepository @Inject constructor(
                     val size = CommonQuery.getSize(contentResolver, uri)
                     it.toGenre(context, size)
                 }).map { removeBlacklisted(it) }
-                        .onErrorReturnItem(listOf())
+                .doOnError { it.printStackTrace() }
+                .onErrorReturnItem(listOf())
     }
 
     private val cachedData = queryAllData()
