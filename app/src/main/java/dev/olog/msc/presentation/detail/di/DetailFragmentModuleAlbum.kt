@@ -30,7 +30,6 @@ class DetailFragmentModuleAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -43,7 +42,6 @@ class DetailFragmentModuleAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
 
@@ -57,7 +55,6 @@ class DetailFragmentModuleAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
 
@@ -71,7 +68,6 @@ class DetailFragmentModuleAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -84,7 +80,6 @@ class DetailFragmentModuleAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
 

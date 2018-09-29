@@ -4,7 +4,6 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.data.mapper.toFakeArtist
 import dev.olog.msc.domain.entity.Podcast
@@ -102,9 +101,8 @@ class PodcastArtistRepository @Inject constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(artistId: Long): Observable<List<Podcast>> {
-        return podcastGateway.getAll().map {
-            it.asSequence().filter { it.artistId == artistId }.toList()
-        }.distinctUntilChanged()
+        return podcastGateway.getAll()
+                .map { it.filter { it.artistId == artistId } }
     }
 
     override fun getLastPlayed(): Observable<List<PodcastArtist>> {

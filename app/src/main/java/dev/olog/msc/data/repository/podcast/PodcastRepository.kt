@@ -1,15 +1,10 @@
 package dev.olog.msc.data.repository.podcast
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.database.Cursor
-import android.net.Uri
-import android.os.Environment
 import android.provider.BaseColumns
-import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.core.database.getLong
-import androidx.core.database.getString
 import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
@@ -69,7 +64,6 @@ class PodcastRepository @Inject constructor(
                 .lift(SqlBrite.Query.mapToList { mapToPodcast(it) })
                 .map { adjustImages(it) }
                 .map { mockDataIfNeeded(it) }
-                .map { updateImages(it) }
                 .doOnError { it.printStackTrace() }
                 .onErrorReturn { listOf() }
     }
@@ -79,20 +73,6 @@ class PodcastRepository @Inject constructor(
             cursor.toFakePodcast()
         } else {
             cursor.toPodcast()
-        }
-    }
-
-    private fun updateImages(list: List<Podcast>): List<Podcast>{
-        val allForTracks = usedImageGateway.getAllForTracks()
-        val allForAlbums = usedImageGateway.getAllForAlbums()
-        if (allForTracks.isEmpty() && allForAlbums.isEmpty()){
-            return list
-        }
-        return list.map { podcast ->
-            val image = allForTracks.firstOrNull { it.id == podcast.id }?.image // search for track image
-                    ?: allForAlbums.firstOrNull { it.id == podcast.albumId }?.image  // search for track album image
-                    ?: podcast.image // use default
-            podcast.copy(image = image)
         }
     }
 
@@ -125,65 +105,6 @@ class PodcastRepository @Inject constructor(
 
     override fun getByParam(param: Long): Observable<Podcast> {
         return cachedData.map { list -> list.first { it.id == param } }
-    }
-
-    @SuppressLint("Recycle")
-    override fun getByUri(uri: Uri): Single<Podcast> {
-        return Single.fromCallable { getByUriInternal(uri) }
-                .map { it.toLong() }
-                .flatMap { getByParam(it).firstOrError() }
-    }
-
-    @SuppressLint("Recycle")
-    private fun getByUriInternal(uri: Uri): String? {
-        if (uri.scheme == ContentResolver.SCHEME_CONTENT){
-            when (uri.authority){
-                "com.android.providers.media.documents" -> return DocumentsContract.getDocumentId(uri).split(":")[1]
-                "media" -> return uri.lastPathSegment
-            }
-        }
-        var songFile : File? = null
-        if (uri.authority == "com.android.externalstorage.documents"){
-            val child = uri.path?.split(":", limit = 2) ?: listOf()
-            songFile = File(Environment.getExternalStorageDirectory(), child[1])
-        }
-
-        if (songFile == null){
-            getFilePathFromUri(uri)?.let { path ->
-                songFile = File(path)
-            }
-        }
-        if (songFile == null && uri.path != null){
-            songFile = File(uri.path)
-        }
-
-        var songId : String? = null
-
-        if (songFile != null){
-            contentResolver.query(MEDIA_STORE_URI, arrayOf(BaseColumns._ID),
-                    "${ MediaStore.Audio.AudioColumns.DATA} = ?",
-                    arrayOf(songFile!!.absolutePath), null)?.let { cursor ->
-                cursor.moveToFirst()
-                songId = "${cursor.getLong(BaseColumns._ID)}"
-                cursor.close()
-            }
-        }
-
-
-        return songId
-    }
-
-    @SuppressLint("Recycle")
-    private fun getFilePathFromUri(uri: Uri): String? {
-        var path : String? = null
-        contentResolver.query(uri, arrayOf(MediaStore.Audio.Media.DATA),
-                null, null, null)?.let { cursor ->
-            cursor.moveToFirst()
-
-            path = cursor.getString(MediaStore.Audio.Media.DATA)
-            cursor.close()
-        }
-        return path
     }
 
     override fun getUneditedByParam(podcastId: Long): Observable<Podcast> {

@@ -10,11 +10,13 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Artist
+import dev.olog.msc.domain.entity.PodcastArtist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.GetPodcastRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
@@ -85,7 +87,12 @@ class DetailFragmentModuleSongs {
     internal fun provideRelatedArtists(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
+            useCase: GetRelatedArtistsUseCase,
+            podcastUseCase: GetPodcastRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
+
+        if (mediaId.isPodcastPlaylist){
+            return podcastUseCase.execute(mediaId).mapToList { it.toRelatedArtist(resources) }
+        }
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRelatedArtist(resources)}
@@ -109,6 +116,20 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
     return DisplayableItem(
             R.layout.item_detail_related_artist,
             MediaId.artistId(this.id),
+            this.name,
+            albums + songs,
+            this.image
+    )
+}
+
+private fun PodcastArtist.toRelatedArtist(resources: Resources): DisplayableItem {
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
+
+    return DisplayableItem(
+            R.layout.item_detail_related_artist,
+            MediaId.podcastArtistId(this.id),
             this.name,
             albums + songs,
             this.image

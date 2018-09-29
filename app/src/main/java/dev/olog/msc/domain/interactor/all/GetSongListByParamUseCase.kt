@@ -22,8 +22,8 @@ class GetSongListByParamUseCase @Inject constructor(
         private val songDataStore: SongGateway,
         private val podcastDataStore: PodcastGateway,
         private val podcastPlaylistDataStore: PodcastPlaylistGateway,
-        private val podcastAlbumDataStore: PodcastArtistGateway,
-        private val podcastArtistDataStore: PodcastAlbumGateway
+        private val podcastAlbumDataStore: PodcastAlbumGateway,
+        private val podcastArtistDataStore: PodcastArtistGateway
 
 ) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(schedulers) {
 

@@ -30,7 +30,6 @@ class DetailFragmentModulePodcastAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -43,7 +42,6 @@ class DetailFragmentModulePodcastAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -56,7 +54,6 @@ class DetailFragmentModulePodcastAlbum {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
     }
 
 }
