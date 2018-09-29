@@ -66,7 +66,7 @@ class CategoriesFragment : BaseFragment() {
         floatingWindowTutorialDisposable.unsubscribe()
     }
 
-    private fun createMediaId(): MediaIdCategory {
+    private fun createMediaId(): MediaIdCategory? {
         return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
     }
 

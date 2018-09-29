@@ -89,7 +89,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         when (itemId){
             R.id.navigation_songs -> navigator.toLibraryCategories(forceRecreate)
             R.id.navigation_search -> navigator.toSearchFragment()
-            R.id.navigation_podcasts -> navigator.toPodcastCategories()
+            R.id.navigation_podcasts -> navigator.toPodcastCategories(forceRecreate)
             R.id.navigation_queue -> navigator.toPlayingQueueFragment()
             else -> throw IllegalArgumentException("invalid item")
         }

@@ -5,28 +5,20 @@ package dev.olog.msc.presentation.edit
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
-import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.annotation.StringRes
-import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.net.toUri
 import com.bumptech.glide.Priority
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
-import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 
@@ -36,12 +28,6 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
 
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-    }
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         Permissions.requestReadStorage(act)
@@ -50,7 +36,6 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
-        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         hideLoader()
     }
 

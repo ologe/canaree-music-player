@@ -107,7 +107,7 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toPodcastCategories() {
+    override fun toPodcastCategories(forceRecreate: Boolean) {
         if (anyFragmentOnUpperFragmentContainer()){
             activity.onBackPressed()
         }
@@ -119,6 +119,9 @@ class NavigatorImpl @Inject internal constructor(
                     PlayingQueueFragment.TAG,
                     CategoriesFragment.TAG
             ))
+            if (forceRecreate){
+                return@fragmentTransaction replace(R.id.fragmentContainer, CategoriesPodcastFragment.newInstance(), CategoriesPodcastFragment.TAG)
+            }
             val fragment = activity.supportFragmentManager.findFragmentByTag(CategoriesPodcastFragment.TAG)
             if (fragment == null){
                 replace(R.id.fragmentContainer, CategoriesPodcastFragment.newInstance(), CategoriesPodcastFragment.TAG)

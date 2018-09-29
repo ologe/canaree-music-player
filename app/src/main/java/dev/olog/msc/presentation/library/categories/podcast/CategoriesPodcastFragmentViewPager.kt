@@ -21,8 +21,12 @@ class CategoriesPodcastFragmentViewPager @Inject constructor(
     private val data = prefsUseCase.getPodcastLibraryCategories()
             .filter { it.visible }
 
-    fun getCategoryAtPosition(position: Int): MediaIdCategory {
-        return data[position].category
+    fun getCategoryAtPosition(position: Int): MediaIdCategory? {
+        try {
+            return data[position].category
+        } catch (ex: Exception){
+            return null
+        }
     }
 
     override fun getItem(position: Int): Fragment {

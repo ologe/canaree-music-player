@@ -11,7 +11,7 @@ interface Navigator {
     fun toFirstAccess(requestCode: Int)
 
     fun toLibraryCategories(forceRecreate: Boolean)
-    fun toPodcastCategories()
+    fun toPodcastCategories(forceRecreate: Boolean)
 
     fun toDetailFragment(mediaId: MediaId)
 

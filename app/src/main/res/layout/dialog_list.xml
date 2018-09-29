@@ -19,6 +19,8 @@
         tools:listitem="@layout/dialog_blacklist_item"
         tools:layoutManager="android.support.v7.widget.GridLayoutManager"
         tools:spanCount="2"
-        android:requiresFadingEdge="vertical"/>
+        android:requiresFadingEdge="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"/>
 
 </dev.olog.msc.presentation.widget.MaxHeightLinearLayout>

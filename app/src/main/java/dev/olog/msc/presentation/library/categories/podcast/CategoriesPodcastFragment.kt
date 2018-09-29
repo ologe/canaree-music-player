@@ -46,7 +46,7 @@ class CategoriesPodcastFragment : BaseFragment() {
         viewPager.addOnPageChangeListener(onPageChangeListener)
     }
 
-    private fun createMediaId(): MediaIdCategory {
+    private fun createMediaId(): MediaIdCategory? {
         return pagerAdapter.getCategoryAtPosition(viewPager.currentItem)
     }
 
