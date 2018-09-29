@@ -17,7 +17,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
-import dev.olog.msc.utils.k.extension.asNegative
 import io.reactivex.Flowable
 
 @Module
@@ -41,14 +40,10 @@ class DetailFragmentModulePodcastItem {
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ALBUMS)
     internal fun provideAlbumItem(
             mediaId: MediaId,
-            useCase: GetPodcastAlbumUseCase,
-            artistUseCase: GetPodcastArtistUseCase) : Flowable<List<DisplayableItem>> {
+            useCase: GetPodcastAlbumUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .flatMap { album ->
-                    artistUseCase.execute(MediaId.artistId(album.artistId))
-                            .map { album.toHeaderItem(it) }
-                }.onErrorResumeNext(useCase.execute(mediaId).map { it.toHeaderItem(null) })
+                .map { it.toHeaderItem() }
                 .asFlowable()
     }
 
@@ -72,41 +67,25 @@ private fun PodcastPlaylist.toHeaderItem(resources: Resources): List<Displayable
         resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.podcastPlaylistId(this.id),
-                    "",
-                    image = image
-            ),
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
-                    title,
-                    listSize
-            )
-    )
+    return listOf(DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.podcastPlaylistId(this.id),
+            title,
+            listSize,
+            image = image
+    ))
 
 }
 
-private fun PodcastAlbum.toHeaderItem(artist: PodcastArtist?): List<DisplayableItem> {
+private fun PodcastAlbum.toHeaderItem(): List<DisplayableItem> {
 
-    val image = DisplayableItem(
+    return listOf(DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.podcastAlbumId(this.id),
-            "",
-            image = image
-    )
-
-    val info = DisplayableItem( // manage carefully because contains an invalid media id
-            R.layout.item_detail_item_info,
-            if (artist != null) MediaId.podcastAlbumId(artist.id.asNegative()) else MediaId.headerId("item info"),
             title,
             DisplayableItem.adjustArtist(this.artist),
-            artist?.image ?: ""
-    )
-
-    return listOf(image, info)
+            image = image
+    ))
 }
 
 private fun PodcastArtist.toHeaderItem(resources: Resources): List<DisplayableItem> {
@@ -115,18 +94,11 @@ private fun PodcastArtist.toHeaderItem(resources: Resources): List<DisplayableIt
         "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.podcastArtistId(this.id),
-                    "",
-                    image = image
-            ),
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
-                    name,
-                    "$albums$songs".toLowerCase()
-            )
-    )
+    return listOf(DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.podcastArtistId(this.id),
+            name,
+            "$albums$songs".toLowerCase(),
+            image = image
+    ))
 }

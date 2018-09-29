@@ -105,7 +105,7 @@ class DetailFragment : BaseFragment() {
 
         viewModel.itemLiveData.subscribe(viewLifecycleOwner) { item ->
             if (item.isNotEmpty()){
-                headerText.text = item[1].title
+                headerText.text = item[0].title
                 val cover = view.findViewById<View>(R.id.cover)
                 if (!isPortrait() && cover is ShapeImageView){
                     BindingsAdapter.loadBigAlbumImage(cover, item[0])
