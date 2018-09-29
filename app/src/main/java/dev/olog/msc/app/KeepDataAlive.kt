@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
 import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.utils.k.extension.asFlowable
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -20,7 +21,8 @@ class KeepDataAlive @Inject constructor(
         @ProcessLifecycle lifecycle: Lifecycle,
         private val getAllSongsUseCase: GetAllSongsUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
-        private val getAllGenresUseCase: GetAllGenresUseCase
+        private val getAllGenresUseCase: GetAllGenresUseCase,
+        private val getAllPodcastUseCase: GetAllPodcastUseCase
 
 ) : DefaultLifecycleObserver {
 
@@ -35,8 +37,9 @@ class KeepDataAlive @Inject constructor(
         disposable = Flowables.combineLatest(
                 getAllSongsUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
                 getAllPlaylistsUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
-                getAllGenresUseCase.execute().onErrorReturnItem(listOf()).asFlowable()
-        ).subscribe({}, Throwable::printStackTrace)
+                getAllGenresUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
+                getAllPodcastUseCase.execute().onErrorReturnItem(listOf()).asFlowable()
+        ) { _, _, _, _ -> 0}.subscribe({}, Throwable::printStackTrace)
     }
 
     override fun onStop(owner: LifecycleOwner) {
