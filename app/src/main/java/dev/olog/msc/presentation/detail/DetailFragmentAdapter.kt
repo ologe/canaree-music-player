@@ -49,13 +49,6 @@ class DetailFragmentAdapter @Inject constructor(
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int){
         when (viewType) {
-//            R.layout.item_detail_item_image -> {
-//                if (mediaId.isAlbum){
-//                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { _, _, _ ->
-//                        viewModel.artistMediaId { navigator.toDetailFragment(it) }
-//                    }
-//                }
-//            }
 
             R.layout.item_detail_most_played_list -> {
                 val list = viewHolder.itemView as RecyclerView

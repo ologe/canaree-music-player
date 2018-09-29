@@ -81,12 +81,6 @@ class DetailFragmentViewModel @Inject constructor(
             dataMap.debounceFirst()
                     .asLiveData()
 
-    fun artistMediaId(action: (MediaId) -> Unit) {
-        presenter.artistMediaId()
-                .subscribe({ action(it) }, Throwable::printStackTrace)
-                .addTo(subscriptions)
-    }
-
     val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
             .debounceFirst()
             .asLiveData()
