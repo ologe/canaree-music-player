@@ -84,6 +84,7 @@ class PlaylistRepository @Inject constructor(
                     it.toPlaylist(context, size)
                 })
                 .map { removeBlacklisted(it) }
+                .doOnError { it.printStackTrace() }
                 .onErrorReturnItem(listOf())
     }
 
