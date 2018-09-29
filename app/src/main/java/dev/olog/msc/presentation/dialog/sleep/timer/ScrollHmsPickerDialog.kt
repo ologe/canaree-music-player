@@ -1,6 +1,8 @@
 package dev.olog.msc.presentation.dialog.sleep.timer
 
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.annotation.ColorRes
 import android.support.v4.content.ContextCompat
@@ -47,7 +49,7 @@ open class ScrollHmsPickerDialog : BaseDialogFragment() {
             setTextColor(textColor)
         }
         dialog?.run {
-            window?.setBackgroundDrawableResource(colorBackground)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             requestWindowFeature(Window.FEATURE_NO_TITLE)
         }
         return view

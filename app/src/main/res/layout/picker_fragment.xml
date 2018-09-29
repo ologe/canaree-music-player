@@ -5,7 +5,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?android:windowBackground"
-    app:cardElevation="10dp">
+    app:cardElevation="10dp"
+    app:cardCornerRadius="@dimen/default_corner_radius"
+    android:theme="@style/AppThemeWhite">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
