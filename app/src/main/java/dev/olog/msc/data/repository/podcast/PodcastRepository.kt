@@ -21,7 +21,6 @@ import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
@@ -57,7 +56,6 @@ private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 class PodcastRepository @Inject constructor(
         private val contentResolver: ContentResolver,
         private  val rxContentResolver: BriteContentResolver,
-        private  val appPrefsUseCase: AppPreferencesUseCase,
         private  val usedImageGateway: UsedImageGateway
 
 ): PodcastGateway {
@@ -69,10 +67,10 @@ class PodcastRepository @Inject constructor(
         ).onlyWithStoragePermission()
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { mapToPodcast(it) })
-                .map { removeBlacklisted(it) }
                 .map { adjustImages(it) }
                 .map { mockDataIfNeeded(it) }
                 .map { updateImages(it) }
+                .doOnError { it.printStackTrace() }
                 .onErrorReturn { listOf() }
     }
 
@@ -113,14 +111,6 @@ class PodcastRepository @Inject constructor(
     private fun adjustImages(original: List<Podcast>): List<Podcast> {
         val images = CommonQuery.searchForImages()
         return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
-    }
-
-    private fun removeBlacklisted(original: List<Podcast>): List<Podcast>{
-        val blackListed = appPrefsUseCase.getBlackList()
-        if (blackListed.isNotEmpty()){
-            return original.filter { !blackListed.contains(it.folderPath) }
-        }
-        return original
     }
 
     private val cachedData = queryAllData()
@@ -223,6 +213,7 @@ class PodcastRepository @Inject constructor(
         ).onlyWithStoragePermission()
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { it.toPodcast() })
+                .doOnError { it.printStackTrace() }
                 .onErrorReturnItem(listOf())
     }
 
