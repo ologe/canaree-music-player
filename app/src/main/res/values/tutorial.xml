@@ -10,9 +10,4 @@
     <string name="tutorial_search_lyrics">Search your lyrics on web</string>
     <string name="tutorial_adjust_sync">Adjust synchronization (only for synced lyrics)</string>
 
-    <dimen name="tutorial_margin_horizontal">30dp</dimen>
-    <dimen name="tutorial_margin_vertical">30dp</dimen>
-    <dimen name="tutorial_cover_margin_top">16dp</dimen>
-    <dimen name="tutorial_swipe_view_margin_horizontal">15dp</dimen>
-
 </resources>
