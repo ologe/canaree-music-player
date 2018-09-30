@@ -73,7 +73,10 @@ class QueueImpl @Inject constructor(
         currentSongPosition = safePosition
         musicPreferencesUseCase.setLastIdInPlaylist(idInPlaylist)
 
-        var miniQueue = copy.drop(safePosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
+        var miniQueue = copy.asSequence()
+                .drop(safePosition + 1)
+                .take(MINI_QUEUE_SIZE)
+                .toMutableList()
         miniQueue = handleQueueOnRepeatMode(miniQueue, copy[safePosition])
 
         val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
