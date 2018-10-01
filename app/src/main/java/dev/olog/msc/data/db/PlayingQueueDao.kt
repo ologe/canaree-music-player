@@ -6,11 +6,13 @@ import android.arch.persistence.room.Query
 import dev.olog.msc.data.entity.MiniQueueEntity
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.*
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
 
 @Dao
@@ -32,18 +34,36 @@ abstract class PlayingQueueDao {
     """)
     internal abstract fun getMiniQueueImpl(): Flowable<List<MiniQueueEntity>>
 
-    fun observeMiniQueue(songList: Single<List<Song>>): Observable<List<Song>> {
+    fun observeMiniQueue(songList: Single<List<Song>>, podcastList: Single<List<Podcast>>)
+            : Observable<List<PlayingQueueSong>> {
+
+
         return getMiniQueueImpl()
                 .subscribeOn(Schedulers.io())
                 .toObservable()
-                .flatMapSingle { ids -> songList.flatMap { songs ->
-                    val result : List<Song> = ids
-                            .asSequence()
-                            .mapNotNull { entity -> songs
-                                    .firstOrNull { it.id == entity.id }
-                                    ?.copy(trackNumber = entity.idInPlaylist)
-                            }.toList()
-                    Single.just(result)
+                .flatMapSingle { ids ->  Singles.zip(songList, podcastList) { songList, podcastList ->
+                    ids.map { it.id }
+                            .mapNotNull { id ->
+                                val song = songList.firstOrNull { it.id == id }
+                                if (song == null){
+                                    podcastList.firstOrNull { it.id == id }
+                                } else {
+                                    song
+                                }
+                            }.mapNotNull { song ->
+                                if (song is Song){ // songs
+                                    val pos = ids.indexOfFirst { it.id == song.id }
+                                    val item = ids[pos]
+//                                    TODO
+                                    song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
+                                } else if (song is Podcast){ // podcast
+                                    val pos = ids.indexOfFirst { it.id == song.id }
+                                    val item = ids[pos]
+//                                    TODO
+                                    song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.PODCASTS.toString(), "")
+                                } else null
+                            }
+
                 } }
     }
 
@@ -61,19 +81,32 @@ abstract class PlayingQueueDao {
     @Insert
     internal abstract fun insertMiniQueueImpl(list: List<MiniQueueEntity>)
 
-    fun getAllAsSongs(songList: Single<List<Song>>): Observable<List<PlayingQueueSong>> {
+    fun getAllAsSongs(songList: Single<List<Song>>, podcastList: Single<List<Podcast>>)
+            : Observable<List<PlayingQueueSong>> {
+
         return this.getAllImpl()
                 .toObservable()
-                .flatMapSingle { ids -> songList.flatMap { songs ->
-                    val result : List<PlayingQueueSong> = ids
-                            .map { it.songId }
-                            .mapNotNull { id -> songs.firstOrNull { it.id == id } }
-                            .map { song ->
-                                val pos = ids.indexOfFirst { it.songId == song.id }
-                                val item = ids[pos]
-                                song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
+                .flatMapSingle { ids ->  Singles.zip(songList, podcastList) { songList, podcastList ->
+                    ids.map { it.songId }
+                            .mapNotNull { id ->
+                                val song = songList.firstOrNull { it.id == id }
+                                if (song == null){
+                                    podcastList.firstOrNull { it.id == id }
+                                } else {
+                                    song
+                                }
+                            }.mapNotNull { song ->
+                                if (song is Song){
+                                    val pos = ids.indexOfFirst { it.songId == song.id }
+                                    val item = ids[pos]
+                                    song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
+                                } else if (song is Podcast){
+                                    val pos = ids.indexOfFirst { it.songId == song.id }
+                                    val item = ids[pos]
+                                    song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
+                                } else null
                             }
-                    Single.just(result)
+
                 } }
     }
 
@@ -91,7 +124,9 @@ abstract class PlayingQueueDao {
                 }.flatMapCompletable { queueList -> CompletableSource { insertAllImpl(queueList) } }
     }
 
-    private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String): PlayingQueueSong {
+    private fun Song.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
+            : PlayingQueueSong {
+
         return PlayingQueueSong(
                 this.id,
                 idInPlaylist,
@@ -112,5 +147,30 @@ abstract class PlayingQueueDao {
                 false
         )
     }
+
+    private fun Podcast.toPlayingQueueSong(idInPlaylist: Int, category: String, categoryValue: String)
+            : PlayingQueueSong {
+
+        return PlayingQueueSong(
+                this.id,
+                idInPlaylist,
+                MediaId.createCategoryValue(MediaIdCategory.valueOf(category), categoryValue),
+                this.artistId,
+                this.albumId,
+                this.title,
+                this.artist,
+                this.albumArtist,
+                this.album,
+                this.image,
+                this.duration,
+                this.dateAdded,
+                this.path,
+                this.folder,
+                this.discNumber,
+                this.trackNumber,
+                true
+        )
+    }
+
 
 }

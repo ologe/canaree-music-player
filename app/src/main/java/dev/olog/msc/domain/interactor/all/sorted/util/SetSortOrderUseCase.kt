@@ -19,9 +19,12 @@ class SetSortOrderUseCase @Inject constructor(
         val category = param.mediaId.category
         return when (category){
             MediaIdCategory.FOLDERS -> gateway.setFolderSortOrder(param.sortType)
-            MediaIdCategory.PLAYLISTS -> gateway.setPlaylistSortOrder(param.sortType)
-            MediaIdCategory.ALBUMS -> gateway.setAlbumSortOrder(param.sortType)
-            MediaIdCategory.ARTISTS -> gateway.setArtistSortOrder(param.sortType)
+            MediaIdCategory.PLAYLISTS,
+            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.setPlaylistSortOrder(param.sortType)
+            MediaIdCategory.ALBUMS,
+            MediaIdCategory.PODCASTS_ALBUMS -> gateway.setAlbumSortOrder(param.sortType)
+            MediaIdCategory.ARTISTS,
+            MediaIdCategory.PODCASTS_ARTISTS -> gateway.setArtistSortOrder(param.sortType)
             MediaIdCategory.GENRES -> gateway.setGenreSortOrder(param.sortType)
             else -> throw IllegalArgumentException("invalid param $param")
         }

@@ -9,7 +9,10 @@
     <item></item>
     <item>@string/common_albums</item>
     <item>Outros gêneros</item>
-    <item>Outros podcasts</item>
+    <item>Outras listas de reprodução</item>
+    <item/>
+    <item/>
+    <item>@string/common_albums</item>
   </string-array>
   <string name="detail_see_all">ver tudo</string>
   <string name="detail_more_albums_by">Mais por %s</string>

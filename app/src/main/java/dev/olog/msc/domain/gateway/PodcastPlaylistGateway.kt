@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface PodcastPlaylistGateway :
         BaseGateway<PodcastPlaylist, Long>,
-        ChildsHasSongs<Long>,
+        ChildsHasPodcasts<Long>,
         HasMostPlayed {
 
     fun createPlaylist(playlistName: String): Single<Long>

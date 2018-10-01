@@ -3,10 +3,11 @@ package dev.olog.msc.data.repository.podcast
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PodcastPlaylistEntity
 import dev.olog.msc.data.entity.PodcastPlaylistTrackEntity
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastPlaylist
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
-import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Completable
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 class PlaylistPodcastRepository @Inject constructor(
         appDatabase: AppDatabase,
-        private val songGateway: SongGateway
+        private val podcastGateway: PodcastGateway
 
 ) : PodcastPlaylistGateway {
 
@@ -47,9 +48,9 @@ class PlaylistPodcastRepository @Inject constructor(
                 .toObservable()
     }
 
-    override fun observeSongListByParam(param: Long): Observable<List<Song>> {
+    override fun observeSongListByParam(param: Long): Observable<List<Podcast>> {
         return podcastPlaylistDao.getPlaylistTracks(param).toObservable()
-                .flatMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
+                .flatMapSingle { playlistSongs -> podcastGateway.getAll().firstOrError().map { songs ->
                     playlistSongs.asSequence()
                             .mapNotNull { playlistSong ->
                                 val song = songs.firstOrNull { it.id == playlistSong.id }

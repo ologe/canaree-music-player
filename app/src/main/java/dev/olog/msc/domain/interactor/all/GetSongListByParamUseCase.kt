@@ -42,6 +42,7 @@ class GetSongListByParamUseCase @Inject constructor(
             MediaIdCategory.GENRES -> genreDataStore.observeSongListByParam(mediaId.categoryValue.toLong())
             MediaIdCategory.PODCASTS -> podcastDataStore.getAll().mapToList { it.toSong() }
             MediaIdCategory.PODCASTS_PLAYLIST -> podcastPlaylistDataStore.observeSongListByParam(mediaId.resolveId)
+                    .mapToList { it.toSong() }
             MediaIdCategory.PODCASTS_ALBUMS -> podcastAlbumDataStore.observeSongListByParam(mediaId.resolveId)
                     .mapToList { it.toSong() }
             MediaIdCategory.PODCASTS_ARTISTS -> podcastArtistDataStore.observeSongListByParam(mediaId.resolveId)

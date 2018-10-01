@@ -95,16 +95,9 @@ class DetailFragmentPresenter @Inject constructor(
     }
 
     private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: List<DisplayableItem>) : MutableList<DisplayableItem>{
+        list.clear()
         if (list.isNotEmpty()){
-            val size = list.size
-            val artist = when {
-                mediaId.isAlbum -> item[0].subtitle
-                else -> null
-            }
-            list.clear()
-            list.addAll(0, headers.albums(artist, size))
-        } else {
-            list.clear()
+            list.addAll(0, headers.albums())
         }
         return list
     }

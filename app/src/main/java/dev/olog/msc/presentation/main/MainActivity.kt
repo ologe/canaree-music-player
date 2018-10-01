@@ -147,6 +147,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         } else {
             slidingPanel.panelHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         }
+        slidingPanel.collapse()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
