@@ -16,7 +16,6 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
 import java.io.InputStream
-import java.lang.Exception
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
@@ -73,7 +72,7 @@ abstract class BaseRxDataFetcher(
                         callback.onLoadFailed(NoSuchElementException())
                     }
                 }, {
-                    it.printStackTrace()
+//                    it.printStackTrace() TODO is needed?
                     callback.onLoadFailed(it as Exception)
                 })
     }

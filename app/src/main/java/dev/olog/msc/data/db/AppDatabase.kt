@@ -11,9 +11,15 @@ import dev.olog.msc.data.entity.*
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
         GenreMostPlayedEntity::class,
+
         FavoriteEntity::class,
+        FavoritePodcastEntity::class,
+
         RecentSearchesEntity::class,
+
         HistoryEntity::class,
+        PodcastHistoryEntity::class,
+
         LastPlayedAlbumEntity::class,
         LastPlayedArtistEntity::class,
 
@@ -33,7 +39,7 @@ import dev.olog.msc.data.entity.*
         PodcastPlaylistEntity::class,
         PodcastPlaylistTrackEntity::class
 
-), version = 11, exportSchema = false)
+), version = 12, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao

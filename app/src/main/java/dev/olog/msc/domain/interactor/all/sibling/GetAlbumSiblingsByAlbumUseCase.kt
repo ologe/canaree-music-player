@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.all.sibling
 import dev.olog.msc.domain.entity.Album
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.AlbumGateway
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetAlbumUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
@@ -15,7 +15,7 @@ class GetAlbumSiblingsByAlbumUseCase @Inject constructor(
         private val getAlbumUseCase: GetAlbumUseCase,
         private val albumGateway: AlbumGateway
 
-) : ObservableUseCaseUseCaseWithParam<List<Album>, MediaId>(schedulers) {
+) : ObservableUseCaseWithParam<List<Album>, MediaId>(schedulers) {
 
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")

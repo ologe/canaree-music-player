@@ -10,17 +10,18 @@ import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastAlbum
 import dev.olog.msc.domain.entity.PodcastArtist
 import dev.olog.msc.domain.entity.PodcastPlaylist
-import dev.olog.msc.domain.interactor.all.GetAllPodcastAlbumsUseCase
-import dev.olog.msc.domain.interactor.all.GetAllPodcastArtistsUseCase
-import dev.olog.msc.domain.interactor.all.GetAllPodcastPlaylistUseCase
-import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
+import dev.olog.msc.domain.interactor.all.*
+import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.defer
 import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.msc.utils.k.extension.startWith
+import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 
 @Suppress("unused")
 @Module
@@ -31,12 +32,25 @@ class TabFragmentPodcastModule {
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_PLAYLIST)
     internal fun providePodcastPlaylist(
             resources: Resources,
-            podcastUseCase: GetAllPodcastPlaylistUseCase
+            podcastUseCase: GetAllPodcastPlaylistUseCase,
+            autoPlaylistUseCase: GetAllPodcastsAutoPlaylistUseCase,
+            headers: TabFragmentHeaders
 
     ): Observable<List<DisplayableItem>>{
-        return podcastUseCase.execute()
-                .mapToList { it.toTabDisplayableItem(resources) }
+
+        val autoPlaylistObs = autoPlaylistUseCase.execute()
+                .mapToList { it.toAutoPlaylist() }
+                .map { it.startWith(headers.autoPlaylistHeader) }
                 .defer()
+
+        val playlistObs = podcastUseCase.execute()
+                .mapToList { it.toTabDisplayableItem(resources) }
+                .map { it.startWithIfNotEmpty(headers.allPlaylistHeader) }
+                .defer()
+
+        return Observables.combineLatest(playlistObs, autoPlaylistObs) { playlist, autoPlaylist ->
+            autoPlaylist.plus(playlist)
+        }.defer()
     }
 
     @Provides
@@ -84,6 +98,18 @@ private fun PodcastPlaylist.toTabDisplayableItem(resources: Resources): Displaya
             MediaId.podcastPlaylistId(id),
             title,
             size,
+            this.image
+    )
+}
+
+
+private fun PodcastPlaylist.toAutoPlaylist(): DisplayableItem {
+
+    return DisplayableItem(
+            R.layout.item_tab_auto_playlist,
+            MediaId.podcastPlaylistId(id),
+            title,
+            "",
             this.image
     )
 }

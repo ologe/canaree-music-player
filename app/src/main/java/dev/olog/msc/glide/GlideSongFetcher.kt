@@ -19,7 +19,7 @@ class GlideSongFetcher(
     private val id = mediaId.resolveId
 
     override fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): Single<String> {
-        return if (mediaId.isPodcast){
+        return if (mediaId.isAnyPodcast){
             lastFmGateway.getPodcastImage(id)
         } else {
             lastFmGateway.getTrackImage(id)
@@ -27,7 +27,7 @@ class GlideSongFetcher(
     }
 
     override fun shouldFetch(): Single<Boolean> {
-        return if (mediaId.isPodcast){
+        return if (mediaId.isAnyPodcast){
             lastFmGateway.shouldFetchPodcastImage(id)
         } else {
             lastFmGateway.shouldFetchTrackImage(id)

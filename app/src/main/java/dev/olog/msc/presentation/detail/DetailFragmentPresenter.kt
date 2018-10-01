@@ -37,7 +37,9 @@ class DetailFragmentPresenter @Inject constructor(
     fun moveInPlaylist(from: Int, to: Int){
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
-        moveItemInPlaylistUseCase.execute(playlistId, from, to)
+        moveItemInPlaylistUseCase.execute(MoveItemInPlaylistUseCase.Input(playlistId, from, to,
+                if (mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
+        ))
     }
 
     fun createDataMap(

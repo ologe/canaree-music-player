@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import androidx.core.database.getLong
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -76,7 +77,7 @@ class PlaylistRepositoryHelper @Inject constructor(
     fun clearPlaylist(playlistId: Long): Completable {
         if (PlaylistConstants.isAutoPlaylist(playlistId)){
             when (playlistId){
-                PlaylistConstants.FAVORITE_LIST_ID -> return favoriteGateway.deleteAll()
+                PlaylistConstants.FAVORITE_LIST_ID -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
                 PlaylistConstants.HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAll() }
             }
         }
@@ -98,7 +99,7 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
         return when(playlistId){
-            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(songId)
+            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
             PlaylistConstants.HISTORY_LIST_ID -> Completable.fromCallable { historyDao.deleteSingle(songId) }
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }

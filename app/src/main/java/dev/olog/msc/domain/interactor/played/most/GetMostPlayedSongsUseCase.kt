@@ -5,7 +5,7 @@ import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ class GetMostPlayedSongsUseCase @Inject constructor(
         private val playlistGateway: PlaylistGateway,
         private val genreGateway: GenreGateway
 
-) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(scheduler) {
+) : ObservableUseCaseWithParam<List<Song>, MediaId>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {

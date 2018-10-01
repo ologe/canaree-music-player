@@ -7,7 +7,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Looper
 import android.support.v7.preference.PreferenceManager
-import com.squareup.leakcanary.LeakCanary
+import com.tspoon.traceur.Traceur
 import dagger.android.AndroidInjector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.Permissions
@@ -20,8 +20,6 @@ import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.updatePermissionValve
 import dev.olog.msc.utils.PendingIntents
-import hu.akarnokd.rxjava2.debug.RxJavaAssemblyTracking
-import hu.akarnokd.rxjava2.debug.validator.RxJavaProtocolValidator
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -65,10 +63,8 @@ class App : BaseApp() {
     }
 
     private fun initializeComponents() {
-        RxJavaAssemblyTracking.enable()
+        Traceur.enableLogging()
 
-        RxJavaProtocolValidator.setOnViolationHandler { it.printStackTrace() }
-        RxJavaProtocolValidator.enable()
 
 //        LeakCanary.install(this)
         if (BuildConfig.DEBUG) {

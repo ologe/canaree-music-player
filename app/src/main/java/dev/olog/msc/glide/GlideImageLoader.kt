@@ -1,10 +1,8 @@
 package dev.olog.msc.glide
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.webkit.URLUtil
-import androidx.core.net.toUri
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
@@ -35,7 +33,7 @@ class GlideImageLoader(
             return uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
         }
 
-        if (mediaId.isAlbum || mediaId.isLeaf){
+        if (mediaId.isAlbum || mediaId.isPodcastAlbum || mediaId.isLeaf){
             return when {
                 notAnImage(model) -> {
                     // song/album has not a default image, download
@@ -54,7 +52,7 @@ class GlideImageLoader(
             }
         }
 
-        if (mediaId.isArtist){
+        if (mediaId.isArtist || mediaId.isPodcastArtist){
             // download artist image
             return ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideArtistFetcher(context, model, lastFmGateway))
         }

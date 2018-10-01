@@ -173,8 +173,10 @@ class MediaId private constructor(
     val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
     val isPodcastAlbum : Boolean = category == MediaIdCategory.PODCASTS_ALBUMS
     val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_ARTISTS
+    val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
 
     fun assertPlaylist(){
+        val isPlaylist = isPlaylist || isPodcastPlaylist
         if (!isPlaylist){
             throw IllegalStateException("not a playlist")
         }

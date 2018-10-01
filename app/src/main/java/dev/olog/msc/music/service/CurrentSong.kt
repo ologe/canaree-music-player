@@ -7,6 +7,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
+import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
@@ -53,7 +54,9 @@ class CurrentSong @Inject constructor(
 
     private val insertHistorySongFlowable = publisher
             .observeOn(Schedulers.io())
-            .flatMapCompletable { insertHistorySongUseCase.execute(it.id).onErrorComplete() }
+            .flatMapCompletable { insertHistorySongUseCase.execute(
+                    InsertHistorySongUseCase.Input(it.id, it.isPodcast)
+            ).onErrorComplete() }
 
     private val insertLastPlayedAlbumFlowable = publisher
             .observeOn(Schedulers.io())
@@ -101,10 +104,11 @@ class CurrentSong @Inject constructor(
 
     private fun updateFavorite(mediaEntity: MediaEntity){
         isFavoriteDisposable.unsubscribe()
+        val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
         isFavoriteDisposable = isFavoriteSongUseCase
-                .execute(mediaEntity.id)
+                .execute(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
                 .map { if (it) FavoriteEnum.FAVORITE else FavoriteEnum.NOT_FAVORITE }
-                .flatMapCompletable { updateFavoriteStateUseCase.execute(FavoriteStateEntity(mediaEntity.id, it)) }
+                .flatMapCompletable { updateFavoriteStateUseCase.execute(FavoriteStateEntity(mediaEntity.id, it, type)) }
                 .subscribe({}, Throwable::printStackTrace)
     }
 
@@ -116,7 +120,6 @@ class CurrentSong @Inject constructor(
 
     private fun createMostPlayedId(entity: MediaEntity): Maybe<MediaId> {
         try {
-
             return Maybe.just(MediaId.playableItem(entity.mediaId, entity.id))
         } catch (ex: Exception){
             return Maybe.empty()

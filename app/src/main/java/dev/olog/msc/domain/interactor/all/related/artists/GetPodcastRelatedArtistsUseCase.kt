@@ -4,7 +4,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.PodcastArtist
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
@@ -18,7 +18,7 @@ class GetPodcastRelatedArtistsUseCase @Inject constructor(
         private val getPodcastArtistUseCase: GetPodcastArtistUseCase,
         private val collator: Collator
 
-) : ObservableUseCaseUseCaseWithParam<List<PodcastArtist>, MediaId>(executors) {
+) : ObservableUseCaseWithParam<List<PodcastArtist>, MediaId>(executors) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<PodcastArtist>> {

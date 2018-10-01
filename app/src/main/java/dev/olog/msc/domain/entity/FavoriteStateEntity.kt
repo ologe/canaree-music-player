@@ -2,7 +2,8 @@ package dev.olog.msc.domain.entity
 
 data class FavoriteStateEntity(
         val songId: Long,
-        val enum: FavoriteEnum
+        val enum: FavoriteEnum,
+        val favoriteType: FavoriteType
 )
 
 enum class FavoriteEnum {

@@ -3,6 +3,7 @@ package dev.olog.msc.data.db
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
+import android.arch.persistence.room.Transaction
 import dev.olog.msc.data.entity.MiniQueueEntity
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong
@@ -67,7 +68,8 @@ abstract class PlayingQueueDao {
                 } }
     }
 
-    fun updateMiniQueue(list: List<Pair<Int, Long>>) {
+    @Transaction
+    open fun updateMiniQueue(list: List<Pair<Int, Long>>) {
         deleteMiniQueueImpl()
         insertMiniQueueImpl(list.map { MiniQueueEntity(it.first, it.second, System.nanoTime()) })
     }

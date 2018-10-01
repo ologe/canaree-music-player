@@ -10,3 +10,10 @@ import android.arch.persistence.room.PrimaryKey
 data class FavoriteEntity(
         @PrimaryKey var songId: Long
 )
+
+@Entity(tableName = "favorite_podcast_songs",
+        indices = [(Index("podcastId"))]
+)
+data class FavoritePodcastEntity(
+        @PrimaryKey var podcastId: Long
+)

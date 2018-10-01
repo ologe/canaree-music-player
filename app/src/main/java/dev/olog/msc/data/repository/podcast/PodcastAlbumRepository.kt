@@ -4,7 +4,6 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastAlbum
@@ -78,7 +77,7 @@ class PodcastAlbumRepository @Inject constructor(
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(albumId: Long): Observable<List<Podcast>> {
+    override fun observePodcastListByParam(albumId: Long): Observable<List<Podcast>> {
         return podcastGateway.getAll().map { it.filter { it.albumId == albumId } }
     }
 

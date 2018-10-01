@@ -6,15 +6,14 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortArrangingUseCase
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import java.text.Collator
 import javax.inject.Inject
-import kotlin.Comparator
 
 class GetSortedSongListByParamUseCase @Inject constructor(
         schedulers: IoScheduler,
@@ -23,7 +22,7 @@ class GetSortedSongListByParamUseCase @Inject constructor(
         private val getSortArrangingUseCase: GetSortArrangingUseCase,
         private val collator: Collator
 
-) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(schedulers){
+) : ObservableUseCaseWithParam<List<Song>, MediaId>(schedulers){
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {

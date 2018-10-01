@@ -2,12 +2,15 @@ package dev.olog.msc.domain.gateway
 
 import dev.olog.msc.domain.entity.PodcastPlaylist
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 interface PodcastPlaylistGateway :
         BaseGateway<PodcastPlaylist, Long>,
         ChildsHasPodcasts<Long>,
         HasMostPlayed {
+
+    fun getAllAutoPlaylists() : Observable<List<PodcastPlaylist>>
 
     fun createPlaylist(playlistName: String): Single<Long>
 
@@ -21,8 +24,12 @@ interface PodcastPlaylistGateway :
 
     fun getPlaylistsBlocking(): List<PodcastPlaylist>
 
-    fun removeFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable
+    fun removeSongFromPlaylist(playlistId: Long, idInPlaylist: Long): Completable
 
     fun removeDuplicated(playlistId: Long): Completable
+
+    fun moveItem(playlistId: Long, from: Int, to: Int): Boolean
+
+    fun insertPodcastToHistory(podcastId: Long): Completable
 
 }

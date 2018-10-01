@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.offline.lyrics
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.OfflineLyricsGateway
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
@@ -17,7 +17,7 @@ class ObserveOfflineLyricsUseCase @Inject constructor(
         private val getSongUseCase: GetSongUseCase,
         private val gateway: OfflineLyricsGateway
 
-) : ObservableUseCaseUseCaseWithParam<String, Long>(executors) {
+) : ObservableUseCaseWithParam<String, Long>(executors) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(id: Long): Observable<String> {

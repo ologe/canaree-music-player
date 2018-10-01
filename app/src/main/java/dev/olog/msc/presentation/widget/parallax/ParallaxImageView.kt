@@ -12,7 +12,7 @@ import dev.olog.msc.utils.k.extension.clamp
 import kotlin.math.abs
 
 private const val DEFAULT_PARALLAX = .7f
-private const val MAX_ALPHA = 85 //.3f
+private const val MAX_ALPHA = 40 //.3f
 
 class ParallaxImageView(
         context: Context,

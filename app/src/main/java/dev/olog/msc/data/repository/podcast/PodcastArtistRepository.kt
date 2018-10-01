@@ -100,7 +100,7 @@ class PodcastArtistRepository @Inject constructor(
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun observeSongListByParam(artistId: Long): Observable<List<Podcast>> {
+    override fun observePodcastListByParam(artistId: Long): Observable<List<Podcast>> {
         return podcastGateway.getAll()
                 .map { it.filter { it.artistId == artistId } }
     }

@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.dialog.add.favorite
 
+import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.interactor.dialog.AddToFavoriteUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
@@ -11,7 +12,8 @@ class AddFavoriteDialogPresenter @Inject constructor(
 ) {
 
     fun execute(): Completable {
-        return addToFavoriteUseCase.execute(mediaId)
+        val type = if (mediaId.isAnyPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
+        return addToFavoriteUseCase.execute(AddToFavoriteUseCase.Input(mediaId, type))
     }
 
 }

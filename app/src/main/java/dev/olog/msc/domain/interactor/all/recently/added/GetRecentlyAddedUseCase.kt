@@ -4,7 +4,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
@@ -26,7 +26,7 @@ class GetRecentlyAddedUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 
-) : ObservableUseCaseUseCaseWithParam<List<Song>, MediaId>(scheduler) {
+) : ObservableUseCaseWithParam<List<Song>, MediaId>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<List<Song>> {

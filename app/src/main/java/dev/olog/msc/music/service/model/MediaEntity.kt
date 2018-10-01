@@ -25,9 +25,6 @@ data class MediaEntity(
 )
 
 fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
-    val isPodcast = mediaId.isPodcast || mediaId.isPodcastPlaylist ||
-            mediaId.isPodcastArtist || mediaId.isPodcastAlbum
-
     return MediaEntity(
             this.id,
             progressive,
@@ -45,7 +42,7 @@ fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {
             this.folder,
             this.discNumber,
             this.trackNumber,
-            isPodcast
+            mediaId.isAnyPodcast
     )
 }
 
