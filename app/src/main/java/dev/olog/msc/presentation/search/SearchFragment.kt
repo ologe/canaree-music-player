@@ -110,6 +110,13 @@ class SearchFragment : BaseFragment() {
             folderAdapter.updateDataSet(folders)
             adapter.updateDataSet(viewModel.adjustDataMap(map))
         }
+
+        RxTextView.afterTextChangeEvents(view.editText)
+                .map { it.view().text.isBlank() }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isEmpty ->
+                    view.clear.toggleVisibility(!isEmpty, true)
+                }
     }
 
     override fun onResume() {
