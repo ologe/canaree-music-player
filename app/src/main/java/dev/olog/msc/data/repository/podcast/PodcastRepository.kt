@@ -9,6 +9,8 @@ import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.data.entity.PodcastPositionEntity
 import dev.olog.msc.data.mapper.toFakePodcast
 import dev.olog.msc.data.mapper.toPodcast
 import dev.olog.msc.data.mapper.toUneditedPodcast
@@ -49,11 +51,14 @@ private const val SELECTION = "${MediaStore.Audio.Media.DURATION} > 20000 AND ${
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
 class PodcastRepository @Inject constructor(
+        appDatabase: AppDatabase,
         private val contentResolver: ContentResolver,
         private  val rxContentResolver: BriteContentResolver,
         private  val usedImageGateway: UsedImageGateway
 
 ): PodcastGateway {
+
+    private val podcastPositionDao = appDatabase.podcastPositionDao()
 
     private fun queryAllData(): Observable<List<Podcast>> {
         return rxContentResolver.createQuery(
@@ -158,4 +163,16 @@ class PodcastRepository @Inject constructor(
                 .flatMapCompletable { deleteSingle(it).subscribeOn(Schedulers.io()) }
     }
 
+    override fun getCurrentPosition(podcastId: Long, duration: Long): Long {
+        val position = podcastPositionDao.getPosition(podcastId) ?: 0L
+        if (position > duration - 1000 * 5){
+            // if last 5 sec, restart
+            return 0L
+        }
+        return position
+    }
+
+    override fun saveCurrentPosition(podcastId: Long, position: Long) {
+        podcastPositionDao.setPosition(PodcastPositionEntity(podcastId, position))
+    }
 }

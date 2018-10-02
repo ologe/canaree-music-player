@@ -37,9 +37,11 @@ import dev.olog.msc.data.entity.*
         UsedArtistImageEntity::class,
 
         PodcastPlaylistEntity::class,
-        PodcastPlaylistTrackEntity::class
+        PodcastPlaylistTrackEntity::class,
 
-), version = 12, exportSchema = false)
+        PodcastPositionEntity::class
+
+), version = 13, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -67,4 +69,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun podcastPlaylistDao(): PodcastPlaylistDao
 
+    abstract fun podcastPositionDao(): PodcastPositionDao
 }

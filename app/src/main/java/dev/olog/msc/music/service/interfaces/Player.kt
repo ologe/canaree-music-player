@@ -7,7 +7,7 @@ interface Player : PlayerLifecycle {
     fun isPlaying(): Boolean
     fun getBookmark(): Long
 
-    fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>)
+    fun prepare(playerModel: PlayerMediaEntity)
     fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
     fun play(playerModel: PlayerMediaEntity)
 

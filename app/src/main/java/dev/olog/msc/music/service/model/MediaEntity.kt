@@ -68,6 +68,6 @@ fun PlayingQueueSong.toMediaEntity() : MediaEntity {
     )
 }
 
-fun MediaEntity.toPlayerMediaEntity(positionInQueue: PositionInQueue) : PlayerMediaEntity {
-    return PlayerMediaEntity(this, positionInQueue)
+fun MediaEntity.toPlayerMediaEntity(positionInQueue: PositionInQueue, bookmark: Long) : PlayerMediaEntity {
+    return PlayerMediaEntity(this, positionInQueue, bookmark)
 }

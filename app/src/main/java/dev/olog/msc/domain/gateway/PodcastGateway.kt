@@ -14,4 +14,7 @@ interface PodcastGateway : BaseGateway<Podcast, Long> {
 
     fun getUneditedByParam(podcastId: Long): Observable<Podcast>
 
+    fun getCurrentPosition(podcastId: Long, duration: Long): Long
+    fun saveCurrentPosition(podcastId: Long, position: Long)
+
 }

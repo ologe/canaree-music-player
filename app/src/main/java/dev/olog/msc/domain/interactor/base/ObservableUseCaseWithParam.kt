@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.base
 import dev.olog.msc.domain.executors.Schedulers
 import io.reactivex.Observable
 
-abstract class ObservableUseCaseUseCaseWithParam<T, in Param>(
+abstract class ObservableUseCaseWithParam<T, in Param>(
         private val schedulers: Schedulers
 ) {
 

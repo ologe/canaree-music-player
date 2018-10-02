@@ -115,6 +115,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPause() {
+        queue.updatePodcastPosition(player.getBookmark())
         player.pause(true)
     }
 

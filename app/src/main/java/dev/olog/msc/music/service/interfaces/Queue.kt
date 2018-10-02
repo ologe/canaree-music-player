@@ -13,7 +13,7 @@ interface Queue {
 
     fun getCurrentPositionInQueue(): PositionInQueue
 
-    fun prepare(): Single<Pair<PlayerMediaEntity, Long>>
+    fun prepare(): Single<PlayerMediaEntity>
 
     fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
 
@@ -53,5 +53,7 @@ interface Queue {
 
     fun playNext(songIds: List<Long>) : PositionInQueue
     fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
+
+    fun updatePodcastPosition(position: Long)
 
 }
