@@ -65,7 +65,7 @@
     <string name="common_no_internet">Verifica a ligação à internet</string>
     <string name="common_switch_on">Ligado</string>
     <string name="common_switch_off">Desligado</string>
-    <string name="common_filter">Filtrar</string>
+    <string name="common_filter">Filtrar..</string>
     <string name="common_browser_not_found">Browser não encontrado</string>
 
     <string name="common_enabled">Ativado</string>

@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.core.view.isVisible
+import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
@@ -112,6 +114,13 @@ class DetailFragment : BaseFragment() {
                 }
             }
         }
+
+        RxTextView.afterTextChangeEvents(view.editText)
+                .map { it.view().text.isBlank() }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isEmpty ->
+                    view.clear.toggleVisibility(!isEmpty, true)
+                }
     }
 
     override fun onResume() {
@@ -121,6 +130,9 @@ class DetailFragment : BaseFragment() {
         }
         back.setOnClickListener { act.onBackPressed() }
         more.setOnClickListener { navigator.toDialog(viewModel.mediaId, more) }
+        filter.setOnClickListener {
+            searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
+        }
     }
 
     override fun onPause() {
@@ -131,6 +143,7 @@ class DetailFragment : BaseFragment() {
         }
         back.setOnClickListener(null)
         more.setOnClickListener(null)
+        filter.setOnClickListener(null)
     }
 
     internal fun adjustStatusBarColor(lightStatusBar: Boolean = hasLightStatusBarColor){
@@ -146,6 +159,7 @@ class DetailFragment : BaseFragment() {
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_light)
         view?.back?.setColorFilter(color)
         more?.setColorFilter(color)
+        filter?.setColorFilter(color)
     }
 
     private fun setLightStatusBar(){
@@ -157,6 +171,7 @@ class DetailFragment : BaseFragment() {
         val color = ContextCompat.getColor(ctx, R.color.detail_button_color_dark)
         view?.back?.setColorFilter(color)
         more?.setColorFilter(color)
+        filter?.setColorFilter(color)
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_detail
