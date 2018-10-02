@@ -47,11 +47,13 @@ class FavoriteRepository @Inject constructor(
     }
 
     override fun getAllPodcasts(): Observable<List<Podcast>> {
-        return favoriteDao.getAllImpl()
+        return favoriteDao.getAllPodcastsImpl()
                 .toObservable()
                 .switchMap { favorites -> podcastGateway.getAll().map { podcastList ->
-                    favorites.mapNotNull { favoriteId -> podcastList.firstOrNull { it.id == favoriteId } }
+                    favorites.asSequence()
+                            .mapNotNull { favoriteId -> podcastList.firstOrNull { it.id == favoriteId } }
                             .sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                            .toList()
                 } }
     }
 
