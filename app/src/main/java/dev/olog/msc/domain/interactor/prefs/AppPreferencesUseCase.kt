@@ -33,6 +33,14 @@ class AppPreferencesUseCase @Inject constructor(
         return gateway.getPodcastLibraryCategories()
     }
 
+    fun getLastBottomViewPage(): Int {
+        return gateway.getLastBottomViewPage()
+    }
+
+    fun setLastBottomViewPage(page: Int) {
+        gateway.setLastBottomViewPage(page)
+    }
+
     fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>{
         return gateway.getDefaultPodcastLibraryCategories()
     }

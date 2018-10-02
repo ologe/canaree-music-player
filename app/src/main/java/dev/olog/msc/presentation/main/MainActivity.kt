@@ -64,6 +64,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             navigator.toFirstAccess(SPLASH_REQUEST_CODE)
             return
         } else if (savedInstanceState == null) {
+            bottomNavigation.selectedItemId = presenter.getLastBottomViewPage()
             bottomNavigate(bottomNavigation.selectedItemId, false)
         }
 
@@ -78,7 +79,8 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     override fun onResume() {
         super.onResume()
         bottomNavigation.setOnNavigationItemSelectedListener {
-           bottomNavigate(it.itemId, false)
+            presenter.setLastBottomViewPage(it.itemId)
+            bottomNavigate(it.itemId, false)
             true
         }
         bottomNavigation.setOnNavigationItemReselectedListener { bottomNavigate(it.itemId, true) }

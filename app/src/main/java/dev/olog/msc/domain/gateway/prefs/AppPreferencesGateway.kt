@@ -7,6 +7,9 @@ import java.io.File
 
 interface AppPreferencesGateway : Sorting {
 
+    fun getLastBottomViewPage(): Int
+    fun setLastBottomViewPage(page: Int)
+
     fun isFirstAccess(): Boolean
 
     fun getVisibleTabs(): Observable<BooleanArray>

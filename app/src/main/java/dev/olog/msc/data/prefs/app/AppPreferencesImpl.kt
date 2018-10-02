@@ -32,6 +32,7 @@ class AppPreferencesImpl @Inject constructor(
 
         private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
         private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
+        private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW"
 
         private const val SLEEP_TIME = "$TAG.SLEEP_TIME"
         private const val SLEEP_FROM = "$TAG.FROM_WHEN"
@@ -95,6 +96,14 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun setViewPagerPodcastLastPage(lastPage: Int) {
         preferences.edit { putInt(VIEW_PAGER_PODCAST_LAST_PAGE, lastPage) }
+    }
+
+    override fun getLastBottomViewPage(): Int {
+        return preferences.getInt(BOTTOM_VIEW_LAST_PAGE, R.id.navigation_songs)
+    }
+
+    override fun setLastBottomViewPage(page: Int) {
+        preferences.edit { putInt(BOTTOM_VIEW_LAST_PAGE, page) }
     }
 
     override fun getVisibleTabs(): Observable<BooleanArray> {
