@@ -1,6 +1,6 @@
 package dev.olog.msc.music.service.player.crossfade
 
-import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.player.CustomExoPlayer
 import dev.olog.msc.utils.assertMainThread
 import javax.inject.Inject
@@ -15,18 +15,18 @@ class CrossFadePlayer @Inject internal constructor(
         private val playerOne: CrossFadePlayerImpl,
         private val playerTwo: CrossFadePlayerImpl
 
-): CustomExoPlayer<MediaEntity> {
+): CustomExoPlayer<PlayerMediaEntity> {
 
     private var current = CurrentPlayer.PLAYER_NOT_SET
 
-    override fun prepare(mediaEntity: MediaEntity, bookmark: Long){
+    override fun prepare(mediaEntity: PlayerMediaEntity, bookmark: Long){
         assertMainThread()
 
         val player = getNextPlayer()
         player?.prepare(mediaEntity.toSimpleCrossFadeModel(), bookmark)
     }
 
-    override fun play(mediaEntity: MediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
+    override fun play(mediaEntity: PlayerMediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
         assertMainThread()
         val player = getNextPlayer()
         player?.play(mediaEntity.toSimpleCrossFadeModel(), hasFocus, isTrackEnded)
@@ -90,7 +90,7 @@ class CrossFadePlayer @Inject internal constructor(
         }
     }
 
-    private fun MediaEntity.toSimpleCrossFadeModel(): CrossFadePlayerImpl.Model {
+    private fun PlayerMediaEntity.toSimpleCrossFadeModel(): CrossFadePlayerImpl.Model {
         return CrossFadePlayerImpl.Model(this, false, -1)
     }
 

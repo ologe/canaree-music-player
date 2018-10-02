@@ -14,7 +14,7 @@ import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
-import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.player.DefaultPlayer
 import dev.olog.msc.music.service.player.media.source.ClippedSourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
@@ -185,11 +185,12 @@ class CrossFadePlayerImpl @Inject internal constructor(
     }
 
     data class Model(
-            val mediaEntity: MediaEntity,
+            val playerMediaEntity: PlayerMediaEntity,
             private val trackEnded: Boolean,
             private val crossFadeTime: Int
     ) {
 
+        val mediaEntity = playerMediaEntity.mediaEntity
         val isFlac: Boolean = mediaEntity.path.endsWith(".flac")
         val duration: Long = mediaEntity.duration
         val isCrossFadeOn: Boolean = crossFadeTime > 0

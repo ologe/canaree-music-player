@@ -13,7 +13,6 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.interfaces.SkipType
-import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.utils.k.extension.clamp
 import java.util.concurrent.TimeUnit
@@ -25,7 +24,7 @@ class PlayerImpl @Inject constructor(
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
         private val audioFocus : AudioFocusBehavior,
-        private val player: CustomExoPlayer<MediaEntity>
+        private val player: CustomExoPlayer<PlayerMediaEntity>
 
 ) : Player,
         DefaultLifecycleObserver,
@@ -45,7 +44,7 @@ class PlayerImpl @Inject constructor(
 
     override fun prepare(playerModel: PlayerMediaEntity) {
         val entity = playerModel.mediaEntity
-        player.prepare(entity, playerModel.bookmark)
+        player.prepare(playerModel, playerModel.bookmark)
 
         playerState.prepare(entity.id, playerModel.bookmark)
         playerState.toggleSkipToActions(playerModel.positionInQueue)
@@ -73,7 +72,7 @@ class PlayerImpl @Inject constructor(
 
         val entity = playerModel.mediaEntity
 
-        player.play(entity, hasFocus, skipType == SkipType.TRACK_ENDED)
+        player.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
 
         val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
                 playerModel.bookmark, entity.id)

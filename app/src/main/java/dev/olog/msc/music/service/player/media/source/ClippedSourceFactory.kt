@@ -51,7 +51,7 @@ class ClippedSourceFactory @Inject constructor (
         val mediaSource = sourceFactory.get(model.mediaEntity)
         val isFlac = model.isFlac
 
-        if (!isFlac && isGapless && model.isGoodIdeaToClip){
+        if (!isFlac && isGapless && model.isGoodIdeaToClip && !model.mediaEntity.isPodcast){
             if (model.isTrackEnded){
                 // clip start and end
                 return ClippingMediaSource(mediaSource, clipStart, calculateEndClip(model.duration))

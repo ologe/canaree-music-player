@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
+import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.clamp
@@ -61,6 +62,9 @@ abstract class DefaultPlayer<T>(
     override fun play(mediaEntity: T, hasFocus: Boolean, isTrackEnded: Boolean) {
         val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource, true, true)
+        if (mediaEntity is CrossFadePlayerImpl.Model){
+            player.seekTo(mediaEntity.playerMediaEntity.bookmark)
+        }
         player.playWhenReady = hasFocus
     }
 
