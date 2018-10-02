@@ -82,6 +82,7 @@ class MediaSessionCallback @Inject constructor(
                 }
                 else -> Single.error(Throwable("invalid case $extras"))
             }.observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { updatePodcastPosition() }
                     .subscribe(player::play, Throwable::printStackTrace)
                     .addTo(subscriptions)
         }
@@ -97,6 +98,7 @@ class MediaSessionCallback @Inject constructor(
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         queue.handlePlayFromGoogleSearch(query, extras)
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { updatePodcastPosition() }
                 .subscribe(player::play) {
                     playerState.setEmptyQueue()
                     it.printStackTrace()
@@ -106,6 +108,7 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
         queue.handlePlayFromUri(uri)
+                .doOnSubscribe { updatePodcastPosition() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(player::play) {
                     playerState.setEmptyQueue()
@@ -115,7 +118,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPause() {
-        queue.updatePodcastPosition(player.getBookmark())
+        updatePodcastPosition()
         player.pause(true)
     }
 
@@ -129,6 +132,7 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToPrevious() {
         doWhenReady ({
+            updatePodcastPosition()
             queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
                 player.playNext(metadata, SkipType.SKIP_PREVIOUS)
             }
@@ -144,6 +148,7 @@ class MediaSessionCallback @Inject constructor(
      */
     private fun onSkipToNext(trackEnded: Boolean){
         doWhenReady ({
+            updatePodcastPosition()
             val metadata = queue.handleSkipToNext(trackEnded)
             if (metadata != null){
                 val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
@@ -182,6 +187,7 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToQueueItem(id: Long) {
         try {
+            updatePodcastPosition()
             val mediaEntity = queue.handleSkipToQueueItem(id)
             player.play(mediaEntity)
         } catch (ex: Exception){}
@@ -189,6 +195,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSeekTo(pos: Long) {
+        updatePodcastPosition()
         player.seekTo(pos)
     }
 
@@ -210,6 +217,7 @@ class MediaSessionCallback @Inject constructor(
                 MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
                 MusicConstants.ACTION_SHUFFLE -> {
                     doWhenReady ({
+                        updatePodcastPosition()
                         val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)!!
                         val mediaId = MediaId.fromString(mediaIdAsString)
                         queue.handlePlayShuffle(mediaId)
@@ -302,6 +310,10 @@ class MediaSessionCallback @Inject constructor(
         } else {
             onPlay()
         }
+    }
+
+    private fun updatePodcastPosition(){
+        queue.updatePodcastPosition(player.getBookmark())
     }
 
 }
