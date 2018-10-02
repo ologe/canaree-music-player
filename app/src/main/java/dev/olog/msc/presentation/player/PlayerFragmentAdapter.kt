@@ -283,13 +283,27 @@ class PlayerFragmentAdapter (
                     navigator.toOfflineLyrics(view.lyrics)
                 }, Throwable::printStackTrace)
 
-        RxView.clicks(view.findViewById(R.id.replay))
+        val replayView = view.findViewById<View>(R.id.replay)
+        RxView.clicks(replayView)
                 .takeUntil(RxView.detaches(view))
-                .subscribe({ mediaProvider.replayTenSeconds() }, Throwable::printStackTrace)
+                .subscribe({
+                    replayView.animate().cancel()
+                    replayView.animate().rotation(-30f)
+                            .setDuration(200)
+                            .withEndAction { replayView.animate().rotation(0f).setDuration(200) }
+                    mediaProvider.replayTenSeconds()
+                }, Throwable::printStackTrace)
 
-        RxView.clicks(view.findViewById(R.id.forward))
+        val forwardView = view.findViewById<View>(R.id.forward)
+        RxView.clicks(forwardView)
                 .takeUntil(RxView.detaches(view))
-                .subscribe({ mediaProvider.forwardTenSeconds() }, Throwable::printStackTrace)
+                .subscribe({
+                    forwardView.animate().cancel()
+                    forwardView.animate().rotation(30f)
+                            .setDuration(200)
+                            .withEndAction { forwardView.animate().rotation(0f).setDuration(200) }
+                    mediaProvider.forwardTenSeconds()
+                }, Throwable::printStackTrace)
 
         if (view.context.isPortrait || AppTheme.isFullscreen()){
 
