@@ -276,6 +276,7 @@ class AppPreferencesImpl @Inject constructor(
     override fun setDefault(): Completable {
         return Completable.create { emitter ->
             setLibraryCategories(getDefaultLibraryCategories())
+            setPodcastLibraryCategories(getDefaultPodcastLibraryCategories())
             setBlackList(setOf())
             hideQuickAction()
             setDefaultVisibleSections()
@@ -283,14 +284,30 @@ class AppPreferencesImpl @Inject constructor(
             setDefaultAutoDownloadImages()
             setDefaultTheme()
             setLastFmCredentials(UserCredentials("", ""))
+            setDefaultFolderView()
+            setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
+            setDefaultAccentColor()
 
             emitter.onComplete()
+        }
+    }
+
+    private fun setDefaultAccentColor(){
+        preferences.edit {
+            putInt(context.getString(R.string.prefs_accent_light_key), R.color.accent)
+            putInt(context.getString(R.string.prefs_accent_dark_key), R.color.accent_secondary)
         }
     }
 
     override fun observeAutoCreateImages(): Observable<Boolean> {
         return rxPreferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
                 .asObservable()
+    }
+
+    private fun setDefaultFolderView(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)
+        }
     }
 
     private fun setDefaultAutoDownloadImages(){

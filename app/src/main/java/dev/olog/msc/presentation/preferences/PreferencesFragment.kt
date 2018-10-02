@@ -129,7 +129,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         }
         accentColorChooser.setOnPreferenceClickListener {
             val prefs = PreferenceManager.getDefaultSharedPreferences(act)
-            val key = if (AppTheme.isWhiteTheme()) "color_accent_light" else "color_accent_light"
+            val key = getString(if (AppTheme.isWhiteTheme()) R.string.prefs_accent_light_key else R.string.prefs_accent_dark_key)
             val defaultColor = ContextCompat.getColor(act, (if (AppTheme.isWhiteTheme()) R.color.accent else R.color.accent_secondary))
             ColorChooserDialog.Builder(ctx, R.string.prefs_accent_color_title)
                     .allowUserColorInput(false)

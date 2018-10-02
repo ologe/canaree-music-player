@@ -265,4 +265,7 @@
     <string name="prefs_accent_color_title">Accent color</string>
     <string name="prefs_accent_color_summary">Change the accent theme color</string>
 
+    <string name="prefs_accent_light_key" translatable="false">color_accent_light</string>
+    <string name="prefs_accent_dark_key" translatable="false">color_accent_dark</string>
+
 </resources>
