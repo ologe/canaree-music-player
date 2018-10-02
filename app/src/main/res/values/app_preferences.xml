@@ -244,6 +244,10 @@
     <string name="prefs_delete_cached_images_summary">Delete all cached images</string>
     <string name="prefs_delete_cached_images_success">Cache deleted</string>
 
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_key" translatable="false">key_reset_tutorial</string>
+    <string name="prefs_reset_tutorial_title">Reset tutorial</string>
+
     <!--last fm credentials-->
     <string name="prefs_last_fm_credentials_key" translatable="false">key_last_fm_credentials</string>
     <string name="prefs_last_fm_credentials_title">Last.fm credentials</string>

@@ -26,4 +26,8 @@ class TutorialPreferenceUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    fun reset() {
+        gateway.reset()
+    }
+
 }

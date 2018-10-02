@@ -8,5 +8,6 @@ interface TutorialPreferenceGateway {
     fun floatingWindowTutorial(): Completable
     fun lyricsTutorial(): Completable
     fun editLyrics(): Completable
+    fun reset()
 
 }

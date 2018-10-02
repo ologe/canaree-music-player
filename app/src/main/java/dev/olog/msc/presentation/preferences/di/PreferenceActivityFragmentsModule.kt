@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.preferences.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import dev.olog.msc.presentation.preferences.PreferencesFragment
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
@@ -17,5 +18,8 @@ abstract class PreferenceActivityFragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun provideLastFmCredentialsFragment() : LastFmCredentialsFragment
+
+    @ContributesAndroidInjector
+    abstract fun providePreferencesFragment() : PreferencesFragment
 
 }

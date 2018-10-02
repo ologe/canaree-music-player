@@ -160,6 +160,10 @@
             android:defaultValue="true" />
 
         <Preference
+            android:key="@string/prefs_reset_tutorial_key"
+            android:title="@string/prefs_reset_tutorial_title" />
+
+        <Preference
             android:title="@string/prefs_delete_cached_images_title"
             android:summary="@string/prefs_delete_cached_images_summary"
             android:key="@string/prefs_delete_cached_images_key"/>
