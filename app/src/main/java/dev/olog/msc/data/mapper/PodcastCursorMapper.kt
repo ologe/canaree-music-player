@@ -21,7 +21,7 @@ fun Cursor.toPodcast(): Podcast {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
+    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM))
 
     var albumArtist = artist
     val albumArtistIndex = this.getColumnIndex("album_artist")
@@ -56,7 +56,7 @@ fun Cursor.toUneditedPodcast(image: String): Podcast {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM))
+    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
@@ -81,7 +81,7 @@ fun Cursor.toUneditedPodcast(image: String): Podcast {
 
 private fun adjustAlbum(album: String): String {
     if (album == Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).name){
-        return AppConstants.UNKNOWN_ALBUM
+        return AppConstants.UNKNOWN
     } else {
         return album
     }
