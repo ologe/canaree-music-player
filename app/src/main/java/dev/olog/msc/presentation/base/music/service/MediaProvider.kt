@@ -45,4 +45,7 @@ interface MediaProvider {
     fun replayTenSeconds()
     fun forwardTenSeconds()
 
+    fun replayThirtySeconds()
+    fun forwardThirtySeconds()
+
 }

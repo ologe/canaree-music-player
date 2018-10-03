@@ -228,6 +228,8 @@ class MediaSessionCallback @Inject constructor(
                 }
                 MusicConstants.ACTION_FORWARD_10_SECONDS -> player.forwardTenSeconds()
                 MusicConstants.ACTION_REPLAY_10_SECONDS -> player.replayTenSeconds()
+                MusicConstants.ACTION_FORWARD_30_SECONDS -> player.forwardThirtySeconds()
+                MusicConstants.ACTION_REPLAY_30_SECONDS -> player.replayThirtySeconds()
             }
         }
     }

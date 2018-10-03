@@ -144,6 +144,16 @@ class PlayerImpl @Inject constructor(
         seekTo(clamp(newBookmark, 0, player.getDuration()))
     }
 
+    override fun forwardThirtySeconds() {
+        val newBookmark = player.getBookmark() + TimeUnit.SECONDS.toMillis(30)
+        seekTo(clamp(newBookmark, 0, player.getDuration()))
+    }
+
+    override fun replayThirtySeconds() {
+        val newBookmark = player.getBookmark() - TimeUnit.SECONDS.toMillis(30)
+        seekTo(clamp(newBookmark, 0, player.getDuration()))
+    }
+
     override fun isPlaying(): Boolean = player.isPlaying()
 
     override fun getBookmark(): Long = player.getBookmark()

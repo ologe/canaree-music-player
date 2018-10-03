@@ -16,7 +16,7 @@
         android:focusable="true"
         tools:src="@drawable/vd_shuffle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/replay"
+        app:layout_constraintEnd_toStartOf="@+id/replay30"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -94,7 +94,7 @@
         tools:src="@drawable/vd_repeat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/forward"
+        app:layout_constraintStart_toEndOf="@+id/forward30"
         android:elevation="2dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -110,12 +110,12 @@
         android:src="@drawable/vd_replay"
         android:padding="8dp"
         app:layout_constraintEnd_toStartOf="@+id/previous"
-        app:layout_constraintStart_toEndOf="@+id/shuffle"
+        app:layout_constraintStart_toEndOf="@+id/replay30"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
         android:visibility="gone"
-        tools:visibility="gone"
+        tools:visibility="visible"
         tools:tint="#8d91a6"/>
 
     <ImageButton
@@ -128,10 +128,42 @@
         android:padding="8dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/next"
+        app:layout_constraintEnd_toStartOf="@+id/forward30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@null"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/replay30"
+        android:layout_width="@dimen/player_shuffle_size"
+        android:layout_height="@dimen/player_shuffle_size"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/vd_replay_30"
+        android:padding="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/replay"
+        app:layout_constraintStart_toEndOf="@+id/shuffle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@null"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/forward30"
+        android:layout_width="@dimen/player_shuffle_size"
+        android:layout_height="@dimen/player_shuffle_size"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/vd_forward_30"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/forward"
         app:layout_constraintEnd_toStartOf="@+id/repeat"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
         android:visibility="gone"
-        tools:visibility="gone" />
+        tools:visibility="visible"/>
 
 </android.support.constraint.ConstraintLayout>

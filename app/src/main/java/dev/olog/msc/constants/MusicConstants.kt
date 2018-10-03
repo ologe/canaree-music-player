@@ -19,6 +19,8 @@ object MusicConstants {
     const val ACTION_REMOVE_RELATIVE = TAG + "action.remove_relative"
     const val ACTION_FORWARD_10_SECONDS = TAG + "action.forward_10_seconds"
     const val ACTION_REPLAY_10_SECONDS = TAG + "action.replay_10_seconds"
+    const val ACTION_FORWARD_30_SECONDS = TAG + "action.forward_30_seconds"
+    const val ACTION_REPLAY_30_SECONDS = TAG + "action.replay_30_seconds"
 
     const val ARGUMENT_SWAP_FROM = "$TAG.argument.swap_from"
     const val ARGUMENT_SWAP_TO = "$TAG.argument.swap_to"

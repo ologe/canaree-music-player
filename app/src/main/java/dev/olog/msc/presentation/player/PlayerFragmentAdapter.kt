@@ -294,6 +294,17 @@ class PlayerFragmentAdapter (
                     mediaProvider.replayTenSeconds()
                 }, Throwable::printStackTrace)
 
+        val replay30View = view.findViewById<View>(R.id.replay30)
+        RxView.clicks(replay30View)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({
+                    replay30View.animate().cancel()
+                    replay30View.animate().rotation(-50f)
+                            .setDuration(200)
+                            .withEndAction { replay30View.animate().rotation(0f).setDuration(200) }
+                    mediaProvider.replayTenSeconds()
+                }, Throwable::printStackTrace)
+
         val forwardView = view.findViewById<View>(R.id.forward)
         RxView.clicks(forwardView)
                 .takeUntil(RxView.detaches(view))
@@ -302,6 +313,17 @@ class PlayerFragmentAdapter (
                     forwardView.animate().rotation(30f)
                             .setDuration(200)
                             .withEndAction { forwardView.animate().rotation(0f).setDuration(200) }
+                    mediaProvider.forwardTenSeconds()
+                }, Throwable::printStackTrace)
+
+        val forward30View = view.findViewById<View>(R.id.forward30)
+        RxView.clicks(forward30View)
+                .takeUntil(RxView.detaches(view))
+                .subscribe({
+                    forward30View.animate().cancel()
+                    forward30View.animate().rotation(50f)
+                            .setDuration(200)
+                            .withEndAction { forward30View.animate().rotation(0f).setDuration(200) }
                     mediaProvider.forwardTenSeconds()
                 }, Throwable::printStackTrace)
 
@@ -385,6 +407,10 @@ class PlayerFragmentAdapter (
                 ?: view.findViewById(R.id.playerRoot) as ConstraintLayout
         playerControlsRoot.findViewById<View>(R.id.replay).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.forward).toggleVisibility(isPodcast, true)
+        playerControlsRoot.findViewById<View>(R.id.replay30).toggleVisibility(isPodcast, true)
+        playerControlsRoot.findViewById<View>(R.id.forward30).toggleVisibility(isPodcast, true)
+        playerControlsRoot.findViewById<View>(R.id.next).toggleVisibility(!isPodcast, true)
+        playerControlsRoot.findViewById<View>(R.id.previous).toggleVisibility(!isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){

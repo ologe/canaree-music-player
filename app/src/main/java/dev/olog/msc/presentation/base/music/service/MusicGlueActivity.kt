@@ -272,4 +272,12 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
     override fun forwardTenSeconds() {
         getTransportControls()?.sendCustomAction(MusicConstants.ACTION_FORWARD_10_SECONDS, null)
     }
+
+    override fun replayThirtySeconds() {
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_REPLAY_30_SECONDS, null)
+    }
+
+    override fun forwardThirtySeconds() {
+        getTransportControls()?.sendCustomAction(MusicConstants.ACTION_FORWARD_30_SECONDS, null)
+    }
 }
