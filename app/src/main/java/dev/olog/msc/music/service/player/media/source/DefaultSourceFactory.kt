@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
@@ -24,7 +25,10 @@ class DefaultSourceFactory @Inject constructor(
     private val extractorFactory = ExtractorMediaSource.Factory(dataSource)
 
     override fun get(model: MediaEntity) : MediaSource {
-        return extractorFactory.createMediaSource(getTrackUri(model.id))
+        val mediaSource = extractorFactory.createMediaSource(getTrackUri(model.id))
+//        wrapping in 'ConcatenatingMediaSource' for gapless playback if there are
+//        any gapless metadata
+        return ConcatenatingMediaSource(mediaSource)
     }
 
     private fun getTrackUri(id: Long): Uri {
