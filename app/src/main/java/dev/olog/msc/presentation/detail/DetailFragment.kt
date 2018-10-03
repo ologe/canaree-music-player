@@ -116,10 +116,12 @@ class DetailFragment : BaseFragment() {
         }
 
         RxTextView.afterTextChangeEvents(view.editText)
-                .map { it.view().text.isBlank() }
+                .map { it.view() }
                 .asLiveData()
-                .subscribe(viewLifecycleOwner) { isEmpty ->
+                .subscribe(viewLifecycleOwner) { edit ->
+                    val isEmpty = edit.text.isEmpty()
                     view.clear.toggleVisibility(!isEmpty, true)
+                    viewModel.updateFilter(edit.text.toString())
                 }
     }
 
@@ -133,6 +135,7 @@ class DetailFragment : BaseFragment() {
         filter.setOnClickListener {
             searchWrapper.toggleVisibility(!searchWrapper.isVisible, true)
         }
+        clear.setOnClickListener { editText.setText("") }
     }
 
     override fun onPause() {
@@ -144,6 +147,7 @@ class DetailFragment : BaseFragment() {
         back.setOnClickListener(null)
         more.setOnClickListener(null)
         filter.setOnClickListener(null)
+        clear.setOnClickListener(null)
     }
 
     internal fun adjustStatusBarColor(lightStatusBar: Boolean = hasLightStatusBarColor){

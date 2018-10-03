@@ -119,7 +119,7 @@
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintEnd_toStartOf="@+id/filter"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/toolbar"
         android:elevation="@dimen/toolbar_elevation"
         android:visibility="gone"
         tools:visibility="visible">
@@ -127,13 +127,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/search_background"
-            android:layout_marginStart="8dp"/>
+            android:background="@drawable/search_background" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="8dp">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
