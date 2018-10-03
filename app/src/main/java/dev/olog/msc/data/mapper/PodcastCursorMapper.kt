@@ -1,11 +1,13 @@
 package dev.olog.msc.data.mapper
 
 import android.database.Cursor
+import android.os.Environment
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.core.database.getInt
 import androidx.core.database.getLong
 import androidx.core.database.getString
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Podcast
 
 fun Cursor.toPodcast(): Podcast {
@@ -54,7 +56,7 @@ fun Cursor.toUneditedPodcast(image: String): Podcast {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
+    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM))
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
@@ -75,4 +77,12 @@ fun Cursor.toUneditedPodcast(image: String): Podcast {
             id, artistId, albumId, title, artist, albumArtist, album,
             image, duration, dateAdded, path,
             folder.capitalize(), disc, track)
+}
+
+private fun adjustAlbum(album: String): String {
+    if (album == Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).name){
+        return AppConstants.UNKNOWN_ALBUM
+    } else {
+        return album
+    }
 }
