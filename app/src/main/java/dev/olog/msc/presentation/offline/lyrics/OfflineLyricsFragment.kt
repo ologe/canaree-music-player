@@ -16,6 +16,7 @@ import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.glide.transformation.BlurTransformation
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
@@ -160,7 +161,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                 .subscribe(viewLifecycleOwner) {
                     val isPlaying = it.state == PlaybackState.STATE_PLAYING
                     seekBar.progress = it.position.toInt()
-                    handleSeekBarState(isPlaying)
+                    handleSeekBarState(isPlaying, it.playbackSpeed)
                 }
     }
 
@@ -204,16 +205,16 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         updateDisposable.unsubscribe()
     }
 
-    private fun handleSeekBarState(isPlaying: Boolean){
+    private fun handleSeekBarState(isPlaying: Boolean, speed: Float){
         updateDisposable.unsubscribe()
         if (isPlaying) {
-            resumeSeekBar()
+            resumeSeekBar(speed)
         }
     }
 
-    private fun resumeSeekBar(){
-        updateDisposable = Observable.interval(250L, TimeUnit.MILLISECONDS)
-                .subscribe({ seekBar.incrementProgressBy(250) }, Throwable::printStackTrace)
+    private fun resumeSeekBar(speed: Float){
+        updateDisposable = Observable.interval(AppConstants.PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
+                .subscribe({ seekBar.incrementProgressBy((AppConstants.PROGRESS_BAR_INTERVAL * speed).toInt()) }, Throwable::printStackTrace)
     }
 
     private val seekBarListener = object : SeekBar.OnSeekBarChangeListener {

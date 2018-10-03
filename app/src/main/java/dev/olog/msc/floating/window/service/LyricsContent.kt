@@ -15,6 +15,7 @@ import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.playpause.IPlayPauseBehavior
+import dev.olog.msc.utils.k.extension.isPlaying
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -53,9 +54,14 @@ class LyricsContent (
                 .subscribe({ noTracks.toggleVisibility(it, true) }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
+        musicServiceBinder.onStateChanged()
+                .subscribe({
+                    handleSeekBarState(it.isPlaying(), it.playbackSpeed)
+                }, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
         musicServiceBinder.animatePlayPauseLiveData
                 .subscribe({
-                    handleSeekBarState(it == PlaybackStateCompat.STATE_PLAYING)
                     if (it == PlaybackStateCompat.STATE_PLAYING) {
                         playPauseBehavior.animationPlay(true)
                     } else if (it == PlaybackStateCompat.STATE_PAUSED) {
@@ -111,16 +117,16 @@ class LyricsContent (
         seekBar.max = max.toInt()
     }
 
-    private fun handleSeekBarState(isPlaying: Boolean){
+    private fun handleSeekBarState(isPlaying: Boolean, speed: Float){
         updateDisposable.unsubscribe()
         if (isPlaying) {
-            resumeSeekBar()
+            resumeSeekBar(speed)
         }
     }
 
-    private fun resumeSeekBar(){
+    private fun resumeSeekBar(speed: Float){
         updateDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
-                .subscribe({ seekBar.incrementProgressBy(PROGRESS_BAR_INTERVAL) }, Throwable::printStackTrace)
+                .subscribe({ seekBar.incrementProgressBy((PROGRESS_BAR_INTERVAL * speed).toInt()) }, Throwable::printStackTrace)
     }
 
     private fun animateSkipTo(toNext: Boolean) {

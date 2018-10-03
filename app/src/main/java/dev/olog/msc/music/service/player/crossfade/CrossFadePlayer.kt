@@ -26,6 +26,11 @@ class CrossFadePlayer @Inject internal constructor(
         player?.prepare(mediaEntity.toSimpleCrossFadeModel(), bookmark)
     }
 
+    override fun setPlaybackSpeed(speed: Float) {
+        getCurrentPlayer()?.setPlaybackSpeed(speed)
+        getSecondaryPlayer()?.setPlaybackSpeed(speed)
+    }
+
     override fun play(mediaEntity: PlayerMediaEntity, hasFocus: Boolean, isTrackEnded: Boolean) {
         assertMainThread()
         val player = getNextPlayer()

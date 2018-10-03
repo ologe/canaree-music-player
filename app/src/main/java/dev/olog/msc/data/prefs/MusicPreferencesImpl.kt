@@ -10,6 +10,8 @@ import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 private const val TAG = "MusicPreferences"
@@ -27,6 +29,8 @@ private const val LAST_TITLE = "$TAG.last.title"
 private const val LAST_SUBTITLE = "$TAG.last.subtitle"
 private const val LAST_IMAGE = "$TAG.last.image"
 private const val LAST_ID = "$TAG.last.id"
+
+private const val PLAYBACK_SPEED = "$TAG.playback_speed"
 
 class MusicPreferencesImpl @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -155,4 +159,20 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putBoolean(key, enabled) }
     }
 
+    override fun observePlaybackSpeed(): Observable<Float> {
+        return rxPreferences.getFloat(PLAYBACK_SPEED, 1f)
+                .asObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun setPlaybackSpeed(speed: Float) {
+        preferences.edit {
+            putFloat(PLAYBACK_SPEED, speed)
+        }
+    }
+
+    override fun getPlaybackSpeed(): Float {
+        return preferences.getFloat(PLAYBACK_SPEED, 1f)
+    }
 }

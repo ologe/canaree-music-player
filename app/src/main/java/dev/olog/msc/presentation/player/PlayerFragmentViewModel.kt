@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
-        musicPrefsUseCase: MusicPreferencesUseCase,
+        private val musicPrefsUseCase: MusicPreferencesUseCase,
         private val tutorialPreferenceUseCase: TutorialPreferenceUseCase
 
 ) : ViewModel() {
@@ -110,6 +110,29 @@ class PlayerFragmentViewModel @Inject constructor(
         insertLyrics.unsubscribe()
     }
 
+    fun getPlaybackSpeed(): Int{
+        val speed = musicPrefsUseCase.getPlaybackSpeed()
+        return when (speed){
+            .5f -> 0
+            .75f -> 1
+            1f -> 2
+            1.25f -> 3
+            1.5f -> 4
+            else -> 2
+        }
+    }
+
+    fun setPlaybackSpeed(itemId: Int) {
+        val speed = when (itemId){
+            R.id.speed50 -> .5f
+            R.id.speed75 -> .75f
+            R.id.speed100 -> 1f
+            R.id.speed125 -> 1.25f
+            R.id.speed150 -> 1.5f
+            else -> 1f
+        }
+        musicPrefsUseCase.setPlaybackSpeed(speed)
+    }
 
 
 }

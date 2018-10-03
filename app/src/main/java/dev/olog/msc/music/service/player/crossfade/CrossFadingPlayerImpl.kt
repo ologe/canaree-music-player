@@ -6,9 +6,9 @@ import android.content.Context
 import android.media.AudioManager
 import android.support.v4.math.MathUtils
 import android.view.KeyEvent
+import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.Lazy
-import dev.olog.msc.BuildConfig
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
@@ -27,7 +27,6 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private var playerCount = 0
 
 class CrossFadePlayerImpl @Inject internal constructor(
         @ApplicationContext context: Context,
@@ -59,10 +58,10 @@ class CrossFadePlayerImpl @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ fadeOut(getDuration() - getBookmark()) }, Throwable::printStackTrace)
 
-    private val currentPlayerNumber = playerCount++
 
     init {
         player.addListener(this)
+        player.playbackParameters = PlaybackParameters(1f, 1f, true)
         player.addAudioDebugListener(onAudioSessionIdChangeListener)
     }
 
@@ -73,6 +72,10 @@ class CrossFadePlayerImpl @Inject internal constructor(
         cancelFade()
         timeDisposable.unsubscribe()
         crossFadeDurationDisposable.unsubscribe()
+    }
+
+    override fun setPlaybackSpeed(speed: Float) {
+        player.playbackParameters = PlaybackParameters(speed, 1f, true)
     }
 
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
@@ -178,12 +181,6 @@ class CrossFadePlayerImpl @Inject internal constructor(
 
     private fun restoreDefaultVolume() {
         player.volume = volume.getVolume()
-    }
-
-    private fun debug(message: String){
-        if (BuildConfig.DEBUG){
-            println("player $currentPlayerNumber, $message")
-        }
     }
 
     private fun requestNextSong(){

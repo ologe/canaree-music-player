@@ -74,4 +74,16 @@ class MusicPreferencesUseCase @Inject constructor(
         return gateway.observeGapless()
     }
 
+    fun observePlaybackSpeed(): Observable<Float> {
+        return gateway.observePlaybackSpeed()
+    }
+
+    fun setPlaybackSpeed(speed: Float) {
+        gateway.setPlaybackSpeed(speed)
+    }
+
+    fun getPlaybackSpeed(): Float {
+        return gateway.getPlaybackSpeed()
+    }
+
 }

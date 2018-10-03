@@ -5,7 +5,6 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.graphics.Bitmap
-import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
@@ -26,6 +25,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.blur.FastBlur
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.utils.k.extension.isPlaying
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -73,9 +73,9 @@ class OfflineLyricsContent(
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
-        musicServiceBinder.animatePlayPauseLiveData
+        musicServiceBinder.onStateChanged()
                 .subscribe({
-                    handleSeekBarState(it == PlaybackStateCompat.STATE_PLAYING)
+                    handleSeekBarState(it.isPlaying(), it.playbackSpeed)
                 }, Throwable::printStackTrace)
                 .addTo(subscriptions)
 
@@ -148,10 +148,10 @@ class OfflineLyricsContent(
         scrollView.setOnTouchListener(null)
     }
 
-    private fun handleSeekBarState(isPlaying: Boolean){
+    private fun handleSeekBarState(isPlaying: Boolean, speed: Float){
         updateDisposable.unsubscribe()
         if (isPlaying) {
-            resumeSeekBar()
+            resumeSeekBar(speed)
         }
     }
 
@@ -159,9 +159,9 @@ class OfflineLyricsContent(
         seekBar.max = max.toInt()
     }
 
-    private fun resumeSeekBar(){
+    private fun resumeSeekBar(speed: Float){
         updateDisposable = Observable.interval(AppConstants.PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS)
-                .subscribe({ seekBar.incrementProgressBy(AppConstants.PROGRESS_BAR_INTERVAL) }, Throwable::printStackTrace)
+                .subscribe({ seekBar.incrementProgressBy((AppConstants.PROGRESS_BAR_INTERVAL * speed).toInt()) }, Throwable::printStackTrace)
     }
 
     private fun setupSeekBar(){

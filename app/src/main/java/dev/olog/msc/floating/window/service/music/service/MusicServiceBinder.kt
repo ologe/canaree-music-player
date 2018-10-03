@@ -21,6 +21,7 @@ import dev.olog.msc.presentation.widget.image.view.toPlayerImage
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
@@ -89,6 +90,10 @@ class MusicServiceBinder @Inject constructor(
         callback.onRepeatModeChanged(mediaController.repeatMode)
         callback.onShuffleModeChanged(mediaController.shuffleMode)
         callback.onQueueChanged(mediaController.queue)
+    }
+
+    fun onStateChanged(): Observable<PlaybackStateCompat> {
+        return statePublisher.observeOn(Schedulers.computation())
     }
 
     fun next(){

@@ -104,7 +104,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                 .subscribe(viewLifecycleOwner) {
                     val bookmark = it.extractBookmark()
                     viewModel.updateProgress(bookmark)
-                    handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
+                    handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
                 }
 
         if (act.isLandscape && !AppTheme.isFullscreen()){
@@ -202,12 +202,12 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         playPause.animationPause(getSlidingPanel().isExpanded() && animate)
     }
 
-    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean){
+    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float){
         seekBarDisposable.unsubscribe()
 
         if (isPlaying){
             seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
-                    .map { (it + 1) * PROGRESS_BAR_INTERVAL + bookmark }
+                    .map { (it + 1) * PROGRESS_BAR_INTERVAL * speed + bookmark }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ viewModel.updateProgress(it.toInt()) }, Throwable::printStackTrace)
         }

@@ -36,8 +36,9 @@
         android:focusable="true"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favorite"
+        app:layout_constraintEnd_toStartOf="@+id/playbackSpeed"
         app:layout_constraintBottom_toBottomOf="@+id/more"
+        app:layout_constraintHorizontal_chainStyle="spread"
         tools:tint="#8d91a6"/>
 
     <dev.olog.msc.presentation.widget.LottieFavorite
@@ -46,7 +47,23 @@
         android:layout_height="@dimen/common_icon_size"
         android:layout_gravity="end"
         app:layout_constraintEnd_toStartOf="@+id/more"
-        app:layout_constraintStart_toEndOf="@+id/lyrics"
+        app:layout_constraintStart_toEndOf="@+id/playbackSpeed"
         app:layout_constraintBottom_toBottomOf="@+id/more" />
+
+    <ImageButton
+        android:id="@+id/playbackSpeed"
+        android:layout_gravity="end"
+        android:layout_width="@dimen/common_icon_size"
+        android:layout_height="@dimen/common_icon_size"
+        android:src="@drawable/vd_slow_motion"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toBottomOf="@+id/more"
+        app:layout_constraintEnd_toStartOf="@+id/favorite"
+        app:layout_constraintStart_toEndOf="@+id/lyrics"
+        tools:tint="#8d91a6"/>
 
 </android.support.constraint.ConstraintLayout>

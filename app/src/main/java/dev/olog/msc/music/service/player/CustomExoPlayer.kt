@@ -20,4 +20,6 @@ interface CustomExoPlayer<T> {
 
     fun setVolume(volume: Float)
 
+    fun setPlaybackSpeed(speed: Float)
+
 }

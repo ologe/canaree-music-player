@@ -8,6 +8,7 @@ import android.support.constraint.ConstraintLayout
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
@@ -327,6 +328,13 @@ class PlayerFragmentAdapter (
                     mediaProvider.forwardTenSeconds()
                 }, Throwable::printStackTrace)
 
+        val playbackSpeed = view.findViewById<View>(R.id.playbackSpeed)
+        RxView.clicks(playbackSpeed)
+                .takeUntil(RxView.detaches(playbackSpeed))
+                .subscribe({
+                    openPlaybackSpeedPopup(playbackSpeed)
+                }, Throwable::printStackTrace)
+
         if (view.context.isPortrait || AppTheme.isFullscreen()){
 
             mediaProvider.onStateChanged()
@@ -415,6 +423,17 @@ class PlayerFragmentAdapter (
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
         view.bigCover?.loadImage(metadata) ?: return
+    }
+
+    private fun openPlaybackSpeedPopup(view: View){
+        val popup = PopupMenu(view.context, view)
+        popup.inflate(R.menu.dialog_playback_speed)
+        popup.menu.getItem(viewModel.getPlaybackSpeed()).isChecked = true
+        popup.setOnMenuItemClickListener {
+            viewModel.setPlaybackSpeed(it.itemId)
+            true
+        }
+        popup.show()
     }
 
     private fun onPlaybackStateChanged(view: View, playbackState: PlaybackStateCompat){

@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.support.v4.media.session.PlaybackStateCompat
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
+import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.Noisy
 import dev.olog.msc.music.service.PlayerState
 import dev.olog.msc.music.service.focus.AudioFocusBehavior
@@ -15,6 +16,7 @@ import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.utils.k.extension.clamp
+import dev.olog.msc.utils.k.extension.unsubscribe
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -24,13 +26,23 @@ class PlayerImpl @Inject constructor(
         private val noisy: Lazy<Noisy>,
         private val serviceLifecycle: ServiceLifecycleController,
         private val audioFocus : AudioFocusBehavior,
-        private val player: CustomExoPlayer<PlayerMediaEntity>
+        private val player: CustomExoPlayer<PlayerMediaEntity>,
+        musicPrefsUseCase: MusicPreferencesUseCase
 
 ) : Player,
         DefaultLifecycleObserver,
         PlayerLifecycle {
 
     private val listeners = mutableListOf<PlayerLifecycle.Listener>()
+
+    private var currentSpeed = 1f
+
+    private val playerVolumeDisposable = musicPrefsUseCase.observePlaybackSpeed()
+            .subscribe({
+                currentSpeed = it
+                player.setPlaybackSpeed(it)
+                playerState.updatePlaybackSpeed(it)
+            }, Throwable::printStackTrace)
 
     init {
         lifecycle.addObserver(this)
@@ -39,6 +51,7 @@ class PlayerImpl @Inject constructor(
 
     override fun onDestroy(owner: LifecycleOwner) {
         listeners.clear()
+        playerVolumeDisposable.unsubscribe()
         releaseFocus()
     }
 
@@ -47,6 +60,8 @@ class PlayerImpl @Inject constructor(
         player.prepare(playerModel, playerModel.bookmark)
 
         playerState.prepare(entity.id, playerModel.bookmark)
+        player.setPlaybackSpeed(currentSpeed)
+        playerState.updatePlaybackSpeed(currentSpeed)
         playerState.toggleSkipToActions(playerModel.positionInQueue)
 
         listeners.forEach { it.onPrepare(entity) }
@@ -75,7 +90,7 @@ class PlayerImpl @Inject constructor(
         player.play(playerModel, hasFocus, skipType == SkipType.TRACK_ENDED)
 
         val state = playerState.update(if (hasFocus) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED,
-                playerModel.bookmark, entity.id)
+                playerModel.bookmark, entity.id, currentSpeed)
 
         listeners.forEach {
             it.onStateChanged(state)
@@ -92,7 +107,7 @@ class PlayerImpl @Inject constructor(
         if (!requestFocus()) return
 
         player.resume()
-        val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark())
+        val playbackState = playerState.update(PlaybackStateCompat.STATE_PLAYING, getBookmark(), currentSpeed)
         listeners.forEach {
             it.onStateChanged(playbackState)
         }
@@ -103,7 +118,7 @@ class PlayerImpl @Inject constructor(
 
     override fun pause(stopService: Boolean, releaseFocus: Boolean) {
         player.pause()
-        val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark())
+        val playbackState = playerState.update(PlaybackStateCompat.STATE_PAUSED, getBookmark(), currentSpeed)
         listeners.forEach {
             it.onStateChanged(playbackState)
         }
@@ -121,7 +136,7 @@ class PlayerImpl @Inject constructor(
     override fun seekTo(millis: Long) {
         player.seekTo(millis)
         val state = if (isPlaying()) PlaybackStateCompat.STATE_PLAYING else PlaybackStateCompat.STATE_PAUSED
-        val playbackState = playerState.update(state, millis)
+        val playbackState = playerState.update(state, millis, currentSpeed)
         listeners.forEach {
             it.onStateChanged(playbackState)
             it.onSeek(millis)
