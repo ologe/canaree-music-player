@@ -55,7 +55,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
             .filter { getDuration() > getBookmark() }
             .map { getDuration() - getBookmark() <= crossFadeTime }
             .distinctUntilChanged()
-            .filter { it && !isCurrentSongPodcast }
+            .filter { it }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ fadeOut(getDuration() - getBookmark()) }, Throwable::printStackTrace)
 
@@ -158,6 +158,10 @@ class CrossFadePlayerImpl @Inject internal constructor(
 
         val (min, max, interval, delta) = CrossFadeInternals(time.toInt(), volume.getVolume())
         player.volume = max
+
+        if (isCurrentSongPodcast){
+            return
+        }
 
         fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .takeWhile { player.volume > min }
