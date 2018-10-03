@@ -55,7 +55,7 @@
 
         <TextView
             android:id="@+id/header"
-            android:text="@string/playlist_tracks_chooser_no_tracks"
+            android:text="@string/popup_new_playlist"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -105,41 +105,56 @@
             android:stateListAnimator="@animator/app_bar_elevation">
 
             <FrameLayout
-                android:id="@+id/filterWrapper"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                app:layout_scrollFlags="scroll|enterAlways">
+                android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:hintEnabled="false"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="64dp"
-                    android:maxLines="1">
+                    android:background="@drawable/search_background"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/filter"
+                <FrameLayout
+                    android:id="@+id/searchWrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp">
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        style="@style/EditItemEditText"
-                        android:textSize="20dp"
-                        android:imeOptions="flagNoExtractUi|actionDone"
-                        android:maxLines="1"
-                        android:hint="@string/common_filter"/>
+                        app:hintEnabled="false">
 
-                </android.support.design.widget.TextInputLayout>
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/filter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/EditItemEditText"
+                            android:textSize="16dp"
+                            android:imeOptions="flagNoExtractUi|actionDone"
+                            android:maxLines="1"
+                            android:hint="@string/common_filter"
+                            android:layout_marginEnd="48dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@null" />
 
-                <ImageButton
-                    android:id="@+id/clear"
-                    android:layout_gravity="end"
-                    android:src="@drawable/vd_clear"
-                    android:padding="12dp"
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackgroundBorderless" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/clear"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/vd_clear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:padding="12dp"
+                        android:layout_gravity="end"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                </FrameLayout>
+
 
             </FrameLayout>
 

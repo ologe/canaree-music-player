@@ -116,6 +116,13 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
 
                 }
 
+        RxTextView.afterTextChangeEvents(view.filter)
+                .map { it.view().text.isBlank() }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isEmpty ->
+                    view.clear.toggleVisibility(!isEmpty, true)
+                }
+
         view.sidebar.scrollableLayoutId = R.layout.item_choose_track
     }
 
