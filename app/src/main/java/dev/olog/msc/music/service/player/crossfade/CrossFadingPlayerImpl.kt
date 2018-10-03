@@ -40,6 +40,8 @@ class CrossFadePlayerImpl @Inject internal constructor(
 
 ): DefaultPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 
+    private var isCurrentSongPodcast = false
+
     private var fadeDisposable : Disposable? = null
 
     private var crossFadeTime = 0
@@ -53,7 +55,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
             .filter { getDuration() > getBookmark() }
             .map { getDuration() - getBookmark() <= crossFadeTime }
             .distinctUntilChanged()
-            .filter { it }
+            .filter { it && !isCurrentSongPodcast }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ fadeOut(getDuration() - getBookmark()) }, Throwable::printStackTrace)
 
@@ -74,11 +76,12 @@ class CrossFadePlayerImpl @Inject internal constructor(
     }
 
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
+        isCurrentSongPodcast = mediaEntity.mediaEntity.isPodcast
         cancelFade()
         val updatedModel = mediaEntity.copy(trackEnded = isTrackEnded, crossFadeTime = crossFadeTime)
         super.play(updatedModel, hasFocus, isTrackEnded)
         //        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
-        if (isTrackEnded && crossFadeTime > 0) {
+        if (isTrackEnded && crossFadeTime > 0 && !isCurrentSongPodcast) {
             fadeIn()
         } else {
             restoreDefaultVolume()
