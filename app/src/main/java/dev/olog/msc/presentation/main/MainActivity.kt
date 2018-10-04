@@ -149,7 +149,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         } else {
             slidingPanel.panelHeight = dimen(R.dimen.sliding_panel_peek) + dimen(R.dimen.bottom_navigation_height)
         }
-        slidingPanel.collapse()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -157,6 +156,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             when (requestCode){
                 SPLASH_REQUEST_CODE -> {
                     bottomNavigate(bottomNavigation.selectedItemId, false)
+                    slidingPanel.collapse()
                     return
                 }
                 PreferencesActivity.REQUEST_CODE -> {
