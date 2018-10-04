@@ -15,9 +15,13 @@ enum class MediaIdCategory {
 
     RECENT_ALBUMS,
     RECENT_ARTISTS,
+    RECENT_PODCAST_ALBUMS,
+    RECENT_PODCAST_ARTISTS,
 
     NEW_ALBUMS,
     NEW_ARTISTS,
+    NEW_PODCSAT_ALBUMS,
+    NEW_PODCSAT_ARTISTS,
 
     HEADER
 }
@@ -156,6 +160,9 @@ class MediaId private constructor(
 
     val resolveSource : Int
         get() {
+            if (isLeaf && isPodcast){
+                return MediaIdCategory.PODCASTS.ordinal
+            }
             if (isLeaf){
                 return MediaIdCategory.SONGS.ordinal
             }

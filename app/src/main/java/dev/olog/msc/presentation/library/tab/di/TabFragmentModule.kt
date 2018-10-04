@@ -44,8 +44,10 @@ class TabFragmentModule(
         return when (category){
             MediaIdCategory.PLAYLISTS,
             MediaIdCategory.PODCASTS_PLAYLIST -> PlaylistSpanSizeLookup(context, isPortrait)
-            MediaIdCategory.ALBUMS -> AlbumSpanSizeLookup(context, adapter)
-            MediaIdCategory.ARTISTS -> ArtistSpanSizeLookup(context, isPortrait, adapter)
+            MediaIdCategory.ALBUMS,
+            MediaIdCategory.PODCASTS_ALBUMS -> AlbumSpanSizeLookup(context, adapter)
+            MediaIdCategory.ARTISTS,
+            MediaIdCategory.PODCASTS_ARTISTS -> ArtistSpanSizeLookup(context, isPortrait, adapter)
             MediaIdCategory.SONGS, MediaIdCategory.PODCASTS -> SongSpanSizeLookup()
             else -> BaseSpanSizeLookup(context, isPortrait)
         }

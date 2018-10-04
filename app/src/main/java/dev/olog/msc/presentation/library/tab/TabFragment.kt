@@ -106,6 +106,18 @@ class TabFragment : BaseFragment() {
                 viewModel.observeData(MediaIdCategory.NEW_ARTISTS)
                         .subscribe(viewLifecycleOwner) { newArtistsAdapter.get().updateDataSet(it) }
             }
+            MediaIdCategory.PODCASTS_ALBUMS -> {
+                viewModel.observeData(MediaIdCategory.RECENT_PODCAST_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { lastAlbumsAdapter.get().updateDataSet(it) }
+                viewModel.observeData(MediaIdCategory.NEW_PODCSAT_ALBUMS)
+                        .subscribe(viewLifecycleOwner) { newAlbumsAdapter.get().updateDataSet(it) }
+            }
+            MediaIdCategory.PODCASTS_ARTISTS -> {
+                viewModel.observeData(MediaIdCategory.RECENT_PODCAST_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { lastArtistsAdapter.get().updateDataSet(it) }
+                viewModel.observeData(MediaIdCategory.NEW_PODCSAT_ARTISTS)
+                        .subscribe(viewLifecycleOwner) { newArtistsAdapter.get().updateDataSet(it) }
+            }
             else -> {/*making lint happy*/}
         }
     }

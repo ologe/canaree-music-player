@@ -32,7 +32,6 @@ class QueueImpl @Inject constructor(
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val queueMediaSession: MediaSessionQueue,
         private val getSongUseCase: GetSongUseCase,
-        private val mediaSessionDescription: MediaSessionDescription,
         private val enhancedShuffle: EnhancedShuffle
 ) {
 
@@ -51,8 +50,6 @@ class QueueImpl @Inject constructor(
     }
 
     private fun persist(songList: List<MediaEntity>) {
-        mediaSessionDescription.update(songList)
-
         savePlayingQueueDisposable.unsubscribe()
         savePlayingQueueDisposable = Single.fromCallable { songList.toList() }
                 .flattenAsObservable { it }

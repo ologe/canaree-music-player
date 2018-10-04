@@ -124,6 +124,52 @@ class TabFragmentPodcastModule {
                 .defer()
     }
 
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.RECENT_PODCAST_ALBUMS)
+    internal fun provideLastPlayedAlbumData(
+            useCase: GetLastPlayedPodcastAlbumsUseCase): Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem() }
+                .defer()
+    }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.RECENT_PODCAST_ARTISTS)
+    internal fun provideLastPlayedArtistData(
+            resources: Resources,
+            useCase: GetLastPlayedPodcastArtistsUseCase) : Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem(resources) }
+                .defer()
+    }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.NEW_PODCSAT_ALBUMS)
+    internal fun provideNewAlbumsData(
+            useCase: GetRecentlyAddedPodcastsAlbumsUseCase): Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem() }
+                .defer()
+    }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.NEW_PODCSAT_ARTISTS)
+    internal fun provideNewArtistsData(
+            resources: Resources,
+            useCase: GetRecentlyAddedPodcastsArtistsUseCase): Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem(resources) }
+                .defer()
+    }
+
 }
 
 private fun PodcastPlaylist.toTabDisplayableItem(resources: Resources): DisplayableItem {
@@ -187,5 +233,29 @@ private fun PodcastAlbum.toTabDisplayableItem(): DisplayableItem{
             title,
             DisplayableItem.adjustArtist(artist),
             image
+    )
+}
+
+private fun PodcastAlbum.toTabLastPlayedDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_tab_album_last_played,
+            MediaId.podcastAlbumId(id),
+            title,
+            artist,
+            image
+    )
+}
+
+private fun PodcastArtist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
+
+    return DisplayableItem(
+            R.layout.item_tab_artist_last_played,
+            MediaId.podcastArtistId(id),
+            name,
+            albums + songs,
+            this.image
     )
 }
