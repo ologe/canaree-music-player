@@ -117,12 +117,12 @@ class ArtistRepository @Inject constructor(
                 lastPlayedDao.getAll().toObservable(),
                 { all, lastPlayed ->
 
-            if (all.size < 10) {
+            if (all.size < 5) {
                 listOf()
             } else {
                 lastPlayed.asSequence()
-                        .mapNotNull { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
-                        .take(10)
+                        .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
+                        .take(5)
                         .toList()
             }
         })

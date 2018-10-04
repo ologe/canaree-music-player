@@ -96,12 +96,12 @@ class AlbumRepository @Inject constructor(
                 lastPlayedDao.getAll().toObservable(),
                 { all, lastPlayed ->
 
-            if (all.size < 10) {
+            if (all.size < 5) {
                 listOf() // too few album to show recents
             } else {
                 lastPlayed.asSequence()
                         .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
-                        .take(10)
+                        .take(5)
                         .toList()
             }
         })
