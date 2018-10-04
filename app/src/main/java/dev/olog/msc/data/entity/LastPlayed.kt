@@ -19,3 +19,19 @@ data class LastPlayedAlbumEntity(
         @PrimaryKey var id: Long,
         var dateAdded: Long = System.currentTimeMillis()
 )
+
+@Entity(tableName = "last_played_podcast_albums",
+        indices = [(Index("id"))]
+)
+data class LastPlayedPodcastAlbumEntity(
+        @PrimaryKey var id: Long,
+        var dateAdded: Long = System.currentTimeMillis()
+)
+
+@Entity(tableName = "last_played_podcast_artists",
+        indices = [(Index("id"))]
+)
+data class LastPlayedPodcastArtistEntity(
+        @PrimaryKey var id: Long,
+        var dateAdded: Long = System.currentTimeMillis()
+)

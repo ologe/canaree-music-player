@@ -147,7 +147,7 @@ dependencies {
 
     // rx
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
-    implementation "com.github.akarnokd:rxjava2-extensions:$rootProject.rx_java_ext"
+//    implementation "com.github.akarnokd:rxjava2-extensions:$rootProject.rx_java_ext"
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rx_android"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
     implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
@@ -184,6 +184,7 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leak_canary"
 
     //    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.tspoon.traceur:traceur:1.0.1'
 
     // firebase
     implementation "com.google.firebase:firebase-core:$rootProject.firebase"

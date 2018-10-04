@@ -4,6 +4,7 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
 import dev.olog.msc.data.mapper.toFakeArtist
 import dev.olog.msc.domain.entity.Podcast
@@ -15,18 +16,22 @@ import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.Observables
 import java.text.Collator
 import javax.inject.Inject
 
 private val MEDIA_STORE_URI = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
 
 class PodcastArtistRepository @Inject constructor(
+        appDatabase: AppDatabase,
         private val rxContentResolver: BriteContentResolver,
         private val podcastGateway: PodcastGateway,
         private val collator: Collator,
         private val usedImageGateway: UsedImageGateway
 
 ) : PodcastArtistGateway {
+
+    private val lastPlayedDao = appDatabase.lastPlayedPodcastArtistDao()
 
     private fun queryAllData(): Observable<List<PodcastArtist>> {
         return rxContentResolver.createQuery(
@@ -106,11 +111,24 @@ class PodcastArtistRepository @Inject constructor(
     }
 
     override fun getLastPlayed(): Observable<List<PodcastArtist>> {
-        TODO()
+        return Observables.combineLatest(
+                getAll(),
+                lastPlayedDao.getAll().toObservable(),
+                { all, lastPlayed ->
+
+                    if (all.size < 10) {
+                        listOf() // too few album to show recents
+                    } else {
+                        lastPlayed.asSequence()
+                                .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
+                                .take(10)
+                                .toList()
+                    }
+                })
     }
 
     override fun addLastPlayed(id: Long): Completable {
-        TODO()
+        return lastPlayedDao.insertOne(id)
     }
 
 }

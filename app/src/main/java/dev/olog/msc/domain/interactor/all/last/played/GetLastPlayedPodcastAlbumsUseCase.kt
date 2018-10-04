@@ -1,27 +1,27 @@
 package dev.olog.msc.domain.interactor.all.last.played
 
-import dev.olog.msc.domain.entity.Artist
+import dev.olog.msc.domain.entity.PodcastAlbum
 import dev.olog.msc.domain.executors.ComputationScheduler
-import dev.olog.msc.domain.gateway.ArtistGateway
+import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 
-class GetLastPlayedArtistsUseCase @Inject constructor(
+class GetLastPlayedPodcastAlbumsUseCase @Inject constructor(
         schedulers: ComputationScheduler,
-        private val artistGateway: ArtistGateway,
+        private val albumGateway: PodcastAlbumGateway,
         private val appPreferencesUseCase: AppPreferencesUseCase
 
-): ObservableUseCase<List<Artist>>(schedulers) {
+): ObservableUseCase<List<PodcastAlbum>>(schedulers) {
 
-    override fun buildUseCaseObservable(): Observable<List<Artist>> {
+    override fun buildUseCaseObservable(): Observable<List<PodcastAlbum>> {
         return Observables.combineLatest(
-                artistGateway.getLastPlayed(),
-                appPreferencesUseCase.observeLibraryRecentPlayedVisibility()) { artists, show ->
+                albumGateway.getLastPlayed(),
+                appPreferencesUseCase.observeLibraryRecentPlayedVisibility()) { albums, show ->
             if (show){
-                artists
+                albums
             } else {
                 listOf()
             }

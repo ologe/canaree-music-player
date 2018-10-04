@@ -1,7 +1,9 @@
 package dev.olog.msc.domain.interactor.all.recently.added
 
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
@@ -17,6 +19,16 @@ internal fun getRecentlyAddedSong(getAllSongsUseCase: GetAllSongsUseCase)
 
     val time = System.currentTimeMillis()
     return getAllSongsUseCase.execute()
+            .map { songList ->
+                songList.filter { (time - it.dateAdded * 1000) <= TWO_WEEKS }
+            }
+}
+
+internal fun getRecentlyAddedPodcast(getAllPodcastsUseCase: GetAllPodcastUseCase)
+        : Observable<List<Podcast>>{
+
+    val time = System.currentTimeMillis()
+    return getAllPodcastsUseCase.execute()
             .map { songList ->
                 songList.filter { (time - it.dateAdded * 1000) <= TWO_WEEKS }
             }

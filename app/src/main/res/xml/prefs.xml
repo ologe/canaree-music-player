@@ -132,6 +132,18 @@
             android:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
 
         <SwitchPreference
+            android:key="@string/prefs_show_recent_albums_artists_key"
+            android:title="@string/prefs_show_recent_albums_artists_title"
+            android:summary="@string/prefs_show_recent_albums_artists_summary"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="@string/prefs_show_new_albums_artists_key"
+            android:title="@string/prefs_show_new_albums_artists_title"
+            android:summary="@string/prefs_show_new_albums_artists_summary"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
             android:title="@string/prefs_player_controls_visibility_title"
             android:summaryOn="@string/prefs_player_controls_visibility_summary_on"
             android:summaryOff="@string/prefs_player_controls_visibility_summary_off"

@@ -15,6 +15,7 @@ import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.safeGetCanonicalPath
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import javax.inject.Inject
 
@@ -287,8 +288,16 @@ class AppPreferencesImpl @Inject constructor(
             setDefaultFolderView()
             setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
             setDefaultAccentColor()
+            setDefaultLibraryAlbumArtistVisibility()
 
             emitter.onComplete()
+        }
+    }
+
+    private fun setDefaultLibraryAlbumArtistVisibility(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_show_new_albums_artists_key), true)
+            putBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
         }
     }
 
@@ -402,5 +411,17 @@ class AppPreferencesImpl @Inject constructor(
         preferences.edit {
             putString(DEFAULT_MUSIC_FOLDER, file.safeGetCanonicalPath())
         }
+    }
+
+    override fun observeLibraryNewVisibility(): Observable<Boolean> {
+        return rxPreferences.getBoolean(context.getString(R.string.prefs_show_new_albums_artists_key), true)
+                .asObservable()
+                .observeOn(Schedulers.io())
+    }
+
+    override fun observeLibraryRecentPlayedVisibility(): Observable<Boolean> {
+        return rxPreferences.getBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
+                .asObservable()
+                .observeOn(Schedulers.io())
     }
 }

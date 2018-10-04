@@ -52,6 +52,9 @@ interface AppPreferencesGateway : Sorting {
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 
+    fun observeLibraryNewVisibility(): Observable<Boolean>
+    fun observeLibraryRecentPlayedVisibility(): Observable<Boolean>
+
 }
 
 interface Sorting {

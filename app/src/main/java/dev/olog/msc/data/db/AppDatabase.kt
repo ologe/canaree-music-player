@@ -22,6 +22,8 @@ import dev.olog.msc.data.entity.*
 
         LastPlayedAlbumEntity::class,
         LastPlayedArtistEntity::class,
+        LastPlayedPodcastAlbumEntity::class,
+        LastPlayedPodcastArtistEntity::class,
 
         LastFmTrackEntity::class,
         LastFmAlbumEntity::class,
@@ -41,7 +43,7 @@ import dev.olog.msc.data.entity.*
 
         PodcastPositionEntity::class
 
-), version = 13, exportSchema = false)
+), version = 14, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -60,6 +62,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun lastPlayedAlbumDao() : LastPlayedAlbumDao
     abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
+    abstract fun lastPlayedPodcastArtistDao() : LastPlayedPodcastAlbumDao
+    abstract fun lastPlayedPodcastAlbumDao() : LastPlayedPodcastArtistDao
 
     abstract fun lastFmDao() : LastFmDao
 

@@ -105,4 +105,7 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setDefaultMusicFolder(file)
     }
 
+    fun observeLibraryNewVisibility(): Observable<Boolean> = gateway.observeLibraryNewVisibility()
+    fun observeLibraryRecentPlayedVisibility(): Observable<Boolean> = gateway.observeLibraryRecentPlayedVisibility()
+
 }

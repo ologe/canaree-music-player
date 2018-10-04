@@ -1,27 +1,27 @@
 package dev.olog.msc.domain.interactor.all.recently.added
 
-import dev.olog.msc.domain.entity.Artist
+import dev.olog.msc.domain.entity.PodcastArtist
 import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
-import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllPodcastArtistsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 
-class GetRecentlyAddedArtistsUseCase @Inject constructor(
+class GetRecentlyAddedPodcastsArtistsUseCase @Inject constructor(
         scheduler: IoScheduler,
-        private val getAllArtistsUseCase: GetAllArtistsUseCase,
-        private val getAllSongsUseCase: GetAllSongsUseCase,
+        private val getAllArtistsUseCase: GetAllPodcastArtistsUseCase,
+        private val getAllPodcastsUseCase: GetAllPodcastUseCase,
         private val appPreferencesUseCase: AppPreferencesUseCase
 
-) : ObservableUseCase<List<Artist>>(scheduler) {
+) : ObservableUseCase<List<PodcastArtist>>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(): Observable<List<Artist>> {
+    override fun buildUseCaseObservable(): Observable<List<PodcastArtist>> {
         return Observables.combineLatest(
-                getRecentlyAddedSong(getAllSongsUseCase),
+                getRecentlyAddedPodcast(getAllPodcastsUseCase),
                 getAllArtistsUseCase.execute(),
                 appPreferencesUseCase.observeLibraryNewVisibility()
         ) { songs, artists, show ->
