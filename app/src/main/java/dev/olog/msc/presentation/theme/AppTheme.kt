@@ -47,7 +47,7 @@ object AppTheme {
     }
 
     private fun getTheme(context: Context): Theme {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val theme = prefs.getString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
         return when (theme) {
             context.getString(R.string.prefs_appearance_entry_value_default) -> Theme.DEFAULT
@@ -61,7 +61,7 @@ object AppTheme {
     }
 
     private fun getDarkMode(context: Context): DarkMode {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val theme = prefs.getString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_white))
         return when (theme) {
             context.getString(R.string.prefs_dark_mode_entry_value_white) -> DarkMode.NONE

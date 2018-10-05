@@ -41,7 +41,7 @@ class CategoriesViewPager @Inject constructor(
     }
 
     private fun showFolderAsHierarchy(): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         return prefs.getBoolean(context.getString(R.string.prefs_folder_tree_view_key), false)
     }
 

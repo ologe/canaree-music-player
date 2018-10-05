@@ -62,8 +62,8 @@ class PreferencesActivity : DaggerAppCompatActivity(),
     }
 
     override fun onColorSelection(dialog: ColorChooserDialog, selectedColor: Int) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val key = if (AppTheme.isWhiteTheme()) "accent_color_light" else "accent_color_dark"
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val key = getString(if (AppTheme.isWhiteTheme()) R.string.prefs_accent_light_key else R.string.prefs_accent_dark_key)
         prefs.edit {
             putInt(key, selectedColor)
         }

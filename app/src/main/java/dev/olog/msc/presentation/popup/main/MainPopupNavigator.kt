@@ -25,7 +25,7 @@ class MainPopupNavigator @Inject constructor(
     }
 
     fun toEqualizer(){
-        val useAppEqualizer = PreferenceManager.getDefaultSharedPreferences(activity)
+        val useAppEqualizer = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
                 .getBoolean(activity.getString(R.string.prefs_used_equalizer_key), true)
 
         if (billing.isPremium() && useAppEqualizer){

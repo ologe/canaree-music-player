@@ -43,7 +43,7 @@ object AppConstants {
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val quickAction = preferences.getString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
         return when (quickAction) {
             context.getString(R.string.prefs_quick_action_entry_value_hide) -> QuickActionView.Type.NONE
@@ -53,7 +53,7 @@ object AppConstants {
     }
 
     private fun getIconShape(context: Context): String {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         return prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
     }
 

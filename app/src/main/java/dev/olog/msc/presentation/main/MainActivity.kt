@@ -160,7 +160,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                     return
                 }
                 PreferencesActivity.REQUEST_CODE -> {
-                    bottomNavigate(bottomNavigation.selectedItemId, true)
+                    recreate()
                     return
                 }
             }

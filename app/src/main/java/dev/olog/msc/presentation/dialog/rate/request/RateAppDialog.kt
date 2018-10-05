@@ -71,7 +71,7 @@ class RateAppDialog @Inject constructor(
             if (!counterAlreadyIncreased){
                 counterAlreadyIncreased = true
 
-                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+                val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
                 val oldValue = prefs.getInt(PREFS_APP_STARTED_COUNT, 0)
                 val newValue = oldValue + 1
@@ -87,12 +87,12 @@ class RateAppDialog @Inject constructor(
     }
 
     private fun isNeverShowAgain(): Boolean{
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
         return prefs.getBoolean(PREFS_APP_RATE_NEVER_SHOW_AGAIN, false)
     }
 
     private fun setNeverShowAgain(){
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity.applicationContext)
         prefs.edit { putBoolean(PREFS_APP_RATE_NEVER_SHOW_AGAIN, true) }
     }
 
