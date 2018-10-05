@@ -382,6 +382,8 @@ class PlayerFragmentAdapter (
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
+                        view.previous.forceHide = !visible
+                        view.next.forceHide = !visible
                         view.previous.toggleVisibility(visible, true)
                         view.playPause.toggleVisibility(visible, true)
                         view.next.toggleVisibility(visible, true)
@@ -417,8 +419,8 @@ class PlayerFragmentAdapter (
         playerControlsRoot.findViewById<View>(R.id.forward).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.replay30).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.forward30).toggleVisibility(isPodcast, true)
-        playerControlsRoot.findViewById<View>(R.id.next).toggleVisibility(!isPodcast, true)
-        playerControlsRoot.findViewById<View>(R.id.previous).toggleVisibility(!isPodcast, true)
+        playerControlsRoot.findViewById<AnimatedImageView>(R.id.next).softToggleVisibility(!isPodcast, true)
+        playerControlsRoot.findViewById<AnimatedImageView>(R.id.previous).softToggleVisibility(!isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
