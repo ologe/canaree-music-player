@@ -78,6 +78,66 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/toolbar2"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:layout_height="52dp"
+        android:elevation="@dimen/toolbar_elevation">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_background"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <FrameLayout
+            android:id="@+id/searchWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:hintEnabled="false">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/EditItemEditText"
+                    android:textSize="16dp"
+                    android:imeOptions="flagNoExtractUi|actionDone"
+                    android:maxLines="1"
+                    android:hint="@string/common_filter"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/clear"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/vd_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+
+    </FrameLayout>
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/save"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -91,84 +151,15 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
-    <android.support.design.widget.CoordinatorLayout
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
-
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stateListAnimator="@animator/app_bar_elevation">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/search_background"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"/>
-
-                <FrameLayout
-                    android:id="@+id/searchWrapper"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:hintEnabled="false">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/filter"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            style="@style/EditItemEditText"
-                            android:textSize="16dp"
-                            android:imeOptions="flagNoExtractUi|actionDone"
-                            android:maxLines="1"
-                            android:hint="@string/common_filter"
-                            android:layout_marginEnd="48dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@null" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <ImageButton
-                        android:id="@+id/clear"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/vd_clear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:padding="12dp"
-                        android:layout_gravity="end"
-                        android:visibility="gone"
-                        tools:visibility="visible" />
-
-                </FrameLayout>
-
-
-            </FrameLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_choose_track"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    </android.support.design.widget.CoordinatorLayout>
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_choose_track" />
 
     <dev.olog.msc.presentation.widget.fast.scroller.RxWaveSideBarView
         android:id="@+id/sidebar"
