@@ -66,7 +66,7 @@ class CurrentSong @Inject constructor(
     private val insertLastPlayedArtistFlowable = publisher
             .observeOn(Schedulers.io())
             .filter { it.mediaId.isArtist || it.mediaId.isPodcastArtist}
-            .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it.mediaId).onErrorComplete() }
+            .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it.mediaId) }
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
