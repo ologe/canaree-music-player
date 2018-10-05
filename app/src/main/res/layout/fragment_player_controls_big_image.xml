@@ -178,7 +178,7 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:layout_constraintStart_toEndOf="@+id/playingQueue"
+            app:layout_constraintStart_toEndOf="@+id/playbackSpeed"
             app:layout_constraintEnd_toStartOf="@+id/favorite"
             app:layout_constraintBottom_toBottomOf="@+id/more"/>
 
@@ -192,10 +192,10 @@
             app:layout_constraintBottom_toBottomOf="@+id/more"/>
 
         <ImageButton
-            android:id="@+id/playingQueue"
+            android:id="@+id/playbackSpeed"
             android:layout_width="@dimen/common_icon_size"
             android:layout_height="@dimen/common_icon_size"
-            android:src="@drawable/vd_playing_queue"
+            android:src="@drawable/vd_slow_motion"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:clickable="true"
