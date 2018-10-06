@@ -99,8 +99,7 @@ class QueueManager @Inject constructor(
 
     override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
-        val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
-        return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
+        return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), 0)
     }
 
     override fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity> {
@@ -292,18 +291,18 @@ class QueueManager @Inject constructor(
         queueImpl.onRepeatModeChanged()
     }
 
-    override fun playLater(songIds: List<Long>): PositionInQueue {
+    override fun playLater(songIds: List<Long>, isPodcast: Boolean): PositionInQueue {
         val currentPositionInQueue = getCurrentPositionInQueue()
-        queueImpl.playLater(songIds)
+        queueImpl.playLater(songIds, isPodcast)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
             else -> PositionInQueue.IN_MIDDLE
         }
     }
 
-    override fun playNext(songIds: List<Long>): PositionInQueue {
+    override fun playNext(songIds: List<Long>, isPodcast: Boolean): PositionInQueue {
         val currentPositionInQueue = getCurrentPositionInQueue()
-        queueImpl.playNext(songIds)
+        queueImpl.playNext(songIds, isPodcast)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
             else -> PositionInQueue.IN_MIDDLE
