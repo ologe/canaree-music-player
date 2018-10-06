@@ -75,7 +75,8 @@ class CrossFadePlayerImpl @Inject internal constructor(
     }
 
     override fun setPlaybackSpeed(speed: Float) {
-        player.playbackParameters = PlaybackParameters(speed, 1f, true)
+        // skip silence
+        player.playbackParameters = PlaybackParameters(speed, 1f, false)
     }
 
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
