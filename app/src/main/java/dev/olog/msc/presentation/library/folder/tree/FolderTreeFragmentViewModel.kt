@@ -15,6 +15,7 @@ import dev.olog.msc.app.app
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -80,7 +81,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private fun filterFolders(files: List<File>): List<DisplayableFile> {
         return files.asSequence()
                 .filter { it.isDirectory }
-                .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.name, o2.name) })
                 .map { it.toDisplayableItem() }
                 .toList()
                 .startWithIfNotEmpty(foldersHeader)
@@ -89,7 +90,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private fun filterTracks(files: List<File>): List<DisplayableFile> {
         return files.asSequence()
                 .filter { it.isAudioFile() }
-                .sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.name, o2.name) })
                 .map { it.toDisplayableItem() }
                 .toList()
                 .startWithIfNotEmpty(tracksHeader)

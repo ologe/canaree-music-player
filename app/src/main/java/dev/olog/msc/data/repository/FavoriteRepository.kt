@@ -6,6 +6,7 @@ import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -42,7 +43,7 @@ class FavoriteRepository @Inject constructor(
                 .toObservable()
                 .switchMap { favorites -> songGateway.getAll().map { songList ->
                     favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
-                            .sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                            .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                 } }
     }
 
@@ -52,7 +53,7 @@ class FavoriteRepository @Inject constructor(
                 .switchMap { favorites -> podcastGateway.getAll().map { podcastList ->
                     favorites.asSequence()
                             .mapNotNull { favoriteId -> podcastList.firstOrNull { it.id == favoriteId } }
-                            .sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                            .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                             .toList()
                 } }
     }

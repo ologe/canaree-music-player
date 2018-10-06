@@ -14,6 +14,7 @@ import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -47,7 +48,7 @@ class AlbumRepository @Inject constructor(
                             .distinctBy { it.albumId }
                             .map { song ->
                                 song.toAlbum(songList.count { it.albumId == song.albumId })
-                            }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                            }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                             .toList()
                 }.map { updateImages(it) }
     }

@@ -14,6 +14,7 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -65,7 +66,7 @@ class ArtistRepository @Inject constructor(
                     val albums = countAlbums(song.artistId, songList)
                     val songs = countTracks(song.artistId, songList)
                     mapSongToArtist(song, songs, albums)
-                }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.name, o2.name) })
                 .toList()
     }
 

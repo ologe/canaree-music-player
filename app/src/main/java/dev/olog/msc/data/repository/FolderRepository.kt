@@ -10,6 +10,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
@@ -79,7 +80,7 @@ class FolderRepository @Inject constructor(
                 .map { song ->
                     song.toFolder(context,
                             songList.count { it.folderPath == song.folderPath }) // count song for all folder
-                }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                 .toList()
     }
 

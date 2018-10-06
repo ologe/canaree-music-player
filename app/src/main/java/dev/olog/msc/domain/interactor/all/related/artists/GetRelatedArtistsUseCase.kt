@@ -7,6 +7,7 @@ import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetArtistUseCase
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.toFlowable
 import java.text.Collator
@@ -29,7 +30,7 @@ class GetRelatedArtistsUseCase @Inject constructor(
                             .distinct { it.artistId }
                             .map { MediaId.artistId(it.artistId) }
                             .flatMapSingle { getArtistUseCase.execute(it).firstOrError().subscribeOn(executors.worker) }
-                            .toSortedList { o1, o2 -> collator.compare(o1.name, o2.name) }
+                            .toSortedList { o1, o2 -> collator.safeCompare(o1.name, o2.name) }
                     }
         }
         return Observable.just(emptyList())

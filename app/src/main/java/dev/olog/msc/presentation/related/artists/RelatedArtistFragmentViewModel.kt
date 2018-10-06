@@ -5,13 +5,14 @@ import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.msc.utils.safeCompare
 import java.text.Collator
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
 
     val data: LiveData<List<DisplayableItem>> = useCase.execute(mediaId)
             .mapToList { it.toRelatedArtist(resources) }
-            .map { it.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) }) }
+            .map { it.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) }) }
             .asLiveData()
 
     val itemTitle = getItemTitleUseCase.execute(mediaId).asLiveData()
