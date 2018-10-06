@@ -30,6 +30,8 @@ class TouchHelperAnimationController {
     }
 
     fun drawCircularReveal(viewHolder: RecyclerView.ViewHolder, dx: Float){
+        initializeSwipe(viewHolder, dx)
+
         val mainIcon = viewHolder.itemView.findViewById<ImageView>(if (dx > 0f) R.id.deleteIcon else R.id.playNextIcon)
         val background = viewHolder.itemView.findViewById<View>(R.id.background)
 

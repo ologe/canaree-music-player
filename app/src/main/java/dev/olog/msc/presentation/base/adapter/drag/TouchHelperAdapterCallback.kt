@@ -62,15 +62,10 @@ class TouchHelperAdapterCallback(
             ItemTouchHelper.ACTION_STATE_SWIPE -> {
                 val viewWidth = viewHolder.itemView.width
                 if (abs(dX) < viewWidth * 0.2f){
-                    startSwiping = false
                     circularRevealDrawn = false
                 } else if (isCurrentlyActive && (abs(dX) > (viewWidth * 0.35f)) && !circularRevealDrawn){
                     circularRevealDrawn = true
                     animationsController.drawCircularReveal(viewHolder, dX)
-                }
-                if (isCurrentlyActive && !startSwiping){
-                    startSwiping = true
-                    animationsController.initializeSwipe(viewHolder, dX)
                 }
 
                 getDefaultUIUtil().onDraw(c, recyclerView,
@@ -113,17 +108,11 @@ class TouchHelperAdapterCallback(
         getDefaultUIUtil().clearView(viewHolder.itemView.findViewById(R.id.content))
         getDefaultUIUtil().clearView(viewHolder.itemView)
         circularRevealDrawn = false
-        startSwiping = false
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
         circularRevealDrawn = false
-        startSwiping = false
-    }
-
-    override fun getAnimationDuration(recyclerView: RecyclerView, animationType: Int, animateDx: Float, animateDy: Float): Long {
-        return super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy)
     }
 
     override fun isLongPressDragEnabled(): Boolean = false
