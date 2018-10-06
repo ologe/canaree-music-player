@@ -253,6 +253,7 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
         val trackId = "${mediaId.leaf!!}"
         val item = MediaDescriptionCompat.Builder()
                 .setMediaId(trackId)
+                .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
                 .build()
         MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE)
     }
@@ -261,6 +262,7 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
         val trackId = "${mediaId.leaf!!}"
         val item = MediaDescriptionCompat.Builder()
                 .setMediaId(trackId)
+                .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
                 .build()
         MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE - 1)
     }

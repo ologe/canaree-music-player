@@ -5,7 +5,6 @@ import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
-import java.io.File
 import javax.inject.Inject
 
 class RenameDialogPresenter @Inject constructor(
@@ -29,12 +28,7 @@ class RenameDialogPresenter @Inject constructor(
      */
     fun checkData(playlistTitle: String): Boolean {
         return when {
-            mediaId.isPlaylist -> !existingPlaylists.contains(playlistTitle.toLowerCase())
-            mediaId.isFolder -> {
-                val folderPath = mediaId.categoryValue
-                val parent = File(folderPath).parent
-                return !File(parent, playlistTitle).exists()
-            }
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> !existingPlaylists.contains(playlistTitle.toLowerCase())
             else -> throw IllegalArgumentException("invalid media id category $mediaId")
         }
     }

@@ -39,14 +39,14 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun errorMessageForBlankForm(): Int {
         return when {
-            mediaId.isPlaylist -> R.string.popup_playlist_name_not_valid
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> R.string.popup_playlist_name_not_valid
             else -> throw IllegalArgumentException("invalid media id category $mediaId")
         }
     }
 
     override fun errorMessageForInvalidForm(currentValue: String): Int {
         return when {
-            mediaId.isPlaylist -> R.string.popup_playlist_name_already_exist
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> R.string.popup_playlist_name_already_exist
             else -> throw IllegalArgumentException("invalid media id category $mediaId")
         }
     }
@@ -57,8 +57,8 @@ class RenameDialog : BaseEditTextDialog() {
 
     override fun successMessage(context: Context, currentValue: String): CharSequence {
         return when {
-            mediaId.isPlaylist -> context.getString(R.string.playlist_x_renamed_to_y, title, currentValue)
-            else -> throw IllegalStateException("not a folder nor a playlist, $mediaId")
+            mediaId.isPlaylist || mediaId.isPodcastPlaylist -> context.getString(R.string.playlist_x_renamed_to_y, title, currentValue)
+            else -> throw IllegalStateException("not a playlist, $mediaId")
         }
     }
 
