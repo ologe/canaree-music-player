@@ -14,14 +14,16 @@ data class PodcastPlaylistEntity(
 
 @Entity(tableName = "podcast_playlist_tracks",
         indices = [Index("playlistId")],
-        foreignKeys = [ForeignKey(
-        entity = PodcastPlaylistEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["playlistId"],
-        onDelete = ForeignKey.CASCADE
-)])
+        foreignKeys = [
+            ForeignKey(
+            entity = PodcastPlaylistEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["playlistId"],
+            onDelete = ForeignKey.CASCADE)
+        ])
 data class PodcastPlaylistTrackEntity(
         @PrimaryKey(autoGenerate = true) val id: Long = 0,
         val idInPlaylist: Long,
+        val podcastId: Long,
         val playlistId: Long
 )

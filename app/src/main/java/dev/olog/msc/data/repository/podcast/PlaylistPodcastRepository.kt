@@ -93,7 +93,7 @@ class PlaylistPodcastRepository @Inject constructor(
                 .flatMapSingle { playlistSongs -> podcastGateway.getAll().firstOrError().map { songs ->
                     playlistSongs.asSequence()
                             .mapNotNull { playlistSong ->
-                                val song = songs.firstOrNull { it.id == playlistSong.id }
+                                val song = songs.firstOrNull { it.id == playlistSong.podcastId }
                                 song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
                             }.toList() }
                 }
@@ -119,7 +119,8 @@ class PlaylistPodcastRepository @Inject constructor(
         return Completable.fromCallable {
             var maxIdInPlaylist = podcastPlaylistDao.getPlaylistMaxId(playlistId).toLong()
             val tracks = songIds.map {
-                PodcastPlaylistTrackEntity(playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist, id = it)
+                PodcastPlaylistTrackEntity(playlistId = playlistId, idInPlaylist = ++maxIdInPlaylist,
+                        podcastId = it)
             }
             podcastPlaylistDao.insertTracks(tracks)
         }
