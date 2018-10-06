@@ -56,10 +56,7 @@ class AlbumPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewArtist -> viewArtist()
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.share -> share(activity, song!!)
-            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), album.title, album.image)
         }
 

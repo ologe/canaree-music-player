@@ -43,8 +43,8 @@ class PodcastPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(podcast.albumId))
-            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(podcast.artistId))
+            R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast.albumId))
+            R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast.artistId))
         }
 
 

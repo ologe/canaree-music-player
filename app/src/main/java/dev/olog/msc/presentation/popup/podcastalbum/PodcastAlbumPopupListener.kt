@@ -36,9 +36,9 @@ class PodcastAlbumPopupListener @Inject constructor(
 
     private fun getMediaId(): MediaId {
         if (song != null){
-            return MediaId.playableItem(MediaId.albumId(album.id), song!!.id)
+            return MediaId.playableItem(MediaId.podcastAlbumId(album.id), song!!.id)
         } else {
-            return MediaId.albumId(album.id)
+            return MediaId.podcastAlbumId(album.id)
         }
     }
 
@@ -56,7 +56,6 @@ class PodcastAlbumPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewArtist -> viewArtist()
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), album.title, album.image)
         }
@@ -114,7 +113,7 @@ class PodcastAlbumPopupListener @Inject constructor(
     }
 
     private fun viewArtist(){
-        navigator.toDetailFragment(MediaId.artistId(album.artistId))
+        navigator.toDetailFragment(MediaId.podcastArtistId(album.artistId))
     }
 
 

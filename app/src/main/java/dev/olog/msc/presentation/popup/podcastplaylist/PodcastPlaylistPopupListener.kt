@@ -58,9 +58,6 @@ class PodcastPlaylistPopupListener @Inject constructor(
             R.id.delete -> delete()
             R.id.rename -> rename()
             R.id.clear -> clearPlaylist()
-            R.id.viewInfo -> viewInfo(navigator, getMediaId())
-            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
-            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title, playlist.image)
             R.id.removeDuplicates -> removeDuplicates()
         }
@@ -70,7 +67,7 @@ class PodcastPlaylistPopupListener @Inject constructor(
     }
 
     private fun removeDuplicates(){
-        navigator.toRemoveDuplicatesDialog(MediaId.playlistId(playlist.id), playlist.title)
+        navigator.toRemoveDuplicatesDialog(MediaId.podcastPlaylistId(playlist.id), playlist.title)
     }
 
     private fun toCreatePlaylist(){
