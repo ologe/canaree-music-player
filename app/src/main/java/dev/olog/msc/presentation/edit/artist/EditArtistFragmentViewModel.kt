@@ -3,7 +3,6 @@ package dev.olog.msc.presentation.edit.artist
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -27,7 +26,7 @@ class EditArtistFragmentViewModel @Inject constructor(
 
         artistDisposable = presenter.observeArtist()
                 .subscribe({
-                    this.displayedArtist.postValue(it.toDisplayableArtist())
+                    this.displayedArtist.postValue(it)
                 }, Throwable::printStackTrace)
 
         songListDisposable = presenter.getSongList()
@@ -47,7 +46,7 @@ class EditArtistFragmentViewModel @Inject constructor(
 
     }
 
-    fun getAlbum(): Artist = presenter.getAlbum()
+    fun getArtist(): DisplayableArtist = presenter.getArtist()
 
     override fun onCleared() {
         songListDisposable.unsubscribe()
@@ -56,13 +55,6 @@ class EditArtistFragmentViewModel @Inject constructor(
     fun observeData(): LiveData<DisplayableArtist> = displayedArtist
     fun observeSongList(): LiveData<List<Song>> = songList
 
-    private fun Artist.toDisplayableArtist(): DisplayableArtist {
-        return DisplayableArtist(
-                this.id,
-                this.name,
-                this.albumArtist,
-                this.image
-        )
-    }
+
 
 }

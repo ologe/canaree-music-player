@@ -233,13 +233,13 @@ class NavigatorImpl @Inject internal constructor(
                         instance.show(activity.supportFragmentManager, EditTrackFragment.TAG)
                     }
                 }
-                mediaId.isAlbum -> {
+                mediaId.isAlbum || mediaId.isPodcastAlbum -> {
                     editItemDialogFactory.toEditAlbum(mediaId) {
                         val instance = EditAlbumFragment.newInstance(mediaId)
                         instance.show(activity.supportFragmentManager, EditAlbumFragment.TAG)
                     }
                 }
-                mediaId.isArtist -> {
+                mediaId.isArtist || mediaId.isPodcastArtist -> {
                     editItemDialogFactory.toEditArtist(mediaId) {
                         val instance = EditArtistFragment.newInstance(mediaId)
                         instance.show(activity.supportFragmentManager, EditArtistFragment.TAG)

@@ -3,6 +3,7 @@ package dev.olog.msc.domain.interactor.last.fm
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
+import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 
@@ -10,10 +11,16 @@ class DeleteLastFmAlbumUseCase @Inject constructor(
         schedulers: IoSchedulers,
         private val gateway: LastFmGateway
 
-): CompletableUseCaseWithParam<Long>(schedulers) {
+): CompletableUseCaseWithParam<MediaId>(schedulers) {
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(albumId: Long): Completable {
-        return Completable.fromCallable { gateway.deleteAlbum(albumId) }
+    override fun buildUseCaseObservable(param: MediaId): Completable {
+        return Completable.fromCallable {
+            if (param.isPodcastAlbum){
+                gateway.deletePodcastAlbum(param.resolveId)
+            } else {
+                gateway.deleteAlbum(param.resolveId)
+            }
+
+        }
     }
 }
