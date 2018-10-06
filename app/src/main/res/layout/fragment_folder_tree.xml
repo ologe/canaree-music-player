@@ -71,4 +71,23 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
+    <android.support.design.button.MaterialButton
+        android:text="@string/folder_set_default_message"
+        android:textColor="@color/transparent_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="24dp"
+        android:paddingLeft="24dp"
+        app:cornerRadius="24sp"
+        android:textAllCaps="true"
+        android:layout_marginBottom="16dp"
+        android:elevation="4dp"/>
+
+
 </android.support.constraint.ConstraintLayout>
