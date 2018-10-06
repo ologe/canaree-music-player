@@ -45,7 +45,8 @@ class TabFragmentAdapter @Inject constructor(
             R.layout.item_tab_album,
             R.layout.item_tab_artist,
             R.layout.item_tab_auto_playlist,
-            R.layout.item_tab_song -> {
+            R.layout.item_tab_song,
+            R.layout.item_tab_podcast -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
                     if (item.isPlayable){
                         mediaProvider.playFromMediaId(item.mediaId)
@@ -82,7 +83,8 @@ class TabFragmentAdapter @Inject constructor(
             R.layout.item_tab_album,
             R.layout.item_tab_artist,
             R.layout.item_tab_auto_playlist -> viewHolder.elevateAlbumOnTouch()
-            R.layout.item_tab_song -> viewHolder.elevateSongOnTouch()
+            R.layout.item_tab_song,
+            R.layout.item_tab_podcast -> viewHolder.elevateSongOnTouch()
         }
     }
 

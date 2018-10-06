@@ -77,7 +77,8 @@ class TabFragment : BaseFragment() {
         applyMarginToList(view)
 
         val scrollableLayoutId = when (category) {
-            MediaIdCategory.SONGS, MediaIdCategory.PODCASTS -> R.layout.item_tab_song
+            MediaIdCategory.SONGS -> R.layout.item_tab_song
+            MediaIdCategory.PODCASTS -> R.layout.item_tab_podcast
             MediaIdCategory.ARTISTS -> R.layout.item_tab_artist
             else -> R.layout.item_tab_album
         }

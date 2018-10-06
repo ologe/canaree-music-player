@@ -21,4 +21,6 @@
         <item>New artist</item>
     </string-array>
 
+    <string name="tab_podcast_duration">%d min</string>
+
 </resources>

@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
+import dev.olog.msc.app.app
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastAlbum
@@ -23,6 +24,7 @@ import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 @Module
@@ -199,15 +201,17 @@ private fun PodcastPlaylist.toAutoPlaylist(): DisplayableItem {
 
 private fun Podcast.toTabDisplayableItem(): DisplayableItem {
     val artist = DisplayableItem.adjustArtist(this.artist)
-    val album = DisplayableItem.adjustAlbum(this.album)
+
+    val duration = app.getString(R.string.tab_podcast_duration, TimeUnit.MILLISECONDS.toMinutes(this.duration))
 
     return DisplayableItem(
-            R.layout.item_tab_song,
+            R.layout.item_tab_podcast,
             MediaId.podcastId(this.id),
             title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+            artist,
             image,
-            true
+            trackNumber = duration,
+            isPlayable = true
     )
 }
 
