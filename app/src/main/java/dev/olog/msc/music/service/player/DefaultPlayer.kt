@@ -7,6 +7,7 @@ import android.content.Context
 import android.support.annotation.CallSuper
 import android.util.Log
 import androidx.core.widget.toast
+import com.crashlytics.android.Crashlytics
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -19,7 +20,6 @@ import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.clamp
-import dev.olog.msc.utils.k.extension.crashlyticsLog
 
 abstract class DefaultPlayer<T>(
         private val context: Context,
@@ -113,7 +113,7 @@ abstract class DefaultPlayer<T>(
             else -> "Unknown: $error"
         }
 
-        crashlyticsLog("player error $what")
+        Crashlytics.logException(error)
 
         if (BuildConfig.DEBUG) {
             Log.e("Player", "onPlayerError $what")
