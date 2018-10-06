@@ -278,7 +278,8 @@ class MediaSessionCallback @Inject constructor(
     override fun onAddQueueItem(description: MediaDescriptionCompat) {
 
         val split = description.mediaId!!.split(",")
-        val position = queue.playLater(split.map { it.trim().toLong() })
+        val position = queue.playLater(split.map { it.trim().toLong() },
+                description.extras!!.getBoolean(MusicConstants.IS_PODCAST))
         playerState.toggleSkipToActions(position)
     }
 
@@ -291,7 +292,8 @@ class MediaSessionCallback @Inject constructor(
             Int.MAX_VALUE -> {
                 // play next
                 val split = description.mediaId!!.split(",")
-                val position = queue.playNext(split.map { it.trim().toLong() })
+                val position = queue.playNext(split.map { it.trim().toLong() },
+                        description.extras!!.getBoolean(MusicConstants.IS_PODCAST))
                 playerState.toggleSkipToActions(position)
             }
             Int.MAX_VALUE - 1 -> {
