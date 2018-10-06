@@ -22,6 +22,14 @@
             android:visibility="invisible"/>
 
         <ImageView
+            android:id="@+id/deleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vd_delete"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"/>
+
+        <ImageView
             android:id="@+id/playNextIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
