@@ -34,6 +34,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song"
+        android:paddingTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
