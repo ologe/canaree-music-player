@@ -16,6 +16,7 @@ import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject
@@ -64,7 +65,10 @@ class PlayingQueueFragment : BaseFragment() {
         viewModel.observeCurrentSongId
                 .subscribe(viewLifecycleOwner, adapter::updateCurrentPosition)
 
-        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+        viewModel.data.subscribe(viewLifecycleOwner) {
+            adapter.updateDataSet(it)
+            view.emptyStateText.toggleVisibility(it.isEmpty(), true)
+        }
     }
 
     override fun onResume() {
