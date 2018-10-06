@@ -114,10 +114,12 @@ class PlayerFragmentViewModel @Inject constructor(
         val speed = musicPrefsUseCase.getPlaybackSpeed()
         return when (speed){
             .5f -> 0
-            .75f -> 1
+            .8f -> 1
             1f -> 2
-            1.25f -> 3
+            1.2f -> 3
             1.5f -> 4
+            2f -> 5
+            3f -> 6
             else -> 2
         }
     }
@@ -125,10 +127,12 @@ class PlayerFragmentViewModel @Inject constructor(
     fun setPlaybackSpeed(itemId: Int) {
         val speed = when (itemId){
             R.id.speed50 -> .5f
-            R.id.speed75 -> .75f
+            R.id.speed80 -> .8f
             R.id.speed100 -> 1f
-            R.id.speed125 -> 1.25f
+            R.id.speed120 -> 1.2f
             R.id.speed150 -> 1.5f
+            R.id.speed200 -> 2f
+            R.id.speed300 -> 3f
             else -> 1f
         }
         musicPrefsUseCase.setPlaybackSpeed(speed)
