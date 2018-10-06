@@ -3,12 +3,14 @@ package dev.olog.msc.presentation.edit
 import android.arch.lifecycle.DefaultLifecycleObserver
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.app.app
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
-import dev.olog.msc.dagger.qualifier.ProcessLifecycle
+import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
+import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.toast
@@ -26,6 +28,7 @@ import javax.inject.Inject
 class EditItemDialogFactory @Inject constructor(
         @ActivityLifecycle lifecycle: Lifecycle,
         private val getSongUseCase: GetSongUseCase,
+        private val getPodcastUseCase: GetPodcastUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) : DefaultLifecycleObserver {
@@ -42,12 +45,18 @@ class EditItemDialogFactory @Inject constructor(
 
     fun toEditTrack(mediaId: MediaId, action: () -> Unit){
         toDialogDisposable.unsubscribe()
-        toDialogDisposable = getSongUseCase.execute(mediaId)
-                .observeOn(Schedulers.computation())
-                .firstOrError()
-                .map { checkSong(it) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ action() }, { showSongError(it) })
+        toDialogDisposable = if (mediaId.isPodcast){
+            getPodcastUseCase.execute(mediaId)
+                    .observeOn(Schedulers.computation())
+                    .firstOrError()
+                    .map { checkPodcast(it) }
+        } else {
+            getSongUseCase.execute(mediaId)
+                    .observeOn(Schedulers.computation())
+                    .firstOrError()
+                    .map { checkSong(it) }
+        }.observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ action() }, { showError(it) })
     }
 
     fun toEditAlbum(mediaId: MediaId, action: () -> Unit){
@@ -59,7 +68,7 @@ class EditItemDialogFactory @Inject constructor(
                 .map { checkSong(it) }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ action() }, { showSongError(it) })
+                .subscribe({ action() }, { showError(it) })
     }
 
     fun toEditArtist(mediaId: MediaId, action: () -> Unit){
@@ -71,7 +80,7 @@ class EditItemDialogFactory @Inject constructor(
                 .map { checkSong(it) }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ action() }, { showSongError(it) })
+                .subscribe({ action() }, { showError(it) })
     }
 
     private fun checkSong(song: Song){
@@ -80,12 +89,21 @@ class EditItemDialogFactory @Inject constructor(
         audioFile.tagOrCreateAndSetDefault
     }
 
-    private fun showSongError(error: Throwable){
+    private fun checkPodcast(podcast: Podcast){
+        val file = File(podcast.path)
+        val audioFile = AudioFileIO.read(file)
+        audioFile.tagOrCreateAndSetDefault
+    }
+
+    private fun showError(error: Throwable){
         when (error) {
             is CannotReadException -> app.toast(R.string.edit_song_error_can_not_read)
             is IOException -> app.toast(R.string.edit_song_error_io)
             is ReadOnlyFileException -> app.toast(R.string.edit_song_error_read_only)
-            else -> app.toast(R.string.edit_song_error)
+            else -> {
+                Crashlytics.logException(error)
+                app.toast(R.string.edit_song_error)
+            }
         }
     }
 
