@@ -17,6 +17,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mini_player.*
 import kotlinx.android.synthetic.main.fragment_mini_player.view.*
+import kotlinx.android.synthetic.main.item_tab_shuffle.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -47,8 +48,19 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) {
                     title.text = it.getTitle()
-                    artist.text = it.getArtist()
+                    presenter.startShowingLeftTime(it.isPodcast(), it.getDuration())
+                    if (!it.isPodcast()){
+                        artist.text = it.getArtist()
+                    }
                     updateProgressBarMax(it.getDuration())
+                }
+
+        presenter.observeProgress
+                .map { resources.getQuantityString(R.plurals.mini_player_time_left, it.toInt(), it) }
+                .filter { view.artist.text != text }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) {
+                    artist.text = it
                 }
 
         media.onStateChanged()
@@ -57,7 +69,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                 .asLiveData()
                 .subscribe(viewLifecycleOwner) {
                     updateProgressBarProgress(it.position)
-                    handleProgressBar(it.isPlaying())
+                    handleProgressBar(it.isPlaying(), it.playbackSpeed)
                 }
 
         media.onStateChanged()
@@ -155,18 +167,19 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         view!!.progressBar.max = max.toInt()
     }
 
-    private fun handleProgressBar(isPlaying: Boolean) {
+    private fun handleProgressBar(isPlaying: Boolean, speed: Float) {
         seekBarDisposable.unsubscribe()
         if (isPlaying) {
-            resumeProgressBar()
+            resumeProgressBar(speed)
         }
     }
 
-    private fun resumeProgressBar() {
+    private fun resumeProgressBar(speed: Float) {
         seekBarDisposable = Observable
                 .interval(PROGRESS_BAR_INTERVAL, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .subscribe({
-                    view!!.progressBar.incrementProgressBy(PROGRESS_BAR_INTERVAL.toInt())
+                    progressBar.incrementProgressBy((PROGRESS_BAR_INTERVAL * speed).toInt())
+                    presenter.updateProgress((progressBar.progress + (PROGRESS_BAR_INTERVAL * speed)).toLong())
                 }, Throwable::printStackTrace)
     }
 
