@@ -117,7 +117,12 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     .asLiveData()
                     .subscribe(viewLifecycleOwner) { state ->
                         if (state.isPlaying() || state.isPaused()){
-                            coverWrapper?.isActivated = state.isPlaying()
+                            if (AppTheme.isClean()){
+                                bigCover?.isActivated = state.isPlaying()
+                            } else {
+                                coverWrapper?.isActivated = state.isPlaying()
+                            }
+
                         }
                     }
 

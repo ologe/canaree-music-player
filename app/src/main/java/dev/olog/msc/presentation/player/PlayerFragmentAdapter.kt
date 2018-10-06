@@ -123,6 +123,8 @@ class PlayerFragmentAdapter (
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ accentColor ->
                                 view.artist.apply { animateTextColor(accentColor) }
+                                view.shuffle.updateSelectedColor(accentColor)
+                                view.repeat.updateSelectedColor(accentColor)
                             }, Throwable::printStackTrace)
                 }
 
@@ -442,7 +444,12 @@ class PlayerFragmentAdapter (
         val isPlaying = playbackState.isPlaying()
         if (isPlaying || playbackState.isPaused()){
             view.nowPlaying?.isActivated = isPlaying
-            view.coverWrapper?.isActivated = isPlaying
+            if (AppTheme.isClean()){
+                view.bigCover?.isActivated = isPlaying
+            } else {
+                view.coverWrapper?.isActivated = isPlaying
+            }
+
         }
     }
 
