@@ -17,6 +17,7 @@ import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -133,8 +134,12 @@ class FolderTreeFragmentViewModel @Inject constructor(
         currentFile.onNext(file)
     }
 
-    fun updateDefaultFolder(file: File){
-        appPreferencesUseCase.setDefaultMusicFolder(file.safeGetCanonicalFile())
+    fun observeCurrentFolder(): Observable<Boolean> = appPreferencesUseCase.observeDefaultMusicFolder()
+            .map { it.safeGetCanonicalPath() == currentFile.value!!.safeGetCanonicalPath() }
+
+    fun updateDefaultFolder(){
+        val currentFolder = currentFile.value!!
+        appPreferencesUseCase.setDefaultMusicFolder(currentFolder.safeGetCanonicalFile())
     }
 
     @SuppressLint("Recycle")

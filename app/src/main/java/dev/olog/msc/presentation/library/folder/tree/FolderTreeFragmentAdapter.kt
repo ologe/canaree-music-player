@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.library.folder.tree
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.support.v4.app.FragmentActivity
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
@@ -10,12 +9,10 @@ import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
-import dev.olog.msc.utils.k.extension.asHtml
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import dev.olog.msc.utils.k.extension.simpleDialog
 
-class FolderTreeFragmentAdapter (
+class FolderTreeFragmentAdapter(
         @FragmentLifecycle lifecycle: Lifecycle,
         private val viewModel: FolderTreeFragmentViewModel,
         private val mediaProvider: MediaProvider,
@@ -24,7 +21,7 @@ class FolderTreeFragmentAdapter (
 ) : AbsAdapter<DisplayableFile>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
-        when (viewType){
+        when (viewType) {
             R.layout.item_folder_tree_directory,
             R.layout.item_folder_tree_track -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
@@ -40,20 +37,10 @@ class FolderTreeFragmentAdapter (
                     }
                 }
                 viewHolder.setOnLongClickListener(controller) { item, _, view ->
-                    if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID){
+                    if (item.mediaId == FolderTreeFragmentViewModel.BACK_HEADER_ID) {
                         return@setOnLongClickListener
                     }
-                    if(item.asFile().isDirectory){
-                        val context = viewHolder.itemView.context
-                        (context as FragmentActivity).simpleDialog {
-                            setTitle(R.string.folder_set_default_title)
-                            setMessage(context.getString(R.string.folder_set_default_message, item.asFile().name).asHtml())
-                            setPositiveButton(R.string.popup_positive_ok) { _,_ ->
-                                viewModel.updateDefaultFolder(item.asFile())
-                            }
-                            setNegativeButton(R.string.popup_negative_cancel, null)
-                        }
-                    } else {
+                    if (!item.asFile().isDirectory) {
                         viewModel.createMediaId(item)?.let { mediaId ->
                             navigator.toDialog(mediaId, view)
                         }

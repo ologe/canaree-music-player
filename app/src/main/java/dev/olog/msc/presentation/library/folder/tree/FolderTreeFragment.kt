@@ -13,10 +13,7 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
-import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.safeGetCanonicalFile
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.windowBackground
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject
@@ -58,16 +55,24 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
 
         viewModel.observeChildrens()
                 .subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.observeCurrentFolder()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isInDefaultFolder ->
+                    defaultFolder.toggleVisibility(!isInDefaultFolder, true)
+                }
     }
 
     override fun onResume() {
         super.onResume()
         bread_crumbs.setCallback(this)
+        defaultFolder.setOnClickListener { viewModel.updateDefaultFolder() }
     }
 
     override fun onPause() {
         super.onPause()
         bread_crumbs.setCallback(null)
+        defaultFolder.setOnClickListener(null)
     }
 
     override fun onCrumbSelection(crumb: BreadCrumbLayout.Crumb, index: Int) {

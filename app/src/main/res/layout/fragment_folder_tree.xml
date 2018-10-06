@@ -10,13 +10,33 @@
     <dev.olog.msc.presentation.widget.BreadCrumbLayout
         android:id="@+id/bread_crumbs"
         android:layout_width="0dp"
-        android:layout_height="@dimen/tab"
+        android:layout_height="54dp"
         android:paddingEnd="8dp"
         android:paddingStart="60dp"
         android:background="?android:attr/windowBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/defaultFolder"
+        android:text="@string/folder_set_default_message"
+        android:textColor="@color/transparent_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
+        app:layout_constraintBottom_toBottomOf="@+id/bread_crumbs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="24dp"
+        android:paddingLeft="24dp"
+        app:cornerRadius="24sp"
+        android:textAllCaps="true"
+        android:elevation="2dp"
+        android:maxLines="1"/>
 
     <dev.olog.msc.presentation.widget.DottedSeparator
         android:layout_width="0dp"
@@ -34,7 +54,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song"
-        android:paddingTop="8dp"
+        android:paddingTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/bread_crumbs"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,24 +90,5 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"/>
-
-    <android.support.design.button.MaterialButton
-        android:text="@string/folder_set_default_message"
-        android:textColor="@color/transparent_white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingRight="24dp"
-        android:paddingLeft="24dp"
-        app:cornerRadius="24sp"
-        android:textAllCaps="true"
-        android:layout_marginBottom="16dp"
-        android:elevation="4dp"/>
-
 
 </android.support.constraint.ConstraintLayout>

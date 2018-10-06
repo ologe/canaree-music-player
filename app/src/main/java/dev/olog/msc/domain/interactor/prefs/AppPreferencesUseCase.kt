@@ -100,6 +100,7 @@ class AppPreferencesUseCase @Inject constructor(
         return gateway.getAllArtistsSortOrder()
     }
 
+    fun observeDefaultMusicFolder(): Observable<File> = gateway.observeDefaultMusicFolder()
     fun getDefaultMusicFolder(): File = gateway.getDefaultMusicFolder()
     fun setDefaultMusicFolder(file: File) {
         gateway.setDefaultMusicFolder(file)

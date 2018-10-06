@@ -49,6 +49,7 @@ interface AppPreferencesGateway : Sorting {
     fun getSyncAdjustment(): Long
     fun setSyncAdjustment(value: Long)
 
+    fun observeDefaultMusicFolder(): Observable<File>
     fun getDefaultMusicFolder(): File
     fun setDefaultMusicFolder(file: File)
 

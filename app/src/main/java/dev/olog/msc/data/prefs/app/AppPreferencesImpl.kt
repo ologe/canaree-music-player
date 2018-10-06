@@ -392,7 +392,7 @@ class AppPreferencesImpl @Inject constructor(
         preferences.edit { putLong(SYNC_ADJUSTMENT, value) }
     }
 
-    override fun getDefaultMusicFolder(): File {
+    private fun defaultFolder(): String {
         val musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)
         var startFolder = File(File.separator)
         if (musicDir.exists() && musicDir.isDirectory){
@@ -403,8 +403,17 @@ class AppPreferencesImpl @Inject constructor(
                 startFolder = externalStorage
             }
         }
+        return startFolder.path
+    }
 
-        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, startFolder.path))
+    override fun observeDefaultMusicFolder(): Observable<File> {
+        return rxPreferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder())
+                .asObservable()
+                .map { File(it) }
+    }
+
+    override fun getDefaultMusicFolder(): File {
+        return File(preferences.getString(DEFAULT_MUSIC_FOLDER, defaultFolder()))
     }
 
     override fun setDefaultMusicFolder(file: File) {
