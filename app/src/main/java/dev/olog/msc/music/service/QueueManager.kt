@@ -92,14 +92,15 @@ class QueueManager @Inject constructor(
     }
 
     override fun getPlayingSong(): PlayerMediaEntity {
-        val mediaEntity = queueImpl.getCurrentSong()
+        val mediaEntity = queueImpl.getCurrentSong()!!
         val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
         return mediaEntity.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }
 
     override fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity? {
         val mediaEntity = queueImpl.getPreviousSong(playerBookmark)
-        return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), 0)
+        val bookmark = getPodcastBookmarkOrDefault(mediaEntity)
+        return mediaEntity?.toPlayerMediaEntity(queueImpl.currentPositionInQueue(), bookmark)
     }
 
     override fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity> {
@@ -237,14 +238,14 @@ class QueueManager @Inject constructor(
         queueImpl.handleSwapRelative(from, to)
     }
 
-    override fun handleRemove(extras: Bundle) {
+    override fun handleRemove(extras: Bundle): Boolean {
         val position = extras.getInt(MusicConstants.ARGUMENT_REMOVE_POSITION)
-        queueImpl.handleRemove(position)
+        return queueImpl.handleRemove(position)
     }
 
-    override fun handleRemoveRelative(extras: Bundle) {
+    override fun handleRemoveRelative(extras: Bundle): Boolean {
         val position = extras.getInt(MusicConstants.ARGUMENT_REMOVE_POSITION)
-        queueImpl.handleRemoveRelative(position)
+        return queueImpl.handleRemoveRelative(position)
     }
 
     override fun sort() {
@@ -320,7 +321,7 @@ class QueueManager @Inject constructor(
 
     override fun updatePodcastPosition(position: Long) {
         val mediaEntity = queueImpl.getCurrentSong()
-        if (mediaEntity.isPodcast){
+        if (mediaEntity?.isPodcast == true){
             podcastPosition.set(mediaEntity.id, position)
         }
     }

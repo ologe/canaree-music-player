@@ -40,8 +40,8 @@ interface Queue {
     fun handleSwap(extras: Bundle)
     fun handleSwapRelative(extras: Bundle)
 
-    fun handleRemove(extras: Bundle)
-    fun handleRemoveRelative(extras: Bundle)
+    fun handleRemove(extras: Bundle): Boolean
+    fun handleRemoveRelative(extras: Bundle): Boolean
 
     fun sort()
 

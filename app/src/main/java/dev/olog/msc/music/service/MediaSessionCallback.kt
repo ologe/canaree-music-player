@@ -213,8 +213,16 @@ class MediaSessionCallback @Inject constructor(
             when (action){
                 MusicConstants.ACTION_SWAP -> queue.handleSwap(extras!!)
                 MusicConstants.ACTION_SWAP_RELATIVE -> queue.handleSwapRelative(extras!!)
-                MusicConstants.ACTION_REMOVE -> queue.handleRemove(extras!!)
-                MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
+                MusicConstants.ACTION_REMOVE -> {
+                    if (queue.handleRemove(extras!!)) {
+                        onStop()
+                    }
+                }
+                MusicConstants.ACTION_REMOVE_RELATIVE -> {
+                    if (queue.handleRemoveRelative(extras!!)){
+                        onStop()
+                    }
+                }
                 MusicConstants.ACTION_SHUFFLE -> {
                     doWhenReady ({
                         updatePodcastPosition()

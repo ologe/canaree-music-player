@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import android.support.annotation.CheckResult
 import android.support.annotation.MainThread
 import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
+import dev.olog.msc.domain.entity.Podcast
+import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
@@ -32,6 +35,7 @@ class QueueImpl @Inject constructor(
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val queueMediaSession: MediaSessionQueue,
         private val getSongUseCase: GetSongUseCase,
+        private val getPodcastUseCase: GetPodcastUseCase,
         private val enhancedShuffle: EnhancedShuffle
 ) {
 
@@ -98,8 +102,8 @@ class QueueImpl @Inject constructor(
 
     @CheckResult
     @MainThread
-    fun getCurrentSong(): MediaEntity{
-        return playingQueue[currentSongPosition]
+    fun getCurrentSong(): MediaEntity? {
+        return playingQueue.getOrNull(currentSongPosition)
     }
 
     @CheckResult
@@ -249,11 +253,11 @@ class QueueImpl @Inject constructor(
     }
 
     @MainThread
-    fun handleRemove(position: Int) {
+    fun handleRemove(position: Int): Boolean {
         assertMainThread()
 
         if (position !in 0..playingQueue.lastIndex){
-            return
+            return false
         }
 
         if (position >= 0 || position < playingQueue.size){
@@ -265,13 +269,13 @@ class QueueImpl @Inject constructor(
             }
             persist(playingQueue)
         }
-
+        return playingQueue.isEmpty()
     }
 
     @MainThread
-    fun handleRemoveRelative(position: Int) {
+    fun handleRemoveRelative(position: Int): Boolean {
         val realPosition = position + currentSongPosition + 1
-        handleRemove(realPosition)
+        return handleRemove(realPosition)
     }
 
     fun computePositionInQueue(list: List<MediaEntity>, position: Int): PositionInQueue {
@@ -288,16 +292,24 @@ class QueueImpl @Inject constructor(
         return computePositionInQueue(playingQueue, currentSongPosition)
     }
 
-    @SuppressLint("RxLeakedSubscription")
-    fun playLater(songIds: List<Long>) {
+    @SuppressLint("RxLeakedSubscription", "CheckResult")
+    fun playLater(songIds: List<Long>, isPodcast: Boolean) {
         var maxProgressive = playingQueue.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
         maxProgressive += 1
 
         Single.just(songIds)
                 .observeOn(Schedulers.computation())
                 .flattenAsObservable { it }
-                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it)).firstElement() }
-                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
+                .flatMapMaybe {
+                    if (isPodcast){
+                        getPodcastUseCase.execute(MediaId.podcastId(it)).firstElement()
+                                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
+                    } else {
+                        getSongUseCase.execute(MediaId.songId(it)).firstElement()
+                                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
+                    }
+
+                }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -308,20 +320,33 @@ class QueueImpl @Inject constructor(
                 }, Throwable::printStackTrace)
     }
 
-    @SuppressLint("RxLeakedSubscription")
-    fun playNext(songIds: List<Long>) {
+    @SuppressLint("RxLeakedSubscription", "CheckResult")
+    fun playNext(songIds: List<Long>, isPodcast: Boolean) {
         val before = playingQueue.take(currentSongPosition + 1)
         val after = playingQueue.drop(currentSongPosition + 1)
 
         Single.just(songIds)
                 .observeOn(Schedulers.computation())
                 .flattenAsObservable { it }
-                .flatMapMaybe { getSongUseCase.execute(MediaId.songId(it)).firstElement() }
+                .flatMapMaybe {
+                    if (isPodcast){
+                        getPodcastUseCase.execute(MediaId.podcastId(it)).firstElement()
+                    } else {
+                        getSongUseCase.execute(MediaId.songId(it)).firstElement()
+                    }
+
+                }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     var currentProgressive = before.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
-                    val listToAdd = it.map { it.toMediaEntity(currentProgressive++, MediaId.songId(it.id)) }
+                    val listToAdd = it.map {
+                        when (it){
+                            is Song -> it.toMediaEntity(currentProgressive++, MediaId.songId(it.id))
+                            is Podcast -> it.toMediaEntity(currentProgressive++, MediaId.podcastId(it.id))
+                            else -> throw IllegalArgumentException("nor song nor podcast")
+                        }
+                    }
                     val afterListUpdated = after.map { it.copy(idInPlaylist = currentProgressive++) }
 
                     val copy = before.plus(listToAdd).plus(afterListUpdated)
