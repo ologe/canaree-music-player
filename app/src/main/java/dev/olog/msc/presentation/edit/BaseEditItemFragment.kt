@@ -78,11 +78,11 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     protected fun changeImage(){
         ThemedDialog.builder(ctx)
-                .setItems(arrayOf("Pick an image", "Restore default")) { _, which ->
-                    if (which == 0){
-                        openImagePicker()
-                    } else {
-                        restoreImage()
+                .setItems(R.array.edit_item_image_dialog) { _, which ->
+                    when (which){
+                        0 -> openImagePicker()
+                        1 -> restoreImage()
+                        2 -> noImage()
                     }
                 }
                 .show()
@@ -97,6 +97,8 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
     }
 
     protected abstract fun restoreImage()
+
+    protected abstract fun noImage()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGE_CODE){

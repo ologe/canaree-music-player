@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateAlbumInfo
@@ -111,6 +112,10 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
     override fun onImagePicked(uri: Uri) {
         viewModel.updateImage(uri.toString())
+    }
+
+    override fun noImage() {
+        viewModel.updateImage(AppConstants.NO_IMAGE)
     }
 
     override fun onLoaderCancelled() {

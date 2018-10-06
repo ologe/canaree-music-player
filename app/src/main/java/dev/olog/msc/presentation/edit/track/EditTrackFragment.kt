@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateResult
@@ -123,6 +124,10 @@ class EditTrackFragment : BaseEditItemFragment() {
         val albumId = viewModel.getSong().albumId
         val uri = ImagesFolderUtils.forAlbum(albumId)
         viewModel.updateImage(uri)
+    }
+
+    override fun noImage() {
+        viewModel.updateImage(AppConstants.NO_IMAGE)
     }
 
     override fun onLoaderCancelled() {
