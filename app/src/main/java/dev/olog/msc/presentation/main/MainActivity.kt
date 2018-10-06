@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
@@ -66,6 +67,12 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         } else if (savedInstanceState == null) {
             bottomNavigation.selectedItemId = presenter.getLastBottomViewPage()
             bottomNavigate(bottomNavigation.selectedItemId, false)
+        }
+
+        if (isLandscape && slidingPanel.isExpanded()){
+            bottomWrapper.doOnPreDraw {
+                bottomWrapper.translationY = bottomWrapper.height.toFloat()
+            }
         }
 
         intent?.let { handleIntent(it) }
