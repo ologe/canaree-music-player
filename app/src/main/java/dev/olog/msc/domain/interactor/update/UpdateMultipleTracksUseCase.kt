@@ -25,9 +25,9 @@ class UpdateMultipleTracksUseCase @Inject constructor(
                 .flatMapCompletable { updateTrackUseCase.execute(
                         UpdateTrackUseCase.Data(null, it.path, null, param.fields)
                 ) }.andThen {
-                    if (param.mediaId.isArtist){
+                    if (param.mediaId.isArtist || param.mediaId.isPodcastArtist){
                         gateway.setForArtist(param.mediaId.resolveId, param.image)
-                    } else if (param.mediaId.isAlbum){
+                    } else if (param.mediaId.isAlbum || param.mediaId.isPodcastAlbum){
                         gateway.setForAlbum(param.mediaId.resolveId, param.image)
                     } else {
                         throw IllegalStateException("invalid media id category ${param.mediaId}")
