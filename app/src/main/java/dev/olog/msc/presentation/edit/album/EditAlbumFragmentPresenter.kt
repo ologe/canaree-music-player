@@ -26,7 +26,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
     private lateinit var originalAlbum: DisplayableAlbum
 
     fun observeAlbum(): Single<DisplayableAlbum> {
-        if (mediaId.isPodcast){
+        if (mediaId.isPodcastAlbum){
             return observePodcastAlbumInternal()
         }
         return observeAlbumInternal()

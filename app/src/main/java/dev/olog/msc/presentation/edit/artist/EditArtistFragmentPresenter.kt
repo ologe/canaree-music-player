@@ -22,7 +22,7 @@ class EditArtistFragmentPresenter @Inject constructor(
     lateinit var songList: List<Song>
 
     fun observeArtist(): Single<DisplayableArtist> {
-        if (mediaId.isPodcast){
+        if (mediaId.isPodcastArtist){
             return getPodcastArtistInternal()
         }
         return getArtistInternal()
