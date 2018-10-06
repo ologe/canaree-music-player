@@ -15,6 +15,6 @@ class GetPodcastPlaylistUseCase @Inject internal constructor(
 ) : ObservableUseCaseWithParam<PodcastPlaylist, MediaId>(schedulers) {
 
     override fun buildUseCaseObservable(param: MediaId): Observable<PodcastPlaylist> {
-        return gateway.getByParam(param.resolveId)
+        return gateway.getByParam(param.categoryId)
     }
 }

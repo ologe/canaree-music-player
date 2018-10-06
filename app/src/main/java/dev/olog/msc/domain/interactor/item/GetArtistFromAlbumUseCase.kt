@@ -18,7 +18,7 @@ class GetArtistFromAlbumUseCase @Inject internal constructor(
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Observable<Artist> {
-        val albumId = mediaId.categoryValue.toLong()
+        val albumId = mediaId.categoryId
 
         return albumGateway.getByParam(albumId)
                 .flatMap { album -> gateway.getByParam(album.artistId) }

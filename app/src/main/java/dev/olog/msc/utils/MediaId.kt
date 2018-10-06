@@ -158,6 +158,14 @@ class MediaId private constructor(
             }
         }
 
+    val categoryId: Long
+        get() {
+            return when {
+                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                else -> categoryValue.toLong()
+            }
+        }
+
     val resolveSource : Int
         get() {
             if (isLeaf && isPodcast){
