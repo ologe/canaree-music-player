@@ -36,7 +36,8 @@
             android:layout_height="0dp"
             android:background="@drawable/gradient_fullscreen"
             android:clickable="false"
-            android:focusable="false">
+            android:focusable="false"
+            android:clipChildren="false">
 
             <dev.olog.msc.presentation.widget.SwipeableView
                 android:id="@+id/swipeableView"
@@ -78,7 +79,7 @@
                 android:progressBackgroundTint="#88888888"
                 tools:progress="40"
                 tools:max="100"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="24dp"/>
 
             <!-- bookmark -->
             <TextView

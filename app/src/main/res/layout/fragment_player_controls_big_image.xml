@@ -100,7 +100,7 @@
         <!-- title -->
         <TextView
             android:id="@+id/title"
-            tools:text="In Da Club"
+            tools:text="Thirty Seconds to Mars - The Kills"
             app:layout_constraintTop_toBottomOf="@+id/bookmark"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/player_title_text_size"
             android:textColor="?android:attr/textColorPrimary"
-            android:singleLine="true"
+            android:maxLines="2"
             android:marqueeRepeatLimit="marquee_forever"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
