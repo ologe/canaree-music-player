@@ -64,10 +64,10 @@ abstract class AbsPopupListener(
                 val string = activity.getString(R.string.share_song_x, song.title)
                 activity.startActivity(Intent.createChooser(intent, string.asHtml()))
             } else {
-                activity.toast("Could not share this song")
+                activity.toast(R.string.song_not_shareable)
             }
         } catch (ex: Exception){
-            activity.toast("Could not share this song")
+            activity.toast(R.string.song_not_shareable)
         }
     }
 

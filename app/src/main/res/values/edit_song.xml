@@ -48,4 +48,10 @@
 
     <dimen name="edit_item_min_height">260dp</dimen>
 
+    <string-array name="edit_item_image_dialog">
+        <item>Pick an image</item>
+        <item>Restore default</item>
+        <item>No Image</item>
+    </string-array>
+
 </resources>
