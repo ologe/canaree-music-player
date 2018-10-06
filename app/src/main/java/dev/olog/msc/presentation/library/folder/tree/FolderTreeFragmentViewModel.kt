@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import androidx.core.database.getLong
 import dev.olog.msc.R
 import dev.olog.msc.app.app
+import dev.olog.msc.domain.interactor.all.GetAllFoldersUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.*
@@ -25,6 +26,7 @@ import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
         private val appPreferencesUseCase: AppPreferencesUseCase,
+        private val getAllFoldersUseCase: GetAllFoldersUseCase,
         private val collator: Collator
 
 ) : ViewModel() {
@@ -57,22 +59,23 @@ class FolderTreeFragmentViewModel @Inject constructor(
 
     fun observeChildrens(): LiveData<List<DisplayableFile>> = currentFile.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .map { file ->
-                val blackList = appPreferencesUseCase.getBlackList()
-                val children: List<File> = file.listFiles()
-                        ?.filter { if (file.isDirectory) !blackList.contains(file.absolutePath) else !blackList.contains(file.parentFile.absolutePath) }
-                        ?: listOf()
+            .flatMap { file ->
+                getAllFoldersUseCase.execute().mapToList { it.path }.map {  folderList ->
+                    val children = file.listFiles()
+                            ?.filter { current -> folderList.firstOrNull { it.contains( current.path ) } != null || !current.isDirectory }
+                            ?: listOf()
 
-                val (directories, files) = children.partition { it.isDirectory }
-                val sortedDirectory = filterFolders(directories)
-                val sortedFiles = filterTracks(files)
+                    val (directories, files) = children.partition { it.isDirectory }
+                    val sortedDirectory = filterFolders(directories)
+                    val sortedFiles = filterTracks(files)
 
-                val displayableItems = sortedDirectory.plus(sortedFiles)
+                    val displayableItems = sortedDirectory.plus(sortedFiles)
 
-                if (file.path == "/"){
-                    displayableItems
-                } else {
-                    displayableItems.startWith(backDisplableItem)
+                    if (file.path == "/"){
+                        displayableItems
+                    } else {
+                        displayableItems.startWith(backDisplableItem)
+                    }
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
