@@ -17,6 +17,8 @@ object AppConstants {
     const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"
     const val SHORTCUT_PLAYLIST_CHOOSER = "$TAG.shortcut.playlist.chooser"
 
+    const val NO_IMAGE = "NO_IMAGE"
+
     var QUICK_ACTION = QuickActionView.Type.NONE
     var ICON_SHAPE = "round"
 

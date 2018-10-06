@@ -8,6 +8,7 @@ import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -31,6 +32,10 @@ class GlideImageLoader(
 
         if (isAsset(model)){
             return uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
+        }
+
+        if (model.image == AppConstants.NO_IMAGE){
+            return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
         }
 
         if (mediaId.isAlbum || mediaId.isPodcastAlbum || mediaId.isLeaf){
