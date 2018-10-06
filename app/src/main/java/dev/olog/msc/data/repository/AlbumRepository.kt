@@ -93,8 +93,8 @@ class AlbumRepository @Inject constructor(
     override fun getLastPlayed(): Observable<List<Album>> {
         return Observables.combineLatest(
                 getAll(),
-                lastPlayedDao.getAll().toObservable(),
-                { all, lastPlayed ->
+                lastPlayedDao.getAll().toObservable()
+        ) { all, lastPlayed ->
 
             if (all.size < 5) {
                 listOf() // too few album to show recents
@@ -104,7 +104,7 @@ class AlbumRepository @Inject constructor(
                         .take(5)
                         .toList()
             }
-        })
+        }
     }
 
     override fun addLastPlayed(id: Long): Completable {

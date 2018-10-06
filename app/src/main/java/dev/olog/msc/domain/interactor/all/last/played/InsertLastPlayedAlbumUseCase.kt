@@ -18,8 +18,8 @@ class InsertLastPlayedAlbumUseCase @Inject constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun buildUseCaseObservable(mediaId: MediaId): Completable {
         if (mediaId.isPodcastAlbum){
-            return podcastGateway.addLastPlayed(mediaId.resolveId)
+            return podcastGateway.addLastPlayed(mediaId.categoryValue.toLong())
         }
-        return albumGateway.addLastPlayed(mediaId.resolveId)
+        return albumGateway.addLastPlayed(mediaId.categoryValue.toLong())
     }
 }

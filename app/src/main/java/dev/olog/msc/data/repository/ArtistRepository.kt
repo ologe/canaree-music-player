@@ -114,8 +114,8 @@ class ArtistRepository @Inject constructor(
     override fun getLastPlayed(): Observable<List<Artist>> {
         return Observables.combineLatest(
                 getAll(),
-                lastPlayedDao.getAll().toObservable(),
-                { all, lastPlayed ->
+                lastPlayedDao.getAll().toObservable()
+        ) { all, lastPlayed ->
 
             if (all.size < 5) {
                 listOf()
@@ -125,7 +125,7 @@ class ArtistRepository @Inject constructor(
                         .take(5)
                         .toList()
             }
-        })
+        }
     }
 
     override fun addLastPlayed(id: Long): Completable {
