@@ -69,8 +69,8 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             bottomNavigate(bottomNavigation.selectedItemId, false)
         }
 
-        if (isLandscape && slidingPanel.isExpanded()){
-            bottomWrapper.doOnPreDraw {
+        bottomWrapper.doOnPreDraw {
+            if (slidingPanel.isExpanded()){
                 bottomWrapper.translationY = bottomWrapper.height.toFloat()
             }
         }
