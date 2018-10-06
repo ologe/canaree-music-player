@@ -6,9 +6,9 @@ object PlaylistConstants {
     const val FAVORITE_LIST_ID: Long = -30012
     const val HISTORY_LIST_ID: Long = -30018
 
-    const val PODCAST_LAST_ADDED_ID: Long = -3000 * 2
-    const val PODCAST_FAVORITE_LIST_ID: Long = -30012 * 2
-    const val PODCAST_HISTORY_LIST_ID: Long = -30018 * 2
+    const val PODCAST_LAST_ADDED_ID: Long = -6000
+    const val PODCAST_FAVORITE_LIST_ID: Long = -60012
+    const val PODCAST_HISTORY_LIST_ID: Long = -60018
 
     const val MINI_QUEUE_SIZE = 50
 
