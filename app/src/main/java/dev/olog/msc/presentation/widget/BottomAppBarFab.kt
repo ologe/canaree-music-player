@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
 
-class BottomAppBarFab(context: Context, attrs: AttributeSet) : FloatingActionButton(context, attrs) {
+open class BottomAppBarFab(context: Context, attrs: AttributeSet) : FloatingActionButton(context, attrs) {
 
     init {
 //        TODO il click funziona male

@@ -77,12 +77,12 @@
 
     </android.support.design.bottomappbar.BottomAppBar>
 
-    <dev.olog.msc.presentation.widget.BottomAppBarFab
-        android:id="@+id/edit"
+    <dev.olog.msc.presentation.widget.playpause.BottomAppBarAnimatedPlayPauseImageViewFab
+        android:id="@+id/playPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bar"
-        android:src="@drawable/vd_edit"
+        android:src="@drawable/vd_play"
         android:clickable="true"
         android:focusable="true" />
 
