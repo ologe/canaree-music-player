@@ -12,7 +12,8 @@
     <android.support.design.bottomappbar.BottomAppBar
         android:id="@+id/bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/status_bar">
 
         <LinearLayout
             android:layout_width="match_parent"

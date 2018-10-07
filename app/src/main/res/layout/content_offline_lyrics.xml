@@ -174,7 +174,7 @@
                             android:id="@+id/seekBar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
+                            android:layout_marginBottom="8dp"
                             android:layout_marginTop="8dp"
                             android:max="@integer/common_high_number"
                             android:paddingBottom="16dp"
@@ -207,15 +207,13 @@
             <ImageButton
                 android:id="@+id/sync"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/toolbar"
+                android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"
+                android:padding="12dp"
                 android:src="@drawable/vd_sync"
                 android:tint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
