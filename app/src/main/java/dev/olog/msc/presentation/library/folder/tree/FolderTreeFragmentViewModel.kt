@@ -19,6 +19,7 @@ import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.io.File
@@ -134,8 +135,10 @@ class FolderTreeFragmentViewModel @Inject constructor(
         currentFile.onNext(file)
     }
 
-    fun observeCurrentFolder(): Observable<Boolean> = appPreferencesUseCase.observeDefaultMusicFolder()
-            .map { it.safeGetCanonicalPath() == currentFile.value!!.safeGetCanonicalPath() }
+    fun observeCurrentFolder(): Observable<Boolean> = Observables.combineLatest(
+            appPreferencesUseCase.observeDefaultMusicFolder(),
+            currentFile
+    ) { default, current -> default.safeGetCanonicalPath() == current.safeGetCanonicalPath() }
 
     fun updateDefaultFolder(){
         val currentFolder = currentFile.value!!

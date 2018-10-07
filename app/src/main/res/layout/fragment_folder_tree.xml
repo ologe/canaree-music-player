@@ -36,7 +36,8 @@
         app:cornerRadius="24sp"
         android:textAllCaps="true"
         android:elevation="2dp"
-        android:maxLines="1"/>
+        android:maxLines="1"
+        android:visibility="visible"/>
 
     <dev.olog.msc.presentation.widget.DottedSeparator
         android:layout_width="0dp"
