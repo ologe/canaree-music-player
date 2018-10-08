@@ -45,7 +45,7 @@ class EditItemDialogFactory @Inject constructor(
 
     fun toEditTrack(mediaId: MediaId, action: () -> Unit){
         toDialogDisposable.unsubscribe()
-        toDialogDisposable = if (mediaId.isPodcast){
+        toDialogDisposable = if (mediaId.isAnyPodcast){
             getPodcastUseCase.execute(mediaId)
                     .observeOn(Schedulers.computation())
                     .firstOrError()
@@ -101,6 +101,7 @@ class EditItemDialogFactory @Inject constructor(
             is IOException -> app.toast(R.string.edit_song_error_io)
             is ReadOnlyFileException -> app.toast(R.string.edit_song_error_read_only)
             else -> {
+                error.printStackTrace()
                 Crashlytics.logException(error)
                 app.toast(R.string.edit_song_error)
             }
