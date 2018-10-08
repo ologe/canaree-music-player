@@ -19,7 +19,6 @@ class TouchHelperAdapterCallback(
         horizontalDirections
 ) {
 
-    private var startSwiping = false
     private var circularRevealDrawn = false
     private val handler = Handler(Looper.getMainLooper())
 
