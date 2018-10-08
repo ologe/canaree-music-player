@@ -298,7 +298,9 @@ class QueueManager @Inject constructor(
         queueImpl.playLater(songIds, isPodcast)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
-            else -> PositionInQueue.IN_MIDDLE
+            PositionInQueue.FIRST,
+            PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
+            else -> currentPositionInQueue
         }
     }
 
@@ -307,18 +309,20 @@ class QueueManager @Inject constructor(
         queueImpl.playNext(songIds, isPodcast)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
-            else -> PositionInQueue.IN_MIDDLE
+            PositionInQueue.FIRST,
+            PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
+            else -> currentPositionInQueue
         }
     }
 
-    override fun moveToPlayNext(idInPlaylist: Int): PositionInQueue {
-        val currentPositionInQueue = getCurrentPositionInQueue()
-        queueImpl.moveToPlayNext(idInPlaylist)
-        return when (currentPositionInQueue){
-            PositionInQueue.BOTH -> PositionInQueue.FIRST
-            else -> PositionInQueue.IN_MIDDLE
-        }
-    }
+//    override fun moveToPlayNext(idInPlaylist: Int): PositionInQueue {
+//        val currentPositionInQueue = getCurrentPositionInQueue()
+//        queueImpl.moveToPlayNext(idInPlaylist)
+//        return when (currentPositionInQueue){
+//            PositionInQueue.BOTH -> PositionInQueue.FIRST
+//            else -> PositionInQueue.IN_MIDDLE
+//        }
+//    }
 
     override fun updatePodcastPosition(position: Long) {
         val mediaEntity = queueImpl.getCurrentSong()

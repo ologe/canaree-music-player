@@ -259,12 +259,12 @@ abstract class MusicGlueActivity : BaseActivity(), MediaProvider {
     }
 
     override fun moveToPlayNext(mediaId: MediaId) {
-        val trackId = "${mediaId.leaf!!}"
-        val item = MediaDescriptionCompat.Builder()
-                .setMediaId(trackId)
-                .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
-                .build()
-        MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE - 1)
+//        val trackId = "${mediaId.leaf!!}"
+//        val item = MediaDescriptionCompat.Builder()
+//                .setMediaId(trackId)
+//                .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
+//                .build()
+//        MediaControllerCompat.getMediaController(this).addQueueItem(item, Int.MAX_VALUE - 1)
     }
 
     override fun replayTenSeconds() {

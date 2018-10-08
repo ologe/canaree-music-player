@@ -304,12 +304,12 @@ class MediaSessionCallback @Inject constructor(
                         description.extras!!.getBoolean(MusicConstants.IS_PODCAST))
                 playerState.toggleSkipToActions(position)
             }
-            Int.MAX_VALUE - 1 -> {
-                // move to next
-                val split = description.mediaId!!.split(",")
-                val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
-                playerState.toggleSkipToActions(position)
-            }
+//            Int.MAX_VALUE - 1 -> {
+//                // move to next
+//                val split = description.mediaId!!.split(",")
+//                val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
+//                playerState.toggleSkipToActions(position)
+//            }
         }
     }
 
