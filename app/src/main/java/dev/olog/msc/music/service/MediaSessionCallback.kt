@@ -305,7 +305,7 @@ class MediaSessionCallback @Inject constructor(
                 playerState.toggleSkipToActions(position)
             }
             Int.MAX_VALUE - 1 -> {
-                // play next
+                // move to next
                 val split = description.mediaId!!.split(",")
                 val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
                 playerState.toggleSkipToActions(position)
