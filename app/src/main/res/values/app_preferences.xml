@@ -141,12 +141,12 @@
     <!--show new albums/artists-->
     <string name="prefs_show_new_albums_artists_key" translatable="false">key_show_new</string>
     <string name="prefs_show_new_albums_artists_title">Show new albums and artists</string>
-    <string name="prefs_show_new_albums_artists_summary">Show all new albums and artist added recently</string>
+    <string name="prefs_show_new_albums_artists_summary">Show all new albums and artists added recently</string>
 
     <!--show recently played albums/artists-->
     <string name="prefs_show_recent_albums_artists_key" translatable="false">key_show_recent</string>
     <string name="prefs_show_recent_albums_artists_title">Show recently played</string>
-    <string name="prefs_show_recent_albums_artists_summary">Show all albums and artist played recently</string>
+    <string name="prefs_show_recent_albums_artists_summary">Show all albums and artists played recently</string>
 
     <!--auto download images-->
     <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images_2</string>
