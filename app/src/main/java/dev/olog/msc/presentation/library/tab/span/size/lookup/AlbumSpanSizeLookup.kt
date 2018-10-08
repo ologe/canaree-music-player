@@ -13,9 +13,6 @@ class AlbumSpanSizeLookup(
 
 ) : AbsSpanSizeLookup() {
 
-    private var oneHanded : Int = 2
-    private var twoHanded : Int = 4
-
     private val isPortrait = context.isPortrait
     private val smallestWidthDip = context.configuration.smallestScreenWidthDp
     private val isTablet = smallestWidthDip >= 600
@@ -24,15 +21,9 @@ class AlbumSpanSizeLookup(
         val itemType = adapter.elementAt(position).type
         when (itemType){
             R.layout.item_tab_header,
-            R.layout.item_tab_last_played_artist_horizontal_list,
+            R.layout.item_tab_new_album_horizontal_list,
             R.layout.item_tab_last_played_album_horizontal_list -> return spanCount
         }
-
-//        if (context.isOneHanded()){
-//            return spanCount / oneHanded
-//        }
-//
-//        return spanCount / twoHanded
 //
         if (isTablet){
             val span = if (isPortrait) 4 else 5
@@ -41,10 +32,5 @@ class AlbumSpanSizeLookup(
 
         return if(isPortrait) spanCount / 2 else spanCount / 4
     }
-
-//    override fun updateSpan(oneHanded: Int, twoHanded: Int) {
-//        this.oneHanded = oneHanded
-//        this.twoHanded = twoHanded
-//    }
 
 }

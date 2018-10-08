@@ -21,7 +21,7 @@ class ArtistSpanSizeLookup(
         when (itemType){
             R.layout.item_tab_header,
             R.layout.item_tab_last_played_artist_horizontal_list,
-            R.layout.item_tab_last_played_album_horizontal_list -> return spanCount
+            R.layout.item_tab_new_artist_horizontal_list -> return spanCount
         }
 
         var span = if (isPortrait) 3 else 4
