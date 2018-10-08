@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Podcast
+import dev.olog.msc.domain.entity.toSong
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.navigator.Navigator
@@ -45,6 +46,7 @@ class PodcastPopupListener @Inject constructor(
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast.albumId))
             R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast.artistId))
+            R.id.share -> share(activity, podcast.toSong())
         }
 
 

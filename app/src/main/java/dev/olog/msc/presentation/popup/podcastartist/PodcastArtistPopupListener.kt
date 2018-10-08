@@ -6,6 +6,7 @@ import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastArtist
+import dev.olog.msc.domain.entity.toSong
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -26,17 +27,17 @@ class PodcastArtistPopupListener @Inject constructor(
 ) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, true) {
 
     private lateinit var artist: PodcastArtist
-    private var song: Podcast? = null
+    private var podcast: Podcast? = null
 
-    fun setData(artist: PodcastArtist, song: Podcast?): PodcastArtistPopupListener{
+    fun setData(artist: PodcastArtist, podcast: Podcast?): PodcastArtistPopupListener{
         this.artist = artist
-        this.song = song
+        this.podcast = podcast
         return this
     }
 
     private fun getMediaId(): MediaId {
-        if (song != null){
-            return MediaId.playableItem(MediaId.podcastArtistId(artist.id), song!!.id)
+        if (podcast != null){
+            return MediaId.playableItem(MediaId.podcastArtistId(artist.id), podcast!!.id)
         } else {
             return MediaId.podcastArtistId(artist.id)
         }
@@ -56,6 +57,9 @@ class PodcastArtistPopupListener @Inject constructor(
             R.id.playNext -> playNext()
             R.id.delete -> delete()
             R.id.viewInfo -> viewInfo(navigator, getMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast!!.albumId))
+            R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast!!.artistId))
+            R.id.share -> share(activity, podcast!!.toSong())
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name, artist.image)
         }
 
@@ -64,10 +68,10 @@ class PodcastArtistPopupListener @Inject constructor(
     }
 
     private fun toCreatePlaylist(){
-        if (song == null){
+        if (podcast == null){
             navigator.toCreatePlaylistDialog(getMediaId(), artist.songs, artist.name)
         } else {
-            navigator.toCreatePlaylistDialog(getMediaId(), -1, song!!.title)
+            navigator.toCreatePlaylistDialog(getMediaId(), -1, podcast!!.title)
         }
     }
 
@@ -80,36 +84,36 @@ class PodcastArtistPopupListener @Inject constructor(
     }
 
     private fun playLater(){
-        if (song == null){
+        if (podcast == null){
             navigator.toPlayLater(getMediaId(), artist.songs, artist.name)
         } else {
-            navigator.toPlayLater(getMediaId(), -1, song!!.title)
+            navigator.toPlayLater(getMediaId(), -1, podcast!!.title)
         }
     }
 
     private fun playNext(){
-        if (song == null){
+        if (podcast == null){
             navigator.toPlayNext(getMediaId(), artist.songs, artist.name)
         } else {
-            navigator.toPlayNext(getMediaId(), -1, song!!.title)
+            navigator.toPlayNext(getMediaId(), -1, podcast!!.title)
         }
     }
 
 
 
     private fun addToFavorite(){
-        if (song == null){
+        if (podcast == null){
             navigator.toAddToFavoriteDialog(getMediaId(), artist.songs, artist.name)
         } else {
-            navigator.toAddToFavoriteDialog(getMediaId(), -1, song!!.title)
+            navigator.toAddToFavoriteDialog(getMediaId(), -1, podcast!!.title)
         }
     }
 
     private fun delete(){
-        if (song == null){
+        if (podcast == null){
             navigator.toDeleteDialog(getMediaId(), artist.songs, artist.name)
         } else {
-            navigator.toDeleteDialog(getMediaId(), -1, song!!.title)
+            navigator.toDeleteDialog(getMediaId(), -1, podcast!!.title)
         }
     }
 

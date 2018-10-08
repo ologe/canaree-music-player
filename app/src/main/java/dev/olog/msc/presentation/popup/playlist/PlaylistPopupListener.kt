@@ -58,6 +58,11 @@ class PlaylistPopupListener @Inject constructor(
             R.id.delete -> delete()
             R.id.rename -> rename()
             R.id.clear -> clearPlaylist()
+            R.id.viewInfo -> viewInfo(navigator, getMediaId())
+            R.id.viewAlbum -> viewAlbum(navigator, MediaId.albumId(song!!.albumId))
+            R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
+            R.id.share -> share(activity, song!!)
+            R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
             R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title, playlist.image)
             R.id.removeDuplicates -> removeDuplicates()
         }

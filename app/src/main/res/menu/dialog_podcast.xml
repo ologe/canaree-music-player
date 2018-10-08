@@ -31,6 +31,9 @@
     <item android:id="@+id/viewArtist"
         android:title="@string/popup_view_artist"/>
 
+    <item android:id="@+id/share"
+        android:title="@string/popup_share"/>
+
     <item android:id="@+id/delete"
         android:title="@string/popup_delete"/>
 
