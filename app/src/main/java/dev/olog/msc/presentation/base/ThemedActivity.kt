@@ -16,9 +16,9 @@ interface ThemedActivity {
     private fun getAccentStyle(): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(app)
         val color = if (AppTheme.isWhiteTheme()){
-            prefs.getInt("accent_color_light", ContextCompat.getColor(app, R.color.accent))
+            prefs.getInt(app.getString(R.string.prefs_accent_light_key), ContextCompat.getColor(app, R.color.accent))
         } else {
-            prefs.getInt("accent_color_dark", ContextCompat.getColor(app, R.color.accent_secondary))
+            prefs.getInt(app.getString(R.string.prefs_accent_dark_key), ContextCompat.getColor(app, R.color.accent_secondary))
         }
 
         return when (color){
