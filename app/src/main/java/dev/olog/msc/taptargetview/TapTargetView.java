@@ -182,7 +182,7 @@ public class TapTargetView extends View {
     final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
     params.type = WindowManager.LayoutParams.TYPE_APPLICATION;
     params.format = PixelFormat.RGBA_8888;
-    params.flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+    params.flags = 0;
     params.gravity = Gravity.START | Gravity.TOP;
     params.x = 0;
     params.y = 0;
