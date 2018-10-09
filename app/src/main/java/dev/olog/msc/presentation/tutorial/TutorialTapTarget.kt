@@ -3,11 +3,11 @@ package dev.olog.msc.presentation.tutorial
 import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.view.View
-import com.getkeepsafe.taptargetview.TapTarget
-import com.getkeepsafe.taptargetview.TapTargetSequence
-import com.getkeepsafe.taptargetview.TapTargetView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.taptargetview.TapTarget
+import dev.olog.msc.taptargetview.TapTargetSequence
+import dev.olog.msc.taptargetview.TapTargetView
 
 object TutorialTapTarget {
 
