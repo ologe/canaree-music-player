@@ -55,21 +55,21 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_27_1_2_05
-    versionName = '1.2.5'
+    versionCode = 999_28_2_0_01
+    versionName = '2.0.1'
 
     // App dependencies
     support_library = '28.0.0'
-    firebase = '16.0.3'
+    firebase = '16.0.4'
     micro_architecture = '1.1.1'
     micro_architecture_runtime = '1.1.1'
     micro_architecture_room = '1.1.1'
     constraint_layout = '1.1.3'
     glide = '4.8.0'
     sliding_panel = '3.4.0'
-    lottie = '2.6.0'
+    lottie = '2.7.0'
     sql_brite = '3.2.0'
-    billing = '1.0'
+    billing = '1.1'
     android_ktx = '0.3'
     retrofit = '2.4.0'
     fuzzywuzzy = '1.1.10'
@@ -81,10 +81,9 @@ ext {
     tap_target = '1.12.0'
 
     // reactive
-    rx_java = '2.2.0'
+    rx_java = '2.2.2'
     rx_android = '2.1.0'
-    rx_binding = '2.1.1'
-    rx_java_ext = '0.20.3'
+    rx_binding = '2.2.0'
 
     rx_preferences = '2.0.0'
     rx_kotlin = '2.3.0'
