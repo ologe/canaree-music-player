@@ -70,6 +70,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                 bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
                 if (navigateTo == R.id.navigation_podcasts) {
                     navigateTo = R.id.navigation_songs
+                    presenter.setLastBottomViewPage(R.id.navigation_songs)
                 }
             }
             bottomNavigation.selectedItemId = navigateTo
@@ -80,6 +81,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                 bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
                 if (currentId == R.id.navigation_podcasts){
                     bottomNavigation.selectedItemId = R.id.navigation_songs
+                    presenter.setLastBottomViewPage(R.id.navigation_songs)
                     bottomNavigate(bottomNavigation.selectedItemId, true)
                 }
             }
