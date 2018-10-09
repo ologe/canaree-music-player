@@ -153,7 +153,9 @@
                     android:layout_marginStart="8dp"
                     android:background="@null"
                     android:clickable="true"
-                    android:focusable="true"/>
+                    android:focusable="true"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="#99262626"/>
 
             </android.support.design.widget.TextInputLayout>
 

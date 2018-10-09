@@ -62,6 +62,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/EditItemEditText"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="#99262626"
                     android:textSize="16dp"
                     android:imeOptions="flagNoExtractUi|actionDone"
                     android:maxLines="1"
