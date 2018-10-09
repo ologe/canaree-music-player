@@ -30,7 +30,6 @@
         <item name="dialogCornerRadius">@dimen/default_corner_radius</item>
         <item name="android:colorEdgeEffect">@color/dark_grey</item>
         <item name="textColorPrimaryTransparent">@color/transparent_white</item>
-        <item name="textColorHintInverse">?android:attr/textColorSecondary</item>
 
     </style>
 
@@ -53,7 +52,6 @@
         <item name="scrimColor">#AA232323</item>
         <item name="miniPlayerColor">@color/theme_dark_toolbar</item>
         <item name="textColorPrimaryTransparent">@color/transparent_black</item>
-        <item name="textColorHintInverse">@color/dark_grey</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme"/>
