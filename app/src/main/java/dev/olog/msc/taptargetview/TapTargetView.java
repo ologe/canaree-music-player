@@ -438,21 +438,21 @@ public class TapTargetView extends View {
         applyTargetOptions(context);
 
         final boolean hasKitkat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-        final boolean translucentStatusBar;
-        final boolean translucentNavigationBar;
-        final boolean layoutNoLimits;
+        final boolean translucentStatusBar = true;
+        final boolean translucentNavigationBar = true;
+        final boolean layoutNoLimits = true;
 
-        if (context instanceof Activity) {
-            Activity activity = (Activity) context;
-            final int flags = activity.getWindow().getAttributes().flags;
-            translucentStatusBar = hasKitkat && (flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0;
-            translucentNavigationBar = hasKitkat && (flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION) != 0;
-            layoutNoLimits = (flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0;
-        } else {
-            translucentStatusBar = false;
-            translucentNavigationBar = false;
-            layoutNoLimits = false;
-        }
+//        if (context instanceof Activity) {
+//            Activity activity = (Activity) context;
+//            final int flags = activity.getWindow().getAttributes().flags;
+//            translucentStatusBar = hasKitkat && (flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS) != 0;
+//            translucentNavigationBar = hasKitkat && (flags & WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION) != 0;
+//            layoutNoLimits = (flags & WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS) != 0;
+//        } else {
+//            translucentStatusBar = false;
+//            translucentNavigationBar = false;
+//            layoutNoLimits = false;
+//        }
 
         globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
