@@ -1,11 +1,14 @@
 package dev.olog.msc.presentation.utils.images;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
+
+import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
 public class ColorUtil {
 
@@ -20,10 +23,11 @@ public class ColorUtil {
         return ColorUtils.calculateLuminance(backgroundColor);
     }
 
-    public static int getAccentColor(Palette palette) {
-        return palette.getLightVibrantColor(palette.getVibrantColor(palette.getLightMutedColor(palette.getMutedColor(
-                0xFF_2979FF
-        ))));
+    public static int getAccentColor(Context context, Palette palette) {
+        return palette.getVibrantColor(palette.getLightVibrantColor(palette.getDarkVibrantColor(
+                palette.getMutedColor(palette.getLightMutedColor(palette.getDarkMutedColor(
+                ViewExtensionKt.colorAccent(context)
+        ))))));
     }
 
     /**

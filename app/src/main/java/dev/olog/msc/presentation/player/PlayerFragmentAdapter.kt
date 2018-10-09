@@ -119,7 +119,7 @@ class PlayerFragmentAdapter (
                             .observeOn(Schedulers.computation())
                             .takeUntil(RxView.detaches(view).asFlowable())
                             .map { Palette.from(it.bitmap).generate() }
-                            .map { ColorUtil.getAccentColor(it) }
+                            .map { ColorUtil.getAccentColor(view.context, it) }
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe({ accentColor ->
                                 view.artist.apply { animateTextColor(accentColor) }
@@ -135,7 +135,7 @@ class PlayerFragmentAdapter (
                 viewModel.observeImageColors()
                         .takeUntil(RxView.detaches(view).asFlowable())
                         .map { it to Palette.from(it.bitmap).generate() }
-                        .map { it.first to ColorUtil.getAccentColor(it.second) }
+                        .map { it.first to ColorUtil.getAccentColor(view.context, it.second) }
                         .subscribe({ (imageProcessor, accentColor) ->
                             view.title.apply {
                                 animateTextColor(imageProcessor.primaryTextColor)
@@ -163,7 +163,7 @@ class PlayerFragmentAdapter (
                         .observeOn(Schedulers.computation())
                         .takeUntil(RxView.detaches(view).asFlowable())
                         .map { Palette.from(it.bitmap).generate() }
-                        .map { ColorUtil.getAccentColor(it) }
+                        .map { ColorUtil.getAccentColor(view.context, it) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ accentColor ->
                             view.seekBar.apply {
