@@ -3,13 +3,12 @@ package dev.olog.msc.presentation.base.bottom.sheet
 import android.content.Context
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.CoordinatorLayout
 import android.view.View
 import android.widget.FrameLayout
 import dev.olog.msc.R
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.isLandscape
+import dev.olog.msc.utils.k.extension.scrimColor
 
 class DimBottomSheetDialog(context: Context, theme: Int)
     : BottomSheetDialog(context, theme) {
@@ -17,10 +16,7 @@ class DimBottomSheetDialog(context: Context, theme: Int)
     private var behavior: BottomSheetBehavior<FrameLayout>? = null
 
     private fun getScrimColor(): Int {
-        if (AppTheme.isWhiteTheme()) {
-            return 0x88FFFFFF.toInt()
-        }
-        return 0xAA232323.toInt()
+        return context.scrimColor()
     }
 
     override fun setContentView(view: View) {

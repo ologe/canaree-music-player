@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:elevation="20dp">
@@ -159,7 +158,7 @@
                     android:ellipsize="end"
                     android:gravity="start"
                     android:maxLines="1"
-                    android:textColor="?android:attr/textColorPrimary"
+                    android:textColor="@color/dark_grey"
                     android:textSize="@dimen/offline_lyrics_title_size"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/edit"
@@ -199,7 +198,8 @@
                     app:layout_constraintVertical_bias="1"
                     tools:max="100"
                     tools:progress="40"
-                    tools:progressTint="@color/dark_grey" />
+                    tools:progressTint="@color/dark_grey"
+                    style="@style/SeekBarLight"/>
 
             </LinearLayout>
 

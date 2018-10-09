@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
+import dev.olog.msc.R
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean){
@@ -73,6 +74,10 @@ fun Context.textColorSecondary(): Int {
 
 fun Context.windowBackground(): Int {
     return themeAttributeToColor(android.R.attr.windowBackground)
+}
+
+fun Context.scrimColor(): Int {
+    return themeAttributeToColor(R.attr.scrimColor)
 }
 
 private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
