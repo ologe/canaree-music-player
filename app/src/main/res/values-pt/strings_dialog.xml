@@ -24,7 +24,7 @@
     <string name="popup_negative_cancel">Cancelar</string>
     <string name="popup_negative_no">Não</string>
     <string name="popup_negative_back">Para trás</string>
-    <string name="popup_positive_ok">OK</string>
+    <string name="popup_positive_ok">Ok</string>
     <string name="popup_positive_save">Guardar</string>
     <string name="popup_positive_create">Criar</string>
     <string name="popup_positive_delete">Apagar</string>
