@@ -65,9 +65,32 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             navigator.toFirstAccess(SPLASH_REQUEST_CODE)
             return
         } else if (savedInstanceState == null) {
-            bottomNavigation.selectedItemId = presenter.getLastBottomViewPage()
-            bottomNavigate(bottomNavigation.selectedItemId, false)
+            var navigateTo = presenter.getLastBottomViewPage()
+            if (!presenter.canShowPodcastCategory()){
+                bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
+                if (navigateTo == R.id.navigation_podcasts) {
+                    navigateTo = R.id.navigation_songs
+                }
+            }
+            bottomNavigation.selectedItemId = navigateTo
+            bottomNavigate(navigateTo, false)
+        } else if (savedInstanceState != null) {
+            if (!presenter.canShowPodcastCategory()){
+                val currentId = bottomNavigation.selectedItemId
+                bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
+                if (currentId == R.id.navigation_podcasts){
+                    bottomNavigation.selectedItemId = R.id.navigation_songs
+                    bottomNavigate(bottomNavigation.selectedItemId, true)
+                }
+            }
         }
+
+        var navigateTo = bottomNavigation.selectedItemId
+        if (!presenter.canShowPodcastCategory()){
+            bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
+            navigateTo = R.id.navigation_songs
+        }
+        bottomNavigate(navigateTo, false)
 
         bottomWrapper.doOnPreDraw {
             if (slidingPanel.isExpanded()){

@@ -289,6 +289,7 @@ class AppPreferencesImpl @Inject constructor(
             setDefaultMusicFolder(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC))
             setDefaultAccentColor()
             setDefaultLibraryAlbumArtistVisibility()
+            setDefaultPodcastVisibility()
 
             emitter.onComplete()
         }
@@ -298,6 +299,12 @@ class AppPreferencesImpl @Inject constructor(
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_show_new_albums_artists_key), true)
             putBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
+        }
+    }
+
+    private fun setDefaultPodcastVisibility(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
         }
     }
 
@@ -432,5 +439,9 @@ class AppPreferencesImpl @Inject constructor(
         return rxPreferences.getBoolean(context.getString(R.string.prefs_show_recent_albums_artists_key), true)
                 .asObservable()
                 .observeOn(Schedulers.io())
+    }
+
+    override fun canShowPodcastCategory(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
     }
 }

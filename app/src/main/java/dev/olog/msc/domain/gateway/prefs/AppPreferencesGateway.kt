@@ -56,6 +56,8 @@ interface AppPreferencesGateway : Sorting {
     fun observeLibraryNewVisibility(): Observable<Boolean>
     fun observeLibraryRecentPlayedVisibility(): Observable<Boolean>
 
+    fun canShowPodcastCategory(): Boolean
+
 }
 
 interface Sorting {

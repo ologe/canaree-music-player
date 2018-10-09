@@ -91,6 +91,9 @@
     <string name="prefs_folder_tree_view_summary_off">@string/common_disabled</string>
     <string name="prefs_folder_tree_view_summary_on">@string/common_enabled</string>
 
+    <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts</string>
+    <string name="prefs_show_podcasts_title">Show podcasts</string>
+    <string name="prefs_show_podcasts_summary">Show podcasts tab in library</string>
 
     <!--used equalizer-->
     <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>

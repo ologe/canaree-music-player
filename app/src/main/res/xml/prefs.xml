@@ -10,10 +10,17 @@
             android:summary="@string/prefs_library_categories_summary"
             android:key="@string/prefs_library_categories_key" />
 
+        <SwitchPreference
+            android:title="@string/prefs_show_podcasts_title"
+            android:summary="@string/prefs_show_podcasts_summary"
+            android:key="@string/prefs_show_podcasts_key"
+            android:defaultValue="true"/>
+
         <Preference
             android:title="@string/prefs_podcast_library_categories_title"
             android:summary="@string/prefs_podcast_library_categories_summary"
-            android:key="@string/prefs_podcast_library_categories_key" />
+            android:key="@string/prefs_podcast_library_categories_key"
+            android:dependency="@string/prefs_show_podcasts_key"/>
 
         <Preference
             android:title="@string/prefs_blacklist_title"

@@ -109,4 +109,8 @@ class AppPreferencesUseCase @Inject constructor(
     fun observeLibraryNewVisibility(): Observable<Boolean> = gateway.observeLibraryNewVisibility()
     fun observeLibraryRecentPlayedVisibility(): Observable<Boolean> = gateway.observeLibraryRecentPlayedVisibility()
 
+    fun canShowPodcastCategory(): Boolean {
+        return gateway.canShowPodcastCategory()
+    }
+
 }

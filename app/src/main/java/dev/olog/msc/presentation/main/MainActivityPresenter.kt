@@ -19,4 +19,8 @@ class MainActivityPresenter @Inject constructor(
         appPreferencesUseCase.setLastBottomViewPage(page)
     }
 
+    fun canShowPodcastCategory(): Boolean {
+        return appPreferencesUseCase.canShowPodcastCategory()
+    }
+
 }
