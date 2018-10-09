@@ -8,7 +8,6 @@ import android.content.Context
 import android.os.Looper
 import android.support.v7.preference.PreferenceManager
 import com.squareup.leakcanary.LeakCanary
-import com.tspoon.traceur.Traceur
 import dagger.android.AndroidInjector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.Permissions
@@ -19,6 +18,7 @@ import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.traceur.Traceur
 import dev.olog.msc.updatePermissionValve
 import dev.olog.msc.utils.PendingIntents
 import io.reactivex.android.plugins.RxAndroidPlugins
