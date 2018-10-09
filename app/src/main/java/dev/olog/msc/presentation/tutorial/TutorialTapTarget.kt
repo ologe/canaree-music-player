@@ -79,7 +79,7 @@ object TutorialTapTarget {
         return this.tintTarget(true)
                 .outerCircleColorInt(accentColor)
                 .targetCircleColorInt(backgroundColor)
-                .dimColorInt(dimColor)
+//                .dimColorInt(dimColor)
     }
 
 }
