@@ -1,5 +1,6 @@
 package dev.olog.msc.domain.interactor.update
 
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.catchNothing
 import dev.olog.msc.domain.gateway.UsedImageGateway
@@ -23,6 +24,11 @@ class UpdateTrackUseCase @Inject constructor(
                 val file = File(param.path)
                 val audioFile = AudioFileIO.read(file)
                 val tag = audioFile.tagOrCreateAndSetDefault
+                try {
+                    tag.setEncoding("UTF-8")
+                } catch (ex: Exception){
+                    Crashlytics.logException(ex)
+                }
 
                 for (field in param.fields) {
                     catchNothing { tag.setField(field.key, field.value) }
