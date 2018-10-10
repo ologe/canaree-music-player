@@ -12,10 +12,12 @@ import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
 class MainPopupDialog @Inject constructor(
+        private val billing: IBilling,
         private val navigator: MainPopupNavigator,
         private val gateway: AppPreferencesGateway
 
@@ -31,13 +33,16 @@ class MainPopupDialog @Inject constructor(
         }
         popup.inflate(layoutId)
 
+        if (billing.isOnlyPremium()){
+            popup.menu.removeItem(R.id.premium)
+        }
+
         val sortModel = when(category){
             MediaIdCategory.ALBUMS -> initializeAlbumSort(popup.menu)
             MediaIdCategory.SONGS -> initializeTracksSort(popup.menu)
             MediaIdCategory.ARTISTS -> initializeArtistSort(popup.menu)
             else -> null
         }
-//        popup.addRotateAnimation(anchor)
 
         generateGridSpanCount(popup.menu)
 
@@ -47,6 +52,7 @@ class MainPopupDialog @Inject constructor(
 
         popup.setOnMenuItemClickListener {
             when (it.itemId){
+                R.id.premium -> billing.purchasePremium()
                 R.id.about -> navigator.toAboutActivity()
                 R.id.equalizer -> navigator.toEqualizer()
                 R.id.settings -> navigator.toSettingsActivity()
