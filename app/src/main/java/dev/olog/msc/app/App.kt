@@ -7,7 +7,6 @@ import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Looper
 import android.support.v7.preference.PreferenceManager
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.Permissions
@@ -66,7 +65,7 @@ class App : BaseApp() {
     private fun initializeComponents() {
         if (BuildConfig.DEBUG) {
             Traceur.enableLogging()
-            LeakCanary.install(this)
+//            LeakCanary.install(this)
 //            Stetho.initializeWithDefaults(this)
 //            StrictMode.initialize()
         }
