@@ -12,10 +12,6 @@ import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.SeekBar
-import android.widget.TextView
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -101,32 +97,17 @@ class PlayerFragmentAdapter (
             R.layout.fragment_player_controls_clean -> {
                 val view = holder.itemView
                 bindPlayerControls(holder.itemView)
-                if (AppTheme.isWhiteTheme()){
-                    val group = holder.itemView as ViewGroup
-                    group.forEachRecursively {
-                        when {
-                            it is ImageButton -> it.setColorFilter(0xFF_8d91a6.toInt())
-                            it is TextView && it.id == R.id.title -> it.setTextColor(0xFF_585858.toInt())
-                            it is TextView && it.id != R.id.artist-> it.setTextColor(0xFF_8d91a6.toInt())
-                            it is SeekBar -> {
-                                it.thumbTintList = ColorStateList.valueOf(0xFF_8d91a6.toInt())
-                                it.progressTintList = ColorStateList.valueOf(0xFF_8d91a6.toInt())
-                                it.progressBackgroundTintList = ColorStateList.valueOf(0xFF_dbdee5.toInt())
-                            }
-                        }
-                    }
-                    viewModel.observeImageColors()
-                            .observeOn(Schedulers.computation())
-                            .takeUntil(RxView.detaches(view).asFlowable())
-                            .map { Palette.from(it.bitmap).generate() }
-                            .map { ColorUtil.getAccentColor(view.context, it) }
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ accentColor ->
-                                view.artist.apply { animateTextColor(accentColor) }
-                                view.shuffle.updateSelectedColor(accentColor)
-                                view.repeat.updateSelectedColor(accentColor)
-                            }, Throwable::printStackTrace)
-                }
+                viewModel.observeImageColors()
+                        .observeOn(Schedulers.computation())
+                        .takeUntil(RxView.detaches(view).asFlowable())
+                        .map { Palette.from(it.bitmap).generate() }
+                        .map { ColorUtil.getAccentColor(view.context, it) }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ accentColor ->
+                            view.artist.apply { animateTextColor(accentColor) }
+                            view.shuffle.updateSelectedColor(accentColor)
+                            view.repeat.updateSelectedColor(accentColor)
+                        }, Throwable::printStackTrace)
 
             }
             R.layout.fragment_player_controls_flat -> {
