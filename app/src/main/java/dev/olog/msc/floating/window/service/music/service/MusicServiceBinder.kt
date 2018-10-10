@@ -14,7 +14,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState
 import dev.olog.msc.presentation.widget.image.view.toPlayerImage
@@ -28,8 +27,7 @@ import javax.inject.Inject
 @PerService
 class MusicServiceBinder @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        musicPrefsUseCase: MusicPreferencesUseCase
+        @ServiceLifecycle lifecycle: Lifecycle
 
 ) : DefaultLifecycleObserver {
 
@@ -131,15 +129,6 @@ class MusicServiceBinder @Inject constructor(
             .filter { it.isPlaying() || it.isPaused() }
             .map { it.state }
             .distinctUntilChanged()
-            .skip(1)
-
-    val skipToNextVisibility = musicPrefsUseCase.observeSkipToNextVisibility()
-    val skipToPreviousVisibility = musicPrefsUseCase.observeSkipToPreviousVisibility()
-
-    val animateSkipToLiveData: Observable<Boolean> = statePublisher
-            .map { it.state }
-            .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT || state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
-            .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
 
     val onBookmarkChangedLiveData: Observable<Long> = statePublisher
             .filter { it.isPlaying() || it.isPaused() }

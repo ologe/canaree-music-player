@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:elevation="20dp">
+    android:elevation="20dp"
+    android:background="@color/background">
 
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
@@ -206,11 +207,23 @@
         </android.support.design.bottomappbar.BottomAppBar>
 
         <dev.olog.msc.presentation.widget.BottomAppBarFab
-            android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/bar"
+            android:clickable="false"
+            android:focusable="false"
+            app:backgroundTint="@android:color/transparent"
+            app:elevation="0dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/vd_edit"
+            android:layout_gravity="end"
+            android:translationY="-30dp"
+            android:translationX="-32dp"
+            app:fabSize="normal"
             android:clickable="true"
             android:focusable="true"/>
 
