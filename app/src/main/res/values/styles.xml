@@ -2,6 +2,11 @@
 
     <attr name="textColorPrimaryTransparent" format="reference"/>
 
+    <attr name="cleanButtonColor" format="reference|color"/>
+    <attr name="cleanTitleColor" format="reference|color"/>
+    <attr name="cleanSeekBarColor" format="reference|color"/>
+    <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
+
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
@@ -31,6 +36,10 @@
         <item name="android:colorEdgeEffect">@color/dark_grey</item>
         <item name="textColorPrimaryTransparent">@color/transparent_white</item>
 
+        <item name="cleanButtonColor">#8d91a6</item>
+        <item name="cleanTitleColor">#585858</item>
+        <item name="cleanSeekBarColor">#8d91a6</item>
+        <item name="cleanSeekBarBackgroundColor">#dbdee5</item>
     </style>
 
     <!-- Base dark application theme. -->
@@ -52,6 +61,11 @@
         <item name="scrimColor">#AA232323</item>
         <item name="miniPlayerColor">@color/theme_dark_toolbar</item>
         <item name="textColorPrimaryTransparent">@color/transparent_black</item>
+
+        <item name="cleanButtonColor">@android:color/white</item>
+        <item name="cleanTitleColor">?android:textColorPrimary</item>
+        <item name="cleanSeekBarColor">#F5F5F5</item>
+        <item name="cleanSeekBarBackgroundColor">#757575</item>
     </style>
 
     <style name="AppTheme" parent="BaseTheme"/>

@@ -42,7 +42,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_goneMarginStart="16dp"
-        tools:tint="#8d91a6"/>
+        tools:tint="?attr/cleanButtonColor"/>
 
     <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
@@ -62,7 +62,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:visibility="visible"
-        tools:tint="#8d91a6"/>
+        tools:tint="?attr/cleanButtonColor"/>
 
     <dev.olog.msc.presentation.widget.AnimatedImageView
         android:id="@+id/next"
@@ -80,7 +80,7 @@
         android:focusable="true"
         android:visibility="visible"
         app:layout_goneMarginEnd="16dp"
-        tools:tint="#8d91a6"/>
+        tools:tint="?attr/cleanButtonColor"/>
 
     <!-- repeat -->
     <dev.olog.msc.presentation.widget.RepeatButton
@@ -116,7 +116,7 @@
         android:background="@null"
         android:visibility="gone"
         tools:visibility="visible"
-        tools:tint="#8d91a6"/>
+        android:tint="?attr/cleanButtonColor"/>
 
     <ImageButton
         android:id="@+id/forward"
@@ -131,8 +131,8 @@
         app:layout_constraintEnd_toStartOf="@+id/forward30"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        android:visibility="visible"
+        android:tint="?attr/cleanButtonColor"/>
 
     <ImageButton
         android:id="@+id/replay30"
@@ -148,7 +148,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible"
+        android:tint="?attr/cleanButtonColor"/>
 
     <ImageButton
         android:id="@+id/forward30"
@@ -164,6 +165,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@null"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible"
+        android:tint="?attr/cleanButtonColor"/>
 
 </android.support.constraint.ConstraintLayout>
