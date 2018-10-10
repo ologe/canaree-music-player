@@ -61,7 +61,9 @@ class TouchHelperAdapterCallback(
                 val viewWidth = viewHolder.itemView.width
                 if (isCurrentlyActive && (abs(dX) > (viewWidth * 0.35f))){
                     animationsController.drawCircularReveal(viewHolder, dX)
-                } else {
+                } else if(abs(dX) < (viewWidth * 0.05f)){
+                    animationsController.setAnimationIdle()
+                } else if (abs(dX) < (viewWidth * 0.35f)) {
                     animationsController.initializeSwipe(viewHolder, dX)
                 }
 
@@ -104,12 +106,7 @@ class TouchHelperAdapterCallback(
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         getDefaultUIUtil().clearView(viewHolder.itemView.findViewById(R.id.content))
         getDefaultUIUtil().clearView(viewHolder.itemView)
-        animationsController.setAnimationIdle()
-    }
-
-    override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-        super.onSelectedChanged(viewHolder, actionState)
-        animationsController.setAnimationIdle()
+//        animationsController.setAnimationIdle()
     }
 
     override fun isLongPressDragEnabled(): Boolean = false
