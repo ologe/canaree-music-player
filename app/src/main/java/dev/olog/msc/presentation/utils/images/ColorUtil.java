@@ -24,10 +24,18 @@ public class ColorUtil {
     }
 
     public static int getAccentColor(Context context, Palette palette) {
-        return palette.getVibrantColor(palette.getLightVibrantColor(palette.getDarkVibrantColor(
-                palette.getMutedColor(palette.getLightMutedColor(palette.getDarkMutedColor(
+        int color = palette.getVibrantColor(palette.getMutedColor(
                 ViewExtensionKt.colorAccent(context)
-        ))))));
+        ));
+        return shiftBackgroundColorForLightText(color);
+    }
+
+    @ColorInt
+    public static int shiftBackgroundColorForLightText(@ColorInt int backgroundColor) {
+        while (isColorLightSecondVersion(backgroundColor)) {
+            backgroundColor = darkenColor(backgroundColor);
+        }
+        return backgroundColor;
     }
 
     /**
@@ -182,16 +190,27 @@ public class ColorUtil {
         return calculateLuminance(backgroundColor) > 0.5f;
     }
 
-    public static int darker (int color, @FloatRange(from = 0f, to = 1f) float factor) {
-        int a = Color.alpha( color );
-        int r = Color.red( color );
-        int g = Color.green( color );
-        int b = Color.blue( color );
+    private static boolean isColorLightSecondVersion(@ColorInt int color) {
+        double darkness = 1.0D - (0.299D * (double)Color.red(color) + 0.587D * (double)Color.green(color) + 0.114D * (double)Color.blue(color)) / 255.0D;
+        return darkness < 0.4D;
+    }
 
-        return Color.argb( a,
-                Math.max( (int)(r * factor), 0 ),
-                Math.max( (int)(g * factor), 0 ),
-                Math.max( (int)(b * factor), 0 ) );
+    @ColorInt
+    public static int darkenColor(@ColorInt int color) {
+        return shiftColor(color, 0.9F);
+    }
+
+    @ColorInt
+    public static int shiftColor(@ColorInt int color, @FloatRange(from = 0.0D,to = 2.0D) float by) {
+        if (by == 1.0F) {
+            return color;
+        } else {
+            int alpha = Color.alpha(color);
+            float[] hsv = new float[3];
+            Color.colorToHSV(color, hsv);
+            hsv[2] *= by;
+            return (alpha << 24) + (16777215 & Color.HSVToColor(hsv));
+        }
     }
 
 }
