@@ -70,14 +70,14 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                 bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
                 if (navigateTo == R.id.navigation_podcasts) {
                     navigateTo = R.id.navigation_songs
-                    presenter.setLastBottomViewPage(R.id.navigation_songs)
+                    presenter.setLastBottomViewPage(navigateTo)
                 }
             }
             bottomNavigation.selectedItemId = navigateTo
             bottomNavigate(navigateTo, false)
-        } else if (savedInstanceState != null) {
+        } else {
             if (!presenter.canShowPodcastCategory()){
-                val currentId = bottomNavigation.selectedItemId
+                val currentId = presenter.getLastBottomViewPage()
                 bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
                 if (currentId == R.id.navigation_podcasts){
                     bottomNavigation.selectedItemId = R.id.navigation_songs
@@ -86,13 +86,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                 }
             }
         }
-
-        var navigateTo = bottomNavigation.selectedItemId
-        if (!presenter.canShowPodcastCategory()){
-            bottomNavigation.menu.removeItem(R.id.navigation_podcasts)
-            navigateTo = R.id.navigation_songs
-        }
-        bottomNavigate(navigateTo, false)
 
         bottomWrapper.doOnPreDraw {
             if (slidingPanel.isExpanded()){
