@@ -402,8 +402,8 @@ class PlayerFragmentAdapter (
         playerControlsRoot.findViewById<View>(R.id.forward).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.replay30).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.forward30).toggleVisibility(isPodcast, true)
-        playerControlsRoot.findViewById<AnimatedImageView>(R.id.next).softToggleVisibility(!isPodcast, true)
-        playerControlsRoot.findViewById<AnimatedImageView>(R.id.previous).softToggleVisibility(!isPodcast, true)
+        playerControlsRoot.findViewById<AnimatedImageView>(R.id.next)?.softToggleVisibility(!isPodcast, true)
+        playerControlsRoot.findViewById<AnimatedImageView>(R.id.previous)?.softToggleVisibility(!isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
