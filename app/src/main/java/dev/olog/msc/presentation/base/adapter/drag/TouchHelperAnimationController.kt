@@ -15,10 +15,33 @@ import kotlin.math.hypot
 
 class TouchHelperAnimationController {
 
+    enum class State {
+        IDLE, SWIPE_LEFT, SWIPE_RIGHT, CIRCULAR_REVEAL
+    }
+
+    private var state = State.IDLE
+
+    fun setAnimationIdle(){
+        state = State.IDLE
+    }
+
     private val interpolator by lazyFast { DecelerateInterpolator() }
     private val bounce by lazyFast { BounceInterpolator() }
 
     fun initializeSwipe(viewHolder: RecyclerView.ViewHolder, dx: Float){
+        if (dx > 0){
+            if (state == State.SWIPE_RIGHT){
+                return
+            }
+            state = State.SWIPE_RIGHT
+        }
+        if (dx < 0){
+            if (state == State.SWIPE_LEFT){
+                return
+            }
+            state = State.SWIPE_LEFT
+        }
+
         val delete = viewHolder.itemView.findViewById<ImageView>(R.id.deleteIcon)
         val playNext = viewHolder.itemView.findViewById<ImageView>(R.id.playNextIcon)
         val background = viewHolder.itemView.findViewById<View>(R.id.background)
@@ -30,7 +53,10 @@ class TouchHelperAnimationController {
     }
 
     fun drawCircularReveal(viewHolder: RecyclerView.ViewHolder, dx: Float){
-        initializeSwipe(viewHolder, dx)
+        if (state == State.CIRCULAR_REVEAL){
+            return
+        }
+        state = State.CIRCULAR_REVEAL
 
         val mainIcon = viewHolder.itemView.findViewById<ImageView>(if (dx > 0f) R.id.deleteIcon else R.id.playNextIcon)
         val background = viewHolder.itemView.findViewById<View>(R.id.background)
@@ -50,7 +76,6 @@ class TouchHelperAnimationController {
                 0f, endRadius)
         background.setVisible()
         anim.duration = 600
-//        anim.interpolator = interpolator
         anim.start()
 
         mainIcon.setColorFilter(Color.WHITE)
