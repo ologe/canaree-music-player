@@ -14,6 +14,7 @@ import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.MediaId
@@ -31,7 +32,8 @@ class TabFragmentAdapter @Inject constructor(
         private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
         private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>,
         private val newAlbumsAdapter : Lazy<TabFragmentNewAlbumsAdapter>,
-        private val newArtistsAdapter : Lazy<TabFragmentNewArtistsAdapter>
+        private val newArtistsAdapter : Lazy<TabFragmentNewArtistsAdapter>,
+        private val viewModel: TabFragmentViewModel
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
@@ -48,7 +50,10 @@ class TabFragmentAdapter @Inject constructor(
             R.layout.item_tab_song,
             R.layout.item_tab_podcast -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    if (item.isPlayable){
+                    if (item.isPlayable || !item.mediaId.isPodcast){
+                        val sort = viewModel.getAllTracksSortOrder()
+                        mediaProvider.playFromMediaId(item.mediaId, DetailSort(sort.type, sort.arranging))
+                    } else if (item.isPlayable){
                         mediaProvider.playFromMediaId(item.mediaId)
                     } else {
                         navigator.toDetailFragment(item.mediaId)
