@@ -50,7 +50,7 @@ class TabFragmentAdapter @Inject constructor(
             R.layout.item_tab_song,
             R.layout.item_tab_podcast -> {
                 viewHolder.setOnClickListener(controller) { item, _, _ ->
-                    if (item.isPlayable || !item.mediaId.isPodcast){
+                    if (item.isPlayable && !item.mediaId.isPodcast){
                         val sort = viewModel.getAllTracksSortOrder()
                         mediaProvider.playFromMediaId(item.mediaId, DetailSort(sort.type, sort.arranging))
                     } else if (item.isPlayable){
