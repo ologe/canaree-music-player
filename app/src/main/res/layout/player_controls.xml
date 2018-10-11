@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/previous"
         app:layout_constraintTop_toTopOf="@+id/playPause"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/playPause"
         app:layout_constraintHorizontal_chainStyle="packed"
         android:elevation="2dp"
         android:background="@null" />
@@ -34,12 +34,11 @@
         app:layout_constraintEnd_toStartOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/shuffle"
         app:layout_constraintTop_toTopOf="@+id/playPause"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:clickable="true"
         android:focusable="true"
         android:visibility="visible"
-        android:layout_marginStart="16dp"
-        tools:visibility="gone"/>
+        android:layout_marginStart="16dp" />
 
     <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
         android:id="@+id/playPause"
@@ -71,11 +70,10 @@
         app:layout_constraintTop_toTopOf="@+id/playPause"
         app:layout_constraintStart_toEndOf="@+id/playPause"
         app:layout_constraintEnd_toStartOf="@+id/repeat"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/playPause"
         android:clickable="true"
         android:focusable="true"
-        android:layout_marginEnd="16dp"
-        tools:visibility="gone"/>
+        android:layout_marginEnd="16dp" />
 
     <ImageButton
         android:id="@+id/replay"
@@ -88,9 +86,9 @@
         app:layout_constraintEnd_toStartOf="@+id/forward"
         app:layout_constraintStart_toEndOf="@+id/replay30"
         app:layout_constraintTop_toTopOf="@+id/replay30"
+        app:layout_constraintBottom_toBottomOf="@+id/replay30"
         android:background="@null"
-        android:visibility="gone"
-        tools:visibility="gone"/>
+        android:visibility="gone" />
 
     <ImageButton
         android:id="@+id/replay30"
@@ -103,11 +101,8 @@
         app:layout_constraintEnd_toStartOf="@+id/replay"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/playPause"
         android:background="@null"
-        android:visibility="gone"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        tools:visibility="gone"/>
+        app:layout_constraintHorizontal_chainStyle="packed" />
 
     <ImageButton
         android:id="@+id/forward30"
@@ -120,9 +115,8 @@
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/forward"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@null"
-        android:visibility="gone"
-        tools:visibility="gone"/>
+        app:layout_constraintBottom_toBottomOf="@+id/replay30"
+        android:background="@null" />
 
     <ImageButton
         android:id="@+id/forward"
@@ -135,9 +129,8 @@
         app:layout_constraintTop_toTopOf="@+id/replay30"
         app:layout_constraintStart_toEndOf="@+id/replay"
         app:layout_constraintEnd_toStartOf="@+id/forward30"
-        android:background="@null"
-        android:visibility="gone"
-        tools:visibility="gone"/>
+        app:layout_constraintBottom_toBottomOf="@+id/replay30"
+        android:background="@null" />
 
     <!-- repeat -->
     <dev.olog.msc.presentation.widget.RepeatButton
@@ -155,6 +148,6 @@
         app:layout_constraintStart_toEndOf="@+id/next"
         android:elevation="2dp"
         android:background="@null"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/playPause" />
 
 </android.support.constraint.ConstraintLayout>

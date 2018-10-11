@@ -6,7 +6,6 @@ import android.support.annotation.Keep
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewPropertyAnimator
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
@@ -23,7 +22,6 @@ class AnimatedImageView @JvmOverloads constructor(
 
     private val avd: AnimatedVectorDrawableCompat
     private val animator: ViewPropertyAnimator = animate()
-    var forceHide = false
 
     init {
         if (AppTheme.isDarkTheme()){
@@ -37,16 +35,6 @@ class AnimatedImageView @JvmOverloads constructor(
         avd = context.getAnimatedVectorDrawable(resId)
         setImageDrawable(avd)
         a.recycle()
-    }
-
-    fun softToggleVisibility(visible: Boolean, gone: Boolean){
-        if (!forceHide){
-            visibility = when {
-                visible -> View.VISIBLE
-                !visible && gone -> View.GONE
-                else -> View.INVISIBLE
-            }
-        }
     }
 
     fun setDefaultColor(){
