@@ -2,6 +2,7 @@ package dev.olog.msc.presentation.mini.player
 
 import android.os.Bundle
 import android.support.v4.math.MathUtils
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
@@ -10,6 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,6 +45,8 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
         val media = activity as MediaProvider
 
+        view.coverWrapper.toggleVisibility(AppTheme.isMini(), true)
+
         media.onMetadataChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
@@ -53,6 +57,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
                         artist.text = it.getArtist()
                     }
                     updateProgressBarMax(it.getDuration())
+                    updateImage(it)
                 }
 
         presenter.observeProgress
@@ -167,6 +172,13 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
         view!!.progressBar.max = max.toInt()
     }
 
+    private fun updateImage(metadata: MediaMetadataCompat){
+        if (!AppTheme.isMini()){
+            return
+        }
+        bigCover.loadImage(metadata)
+    }
+
     private fun handleProgressBar(isPlaying: Boolean, speed: Float) {
         seekBarDisposable.unsubscribe()
         if (isPlaying) {
@@ -187,7 +199,6 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
     override fun onPanelSlide(panel: View?, slideOffset: Float) {
         view?.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
         view?.toggleVisibility(slideOffset <= .8f, true)
-//        view?.visibility = if (slideOffset > .8f) View.GONE else View.VISIBLE
     }
 
     override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {

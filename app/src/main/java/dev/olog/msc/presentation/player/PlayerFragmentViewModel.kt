@@ -88,6 +88,7 @@ class PlayerFragmentViewModel @Inject constructor(
             AppTheme.isFullscreen() -> R.layout.fragment_player_controls_fullscreen
             AppTheme.isBigImage() -> R.layout.fragment_player_controls_big_image
             AppTheme.isClean() -> R.layout.fragment_player_controls_clean
+            AppTheme.isMini() -> R.layout.fragment_player_controls_mini
             else -> throw IllegalStateException("invalid theme")
         }
         return DisplayableItem(id, MediaId.headerId("player controls id"), "")

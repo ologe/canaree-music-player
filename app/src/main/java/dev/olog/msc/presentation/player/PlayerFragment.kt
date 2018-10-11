@@ -86,12 +86,16 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                 .distinctUntilChanged()
                 .mapToList { it.toDisplayableItem() }
                 .map { queue ->
-                    val copy = queue.toMutableList()
-                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                        copy.add(viewModel.footerLoadMore)
+                    if (!AppTheme.isMini()){
+                        val copy = queue.toMutableList()
+                        if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
+                            copy.add(viewModel.footerLoadMore)
+                        }
+                        copy.add(0, viewModel.playerControls())
+                        copy
+                    } else {
+                        listOf(viewModel.playerControls())
                     }
-                    copy.add(0, viewModel.playerControls())
-                    copy
                 }
                 .asLiveData()
                 .subscribe(viewLifecycleOwner, viewModel::updateQueue)
@@ -107,7 +111,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
                 }
 
-        if (act.isLandscape && !AppTheme.isFullscreen()){
+        if (act.isLandscape && !AppTheme.isFullscreen() && !AppTheme.isMini()){
 
             mediaProvider.onMetadataChanged()
                     .asLiveData()
@@ -300,6 +304,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         return when {
             AppTheme.isFullscreen() -> R.layout.fragment_player_fullscreen
             AppTheme.isClean() -> R.layout.fragment_player_clean
+            AppTheme.isMini() -> R.layout.fragment_player_mini
             else -> R.layout.fragment_player
         }
     }

@@ -113,7 +113,7 @@
                 android:clickable="false"
                 android:focusable="false"
                 android:gravity="center"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="42dp"
                 android:textStyle="bold" />
 
             <TextView

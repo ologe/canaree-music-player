@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:background="@color/background"
-        android:layout_marginBottom="24dp"
         android:id="@+id/playerRoot">
 
         <include

@@ -27,6 +27,7 @@ import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
+import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.MediaId
@@ -87,6 +88,13 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             }
         }
 
+        if (AppTheme.isMini()){
+            slidingPanel.setParallaxOffset(0)
+            playerLayout.layoutParams = SlidingUpPanelLayout.LayoutParams(
+                    SlidingUpPanelLayout.LayoutParams.MATCH_PARENT, SlidingUpPanelLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
         bottomWrapper.doOnPreDraw {
             if (slidingPanel.isExpanded()){
                 bottomWrapper.translationY = bottomWrapper.height.toFloat()
@@ -110,6 +118,23 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         }
         bottomNavigation.setOnNavigationItemReselectedListener { bottomNavigate(it.itemId, true) }
         slidingPanel.addPanelSlideListener(onPanelSlide)
+        handleFakeView(slidingPanel.panelState)
+    }
+
+    private fun handleFakeView(state: SlidingUpPanelLayout.PanelState){
+        when (state){
+            SlidingUpPanelLayout.PanelState.EXPANDED,
+            SlidingUpPanelLayout.PanelState.ANCHORED -> {
+                fakeView.isClickable = true
+                fakeView.isFocusable = true
+                fakeView.setOnClickListener { slidingPanel.collapse() }
+            }
+            else -> {
+                fakeView.setOnClickListener(null)
+                fakeView.isClickable = false
+                fakeView.isFocusable = false
+            }
+        }
     }
 
     private fun bottomNavigate(itemId: Int, forceRecreate: Boolean){
@@ -135,7 +160,9 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             bottomWrapper.translationY = bottomWrapper.height * clamp(slideOffset, 0f, 1f)
         }
 
-        override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {}
+        override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
+            handleFakeView(newState)
+        }
     }
 
     private fun handleIntent(intent: Intent) {

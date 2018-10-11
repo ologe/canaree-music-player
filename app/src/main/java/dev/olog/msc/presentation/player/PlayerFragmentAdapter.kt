@@ -75,7 +75,8 @@ class PlayerFragmentAdapter (
             R.layout.fragment_player_controls_fullscreen,
             R.layout.fragment_player_controls_flat,
             R.layout.fragment_player_controls_big_image,
-            R.layout.fragment_player_controls_clean -> {
+            R.layout.fragment_player_controls_clean,
+            R.layout.fragment_player_controls_mini -> {
                 viewHolder.setOnClickListener(R.id.more, controller) { _, _, view ->
                     val mediaId = MediaId.songId(viewModel.getCurrentTrackId())
                     navigator.toDialog(mediaId, view)
@@ -91,7 +92,8 @@ class PlayerFragmentAdapter (
         when (viewType){
             R.layout.fragment_player_controls,
             R.layout.fragment_player_controls_spotify,
-            R.layout.fragment_player_controls_big_image -> {
+            R.layout.fragment_player_controls_big_image,
+            R.layout.fragment_player_controls_mini -> {
                 bindPlayerControls(holder.itemView)
             }
             R.layout.fragment_player_controls_clean -> {
@@ -318,7 +320,7 @@ class PlayerFragmentAdapter (
                     openPlaybackSpeedPopup(playbackSpeed)
                 }, Throwable::printStackTrace)
 
-        if (view.context.isPortrait || AppTheme.isFullscreen()){
+        if (view.context.isPortrait || AppTheme.isFullscreen() || AppTheme.isMini()){
 
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
@@ -361,12 +363,10 @@ class PlayerFragmentAdapter (
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
             presenter.observePlayerControlsVisibility()
-                    .filter { !AppTheme.isFullscreen() }
+                    .filter { !AppTheme.isFullscreen() && !AppTheme.isMini() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
-                        view.previous.forceHide = !visible
-                        view.next.forceHide = !visible
                         view.previous.toggleVisibility(visible, true)
                         view.playPause.toggleVisibility(visible, true)
                         view.next.toggleVisibility(visible, true)
@@ -402,8 +402,6 @@ class PlayerFragmentAdapter (
         playerControlsRoot.findViewById<View>(R.id.forward).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.replay30).toggleVisibility(isPodcast, true)
         playerControlsRoot.findViewById<View>(R.id.forward30).toggleVisibility(isPodcast, true)
-        playerControlsRoot.findViewById<AnimatedImageView>(R.id.next)?.softToggleVisibility(!isPodcast, true)
-        playerControlsRoot.findViewById<AnimatedImageView>(R.id.previous)?.softToggleVisibility(!isPodcast, true)
     }
 
     private fun updateImage(view: View, metadata: MediaMetadataCompat){
