@@ -220,6 +220,10 @@ class DetailFragmentAdapter @Inject constructor(
                 val playlistId = mediaId.resolveId
                 return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
             }
+//            if (mediaId.isPodcastPlaylist){
+//                val playlistId = mediaId.resolveId
+//                return playlistId != PlaylistConstants.PODCAST_LAST_ADDED_ID || !PlaylistConstants.isPodcastAutoPlaylist(playlistId)
+//            }
             return false
         }
 
@@ -241,6 +245,9 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        if (mediaId.isPodcastPlaylist){
+            return false
+        }
         return viewType == R.layout.item_detail_song ||
                 viewType == R.layout.item_detail_song_with_drag_handle ||
                 viewType == R.layout.item_detail_song_with_track ||

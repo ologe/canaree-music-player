@@ -138,10 +138,10 @@ private fun PodcastArtist.toRelatedArtist(resources: Resources): DisplayableItem
 
 private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {
     val viewType = when {
-        parentId.isAlbum -> R.layout.item_detail_song_with_track
-        parentId.isPlaylist && sortType == SortType.CUSTOM -> {
+        parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
+        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
-            if (PlaylistConstants.isAutoPlaylist(playlistId)) {
+            if (PlaylistConstants.isAutoPlaylist(playlistId) || PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
@@ -150,12 +150,12 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
     }
 
     val subtitle = when {
-        parentId.isArtist -> DisplayableItem.adjustAlbum(this.album)
+        parentId.isArtist || parentId.isPodcastArtist -> DisplayableItem.adjustAlbum(this.album)
         else -> DisplayableItem.adjustArtist(this.artist)
     }
 
     val track = when {
-        parentId.isPlaylist -> this.trackNumber.toString()
+        parentId.isPlaylist || parentId.isPodcastPlaylist -> this.trackNumber.toString()
         this.trackNumber == 0 -> "-"
         else -> this.trackNumber.toString()
     }
