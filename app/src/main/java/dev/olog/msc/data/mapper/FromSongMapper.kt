@@ -28,7 +28,8 @@ fun Song.toAlbum(songCount: Int) : Album {
             this.artist,
             this.albumArtist,
             this.image,
-            songCount
+            songCount,
+            this.hasAlbumNameAsFolder
     )
 }
 

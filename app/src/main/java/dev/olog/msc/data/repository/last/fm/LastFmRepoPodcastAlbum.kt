@@ -5,8 +5,10 @@ import dev.olog.msc.api.last.fm.LastFmService
 import dev.olog.msc.api.last.fm.annotation.Proxy
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.LastFmPodcastAlbumEntity
-import dev.olog.msc.data.mapper.*
-import dev.olog.msc.domain.entity.LastFmAlbum
+import dev.olog.msc.data.mapper.LastFmNulls
+import dev.olog.msc.data.mapper.toDomain
+import dev.olog.msc.data.mapper.toModel
+import dev.olog.msc.data.mapper.toPodcastDomain
 import dev.olog.msc.domain.entity.LastFmPodcastAlbum
 import dev.olog.msc.domain.entity.PodcastAlbum
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
@@ -32,6 +34,13 @@ class LastFmRepoPodcastAlbum @Inject constructor(
 
         val fetch = albumGateway.getByParam(albumId)
                 .firstOrError()
+//                .flatMap {
+//                    if (it.hasSameNameAsFolder){
+//                        Single.error(Exception("image not downloadable"))
+//                    } else {
+//                        Single.just(it)
+//                    }
+//                }
                 .flatMap { fetch(it) }
                 .map { Optional.of(it) }
 

@@ -12,7 +12,8 @@ fun Podcast.toAlbum(songCount: Int) : PodcastAlbum {
             this.artist,
             this.albumArtist,
             this.image,
-            songCount
+            songCount,
+            this.hasAlbumNameAsFolder
     )
 }
 

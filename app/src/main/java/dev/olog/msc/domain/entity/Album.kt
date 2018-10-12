@@ -7,5 +7,6 @@ data class Album (
         val artist: String,
         val albumArtist: String,
         val image: String,
-        val songs: Int
+        val songs: Int,
+        val hasSameNameAsFolder: Boolean
 )

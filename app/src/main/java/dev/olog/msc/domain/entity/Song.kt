@@ -21,4 +21,7 @@ data class Song (
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
 
+    val hasAlbumNameAsFolder: Boolean
+        get() = album == folder
+
 }
