@@ -3,6 +3,7 @@ package dev.olog.msc.presentation.base
 import android.content.res.Resources
 import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.app.app
 import dev.olog.msc.presentation.theme.AppTheme
@@ -20,7 +21,7 @@ interface ThemedActivity {
         } else {
             prefs.getInt(app.getString(R.string.prefs_accent_dark_key), ContextCompat.getColor(app, R.color.accent_secondary))
         }
-
+        Crashlytics.log("color accent choosed=$color")
         return when (color){
             getColorResource(R.color.md_red_A100) -> R.style.ThemeAccentRed100
             getColorResource(R.color.md_red_A200) -> R.style.ThemeAccentRed200
