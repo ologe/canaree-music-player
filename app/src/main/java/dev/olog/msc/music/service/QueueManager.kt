@@ -298,7 +298,6 @@ class QueueManager @Inject constructor(
         queueImpl.playLater(songIds, isPodcast)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
-            PositionInQueue.FIRST,
             PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
             else -> currentPositionInQueue
         }
@@ -309,7 +308,6 @@ class QueueManager @Inject constructor(
         queueImpl.playNext(songIds, isPodcast)
         return when (currentPositionInQueue){
             PositionInQueue.BOTH -> PositionInQueue.FIRST
-            PositionInQueue.FIRST,
             PositionInQueue.LAST -> PositionInQueue.IN_MIDDLE
             else -> currentPositionInQueue
         }
