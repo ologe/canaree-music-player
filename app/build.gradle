@@ -156,11 +156,11 @@ dependencies {
 
     // other
     implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
-    implementation 'com.google.android.exoplayer:exoplayer:2.9.0'
-//    implementation project(':exoplayer-library-core')
-//    implementation project(':exoplayer-extension-flac')
-//    implementation project(':exoplayer-extension-opus')
-//    implementation project(':exoplayer-extension-ffmpeg')
+//    implementation 'com.google.android.exoplayer:exoplayer:2.9.0'
+    implementation project(':exoplayer-library-core')
+    implementation project(':exoplayer-extension-flac')
+    implementation project(':exoplayer-extension-opus')
+    implementation project(':exoplayer-extension-ffmpeg')
     implementation "com.airbnb.android:lottie:$rootProject.lottie"
 
     implementation ('com.android.support:support-annotations:28.0.0') {
@@ -199,6 +199,7 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:2.2.2'
     implementation files('libs/jaudiotagger-android-2.2.3.jar')
 }
 
