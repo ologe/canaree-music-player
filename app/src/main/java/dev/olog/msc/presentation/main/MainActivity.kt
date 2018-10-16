@@ -143,7 +143,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             R.id.navigation_search -> navigator.toSearchFragment()
             R.id.navigation_podcasts -> navigator.toPodcastCategories(forceRecreate)
             R.id.navigation_queue -> navigator.toPlayingQueueFragment()
-            else -> throw IllegalArgumentException("invalid item")
+            else -> bottomNavigate(R.id.navigation_songs, forceRecreate)
         }
     }
 
