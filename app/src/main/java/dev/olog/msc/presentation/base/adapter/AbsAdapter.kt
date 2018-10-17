@@ -67,6 +67,7 @@ abstract class AbsAdapter<Model : BaseModel>(
     override fun getItemViewType(position: Int) = controller.getItem(position).type
 
     override fun onStart(owner: LifecycleOwner) {
+        controller.resumeObservingData(true)
         dataDisposable = controller.handleNewData(extendAreItemTheSame)
                 .subscribe({ (wasEmpty, callback) ->
 
@@ -147,6 +148,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         because there are items that isn't
      */
     override fun onSwipedRight(position: Int) {
+        controller.pauseObservingData()
         val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
         val relativePosition = position - positionPivot
 
@@ -154,6 +156,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         notifyItemRemoved(position)
         // swipe action must be defined
         onSwipeRightAction?.invoke(relativePosition)
+        controller.resumeObservingData(false)
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? = null

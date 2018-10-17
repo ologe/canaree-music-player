@@ -2,12 +2,35 @@ package dev.olog.msc.utils.k.extension
 
 import android.support.annotation.IdRes
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.MotionEvent
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.presentation.base.adapter.AdapterDataController
 import dev.olog.msc.presentation.utils.animation.ScaleInOnTouch
 import dev.olog.msc.presentation.utils.animation.ScaleMoreInOnTouch
+
+fun <T: BaseModel> RecyclerView.ViewHolder.setOnMoveListener(
+        controller: AdapterDataController<T>,
+        touchHelper: ItemTouchHelper
+){
+    this.itemView.findViewById<View>(R.id.dragHandle).setOnTouchListener { _, event ->
+        when (event.actionMasked){
+            MotionEvent.ACTION_DOWN -> {
+                println("action down")
+                controller.pauseObservingData()
+                touchHelper.startDrag(this)
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                controller.resumeObservingData(false)
+                false
+            }
+            else -> false
+        }
+    }
+}
 
 fun <T: BaseModel> RecyclerView.ViewHolder.setOnClickListener(
         data: AdapterDataController<T>,
