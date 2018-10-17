@@ -78,5 +78,7 @@ class LibraryCategoriesFragmentAdapter (
         return viewType == R.layout.dialog_tab_category_item
     }
 
+    override fun onClearView() {
 
+    }
 }

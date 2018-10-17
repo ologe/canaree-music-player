@@ -161,4 +161,7 @@ abstract class AbsAdapter<Model : BaseModel>(
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? = null
 
+    override fun onClearView() {
+        controller.resumeObservingData(false)
+    }
 }

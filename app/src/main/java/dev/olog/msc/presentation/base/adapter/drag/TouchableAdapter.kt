@@ -8,5 +8,6 @@ interface TouchableAdapter {
     fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder)
     fun onSwipedRight(position: Int)
     fun canInteractWithViewHolder(viewType: Int): Boolean?
+    fun onClearView()
 
 }

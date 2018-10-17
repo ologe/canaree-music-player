@@ -106,8 +106,10 @@ class TouchHelperAdapterCallback(
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         getDefaultUIUtil().clearView(viewHolder.itemView.findViewById(R.id.content))
         getDefaultUIUtil().clearView(viewHolder.itemView)
-//        animationsController.setAnimationIdle()
+        adapter.onClearView()
     }
+
+
 
     override fun isLongPressDragEnabled(): Boolean = false
 
