@@ -60,6 +60,9 @@
 
         <item name="scrimColor">#AA232323</item>
         <item name="miniPlayerColor">@color/theme_dark_toolbar</item>
+
+        <item name="dialogCornerRadius">@dimen/default_corner_radius</item>
+        <item name="android:colorEdgeEffect">@android:color/white</item>
         <item name="textColorPrimaryTransparent">@color/transparent_black</item>
 
         <item name="cleanButtonColor">@android:color/white</item>
