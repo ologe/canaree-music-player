@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="?android:windowBackground">
 
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
@@ -46,8 +44,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="24dp"
-        android:layout_gravity="bottom|end"
-        app:backgroundTint="@color/dark_grey"
-        android:tint="@color/transparent_white" />
+        android:layout_gravity="bottom|end" />
 
 </android.support.constraint.ConstraintLayout>
