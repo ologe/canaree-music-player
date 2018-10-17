@@ -88,16 +88,4 @@
         app:backgroundTint="@android:color/transparent"
         app:elevation="0dp"/>
 
-    <dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageViewFab
-        android:id="@+id/playPause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/vd_play"
-        android:layout_gravity="end"
-        android:translationY="-30dp"
-        android:translationX="-32dp"
-        app:fabSize="normal"
-        android:clickable="true"
-        android:focusable="true"/>
-
 </android.support.design.widget.CoordinatorLayout>

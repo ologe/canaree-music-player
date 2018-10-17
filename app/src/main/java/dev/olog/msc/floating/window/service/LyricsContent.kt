@@ -5,17 +5,14 @@ import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
-import android.view.View
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
-import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.presentation.widget.playpause.IPlayPauseBehavior
 import dev.olog.msc.utils.k.extension.isPlaying
-import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -26,8 +23,7 @@ import java.util.concurrent.TimeUnit
 class LyricsContent (
         lifecycle: Lifecycle,
         context: Context,
-        private val musicServiceBinder: MusicServiceBinder,
-        isRepositoryEmptyUseCase: IsRepositoryEmptyUseCase
+        private val musicServiceBinder: MusicServiceBinder
 
 ) : WebViewContent(lifecycle, context, R.layout.content_web_view_with_player), DefaultLifecycleObserver {
 
@@ -36,7 +32,6 @@ class LyricsContent (
     private val seekBar = content.findViewById<SeekBar>(R.id.seekBar)
     private val title = content.findViewById<TextView>(R.id.header)
     private val artist = content.findViewById<TextView>(R.id.subHeader)
-    private val noTracks = content.findViewById<View>(R.id.noTracks)
 
     private val subscriptions = CompositeDisposable()
     private var updateDisposable : Disposable? = null
@@ -44,10 +39,6 @@ class LyricsContent (
     init {
         lifecycle.addObserver(this)
         playPause.setOnClickListener { musicServiceBinder.playPause() }
-
-        isRepositoryEmptyUseCase.execute()
-                .subscribe({ noTracks.toggleVisibility(it, true) }, Throwable::printStackTrace)
-                .addTo(subscriptions)
 
         musicServiceBinder.onStateChanged()
                 .subscribe({

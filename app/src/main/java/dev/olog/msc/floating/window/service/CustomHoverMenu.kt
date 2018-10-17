@@ -8,9 +8,6 @@ import android.support.annotation.DrawableRes
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
-import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
-import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
@@ -20,7 +17,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import java.net.URLEncoder
 import javax.inject.Inject
-import javax.inject.Provider
 import kotlin.properties.Delegates
 
 class CustomHoverMenu @Inject constructor(
@@ -28,7 +24,6 @@ class CustomHoverMenu @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         musicServiceBinder: MusicServiceBinder,
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
-        isRepositoryEmptyUseCase: Provider<IsRepositoryEmptyUseCase>,
         offlineLyricsContentPresenter: OfflineLyricsContentPresenter
 
 ) : HoverMenu(), DefaultLifecycleObserver {
@@ -37,8 +32,8 @@ class CustomHoverMenu @Inject constructor(
     private val lyricsColors = intArrayOf(0xFFf79f32.toInt(), 0xFFfcca1c.toInt())
     private val offlineLyricsColors = intArrayOf(0xFFa3ffaa.toInt(), 0xFF1bffbc.toInt())
 
-    private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder, isRepositoryEmptyUseCase.get())
-    private val videoContent = VideoContent(lifecycle, context, isRepositoryEmptyUseCase.get())
+    private val lyricsContent = LyricsContent(lifecycle, context, musicServiceBinder)
+    private val videoContent = VideoContent(lifecycle, context)
     private val offlineLyricsContent = OfflineLyricsContent(lifecycle, context, musicServiceBinder, offlineLyricsContentPresenter)
 
     private val subscriptions = CompositeDisposable()

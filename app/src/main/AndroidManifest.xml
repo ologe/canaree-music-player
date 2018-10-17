@@ -30,7 +30,8 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:name=".app.App"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:usesCleartextTraffic="true">
 
         <!--main activity-->
         <activity
