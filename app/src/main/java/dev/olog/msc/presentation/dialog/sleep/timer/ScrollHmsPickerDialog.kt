@@ -1,10 +1,12 @@
 package dev.olog.msc.presentation.dialog.sleep.timer
 
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.annotation.ColorRes
+import android.support.design.card.MaterialCardView
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +41,11 @@ open class ScrollHmsPickerDialog : BaseDialogFragment() {
             picker.setAutoStep(autoStep)
             picker.setColorNormal(colorNormal)
             picker.setColorSelected(colorSelected)
+        }
+        if (AppTheme.isDarkTheme()){
+            val background = ContextCompat.getColor(view.context, R.color.theme_dark_background)
+            (view as MaterialCardView).backgroundTintList = ColorStateList.valueOf(background)
+            hmsPicker.backgroundTintList = ColorStateList.valueOf(background)
         }
         val textColor = ContextCompat.getColor(view.context, colorSelected)
         view.findViewById<Button>(R.id.button_cancel).apply {
