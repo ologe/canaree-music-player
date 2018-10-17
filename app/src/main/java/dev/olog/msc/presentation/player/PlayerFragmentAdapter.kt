@@ -10,7 +10,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
-import android.view.MotionEvent
 import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
@@ -63,12 +62,7 @@ class PlayerFragmentAdapter (
                 }
                 viewHolder.elevateSongOnTouch()
 
-                viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
-                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        touchHelper?.startDrag(viewHolder)
-                        true
-                    } else false
-                }
+                viewHolder.setOnMoveListener(controller, touchHelper!!)
             }
             R.layout.fragment_player_controls,
             R.layout.fragment_player_controls_spotify,
