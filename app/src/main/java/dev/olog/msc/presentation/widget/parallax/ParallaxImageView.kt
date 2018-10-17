@@ -40,7 +40,7 @@ class ParallaxImageView(
 
         translationY = diff.toFloat() * parallax
 
-        val currentAlpha = clamp((diff * .1f).toInt(), 0, MAX_ALPHA)
+        val currentAlpha = clamp((diff * .05f).toInt(), 0, MAX_ALPHA)
         paint.alpha = currentAlpha
         invalidate()
     }

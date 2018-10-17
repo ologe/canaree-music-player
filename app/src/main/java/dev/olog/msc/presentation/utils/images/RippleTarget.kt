@@ -11,7 +11,6 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.presentation.widget.parallax.ParallaxImageView
 import dev.olog.msc.utils.RippleUtils
-import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.getBitmap
 import java.lang.ref.WeakReference
 
@@ -44,8 +43,8 @@ class RippleTarget(
 
         if (!isLeaf && view is ForegroundImageView){
             val fallbackColor = ContextCompat.getColor(view.context, R.color.mid_grey)
-            val darkAlpha = if (isMarshmallow()) .4f else .1f
-            val lightAlpha = if (isMarshmallow()) .5f else .2f
+            val darkAlpha = .1f
+            val lightAlpha = .2f
 
             view.foreground = RippleUtils.create(palette, darkAlpha,
                     lightAlpha, fallbackColor, true)
