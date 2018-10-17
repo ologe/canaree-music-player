@@ -26,6 +26,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jetbrains.annotations.Contract
 import java.util.*
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 
@@ -43,7 +44,9 @@ class QueueImpl @Inject constructor(
 
     private val playingQueue = Vector<MediaEntity>()
 
-    private var currentSongPosition = -1
+    private var currentSongPosition by Delegates.observable(-1) { _, _, new ->
+        musicPreferencesUseCase.setLastPositionInQueue(new)
+    }
 
     @MainThread
     fun updatePlayingQueueAndPersist(songList: List<MediaEntity>) {

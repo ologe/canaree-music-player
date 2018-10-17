@@ -107,7 +107,7 @@ abstract class PlayingQueueDao {
                                     val item = ids[pos]
                                     song.toPlayingQueueSong(item.idInPlaylist, item.category, item.categoryValue)
                                 } else null
-                            }
+                            }.mapIndexed { index, playingQueueSong -> playingQueueSong.copy(idInPlaylist = index) }
 
                 } }
     }

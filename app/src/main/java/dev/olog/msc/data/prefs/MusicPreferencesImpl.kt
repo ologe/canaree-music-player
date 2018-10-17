@@ -32,6 +32,8 @@ private const val LAST_ID = "$TAG.last.id"
 
 private const val PLAYBACK_SPEED = "$TAG.playback_speed"
 
+private const val LAST_POSITION = "$TAG.last_position"
+
 class MusicPreferencesImpl @Inject constructor(
         @ApplicationContext private val context: Context,
         private val preferences: SharedPreferences,
@@ -174,5 +176,20 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun getPlaybackSpeed(): Float {
         return preferences.getFloat(PLAYBACK_SPEED, 1f)
+    }
+
+    override fun setLastPositionInQueue(position: Int) {
+        preferences.edit {
+            putInt(LAST_POSITION, position)
+        }
+    }
+
+    override fun observeLastPositionInQueue(): Observable<Int> {
+        return rxPreferences.getInteger(LAST_POSITION, -1)
+                .asObservable()
+    }
+
+    override fun getLastPositionInQueue(): Int {
+        return preferences.getInt(LAST_POSITION, -1)
     }
 }

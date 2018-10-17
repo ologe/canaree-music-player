@@ -2,15 +2,14 @@ package dev.olog.msc.presentation.playing.queue
 
 import android.arch.lifecycle.Lifecycle
 import android.databinding.ViewDataBinding
-import android.view.MotionEvent
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.playing.queue.model.DisplayableQueueSong
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
@@ -20,77 +19,36 @@ class PlayingQueueFragmentAdapter @Inject constructor(
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator
 
-) : AbsAdapter<DisplayableItem>(lifecycle) {
-
-    var currentPosition : Int = -1
-
-    init {
-        setAfterDataChanged({
-            notifyItemRangeChanged(0, it.size)
-        }, true)
-    }
+) : AbsAdapter<DisplayableQueueSong>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         viewHolder.setOnClickListener(controller) { item, _, _ ->
-            mediaProvider.skipToQueueItem(item.trackNumber.toLong())
+            mediaProvider.skipToQueueItem(item.mediaId.leaf!!)
         }
 
         viewHolder.setOnLongClickListener(controller) { item, _, _ ->
-            navigator.toDialog(item, viewHolder.itemView)
+            navigator.toDialog(item.mediaId, viewHolder.itemView)
         }
-        viewHolder.itemView.dragHandle.setOnTouchListener { _, event ->
-            when (event.actionMasked){
-                MotionEvent.ACTION_DOWN -> {
-                    touchHelper?.startDrag(viewHolder)
-                    true
-                }
-                else -> false
-            }
-        }
+        viewHolder.setOnMoveListener(controller, touchHelper)
         viewHolder.elevateSongOnTouch()
     }
 
-    override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
+    override fun bind(binding: ViewDataBinding, item: DisplayableQueueSong, position: Int) {
         binding.setVariable(BR.item, item)
-        binding.setVariable(BR.isCurrentSong, currentPosition == position)
-        when {
-            currentPosition == -1 -> binding.setVariable(BR.trackIndex, "-")
-            position > currentPosition -> binding.setVariable(BR.trackIndex, "+${position - currentPosition}")
-            position < currentPosition -> binding.setVariable(BR.trackIndex, "${position - currentPosition}")
-            else -> binding.setVariable(BR.trackIndex, "-")
-        }
+
         val view = binding.root
-        val textColor = if (position < currentPosition) view.context.textColorSecondary() else view.context.textColorPrimary()
+        val textColor = if (item.positionInList.length > 1 && item.positionInList.startsWith("-"))
+            view.context.textColorSecondary() else view.context.textColorPrimary()
         binding.root.index.setTextColor(textColor)
-    }
-
-    override fun onMoved(from: Int, to: Int) {
-        if (currentPosition == from){
-            currentPosition = to
-        }
-        super.onMoved(from, to)
-    }
-
-    override fun onSwipedRight(position: Int) {
-        if (currentPosition == position){
-            currentPosition = -1
-        }
-        if (currentPosition > position){
-            currentPosition--
-        }
-        onSwipeRightAction.invoke(position)
-    }
-
-    fun updateCurrentPosition(idInPlaylist: Int) {
-        currentPosition = indexOf { it.trackNumber.toInt() == idInPlaylist }
-        notifyDataSetChanged()
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
         return viewType == R.layout.item_playing_queue
     }
 
-    override val onDragAction = { from: Int, to: Int -> mediaProvider.swap(from, to) }
+    override val onDragAction = { from: Int, to: Int ->
+        mediaProvider.swap(from, to)
+    }
 
     override val onSwipeRightAction = { position: Int ->
         mediaProvider.remove(position)

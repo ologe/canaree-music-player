@@ -15,6 +15,12 @@ class MusicPreferencesUseCase @Inject constructor(
     fun getLastIdInPlaylist(): Int = gateway.getLastIdInPlaylist()
     fun observeLastIdInPlaylist(): Observable<Int> = gateway.observeLastIdInPlaylist()
 
+    fun setLastPositionInQueue(position: Int){
+        gateway.setLastPositionInQueue(position)
+    }
+    fun observeLastPositionInQueue(): Observable<Int> = gateway.observeLastPositionInQueue()
+    fun getLastPositionInQueue(): Int = gateway.getLastPositionInQueue()
+
     fun setLastIdInPlaylist(idInPlaylist: Int) {
         gateway.setLastIdInPlaylist(idInPlaylist)
     }

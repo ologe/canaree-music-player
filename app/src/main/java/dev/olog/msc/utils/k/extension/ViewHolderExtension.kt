@@ -13,18 +13,21 @@ import dev.olog.msc.presentation.utils.animation.ScaleMoreInOnTouch
 
 fun <T: BaseModel> RecyclerView.ViewHolder.setOnMoveListener(
         controller: AdapterDataController<T>,
-        touchHelper: ItemTouchHelper
+        touchHelper: ItemTouchHelper?
 ){
-    this.itemView.findViewById<View>(R.id.dragHandle).setOnTouchListener { _, event ->
+    this.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
         when (event.actionMasked){
             MotionEvent.ACTION_DOWN -> {
-                println("action down")
-                controller.pauseObservingData()
-                touchHelper.startDrag(this)
-                true
+                touchHelper?.let {
+                    controller.pauseObservingData()
+                    touchHelper.startDrag(this)
+                    return@setOnTouchListener true
+                } ?: return@setOnTouchListener false
             }
             MotionEvent.ACTION_UP -> {
-                controller.resumeObservingData(false)
+                if (touchHelper != null){
+                    controller.resumeObservingData(false)
+                }
                 false
             }
             else -> false

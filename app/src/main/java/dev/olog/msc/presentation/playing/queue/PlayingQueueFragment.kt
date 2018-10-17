@@ -13,10 +13,7 @@ import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
-import dev.olog.msc.utils.k.extension.ctx
-import dev.olog.msc.utils.k.extension.dip
-import dev.olog.msc.utils.k.extension.subscribe
-import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject
@@ -37,15 +34,13 @@ class PlayingQueueFragment : BaseFragment() {
     @Inject lateinit var navigator: Navigator
     private lateinit var layoutManager : LinearLayoutManager
 
-    private val viewModel by lazyFast { viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory) }
+    private val viewModel by lazyFast { act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         adapter.onFirstEmission {
-            val songId = viewModel.getCurrentSongId()
-            adapter.updateCurrentPosition(songId)
-            layoutManager.scrollToPositionWithOffset(adapter.currentPosition, ctx.dip(20))
+            layoutManager.scrollToPositionWithOffset(viewModel.getCurrentPosition(), ctx.dip(20))
         }
     }
 
@@ -61,9 +56,6 @@ class PlayingQueueFragment : BaseFragment() {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
-
-        viewModel.observeCurrentSongId
-                .subscribe(viewLifecycleOwner, adapter::updateCurrentPosition)
 
         viewModel.data.subscribe(viewLifecycleOwner) {
             adapter.updateDataSet(it)

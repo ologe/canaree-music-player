@@ -6,9 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="isCurrentSong" type="boolean"/>
-        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
-        <variable name="trackIndex" type="String"/>
+        <variable name="item" type="dev.olog.msc.presentation.playing.queue.model.DisplayableQueueSong"/>
     </data>
 
     <FrameLayout
@@ -68,7 +66,7 @@
 
                 <TextView
                     android:id="@+id/index"
-                    android:text="@{trackIndex}"
+                    android:text="@{item.positionInList}"
                     tools:text="+1"
                     tools:layout_marginStart="8dp"
                     android:textStyle="bold"
@@ -93,7 +91,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    app:setBoldIfTrue="@{isCurrentSong}" />
+                    app:setBoldIfTrue="@{item.isCurrentSong}" />
 
                 <TextView
                     android:id="@+id/secondText"
