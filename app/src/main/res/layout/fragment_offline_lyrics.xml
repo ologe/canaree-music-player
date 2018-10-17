@@ -91,7 +91,9 @@
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="80dp"
-        android:fontFamily="@font/roboto_slab_bold"/>
+        android:fontFamily="@font/roboto_slab_bold"
+        android:clickable="false"
+        android:focusable="false"/>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -117,7 +119,9 @@
             android:layout_gravity="center_horizontal"
             android:gravity="start"
             android:lineSpacingExtra="10dp"
-            tools:text="@tools:sample/lorem/random" />
+            tools:text="@tools:sample/lorem/random"
+            android:clickable="false"
+            android:focusable="false"/>
 
     </ScrollView>
 
@@ -227,15 +231,6 @@
         android:translationY="-108dp"
         android:translationX="-32dp"
         app:fabSize="normal"
-        android:clickable="true"
-        android:focusable="true"/>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/wrapper"
         android:clickable="true"
         android:focusable="true"/>
 
