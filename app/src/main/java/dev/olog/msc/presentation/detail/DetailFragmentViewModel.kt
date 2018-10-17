@@ -69,18 +69,17 @@ class DetailFragmentViewModel @Inject constructor(
 
     private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
             Observables.combineLatest(
-                    item[currentCategory]!!.toObservable().debounceFirst(1, TimeUnit.SECONDS).distinctUntilChanged(),
-                    data[MOST_PLAYED]!!.debounceFirst(500, TimeUnit.MILLISECONDS).distinctUntilChanged(),
-                    data[RECENTLY_ADDED]!!.debounceFirst(1, TimeUnit.SECONDS).distinctUntilChanged(),
-                    albums[currentCategory]!!.debounceFirst(500, TimeUnit.MILLISECONDS).distinctUntilChanged(),
-                    data[RELATED_ARTISTS]!!.debounceFirst(500, TimeUnit.MILLISECONDS).distinctUntilChanged(),
+                    item[currentCategory]!!.toObservable().debounceFirst().distinctUntilChanged(),
+                    data[MOST_PLAYED]!!.debounceFirst().distinctUntilChanged(),
+                    data[RECENTLY_ADDED]!!.debounceFirst().distinctUntilChanged(),
+                    albums[currentCategory]!!.debounceFirst().distinctUntilChanged(),
+                    data[RELATED_ARTISTS]!!.debounceFirst().distinctUntilChanged(),
                     filterSongs(data[SONGS]!!),
                     getVisibleTabsUseCase.execute()
             ) { item, mostPlayed, recent, albums, artists, songs, visibility ->
                 presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
             }.doOnError { it.printStackTrace() }
                     .onErrorReturnItem(mutableMapOf())
-                    .debounceFirst(100, TimeUnit.MILLISECONDS)
 
     private fun filterSongs(songObservable: Observable<List<DisplayableItem>>): Observable<List<DisplayableItem>>{
         return Observables.combineLatest(
@@ -102,8 +101,7 @@ class DetailFragmentViewModel @Inject constructor(
     }
 
     fun observeData(): LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
-            dataMap.debounceFirst()
-                    .asLiveData()
+            dataMap.asLiveData()
 
     val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
             .debounceFirst()

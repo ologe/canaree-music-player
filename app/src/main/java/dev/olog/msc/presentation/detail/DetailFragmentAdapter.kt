@@ -6,8 +6,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
-import android.view.MotionEvent
-import android.view.View
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -28,6 +26,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import dev.olog.msc.utils.k.extension.setOnMoveListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import javax.inject.Inject
@@ -81,12 +80,7 @@ class DetailFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-                viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
-                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        touchHelper?.startDrag(viewHolder)
-                        true
-                    } else false
-                }
+                viewHolder.setOnMoveListener(controller, touchHelper!!)
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(controller) { _, _, _ ->
