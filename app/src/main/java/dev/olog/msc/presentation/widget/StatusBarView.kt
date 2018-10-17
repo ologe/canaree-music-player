@@ -7,6 +7,7 @@ import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.dimen
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.utils.k.extension.hasNotch
+import dev.olog.msc.utils.k.extension.isPortrait
 
 /**
  * Custom status bar to handle device notch
@@ -23,7 +24,7 @@ class StatusBarView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        hasNotch = this.hasNotch()
+        hasNotch = this.hasNotch() && context.isPortrait
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
