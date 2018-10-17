@@ -33,13 +33,13 @@ class LastFmRepoAlbum @Inject constructor(
 
         val fetch = albumGateway.getByParam(albumId)
                 .firstOrError()
-//                .flatMap {
-//                    if (it.hasSameNameAsFolder){
-//                        Single.error(Exception("image not downloadable"))
-//                    } else {
-//                        Single.just(it)
-//                    }
-//                }
+                .flatMap {
+                    if (it.hasSameNameAsFolder){
+                        Single.error(Exception("image not downloadable"))
+                    } else {
+                        Single.just(it)
+                    }
+                }
                 .flatMap { fetch(it) }
                 .map { Optional.of(it) }
 

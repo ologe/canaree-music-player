@@ -196,6 +196,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 .setTitle(R.string.prefs_delete_cached_images_title)
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                    GlideApp.get(ctx.applicationContext).clearMemory()
                     val disp = Completable.fromCallable {
                         GlideApp.get(ctx.applicationContext).clearDiskCache()
                         ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)).listFiles().forEach { it.delete() }
