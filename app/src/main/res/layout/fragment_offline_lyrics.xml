@@ -8,7 +8,7 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:elevation="20dp"
-    android:background="@color/background">
+    android:background="?android:windowBackground">
 
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
@@ -141,7 +141,8 @@
         <android.support.design.bottomappbar.BottomAppBar
             android:id="@+id/bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:backgroundTint="?attr/miniPlayerColor">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,7 +160,7 @@
                     android:ellipsize="end"
                     android:gravity="start"
                     android:maxLines="1"
-                    android:textColor="@color/dark_grey"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="@dimen/offline_lyrics_title_size"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/edit"
@@ -198,9 +199,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/subHeader"
                     app:layout_constraintVertical_bias="1"
                     tools:max="100"
-                    tools:progress="40"
-                    tools:progressTint="@color/dark_grey"
-                    style="@style/SeekBarLight"/>
+                    tools:progress="40" />
 
             </LinearLayout>
 
@@ -215,19 +214,21 @@
             app:backgroundTint="@android:color/transparent"
             app:elevation="0dp" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/vd_edit"
-            android:layout_gravity="end"
-            android:translationY="-30dp"
-            android:translationX="-32dp"
-            app:fabSize="normal"
-            android:clickable="true"
-            android:focusable="true"/>
-
     </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vd_edit"
+        android:layout_gravity="end"
+        android:translationY="-108dp"
+        android:translationX="-32dp"
+        app:fabSize="normal"
+        android:clickable="true"
+        android:focusable="true"/>
 
     <View
         android:layout_width="0dp"
