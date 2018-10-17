@@ -7,7 +7,8 @@
     android:id="@+id/container"
     android:orientation="vertical"
     android:clipChildren="false"
-    android:clickable="false">
+    android:clickable="false"
+    tools:background="?android:windowBackground">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -26,7 +27,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         android:gravity="center"
-        android:textColor="@color/text_color_primary"
+        android:textColor="?android:textColorPrimary"
         android:textSize="30dp"
         android:textStyle="bold"
         android:layout_width="0dp"
@@ -41,7 +42,7 @@
         app:layout_constraintBottom_toTopOf="@+id/text3"
         android:layout_marginTop="16dp"
         android:text="@string/splash_player_tutorial_1"
-        android:textColor="@color/text_color_primary"
+        android:textColor="?android:textColorPrimary"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
@@ -55,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="8dp"
         android:text="@string/splash_player_tutorial_2"
-        android:textColor="@color/text_color_primary"
+        android:textColor="?android:textColorPrimary"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
@@ -113,7 +114,6 @@
                     android:stateListAnimator="@animator/now_playing"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
-                    android:textColor="@color/text_color_primary"
                     android:gravity="center_vertical"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/tab"
