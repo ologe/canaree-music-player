@@ -80,7 +80,7 @@ class DetailFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-                viewHolder.setOnMoveListener(controller, touchHelper!!)
+                viewHolder.setOnMoveListener(controller, touchHelper)
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(controller) { _, _, _ ->
