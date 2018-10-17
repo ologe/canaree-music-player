@@ -2,8 +2,8 @@
 <resources>
 
     <style name="AppTabLayout" parent="DefaultTabLayout">
-        <item name="tabMode">fixed</item>
         <item name="tabGravity">center</item>
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <style name="AppBottomNavigationBar" parent="DefaultBottomNavigationBar">
