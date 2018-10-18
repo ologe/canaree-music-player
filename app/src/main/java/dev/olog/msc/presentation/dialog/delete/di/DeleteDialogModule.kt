@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.dialog.delete.di
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle

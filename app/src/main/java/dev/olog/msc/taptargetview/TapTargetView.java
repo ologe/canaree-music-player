@@ -37,7 +37,6 @@ import android.graphics.Region;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.text.DynamicLayout;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
@@ -54,6 +53,8 @@ import android.view.ViewOutlineProvider;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import androidx.annotation.Nullable;
 
 
 /**

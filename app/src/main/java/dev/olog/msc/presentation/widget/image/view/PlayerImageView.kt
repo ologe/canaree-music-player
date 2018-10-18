@@ -3,21 +3,20 @@ package dev.olog.msc.presentation.widget.image.view
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.graphics.Palette
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.RippleUtils
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.isMarshmallow
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.utils.k.extension.getBitmap
+import dev.olog.msc.utils.k.extension.getImage
+import dev.olog.msc.utils.k.extension.getMediaId
 
 open class PlayerImageView @JvmOverloads constructor(
         context: Context,
@@ -52,17 +51,17 @@ open class PlayerImageView @JvmOverloads constructor(
         }
     }
 
-    class Ripple(private val imageView: ForegroundImageView) : DrawableImageViewTarget(imageView), Palette.PaletteAsyncListener {
+    class Ripple(private val imageView: ForegroundImageView) : DrawableImageViewTarget(imageView), androidx.palette.graphics.Palette.PaletteAsyncListener {
 
         override fun onResourceReady(drawable: Drawable, transition: Transition<in Drawable>?) {
             super.onResourceReady(drawable, transition)
             if (isMarshmallow()){
                 val bitmap = drawable.getBitmap() ?: return
-                Palette.from(bitmap).clearFilters().generate(this)
+                androidx.palette.graphics.Palette.from(bitmap).clearFilters().generate(this)
             }
         }
 
-        override fun onGenerated(palette: Palette?) {
+        override fun onGenerated(palette: androidx.palette.graphics.Palette?) {
             val fallbackColor = 0x40606060
             val darkAlpha = .3f
             val lightAlpha = .3f

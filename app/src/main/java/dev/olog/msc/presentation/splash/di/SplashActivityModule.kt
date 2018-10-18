@@ -1,8 +1,7 @@
 package dev.olog.msc.presentation.splash.di
 
 import android.content.Context
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ActivityContext
@@ -21,7 +20,7 @@ class SplashActivityModule(
     fun provideActivity(): AppCompatActivity = activity
 
     @Provides
-    fun provideFragmentManager(): FragmentManager {
+    fun provideFragmentManager(): androidx.fragment.app.FragmentManager {
         return activity.supportFragmentManager
     }
 

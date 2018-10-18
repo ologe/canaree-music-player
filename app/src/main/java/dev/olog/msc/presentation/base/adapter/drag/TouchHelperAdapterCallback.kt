@@ -3,10 +3,9 @@ package dev.olog.msc.presentation.base.adapter.drag
 import android.graphics.Canvas
 import android.os.Handler
 import android.os.Looper
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import kotlin.math.abs
 
@@ -23,7 +22,7 @@ class TouchHelperAdapterCallback(
 
     private val animationsController = TouchHelperAnimationController()
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, target: androidx.recyclerview.widget.RecyclerView.ViewHolder): Boolean {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!! && adapter.canInteractWithViewHolder(target.itemViewType)!!){
             adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
             return true
@@ -31,14 +30,14 @@ class TouchHelperAdapterCallback(
         return false
     }
 
-    override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getSwipeDirs(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder): Int {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             return super.getSwipeDirs(recyclerView, viewHolder)
         }
         return 0
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+    override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             when (direction){
                 ItemTouchHelper.RIGHT -> adapter.onSwipedRight(viewHolder.adapterPosition)
@@ -51,8 +50,8 @@ class TouchHelperAdapterCallback(
         }
     }
 
-    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
-                             viewHolder: RecyclerView.ViewHolder,
+    override fun onChildDraw(c: Canvas, recyclerView: androidx.recyclerview.widget.RecyclerView,
+                             viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
                              dX: Float, dY: Float,
                              actionState: Int, isCurrentlyActive: Boolean) {
 
@@ -74,7 +73,7 @@ class TouchHelperAdapterCallback(
         }
     }
 
-    private fun drawOnMove(recyclerView: RecyclerView, view: View, isCurrentlyActive: Boolean, dY: Float){
+    private fun drawOnMove(recyclerView: androidx.recyclerview.widget.RecyclerView, view: View, isCurrentlyActive: Boolean, dY: Float){
         if (isCurrentlyActive) {
             var originalElevation: Any? = view.getTag(R.id.item_touch_helper_previous_elevation)
             if (originalElevation == null) {
@@ -87,7 +86,7 @@ class TouchHelperAdapterCallback(
         view.translationY = dY
     }
 
-    private fun findMaxElevation(recyclerView: RecyclerView, itemView: View): Float {
+    private fun findMaxElevation(recyclerView: androidx.recyclerview.widget.RecyclerView, itemView: View): Float {
         val childCount = recyclerView.childCount
         var max = 0f
         for (i in 0 until childCount) {
@@ -103,7 +102,7 @@ class TouchHelperAdapterCallback(
         return max
     }
 
-    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+    override fun clearView(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
         getDefaultUIUtil().clearView(viewHolder.itemView.findViewById(R.id.content))
         getDefaultUIUtil().clearView(viewHolder.itemView)
         adapter.onClearView()

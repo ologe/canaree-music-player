@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.about
 
-import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
-import android.databinding.ViewDataBinding
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle

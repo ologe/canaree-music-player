@@ -1,9 +1,9 @@
 package dev.olog.msc.music.service.player
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase

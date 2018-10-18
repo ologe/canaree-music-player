@@ -2,9 +2,9 @@ package dev.olog.msc.presentation.shortcuts
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 

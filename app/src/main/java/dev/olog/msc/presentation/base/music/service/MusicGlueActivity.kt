@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.base.music.service
 
 import android.content.ComponentName
 import android.os.Bundle
-import android.support.annotation.CallSuper
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -10,6 +9,7 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.annotation.CallSuper
 import androidx.core.os.bundleOf
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService

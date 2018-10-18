@@ -5,19 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v14.preference.SwitchPreference
-import android.support.v4.content.ContextCompat
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.preference.PreferenceManager
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import com.afollestad.materialdialogs.color.ColorChooserDialog
-import dagger.android.support.AndroidSupportInjection
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreference
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.color.colorChooser
+import com.google.android.material.snackbar.Snackbar
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.dagger.base.AndroidXInjection
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
@@ -25,6 +25,7 @@ import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragmen
 import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentialsFragment
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
+import dev.olog.msc.presentation.utils.ColorPalette
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
@@ -48,7 +49,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var resetTutorial: Preference
 
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
+        AndroidXInjection.inject(this)
         super.onAttach(context)
     }
 
@@ -131,12 +132,14 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
             val key = getString(if (AppTheme.isWhiteTheme()) R.string.prefs_accent_light_key else R.string.prefs_accent_dark_key)
             val defaultColor = ContextCompat.getColor(act, (if (AppTheme.isWhiteTheme()) R.color.accent else R.color.accent_secondary))
-            ColorChooserDialog.Builder(ctx, R.string.prefs_accent_color_title)
-                    .allowUserColorInput(false)
-                    .dynamicButtonColor(false)
-                    .accentMode(true)
-                    .preselect(prefs.getInt(key, defaultColor))
-                    .show(act)
+
+            MaterialDialog(act)
+                    .colorChooser(
+                            colors = ColorPalette.PRIMARY_COLORS,
+                            subColors = ColorPalette.PRIMARY_COLORS_SUB,
+                            initialSelection = prefs.getInt(key, defaultColor),
+                            selection = act as PreferencesActivity
+                    ).show()
             true
         }
         resetTutorial.setOnPreferenceClickListener {

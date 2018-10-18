@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.about.di
 
-import android.arch.lifecycle.Lifecycle
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ActivityContext

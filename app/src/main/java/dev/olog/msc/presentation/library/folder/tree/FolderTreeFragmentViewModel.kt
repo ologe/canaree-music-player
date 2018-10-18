@@ -1,20 +1,20 @@
 package dev.olog.msc.presentation.library.folder.tree
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
 import android.database.ContentObserver
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
 import android.os.Looper
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getLong
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.app.app
 import dev.olog.msc.domain.interactor.all.GetAllFoldersUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Observable

@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.player
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase

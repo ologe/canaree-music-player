@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.library.tab
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import dagger.Lazy
 import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase

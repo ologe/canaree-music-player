@@ -10,7 +10,7 @@ import android.os.Build
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.provider.Settings
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.MediaId

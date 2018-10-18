@@ -2,12 +2,12 @@ package dev.olog.msc.music.service.notification
 
 import android.app.Notification
 import android.app.Service
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.media.AudioManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent.KEYCODE_MEDIA_STOP
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService

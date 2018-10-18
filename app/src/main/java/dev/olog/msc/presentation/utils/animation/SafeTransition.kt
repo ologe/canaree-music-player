@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.utils.animation
 
-import android.support.v4.app.Fragment
 import android.transition.Transition
 import javax.inject.Inject
 
@@ -8,7 +7,7 @@ class SafeTransition @Inject constructor(): Transition.TransitionListener {
 
     var isAnimating = false
 
-    fun execute(fragment: Fragment, transition: Transition){
+    fun execute(fragment: androidx.fragment.app.Fragment, transition: Transition){
         fragment.enterTransition = transition
         transition.addListener(this)
     }

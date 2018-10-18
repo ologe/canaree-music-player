@@ -1,9 +1,9 @@
 package dev.olog.msc.presentation.search.di
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.R

@@ -1,10 +1,10 @@
 package dev.olog.msc.floating.window.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle

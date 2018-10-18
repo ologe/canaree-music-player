@@ -2,13 +2,13 @@ package dev.olog.msc.music.service.di
 
 import android.app.NotificationManager
 import android.app.Service
-import android.arch.lifecycle.Lifecycle
 import android.content.ComponentName
 import android.content.Context
 import android.media.AudioManager
-import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.lifecycle.Lifecycle
+import androidx.media.session.MediaButtonReceiver
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ServiceContext

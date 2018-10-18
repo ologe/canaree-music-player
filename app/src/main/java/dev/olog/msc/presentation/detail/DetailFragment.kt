@@ -1,14 +1,12 @@
 package dev.olog.msc.presentation.detail
 
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
@@ -49,7 +47,7 @@ class DetailFragment : BaseFragment() {
     @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
     @Inject lateinit var relatedArtistAdapter: DetailRelatedArtistsAdapter
     @Inject lateinit var albumsAdapter: DetailAlbumsAdapter
-    @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
+    @Inject lateinit var recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
     private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
 
@@ -58,7 +56,7 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = LinearLayoutManager(ctx)
+        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(ctx)
         view.list.adapter = adapter
         view.list.setRecycledViewPool(recycledViewPool)
         view.list.setHasFixedSize(true)

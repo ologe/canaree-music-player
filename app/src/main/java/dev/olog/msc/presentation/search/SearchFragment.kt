@@ -1,12 +1,10 @@
 package dev.olog.msc.presentation.search
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.view.WindowManager
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
@@ -45,9 +43,9 @@ class SearchFragment : BaseFragment() {
     @Inject lateinit var genreAdapter: SearchFragmentGenreAdapter
     @Inject lateinit var playlistAdapter: SearchFragmentPlaylistAdapter
     @Inject lateinit var folderAdapter: SearchFragmentFolderAdapter
-    @Inject lateinit var recycledViewPool : RecyclerView.RecycledViewPool
+    @Inject lateinit var recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
     @Inject lateinit var navigator: Navigator
-    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var layoutManager: androidx.recyclerview.widget.LinearLayoutManager
     private var bestMatchDisposable : Disposable? = null
 
     private var queryDisposable : Disposable? = null
@@ -73,7 +71,7 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context!!)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setRecycledViewPool(recycledViewPool)

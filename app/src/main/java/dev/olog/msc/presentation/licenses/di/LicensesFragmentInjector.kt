@@ -1,11 +1,10 @@
 package dev.olog.msc.presentation.licenses.di
 
-import android.support.v4.app.Fragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
-import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.base.FragmentXKey
 import dev.olog.msc.presentation.licenses.LicensesFragment
 
 
@@ -14,8 +13,8 @@ abstract class LicensesFragmentInjector {
 
     @Binds
     @IntoMap
-    @FragmentKey(LicensesFragment::class)
+    @FragmentXKey(LicensesFragment::class)
     internal abstract fun injectorFactory(builder: LicensesFragmentSubComponent.Builder)
-            : AndroidInjector.Factory<out Fragment>
+            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 
 }

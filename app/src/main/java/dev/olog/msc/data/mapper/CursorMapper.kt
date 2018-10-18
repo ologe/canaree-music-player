@@ -4,13 +4,12 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getLong
-import androidx.core.database.getLongOrNull
-import androidx.core.database.getStringOrNull
 import dev.olog.msc.data.entity.PlaylistSongEntity
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.msc.utils.getLong
+import dev.olog.msc.utils.getLongOrNull
+import dev.olog.msc.utils.getStringOrNull
 import dev.olog.msc.utils.img.ImagesFolderUtils
 
 fun Cursor.toGenre(context: Context, genreSize: Int) : Genre {

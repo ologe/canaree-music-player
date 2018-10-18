@@ -38,7 +38,7 @@
             android:paddingEnd="@dimen/detail_margin_horizontal"
             android:background="?android:windowBackground">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -84,7 +84,7 @@
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </FrameLayout>

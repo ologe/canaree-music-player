@@ -1,8 +1,7 @@
 package dev.olog.msc.presentation.library.tab.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModel
-import android.support.v7.widget.GridLayoutManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -54,8 +53,8 @@ class TabFragmentModule(
     }
 
     @Provides
-    internal fun provideLayoutManager(spanSizeLookup: AbsSpanSizeLookup) : GridLayoutManager {
-        val layoutManager = GridLayoutManager(fragment.context, spanSizeLookup.getSpanSize())
+    internal fun provideLayoutManager(spanSizeLookup: AbsSpanSizeLookup) : androidx.recyclerview.widget.GridLayoutManager {
+        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(fragment.context, spanSizeLookup.getSpanSize())
         layoutManager.spanSizeLookup = spanSizeLookup
         return layoutManager
     }

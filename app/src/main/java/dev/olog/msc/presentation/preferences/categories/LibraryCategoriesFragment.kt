@@ -4,16 +4,13 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.withArguments
@@ -49,10 +46,10 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_save, null)
 
-        val list = view.findViewById<RecyclerView>(R.id.list)
+        val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list)
         adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet(category).toMutableList())
         list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(context)
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 
         val callback = TouchHelperAdapterCallback(adapter, 0)
         val touchHelper = ItemTouchHelper(callback)

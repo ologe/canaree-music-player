@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.search
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
 import dev.olog.msc.domain.interactor.search.delete.ClearRecentSearchesUseCase

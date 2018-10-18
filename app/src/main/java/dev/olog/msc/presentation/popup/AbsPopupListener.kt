@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.PopupMenu
-import androidx.core.widget.toast
 import dev.olog.msc.FileProvider
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlaylistType
@@ -16,6 +15,7 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
+import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 abstract class AbsPopupListener(

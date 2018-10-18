@@ -1,7 +1,7 @@
 package dev.olog.msc.data
 
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module

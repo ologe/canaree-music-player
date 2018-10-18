@@ -1,12 +1,12 @@
 package dev.olog.msc.presentation.playlist.track.chooser
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
 import android.util.LongSparseArray
 import androidx.core.util.contains
 import androidx.core.util.isEmpty
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase

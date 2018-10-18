@@ -17,14 +17,15 @@ package dev.olog.msc.taptargetview;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 
 
 /**

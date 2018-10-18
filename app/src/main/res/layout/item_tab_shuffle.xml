@@ -7,7 +7,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -41,7 +41,7 @@
                 android:textColor="?android:attr/textColorPrimary"
                 android:gravity="center_vertical" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <dev.olog.msc.presentation.widget.DottedSeparator
             android:id="@+id/separator"

@@ -2,7 +2,7 @@ package dev.olog.msc
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.domain.entity.Song
 import java.io.File

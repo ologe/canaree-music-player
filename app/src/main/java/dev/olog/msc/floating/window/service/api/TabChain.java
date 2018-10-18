@@ -16,13 +16,14 @@
 package dev.olog.msc.floating.window.service.api;
 
 import android.graphics.Point;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Connects one {@link FloatingTab}s position to that of another {@link FloatingTab}. The space

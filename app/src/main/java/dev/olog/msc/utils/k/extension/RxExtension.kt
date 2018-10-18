@@ -1,7 +1,7 @@
 package dev.olog.msc.utils.k.extension
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.LiveDataReactiveStreams
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.LiveDataReactiveStreams
 import dev.olog.msc.FlowableFirstThenDebounce
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable

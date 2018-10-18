@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.edit.track
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.NetworkUtils
 import dev.olog.msc.app.app

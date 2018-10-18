@@ -2,10 +2,10 @@ package dev.olog.msc.offline.lyrics
 
 import android.content.Context
 import android.content.DialogInterface
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.widget.EditText
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.enableForService

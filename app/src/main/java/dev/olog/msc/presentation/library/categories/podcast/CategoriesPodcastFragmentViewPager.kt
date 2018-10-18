@@ -1,9 +1,6 @@
 package dev.olog.msc.presentation.library.categories.podcast
 
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ChildFragmentManager
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
@@ -13,10 +10,10 @@ import javax.inject.Inject
 
 class CategoriesPodcastFragmentViewPager @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ChildFragmentManager private val fragmentManager: FragmentManager,
+        @ChildFragmentManager private val fragmentManager: androidx.fragment.app.FragmentManager,
         prefsUseCase: AppPreferencesUseCase
 
-) : FragmentStatePagerAdapter(fragmentManager) {
+) : androidx.fragment.app.FragmentStatePagerAdapter(fragmentManager) {
 
     private val data = prefsUseCase.getPodcastLibraryCategories()
             .filter { it.visible }
@@ -29,7 +26,7 @@ class CategoriesPodcastFragmentViewPager @Inject constructor(
         }
     }
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         val category = data[position].category
         return TabFragment.newInstance(category)
     }

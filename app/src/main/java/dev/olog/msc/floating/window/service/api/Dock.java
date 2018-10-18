@@ -16,10 +16,11 @@
 package dev.olog.msc.floating.window.service.api;
 
 import android.graphics.Point;
-import android.support.annotation.NonNull;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import androidx.annotation.NonNull;
 
 /**
  * A location on the screen that resolves to a {@link Point} when requested.  A {@code Dock} can

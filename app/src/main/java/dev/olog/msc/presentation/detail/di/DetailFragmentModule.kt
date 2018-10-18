@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.detail.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModel
-import android.support.v7.widget.RecyclerView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -34,7 +34,7 @@ class DetailFragmentModule(
 
     @Provides
     @PerFragment
-    fun provideRecycledViewPool() = RecyclerView.RecycledViewPool()
+    fun provideRecycledViewPool() = androidx.recyclerview.widget.RecyclerView.RecycledViewPool()
 
     @Module
     interface Binding {

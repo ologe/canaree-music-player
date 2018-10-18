@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.preferences.di
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.scope.PerActivity

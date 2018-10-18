@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.base
 
 import android.content.res.Resources
 import android.preference.PreferenceManager
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.app.app

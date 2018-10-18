@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.library.categories.podcast.di
 
-import android.support.v4.app.FragmentManager
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ChildFragmentManager
@@ -11,6 +10,6 @@ class CategoriesPodcastFragmentModule(private val fragment: CategoriesPodcastFra
 
     @Provides
     @ChildFragmentManager
-    fun provideFragmentManager() : FragmentManager = fragment.childFragmentManager
+    fun provideFragmentManager() : androidx.fragment.app.FragmentManager = fragment.childFragmentManager
 
 }

@@ -1,10 +1,10 @@
 package dev.olog.msc.utils.k.extension
 
-import android.support.annotation.WorkerThread
-import android.support.v4.text.PrecomputedTextCompat
-import android.support.v4.widget.TextViewCompat
 import android.text.Spannable
 import android.widget.TextView
+import androidx.annotation.WorkerThread
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
 
 fun TextView.extractText(): String {
     return this.text.toString()

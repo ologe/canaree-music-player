@@ -1,11 +1,9 @@
 package dev.olog.msc.presentation.detail
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSnapHelper
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -42,7 +40,7 @@ class DetailFragmentAdapter @Inject constructor(
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
         private val viewModel: DetailFragmentViewModel,
-        private val recycledViewPool : RecyclerView.RecycledViewPool
+        private val recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
@@ -50,19 +48,19 @@ class DetailFragmentAdapter @Inject constructor(
         when (viewType) {
 
             R.layout.item_detail_most_played_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsGrid(list, mostPlayedAdapter)
             }
             R.layout.item_detail_recently_added_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsGrid(list, recentlyAddedAdapter)
             }
             R.layout.item_detail_related_artists_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsList(list, relatedArtistsAdapter)
             }
             R.layout.item_detail_albums_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsList(list, albumsAdapter)
             }
             R.layout.item_detail_song,
@@ -121,21 +119,21 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = GridLayoutManager(list.context,
-                NESTED_SPAN_COUNT, GridLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalListAsGrid(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
+        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(list.context,
+                NESTED_SPAN_COUNT, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
 
-        val snapHelper = LinearSnapHelper()
+        val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
         snapHelper.attachToRecyclerView(list)
     }
 
-    private fun setupHorizontalListAsList(list: RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalListAsList(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(list.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
@@ -157,15 +155,15 @@ class DetailFragmentAdapter @Inject constructor(
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         when (holder.itemViewType) {
             R.layout.item_detail_most_played_list -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
+                val list = holder.itemView as androidx.recyclerview.widget.RecyclerView
+                val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
                 mostPlayedAdapter.setAfterDataChanged({
                     updateNestedSpanCount(layoutManager, it.size)
                 }, false)
             }
             R.layout.item_detail_recently_added_list -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
+                val list = holder.itemView as androidx.recyclerview.widget.RecyclerView
+                val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
                 recentlyAddedAdapter.setAfterDataChanged({
                     updateNestedSpanCount(layoutManager, it.size)
                 }, false)
@@ -196,7 +194,7 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun updateNestedSpanCount(layoutManager: GridLayoutManager, size: Int){
+    private fun updateNestedSpanCount(layoutManager: androidx.recyclerview.widget.GridLayoutManager, size: Int){
         layoutManager.spanCount = when {
             size == 0 -> 1
             size < NESTED_SPAN_COUNT -> size

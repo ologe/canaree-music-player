@@ -1,8 +1,5 @@
 package dev.olog.msc.floating.window.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
@@ -10,9 +7,11 @@ import android.view.View
 import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.floating.window.service.api.Content
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder

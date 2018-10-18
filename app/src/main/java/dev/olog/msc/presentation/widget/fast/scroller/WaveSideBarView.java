@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import dev.olog.msc.R;
 import dev.olog.msc.utils.TextUtils;
 import dev.olog.msc.utils.k.extension.ViewExtensionKt;

@@ -2,15 +2,14 @@ package dev.olog.msc.presentation.navigator
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AppCompatActivity
-import androidx.core.widget.toast
+import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.licenses.LicensesFragment
 import dev.olog.msc.presentation.special.thanks.SpecialThanksFragment
 import dev.olog.msc.presentation.utils.openPlayStore
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.isIntentSafe
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 private const val NEXT_REQUEST_THRESHOLD: Long = 400 // ms
@@ -26,7 +25,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         if (allowed()) {
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.fragment_container, LicensesFragment(), LicensesFragment.TAG)
                 addToBackStack(LicensesFragment.TAG)
             }
@@ -37,7 +36,7 @@ class NavigatorAboutImpl @Inject internal constructor(
         if (allowed()) {
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(R.id.fragment_container, SpecialThanksFragment(), SpecialThanksFragment.TAG)
                 addToBackStack(SpecialThanksFragment.TAG)
             }

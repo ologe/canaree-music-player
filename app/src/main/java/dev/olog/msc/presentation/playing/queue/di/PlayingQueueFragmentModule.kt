@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.playing.queue.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

@@ -3,20 +3,20 @@ package dev.olog.msc.app
 import android.app.Activity
 import android.app.Application
 import android.app.Service
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.BroadcastReceiver
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.*
-import dagger.android.support.HasSupportFragmentInjector
+import dev.olog.msc.dagger.base.HasAndroidXFragmentInjector
 import javax.inject.Inject
 
 abstract class BaseApp: Application(),
         HasActivityInjector,
         HasServiceInjector,
         HasBroadcastReceiverInjector,
-        HasSupportFragmentInjector,
+        HasAndroidXFragmentInjector,
         DefaultLifecycleObserver {
 
     @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>

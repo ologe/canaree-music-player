@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.edit.artist.di
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

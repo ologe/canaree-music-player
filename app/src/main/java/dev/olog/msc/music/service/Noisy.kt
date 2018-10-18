@@ -1,14 +1,14 @@
 package dev.olog.msc.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.view.KeyEvent.KEYCODE_MEDIA_PAUSE
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle

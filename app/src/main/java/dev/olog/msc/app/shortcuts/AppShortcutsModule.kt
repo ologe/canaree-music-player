@@ -1,7 +1,7 @@
 package dev.olog.msc.app.shortcuts
 
-import android.arch.lifecycle.Lifecycle
 import android.content.Context
+import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ApplicationContext

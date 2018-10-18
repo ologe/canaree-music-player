@@ -5,11 +5,11 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getLong
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.gateway.FavoriteGateway
+import dev.olog.msc.utils.getLong
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

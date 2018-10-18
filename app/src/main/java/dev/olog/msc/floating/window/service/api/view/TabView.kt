@@ -1,13 +1,12 @@
 package dev.olog.msc.floating.window.service.api.view
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.TransitionDrawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatImageView
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.dip
 

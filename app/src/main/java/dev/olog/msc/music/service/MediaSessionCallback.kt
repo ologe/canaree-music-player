@@ -1,8 +1,5 @@
 package dev.olog.msc.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,7 +9,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
-import androidx.core.widget.toast
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -23,6 +22,7 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,16 +1,15 @@
 package dev.olog.msc.presentation.base
 
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.StyleRes
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatDelegate
-import dagger.android.support.DaggerAppCompatActivity
+import androidx.annotation.CallSuper
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatDelegate
 import dev.olog.msc.R
+import dev.olog.msc.dagger.base.DaggerActivity
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 
-abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
+abstract class BaseActivity : DaggerActivity(), ThemedActivity {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
     }
 
     @Suppress("UNCHECKED_CAST")
-    internal fun <T : Fragment> findFragmentByTag(tag: String): T? {
+    internal fun <T : androidx.fragment.app.Fragment> findFragmentByTag(tag: String): T? {
         return supportFragmentManager.findFragmentByTag(tag) as T?
     }
 

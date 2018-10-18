@@ -10,14 +10,14 @@
     app:maxHeightDp="@integer/blacklist_max_height"
     android:layout_gravity="center">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
         android:clipToPadding="false"
         tools:listitem="@layout/dialog_blacklist_item"
-        tools:layoutManager="android.support.v7.widget.GridLayoutManager"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:spanCount="2"
         android:requiresFadingEdge="vertical"
         android:paddingStart="8dp"

@@ -1,10 +1,9 @@
 package dev.olog.msc.presentation.playing.queue
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
@@ -32,7 +31,7 @@ class PlayingQueueFragment : BaseFragment() {
     @Inject lateinit var viewModelFactory : ViewModelProvider.Factory
     @Inject lateinit var adapter: PlayingQueueFragmentAdapter
     @Inject lateinit var navigator: Navigator
-    private lateinit var layoutManager : LinearLayoutManager
+    private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
 
     private val viewModel by lazyFast { act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory) }
 
@@ -45,7 +44,7 @@ class PlayingQueueFragment : BaseFragment() {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context!!)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)

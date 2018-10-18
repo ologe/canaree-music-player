@@ -2,9 +2,8 @@ package dev.olog.msc.presentation.utils.images
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.graphics.Palette
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
@@ -18,7 +17,7 @@ class RippleTarget(
         view: ImageView,
         private val isLeaf : Boolean
 
-) : DrawableImageViewTarget(view), Palette.PaletteAsyncListener {
+) : DrawableImageViewTarget(view), androidx.palette.graphics.Palette.PaletteAsyncListener {
 
     private val imageView = WeakReference(view)
 
@@ -33,12 +32,12 @@ class RippleTarget(
 
         if (!isLeaf && imageView.get() is ForegroundImageView){
             val bitmap = drawable.getBitmap() ?: return
-            Palette.from(bitmap).clearFilters().generate(this)
+            androidx.palette.graphics.Palette.from(bitmap).clearFilters().generate(this)
         }
     }
 
     @SuppressLint("NewApi")
-    override fun onGenerated(palette: Palette?) {
+    override fun onGenerated(palette: androidx.palette.graphics.Palette?) {
         val view = imageView.get() ?: return
 
         if (!isLeaf && view is ForegroundImageView){

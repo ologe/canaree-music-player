@@ -7,8 +7,6 @@ import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.msc.app.GlideApp
-import dev.olog.msc.app.GlideRequest
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.img.CoverUtils
@@ -17,7 +15,7 @@ import dev.olog.msc.utils.img.ImageUtils
 fun Context.getBitmapAsync(
         model: DisplayableItem,
         size: Int,
-        extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+//        extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
         withError: Boolean = true): Bitmap {
 
     assertBackgroundThread()
@@ -31,7 +29,7 @@ fun Context.getBitmapAsync(
             .asBitmap()
             .load(placeholder.toBitmap())
             .override(size)
-            .extend(extension)
+//            .extend(extension)
 
     val builder = GlideApp.with(this)
             .asBitmap()
@@ -39,7 +37,7 @@ fun Context.getBitmapAsync(
             .override(size)
             .priority(Priority.IMMEDIATE)
             .onlyRetrieveFromCache(onlyFromCache)
-            .extend(extension)
+//            .extend(extension)
 
     return try {
         builder.submit().get()
@@ -87,9 +85,9 @@ fun Context.getBitmap(
             })
 }
 
-private fun GlideRequest<Bitmap>.extend(func: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)?): GlideRequest<Bitmap> {
-    if (func != null){
-        return this.func()
-    }
-    return this
-}
+//private fun GlideRequest<Bitmap>.extend(func: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)?): GlideRequest<Bitmap> {
+//    if (func != null){
+//        return this.func()
+//    }
+//    return this
+//}

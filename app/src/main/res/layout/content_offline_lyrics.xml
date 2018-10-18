@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:theme="@style/AppThemeWhite">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardCornerRadius="@dimen/big_default_corner_radius"
@@ -16,7 +16,7 @@
         tools:layout_marginEnd="0dp"
         android:layout_marginBottom="8dp">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -119,7 +119,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <android.support.design.widget.CoordinatorLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/wrapper"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <android.support.design.bottomappbar.BottomAppBar
+                <com.google.android.material.bottomappbar.BottomAppBar
                     android:id="@+id/bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -193,7 +193,7 @@
 
                     </LinearLayout>
 
-                </android.support.design.bottomappbar.BottomAppBar>
+                </com.google.android.material.bottomappbar.BottomAppBar>
 
                 <dev.olog.msc.presentation.widget.BottomAppBarFab
                     android:layout_width="wrap_content"
@@ -204,9 +204,9 @@
                     app:backgroundTint="@android:color/transparent"
                     app:elevation="0dp" />
 
-            </android.support.design.widget.CoordinatorLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -231,8 +231,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.base.adapter.drag
 
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.animation.BounceInterpolator
@@ -28,7 +27,7 @@ class TouchHelperAnimationController {
     private val interpolator by lazyFast { DecelerateInterpolator() }
     private val bounce by lazyFast { BounceInterpolator() }
 
-    fun initializeSwipe(viewHolder: RecyclerView.ViewHolder, dx: Float){
+    fun initializeSwipe(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, dx: Float){
         if (dx > 0){
             if (state == State.SWIPE_RIGHT){
                 return
@@ -52,7 +51,7 @@ class TouchHelperAnimationController {
         playNext?.toggleVisibility(dx < 0, false)
     }
 
-    fun drawCircularReveal(viewHolder: RecyclerView.ViewHolder, dx: Float){
+    fun drawCircularReveal(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, dx: Float){
         if (state == State.CIRCULAR_REVEAL){
             return
         }

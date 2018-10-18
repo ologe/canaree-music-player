@@ -1,15 +1,14 @@
 package dev.olog.msc.presentation.player
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
-import android.support.v4.math.MathUtils
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.math.MathUtils
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
@@ -49,7 +48,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     @Inject lateinit var presenter: PlayerFragmentPresenter
     @Inject lateinit var navigator: Navigator
 
-    private lateinit var layoutManager : LinearLayoutManager
+    private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
 
     private lateinit var mediaProvider : MediaProvider
 
@@ -61,7 +60,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         val adapter = PlayerFragmentAdapter(lifecycle, activity as MediaProvider,
                 navigator, viewModel, presenter)
 
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.isNestedScrollingEnabled = false

@@ -15,8 +15,9 @@
  */
 package dev.olog.msc.floating.window.service.api;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 /**
  * Content to be displayed in a {@link HoverView}.

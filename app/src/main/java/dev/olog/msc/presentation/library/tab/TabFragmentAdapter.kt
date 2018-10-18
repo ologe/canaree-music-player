@@ -1,14 +1,12 @@
 package dev.olog.msc.presentation.library.tab
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
@@ -67,19 +65,19 @@ class TabFragmentAdapter @Inject constructor(
                 }
             }
             R.layout.item_tab_last_played_album_horizontal_list -> {
-                val view = viewHolder.itemView as RecyclerView
+                val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(view, lastPlayedAlbumsAdapter.get())
             }
             R.layout.item_tab_last_played_artist_horizontal_list -> {
-                val view = viewHolder.itemView as RecyclerView
+                val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(view, lastPlayedArtistsAdapter.get())
             }
             R.layout.item_tab_new_album_horizontal_list-> {
-                val view = viewHolder.itemView as RecyclerView
+                val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(view, newAlbumsAdapter.get())
             }
             R.layout.item_tab_new_artist_horizontal_list-> {
-                val view = viewHolder.itemView as RecyclerView
+                val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(view, newArtistsAdapter.get())
             }
         }
@@ -93,8 +91,8 @@ class TabFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalList(list: RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalList(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(list.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         list.layoutManager = layoutManager
         list.adapter = adapter
     }

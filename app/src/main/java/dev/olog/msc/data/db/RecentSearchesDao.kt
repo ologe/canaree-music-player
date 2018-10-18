@@ -1,6 +1,6 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import dev.olog.msc.data.entity.RecentSearchesEntity
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.utils.MediaId

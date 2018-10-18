@@ -1,15 +1,12 @@
 package dev.olog.msc.presentation.about
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.TextViewCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Gravity
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.ViewSwitcher
+import androidx.core.widget.TextViewCompat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.utils.k.extension.subscribe
@@ -25,7 +22,7 @@ class AboutActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        list.layoutManager = LinearLayoutManager(this)
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         list.adapter = adapter
 
         switcher?.setFactory(factory)
@@ -37,7 +34,7 @@ class AboutActivity : BaseActivity() {
 
     }
 
-    override fun onAttachFragment(fragment: Fragment?) {
+    override fun onAttachFragment(fragment: androidx.fragment.app.Fragment?) {
         super.onAttachFragment(fragment)
         setInAnimation()
     }

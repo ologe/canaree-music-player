@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.about
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext

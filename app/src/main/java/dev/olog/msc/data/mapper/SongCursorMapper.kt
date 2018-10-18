@@ -3,10 +3,10 @@ package dev.olog.msc.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getInt
-import androidx.core.database.getLong
-import androidx.core.database.getString
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.utils.getInt
+import dev.olog.msc.utils.getLong
+import dev.olog.msc.utils.getString
 import java.io.File
 
 

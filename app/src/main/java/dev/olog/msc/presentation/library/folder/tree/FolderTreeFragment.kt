@@ -1,10 +1,9 @@
 package dev.olog.msc.presentation.library.folder.tree
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -35,7 +34,7 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         val adapter = FolderTreeFragmentAdapter(lifecycle, viewModel, activity as MediaProvider, navigator)
         view.list.adapter = adapter
-        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.setHasFixedSize(true)
 
         view.fastScroller.attachRecyclerView(view.list)

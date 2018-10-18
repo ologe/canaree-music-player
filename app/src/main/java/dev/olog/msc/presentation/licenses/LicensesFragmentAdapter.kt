@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.licenses
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
 import android.text.method.LinkMovementMethod
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.databinding.ItemLicenseBinding

@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.detail.scroll.listener
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
@@ -11,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_detail.view.*
 class HeaderVisibilityScrollListener(
         private val fragment: DetailFragment
 
-) : RecyclerView.OnScrollListener() {
+) : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
     private val context = fragment.context!!
     private val toolbarHeight by lazy {
@@ -19,7 +18,7 @@ class HeaderVisibilityScrollListener(
         statusBarHeight + context.dimen(R.dimen.toolbar)
     }
 
-    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+    override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
         val child = recyclerView.getChildAt(0)
         val holder = recyclerView.getChildViewHolder(child)
 

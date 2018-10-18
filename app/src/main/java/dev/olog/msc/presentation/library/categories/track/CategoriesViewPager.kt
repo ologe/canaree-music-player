@@ -2,9 +2,6 @@ package dev.olog.msc.presentation.library.categories.track
 
 import android.content.Context
 import android.preference.PreferenceManager
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ChildFragmentManager
@@ -17,9 +14,9 @@ import javax.inject.Inject
 class CategoriesViewPager @Inject constructor(
         @ApplicationContext private val context: Context,
         prefsUseCase: AppPreferencesUseCase,
-        @ChildFragmentManager private val fragmentManager: FragmentManager
+        @ChildFragmentManager private val fragmentManager: androidx.fragment.app.FragmentManager
 
-) : FragmentStatePagerAdapter(fragmentManager) {
+) : androidx.fragment.app.FragmentStatePagerAdapter(fragmentManager) {
 
     private val data = prefsUseCase.getLibraryCategories()
             .filter { it.visible }
@@ -32,7 +29,7 @@ class CategoriesViewPager @Inject constructor(
         }
     }
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         val category = data[position].category
 
         return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()){

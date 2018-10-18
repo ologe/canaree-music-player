@@ -2,7 +2,6 @@ package dev.olog.msc.presentation.popup.playlist
 
 import android.app.Activity
 import android.view.MenuItem
-import androidx.core.widget.toast
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.entity.Playlist
@@ -14,6 +13,7 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class PlaylistPopupListener @Inject constructor(

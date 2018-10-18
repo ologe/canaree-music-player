@@ -1,11 +1,10 @@
 package dev.olog.msc.presentation.library.tab
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import androidx.annotation.CallSuper
 import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlaylistType
@@ -46,7 +45,7 @@ class TabFragment : BaseFragment() {
     @Inject lateinit var lastArtistsAdapter : Lazy<TabFragmentLastPlayedArtistsAdapter>
     @Inject lateinit var newAlbumsAdapter : Lazy<TabFragmentNewAlbumsAdapter>
     @Inject lateinit var newArtistsAdapter : Lazy<TabFragmentNewArtistsAdapter>
-    @Inject lateinit var layoutManager: Provider<GridLayoutManager>
+    @Inject lateinit var layoutManager: Provider<androidx.recyclerview.widget.GridLayoutManager>
     @Inject lateinit var navigator : Lazy<Navigator>
 
     private fun handleEmptyStateVisibility(isEmpty: Boolean){
@@ -192,7 +191,7 @@ class TabFragment : BaseFragment() {
             }
         }
         if (position != -1){
-            val layoutManager = list.layoutManager as GridLayoutManager
+            val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }

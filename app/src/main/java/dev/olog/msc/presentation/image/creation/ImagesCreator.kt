@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.image.creation
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.app.app
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllFoldersNewRequestUseCase

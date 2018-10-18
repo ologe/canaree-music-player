@@ -18,10 +18,11 @@ package dev.olog.msc.floating.window.service.api.window;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
 
 /**
  * Controls {@code View}s' positions, visibility, etc within a {@code Window}.

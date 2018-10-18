@@ -1,11 +1,11 @@
 package dev.olog.msc.music.service.player.crossfade
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.media.AudioManager
-import android.support.v4.math.MathUtils
 import android.view.KeyEvent
+import androidx.core.math.MathUtils
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.Lazy

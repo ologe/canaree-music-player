@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.widget.playpause
 
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat
-import android.support.v4.content.ContextCompat
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 

@@ -3,8 +3,7 @@ package dev.olog.msc.presentation.popup.main
 import android.content.Intent
 import android.media.audiofx.AudioEffect
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
-import androidx.core.widget.toast
+import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.about.AboutActivity
 import dev.olog.msc.presentation.debug.DebugConfigurationActivity
@@ -12,6 +11,7 @@ import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialogBuilde
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class MainPopupNavigator @Inject constructor(

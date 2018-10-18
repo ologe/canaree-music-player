@@ -1,15 +1,13 @@
 package dev.olog.msc.presentation.equalizer
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewPager
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import dev.olog.msc.R
 import dev.olog.msc.music.service.equalizer.IEqualizer
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.equalizer.widget.RadialKnob
-import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -125,7 +123,7 @@ class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listener {
         override fun onSwitchChanged(knob: RadialKnob?, on: Boolean): Boolean = false
     }
 
-    private val onPageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
+    private val onPageChangeListener = object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
             presenter.setPreset(position % adapter.count)
         }

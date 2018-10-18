@@ -4,10 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewPager
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.Permissions
@@ -249,8 +247,8 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
 
     private fun tryPopFolderBack(): Boolean {
         val categories = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
-        categories?.view?.findViewById<ViewPager>(R.id.viewPager)?.let { pager ->
-            val currentItem = pager.adapter?.instantiateItem(pager, pager.currentItem) as Fragment
+        categories?.view?.findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)?.let { pager ->
+            val currentItem = pager.adapter?.instantiateItem(pager, pager.currentItem) as androidx.fragment.app.Fragment
             return if (currentItem is FolderTreeFragment){
                 currentItem.pop()
             } else false

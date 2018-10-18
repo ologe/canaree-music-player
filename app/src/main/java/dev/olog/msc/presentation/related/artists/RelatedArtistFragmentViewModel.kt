@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.related.artists
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
 import android.content.res.Resources
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase

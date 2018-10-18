@@ -20,11 +20,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import dev.olog.msc.floating.window.service.api.HoverView;
 import dev.olog.msc.floating.window.service.api.OnExitListener;
 import dev.olog.msc.floating.window.service.api.SideDock;

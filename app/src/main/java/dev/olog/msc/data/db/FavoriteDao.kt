@@ -1,6 +1,6 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import dev.olog.msc.data.entity.FavoriteEntity
 import dev.olog.msc.data.entity.FavoritePodcastEntity
 import dev.olog.msc.domain.entity.FavoriteType

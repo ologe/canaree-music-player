@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.edit
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.app.app

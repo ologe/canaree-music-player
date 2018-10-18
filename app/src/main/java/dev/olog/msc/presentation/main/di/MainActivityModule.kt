@@ -1,12 +1,11 @@
 package dev.olog.msc.presentation.main.di
 
 import android.app.Activity
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ViewModel
 import android.content.Context
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -47,7 +46,7 @@ class MainActivityModule(
     internal fun provideSupportActivity(): AppCompatActivity = activity
 
     @Provides
-    internal fun provideFragmentActivity(): FragmentActivity = activity
+    internal fun provideFragmentActivity(): androidx.fragment.app.FragmentActivity = activity
 
     @Provides
     internal fun provideMusicGlue(): MediaProvider = activity

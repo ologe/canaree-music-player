@@ -1,9 +1,9 @@
 package dev.olog.msc.presentation.edit.artist
 
-import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants

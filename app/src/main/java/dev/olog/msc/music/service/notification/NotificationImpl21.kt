@@ -7,13 +7,12 @@ import android.app.Service
 import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Typeface
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.SpannableString
 import android.text.style.StyleSpan
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import dagger.Lazy
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
@@ -44,7 +43,7 @@ open class NotificationImpl21 @Inject constructor(
             return
         }
 
-        val mediaStyle = android.support.v4.media.app.NotificationCompat.MediaStyle()
+        val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(token)
                 .setShowActionsInCompactView(1, 2, 3)
 
@@ -142,8 +141,8 @@ open class NotificationImpl21 @Inject constructor(
     }
 
     private fun buildPendingIntent(action: Long): PendingIntent {
-        return MediaButtonReceiver.buildMediaButtonPendingIntent(
-                service, ComponentName(service, MediaButtonReceiver::class.java), action)
+        return androidx.media.session.MediaButtonReceiver.buildMediaButtonPendingIntent(
+                service, ComponentName(service, androidx.media.session.MediaButtonReceiver::class.java), action)
     }
 
     override fun cancel() {

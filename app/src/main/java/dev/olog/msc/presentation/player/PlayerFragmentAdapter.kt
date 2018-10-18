@@ -1,16 +1,14 @@
 package dev.olog.msc.presentation.player
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Lifecycle
 import android.content.res.ColorStateList
-import android.databinding.ViewDataBinding
-import android.support.constraint.ConstraintLayout
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.graphics.Palette
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -96,7 +94,7 @@ class PlayerFragmentAdapter (
                 viewModel.observeImageColors()
                         .observeOn(Schedulers.computation())
                         .takeUntil(RxView.detaches(view).asFlowable())
-                        .map { Palette.from(it.bitmap).generate() }
+                        .map { androidx.palette.graphics.Palette.from(it.bitmap).generate() }
                         .map { ColorUtil.getAccentColor(view.context, it) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ accentColor ->
@@ -111,7 +109,7 @@ class PlayerFragmentAdapter (
                 bindPlayerControls(view)
                 viewModel.observeImageColors()
                         .takeUntil(RxView.detaches(view).asFlowable())
-                        .map { it to Palette.from(it.bitmap).generate() }
+                        .map { it to androidx.palette.graphics.Palette.from(it.bitmap).generate() }
                         .map { it.first to ColorUtil.getAccentColor(view.context, it.second) }
                         .subscribe({ (imageProcessor, accentColor) ->
                             view.title.apply {
@@ -139,7 +137,7 @@ class PlayerFragmentAdapter (
                 viewModel.observeImageColors()
                         .observeOn(Schedulers.computation())
                         .takeUntil(RxView.detaches(view).asFlowable())
-                        .map { Palette.from(it.bitmap).generate() }
+                        .map { androidx.palette.graphics.Palette.from(it.bitmap).generate() }
                         .map { ColorUtil.getAccentColor(view.context, it) }
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ accentColor ->
@@ -457,7 +455,7 @@ class PlayerFragmentAdapter (
 
     override val onSwipeRightAction = { position: Int -> mediaProvider.removeRelative(position) }
 
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+    override fun onSwipedLeft(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
         // not working properly
 //        val position = viewHolder.adapterPosition
 //        val context = viewHolder.itemView.context

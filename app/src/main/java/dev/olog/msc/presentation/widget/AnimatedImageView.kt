@@ -2,11 +2,11 @@ package dev.olog.msc.presentation.widget
 
 import android.content.Context
 import android.graphics.Color
-import android.support.annotation.Keep
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat
-import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
 import android.view.ViewPropertyAnimator
+import androidx.annotation.Keep
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable

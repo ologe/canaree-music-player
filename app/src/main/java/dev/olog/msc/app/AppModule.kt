@@ -3,12 +3,12 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.app.Application
 import android.appwidget.AppWidgetProvider
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ProcessLifecycleOwner
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ApplicationContext

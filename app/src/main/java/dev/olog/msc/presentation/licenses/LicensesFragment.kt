@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.licenses
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
@@ -24,7 +23,7 @@ class LicensesFragment : BaseFragment(){
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.adapter = adapter
-        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 
         Single.just(presenter.data)
                 .toFlowable()

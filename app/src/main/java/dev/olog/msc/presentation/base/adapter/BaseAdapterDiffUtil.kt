@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.utils.assertBackgroundThread
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/player_toolbar" />
 
-        <android.support.design.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/coverWrapper"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -46,7 +46,7 @@
                 android:clickable="false"
                 android:focusable="false" />
 
-        </android.support.design.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"
@@ -191,6 +191,6 @@
             android:layout_width="0dp"
             android:layout_height="2dp" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

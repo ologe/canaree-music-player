@@ -1,19 +1,18 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.widget.toast
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 
@@ -21,7 +20,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         lifecycle: Lifecycle,
         protected val controller : AdapterDataController<Model> = BaseAdapterDataController()
 
-) : RecyclerView.Adapter<DataBoundViewHolder>(), DefaultLifecycleObserver, TouchableAdapter {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<DataBoundViewHolder>(), DefaultLifecycleObserver, TouchableAdapter {
 
     private var dataDisposable : Disposable? = null
     var touchHelper: ItemTouchHelper? = null
@@ -134,7 +133,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         onDragAction!!.invoke(relativeFrom, relativeTo)
     }
 
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+    override fun onSwipedLeft(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val context = viewHolder.itemView.context
 

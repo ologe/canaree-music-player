@@ -3,9 +3,9 @@ package dev.olog.msc.music.service.notification
 import android.app.NotificationManager
 import android.app.Service
 import android.os.Build
-import android.support.annotation.RequiresApi
 import android.support.v4.media.session.MediaSessionCompat
 import android.text.SpannableString
+import androidx.annotation.RequiresApi
 import dagger.Lazy
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId

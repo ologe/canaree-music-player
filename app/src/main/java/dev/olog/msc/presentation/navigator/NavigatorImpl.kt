@@ -1,12 +1,10 @@
 package dev.olog.msc.presentation.navigator
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Intent
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
 import dev.olog.msc.R
@@ -78,7 +76,7 @@ class NavigatorImpl @Inject internal constructor(
                 .any { (it.view?.parent as View?)?.id == R.id.upperFragmentContainer  }
     }
 
-    private fun getFragmentOnFragmentContainer(): Fragment? {
+    private fun getFragmentOnFragmentContainer(): androidx.fragment.app.Fragment? {
         return activity.supportFragmentManager.fragments
                 .firstOrNull { (it.view?.parent as View?)?.id == R.id.fragmentContainer  }
     }
@@ -89,7 +87,7 @@ class NavigatorImpl @Inject internal constructor(
         }
 
         activity.fragmentTransaction {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             hideFragmentsIfExists(activity, listOf(
                     SearchFragment.TAG,
                     PlayingQueueFragment.TAG,
@@ -113,7 +111,7 @@ class NavigatorImpl @Inject internal constructor(
         }
 
         activity.fragmentTransaction {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             hideFragmentsIfExists(activity, listOf(
                     SearchFragment.TAG,
                     PlayingQueueFragment.TAG,
@@ -137,7 +135,7 @@ class NavigatorImpl @Inject internal constructor(
         }
 
         activity.fragmentTransaction {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             hideFragmentsIfExists(activity, listOf(
                     CategoriesPodcastFragment.TAG,
                     PlayingQueueFragment.TAG,
@@ -158,7 +156,7 @@ class NavigatorImpl @Inject internal constructor(
         }
 
         activity.fragmentTransaction {
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             hideFragmentsIfExists(activity, listOf(
                     CategoriesPodcastFragment.TAG,
                     SearchFragment.TAG,
@@ -180,7 +178,7 @@ class NavigatorImpl @Inject internal constructor(
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 getFragmentOnFragmentContainer()?.let { hide(it) }
                 replace(R.id.upperFragmentContainer, DetailFragment.newInstance(mediaId), DetailFragment.TAG)
                 addToBackStack(DetailFragment.TAG)
@@ -192,7 +190,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 getFragmentOnFragmentContainer()?.let { hide(it) }
                 replace(R.id.upperFragmentContainer, RelatedArtistFragment.newInstance(mediaId), RelatedArtistFragment.TAG)
                 addToBackStack(RelatedArtistFragment.TAG)
@@ -204,7 +202,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 getFragmentOnFragmentContainer()?.let { hide(it) }
                 replace(R.id.upperFragmentContainer, RecentlyAddedFragment.newInstance(mediaId), RecentlyAddedFragment.TAG)
                 addToBackStack(RecentlyAddedFragment.TAG)
@@ -216,7 +214,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 add(android.R.id.content, OfflineLyricsFragment.newInstance(icon),
                         OfflineLyricsFragment.TAG)
                 addToBackStack(OfflineLyricsFragment.TAG)
@@ -254,7 +252,7 @@ class NavigatorImpl @Inject internal constructor(
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 getFragmentOnFragmentContainer()?.let { hide(it) }
                 replace(R.id.upperFragmentContainer, PlaylistTracksChooserFragment.newInstance(type), PlaylistTracksChooserFragment.TAG)
                 addToBackStack(PlaylistTracksChooserFragment.TAG)

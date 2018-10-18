@@ -1,15 +1,15 @@
 package dev.olog.msc.floating.window.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
-import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.widget.ProgressBar
+import androidx.annotation.LayoutRes
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.floating.window.service.api.Content
 import kotlin.properties.Delegates

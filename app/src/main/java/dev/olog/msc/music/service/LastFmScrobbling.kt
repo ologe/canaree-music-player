@@ -1,8 +1,8 @@
 package dev.olog.msc.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import de.umass.lastfm.Authenticator
 import de.umass.lastfm.Caller
 import de.umass.lastfm.Session

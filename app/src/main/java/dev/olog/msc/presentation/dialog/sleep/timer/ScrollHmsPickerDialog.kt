@@ -5,14 +5,14 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.annotation.ColorRes
-import android.support.design.card.MaterialCardView
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import com.google.android.material.card.MaterialCardView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.theme.AppTheme

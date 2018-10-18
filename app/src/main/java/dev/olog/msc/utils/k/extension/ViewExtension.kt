@@ -4,10 +4,10 @@ package dev.olog.msc.utils.k.extension
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import dev.olog.msc.R
 

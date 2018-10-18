@@ -1,13 +1,13 @@
 package dev.olog.msc.floating.window.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder

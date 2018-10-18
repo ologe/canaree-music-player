@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.detail
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase

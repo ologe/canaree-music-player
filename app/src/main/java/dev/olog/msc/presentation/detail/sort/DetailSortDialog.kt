@@ -1,11 +1,11 @@
 package dev.olog.msc.presentation.detail.sort
 
 import android.content.Context
-import android.support.annotation.MenuRes
 import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
+import androidx.annotation.MenuRes
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.utils.MediaId

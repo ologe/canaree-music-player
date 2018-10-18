@@ -1,9 +1,9 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Transaction
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Transaction
 import dev.olog.msc.data.entity.MiniQueueEntity
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong

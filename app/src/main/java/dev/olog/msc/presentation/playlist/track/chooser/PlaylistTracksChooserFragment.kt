@@ -1,15 +1,14 @@
 package dev.olog.msc.presentation.playlist.track.chooser
 
-import android.arch.lifecycle.ViewModelProvider
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
@@ -65,7 +64,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.setHasFixedSize(true)
 
@@ -207,7 +206,7 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
             }
         }
         if (position != -1){
-            val layoutManager = list.layoutManager as LinearLayoutManager
+            val layoutManager = list.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }

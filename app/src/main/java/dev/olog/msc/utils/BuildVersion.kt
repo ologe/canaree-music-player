@@ -1,7 +1,6 @@
 package dev.olog.msc.utils
 
 import android.os.Build
-import android.support.v4.os.BuildCompat
 
 fun isLollipop_MR_1(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1

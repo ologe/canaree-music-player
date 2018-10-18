@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.equalizer.widget
 
 import android.content.Context
-import android.support.v4.math.MathUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -10,6 +9,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.math.MathUtils
 import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
 import dev.olog.msc.presentation.equalizer.ResizeAnimation

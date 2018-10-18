@@ -1,6 +1,6 @@
 package dev.olog.msc.api.last.fm
 
-import android.support.annotation.IntRange
+import androidx.annotation.IntRange
 import dev.olog.msc.api.last.fm.album.info.AlbumInfo
 import dev.olog.msc.api.last.fm.album.search.AlbumSearch
 import dev.olog.msc.api.last.fm.artist.info.ArtistInfo

@@ -3,10 +3,10 @@ package dev.olog.msc.app
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.Application
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.os.Looper
-import android.support.v7.preference.PreferenceManager
+import androidx.lifecycle.LifecycleOwner
+import androidx.preference.PreferenceManager
 import dagger.android.AndroidInjector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.Permissions

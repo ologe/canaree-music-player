@@ -3,12 +3,12 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.graphics.drawable.Animatable2Compat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*

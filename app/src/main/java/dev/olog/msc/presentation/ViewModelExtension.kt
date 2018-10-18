@@ -1,10 +1,9 @@
 package dev.olog.msc.presentation
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 
 // region ViewModels
 
@@ -14,7 +13,7 @@ import android.support.v4.app.FragmentActivity
  * val myViewModel = viewModelProvider(myViewModelFactory)
  * ```
  */
-inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
+inline fun <reified VM : ViewModel> androidx.fragment.app.FragmentActivity.viewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
         ViewModelProviders.of(this, provider).get(VM::class.java)
@@ -25,7 +24,7 @@ inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
  * val myViewModel = viewModelProvider(myViewModelFactory)
  * ```
  */
-inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
+inline fun <reified VM : ViewModel> androidx.fragment.app.Fragment.viewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
         ViewModelProviders.of(this, provider).get(VM::class.java)
@@ -33,7 +32,7 @@ inline fun <reified VM : ViewModel> Fragment.viewModelProvider(
 /**
  * Like [Fragment.viewModelProvider] for Fragments that want a [ViewModel] scoped to the Activity.
  */
-inline fun <reified VM : ViewModel> Fragment.activityViewModelProvider(
+inline fun <reified VM : ViewModel> androidx.fragment.app.Fragment.activityViewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
         ViewModelProviders.of(requireActivity(), provider).get(VM::class.java)
@@ -42,7 +41,7 @@ inline fun <reified VM : ViewModel> Fragment.activityViewModelProvider(
  * Like [Fragment.viewModelProvider] for Fragments that want a [ViewModel] scoped to the parent
  * Fragment.
  */
-inline fun <reified VM : ViewModel> Fragment.parentViewModelProvider(
+inline fun <reified VM : ViewModel> androidx.fragment.app.Fragment.parentViewModelProvider(
         provider: ViewModelProvider.Factory
 ) =
         ViewModelProviders.of(parentFragment!!, provider).get(VM::class.java)

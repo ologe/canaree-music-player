@@ -1,9 +1,9 @@
 package dev.olog.msc.floating.window.service
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ServiceLifecycleDispatcher
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ServiceLifecycleDispatcher
 import dagger.android.AndroidInjection
 import dev.olog.msc.floating.window.service.api.window.HoverMenuService
 

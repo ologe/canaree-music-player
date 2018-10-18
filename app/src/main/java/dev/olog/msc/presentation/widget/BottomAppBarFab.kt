@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.widget
 
 import android.content.Context
-import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 open class BottomAppBarFab(context: Context, attrs: AttributeSet) : FloatingActionButton(context, attrs) {
 

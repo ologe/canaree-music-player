@@ -20,8 +20,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +29,8 @@ import android.widget.RelativeLayout;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import dev.olog.msc.R;
 import dev.olog.msc.floating.window.service.api.view.InViewDragger;
 import dev.olog.msc.floating.window.service.api.window.InWindowDragger;

@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.mini.player
 
 import android.os.Bundle
-import android.support.v4.math.MathUtils
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
+import androidx.core.math.MathUtils
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R

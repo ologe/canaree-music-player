@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,14 +10,14 @@
     android:clipToPadding="false"
     style="@style/EditItemCardView">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:clipChildren="false"
         android:clipToPadding="false">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             tools:padding="22dp"
             tools:src="@tools:sample/avatars"/>
 
-        <android.support.design.chip.ChipGroup
+        <com.google.android.material.chip.ChipGroup
             android:id="@+id/chips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,15 +51,15 @@
             android:layout_marginStart="8dp"
             app:chipSpacingHorizontal="12dp">
 
-            <android.support.design.chip.Chip
+            <com.google.android.material.chip.Chip
                 android:id="@+id/albumsUpdated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Your changes will be applied to 5 song"/>
 
-        </android.support.design.chip.ChipGroup>
+        </com.google.android.material.chip.ChipGroup>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             app:fabSize="mini"
             android:src="@drawable/vd_image_search" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/albumLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -82,16 +82,16 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/album"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/EditItemEditText"
                 tools:text="@string/edit_info_album"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/artistLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,16 +101,16 @@
             app:layout_constraintStart_toEndOf="@+id/albumLayout"
             android:layout_marginEnd="8dp">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/artist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/EditItemEditText"
                 tools:text="@string/edit_info_artist"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/albumArtistLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -119,16 +119,16 @@
             app:layout_constraintStart_toStartOf="@+id/albumLayout"
             app:layout_constraintEnd_toEndOf="@+id/albumLayout">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/albumArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/EditItemEditText"
                 tools:text="@string/edit_info_album_artist"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/genreLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -137,16 +137,16 @@
             app:layout_constraintStart_toStartOf="@+id/albumArtistLayout"
             app:layout_constraintEnd_toEndOf="@+id/albumArtistLayout">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/EditItemEditText"
                 tools:text="@string/edit_info_genre"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/yearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -155,18 +155,18 @@
             app:layout_constraintStart_toStartOf="@+id/artistLayout"
             app:layout_constraintEnd_toEndOf="@+id/artistLayout">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/EditItemEditText"
                 tools:text="@string/edit_info_year"/>
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/okButton"
             app:layout_constraintTop_toBottomOf="@+id/genreLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -176,7 +176,7 @@
             style="@style/PositiveButton"
             android:layout_margin="16dp" />
 
-        <android.support.design.button.MaterialButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelButton"
             android:text="@string/popup_negative_cancel"
             android:layout_width="wrap_content"
@@ -186,7 +186,7 @@
             app:layout_constraintEnd_toStartOf="@+id/okButton"
             />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</android.support.design.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>

@@ -1,15 +1,15 @@
 package dev.olog.msc.presentation.base
 
 import android.content.Context
-import android.support.annotation.CallSuper
-import android.support.v4.app.DialogFragment
-import dagger.android.support.AndroidSupportInjection
+import androidx.annotation.CallSuper
+import androidx.fragment.app.DialogFragment
+import dev.olog.msc.dagger.base.AndroidXInjection
 
 abstract class BaseDialogFragment : DialogFragment() {
 
     @CallSuper
     override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
+        AndroidXInjection.inject(this)
         super.onAttach(context)
     }
 }

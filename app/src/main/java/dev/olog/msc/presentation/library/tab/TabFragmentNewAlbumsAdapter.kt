@@ -1,11 +1,10 @@
 package dev.olog.msc.presentation.library.tab
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
 import android.view.View
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.AbsAdapter

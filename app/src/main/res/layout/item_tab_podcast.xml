@@ -16,7 +16,7 @@
         android:paddingStart="@dimen/tab_margin_start"
         android:paddingEnd="@dimen/tab_margin_end">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -78,7 +78,7 @@
                 android:textColor="?colorAccent"
                 android:textStyle="bold"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>
 

@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
+import androidx.core.content.ContextCompat
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.dpToPx
 import kotlin.properties.Delegates

@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:clipChildren="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:background="@color/background"
         android:id="@+id/playerRoot">
 
-        <android.support.design.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/coverWrapper"
             app:cardCornerRadius="@dimen/default_corner_radius"
             android:stateListAnimator="@animator/elevate_on_activated"
@@ -31,7 +31,7 @@
                 android:clickable="false"
                 android:focusable="false" />
 
-        </android.support.design.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <dev.olog.msc.presentation.widget.SwipeableView
             android:id="@+id/swipeableView"
@@ -214,6 +214,6 @@
             android:layout_width="0dp"
             android:layout_height="2dp" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

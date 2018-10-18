@@ -2,15 +2,14 @@ package dev.olog.msc.presentation.dialog.sleep.timer
 
 import android.content.Context
 import android.content.DialogInterface
-import android.support.annotation.ColorRes
-import android.support.v4.app.FragmentManager
+import androidx.annotation.ColorRes
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.colorAccentId
 
 class SleepTimerPickerDialogBuilder(
         context: Context,
-        private val fragmentManager: FragmentManager
+        private val fragmentManager: androidx.fragment.app.FragmentManager
 
 ) {
     private var reference: Int = -1

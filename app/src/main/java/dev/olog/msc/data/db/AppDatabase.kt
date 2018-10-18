@@ -1,7 +1,7 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import dev.olog.msc.data.entity.*
 
 

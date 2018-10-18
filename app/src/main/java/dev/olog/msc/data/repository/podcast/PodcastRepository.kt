@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getLong
 import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
@@ -19,6 +18,7 @@ import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.onlyWithStoragePermission
+import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable

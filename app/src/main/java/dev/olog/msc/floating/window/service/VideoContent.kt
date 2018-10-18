@@ -1,7 +1,7 @@
 package dev.olog.msc.floating.window.service
 
-import android.arch.lifecycle.Lifecycle
 import android.content.Context
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.R
 
 class VideoContent(

@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.special.thanks
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
@@ -21,10 +20,10 @@ class SpecialThanksFragment : BaseFragment() {
 
     @Inject lateinit var presenter: SpecialThanksPresenter
     @Inject lateinit var adapter: SpecialThanksFragmentAdapter
-    private lateinit var layoutManager : LinearLayoutManager
+    private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import dev.olog.msc.R;
 import dev.olog.msc.utils.ThreadUtilsKt;
 import dev.olog.msc.utils.k.extension.ViewExtensionKt;

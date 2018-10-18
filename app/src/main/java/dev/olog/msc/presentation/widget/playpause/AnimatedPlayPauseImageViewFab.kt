@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.widget.playpause
 
 import android.content.Context
-import android.support.design.widget.FloatingActionButton
 import android.util.AttributeSet
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AnimatedPlayPauseImageViewFab: FloatingActionButton, IPlayPauseBehavior {
 

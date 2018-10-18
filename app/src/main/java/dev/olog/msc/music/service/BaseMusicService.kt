@@ -1,14 +1,14 @@
 package dev.olog.msc.music.service
 
 import android.app.Service
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.ServiceLifecycleDispatcher
 import android.content.Intent
 import android.provider.MediaStore
-import android.support.annotation.CallSuper
-import android.support.v4.content.ContextCompat
-import android.support.v4.media.MediaBrowserServiceCompat
+import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.interfaces.Player

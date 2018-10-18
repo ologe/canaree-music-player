@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.library.folder.tree.di
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

@@ -1,8 +1,7 @@
 package dev.olog.msc.presentation.related.artists.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -11,7 +10,6 @@ import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragmentViewModel
-
 import dev.olog.msc.utils.MediaId
 
 @Module(includes = [RelatedArtistFragmentModule.Binding::class])

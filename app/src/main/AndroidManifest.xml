@@ -32,7 +32,8 @@
         android:name=".app.App"
         tools:ignore="GoogleAppIndexingWarning"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        tools:replace="android:supportsRtl">
 
         <!--main activity-->
         <activity
@@ -107,7 +108,7 @@
         </service>
 
         <!--media button receiver-->
-        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
+        <receiver android:name="androidx.media.session.MediaButtonReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -149,7 +150,7 @@
 
         <!--provide storage permission to share intents-->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

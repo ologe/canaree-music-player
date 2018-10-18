@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.playing.queue
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.interactor.playing.queue.ObservePlayingQueueUseCase

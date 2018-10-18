@@ -1,10 +1,8 @@
 package dev.olog.msc.presentation.search
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSnapHelper
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
@@ -25,7 +23,7 @@ class SearchFragmentAdapter @Inject constructor(
         private val folderAdapter: SearchFragmentFolderAdapter,
         private val playlistAdapter: SearchFragmentPlaylistAdapter,
         private val genreAdapter: SearchFragmentGenreAdapter,
-        private val recycledViewPool: RecyclerView.RecycledViewPool,
+        private val recycledViewPool: androidx.recyclerview.widget.RecyclerView.RecycledViewPool,
         private val mediaProvider: MediaProvider,
         private val navigator: Navigator,
         private val viewModel: SearchFragmentViewModel
@@ -35,23 +33,23 @@ class SearchFragmentAdapter @Inject constructor(
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         when (viewType){
             R.layout.item_search_albums_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(list, albumAdapter)
             }
             R.layout.item_search_artists_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(list, artistAdapter)
             }
             R.layout.item_search_folder_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(list, folderAdapter)
             }
             R.layout.item_search_playlists_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(list, playlistAdapter)
             }
             R.layout.item_search_genre_horizontal_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalList(list, genreAdapter)
             }
             R.layout.item_search_song -> {
@@ -100,15 +98,15 @@ class SearchFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalList(list: RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = LinearLayoutManager(list.context,
-                LinearLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalList(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(list.context,
+                androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         list.layoutManager = layoutManager
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
         list.setHasFixedSize(true)
 
-        val snapHelper = LinearSnapHelper()
+        val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
         snapHelper.attachToRecyclerView(list)
     }
 

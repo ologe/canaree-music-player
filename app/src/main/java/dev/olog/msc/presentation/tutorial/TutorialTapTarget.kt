@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.tutorial
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.view.View
+import androidx.core.content.ContextCompat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.taptargetview.TapTarget

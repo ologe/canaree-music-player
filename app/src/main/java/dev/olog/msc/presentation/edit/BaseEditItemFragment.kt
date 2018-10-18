@@ -6,14 +6,13 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.annotation.CallSuper
-import android.support.annotation.StringRes
 import android.widget.ImageView
+import androidx.annotation.CallSuper
+import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import com.bumptech.glide.Priority
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog

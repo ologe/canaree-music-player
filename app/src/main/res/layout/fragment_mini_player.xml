@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -84,7 +84,7 @@
         android:layout_marginTop="2dp"
         android:scrollHorizontally="true" />
 
-    <android.support.design.card.MaterialCardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/coverWrapper"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -107,7 +107,7 @@
             android:layout_height="match_parent"
             tools:src="@drawable/placeholder_folder" />
 
-    </android.support.design.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -120,4 +120,4 @@
         tools:progress="40"
         tools:max="100" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

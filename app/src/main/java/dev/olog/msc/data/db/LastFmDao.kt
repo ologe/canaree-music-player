@@ -1,9 +1,9 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import dev.olog.msc.data.entity.*
 
 private const val ARTIST_CACHE_TIME = "1 months"

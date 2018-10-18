@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single

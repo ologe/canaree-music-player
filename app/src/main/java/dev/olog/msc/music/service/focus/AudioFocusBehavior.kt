@@ -5,7 +5,7 @@ import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import dagger.Lazy
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.volume.IPlayerVolume

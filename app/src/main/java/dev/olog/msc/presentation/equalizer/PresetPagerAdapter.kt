@@ -1,16 +1,12 @@
 package dev.olog.msc.presentation.equalizer
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
-
 class PresetPagerAdapter(
-        manager: FragmentManager,
+        manager: androidx.fragment.app.FragmentManager,
         private val presets: MutableList<String>
 
-) : FragmentStatePagerAdapter(manager) {
+) : androidx.fragment.app.FragmentStatePagerAdapter(manager) {
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         return PresetFragment.newInstance(presets[position])
     }
 

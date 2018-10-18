@@ -1,8 +1,8 @@
 package dev.olog.msc.music.service
 
 import android.annotation.SuppressLint
-import android.support.annotation.CheckResult
-import android.support.annotation.MainThread
+import androidx.annotation.CheckResult
+import androidx.annotation.MainThread
 import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song

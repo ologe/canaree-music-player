@@ -15,8 +15,8 @@
  */
 package dev.olog.msc.floating.window.service.api;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * A state of a {@link HoverView}. {@code HoverView} is implemented with a state pattern and this
