@@ -45,7 +45,7 @@ abstract class BaseAppShortcuts(
                 intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
                 val model = DisplayableItem(0, mediaId, "", image = image)
-                val bitmap = context.getBitmapAsync(model, 128 /*{ circleCrop() }*/)
+                val bitmap = context.getBitmapAsync(model, 128, { circleCrop() })
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
                         .setShortLabel(title)
                         .setIcon(IconCompat.createWithBitmap(bitmap))

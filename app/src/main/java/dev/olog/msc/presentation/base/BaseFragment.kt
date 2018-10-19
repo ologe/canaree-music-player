@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dev.olog.msc.dagger.base.DaggerFragment
+import dagger.android.support.DaggerFragment
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single

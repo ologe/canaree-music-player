@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.library.tab.di
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
+import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.base.FragmentXKey
 import dev.olog.msc.presentation.library.tab.TabFragment
 
 
@@ -13,7 +13,7 @@ abstract class TabFragmentInjector {
 
     @Binds
     @IntoMap
-    @FragmentXKey(TabFragment::class)
+    @FragmentKey(TabFragment::class)
     internal abstract fun injectorFactory(builder: TabFragmentSubComponent.Builder)
             : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 

@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.view.ContextThemeWrapper
-import dev.olog.msc.dagger.base.AndroidXInjection
+import dagger.android.support.AndroidSupportInjection
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 
 abstract class BaseBottomSheetFragment : DimBottomSheetDialogFragment() {
 
     override fun onAttach(context: Context?) {
-        AndroidXInjection.inject(this)
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

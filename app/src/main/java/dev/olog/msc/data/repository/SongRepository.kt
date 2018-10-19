@@ -2,6 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
@@ -13,6 +14,7 @@ import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.mapper.toFakeSong
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.data.mapper.toUneditedSong
@@ -57,7 +59,7 @@ private const val SELECTION = "$DURATION > 20000 AND ${MediaStore.Audio.Media.IS
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
 class SongRepository @Inject constructor(
-        private val contentResolver: ContentResolver,
+        @ApplicationContext private val context: Context,
         private  val rxContentResolver: BriteContentResolver,
         private  val appPrefsUseCase: AppPreferencesUseCase,
         private  val usedImageGateway: UsedImageGateway
@@ -114,7 +116,7 @@ class SongRepository @Inject constructor(
     }
 
     private fun adjustImages(original: List<Song>): List<Song> {
-        val images = CommonQuery.searchForImages()
+        val images = CommonQuery.searchForImages(context)
         return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
     }
 
@@ -173,7 +175,7 @@ class SongRepository @Inject constructor(
         var songId : String? = null
 
         if (songFile != null){
-            contentResolver.query(MEDIA_STORE_URI, arrayOf(BaseColumns._ID),
+            context.contentResolver.query(MEDIA_STORE_URI, arrayOf(BaseColumns._ID),
                     "${ MediaStore.Audio.AudioColumns.DATA} = ?",
                     arrayOf(songFile!!.absolutePath), null)?.let { cursor ->
                 cursor.moveToFirst()
@@ -189,7 +191,7 @@ class SongRepository @Inject constructor(
     @SuppressLint("Recycle")
     private fun getFilePathFromUri(uri: Uri): String? {
         var path : String? = null
-        contentResolver.query(uri, arrayOf(MediaStore.Audio.Media.DATA),
+        context.contentResolver.query(uri, arrayOf(MediaStore.Audio.Media.DATA),
                 null, null, null)?.let { cursor ->
             cursor.moveToFirst()
 
@@ -232,7 +234,7 @@ class SongRepository @Inject constructor(
 
     override fun deleteSingle(songId: Long): Completable {
         return Single.fromCallable {
-            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$songId"))
+            context.contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$songId"))
         }
                 .filter { it > 0 }
                 .flatMapSingle { getByParam(songId).firstOrError() }

@@ -13,6 +13,7 @@ import androidx.core.net.toUri
 import com.bumptech.glide.Priority
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
@@ -55,6 +56,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
                 .priority(Priority.IMMEDIATE)
                 .into(image)
     }
+
 
     protected fun showLoader(@StringRes resId: Int){
         showLoader(getString(resId))

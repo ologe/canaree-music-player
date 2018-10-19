@@ -1,6 +1,6 @@
 package dev.olog.msc.data.repository.podcast
 
-import android.content.ContentResolver
+import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
@@ -8,6 +8,7 @@ import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PodcastPositionEntity
 import dev.olog.msc.data.mapper.toFakePodcast
@@ -52,7 +53,7 @@ private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
 class PodcastRepository @Inject constructor(
         appDatabase: AppDatabase,
-        private val contentResolver: ContentResolver,
+        @ApplicationContext private val context: Context,
         private  val rxContentResolver: BriteContentResolver,
         private  val usedImageGateway: UsedImageGateway
 
@@ -94,7 +95,7 @@ class PodcastRepository @Inject constructor(
     }
 
     private fun adjustImages(original: List<Podcast>): List<Podcast> {
-        val images = CommonQuery.searchForImages()
+        val images = CommonQuery.searchForImages(context)
         return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
     }
 
@@ -145,7 +146,7 @@ class PodcastRepository @Inject constructor(
 
     override fun deleteSingle(podcastId: Long): Completable {
         return Single.fromCallable {
-            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$podcastId"))
+            context.contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$podcastId"))
         }
                 .filter { it > 0 }
                 .flatMapSingle { getByParam(podcastId).firstOrError() }

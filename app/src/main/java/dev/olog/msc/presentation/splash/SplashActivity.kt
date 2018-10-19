@@ -70,7 +70,7 @@ class SplashActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun onStoragePermissionGranted(){
-        updatePermissionValve(true)
+        updatePermissionValve(this, true)
 
         ExplainTrialDialog.show(this) {
             finishActivity()

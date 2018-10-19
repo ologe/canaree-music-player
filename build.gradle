@@ -36,6 +36,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
     }
 }
 
@@ -69,8 +70,8 @@ ext {
     sliding_panel = '3.4.0'
     lottie = '2.7.0'
     sql_brite = '3.2.0'
-    billing = '1.1'
-    android_ktx = '0.3'
+    billing = '1.2'
+    android_ktx = '1.0.0'
     retrofit = '2.4.0'
     fuzzywuzzy = '1.1.10'
     gson = '2.8.5'
@@ -89,14 +90,13 @@ ext {
     rx_kotlin = '2.3.0'
     rx_lint = '1.6.1'
 
-    custom_tabs = '1.1.2'
-    material_dialogs = '0.9.6.0'
+    custom_tabs = '2.0.0'
+    material_dialogs = '2.0.0-beta4'
 
     // dependency injection
-    dagger = '2.17'
+    dagger = '2.16'
 
     // debug
-    rxjava_debug = '1.2.2'
     leak_canary = '1.6.1'
     crashlytics = '2.9.5'
 

@@ -15,6 +15,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.glide.transformation.BlurTransformation
 import dev.olog.msc.offline.lyrics.EditLyricsDialog

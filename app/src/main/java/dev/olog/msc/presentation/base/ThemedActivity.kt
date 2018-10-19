@@ -1,5 +1,6 @@
 package dev.olog.msc.presentation.base
 
+import android.content.Context
 import android.content.res.Resources
 import android.preference.PreferenceManager
 import androidx.core.content.ContextCompat
@@ -10,16 +11,16 @@ import dev.olog.msc.presentation.theme.AppTheme
 
 interface ThemedActivity {
 
-    fun themeAccentColor(theme: Resources.Theme){
-        theme.applyStyle(getAccentStyle(), true)
+    fun themeAccentColor(context: Context, theme: Resources.Theme){
+        theme.applyStyle(getAccentStyle(context.applicationContext), true)
     }
 
-    private fun getAccentStyle(): Int {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(app)
+    private fun getAccentStyle(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val color = if (AppTheme.isWhiteTheme()){
-            prefs.getInt(app.getString(R.string.prefs_accent_light_key), ContextCompat.getColor(app, R.color.accent))
+            prefs.getInt(context.getString(R.string.prefs_accent_light_key), ContextCompat.getColor(context, R.color.accent))
         } else {
-            prefs.getInt(app.getString(R.string.prefs_accent_dark_key), ContextCompat.getColor(app, R.color.accent_secondary))
+            prefs.getInt(context.getString(R.string.prefs_accent_dark_key), ContextCompat.getColor(context, R.color.accent_secondary))
         }
         Crashlytics.log("color accent choosed=$color")
         return when (color){

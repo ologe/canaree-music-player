@@ -1,11 +1,11 @@
 package dev.olog.msc.data.repository.util
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.SparseArray
-import dev.olog.msc.app.app
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import java.io.File
 
@@ -66,8 +66,8 @@ object CommonQuery {
                 .toList()
     }
 
-    fun searchForImages(): SparseArray<String> {
-        val cursor = app.contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+    fun searchForImages(context: Context): SparseArray<String> {
+        val cursor = context.contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                 arrayOf(MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART), null,
                 null, MediaStore.Audio.Albums._ID)
 

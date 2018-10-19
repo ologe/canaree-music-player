@@ -10,8 +10,8 @@ import androidx.core.os.bundleOf
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import dagger.android.AndroidInjection
+import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
-import dev.olog.msc.dagger.base.DaggerActivity
 import dev.olog.msc.presentation.base.ThemedActivity
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.pro.IBilling
@@ -19,7 +19,7 @@ import dev.olog.msc.utils.k.extension.setLightStatusBar
 import kotlinx.android.synthetic.main.activity_preferences.*
 import javax.inject.Inject
 
-class PreferencesActivity : DaggerActivity(),
+class PreferencesActivity : DaggerAppCompatActivity(),
         ColorCallback,
         ThemedActivity {
 
@@ -33,7 +33,7 @@ class PreferencesActivity : DaggerActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         setTheme(getActivityTheme())
-        themeAccentColor(theme)
+        themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
         setContentView(R.layout.activity_preferences)

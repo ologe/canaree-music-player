@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.library.folder.tree
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.database.ContentObserver
 import android.database.CursorIndexOutOfBoundsException
 import android.os.Handler
@@ -10,7 +11,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
-import dev.olog.msc.app.app
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.interactor.all.GetAllFoldersUseCase
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.utils.MediaId
@@ -27,6 +28,7 @@ import java.text.Collator
 import javax.inject.Inject
 
 class FolderTreeFragmentViewModel @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val appPreferencesUseCase: AppPreferencesUseCase,
         private val getAllFoldersUseCase: GetAllFoldersUseCase,
         private val collator: Collator
@@ -46,14 +48,14 @@ class FolderTreeFragmentViewModel @Inject constructor(
     private val currentFile = BehaviorSubject.createDefault(appPreferencesUseCase.getDefaultMusicFolder())
 
     init {
-        app.contentResolver.registerContentObserver(
+        context.contentResolver.registerContentObserver(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 true,
                 observer)
     }
 
     override fun onCleared() {
-        app.contentResolver.unregisterContentObserver(observer)
+        context.contentResolver.unregisterContentObserver(observer)
     }
 
     fun observeFileName(): LiveData<File> = currentFile
@@ -152,7 +154,7 @@ class FolderTreeFragmentViewModel @Inject constructor(
             val path = file.path
             val folderMediaId = MediaId.folderId(path.substring(0, path.lastIndexOf(File.separator)))
 
-            app.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            context.contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     arrayOf(BaseColumns._ID),
                     "${MediaStore.Audio.AudioColumns.DATA} = ?",
                     arrayOf(file.path), null)?.let { cursor ->
@@ -173,10 +175,10 @@ class FolderTreeFragmentViewModel @Inject constructor(
     )
 
     private val foldersHeader = DisplayableFile(
-            R.layout.item_folder_tree_header, MediaId.headerId("folder header"), app.getString(R.string.common_folders), null, null)
+            R.layout.item_folder_tree_header, MediaId.headerId("folder header"), context.getString(R.string.common_folders), null, null)
 
     private val tracksHeader = DisplayableFile(
-            R.layout.item_folder_tree_header, MediaId.headerId("track header"), app.getString(R.string.common_tracks), null, null)
+            R.layout.item_folder_tree_header, MediaId.headerId("track header"), context.getString(R.string.common_tracks), null, null)
 
     private fun File.toDisplayableItem(): DisplayableFile {
         val isDirectory = this.isDirectory

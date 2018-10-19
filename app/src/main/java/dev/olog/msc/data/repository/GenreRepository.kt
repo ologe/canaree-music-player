@@ -1,6 +1,5 @@
 package dev.olog.msc.data.repository
 
-import android.content.ContentResolver
 import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
@@ -41,7 +40,6 @@ private const val SONG_SORT_ORDER = "lower(${MediaStore.Audio.Genres.Members.TIT
 
 class GenreRepository @Inject constructor(
         @ApplicationContext private val context: Context,
-        private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val appPrefsUseCase: AppPreferencesUseCase,
@@ -60,7 +58,7 @@ class GenreRepository @Inject constructor(
                 .lift(SqlBrite.Query.mapToList {
                     val id = it.extractId()
                     val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
-                    val size = CommonQuery.getSize(contentResolver, uri)
+                    val size = CommonQuery.getSize(context.contentResolver, uri)
                     it.toGenre(context, size)
                 }).map { removeBlacklisted(it) }
                 .doOnError { it.printStackTrace() }
@@ -72,7 +70,7 @@ class GenreRepository @Inject constructor(
             .refCount()
 
     private fun removeBlacklisted(list: MutableList<Genre>): List<Genre>{
-        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(contentResolver, appPrefsUseCase)
+        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(context.contentResolver, appPrefsUseCase)
         for (genre in list.toList()) {
             val newSize = calculateNewGenreSize(genre.id, songsIds)
             if (newSize == 0){
@@ -87,7 +85,7 @@ class GenreRepository @Inject constructor(
 
     private fun calculateNewGenreSize(id: Long, songIds: List<Long>): Int {
         val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
-        val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Genres.Members.AUDIO_ID), null, null, null)
+        val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Audio.Genres.Members.AUDIO_ID), null, null, null)
         val list = mutableListOf<Long>()
         while (cursor.moveToNext()){
             list.add(cursor.getLong(0))

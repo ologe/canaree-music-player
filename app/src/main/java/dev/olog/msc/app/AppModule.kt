@@ -3,7 +3,6 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.app.Application
 import android.appwidget.AppWidgetProvider
-import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
@@ -31,9 +30,6 @@ class AppModule(private val app: App) {
 
     @Provides
     internal fun provideApplication(): Application = app
-
-    @Provides
-    internal fun provideContentResolver(): ContentResolver = app.contentResolver
 
     @Provides
     @ProcessLifecycle

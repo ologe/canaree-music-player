@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.Priority
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.floating.window.service.api.Content
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder

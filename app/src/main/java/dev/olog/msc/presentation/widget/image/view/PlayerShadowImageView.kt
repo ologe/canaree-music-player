@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.Target
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.widget.image.view.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.msc.utils.img.CoverUtils
@@ -71,6 +72,7 @@ class PlayerShadowImageView @JvmOverloads constructor(
                 .placeholder(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
                 .override(if (AppConstants.useFakeData) 800 else Target.SIZE_ORIGINAL)
+
                 .into(Ripple(this))
     }
 

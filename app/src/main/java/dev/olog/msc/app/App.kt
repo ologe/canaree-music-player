@@ -2,12 +2,12 @@ package dev.olog.msc.app
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.Application
 import android.content.Context
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
@@ -49,11 +49,11 @@ class App : BaseApp() {
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        updatePermissionValve(Permissions.canReadStorage(this))
+        updatePermissionValve(this, Permissions.canReadStorage(this))
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        updatePermissionValve(false)
+        updatePermissionValve(this, false)
     }
 
     private fun initRxMainScheduler() {
@@ -82,7 +82,7 @@ class App : BaseApp() {
         alarmManager.cancel(PendingIntents.stopMusicServiceIntent(this))
     }
 
-    override fun applicationInjector(): AndroidInjector<out Application> {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().create(this)
     }
 }

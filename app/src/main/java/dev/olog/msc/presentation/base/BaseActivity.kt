@@ -4,18 +4,18 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
+import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
-import dev.olog.msc.dagger.base.DaggerActivity
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 
-abstract class BaseActivity : DaggerActivity(), ThemedActivity {
+abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         disableDayNight()
         setTheme(getActivityTheme())
-        themeAccentColor(theme)
+        themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
     }

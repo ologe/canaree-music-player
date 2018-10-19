@@ -1,6 +1,5 @@
 package dev.olog.msc.data.repository
 
-import android.content.ContentResolver
 import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
@@ -50,7 +49,6 @@ private const val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_S
 
 class PlaylistRepository @Inject constructor(
         @ApplicationContext private val context: Context,
-        private val contentResolver: ContentResolver,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         private val favoriteGateway: FavoriteGateway,
@@ -80,7 +78,7 @@ class PlaylistRepository @Inject constructor(
                 .lift(SqlBrite.Query.mapToList {
                     val id = it.extractId()
                     val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
-                    val size = CommonQuery.getSize(contentResolver, uri)
+                    val size = CommonQuery.getSize(context.contentResolver, uri)
                     it.toPlaylist(context, size)
                 })
                 .map { removeBlacklisted(it) }
@@ -93,7 +91,7 @@ class PlaylistRepository @Inject constructor(
             .refCount()
 
     private fun removeBlacklisted(list: MutableList<Playlist>): List<Playlist>{
-        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(contentResolver, appPrefsUseCase)
+        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(context.contentResolver, appPrefsUseCase)
         for (playlist in list.toList()) {
             val newSize = calculateNewPlaylistSize(playlist.id, songsIds)
             list[list.indexOf(playlist)] = playlist.copy(size = newSize)
@@ -103,7 +101,7 @@ class PlaylistRepository @Inject constructor(
 
     private fun calculateNewPlaylistSize(id: Long, songIds: List<Long>): Int {
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
-        val cursor = contentResolver.query(uri, arrayOf(MediaStore.Audio.Playlists.Members.AUDIO_ID), null, null, null)
+        val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Audio.Playlists.Members.AUDIO_ID), null, null, null)
         val list = mutableListOf<Long>()
         while (cursor != null && cursor.moveToNext()){
             list.add(cursor.getLong(0))
@@ -148,7 +146,7 @@ class PlaylistRepository @Inject constructor(
     }
 
     override fun getPlaylistsBlocking(): List<Playlist> {
-        val cursor = contentResolver.query(MEDIA_STORE_URI, PROJECTION,
+        val cursor = context.contentResolver.query(MEDIA_STORE_URI, PROJECTION,
                 SELECTION, SELECTION_ARGS, SORT_ORDER)
         val list = mutableListOf<Playlist>()
         while (cursor != null && cursor.moveToNext()){

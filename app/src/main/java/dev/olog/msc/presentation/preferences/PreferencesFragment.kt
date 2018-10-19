@@ -15,9 +15,10 @@ import androidx.preference.SwitchPreference
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.support.AndroidSupportInjection
 import dev.olog.msc.R
+import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.dagger.base.AndroidXInjection
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
@@ -49,7 +50,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var resetTutorial: Preference
 
     override fun onAttach(context: Context?) {
-        AndroidXInjection.inject(this)
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

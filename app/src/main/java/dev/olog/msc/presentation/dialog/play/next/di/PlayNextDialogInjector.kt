@@ -3,8 +3,8 @@ package dev.olog.msc.presentation.dialog.play.next.di
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
+import dagger.android.support.FragmentKey
 import dagger.multibindings.IntoMap
-import dev.olog.msc.dagger.base.FragmentXKey
 import dev.olog.msc.presentation.dialog.play.next.PlayNextDialog
 
 
@@ -13,7 +13,7 @@ abstract class PlayNextDialogInjector {
 
     @Binds
     @IntoMap
-    @FragmentXKey(PlayNextDialog::class)
+    @FragmentKey(PlayNextDialog::class)
     internal abstract fun injectorFactory(builder: PlayNextDialogSubComponent.Builder)
             : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 

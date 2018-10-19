@@ -1,12 +1,13 @@
 package dev.olog.msc.presentation.edit
 
+import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
-import dev.olog.msc.app.app
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
@@ -27,6 +28,7 @@ import javax.inject.Inject
 
 class EditItemDialogFactory @Inject constructor(
         @ActivityLifecycle lifecycle: Lifecycle,
+        @ApplicationContext private val context: Context,
         private val getSongUseCase: GetSongUseCase,
         private val getPodcastUseCase: GetPodcastUseCase,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
@@ -97,13 +99,13 @@ class EditItemDialogFactory @Inject constructor(
 
     private fun showError(error: Throwable){
         when (error) {
-            is CannotReadException -> app.toast(R.string.edit_song_error_can_not_read)
-            is IOException -> app.toast(R.string.edit_song_error_io)
-            is ReadOnlyFileException -> app.toast(R.string.edit_song_error_read_only)
+            is CannotReadException -> context.toast(R.string.edit_song_error_can_not_read)
+            is IOException -> context.toast(R.string.edit_song_error_io)
+            is ReadOnlyFileException -> context.toast(R.string.edit_song_error_read_only)
             else -> {
                 error.printStackTrace()
                 Crashlytics.logException(error)
-                app.toast(R.string.edit_song_error)
+                context.toast(R.string.edit_song_error)
             }
         }
     }

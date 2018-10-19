@@ -24,6 +24,7 @@ import javax.inject.Singleton
         SchedulersModule::class,
         AppShortcutsModule::class,
         LastFmModule::class,
+        AndroidSupportInjectionModule::class,
 
 //        // data
         RepositoryModule::class,
@@ -32,7 +33,6 @@ import javax.inject.Singleton
 //
 //        // presentation
         WidgetBindingModule::class,
-        AndroidSupportInjectionModule::class,
         SplashActivityInjector::class,
         MainActivityInjector::class,
         AboutActivityInjector::class,
