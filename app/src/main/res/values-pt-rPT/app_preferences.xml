@@ -9,7 +9,7 @@
   <!--categories-->
   <string name="prefs_category_library">Biblioteca</string>
   <string name="prefs_category_audio">Áudio</string>
-  <string name="prefs_category_theme">Tema</string>
+  <string name="prefs_category_ui">Interface de usuário</string>
   <string name="prefs_category_other">Outro</string>
   <!--quick action-->
   <string name="prefs_quick_action_title">Ação rápida</string>

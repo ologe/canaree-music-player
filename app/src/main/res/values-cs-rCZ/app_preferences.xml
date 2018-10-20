@@ -9,7 +9,7 @@
   <!--categories-->
   <string name="prefs_category_library">Knihovna</string>
   <string name="prefs_category_audio">Audio</string>
-  <string name="prefs_category_theme">Téma</string>
+  <string name="prefs_category_ui">Uživatelské rozhraní</string>
   <string name="prefs_category_other">Ostatní</string>
   <!--quick action-->
   <string name="prefs_quick_action_title">Rychlá akce</string>

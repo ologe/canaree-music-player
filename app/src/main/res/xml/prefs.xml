@@ -74,7 +74,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/prefs_category_theme">
+        android:title="@string/prefs_category_ui">
 
         <ListPreference
             android:title="@string/prefs_dark_mode_title"
@@ -97,47 +97,6 @@
             android:defaultValue="@string/prefs_appearance_entry_value_default"
             android:key="@string/prefs_appearance_key" />
 
-        <ListPreference
-            android:title="@string/prefs_icon_shape_title"
-            android:summary="%s"
-            android:entries="@array/prefs_icon_shape_entries"
-            android:entryValues="@array/prefs_icon_shape_entry_values"
-            android:defaultValue="@string/prefs_icon_shape_rounded"
-            android:key="@string/prefs_icon_shape_key"/>
-
-        <!--<SwitchPreference-->
-            <!--android:key="@string/prefs_day_night_key"-->
-            <!--android:title="@string/prefs_day_night_title"-->
-            <!--android:summaryOff="@string/prefs_day_night_summary_off"-->
-            <!--android:summaryOn="@string/prefs_day_night_summary_on"-->
-            <!--android:defaultValue="false"/>-->
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/prefs_category_other">
-
-        <Preference
-            android:key="@string/prefs_last_fm_credentials_key"
-            android:title="@string/prefs_last_fm_credentials_title"
-            android:summary="@string/prefs_last_fm_credentials_summary"/>
-
-        <ListPreference
-            android:title="@string/prefs_quick_action_title"
-            android:summary="@string/prefs_quick_action_summary"
-            android:entries="@array/prefs_quick_action_entries"
-            android:entryValues="@array/prefs_quick_action_entry_values"
-            android:defaultValue="@string/prefs_quick_action_entry_value_hide"
-            android:key="@string/prefs_quick_action_key" />
-
-        <MultiSelectListPreference
-            android:title="@string/prefs_detail_sections_title"
-            android:summary="@string/prefs_detail_sections_summary"
-            android:key="@string/prefs_detail_sections_key"
-            android:entries="@array/prefs_detail_sections_entries"
-            android:entryValues="@array/prefs_detail_sections_entry_values"
-            android:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
-
         <SwitchPreference
             android:key="@string/prefs_show_recent_albums_artists_key"
             android:title="@string/prefs_show_recent_albums_artists_title"
@@ -157,11 +116,39 @@
             android:key="@string/prefs_player_controls_visibility_key"
             android:defaultValue="false" />
 
-        <!--<SwitchPreference-->
-            <!--android:key="@string/prefs_notch_support_key"-->
-            <!--android:title="@string/prefs_notch_support_title"-->
-            <!--android:summary="@string/prefs_notch_support_summary"-->
-            <!--android:defaultValue="false"/>-->
+        <MultiSelectListPreference
+            android:title="@string/prefs_detail_sections_title"
+            android:summary="@string/prefs_detail_sections_summary"
+            android:key="@string/prefs_detail_sections_key"
+            android:entries="@array/prefs_detail_sections_entries"
+            android:entryValues="@array/prefs_detail_sections_entry_values"
+            android:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
+
+        <ListPreference
+            android:title="@string/prefs_quick_action_title"
+            android:summary="@string/prefs_quick_action_summary"
+            android:entries="@array/prefs_quick_action_entries"
+            android:entryValues="@array/prefs_quick_action_entry_values"
+            android:defaultValue="@string/prefs_quick_action_entry_value_hide"
+            android:key="@string/prefs_quick_action_key" />
+
+        <ListPreference
+            android:title="@string/prefs_icon_shape_title"
+            android:summary="%s"
+            android:entries="@array/prefs_icon_shape_entries"
+            android:entryValues="@array/prefs_icon_shape_entry_values"
+            android:defaultValue="@string/prefs_icon_shape_rounded"
+            android:key="@string/prefs_icon_shape_key"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/prefs_category_other">
+
+        <Preference
+            android:key="@string/prefs_last_fm_credentials_key"
+            android:title="@string/prefs_last_fm_credentials_title"
+            android:summary="@string/prefs_last_fm_credentials_summary"/>
 
         <ListPreference
             android:title="@string/prefs_auto_download_images_title"

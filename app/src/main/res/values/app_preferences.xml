@@ -12,7 +12,7 @@
     <!--categories-->
     <string name="prefs_category_library">Library</string>
     <string name="prefs_category_audio">Audio</string>
-    <string name="prefs_category_theme">Theme</string>
+    <string name="prefs_category_ui">User interface</string>
     <string name="prefs_category_other">Other</string>
 
 

@@ -8,7 +8,7 @@
   <string name="prefs_not_premium_action">Acquista</string>
   <!--categories-->
   <string name="prefs_category_library">Libreria</string>
-  <string name="prefs_category_theme">Tema</string>
+  <string name="prefs_category_ui">Interfaccia utente</string>
   <string name="prefs_category_other">Altro</string>
   <!--quick action-->
   <string name="prefs_quick_action_title">Azione rapida</string>

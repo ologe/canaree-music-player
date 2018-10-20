@@ -1,6 +1,3 @@
-- Is working navigating to sd card?
-
-
 2.0.3
 
 - migration to AndroidX
@@ -9,6 +6,7 @@
 - fixed FAB not always working in offline lyrics/floating window
 - added save playing queue as playlist
 - fixed delete podcast playlist popup
+- preferences reorder
 
 BUG FIXES
 - create playlist not adding tracks on creation

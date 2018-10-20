@@ -136,8 +136,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
 
             MaterialDialog(act)
                     .colorChooser(
-                            colors = ColorPalette.PRIMARY_COLORS,
-                            subColors = ColorPalette.PRIMARY_COLORS_SUB,
+                            colors = ColorPalette.ACCENT_COLORS,
+                            subColors = ColorPalette.ACCENT_COLORS_SUB,
                             initialSelection = prefs.getInt(key, defaultColor),
                             selection = act as PreferencesActivity
                     ).show()
