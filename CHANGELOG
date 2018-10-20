@@ -1,0 +1,13 @@
+2.0.3
+
+- migration to AndroidX
+- added black theme to intro
+- overall fixes to dark/black theme
+- fixed FAB not always working in offline lyrics/floating window
+
+BUG FIXES
+- create playlist not adding tracks on creation
+- buggy move song in playing queue
+- removed corner radius to big image theme
+- albums not showing in detail
+- playing queue not handling correctly duplicated songs
