@@ -18,7 +18,7 @@ class AddFavoriteDialogModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 
@@ -28,6 +28,6 @@ class AddFavoriteDialogModule(
     }
 
     @Provides
-    fun provideTitle(): String = fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_ITEM_TITLE)
+    fun provideTitle(): String = fragment.arguments!!.getString(AddFavoriteDialog.ARGUMENTS_ITEM_TITLE)!!
 
 }

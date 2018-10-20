@@ -43,27 +43,27 @@ abstract class PlayingQueueDao {
                 .subscribeOn(Schedulers.io())
                 .toObservable()
                 .flatMapSingle { ids ->  Singles.zip(songList, podcastList) { songList, podcastList ->
-                    ids.map { it.id }
-                            .mapNotNull { id ->
-                                val song = songList.firstOrNull { it.id == id }
-                                if (song == null){
-                                    podcastList.firstOrNull { it.id == id }
-                                } else {
-                                    song
-                                }
-                            }.mapNotNull { song ->
-                                if (song is Song){ // songs
-                                    val pos = ids.indexOfFirst { it.id == song.id }
-                                    val item = ids[pos]
-//                                    TODO
-                                    song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
-                                } else if (song is Podcast){ // podcast
-                                    val pos = ids.indexOfFirst { it.id == song.id }
-                                    val item = ids[pos]
-//                                    TODO
-                                    song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.PODCASTS.toString(), "")
-                                } else null
-                            }
+                    val result = mutableListOf<PlayingQueueSong>()
+                    for (item in ids){
+                        var song : Any? = songList.firstOrNull { it.id == item.id }
+                        if (song == null){
+                            song = podcastList.firstOrNull { it.id == item.id }
+                        }
+                        if (song == null){
+                            continue
+                        }
+
+                        val itemToAdd = if (song is Song){
+                            song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
+                        } else if (song is Podcast){
+                            song.toPlayingQueueSong(item.idInPlaylist, MediaIdCategory.SONGS.toString(), "")
+                        } else {
+                            throw IllegalArgumentException("must be song or podcast, passed $song")
+                        }
+                        result.add(itemToAdd)
+
+                    }
+                    result.toList()
 
                 } }
     }

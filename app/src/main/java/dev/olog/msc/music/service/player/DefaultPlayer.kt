@@ -33,7 +33,7 @@ abstract class DefaultPlayer<T>(
 
     private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(factory, trackSelector)
+    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
 
     init {
         lifecycle.addObserver(this)

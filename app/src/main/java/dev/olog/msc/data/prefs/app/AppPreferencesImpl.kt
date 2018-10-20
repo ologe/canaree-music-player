@@ -364,8 +364,8 @@ class AppPreferencesImpl @Inject constructor(
          */
     override fun getLastFmCredentials(): UserCredentials {
         return UserCredentials(
-                preferences.getString(LAST_FM_USERNAME, ""),
-                preferences.getString(LAST_FM_PASSWORD, "")
+                preferences.getString(LAST_FM_USERNAME, "")!!,
+                preferences.getString(LAST_FM_PASSWORD, "")!!
         )
     }
 
@@ -377,7 +377,7 @@ class AppPreferencesImpl @Inject constructor(
                 .asObservable()
                 .map { UserCredentials(
                         it,
-                        preferences.getString(LAST_FM_PASSWORD, "")
+                        preferences.getString(LAST_FM_PASSWORD, "")!!
                 ) }
     }
 

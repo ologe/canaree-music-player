@@ -56,7 +56,7 @@ object AppConstants {
 
     private fun getIconShape(context: Context): String {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        return prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
+        return prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))!!
     }
 
 }

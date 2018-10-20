@@ -2,4 +2,4 @@ include ':app', ':lint'
 
 gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
 gradle.ext.exoplayerModulePrefix = 'exoplayer-'
-apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
+apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')

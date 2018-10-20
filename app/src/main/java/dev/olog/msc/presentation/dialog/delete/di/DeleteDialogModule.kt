@@ -18,7 +18,7 @@ class DeleteDialogModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 
@@ -29,6 +29,6 @@ class DeleteDialogModule(
 
     @Provides
     fun provideItemTitle(): String {
-        return fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_ITEM_TITLE)
+        return fragment.arguments!!.getString(DeleteDialog.ARGUMENTS_ITEM_TITLE)!!
     }
 }

@@ -81,7 +81,7 @@ class QueueImpl @Inject constructor(
                 .drop(safePosition + 1)
                 .take(MINI_QUEUE_SIZE)
                 .toMutableList()
-        miniQueue = handleQueueOnRepeatMode(miniQueue, copy[safePosition])
+        miniQueue = handleQueueOnRepeatMode(miniQueue)
 
         val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
         val model = MediaSessionQueueModel(activeId, miniQueue)
@@ -210,14 +210,14 @@ class QueueImpl @Inject constructor(
     fun onRepeatModeChanged(){
         assertMainThread()
         var list = playingQueue.drop(currentSongPosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
-        list = handleQueueOnRepeatMode(list, playingQueue[currentSongPosition])
+        list = handleQueueOnRepeatMode(list)
 
         val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
         queueMediaSession.onNext(MediaSessionQueueModel(activeId, list))
     }
 
     @CheckResult
-    private fun handleQueueOnRepeatMode(list: MutableList<MediaEntity>, current: MediaEntity)
+    private fun handleQueueOnRepeatMode(list: MutableList<MediaEntity>)
             : MutableList<MediaEntity>{
 
         val copy = list.toMutableList()
@@ -227,7 +227,7 @@ class QueueImpl @Inject constructor(
                 // add all list for n times
                 copy.addAll(playingQueue.take(MINI_QUEUE_SIZE))
             }
-            return copy.take(MINI_QUEUE_SIZE).toMutableList()
+            return copy.asSequence().take(MINI_QUEUE_SIZE).toMutableList()
         }
         return copy
     }
@@ -306,10 +306,10 @@ class QueueImpl @Inject constructor(
                 .flatMapMaybe {
                     if (isPodcast){
                         getPodcastUseCase.execute(MediaId.podcastId(it)).firstElement()
-                                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
+                                .map { podcast -> podcast.toMediaEntity(maxProgressive++, MediaId.songId(podcast.id)) }
                     } else {
                         getSongUseCase.execute(MediaId.songId(it)).firstElement()
-                                .map { it.toMediaEntity(maxProgressive++, MediaId.songId(it.id)) }
+                                .map { song -> song.toMediaEntity(maxProgressive++, MediaId.songId(song.id)) }
                     }
 
                 }
@@ -341,18 +341,18 @@ class QueueImpl @Inject constructor(
                 }
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe({ items ->
                     var currentProgressive = before.maxBy { it.idInPlaylist }?.idInPlaylist ?: -1
-                    val listToAdd = it.map {
-                        when (it){
-                            is Song -> it.toMediaEntity(currentProgressive++, MediaId.songId(it.id))
-                            is Podcast -> it.toMediaEntity(currentProgressive++, MediaId.podcastId(it.id))
+                    val listToAdd = items.map { item ->
+                        when (item){
+                            is Song -> item.toMediaEntity(currentProgressive++, MediaId.songId(item.id))
+                            is Podcast -> item.toMediaEntity(currentProgressive++, MediaId.podcastId(item.id))
                             else -> throw IllegalArgumentException("nor song nor podcast")
                         }
                     }
                     val afterListUpdated = after.map { it.copy(idInPlaylist = currentProgressive++) }
 
-                    val copy = before.plus(listToAdd).plus(afterListUpdated)
+                    val copy = before.asSequence().plus(listToAdd).plus(afterListUpdated).toList()
                     updatePlayingQueueAndPersist(copy)
                     onRepeatModeChanged() // not really but updates mini queue
                 }, Throwable::printStackTrace)

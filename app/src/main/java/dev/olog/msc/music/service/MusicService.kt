@@ -128,8 +128,8 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handlePlayFromVoiceSearch(intent: Intent) {
-        val voiceParams = intent.extras
-        val query = voiceParams.getString(SearchManager.QUERY)
+        val voiceParams = intent.extras!!
+        val query = voiceParams.getString(SearchManager.QUERY)!!
         callback.onPlayFromSearch(query, voiceParams)
     }
 

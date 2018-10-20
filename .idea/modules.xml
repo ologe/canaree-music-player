@@ -3,25 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/cast/exoplayer-extension-cast.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/cast/exoplayer-extension-cast.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/cronet/exoplayer-extension-cronet.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/cronet/exoplayer-extension-cronet.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/ffmpeg/exoplayer-extension-ffmpeg.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/ffmpeg/exoplayer-extension-ffmpeg.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/flac/exoplayer-extension-flac.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/flac/exoplayer-extension-flac.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/gvr/exoplayer-extension-gvr.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/gvr/exoplayer-extension-gvr.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/ima/exoplayer-extension-ima.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/ima/exoplayer-extension-ima.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/jobdispatcher/exoplayer-extension-jobdispatcher.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/jobdispatcher/exoplayer-extension-jobdispatcher.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/leanback/exoplayer-extension-leanback.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/leanback/exoplayer-extension-leanback.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/mediasession/exoplayer-extension-mediasession.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/mediasession/exoplayer-extension-mediasession.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/okhttp/exoplayer-extension-okhttp.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/okhttp/exoplayer-extension-okhttp.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/opus/exoplayer-extension-opus.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/opus/exoplayer-extension-opus.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/rtmp/exoplayer-extension-rtmp.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/rtmp/exoplayer-extension-rtmp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/vp9/exoplayer-extension-vp9.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/vp9/exoplayer-extension-vp9.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/all/exoplayer-library.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/all/exoplayer-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/core/exoplayer-library-core.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/core/exoplayer-library-core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/dash/exoplayer-library-dash.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/dash/exoplayer-library-dash.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/hls/exoplayer-library-hls.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/hls/exoplayer-library-hls.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/smoothstreaming/exoplayer-library-smoothstreaming.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/smoothstreaming/exoplayer-library-smoothstreaming.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/ui/exoplayer-library-ui.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/ui/exoplayer-library-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/testutils/exoplayer-testutils.iml" filepath="$PROJECT_DIR$/../ExoPlayer/testutils/exoplayer-testutils.iml" />
       <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" filepath="$PROJECT_DIR$/../ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" />
       <module fileurl="file://$PROJECT_DIR$/lint/lint.iml" filepath="$PROJECT_DIR$/lint/lint.iml" />

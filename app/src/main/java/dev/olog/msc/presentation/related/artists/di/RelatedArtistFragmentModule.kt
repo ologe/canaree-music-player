@@ -23,7 +23,7 @@ class RelatedArtistFragmentModule(
 
     @Provides
     internal fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(RelatedArtistFragment.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 

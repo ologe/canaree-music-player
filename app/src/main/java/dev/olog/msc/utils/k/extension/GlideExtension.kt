@@ -53,6 +53,7 @@ fun Context.getBitmapAsync(
 
 }
 
+@Suppress("DEPRECATION")
 fun Context.getBitmap(
         model: DisplayableItem,
         size: Int,

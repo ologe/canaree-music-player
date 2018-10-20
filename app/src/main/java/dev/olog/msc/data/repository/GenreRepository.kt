@@ -87,10 +87,13 @@ class GenreRepository @Inject constructor(
         val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
         val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Audio.Genres.Members.AUDIO_ID), null, null, null)
         val list = mutableListOf<Long>()
-        while (cursor.moveToNext()){
-            list.add(cursor.getLong(0))
+
+        cursor?.use {
+            while (it.moveToNext()){
+                list.add(it.getLong(0))
+            }
         }
-        cursor.close()
+
         list.retainAll(songIds)
 
         return list.size

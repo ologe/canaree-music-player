@@ -172,7 +172,7 @@ class ScrollHmsPicker @JvmOverloads constructor(
 //        }
     }
 
-    override fun onSaveInstanceState(): Parcelable = SavedState(super.onSaveInstanceState())
+    override fun onSaveInstanceState(): Parcelable = SavedState(super.onSaveInstanceState()!!)
             .also { state ->
                 state.hours = hours
                 state.minutes = minutes

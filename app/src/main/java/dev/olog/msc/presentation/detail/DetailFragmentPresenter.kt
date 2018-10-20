@@ -57,7 +57,7 @@ class DetailFragmentPresenter @Inject constructor(
             // swap albums to top
             return mutableMapOf(
                     DetailFragmentDataType.HEADER to item.toMutableList(),
-                    DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item),
+                    DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
                     DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                     DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                     DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
@@ -71,7 +71,7 @@ class DetailFragmentPresenter @Inject constructor(
                 DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                 DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
                 DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
-                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
+                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList())
         )
     }
 
@@ -96,7 +96,7 @@ class DetailFragmentPresenter @Inject constructor(
         return list
     }
 
-    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: List<DisplayableItem>) : MutableList<DisplayableItem>{
+    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
         list.clear()
         if (list.isNotEmpty()){
             list.addAll(0, headers.albums())
