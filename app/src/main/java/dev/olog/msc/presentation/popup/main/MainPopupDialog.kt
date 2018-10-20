@@ -8,16 +8,23 @@ import android.view.View
 import android.widget.PopupMenu
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
+import dev.olog.msc.app.app
 import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.pro.IBilling
+import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
+private const val DEBUG_ID = -123
+private const val SAVE_AS_PLAYLIST_ID = -12345
+
 class MainPopupDialog @Inject constructor(
         private val billing: IBilling,
+        private val activityNavigator: Navigator,
         private val navigator: MainPopupNavigator,
         private val gateway: AppPreferencesGateway
 
@@ -44,10 +51,12 @@ class MainPopupDialog @Inject constructor(
             else -> null
         }
 
-        generateGridSpanCount(popup.menu)
-
         if (BuildConfig.DEBUG){
-            popup.menu.add(Menu.NONE, -123, Menu.NONE, "configuration")
+            popup.menu.add(Menu.NONE, DEBUG_ID, Menu.NONE, "configuration")
+        }
+
+        if (category == MediaIdCategory.PLAYING_QUEUE){
+            popup.menu.add(Menu.NONE, SAVE_AS_PLAYLIST_ID, Menu.NONE, app.getString(R.string.save_as_playlist))
         }
 
         popup.setOnMenuItemClickListener {
@@ -57,7 +66,8 @@ class MainPopupDialog @Inject constructor(
                 R.id.equalizer -> navigator.toEqualizer()
                 R.id.settings -> navigator.toSettingsActivity()
                 R.id.sleepTimer -> navigator.toSleepTimer()
-                -123 -> navigator.toDebugConfiguration()
+                DEBUG_ID -> navigator.toDebugConfiguration()
+                SAVE_AS_PLAYLIST_ID -> activityNavigator.toCreatePlaylistDialog(MediaId.playingQueueId, -1, "")
                 else -> {
                     when (category){
                         MediaIdCategory.ALBUMS -> handleAllAlbumsSorting(it, sortModel!!)
@@ -70,10 +80,6 @@ class MainPopupDialog @Inject constructor(
             true
         }
         popup.show()
-    }
-
-    private fun generateGridSpanCount(menu: Menu){
-        
     }
 
     private fun initializeTracksSort(menu: Menu): LibrarySortType {

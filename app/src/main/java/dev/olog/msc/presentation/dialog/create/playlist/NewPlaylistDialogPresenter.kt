@@ -5,6 +5,7 @@ import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
+import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListToPlaylist
 import dev.olog.msc.utils.MediaId
@@ -18,7 +19,8 @@ class NewPlaylistDialogPresenter @Inject constructor(
         private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getSongUseCase: GetSongUseCase,
-        private val getPocastUseCase: GetPodcastUseCase
+        private val getPodcastUseCase: GetPodcastUseCase,
+        private val getPlayinghQueueUseCase: GetPlayingQueueUseCase
 
 ) {
 
@@ -28,8 +30,15 @@ class NewPlaylistDialogPresenter @Inject constructor(
             .map { it.title.toLowerCase() }
 
     fun execute(playlistTitle: String) : Completable {
+        if (mediaId.isPlayingQueue){
+            return getPlayinghQueueUseCase.execute().mapToList { it.id }
+                    .flatMapCompletable {
+                        insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(playlistTitle, it, playlistType))
+                    }
+        }
+
         return if (mediaId.isLeaf && mediaId.isPodcast) {
-            getPocastUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
+            getPodcastUseCase.execute(mediaId).firstOrError().map { listOf(it.id) }
                     .flatMapCompletable {
                         insertCustomTrackListToPlaylist.execute(InsertCustomTrackListRequest(playlistTitle, it, playlistType))
                     }

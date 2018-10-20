@@ -201,6 +201,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 .setMessage(R.string.are_you_sure)
                 .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
                     GlideApp.get(ctx.applicationContext).clearMemory()
+                    @Suppress("UNUSED_VARIABLE")
                     val disp = Completable.fromCallable {
                         GlideApp.get(ctx.applicationContext).clearDiskCache()
                         ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)).listFiles().forEach { it.delete() }

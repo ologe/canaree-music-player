@@ -23,7 +23,8 @@ enum class MediaIdCategory {
     NEW_PODCSAT_ALBUMS,
     NEW_PODCSAT_ARTISTS,
 
-    HEADER
+    HEADER,
+    PLAYING_QUEUE
 }
 
 class MediaId private constructor(
@@ -41,6 +42,8 @@ class MediaId private constructor(
         fun headerId(value: String): MediaId {
             return MediaId(MediaIdCategory.HEADER, value)
         }
+
+        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(category, categoryValue)
@@ -189,6 +192,8 @@ class MediaId private constructor(
     val isPodcastAlbum : Boolean = category == MediaIdCategory.PODCASTS_ALBUMS
     val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_ARTISTS
     val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
+
+    val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
 
     fun assertPlaylist(){
         val isPlaylist = isPlaylist || isPodcastPlaylist
