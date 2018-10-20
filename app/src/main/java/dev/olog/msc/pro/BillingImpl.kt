@@ -44,19 +44,19 @@ class BillingImpl @Inject constructor(
 
     private var setDefaultDisposable: Disposable? = null
 
-    private var isTrialState by Delegates.observable(DEFAULT_TRIAL, { _, _, new ->
+    private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
         trialPublisher.onNext(new)
         if (!isPremium()){
             setDefault()
         }
-    })
+    }
 
-    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM, { _, _, new ->
+    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
         premiumPublisher.onNext(new)
         if (!isPremium()){
             setDefault()
         }
-    })
+    }
 
 
     private val billingClient = BillingClient.newBuilder(activity)
@@ -143,13 +143,13 @@ class BillingImpl @Inject constructor(
     override fun isOnlyPremium(): Boolean = isPremiumState
 
     override fun observeIsPremium(): Observable<Boolean> {
-        return Observables.combineLatest(premiumPublisher, trialPublisher,
-                { premium, trial -> premium || trial })
+        return Observables.combineLatest(premiumPublisher, trialPublisher)
+        { premium, trial -> premium || trial }
     }
 
     override fun observeTrialPremiumState(): Observable<BillingState> {
-        return Observables.combineLatest(premiumPublisher, trialPublisher,
-                { premium, trial -> BillingState(trial, premium) })
+        return Observables.combineLatest(premiumPublisher, trialPublisher)
+        { premium, trial -> BillingState(trial, premium) }
     }
 
     override fun purchasePremium() {
