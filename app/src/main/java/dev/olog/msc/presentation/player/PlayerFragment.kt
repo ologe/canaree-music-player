@@ -73,7 +73,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
 
-        if (isPortrait() && AppTheme.isBigImage()){
+        if (isPortrait() && AppTheme.isBigImageTheme()){
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -86,7 +86,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                 .distinctUntilChanged()
                 .mapToList { it.toDisplayableItem() }
                 .map { queue ->
-                    if (!AppTheme.isMini()){
+                    if (!AppTheme.isMiniTheme()){
                         val copy = queue.toMutableList()
                         if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
                             copy.add(viewModel.footerLoadMore)
@@ -111,7 +111,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
                 }
 
-        if (act.isLandscape && !AppTheme.isFullscreen() && !AppTheme.isMini()){
+        if (act.isLandscape && !AppTheme.isFullscreenTheme() && !AppTheme.isMiniTheme()){
 
             mediaProvider.onMetadataChanged()
                     .asLiveData()
@@ -121,7 +121,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     .asLiveData()
                     .subscribe(viewLifecycleOwner) { state ->
                         if (state.isPlaying() || state.isPaused()){
-                            if (AppTheme.isClean()){
+                            if (AppTheme.isCleanTheme()){
                                 bigCover?.isActivated = state.isPlaying()
                             } else {
                                 coverWrapper?.isActivated = state.isPlaying()
@@ -317,9 +317,9 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
     override fun provideLayoutId(): Int {
         return when {
-            AppTheme.isFullscreen() -> R.layout.fragment_player_fullscreen
-            AppTheme.isClean() -> R.layout.fragment_player_clean
-            AppTheme.isMini() -> R.layout.fragment_player_mini
+            AppTheme.isFullscreenTheme() -> R.layout.fragment_player_fullscreen
+            AppTheme.isCleanTheme() -> R.layout.fragment_player_clean
+            AppTheme.isMiniTheme() -> R.layout.fragment_player_mini
             else -> R.layout.fragment_player
         }
     }

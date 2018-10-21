@@ -63,8 +63,8 @@ class AnimatedImageView @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int{
         return when {
-            context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_8d91a6.toInt()
-            AppTheme.isFullscreen() || AppTheme.isDarkTheme() -> Color.WHITE
+            context.isPortrait && AppTheme.isCleanTheme() && !AppTheme.isDarkTheme() -> 0xFF_8d91a6.toInt()
+            AppTheme.isFullscreenTheme() || AppTheme.isDarkTheme() -> Color.WHITE
             else -> context.textColorTertiary()
         }
     }

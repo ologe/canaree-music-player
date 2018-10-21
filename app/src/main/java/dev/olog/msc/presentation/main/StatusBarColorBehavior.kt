@@ -67,7 +67,7 @@ class StatusBarColorBehavior @Inject constructor(
 
         when (newState){
             SlidingUpPanelLayout.PanelState.EXPANDED -> {
-                if (AppTheme.isFullscreen() || AppTheme.isBigImage()){
+                if (AppTheme.isFullscreenTheme() || AppTheme.isBigImageTheme()){
                     activity.window.removeLightStatusBar()
                 } else {
                     activity.window.setLightStatusBar()

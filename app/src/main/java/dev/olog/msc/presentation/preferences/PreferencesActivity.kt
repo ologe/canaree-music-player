@@ -68,6 +68,10 @@ class PreferencesActivity : DaggerAppCompatActivity(),
         prefs.edit {
             putInt(key, color)
         }
+        recreateActivity()
+    }
+
+    fun recreateActivity() {
         val fragment = supportFragmentManager.findFragmentByTag("prefs") as PreferencesFragment?
         fragment?.let {
             it.requestMainActivityToRecreate()
@@ -77,4 +81,5 @@ class PreferencesActivity : DaggerAppCompatActivity(),
             )
         }
     }
+
 }

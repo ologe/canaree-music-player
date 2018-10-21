@@ -45,7 +45,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
         val media = activity as MediaProvider
 
-        view.coverWrapper.toggleVisibility(AppTheme.isMini(), true)
+        view.coverWrapper.toggleVisibility(AppTheme.isMiniTheme(), true)
 
         media.onMetadataChanged()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -173,7 +173,7 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
     }
 
     private fun updateImage(metadata: MediaMetadataCompat){
-        if (!AppTheme.isMini()){
+        if (!AppTheme.isMiniTheme()){
             return
         }
         bigCover.loadImage(metadata)

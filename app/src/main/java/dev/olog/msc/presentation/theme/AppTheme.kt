@@ -15,21 +15,29 @@ object AppTheme {
         NONE, LIGHT, DARK, BLACK
     }
 
+    enum class Immersive {
+        DISABLED, ENABLED
+    }
+
     private var THEME = Theme.DEFAULT
     private var DARK_MODE = DarkMode.NONE
+    private var IMMERSIVE_MDOE = Immersive.DISABLED
 
     fun initialize(app: Application){
         updateTheme(app)
         updateDarkMode(app)
+        updateImmersive(app)
     }
 
-    fun isDefault(): Boolean = THEME == Theme.DEFAULT
-    fun isFlat(): Boolean = THEME == Theme.FLAT
-    fun isSpotify(): Boolean = THEME == Theme.SPOTIFY
-    fun isFullscreen(): Boolean = THEME == Theme.FULLSCREEN
-    fun isBigImage(): Boolean = THEME == Theme.BIG_IMAGE
-    fun isClean(): Boolean = THEME == Theme.CLEAN
-    fun isMini(): Boolean = THEME == Theme.MINI
+    fun isImmersiveMode(): Boolean = IMMERSIVE_MDOE == Immersive.ENABLED
+
+    fun isDefaultTheme(): Boolean = THEME == Theme.DEFAULT
+    fun isFlatTheme(): Boolean = THEME == Theme.FLAT
+    fun isSpotifyTheme(): Boolean = THEME == Theme.SPOTIFY
+    fun isFullscreenTheme(): Boolean = THEME == Theme.FULLSCREEN
+    fun isBigImageTheme(): Boolean = THEME == Theme.BIG_IMAGE
+    fun isCleanTheme(): Boolean = THEME == Theme.CLEAN
+    fun isMiniTheme(): Boolean = THEME == Theme.MINI
 
     fun isWhiteMode(): Boolean = DARK_MODE == DarkMode.NONE
     fun isGrayMode(): Boolean = DARK_MODE == DarkMode.LIGHT
@@ -45,6 +53,19 @@ object AppTheme {
 
     fun updateDarkMode(context: Context){
         DARK_MODE = getDarkMode(context)
+    }
+
+    fun updateImmersive(context: Context){
+        IMMERSIVE_MDOE = getImmersiveMode(context)
+    }
+
+    private fun getImmersiveMode(context: Context): Immersive {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+        val isImmersive = prefs.getBoolean(context.getString(R.string.prefs_immersive_key), false)
+        return when {
+            isImmersive -> Immersive.ENABLED
+            else -> Immersive.DISABLED
+        }
     }
 
     private fun getTheme(context: Context): Theme {

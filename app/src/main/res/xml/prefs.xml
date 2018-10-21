@@ -105,6 +105,13 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/prefs_immersive_title"
+            android:summaryOn="@string/prefs_immersive_summary_on"
+            android:summaryOff="@string/prefs_immersive_summary_off"
+            android:key="@string/prefs_immersive_key"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
             android:key="@string/prefs_show_recent_albums_artists_key"
             android:title="@string/prefs_show_recent_albums_artists_title"
             android:summary="@string/prefs_show_recent_albums_artists_summary"

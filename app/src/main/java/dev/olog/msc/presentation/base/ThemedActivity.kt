@@ -12,6 +12,9 @@ import dev.olog.msc.presentation.theme.AppTheme
 interface ThemedActivity {
 
     fun themeAccentColor(context: Context, theme: Resources.Theme){
+        if (AppTheme.isImmersiveMode()){
+            theme.applyStyle(R.style.ThemeImmersive, true)
+        }
         theme.applyStyle(getAccentStyle(context.applicationContext), true)
     }
 

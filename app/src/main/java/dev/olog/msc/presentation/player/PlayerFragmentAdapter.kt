@@ -343,7 +343,7 @@ class PlayerFragmentAdapter (
                     openPlaybackSpeedPopup(playbackSpeed)
                 }, Throwable::printStackTrace)
 
-        if (view.context.isPortrait || AppTheme.isFullscreen() || AppTheme.isMini()){
+        if (view.context.isPortrait || AppTheme.isFullscreenTheme() || AppTheme.isMiniTheme()){
 
             mediaProvider.onStateChanged()
                     .takeUntil(RxView.detaches(view))
@@ -386,7 +386,7 @@ class PlayerFragmentAdapter (
                     .subscribe({ mediaProvider.skipToPrevious() }, Throwable::printStackTrace)
 
             presenter.observePlayerControlsVisibility()
-                    .filter { !AppTheme.isFullscreen() && !AppTheme.isMini() }
+                    .filter { !AppTheme.isFullscreenTheme() && !AppTheme.isMiniTheme() }
                     .takeUntil(RxView.detaches(view))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ visible ->
@@ -446,7 +446,7 @@ class PlayerFragmentAdapter (
         val isPlaying = playbackState.isPlaying()
         if (isPlaying || playbackState.isPaused()){
             view.nowPlaying?.isActivated = isPlaying
-            if (AppTheme.isClean()){
+            if (AppTheme.isCleanTheme()){
                 view.bigCover?.isActivated = isPlaying
             } else {
                 view.coverWrapper?.isActivated = isPlaying

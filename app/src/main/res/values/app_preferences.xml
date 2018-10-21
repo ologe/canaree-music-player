@@ -290,4 +290,10 @@
     <string name="prefs_accent_light_key" translatable="false">color_accent_light</string>
     <string name="prefs_accent_dark_key" translatable="false">color_accent_dark</string>
 
+    <!--fullscreen-->
+    <string name="prefs_immersive_key" translatable="false">key_immersive</string>
+    <string name="prefs_immersive_title">Immersive mode</string>
+    <string name="prefs_immersive_summary_on">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off">@string/common_disabled</string>
+
 </resources>

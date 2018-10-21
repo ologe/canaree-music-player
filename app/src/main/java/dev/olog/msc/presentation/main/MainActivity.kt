@@ -86,7 +86,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             }
         }
 
-        if (AppTheme.isMini()){
+        if (AppTheme.isMiniTheme()){
             slidingPanel.setParallaxOffset(0)
             playerLayout.layoutParams = SlidingUpPanelLayout.LayoutParams(
                     SlidingUpPanelLayout.LayoutParams.MATCH_PARENT, SlidingUpPanelLayout.LayoutParams.WRAP_CONTENT

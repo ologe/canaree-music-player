@@ -171,6 +171,10 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 AppConstants.updateIconShape(act)
                 requestMainActivityToRecreate()
             }
+            getString(R.string.prefs_immersive_key) -> {
+                AppTheme.updateImmersive(act)
+                (act as PreferencesActivity).recreateActivity()
+            }
             getString(R.string.prefs_dark_mode_key) -> {
                 AppTheme.updateDarkMode(act)
                 requestMainActivityToRecreate()
