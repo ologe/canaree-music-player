@@ -72,6 +72,10 @@
     <string name="common_recently_added">Recently added</string>
     <string name="common_custom">Custom</string>
     <string name="common_track_number">Track number</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Podcast playlist</string>
+    <string name="common_podcast_album">Podcast album</string>
+    <string name="common_podcast_artist">Podcast artist</string>
 
     <string name="common_play">Play</string>
     <string name="common_shuffle">Shuffle All</string>

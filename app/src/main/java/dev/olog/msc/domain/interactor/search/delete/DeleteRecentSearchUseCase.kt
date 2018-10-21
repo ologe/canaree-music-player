@@ -17,12 +17,17 @@ class DeleteRecentSearchUseCase @Inject constructor(
     override fun buildUseCaseObservable(mediaId: MediaId): Completable {
         val id = mediaId.resolveId
         return when {
-            mediaId.isLeaf -> recentSearchesGateway.deleteSong(id)
+            mediaId.isLeaf && !mediaId.isPodcast -> recentSearchesGateway.deleteSong(id)
             mediaId.isArtist -> recentSearchesGateway.deleteArtist(id)
             mediaId.isAlbum -> recentSearchesGateway.deleteAlbum(id)
             mediaId.isPlaylist -> recentSearchesGateway.deletePlaylist(id)
             mediaId.isFolder -> recentSearchesGateway.deleteFolder(id)
             mediaId.isGenre -> recentSearchesGateway.deleteGenre(id)
+
+            mediaId.isLeaf && mediaId.isPodcast -> recentSearchesGateway.deletePodcast(id)
+            mediaId.isPodcastPlaylist -> recentSearchesGateway.deletePodcastPlaylist(id)
+            mediaId.isPodcastAlbum -> recentSearchesGateway.deletePodcastAlbum(id)
+            mediaId.isPodcastArtist -> recentSearchesGateway.deletePodcastArtist(id)
             else -> throw IllegalArgumentException("invalid category ${mediaId.resolveId}")
         }
     }

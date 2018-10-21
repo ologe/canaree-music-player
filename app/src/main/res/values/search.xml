@@ -18,6 +18,10 @@
     <string name="search_type_playlist">@string/common_playlist</string>
     <string name="search_type_genre">@string/common_genre</string>
     <string name="search_type_folder">@string/common_folder</string>
+    <string name="search_type_podcast">@string/common_podcast</string>
+    <string name="search_type_podcast_playlist">@string/common_podcast_playlist</string>
+    <string name="search_type_podcast_album">@string/common_podcast_album</string>
+    <string name="search_type_podcast_artist">@string/common_podcast_artist</string>
 
     <string name="search_recent_searches">Recent searches</string>
     <string name="search_clear_recent_searches">Clear recent searches</string>
