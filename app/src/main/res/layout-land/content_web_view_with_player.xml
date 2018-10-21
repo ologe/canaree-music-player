@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/vd_play"
                 android:layout_gravity="end"
-                android:translationY="-100dp"
+                android:translationY="-98dp"
                 android:translationX="-32dp"
                 app:fabSize="normal"
                 android:clickable="true"
@@ -107,11 +107,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--<include-->
-            <!--android:id="@+id/noTracks"-->
-            <!--layout="@layout/content_web_view_empty_state"-->
-            <!--android:visibility="gone"/>-->
 
     </androidx.cardview.widget.CardView>
 

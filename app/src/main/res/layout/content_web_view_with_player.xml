@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/vd_play"
                 android:layout_gravity="end"
-                android:translationY="-100dp"
+                android:translationY="-98dp"
                 android:translationX="-32dp"
                 app:fabSize="normal"
                 android:clickable="true"
@@ -94,23 +94,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!--<TextView-->
-            <!--android:id="@+id/error"-->
-            <!--android:text="@string/floating_window_offline"-->
-            <!--android:textColor="@color/text_color_primary"-->
-            <!--android:textSize="20sp"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="48dp"-->
-            <!--android:background="@color/background"-->
-            <!--android:visibility="gone"/>-->
-
-        <!--<include-->
-            <!--android:id="@+id/noTracks"-->
-            <!--layout="@layout/content_web_view_empty_state"-->
-            <!--android:visibility="gone"/>-->
 
     </androidx.cardview.widget.CardView>
 
