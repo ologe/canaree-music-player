@@ -121,7 +121,7 @@ class SearchFragment : BaseFragment() {
         super.onResume()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         clear.setOnClickListener { editText.setText("") }
-        root.setOnClickListener { ImeUtils.showIme(editText) }
+        keyboard.setOnClickListener { ImeUtils.showIme(editText) }
         didYouMean.setOnClickListener { editText.setText(didYouMean.text.toString()) }
 
         queryDisposable = RxTextView.afterTextChangeEvents(editText)
@@ -141,7 +141,7 @@ class SearchFragment : BaseFragment() {
         super.onPause()
         act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_UNSPECIFIED)
         clear.setOnClickListener(null)
-        root.setOnClickListener(null)
+        keyboard.setOnClickListener(null)
         didYouMean.setOnClickListener(null)
         queryDisposable.unsubscribe()
         adapter.setAfterDataChanged(null)
