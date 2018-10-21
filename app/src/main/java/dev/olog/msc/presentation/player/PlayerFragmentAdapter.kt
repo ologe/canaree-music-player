@@ -486,22 +486,6 @@ class PlayerFragmentAdapter (
 
     override val onSwipeRightAction = { position: Int -> mediaProvider.removeRelative(position) }
 
-    override fun onSwipedLeft(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
-        // not working properly
-//        val position = viewHolder.adapterPosition
-//        val context = viewHolder.itemView.context
-//
-//        onSwipeLeftAction.invoke(position)
-//        notifyItemRemoved(position)
-//        context.toast(R.string.common_moved_to_play_next)
-    }
-
-    override val onSwipeLeftAction = { position : Int ->
-//        val item = controller.getItem(position)
-//        val mediaId = MediaId.songId(item.trackNumber.toLong())
-//        mediaProvider.moveToPlayNext(mediaId)
-    }
-
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
         return viewType == R.layout.item_mini_queue
     }

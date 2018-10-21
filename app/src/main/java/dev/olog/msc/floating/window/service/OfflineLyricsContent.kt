@@ -1,12 +1,9 @@
 package dev.olog.msc.floating.window.service
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -17,12 +14,10 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.floating.window.service.api.Content
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
 import dev.olog.msc.floating.window.service.music.service.MusicServiceMetadata
-import dev.olog.msc.glide.transformation.BlurTransformation
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.utils.blur.FastBlur
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.isPlaying
@@ -103,19 +98,13 @@ class OfflineLyricsContent(
     private fun loadImage(metadata: MusicServiceMetadata, image: DisplayableItem){
         GlideApp.with(context).clear(this.image)
 
-        val radius = 8
-        val sampling = 6
-
-        val drawable = CoverUtils.getGradient(context, MediaId.songId(metadata.id))
-        val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
-        val placeholder = FastBlur.blur(bitmap, radius, false)
-                .toDrawable(content.resources)
+        val drawable = CoverUtils.getGradient(context, if (metadata.isPodcast) MediaId.podcastId(metadata.id)
+                        else MediaId.songId(metadata.id))
 
         GlideApp.with(context)
                 .load(image)
-                .placeholder(placeholder)
+                .placeholder(drawable)
                 .priority(Priority.IMMEDIATE)
-                .transform(BlurTransformation(radius, sampling))
                 .override(500)
                 .into(this.image)
     }

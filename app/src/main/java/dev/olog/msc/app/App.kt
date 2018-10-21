@@ -20,6 +20,7 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.traceur.Traceur
 import dev.olog.msc.updatePermissionValve
 import dev.olog.msc.utils.PendingIntents
+import io.alterac.blurkit.BlurKit
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
@@ -63,6 +64,7 @@ class App : BaseApp() {
     }
 
     private fun initializeComponents() {
+        BlurKit.init(this)
         if (BuildConfig.DEBUG) {
             Traceur.enableLogging()
 //            LeakCanary.install(this)

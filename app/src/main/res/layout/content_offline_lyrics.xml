@@ -24,7 +24,7 @@
             android:clipChildren="false"
             android:clipToPadding="false">
 
-            <ImageView
+            <dev.olog.msc.presentation.widget.image.view.BlurImageView
                 android:id="@+id/image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,8 @@
                 tools:src="@android:color/holo_red_light"
                 android:clickable="false"
                 android:focusable="false"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="80dp"/>
 
             <View
                 android:background="#9000"
@@ -214,7 +215,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/vd_edit"
                 android:layout_gravity="end"
-                android:translationY="-100dp"
+                android:translationY="-98dp"
                 android:translationX="-32dp"
                 app:fabSize="normal"
                 android:clickable="true"
