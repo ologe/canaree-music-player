@@ -1,6 +1,7 @@
 package dev.olog.msc.presentation.base
 
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatDelegate
@@ -38,6 +39,16 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
     @Suppress("UNCHECKED_CAST")
     internal fun <T : androidx.fragment.app.Fragment> findFragmentByTag(tag: String): T? {
         return supportFragmentManager.findFragmentByTag(tag) as T?
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && AppTheme.isImmersiveMode()){
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
     }
 
 
