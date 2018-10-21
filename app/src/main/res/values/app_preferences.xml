@@ -141,6 +141,13 @@
     <string name="prefs_player_controls_visibility_summary_on">@string/common_visible</string>
     <string name="prefs_player_controls_visibility_summary_off">@string/common_hidden</string>
 
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
+    <string name="prefs_adaptive_colors_title">Adaptive colors</string>
+    <string name="prefs_adaptive_colors_summary_on">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off">@string/common_disabled</string>
+
     <!--show new albums/artists-->
     <string name="prefs_show_new_albums_artists_key" translatable="false">key_show_new</string>
     <string name="prefs_show_new_albums_artists_title">Show new albums and artists</string>

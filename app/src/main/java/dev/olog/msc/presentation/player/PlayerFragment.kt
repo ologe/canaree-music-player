@@ -189,6 +189,21 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
             viewModel.skipToPreviousVisibility.asLiveData()
                     .subscribe(viewLifecycleOwner) { previous?.updateVisibility(it) }
+
+            view.bigCover?.observeProcessorColors()
+                    ?.asLiveData()
+                    ?.subscribe(this, viewModel::updateProcessorColors)
+            view.bigCover?.observePaletteColors()
+                    ?.asLiveData()
+                    ?.subscribe(this, viewModel::updatePaletteColors)
+
+            viewModel.observePaletteColors()
+                    .map { it.accent }
+                    .asLiveData()
+                    .subscribe(this) { accent ->
+                        shuffle.updateSelectedColor(accent)
+                        repeat.updateSelectedColor(accent)
+                    }
         }
     }
 

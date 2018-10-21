@@ -67,7 +67,7 @@ ext {
     constraint_layout = '1.1.3'
     glide = '4.8.0'
     sliding_panel = '3.4.0'
-    lottie = '2.7.0'
+    lottie = '2.8.0'
     sql_brite = '3.2.0'
     billing = '1.2'
     retrofit = '2.4.0'

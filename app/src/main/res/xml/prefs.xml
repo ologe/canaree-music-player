@@ -84,11 +84,6 @@
             android:entryValues="@array/prefs_dark_mode_entry_values"
             android:entries="@array/prefs_dark_mode_entries" />
 
-        <Preference
-            android:key="@string/prefs_accent_color_key"
-            android:summary="@string/prefs_accent_color_summary"
-            android:title="@string/prefs_accent_color_title" />
-
         <ListPreference
             android:title="@string/prefs_appearance_title"
             android:summary="%s"
@@ -96,6 +91,18 @@
             android:entryValues="@array/prefs_appearance_entry_values"
             android:defaultValue="@string/prefs_appearance_entry_value_default"
             android:key="@string/prefs_appearance_key" />
+
+        <Preference
+            android:key="@string/prefs_accent_color_key"
+            android:summary="@string/prefs_accent_color_summary"
+            android:title="@string/prefs_accent_color_title" />
+
+        <SwitchPreference
+            android:title="@string/prefs_adaptive_colors_title"
+            android:summaryOn="@string/prefs_adaptive_colors_summary_on"
+            android:summaryOff="@string/prefs_adaptive_colors_summary_off"
+            android:key="@string/prefs_adaptive_colors_key"
+            android:defaultValue="false" />
 
         <SwitchPreference
             android:key="@string/prefs_show_recent_albums_artists_key"

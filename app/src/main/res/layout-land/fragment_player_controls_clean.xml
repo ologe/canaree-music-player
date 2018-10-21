@@ -15,11 +15,12 @@
         <include
             android:id="@+id/playerToolbar"
             layout="@layout/fragment_player_toolbar_clean"
-            app:layout_constraintTop_toBottomOf="@+id/replay"
+            app:layout_constraintTop_toBottomOf="@+id/replay30"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="@dimen/player_toolbar" />
+            android:layout_height="@dimen/player_toolbar"
+            app:layout_goneMarginTop="16dp"/>
 
 
         <!-- seekbar -->
@@ -80,12 +81,12 @@
             android:focusable="true"
             android:src="@drawable/vd_replay"
             android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:layout_constraintTop_toTopOf="@+id/replay30"
             app:layout_constraintStart_toEndOf="@+id/replay30"
             app:layout_constraintEnd_toStartOf="@+id/forward"
             android:background="@null"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="gone"/>
 
         <ImageButton
             android:id="@+id/forward"
@@ -95,13 +96,12 @@
             android:focusable="true"
             android:src="@drawable/vd_forward"
             android:padding="8dp"
-            app:layout_constraintTop_toTopOf="@+id/replay"
-            app:layout_constraintBottom_toBottomOf="@+id/replay"
+            app:layout_constraintTop_toTopOf="@+id/replay30"
             app:layout_constraintEnd_toStartOf="@+id/forward30"
             app:layout_constraintStart_toEndOf="@+id/replay"
             android:background="@null"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="gone"/>
 
         <ImageButton
             android:id="@+id/replay30"
@@ -113,11 +113,10 @@
             android:padding="8dp"
             app:layout_constraintEnd_toStartOf="@+id/replay"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/replay"
-            app:layout_constraintBottom_toBottomOf="@+id/replay"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
             android:background="@null"
             android:visibility="gone"
-            tools:visibility="visible"
+            tools:visibility="gone"
             app:layout_constraintHorizontal_chainStyle="packed"/>
 
         <ImageButton
@@ -130,11 +129,10 @@
             android:padding="8dp"
             app:layout_constraintStart_toEndOf="@+id/forward"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/replay"
-            app:layout_constraintBottom_toBottomOf="@+id/replay"
+            app:layout_constraintTop_toTopOf="@+id/replay30"
             android:background="@null"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="gone"/>
 
 
         <!-- title -->

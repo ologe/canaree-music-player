@@ -54,7 +54,7 @@ object ImagesFolderUtils {
 
         var result = ""
 
-        cursor.use {
+        cursor?.use {
             if (it.moveToFirst()){
                 result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART) ?: ""
             }

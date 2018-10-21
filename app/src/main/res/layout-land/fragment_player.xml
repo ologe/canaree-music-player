@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toTopOf="@+id/playerControls"
         app:layout_constraintDimensionRatio="1">
 
-        <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+        <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
             android:id="@+id/bigCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

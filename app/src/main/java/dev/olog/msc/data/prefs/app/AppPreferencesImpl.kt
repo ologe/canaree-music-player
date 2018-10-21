@@ -290,8 +290,15 @@ class AppPreferencesImpl @Inject constructor(
             setDefaultAccentColor()
             setDefaultLibraryAlbumArtistVisibility()
             setDefaultPodcastVisibility()
+            setDefaultAdaptiveColors()
 
             emitter.onComplete()
+        }
+    }
+
+    private fun setDefaultAdaptiveColors(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
         }
     }
 
@@ -443,5 +450,9 @@ class AppPreferencesImpl @Inject constructor(
 
     override fun canShowPodcastCategory(): Boolean {
         return preferences.getBoolean(context.getString(R.string.prefs_show_podcasts_key), true)
+    }
+
+    override fun isAdaptiveColorEnabled(): Boolean {
+        return preferences.getBoolean(context.getString(R.string.prefs_adaptive_colors_key), false)
     }
 }

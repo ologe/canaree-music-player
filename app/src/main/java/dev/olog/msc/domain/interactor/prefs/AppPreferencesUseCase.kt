@@ -29,6 +29,8 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setLibraryCategories(behavior)
     }
 
+    fun isAdaptiveColorEnabled(): Boolean = gateway.isAdaptiveColorEnabled()
+
     fun getPodcastLibraryCategories() : List<LibraryCategoryBehavior> {
         return gateway.getPodcastLibraryCategories()
     }

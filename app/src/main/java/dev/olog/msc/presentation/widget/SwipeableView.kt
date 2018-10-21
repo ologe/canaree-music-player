@@ -5,11 +5,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dev.olog.msc.R
 import dev.olog.msc.presentation.base.HasSlidingPanel
-import dev.olog.msc.presentation.widget.image.view.PlayerImageView
 import dev.olog.msc.utils.k.extension.dip
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -118,22 +115,12 @@ class SwipeableView @JvmOverloads constructor(
                 else -> {
                     if (isTouchEnabled){
                         swipeListener?.onClick()
-                        dispatchRipple(event.x, event.y)
                     }
                 }
             }
             return true
         }
         return false
-    }
-
-    private fun dispatchRipple(x: Float, y: Float){
-        val activity = context as Activity
-        val root = activity.findViewById<View>(R.id.playerRoot)
-        val imageView = root?.findViewById<ImageView>(R.id.cover)
-        if (imageView is PlayerImageView){
-            imageView.forceRipple(x, y)
-        }
     }
 
     override fun onPanelSlide(panel: View?, slideOffset: Float) {

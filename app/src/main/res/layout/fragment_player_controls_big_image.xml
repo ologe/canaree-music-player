@@ -14,7 +14,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/coverWrapper"
-            app:cardCornerRadius="@dimen/default_corner_radius"
+            app:cardCornerRadius="0dp"
             android:stateListAnimator="@animator/elevate_on_activated"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintDimensionRatio="1">
 
-            <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+            <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
                 android:id="@+id/bigCover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

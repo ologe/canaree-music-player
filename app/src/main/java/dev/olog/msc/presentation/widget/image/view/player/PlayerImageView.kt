@@ -1,7 +1,9 @@
-package dev.olog.msc.presentation.widget.image.view
+package dev.olog.msc.presentation.widget.image.view.player
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.TransitionDrawable
 import android.support.v4.media.MediaMetadataCompat
 import android.util.AttributeSet
 import com.bumptech.glide.Priority
@@ -12,18 +14,23 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.RippleUtils
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.isMarshmallow
 import dev.olog.msc.utils.k.extension.getBitmap
 import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId
+import dev.olog.msc.utils.k.extension.layers
 
 open class PlayerImageView @JvmOverloads constructor(
         context: Context,
         attr: AttributeSet? = null
 
 ) : ForegroundImageView(context, attr) {
+
+    private val presenter by lazyFast { PlayerImageViewPresenter(context) }
 
     open fun loadImage(metadata: MediaMetadataCompat){
         val mediaId = metadata.getMediaId()
@@ -41,16 +48,27 @@ open class PlayerImageView @JvmOverloads constructor(
                 .into(Ripple(this))
     }
 
-    fun forceRipple(x: Float, y: Float){
-        if (isMarshmallow()){
-//            background.setHotspot(x, y)
-            drawableHotspotChanged(x, y)
-            isPressed = true
-            isPressed = false
+    override fun setImageBitmap(bm: Bitmap?) {
+        super.setImageBitmap(bm)
+        presenter.onNextImage(bm)
+    }
+
+    override fun setImageDrawable(drawable: Drawable?) {
+        super.setImageDrawable(drawable)
+        if (drawable is TransitionDrawable){
+            if (drawable.numberOfLayers == 2){
+                presenter.onNextImage(drawable.layers[1])
+            } else {
+                presenter.onNextImage(drawable)
+            }
+
         } else {
-            // ripple looks bad on lollipop
+            presenter.onNextImage(drawable)
         }
     }
+
+    fun observeProcessorColors() = presenter.observeProcessorColors()
+    fun observePaletteColors() = presenter.observePalette()
 
     class Ripple(private val imageView: ForegroundImageView) : DrawableImageViewTarget(imageView), androidx.palette.graphics.Palette.PaletteAsyncListener {
 
@@ -74,6 +92,7 @@ open class PlayerImageView @JvmOverloads constructor(
     }
 
 }
+
 
 fun MediaMetadataCompat.toPlayerImage(): DisplayableItem {
     // only mediaId and image is needed

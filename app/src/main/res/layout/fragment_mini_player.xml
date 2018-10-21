@@ -101,7 +101,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+        <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
             android:id="@+id/bigCover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

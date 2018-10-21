@@ -21,7 +21,6 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.presentation.widget.animateBackgroundColor
@@ -32,7 +31,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
@@ -81,75 +79,109 @@ class PlayerFragmentAdapter (
     @SuppressLint("RxLeakedSubscription")
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         val viewType = holder.itemViewType
+
+        if (viewType in listOf(R.layout.fragment_player_controls,
+                        R.layout.fragment_player_controls_spotify,
+                        R.layout.fragment_player_controls_flat,
+                        R.layout.fragment_player_controls_big_image,
+                        R.layout.fragment_player_controls_fullscreen,
+                        R.layout.fragment_player_controls_clean,
+                        R.layout.fragment_player_controls_mini)) {
+
+            val view = holder.itemView
+            view.bigCover?.observeProcessorColors()
+                    ?.takeUntil(RxView.detaches(view))
+                    ?.subscribe(viewModel::updateProcessorColors, Throwable::printStackTrace)
+            view.bigCover?.observePaletteColors()
+                    ?.takeUntil(RxView.detaches(view))
+                    ?.subscribe(viewModel::updatePaletteColors, Throwable::printStackTrace)
+
+            bindPlayerControls(view)
+        }
+
         when (viewType){
             R.layout.fragment_player_controls,
             R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_big_image,
-            R.layout.fragment_player_controls_mini -> {
-                bindPlayerControls(holder.itemView)
-            }
             R.layout.fragment_player_controls_clean -> {
                 val view = holder.itemView
-                bindPlayerControls(holder.itemView)
-                viewModel.observeImageColors()
-                        .observeOn(Schedulers.computation())
-                        .takeUntil(RxView.detaches(view).asFlowable())
-                        .map { androidx.palette.graphics.Palette.from(it.bitmap).generate() }
-                        .map { ColorUtil.getAccentColor(view.context, it) }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ accentColor ->
-                            view.artist.apply { animateTextColor(accentColor) }
-                            view.shuffle.updateSelectedColor(accentColor)
-                            view.repeat.updateSelectedColor(accentColor)
+                viewModel.observePaletteColors()
+                        .takeUntil(RxView.detaches(view))
+                        .map { it.accent }
+                        .subscribe({ accent ->
+                            view.artist.apply { animateTextColor(accent) }
+                            view.shuffle?.updateSelectedColor(accent)
+                            view.repeat?.updateSelectedColor(accent)
+                            view.seekBar.apply {
+                                thumbTintList = ColorStateList.valueOf(accent)
+                                progressTintList = ColorStateList.valueOf(accent)
+                            }
                         }, Throwable::printStackTrace)
 
             }
             R.layout.fragment_player_controls_flat -> {
                 val view = holder.itemView
-                bindPlayerControls(view)
-                viewModel.observeImageColors()
-                        .takeUntil(RxView.detaches(view).asFlowable())
-                        .map { it to androidx.palette.graphics.Palette.from(it.bitmap).generate() }
-                        .map { it.first to ColorUtil.getAccentColor(view.context, it.second) }
-                        .subscribe({ (imageProcessor, accentColor) ->
+                viewModel.observeProcessorColors()
+                        .takeUntil(RxView.detaches(view))
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ colors ->
                             view.title.apply {
-                                animateTextColor(imageProcessor.primaryTextColor)
-                                animateBackgroundColor(imageProcessor.background)
+                                animateTextColor(colors.primaryText)
+                                animateBackgroundColor(colors.background)
                             }
                             view.artist.apply {
-                                animateTextColor(imageProcessor.secondaryTextColor)
-                                animateBackgroundColor(imageProcessor.background)
+                                animateTextColor(colors.secondaryText)
+                                animateBackgroundColor(colors.background)
                             }
-                            view.seekBar.apply {
-                                thumbTintList = ColorStateList.valueOf(accentColor)
-                                progressTintList = ColorStateList.valueOf(accentColor)
-                            }
-                            view.shuffle.updateSelectedColor(accentColor)
-                            view.repeat.updateSelectedColor(accentColor)
                         }, Throwable::printStackTrace)
+                viewModel.observePaletteColors()
+                        .takeUntil(RxView.detaches(view))
+                        .map { it.accent }
+                        .subscribe({ accent ->
+                            view.seekBar.apply {
+                                thumbTintList = ColorStateList.valueOf(accent)
+                                progressTintList = ColorStateList.valueOf(accent)
+                            }
+                            view.shuffle?.updateSelectedColor(accent)
+                            view.repeat?.updateSelectedColor(accent)
+                        },Throwable::printStackTrace)
             }
             R.layout.fragment_player_controls_fullscreen -> {
                 val view = holder.itemView
-                bindPlayerControls(view)
                 view.playPause.useLightImage()
                 view.next.useLightImage()
                 view.previous.useLightImage()
-                viewModel.observeImageColors()
-                        .observeOn(Schedulers.computation())
-                        .takeUntil(RxView.detaches(view).asFlowable())
-                        .map { androidx.palette.graphics.Palette.from(it.bitmap).generate() }
-                        .map { ColorUtil.getAccentColor(view.context, it) }
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ accentColor ->
+
+                viewModel.observePaletteColors()
+                        .takeUntil(RxView.detaches(view))
+                        .map { it.accent }
+                        .subscribe({ accent ->
                             view.seekBar.apply {
-                                thumbTintList = ColorStateList.valueOf(accentColor)
-                                progressTintList = ColorStateList.valueOf(accentColor)
+                                thumbTintList = ColorStateList.valueOf(accent)
+                                progressTintList = ColorStateList.valueOf(accent)
                             }
-                            view.artist.animateTextColor(accentColor)
-                            view.playPause.backgroundTintList = ColorStateList.valueOf(accentColor)
-                            view.shuffle.updateSelectedColor(accentColor)
-                            view.repeat.updateSelectedColor(accentColor)
-                        }, Throwable::printStackTraceOnDebug)
+                            view.artist.animateTextColor(accent)
+                            view.playPause.backgroundTintList = ColorStateList.valueOf(accent)
+                            view.shuffle.updateSelectedColor(accent)
+                            view.repeat.updateSelectedColor(accent)
+                        }, Throwable::printStackTrace)
+            }
+            R.layout.fragment_player_controls_mini -> {
+                val view = holder.itemView
+                viewModel.observePaletteColors()
+                        .takeUntil(RxView.detaches(view))
+                        .map { it.accent }
+                        .subscribe({ accent ->
+                            view.artist.apply { animateTextColor(accent) }
+                            view.shuffle.updateSelectedColor(accent)
+                            view.repeat.updateSelectedColor(accent)
+                            view.seekBar.apply {
+                                thumbTintList = ColorStateList.valueOf(accent)
+                                progressTintList = ColorStateList.valueOf(accent)
+                            }
+                            view.more.imageTintList = ColorStateList.valueOf(accent)
+                            view.lyrics.imageTintList = ColorStateList.valueOf(accent)
+                        }, Throwable::printStackTrace)
             }
         }
     }
@@ -172,7 +204,6 @@ class PlayerFragmentAdapter (
                     waveWrapper?.onTrackChanged(it.getString(MusicConstants.PATH))
                     waveWrapper?.updateMax(it.getDuration())
 
-                    viewModel.onMetadataChanged(view.context, it)
                     updateMetadata(view, it)
                     updateImage(view, it)
                 }, Throwable::printStackTrace)

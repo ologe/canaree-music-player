@@ -11,7 +11,7 @@
         tools:background="@android:color/darker_gray"
         android:id="@+id/playerRoot">
 
-        <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+        <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
             android:id="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"

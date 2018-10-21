@@ -30,7 +30,7 @@ import dev.olog.msc.presentation.utils.animation.CircularReveal
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.presentation.utils.animation.SafeTransition
 import dev.olog.msc.presentation.utils.blur.FastBlur
-import dev.olog.msc.presentation.widget.image.view.toPlayerImage
+import dev.olog.msc.presentation.widget.image.view.player.toPlayerImage
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable

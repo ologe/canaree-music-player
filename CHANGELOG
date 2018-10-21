@@ -7,8 +7,11 @@
 - added save playing queue as playlist
 - fixed delete podcast playlist popup
 - preferences reorder
+- changed library categories landscape behavior
+- added option to enable or disable adaptive colors
 
 BUG FIXES
+- fixed notch
 - create playlist not adding tracks on creation
 - buggy swipe and drag in playing queue
 - removed corner radius to big image theme

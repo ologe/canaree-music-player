@@ -32,7 +32,7 @@
                 android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
                 android:layout_marginBottom="@dimen/item_song_cover_margin_vertical">
 
-                <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+                <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
                     android:id="@+id/bigCover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

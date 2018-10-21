@@ -1,44 +1,64 @@
 package dev.olog.msc.presentation.player
 
-import android.content.Context
-import android.support.v4.media.MediaMetadataCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
+import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.images.ImageProcessor
-import dev.olog.msc.presentation.utils.images.ImageProcessorResult
-import dev.olog.msc.presentation.widget.image.view.toPlayerImage
+import dev.olog.msc.presentation.widget.image.view.player.*
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.getBitmapAsync
-import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
-import io.reactivex.Flowable
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.processors.BehaviorProcessor
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class PlayerFragmentViewModel @Inject constructor(
         observeFavoriteAnimationUseCase: ObserveFavoriteAnimationUseCase,
+        private val appPreferencesUseCase: AppPreferencesUseCase,
         private val musicPrefsUseCase: MusicPreferencesUseCase,
         private val tutorialPreferenceUseCase: TutorialPreferenceUseCase
 
 ) : ViewModel() {
 
-    private var disposable: Disposable? = null
-    private var insertLyrics: Disposable? = null
-    private val colorsPublisher = BehaviorProcessor.create<ImageProcessorResult>()
+    private val processorPublisher = BehaviorSubject.create<ProcessorColors>()
+    private val palettePublisher = BehaviorSubject.create<PaletteColors>()
+
+    fun observeProcessorColors(): Observable<ProcessorColors> = processorPublisher
+            .map {
+                if (appPreferencesUseCase.isAdaptiveColorEnabled()){
+                    it
+                } else {
+                    InvalidProcessColors
+                }
+            }
+            .filter { it is ValidProcessorColors }
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun observePaletteColors(): Observable<PaletteColors> = palettePublisher
+            .map {
+                if (appPreferencesUseCase.isAdaptiveColorEnabled()){
+                    it
+                } else {
+                    InvalidPaletteColors
+                }
+            }
+            .filter { it is ValidPaletteColors }
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun updateProcessorColors(palette: ProcessorColors){
+        processorPublisher.onNext(palette)
+    }
+
+    fun updatePaletteColors(palette: PaletteColors){
+        palettePublisher.onNext(palette)
+    }
 
     private val miniQueue = MutableLiveData<List<DisplayableItem>>()
 
@@ -55,20 +75,6 @@ class PlayerFragmentViewModel @Inject constructor(
     fun updateQueue(list: List<DisplayableItem>){
         miniQueue.postValue(list)
     }
-
-    fun onMetadataChanged(context: Context, metadata: MediaMetadataCompat){
-        disposable.unsubscribe()
-        disposable = Single.fromCallable { true }
-                .filter { AppTheme.isFlat() || AppTheme.isBigImage() || AppTheme.isFullscreen() || AppTheme.isClean() }
-                .map { metadata.toPlayerImage() }
-                .map { context.getBitmapAsync(it, 200) }
-                .subscribeOn(Schedulers.io())
-                .map { ImageProcessor(context).processImage(it) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(colorsPublisher::onNext, Throwable::printStackTrace)
-    }
-
-    fun observeImageColors(): Flowable<ImageProcessorResult> = colorsPublisher
 
     private val progressPublisher = BehaviorSubject.createDefault(0)
 
@@ -104,11 +110,6 @@ class PlayerFragmentViewModel @Inject constructor(
 
     fun showLyricsTutorialIfNeverShown(): Completable {
         return tutorialPreferenceUseCase.lyricsTutorial()
-    }
-
-    override fun onCleared() {
-        disposable.unsubscribe()
-        insertLyrics.unsubscribe()
     }
 
     fun getPlaybackSpeed(): Int{
