@@ -186,7 +186,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
             getString(R.string.prefs_notch_support_key),
             getString(R.string.prefs_folder_tree_view_key),
             getString(R.string.prefs_blacklist_key),
-            getString(R.string.prefs_show_podcasts_key) -> requestMainActivityToRecreate()
+            getString(R.string.prefs_show_podcasts_key),
+            getString(R.string.prefs_adaptive_colors_key)-> requestMainActivityToRecreate()
         }
     }
 

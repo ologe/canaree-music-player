@@ -289,7 +289,7 @@ class PlayerFragmentAdapter (
         RxView.clicks(view.lyrics)
                 .takeUntil(RxView.detaches(view))
                 .subscribe({
-                    navigator.toOfflineLyrics(view.lyrics)
+                    navigator.toOfflineLyrics()
                 }, Throwable::printStackTrace)
 
         val replayView = view.findViewById<View>(R.id.replay)

@@ -178,7 +178,7 @@ dependencies {
     implementation "de.u-mass:lastfm-java:$rootProject.last_fm_binding"
     implementation "saschpe.android:customtabs:$rootProject.custom_tabs"
     implementation "com.afollestad.material-dialogs:color:$rootProject.material_dialogs"
-
+    implementation 'io.alterac.blurkit:blurkit:1.0.0'
 
     // debug
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leak_canary"

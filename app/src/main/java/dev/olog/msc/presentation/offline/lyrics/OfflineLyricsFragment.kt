@@ -1,23 +1,15 @@
 package dev.olog.msc.presentation.offline.lyrics
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.media.MediaMetadataCompat
 import android.view.View
 import android.widget.SeekBar
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
-import com.bumptech.glide.Priority
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.glide.transformation.BlurTransformation
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
@@ -26,12 +18,8 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.msc.presentation.utils.animation.CircularReveal
-import dev.olog.msc.presentation.utils.animation.HasSafeTransition
-import dev.olog.msc.presentation.utils.animation.SafeTransition
-import dev.olog.msc.presentation.utils.blur.FastBlur
-import dev.olog.msc.presentation.widget.image.view.player.toPlayerImage
-import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.msc.presentation.widget.animateBackgroundColor
+import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,64 +31,22 @@ import java.net.URLEncoder
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
+class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
         const val TAG = "OfflineLyricsFragment"
-        private const val ARGUMENT_ICON_POS_X = "$TAG.argument.pos.x"
-        private const val ARGUMENT_ICON_POS_Y = "$TAG.argument.pos.y"
 
         @JvmStatic
-        fun newInstance(icon: View): OfflineLyricsFragment {
-            val x = (icon.x + icon.width / 2).toInt()
-            val y = (icon.y + icon.height / 2).toInt()
-            return OfflineLyricsFragment().withArguments(
-                    ARGUMENT_ICON_POS_X to x,
-                    ARGUMENT_ICON_POS_Y to y
-            )
+        fun newInstance(): OfflineLyricsFragment {
+            return OfflineLyricsFragment()
         }
     }
 
     @Inject lateinit var presenter: OfflineLyricsFragmentPresenter
-    @Inject lateinit var safeTransition: SafeTransition
     private var tutorialDisposable: Disposable? = null
     private var updateDisposable : Disposable? = null
 
     private val mediaProvider by lazy { activity as MediaProvider }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null){
-            val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
-            val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
-            safeTransition.execute(this, CircularReveal(ctx, x, y, toColor = Color.BLACK))
-        }
-    }
-
-    private fun loadBackgroundImage(metadata: MediaMetadataCompat){
-        val model = metadata.toPlayerImage()
-        val mediaId = metadata.getMediaId()
-        GlideApp.with(ctx).clear(image)
-
-        val radius = 8
-        val sampling = 6
-
-        val drawable = CoverUtils.getGradient(ctx, mediaId)
-        val placeholder = try {
-            val bitmap = drawable.toBitmap(100, 100, Bitmap.Config.RGB_565)
-            FastBlur.blur(bitmap, radius, false).toDrawable(resources)
-        } catch (ex: IllegalArgumentException){
-            drawable
-        }
-
-        GlideApp.with(ctx)
-                .load(model)
-                .placeholder(placeholder)
-                .priority(Priority.IMMEDIATE)
-                .transform(BlurTransformation(radius, sampling))
-                .override(500)
-                .into(image)
-    }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         super.onViewBound(view, savedInstanceState)
@@ -109,29 +55,6 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
 
         tutorialDisposable = presenter.showAddLyricsIfNeverShown()
                 .subscribe({ TutorialTapTarget.addLyrics(view.search, view.edit, view.sync) }, {})
-    }
-
-    override fun onResume() {
-        super.onResume()
-        edit.setOnClickListener {
-            EditLyricsDialog.show(act, presenter.getOriginalLyrics()) { newLyrics ->
-                presenter.updateLyrics(newLyrics)
-            }
-        }
-        back.setOnClickListener { act.onBackPressed() }
-        search.setOnClickListener { searchLyrics() }
-        act.window.removeLightStatusBar()
-
-        fakeNext.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToNext() })
-        fakePrev.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToPrevious() })
-        scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
-        seekBar.setOnSeekBarChangeListener(seekBarListener)
-
-        sync.setOnClickListener { _ ->
-            OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement()) {
-                presenter.updateSyncAdjustement(it)
-            }
-        }
 
         mediaProvider.onMetadataChanged()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -139,7 +62,7 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                 .subscribe(viewLifecycleOwner) {
                     presenter.updateCurrentTrackId(it.getId())
                     presenter.updateCurrentMetadata(it.getTitle().toString(), it.getArtist().toString())
-                    loadBackgroundImage(it)
+                    image.loadImage(it)
                     header.text = it.getTitle()
                     subHeader.text = it.getArtist()
                     seekBar.max = it.getDuration().toInt()
@@ -163,24 +86,41 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
                     seekBar.progress = it.position.toInt()
                     handleSeekBarState(isPlaying, it.playbackSpeed)
                 }
+
+        view.image.observePaletteColors()
+                .map { it.accent }
+                .observeOn(AndroidSchedulers.mainThread())
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { accent ->
+                    subHeader.animateTextColor(accent)
+                    edit.animateBackgroundColor(accent)
+                }
     }
 
-    private fun searchLyrics(){
-        val toolbarColor = if (AppTheme.isWhiteTheme()) R.color.toolbar else R.color.theme_dark_toolbar
-        val customTabIntent = CustomTabsIntent.Builder()
-                .enableUrlBarHiding()
-                .setToolbarColor(ContextCompat.getColor(ctx, toolbarColor))
-                .build()
-        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+    override fun onStart() {
+        super.onStart()
+        blurLayout.startBlur()
+    }
 
-        val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
-        val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
-        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri) { _, _ ->
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            if (act.packageManager.isIntentSafe(intent)) {
-                startActivity(intent)
-            } else {
-                act.toast(R.string.common_browser_not_found)
+    override fun onResume() {
+        super.onResume()
+        edit.setOnClickListener {
+            EditLyricsDialog.show(act, presenter.getOriginalLyrics()) { newLyrics ->
+                presenter.updateLyrics(newLyrics)
+            }
+        }
+        back.setOnClickListener { act.onBackPressed() }
+        search.setOnClickListener { searchLyrics() }
+        act.window.removeLightStatusBar()
+
+        fakeNext.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToNext() })
+        fakePrev.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.skipToPrevious() })
+        scrollView.setOnTouchListener(NoScrollTouchListener(ctx) { mediaProvider.playPause() })
+        seekBar.setOnSeekBarChangeListener(seekBarListener)
+
+        sync.setOnClickListener { _ ->
+            OfflineLyricsSyncAdjustementDialog.show(ctx, presenter.getSyncAdjustement()) {
+                presenter.updateSyncAdjustement(it)
             }
         }
     }
@@ -203,7 +143,29 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         super.onStop()
         tutorialDisposable.unsubscribe()
         updateDisposable.unsubscribe()
+        blurLayout.pauseBlur()
     }
+
+    private fun searchLyrics(){
+        val toolbarColor = if (AppTheme.isWhiteTheme()) R.color.toolbar else R.color.theme_dark_toolbar
+        val customTabIntent = CustomTabsIntent.Builder()
+                .enableUrlBarHiding()
+                .setToolbarColor(ContextCompat.getColor(ctx, toolbarColor))
+                .build()
+        CustomTabsHelper.addKeepAliveExtra(ctx, customTabIntent.intent)
+
+        val escapedQuery = URLEncoder.encode(presenter.getInfoMetadata(), "UTF-8")
+        val uri = Uri.parse("http://www.google.com/#q=$escapedQuery")
+        CustomTabsHelper.openCustomTab(ctx, customTabIntent, uri) { _, _ ->
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            if (act.packageManager.isIntentSafe(intent)) {
+                startActivity(intent)
+            } else {
+                act.toast(R.string.common_browser_not_found)
+            }
+        }
+    }
+
 
     private fun handleSeekBarState(isPlaying: Boolean, speed: Float){
         updateDisposable.unsubscribe()
@@ -229,7 +191,6 @@ class OfflineLyricsFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         }
     }
 
-    override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     override fun provideLayoutId(): Int = R.layout.fragment_offline_lyrics
 }

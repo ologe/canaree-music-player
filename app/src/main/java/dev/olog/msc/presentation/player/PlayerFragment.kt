@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.math.MathUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
@@ -48,7 +49,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     @Inject lateinit var presenter: PlayerFragmentPresenter
     @Inject lateinit var navigator: Navigator
 
-    private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
+    private lateinit var layoutManager : LinearLayoutManager
 
     private lateinit var mediaProvider : MediaProvider
 
@@ -60,7 +61,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         val adapter = PlayerFragmentAdapter(lifecycle, activity as MediaProvider,
                 navigator, viewModel, presenter)
 
-        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.isNestedScrollingEnabled = false
@@ -192,15 +193,15 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
             view.bigCover?.observeProcessorColors()
                     ?.asLiveData()
-                    ?.subscribe(this, viewModel::updateProcessorColors)
+                    ?.subscribe(viewLifecycleOwner, viewModel::updateProcessorColors)
             view.bigCover?.observePaletteColors()
                     ?.asLiveData()
-                    ?.subscribe(this, viewModel::updatePaletteColors)
+                    ?.subscribe(viewLifecycleOwner, viewModel::updatePaletteColors)
 
             viewModel.observePaletteColors()
                     .map { it.accent }
                     .asLiveData()
-                    .subscribe(this) { accent ->
+                    .subscribe(viewLifecycleOwner) { accent ->
                         shuffle.updateSelectedColor(accent)
                         repeat.updateSelectedColor(accent)
                     }

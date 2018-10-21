@@ -13,7 +13,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 
-internal class PlayerImageViewPresenter(
+internal class AdaptiveColorImageViewPresenter(
         private val context: Context
 
 ) {

@@ -27,7 +27,7 @@ interface Navigator {
 
     fun toEditInfoFragment(mediaId: MediaId)
 
-    fun toOfflineLyrics(icon: View)
+    fun toOfflineLyrics()
 
     fun toDialog(item: DisplayableItem, anchor: View)
     fun toDialog(mediaId: MediaId, anchor: View)

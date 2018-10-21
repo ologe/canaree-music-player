@@ -210,12 +210,12 @@ class NavigatorImpl @Inject internal constructor(
         }
     }
 
-    override fun toOfflineLyrics(icon: View) {
+    override fun toOfflineLyrics() {
         if (allowed()){
             activity.fragmentTransaction {
                 setReorderingAllowed(true)
                 setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                add(android.R.id.content, OfflineLyricsFragment.newInstance(icon),
+                add(android.R.id.content, OfflineLyricsFragment.newInstance(),
                         OfflineLyricsFragment.TAG)
                 addToBackStack(OfflineLyricsFragment.TAG)
             }
