@@ -121,6 +121,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$rootProject.androidX"
     implementation "androidx.appcompat:appcompat:$rootProject.androidX"
     implementation "androidx.media:media:$rootProject.androidX"
+    implementation "androidx.mediarouter:mediarouter:$rootProject.androidX"
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidX"
     implementation "androidx.cardview:cardview:$rootProject.androidX"
     implementation "androidx.browser:browser:$rootProject.androidX"
@@ -128,6 +129,8 @@ dependencies {
     implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
     implementation "androidx.palette:palette:$rootProject.androidX"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraint_layout"
+
+    implementation 'com.google.android.gms:play-services-cast-framework:16.0.3'
 
     // billing
     implementation "com.android.billingclient:billing:$rootProject.billing"

@@ -6,8 +6,11 @@ import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.main.CastBehavior
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_library_categories.*
 import kotlinx.android.synthetic.main.fragment_library_categories.view.*
@@ -28,6 +31,8 @@ class CategoriesPodcastFragment : BaseFragment() {
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var presenter : CategoriesPodcastFragmentPresenter
 
+    private val castBehavior by lazyFast { CastBehavior(act) }
+
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.viewPager.adapter = pagerAdapter
         view.tabLayout.setupWithViewPager(view.viewPager)
@@ -36,6 +41,8 @@ class CategoriesPodcastFragment : BaseFragment() {
         view.viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count)
 
         view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
+
+        castBehavior.initializeMediaButton(view.castButton)
     }
 
     override fun onResume() {

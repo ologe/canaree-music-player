@@ -63,12 +63,20 @@
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
+        <androidx.mediarouter.app.MediaRouteButton
+            android:id="@+id/castButton"
+            android:layout_width="@dimen/common_icon_size"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/floatingWindow"/>
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="?android:attr/colorPrimary"
-            app:layout_constraintEnd_toStartOf="@id/floatingWindow"
+            app:layout_constraintEnd_toStartOf="@id/castButton"
             app:layout_constraintStart_toEndOf="@id/header"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
