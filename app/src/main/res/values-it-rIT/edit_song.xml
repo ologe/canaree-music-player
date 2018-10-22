@@ -13,6 +13,8 @@
   <string name="edit_track_update_success">Brano aggiornato</string>
   <string name="edit_album_update_success">Album aggiornato</string>
   <string name="edit_artist_update_success">Artista aggiornato</string>
+  <string name="edit_album_update_start">Sto aggiornando gli album..</string>
+  <string name="edit_artist_update_start">Sto aggiornando gli artist..</string>
   <string name="edit_song_invalid_title">Il titolo non può essere nullo</string>
   <string name="edit_artist_invalid_title">Il nome dell\'artista non può essere nullo</string>
   <string name="edit_song_invalid_disc_number"># disco non valido</string>

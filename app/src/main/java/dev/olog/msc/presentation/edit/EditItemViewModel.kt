@@ -50,6 +50,7 @@ class EditItemViewModel @Inject constructor(
         presenter.deleteAlbum(data.mediaId)
                 .andThen(presenter.updateAlbum(data))
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { context.toast(R.string.edit_album_update_start) }
                 .subscribe({ context.toast(R.string.edit_album_update_success) }, { showErrorMessage(it) })
                 .addTo(subscriptions)
 
@@ -64,6 +65,7 @@ class EditItemViewModel @Inject constructor(
         presenter.deleteArtist(data.mediaId)
                 .andThen(presenter.updateArtist(data))
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { context.toast(R.string.edit_artist_update_start) }
                 .subscribe({ context.toast(R.string.edit_artist_update_success) }, { showErrorMessage(it) })
                 .addTo(subscriptions)
 
