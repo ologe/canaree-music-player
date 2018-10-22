@@ -49,7 +49,8 @@ interface ThemedActivity {
 
             getColorResource(R.color.md_indigo_A100) -> R.style.ThemeAccentIndigo100
             getColorResource(R.color.md_indigo_A200) -> R.style.ThemeAccentIndigo200
-            getColorResource(R.color.md_indigo_A400) -> R.style.ThemeAccentIndigo400
+            getColorResource(R.color.md_indigo_A400),
+            getColorResource(R.color.md_indigo_A400_alt) -> R.style.ThemeAccentIndigo400
             getColorResource(R.color.md_indigo_A700) -> R.style.ThemeAccentIndigo700
 
             getColorResource(R.color.md_blue_A100) -> R.style.ThemeAccentBlue100
@@ -90,7 +91,8 @@ interface ThemedActivity {
             getColorResource(R.color.md_yellow_A100) -> R.style.ThemeAccentYellow100
             getColorResource(R.color.md_yellow_A200) -> R.style.ThemeAccentYellow200
             getColorResource(R.color.md_yellow_A400) -> R.style.ThemeAccentYellow400
-            getColorResource(R.color.md_yellow_A700) -> R.style.ThemeAccentYellow700
+            getColorResource(R.color.md_yellow_A700),
+            getColorResource(R.color.md_yellow_A700_alt) -> R.style.ThemeAccentYellow700
 
             getColorResource(R.color.md_amber_A100) -> R.style.ThemeAccentAmber100
             getColorResource(R.color.md_amber_A200) -> R.style.ThemeAccentAmber200
@@ -106,7 +108,8 @@ interface ThemedActivity {
             getColorResource(R.color.md_deep_orange_A200) -> R.style.ThemeAccentDeepOrange200
             getColorResource(R.color.md_deep_orange_A400) -> R.style.ThemeAccentDeepOrange400
             getColorResource(R.color.md_deep_orange_A700) -> R.style.ThemeAccentDeepOrange700
-            else -> throw IllegalArgumentException("color not found")
+            // prevent strange color crash
+            else -> if (AppTheme.isWhiteTheme()) R.style.ThemeAccentIndigo400 else R.style.ThemeAccentYellow700
         }
     }
 
