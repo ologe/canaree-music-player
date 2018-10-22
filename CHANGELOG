@@ -1,5 +1,7 @@
 2.0.4
 - color accent crash
+- fixed crash on repeat mode changed
+- added message when starting updating album/artist
 
 2.0.3
 

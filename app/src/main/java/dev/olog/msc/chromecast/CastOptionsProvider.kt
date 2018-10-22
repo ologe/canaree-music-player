@@ -10,7 +10,7 @@ class CastOptionsProvider : OptionsProvider {
 
     override fun getCastOptions(context: Context): CastOptions {
         val castOptions = CastOptions.Builder()
-                .setReceiverApplicationId(context.getString(R.string.app_id))
+                .setReceiverApplicationId(context.getString(R.string.fake_app_id))
                 .build()
         return castOptions
     }
