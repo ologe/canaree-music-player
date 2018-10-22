@@ -3,6 +3,7 @@ package dev.olog.msc.music.service
 import android.annotation.SuppressLint
 import androidx.annotation.CheckResult
 import androidx.annotation.MainThread
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
@@ -209,11 +210,17 @@ class QueueImpl @Inject constructor(
     @MainThread
     fun onRepeatModeChanged(){
         assertMainThread()
+
+        currentSongPosition = ensurePosition(playingQueue, currentSongPosition)
         var list = playingQueue.drop(currentSongPosition + 1).take(MINI_QUEUE_SIZE).toMutableList()
         list = handleQueueOnRepeatMode(list)
 
-        val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
-        queueMediaSession.onNext(MediaSessionQueueModel(activeId, list))
+        try {
+            val activeId = playingQueue[currentSongPosition].idInPlaylist.toLong()
+            queueMediaSession.onNext(MediaSessionQueueModel(activeId, list))
+        } catch (ex: IndexOutOfBoundsException){
+            Crashlytics.logException(ex)
+        }
     }
 
     @CheckResult
