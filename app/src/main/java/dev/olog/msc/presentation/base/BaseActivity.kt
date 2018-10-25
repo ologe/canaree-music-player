@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.base
 
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.StyleRes
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatDelegate
+import android.view.View
+import androidx.annotation.CallSuper
+import androidx.annotation.StyleRes
+import androidx.appcompat.app.AppCompatDelegate
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
@@ -16,7 +16,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         disableDayNight()
         setTheme(getActivityTheme())
-        themeAccentColor(theme)
+        themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
     }
@@ -37,8 +37,18 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
     }
 
     @Suppress("UNCHECKED_CAST")
-    internal fun <T : Fragment> findFragmentByTag(tag: String): T? {
+    internal fun <T : androidx.fragment.app.Fragment> findFragmentByTag(tag: String): T? {
         return supportFragmentManager.findFragmentByTag(tag) as T?
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && AppTheme.isImmersiveMode()){
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
     }
 
 

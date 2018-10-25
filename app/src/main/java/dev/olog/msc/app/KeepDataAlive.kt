@@ -1,30 +1,31 @@
 package dev.olog.msc.app
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.content.Context
-import dev.olog.msc.Permissions
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
 import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
+import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
+import dev.olog.msc.utils.k.extension.asFlowable
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.Flowables
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class KeepDataAlive @Inject constructor(
-        @ApplicationContext private val context: Context,
         @ProcessLifecycle lifecycle: Lifecycle,
         private val getAllSongsUseCase: GetAllSongsUseCase,
         private val getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
-        private val getAllGenresUseCase: GetAllGenresUseCase
+        private val getAllGenresUseCase: GetAllGenresUseCase,
+        private val getAllPodcastUseCase: GetAllPodcastUseCase
 
 ) : DefaultLifecycleObserver {
+
 
     private var disposable : Disposable? = null
 
@@ -33,31 +34,16 @@ class KeepDataAlive @Inject constructor(
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        if (Permissions.canReadStorage(context)){
-            execute()
-        }
+        disposable = Flowables.combineLatest(
+                getAllSongsUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
+                getAllPlaylistsUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
+                getAllGenresUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
+                getAllPodcastUseCase.execute().onErrorReturnItem(listOf()).asFlowable()
+        ) { _, _, _, _ -> 0}.subscribe({}, Throwable::printStackTrace)
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        unsubscribe()
-    }
-
-    private fun unsubscribe(){
         disposable.unsubscribe()
-    }
-
-    fun execute(){
-        if (!Permissions.canReadStorage(context)){
-            return
-        }
-
-        unsubscribe()
-
-        disposable = Observables.combineLatest(
-                getAllSongsUseCase.execute().onErrorReturnItem(listOf()),
-                getAllPlaylistsUseCase.execute().onErrorReturnItem(listOf()),
-                getAllGenresUseCase.execute().onErrorReturnItem(listOf())
-        ).subscribe({}, Throwable::printStackTrace)
     }
 
 }

@@ -1,19 +1,17 @@
 package dev.olog.msc.presentation.detail
 
 import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.msc.domain.interactor.playlist.RemoveFromPlaylistUseCase
-import dev.olog.msc.domain.interactor.item.GetArtistFromAlbumUseCase
 import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import javax.inject.Inject
 
 class DetailFragmentPresenter @Inject constructor(
         private val mediaId: MediaId,
-        private val getArtistFromAlbumUseCase: GetArtistFromAlbumUseCase,
         private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
         private val headers: DetailFragmentHeaders,
         private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
@@ -21,31 +19,27 @@ class DetailFragmentPresenter @Inject constructor(
 
 ) {
 
-    fun artistMediaId() : Maybe<MediaId> {
-        return if (mediaId.isAlbum){
-            getArtistFromAlbumUseCase
-                    .execute(mediaId)
-                    .firstElement()
-                    .map { MediaId.artistId(it.id) }
-        } else {
-            Maybe.empty()
-        }
-    }
-
     fun removeFromPlaylist(item: DisplayableItem): Completable {
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
+        val playlistType = if (item.mediaId.isPodcast) PlaylistType.PODCAST else PlaylistType.TRACK
         if (playlistId == PlaylistConstants.FAVORITE_LIST_ID){
             // favorites use songId instead of idInPlaylist
-            return removeFromPlaylistUseCase.execute(playlistId to item.mediaId.leaf!!)
+            return removeFromPlaylistUseCase.execute(RemoveFromPlaylistUseCase.Input(
+                    playlistId, item.mediaId.leaf!!, playlistType
+            ))
         }
-        return removeFromPlaylistUseCase.execute(playlistId to item.trackNumber.toLong())
+        return removeFromPlaylistUseCase.execute(RemoveFromPlaylistUseCase.Input(
+                playlistId, item.trackNumber.toLong(), playlistType
+        ))
     }
 
     fun moveInPlaylist(from: Int, to: Int){
         mediaId.assertPlaylist()
         val playlistId = mediaId.resolveId
-        moveItemInPlaylistUseCase.execute(playlistId, from, to)
+        moveItemInPlaylistUseCase.execute(MoveItemInPlaylistUseCase.Input(playlistId, from, to,
+                if (mediaId.isPodcastPlaylist) PlaylistType.PODCAST else PlaylistType.TRACK
+        ))
     }
 
     fun createDataMap(
@@ -63,7 +57,7 @@ class DetailFragmentPresenter @Inject constructor(
             // swap albums to top
             return mutableMapOf(
                     DetailFragmentDataType.HEADER to item.toMutableList(),
-                    DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item),
+                    DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList()),
                     DetailFragmentDataType.MOST_PLAYED to handleMostPlayedHeader(mostPlayed.toMutableList(), visibility[0]),
                     DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                     DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
@@ -77,7 +71,7 @@ class DetailFragmentPresenter @Inject constructor(
                 DetailFragmentDataType.RECENT to handleRecentlyAddedHeader(recent.toMutableList(), visibility[1]),
                 DetailFragmentDataType.SONGS to handleSongsHeader(songs.toMutableList()),
                 DetailFragmentDataType.ARTISTS_IN to handleRelatedArtistsHeader(artists.toMutableList(), visibility[2]),
-                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList(), item)
+                DetailFragmentDataType.ALBUMS to handleAlbumsHeader(albums.toMutableList())
         )
     }
 
@@ -102,17 +96,10 @@ class DetailFragmentPresenter @Inject constructor(
         return list
     }
 
-    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>, item: List<DisplayableItem>) : MutableList<DisplayableItem>{
+    private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
+        list.clear()
         if (list.isNotEmpty()){
-            val size = list.size
-            val artist = when {
-                mediaId.isAlbum -> item[1].subtitle
-                else -> null
-            }
-            list.clear()
-            list.addAll(0, headers.albums(artist, size))
-        } else {
-            list.clear()
+            list.addAll(0, headers.albums())
         }
         return list
     }

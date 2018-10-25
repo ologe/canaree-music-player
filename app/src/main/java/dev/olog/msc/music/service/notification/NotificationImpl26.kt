@@ -4,9 +4,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v4.app.NotificationCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import dagger.Lazy
 import dev.olog.msc.R
 import javax.inject.Inject
@@ -22,8 +22,14 @@ class NotificationImpl26 @Inject constructor(
     override fun extendInitialization() {
         builder.setColorized(true)
 
-        createChannel()
+        if (!nowPlayingChannelExists()){
+            createChannel()
+        }
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun nowPlayingChannelExists() =
+            notificationManager.get().getNotificationChannel(INotification.CHANNEL_ID) != null
 
     private fun createChannel(){
         // create notification channel

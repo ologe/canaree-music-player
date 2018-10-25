@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.playlist.track.chooser
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
 import android.widget.CheckBox
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle

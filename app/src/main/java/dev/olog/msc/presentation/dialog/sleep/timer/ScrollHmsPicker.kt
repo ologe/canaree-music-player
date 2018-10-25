@@ -4,14 +4,14 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.ColorInt
-import android.support.annotation.ColorRes
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import dev.olog.msc.R
 
 class ScrollHmsPicker @JvmOverloads constructor(
@@ -172,7 +172,7 @@ class ScrollHmsPicker @JvmOverloads constructor(
 //        }
     }
 
-    override fun onSaveInstanceState(): Parcelable = SavedState(super.onSaveInstanceState())
+    override fun onSaveInstanceState(): Parcelable = SavedState(super.onSaveInstanceState()!!)
             .also { state ->
                 state.hours = hours
                 state.minutes = minutes

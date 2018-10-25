@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_songs"
+            android:title="@string/common_tracks"
+            android:icon="@drawable/vd_musical_note"/>
+
+        <item
+            android:id="@+id/navigation_podcasts"
+            android:title="@string/common_podcasts"
+            android:icon="@drawable/vd_podcast"/>
+
+        <item
+            android:id="@+id/navigation_search"
+            android:title="@string/common_search"
+            android:icon="@drawable/vd_search"/>
+
+        <item
+            android:id="@+id/navigation_queue"
+            android:title="@string/playing_queue"
+            android:icon="@drawable/vd_playing_queue"/>
+
+    </group>
+</menu>

@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.recently.added.di
 
-import android.support.v4.app.Fragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -15,6 +14,6 @@ abstract class RecentlyAddedFragmentInjector {
     @IntoMap
     @FragmentKey(RecentlyAddedFragment::class)
     internal abstract fun injectorFactory(builder: RecentlyAddedFragmentSubComponent.Builder)
-            : AndroidInjector.Factory<out Fragment>
+            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 
 }

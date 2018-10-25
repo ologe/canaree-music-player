@@ -1,8 +1,8 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
 import dev.olog.msc.data.entity.SongMostTimesPlayedEntity
 import dev.olog.msc.domain.entity.Song
@@ -30,7 +30,7 @@ abstract class PlaylistMostPlayedDao {
     fun getAll(playlistId: Long, songList: Observable<List<Song>>): Observable<List<Song>> {
         return this.query(playlistId)
                 .toObservable()
-                .flatMap { mostPlayedSongs -> songList.map { songList ->
+                .switchMap { mostPlayedSongs -> songList.map { songList ->
                     mostPlayedSongs.mapNotNull { mostPlayed ->
                         val song = songList.firstOrNull { it.id == mostPlayed.songId }
                         if (song != null) song to mostPlayed.timesPlayed

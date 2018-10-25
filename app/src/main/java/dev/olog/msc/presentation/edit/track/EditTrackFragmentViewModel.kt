@@ -1,22 +1,18 @@
 package dev.olog.msc.presentation.edit.track
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.NetworkUtils
 import dev.olog.msc.app.app
-import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.get
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
-import org.jaudiotagger.audio.AudioFileIO
-import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.TagOptionSingleton
-import java.io.File
+import javax.inject.Inject
 
-class EditTrackFragmentViewModel(
+class EditTrackFragmentViewModel @Inject constructor(
         private val presenter: EditTrackFragmentPresenter
 
 ) : ViewModel() {
@@ -30,7 +26,6 @@ class EditTrackFragmentViewModel(
         TagOptionSingleton.getInstance().isAndroid = true
 
         getSongDisposable = presenter.observeSong()
-                .map { it.toDisplayableSong() }
                 .subscribe({ song ->
                     displayedSong.postValue(song)
                 }, {
@@ -62,7 +57,7 @@ class EditTrackFragmentViewModel(
     }
 
     fun observeData(): LiveData<DisplayableSong> = displayedSong
-    fun getSong(): Song = presenter.getSong()
+    fun getSong(): DisplayableSong = presenter.getSong()
 
     fun fetchSongInfo(): Boolean {
         if (!NetworkUtils.isConnected(app)){
@@ -90,25 +85,6 @@ class EditTrackFragmentViewModel(
 
     fun stopFetching(){
         fetchSongInfoDisposable.unsubscribe()
-    }
-
-    private fun Song.toDisplayableSong(): DisplayableSong {
-        val file = File(path)
-        val audioFile = AudioFileIO.read(file)
-        val tag = audioFile.tagOrCreateAndSetDefault
-
-        return DisplayableSong(
-                this.id,
-                this.title,
-                tag.get(FieldKey.ARTIST),
-                tag.get(FieldKey.ALBUM_ARTIST),
-                album,
-                tag.get(FieldKey.GENRE),
-                tag.get(FieldKey.YEAR),
-                tag.get(FieldKey.DISC_NO),
-                tag.get(FieldKey.TRACK),
-                this.image
-        )
     }
 
     override fun onCleared() {

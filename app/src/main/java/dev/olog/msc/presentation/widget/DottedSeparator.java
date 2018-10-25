@@ -3,11 +3,10 @@ package dev.olog.msc.presentation.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import dev.olog.msc.R;
 import dev.olog.msc.presentation.theme.AppTheme;
 

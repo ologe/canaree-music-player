@@ -1,8 +1,8 @@
 package dev.olog.msc.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import de.umass.lastfm.Authenticator
 import de.umass.lastfm.Caller
 import de.umass.lastfm.Session
@@ -24,6 +24,7 @@ import io.reactivex.schedulers.Schedulers
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
 import java.io.File
+import java.util.logging.Level
 import javax.inject.Inject
 
 class LastFmScrobbling @Inject constructor(
@@ -50,7 +51,7 @@ class LastFmScrobbling @Inject constructor(
         playerLifecycle.addListener(this)
 
         Caller.getInstance().userAgent = "dev.olog.msc"
-        Caller.getInstance().isDebugMode = false
+        Caller.getInstance().logger.level = Level.OFF
     }
 
     override fun onDestroy(owner: LifecycleOwner) {

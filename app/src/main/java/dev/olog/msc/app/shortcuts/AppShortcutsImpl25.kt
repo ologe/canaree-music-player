@@ -1,14 +1,14 @@
 package dev.olog.msc.app.shortcuts
 
-import android.arch.lifecycle.Lifecycle
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
-import android.support.annotation.RequiresApi
-import androidx.core.content.systemService
+import androidx.annotation.RequiresApi
+import androidx.core.content.getSystemService
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
@@ -25,7 +25,7 @@ open class AppShortcutsImpl25(
 
 ) : BaseAppShortcuts(context, lifecycle) {
 
-    protected val shortcutManager : ShortcutManager = context.systemService<ShortcutManager>()
+    protected val shortcutManager : ShortcutManager = context.getSystemService<ShortcutManager>()!!
 
     init {
         shortcutManager.removeAllDynamicShortcuts()

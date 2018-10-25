@@ -7,5 +7,4 @@
   <string name="splash_player_tutorial_2">Clica nas bordas das imagens ou desliza para saltar</string>
   <string name="splash_storage_permission">Permissão de armazenamento</string>
   <string name="splash_storage_permission_disabled">Por favor aceita a permissão de armazenamento para usar a app</string>
-  <dimen name="splash_placeholder_size">140dp</dimen>
 </resources>

@@ -14,6 +14,9 @@
     <dimen name="player_seekBar_padding_top">6dp</dimen>
     <dimen name="player_seekBar_padding_horizontal">36dp</dimen>
 
+    <dimen name="player_seekBar_spotify_padding">12dp</dimen>
+    <dimen name="player_seekBar_spotify_margin_top">0dp</dimen>
+
     <dimen name="player_shuffle_padding">16dp</dimen>
     <dimen name="player_shuffle_size">50dp</dimen>
 
@@ -22,12 +25,17 @@
     <dimen name="player_duration_margin_end">32dp</dimen>
 
     <!--metadata-->
+    <dimen name="player_spotify_title_margin_top">8dp</dimen>
+
+    <dimen name="player_title_margin_top">0dp</dimen>
     <dimen name="player_title_text_size">18dp</dimen>
     <dimen name="player_title_margin_horizontal">20dp</dimen>
     <dimen name="player_artist_text_size">12dp</dimen>
     <dimen name="player_artist_bottom_padding">10dp</dimen>
+    <dimen name="dotted_separator_margin">12dp</dimen>
+
 
     <string name="player_now_playing" translatable="false">Now Playing</string>
-    <string name="player_load_more_song">more songs load as you listen</string>
+    <string name="player_load_more_song">more songs loads as you listen</string>
 
 </resources>

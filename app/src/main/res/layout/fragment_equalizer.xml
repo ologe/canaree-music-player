@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:layout_marginBottom="@dimen/sliding_panel_peek">
+    android:layout_height="wrap_content"
+    style="@style/EditItemCardView">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false">
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:paddingBottom="32dp">
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -24,26 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
-
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/toolbar"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:elevation="@dimen/toolbar_elevation"
-            android:focusable="true"
-            android:padding="12dp"
-            android:src="@drawable/vd_back_arrow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/statusBar" />
-
-        <dev.olog.msc.presentation.widget.StatusBarView
-            android:id="@+id/statusBar"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/status_bar"
-            android:alpha=".8"
-            android:background="@android:color/transparent" />
 
         <dev.olog.msc.presentation.widget.InkPageIndicator
             android:id="@+id/pageIndicator"
@@ -83,7 +65,7 @@
             android:padding="16dp"
             android:switchPadding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/statusBar"
+            app:layout_constraintTop_toTopOf="parent"
             tools:checked="true"
             tools:text="@string/common_switch_off"
             android:textColor="?android:attr/textColorPrimary"/>
@@ -146,7 +128,7 @@
         <dev.olog.msc.presentation.equalizer.widget.BandView
             android:id="@+id/band3"
             android:layout_width="@dimen/eq_bar_width"
-            android:layout_height="0dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="8dp"
             app:bandIndex="2"
@@ -208,7 +190,7 @@
             app:layout_constraintStart_toStartOf="@+id/band5"
             app:layout_constraintTop_toBottomOf="@+id/band3" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -257,6 +239,6 @@
             app:layout_constraintStart_toStartOf="@+id/virtualizerKnob"
             android:translationY="-10dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -2,10 +2,12 @@ package dev.olog.msc.presentation.widget
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dev.olog.msc.R
 
 private val colorEvaluator by lazy { ArgbEvaluator() }
@@ -14,6 +16,12 @@ fun TextView.animateTextColor(to: Int){
     animate().cancel()
     val from = currentTextColor
     computeColors(from, to) { setTextColor(it) }
+}
+
+fun FloatingActionButton.animateBackgroundColor(to: Int){
+    animate().cancel()
+    val from = backgroundTintList!!.defaultColor
+    computeColors(from, to) { backgroundTintList = ColorStateList.valueOf(it) }
 }
 
 fun View.animateBackgroundColor(to: Int){

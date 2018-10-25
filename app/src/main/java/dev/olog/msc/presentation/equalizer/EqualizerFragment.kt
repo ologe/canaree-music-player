@@ -1,15 +1,13 @@
 package dev.olog.msc.presentation.equalizer
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewPager
 import android.view.View
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import dev.olog.msc.R
 import dev.olog.msc.music.service.equalizer.IEqualizer
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.equalizer.widget.RadialKnob
-import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,35 +15,20 @@ import kotlinx.android.synthetic.main.fragment_equalizer.*
 import kotlinx.android.synthetic.main.fragment_equalizer.view.*
 import javax.inject.Inject
 
-class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
+class EqualizerFragment : BaseBottomSheetFragment(), IEqualizer.Listener {
 
     companion object {
         const val TAG = "EqualizerFragment"
+
+        @JvmStatic
+        fun newInstance(): EqualizerFragment {
+            return EqualizerFragment()
+        }
     }
 
     @Inject lateinit var presenter: EqualizerFragmentPresenter
     private lateinit var adapter : PresetPagerAdapter
     private var snackBar: Snackbar? = null
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        presenter.isEqualizerAvailable()
-                .asLiveData()
-                .subscribe(this) { isEqAvailable ->
-                    if (snackBar != null){
-                        if (isEqAvailable){
-                            snackBar?.dismiss()
-                        } // else, already shown
-                    } else {
-                        // error snackBar now shown
-                        if (!isEqAvailable){
-                            snackBar = Snackbar.make(root, R.string.equalizer_error, Snackbar.LENGTH_INDEFINITE)
-                            snackBar!!.show()
-                        }
-                    }
-                }
-    }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         val presets = presenter.getPresets()
@@ -73,10 +56,26 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         RxCompoundButton.checkedChanges(view.powerSwitch)
                 .observeOn(AndroidSchedulers.mainThread())
                 .asLiveData()
-                .subscribe(this) { isChecked ->
+                .subscribe(viewLifecycleOwner) { isChecked ->
                     val text = if(isChecked) R.string.common_switch_on else R.string.common_switch_off
                     view.powerSwitch.text = getString(text)
                     presenter.setEqualizerEnabled(isChecked)
+                }
+
+        presenter.isEqualizerAvailable()
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isEqAvailable ->
+                    if (snackBar != null){
+                        if (isEqAvailable){
+                            snackBar?.dismiss()
+                        } // else, already shown
+                    } else {
+                        // error snackBar now shown
+                        if (!isEqAvailable){
+                            snackBar = Snackbar.make(root, R.string.equalizer_error, Snackbar.LENGTH_INDEFINITE)
+                            snackBar!!.show()
+                        }
+                    }
                 }
     }
 
@@ -92,8 +91,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band3.setLevel = onBandLevelChange
         band4.setLevel = onBandLevelChange
         band5.setLevel = onBandLevelChange
-
-        back.setOnClickListener { act.onBackPressed() }
     }
 
     override fun onPause() {
@@ -108,8 +105,6 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         band3.setLevel = null
         band4.setLevel = null
         band5.setLevel = null
-
-        back.setOnClickListener(null)
     }
 
     private val onBassKnobChangeListener = object : RadialKnob.OnKnobChangeListener {
@@ -128,7 +123,7 @@ class EqualizerFragment : BaseFragment(), IEqualizer.Listener {
         override fun onSwitchChanged(knob: RadialKnob?, on: Boolean): Boolean = false
     }
 
-    private val onPageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
+    private val onPageChangeListener = object : androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
             presenter.setPreset(position % adapter.count)
         }

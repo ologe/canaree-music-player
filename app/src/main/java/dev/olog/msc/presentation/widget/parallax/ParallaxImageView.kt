@@ -9,9 +9,10 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.k.extension.clamp
+import kotlin.math.abs
 
-private const val DEFAULT_PARALLAX = .4f
-private const val MAX_ALPHA = 85 //.3f
+private const val DEFAULT_PARALLAX = .7f
+private const val MAX_ALPHA = 40 //.3f
 
 class ParallaxImageView(
         context: Context,
@@ -34,12 +35,12 @@ class ParallaxImageView(
         paint.alpha = 0
     }
 
-    fun translateY(root: View) {
-        val diff = (height - root.bottom)
+    fun translateY(root: View, textWrapper: View) {
+        val diff = (height - abs(textWrapper.height - root.bottom))
 
         translationY = diff.toFloat() * parallax
 
-        val currentAlpha = clamp((diff * .1f).toInt(), 0, MAX_ALPHA)
+        val currentAlpha = clamp((diff * .05f).toInt(), 0, MAX_ALPHA)
         paint.alpha = currentAlpha
         invalidate()
     }
@@ -51,7 +52,9 @@ class ParallaxImageView(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        if (!isInEditMode){
+            canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+        }
     }
 
 }

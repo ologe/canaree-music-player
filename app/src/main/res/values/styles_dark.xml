@@ -13,12 +13,8 @@
         <item name="android:colorPrimary">@color/theme_dark_toolbar</item>
         <item name="android:colorPrimaryDark">@color/theme_dark_status_bar</item>
 
-        <!--miniplayer-->
-        <item name="android:textColorTertiaryInverse">@color/theme_dark_toolbar</item>
-
         <item name="imageButtonStyle">@style/ImageButton</item>
         <item name="seekBarStyle">@style/SeekBar</item>
-        <item name="floatingActionButtonStyle">@style/DarkFab</item>
     </style>
 
     <!--black theme-->
@@ -26,7 +22,7 @@
         <item name="android:windowBackground">@color/theme_black_background</item>
         <item name="android:colorPrimary">@color/theme_black_background</item>
         <item name="android:colorPrimaryDark">@color/theme_black_background</item>
-        <item name="android:textColorTertiaryInverse">@color/theme_black_background</item>
+        <item name="miniPlayerColor">@color/theme_black_background</item>
     </style>
 
     <style name="ImageButton" parent="Widget.AppCompat.ImageButton">
@@ -38,11 +34,6 @@
         <item name="android:thumbTint">#F5F5F5</item>
         <item name="android:progressBackgroundTint">#757575</item>
         <item name="android:thumb">@drawable/seekbar_thumb</item>
-    </style>
-
-    <style name="DarkFab" parent="DefaultFab">
-        <item name="backgroundTint">?attr/colorAccent</item>
-        <item name="tint">@color/dark_grey</item>
     </style>
 
 </resources>

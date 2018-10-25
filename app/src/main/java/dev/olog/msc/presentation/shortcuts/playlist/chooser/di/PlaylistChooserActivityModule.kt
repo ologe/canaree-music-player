@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.shortcuts.playlist.chooser.di
 
 import android.app.Activity
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle

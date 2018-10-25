@@ -3,6 +3,9 @@
 
     <string name="add_song_x_to_playlist"><![CDATA[Add <b>%1$s</b> to playlist:]]></string>
 
+    <string name="save_as_playlist">Save as playlist</string>
+    <string name="queue_saved_as_playlist">Playing queue saved as playlist %s</string>
+
     <plurals name="add_xx_songs_to_playlist">
         <item quantity="one"><![CDATA[Add <b>%1$d song</b> to playlist:]]></item>
         <item quantity="other"><![CDATA[Add <b>%1$d songs</b> to playlist:]]></item>

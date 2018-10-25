@@ -16,7 +16,8 @@
 package dev.olog.msc.floating.window.service.api;
 
 import android.graphics.Point;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * Reports user drag behavior on the screen to a {@link DragListener}.

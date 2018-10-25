@@ -2,8 +2,8 @@ package dev.olog.msc.app
 
 import android.app.ActivityManager
 import android.content.Context
-import android.support.annotation.Keep
 import android.util.Log
+import androidx.annotation.Keep
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry

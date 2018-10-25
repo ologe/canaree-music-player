@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.interactor.playing.queue.GetMiniQueueUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -76,11 +76,17 @@ class QueueRemoteViewsFactory @Inject constructor(
             val image: String
     )
 
-    private fun Song.toWidgetItem(): WidgetItem {
+    private fun PlayingQueueSong.toWidgetItem(): WidgetItem {
+        val mediaId = if (this.isPodcast){
+            MediaId.podcastId(this.id)
+        } else {
+            MediaId.songId(this.id)
+        }
+
         return WidgetItem(
                 this.id,
                 this.trackNumber,
-                MediaId.songId(this.id),
+                mediaId,
                 this.title,
                 DisplayableItem.adjustArtist(this.artist),
                 this.image

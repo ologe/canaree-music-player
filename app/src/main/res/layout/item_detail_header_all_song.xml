@@ -7,12 +7,13 @@
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/detail_header_margin_start"
         android:paddingEnd="@dimen/detail_header_margin_end"
-        android:paddingTop="@dimen/item_detail_header_padding_top">
+        android:paddingTop="@dimen/item_detail_header_padding_top"
+        android:background="?android:windowBackground">
 
         <TextView
             app:layout_constraintTop_toTopOf="parent"
@@ -57,6 +58,6 @@
             android:padding="6dp"
             android:layout_marginEnd="12dp"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

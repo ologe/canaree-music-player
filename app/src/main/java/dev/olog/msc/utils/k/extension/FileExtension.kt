@@ -4,6 +4,7 @@ import android.os.Environment
 import android.webkit.MimeTypeMap
 import java.io.File
 
+
 fun File.isStorageDir(): Boolean {
     return this == Environment.getExternalStorageDirectory()
 }
@@ -49,4 +50,24 @@ private fun File.fileIsMimeType(mimeType: String?, mimeTypeMap: MimeTypeMap): Bo
         }
     }
     return false
+}
+
+fun File.safeGetCanonicalPath(): String{
+    try {
+        return canonicalPath
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return absolutePath
+    }
+
+}
+
+fun File.safeGetCanonicalFile(): File{
+    try {
+        return canonicalFile
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return absoluteFile
+    }
+
 }

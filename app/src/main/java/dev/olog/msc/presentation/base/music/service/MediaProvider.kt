@@ -7,7 +7,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Observable
-import java.io.File
 
 interface MediaProvider {
 
@@ -22,7 +21,6 @@ interface MediaProvider {
     fun playFromMediaId(mediaId: MediaId, sort: DetailSort? = null)
     fun playMostPlayed(mediaId: MediaId)
     fun playRecentlyAdded(mediaId: MediaId)
-    fun playFolderTree(file: File)
 
     fun skipToQueueItem(idInPlaylist: Long)
     fun shuffle(mediaId: MediaId)
@@ -46,5 +44,8 @@ interface MediaProvider {
 
     fun replayTenSeconds()
     fun forwardTenSeconds()
+
+    fun replayThirtySeconds()
+    fun forwardThirtySeconds()
 
 }

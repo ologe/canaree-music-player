@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
 class AdapterData<Model>(
         val data: List<Model>,

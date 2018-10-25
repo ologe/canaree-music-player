@@ -1,10 +1,12 @@
 package dev.olog.msc.presentation.related.artists
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.subscribe
@@ -28,24 +30,22 @@ class RelatedArtistFragment: BaseFragment() {
     }
 
     @Inject lateinit var adapter: RelatedArtistFragmentAdapter
-    @Inject lateinit var viewModel: RelatedArtistViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    private val viewModel by lazyFast { viewModelProvider<RelatedArtistFragmentViewModel>(viewModelFactory) }
 
-        viewModel.data.subscribe(this, adapter::updateDataSet)
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        view.list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context!!, if (isPortrait()) 2 else 3)
+        view.list.adapter = adapter
+        view.list.setHasFixedSize(true)
 
-        viewModel.itemTitle.subscribe(this, { itemTitle ->
+        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.itemTitle.subscribe(viewLifecycleOwner) { itemTitle ->
             val headersArray = resources.getStringArray(R.array.related_artists_header)
             val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
             this.header.text = header
-        })
-    }
-
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = GridLayoutManager(context!!, if (isPortrait()) 2 else 3)
-        view.list.adapter = adapter
-        view.list.setHasFixedSize(true)
+        }
     }
 
     override fun onResume() {

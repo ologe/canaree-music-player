@@ -9,9 +9,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
-import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.core.widget.toast
 import dagger.Lazy
 import dev.olog.msc.FileProvider
 import dev.olog.msc.constants.MusicConstants
@@ -27,6 +25,7 @@ import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
+import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -116,7 +115,7 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handleMediaButton(intent: Intent) {
-        MediaButtonReceiver.handleIntent(mediaSession, intent)
+        androidx.media.session.MediaButtonReceiver.handleIntent(mediaSession, intent)
     }
 
     override fun handleToggleFavorite() {
@@ -129,9 +128,15 @@ class MusicService : BaseMusicService() {
     }
 
     override fun handlePlayFromVoiceSearch(intent: Intent) {
-        val voiceParams = intent.extras
-        val query = voiceParams.getString(SearchManager.QUERY)
+        val voiceParams = intent.extras!!
+        val query = voiceParams.getString(SearchManager.QUERY)!!
         callback.onPlayFromSearch(query, voiceParams)
+    }
+
+    override fun handlePlayFromUri(intent: Intent) {
+        intent.data?.let { uri ->
+            callback.onPlayFromUri(uri, null)
+        }
     }
 
     private fun resetSleepTimer(){

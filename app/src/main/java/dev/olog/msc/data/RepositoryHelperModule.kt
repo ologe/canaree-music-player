@@ -1,7 +1,7 @@
 package dev.olog.msc.data
 
-import android.arch.persistence.room.Room
 import android.content.Context
+import androidx.room.Room
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
@@ -33,6 +33,7 @@ class RepositoryHelperModule {
     @Singleton
     fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "db")
+                .allowMainThreadQueries()
                 .fallbackToDestructiveMigration() // 1 to 2
                 .build()
     }

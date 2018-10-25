@@ -1,7 +1,8 @@
 package dev.olog.msc.presentation.about
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
+import android.content.res.ColorStateList
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
@@ -9,7 +10,9 @@ import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.NavigatorAbout
+import dev.olog.msc.utils.k.extension.colorAccent
 import dev.olog.msc.utils.k.extension.setOnClickListener
+import kotlinx.android.synthetic.main.item_about.view.*
 import javax.inject.Inject
 
 
@@ -36,6 +39,10 @@ class AboutActivityAdapter @Inject constructor(
     }
 
     override fun bind(binding: ViewDataBinding, item: DisplayableItem, position: Int) {
+        if (item.mediaId == AboutActivityPresenter.BUY_PRO){
+            val view = binding.root
+            view.title.setTextColor(ColorStateList.valueOf(view.context.colorAccent()))
+        }
         binding.setVariable(BR.item, item)
     }
 

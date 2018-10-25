@@ -4,9 +4,8 @@ import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
-import dev.olog.msc.presentation.base.music.service.MediaProvider
+import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
@@ -16,11 +15,10 @@ import javax.inject.Inject
 class SongPopupListener @Inject constructor(
         private val activity: Activity,
         private val navigator: Navigator,
-        private val mediaProvider: MediaProvider,
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
         addToPlaylistUseCase: AddToPlaylistUseCase
 
-) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase) {
+) : AbsPopupListener(getPlaylistBlockingUseCase, addToPlaylistUseCase, false) {
 
     private lateinit var song: Song
 
@@ -40,8 +38,6 @@ class SongPopupListener @Inject constructor(
 
         when (itemId){
             AbsPopup.NEW_PLAYLIST_ID -> toCreatePlaylist()
-            R.id.play -> playFromMediaId()
-            R.id.playShuffle -> playShuffle()
             R.id.addToFavorite -> addToFavorite()
             R.id.playLater -> playLater()
             R.id.playNext -> playNext()
@@ -59,14 +55,6 @@ class SongPopupListener @Inject constructor(
 
     private fun toCreatePlaylist(){
         navigator.toCreatePlaylistDialog(getMediaId(), -1, song.title)
-    }
-
-    private fun playFromMediaId(){
-        mediaProvider.playFromMediaId(getMediaId())
-    }
-
-    private fun playShuffle(){
-        mediaProvider.shuffle(getMediaId())
     }
 
     private fun playLater(){

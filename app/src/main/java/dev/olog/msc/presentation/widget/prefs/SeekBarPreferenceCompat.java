@@ -3,11 +3,11 @@ package dev.olog.msc.presentation.widget.prefs;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 import dev.olog.msc.R;
 
 public class SeekBarPreferenceCompat extends Preference implements View.OnClickListener, PreferenceControllerDelegate.ViewStateListener, PersistValueListener, ChangeValueListener {

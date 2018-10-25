@@ -13,7 +13,6 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
-import dev.olog.msc.utils.k.extension.asNegative
 import io.reactivex.Flowable
 
 @Module
@@ -50,14 +49,10 @@ class DetailFragmentModuleItem {
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumItem(
             mediaId: MediaId,
-            useCase: GetAlbumUseCase,
-            artistUseCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
+            useCase: GetAlbumUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
-                .flatMap { album ->
-                    artistUseCase.execute(MediaId.artistId(album.artistId))
-                            .map { album.toHeaderItem(it) }
-                }.onErrorResumeNext(useCase.execute(mediaId).map { it.toHeaderItem(null) })
+                .map { it.toHeaderItem() }
                 .asFlowable()
     }
 
@@ -86,25 +81,19 @@ class DetailFragmentModuleItem {
                 .map { it.toHeaderItem(resources) }
                 .asFlowable()
     }
+
 }
 
 
 private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.folderId(path),
-                    "",
-                    image = image
-            ),
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
-                    title,
-                    resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
-            )
-    )
+    return listOf(DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.folderId(path),
+            title,
+            subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
+            image = image
+    ))
 }
 
 private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
@@ -112,41 +101,25 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
         resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.playlistId(this.id),
-                    "",
-                    image = image
-            ),
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
-                    title,
-                    listSize
-            )
-    )
+    return listOf(DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.playlistId(this.id),
+            title,
+            listSize,
+            image = image
+    ))
 
 }
 
-private fun Album.toHeaderItem(artist: Artist?): List<DisplayableItem> {
+private fun Album.toHeaderItem(): List<DisplayableItem> {
 
-    val image = DisplayableItem(
+    return listOf(DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.albumId(this.id),
-            "",
-            image = image
-    )
-
-    val info = DisplayableItem( // manage carefully because contains an invalid media id
-            R.layout.item_detail_item_info,
-            if (artist != null) MediaId.albumId(artist.id.asNegative()) else MediaId.headerId("item info"),
             title,
             DisplayableItem.adjustArtist(this.artist),
-            artist?.image ?: ""
-    )
-
-    return listOf(image, info)
+            image = image
+    ))
 }
 
 private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
@@ -155,36 +128,22 @@ private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
         "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.artistId(this.id),
-                    "",
-                    image = image
-            ),
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
-                    name,
-                    "$albums$songs".toLowerCase()
-            )
-    )
+    return listOf(DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.artistId(this.id),
+            name,
+            "$albums$songs".toLowerCase(),
+            image = image
+    ))
 }
 
 private fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
-    return listOf(
-            DisplayableItem(
-                    R.layout.item_detail_item_image,
-                    MediaId.genreId(this.id),
-                    "",
-                    image = image
-            ),
-            DisplayableItem(
-                    R.layout.item_detail_item_info,
-                    MediaId.headerId("item info"),
-                    name,
-                    resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
-            )
-    )
+    return listOf(DisplayableItem(
+            R.layout.item_detail_item_image,
+            MediaId.genreId(this.id),
+            name,
+            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
+            image = image
+    ))
 }

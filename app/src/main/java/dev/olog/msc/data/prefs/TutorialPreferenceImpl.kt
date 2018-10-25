@@ -81,4 +81,13 @@ class TutorialPreferenceImpl @Inject constructor(
         preferences.edit { putBoolean(ADD_LYRICS_SHOWN, true) }
     }
 
+    override fun reset() {
+        preferences.edit {
+            putBoolean(SORT_BY_SHOWN, false)
+            putBoolean(FLOATING_WINDOW_SHOWN, false)
+            putBoolean(LYRICS_SHOWN, false)
+            putBoolean(ADD_LYRICS_SHOWN, false)
+        }
+    }
+
 }

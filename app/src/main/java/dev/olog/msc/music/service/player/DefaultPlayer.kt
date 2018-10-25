@@ -1,12 +1,12 @@
 package dev.olog.msc.music.service.player
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
-import android.support.annotation.CallSuper
 import android.util.Log
-import androidx.core.widget.toast
+import androidx.annotation.CallSuper
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import com.crashlytics.android.Crashlytics
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayerFactory
@@ -15,10 +15,11 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
+import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.utils.k.extension.clamp
-import dev.olog.msc.utils.k.extension.crashlyticsLog
+import dev.olog.msc.utils.k.extension.toast
 
 abstract class DefaultPlayer<T>(
         private val context: Context,
@@ -32,7 +33,7 @@ abstract class DefaultPlayer<T>(
 
     private val trackSelector = DefaultTrackSelector()
     private val factory = DefaultRenderersFactory(context, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
-    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(factory, trackSelector)
+    protected val player: SimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(context, factory, trackSelector)
 
     init {
         lifecycle.addObserver(this)
@@ -61,6 +62,9 @@ abstract class DefaultPlayer<T>(
     override fun play(mediaEntity: T, hasFocus: Boolean, isTrackEnded: Boolean) {
         val mediaSource = mediaSourceFactory.get(mediaEntity)
         player.prepare(mediaSource, true, true)
+        if (mediaEntity is CrossFadePlayerImpl.Model){
+            player.seekTo(mediaEntity.playerMediaEntity.bookmark)
+        }
         player.playWhenReady = hasFocus
     }
 
@@ -109,7 +113,7 @@ abstract class DefaultPlayer<T>(
             else -> "Unknown: $error"
         }
 
-        crashlyticsLog("player error $what")
+        Crashlytics.logException(error)
 
         if (BuildConfig.DEBUG) {
             Log.e("Player", "onPlayerError $what")

@@ -2,8 +2,8 @@ package dev.olog.msc.floating.window.service.di
 
 import android.app.NotificationManager
 import android.app.Service
-import android.arch.lifecycle.Lifecycle
 import android.content.Context
+import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ServiceContext

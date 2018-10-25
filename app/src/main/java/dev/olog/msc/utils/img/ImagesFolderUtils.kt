@@ -4,9 +4,9 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.core.database.getStringOrNull
 import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.utils.getStringOrNull
 import dev.olog.msc.utils.k.extension.clamp
 import java.io.File
 
@@ -54,7 +54,7 @@ object ImagesFolderUtils {
 
         var result = ""
 
-        cursor.use {
+        cursor?.use {
             if (it.moveToFirst()){
                 result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART) ?: ""
             }

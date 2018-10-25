@@ -24,6 +24,8 @@
     <string name="edit_track_update_success">Track info updated</string>
     <string name="edit_album_update_success">Album info updated</string>
     <string name="edit_artist_update_success">Artist info updated</string>
+    <string name="edit_album_update_start">Started updating album..</string>
+    <string name="edit_artist_update_start">Started updating artist..</string>
 
     <string name="edit_song_invalid_title">Title can not be null</string>
     <string name="edit_artist_invalid_title">Artist name can not be null</string>
@@ -45,5 +47,13 @@
     </plurals>
 
     <string name="edit_song_change_album_art">Pick an image</string>
+
+    <dimen name="edit_item_min_height">260dp</dimen>
+
+    <string-array name="edit_item_image_dialog">
+        <item>Pick an image</item>
+        <item>Restore default</item>
+        <item>No Image</item>
+    </string-array>
 
 </resources>

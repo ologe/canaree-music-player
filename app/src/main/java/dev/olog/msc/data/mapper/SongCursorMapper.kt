@@ -3,11 +3,10 @@ package dev.olog.msc.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getInt
-import androidx.core.database.getLong
-import androidx.core.database.getString
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.utils.getInt
+import dev.olog.msc.utils.getLong
+import dev.olog.msc.utils.getString
 import java.io.File
 
 
@@ -22,7 +21,7 @@ fun Cursor.toSong(): Song {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
+    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
 
     var albumArtist = artist
     val albumArtistIndex = this.getColumnIndex("album_artist")
@@ -39,14 +38,11 @@ fun Cursor.toSong(): Song {
     val track = extractTrackNumber(trackNumber)
     val disc = extractDiscNumber(trackNumber)
 
-    val isPodcast = getInt(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0
-
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
             "",
             duration, dateAdded, path,
-            folder.capitalize(), disc, track,
-            isPodcast)
+            folder.capitalize(), disc, track)
 }
 
 fun Cursor.toUneditedSong(image: String): Song {
@@ -60,7 +56,7 @@ fun Cursor.toUneditedSong(image: String): Song {
     val title = getString(MediaStore.MediaColumns.TITLE)
 
     val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
-    val album = adjustAlbum(getString(MediaStore.Audio.AudioColumns.ALBUM), folder)
+    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
 
     val duration = getLong(MediaStore.Audio.AudioColumns.DURATION)
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
@@ -77,41 +73,38 @@ fun Cursor.toUneditedSong(image: String): Song {
         }
     }
 
-    val isPodcast = getInt(MediaStore.Audio.AudioColumns.IS_PODCAST) != 0
-
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
             image, duration, dateAdded, path,
-            folder.capitalize(), disc, track,
-            isPodcast)
+            folder.capitalize(), disc, track)
 }
 
-private fun extractTrackNumber(originalTrackNumber: Int) : Int {
+internal fun extractTrackNumber(originalTrackNumber: Int) : Int {
     if (originalTrackNumber >= 1000){
         return originalTrackNumber % 1000
     }
     return originalTrackNumber
 }
 
-private fun extractDiscNumber(originalTrackNumber: Int): Int {
+internal fun extractDiscNumber(originalTrackNumber: Int): Int {
     if (originalTrackNumber >= 1000){
         return originalTrackNumber / 1000
     }
     return 0
 }
 
-private fun extractFolder(path: String): String {
+internal fun extractFolder(path: String): String {
     val lastSep = path.lastIndexOf(File.separator)
     val prevSep = path.lastIndexOf(File.separator, lastSep - 1)
     return path.substring(prevSep + 1, lastSep)
 }
 
-private fun adjustAlbum(album: String, folder: String): String {
-    val hasUnknownAlbum = album == folder
-    return if (hasUnknownAlbum) {
-        AppConstants.UNKNOWN
-    } else {
-        album
-    }
-}
 
+//internal fun adjustAlbum(album: String, folder: String): String {
+//    val hasUnknownAlbum = album == folder
+//    return if (hasUnknownAlbum) {
+//        AppConstants.UNKNOWN
+//    } else {
+//        album
+//    }
+//}

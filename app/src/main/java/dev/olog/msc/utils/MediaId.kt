@@ -7,9 +7,24 @@ enum class MediaIdCategory {
     ALBUMS,
     ARTISTS,
     GENRES,
+
+    PODCASTS_PLAYLIST,
+    PODCASTS,
+    PODCASTS_ARTISTS,
+    PODCASTS_ALBUMS,
+
     RECENT_ALBUMS,
     RECENT_ARTISTS,
-    HEADER
+    RECENT_PODCAST_ALBUMS,
+    RECENT_PODCAST_ARTISTS,
+
+    NEW_ALBUMS,
+    NEW_ARTISTS,
+    NEW_PODCSAT_ALBUMS,
+    NEW_PODCSAT_ARTISTS,
+
+    HEADER,
+    PLAYING_QUEUE
 }
 
 class MediaId private constructor(
@@ -28,6 +43,8 @@ class MediaId private constructor(
             return MediaId(MediaIdCategory.HEADER, value)
         }
 
+        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
+
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(category, categoryValue)
         }
@@ -40,16 +57,32 @@ class MediaId private constructor(
             return MediaId(MediaIdCategory.PLAYLISTS, value.toString())
         }
 
-        fun songId(value: Long): MediaId {
-            return MediaId(MediaIdCategory.SONGS, "", value)
+        fun podcastId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS, "", value)
+        }
+
+        fun podcastPlaylistId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS_PLAYLIST, value.toString())
+        }
+
+        fun songId(id: Long): MediaId {
+            return MediaId(MediaIdCategory.SONGS, "", id)
         }
 
         fun albumId(value: Long): MediaId {
             return MediaId(MediaIdCategory.ALBUMS, value.toString())
         }
 
+        fun podcastAlbumId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS_ALBUMS, value.toString())
+        }
+
         fun artistId(value: Long): MediaId {
             return MediaId(MediaIdCategory.ARTISTS, value.toString())
+        }
+
+        fun podcastArtistId(value: Long): MediaId {
+            return MediaId(MediaIdCategory.PODCASTS_ARTISTS, value.toString())
         }
 
         fun genreId(value: Long): MediaId {
@@ -128,8 +161,19 @@ class MediaId private constructor(
             }
         }
 
+    val categoryId: Long
+        get() {
+            return when {
+                isFolder || isHeader -> categoryValue.hashCode().toLong()
+                else -> categoryValue.toLong()
+            }
+        }
+
     val resolveSource : Int
         get() {
+            if (isLeaf && isPodcast){
+                return MediaIdCategory.PODCASTS.ordinal
+            }
             if (isLeaf){
                 return MediaIdCategory.SONGS.ordinal
             }
@@ -143,8 +187,16 @@ class MediaId private constructor(
     val isAlbum : Boolean = category == MediaIdCategory.ALBUMS
     val isArtist : Boolean = category == MediaIdCategory.ARTISTS
     val isGenre : Boolean = category == MediaIdCategory.GENRES
+    val isPodcast : Boolean = category == MediaIdCategory.PODCASTS
+    val isPodcastPlaylist : Boolean = category == MediaIdCategory.PODCASTS_PLAYLIST
+    val isPodcastAlbum : Boolean = category == MediaIdCategory.PODCASTS_ALBUMS
+    val isPodcastArtist : Boolean = category == MediaIdCategory.PODCASTS_ARTISTS
+    val isAnyPodcast : Boolean = isPodcast || isPodcastAlbum || isPodcastArtist || isPodcastPlaylist
+
+    val isPlayingQueue: Boolean = category == MediaIdCategory.PLAYING_QUEUE
 
     fun assertPlaylist(){
+        val isPlaylist = isPlaylist || isPodcastPlaylist
         if (!isPlaylist){
             throw IllegalStateException("not a playlist")
         }

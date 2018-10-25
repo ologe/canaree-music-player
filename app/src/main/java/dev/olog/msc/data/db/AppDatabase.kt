@@ -1,7 +1,7 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import dev.olog.msc.data.entity.*
 
 
@@ -11,23 +11,39 @@ import dev.olog.msc.data.entity.*
         FolderMostPlayedEntity::class,
         PlaylistMostPlayedEntity::class,
         GenreMostPlayedEntity::class,
+
         FavoriteEntity::class,
+        FavoritePodcastEntity::class,
+
         RecentSearchesEntity::class,
+
         HistoryEntity::class,
+        PodcastHistoryEntity::class,
+
         LastPlayedAlbumEntity::class,
         LastPlayedArtistEntity::class,
+        LastPlayedPodcastAlbumEntity::class,
+        LastPlayedPodcastArtistEntity::class,
 
         LastFmTrackEntity::class,
         LastFmAlbumEntity::class,
         LastFmArtistEntity::class,
+        LastFmPodcastEntity::class,
+        LastFmPodcastArtistEntity::class,
+        LastFmPodcastAlbumEntity::class,
 
         OfflineLyricsEntity::class,
 
         UsedTrackImageEntity::class,
         UsedAlbumImageEntity::class,
-        UsedArtistImageEntity::class
+        UsedArtistImageEntity::class,
 
-), version = 5, exportSchema = false)
+        PodcastPlaylistEntity::class,
+        PodcastPlaylistTrackEntity::class,
+
+        PodcastPositionEntity::class
+
+), version = 15, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playingQueueDao(): PlayingQueueDao
@@ -46,6 +62,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun lastPlayedAlbumDao() : LastPlayedAlbumDao
     abstract fun lastPlayedArtistDao() : LastPlayedArtistDao
+    abstract fun lastPlayedPodcastArtistDao() : LastPlayedPodcastArtistDao
+    abstract fun lastPlayedPodcastAlbumDao() : LastPlayedPodcastAlbumDao
 
     abstract fun lastFmDao() : LastFmDao
 
@@ -53,4 +71,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun usedImageDao(): UsedImageDao
 
+    abstract fun podcastPlaylistDao(): PodcastPlaylistDao
+
+    abstract fun podcastPositionDao(): PodcastPositionDao
 }

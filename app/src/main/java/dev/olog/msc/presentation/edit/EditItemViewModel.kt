@@ -1,10 +1,11 @@
 package dev.olog.msc.presentation.edit
 
-import android.arch.lifecycle.ViewModel
+import android.content.Context
 import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
-import dev.olog.msc.app.app
-import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.msc.presentation.edit.track.DisplayableSong
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,8 +14,10 @@ import io.reactivex.rxkotlin.addTo
 import org.jaudiotagger.audio.exceptions.CannotReadException
 import org.jaudiotagger.audio.exceptions.ReadOnlyFileException
 import java.io.FileNotFoundException
+import javax.inject.Inject
 
-class EditItemViewModel(
+class EditItemViewModel @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val presenter: EditItemPresenter
 
 ) : ViewModel() {
@@ -29,10 +32,10 @@ class EditItemViewModel(
             data.track.isNotBlank() && !data.track.isDigitsOnly() -> return UpdateResult.ILLEGAL_TRACK_NUMBER
         }
 
-        presenter.deleteTrack(data.originalSong.id)
+        presenter.deleteTrack(data.originalSong.id, data.originalSong.isPodcast)
                 .andThen(presenter.updateSingle(data))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ app.toast(R.string.edit_track_update_success) }, { showErrorMessage(it) })
+                .subscribe({ context.toast(R.string.edit_track_update_success) }, { showErrorMessage(it) })
                 .addTo(subscriptions)
 
         return UpdateResult.OK
@@ -44,10 +47,11 @@ class EditItemViewModel(
             data.year.isNotBlank() && !data.year.isDigitsOnly() -> return UpdateResult.ILLEGAL_YEAR
         }
 
-        presenter.deleteAlbum(data.mediaId.resolveId)
+        presenter.deleteAlbum(data.mediaId)
                 .andThen(presenter.updateAlbum(data))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ app.toast(R.string.edit_album_update_success) }, { showErrorMessage(it) })
+                .doOnSubscribe { context.toast(R.string.edit_album_update_start) }
+                .subscribe({ context.toast(R.string.edit_album_update_success) }, { showErrorMessage(it) })
                 .addTo(subscriptions)
 
         return UpdateResult.OK
@@ -58,10 +62,11 @@ class EditItemViewModel(
             data.name.isBlank() -> return UpdateResult.EMPTY_TITLE
         }
 
-        presenter.deleteArtist(data.mediaId.resolveId)
+        presenter.deleteArtist(data.mediaId)
                 .andThen(presenter.updateArtist(data))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ app.toast(R.string.edit_artist_update_success) }, { showErrorMessage(it) })
+                .doOnSubscribe { context.toast(R.string.edit_artist_update_start) }
+                .subscribe({ context.toast(R.string.edit_artist_update_success) }, { showErrorMessage(it) })
                 .addTo(subscriptions)
 
         return UpdateResult.OK
@@ -69,10 +74,10 @@ class EditItemViewModel(
 
     private fun showErrorMessage(throwable: Throwable){
         when (throwable){
-            is CannotReadException -> app.toast(R.string.edit_song_cannot_read)
-            is ReadOnlyFileException -> app.toast(R.string.edit_song_read_only)
-            is FileNotFoundException -> app.toast(R.string.edit_song_file_not_found)
-            else -> app.toast(R.string.popup_error_message)
+            is CannotReadException -> context.toast(R.string.edit_song_cannot_read)
+            is ReadOnlyFileException -> context.toast(R.string.edit_song_read_only)
+            is FileNotFoundException -> context.toast(R.string.edit_song_file_not_found)
+            else -> context.toast(R.string.popup_error_message)
         }
     }
 
@@ -83,7 +88,7 @@ class EditItemViewModel(
 }
 
 data class UpdateSongInfo(
-        val originalSong: Song,
+        val originalSong: DisplayableSong,
         val title: String,
         val artist: String,
         val albumArtist: String,

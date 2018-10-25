@@ -1,14 +1,14 @@
 package dev.olog.msc.pro
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
-import android.support.v7.app.AppCompatActivity
-import androidx.core.widget.toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -44,19 +44,19 @@ class BillingImpl @Inject constructor(
 
     private var setDefaultDisposable: Disposable? = null
 
-    private var isTrialState by Delegates.observable(DEFAULT_TRIAL, { _, _, new ->
+    private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
         trialPublisher.onNext(new)
         if (!isPremium()){
             setDefault()
         }
-    })
+    }
 
-    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM, { _, _, new ->
+    private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
         premiumPublisher.onNext(new)
         if (!isPremium()){
             setDefault()
         }
-    })
+    }
 
 
     private val billingClient = BillingClient.newBuilder(activity)
@@ -143,13 +143,13 @@ class BillingImpl @Inject constructor(
     override fun isOnlyPremium(): Boolean = isPremiumState
 
     override fun observeIsPremium(): Observable<Boolean> {
-        return Observables.combineLatest(premiumPublisher, trialPublisher,
-                { premium, trial -> premium || trial })
+        return Observables.combineLatest(premiumPublisher, trialPublisher)
+        { premium, trial -> premium || trial }
     }
 
     override fun observeTrialPremiumState(): Observable<BillingState> {
-        return Observables.combineLatest(premiumPublisher, trialPublisher,
-                { premium, trial -> BillingState(trial, premium) })
+        return Observables.combineLatest(premiumPublisher, trialPublisher)
+        { premium, trial -> BillingState(trial, premium) }
     }
 
     override fun purchasePremium() {

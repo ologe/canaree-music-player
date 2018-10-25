@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.PopupMenu
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.presentation.theme.ThemedDialog
 
 abstract class AbsPopup(
         view: View
@@ -18,7 +17,7 @@ abstract class AbsPopup(
 ) : PopupMenu(view.context, view, Gravity.END or Gravity.BOTTOM) {
 
     companion object {
-        val NEW_PLAYLIST_ID = View.generateViewId()
+        const val NEW_PLAYLIST_ID = Int.MIN_VALUE
     }
 
     init {

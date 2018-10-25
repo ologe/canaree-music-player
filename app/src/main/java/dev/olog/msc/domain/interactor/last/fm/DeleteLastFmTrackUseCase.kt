@@ -10,10 +10,17 @@ class DeleteLastFmTrackUseCase @Inject constructor(
         schedulers: IoSchedulers,
         private val gateway: LastFmGateway
 
-): CompletableUseCaseWithParam<Long>(schedulers) {
+): CompletableUseCaseWithParam<Pair<Long, Boolean>>(schedulers) {
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(trackId: Long): Completable {
-        return Completable.fromCallable { gateway.deleteTrack(trackId) }
+    override fun buildUseCaseObservable(param: Pair<Long, Boolean>): Completable {
+        val (artistId, isPodcast) = param
+        return Completable.fromCallable {
+            if (isPodcast){
+                gateway.deletePodcast(artistId)
+            } else {
+                gateway.deleteTrack(artistId)
+            }
+
+        }
     }
 }

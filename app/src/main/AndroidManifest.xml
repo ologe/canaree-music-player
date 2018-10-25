@@ -30,7 +30,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:name=".app.App"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m"
+        tools:replace="android:supportsRtl">
 
         <!--main activity-->
         <activity
@@ -41,15 +44,39 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.MUSIC_PLAYER" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.APP_MUSIC" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
+            <!--play from search-->
             <intent-filter>
                 <action android:name="android.media.action.MEDIA_PLAY_FROM_SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="content"/>
+                <data android:mimeType="audio/*"/>
+                <data android:mimeType="application/ogg"/>
+                <data android:mimeType="application/x-ogg"/>
+                <data android:mimeType="application/itunes"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="file"/>
+                <data android:mimeType="audio/*"/>
+                <data android:mimeType="application/ogg"/>
+                <data android:mimeType="application/x-ogg"/>
+                <data android:mimeType="application/itunes"/>
             </intent-filter>
 
         </activity>
@@ -81,7 +108,7 @@
         </service>
 
         <!--media button receiver-->
-        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
+        <receiver android:name="androidx.media.session.MediaButtonReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
@@ -123,7 +150,7 @@
 
         <!--provide storage permission to share intents-->
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -140,17 +167,14 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1"/>
-
-        <!--disable firebase analytics for build time, can enable at runtime-->
-
         <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="@bool/FIREBASE_ENABLED"/>
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
+        <!--chromecast-->
         <meta-data
-            android:name="firebase_analytics_collection_enabled"
-            android:value="@bool/FIREBASE_ENABLED" />
-
+            android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
+            android:value="dev.olog.msc.chromecast.CastOptionsProvider" />
 
     </application>
 

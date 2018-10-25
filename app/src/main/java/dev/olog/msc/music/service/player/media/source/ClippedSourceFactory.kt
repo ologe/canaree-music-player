@@ -1,8 +1,8 @@
 package dev.olog.msc.music.service.player.media.source
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
@@ -51,7 +51,7 @@ class ClippedSourceFactory @Inject constructor (
         val mediaSource = sourceFactory.get(model.mediaEntity)
         val isFlac = model.isFlac
 
-        if (!isFlac && isGapless && model.isGoodIdeaToClip){
+        if (!isFlac && isGapless && model.isGoodIdeaToClip && !model.mediaEntity.isPodcast){
             if (model.isTrackEnded){
                 // clip start and end
                 return ClippingMediaSource(mediaSource, clipStart, calculateEndClip(model.duration))

@@ -3,12 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/ffmpeg/exoplayer-extension-ffmpeg.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/ffmpeg/exoplayer-extension-ffmpeg.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/flac/exoplayer-extension-flac.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/flac/exoplayer-extension-flac.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/opus/exoplayer-extension-opus.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/extensions/opus/exoplayer-extension-opus.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/library/core/exoplayer-library-core.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/library/core/exoplayer-library-core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils/exoplayer-testutils.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils/exoplayer-testutils.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" filepath="$PROJECT_DIR$/../exoplayer/ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/ffmpeg/exoplayer-extension-ffmpeg.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/ffmpeg/exoplayer-extension-ffmpeg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/flac/exoplayer-extension-flac.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/flac/exoplayer-extension-flac.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/extensions/opus/exoplayer-extension-opus.iml" filepath="$PROJECT_DIR$/../ExoPlayer/extensions/opus/exoplayer-extension-opus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/library/core/exoplayer-library-core.iml" filepath="$PROJECT_DIR$/../ExoPlayer/library/core/exoplayer-library-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/testutils/exoplayer-testutils.iml" filepath="$PROJECT_DIR$/../ExoPlayer/testutils/exoplayer-testutils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" filepath="$PROJECT_DIR$/../ExoPlayer/testutils_robolectric/exoplayer-testutils-robolectric.iml" />
       <module fileurl="file://$PROJECT_DIR$/lint/lint.iml" filepath="$PROJECT_DIR$/lint/lint.iml" />
       <module fileurl="file://$PROJECT_DIR$/music.iml" filepath="$PROJECT_DIR$/music.iml" />
     </modules>

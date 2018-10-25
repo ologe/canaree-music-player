@@ -2,22 +2,18 @@ package dev.olog.msc.presentation.utils.images;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
-import android.support.v7.graphics.Palette;
 import android.util.Log;
 
-import dev.olog.msc.R;
-import dev.olog.msc.presentation.theme.AppTheme;
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.core.graphics.ColorUtils;
+import androidx.palette.graphics.Palette;
+import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
 public class ColorUtil {
 
     private static final String TAG = "ColorUtil";
     private static final ThreadLocal<double[]> TEMP_ARRAY = new ThreadLocal<>();
-    private static final float LUMINANCE_LOWER = .3f;
-    private static final float LUMINANCE_UPPER = .9f;
 
     /**
      * Returns the luminance of a color as a float between {@code 0.0} and {@code 1.0}.
@@ -27,37 +23,19 @@ public class ColorUtil {
         return ColorUtils.calculateLuminance(backgroundColor);
     }
 
-    public static int getAccentColor(Context context, ImageProcessorResult colors){
-        int choice = colors.getPrimaryTextColor();
-        double luminance = calculateLuminance(choice);
-        if (luminance > LUMINANCE_LOWER && luminance < LUMINANCE_UPPER){
-            return choice;
-        }
-        choice = colors.getBackground();
-        luminance = calculateLuminance(choice);
-        if (luminance > LUMINANCE_LOWER && luminance < LUMINANCE_UPPER){
-            return choice;
-        }
-        int defaultColor = AppTheme.INSTANCE.isDarkTheme()
-                ? ContextCompat.getColor(context, R.color.accent_secondary)
-                : ContextCompat.getColor(context, R.color.accent);
-        return defaultColor;
+    public static int getAccentColor(Context context, Palette palette) {
+        int color = palette.getVibrantColor(palette.getMutedColor(
+                ViewExtensionKt.colorAccent(context)
+        ));
+        return shiftBackgroundColorForLightText(color);
     }
 
-    public static int ensureVisibility(Context context, int color){
-        double luminance = calculateLuminance(color);
-        if (luminance > LUMINANCE_UPPER || luminance < LUMINANCE_LOWER){
-            return AppTheme.INSTANCE.isDarkTheme()
-                    ? ContextCompat.getColor(context, R.color.accent_secondary)
-                    : ContextCompat.getColor(context, R.color.accent);
+    @ColorInt
+    public static int shiftBackgroundColorForLightText(@ColorInt int backgroundColor) {
+        while (isColorLightSecondVersion(backgroundColor)) {
+            backgroundColor = darkenColor(backgroundColor);
         }
-        return color;
-    }
-
-    public static int getAccentColor(Palette palette) {
-        return palette.getLightVibrantColor(palette.getVibrantColor(palette.getLightMutedColor(palette.getMutedColor(
-                0xFF_2979FF
-        ))));
+        return backgroundColor;
     }
 
     /**
@@ -212,16 +190,27 @@ public class ColorUtil {
         return calculateLuminance(backgroundColor) > 0.5f;
     }
 
-    public static int darker (int color, @FloatRange(from = 0f, to = 1f) float factor) {
-        int a = Color.alpha( color );
-        int r = Color.red( color );
-        int g = Color.green( color );
-        int b = Color.blue( color );
+    private static boolean isColorLightSecondVersion(@ColorInt int color) {
+        double darkness = 1.0D - (0.299D * (double)Color.red(color) + 0.587D * (double)Color.green(color) + 0.114D * (double)Color.blue(color)) / 255.0D;
+        return darkness < 0.4D;
+    }
 
-        return Color.argb( a,
-                Math.max( (int)(r * factor), 0 ),
-                Math.max( (int)(g * factor), 0 ),
-                Math.max( (int)(b * factor), 0 ) );
+    @ColorInt
+    public static int darkenColor(@ColorInt int color) {
+        return shiftColor(color, 0.9F);
+    }
+
+    @ColorInt
+    public static int shiftColor(@ColorInt int color, @FloatRange(from = 0.0D,to = 2.0D) float by) {
+        if (by == 1.0F) {
+            return color;
+        } else {
+            int alpha = Color.alpha(color);
+            float[] hsv = new float[3];
+            Color.colorToHSV(color, hsv);
+            hsv[2] *= by;
+            return (alpha << 24) + (16777215 & Color.HSVToColor(hsv));
+        }
     }
 
 }

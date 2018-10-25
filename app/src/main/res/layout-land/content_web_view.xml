@@ -2,13 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/AppThemeWhite">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="@dimen/big_default_corner_radius"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp">
@@ -39,11 +40,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="top"/>
 
-        <include
-            android:id="@+id/noTracks"
-            layout="@layout/content_web_view_empty_state" />
-
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 

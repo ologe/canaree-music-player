@@ -16,13 +16,14 @@
 package dev.olog.msc.floating.window.service.api;
 
 import android.graphics.Point;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.ViewGroup;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 
 /**
  * {@link Dock} that always positions itself either on the left or right side of its container. A

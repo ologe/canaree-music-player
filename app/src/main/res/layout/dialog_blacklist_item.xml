@@ -13,7 +13,7 @@
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         tools:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -85,6 +85,6 @@
             android:ellipsize="start"
             android:singleLine="true" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

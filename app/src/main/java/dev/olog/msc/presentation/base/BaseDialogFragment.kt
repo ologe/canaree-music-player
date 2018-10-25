@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.base
 
 import android.content.Context
-import android.support.annotation.CallSuper
-import android.support.v4.app.DialogFragment
+import androidx.annotation.CallSuper
+import androidx.fragment.app.DialogFragment
 import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseDialogFragment : DialogFragment() {
@@ -12,5 +12,4 @@ abstract class BaseDialogFragment : DialogFragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-
 }

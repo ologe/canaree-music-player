@@ -12,32 +12,39 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="?attr/selectableItemBackground" >
+        android:background="?android:windowBackground">
 
-        <CheckBox
-            android:id="@+id/checkBox"
+        <FrameLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="Songs"
-            android:textColor="?android:attr/textColorPrimary"
-            android:text="@{item.asString(context)}"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:checked="@{item.visible}"
-            android:textSize="16dp"
-            android:clickable="false"
-            android:focusable="false"/>
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
-        <ImageButton
-            android:id="@+id/dragHandle"
-            android:layout_gravity="end|center_vertical"
-            android:src="@drawable/vd_drag_handle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="Songs"
+                android:textColor="?android:attr/textColorPrimary"
+                android:text="@{item.asString(context)}"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:checked="@{item.visible}"
+                android:textSize="16dp"
+                android:clickable="false"
+                android:focusable="false"/>
+
+            <ImageButton
+                android:id="@+id/dragHandle"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/vd_drag_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </FrameLayout>
 
     </FrameLayout>
 

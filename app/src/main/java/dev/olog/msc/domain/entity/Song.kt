@@ -16,10 +16,12 @@ data class Song (
         val path: String,
         val folder: String,
         val discNumber: Int,
-        val trackNumber: Int,
-        val isPodcast: Boolean) {
+        val trackNumber: Int) {
 
     val folderPath: String
         get() = path.substring(0, path.lastIndexOf(File.separator))
+
+    val hasAlbumNameAsFolder: Boolean
+        get() = album == folder
 
 }

@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import com.bumptech.glide.request.target.Target
+import dev.olog.msc.app.app
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -14,6 +17,7 @@ import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
+import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject
 
 @PerService
@@ -53,7 +57,15 @@ class PlayerMetadata @Inject constructor(
                 .putString(MusicConstants.PATH, entity.path)
                 .putLong(MusicConstants.IS_PODCAST, if (entity.isPodcast) 1 else 0)
 
-        mediaSession.setMetadata(builder.build())
+        if (AppConstants.SHOW_LOCKSCREEN_IMAGE) {
+            val model = DisplayableItem(0, entity.mediaId, "", image = entity.image)
+            app.getBitmap(model, Target.SIZE_ORIGINAL) { bitmap ->
+                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
+                mediaSession.setMetadata(builder.build())
+            }
+        } else {
+            mediaSession.setMetadata(builder.build())
+        }
 
         notifyWidgets(entity)
 

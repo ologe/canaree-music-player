@@ -1,13 +1,16 @@
 package dev.olog.msc.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
+import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.entity.LastMetadata
+import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
+import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.domain.interactor.all.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
@@ -33,6 +36,8 @@ class CurrentSong @Inject constructor(
         private val musicPreferencesUseCase: MusicPreferencesUseCase,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
         private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
+        private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,
+        private val insertLastPlayedArtistUseCase: InsertLastPlayedArtistUseCase,
         playerLifecycle: PlayerLifecycle
 
 ) : DefaultLifecycleObserver {
@@ -49,7 +54,19 @@ class CurrentSong @Inject constructor(
 
     private val insertHistorySongFlowable = publisher
             .observeOn(Schedulers.io())
-            .flatMapCompletable { insertHistorySongUseCase.execute(it.id).onErrorComplete() }
+            .flatMapCompletable { insertHistorySongUseCase.execute(
+                    InsertHistorySongUseCase.Input(it.id, it.isPodcast)
+            ).onErrorComplete() }
+
+    private val insertLastPlayedAlbumFlowable = publisher
+            .observeOn(Schedulers.io())
+            .filter { it.mediaId.isAlbum || it.mediaId.isPodcastAlbum }
+            .flatMapCompletable { insertLastPlayedAlbumUseCase.execute(it.mediaId).onErrorComplete() }
+
+    private val insertLastPlayedArtistFlowable = publisher
+            .observeOn(Schedulers.io())
+            .filter { it.mediaId.isArtist || it.mediaId.isPodcastArtist}
+            .flatMapCompletable { insertLastPlayedArtistUseCase.execute(it.mediaId) }
 
     private val playerListener = object : PlayerLifecycle.Listener {
         override fun onPrepare(entity: MediaEntity) {
@@ -73,6 +90,11 @@ class CurrentSong @Inject constructor(
                 .addTo(subscriptions)
         insertHistorySongFlowable.subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
+        insertLastPlayedAlbumFlowable.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+        insertLastPlayedArtistFlowable.subscribe({}, Throwable::printStackTrace)
+                .addTo(subscriptions)
+
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
@@ -82,10 +104,11 @@ class CurrentSong @Inject constructor(
 
     private fun updateFavorite(mediaEntity: MediaEntity){
         isFavoriteDisposable.unsubscribe()
+        val type = if (mediaEntity.isPodcast) FavoriteType.PODCAST else FavoriteType.TRACK
         isFavoriteDisposable = isFavoriteSongUseCase
-                .execute(mediaEntity.id)
+                .execute(IsFavoriteSongUseCase.Input(mediaEntity.id, type))
                 .map { if (it) FavoriteEnum.FAVORITE else FavoriteEnum.NOT_FAVORITE }
-                .flatMapCompletable { updateFavoriteStateUseCase.execute(FavoriteStateEntity(mediaEntity.id, it)) }
+                .flatMapCompletable { updateFavoriteStateUseCase.execute(FavoriteStateEntity(mediaEntity.id, it, type)) }
                 .subscribe({}, Throwable::printStackTrace)
     }
 
@@ -97,7 +120,6 @@ class CurrentSong @Inject constructor(
 
     private fun createMostPlayedId(entity: MediaEntity): Maybe<MediaId> {
         try {
-
             return Maybe.just(MediaId.playableItem(entity.mediaId, entity.id))
         } catch (ex: Exception){
             return Maybe.empty()

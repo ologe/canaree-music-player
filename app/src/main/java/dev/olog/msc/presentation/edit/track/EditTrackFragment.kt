@@ -1,19 +1,25 @@
 package dev.olog.msc.presentation.edit.track
 
-import android.arch.lifecycle.Observer
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.edit.UpdateSongInfo
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
+import kotlinx.android.synthetic.main.fragment_edit_track.view.*
 import javax.inject.Inject
 
 class EditTrackFragment : BaseEditItemFragment() {
@@ -30,17 +36,12 @@ class EditTrackFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: EditTrackFragmentViewModel
-    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<EditTrackFragmentViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        RxTextView.afterTextChangeEvents(title)
-                .map { it.view().text.toString() }
-                .map { it.isNotBlank() }
-                .asLiveData()
-                .subscribe(this, okButton::setEnabled)
 
         viewModel.observeData().observe(this, Observer {
             if (it == null){
@@ -54,11 +55,22 @@ class EditTrackFragment : BaseEditItemFragment() {
                 genre.setText(it.genre)
                 disc.setText(it.disc)
                 trackNumber.setText(it.track)
+                bitrate.text = it.bitrate
+                format.text = it.format
+                sampling.text = it.sampling
                 val model = DisplayableItem(0, MediaId.songId(it.id), "", image = it.image)
                 setImage(model)
             }
             hideLoader()
         })
+    }
+
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        RxTextView.afterTextChangeEvents(view.title)
+                .map { it.view().text.toString() }
+                .map { it.isNotBlank() }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
     }
 
     override fun onResume() {
@@ -78,14 +90,14 @@ class EditTrackFragment : BaseEditItemFragment() {
             ))
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> dismiss()
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
                 UpdateResult.ILLEGAL_DISC_NUMBER -> ctx.toast(R.string.edit_song_invalid_disc_number)
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> ctx.toast(R.string.edit_song_invalid_track_number)
                 UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
             }
         }
-        cancelButton.setOnClickListener { act.onBackPressed() }
+        cancelButton.setOnClickListener { dismiss() }
         autoTag.setOnClickListener {
             if (viewModel.fetchSongInfo()) {
                 showLoader(R.string.edit_song_fetching_info)
@@ -112,6 +124,10 @@ class EditTrackFragment : BaseEditItemFragment() {
         val albumId = viewModel.getSong().albumId
         val uri = ImagesFolderUtils.forAlbum(albumId)
         viewModel.updateImage(uri)
+    }
+
+    override fun noImage() {
+        viewModel.updateImage(AppConstants.NO_IMAGE)
     }
 
     override fun onLoaderCancelled() {

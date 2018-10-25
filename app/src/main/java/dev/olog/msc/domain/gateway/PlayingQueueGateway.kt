@@ -1,7 +1,6 @@
 package dev.olog.msc.domain.gateway
 
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -15,7 +14,7 @@ interface PlayingQueueGateway {
 
     fun update(list: List<UpdatePlayingQueueUseCaseRequest>): Completable
 
-    fun observeMiniQueue(): Observable<List<Song>>
+    fun observeMiniQueue(): Observable<List<PlayingQueueSong>>
     fun updateMiniQueue(tracksId: List<Pair<Int, Long>>)
 
 }

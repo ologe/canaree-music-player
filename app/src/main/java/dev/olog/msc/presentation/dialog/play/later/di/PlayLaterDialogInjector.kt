@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.dialog.play.later.di
 
-import android.support.v4.app.Fragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -16,6 +15,6 @@ abstract class PlayLaterDialogInjector {
     @IntoMap
     @FragmentKey(PlayLaterDialog::class)
     internal abstract fun injectorFactory(builder: PlayLaterDialogSubComponent.Builder)
-            : AndroidInjector.Factory<out Fragment>
+            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 
 }

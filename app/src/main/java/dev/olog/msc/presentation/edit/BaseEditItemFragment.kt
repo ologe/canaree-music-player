@@ -5,41 +5,28 @@ package dev.olog.msc.presentation.edit
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
-import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.StringRes
-import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
+import androidx.annotation.CallSuper
+import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import com.bumptech.glide.Priority
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.presentation.DrawsOnTop
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 
 private const val PICK_IMAGE_CODE = 456
 
-abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
+abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -49,15 +36,12 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
     @CallSuper
     override fun onDestroy() {
         super.onDestroy()
-        act.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         hideLoader()
     }
 
     protected fun setImage(model: DisplayableItem){
-        val background = view!!.findViewById<ImageView>(R.id.backgroundCover)
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
-        GlideApp.with(ctx).clear(background)
         GlideApp.with(ctx).clear(image)
 
         val img = model.image
@@ -65,15 +49,14 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
             img.toUri()
         } else model
 
-        val builder = GlideApp.with(ctx)
+        GlideApp.with(ctx)
                 .load(load)
                 .placeholder(CoverUtils.getGradient(ctx, model.mediaId))
                 .override(500)
                 .priority(Priority.IMMEDIATE)
-
-        builder.into(image)
-        builder.into(background)
+                .into(image)
     }
+
 
     protected fun showLoader(@StringRes resId: Int){
         showLoader(getString(resId))
@@ -96,13 +79,13 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
 
     protected fun changeImage(){
         ThemedDialog.builder(ctx)
-                .setItems(arrayOf("Pick an image", "Restore default"), { _, which ->
-                    if (which == 0){
-                        openImagePicker()
-                    } else {
-                        restoreImage()
+                .setItems(R.array.edit_item_image_dialog) { _, which ->
+                    when (which){
+                        0 -> openImagePicker()
+                        1 -> restoreImage()
+                        2 -> noImage()
                     }
-                })
+                }
                 .show()
     }
 
@@ -115,6 +98,8 @@ abstract class BaseEditItemFragment : BaseFragment(), DrawsOnTop {
     }
 
     protected abstract fun restoreImage()
+
+    protected abstract fun noImage()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGE_CODE){

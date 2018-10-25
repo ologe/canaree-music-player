@@ -5,6 +5,7 @@ import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmArtistUseCase
 import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.update.UpdateMultipleTracksUseCase
 import dev.olog.msc.domain.interactor.update.UpdateTrackUseCase
+import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject
@@ -18,16 +19,16 @@ class EditItemPresenter @Inject constructor(
 
 ){
 
-    fun deleteTrack(id: Long): Completable {
-        return deleteTrackUseCase.execute(id)
+    fun deleteTrack(id: Long, isPodcast: Boolean): Completable {
+        return deleteTrackUseCase.execute(id to isPodcast)
     }
 
-    fun deleteAlbum(id: Long): Completable {
-        return deleteAlbumUseCase.execute(id)
+    fun deleteAlbum(mediaId: MediaId): Completable {
+        return deleteAlbumUseCase.execute(mediaId)
     }
 
-    fun deleteArtist(id: Long): Completable {
-        return deleteArtistUseCase.execute(id)
+    fun deleteArtist(mediaId: MediaId): Completable {
+        return deleteArtistUseCase.execute(mediaId)
     }
 
     fun updateSingle(info: UpdateSongInfo): Completable {

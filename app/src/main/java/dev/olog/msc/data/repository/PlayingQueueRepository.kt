@@ -4,6 +4,7 @@ import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.PlayingQueueGateway
+import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import dev.olog.msc.utils.MediaId
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 class PlayingQueueRepository @Inject constructor(
         database: AppDatabase,
-        private val songGateway: SongGateway
+        private val songGateway: SongGateway,
+        private val podcastGateway: PodcastGateway
 
 ) : PlayingQueueGateway {
 
@@ -22,22 +24,32 @@ class PlayingQueueRepository @Inject constructor(
 
     override fun getAll(): Single<List<PlayingQueueSong>> {
         return Single.concat(
-                playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError()).firstOrError(),
+                playingQueueDao.getAllAsSongs(
+                        songGateway.getAll().firstOrError(),
+                        podcastGateway.getAll().firstOrError()
+                ).firstOrError(),
+
                 songGateway.getAll().firstOrError()
                         .map { it.mapIndexed { index, song -> song.toPlayingQueueSong(index) } }
         ).filter { it.isNotEmpty() }.firstOrError()
     }
 
     override fun observeAll(): Observable<List<PlayingQueueSong>> {
-        return playingQueueDao.getAllAsSongs(songGateway.getAll().firstOrError())
+        return playingQueueDao.getAllAsSongs(
+                songGateway.getAll().firstOrError(),
+                podcastGateway.getAll().firstOrError()
+        )
     }
 
     override fun update(list: List<UpdatePlayingQueueUseCaseRequest>): Completable {
         return playingQueueDao.insert(list)
     }
 
-    override fun observeMiniQueue(): Observable<List<Song>> {
-        return playingQueueDao.observeMiniQueue(songGateway.getAll().firstOrError())
+    override fun observeMiniQueue(): Observable<List<PlayingQueueSong>> {
+        return playingQueueDao.observeMiniQueue(
+                songGateway.getAll().firstOrError(),
+                podcastGateway.getAll().firstOrError()
+        )
     }
 
     override fun updateMiniQueue(tracksId: List<Pair<Int, Long>>) {
@@ -62,7 +74,7 @@ class PlayingQueueRepository @Inject constructor(
                 this.folder,
                 this.discNumber,
                 this.trackNumber,
-                this.isPodcast
+                false
         )
     }
 

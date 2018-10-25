@@ -7,6 +7,10 @@ import dev.olog.msc.presentation.widget.QuickActionView
 
 object AppConstants {
 
+    enum class ImageShape {
+        RECTANGLE, ROUND
+    }
+
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
@@ -17,8 +21,11 @@ object AppConstants {
     const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"
     const val SHORTCUT_PLAYLIST_CHOOSER = "$TAG.shortcut.playlist.chooser"
 
+    const val NO_IMAGE = "NO_IMAGE"
+
     var QUICK_ACTION = QuickActionView.Type.NONE
-    var ICON_SHAPE = "round"
+    var IMAGE_SHAPE = ImageShape.ROUND
+    var SHOW_LOCKSCREEN_IMAGE = false
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -32,6 +39,7 @@ object AppConstants {
 
         updateQuickAction(context)
         updateIconShape(context)
+        updateLockscreenArtworkEnabled(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -39,11 +47,20 @@ object AppConstants {
     }
 
     fun updateIconShape(context: Context){
-        ICON_SHAPE = getIconShape(context)
+        IMAGE_SHAPE = getIconShape(context)
+    }
+
+    fun updateLockscreenArtworkEnabled(context: Context) {
+        SHOW_LOCKSCREEN_IMAGE = getLockscreenArtworkEnabled(context)
+    }
+
+    private fun getLockscreenArtworkEnabled(context: Context): Boolean {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+        return preferences.getBoolean(context.getString(R.string.prefs_lockscreen_artwork_key), false)
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val quickAction = preferences.getString(context.getString(R.string.prefs_quick_action_key), context.getString(R.string.prefs_quick_action_entry_value_hide))
         return when (quickAction) {
             context.getString(R.string.prefs_quick_action_entry_value_hide) -> QuickActionView.Type.NONE
@@ -52,9 +69,14 @@ object AppConstants {
         }
     }
 
-    private fun getIconShape(context: Context): String {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))
+    private fun getIconShape(context: Context): ImageShape {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+        val shape = prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))!!
+        return when (shape){
+            context.getString(R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
+            context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
+            else -> throw IllegalArgumentException("image shape not valid=$shape")
+        }
     }
 
 }

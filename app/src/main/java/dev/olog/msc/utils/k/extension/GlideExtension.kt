@@ -53,6 +53,7 @@ fun Context.getBitmapAsync(
 
 }
 
+@Suppress("DEPRECATION")
 fun Context.getBitmap(
         model: DisplayableItem,
         size: Int,
@@ -68,6 +69,7 @@ fun Context.getBitmap(
             .asBitmap()
             .load(placeholder.toBitmap())
             .override(size)
+
 
     GlideApp.with(this)
             .asBitmap()

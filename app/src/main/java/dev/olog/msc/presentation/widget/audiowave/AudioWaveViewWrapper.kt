@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.crashlyticsLog
 import java.io.File
 
 class AudioWaveViewWrapper @JvmOverloads constructor(
@@ -31,7 +31,7 @@ class AudioWaveViewWrapper @JvmOverloads constructor(
             audioBar.setRawData(file.readBytes())
         } catch (ex: OutOfMemoryError){
             ex.printStackTrace()
-            crashlyticsLog(ex.message ?: "failed loading raw data $path when loading audiowave")
+            Crashlytics.logException(ex)
         }
 
     }

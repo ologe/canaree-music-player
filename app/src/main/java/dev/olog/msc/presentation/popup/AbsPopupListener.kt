@@ -5,25 +5,28 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.PopupMenu
-import androidx.core.widget.toast
 import dev.olog.msc.FileProvider
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.Playlist
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.asHtml
+import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 abstract class AbsPopupListener(
         getPlaylistBlockingUseCase: GetPlaylistsBlockingUseCase,
-        private val addToPlaylistUseCase: AddToPlaylistUseCase
+        private val addToPlaylistUseCase: AddToPlaylistUseCase,
+        private val podcastPlaylist: Boolean
 
 ) : PopupMenu.OnMenuItemClickListener {
 
-    val playlists: List<Playlist> = getPlaylistBlockingUseCase.execute()
+    val playlists by lazyFast { getPlaylistBlockingUseCase.execute(if (podcastPlaylist) PlaylistType.PODCAST
+                                                                    else PlaylistType.TRACK) }
 
     @SuppressLint("RxLeakedSubscription")
     protected fun onPlaylistSubItemClick(context: Context, itemId: Int, mediaId: MediaId, listSize: Int, title: String){
@@ -61,10 +64,10 @@ abstract class AbsPopupListener(
                 val string = activity.getString(R.string.share_song_x, song.title)
                 activity.startActivity(Intent.createChooser(intent, string.asHtml()))
             } else {
-                activity.toast("Could not share this song")
+                activity.toast(R.string.song_not_shareable)
             }
         } catch (ex: Exception){
-            activity.toast("Could not share this song")
+            activity.toast(R.string.song_not_shareable)
         }
     }
 

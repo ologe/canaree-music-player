@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.shortcuts.playlist.chooser
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.utils.k.extension.asLiveData
@@ -24,7 +23,7 @@ class PlaylistChooserActivity : BaseActivity() {
                 .subscribe(this, adapter::updateDataSet)
 
         list.adapter = adapter
-        list.layoutManager = GridLayoutManager(this, if (isPortrait) 2 else 3)
+        list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(this, if (isPortrait) 2 else 3)
     }
 
     override fun onResume() {

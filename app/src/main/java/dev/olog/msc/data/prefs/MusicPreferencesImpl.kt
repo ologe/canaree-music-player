@@ -10,6 +10,8 @@ import dev.olog.msc.domain.entity.LastMetadata
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 private const val TAG = "MusicPreferences"
@@ -27,6 +29,10 @@ private const val LAST_TITLE = "$TAG.last.title"
 private const val LAST_SUBTITLE = "$TAG.last.subtitle"
 private const val LAST_IMAGE = "$TAG.last.image"
 private const val LAST_ID = "$TAG.last.id"
+
+private const val PLAYBACK_SPEED = "$TAG.playback_speed"
+
+private const val LAST_POSITION = "$TAG.last_position"
 
 class MusicPreferencesImpl @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -95,9 +101,9 @@ class MusicPreferencesImpl @Inject constructor(
 
     override fun getLastMetadata(): LastMetadata {
         return LastMetadata(
-                preferences.getString(LAST_TITLE, ""),
-                preferences.getString(LAST_SUBTITLE, ""),
-                preferences.getString(LAST_IMAGE, ""),
+                preferences.getString(LAST_TITLE, "")!!,
+                preferences.getString(LAST_SUBTITLE, "")!!,
+                preferences.getString(LAST_IMAGE, "")!!,
                 preferences.getLong(LAST_ID, -1)
         )
     }
@@ -155,4 +161,35 @@ class MusicPreferencesImpl @Inject constructor(
         preferences.edit { putBoolean(key, enabled) }
     }
 
+    override fun observePlaybackSpeed(): Observable<Float> {
+        return rxPreferences.getFloat(PLAYBACK_SPEED, 1f)
+                .asObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun setPlaybackSpeed(speed: Float) {
+        preferences.edit {
+            putFloat(PLAYBACK_SPEED, speed)
+        }
+    }
+
+    override fun getPlaybackSpeed(): Float {
+        return preferences.getFloat(PLAYBACK_SPEED, 1f)
+    }
+
+    override fun setLastPositionInQueue(position: Int) {
+        preferences.edit {
+            putInt(LAST_POSITION, position)
+        }
+    }
+
+    override fun observeLastPositionInQueue(): Observable<Int> {
+        return rxPreferences.getInteger(LAST_POSITION, -1)
+                .asObservable()
+    }
+
+    override fun getLastPositionInQueue(): Int {
+        return preferences.getInt(LAST_POSITION, -1)
+    }
 }

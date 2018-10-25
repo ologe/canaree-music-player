@@ -5,21 +5,20 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.widget.*
+import androidx.annotation.ColorInt
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.RecyclerView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.colorAccent
@@ -102,7 +101,7 @@ class RxFastScroller @JvmOverloads constructor(
     private var mSectionIndexer: SectionIndexer? = null
     private var mScrollbarAnimator: ViewPropertyAnimator? = null
     private var mBubbleAnimator: ViewPropertyAnimator? = null
-    private var mRecyclerView: RecyclerView? = null
+    private var mRecyclerView: androidx.recyclerview.widget.RecyclerView? = null
     private var mBubbleView: TextView? = null
     private var mHandleView: ImageView? = null
     private var mScrollbar: View? = null
@@ -116,20 +115,20 @@ class RxFastScroller @JvmOverloads constructor(
 
     private val mScrollbarHider = Runnable { hideScrollbar() }
 
-    private val mScrollListener = object : RecyclerView.OnScrollListener() {
+    private val mScrollListener = object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
             if (!mHandleView!!.isSelected && isEnabled) {
                 setViewPositions(getScrollProportion(recyclerView))
             }
         }
 
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+        override fun onScrollStateChanged(recyclerView: androidx.recyclerview.widget.RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
 
             if (isEnabled) {
                 when (newState) {
-                    RecyclerView.SCROLL_STATE_DRAGGING -> {
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING -> {
                         handler.removeCallbacks(mScrollbarHider)
                         cancelAnimation(mScrollbarAnimator)
 
@@ -138,7 +137,7 @@ class RxFastScroller @JvmOverloads constructor(
                         }
                     }
 
-                    RecyclerView.SCROLL_STATE_IDLE -> if (mHideScrollbar && !mHandleView!!.isSelected) {
+                    androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE -> if (mHideScrollbar && !mHandleView!!.isSelected) {
                         handler.postDelayed(mScrollbarHider, SCROLL_BAR_HIDE_DELAY.toLong())
                     }
                 }
@@ -175,8 +174,8 @@ class RxFastScroller @JvmOverloads constructor(
             layoutParams.setMargins(0, marginTop, 0, marginBottom)
             setLayoutParams(layoutParams)
 
-        } else if (viewGroup is CoordinatorLayout) {
-            val layoutParams = layoutParams as CoordinatorLayout.LayoutParams
+        } else if (viewGroup is androidx.coordinatorlayout.widget.CoordinatorLayout) {
+            val layoutParams = layoutParams as androidx.coordinatorlayout.widget.CoordinatorLayout.LayoutParams
 
             layoutParams.anchorId = recyclerViewId
             layoutParams.anchorGravity = GravityCompat.END
@@ -213,7 +212,7 @@ class RxFastScroller @JvmOverloads constructor(
         showBubble = show
     }
 
-    fun attachRecyclerView(recyclerView: RecyclerView) {
+    fun attachRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         mRecyclerView = recyclerView
 
 
@@ -401,7 +400,7 @@ class RxFastScroller @JvmOverloads constructor(
         }
     }
 
-    private fun getScrollProportion(recyclerView: RecyclerView): Float {
+    private fun getScrollProportion(recyclerView: androidx.recyclerview.widget.RecyclerView): Float {
         val verticalScrollOffset = recyclerView.computeVerticalScrollOffset()
         val verticalScrollRange = recyclerView.computeVerticalScrollRange()
         val rangeDiff = (verticalScrollRange - mHeight).toFloat()

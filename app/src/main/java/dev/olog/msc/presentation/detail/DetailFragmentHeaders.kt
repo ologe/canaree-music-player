@@ -33,16 +33,12 @@ class DetailFragmentHeaders @Inject constructor(
             DisplayableItem(R.layout.item_detail_recently_added_list, MediaId.headerId("recent horiz list"), "")
     )
 
-    fun albums(artistName: String?, size: Int) = listOf(
-            albumHeader(artistName, size),
+    fun albums() = listOf(
+            albumHeader(),
             DisplayableItem(R.layout.item_detail_albums_list, MediaId.headerId("albums horiz list"), "")
     )
 
-    private fun albumHeader(artistName: String?, size: Int) : DisplayableItem {
-        if (artistName != null){
-            return DisplayableItem(R.layout.item_detail_header_albums, MediaId.headerId("detail albums"),
-                    context.getString(R.string.detail_more_albums_by, artistName))
-        }
+    private fun albumHeader() : DisplayableItem {
         return DisplayableItem(R.layout.item_detail_header_albums, MediaId.headerId("detail albums"),
                 context.resources.getStringArray(R.array.detail_album_header)[mediaId.source]
         )

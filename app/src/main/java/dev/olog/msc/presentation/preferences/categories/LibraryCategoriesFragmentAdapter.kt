@@ -1,13 +1,12 @@
 package dev.olog.msc.presentation.preferences.categories
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
@@ -19,7 +18,7 @@ import kotlinx.android.synthetic.main.dialog_tab_category_item.view.*
 class LibraryCategoriesFragmentAdapter (
         val data: MutableList<LibraryCategoryBehavior>
 
-) : RecyclerView.Adapter<DataBoundViewHolder>(), TouchableAdapter {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<DataBoundViewHolder>(), TouchableAdapter {
 
     var touchHelper: ItemTouchHelper? = null
 
@@ -66,10 +65,7 @@ class LibraryCategoriesFragmentAdapter (
         notifyItemMoved(from, to)
     }
 
-    override fun onInteractionEnd(position: Int) {
-    }
-
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+    override fun onSwipedLeft(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
         throw IllegalStateException("operation not supported")
     }
 
@@ -81,5 +77,7 @@ class LibraryCategoriesFragmentAdapter (
         return viewType == R.layout.dialog_tab_category_item
     }
 
+    override fun onClearView() {
 
+    }
 }

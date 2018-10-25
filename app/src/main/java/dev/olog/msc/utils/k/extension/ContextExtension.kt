@@ -7,11 +7,11 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.support.annotation.DimenRes
-import android.support.annotation.DrawableRes
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.utils.isOreo
 
 val Context.isPortrait: Boolean

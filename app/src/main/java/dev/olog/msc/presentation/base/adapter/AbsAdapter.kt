@@ -1,19 +1,18 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.widget.toast
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 
@@ -21,7 +20,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         lifecycle: Lifecycle,
         protected val controller : AdapterDataController<Model> = BaseAdapterDataController()
 
-) : RecyclerView.Adapter<DataBoundViewHolder>(), DefaultLifecycleObserver, TouchableAdapter {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<DataBoundViewHolder>(), DefaultLifecycleObserver, TouchableAdapter {
 
     private var dataDisposable : Disposable? = null
     var touchHelper: ItemTouchHelper? = null
@@ -67,6 +66,7 @@ abstract class AbsAdapter<Model : BaseModel>(
     override fun getItemViewType(position: Int) = controller.getItem(position).type
 
     override fun onStart(owner: LifecycleOwner) {
+        controller.resumeObservingData(true)
         dataDisposable = controller.handleNewData(extendAreItemTheSame)
                 .subscribe({ (wasEmpty, callback) ->
 
@@ -133,7 +133,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         onDragAction!!.invoke(relativeFrom, relativeTo)
     }
 
-    override fun onSwipedLeft(viewHolder: RecyclerView.ViewHolder) {
+    override fun onSwipedLeft(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
         val position = viewHolder.adapterPosition
         val context = viewHolder.itemView.context
 
@@ -147,6 +147,7 @@ abstract class AbsAdapter<Model : BaseModel>(
         because there are items that isn't
      */
     override fun onSwipedRight(position: Int) {
+        controller.pauseObservingData()
         val positionPivot = indexOf { canInteractWithViewHolder(it.type)!! }
         val relativePosition = position - positionPivot
 
@@ -154,11 +155,12 @@ abstract class AbsAdapter<Model : BaseModel>(
         notifyItemRemoved(position)
         // swipe action must be defined
         onSwipeRightAction?.invoke(relativePosition)
-    }
-
-    override fun onInteractionEnd(position: Int) {
+        controller.resumeObservingData(false)
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? = null
 
+    override fun onClearView() {
+        controller.resumeObservingData(false)
+    }
 }

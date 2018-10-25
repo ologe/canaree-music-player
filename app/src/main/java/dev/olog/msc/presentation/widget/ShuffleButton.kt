@@ -3,11 +3,11 @@ package dev.olog.msc.presentation.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.graphics.drawable.Animatable2Compat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.widget.AppCompatImageButton
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
@@ -71,8 +71,8 @@ class ShuffleButton @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int {
         return when {
-            context.isPortrait && AppTheme.isClean() && !AppTheme.isDarkTheme() -> 0xFF_929cb0.toInt()
-            AppTheme.isFullscreen() -> Color.WHITE
+            context.isPortrait && AppTheme.isCleanTheme() && !AppTheme.isDarkTheme() -> 0xFF_8d91a6.toInt()
+            AppTheme.isFullscreenTheme() -> Color.WHITE
             AppTheme.isDarkTheme() -> {
                 alpha = .7f
                 context.textColorSecondary()

@@ -1,8 +1,13 @@
 package dev.olog.msc.presentation.base.adapter.drag
 
 import android.graphics.Canvas
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import dev.olog.msc.R
+import kotlin.math.abs
 
 class TouchHelperAdapterCallback(
         private val adapter : TouchableAdapter,
@@ -13,9 +18,11 @@ class TouchHelperAdapterCallback(
         horizontalDirections
 ) {
 
+    private val handler = Handler(Looper.getMainLooper())
+
     private val animationsController = TouchHelperAnimationController()
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, target: androidx.recyclerview.widget.RecyclerView.ViewHolder): Boolean {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!! && adapter.canInteractWithViewHolder(target.itemViewType)!!){
             adapter.onMoved(viewHolder.adapterPosition, target.adapterPosition)
             return true
@@ -23,46 +30,85 @@ class TouchHelperAdapterCallback(
         return false
     }
 
-    override fun getSwipeDirs(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getSwipeDirs(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder): Int {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             return super.getSwipeDirs(recyclerView, viewHolder)
         }
         return 0
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+    override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder, direction: Int) {
         if (adapter.canInteractWithViewHolder(viewHolder.itemViewType)!!){
             when (direction){
                 ItemTouchHelper.RIGHT -> adapter.onSwipedRight(viewHolder.adapterPosition)
-                ItemTouchHelper.LEFT -> adapter.onSwipedLeft(viewHolder)
+                ItemTouchHelper.LEFT -> {
+                    handler.postDelayed({
+                        adapter.onSwipedLeft(viewHolder)
+                    }, 200)
+                }
             }
         }
     }
 
-    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
-                             viewHolder: RecyclerView.ViewHolder,
+    override fun onChildDraw(c: Canvas, recyclerView: androidx.recyclerview.widget.RecyclerView,
+                             viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder,
                              dX: Float, dY: Float,
                              actionState: Int, isCurrentlyActive: Boolean) {
 
         when (actionState){
             ItemTouchHelper.ACTION_STATE_SWIPE -> {
-                if (dX > 0){
-                    animationsController.drawSwipeRight(c, viewHolder, dX)
-                } else {
-                    animationsController.drawSwipeLeft(c, viewHolder, dX)
+                val viewWidth = viewHolder.itemView.width
+                if (isCurrentlyActive && (abs(dX) > (viewWidth * 0.35f))){
+                    animationsController.drawCircularReveal(viewHolder, dX)
+                } else if(abs(dX) < (viewWidth * 0.05f)){
+                    animationsController.setAnimationIdle()
+                } else if (abs(dX) < (viewWidth * 0.35f)) {
+                    animationsController.initializeSwipe(viewHolder, dX)
                 }
+
+                getDefaultUIUtil().onDraw(c, recyclerView,
+                        viewHolder.itemView.findViewById(R.id.content), dX, dY, actionState, isCurrentlyActive)
             }
-            ItemTouchHelper.ACTION_STATE_DRAG -> animationsController.drawMove(viewHolder)
+            ItemTouchHelper.ACTION_STATE_DRAG -> drawOnMove(recyclerView, viewHolder.itemView, isCurrentlyActive, dY)
         }
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+    }
+
+    private fun drawOnMove(recyclerView: androidx.recyclerview.widget.RecyclerView, view: View, isCurrentlyActive: Boolean, dY: Float){
+        if (isCurrentlyActive) {
+            var originalElevation: Any? = view.getTag(R.id.item_touch_helper_previous_elevation)
+            if (originalElevation == null) {
+                originalElevation = ViewCompat.getElevation(view)
+                val newElevation = 5f + findMaxElevation(recyclerView, view)
+                ViewCompat.setElevation(view, newElevation)
+                view.setTag(R.id.item_touch_helper_previous_elevation, originalElevation)
+            }
+        }
+        view.translationY = dY
+    }
+
+    private fun findMaxElevation(recyclerView: androidx.recyclerview.widget.RecyclerView, itemView: View): Float {
+        val childCount = recyclerView.childCount
+        var max = 0f
+        for (i in 0 until childCount) {
+            val child = recyclerView.getChildAt(i)
+            if (child === itemView) {
+                continue
+            }
+            val elevation = ViewCompat.getElevation(child)
+            if (elevation > max) {
+                max = elevation
+            }
+        }
+        return max
+    }
+
+    override fun clearView(recyclerView: androidx.recyclerview.widget.RecyclerView, viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder) {
+        getDefaultUIUtil().clearView(viewHolder.itemView.findViewById(R.id.content))
+        getDefaultUIUtil().clearView(viewHolder.itemView)
+        adapter.onClearView()
     }
 
 
-    override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-        super.clearView(recyclerView, viewHolder)
-        adapter.onInteractionEnd(viewHolder.adapterPosition)
-        animationsController.clear(viewHolder)
-    }
 
     override fun isLongPressDragEnabled(): Boolean = false
 

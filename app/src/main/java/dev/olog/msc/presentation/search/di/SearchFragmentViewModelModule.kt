@@ -1,21 +1,16 @@
 package dev.olog.msc.presentation.search.di
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.entity.SearchResult
-import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
-import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase
-import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
+import dev.olog.msc.domain.entity.*
+import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
@@ -40,15 +35,25 @@ class SearchFragmentViewModelModule {
     @Provides
     internal fun provideSearchData(
             @ApplicationContext context: Context,
+            // tracks
             getAllArtistsUseCase: GetAllArtistsUseCase,
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
+            getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
+            getAllGenresUseCase: GetAllGenresUseCase,
+            getAllFoldersUseCase: GetAllFoldersUseCase,
             getAllSongsUseCase: GetAllSongsUseCase,
+            // podcasts
+            getAllPodcastUseCase: GetAllPodcastUseCase,
+            getAllPodcastAlbumsUseCase: GetAllPodcastAlbumsUseCase,
+            getAllPodcastArtistUseCase: GetAllPodcastArtistsUseCase,
+            getAllPodcastPlaylistUseCase: GetAllPodcastPlaylistUseCase,
+            //recent
             getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
             searchHeaders: SearchFragmentHeaders,
             queryLiveData: MutableLiveData<String>)
             : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>> {
 
-        return Transformations.switchMap(queryLiveData, { input ->
+        return Transformations.switchMap(queryLiveData) { input ->
 
             if (input.isBlank()) {
                 provideRecents(context, getAllRecentSearchesUseCase, searchHeaders)
@@ -57,6 +62,9 @@ class SearchFragmentViewModelModule {
                                     SearchFragmentType.RECENT to it.toMutableList(),
                                     SearchFragmentType.ARTISTS to mutableListOf(),
                                     SearchFragmentType.ALBUMS to mutableListOf(),
+                                    SearchFragmentType.PLAYLISTS to mutableListOf(),
+                                    SearchFragmentType.FOLDERS to mutableListOf(),
+                                    SearchFragmentType.GENRES to mutableListOf(),
                                     SearchFragmentType.SONGS to mutableListOf()
                             )
                         }
@@ -67,60 +75,149 @@ class SearchFragmentViewModelModule {
                 getAllSongsUseCase.execute()
                         .flatMap {
                             Observables.combineLatest(
-                                    provideSearchByArtist(getAllArtistsUseCase, input),
-                                    provideSearchByAlbum(getAllAlbumsUseCase, input),
-                                    provideSearchBySong(getAllSongsUseCase, input),
-                                    { artists, albums, songs ->
-                                        mutableMapOf(
-                                                SearchFragmentType.RECENT to mutableListOf(),
-                                                SearchFragmentType.ARTISTS to artists.toMutableList(),
-                                                SearchFragmentType.ALBUMS to albums.toMutableList(),
-                                                SearchFragmentType.SONGS to songs.toMutableList()
-                                        )
-                                    })
+                                    provideSearchByArtist(getAllArtistsUseCase, getAllPodcastArtistUseCase, input),
+                                    provideSearchByAlbum(getAllAlbumsUseCase, getAllPodcastAlbumsUseCase, input),
+                                    provideSearchByPlaylist(getAllPlaylistsUseCase, getAllPodcastPlaylistUseCase, input),
+                                    provideSearchByGenre(getAllGenresUseCase, input),
+                                    provideSearchByFolder(getAllFoldersUseCase, input),
+                                    provideSearchBySong(getAllSongsUseCase, getAllPodcastUseCase, input)
+                            ) { artists, albums, playlists, genres, folders, songs ->
+                                mutableMapOf(
+                                        SearchFragmentType.RECENT to mutableListOf(),
+                                        SearchFragmentType.ARTISTS to artists.toMutableList(),
+                                        SearchFragmentType.ALBUMS to albums.toMutableList(),
+                                        SearchFragmentType.PLAYLISTS to playlists.toMutableList(),
+                                        SearchFragmentType.GENRES to genres.toMutableList(),
+                                        SearchFragmentType.FOLDERS to folders.toMutableList(),
+                                        SearchFragmentType.SONGS to songs.toMutableList()
+                                )
+                            }
                         }
                         .map { it to input }
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .asLiveData()
             }
-        })
+        }
     }
 
     private fun provideSearchBySong(
             getAllSongsUseCase: GetAllSongsUseCase,
+            getAllPodcastUseCase: GetAllPodcastUseCase,
             query: String): Observable<MutableList<DisplayableItem>> {
 
-        return getAllSongsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.title.contains(query, true)  ||
-                                it.artist.contains(query, true) ||
-                                it.album.contains(query, true)
-                        }.map { it.toSearchDisplayableItem() }
-                        .toList()
-                }
+        return Observables.combineLatest(
+                getAllSongsUseCase.execute()
+                        .flatMapSingle { songs -> songs.toFlowable()
+                                .filter { it.title.contains(query, true)  ||
+                                        it.artist.contains(query, true) ||
+                                        it.album.contains(query, true)
+                                }.map { it.toSearchDisplayableItem() }
+                                .toList()
+                        },
+                getAllPodcastUseCase.execute()
+                        .flatMapSingle { songs -> songs.toFlowable()
+                                .filter { it.title.contains(query, true)  ||
+                                        it.artist.contains(query, true) ||
+                                        it.album.contains(query, true)
+                                }.map { it.toSearchDisplayableItem() }
+                                .toList()
+                        }
+        ) { tracks, podcasts ->
+            tracks.asSequence().plus(podcasts).sortedBy { it.title }.toMutableList()
+        }
     }
 
     private fun provideSearchByAlbum(
             getAllAlbumsUseCase: GetAllAlbumsUseCase,
+            getAllPodcastAlbumsUseCase: GetAllPodcastAlbumsUseCase,
             query: String): Observable<MutableList<DisplayableItem>> {
 
-        return getAllAlbumsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
-                        .filter { it.title.contains(query, true)  ||
-                                it.artist.contains(query, true)
-                        }.map { it.toSearchDisplayableItem() }
-                        .toList()
-                }
+        return Observables.combineLatest(
+                getAllAlbumsUseCase.execute()
+                        .flatMapSingle { albums -> albums.toFlowable()
+                                .filter { it.title.contains(query, true)  ||
+                                        it.artist.contains(query, true)
+                                }.map { it.toSearchDisplayableItem() }
+                                .toList()
+                        },
+                getAllPodcastAlbumsUseCase.execute()
+                        .flatMapSingle { albums -> albums.toFlowable()
+                                .filter { it.title.contains(query, true)  ||
+                                        it.artist.contains(query, true)
+                                }.map { it.toSearchDisplayableItem() }
+                                .toList()
+                        }, { albums, podcasts ->
+            albums.asSequence().plus(podcasts).sortedBy { it.title }.toMutableList()
+        }
+        )
     }
 
     private fun provideSearchByArtist(
             getAllArtistsUseCase: GetAllArtistsUseCase,
+            getAllPodcastArtistUseCase: GetAllPodcastArtistsUseCase,
             query: String): Observable<MutableList<DisplayableItem>> {
 
-        return getAllArtistsUseCase.execute()
-                .flatMapSingle { it.toFlowable()
+        return Observables.combineLatest(
+                getAllArtistsUseCase.execute()
+                        .flatMapSingle { artists -> artists.toFlowable()
+                                .filter { it.name.contains(query, true) }
+                                .map { it.toSearchDisplayableItem() }
+                                .toList()
+                        },
+                getAllPodcastArtistUseCase.execute()
+                        .flatMapSingle { artists -> artists.toFlowable()
+                                .filter { it.name.contains(query, true) }
+                                .map { it.toSearchDisplayableItem() }
+                                .toList()
+                        }
+        ) { artists, podcasts ->
+            artists.asSequence().plus(podcasts).sortedBy { it.title }.toMutableList()
+        }
+    }
+
+    private fun provideSearchByPlaylist(
+            getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
+            getAllPodcastPlaylistUseCase: GetAllPodcastPlaylistUseCase,
+            query: String): Observable<MutableList<DisplayableItem>> {
+
+        return Observables.combineLatest(
+                getAllPlaylistsUseCase.execute()
+                        .flatMapSingle { artists -> artists.toFlowable()
+                                .filter { it.title.contains(query, true) }
+                                .map { it.toSearchDisplayableItem() }
+                                .toList()
+                        },
+                getAllPodcastPlaylistUseCase.execute()
+                        .flatMapSingle { artists -> artists.toFlowable()
+                                .filter { it.title.contains(query, true) }
+                                .map { it.toSearchDisplayableItem() }
+                                .toList()
+                        }
+        ) { playlists, podcasts ->
+            playlists.asSequence().plus(podcasts).sortedBy { it.title }.toMutableList()
+        }
+    }
+
+    private fun provideSearchByGenre(
+            getAllGenresUseCase: GetAllGenresUseCase,
+            query: String): Observable<MutableList<DisplayableItem>> {
+
+        return getAllGenresUseCase.execute()
+                .flatMapSingle { artists -> artists.toFlowable()
                         .filter { it.name.contains(query, true) }
+                        .map { it.toSearchDisplayableItem() }
+                        .toList()
+                }
+    }
+
+    private fun provideSearchByFolder(
+            getAllFoldersUseCase: GetAllFoldersUseCase,
+            query: String): Observable<MutableList<DisplayableItem>> {
+
+        return getAllFoldersUseCase.execute()
+                .flatMapSingle { artists -> artists.toFlowable()
+                        .filter { it.title.contains(query, true) }
                         .map { it.toSearchDisplayableItem() }
                         .toList()
                 }
@@ -148,7 +245,18 @@ class SearchFragmentViewModelModule {
 private fun Song.toSearchDisplayableItem(): DisplayableItem{
     return DisplayableItem(
             R.layout.item_search_song,
-            MediaId.songId(id),
+            MediaId.songId(this.id),
+            title,
+            DisplayableItem.adjustArtist(artist),
+            image,
+            true
+    )
+}
+
+private fun Podcast.toSearchDisplayableItem(): DisplayableItem{
+    return DisplayableItem(
+            R.layout.item_search_song,
+            MediaId.podcastId(this.id),
             title,
             DisplayableItem.adjustArtist(artist),
             image,
@@ -166,6 +274,16 @@ private fun Album.toSearchDisplayableItem(): DisplayableItem {
     )
 }
 
+private fun PodcastAlbum.toSearchDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_search_album,
+            MediaId.podcastAlbumId(id),
+            title,
+            DisplayableItem.adjustArtist(artist),
+            image
+    )
+}
+
 private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
             R.layout.item_search_artist,
@@ -176,19 +294,78 @@ private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     )
 }
 
+private fun PodcastArtist.toSearchDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_search_artist,
+            MediaId.podcastArtistId(id),
+            name,
+            null,
+            image
+    )
+}
+
+private fun Playlist.toSearchDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_search_album,
+            MediaId.playlistId(id),
+            title,
+            null,
+            image
+    )
+}
+
+private fun PodcastPlaylist.toSearchDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_search_album,
+            MediaId.podcastPlaylistId(id),
+            title,
+            null,
+            image
+    )
+}
+
+private fun Genre.toSearchDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_search_album,
+            MediaId.genreId(id),
+            name,
+            null,
+            image
+    )
+}
+
+private fun Folder.toSearchDisplayableItem(): DisplayableItem {
+    return DisplayableItem(
+            R.layout.item_search_album,
+            MediaId.folderId(path),
+            title,
+            null,
+            image
+    )
+}
+
 private fun SearchResult.toSearchDisplayableItem(context: Context) : DisplayableItem{
     val subtitle = when (this.itemType) {
         RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
         RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
         RecentSearchesTypes.ARTIST -> context.getString(R.string.search_type_artist)
+        RecentSearchesTypes.PLAYLIST -> context.getString(R.string.search_type_playlist)
+        RecentSearchesTypes.GENRE -> context.getString(R.string.search_type_genre)
+        RecentSearchesTypes.FOLDER -> context.getString(R.string.search_type_folder)
+        RecentSearchesTypes.PODCAST -> context.getString(R.string.search_type_podcast)
+        RecentSearchesTypes.PODCAST_PLAYLIST -> context.getString(R.string.search_type_podcast_playlist)
+        RecentSearchesTypes.PODCAST_ALBUM -> context.getString(R.string.search_type_podcast_album)
+        RecentSearchesTypes.PODCAST_ARTIST -> context.getString(R.string.search_type_podcast_artist)
         else -> throw IllegalArgumentException("invalid item type $itemType")
     }
 
-    val isPlayable = this.itemType == RecentSearchesTypes.SONG
+    val isPlayable = this.itemType == RecentSearchesTypes.SONG || this.itemType == RecentSearchesTypes.PODCAST
 
     val layout = when (this.itemType){
-        RecentSearchesTypes.ARTIST -> R.layout.item_search_recent_artist
-        RecentSearchesTypes.ALBUM -> R.layout.item_search_recent_album
+        RecentSearchesTypes.ARTIST,
+        RecentSearchesTypes.PODCAST_ARTIST -> R.layout.item_search_recent_artist
+        RecentSearchesTypes.ALBUM,
+        RecentSearchesTypes.PODCAST_ALBUM -> R.layout.item_search_recent_album
         else -> R.layout.item_search_recent
     }
 

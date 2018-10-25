@@ -10,9 +10,17 @@
     <string name="tab_all_playlists">All playlists</string>
     <string name="tab_all_albums">All albums</string>
     <string name="tab_all_artists">All artists</string>
-    <string name="tab_recent">Recent</string>
+    <string name="tab_recent_played">Recently played</string>
+    <string name="tab_recent_added">Recently added</string>
 
     <color name="tab_layout_selected">@color/text_color_primary</color>
     <color name="tab_layout_unselected">@color/light_grey</color>
+
+    <string-array name="tab_new_items">
+        <item>New albums</item>
+        <item>New artist</item>
+    </string-array>
+
+    <string name="tab_podcast_duration">%d min</string>
 
 </resources>

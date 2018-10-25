@@ -15,6 +15,12 @@ class MusicPreferencesUseCase @Inject constructor(
     fun getLastIdInPlaylist(): Int = gateway.getLastIdInPlaylist()
     fun observeLastIdInPlaylist(): Observable<Int> = gateway.observeLastIdInPlaylist()
 
+    fun setLastPositionInQueue(position: Int){
+        gateway.setLastPositionInQueue(position)
+    }
+    fun observeLastPositionInQueue(): Observable<Int> = gateway.observeLastPositionInQueue()
+    fun getLastPositionInQueue(): Int = gateway.getLastPositionInQueue()
+
     fun setLastIdInPlaylist(idInPlaylist: Int) {
         gateway.setLastIdInPlaylist(idInPlaylist)
     }
@@ -72,6 +78,18 @@ class MusicPreferencesUseCase @Inject constructor(
 
     fun observeGapless(): Observable<Boolean> {
         return gateway.observeGapless()
+    }
+
+    fun observePlaybackSpeed(): Observable<Float> {
+        return gateway.observePlaybackSpeed()
+    }
+
+    fun setPlaybackSpeed(speed: Float) {
+        gateway.setPlaybackSpeed(speed)
+    }
+
+    fun getPlaybackSpeed(): Float {
+        return gateway.getPlaybackSpeed()
     }
 
 }

@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation
 
-import android.databinding.BindingAdapter
 import android.graphics.Typeface
-import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
@@ -13,6 +13,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.presentation.library.folder.tree.DisplayableFile
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.playing.queue.model.DisplayableQueueSong
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
 import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
@@ -80,6 +81,13 @@ object BindingsAdapter {
     @JvmStatic
     fun loadSongImage(view: ImageView, item: DisplayableItem) {
         loadImageImpl(view, item, OVERRIDE_SMALL)
+    }
+
+    @BindingAdapter("imageSong")
+    @JvmStatic
+    fun loadSongImage(view: ImageView, item: DisplayableQueueSong) {
+        loadImageImpl(view,
+                DisplayableItem(item.type, item.mediaId, "", "", item.image), OVERRIDE_SMALL)
     }
 
     @BindingAdapter("imageAlbum")

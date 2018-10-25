@@ -14,6 +14,7 @@ import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
+import dev.olog.msc.utils.k.extension.isPlaying
 import javax.inject.Inject
 
 @PerService
@@ -41,14 +42,14 @@ class PlayerState @Inject constructor(
         notifyWidgetsOfStateChanged(false, bookmark)
     }
 
-    fun update(state: Int, bookmark: Long): PlaybackStateCompat {
-        return update(state, bookmark, null)
+    fun update(state: Int, bookmark: Long, speed: Float): PlaybackStateCompat {
+        return update(state, bookmark, null, speed)
     }
 
     /**
      * @param state one of: PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_PAUSED
      */
-    fun update(state: Int, bookmark: Long, id: Long?): PlaybackStateCompat {
+    fun update(state: Int, bookmark: Long, id: Long?, speed: Float): PlaybackStateCompat {
         val isPlaying = state == PlaybackStateCompat.STATE_PLAYING
 
         if (isPlaying){
@@ -57,7 +58,7 @@ class PlayerState @Inject constructor(
             enablePlayShortcut()
         }
 
-        builder.setState(state, bookmark, (if (isPlaying) 1 else 0).toFloat())
+        builder.setState(state, bookmark, (if (isPlaying) speed else 0f))
 
         musicPreferencesUseCase.setBookmark(bookmark)
 
@@ -77,6 +78,17 @@ class PlayerState @Inject constructor(
         }
 
         return playbackState
+    }
+
+    fun updatePlaybackSpeed(speed: Float) {
+        val currentState = mediaSession.controller?.playbackState
+        if (currentState == null){
+            builder.setState(PlaybackStateCompat.STATE_PAUSED, musicPreferencesUseCase.getBookmark(), 0f)
+        } else {
+            val stateSpeed = if (currentState.isPlaying()) speed else 0f
+            builder.setState(currentState.state, currentState.position, stateSpeed)
+        }
+        mediaSession.setPlaybackState(builder.build())
     }
 
     fun updateActiveQueueId(id: Long){

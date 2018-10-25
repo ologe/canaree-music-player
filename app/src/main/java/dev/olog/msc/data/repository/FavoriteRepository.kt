@@ -2,11 +2,11 @@ package dev.olog.msc.data.repository
 
 import android.annotation.SuppressLint
 import dev.olog.msc.data.db.AppDatabase
-import dev.olog.msc.domain.entity.FavoriteEnum
-import dev.olog.msc.domain.entity.FavoriteStateEntity
-import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.gateway.FavoriteGateway
+import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -18,6 +18,7 @@ import javax.inject.Inject
 class FavoriteRepository @Inject constructor(
     appDatabase: AppDatabase,
     private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway,
     private val collator: Collator
 
 ) : FavoriteGateway {
@@ -28,12 +29,12 @@ class FavoriteRepository @Inject constructor(
 
     override fun observeToggleFavorite(): Observable<FavoriteEnum> = favoriteStatePublisher.map { it.enum }
 
-    override fun updateFavoriteState(state: FavoriteStateEntity) {
+    override fun updateFavoriteState(type: FavoriteType, state: FavoriteStateEntity) {
         favoriteStatePublisher.onNext(state)
         if (state.enum == FavoriteEnum.ANIMATE_NOT_FAVORITE){
-            favoriteStatePublisher.onNext(FavoriteStateEntity(state.songId, FavoriteEnum.NOT_FAVORITE))
+            favoriteStatePublisher.onNext(FavoriteStateEntity(state.songId, FavoriteEnum.NOT_FAVORITE, type))
         } else if (state.enum == FavoriteEnum.ANIMATE_TO_FAVORITE) {
-            favoriteStatePublisher.onNext(FavoriteStateEntity(state.songId, FavoriteEnum.FAVORITE))
+            favoriteStatePublisher.onNext(FavoriteStateEntity(state.songId, FavoriteEnum.FAVORITE, type))
         }
     }
 
@@ -42,64 +43,75 @@ class FavoriteRepository @Inject constructor(
                 .toObservable()
                 .switchMap { favorites -> songGateway.getAll().map { songList ->
                     favorites.mapNotNull { favoriteId -> songList.firstOrNull { it.id == favoriteId } }
-                            .sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                            .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                 } }
     }
 
-    override fun addSingle(songId: Long): Completable {
-        return favoriteDao.addToFavoriteSingle(songId)
-                .andThen({
+    override fun getAllPodcasts(): Observable<List<Podcast>> {
+        return favoriteDao.getAllPodcastsImpl()
+                .toObservable()
+                .switchMap { favorites -> podcastGateway.getAll().map { podcastList ->
+                    favorites.asSequence()
+                            .mapNotNull { favoriteId -> podcastList.firstOrNull { it.id == favoriteId } }
+                            .sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
+                            .toList()
+                } }
+    }
+
+    override fun addSingle(type: FavoriteType, songId: Long): Completable {
+        return favoriteDao.addToFavoriteSingle(type, songId)
+                .andThen {
                     val id = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songId == id){
-                        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE))
+                        updateFavoriteState(type, FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type))
                     }
                     it.onComplete()
-                })
+                }
     }
 
-    override fun addGroup(songListId: List<Long>): Completable {
-        return favoriteDao.addToFavorite(songListId)
-                .andThen({
+    override fun addGroup(type: FavoriteType, songListId: List<Long>): Completable {
+        return favoriteDao.addToFavorite(type, songListId)
+                .andThen {
                     val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songListId.contains(songId)){
-                        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.FAVORITE))
+                        updateFavoriteState(type, FavoriteStateEntity(songId, FavoriteEnum.FAVORITE, type))
                     }
                     it.onComplete()
-                })
+                }
     }
 
-    override fun deleteSingle(songId: Long): Completable {
-        return favoriteDao.removeFromFavorite(listOf(songId))
-                .andThen({
+    override fun deleteSingle(type: FavoriteType, songId: Long): Completable {
+        return favoriteDao.removeFromFavorite(type, listOf(songId))
+                .andThen {
                     val id = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songId == id){
-                        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE))
+                        updateFavoriteState(type, FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
                     }
                     it.onComplete()
-                })
+                }
     }
 
-    override fun deleteGroup(songListId: List<Long>): Completable {
-        return favoriteDao.removeFromFavorite(songListId)
-                .andThen({
+    override fun deleteGroup(type: FavoriteType, songListId: List<Long>): Completable {
+        return favoriteDao.removeFromFavorite(type, songListId)
+                .andThen {
                     val songId = favoriteStatePublisher.value?.songId ?: return@andThen
                     if (songListId.contains(songId)){
-                        updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE))
+                        updateFavoriteState(type, FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
                     }
                     it.onComplete()
-                })
+                }
     }
 
-    override fun deleteAll(): Completable {
+    override fun deleteAll(type: FavoriteType): Completable {
         return Completable.fromCallable { favoriteDao.deleteAll() }
-                .andThen({
+                .andThen {
                     val songId = favoriteStatePublisher.value?.songId ?: return@andThen
-                    updateFavoriteState(FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE))
+                    updateFavoriteState(type, FavoriteStateEntity(songId, FavoriteEnum.NOT_FAVORITE, type))
                     it.onComplete()
-                })
+                }
     }
 
-    override fun isFavorite(songId: Long): Single<Boolean> {
+    override fun isFavorite(type: FavoriteType, songId: Long): Single<Boolean> {
         return Single.fromCallable { favoriteDao.isFavorite(songId) != null }
     }
 
@@ -109,17 +121,18 @@ class FavoriteRepository @Inject constructor(
         val value = favoriteStatePublisher.value ?: return
         val id = value.songId
         val state = value.enum
+        val type = value.favoriteType
 
         var action : Completable? = null
 
         when (state) {
             FavoriteEnum.NOT_FAVORITE -> {
-                updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_TO_FAVORITE))
-                action = favoriteDao.addToFavoriteSingle(id)
+                updateFavoriteState(type, FavoriteStateEntity(id, FavoriteEnum.ANIMATE_TO_FAVORITE, type))
+                action = favoriteDao.addToFavoriteSingle(type, id)
             }
             FavoriteEnum.FAVORITE -> {
-                updateFavoriteState(FavoriteStateEntity(id, FavoriteEnum.ANIMATE_NOT_FAVORITE))
-                action = favoriteDao.removeFromFavorite(listOf(id))
+                updateFavoriteState(type, FavoriteStateEntity(id, FavoriteEnum.ANIMATE_NOT_FAVORITE, type))
+                action = favoriteDao.removeFromFavorite(type, listOf(id))
             }
             else -> Completable.complete()
         }

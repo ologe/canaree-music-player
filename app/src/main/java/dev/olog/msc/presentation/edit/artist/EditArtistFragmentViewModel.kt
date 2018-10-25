@@ -1,16 +1,15 @@
 package dev.olog.msc.presentation.edit.artist
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import dev.olog.msc.domain.entity.Artist
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
+import javax.inject.Inject
 
-class EditArtistFragmentViewModel(
+class EditArtistFragmentViewModel @Inject constructor(
         private val presenter: EditArtistFragmentPresenter
 
 ) : ViewModel(){
@@ -27,7 +26,7 @@ class EditArtistFragmentViewModel(
 
         artistDisposable = presenter.observeArtist()
                 .subscribe({
-                    this.displayedArtist.postValue(it.toDisplayableArtist())
+                    this.displayedArtist.postValue(it)
                 }, Throwable::printStackTrace)
 
         songListDisposable = presenter.getSongList()
@@ -47,7 +46,7 @@ class EditArtistFragmentViewModel(
 
     }
 
-    fun getAlbum(): Artist = presenter.getAlbum()
+    fun getArtist(): DisplayableArtist = presenter.getArtist()
 
     override fun onCleared() {
         songListDisposable.unsubscribe()
@@ -56,13 +55,6 @@ class EditArtistFragmentViewModel(
     fun observeData(): LiveData<DisplayableArtist> = displayedArtist
     fun observeSongList(): LiveData<List<Song>> = songList
 
-    private fun Artist.toDisplayableArtist(): DisplayableArtist {
-        return DisplayableArtist(
-                this.id,
-                this.name,
-                this.albumArtist,
-                this.image
-        )
-    }
+
 
 }

@@ -3,7 +3,6 @@ package dev.olog.msc.music.service.helper
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.msc.domain.entity.*
-import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory

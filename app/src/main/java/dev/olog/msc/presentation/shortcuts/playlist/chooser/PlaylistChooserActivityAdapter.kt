@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.shortcuts.playlist.chooser
 
 import android.app.Activity
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts

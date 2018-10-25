@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.msc.utils.k.extension
 
 import java.util.*
@@ -13,29 +15,36 @@ private fun <T> List<T>.isInBounds(index: Int): Boolean {
     return index in 0..lastIndex
 }
 
-fun <T> List<T>.startWith(item: T): List<T> {
+inline fun <T> List<T>.startWith(item: T): List<T> {
     val list = this.toMutableList()
     list.add(0, item)
     return list
 }
 
-fun <T> List<T>.startWith(data: List<T>): List<T> {
+inline fun <T> List<T>.startWith(data: List<T>): List<T> {
     val list = this.toMutableList()
     list.addAll(0, data)
     return list
 }
 
-fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
+inline fun <T> List<T>.startWithIfNotEmpty(item: T): List<T> {
     if (this.isNotEmpty()){
         return startWith(item)
     }
     return this
 }
 
-fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
+inline fun <K, V> MutableMap<K, MutableList<V>>.deepCopy(): MutableMap<K, MutableList<V>> {
     val result = mutableMapOf<K, MutableList<V>>()
     for ((key, value) in this){
         result[key] = value.toMutableList()
     }
     return result
+}
+
+fun <T> MutableList<T>.doIf(predicate: Boolean, action: MutableList<T>.() -> Any): MutableList<T> {
+    if (predicate){
+        this.action()
+    }
+    return this
 }

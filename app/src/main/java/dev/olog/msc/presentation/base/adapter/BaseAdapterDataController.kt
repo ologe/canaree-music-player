@@ -1,15 +1,19 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.k.extension.swap
+import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 /**
  * Adapter controller that can handle [LinkedHashMap] and [List] of type [Model].
@@ -20,12 +24,38 @@ class BaseAdapterDataController<Model : BaseModel>
     : AdapterDataController<Model> {
 
     private val data = mutableListOf<Model>()
-    private val publisher = PublishSubject.create<Any>()
+    private val publisher = BehaviorSubject.create<Any>()
+
+    private val valvePublisher = BehaviorSubject.createDefault(true)
+    private var valveDisposable : Disposable? = null
+
+    override fun pauseObservingData(){
+        valvePublisher.onNext(false)
+    }
+
+    override fun resumeObservingData(instantly: Boolean){
+        if (instantly){
+            valvePublisher.onNext(true)
+            return
+        }
+
+        valveDisposable.unsubscribe()
+        valveDisposable = Single.timer(1, TimeUnit.SECONDS)
+                .subscribe({
+                    valvePublisher.onNext(true)
+                }, Throwable::printStackTrace)
+    }
 
     override fun handleNewData(extendAreItemTheSame: ((Int, Int, Model, Model) -> Boolean)?)
             : Observable<AdapterControllerResult> {
 
-        return publisher.serialize()
+        return Observables.combineLatest(
+                publisher.serialize(),
+                valvePublisher.distinctUntilChanged()
+        ) { data, valve -> data to valve }
+                .filter { it.second }
+                .map { it.first }
+                .distinctUntilChanged()
                 .observeOn(Schedulers.computation())
                 .doOnNext { assertBackgroundThread() }
                 .flatMapSingle {

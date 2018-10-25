@@ -2,9 +2,9 @@ package dev.olog.msc.presentation.utils.animation
 
 import android.animation.AnimatorInflater
 import android.content.Context
-import android.support.annotation.AnimatorRes
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.AnimatorRes
 
 abstract class AnimateOnTouch : View.OnTouchListener {
 

@@ -1,18 +1,17 @@
 package dev.olog.msc.presentation.detail
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.interactor.all.sorted.util.*
 import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase
+import dev.olog.msc.domain.interactor.all.sorted.util.*
 import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
-import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -20,8 +19,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class DetailFragmentViewModel(
+class DetailFragmentViewModel @Inject constructor(
         val mediaId: MediaId,
         item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
         albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
@@ -51,57 +53,71 @@ class DetailFragmentViewModel(
 
     private val subscriptions = CompositeDisposable()
 
+    private val filterPublisher = BehaviorSubject.createDefault("")
+
+    fun updateFilter(filter: String){
+        if (filter.isEmpty() || filter.length >= 2){
+            filterPublisher.onNext(filter.toLowerCase())
+        }
+    }
+
     val itemLiveData: LiveData<List<DisplayableItem>> = item[currentCategory]!!
+            .debounceFirst()
+            .doOnError { it.printStackTrace() }
             .onErrorReturnItem(listOf())
             .asLiveData()
 
-    private val dataMapLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = MutableLiveData()
-
-    private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = Observables.combineLatest(
+    private val dataMap : Observable<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
             Observables.combineLatest(
-                    item[currentCategory]!!.toObservable(),
-                    data[MOST_PLAYED]!!,
-                    data[RECENTLY_ADDED]!!,
-                    albums[currentCategory]!!,
-                    data[RELATED_ARTISTS]!!,
-                    data[SONGS]!!,
-                    getVisibleTabsUseCase.execute(),
-                    { item, mostPlayed, recent, albums, artists, songs, visibility ->
-                        presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
-                    }
-            ).startWithArray(mutableMapOf()).distinctUntilChanged(),
-            item[currentCategory]!!.toObservable(),
-            { map, item ->
-                mutableMapOf(DetailFragmentDataType.HEADER to item.toMutableList()).apply { putAll(map) }
-            }
-    ).onErrorReturnItem(mutableMapOf())
+                    item[currentCategory]!!.toObservable().debounceFirst().distinctUntilChanged(),
+                    data[MOST_PLAYED]!!.debounceFirst().distinctUntilChanged(),
+                    data[RECENTLY_ADDED]!!.debounceFirst().distinctUntilChanged(),
+                    albums[currentCategory]!!.debounceFirst().distinctUntilChanged(),
+                    data[RELATED_ARTISTS]!!.debounceFirst().distinctUntilChanged(),
+                    filterSongs(data[SONGS]!!),
+                    getVisibleTabsUseCase.execute()
+            ) { item, mostPlayed, recent, albums, artists, songs, visibility ->
+                presenter.createDataMap(item, mostPlayed, recent, albums, artists, songs, visibility)
+            }.doOnError { it.printStackTrace() }
+                    .onErrorReturnItem(mutableMapOf())
 
-    private val dataDisposable = dataMap.subscribe(dataMapLiveData::postValue, Throwable::printStackTrace)
+    private fun filterSongs(songObservable: Observable<List<DisplayableItem>>): Observable<List<DisplayableItem>>{
+        return Observables.combineLatest(
+                songObservable.debounceFirst(50, TimeUnit.MILLISECONDS).distinctUntilChanged(),
+                filterPublisher.debounceFirst().distinctUntilChanged()
+        ) { songs, filter ->
+            if (filter.isBlank()){
+                songs
+            } else {
+                songs.filter {
+                    it.title.toLowerCase().contains(filter) || it.subtitle?.toLowerCase()?.contains(filter) == true
+                }
+            }
+        }.distinctUntilChanged()
+    }
 
     override fun onCleared() {
-        dataDisposable.unsubscribe()
         subscriptions.clear()
     }
 
-    fun observeData(): LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> = dataMapLiveData
-
-    fun artistMediaId(action: (MediaId) -> Unit) {
-        presenter.artistMediaId()
-                .subscribe({ action(it) }, Throwable::printStackTrace)
-                .addTo(subscriptions)
-    }
+    fun observeData(): LiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>> =
+            dataMap.asLiveData()
 
     val mostPlayedLiveData: LiveData<List<DisplayableItem>> = data[MOST_PLAYED]!!
+            .debounceFirst()
             .asLiveData()
 
     val relatedArtistsLiveData : LiveData<List<DisplayableItem>> = data[RELATED_ARTISTS]!!
+            .debounceFirst()
             .map { it.take(RELATED_ARTISTS_TO_SEE) }
             .asLiveData()
 
     val albumsLiveData: LiveData<List<DisplayableItem>> = albums[currentCategory]!!
+            .debounceFirst()
             .asLiveData()
 
     val recentlyAddedLiveData: LiveData<List<DisplayableItem>> = data[RECENTLY_ADDED]!!
+            .debounceFirst()
             .map { it.take(VISIBLE_RECENTLY_ADDED_PAGES) }
             .asLiveData()
 
@@ -155,33 +171,6 @@ class DetailFragmentViewModel(
 
     fun showSortByTutorialIfNeverShown(): Completable {
         return presenter.showSortByTutorialIfNeverShown()
-    }
-
-}
-
-/**
- * Because after rotation is emitted an event with only item data,
- * this LiveData handle that case not emitting that event
- */
-private class DetailLiveData : MutableLiveData<MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>>() {
-
-    override fun setValue(value: MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>) {
-        if (canUpdate(value)){
-            super.setValue(value)
-        }
-    }
-
-    override fun postValue(value: MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>>) {
-        if (canUpdate(value)){
-            super.postValue(value)
-        }
-    }
-
-    private fun canUpdate(value: MutableMap<*, MutableList<DisplayableItem>>): Boolean {
-        if (this.value == null) {
-            return true
-        }
-        return value.size > 1
     }
 
 }

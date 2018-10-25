@@ -7,7 +7,8 @@ import dev.olog.msc.presentation.library.tab.TabFragment
 
 @Subcomponent(modules = arrayOf(
         TabFragmentModule::class,
-        TabFragmentViewModelModule::class
+        TabFragmentViewModelModule::class,
+        TabFragmentPodcastModule::class
 ))
 @PerFragment
 interface TabFragmentSubComponent : AndroidInjector<TabFragment> {

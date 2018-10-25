@@ -1,15 +1,17 @@
 package dev.olog.msc.presentation.edit.track.di
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragmentViewModel
-import dev.olog.msc.presentation.edit.track.EditTrackFragmentViewModelFactory
 import dev.olog.msc.utils.MediaId
 
-@Module
+@Module(includes = [EditTrackFragmentModule.Binding::class])
 class EditTrackFragmentModule(
         private val fragment: EditTrackFragment
 
@@ -25,9 +27,15 @@ class EditTrackFragmentModule(
     @FragmentLifecycle
     fun provideLifecycle() = fragment.lifecycle
 
-    @Provides
-    fun provideViewModel(factory: EditTrackFragmentViewModelFactory): EditTrackFragmentViewModel {
-        return ViewModelProviders.of(fragment, factory).get(EditTrackFragmentViewModel::class.java)
+    @Module
+    interface Binding {
+
+        @Binds
+        @IntoMap
+        @ViewModelKey(EditTrackFragmentViewModel::class)
+        fun provideViewModel(viewModel: EditTrackFragmentViewModel): ViewModel
+
     }
+
 
 }

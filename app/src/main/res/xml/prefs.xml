@@ -11,10 +11,16 @@
             android:key="@string/prefs_library_categories_key" />
 
         <SwitchPreference
-            android:title="@string/prefs_remember_last_tab_title"
-            android:summary="@string/prefs_remember_last_tab_summary"
-            android:key="@string/prefs_remember_last_tab_key"
+            android:title="@string/prefs_show_podcasts_title"
+            android:summary="@string/prefs_show_podcasts_summary"
+            android:key="@string/prefs_show_podcasts_key"
             android:defaultValue="true"/>
+
+        <Preference
+            android:title="@string/prefs_podcast_library_categories_title"
+            android:summary="@string/prefs_podcast_library_categories_summary"
+            android:key="@string/prefs_podcast_library_categories_key"
+            android:dependency="@string/prefs_show_podcasts_key"/>
 
         <Preference
             android:title="@string/prefs_blacklist_title"
@@ -68,7 +74,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/prefs_category_theme">
+        android:title="@string/prefs_category_ui">
 
         <ListPreference
             android:title="@string/prefs_dark_mode_title"
@@ -78,11 +84,6 @@
             android:entryValues="@array/prefs_dark_mode_entry_values"
             android:entries="@array/prefs_dark_mode_entries" />
 
-        <Preference
-            android:key="@string/prefs_accent_color_key"
-            android:summary="@string/prefs_accent_color_summary"
-            android:title="@string/prefs_accent_color_title" />
-
         <ListPreference
             android:title="@string/prefs_appearance_title"
             android:summary="%s"
@@ -91,38 +92,43 @@
             android:defaultValue="@string/prefs_appearance_entry_value_default"
             android:key="@string/prefs_appearance_key" />
 
-        <ListPreference
-            android:title="@string/prefs_icon_shape_title"
-            android:summary="%s"
-            android:entries="@array/prefs_icon_shape_entries"
-            android:entryValues="@array/prefs_icon_shape_entry_values"
-            android:defaultValue="@string/prefs_icon_shape_rounded"
-            android:key="@string/prefs_icon_shape_key"/>
-
-        <!--<SwitchPreference-->
-            <!--android:key="@string/prefs_day_night_key"-->
-            <!--android:title="@string/prefs_day_night_title"-->
-            <!--android:summaryOff="@string/prefs_day_night_summary_off"-->
-            <!--android:summaryOn="@string/prefs_day_night_summary_on"-->
-            <!--android:defaultValue="false"/>-->
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/prefs_category_other">
-
         <Preference
-            android:key="@string/prefs_last_fm_credentials_key"
-            android:title="@string/prefs_last_fm_credentials_title"
-            android:summary="@string/prefs_last_fm_credentials_summary"/>
+            android:key="@string/prefs_accent_color_key"
+            android:summary="@string/prefs_accent_color_summary"
+            android:title="@string/prefs_accent_color_title" />
 
-        <ListPreference
-            android:title="@string/prefs_quick_action_title"
-            android:summary="@string/prefs_quick_action_summary"
-            android:entries="@array/prefs_quick_action_entries"
-            android:entryValues="@array/prefs_quick_action_entry_values"
-            android:defaultValue="@string/prefs_quick_action_entry_value_hide"
-            android:key="@string/prefs_quick_action_key" />
+        <SwitchPreference
+            android:title="@string/prefs_adaptive_colors_title"
+            android:summaryOn="@string/prefs_adaptive_colors_summary_on"
+            android:summaryOff="@string/prefs_adaptive_colors_summary_off"
+            android:key="@string/prefs_adaptive_colors_key"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/prefs_immersive_title"
+            android:summaryOn="@string/prefs_immersive_summary_on"
+            android:summaryOff="@string/prefs_immersive_summary_off"
+            android:key="@string/prefs_immersive_key"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="@string/prefs_show_recent_albums_artists_key"
+            android:title="@string/prefs_show_recent_albums_artists_title"
+            android:summary="@string/prefs_show_recent_albums_artists_summary"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="@string/prefs_show_new_albums_artists_key"
+            android:title="@string/prefs_show_new_albums_artists_title"
+            android:summary="@string/prefs_show_new_albums_artists_summary"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:title="@string/prefs_player_controls_visibility_title"
+            android:summaryOn="@string/prefs_player_controls_visibility_summary_on"
+            android:summaryOff="@string/prefs_player_controls_visibility_summary_off"
+            android:key="@string/prefs_player_controls_visibility_key"
+            android:defaultValue="false" />
 
         <MultiSelectListPreference
             android:title="@string/prefs_detail_sections_title"
@@ -132,18 +138,39 @@
             android:entryValues="@array/prefs_detail_sections_entry_values"
             android:defaultValue="@array/prefs_detail_sections_entry_values_default"/>
 
-        <SwitchPreference
-            android:title="@string/prefs_player_controls_visibility_title"
-            android:summaryOn="@string/prefs_player_controls_visibility_summary_on"
-            android:summaryOff="@string/prefs_player_controls_visibility_summary_off"
-            android:key="@string/prefs_player_controls_visibility_key"
-            android:defaultValue="false" />
+        <ListPreference
+            android:title="@string/prefs_quick_action_title"
+            android:summary="@string/prefs_quick_action_summary"
+            android:entries="@array/prefs_quick_action_entries"
+            android:entryValues="@array/prefs_quick_action_entry_values"
+            android:defaultValue="@string/prefs_quick_action_entry_value_hide"
+            android:key="@string/prefs_quick_action_key" />
 
-        <!--<SwitchPreference-->
-            <!--android:key="@string/prefs_notch_support_key"-->
-            <!--android:title="@string/prefs_notch_support_title"-->
-            <!--android:summary="@string/prefs_notch_support_summary"-->
-            <!--android:defaultValue="false"/>-->
+        <ListPreference
+            android:title="@string/prefs_icon_shape_title"
+            android:summary="%s"
+            android:entries="@array/prefs_icon_shape_entries"
+            android:entryValues="@array/prefs_icon_shape_entry_values"
+            android:defaultValue="@string/prefs_icon_shape_rounded"
+            android:key="@string/prefs_icon_shape_key"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/prefs_category_other">
+
+        <SwitchPreference
+            android:key="@string/prefs_lockscreen_artwork_key"
+            android:title="@string/prefs_lockscreen_artwork_title"
+            android:summaryOn="@string/prefs_lockscreen_artwork_summary_on"
+            android:summaryOff="@string/prefs_lockscreen_artwork_summary_off"
+            android:defaultValue="false"/>
+
+
+        <Preference
+            android:key="@string/prefs_last_fm_credentials_key"
+            android:title="@string/prefs_last_fm_credentials_title"
+            android:summary="@string/prefs_last_fm_credentials_summary"/>
 
         <ListPreference
             android:title="@string/prefs_auto_download_images_title"
@@ -159,6 +186,10 @@
             android:summaryOff="@string/prefs_auto_create_images_summary_off"
             android:key="@string/prefs_auto_create_images_key"
             android:defaultValue="true" />
+
+        <Preference
+            android:key="@string/prefs_reset_tutorial_key"
+            android:title="@string/prefs_reset_tutorial_title" />
 
         <Preference
             android:title="@string/prefs_delete_cached_images_title"

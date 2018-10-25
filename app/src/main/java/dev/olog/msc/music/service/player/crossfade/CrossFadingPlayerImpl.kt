@@ -1,20 +1,20 @@
 package dev.olog.msc.music.service.player.crossfade
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.media.AudioManager
-import android.support.v4.math.MathUtils
 import android.view.KeyEvent
+import androidx.core.math.MathUtils
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.Lazy
-import dev.olog.msc.BuildConfig
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
-import dev.olog.msc.music.service.model.MediaEntity
+import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.player.DefaultPlayer
 import dev.olog.msc.music.service.player.media.source.ClippedSourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
@@ -27,7 +27,6 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-private var playerCount = 0
 
 class CrossFadePlayerImpl @Inject internal constructor(
         @ApplicationContext context: Context,
@@ -39,6 +38,8 @@ class CrossFadePlayerImpl @Inject internal constructor(
         private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ): DefaultPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
+
+    private var isCurrentSongPodcast = false
 
     private var fadeDisposable : Disposable? = null
 
@@ -57,10 +58,10 @@ class CrossFadePlayerImpl @Inject internal constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ fadeOut(getDuration() - getBookmark()) }, Throwable::printStackTrace)
 
-    private val currentPlayerNumber = playerCount++
 
     init {
         player.addListener(this)
+        player.playbackParameters = PlaybackParameters(1f, 1f, true)
         player.addAudioDebugListener(onAudioSessionIdChangeListener)
     }
 
@@ -73,12 +74,18 @@ class CrossFadePlayerImpl @Inject internal constructor(
         crossFadeDurationDisposable.unsubscribe()
     }
 
+    override fun setPlaybackSpeed(speed: Float) {
+        // skip silence
+        player.playbackParameters = PlaybackParameters(speed, 1f, false)
+    }
+
     override fun play(mediaEntity: Model, hasFocus: Boolean, isTrackEnded: Boolean) {
+        isCurrentSongPodcast = mediaEntity.mediaEntity.isPodcast
         cancelFade()
         val updatedModel = mediaEntity.copy(trackEnded = isTrackEnded, crossFadeTime = crossFadeTime)
         super.play(updatedModel, hasFocus, isTrackEnded)
         //        debug("play, fade in ${isTrackEnded && crossFadeTime > 0}")
-        if (isTrackEnded && crossFadeTime > 0) {
+        if (isTrackEnded && crossFadeTime > 0 && !isCurrentSongPodcast) {
             fadeIn()
         } else {
             restoreDefaultVolume()
@@ -156,6 +163,10 @@ class CrossFadePlayerImpl @Inject internal constructor(
         val (min, max, interval, delta) = CrossFadeInternals(time.toInt(), volume.getVolume())
         player.volume = max
 
+        if (isCurrentSongPodcast){
+            return
+        }
+
         fadeDisposable = Observable.interval(interval, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .takeWhile { player.volume > min }
                 .observeOn(AndroidSchedulers.mainThread())
@@ -173,23 +184,18 @@ class CrossFadePlayerImpl @Inject internal constructor(
         player.volume = volume.getVolume()
     }
 
-    private fun debug(message: String){
-        if (BuildConfig.DEBUG){
-            println("player $currentPlayerNumber, $message")
-        }
-    }
-
     private fun requestNextSong(){
 //      audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_NEXT)
         audioManager.get().dispatchEvent(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD)
     }
 
     data class Model(
-            val mediaEntity: MediaEntity,
+            val playerMediaEntity: PlayerMediaEntity,
             private val trackEnded: Boolean,
             private val crossFadeTime: Int
     ) {
 
+        val mediaEntity = playerMediaEntity.mediaEntity
         val isFlac: Boolean = mediaEntity.path.endsWith(".flac")
         val duration: Long = mediaEntity.duration
         val isCrossFadeOn: Boolean = crossFadeTime > 0

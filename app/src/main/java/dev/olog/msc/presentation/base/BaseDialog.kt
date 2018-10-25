@@ -4,9 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.core.widget.toast
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.act
+import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,13 +23,13 @@ abstract class BaseDialog : BaseDialogFragment() {
                 .setTitle(title(application))
                 .setMessage(message(application))
                 .setNegativeButton(negativeButtonMessage(application), null)
-                .setPositiveButton(positiveButtonMessage(application), { dialog, which ->
+                .setPositiveButton(positiveButtonMessage(application)) { dialog, which ->
                     disposable = positiveAction(dialog, which)
                             .observeOn(AndroidSchedulers.mainThread())
                             .doOnComplete { application.toast(successMessage(application)) }
                             .doOnError { application.toast(failMessage(application)) }
                             .subscribe({}, Throwable::printStackTrace)
-                })
+                }
 
         return builder.show()
     }

@@ -28,8 +28,8 @@ class DetailFragmentModuleAlbum {
             mediaId: MediaId,
             useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
+        return useCase.execute(mediaId)
+                .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
     @Provides
@@ -40,8 +40,8 @@ class DetailFragmentModuleAlbum {
             mediaId: MediaId,
             useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
+        return useCase.execute(mediaId)
+                .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
 
@@ -53,8 +53,8 @@ class DetailFragmentModuleAlbum {
             mediaId: MediaId,
             useCase: GetAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
+        return useCase.execute(mediaId)
+                .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
 
@@ -66,8 +66,8 @@ class DetailFragmentModuleAlbum {
             mediaId: MediaId,
             useCase: GetAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
+        return useCase.execute(mediaId)
+                .mapToList { it.toDetailDisplayableItem(resources) }
     }
 
     @Provides
@@ -78,9 +78,12 @@ class DetailFragmentModuleAlbum {
             mediaId: MediaId,
             useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).mapToList { it.toDetailDisplayableItem(resources) }
-                .onErrorReturnItem(listOf())
+        return useCase.execute(mediaId)
+                .mapToList { it.toDetailDisplayableItem(resources) }
     }
+
+
+
 }
 
 private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {

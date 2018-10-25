@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.about
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -57,13 +57,13 @@ class AboutActivityPresenter @Inject constructor(
     }
 
     fun observeData(): LiveData<List<DisplayableItem>> {
-        return billing.observeTrialPremiumState().withLatestFrom(Observable.just(data), { state, data ->
+        return billing.observeTrialPremiumState().withLatestFrom(Observable.just(data)) { state, data ->
             when {
                 state.isBought -> listOf(alreadyPro).plus(data)
                 state.isTrial -> listOf(trial).plus(data)
                 else -> listOf(noPro).plus(data)
             }
-        }).asLiveData()
+        }.asLiveData()
     }
 
     fun buyPro(){

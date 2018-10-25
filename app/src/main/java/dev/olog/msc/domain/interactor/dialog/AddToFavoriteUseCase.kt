@@ -1,5 +1,6 @@
 package dev.olog.msc.domain.interactor.dialog
 
+import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
@@ -14,19 +15,25 @@ class AddToFavoriteUseCase @Inject constructor(
         private val favoriteGateway: FavoriteGateway,
         private val getSongListByParamUseCase: GetSongListByParamUseCase
 
-) : CompletableUseCaseWithParam<MediaId>(scheduler) {
+) : CompletableUseCaseWithParam<AddToFavoriteUseCase.Input>(scheduler) {
 
-    @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(mediaId: MediaId): Completable {
-
+    override fun buildUseCaseObservable(param: AddToFavoriteUseCase.Input): Completable {
+        val mediaId = param.mediaId
+        val type = param.type
         if (mediaId.isLeaf) {
             val songId = mediaId.leaf!!
-            return favoriteGateway.addSingle(songId)
+            return favoriteGateway.addSingle(type, songId)
         }
 
         return getSongListByParamUseCase.execute(mediaId)
                 .firstOrError()
                 .mapToList { it.id }
-                .flatMapCompletable { favoriteGateway.addGroup(it) }
+                .flatMapCompletable { favoriteGateway.addGroup(type, it) }
     }
+
+    class Input(
+            val mediaId: MediaId,
+            val type: FavoriteType
+    )
+
 }

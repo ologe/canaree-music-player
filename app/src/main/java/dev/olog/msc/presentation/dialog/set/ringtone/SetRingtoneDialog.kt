@@ -65,7 +65,7 @@ class SetRingtoneDialog : BaseDialog() {
     }
 
     private fun generateItemDescription(): String{
-        var title = arguments!!.getString(ARGUMENTS_TITLE)
+        var title = arguments!!.getString(ARGUMENTS_TITLE)!!
         val artist = arguments!!.getString(ARGUMENTS_ARTIST)
         if (artist != AppConstants.UNKNOWN){
             title += " $artist"

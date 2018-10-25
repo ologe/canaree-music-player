@@ -1,12 +1,10 @@
 package dev.olog.msc.data.db
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
-import dev.olog.msc.data.entity.LastFmAlbumEntity
-import dev.olog.msc.data.entity.LastFmArtistEntity
-import dev.olog.msc.data.entity.LastFmTrackEntity
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import dev.olog.msc.data.entity.*
 
 private const val ARTIST_CACHE_TIME = "1 months"
 private const val ALBUM_CACHE_TIME = "2 months"
@@ -59,4 +57,49 @@ abstract class LastFmDao {
     @Query("DELETE FROM last_fm_artist WHERE id = :artistId")
     internal abstract fun deleteArtist(artistId: Long)
 
+    // podcast
+
+    @Query("""
+        SELECT * FROM last_fm_podcast
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$ALBUM_CACHE_TIME') AND date('now')
+    """)
+    internal abstract fun getPodcast(id: Long): LastFmPodcastEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    internal abstract fun insertPodcast(entity: LastFmPodcastEntity): Long
+
+    @Query("DELETE FROM last_fm_podcast WHERE id = :podcastId")
+    internal abstract fun deletePodcast(podcastId: Long)
+
+    // podcast album
+
+    @Query("""
+        SELECT * FROM last_fm_podcast_album
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$ALBUM_CACHE_TIME') AND date('now')
+    """)
+    internal abstract fun getPodcastAlbum(id: Long): LastFmPodcastAlbumEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    internal abstract fun insertPodcastAlbum(entity: LastFmPodcastAlbumEntity): Long
+
+    @Query("DELETE FROM last_fm_podcast_album WHERE id = :albumId")
+    internal abstract fun deletePodcastAlbum(albumId: Long)
+
+
+    // podcast artist
+
+    @Query("""
+        SELECT * FROM last_fm_podcast_artist
+        WHERE id = :id
+        AND added BETWEEN date('now', '-$ARTIST_CACHE_TIME') AND date('now')
+    """)
+    internal abstract fun getPodcastArtist(id: Long): LastFmPodcastArtistEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    internal abstract fun insertPodcastArtist(entity: LastFmPodcastArtistEntity): Long
+
+    @Query("DELETE FROM last_fm_podcast_artist WHERE id = :artistId")
+    internal abstract fun deletePodcastArtist(artistId: Long)
 }

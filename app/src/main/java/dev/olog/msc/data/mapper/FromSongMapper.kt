@@ -28,7 +28,8 @@ fun Song.toAlbum(songCount: Int) : Album {
             this.artist,
             this.albumArtist,
             this.image,
-            songCount
+            songCount,
+            this.hasAlbumNameAsFolder
     )
 }
 
@@ -54,7 +55,7 @@ fun Song.toFakeArtist(songCount: Int, albumsCount: Int) : Artist {
     )
 }
 
-private fun getFakeImage(artistId: Long): String {
+internal fun getFakeImage(artistId: Long): String {
     val safe = clamp(artistId.rem(6), 0L, 6L)
     return Uri.parse("file:///android_asset/people/$safe.jpg").toString()
 }

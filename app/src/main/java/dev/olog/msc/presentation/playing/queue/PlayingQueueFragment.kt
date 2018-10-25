@@ -1,87 +1,51 @@
 package dev.olog.msc.presentation.playing.queue
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
-import dev.olog.msc.constants.MusicConstants
-import dev.olog.msc.presentation.DrawsOnTop
+import dev.olog.msc.catchNothing
+import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
-import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.utils.animation.CircularReveal
-import dev.olog.msc.presentation.utils.animation.HasSafeTransition
-import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject
 
-class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
+class PlayingQueueFragment : BaseFragment() {
 
     companion object {
         const val TAG = "PlayingQueueFragment"
-        private const val ARGUMENT_ICON_POS_X = "$TAG.argument.pos.x"
-        private const val ARGUMENT_ICON_POS_Y = "$TAG.argument.pos.y"
 
         @JvmStatic
-        fun newInstance(icon: View): PlayingQueueFragment {
-            val x = (icon.x + icon.width / 2).toInt()
-            val y = (icon.y + icon.height / 2).toInt()
-            return PlayingQueueFragment().withArguments(
-                    ARGUMENT_ICON_POS_X to x,
-                    ARGUMENT_ICON_POS_Y to y
-            )
+        fun newInstance(): PlayingQueueFragment {
+            return PlayingQueueFragment()
         }
     }
 
-    @Inject lateinit var viewModel : PlayingQueueFragmentViewModel
+    @Inject lateinit var viewModelFactory : ViewModelProvider.Factory
     @Inject lateinit var adapter: PlayingQueueFragmentAdapter
-    @Inject lateinit var safeTransition: SafeTransition
-    private lateinit var layoutManager : LinearLayoutManager
+    @Inject lateinit var navigator: Navigator
+    private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null){
-            val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
-            val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
-            safeTransition.execute(this, CircularReveal(ctx, x, y))
-        }
-    }
+    private val viewModel by lazyFast { act.viewModelProvider<PlayingQueueFragmentViewModel>(viewModelFactory) }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        postponeEnterTransition()
-
-        val mediaProvider = (activity as MediaProvider)
-
-        mediaProvider.onExtrasChanged()
-                .map { it.getInt(MusicConstants.EXTRA_QUEUE_CATEGORY) }
-                .map { MediaIdCategory.values()[it] }
-                .asLiveData()
-                .subscribe(this, header::setText)
-
-        mediaProvider.onQueueTitleChanged()
-                .asLiveData()
-                .subscribe(this, subHeader::setText)
-
-        viewModel.data.subscribe(this, adapter::updateDataSet)
 
         adapter.onFirstEmission {
-            val songId = viewModel.getCurrentSongId()
-            adapter.updateCurrentPosition(songId)
-            layoutManager.scrollToPositionWithOffset(adapter.currentPosition, ctx.dip(20))
-            startPostponedEnterTransition()
+            layoutManager.scrollToPositionWithOffset(viewModel.getCurrentPosition(), ctx.dip(20))
         }
-
-        viewModel.observeCurrentSongId
-                .subscribe(this, adapter::updateCurrentPosition)
     }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = LinearLayoutManager(context!!)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context!!)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
@@ -92,19 +56,28 @@ class PlayingQueueFragment : BaseFragment(), HasSafeTransition, DrawsOnTop {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        viewModel.data.subscribe(viewLifecycleOwner) {
+            adapter.updateDataSet(it)
+            view.emptyStateText.toggleVisibility(it.isEmpty(), true)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        back.setOnClickListener { act.onBackPressed() }
+        more.setOnClickListener { catchNothing { navigator.toMainPopup(it, MediaIdCategory.PLAYING_QUEUE) } }
+        floatingWindow.setOnClickListener { startServiceOrRequestOverlayPermission() }
     }
 
     override fun onPause() {
         super.onPause()
-        back.setOnClickListener(null)
+        more.setOnClickListener(null)
+        floatingWindow.setOnClickListener(null)
     }
 
-    override fun isAnimating(): Boolean = safeTransition.isAnimating
+    private fun startServiceOrRequestOverlayPermission(){
+        FloatingWindowHelper.startServiceOrRequestOverlayPermission(activity!!)
+    }
 
     override fun provideLayoutId(): Int = R.layout.fragment_playing_queue
 

@@ -7,7 +7,7 @@
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp">
@@ -36,6 +36,6 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="@dimen/detail_header_margin_end" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

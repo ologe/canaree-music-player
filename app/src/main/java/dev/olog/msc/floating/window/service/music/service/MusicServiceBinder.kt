@@ -1,8 +1,5 @@
 package dev.olog.msc.floating.window.service.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.ComponentName
 import android.content.Context
 import android.os.RemoteException
@@ -11,25 +8,26 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dev.olog.msc.constants.AppConstants
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.music.service.MusicServiceConnectionState
-import dev.olog.msc.presentation.widget.image.view.toPlayerImage
+import dev.olog.msc.presentation.widget.image.view.player.toPlayerImage
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 @PerService
 class MusicServiceBinder @Inject constructor(
         @ApplicationContext private val context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        musicPrefsUseCase: MusicPreferencesUseCase
+        @ServiceLifecycle lifecycle: Lifecycle
 
 ) : DefaultLifecycleObserver {
 
@@ -92,6 +90,10 @@ class MusicServiceBinder @Inject constructor(
         callback.onQueueChanged(mediaController.queue)
     }
 
+    fun onStateChanged(): Observable<PlaybackStateCompat> {
+        return statePublisher.observeOn(Schedulers.computation())
+    }
+
     fun next(){
         mediaController?.transportControls?.skipToNext()
     }
@@ -127,15 +129,6 @@ class MusicServiceBinder @Inject constructor(
             .filter { it.isPlaying() || it.isPaused() }
             .map { it.state }
             .distinctUntilChanged()
-            .skip(1)
-
-    val skipToNextVisibility = musicPrefsUseCase.observeSkipToNextVisibility()
-    val skipToPreviousVisibility = musicPrefsUseCase.observeSkipToPreviousVisibility()
-
-    val animateSkipToLiveData: Observable<Boolean> = statePublisher
-            .map { it.state }
-            .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT || state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
-            .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
 
     val onBookmarkChangedLiveData: Observable<Long> = statePublisher
             .filter { it.isPlaying() || it.isPaused() }
@@ -143,8 +136,9 @@ class MusicServiceBinder @Inject constructor(
 
     val onMetadataChanged : Observable<MusicServiceMetadata> = metadataPublisher
             .map { MusicServiceMetadata(it.getId(), it.getTitle().toString(),
-                    it.getArtist().toString(), it.toPlayerImage(), it.getDuration())
-            }
+                    it.getArtist().toString(), it.toPlayerImage(), it.getDuration(),
+                    it.isPodcast()
+            ) }
 
     val onMaxChangedLiveData: Observable<Long> = metadataPublisher
             .map { it.getDuration() }

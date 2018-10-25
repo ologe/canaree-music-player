@@ -1,17 +1,19 @@
 package dev.olog.msc.presentation.player
 
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
-import android.support.v4.math.MathUtils
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.math.MathUtils
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
@@ -21,6 +23,8 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.isMarshmallow
@@ -41,10 +45,11 @@ import kotlin.math.abs
 
 class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
-    @Inject lateinit var viewModel: PlayerFragmentViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<PlayerFragmentViewModel>(viewModelFactory) }
     @Inject lateinit var presenter: PlayerFragmentPresenter
     @Inject lateinit var navigator: Navigator
-    @Inject lateinit var adapter : PlayerFragmentAdapter
+
     private lateinit var layoutManager : LinearLayoutManager
 
     private lateinit var mediaProvider : MediaProvider
@@ -54,6 +59,9 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     private var lyricsDisposable: Disposable? = null
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        val adapter = PlayerFragmentAdapter(lifecycle, activity as MediaProvider,
+                navigator, viewModel, presenter)
+
         layoutManager = LinearLayoutManager(context)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
@@ -66,7 +74,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         val statusBarAlpha = if (!isMarshmallow()) 1f else 0f
         view.statusBar?.alpha = statusBarAlpha
 
-        if (isPortrait() && AppTheme.isBigImage()){
+        if (isPortrait() && AppTheme.isBigImageTheme()){
             val set = ConstraintSet()
             set.clone(view as ConstraintLayout)
             set.connect(view.list.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
@@ -79,12 +87,16 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                 .distinctUntilChanged()
                 .mapToList { it.toDisplayableItem() }
                 .map { queue ->
-                    val copy = queue.toMutableList()
-                    if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
-                        copy.add(viewModel.footerLoadMore)
+                    if (!AppTheme.isMiniTheme()){
+                        val copy = queue.toMutableList()
+                        if (copy.size > PlaylistConstants.MINI_QUEUE_SIZE - 1){
+                            copy.add(viewModel.footerLoadMore)
+                        }
+                        copy.add(0, viewModel.playerControls())
+                        copy
+                    } else {
+                        listOf(viewModel.playerControls())
                     }
-                    copy.add(0, viewModel.playerControls())
-                    copy
                 }
                 .asLiveData()
                 .subscribe(viewLifecycleOwner, viewModel::updateQueue)
@@ -97,10 +109,14 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                 .subscribe(viewLifecycleOwner) {
                     val bookmark = it.extractBookmark()
                     viewModel.updateProgress(bookmark)
-                    handleSeekBar(bookmark, it.state == PlaybackStateCompat.STATE_PLAYING)
+                    handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
                 }
 
-        if (act.isLandscape && !AppTheme.isFullscreen()){
+        if (AppConstants.IMAGE_SHAPE == AppConstants.ImageShape.RECTANGLE){
+            view.coverWrapper?.radius = 0f
+        }
+
+        if (act.isLandscape && !AppTheme.isFullscreenTheme() && !AppTheme.isMiniTheme()){
 
             mediaProvider.onMetadataChanged()
                     .asLiveData()
@@ -108,7 +124,16 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
             mediaProvider.onStateChanged()
                     .asLiveData()
-                    .subscribe(viewLifecycleOwner) { bigCover?.toggleElevation(it) }
+                    .subscribe(viewLifecycleOwner) { state ->
+                        if (state.isPlaying() || state.isPaused()){
+                            if (AppTheme.isCleanTheme()){
+                                bigCover?.isActivated = state.isPlaying()
+                            } else {
+                                coverWrapper?.isActivated = state.isPlaying()
+                            }
+
+                        }
+                    }
 
             mediaProvider.onRepeatModeChanged()
                     .asLiveData()
@@ -170,6 +195,21 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
             viewModel.skipToPreviousVisibility.asLiveData()
                     .subscribe(viewLifecycleOwner) { previous?.updateVisibility(it) }
+
+            view.bigCover?.observeProcessorColors()
+                    ?.asLiveData()
+                    ?.subscribe(viewLifecycleOwner, viewModel::updateProcessorColors)
+            view.bigCover?.observePaletteColors()
+                    ?.asLiveData()
+                    ?.subscribe(viewLifecycleOwner, viewModel::updatePaletteColors)
+
+            viewModel.observePaletteColors()
+                    .map { it.accent }
+                    .asLiveData()
+                    .subscribe(viewLifecycleOwner) { accent ->
+                        shuffle.updateSelectedColor(accent)
+                        repeat.updateSelectedColor(accent)
+                    }
         }
     }
 
@@ -191,12 +231,12 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         playPause.animationPause(getSlidingPanel().isExpanded() && animate)
     }
 
-    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean){
+    private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float){
         seekBarDisposable.unsubscribe()
 
         if (isPlaying){
             seekBarDisposable = Observable.interval(PROGRESS_BAR_INTERVAL.toLong(), TimeUnit.MILLISECONDS, Schedulers.computation())
-                    .map { (it + 1) * PROGRESS_BAR_INTERVAL + bookmark }
+                    .map { (it + 1) * PROGRESS_BAR_INTERVAL * speed + bookmark }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ viewModel.updateProgress(it.toInt()) }, Throwable::printStackTrace)
         }
@@ -281,8 +321,11 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
     }
 
     override fun provideLayoutId(): Int {
-        return if(AppTheme.isFullscreen()){
-            R.layout.fragment_player_fullscreen
-        } else R.layout.fragment_player
+        return when {
+            AppTheme.isFullscreenTheme() -> R.layout.fragment_player_fullscreen
+            AppTheme.isCleanTheme() -> R.layout.fragment_player_clean
+            AppTheme.isMiniTheme() -> R.layout.fragment_player_mini
+            else -> R.layout.fragment_player
+        }
     }
 }

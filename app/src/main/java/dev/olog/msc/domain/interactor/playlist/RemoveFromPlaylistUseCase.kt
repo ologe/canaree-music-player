@@ -1,20 +1,32 @@
 package dev.olog.msc.domain.interactor.playlist
 
+import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.PlaylistGateway
+import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class RemoveFromPlaylistUseCase @Inject constructor(
         scheduler: IoScheduler,
-        private val gateway: PlaylistGateway
+        private val playlistGateway: PlaylistGateway,
+        private val podcastGateway: PodcastPlaylistGateway
 
-): CompletableUseCaseWithParam<Pair<Long, Long>>(scheduler) {
+): CompletableUseCaseWithParam<RemoveFromPlaylistUseCase.Input>(scheduler) {
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
-    override fun buildUseCaseObservable(pair: Pair<Long, Long>): Completable {
-        val (playlistId, idInPlaylist) = pair
-        return gateway.removeFromPlaylist(playlistId, idInPlaylist)
+    override fun buildUseCaseObservable(input: Input): Completable {
+        if (input.type == PlaylistType.PODCAST){
+            return podcastGateway.removeSongFromPlaylist(input.playlistId, input.idInPlaylist)
+        }
+        return playlistGateway.removeFromPlaylist(input.playlistId, input.idInPlaylist)
     }
+
+    class Input(
+            val playlistId: Long,
+            val idInPlaylist: Long,
+            val type: PlaylistType
+    )
+
 }

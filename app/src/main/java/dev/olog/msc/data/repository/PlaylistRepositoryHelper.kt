@@ -1,14 +1,16 @@
 package dev.olog.msc.data.repository
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.Context
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.database.getLong
 import dev.olog.msc.constants.PlaylistConstants
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
+import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.gateway.FavoriteGateway
+import dev.olog.msc.utils.getLong
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -17,7 +19,7 @@ import javax.inject.Inject
 private val MEDIA_STORE_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
 
 class PlaylistRepositoryHelper @Inject constructor(
-        private val contentResolver: ContentResolver,
+        @ApplicationContext private val context: Context,
         appDatabase: AppDatabase,
         private val favoriteGateway: FavoriteGateway
 
@@ -35,7 +37,7 @@ class PlaylistRepositoryHelper @Inject constructor(
             contentValues.put(MediaStore.Audio.Playlists.DATE_MODIFIED, added)
 
             try {
-                val uri = contentResolver.insert(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, contentValues)
+                val uri = context.contentResolver.insert(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, contentValues)
 
                 e.onSuccess(ContentUris.parseId(uri))
 
@@ -47,10 +49,10 @@ class PlaylistRepositoryHelper @Inject constructor(
 
     fun addSongsToPlaylist(playlistId: Long, songIds: List<Long>) {
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-        val cursor = contentResolver.query(uri, arrayOf("max(${MediaStore.Audio.Playlists.Members.PLAY_ORDER})"),
+        val cursor = context.contentResolver.query(uri, arrayOf("max(${MediaStore.Audio.Playlists.Members.PLAY_ORDER})"),
                 null, null, null)
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             var maxId = cursor.getInt(0) + 1
 
             val arrayOf = mutableListOf<ContentValues>()
@@ -61,28 +63,28 @@ class PlaylistRepositoryHelper @Inject constructor(
                 arrayOf.add(values)
             }
 
-            contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
-            contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
+            context.contentResolver.bulkInsert(uri, arrayOf.toTypedArray())
+            context.contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
         }
-        cursor.close()
+        cursor?.close()
     }
 
     fun deletePlaylist(playlistId: Long): Completable {
         return Completable.fromCallable{
-            contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
+            context.contentResolver.delete(MEDIA_STORE_URI, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
         }
     }
 
     fun clearPlaylist(playlistId: Long): Completable {
         if (PlaylistConstants.isAutoPlaylist(playlistId)){
             when (playlistId){
-                PlaylistConstants.FAVORITE_LIST_ID -> return favoriteGateway.deleteAll()
+                PlaylistConstants.FAVORITE_LIST_ID -> return favoriteGateway.deleteAll(FavoriteType.TRACK)
                 PlaylistConstants.HISTORY_LIST_ID -> return Completable.fromCallable { historyDao.deleteAll() }
             }
         }
         return Completable.fromCallable {
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-            contentResolver.delete(uri, null, null)
+            context.contentResolver.delete(uri, null, null)
         }
     }
 
@@ -92,13 +94,13 @@ class PlaylistRepositoryHelper @Inject constructor(
         }
         return Completable.fromCallable {
             val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-            contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
+            context.contentResolver.delete(uri, "${MediaStore.Audio.Playlists.Members._ID} = ?", arrayOf("$idInPlaylist"))
         }
     }
 
     private fun removeFromAutoPlaylist(playlistId: Long, songId: Long): Completable {
         return when(playlistId){
-            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(songId)
+            PlaylistConstants.FAVORITE_LIST_ID -> favoriteGateway.deleteSingle(FavoriteType.TRACK, songId)
             PlaylistConstants.HISTORY_LIST_ID -> Completable.fromCallable { historyDao.deleteSingle(songId) }
             else -> throw IllegalArgumentException("invalid auto playlist id: $playlistId")
         }
@@ -110,7 +112,7 @@ class PlaylistRepositoryHelper @Inject constructor(
             val values = ContentValues(1)
             values.put(MediaStore.Audio.Playlists.NAME, newTitle)
 
-            val rowsUpdated = contentResolver.update(MEDIA_STORE_URI,
+            val rowsUpdated = context.contentResolver.update(MEDIA_STORE_URI,
                     values, "${BaseColumns._ID} = ?", arrayOf("$playlistId"))
 
             if (rowsUpdated > 0){
@@ -123,25 +125,25 @@ class PlaylistRepositoryHelper @Inject constructor(
     }
 
     fun moveItem(playlistId: Long, from: Int, to: Int): Boolean {
-        return MediaStore.Audio.Playlists.Members.moveItem(contentResolver, playlistId, from, to)
+        return MediaStore.Audio.Playlists.Members.moveItem(context.contentResolver, playlistId, from, to)
     }
 
     fun removeDuplicated(playlistId: Long) {
         val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId)
-        val cursor = contentResolver.query(uri, arrayOf(
+        val cursor = context.contentResolver.query(uri, arrayOf(
                     MediaStore.Audio.Playlists.Members._ID,
                     MediaStore.Audio.Playlists.Members.AUDIO_ID
                 ), null, null, MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER)
 
         val distinctTrackIds = mutableSetOf<Long>()
 
-        while (cursor.moveToNext()){
+        while (cursor != null && cursor.moveToNext()){
             val trackId = cursor.getLong(MediaStore.Audio.Playlists.Members.AUDIO_ID)
             distinctTrackIds.add(trackId)
         }
-        cursor.close()
+        cursor?.close()
 
-        contentResolver.delete(uri, null, null)
+        context.contentResolver.delete(uri, null, null)
         addSongsToPlaylist(playlistId, distinctTrackIds.toList())
     }
 

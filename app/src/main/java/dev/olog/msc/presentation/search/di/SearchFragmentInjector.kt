@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.search.di
 
-import android.support.v4.app.Fragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -16,6 +15,6 @@ abstract class SearchFragmentInjector {
     @IntoMap
     @FragmentKey(SearchFragment::class)
     internal abstract fun injectorFactory(builder: SearchFragmentSubComponent.Builder)
-            : AndroidInjector.Factory<out Fragment>
+            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 
 }

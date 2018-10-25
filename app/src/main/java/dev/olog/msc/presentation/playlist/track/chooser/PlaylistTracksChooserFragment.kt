@@ -2,23 +2,24 @@ package dev.olog.msc.presentation.playlist.track.chooser
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
+import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.library.categories.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
-import dev.olog.msc.presentation.utils.animation.CircularReveal
-import dev.olog.msc.presentation.utils.animation.HasSafeTransition
-import dev.olog.msc.presentation.utils.animation.SafeTransition
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
@@ -31,47 +32,27 @@ import kotlinx.android.synthetic.main.fragment_playlist_track_chooser.view.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
+class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
 
     companion object {
         const val TAG = "PlaylistTracksChooserFragment"
-        private const val ARGUMENT_ICON_POS_X = "$TAG.argument.pos.x"
-        private const val ARGUMENT_ICON_POS_Y = "$TAG.argument.pos.y"
+        const val ARGUMENT_PLAYLIST_TYPE = "$TAG.argument.playlist_type"
 
         @JvmStatic
-        fun newInstance(icon: View): PlaylistTracksChooserFragment {
-            val x = (icon.x + icon.width / 2).toInt()
-            val y = (icon.y + icon.height / 2).toInt()
+        fun newInstance(type: PlaylistType): PlaylistTracksChooserFragment {
             return PlaylistTracksChooserFragment().withArguments(
-                    ARGUMENT_ICON_POS_X to x,
-                    ARGUMENT_ICON_POS_Y to y
+                    ARGUMENT_PLAYLIST_TYPE to type.ordinal
             )
         }
     }
 
-    @Inject lateinit var viewModel : PlaylistTracksChooserFragmentViewModel
-    @Inject lateinit var adapter: PlaylistTracksChooserFragmentAdapter
-    @Inject lateinit var safeTransition: SafeTransition
+    @Inject lateinit var viewModelFactory : ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<PlaylistTracksChooserFragmentViewModel>(viewModelFactory) }
+    private val adapter by lazyFast { PlaylistTracksChooserFragmentAdapter(lifecycle, viewModel) }
 
     private var toast: Toast? = null
 
     private var errorDisposable : Disposable? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null){
-            val x = arguments!!.getInt(ARGUMENT_ICON_POS_X)
-            val y = arguments!!.getInt(ARGUMENT_ICON_POS_Y)
-            safeTransition.execute(this, CircularReveal(ctx, x, y, onAppearFinished = {
-                val fragmentManager = activity?.supportFragmentManager
-
-                act.fragmentTransaction {
-                    fragmentManager?.findFragmentByTag(CategoriesFragment.TAG)?.let { hide(it) }
-                    setReorderingAllowed(true)
-                }
-            }))
-        }
-    }
 
     override fun onDetach() {
         val fragmentManager = activity?.supportFragmentManager
@@ -82,33 +63,23 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
         super.onDetach()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        postponeEnterTransition()
-
-        adapter.onFirstEmission {
-            startPostponedEnterTransition()
-        }
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        view.list.adapter = adapter
+        view.list.setHasFixedSize(true)
 
         viewModel.observeSelectedCount()
-                .subscribe(this) { size ->
+                .subscribe(viewLifecycleOwner) { size ->
                     val text = when (size){
                         0 -> getString(R.string.playlist_tracks_chooser_no_tracks)
                         else -> resources.getQuantityString(R.plurals.playlist_tracks_chooser_count, size, size)
                     }
                     header.text = text
-
                     save.toggleVisibility(size > 0, true)
                 }
-    }
-
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        view.list.layoutManager = LinearLayoutManager(context)
-        view.list.adapter = adapter
-        view.list.setHasFixedSize(true)
 
         viewModel.getAllSongs(filter(view))
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     adapter.updateDataSet(it)
                     view.sidebar.onDataChanged(it)
                 }
@@ -119,18 +90,18 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
         RxView.clicks(view.back)
                 .asLiveData()
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     ImeUtils.hideIme(filter)
                     act.onBackPressed()
                 }
 
         RxView.clicks(view.save)
                 .asLiveData()
-                .subscribe(this) { showCreateDialog() }
+                .subscribe(viewLifecycleOwner) { showCreateDialog() }
 
         RxView.clicks(view.filterList)
                 .asLiveData()
-                .subscribe(this) {
+                .subscribe(viewLifecycleOwner) {
                     view.filterList.toggleSelected()
                     viewModel.toggleShowOnlyFiltered()
 
@@ -142,6 +113,13 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
                         toast = act.toast(R.string.playlist_tracks_chooser_show_all)
                     }
 
+                }
+
+        RxTextView.afterTextChangeEvents(view.filter)
+                .map { it.view().text.isBlank() }
+                .asLiveData()
+                .subscribe(viewLifecycleOwner) { isEmpty ->
+                    view.clear.toggleVisibility(!isEmpty, true)
                 }
 
         view.sidebar.scrollableLayoutId = R.layout.item_choose_track
@@ -175,7 +153,6 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
             val editTextString = editText.text.toString()
-
             when {
                 editTextString.isBlank() -> showError(editTextLayout, R.string.popup_playlist_name_not_valid)
                 else -> {
@@ -229,12 +206,10 @@ class PlaylistTracksChooserFragment : BaseFragment(), HasSafeTransition {
             }
         }
         if (position != -1){
-            val layoutManager = list.layoutManager as LinearLayoutManager
+            val layoutManager = list.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
             layoutManager.scrollToPositionWithOffset(position, 0)
         }
     }
-
-    override fun isAnimating(): Boolean = safeTransition.isAnimating
 
     override fun provideLayoutId(): Int = R.layout.fragment_playlist_track_chooser
 }

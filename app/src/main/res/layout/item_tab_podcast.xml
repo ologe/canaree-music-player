@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingStart="@dimen/tab_margin_start"
+        android:paddingEnd="@dimen/tab_margin_end">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <dev.olog.msc.presentation.widget.image.view.ShapeImageView
+                android:id="@+id/cover"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="@dimen/item_song_cover_size"
+                android:layout_height="@dimen/item_song_cover_size"
+                tools:src="@drawable/placeholder_folder"
+                app:imageSong="@{item}"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="@dimen/item_song_cover_margin_vertical"
+                android:layout_marginBottom="@dimen/item_song_cover_margin_vertical"/>
+
+            <TextView
+                android:id="@+id/firstText"
+                app:layout_constraintTop_toTopOf="@+id/cover"
+                app:layout_constraintStart_toEndOf="@+id/cover"
+                app:layout_constraintBottom_toTopOf="@+id/secondText"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{item.title}"
+                tools:text="@tools:sample/lorem"
+                style="@style/Song.MainText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"/>
+
+            <TextView
+                android:id="@+id/secondText"
+                app:layout_constraintStart_toEndOf="@id/cover"
+                app:layout_constraintTop_toBottomOf="@+id/firstText"
+                app:layout_constraintEnd_toStartOf="@+id/duration"
+                app:layout_constraintBottom_toBottomOf="@+id/cover"
+                android:text="@{item.subtitle}"
+                tools:text="@tools:sample/lorem"
+                style="@style/Song.SecondaryText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/duration"
+                app:layout_constraintTop_toBottomOf="@+id/firstText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/cover"
+                android:text="@{item.trackNumber}"
+                tools:text="56m"
+                style="@style/Song.SecondaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="4dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:textColor="?colorAccent"
+                android:textStyle="bold"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>

@@ -1,8 +1,8 @@
 package dev.olog.msc.data.entity
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(tableName ="last_played_artists",
         indices = [(Index("id"))]
@@ -16,6 +16,22 @@ data class LastPlayedArtistEntity(
         indices = [(Index("id"))]
 )
 data class LastPlayedAlbumEntity(
+        @PrimaryKey var id: Long,
+        var dateAdded: Long = System.currentTimeMillis()
+)
+
+@Entity(tableName = "last_played_podcast_albums",
+        indices = [(Index("id"))]
+)
+data class LastPlayedPodcastAlbumEntity(
+        @PrimaryKey var id: Long,
+        var dateAdded: Long = System.currentTimeMillis()
+)
+
+@Entity(tableName = "last_played_podcast_artists",
+        indices = [(Index("id"))]
+)
+data class LastPlayedPodcastArtistEntity(
         @PrimaryKey var id: Long,
         var dateAdded: Long = System.currentTimeMillis()
 )

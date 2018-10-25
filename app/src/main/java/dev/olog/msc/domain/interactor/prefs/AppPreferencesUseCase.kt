@@ -1,14 +1,13 @@
 package dev.olog.msc.domain.interactor.prefs
 
-import dev.olog.msc.domain.entity.GridSpanSize
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.LibrarySortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.utils.MediaIdCategory
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,6 +21,7 @@ class AppPreferencesUseCase @Inject constructor(
     fun getLibraryCategories() : List<LibraryCategoryBehavior> {
         return gateway.getLibraryCategories()
     }
+
     fun getDefaultLibraryCategories() : List<LibraryCategoryBehavior> {
         return gateway.getDefaultLibraryCategories()
     }
@@ -29,9 +29,35 @@ class AppPreferencesUseCase @Inject constructor(
         gateway.setLibraryCategories(behavior)
     }
 
-    fun getViewPagerLastVisitedPage(): Int = gateway.getViewPagerLastVisitedPage()
+    fun isAdaptiveColorEnabled(): Boolean = gateway.isAdaptiveColorEnabled()
+
+    fun getPodcastLibraryCategories() : List<LibraryCategoryBehavior> {
+        return gateway.getPodcastLibraryCategories()
+    }
+
+    fun getLastBottomViewPage(): Int {
+        return gateway.getLastBottomViewPage()
+    }
+
+    fun setLastBottomViewPage(page: Int) {
+        gateway.setLastBottomViewPage(page)
+    }
+
+    fun getDefaultPodcastLibraryCategories() : List<LibraryCategoryBehavior>{
+        return gateway.getDefaultPodcastLibraryCategories()
+    }
+    fun setPodcastLibraryCategories(behavior: List<LibraryCategoryBehavior>){
+        gateway.setPodcastLibraryCategories(behavior)
+    }
+
+    fun getViewPagerLibraryLastPage(): Int = gateway.getViewPagerLibraryLastPage()
     fun setViewPagerLastVisitedPage(lastPage: Int) {
-        gateway.setViewPagerLastVisitedPage(lastPage)
+        gateway.setViewPagerLibraryLastPage(lastPage)
+    }
+
+    fun getViewPagerPodcastLastPage(): Int = gateway.getViewPagerPodcastLastPage()
+    fun setViewPagerPodcastLastPage(lastPage: Int){
+        gateway.setViewPagerPodcastLastPage(lastPage)
     }
 
     fun getBlackList(): Set<String> {
@@ -76,19 +102,17 @@ class AppPreferencesUseCase @Inject constructor(
         return gateway.getAllArtistsSortOrder()
     }
 
-    fun setAlbumSpanSize(category: MediaIdCategory, spanSize: Int){
-        when (category){
-            MediaIdCategory.ALBUMS -> gateway.setAlbumSpanSize(spanSize)
-        }
+    fun observeDefaultMusicFolder(): Observable<File> = gateway.observeDefaultMusicFolder()
+    fun getDefaultMusicFolder(): File = gateway.getDefaultMusicFolder()
+    fun setDefaultMusicFolder(file: File) {
+        gateway.setDefaultMusicFolder(file)
     }
 
-    fun observeSpanSize(category: MediaIdCategory): Observable<GridSpanSize> {
-        return when (category) {
-            MediaIdCategory.ALBUMS -> gateway.observeAlbumSpanSize()
-            else -> Observable.empty()
+    fun observeLibraryNewVisibility(): Observable<Boolean> = gateway.observeLibraryNewVisibility()
+    fun observeLibraryRecentPlayedVisibility(): Observable<Boolean> = gateway.observeLibraryRecentPlayedVisibility()
 
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+    fun canShowPodcastCategory(): Boolean {
+        return gateway.canShowPodcastCategory()
     }
 
 }

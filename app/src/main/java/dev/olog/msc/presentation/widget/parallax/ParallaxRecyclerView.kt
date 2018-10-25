@@ -1,9 +1,6 @@
 package dev.olog.msc.presentation.widget.parallax
 
 import android.content.Context
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import dev.olog.msc.R
@@ -12,7 +9,7 @@ class ParallaxRecyclerView(
         context: Context,
         attrs: AttributeSet? = null
 
-) : RecyclerView(context, attrs) {
+) : androidx.recyclerview.widget.RecyclerView(context, attrs) {
 
 
     override fun onAttachedToWindow() {
@@ -27,9 +24,9 @@ class ParallaxRecyclerView(
         removeOnScrollListener(parallaxScrollListener)
     }
 
-    private val parallaxScrollListener = object : RecyclerView.OnScrollListener() {
+    private val parallaxScrollListener = object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
 
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
             if (!isInEditMode){
                 val firstVisible = findFirstVisibleItemPosition()
                 if (firstVisible > 0) return
@@ -37,8 +34,9 @@ class ParallaxRecyclerView(
                 val viewHolder = recyclerView.findViewHolderForAdapterPosition(firstVisible)
                 if (viewHolder != null){
                     val img = viewHolder.itemView.findViewById<View>(R.id.cover)
+                    val textWrapper = viewHolder.itemView.findViewById<View>(R.id.textWrapper)
                     if (img != null && img is ParallaxImageView){
-                        img.translateY(viewHolder.itemView)
+                        img.translateY(viewHolder.itemView, textWrapper)
                     }
                 }
             }
@@ -48,8 +46,8 @@ class ParallaxRecyclerView(
     private fun findFirstVisibleItemPosition(): Int{
         val layoutManager = layoutManager
         return when (layoutManager){
-            is LinearLayoutManager -> layoutManager.findFirstVisibleItemPosition()
-            is GridLayoutManager -> layoutManager.findFirstVisibleItemPosition()
+            is androidx.recyclerview.widget.LinearLayoutManager -> layoutManager.findFirstVisibleItemPosition()
+            is androidx.recyclerview.widget.GridLayoutManager -> layoutManager.findFirstVisibleItemPosition()
             else -> throw IllegalArgumentException("invalid layout manager class ${layoutManager!!::class}")
         }
     }

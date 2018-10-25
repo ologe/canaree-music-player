@@ -1,19 +1,25 @@
 package dev.olog.msc.presentation.edit.album
 
-import android.arch.lifecycle.Observer
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.edit.BaseEditItemFragment
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.edit.UpdateAlbumInfo
 import dev.olog.msc.presentation.edit.UpdateResult
 import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_album.*
+import kotlinx.android.synthetic.main.fragment_edit_album.view.*
 import javax.inject.Inject
 
 class EditAlbumFragment : BaseEditItemFragment() {
@@ -29,27 +35,27 @@ class EditAlbumFragment : BaseEditItemFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: EditAlbumFragmentViewModel
-    @Inject lateinit var editItemViewModel: EditItemViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel by lazyFast { viewModelProvider<EditAlbumFragmentViewModel>(viewModelFactory) }
+    private val editItemViewModel by lazyFast { activity!!.viewModelProvider<EditItemViewModel>(viewModelFactory) }
     @Inject lateinit var mediaId: MediaId
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        RxTextView.afterTextChangeEvents(album)
+    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+        RxTextView.afterTextChangeEvents(view.album)
                 .map { it.view().text.toString() }
                 .map { it.isNotBlank() }
                 .asLiveData()
-                .subscribe(this, okButton::setEnabled)
+                .subscribe(viewLifecycleOwner, view.okButton::setEnabled)
 
         viewModel.observeSongList()
-                .subscribe(this, {
+                .subscribe(viewLifecycleOwner) {
                     val size = it.size
                     val text = resources.getQuantityString(
                             R.plurals.edit_item_xx_tracks_will_be_updated, size, size)
                     albumsUpdated.text =  text
-                })
+                }
 
-        viewModel.observeData().observe(this, Observer {
+        viewModel.observeData().observe(viewLifecycleOwner, Observer {
             when (it){
                 null -> ctx.toast(R.string.edit_song_info_not_found)
                 else -> {
@@ -80,14 +86,14 @@ class EditAlbumFragment : BaseEditItemFragment() {
             ))
 
             when (result){
-                UpdateResult.OK -> act.onBackPressed()
+                UpdateResult.OK -> dismiss()
                 UpdateResult.EMPTY_TITLE -> ctx.toast(R.string.edit_song_invalid_title)
                 UpdateResult.ILLEGAL_YEAR -> ctx.toast(R.string.edit_song_invalid_year)
                 UpdateResult.ILLEGAL_DISC_NUMBER,
                 UpdateResult.ILLEGAL_TRACK_NUMBER -> {}
             }
         }
-        cancelButton.setOnClickListener { act.onBackPressed() }
+        cancelButton.setOnClickListener { dismiss() }
         picker.setOnClickListener { changeImage() }
     }
 
@@ -106,6 +112,10 @@ class EditAlbumFragment : BaseEditItemFragment() {
 
     override fun onImagePicked(uri: Uri) {
         viewModel.updateImage(uri.toString())
+    }
+
+    override fun noImage() {
+        viewModel.updateImage(AppConstants.NO_IMAGE)
     }
 
     override fun onLoaderCancelled() {

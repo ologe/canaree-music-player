@@ -4,14 +4,15 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.utils.k.extension.asLiveData
+import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.msc.utils.k.extension.subscribe
+import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
 class BlacklistFragment : BaseDialogFragment() {
@@ -26,6 +27,7 @@ class BlacklistFragment : BaseDialogFragment() {
 
     @Inject lateinit var presenter: BlacklistFragmentPresenter
     private lateinit var adapter : BlacklistFragmentAdapter
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -44,10 +46,10 @@ class BlacklistFragment : BaseDialogFragment() {
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_save, null)
 
-        val list = view.findViewById<RecyclerView>(R.id.list)
+        val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list)
         adapter = BlacklistFragmentAdapter()
         list.adapter = adapter
-        list.layoutManager = GridLayoutManager(context, 3)
+        list.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
 
         val dialog = builder.show()
 

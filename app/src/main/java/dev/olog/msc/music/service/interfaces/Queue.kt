@@ -1,5 +1,6 @@
 package dev.olog.msc.music.service.interfaces
 
+import android.net.Uri
 import android.os.Bundle
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
@@ -12,11 +13,11 @@ interface Queue {
 
     fun getCurrentPositionInQueue(): PositionInQueue
 
-    fun prepare(): Single<Pair<PlayerMediaEntity, Long>>
+    fun prepare(): Single<PlayerMediaEntity>
 
-    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity
+    fun handleSkipToNext(trackEnded: Boolean): PlayerMediaEntity?
 
-    fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity
+    fun handleSkipToPrevious(playerBookmark: Long): PlayerMediaEntity?
 
     fun handlePlayFromMediaId(mediaId: MediaId, extras: Bundle?): Single<PlayerMediaEntity>
 
@@ -32,11 +33,15 @@ interface Queue {
 
     fun handlePlayFromGoogleSearch(query: String, extras: Bundle): Single<PlayerMediaEntity>
 
+    fun handlePlayFromUri(uri: Uri): Single<PlayerMediaEntity>
+
+    fun getPlayingSong(): PlayerMediaEntity
+
     fun handleSwap(extras: Bundle)
     fun handleSwapRelative(extras: Bundle)
 
-    fun handleRemove(extras: Bundle)
-    fun handleRemoveRelative(extras: Bundle)
+    fun handleRemove(extras: Bundle): Boolean
+    fun handleRemoveRelative(extras: Bundle): Boolean
 
     fun sort()
 
@@ -44,9 +49,11 @@ interface Queue {
 
     fun onRepeatModeChanged()
 
-    fun playLater(songIds: List<Long>) : PositionInQueue
+    fun playLater(songIds: List<Long>, isPodcast: Boolean) : PositionInQueue
 
-    fun playNext(songIds: List<Long>) : PositionInQueue
-    fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
+    fun playNext(songIds: List<Long>, isPodcast: Boolean) : PositionInQueue
+//    fun moveToPlayNext(idInPlaylist: Int) : PositionInQueue
+
+    fun updatePodcastPosition(position: Long)
 
 }

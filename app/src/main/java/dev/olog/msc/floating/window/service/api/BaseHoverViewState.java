@@ -15,8 +15,9 @@
  */
 package dev.olog.msc.floating.window.service.api;
 
-import android.support.annotation.NonNull;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
 
 /**
  * {@link HoverViewState} that includes behavior common to all implementations.

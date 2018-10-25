@@ -16,7 +16,6 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.Singles
 import java.io.InputStream
-import java.lang.Exception
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
@@ -73,7 +72,7 @@ abstract class BaseRxDataFetcher(
                         callback.onLoadFailed(NoSuchElementException())
                     }
                 }, {
-                    it.printStackTrace()
+//                    it.printStackTrace() TODO is needed?
                     callback.onLoadFailed(it as Exception)
                 })
     }
@@ -93,7 +92,7 @@ abstract class BaseRxDataFetcher(
     }
 
     private fun networkSafeAction(action: () -> Unit){
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val downloadMode = prefs.getString(context.getString(R.string.prefs_auto_download_images_key), context.getString(R.string.prefs_auto_download_images_entry_value_wifi))
 
         val isWifiActive = NetworkUtils.isOnWiFi(context)

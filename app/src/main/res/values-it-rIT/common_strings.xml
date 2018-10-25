@@ -56,7 +56,7 @@
   <string name="common_visible">Visibile</string>
   <string name="common_hidden">Nascosto</string>
   <string name="common_no_internet">Controlla la tua connession ad internet</string>
-  <string name="common_filter">Filtra</string>
+  <string name="common_filter">Filtra..</string>
   <string name="common_browser_not_found">Nessun browser trovato</string>
   <string name="common_added_to_play_next">Aggiunto da riprodurre come successivo</string>
   <string name="common_moved_to_play_next">Verrà riprodotto come successivo</string>

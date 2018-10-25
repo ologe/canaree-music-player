@@ -7,7 +7,7 @@
     <color name="grey600">#757575</color>
 
     <!--<item name="accent">#FF1744</item>-->
-    <color name="accent">@color/md_blue_A400</color>
+    <color name="accent">@color/md_indigo_A400</color>
     <color name="accent_secondary">@color/md_yellow_A700</color>
 
     <color name="colorPrimary">@color/dark_grey</color>
@@ -45,5 +45,8 @@
     <color name="background_mini_player">@color/background</color>
 
     <color name="dark_dialog_background">#424242</color>
+
+    <color name="transparent_white">#E6FFFFFF</color>
+    <color name="transparent_black">#E6000000</color>
 
 </resources>

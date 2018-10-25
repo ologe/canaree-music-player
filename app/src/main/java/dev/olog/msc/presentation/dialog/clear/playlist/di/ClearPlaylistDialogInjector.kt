@@ -1,6 +1,5 @@
 package dev.olog.msc.presentation.dialog.clear.playlist.di
 
-import android.support.v4.app.Fragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -15,6 +14,6 @@ abstract class ClearPlaylistDialogInjector {
     @IntoMap
     @FragmentKey(ClearPlaylistDialog::class)
     internal abstract fun injectorFactory(builder: ClearPlaylistDialogSubComponent.Builder)
-            : AndroidInjector.Factory<out Fragment>
+            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
 
 }

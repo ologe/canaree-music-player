@@ -16,9 +16,6 @@
 package dev.olog.msc.floating.window.service.api;
 
 import android.graphics.Point;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.util.ListUpdateCallback;
 import android.util.Log;
 import android.view.View;
 
@@ -27,6 +24,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.ListUpdateCallback;
 
 /**
  * {@link HoverViewState} that operates the {@link HoverView} when it is expanded. Expanded means

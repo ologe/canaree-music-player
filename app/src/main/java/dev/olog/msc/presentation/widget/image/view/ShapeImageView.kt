@@ -3,9 +3,9 @@ package dev.olog.msc.presentation.widget.image.view
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.GradientDrawable
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
@@ -42,14 +42,14 @@ class ShapeImageView @JvmOverloads constructor(
 
     private fun getMask(): Bitmap? {
         if (mask == null){
-            mask = when (AppConstants.ICON_SHAPE){
-                context.getString(R.string.prefs_icon_shape_rounded) -> {
+            mask = when (AppConstants.IMAGE_SHAPE){
+                AppConstants.ImageShape.ROUND -> {
                     setLayerType(View.LAYER_TYPE_HARDWARE, null)
                     val drawable = ContextCompat.getDrawable(context, R.drawable.shape_rounded_corner)!! as GradientDrawable
                     drawable.cornerRadius = context.dipf(radius)
                     drawable.toBitmap(width, height, Bitmap.Config.ALPHA_8)
                 }
-                else -> {
+                AppConstants.ImageShape.RECTANGLE -> {
                     setLayerType(View.LAYER_TYPE_NONE, null)
                     null
                 }

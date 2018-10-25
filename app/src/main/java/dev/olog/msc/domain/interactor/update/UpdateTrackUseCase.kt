@@ -1,7 +1,10 @@
 package dev.olog.msc.domain.interactor.update
 
+import android.content.Context
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.catchNothing
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.msc.notifyItemChanged
@@ -12,6 +15,7 @@ import java.io.File
 import javax.inject.Inject
 
 class UpdateTrackUseCase @Inject constructor(
+        @ApplicationContext private val context: Context,
         schedulers: IoSchedulers,
         private val gateway: UsedImageGateway
 
@@ -23,6 +27,11 @@ class UpdateTrackUseCase @Inject constructor(
                 val file = File(param.path)
                 val audioFile = AudioFileIO.read(file)
                 val tag = audioFile.tagOrCreateAndSetDefault
+                try {
+                    tag.setEncoding("UTF-8")
+                } catch (ex: Exception){
+                    Crashlytics.logException(ex)
+                }
 
                 for (field in param.fields) {
                     catchNothing { tag.setField(field.key, field.value) }
@@ -35,7 +44,7 @@ class UpdateTrackUseCase @Inject constructor(
                 }
 
 
-                notifyItemChanged(param.path)
+                notifyItemChanged(context, param.path)
 
                 it.onComplete()
             } catch (ex: Exception){

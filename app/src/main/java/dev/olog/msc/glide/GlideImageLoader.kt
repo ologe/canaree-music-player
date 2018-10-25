@@ -1,15 +1,14 @@
 package dev.olog.msc.glide
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.webkit.URLUtil
-import androidx.core.net.toUri
 import com.bumptech.glide.load.Key
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.model.ModelLoader
 import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
@@ -35,7 +34,11 @@ class GlideImageLoader(
             return uriLoader.buildLoadData(Uri.parse(model.image), width, height, options)
         }
 
-        if (mediaId.isAlbum || mediaId.isLeaf){
+        if (model.image == AppConstants.NO_IMAGE){
+            return uriLoader.buildLoadData(Uri.EMPTY, width, height, options)
+        }
+
+        if (mediaId.isAlbum || mediaId.isPodcastAlbum || mediaId.isLeaf){
             return when {
                 notAnImage(model) -> {
                     // song/album has not a default image, download
@@ -54,7 +57,7 @@ class GlideImageLoader(
             }
         }
 
-        if (mediaId.isArtist){
+        if (mediaId.isArtist || mediaId.isPodcastArtist){
             // download artist image
             return ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideArtistFetcher(context, model, lastFmGateway))
         }

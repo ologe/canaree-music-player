@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DefaultPreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
+        <item name="checkBoxPreferenceStyle">@style/Preference.CheckBoxPreference.Material.App</item>
+        <item name="dialogPreferenceStyle">@style/Preference.DialogPreference.Material.App</item>
+        <item name="dropdownPreferenceStyle">@style/Preference.DropDown.Material.App</item>
+        <item name="editTextPreferenceStyle">@style/Preference.DialogPreference.EditTextPreference.Material.App</item>
+        <item name="preferenceCategoryStyle">@style/Preference.Category.Material.App</item>
+        <item name="preferenceFragmentCompatStyle">@style/PreferenceFragment.Material.App</item>
+        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Material.App</item>
+        <item name="preferenceFragmentStyle">@style/PreferenceFragment.Material.App</item>
+        <item name="preferenceScreenStyle">@style/Preference.PreferenceScreen.Material.App</item>
+        <item name="preferenceStyle">@style/Preference.Material.App</item>
+        <item name="seekBarPreferenceStyle">@style/Preference.SeekBarPreference.Material.App</item>
+        <item name="switchPreferenceCompatStyle">@style/Preference.SwitchPreferenceCompat.Material.App</item>
+        <item name="switchPreferenceStyle">@style/Preference.SwitchPreference.Material.App</item>
+    </style>
+
+    <style name="Preference.CheckBoxPreference.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.DialogPreference.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.DropDown.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.DialogPreference.EditTextPreference.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="PreferenceFragment.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="PreferenceFragmentList.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.PreferenceScreen.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.SeekBarPreference.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.Category.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.SwitchPreferenceCompat.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="Preference.SwitchPreference.Material.App">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
+
+</resources>

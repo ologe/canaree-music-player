@@ -25,7 +25,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
         when (intent.action){
             WidgetConstants.METADATA_CHANGED -> {
 
-                val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds?.isNotEmpty() == true){
 
                     val id = intent.getLongExtra(WidgetConstants.ARGUMENT_SONG_ID, 0)
@@ -37,7 +37,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 }
             }
             WidgetConstants.STATE_CHANGED -> {
-                val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds?.isNotEmpty() == true){
                     val isPlaying = intent.getBooleanExtra(WidgetConstants.ARGUMENT_IS_PLAYING, false)
                     state = WidgetState(isPlaying)
@@ -45,7 +45,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 }
             }
             WidgetConstants.ACTION_CHANGED -> {
-                val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds?.isNotEmpty() == true){
                     val showPrevious = intent.getBooleanExtra(WidgetConstants.ARGUMENT_SHOW_PREVIOUS, true)
                     val showNext = intent.getBooleanExtra(WidgetConstants.ARGUMENT_SHOW_NEXT, true)
@@ -54,7 +54,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                 }
             }
             WidgetConstants.QUEUE_CHANGED -> {
-                val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 if (appWidgetIds?.isNotEmpty() == true) {
                     onQueueChanged(context, appWidgetIds)
                 }
@@ -62,19 +62,19 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
             AppWidgetManager.ACTION_APPWIDGET_UPDATE -> {
                 // when a new widget is added
                 metadata?.let {
-                    val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                    val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                     if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
                         onMetadataChanged(context, it, appWidgetIds)
                     }
                 }
                 state?.let {
-                    val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                    val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                     if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
                         onPlaybackStateChanged(context, it, appWidgetIds)
                     }
                 }
                 actions?.let {
-                    val appWidgetIds = intent.extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                    val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                     if (appWidgetIds != null && appWidgetIds.isNotEmpty()){
                         onActionVisibilityChanged(context, it, appWidgetIds)
                     }

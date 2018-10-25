@@ -10,11 +10,13 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.Artist
+import dev.olog.msc.domain.entity.PodcastArtist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
-import dev.olog.msc.domain.interactor.all.recent.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
+import dev.olog.msc.domain.interactor.all.related.artists.GetPodcastRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
@@ -38,7 +40,6 @@ class DetailFragmentModuleSongs {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
-                .onErrorReturnItem(listOf())
     }
 
     @Provides
@@ -48,8 +49,8 @@ class DetailFragmentModuleSongs {
             mediaId: MediaId,
             useCase: GetMostPlayedSongsUseCase) : Observable<List<DisplayableItem>> {
 
-        return useCase.execute(mediaId).mapToList { it.toMostPlayedDetailDisplayableItem(mediaId) }
-                .onErrorReturnItem(listOf())
+        return useCase.execute(mediaId)
+                .mapToList { it.toMostPlayedDetailDisplayableItem(mediaId) }
     }
 
     @Provides
@@ -68,11 +69,7 @@ class DetailFragmentModuleSongs {
                             .firstOrError()
                             .map { sort -> songList.map { it.toDetailDisplayableItem(mediaId, sort) } }
                 }
-
-        /*return useCase.execute(mediaId).withLatestFrom(sortOrderUseCase.execute(mediaId)) { songs, order ->
-            songs.map { it.toDetailDisplayableItem(mediaId, order) }
-
-        }*/.flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
+                .flatMapSingle { songList -> songDurationUseCase.execute(mediaId)
                 .map { createDurationFooter(context, songList.size, it) }
                 .map {
                     if (songList.isNotEmpty()){
@@ -90,11 +87,15 @@ class DetailFragmentModuleSongs {
     internal fun provideRelatedArtists(
             resources: Resources,
             mediaId: MediaId,
-            useCase: GetRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
+            useCase: GetRelatedArtistsUseCase,
+            podcastUseCase: GetPodcastRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
+
+        if (mediaId.isPodcastPlaylist){
+            return podcastUseCase.execute(mediaId).mapToList { it.toRelatedArtist(resources) }
+        }
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRelatedArtist(resources)}
-                .onErrorReturnItem(listOf())
     }
 
 }
@@ -121,12 +122,26 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
     )
 }
 
+private fun PodcastArtist.toRelatedArtist(resources: Resources): DisplayableItem {
+    val songs = DisplayableItem.handleSongListSize(resources, songs)
+    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
+    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
+
+    return DisplayableItem(
+            R.layout.item_detail_related_artist,
+            MediaId.podcastArtistId(this.id),
+            this.name,
+            albums + songs,
+            this.image
+    )
+}
+
 private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType): DisplayableItem {
     val viewType = when {
-        parentId.isAlbum -> R.layout.item_detail_song_with_track
-        parentId.isPlaylist && sortType == SortType.CUSTOM -> {
+        parentId.isAlbum || parentId.isPodcastAlbum -> R.layout.item_detail_song_with_track
+        (parentId.isPlaylist || parentId.isPodcastPlaylist) && sortType == SortType.CUSTOM -> {
             val playlistId = parentId.categoryValue.toLong()
-            if (PlaylistConstants.isAutoPlaylist(playlistId)) {
+            if (PlaylistConstants.isAutoPlaylist(playlistId) || PlaylistConstants.isPodcastAutoPlaylist(playlistId)) {
                 R.layout.item_detail_song
             } else R.layout.item_detail_song_with_drag_handle
         }
@@ -135,12 +150,12 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
     }
 
     val subtitle = when {
-        parentId.isArtist -> DisplayableItem.adjustAlbum(this.album)
+        parentId.isArtist || parentId.isPodcastArtist -> DisplayableItem.adjustAlbum(this.album)
         else -> DisplayableItem.adjustArtist(this.artist)
     }
 
     val track = when {
-        parentId.isPlaylist -> this.trackNumber.toString()
+        parentId.isPlaylist || parentId.isPodcastPlaylist -> this.trackNumber.toString()
         this.trackNumber == 0 -> "-"
         else -> this.trackNumber.toString()
     }

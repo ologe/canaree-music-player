@@ -1,17 +1,17 @@
 package dev.olog.msc.music.service
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
-import androidx.core.widget.toast
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -22,6 +22,7 @@ import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.interfaces.SkipType
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -81,11 +82,13 @@ class MediaSessionCallback @Inject constructor(
                 }
                 else -> Single.error(Throwable("invalid case $extras"))
             }.observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { updatePodcastPosition() }
                     .subscribe(player::play, Throwable::printStackTrace)
                     .addTo(subscriptions)
         }
     }
 
+    @Suppress("MoveLambdaOutsideParentheses")
     override fun onPlay() {
         doWhenReady ({
             player.resume()
@@ -95,6 +98,18 @@ class MediaSessionCallback @Inject constructor(
     override fun onPlayFromSearch(query: String, extras: Bundle) {
         queue.handlePlayFromGoogleSearch(query, extras)
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { updatePodcastPosition() }
+                .subscribe(player::play) {
+                    playerState.setEmptyQueue()
+                    it.printStackTrace()
+                }
+                .addTo(subscriptions)
+    }
+
+    override fun onPlayFromUri(uri: Uri, extras: Bundle?) {
+        queue.handlePlayFromUri(uri)
+                .doOnSubscribe { updatePodcastPosition() }
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(player::play) {
                     playerState.setEmptyQueue()
                     it.printStackTrace()
@@ -103,6 +118,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onPause() {
+        updatePodcastPosition()
         player.pause(true)
     }
 
@@ -116,28 +132,34 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToPrevious() {
         doWhenReady ({
-            val metadata = queue.handleSkipToPrevious(player.getBookmark())
-            player.playNext(metadata, SkipType.SKIP_PREVIOUS)
-        }, {
-            context.toast(R.string.popup_error_message)
-        })
+            updatePodcastPosition()
+            queue.handleSkipToPrevious(player.getBookmark())?.let { metadata ->
+                player.playNext(metadata, SkipType.SKIP_PREVIOUS)
+            }
+        }, { context.toast(R.string.popup_error_message) })
     }
 
     private fun onTrackEnded(){
         onSkipToNext(true)
     }
 
+    /**
+     * Try to skip to next song, if can't, restart current
+     */
     private fun onSkipToNext(trackEnded: Boolean){
         doWhenReady ({
+            updatePodcastPosition()
             val metadata = queue.handleSkipToNext(trackEnded)
-            if (trackEnded){
-                player.playNext(metadata, SkipType.TRACK_ENDED)
+            if (metadata != null){
+                val skipType = if (trackEnded) SkipType.TRACK_ENDED else SkipType.SKIP_NEXT
+                player.playNext(metadata, skipType)
             } else {
-                player.playNext(metadata, SkipType.SKIP_NEXT)
+                val currentSong = queue.getPlayingSong()
+                player.play(currentSong)
+                player.pause(true)
+                player.seekTo(0L)
             }
-        }, {
-            context.toast(R.string.popup_error_message)
-        })
+        }, { context.toast(R.string.popup_error_message) })
     }
 
     private fun doWhenReady(action: () -> Unit, error: (() -> Unit)? = null){
@@ -165,6 +187,7 @@ class MediaSessionCallback @Inject constructor(
 
     override fun onSkipToQueueItem(id: Long) {
         try {
+            updatePodcastPosition()
             val mediaEntity = queue.handleSkipToQueueItem(id)
             player.play(mediaEntity)
         } catch (ex: Exception){}
@@ -172,6 +195,7 @@ class MediaSessionCallback @Inject constructor(
     }
 
     override fun onSeekTo(pos: Long) {
+        updatePodcastPosition()
         player.seekTo(pos)
     }
 
@@ -183,16 +207,26 @@ class MediaSessionCallback @Inject constructor(
         toggleFavoriteUseCase.execute()
     }
 
+    @Suppress("MoveLambdaOutsideParentheses")
     override fun onCustomAction(action: String?, extras: Bundle?) {
         if (action != null){
             when (action){
                 MusicConstants.ACTION_SWAP -> queue.handleSwap(extras!!)
                 MusicConstants.ACTION_SWAP_RELATIVE -> queue.handleSwapRelative(extras!!)
-                MusicConstants.ACTION_REMOVE -> queue.handleRemove(extras!!)
-                MusicConstants.ACTION_REMOVE_RELATIVE -> queue.handleRemoveRelative(extras!!)
+                MusicConstants.ACTION_REMOVE -> {
+                    if (queue.handleRemove(extras!!)) {
+                        onStop()
+                    }
+                }
+                MusicConstants.ACTION_REMOVE_RELATIVE -> {
+                    if (queue.handleRemoveRelative(extras!!)){
+                        onStop()
+                    }
+                }
                 MusicConstants.ACTION_SHUFFLE -> {
                     doWhenReady ({
-                        val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)
+                        updatePodcastPosition()
+                        val mediaIdAsString = extras!!.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)!!
                         val mediaId = MediaId.fromString(mediaIdAsString)
                         queue.handlePlayShuffle(mediaId)
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -202,6 +236,8 @@ class MediaSessionCallback @Inject constructor(
                 }
                 MusicConstants.ACTION_FORWARD_10_SECONDS -> player.forwardTenSeconds()
                 MusicConstants.ACTION_REPLAY_10_SECONDS -> player.replayTenSeconds()
+                MusicConstants.ACTION_FORWARD_30_SECONDS -> player.forwardThirtySeconds()
+                MusicConstants.ACTION_REPLAY_30_SECONDS -> player.replayThirtySeconds()
             }
         }
     }
@@ -250,7 +286,8 @@ class MediaSessionCallback @Inject constructor(
     override fun onAddQueueItem(description: MediaDescriptionCompat) {
 
         val split = description.mediaId!!.split(",")
-        val position = queue.playLater(split.map { it.trim().toLong() })
+        val position = queue.playLater(split.map { it.trim().toLong() },
+                description.extras!!.getBoolean(MusicConstants.IS_PODCAST))
         playerState.toggleSkipToActions(position)
     }
 
@@ -263,15 +300,16 @@ class MediaSessionCallback @Inject constructor(
             Int.MAX_VALUE -> {
                 // play next
                 val split = description.mediaId!!.split(",")
-                val position = queue.playNext(split.map { it.trim().toLong() })
+                val position = queue.playNext(split.map { it.trim().toLong() },
+                        description.extras!!.getBoolean(MusicConstants.IS_PODCAST))
                 playerState.toggleSkipToActions(position)
             }
-            Int.MAX_VALUE - 1 -> {
-                // play next
-                val split = description.mediaId!!.split(",")
-                val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
-                playerState.toggleSkipToActions(position)
-            }
+//            Int.MAX_VALUE - 1 -> {
+//                // move to next
+//                val split = description.mediaId!!.split(",")
+//                val position = queue.moveToPlayNext(split.map { it.trim().toInt() }.first())
+//                playerState.toggleSkipToActions(position)
+//            }
         }
     }
 
@@ -284,6 +322,10 @@ class MediaSessionCallback @Inject constructor(
         } else {
             onPlay()
         }
+    }
+
+    private fun updatePodcastPosition(){
+        queue.updatePodcastPosition(player.getBookmark())
     }
 
 }

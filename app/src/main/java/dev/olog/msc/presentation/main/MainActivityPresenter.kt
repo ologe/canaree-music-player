@@ -13,5 +13,14 @@ class MainActivityPresenter @Inject constructor(
         return appPreferencesUseCase.isFirstAccess()
     }
 
+    fun getLastBottomViewPage(): Int = appPreferencesUseCase.getLastBottomViewPage()
+
+    fun setLastBottomViewPage(page: Int){
+        appPreferencesUseCase.setLastBottomViewPage(page)
+    }
+
+    fun canShowPodcastCategory(): Boolean {
+        return appPreferencesUseCase.canShowPodcastCategory()
+    }
 
 }

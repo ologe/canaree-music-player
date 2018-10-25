@@ -14,6 +14,12 @@ fun Window.setLightStatusBar(){
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
+    if (AppTheme.isImmersiveMode()){
+        flags = flags or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    }
+
     if (isMarshmallow() && !AppTheme.isDarkTheme()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
@@ -32,6 +38,12 @@ fun Window.removeLightStatusBar(){
     statusBarColor = Color.TRANSPARENT
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+
+    if (AppTheme.isImmersiveMode()){
+        flags = flags or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    }
 
     if (isOreo() && !AppTheme.isDarkTheme()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR

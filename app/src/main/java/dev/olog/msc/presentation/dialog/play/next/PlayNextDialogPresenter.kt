@@ -2,6 +2,8 @@ package dev.olog.msc.presentation.dialog.play.next
 
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
+import androidx.core.os.bundleOf
+import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
@@ -20,14 +22,15 @@ class PlayNextDialogPresenter @Inject constructor(
         } else {
             getSongListByParamUseCase.execute(mediaId)
                     .firstOrError()
-                    .map { it.map { it.id }.joinToString() }
+                    .map { songList -> songList.asSequence().map { it.id }.joinToString() }
         }.map { mediaController.addQueueItem(newMediaDescriptionItem(it), Int.MAX_VALUE) }
-                .toCompletable()
+                .ignoreElement()
     }
 
     private fun newMediaDescriptionItem(songId: String): MediaDescriptionCompat {
         return MediaDescriptionCompat.Builder()
                 .setMediaId(songId)
+                .setExtras(bundleOf(MusicConstants.IS_PODCAST to mediaId.isAnyPodcast))
                 .build()
     }
 

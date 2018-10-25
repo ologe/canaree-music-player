@@ -1,12 +1,14 @@
 package dev.olog.msc.data.repository.util
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.SparseArray
-import dev.olog.msc.app.app
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.utils.getInt
+import dev.olog.msc.utils.getStringOrNull
 import java.io.File
 
 object CommonQuery {
@@ -16,9 +18,11 @@ object CommonQuery {
         val cursor = contentResolver.query(uri, arrayOf("count(*)"), null,
                 null, null)
 
-        cursor.moveToFirst()
-        val size = cursor.getInt(0)
-        cursor.close()
+        var size = 0
+        cursor?.use {
+            it.moveToFirst()
+            size = cursor.getInt(0)
+        }
 
         return size
 
@@ -29,13 +33,15 @@ object CommonQuery {
 
         val projection = arrayOf(MediaStore.Audio.Playlists.Members.ALBUM_ID)
 
-        val cursor = contentResolver.query(
-                uri, projection, null,
+        val cursor = contentResolver.query(uri, projection, null,
                 null, null)
-        while (cursor.moveToNext()){
-            result.add(cursor.getLong(0))
+
+        cursor?.use {
+            while (cursor.moveToNext()){
+                result.add(it.getLong(0))
+            }
         }
-        cursor.close()
+
         return result
     }
 
@@ -46,11 +52,13 @@ object CommonQuery {
         val list = mutableListOf<Pair<Long, String>>()
         val cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 arrayOf(BaseColumns._ID, MediaStore.MediaColumns.DATA),
-                null, null, null)
-        while (cursor.moveToNext()){
-            list.add(cursor.getLong(0) to cursor.getString(1))
+                "${MediaStore.Audio.Media.IS_PODCAST} = 0", null, null)
+
+        cursor?.use {
+            while (it.moveToNext()){
+                list.add(it.getLong(0) to it.getString(1))
+            }
         }
-        cursor.close()
 
         return removeBlacklisted(appPreferencesUseCase.getBlackList(), list)
     }
@@ -66,22 +74,22 @@ object CommonQuery {
                 .toList()
     }
 
-    fun searchForImages(): SparseArray<String> {
-        val cursor = app.contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+    fun searchForImages(context: Context): SparseArray<String> {
+        val cursor = context.contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
                 arrayOf(MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART), null,
                 null, MediaStore.Audio.Albums._ID)
 
         val result = SparseArray<String>()
 
-        while (cursor.moveToNext()){
-            val albumArt = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART))
-            if (albumArt != null){
-                val id = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Albums._ID))
-                result.append(id, albumArt)
+        cursor?.use {
+            while (it.moveToNext()){
+                val albumArt = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART)
+                if (albumArt != null){
+                    val id = cursor.getInt(MediaStore.Audio.Albums._ID)
+                    result.append(id, albumArt)
+                }
             }
         }
-
-        cursor.close()
 
         return result
     }

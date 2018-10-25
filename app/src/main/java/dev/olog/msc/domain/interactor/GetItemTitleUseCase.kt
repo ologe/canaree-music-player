@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor
 
 import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.interactor.base.ObservableUseCaseUseCaseWithParam
+import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.*
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -15,9 +15,13 @@ class GetItemTitleUseCase @Inject constructor(
         private val getSongUseCase: GetSongUseCase,
         private val getAlbumUseCase: GetAlbumUseCase,
         private val getArtistUseCase: GetArtistUseCase,
-        private val getGenreUseCase: GetGenreUseCase
+        private val getGenreUseCase: GetGenreUseCase,
+        private val getPodcastUseCase: GetPodcastUseCase,
+        private val getPodcastPlaylistUseCase: GetPodcastPlaylistUseCase,
+        private val getPodcastAlbumUseCase: GetPodcastAlbumUseCase,
+        private val getPodcastArtistUseCase: GetPodcastArtistUseCase
 
-) : ObservableUseCaseUseCaseWithParam<String, MediaId>(schedulers) {
+) : ObservableUseCaseWithParam<String, MediaId>(schedulers) {
 
 
     override fun buildUseCaseObservable(param: MediaId): Observable<String> {
@@ -28,6 +32,10 @@ class GetItemTitleUseCase @Inject constructor(
             MediaIdCategory.ALBUMS -> getAlbumUseCase.execute(param).map { it.title }
             MediaIdCategory.ARTISTS -> getArtistUseCase.execute(param).map { it.name }
             MediaIdCategory.GENRES -> getGenreUseCase.execute(param).map { it.name }
+            MediaIdCategory.PODCASTS_PLAYLIST -> getPodcastPlaylistUseCase.execute(param).map { it.title }
+            MediaIdCategory.PODCASTS -> getPodcastUseCase.execute(param).map { it.title }
+            MediaIdCategory.PODCASTS_ARTISTS -> getPodcastArtistUseCase.execute(param).map { it.name }
+            MediaIdCategory.PODCASTS_ALBUMS -> getPodcastAlbumUseCase.execute(param).map { it.title }
             else -> throw IllegalArgumentException("invalid media category ${param.category}")
         }
     }

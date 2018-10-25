@@ -9,7 +9,7 @@
         <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/item_tab_album_last_player_width"
         android:orientation="vertical"
         android:layout_height="wrap_content"
@@ -59,6 +59,6 @@
             tools:text="@tools:sample/lorem"
             tools:visibility="visible" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

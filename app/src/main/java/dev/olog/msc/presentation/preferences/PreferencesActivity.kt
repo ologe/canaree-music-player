@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.annotation.StyleRes
+import android.view.View
+import androidx.annotation.StyleRes
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
-import com.afollestad.materialdialogs.color.ColorChooserDialog
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.color.ColorCallback
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_preferences.*
 import javax.inject.Inject
 
 class PreferencesActivity : DaggerAppCompatActivity(),
-        ColorChooserDialog.ColorCallback,
+        ColorCallback,
         ThemedActivity {
 
     companion object {
@@ -32,7 +34,7 @@ class PreferencesActivity : DaggerAppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         setTheme(getActivityTheme())
-        themeAccentColor(theme)
+        themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
         setContentView(R.layout.activity_preferences)
@@ -61,12 +63,16 @@ class PreferencesActivity : DaggerAppCompatActivity(),
         else -> throw IllegalStateException("invalid theme")
     }
 
-    override fun onColorSelection(dialog: ColorChooserDialog, selectedColor: Int) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val key = if (AppTheme.isWhiteTheme()) "accent_color_light" else "accent_color_dark"
+    override fun invoke(dialog: MaterialDialog, color: Int) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val key = getString(if (AppTheme.isWhiteTheme()) R.string.prefs_accent_light_key else R.string.prefs_accent_dark_key)
         prefs.edit {
-            putInt(key, selectedColor)
+            putInt(key, color)
         }
+        recreateActivity()
+    }
+
+    fun recreateActivity() {
         val fragment = supportFragmentManager.findFragmentByTag("prefs") as PreferencesFragment?
         fragment?.let {
             it.requestMainActivityToRecreate()
@@ -77,7 +83,14 @@ class PreferencesActivity : DaggerAppCompatActivity(),
         }
     }
 
-    override fun onColorChooserDismissed(dialog: ColorChooserDialog) {
-
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && AppTheme.isImmersiveMode()){
+            window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        }
     }
+
 }

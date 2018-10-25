@@ -13,6 +13,8 @@ import dev.olog.msc.domain.interactor.all.GetAllGenresUseCase
 import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedArtistsUseCase
+import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedAlbumsUseCase
+import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedArtistsUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllAlbumsSortedUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllArtistsSortedUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllSongsSortedUseCase
@@ -21,10 +23,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.k.extension.defer
-import dev.olog.msc.utils.k.extension.mapToList
-import dev.olog.msc.utils.k.extension.startWith
-import dev.olog.msc.utils.k.extension.startWithIfNotEmpty
+import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 
@@ -80,13 +79,13 @@ class TabFragmentViewModelModule {
                 .defer()
     }
 
-
     @Provides
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumData(
             useCase: GetAllAlbumsSortedUseCase,
             lastPlayedAlbumsUseCase: GetLastPlayedAlbumsUseCase,
+            newAlbumsUseCase: GetRecentlyAddedAlbumsUseCase,
             headers: TabFragmentHeaders): Observable<List<DisplayableItem>> {
 
         val allObs = useCase.execute()
@@ -94,17 +93,22 @@ class TabFragmentViewModelModule {
                 .map { it.toMutableList() }
                 .defer()
 
-        val lastPlayedObs = lastPlayedAlbumsUseCase.execute()
-                .mapToList { it.toTabDisplayableItem() }
-                .map {
-                    if (it.isNotEmpty()) headers.albumHeaders else it
-                }
-                .distinctUntilChanged()
+        val lastPlayedObs = Observables.combineLatest(
+                lastPlayedAlbumsUseCase.execute().distinctUntilChanged(),
+                newAlbumsUseCase.execute().distinctUntilChanged()
+        ) { last, new ->
+            val result = mutableListOf<DisplayableItem>()
+            result.doIf(new.count() > 0) { addAll(headers.newAlbumsHeaders) }
+                    .doIf(last.count() > 0) { addAll(headers.recentAlbumHeaders) }
+                    .doIf(result.isNotEmpty()) { addAll(headers.allAlbumsHeader) }
+        }.distinctUntilChanged()
                 .defer()
 
-        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
+        return Observables.combineLatest(allObs, lastPlayedObs) { all, recent -> recent.plus(all) }
                 .defer()
     }
+
+
 
 
     @Provides
@@ -114,6 +118,7 @@ class TabFragmentViewModelModule {
             resources: Resources,
             useCase: GetAllArtistsSortedUseCase,
             lastPlayedArtistsUseCase: GetLastPlayedArtistsUseCase,
+            newArtistsUseCase: GetRecentlyAddedArtistsUseCase,
             headers: TabFragmentHeaders) : Observable<List<DisplayableItem>> {
 
         val allObs = useCase.execute()
@@ -121,19 +126,20 @@ class TabFragmentViewModelModule {
                 .map { it.toMutableList() }
                 .defer()
 
-        val lastPlayedObs = lastPlayedArtistsUseCase.execute()
-                .mapToList { it.toTabDisplayableItem(resources) }
-                .map {
-                    if (it.isNotEmpty()) headers.artistHeaders else it
-                }
-                .distinctUntilChanged()
+        val lastPlayedObs = Observables.combineLatest(
+                lastPlayedArtistsUseCase.execute().distinctUntilChanged(),
+                newArtistsUseCase.execute().distinctUntilChanged()
+        ) { last, new ->
+            val result = mutableListOf<DisplayableItem>()
+            result.doIf(new.count() > 0) { addAll(headers.newArtistsHeaders) }
+                    .doIf(last.count() > 0) { addAll(headers.recentArtistHeaders) }
+                    .doIf(result.isNotEmpty()) { addAll(headers.allArtistsHeader) }
+        }.distinctUntilChanged()
                 .defer()
 
-        return Observables.combineLatest(allObs, lastPlayedObs, { all, recent -> recent.plus(all) })
+        return Observables.combineLatest(allObs, lastPlayedObs) { all, recent -> recent.plus(all) }
                 .defer()
     }
-
-
 
     @Provides
     @IntoMap
@@ -142,7 +148,8 @@ class TabFragmentViewModelModule {
             resources: Resources,
             useCase: GetAllGenresUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute().mapToList { it.toTabDisplayableItem(resources) }
+        return useCase.execute()
+                .mapToList { it.toTabDisplayableItem(resources) }
                 .defer()
     }
 
@@ -152,7 +159,8 @@ class TabFragmentViewModelModule {
     internal fun provideLastPlayedAlbumData(
             useCase: GetLastPlayedAlbumsUseCase): Observable<List<DisplayableItem>> {
 
-        return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem() }
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem() }
                 .defer()
     }
 
@@ -163,7 +171,31 @@ class TabFragmentViewModelModule {
             resources: Resources,
             useCase: GetLastPlayedArtistsUseCase) : Observable<List<DisplayableItem>> {
 
-        return useCase.execute().mapToList { it.toTabLastPlayedDisplayableItem(resources) }
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem(resources) }
+                .defer()
+    }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.NEW_ALBUMS)
+    internal fun provideNewAlbumsData(
+            useCase: GetRecentlyAddedAlbumsUseCase): Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem() }
+                .defer()
+    }
+
+    @Provides
+    @IntoMap
+    @MediaIdCategoryKey(MediaIdCategory.NEW_ARTISTS)
+    internal fun provideNewArtistsData(
+            resources: Resources,
+            useCase: GetRecentlyAddedArtistsUseCase): Observable<List<DisplayableItem>> {
+
+        return useCase.execute()
+                .mapToList { it.toTabLastPlayedDisplayableItem(resources) }
                 .defer()
     }
 
@@ -209,13 +241,15 @@ private fun Song.toTabDisplayableItem(): DisplayableItem {
 
     return DisplayableItem(
             R.layout.item_tab_song,
-            MediaId.songId(id),
+            MediaId.songId(this.id),
             title,
             "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
             image,
             true
     )
 }
+
+
 
 private fun Album.toTabDisplayableItem(): DisplayableItem{
     return DisplayableItem(
@@ -240,6 +274,7 @@ private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
             this.image
     )
 }
+
 
 private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
     return DisplayableItem(

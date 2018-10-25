@@ -15,4 +15,7 @@ interface AdapterDataController<Model: BaseModel>{
 
     fun getAll(): List<Model>
 
+    fun pauseObservingData()
+    fun resumeObservingData(instantly: Boolean)
+
 }

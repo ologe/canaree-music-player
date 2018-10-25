@@ -9,6 +9,7 @@
     <string name="common_albums">Albums</string>
     <string name="common_artists">Artists</string>
     <string name="common_genres">Genres</string>
+    <string name="common_podcasts">Podcasts</string>
 
     <string name="common_last_added">Last added</string>
     <string name="common_favorites">Favorites</string>
@@ -71,6 +72,10 @@
     <string name="common_recently_added">Recently added</string>
     <string name="common_custom">Custom</string>
     <string name="common_track_number">Track number</string>
+    <string name="common_podcast">Podcast</string>
+    <string name="common_podcast_playlist">Podcast playlist</string>
+    <string name="common_podcast_album">Podcast album</string>
+    <string name="common_podcast_artist">Podcast artist</string>
 
     <string name="common_play">Play</string>
     <string name="common_shuffle">Shuffle All</string>
@@ -98,7 +103,7 @@
     <string name="common_switch_on">On</string>
     <string name="common_switch_off">Off</string>
 
-    <string name="common_filter">Filter</string>
+    <string name="common_filter">Filter..</string>
 
     <string name="common_browser_not_found">Browser not found</string>
 

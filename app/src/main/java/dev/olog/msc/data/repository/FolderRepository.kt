@@ -1,7 +1,6 @@
 package dev.olog.msc.data.repository
 
 import android.content.Context
-import android.provider.MediaStore
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.FolderMostPlayedEntity
@@ -11,13 +10,12 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.MediaId
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
 import io.reactivex.Observable
 import java.text.Collator
 import javax.inject.Inject
-
-private val MEDIA_STORE_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
 
 class FolderRepository @Inject constructor(
         @ApplicationContext private val context: Context,
@@ -47,13 +45,13 @@ class FolderRepository @Inject constructor(
     }
 
     override fun getByParam(param: String): Observable<Folder> {
-        return cachedData.map { it.first { it.path == param } }
+        return cachedData.map { list -> list.first { it.path == param } }
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     override fun observeSongListByParam(path: String): Observable<List<Song>> {
-        return songGateway.getAll().map {
-            it.asSequence().filter { it.folderPath == path}.toList()
+        return songGateway.getAll().map { list ->
+            list.asSequence().filter { it.folderPath == path}.toList()
         }.distinctUntilChanged()
     }
 
@@ -82,7 +80,7 @@ class FolderRepository @Inject constructor(
                 .map { song ->
                     song.toFolder(context,
                             songList.count { it.folderPath == song.folderPath }) // count song for all folder
-                }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.title, o2.title) })
+                }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                 .toList()
     }
 

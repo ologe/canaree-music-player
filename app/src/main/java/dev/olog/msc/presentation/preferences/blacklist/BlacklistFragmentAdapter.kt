@@ -1,16 +1,15 @@
 package dev.olog.msc.presentation.preferences.blacklist
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import dev.olog.msc.BR
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import javax.inject.Inject
 
 class BlacklistFragmentAdapter @Inject constructor()
-    : RecyclerView.Adapter<DataBoundViewHolder>() {
+    : androidx.recyclerview.widget.RecyclerView.Adapter<DataBoundViewHolder>() {
 
     val data: MutableList<BlacklistModel> = mutableListOf()
 

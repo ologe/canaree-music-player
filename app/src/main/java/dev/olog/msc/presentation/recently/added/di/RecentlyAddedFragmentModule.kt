@@ -1,16 +1,18 @@
 package dev.olog.msc.presentation.recently.added.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragmentViewModel
-import dev.olog.msc.presentation.recently.added.RecentlyAddedFragmentViewModelFactory
 import dev.olog.msc.utils.MediaId
 
-@Module
+@Module(includes = [RecentlyAddedFragmentModule.Binding::class])
 class RecentlyAddedFragmentModule(
         private val fragment: RecentlyAddedFragment
 ) {
@@ -25,10 +27,14 @@ class RecentlyAddedFragmentModule(
         return MediaId.fromString(mediaId)
     }
 
-    @Provides
-    internal fun provideViewModel(factory: RecentlyAddedFragmentViewModelFactory): RecentlyAddedFragmentViewModel {
+    @Module
+    interface Binding {
 
-        return ViewModelProviders.of(fragment, factory).get(RecentlyAddedFragmentViewModel::class.java)
+        @Binds
+        @IntoMap
+        @ViewModelKey(RecentlyAddedFragmentViewModel::class)
+        fun provideViewModel(factory: RecentlyAddedFragmentViewModel): ViewModel
+
     }
 
 }

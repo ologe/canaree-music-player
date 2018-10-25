@@ -5,8 +5,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import android.graphics.drawable.TransitionDrawable
-import android.support.annotation.ColorInt
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.annotation.ColorInt
+import androidx.core.graphics.drawable.DrawableCompat
 import com.bumptech.glide.load.resource.gif.GifDrawable
 
 fun Drawable.getBitmap(): Bitmap? {

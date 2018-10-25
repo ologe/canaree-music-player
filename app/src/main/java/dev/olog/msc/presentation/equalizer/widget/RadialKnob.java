@@ -42,10 +42,6 @@ import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -53,9 +49,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 import dev.olog.msc.R;
 import dev.olog.msc.presentation.theme.AppTheme;
-import dev.olog.msc.presentation.utils.images.ColorUtil;
 import dev.olog.msc.utils.k.extension.ViewExtensionKt;
 
 public class RadialKnob extends View {
@@ -177,10 +176,12 @@ public class RadialKnob extends View {
     private OnTouchListener onKnobTouchListener = (v, event) -> {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
+                getParent().requestDisallowInterceptTouchEvent(true);
                 resize(true);
                 return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
                 resize(false);
                 return true;
         }

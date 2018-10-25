@@ -4,26 +4,29 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.ThemedDialog
+import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.ctx
+import dev.olog.msc.utils.k.extension.withArguments
 import javax.inject.Inject
 
 class LibraryCategoriesFragment : BaseDialogFragment() {
 
     companion object {
         const val TAG = "LibraryCategoriesFragment"
+        const val TYPE = "$TAG.TYPE"
 
         @JvmStatic
-        fun newInstance(): LibraryCategoriesFragment {
-            return LibraryCategoriesFragment()
+        fun newInstance(category: MediaIdCategory): LibraryCategoriesFragment {
+            return LibraryCategoriesFragment().withArguments(
+                    TYPE to category.ordinal
+            )
         }
     }
 
@@ -34,6 +37,8 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
+        val category: MediaIdCategory = MediaIdCategory.values()[arguments!!.getInt(TYPE)]
+
         val builder = ThemedDialog.builder(ctx)
                 .setTitle(R.string.prefs_library_categories_title)
                 .setView(view)
@@ -41,10 +46,10 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
                 .setNegativeButton(R.string.popup_negative_cancel, null)
                 .setPositiveButton(R.string.popup_positive_save, null)
 
-        val list = view.findViewById<RecyclerView>(R.id.list)
-        adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet().toMutableList())
+        val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list)
+        adapter = LibraryCategoriesFragmentAdapter(presenter.getDataSet(category).toMutableList())
         list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(context)
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
 
         val callback = TouchHelperAdapterCallback(adapter, 0)
         val touchHelper = ItemTouchHelper(callback)
@@ -54,12 +59,12 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
         val dialog = builder.show()
 
         dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener {
-                    val defaultData = presenter.getDefaultDataSet()
+                    val defaultData = presenter.getDefaultDataSet(category)
                     adapter.updateDataSet(defaultData)
                 }
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
-                    presenter.setDataSet(adapter.data)
+                    presenter.setDataSet(category, adapter.data)
                     activity!!.setResult(Activity.RESULT_OK)
                     dismiss()
                 }

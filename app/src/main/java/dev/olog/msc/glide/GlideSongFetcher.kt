@@ -15,16 +15,23 @@ class GlideSongFetcher(
 
 ) : BaseRxDataFetcher(context) {
 
-    private val id = model.mediaId.resolveId
+    private val mediaId = model.mediaId
+    private val id = mediaId.resolveId
 
     override fun execute(priority: Priority, callback: DataFetcher.DataCallback<in InputStream>): Single<String> {
-        return lastFmGateway
-                .getTrackImage(id)
-                .map { it.get() }
+        return if (mediaId.isAnyPodcast){
+            lastFmGateway.getPodcastImage(id)
+        } else {
+            lastFmGateway.getTrackImage(id)
+        }.map { it.get() }
     }
 
     override fun shouldFetch(): Single<Boolean> {
-        return lastFmGateway.shouldFetchTrackImage(id)
+        return if (mediaId.isAnyPodcast){
+            lastFmGateway.shouldFetchPodcastImage(id)
+        } else {
+            lastFmGateway.shouldFetchTrackImage(id)
+        }
     }
 
     override val threshold: Long = 600L

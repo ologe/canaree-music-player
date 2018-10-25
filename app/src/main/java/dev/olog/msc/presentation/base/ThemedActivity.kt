@@ -1,26 +1,31 @@
 package dev.olog.msc.presentation.base
 
+import android.content.Context
 import android.content.res.Resources
 import android.preference.PreferenceManager
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.app.app
 import dev.olog.msc.presentation.theme.AppTheme
 
 interface ThemedActivity {
 
-    fun themeAccentColor(theme: Resources.Theme){
-        theme.applyStyle(getAccentStyle(), true)
+    fun themeAccentColor(context: Context, theme: Resources.Theme){
+        if (AppTheme.isImmersiveMode()){
+            theme.applyStyle(R.style.ThemeImmersive, true)
+        }
+        theme.applyStyle(getAccentStyle(context.applicationContext), true)
     }
 
-    private fun getAccentStyle(): Int {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(app)
+    private fun getAccentStyle(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val color = if (AppTheme.isWhiteTheme()){
-            prefs.getInt("accent_color_light", ContextCompat.getColor(app, R.color.accent))
+            prefs.getInt(context.getString(R.string.prefs_accent_light_key), ContextCompat.getColor(context, R.color.accent))
         } else {
-            prefs.getInt("accent_color_dark", ContextCompat.getColor(app, R.color.accent_secondary))
+            prefs.getInt(context.getString(R.string.prefs_accent_dark_key), ContextCompat.getColor(context, R.color.accent_secondary))
         }
-
+        Crashlytics.log("color accent choosed=$color")
         return when (color){
             getColorResource(R.color.md_red_A100) -> R.style.ThemeAccentRed100
             getColorResource(R.color.md_red_A200) -> R.style.ThemeAccentRed200
@@ -44,7 +49,8 @@ interface ThemedActivity {
 
             getColorResource(R.color.md_indigo_A100) -> R.style.ThemeAccentIndigo100
             getColorResource(R.color.md_indigo_A200) -> R.style.ThemeAccentIndigo200
-            getColorResource(R.color.md_indigo_A400) -> R.style.ThemeAccentIndigo400
+            getColorResource(R.color.md_indigo_A400),
+            getColorResource(R.color.md_indigo_A400_alt) -> R.style.ThemeAccentIndigo400
             getColorResource(R.color.md_indigo_A700) -> R.style.ThemeAccentIndigo700
 
             getColorResource(R.color.md_blue_A100) -> R.style.ThemeAccentBlue100
@@ -85,7 +91,8 @@ interface ThemedActivity {
             getColorResource(R.color.md_yellow_A100) -> R.style.ThemeAccentYellow100
             getColorResource(R.color.md_yellow_A200) -> R.style.ThemeAccentYellow200
             getColorResource(R.color.md_yellow_A400) -> R.style.ThemeAccentYellow400
-            getColorResource(R.color.md_yellow_A700) -> R.style.ThemeAccentYellow700
+            getColorResource(R.color.md_yellow_A700),
+            getColorResource(R.color.md_yellow_A700_alt) -> R.style.ThemeAccentYellow700
 
             getColorResource(R.color.md_amber_A100) -> R.style.ThemeAccentAmber100
             getColorResource(R.color.md_amber_A200) -> R.style.ThemeAccentAmber200
@@ -101,7 +108,8 @@ interface ThemedActivity {
             getColorResource(R.color.md_deep_orange_A200) -> R.style.ThemeAccentDeepOrange200
             getColorResource(R.color.md_deep_orange_A400) -> R.style.ThemeAccentDeepOrange400
             getColorResource(R.color.md_deep_orange_A700) -> R.style.ThemeAccentDeepOrange700
-            else -> throw IllegalArgumentException("color not found")
+            // prevent strange color crash
+            else -> if (AppTheme.isWhiteTheme()) R.style.ThemeAccentIndigo400 else R.style.ThemeAccentYellow700
         }
     }
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground">
 
     <dev.olog.msc.presentation.widget.image.view.ShapeImageView
         android:id="@+id/cover"
@@ -76,15 +77,13 @@
 
     <TextView
         android:id="@+id/headerText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintEnd_toStartOf="@+id/more"
         app:layout_constraintTop_toBottomOf="@+id/statusBar"
         tools:text="Selena Gomez"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="@dimen/toolbar"
-        android:layout_marginStart="96dp"
-        android:layout_marginEnd="96dp"
         android:elevation="@dimen/toolbar_elevation"
         android:textAppearance="@style/Headline6.Alt" />
 
@@ -117,18 +116,81 @@
         android:elevation="@dimen/toolbar_elevation"/>
 
     <ImageButton
-        android:id="@+id/search"
-        app:layout_constraintTop_toTopOf="@+id/headerText"
+        android:id="@+id/filter"
+        app:layout_constraintTop_toBottomOf="@+id/statusBar"
         app:layout_constraintEnd_toStartOf="@+id/more"
-        app:layout_constraintBottom_toBottomOf="@+id/headerText"
-        android:src="@drawable/vd_search"
+        android:src="@drawable/vd_filter"
         android:padding="12dp"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/toolbar"
         android:clickable="true"
         android:focusable="true"
-        android:layout_gravity="end"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:elevation="@dimen/toolbar_elevation" />
 
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/searchWrapper"
+        app:layout_constraintTop_toTopOf="@+id/back"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintEnd_toStartOf="@+id/filter"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/toolbar"
+        android:elevation="@dimen/toolbar_elevation"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintWidth_max="400dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/search_background"
+            android:layout_marginStart="8dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/EditItemEditText"
+                    android:textSize="16dp"
+                    android:imeOptions="flagNoExtractUi|actionDone"
+                    android:maxLines="1"
+                    android:hint="@string/common_filter"
+                    android:layout_marginEnd="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textColor="@color/dark_grey"
+                    android:textColorHint="#99262626"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/clear"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/vd_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_marginEnd="8dp"
+                android:tint="@color/dark_grey"/>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

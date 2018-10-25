@@ -12,7 +12,7 @@
     <!--categories-->
     <string name="prefs_category_library">Library</string>
     <string name="prefs_category_audio">Audio</string>
-    <string name="prefs_category_theme">Theme</string>
+    <string name="prefs_category_ui">User interface</string>
     <string name="prefs_category_other">Other</string>
 
 
@@ -73,12 +73,10 @@
     <string name="prefs_library_categories_title">Library categories</string>
     <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
 
-
-    <!--remember last tab-->
-    <string name="prefs_remember_last_tab_key" translatable="false">key_remember_last_tab</string>
-    <string name="prefs_remember_last_tab_title">Remember last tab</string>
-    <string name="prefs_remember_last_tab_summary">Go to the last opened tab on launch</string>
-
+    <!--podcast categories-->
+    <string name="prefs_podcast_library_categories_key" translatable="false">key_podcast_library_categories</string>
+    <string name="prefs_podcast_library_categories_title">Podcast categories</string>
+    <string name="prefs_podcast_library_categories_summary">Configure visibility and order of podcast categories</string>
 
     <!--blacklist-->
     <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
@@ -93,6 +91,9 @@
     <string name="prefs_folder_tree_view_summary_off">@string/common_disabled</string>
     <string name="prefs_folder_tree_view_summary_on">@string/common_enabled</string>
 
+    <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts</string>
+    <string name="prefs_show_podcasts_title">Show podcasts</string>
+    <string name="prefs_show_podcasts_summary">Show podcasts tab in library</string>
 
     <!--used equalizer-->
     <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
@@ -140,6 +141,23 @@
     <string name="prefs_player_controls_visibility_summary_on">@string/common_visible</string>
     <string name="prefs_player_controls_visibility_summary_off">@string/common_hidden</string>
 
+
+    <!--adaptive colors-->
+    <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
+    <string name="prefs_adaptive_colors_title">Adaptive colors</string>
+    <string name="prefs_adaptive_colors_summary_on">@string/common_enabled</string>
+    <string name="prefs_adaptive_colors_summary_off">@string/common_disabled</string>
+
+    <!--show new albums/artists-->
+    <string name="prefs_show_new_albums_artists_key" translatable="false">key_show_new</string>
+    <string name="prefs_show_new_albums_artists_title">Show new albums and artists</string>
+    <string name="prefs_show_new_albums_artists_summary">Show all new albums and artists added recently</string>
+
+    <!--show recently played albums/artists-->
+    <string name="prefs_show_recent_albums_artists_key" translatable="false">key_show_recent</string>
+    <string name="prefs_show_recent_albums_artists_title">Show recently played</string>
+    <string name="prefs_show_recent_albums_artists_summary">Show all albums and artists played recently</string>
+
     <!--auto download images-->
     <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images_2</string>
     <string name="prefs_auto_download_images_title">Auto download images</string>
@@ -180,6 +198,7 @@
     <string name="prefs_appearance_fullscreen">Fullscreen</string>
     <string name="prefs_appearance_big_image">Big image</string>
     <string name="prefs_appearance_clean">Clean</string>
+    <string name="prefs_appearance_mini">Mini</string>
 
     <string name="prefs_appearance_entry_value_default" translatable="false">default</string>
     <string name="prefs_appearance_entry_value_flat" translatable="false">flat</string>
@@ -187,6 +206,7 @@
     <string name="prefs_appearance_entry_value_fullscreen" translatable="false">fullscreen</string>
     <string name="prefs_appearance_entry_value_big_image" translatable="false">big_image</string>
     <string name="prefs_appearance_entry_value_clean" translatable="false">clean</string>
+    <string name="prefs_appearance_entry_value_mini" translatable="false">mini</string>
 
     <string-array name="prefs_appearance_entry_values">
         <item>@string/prefs_appearance_entry_value_default</item>
@@ -195,7 +215,7 @@
         <item>@string/prefs_appearance_entry_value_fullscreen</item>
         <item>@string/prefs_appearance_entry_value_big_image</item>
         <item>@string/prefs_appearance_entry_value_clean</item>
-        <!--<item>@string/prefs_appearance_entry_value_plain</item>-->
+        <item>@string/prefs_appearance_entry_value_mini</item>
     </string-array>
 
     <string-array name="prefs_appearance_entries">
@@ -205,7 +225,7 @@
         <item>@string/prefs_appearance_fullscreen</item>
         <item>@string/prefs_appearance_big_image</item>
         <item>@string/prefs_appearance_clean</item>
-        <!--<item>@string/prefs_appearance_big_plain</item>-->
+        <item>@string/prefs_appearance_mini</item>
     </string-array>
 
     <!--dark mode-->
@@ -246,11 +266,21 @@
     <string name="prefs_delete_cached_images_summary">Delete all cached images</string>
     <string name="prefs_delete_cached_images_success">Cache deleted</string>
 
+    <!--reset tutorial-->
+    <string name="prefs_reset_tutorial_key" translatable="false">key_reset_tutorial</string>
+    <string name="prefs_reset_tutorial_title">Reset tutorial</string>
+
     <!--last fm credentials-->
     <string name="prefs_last_fm_credentials_key" translatable="false">key_last_fm_credentials</string>
     <string name="prefs_last_fm_credentials_title">Last.fm credentials</string>
     <string name="prefs_last_fm_credentials_message">Credentials will be encrypted</string>
     <string name="prefs_last_fm_credentials_summary">Set username and password for your Last.fm account</string>
+
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_key" translatable="false">key_lockscreen_artwork</string>
+    <string name="prefs_lockscreen_artwork_title">Lockscreen artwork</string>
+    <string name="prefs_lockscreen_artwork_summary_off">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on">@string/common_enabled</string>
 
     <!--daynight-->
     <string name="prefs_day_night_key" translatable="false">key_day_night</string>
@@ -262,5 +292,14 @@
     <string name="prefs_accent_color_key" translatable="false">key_accent_color</string>
     <string name="prefs_accent_color_title">Accent color</string>
     <string name="prefs_accent_color_summary">Change the accent theme color</string>
+
+    <string name="prefs_accent_light_key" translatable="false">color_accent_light</string>
+    <string name="prefs_accent_dark_key" translatable="false">color_accent_dark</string>
+
+    <!--fullscreen-->
+    <string name="prefs_immersive_key" translatable="false">key_immersive</string>
+    <string name="prefs_immersive_title">Immersive mode</string>
+    <string name="prefs_immersive_summary_on">@string/common_enabled</string>
+    <string name="prefs_immersive_summary_off">@string/common_disabled</string>
 
 </resources>

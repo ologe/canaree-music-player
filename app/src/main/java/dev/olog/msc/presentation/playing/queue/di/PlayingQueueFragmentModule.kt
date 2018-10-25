@@ -1,15 +1,17 @@
 package dev.olog.msc.presentation.playing.queue.di
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModel
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoMap
+import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragmentViewModel
-import dev.olog.msc.presentation.playing.queue.PlayingQueueFragmentViewModelFactory
 
-@Module
+@Module(includes = [PlayingQueueFragmentModule.Binding::class])
 class PlayingQueueFragmentModule(
         private val fragment: PlayingQueueFragment
 ) {
@@ -18,9 +20,14 @@ class PlayingQueueFragmentModule(
     @FragmentLifecycle
     fun provideLifecycle() : Lifecycle = fragment.lifecycle
 
-    @Provides
-    fun provideViewModel(factory: PlayingQueueFragmentViewModelFactory): PlayingQueueFragmentViewModel {
-        return ViewModelProviders.of(fragment, factory).get(PlayingQueueFragmentViewModel::class.java)
+    @Module
+    interface Binding {
+
+        @Binds
+        @IntoMap
+        @ViewModelKey(PlayingQueueFragmentViewModel::class)
+        fun provideViewModel(viewModel: PlayingQueueFragmentViewModel): ViewModel
+
     }
 
 }

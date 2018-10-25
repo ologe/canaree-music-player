@@ -8,7 +8,7 @@
   <string name="prefs_not_premium_action">Acquista</string>
   <!--categories-->
   <string name="prefs_category_library">Libreria</string>
-  <string name="prefs_category_theme">Tema</string>
+  <string name="prefs_category_ui">Interfaccia utente</string>
   <string name="prefs_category_other">Altro</string>
   <!--quick action-->
   <string name="prefs_quick_action_title">Azione rapida</string>
@@ -19,9 +19,10 @@
   <!--library categories-->
   <string name="prefs_library_categories_title">Categorie libreria</string>
   <string name="prefs_library_categories_summary">Configura la visibilità e l\'ordine delle categorie della libreria</string>
-  <!--remember last tab-->
-  <string name="prefs_remember_last_tab_title">Ricorda ultima scheda</string>
-  <string name="prefs_remember_last_tab_summary">All\'avvio vai all\'ultima scheda aperta</string>
+  <!--podcast categories-->
+  <string name="prefs_podcast_library_categories_title">Categorie podcast</string>
+  <string name="prefs_podcast_library_categories_summary">Configura la visibilità e l\'ordine delle categorie dei podcast</string>
+
   <!--blacklist-->
   <string name="prefs_blacklist_summary">Nascondi le cartelle dalla libreria</string>
   <string name="prefs_blacklist_description">Premi per mostrare/nascondere</string>

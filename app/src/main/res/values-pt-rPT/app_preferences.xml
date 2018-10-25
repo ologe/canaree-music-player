@@ -9,7 +9,7 @@
   <!--categories-->
   <string name="prefs_category_library">Biblioteca</string>
   <string name="prefs_category_audio">Áudio</string>
-  <string name="prefs_category_theme">Tema</string>
+  <string name="prefs_category_ui">Interface de usuário</string>
   <string name="prefs_category_other">Outro</string>
   <!--quick action-->
   <string name="prefs_quick_action_title">Ação rápida</string>
@@ -20,9 +20,7 @@
   <!--library categories-->
   <string name="prefs_library_categories_title">Categorias da biblioteca</string>
   <string name="prefs_library_categories_summary">Configurar a visibilidade e a ordem das categorias da biblioteca</string>
-  <!--remember last tab-->
-  <string name="prefs_remember_last_tab_title">Lembrar a última aba</string>
-  <string name="prefs_remember_last_tab_summary">Ir para a última aba aberta ao iniciar</string>
+
   <!--blacklist-->
   <string name="prefs_blacklist_title">Lista negra</string>
   <string name="prefs_blacklist_summary">Esconder pastas da biblioteca</string>

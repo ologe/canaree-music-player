@@ -16,7 +16,7 @@ object VoiceSearch {
                 .map { it.mapIndexed { index, song -> song.toMediaEntity(index, mediaId) } }
     }
 
-    fun filterByAlbum(flowable: Observable<List<Song>>, album: String, artist: String): Single<List<MediaEntity>> {
+    fun filterByAlbum(flowable: Observable<List<Song>>, album: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError()
                 .map {
@@ -38,7 +38,7 @@ object VoiceSearch {
                 }
     }
 
-    fun filterByTitle(flowable: Observable<List<Song>>, title: String, artist: String): Single<List<MediaEntity>> {
+    fun filterByTitle(flowable: Observable<List<Song>>, title: String): Single<List<MediaEntity>> {
         val mediaId = MediaId.songId(-1)
         return flowable.firstOrError()
                 .map {

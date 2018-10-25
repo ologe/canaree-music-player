@@ -1,9 +1,9 @@
 package dev.olog.msc.music.service.helper
 
 import android.content.Context
-import android.support.annotation.StringRes
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
+import androidx.annotation.StringRes
 import dev.olog.msc.R
 import dev.olog.msc.utils.MediaIdCategory
 

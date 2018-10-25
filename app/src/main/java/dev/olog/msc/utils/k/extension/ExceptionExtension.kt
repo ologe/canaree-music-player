@@ -17,11 +17,3 @@ fun Throwable.logStackStace(){
     }
     this.printStackTrace()
 }
-
-fun crashlyticsLog(msg: String){
-    if (!BuildConfig.DEBUG){
-        try {
-            Crashlytics.log(msg)
-        } catch (ex: Exception){}
-    }
-}

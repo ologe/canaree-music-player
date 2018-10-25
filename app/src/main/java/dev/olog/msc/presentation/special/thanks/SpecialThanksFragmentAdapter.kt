@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.special.thanks
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter

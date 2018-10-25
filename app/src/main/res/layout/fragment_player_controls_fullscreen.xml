@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -11,7 +11,7 @@
         tools:background="@android:color/darker_gray"
         android:id="@+id/playerRoot">
 
-        <dev.olog.msc.presentation.widget.image.view.PlayerImageView
+        <dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
             android:id="@+id/bigCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -26,7 +26,7 @@
             android:scaleY="1.05"
             android:scaleX="1.05" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,8 @@
             android:layout_height="0dp"
             android:background="@drawable/gradient_fullscreen"
             android:clickable="false"
-            android:focusable="false">
+            android:focusable="false"
+            android:clipChildren="false">
 
             <dev.olog.msc.presentation.widget.SwipeableView
                 android:id="@+id/swipeableView"
@@ -78,7 +79,7 @@
                 android:progressBackgroundTint="#88888888"
                 tools:progress="40"
                 tools:max="100"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="24dp"/>
 
             <!-- bookmark -->
             <TextView
@@ -184,8 +185,8 @@
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

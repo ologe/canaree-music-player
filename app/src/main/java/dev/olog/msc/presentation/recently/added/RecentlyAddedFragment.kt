@@ -1,12 +1,14 @@
 package dev.olog.msc.presentation.recently.added
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.subscribe
 import dev.olog.msc.utils.k.extension.withArguments
@@ -28,29 +30,28 @@ class RecentlyAddedFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var viewModel: RecentlyAddedFragmentViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var adapter: RecentlyAddedFragmentAdapter
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.data.subscribe(this, adapter::updateDataSet)
-
-        viewModel.itemTitle.subscribe(this) { itemTitle ->
-            val headersArray = resources.getStringArray(R.array.recently_added_header)
-            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
-            this.header.text = header
-        }
-    }
+    private val viewModel by lazyFast { viewModelProvider<RecentlyAddedFragmentViewModel>(viewModelFactory) }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.adapter = adapter
-        view.list.layoutManager = LinearLayoutManager(context)
+        view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         view.list.setHasFixedSize(true)
 
         val callback = TouchHelperAdapterCallback(adapter, ItemTouchHelper.LEFT)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(view.list)
         adapter.touchHelper = touchHelper
+
+        viewModel.data.subscribe(viewLifecycleOwner, adapter::updateDataSet)
+
+        viewModel.itemTitle.subscribe(viewLifecycleOwner) { itemTitle ->
+            val headersArray = resources.getStringArray(R.array.recently_added_header)
+            val header = String.format(headersArray[viewModel.itemOrdinal], itemTitle)
+            this.header.text = header
+        }
     }
 
     override fun onResume() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,9 +7,10 @@
     android:id="@+id/container"
     android:orientation="vertical"
     android:clipChildren="false"
-    android:clickable="false">
+    android:clickable="false"
+    tools:background="?android:windowBackground">
 
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,10 +27,12 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
         android:gravity="center"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="30dp"
+        android:textStyle="bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:textAppearance="@style/Headline4"/>
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
         android:id="@+id/text2"
@@ -39,11 +42,11 @@
         app:layout_constraintBottom_toTopOf="@+id/text3"
         android:layout_marginTop="16dp"
         android:text="@string/splash_player_tutorial_1"
+        android:textColor="?android:textColorPrimary"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/Body1"/>
+        android:layout_marginStart="16dp" />
 
     <TextView
         android:id="@+id/text3"
@@ -53,11 +56,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="8dp"
         android:text="@string/splash_player_tutorial_2"
+        android:textColor="?android:textColorPrimary"
         android:layout_width="0dp"
         android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/Body1"/>
+        android:layout_marginStart="16dp" />
 
     <ImageView
         android:id="@+id/phoneImage"
@@ -85,20 +88,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_max="350dp">
 
-        <android.support.v7.widget.CardView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@color/background"
+            android:background="@drawable/top_round_corner_small"
             android:layout_marginTop="68dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="24dp"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:translationY="8dp">
+            android:clipToPadding="false">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="18dp"
@@ -108,50 +108,62 @@
 
                 <TextView
                     android:id="@+id/nowPlaying"
+                    android:textSize="@dimen/player_now_playing_size"
                     android:text="@string/player_now_playing"
+                    android:textStyle="bold"
+                    android:stateListAnimator="@animator/now_playing"
                     android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
                     android:gravity="center_vertical"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/tab"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textAppearance="@style/NowPlaying"
-                    android:stateListAnimator="@animator/now_playing"/>
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
-                <!-- cover -->
-                <dev.olog.msc.presentation.widget.image.view.RoundedCornersImageView
-                    android:id="@+id/cover"
-                    app:layout_constraintTop_toBottomOf="@+id/nowPlaying"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintDimensionRatio="1"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/coverWrapper"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    tools:src="@drawable/placeholder_musical_note"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginTop="@dimen/player_cover_margin_vertical"
-                    android:layout_marginStart="@dimen/player_cover_margin_horizontal"
-                    android:layout_marginEnd="@dimen/player_cover_margin_horizontal"
-                    app:imageViewCornerRadius="8"
-                    android:stateListAnimator="@animator/elevate_on_activated"/>
+                    app:cardCornerRadius="@dimen/default_corner_radius"
+                    app:layout_constraintTop_toBottomOf="@+id/nowPlaying"
+                    app:layout_constraintStart_toStartOf="@+id/nowPlaying"
+                    app:layout_constraintEnd_toEndOf="@+id/nowPlaying"
+                    app:layout_constraintDimensionRatio="1"
+                    android:stateListAnimator="@animator/elevate_on_activated"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:layout_marginTop="16dp">
+
+                    <dev.olog.msc.presentation.widget.image.view.ForegroundImageView
+                        android:id="@+id/cover"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:src="@drawable/placeholder_musical_note"
+                        android:clickable="false"
+                        android:focusable="false" />
+
+                </com.google.android.material.card.MaterialCardView>
 
                 <dev.olog.msc.presentation.widget.SwipeableView
                     android:id="@+id/swipeableView"
                     android:elevation="20dp"
-                    app:layout_constraintTop_toTopOf="@+id/cover"
+                    app:layout_constraintTop_toTopOf="@+id/coverWrapper"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/cover"
+                    app:layout_constraintBottom_toBottomOf="@+id/coverWrapper"
                     android:layout_width="0dp"
-                    android:layout_height="0dp" />
+                    android:layout_height="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    tools:visibility="invisible" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </android.support.v7.widget.CardView>
+        </FrameLayout>
 
 
     </FrameLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

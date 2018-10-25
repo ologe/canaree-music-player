@@ -1,12 +1,15 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.msc.utils.k.extension
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
+import dev.olog.msc.R
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean){
@@ -21,23 +24,27 @@ fun View.toggleVisibility(visible: Boolean, gone: Boolean){
     }
 }
 
-fun View.setGone(){
+inline fun View.setGone(){
     this.visibility = View.GONE
 }
 
-fun View.setVisible(){
+inline fun View.setVisible(){
     this.visibility = View.VISIBLE
+}
+
+inline fun View.setInvisible(){
+    this.visibility = View.INVISIBLE
 }
 
 fun View.setPaddingTop(padding: Int) {
     setPadding(paddingLeft, padding, paddingRight, paddingBottom)
 }
 
-fun View.setPaddingBottom(padding: Int) {
+inline fun View.setPaddingBottom(padding: Int) {
     setPadding(paddingLeft, paddingTop, paddingRight, padding)
 }
 
-fun View.toggleSelected(){
+inline fun View.toggleSelected(){
     this.isSelected = !this.isSelected
 }
 
@@ -67,6 +74,10 @@ fun Context.textColorSecondary(): Int {
 
 fun Context.windowBackground(): Int {
     return themeAttributeToColor(android.R.attr.windowBackground)
+}
+
+fun Context.scrimColor(): Int {
+    return themeAttributeToColor(R.attr.scrimColor)
 }
 
 private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {

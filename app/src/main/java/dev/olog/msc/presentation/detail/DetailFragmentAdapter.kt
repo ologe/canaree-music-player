@@ -1,13 +1,9 @@
 package dev.olog.msc.presentation.detail
 
-import android.arch.lifecycle.Lifecycle
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSnapHelper
-import android.support.v7.widget.RecyclerView
-import android.view.MotionEvent
-import android.view.View
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -25,10 +21,10 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import dev.olog.msc.utils.k.extension.setOnMoveListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 import javax.inject.Inject
@@ -44,34 +40,27 @@ class DetailFragmentAdapter @Inject constructor(
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
         private val viewModel: DetailFragmentViewModel,
-        private val recycledViewPool : RecyclerView.RecycledViewPool
+        private val recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int){
         when (viewType) {
-            R.layout.item_detail_item_info -> {
-                if (mediaId.isAlbum){
-                    viewHolder.setOnClickListener(R.id.clickableArtist, controller) { _, _, _ ->
-                        viewModel.artistMediaId { navigator.toDetailFragment(it) }
-                    }
-                }
-            }
 
             R.layout.item_detail_most_played_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsGrid(list, mostPlayedAdapter)
             }
             R.layout.item_detail_recently_added_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsGrid(list, recentlyAddedAdapter)
             }
             R.layout.item_detail_related_artists_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsList(list, relatedArtistsAdapter)
             }
             R.layout.item_detail_albums_list -> {
-                val list = viewHolder.itemView as RecyclerView
+                val list = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
                 setupHorizontalListAsList(list, albumsAdapter)
             }
             R.layout.item_detail_song,
@@ -89,12 +78,7 @@ class DetailFragmentAdapter @Inject constructor(
                 viewHolder.setOnClickListener(R.id.more, controller) { item, _, view ->
                     navigator.toDialog(item, view)
                 }
-                viewHolder.itemView.findViewById<View>(R.id.dragHandle)?.setOnTouchListener { _, event ->
-                    if(event.actionMasked == MotionEvent.ACTION_DOWN) {
-                        touchHelper?.startDrag(viewHolder)
-                        true
-                    } else false
-                }
+                viewHolder.setOnMoveListener(controller, touchHelper)
             }
             R.layout.item_detail_shuffle -> {
                 viewHolder.setOnClickListener(controller) { _, _, _ ->
@@ -135,21 +119,21 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun setupHorizontalListAsGrid(list: RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = GridLayoutManager(list.context,
-                NESTED_SPAN_COUNT, GridLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalListAsGrid(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
+        val layoutManager = androidx.recyclerview.widget.GridLayoutManager(list.context,
+                NESTED_SPAN_COUNT, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
         list.adapter = adapter
         list.setRecycledViewPool(recycledViewPool)
 
-        val snapHelper = LinearSnapHelper()
+        val snapHelper = androidx.recyclerview.widget.LinearSnapHelper()
         snapHelper.attachToRecyclerView(list)
     }
 
-    private fun setupHorizontalListAsList(list: RecyclerView, adapter: AbsAdapter<*>){
-        val layoutManager = LinearLayoutManager(list.context, LinearLayoutManager.HORIZONTAL, false)
+    private fun setupHorizontalListAsList(list: androidx.recyclerview.widget.RecyclerView, adapter: AbsAdapter<*>){
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(list.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         layoutManager.isItemPrefetchEnabled = true
         layoutManager.initialPrefetchItemCount = NESTED_SPAN_COUNT
         list.layoutManager = layoutManager
@@ -171,15 +155,15 @@ class DetailFragmentAdapter @Inject constructor(
     override fun onViewAttachedToWindow(holder: DataBoundViewHolder) {
         when (holder.itemViewType) {
             R.layout.item_detail_most_played_list -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
+                val list = holder.itemView as androidx.recyclerview.widget.RecyclerView
+                val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
                 mostPlayedAdapter.setAfterDataChanged({
                     updateNestedSpanCount(layoutManager, it.size)
                 }, false)
             }
             R.layout.item_detail_recently_added_list -> {
-                val list = holder.itemView as RecyclerView
-                val layoutManager = list.layoutManager as GridLayoutManager
+                val list = holder.itemView as androidx.recyclerview.widget.RecyclerView
+                val layoutManager = list.layoutManager as androidx.recyclerview.widget.GridLayoutManager
                 recentlyAddedAdapter.setAfterDataChanged({
                     updateNestedSpanCount(layoutManager, it.size)
                 }, false)
@@ -210,7 +194,7 @@ class DetailFragmentAdapter @Inject constructor(
         }
     }
 
-    private fun updateNestedSpanCount(layoutManager: GridLayoutManager, size: Int){
+    private fun updateNestedSpanCount(layoutManager: androidx.recyclerview.widget.GridLayoutManager, size: Int){
         layoutManager.spanCount = when {
             size == 0 -> 1
             size < NESTED_SPAN_COUNT -> size
@@ -228,6 +212,10 @@ class DetailFragmentAdapter @Inject constructor(
                 val playlistId = mediaId.resolveId
                 return playlistId != PlaylistConstants.LAST_ADDED_ID || !PlaylistConstants.isAutoPlaylist(playlistId)
             }
+//            if (mediaId.isPodcastPlaylist){
+//                val playlistId = mediaId.resolveId
+//                return playlistId != PlaylistConstants.PODCAST_LAST_ADDED_ID || !PlaylistConstants.isPodcastAutoPlaylist(playlistId)
+//            }
             return false
         }
 
@@ -249,6 +237,9 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {
+        if (mediaId.isPodcastPlaylist){
+            return false
+        }
         return viewType == R.layout.item_detail_song ||
                 viewType == R.layout.item_detail_song_with_drag_handle ||
                 viewType == R.layout.item_detail_song_with_track ||

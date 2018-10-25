@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.base.adapter
 
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 
 data class AdapterControllerResult(
         val wasEmpty: Boolean,

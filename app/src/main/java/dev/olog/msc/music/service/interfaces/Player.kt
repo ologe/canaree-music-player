@@ -7,16 +7,19 @@ interface Player : PlayerLifecycle {
     fun isPlaying(): Boolean
     fun getBookmark(): Long
 
-    fun prepare(pairSongBookmark: Pair<PlayerMediaEntity, Long>)
+    fun prepare(playerModel: PlayerMediaEntity)
     fun playNext(playerModel: PlayerMediaEntity, skipType: SkipType)
     fun play(playerModel: PlayerMediaEntity)
 
     fun resume()
-    fun pause(stopService: Boolean)
+    fun pause(stopService: Boolean, releaseFocus: Boolean = true)
     fun seekTo(millis: Long)
 
     fun forwardTenSeconds()
     fun replayTenSeconds()
+
+    fun forwardThirtySeconds()
+    fun replayThirtySeconds()
 
     fun stopService()
 

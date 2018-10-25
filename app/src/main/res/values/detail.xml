@@ -23,6 +23,10 @@
         <item/>
         <item>@string/common_albums</item>
         <item>Other genres</item>
+        <item>Other playlists</item>
+        <item/>
+        <item/>
+        <item>@string/common_albums</item>
     </string-array>
 
     <string name="detail_see_all">see all</string>

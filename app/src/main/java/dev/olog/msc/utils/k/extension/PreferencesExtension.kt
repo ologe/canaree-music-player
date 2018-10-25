@@ -1,7 +1,7 @@
 package dev.olog.msc.utils.k.extension
 
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceGroup
+import androidx.preference.Preference
+import androidx.preference.PreferenceGroup
 
 fun forEach(group: PreferenceGroup, action: (Preference) -> Unit){
     val size = group.preferenceCount

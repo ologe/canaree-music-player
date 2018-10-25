@@ -1,9 +1,8 @@
 package dev.olog.msc.presentation.main
 
-import android.arch.lifecycle.DefaultLifecycleObserver
-import android.arch.lifecycle.LifecycleOwner
-import android.support.v4.app.FragmentManager
 import android.view.View
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.theme.AppTheme
@@ -19,7 +18,7 @@ class StatusBarColorBehavior @Inject constructor(
 
 ) : DefaultLifecycleObserver,
         SlidingUpPanelLayout.PanelSlideListener,
-        FragmentManager.OnBackStackChangedListener {
+        androidx.fragment.app.FragmentManager.OnBackStackChangedListener {
 
     init {
         activity.lifecycle.addObserver(this)
@@ -68,7 +67,7 @@ class StatusBarColorBehavior @Inject constructor(
 
         when (newState){
             SlidingUpPanelLayout.PanelState.EXPANDED -> {
-                if (AppTheme.isFullscreen() || AppTheme.isBigImage()){
+                if (AppTheme.isFullscreenTheme() || AppTheme.isBigImageTheme()){
                     activity.window.removeLightStatusBar()
                 } else {
                     activity.window.setLightStatusBar()

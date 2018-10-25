@@ -28,6 +28,7 @@
     <string name="category_albums">@string/common_albums</string>
     <string name="category_artists">@string/common_artists</string>
     <string name="category_genres">@string/common_genres</string>
+    <string name="category_podcasts">@string/common_podcasts</string>
 
     <string name="category_no_tab_visible">And now?</string>
 
@@ -38,6 +39,13 @@
         <item>No albums</item>
         <item>No artists</item>
         <item>No genres</item>
+    </string-array>
+
+    <string-array name="tab_empty_podcast">
+        <item>No playlist</item>
+        <item>No podcasts</item>
+        <item>No albums</item>
+        <item>No artists</item>
     </string-array>
 
     <string name="category_sort_by">Sort by</string>

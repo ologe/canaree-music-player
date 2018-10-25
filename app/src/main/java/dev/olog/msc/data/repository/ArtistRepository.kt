@@ -2,6 +2,7 @@ package dev.olog.msc.data.repository
 
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
+import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
@@ -11,7 +12,9 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.utils.k.extension.crashlyticsLog
+import dev.olog.msc.onlyWithStoragePermission
+import dev.olog.msc.utils.k.extension.debounceFirst
+import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -35,10 +38,13 @@ class ArtistRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, arrayOf("count(*) as size"), null,
                 null, " size ASC LIMIT 1", true
-        ).mapToOne { 0 }
-                .flatMap { songGateway.getAll() }
+        ).onlyWithStoragePermission()
+                .debounceFirst()
+                .lift(SqlBrite.Query.mapToOne { 0 })
+                .switchMap { songGateway.getAll() }
                 .map { mapToArtists(it) }
                 .map { updateImages(it) }
+
     }
 
     private fun updateImages(list: List<Artist>): List<Artist>{
@@ -60,7 +66,7 @@ class ArtistRepository @Inject constructor(
                     val albums = countAlbums(song.artistId, songList)
                     val songs = countTracks(song.artistId, songList)
                     mapSongToArtist(song, songs, albums)
-                }.sortedWith(Comparator { o1, o2 -> collator.compare(o1.name, o2.name) })
+                }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.name, o2.name) })
                 .toList()
     }
 
@@ -109,18 +115,18 @@ class ArtistRepository @Inject constructor(
     override fun getLastPlayed(): Observable<List<Artist>> {
         return Observables.combineLatest(
                 getAll(),
-                lastPlayedDao.getAll().toObservable(),
-                { all, lastPlayed ->
+                lastPlayedDao.getAll().toObservable()
+        ) { all, lastPlayed ->
 
-            if (all.size < 10) {
+            if (all.size < 5) {
                 listOf()
             } else {
                 lastPlayed.asSequence()
-                        .mapNotNull { lastPlayedArtistEntity -> all.firstOrNull { it.id == lastPlayedArtistEntity.id } }
-                        .take(10)
+                        .mapNotNull { last -> all.firstOrNull { it.id == last.id } }
+                        .take(5)
                         .toList()
             }
-        })
+        }
     }
 
     override fun addLastPlayed(id: Long): Completable {
