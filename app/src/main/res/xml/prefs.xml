@@ -159,6 +159,14 @@
     <PreferenceCategory
         android:title="@string/prefs_category_other">
 
+        <SwitchPreference
+            android:key="@string/prefs_lockscreen_artwork_key"
+            android:title="@string/prefs_lockscreen_artwork_title"
+            android:summaryOn="@string/prefs_lockscreen_artwork_summary_on"
+            android:summaryOff="@string/prefs_lockscreen_artwork_summary_off"
+            android:defaultValue="false"/>
+
+
         <Preference
             android:key="@string/prefs_last_fm_credentials_key"
             android:title="@string/prefs_last_fm_credentials_title"

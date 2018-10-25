@@ -187,6 +187,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 AppTheme.updateTheme(act)
                 requestMainActivityToRecreate()
             }
+            getString(R.string.prefs_lockscreen_artwork_key) -> AppConstants.updateLockscreenArtworkEnabled(ctx)
             getString(R.string.prefs_notch_support_key),
             getString(R.string.prefs_folder_tree_view_key),
             getString(R.string.prefs_blacklist_key),

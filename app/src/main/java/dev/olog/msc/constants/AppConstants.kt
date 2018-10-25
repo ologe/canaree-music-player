@@ -25,6 +25,7 @@ object AppConstants {
 
     var QUICK_ACTION = QuickActionView.Type.NONE
     var IMAGE_SHAPE = ImageShape.ROUND
+    var SHOW_LOCKSCREEN_IMAGE = false
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -38,6 +39,7 @@ object AppConstants {
 
         updateQuickAction(context)
         updateIconShape(context)
+        updateLockscreenArtworkEnabled(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -46,6 +48,15 @@ object AppConstants {
 
     fun updateIconShape(context: Context){
         IMAGE_SHAPE = getIconShape(context)
+    }
+
+    fun updateLockscreenArtworkEnabled(context: Context) {
+        SHOW_LOCKSCREEN_IMAGE = getLockscreenArtworkEnabled(context)
+    }
+
+    private fun getLockscreenArtworkEnabled(context: Context): Boolean {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+        return preferences.getBoolean(context.getString(R.string.prefs_lockscreen_artwork_key), false)
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {

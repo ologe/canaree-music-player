@@ -276,6 +276,12 @@
     <string name="prefs_last_fm_credentials_message">Credentials will be encrypted</string>
     <string name="prefs_last_fm_credentials_summary">Set username and password for your Last.fm account</string>
 
+    <!--lockscreen artwork-->
+    <string name="prefs_lockscreen_artwork_key" translatable="false">key_lockscreen_artwork</string>
+    <string name="prefs_lockscreen_artwork_title">Lockscreen artwork</string>
+    <string name="prefs_lockscreen_artwork_summary_off">@string/common_disabled</string>
+    <string name="prefs_lockscreen_artwork_summary_on">@string/common_enabled</string>
+
     <!--daynight-->
     <string name="prefs_day_night_key" translatable="false">key_day_night</string>
     <string name="prefs_day_night_title">Day-Night mode</string>
