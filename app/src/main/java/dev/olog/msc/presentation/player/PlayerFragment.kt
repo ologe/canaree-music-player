@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
@@ -110,6 +111,10 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
                     viewModel.updateProgress(bookmark)
                     handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
                 }
+
+        if (AppConstants.IMAGE_SHAPE == AppConstants.ImageShape.RECTANGLE){
+            view.coverWrapper?.radius = 0f
+        }
 
         if (act.isLandscape && !AppTheme.isFullscreenTheme() && !AppTheme.isMiniTheme()){
 

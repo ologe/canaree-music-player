@@ -7,6 +7,10 @@ import dev.olog.msc.presentation.widget.QuickActionView
 
 object AppConstants {
 
+    enum class ImageShape {
+        RECTANGLE, ROUND
+    }
+
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
@@ -20,7 +24,7 @@ object AppConstants {
     const val NO_IMAGE = "NO_IMAGE"
 
     var QUICK_ACTION = QuickActionView.Type.NONE
-    var ICON_SHAPE = "round"
+    var IMAGE_SHAPE = ImageShape.ROUND
 
     const val PROGRESS_BAR_INTERVAL = 250
 
@@ -41,7 +45,7 @@ object AppConstants {
     }
 
     fun updateIconShape(context: Context){
-        ICON_SHAPE = getIconShape(context)
+        IMAGE_SHAPE = getIconShape(context)
     }
 
     private fun getQuickAction(context: Context): QuickActionView.Type {
@@ -54,9 +58,14 @@ object AppConstants {
         }
     }
 
-    private fun getIconShape(context: Context): String {
+    private fun getIconShape(context: Context): ImageShape {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        return prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))!!
+        val shape = prefs.getString(context.getString(R.string.prefs_icon_shape_key), context.getString(R.string.prefs_icon_shape_rounded))!!
+        return when (shape){
+            context.getString(R.string.prefs_icon_shape_rounded) -> ImageShape.ROUND
+            context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
+            else -> throw IllegalArgumentException("image shape not valid=$shape")
+        }
     }
 
 }

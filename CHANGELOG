@@ -3,6 +3,7 @@
 - fixed crash on repeat mode changed
 - added message when starting updating album/artist
 - fix playback speed menu typo
+- fixed square image shape on player
 
 2.0.3
 

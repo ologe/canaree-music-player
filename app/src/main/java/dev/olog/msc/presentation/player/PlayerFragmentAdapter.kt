@@ -12,6 +12,7 @@ import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.HasSlidingPanel
@@ -99,12 +100,17 @@ class PlayerFragmentAdapter (
             bindPlayerControls(view)
         }
 
+        val view = holder.itemView
+        if (AppConstants.IMAGE_SHAPE == AppConstants.ImageShape.RECTANGLE){
+            view.coverWrapper?.radius = 0f
+        }
+
         when (viewType){
             R.layout.fragment_player_controls,
             R.layout.fragment_player_controls_spotify,
             R.layout.fragment_player_controls_big_image,
             R.layout.fragment_player_controls_clean -> {
-                val view = holder.itemView
+
                 viewModel.observePaletteColors()
                         .takeUntil(RxView.detaches(view))
                         .map { it.accent }
@@ -120,7 +126,6 @@ class PlayerFragmentAdapter (
 
             }
             R.layout.fragment_player_controls_flat -> {
-                val view = holder.itemView
                 viewModel.observeProcessorColors()
                         .takeUntil(RxView.detaches(view))
                         .observeOn(AndroidSchedulers.mainThread())
@@ -147,7 +152,6 @@ class PlayerFragmentAdapter (
                         },Throwable::printStackTrace)
             }
             R.layout.fragment_player_controls_fullscreen -> {
-                val view = holder.itemView
                 view.playPause.useLightImage()
                 view.next.useLightImage()
                 view.previous.useLightImage()
@@ -167,7 +171,6 @@ class PlayerFragmentAdapter (
                         }, Throwable::printStackTrace)
             }
             R.layout.fragment_player_controls_mini -> {
-                val view = holder.itemView
                 viewModel.observePaletteColors()
                         .takeUntil(RxView.detaches(view))
                         .map { it.accent }
