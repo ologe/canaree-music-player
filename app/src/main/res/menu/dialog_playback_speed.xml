@@ -7,7 +7,7 @@
             android:title="0.5x"/>
 
         <item android:id="@+id/speed80"
-            android:title="x0.8x"/>
+            android:title="0.8x"/>
 
         <item android:id="@+id/speed100"
             android:title="1x"/>
