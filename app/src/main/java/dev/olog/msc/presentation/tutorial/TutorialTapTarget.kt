@@ -21,7 +21,7 @@ object TutorialTapTarget {
                 .tint(context)
 
         val arrowTarget = TapTarget.forView(arrow, context.getString(R.string.tutorial_sort_by_arrow))
-                .transparentTarget(true)
+                .icon(ContextCompat.getDrawable(context, R.drawable.vd_arrow_down))
                 .tint(context)
 
         TapTargetSequence(text.context as Activity)
@@ -34,7 +34,7 @@ object TutorialTapTarget {
         val context = view.context
 
         val target = TapTarget.forView(view, context.getString(R.string.tutorial_floating_window))
-                .transparentTarget(true)
+                .icon(ContextCompat.getDrawable(context, R.drawable.vd_search_text))
                 .tint(context)
         TapTargetView.showFor(view.context as Activity, target)
     }
