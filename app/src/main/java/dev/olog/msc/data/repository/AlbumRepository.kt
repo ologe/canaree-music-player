@@ -54,6 +54,10 @@ class AlbumRepository @Inject constructor(
     }
 
     private fun updateImages(list: List<Album>): List<Album>{
+        if (AppConstants.useFakeData){
+            return list
+        }
+
         val allForAlbum = usedImageGateway.getAllForAlbums()
         if (allForAlbum.isEmpty()){
             return list

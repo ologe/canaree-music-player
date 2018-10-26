@@ -3,6 +3,7 @@ package dev.olog.msc.data.mapper
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
+import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.getLong
@@ -20,13 +21,19 @@ fun Cursor.toFakeSong(): Song {
     val path = getString(MediaStore.MediaColumns.DATA)
     val folder = extractFolder(path)
 
+    val image = if (AppConstants.useFakeData) {
+        ImagesFolderUtils.getAssetImage(albumId, id)
+    } else {
+        ImagesFolderUtils.forAlbum(albumId)
+    }
+
     return Song(
             id, artistId, albumId,
             "An awesome song",
             "An awesome artist",
             "An awesome album artist",
             "An awesome album",
-            ImagesFolderUtils.forAlbum(albumId),
+            image,
             duration, dateAdded,
             path, folder, -1, -1
     )

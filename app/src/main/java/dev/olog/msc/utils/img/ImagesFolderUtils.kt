@@ -43,10 +43,11 @@ object ImagesFolderUtils {
         return getImageImpl(context, PLAYLIST, playlistId.toString())
     }
 
+    fun getAssetImage(albumId: Long, songId: Long): String{
+        return getFakeImage(albumId, songId)
+    }
+
     fun forAlbum(albumId: Long): String {
-        if (AppConstants.useFakeData){
-            return getFakeImage(albumId)
-        }
 
         val uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId)
         val cursor = app.contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM_ART), null,
@@ -62,9 +63,9 @@ object ImagesFolderUtils {
 
         return result
     }
-    private fun getFakeImage(albumId: Long): String {
+    private fun getFakeImage(albumId: Long, songId: Long): String {
         val size = 10L
-        val safe = clamp(albumId.rem(size), 0, size - 1)
+        val safe = clamp((albumId + songId).rem(size), 0, size - 1)
         return Uri.parse("file:///android_asset/images/$safe.jpg").toString()
     }
 
