@@ -97,8 +97,8 @@ class DetailFragmentPresenter @Inject constructor(
     }
 
     private fun handleAlbumsHeader(list: MutableList<DisplayableItem>) : MutableList<DisplayableItem>{
-        list.clear()
         if (list.isNotEmpty()){
+            list.clear()
             list.addAll(0, headers.albums())
         }
         return list
