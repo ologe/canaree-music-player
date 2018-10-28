@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import dev.olog.msc.R
 import dev.olog.msc.utils.k.extension.dpToPx
@@ -15,7 +16,7 @@ class ShadowImageView @JvmOverloads constructor(
         context: Context,
         attr: AttributeSet? = null
 
-) : ForegroundImageView(context, attr) {
+) : AppCompatImageView(context, attr) {
 
     companion object {
         private const val DEFAULT_RADIUS = 0.5f
@@ -24,7 +25,6 @@ class ShadowImageView @JvmOverloads constructor(
         private const val SATURATION = 1.3f
         private const val TOP_OFFSET = 2.2f
         private const val PADDING = 22f
-        internal const val DOWNSCALE_FACTOR = 0.2f
     }
 
     var radiusOffset by Delegates.vetoable(DEFAULT_RADIUS) { _, _, newValue ->

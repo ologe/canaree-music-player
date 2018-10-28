@@ -8,6 +8,8 @@ interface PodcastGateway : BaseGateway<Podcast, Long> {
 
     fun getAllUnfiltered(): Observable<List<Podcast>>
 
+    fun getByAlbumId(albumId: Long): Observable<Podcast>
+
     fun deleteSingle(podcastId: Long): Completable
 
     fun deleteGroup(podcastList: List<Podcast>): Completable

@@ -7,6 +7,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.getInt
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString
+import dev.olog.msc.utils.img.ImagesFolderUtils
 import java.io.File
 
 
@@ -40,7 +41,7 @@ fun Cursor.toSong(): Song {
 
     return Song(
             id, artistId, albumId, title, artist, albumArtist, album,
-            "",
+            ImagesFolderUtils.forAlbum(albumId),
             duration, dateAdded, path,
             folder.capitalize(), disc, track)
 }

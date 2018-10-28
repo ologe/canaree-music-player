@@ -142,6 +142,10 @@ class SongRepository @Inject constructor(
         return cachedData.map { list -> list.first { it.id == param } }
     }
 
+    override fun getByAlbumId(albumId: Long): Observable<Song> {
+        return cachedData.map { list -> list.first { it.albumId == albumId } }
+    }
+
     @SuppressLint("Recycle")
     override fun getByUri(uri: Uri): Single<Song> {
         return Single.fromCallable { getByUriInternal(uri) }

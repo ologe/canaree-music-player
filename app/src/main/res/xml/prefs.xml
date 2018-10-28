@@ -187,6 +187,13 @@
             android:key="@string/prefs_auto_create_images_key"
             android:defaultValue="true" />
 
+        <SwitchPreference
+            android:title="@string/prefs_ignored_media_store_cover_title"
+            android:summaryOn="@string/prefs_ignored_media_store_cover_summary_on"
+            android:summaryOff="@string/prefs_ignored_media_store_cover_summary_off"
+            android:key="@string/prefs_ignore_media_store_cover_key"
+            android:defaultValue="false" />
+
         <Preference
             android:key="@string/prefs_reset_tutorial_key"
             android:title="@string/prefs_reset_tutorial_title" />

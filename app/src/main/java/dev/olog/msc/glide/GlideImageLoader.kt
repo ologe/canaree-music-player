@@ -10,6 +10,8 @@ import com.bumptech.glide.load.model.ModelLoaderFactory
 import com.bumptech.glide.load.model.MultiModelLoaderFactory
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
+import dev.olog.msc.domain.gateway.PodcastGateway
+import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
@@ -21,7 +23,9 @@ import java.security.MessageDigest
 class GlideImageLoader(
         private val context: Context,
         private val lastFmGateway: LastFmGateway,
-        private val uriLoader: ModelLoader<Uri, InputStream>
+        private val uriLoader: ModelLoader<Uri, InputStream>,
+        private val songGateway: SongGateway,
+        private val podcastGateway: PodcastGateway
 
 ) : ModelLoader<DisplayableItem, InputStream> {
 
@@ -48,6 +52,9 @@ class GlideImageLoader(
                         ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideAlbumFetcher(context, model, lastFmGateway))
                     }
                 }
+                AppConstants.IGNORE_MEDIA_STORE_COVERS -> {
+                    ModelLoader.LoadData(MediaIdKey(model.mediaId), GlideOriginalImageFetcher(model.mediaId, songGateway, podcastGateway))
+                }
                 else -> {
                     // use default album image
                     val file = File(model.image)
@@ -71,21 +78,25 @@ class GlideImageLoader(
     }
 
     private fun notAnImage(model: DisplayableItem): Boolean {
-        if (!URLUtil.isNetworkUrl(model.image)){
-            return !ImageUtils.isRealImage(model.image)
+        val isNetworkUrl = URLUtil.isNetworkUrl(model.image)
+        val isReal = ImageUtils.isRealImage(model.image)
+        if (!isNetworkUrl){
+            return !isReal
         }
         return false
     }
 
     class Factory(
             private val context: Context,
-            private val lastFmGateway: LastFmGateway
+            private val lastFmGateway: LastFmGateway,
+            private val songGateway: SongGateway,
+            private val podcastGateway: PodcastGateway
 
     ) : ModelLoaderFactory<DisplayableItem, InputStream> {
 
         override fun build(multiFactory: MultiModelLoaderFactory): ModelLoader<DisplayableItem, InputStream> {
             val uriLoader = multiFactory.build(Uri::class.java, InputStream::class.java)
-            return GlideImageLoader(context, lastFmGateway, uriLoader)
+            return GlideImageLoader(context, lastFmGateway, uriLoader, songGateway, podcastGateway)
         }
 
         override fun teardown() {

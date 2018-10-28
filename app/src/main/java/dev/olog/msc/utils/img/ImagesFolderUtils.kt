@@ -53,15 +53,19 @@ object ImagesFolderUtils {
         val cursor = app.contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM_ART), null,
                 null, null)
 
-        var result = ""
+        var result : String? = null
 
         cursor?.use {
             if (it.moveToFirst()){
-                result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART) ?: ""
+                result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART)
             }
         }
 
-        return result
+        if (result == null){
+            result = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId).toString()
+        }
+
+        return result!!
     }
     private fun getFakeImage(albumId: Long, songId: Long): String {
         val size = 10L

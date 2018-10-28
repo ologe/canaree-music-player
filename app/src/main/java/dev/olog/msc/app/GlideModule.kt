@@ -46,7 +46,9 @@ class GlideModule : AppGlideModule() {
 
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
         val lastFmGateway = (context.applicationContext as App).lastFmGateway
-        val factory = GlideImageLoader.Factory(context, lastFmGateway)
+        val songGateway = (context.applicationContext as App).songGateway
+        val podcastGateway = (context.applicationContext as App).podcastGateway
+        val factory = GlideImageLoader.Factory(context, lastFmGateway, songGateway, podcastGateway)
         registry.prepend(DisplayableItem::class.java, InputStream::class.java, factory)
         registry.append(AudioFileCover::class.java, InputStream::class.java, AudioFileCoverLoader.Factory())
 

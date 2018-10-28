@@ -291,8 +291,16 @@ class AppPreferencesImpl @Inject constructor(
             setDefaultLibraryAlbumArtistVisibility()
             setDefaultPodcastVisibility()
             setDefaultAdaptiveColors()
+            setDefaultLockscreenArtwork()
 
             emitter.onComplete()
+        }
+    }
+
+    private fun setDefaultLockscreenArtwork(){
+        preferences.edit {
+            putBoolean(context.getString(R.string.prefs_lockscreen_artwork_key), false)
+            putBoolean(context.getString(R.string.prefs_ignore_media_store_cover_key), false)
         }
     }
 

@@ -1,10 +1,12 @@
 2.0.4
-- color accent crash
+- fixed color accent crash
 - fixed crash on repeat mode changed
 - added message when starting updating album/artist
 - fix playback speed menu typo
 - fixed square image shape on player
 - added option to show lockscreen
+- added option to ignore media store thumnails
+- removed edit item ripple on click
 
 2.0.3
 

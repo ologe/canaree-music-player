@@ -113,6 +113,10 @@ class PodcastRepository @Inject constructor(
         return cachedData.map { list -> list.first { it.id == param } }
     }
 
+    override fun getByAlbumId(albumId: Long): Observable<Podcast> {
+        return cachedData.map { list -> list.first { it.albumId == albumId } }
+    }
+
     override fun getUneditedByParam(podcastId: Long): Observable<Podcast> {
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",

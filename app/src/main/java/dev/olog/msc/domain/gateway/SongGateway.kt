@@ -8,6 +8,8 @@ import io.reactivex.Single
 
 interface SongGateway : BaseGateway<Song, Long> {
 
+    fun getByAlbumId(albumId: Long): Observable<Song>
+
     fun getAllUnfiltered(): Observable<List<Song>>
 
     fun deleteSingle(songId: Long): Completable

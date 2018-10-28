@@ -56,7 +56,7 @@ class AudioFileCoverFetcher(
                 callback.onDataReady(stream)
             }
         } catch (ex: Exception){
-
+            callback.onLoadFailed(ex)
         } finally {
             stream?.close()
             retriever.release()
