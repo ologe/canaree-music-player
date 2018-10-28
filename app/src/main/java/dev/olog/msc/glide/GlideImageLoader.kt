@@ -77,7 +77,7 @@ class GlideImageLoader(
     }
 
     private fun notAnImage(model: DisplayableItem): Boolean {
-        return model.image.isBlank()
+        return model.image.isBlank() || URLUtil.isNetworkUrl(model.image)
     }
 
     class Factory(
