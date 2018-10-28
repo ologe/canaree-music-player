@@ -15,7 +15,6 @@ import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
-import dev.olog.msc.utils.img.ImageUtils
 import java.io.File
 import java.io.InputStream
 import java.security.MessageDigest
@@ -78,12 +77,7 @@ class GlideImageLoader(
     }
 
     private fun notAnImage(model: DisplayableItem): Boolean {
-        val isNetworkUrl = URLUtil.isNetworkUrl(model.image)
-        val isReal = ImageUtils.isRealImage(model.image)
-        if (!isNetworkUrl){
-            return !isReal
-        }
-        return false
+        return model.image.isBlank()
     }
 
     class Factory(

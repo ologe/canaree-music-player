@@ -90,6 +90,10 @@ class SongRepository @Inject constructor(
     }
 
     private fun updateImages(list: List<Song>): List<Song>{
+        if (AppConstants.useFakeData){
+            return list
+        }
+
         val allForTracks = usedImageGateway.getAllForTracks()
         val allForAlbums = usedImageGateway.getAllForAlbums()
         if (allForTracks.isEmpty() && allForAlbums.isEmpty()){
@@ -116,6 +120,9 @@ class SongRepository @Inject constructor(
     }
 
     private fun adjustImages(original: List<Song>): List<Song> {
+        if (AppConstants.useFakeData){
+            return original.map { it.copy(image = ImagesFolderUtils.getAssetImage(it.albumId, it.id)) }
+        }
         val images = CommonQuery.searchForImages(context)
         return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
     }

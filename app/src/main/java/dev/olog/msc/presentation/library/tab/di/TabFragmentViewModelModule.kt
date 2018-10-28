@@ -291,7 +291,7 @@ private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
             R.layout.item_tab_album_last_played,
             MediaId.albumId(id),
             title,
-            artist,
+            DisplayableItem.adjustArtist(artist),
             image
     )
 }
