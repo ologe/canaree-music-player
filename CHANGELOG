@@ -7,6 +7,8 @@
 - added option to show lockscreen
 - added option to ignore media store thumnails
 - removed edit item ripple on click
+- fixed low quality images
+- fixed download track image automatically
 
 2.0.3
 
