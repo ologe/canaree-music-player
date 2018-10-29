@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
+import com.crashlytics.android.Crashlytics
 import dev.olog.msc.presentation.utils.images.ColorUtil
 import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.msc.utils.k.extension.*
@@ -40,32 +41,44 @@ internal class AdaptiveColorImageViewPresenter(
             .debounceFirst()
 
     fun onNextImage(drawable: Drawable?){
-        onNextImage(drawable?.toBitmap(300, 300))
+        try {
+            onNextImage(drawable?.toBitmap(300, 300))
+        } catch (ex: Exception) {
+            if (ex !is IllegalArgumentException){
+                Crashlytics.logException(ex)
+            }
+        }
     }
 
     fun onNextImage(bitmap: Bitmap?){
-        processorDisposable.unsubscribe()
-        paletteDisposable.unsubscribe()
+        try {
+            processorDisposable.unsubscribe()
+            paletteDisposable.unsubscribe()
 
-        if (bitmap == null){
-            processorPalettePublisher.onNext(defaultProcessorColors)
-            palettePublisher.onNext(defaultPaletteColors)
-            return
+            if (bitmap == null){
+                processorPalettePublisher.onNext(defaultProcessorColors)
+                palettePublisher.onNext(defaultPaletteColors)
+                return
+            }
+
+            processorDisposable = Single.fromCallable { ImageProcessor(context).processImage(bitmap) }
+                    .subscribeOn(Schedulers.computation())
+                    .subscribe({
+                        processorPalettePublisher.onNext(ValidProcessorColors(it.background,
+                                it.primaryTextColor, it.secondaryTextColor))
+                    }, Throwable::printStackTrace)
+
+            paletteDisposable = Single.fromCallable { Palette.from(bitmap).generate() }
+                    .map { ColorUtil.getAccentColor(context, it) }
+                    .subscribeOn(Schedulers.computation())
+                    .subscribe({
+                        palettePublisher.onNext(ValidPaletteColors(it))
+                    }, Throwable::printStackTrace)
+        } catch (ex: Exception){
+            if (ex !is IllegalArgumentException){
+                Crashlytics.logException(ex)
+            }
         }
-
-        processorDisposable = Single.fromCallable { ImageProcessor(context).processImage(bitmap) }
-                .subscribeOn(Schedulers.computation())
-                .subscribe({
-                    processorPalettePublisher.onNext(ValidProcessorColors(it.background,
-                            it.primaryTextColor, it.secondaryTextColor))
-                }, Throwable::printStackTrace)
-
-        paletteDisposable = Single.fromCallable { Palette.from(bitmap).generate() }
-                .map { ColorUtil.getAccentColor(context, it) }
-                .subscribeOn(Schedulers.computation())
-                .subscribe({
-                    palettePublisher.onNext(ValidPaletteColors(it))
-                }, Throwable::printStackTrace)
     }
 
 }

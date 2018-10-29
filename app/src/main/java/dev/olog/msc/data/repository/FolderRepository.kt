@@ -30,6 +30,7 @@ class FolderRepository @Inject constructor(
     private fun queryAllData(): Observable<List<Folder>> {
         return songGateway.getAll()
                 .map(this::mapToFolderList)
+                .map { it.filter { it.title.isNotBlank() } }
     }
 
     private val cachedData = queryAllData()

@@ -42,6 +42,8 @@
 -dontwarn java.nio.**
 -dontwarn org.jaudiotagger.**
 
+-keep class com.google.android.material.textfield.TextInputLayout { *; }
+
 #sliding panel
 -keep class android.support.design.stateful.ExtendableSavedState { *; }
 

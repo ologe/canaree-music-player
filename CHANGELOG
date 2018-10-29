@@ -1,3 +1,8 @@
+2.0.5
+- Fix adaptive color Image presenter crash
+- fixed null string crash cursor mapper
+- added keep rule to TextInputEditText in proguard
+
 2.0.4
 - fixed color accent crash
 - fixed crash on repeat mode changed
