@@ -104,7 +104,7 @@ dependencies {
 //    lintChecks project(':lint')
 
     // data binding
-//    kapt "androidx.databinding:databinding-compiler:$gradle_plugin"
+    kapt "androidx.databinding:databinding-compiler:$gradle_plugin"
 
     // kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -130,7 +130,7 @@ dependencies {
     implementation "androidx.palette:palette:$rootProject.androidX"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraint_layout"
 
-    implementation 'com.google.android.gms:play-services-cast-framework:16.0.3'
+    implementation 'com.google.android.gms:play-services-cast-framework:16.1.0'
 
     // billing
     implementation "com.android.billingclient:billing:$rootProject.billing"
