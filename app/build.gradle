@@ -198,6 +198,7 @@ dependencies {
     }
     implementation "com.google.firebase:firebase-perf:$rootProject.firebase_perf"
     implementation "com.google.firebase:firebase-inappmessaging-display:$rootProject.firebase_in_app_mess"
+    implementation 'com.google.firebase:firebase-appindexing:16.0.2'
 
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"

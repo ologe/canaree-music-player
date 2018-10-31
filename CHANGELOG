@@ -3,6 +3,7 @@
     - tracks current screen
 - added perf monitoring
 - added in-app message
+- added website deep-linking
 
 2.0.5
 - Fix adaptive color Image presenter crash
