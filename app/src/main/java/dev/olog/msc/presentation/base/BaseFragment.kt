@@ -9,6 +9,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.android.support.DaggerFragment
+import dev.olog.msc.analytics.AppAnalytics
 import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
@@ -16,7 +17,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-abstract class BaseFragment : DaggerFragment() {
+abstract class BaseFragment : DaggerFragment(), LoggableFragment {
 
     private var disposable: Disposable? = null
 
@@ -44,6 +45,11 @@ abstract class BaseFragment : DaggerFragment() {
     }
 
     protected open fun onViewBound(view: View, savedInstanceState: Bundle?) {}
+
+    override fun onResume() {
+        super.onResume()
+        AppAnalytics.logScreen(activity, this)
+    }
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
