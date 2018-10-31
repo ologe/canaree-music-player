@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
 
@@ -195,6 +196,9 @@ dependencies {
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
         transitive = true
     }
+    implementation "com.google.firebase:firebase-perf:$rootProject.firebase_perf"
+    implementation "com.google.firebase:firebase-inappmessaging-display:$rootProject.firebase_in_app_mess"
+
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
     androidTestImplementation 'androidx.test:runner:1.1.0-beta02'

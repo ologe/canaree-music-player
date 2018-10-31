@@ -1,6 +1,8 @@
 2.0.6
 - improved analytics:
     - tracks current screen
+- added perf monitoring
+- added in-app message
 
 2.0.5
 - Fix adaptive color Image presenter crash
