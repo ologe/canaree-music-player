@@ -33,6 +33,7 @@ class BlurImageView @JvmOverloads constructor(
                 super.setImageDrawable(drawable)
             }
         } catch (ex: Exception){
+            ex.printStackTrace()
             super.setImageDrawable(drawable)
         }
     }
