@@ -11,7 +11,9 @@ import java.io.File
 fun catchNothing(func:() -> Unit){
     try {
         func()
-    } catch (ex: Exception){}
+    } catch (ex: Exception){
+        ex.printStackTrace()
+    }
 }
 
 fun notifyItemChanged(context: Context, path: String){

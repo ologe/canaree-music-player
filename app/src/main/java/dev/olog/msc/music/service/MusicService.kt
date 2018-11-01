@@ -12,6 +12,7 @@ import android.support.v4.media.RatingCompat
 import android.support.v4.media.session.MediaSessionCompat
 import dagger.Lazy
 import dev.olog.msc.FileProvider
+import dev.olog.msc.catchNothing
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.music.service.helper.CarHelper
@@ -190,28 +191,38 @@ class MusicService : BaseMusicService() {
     }
 
     private fun grantUriPermissions(packageName: String){
-        grantUriPermission(packageName,
-                Uri.parse("content://media/external/audio/albumart"),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        catchNothing {
+            grantUriPermission(packageName,
+                    Uri.parse("content://media/external/audio/albumart"),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
 
-        grantUriPermission(packageName,
-                FileProvider.getUriForPath(this, cacheDir.path),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        catchNothing {
+            grantUriPermission(packageName,
+                    FileProvider.getUriForPath(this, cacheDir.path),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
 
-        val folderDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.FOLDER)
-        grantUriPermission(packageName,
-                FileProvider.getUriForFile(this, folderDir),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        catchNothing {
+            val folderDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.FOLDER)
+            grantUriPermission(packageName,
+                    FileProvider.getUriForFile(this, folderDir),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
 
-        val playlistDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.PLAYLIST)
-        grantUriPermission(packageName,
-                FileProvider.getUriForFile(this, playlistDir),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        catchNothing {
+            val playlistDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.PLAYLIST)
+            grantUriPermission(packageName,
+                    FileProvider.getUriForFile(this, playlistDir),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
 
-        val genreDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.GENRE)
-        grantUriPermission(packageName,
-                FileProvider.getUriForFile(this, genreDir),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        catchNothing {
+            val genreDir = ImagesFolderUtils.getImageFolderFor(this, ImagesFolderUtils.GENRE)
+            grantUriPermission(packageName,
+                    FileProvider.getUriForFile(this, genreDir),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
     }
 
     private fun buildMediaButtonReceiverPendingIntent(): PendingIntent {
