@@ -17,9 +17,14 @@ class BlurImageView @JvmOverloads constructor(
     private val blurRadius = 20
 
     override fun setImageBitmap(bm: Bitmap?) {
-        if (bm != null){
-            super.setImageBitmap(BlurKit.getInstance().blur(bm, blurRadius))
-        } else {
+        try {
+            if (bm != null){
+                super.setImageBitmap(BlurKit.getInstance().blur(bm, blurRadius))
+            } else {
+                super.setImageBitmap(bm)
+            }
+        } catch (ex: Exception){
+            ex.printStackTrace()
             super.setImageBitmap(bm)
         }
     }
