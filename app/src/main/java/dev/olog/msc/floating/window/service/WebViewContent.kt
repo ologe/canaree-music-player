@@ -38,11 +38,15 @@ abstract class WebViewContent(
     init {
         lifecycle.addObserver(this)
         webView.settings.javaScriptEnabled = true // enable yt content
-        webView.webChromeClient = object : WebChromeClient(){
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                progressBar.progress = newProgress
-                progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
+        try {
+            webView.webChromeClient = object : WebChromeClient(){
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    progressBar.progress = newProgress
+                    progressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
+                }
             }
+        } catch (ignored: Exception){
+            // chrome may not be installed
         }
     }
 
