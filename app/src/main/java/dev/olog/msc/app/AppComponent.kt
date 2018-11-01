@@ -9,6 +9,7 @@ import dev.olog.msc.data.RepositoryHelperModule
 import dev.olog.msc.data.RepositoryModule
 import dev.olog.msc.data.prefs.PreferenceModule
 import dev.olog.msc.floating.window.service.di.FloatingWindowServiceInjector
+import dev.olog.msc.indexing.di.MusicIndexingServiceInjector
 import dev.olog.msc.music.service.di.MusicServiceInjector
 import dev.olog.msc.presentation.ViewModelModule
 import dev.olog.msc.presentation.about.di.AboutActivityInjector
@@ -43,6 +44,8 @@ import javax.inject.Singleton
 //        // music service
         MusicServiceInjector::class,
         EqualizerModule::class,
+
+        MusicIndexingServiceInjector::class,
 
 //        queue widget
 //        WidgetColoredWithQueueInjector::class,

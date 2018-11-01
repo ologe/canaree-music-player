@@ -5,6 +5,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.msc.app.app
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.GenreMostPlayedEntity
@@ -16,6 +17,8 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.indexing.IndexType
+import dev.olog.msc.indexing.MusicIndexingUpdateService
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.debounceFirst
@@ -63,6 +66,7 @@ class GenreRepository @Inject constructor(
                 }).map { removeBlacklisted(it) }
                 .doOnError { it.printStackTrace() }
                 .onErrorReturnItem(listOf())
+                .doOnNext { MusicIndexingUpdateService.enqueueWork(app, IndexType.GENRE) }
     }
 
     private val cachedData = queryAllData()

@@ -79,6 +79,7 @@
                 <data android:mimeType="application/x-ogg" />
                 <data android:mimeType="application/itunes" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -164,6 +165,20 @@
             android:name=".presentation.app.widget.queue.QueueWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+
+        <!--music indexing-->
+        <receiver
+            android:name=".indexing.MusicIndexingReceiver"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.APPINDEXING">
+            <intent-filter>
+                <action android:name="com.google.firebase.appindexing.UPDATE_INDEX" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".indexing.MusicIndexingUpdateService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <!--provide storage permission to share intents-->
         <provider

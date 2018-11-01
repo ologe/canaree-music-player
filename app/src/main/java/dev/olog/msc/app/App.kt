@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Looper
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
-import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -52,7 +51,6 @@ class App : BaseApp() {
         resetSleepTimer()
 
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
-        println(FirebaseAnalytics.getInstance(this).firebaseInstanceId)
     }
 
     override fun onStart(owner: LifecycleOwner) {

@@ -3,6 +3,7 @@ package dev.olog.msc.data.repository
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
@@ -11,6 +12,8 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
+import dev.olog.msc.indexing.IndexType
+import dev.olog.msc.indexing.MusicIndexingUpdateService
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
@@ -51,6 +54,7 @@ class AlbumRepository @Inject constructor(
                             }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                             .toList()
                 }.map { updateImages(it) }
+                .doOnNext { MusicIndexingUpdateService.enqueueWork(app, IndexType.ALBUMS) }
     }
 
     private fun updateImages(list: List<Album>): List<Album>{
