@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
+import com.google.android.gms.appinvite.AppInviteInvitation
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
@@ -33,9 +34,13 @@ import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-private const val SPLASH_REQUEST_CODE = 0
 
 class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
+
+    companion object {
+        private const val SPLASH_REQUEST_CODE = 0
+        const val INVITE_FRIEND_CODE = 12198
+    }
 
     @Inject lateinit var presenter: MainActivityPresenter
     @Inject lateinit var navigator: Navigator
@@ -214,6 +219,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                     recreate()
                     return
                 }
+                INVITE_FRIEND_CODE -> handleInviteFriendsRequest(resultCode, data!!)
             }
         }
 
@@ -222,6 +228,11 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun handleInviteFriendsRequest(resultCode: Int, data: Intent){
+        val ids = AppInviteInvitation.getInvitationIds(resultCode, data)
+        println(ids)
     }
 
     override fun onBackPressed() {

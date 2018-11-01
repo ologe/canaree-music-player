@@ -23,6 +23,7 @@ import dev.olog.msc.presentation.edit.EditItemDialogFactory
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
+import dev.olog.msc.presentation.invite.friends.InviteFriendsFragment
 import dev.olog.msc.presentation.library.categories.podcast.CategoriesPodcastFragment
 import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.model.DisplayableItem
@@ -325,5 +326,9 @@ class NavigatorImpl @Inject internal constructor(
     override fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String) {
         val fragment = RemoveDuplicatesDialog.newInstance(mediaId, itemTitle)
         fragment.show(activity.supportFragmentManager, RemoveDuplicatesDialog.TAG)
+    }
+
+    override fun toShareApp() {
+        InviteFriendsFragment().show(activity.supportFragmentManager, InviteFriendsFragment.TAG)
     }
 }

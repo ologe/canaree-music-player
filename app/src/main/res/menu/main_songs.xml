@@ -54,5 +54,7 @@
 
     </item>
 
+    <item android:id="@+id/share"
+        android:title="@string/popup_share_app"/>
 
 </menu>

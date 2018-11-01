@@ -19,6 +19,7 @@ import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
+
 private const val DEBUG_ID = -123
 private const val SAVE_AS_PLAYLIST_ID = -12345
 
@@ -66,6 +67,7 @@ class MainPopupDialog @Inject constructor(
                 R.id.equalizer -> navigator.toEqualizer()
                 R.id.settings -> navigator.toSettingsActivity()
                 R.id.sleepTimer -> navigator.toSleepTimer()
+                R.id.share -> activityNavigator.toShareApp()
                 DEBUG_ID -> navigator.toDebugConfiguration()
                 SAVE_AS_PLAYLIST_ID -> activityNavigator.toCreatePlaylistDialog(MediaId.playingQueueId, -1, "")
                 else -> {

@@ -5,6 +5,7 @@
 - added in-app message
 - added website deep-linking
 - added small implementation for google personal search indexing
+- added invite friends
 
 2.0.5
 - Fix adaptive color Image presenter crash

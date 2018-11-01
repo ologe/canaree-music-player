@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="share_app_title">Invite friends</string>
+    <string name="share_app_message">Invite your friends </string>
+
+    <string name="share_via_sms">Share via SMS</string>
+    <string name="share_via_email">Share via email</string>
+</resources>

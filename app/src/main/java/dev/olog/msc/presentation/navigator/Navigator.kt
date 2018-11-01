@@ -52,4 +52,6 @@ interface Navigator {
 
     fun toRemoveDuplicatesDialog(mediaId: MediaId, itemTitle: String)
 
+    fun toShareApp()
+
 }
