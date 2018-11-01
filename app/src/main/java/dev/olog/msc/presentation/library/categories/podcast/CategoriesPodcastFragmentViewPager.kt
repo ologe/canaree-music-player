@@ -26,9 +26,14 @@ class CategoriesPodcastFragmentViewPager @Inject constructor(
         }
     }
 
-    override fun getItem(position: Int): androidx.fragment.app.Fragment {
-        val category = data[position].category
-        return TabFragment.newInstance(category)
+    override fun getItem(position: Int): androidx.fragment.app.Fragment? {
+        try {
+            val category = data[position].category
+            return TabFragment.newInstance(category)
+        } catch (ex: Exception){
+            ex.printStackTrace()
+            return null
+        }
     }
 
     override fun getCount(): Int = data.size
