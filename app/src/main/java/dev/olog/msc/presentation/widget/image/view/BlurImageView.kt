@@ -25,10 +25,14 @@ class BlurImageView @JvmOverloads constructor(
     }
 
     override fun setImageDrawable(drawable: Drawable?) {
-        if (drawable != null){
-            val bm = drawable.toBitmap(drawable.intrinsicWidth / 2, drawable.intrinsicHeight / 2)
-            super.setImageDrawable(BlurKit.getInstance().blur(bm, blurRadius).toDrawable(resources))
-        } else {
+        try {
+            if (drawable != null){
+                val bm = drawable.toBitmap(drawable.intrinsicWidth / 2, drawable.intrinsicHeight / 2)
+                super.setImageDrawable(BlurKit.getInstance().blur(bm, blurRadius).toDrawable(resources))
+            } else {
+                super.setImageDrawable(drawable)
+            }
+        } catch (ex: Exception){
             super.setImageDrawable(drawable)
         }
     }
