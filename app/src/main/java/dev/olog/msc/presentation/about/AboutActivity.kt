@@ -80,8 +80,8 @@ class AboutActivity : BaseActivity() {
     private fun setSwitcherAnimation(inAnimation: Int, outAnimation: Int){
         val inAnim = AnimationUtils.loadAnimation(this, inAnimation)
         val outAnim = AnimationUtils.loadAnimation(this, outAnimation)
-        switcher.inAnimation = inAnim
-        switcher.outAnimation = outAnim
+        switcher?.inAnimation = inAnim
+        switcher?.outAnimation = outAnim
     }
 
 }
