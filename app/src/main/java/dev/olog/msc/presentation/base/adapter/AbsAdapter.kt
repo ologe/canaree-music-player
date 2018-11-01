@@ -55,15 +55,17 @@ abstract class AbsAdapter<Model : BaseModel>(
     protected abstract fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int)
 
     override fun onBindViewHolder(holder: DataBoundViewHolder, position: Int) {
-        bind(holder.binding, controller.getItem(position), position)
-        holder.binding.executePendingBindings()
+        controller.getItem(position)?.let { model ->
+            bind(holder.binding, model, position)
+            holder.binding.executePendingBindings()
+        }
     }
 
     protected abstract fun bind(binding: ViewDataBinding, item: Model, position: Int)
 
     override fun getItemCount(): Int = controller.getSize()
 
-    override fun getItemViewType(position: Int) = controller.getItem(position).type
+    override fun getItemViewType(position: Int) = controller.getItem(position)?.type ?: -1
 
     override fun onStart(owner: LifecycleOwner) {
         controller.resumeObservingData(true)

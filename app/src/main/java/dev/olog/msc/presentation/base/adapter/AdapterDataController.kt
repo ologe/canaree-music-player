@@ -5,7 +5,7 @@ import io.reactivex.Observable
 
 interface AdapterDataController<Model: BaseModel>{
 
-    fun getItem(position: Int): Model
+    fun getItem(position: Int): Model?
     fun getSize(): Int
     fun update(data: Any)
     fun handleNewData(extendAreItemTheSame: ((Int, Int, Model, Model) -> Boolean)?): Observable<AdapterControllerResult>

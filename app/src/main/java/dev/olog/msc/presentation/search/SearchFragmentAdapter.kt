@@ -120,8 +120,7 @@ class SearchFragmentAdapter @Inject constructor(
     }
 
     override val onSwipeLeftAction = { position: Int ->
-        val item = controller.getItem(position)
-        mediaProvider.addToPlayNext(item.mediaId)
+        controller.getItem(position)?.let { mediaProvider.addToPlayNext(it.mediaId) } ?: Any()
     }
 
 }

@@ -228,12 +228,11 @@ class DetailFragmentAdapter @Inject constructor(
     }
 
     override val onSwipeRightAction = { position: Int ->
-        viewModel.removeFromPlaylist(controller.getItem(position))
+        controller.getItem(position)?.let { viewModel.removeFromPlaylist(it) } ?: Any()
     }
 
     override val onSwipeLeftAction = { position: Int ->
-        val item = controller.getItem(position)
-        mediaProvider.addToPlayNext(item.mediaId)
+        controller.getItem(position)?.let { mediaProvider.addToPlayNext(it.mediaId) } ?: Any()
     }
 
     override fun canInteractWithViewHolder(viewType: Int): Boolean? {

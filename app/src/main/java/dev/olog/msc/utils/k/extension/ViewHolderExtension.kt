@@ -40,8 +40,8 @@ fun <T: BaseModel> androidx.recyclerview.widget.RecyclerView.ViewHolder.setOnCli
         func: (item: T, position: Int, view: View) -> Unit){
 
     this.itemView.setOnClickListener {
-        if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION){
-            func(data.getItem(adapterPosition), adapterPosition, it)
+        if (adapterPosition != RecyclerView.NO_POSITION){
+            data.getItem(adapterPosition)?.let { model -> func(model, adapterPosition, it) }
         }
     }
 }
@@ -53,7 +53,7 @@ fun <T: BaseModel> androidx.recyclerview.widget.RecyclerView.ViewHolder.setOnCli
 
     this.itemView.findViewById<View>(resId)?.setOnClickListener {
         if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION){
-            func(data.getItem(adapterPosition), adapterPosition, it)
+            data.getItem(adapterPosition)?.let { model -> func(model, adapterPosition, it) }
         }
     }
 }
@@ -64,7 +64,7 @@ fun <T: BaseModel> androidx.recyclerview.widget.RecyclerView.ViewHolder.setOnLon
 
     itemView.setOnLongClickListener inner@ {
         if (adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION){
-            func(data.getItem(adapterPosition), adapterPosition, it)
+            data.getItem(adapterPosition)?.let { model -> func(model, adapterPosition, it) } ?: return@inner false
             return@inner true
         }
         false

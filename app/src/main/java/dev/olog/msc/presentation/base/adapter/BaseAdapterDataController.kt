@@ -96,7 +96,7 @@ class BaseAdapterDataController<Model : BaseModel>
         this.data.addAll(newData)
     }
 
-    override fun getItem(position: Int): Model = data[position]
+    override fun getItem(position: Int): Model? = data.getOrNull(position)
 
     override fun getSize(): Int = data.size
 
