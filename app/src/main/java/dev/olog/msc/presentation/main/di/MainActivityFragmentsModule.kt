@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dev.olog.msc.presentation.dialog.sleep.timer.SleepTimerPickerDialog
 import dev.olog.msc.presentation.equalizer.EqualizerFragment
-import dev.olog.msc.presentation.invite.friends.InviteFriendsFragment
 import dev.olog.msc.presentation.mini.player.MiniPlayerFragment
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 
@@ -22,8 +21,5 @@ abstract class MainActivityFragmentsModule {
 
     @ContributesAndroidInjector
     abstract fun provideOfflineLyricsFragment(): OfflineLyricsFragment
-
-    @ContributesAndroidInjector
-    abstract fun provideInviteFriendsFragment(): InviteFriendsFragment
 
 }

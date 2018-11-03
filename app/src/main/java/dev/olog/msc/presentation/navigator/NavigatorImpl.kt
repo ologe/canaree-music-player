@@ -1,13 +1,17 @@
 package dev.olog.msc.presentation.navigator
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.google.android.gms.appinvite.AppInviteInvitation
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
 import dev.olog.msc.R
+import dev.olog.msc.app.app
 import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
@@ -23,9 +27,9 @@ import dev.olog.msc.presentation.edit.EditItemDialogFactory
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
-import dev.olog.msc.presentation.invite.friends.InviteFriendsFragment
 import dev.olog.msc.presentation.library.categories.podcast.CategoriesPodcastFragment
 import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
+import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
@@ -329,6 +333,11 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toShareApp() {
-        InviteFriendsFragment().show(activity.supportFragmentManager, InviteFriendsFragment.TAG)
+        val intent = AppInviteInvitation.IntentBuilder(app.getString(R.string.share_app_title))
+                .setMessage(app.getString(R.string.share_app_message))
+                .setDeepLink(Uri.parse("https://deveugeniuolog.wixsite.com/next"))
+                .setAndroidMinimumVersionCode(Build.VERSION_CODES.LOLLIPOP)
+                .build()
+        activity.startActivityForResult(intent, MainActivity.INVITE_FRIEND_CODE)
     }
 }
