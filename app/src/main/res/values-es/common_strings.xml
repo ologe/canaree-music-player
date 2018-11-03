@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_folders">Carpetas</string>
+    <string name="common_playlists">Listas de reproducción</string>
+    <string name="common_tracks">Pistas</string>
+    <string name="common_albums">Álbumes</string>
+    <string name="common_artists">Artistas</string>
+    <string name="common_genres">Géneros</string>
+    <string name="common_last_added">Recientemente añadido</string>
+    <string name="common_favorites">Favoritos</string>
+    <string name="common_history">Cronología</string>
+    <string name="common_all_tracks">Todas las pistas</string>
+    <string name="common_unknown_album">Álbum desconocido</string>
+    <string name="common_unknown_artist">Artista desconocido</string>
+    <string name="common_placeholder_title">Un titolo fantastico</string>
+    <string name="common_placeholder_artist">Un artista fantastico</string>
+    <string name="common_placeholder_album">Un album fantastico</string>
+    <string name="common_empty_list">Lista vacía</string>
+    <string name="are_you_sure">Estás seguro?</string>
+    <plurals name="common_plurals_hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
+    </plurals>
+    <plurals name="common_plurals_minutes">
+        <item quantity="one">%d minuto</item>
+        <item quantity="other">%d minutos</item>
+    </plurals>
+    <plurals name="common_plurals_song">
+        <item quantity="one">%d pista</item>
+        <item quantity="other">%d pistas</item>
+    </plurals>
+    <plurals name="common_plurals_folder">
+        <item quantity="one">%d carpeta</item>
+        <item quantity="other">%d carpetas</item>
+    </plurals>
+    <string name="common_folder">Carpeta</string>
+    <string name="common_title">Título</string>
+    <string name="common_track">Pista</string>
+    <string name="common_artist">Artista</string>
+    <string name="common_genre">Género</string>
+    <string name="common_duration">Duración</string>
+    <string name="common_recently_added">@string/common_last_added</string>
+    <string name="common_custom">Personalizado</string>
+    <string name="common_track_number">Número de pista</string>
+    <string name="common_play">Play</string>
+    <string name="common_shuffle">Aleatorio</string>
+    <string name="common_search">Buscar</string>
+    <string name="common_hide">Esconder</string>
+    <string name="common_shape_square">Cuadrado</string>
+    <string name="common_shape_rounded">Redondeado</string>
+    <string name="common_related_artists">Artistas relacionados</string>
+    <string name="common_most_played">Más tocadas</string>
+    <string name="common_no_tracks">Sin pistas</string>
+    <string name="common_no_results">no hay resultados</string>
+    <string name="common_visible">Visibile</string>
+    <string name="common_hidden">Oculto</string>
+    <string name="common_filter">Filtrar..</string>
+    <string name="common_enabled">Habilitado</string>
+    <string name="common_disabled">Desactivado</string>
+</resources>

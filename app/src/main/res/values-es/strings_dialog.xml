@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="popup_play">Play</string>
+    <string name="popup_play_shuffle">Aleatorio</string>
+    <string name="popup_add_to_playlist">Agregar a la lista de reproducción..</string>
+    <string name="popup_add_to_favorites">Agregar a los favoritos</string>
+    <string name="popup_add_to_home_screen">Añadir al lanzador</string>
+    <string name="popup_play_next">Añadir en la parte inferior de la cola</string>
+    <string name="popup_play_later">Añadir a la cola</string>
+    <string name="popup_edit_song_info">Editar pista</string>
+    <string name="popup_edit_album_info">Editar álbum</string>
+    <string name="popup_edit_artist_info">Edidar artista</string>
+    <string name="popup_view_album">Ir al álbum</string>
+    <string name="popup_view_artist">Ir al artista</string>
+    <string name="popup_share">Compartir</string>
+    <string name="popup_set_as_ringtone">Establecer como tono de llamada</string>
+    <string name="popup_delete">Eliminar del dispositivo</string>
+    <string name="popup_rename">Renombrar</string>
+    <string name="popup_clear_playlist">Eliminar todas las pistas</string>
+    <string name="popup_remove_duplicates">Eliminar duplicados</string>
+    <string name="popup_equalizer">Ecualizador</string>
+    <string name="popup_negative_cancel">Cancelar</string>
+    <string name="popup_negative_back">Atrás</string>
+    <string name="popup_positive_save">Salvar</string>
+    <string name="popup_positive_create">Crear</string>
+    <string name="popup_positive_delete">Eliminar</string>
+    <string name="popup_positive_remove">Retirar</string>
+    <string name="popup_neutral_reset">Reiniciar</string>
+    <string name="popup_error_message">Algo salió mal</string>
+    <string name="popup_permission">Permiso</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="about">Información</string>
+    <string name="about_author">Autor</string>
+    <string name="about_version">Versión</string>
+    <string name="about_join_community_description">Unete a la communidad</string>
+    <string name="about_third_sw">Software de terceros</string>
+    <string name="about_special_thanks_to">Gracias a</string>
+    <string name="about_privacy_policy">Informativa sulla privacy</string>
+    <string name="about_privacy_policy_description">Importante per entrambi</string>
+    <string name="about_buy_pro">Compra la versión Pro</string>
+    <string name="about_buy_pro_description">Desbloquear todas las funciones</string>
+
+</resources>

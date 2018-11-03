@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search_did_you_mean">Querías decir:</string>
+    <string name="search_recent_searches">Búsquedas recientes</string>
+    <string name="search_clear_recent_searches">Borrar búsquedas recientes</string>
+    <string name="search_recent_empty_state">Busca en tu biblioteca..</string>
+    <plurals name="search_xx_results">
+        <item quantity="one">%1$s resultado</item>
+        <item quantity="other">%1$s resultados</item>
+    </plurals>
+
+</resources>

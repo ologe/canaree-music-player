@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="edit_info_year">Año</string>
+    <string name="edit_info_disc">Número de disco</string>
+    <string name="edit_info_track">Número de pista</string>
+
+</resources>

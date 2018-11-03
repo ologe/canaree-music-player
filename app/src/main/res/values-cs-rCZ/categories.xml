@@ -19,11 +19,6 @@
   </string-array>
 
   <string name="category_sort_by">Seřadit podle</string>
-  <string name="category_sort_by_title">Název</string>
-  <string name="category_sort_by_artist">Autor</string>
-  <string name="category_sort_by_album_artist">Autor alba</string>
-  <string name="category_sort_by_album">Album</string>
-  <string name="category_sort_by_duration">Délka</string>
   <string name="category_sort_by_date">Datum</string>
   <string name="category_sort_by_ascending">Vzestupně</string>
   <string name="category_sort_by_descending">Sestupně</string>

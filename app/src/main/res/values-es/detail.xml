@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="detail_album_header">
+        <item>Otras carpetas</item>
+        <item>Otras listas de reproducción</item>
+        <item></item>
+        <item></item>
+        <item>@string/common_albums</item>
+        <item>Otros géneros</item>
+        <item>Otras listas de reproducción</item>
+        <item/>
+        <item/>
+        <item>@string/common_albums</item>
+    </string-array>
+
+    <string name="detail_see_all">Ver todo</string>
+    <string name="detail_more_albums_by">Más por %s</string>
+    <plurals name="detail_xx_new_songs">
+        <item quantity="one">%d nueva pista</item>
+        <item quantity="other">%d nuevas pistas</item>
+    </plurals>
+    <string name="detail_sort_by">Ordenar por</string>
+
+</resources>
