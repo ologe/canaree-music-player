@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.doOnPreDraw
+import com.crashlytics.android.Crashlytics
+import com.google.android.gms.appinvite.AppInviteInvitation
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.Permissions
 import dev.olog.msc.R
@@ -218,6 +222,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
                     recreate()
                     return
                 }
+                INVITE_FRIEND_CODE -> handleOnFriendsInvited(resultCode, data)
             }
         }
 
@@ -225,6 +230,20 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             FloatingWindowHelper.startServiceIfHasOverlayPermission(this)
         } else {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun handleOnFriendsInvited(resultCode: Int, data: Intent?){
+        try {
+            val invitedIds = AppInviteInvitation.getInvitationIds(resultCode, data!!)
+            val analytics = FirebaseAnalytics.getInstance(this)
+            analytics.logEvent("invited_friends", bundleOf(
+                    "friends_number_invited" to invitedIds.size
+            ))
+            analytics.setUserProperty("invited_friends", "true")
+        } catch (ex: Exception){
+            ex.printStackTrace()
+            Crashlytics.logException(ex)
         }
     }
 

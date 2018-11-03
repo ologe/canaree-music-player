@@ -96,9 +96,14 @@ internal fun extractDiscNumber(originalTrackNumber: Int): Int {
 }
 
 internal fun extractFolder(path: String): String {
-    val lastSep = path.lastIndexOf(File.separator)
-    val prevSep = path.lastIndexOf(File.separator, lastSep - 1)
-    return path.substring(prevSep + 1, lastSep)
+    try {
+        val lastSep = path.lastIndexOf(File.separator)
+        val prevSep = path.lastIndexOf(File.separator, lastSep - 1)
+        return path.substring(prevSep + 1, lastSep)
+    } catch (ex: Exception){
+        ex.printStackTrace()
+        return ""
+    }
 }
 
 
