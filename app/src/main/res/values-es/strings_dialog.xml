@@ -10,7 +10,7 @@
     <string name="popup_play_later">Añadir a la cola</string>
     <string name="popup_edit_song_info">Editar pista</string>
     <string name="popup_edit_album_info">Editar álbum</string>
-    <string name="popup_edit_artist_info">Edidar artista</string>
+    <string name="popup_edit_artist_info">Editar artista</string>
     <string name="popup_view_album">Ir al álbum</string>
     <string name="popup_view_artist">Ir al artista</string>
     <string name="popup_share">Compartir</string>
