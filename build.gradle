@@ -86,7 +86,7 @@ ext {
 
     rx_preferences = '2.0.0'
     rx_kotlin = '2.3.0'
-    rx_lint = '1.6.1'
+    rx_lint = '1.7.0'
 
     custom_tabs = '2.0.0'
     material_dialogs = '2.0.0-beta4'
