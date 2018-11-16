@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name" translatable="false">Canaree</string>
 
-    <string name="fake_app_id">4F8B3483</string>
-
 </resources>

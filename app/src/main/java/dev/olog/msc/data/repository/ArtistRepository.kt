@@ -3,7 +3,6 @@ package dev.olog.msc.data.repository
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
-import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
@@ -13,8 +12,6 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.indexing.IndexType
-import dev.olog.msc.indexing.MusicIndexingUpdateService
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.safeCompare
@@ -47,7 +44,6 @@ class ArtistRepository @Inject constructor(
                 .switchMap { songGateway.getAll() }
                 .map { mapToArtists(it) }
                 .map { updateImages(it) }
-                .doOnNext { MusicIndexingUpdateService.enqueueWork(app, IndexType.ARTISTS) }
 
     }
 

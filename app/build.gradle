@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
-apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
 
@@ -94,15 +93,8 @@ android {
     }
 }
 
-//afterEvaluate {
-//    compileDebugKotlin {
-//        kotlinOptions.allWarningsAsErrors = true
-//    }
-//}
-
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    lintChecks project(':lint')
+    implementation files('libs/jaudiotagger-android-2.2.3.jar')
 
     // data binding
     kapt "androidx.databinding:databinding-compiler:$gradle_plugin"
@@ -117,10 +109,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.lifecycle"
 
     // support
-    implementation "androidx.core:core:$rootProject.androidX"
-    implementation "androidx.core:core-ktx:$rootProject.androidX"
+    implementation "androidx.core:core:1.0.1"
+    implementation "androidx.core:core-ktx:1.0.1"
     implementation "androidx.legacy:legacy-support-v4:$rootProject.androidX"
-    implementation "androidx.appcompat:appcompat:$rootProject.androidX"
+    implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.media:media:$rootProject.androidX"
     implementation "androidx.mediarouter:mediarouter:$rootProject.androidX"
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidX"
@@ -130,8 +122,6 @@ dependencies {
     implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
     implementation "androidx.palette:palette:$rootProject.androidX"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraint_layout"
-
-    implementation 'com.google.android.gms:play-services-cast-framework:16.1.0'
 
     // billing
     implementation "com.android.billingclient:billing:$rootProject.billing"
@@ -203,9 +193,8 @@ dependencies {
 
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta02'
-    implementation files('libs/jaudiotagger-android-2.2.3.jar')
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
 
 // leave at bottom

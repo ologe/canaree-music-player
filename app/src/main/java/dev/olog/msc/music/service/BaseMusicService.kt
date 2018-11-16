@@ -10,17 +10,15 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import dagger.android.AndroidInjection
-import dev.olog.msc.analytics.AppAnalytics
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.interfaces.Player
 import dev.olog.msc.music.service.interfaces.ServiceLifecycleController
-import dev.olog.msc.presentation.base.LoggableService
 import dev.olog.msc.utils.PendingIntents
 import javax.inject.Inject
 
 abstract class BaseMusicService : MediaBrowserServiceCompat(),
         LifecycleOwner,
-        ServiceLifecycleController, LoggableService {
+        ServiceLifecycleController {
 
     companion object {
         private const val ACTION_KEEP_SERVICE_ALIVE = "action.KEEP_SERVICE_ALIVE"
@@ -37,7 +35,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     override fun onCreate() {
         AndroidInjection.inject(this)
         super.onCreate()
-        AppAnalytics.trackServiceStart(this)
     }
 
     @CallSuper
@@ -53,7 +50,6 @@ abstract class BaseMusicService : MediaBrowserServiceCompat(),
     override fun onDestroy() {
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
-        AppAnalytics.trackServiceEnd(this)
     }
 
     private fun handleIntent(intent: Intent?) {
