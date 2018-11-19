@@ -19,6 +19,13 @@ import dev.olog.msc.presentation.detail.DetailFragment
 interface DetailFragmentSubComponent : AndroidInjector<DetailFragment> {
 
     @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<DetailFragment>()
+    abstract class Builder : AndroidInjector.Builder<DetailFragment>() {
+
+        abstract fun detailModule(module: DetailFragmentModule): Builder
+
+        override fun seedInstance(instance: DetailFragment) {
+            detailModule(DetailFragmentModule(instance))
+        }
+    }
 
 }
