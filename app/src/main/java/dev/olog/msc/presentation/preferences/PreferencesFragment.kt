@@ -19,7 +19,7 @@ import dagger.android.support.AndroidSupportInjection
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
+import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.presentation.preferences.blacklist.BlacklistFragment
 import dev.olog.msc.presentation.preferences.categories.LibraryCategoriesFragment
@@ -37,7 +37,7 @@ import javax.inject.Inject
 
 class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @Inject lateinit var tutorialPrefsUseCase: TutorialPreferenceUseCase
+    @Inject lateinit var tutorialPrefsUseCase: TutorialPreferenceGateway
 
     private lateinit var libraryCategories : Preference
     private lateinit var podcastCategories : Preference

@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.mini.player
 
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.utils.k.extension.asLiveData
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MiniPlayerFragmentPresenter @Inject constructor(
-        private val musicPrefsUseCase: MusicPreferencesUseCase
+        private val musicPrefsUseCase: MusicPreferencesGateway
 
 )  {
 

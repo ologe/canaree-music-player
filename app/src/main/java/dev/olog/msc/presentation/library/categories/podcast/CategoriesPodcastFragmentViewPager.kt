@@ -1,26 +1,21 @@
 package dev.olog.msc.presentation.library.categories.podcast
 
 import android.content.Context
-import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.dagger.qualifier.ChildFragmentManager
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import androidx.fragment.app.FragmentStatePagerAdapter
+import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.presentation.library.tab.TabFragment
 import dev.olog.msc.utils.MediaIdCategory
-import javax.inject.Inject
 
-class CategoriesPodcastFragmentViewPager @Inject constructor(
-        @ApplicationContext private val context: Context,
-        @ChildFragmentManager private val fragmentManager: androidx.fragment.app.FragmentManager,
-        prefsUseCase: AppPreferencesUseCase
+class CategoriesPodcastFragmentViewPager (
+        private val context: Context,
+        fragmentManager: androidx.fragment.app.FragmentManager,
+        private val categories : List<LibraryCategoryBehavior>
 
-) : androidx.fragment.app.FragmentStatePagerAdapter(fragmentManager) {
-
-    private val data = prefsUseCase.getPodcastLibraryCategories()
-            .filter { it.visible }
+) : FragmentStatePagerAdapter(fragmentManager) {
 
     fun getCategoryAtPosition(position: Int): MediaIdCategory? {
         try {
-            return data[position].category
+            return categories[position].category
         } catch (ex: Exception){
             return null
         }
@@ -28,7 +23,7 @@ class CategoriesPodcastFragmentViewPager @Inject constructor(
 
     override fun getItem(position: Int): androidx.fragment.app.Fragment? {
         try {
-            val category = data[position].category
+            val category = categories[position].category
             return TabFragment.newInstance(category)
         } catch (ex: Exception){
             ex.printStackTrace()
@@ -36,11 +31,11 @@ class CategoriesPodcastFragmentViewPager @Inject constructor(
         }
     }
 
-    override fun getCount(): Int = data.size
+    override fun getCount(): Int = categories.size
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return data[position].asString(context)
+        return categories[position].asString(context)
     }
 
-    fun isEmpty() = data.isEmpty()
+    fun isEmpty() = categories.isEmpty()
 }

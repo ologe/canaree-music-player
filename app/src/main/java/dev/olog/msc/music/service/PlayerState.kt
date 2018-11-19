@@ -10,7 +10,7 @@ import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.constants.WidgetConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class PlayerState @Inject constructor(
         @ApplicationContext private val context: Context,
         private val mediaSession: MediaSessionCompat,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
         private val appShortcuts: AppShortcuts,
         private val widgetClasses: WidgetClasses
 

@@ -11,7 +11,7 @@ import com.google.android.exoplayer2.Player
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
 import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.model.PlayerMediaEntity
@@ -32,7 +32,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
         @ApplicationContext context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         mediaSourceFactory: ClippedSourceFactory,
-        musicPreferencesUseCase: MusicPreferencesUseCase,
+        musicPreferencesUseCase: MusicPreferencesGateway,
         private val audioManager: Lazy<AudioManager>,
         private val volume: IPlayerVolume,
         private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
@@ -45,7 +45,7 @@ class CrossFadePlayerImpl @Inject internal constructor(
 
     private var crossFadeTime = 0
     private val crossFadeDurationDisposable = musicPreferencesUseCase
-            .observeCrossFade(true)
+            .observeCrossFade()
             .subscribe({ crossFadeTime = it }, Throwable::printStackTrace)
 
     private val timeDisposable = Observable.interval(1, TimeUnit.SECONDS, Schedulers.computation())

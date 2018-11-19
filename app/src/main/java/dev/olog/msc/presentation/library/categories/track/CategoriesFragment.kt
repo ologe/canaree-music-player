@@ -8,7 +8,9 @@ import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,9 +32,12 @@ class CategoriesFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var pagerAdapter: CategoriesViewPager
     @Inject lateinit var presenter : CategoriesFragmentPresenter
     @Inject lateinit var navigator: Navigator
+
+    private val pagerAdapter by lazyFast { CategoriesViewPager(
+        act.applicationContext, childFragmentManager, presenter.getCategories()
+    ) }
 
     private var floatingWindowTutorialDisposable: Disposable? = null
 

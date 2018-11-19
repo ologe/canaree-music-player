@@ -22,7 +22,7 @@ import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString
@@ -61,7 +61,7 @@ private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 class SongRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private  val rxContentResolver: BriteContentResolver,
-        private  val appPrefsUseCase: AppPreferencesUseCase,
+        private  val appPrefsUseCase: AppPreferencesGateway,
         private  val usedImageGateway: UsedImageGateway
 
 ) : SongGateway {

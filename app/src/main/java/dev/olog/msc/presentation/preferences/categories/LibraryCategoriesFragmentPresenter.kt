@@ -1,12 +1,12 @@
 package dev.olog.msc.presentation.preferences.categories
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.MediaIdCategory
 import javax.inject.Inject
 
 class LibraryCategoriesFragmentPresenter @Inject constructor(
-        private val appPreferencesUseCase: AppPreferencesUseCase
+        private val appPreferencesUseCase: AppPreferencesGateway
 ){
 
     fun getDefaultDataSet(category: MediaIdCategory): List<LibraryCategoryBehavior>{

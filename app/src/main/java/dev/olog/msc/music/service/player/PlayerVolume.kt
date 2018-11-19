@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.volume.IPlayerVolume
 import dev.olog.msc.music.service.volume.IVolume
 import dev.olog.msc.utils.k.extension.unsubscribe
@@ -25,7 +25,7 @@ private const val VOLUME_LOWERED_NORMAL = 0.4f
 @PerService
 class PlayerVolume @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
-        musicPreferencesUseCase: MusicPreferencesUseCase
+        musicPreferencesUseCase: MusicPreferencesGateway
 
 ) : IPlayerVolume, DefaultLifecycleObserver {
 

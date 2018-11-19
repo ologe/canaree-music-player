@@ -15,7 +15,7 @@ import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.debounceFirst
@@ -42,7 +42,7 @@ class GenreRepository @Inject constructor(
         @ApplicationContext private val context: Context,
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
-        private val appPrefsUseCase: AppPreferencesUseCase,
+        private val appPrefsUseCase: AppPreferencesGateway,
         appDatabase: AppDatabase
 
 ) : GenreGateway {

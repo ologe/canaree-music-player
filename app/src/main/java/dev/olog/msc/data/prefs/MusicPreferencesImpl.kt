@@ -148,6 +148,7 @@ class MusicPreferencesImpl @Inject constructor(
         val key = context.getString(R.string.prefs_cross_fade_key)
         return rxPreferences.getInteger(key, 0)
                 .asObservable()
+                .map { it * 1000 }
     }
 
     override fun observeGapless(): Observable<Boolean> {

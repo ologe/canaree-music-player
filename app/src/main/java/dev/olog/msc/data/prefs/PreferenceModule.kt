@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -14,20 +15,9 @@ import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [PreferenceModule.Bindings::class])
 class PreferenceModule{
 
-    @Provides
-    @Singleton
-    fun provideAppPreferences(dataStore: AppPreferencesImpl): AppPreferencesGateway {
-        return dataStore
-    }
-
-    @Provides
-    @Singleton
-    fun provideMusicPreferences(dataStore: MusicPreferencesImpl): MusicPreferencesGateway {
-        return dataStore
-    }
 
     @Provides
     @Singleton
@@ -41,16 +31,24 @@ class PreferenceModule{
         return RxSharedPreferences.create(preferences)
     }
 
-    @Provides
-    @Singleton
-    fun provideEqualizerPreferences(dataStore: EqualizerPreferenceImpl): EqualizerPreferencesGateway {
-        return dataStore
-    }
+    @Module
+    interface Bindings {
 
-    @Provides
-    @Singleton
-    fun provideTutorialPreferences(dataStore: TutorialPreferenceImpl): TutorialPreferenceGateway {
-        return dataStore
+        @Binds
+        @Singleton
+        fun provideEqualizerPreferences(dataStore: EqualizerPreferenceImpl): EqualizerPreferencesGateway
+
+        @Binds
+        @Singleton
+        fun provideTutorialPreferences(dataStore: TutorialPreferenceImpl): TutorialPreferenceGateway
+
+        @Binds
+        @Singleton
+        fun provideAppPreferences(dataStore: AppPreferencesImpl): AppPreferencesGateway
+
+        @Binds
+        @Singleton
+        fun provideMusicPreferences(dataStore: MusicPreferencesImpl): MusicPreferencesGateway
     }
 
 }

@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.equalizer
 
-import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
+import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
 import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.music.service.equalizer.IEqualizer
 import dev.olog.msc.music.service.equalizer.IVirtualizer
@@ -11,7 +11,7 @@ class EqualizerFragmentPresenter @Inject constructor(
         private val equalizer: IEqualizer,
         private val bassBoost: IBassBoost,
         private val virtualizer: IVirtualizer,
-        private val equalizerPrefsUseCase: EqualizerPrefsUseCase
+        private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 ) {
 
     fun getPresets() = try {

@@ -6,7 +6,7 @@ import android.net.Uri
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import android.util.SparseArray
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.getInt
 import dev.olog.msc.utils.getStringOrNull
 import java.io.File
@@ -47,7 +47,7 @@ object CommonQuery {
 
     fun getAllSongsIdNotBlackListd(
             contentResolver: ContentResolver,
-            appPreferencesUseCase: AppPreferencesUseCase): List<Long> {
+            appPreferencesUseCase: AppPreferencesGateway): List<Long> {
 
         val list = mutableListOf<Pair<Long, String>>()
         val cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,

@@ -7,7 +7,9 @@ import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_library_categories.*
 import kotlinx.android.synthetic.main.fragment_library_categories.view.*
@@ -24,9 +26,12 @@ class CategoriesPodcastFragment : BaseFragment() {
         }
     }
 
-    @Inject lateinit var pagerAdapter: CategoriesPodcastFragmentViewPager
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var presenter : CategoriesPodcastFragmentPresenter
+
+    private val pagerAdapter by lazyFast { CategoriesPodcastFragmentViewPager(
+        act.applicationContext, childFragmentManager, presenter.getCategories()
+    ) }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.viewPager.adapter = pagerAdapter

@@ -18,7 +18,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.MediaId
 import dev.olog.msc.utils.k.extension.debounceFirst
@@ -54,7 +54,7 @@ class PlaylistRepository @Inject constructor(
         private val favoriteGateway: FavoriteGateway,
         appDatabase: AppDatabase,
         private val helper: PlaylistRepositoryHelper,
-        private val appPrefsUseCase: AppPreferencesUseCase
+        private val appPrefsUseCase: AppPreferencesGateway
 
 ) : PlaylistGateway {
 

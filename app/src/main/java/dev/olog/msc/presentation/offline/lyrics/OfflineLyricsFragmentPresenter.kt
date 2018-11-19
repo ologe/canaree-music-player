@@ -1,10 +1,10 @@
 package dev.olog.msc.presentation.offline.lyrics
 
 import dev.olog.msc.constants.AppConstants
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
 import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.offline.lyrics.BaseOfflineLyricsPresenter
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -12,8 +12,8 @@ import javax.inject.Inject
 class OfflineLyricsFragmentPresenter @Inject constructor(
         observeUseCase: ObserveOfflineLyricsUseCase,
         insertUseCase: InsertOfflineLyricsUseCase,
-        private val tutorialPreferenceUseCase: TutorialPreferenceUseCase,
-        appPreferencesUseCase: AppPreferencesUseCase
+        private val tutorialPreferenceUseCase: TutorialPreferenceGateway,
+        appPreferencesUseCase: AppPreferencesGateway
 
 ) : BaseOfflineLyricsPresenter(appPreferencesUseCase, observeUseCase, insertUseCase) {
 
@@ -35,7 +35,7 @@ class OfflineLyricsFragmentPresenter @Inject constructor(
     }
 
     fun showAddLyricsIfNeverShown(): Completable {
-        return tutorialPreferenceUseCase.addLyricsTutorial()
+        return tutorialPreferenceUseCase.lyricsTutorial()
     }
 
 }

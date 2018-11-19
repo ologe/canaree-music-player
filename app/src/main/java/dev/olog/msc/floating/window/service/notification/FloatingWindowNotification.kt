@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.FloatingWindowService
 import dev.olog.msc.utils.isOreo
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
@@ -25,7 +25,7 @@ class FloatingWindowNotification @Inject constructor(
         private val service: Service,
         @ServiceLifecycle lifecycle: Lifecycle,
         private val notificationManager: NotificationManager,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase
+        private val musicPreferencesUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver {
 

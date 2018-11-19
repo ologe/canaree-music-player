@@ -5,6 +5,8 @@ import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class TutorialPreferenceImpl @Inject constructor(
@@ -29,7 +31,8 @@ class TutorialPreferenceImpl @Inject constructor(
                     if (it) Completable.error(Throwable("already shown"))
                     else Completable.complete()
                             .doOnComplete { disableSortByTutorial() }
-                }
+                }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun floatingWindowTutorial(): Completable {
@@ -40,7 +43,8 @@ class TutorialPreferenceImpl @Inject constructor(
                     if (it) Completable.error(Throwable("already shown"))
                     else Completable.complete()
                             .doOnComplete { disableFloatingWindowTutorial() }
-                }
+                }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun lyricsTutorial(): Completable {
@@ -51,7 +55,8 @@ class TutorialPreferenceImpl @Inject constructor(
                     if (it) Completable.error(Throwable("already shown"))
                     else Completable.complete()
                             .doOnComplete { disableLyricsTutorial() }
-                }
+                }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun editLyrics(): Completable {
@@ -62,7 +67,8 @@ class TutorialPreferenceImpl @Inject constructor(
                     if (it) Completable.error(Throwable("already shown"))
                     else Completable.complete()
                             .doOnComplete { disableAddLyricsTutorial() }
-                }
+                }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun disableSortByTutorial(){

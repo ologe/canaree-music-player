@@ -2,9 +2,9 @@ package dev.olog.msc.presentation.detail
 
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.msc.domain.interactor.playlist.RemoveFromPlaylistUseCase
-import dev.olog.msc.domain.interactor.prefs.TutorialPreferenceUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.MediaId
 import io.reactivex.Completable
@@ -15,7 +15,7 @@ class DetailFragmentPresenter @Inject constructor(
         private val removeFromPlaylistUseCase: RemoveFromPlaylistUseCase,
         private val headers: DetailFragmentHeaders,
         private val moveItemInPlaylistUseCase: MoveItemInPlaylistUseCase,
-        private val tutorialPreferenceUseCase: TutorialPreferenceUseCase
+        private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 
 ) {
 

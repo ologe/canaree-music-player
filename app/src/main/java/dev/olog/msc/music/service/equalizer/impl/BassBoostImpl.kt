@@ -1,13 +1,13 @@
 package dev.olog.msc.music.service.equalizer.impl
 
 import android.media.audiofx.BassBoost
-import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
+import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
 import dev.olog.msc.music.service.equalizer.IBassBoost
 import dev.olog.msc.utils.k.extension.printStackTraceOnDebug
 import javax.inject.Inject
 
 class BassBoostImpl @Inject constructor(
-        private val equalizerPrefsUseCase: EqualizerPrefsUseCase
+        private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 
 ) : IBassBoost {
 

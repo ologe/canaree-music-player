@@ -9,13 +9,13 @@ import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.entity.FavoriteStateEntity
 import dev.olog.msc.domain.entity.FavoriteType
 import dev.olog.msc.domain.entity.LastMetadata
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedAlbumUseCase
 import dev.olog.msc.domain.interactor.all.last.played.InsertLastPlayedArtistUseCase
 import dev.olog.msc.domain.interactor.all.most.played.InsertMostPlayedUseCase
 import dev.olog.msc.domain.interactor.favorite.IsFavoriteSongUseCase
 import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.msc.domain.interactor.playing.queue.InsertHistorySongUseCase
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.utils.MediaId
@@ -33,7 +33,7 @@ class CurrentSong @Inject constructor(
         @ServiceLifecycle lifecycle: Lifecycle,
         insertMostPlayedUseCase: InsertMostPlayedUseCase,
         insertHistorySongUseCase: InsertHistorySongUseCase,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
         private val isFavoriteSongUseCase: IsFavoriteSongUseCase,
         private val updateFavoriteStateUseCase: UpdateFavoriteStateUseCase,
         private val insertLastPlayedAlbumUseCase: InsertLastPlayedAlbumUseCase,

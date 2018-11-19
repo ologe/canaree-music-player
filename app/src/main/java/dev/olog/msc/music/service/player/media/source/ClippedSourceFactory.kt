@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class ClippedSourceFactory @Inject constructor (
         @ServiceLifecycle lifecycle: Lifecycle,
         private val sourceFactory: DefaultSourceFactory,
-        musicPrefsUseCase: MusicPreferencesUseCase
+        musicPrefsUseCase: MusicPreferencesGateway
 
 ) : DefaultLifecycleObserver, SourceFactory<CrossFadePlayerImpl.Model> {
 

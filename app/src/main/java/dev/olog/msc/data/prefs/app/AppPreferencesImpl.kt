@@ -15,6 +15,7 @@ import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.safeGetCanonicalPath
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.File
 import javax.inject.Inject
@@ -272,6 +273,8 @@ class AppPreferencesImpl @Inject constructor(
         val key = context.getString(R.string.prefs_player_controls_visibility_key)
         return rxPreferences.getBoolean(key, false)
                 .asObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun setDefault(): Completable {
@@ -333,6 +336,8 @@ class AppPreferencesImpl @Inject constructor(
     override fun observeAutoCreateImages(): Observable<Boolean> {
         return rxPreferences.getBoolean(context.getString(R.string.prefs_auto_create_images_key), true)
                 .asObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun setDefaultFolderView(){

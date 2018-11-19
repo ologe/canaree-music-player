@@ -5,9 +5,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
-import dev.olog.msc.domain.interactor.prefs.EqualizerPrefsUseCase
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -21,9 +21,9 @@ import kotlin.properties.Delegates
 
 class BillingImpl @Inject constructor(
         private val activity: AppCompatActivity,
-        private val appPrefsUseCase: AppPreferencesUseCase,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase,
-        private val equalizerPrefsUseCase: EqualizerPrefsUseCase
+        private val appPrefsUseCase: AppPreferencesGateway,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
+        private val equalizerPrefsUseCase: EqualizerPreferencesGateway
 
 ) : IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {
 

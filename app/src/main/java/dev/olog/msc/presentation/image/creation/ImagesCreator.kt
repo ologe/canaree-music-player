@@ -5,10 +5,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.app.app
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllFoldersNewRequestUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllGenresNewRequestUseCase
 import dev.olog.msc.domain.interactor.all.newrequest.GetAllPlaylistsNewRequestUseCase
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
 import dev.olog.msc.isLowMemoryDevice
 import dev.olog.msc.utils.k.extension.asFlowable
 import io.reactivex.disposables.CompositeDisposable
@@ -28,7 +28,7 @@ class ImagesCreator @Inject constructor(
         private val folderImagesCreator: FolderImagesCreator,
         private val playlistImagesCreator: PlaylistImagesCreator,
         private val genreImagesCreator: GenreImagesCreator,
-        private val appPreferencesUseCase: AppPreferencesUseCase
+        private val appPreferencesUseCase: AppPreferencesGateway
 
 ) : DefaultLifecycleObserver {
 

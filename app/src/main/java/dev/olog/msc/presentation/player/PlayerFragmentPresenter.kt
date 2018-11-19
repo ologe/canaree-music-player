@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.player
 
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.pro.IBilling
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class PlayerFragmentPresenter @Inject constructor(
         private val billing: IBilling,
-        private val appPrefsUseCase: AppPreferencesUseCase
+        private val appPrefsUseCase: AppPreferencesGateway
 ) {
 
     fun observePlayerControlsVisibility(): Observable<Boolean> {

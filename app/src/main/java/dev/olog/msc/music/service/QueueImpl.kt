@@ -7,11 +7,11 @@ import com.crashlytics.android.Crashlytics
 import dev.olog.msc.constants.PlaylistConstants.MINI_QUEUE_SIZE
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCase
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.music.service.model.toMediaEntity
@@ -34,7 +34,7 @@ private const val SKIP_TO_PREVIOUS_THRESHOLD = 10 * 1000 // 10 sec
 class QueueImpl @Inject constructor(
         private val updatePlayingQueueUseCase: UpdatePlayingQueueUseCase,
         private val repeatMode: RepeatMode,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
         private val queueMediaSession: MediaSessionQueue,
         private val getSongUseCase: GetSongUseCase,
         private val getPodcastUseCase: GetPodcastUseCase,

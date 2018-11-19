@@ -4,13 +4,13 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_ALL
 import android.support.v4.media.session.PlaybackStateCompat.SHUFFLE_MODE_NONE
 import dev.olog.msc.dagger.scope.PerService
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import javax.inject.Inject
 
 @PerService
 class ShuffleMode @Inject constructor(
         private val mediaSession: MediaSessionCompat,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase
+        private val musicPreferencesUseCase: MusicPreferencesGateway
 ) {
 
     init {

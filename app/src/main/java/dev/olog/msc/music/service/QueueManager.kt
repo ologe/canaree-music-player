@@ -6,13 +6,13 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.GenreGateway
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.PodcastPositionUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
 import dev.olog.msc.domain.interactor.item.GetSongByFileUseCase
 import dev.olog.msc.domain.interactor.playing.queue.GetPlayingQueueUseCase
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
 import dev.olog.msc.music.service.interfaces.Queue
 import dev.olog.msc.music.service.model.*
 import dev.olog.msc.music.service.voice.VoiceSearch
@@ -33,7 +33,7 @@ import javax.inject.Inject
 class QueueManager @Inject constructor(
         private val queueImpl: QueueImpl,
         private val getPlayingQueueUseCase: GetPlayingQueueUseCase,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
         private val shuffleMode: ShuffleMode,
         private val getSongListByParamUseCase: GetSongListByParamUseCase,
         private val getMostPlayedSongsUseCase: GetMostPlayedSongsUseCase,

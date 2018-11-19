@@ -1,11 +1,11 @@
 package dev.olog.msc.presentation.library.categories.podcast
 
-import dev.olog.msc.domain.interactor.prefs.AppPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.k.extension.clamp
 import javax.inject.Inject
 
 class CategoriesPodcastFragmentPresenter @Inject constructor(
-        private val appPrefsUseCase: AppPreferencesUseCase
+        private val appPrefsUseCase: AppPreferencesGateway
 ) {
 
     fun getViewPagerLastPage(totalPages: Int) : Int{
@@ -16,5 +16,9 @@ class CategoriesPodcastFragmentPresenter @Inject constructor(
     fun setViewPagerLastPage(page: Int){
         appPrefsUseCase.setViewPagerPodcastLastPage(page)
     }
+
+    fun getCategories() = appPrefsUseCase
+            .getPodcastLibraryCategories()
+            .filter { it.visible }
 
 }

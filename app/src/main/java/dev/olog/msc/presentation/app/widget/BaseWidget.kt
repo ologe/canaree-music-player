@@ -12,7 +12,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.domain.entity.LastMetadata
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.utils.images.ImageProcessorResult
@@ -26,7 +26,7 @@ abstract class BaseWidget : AbsWidgetApp() {
         private var IS_PLAYING = false
     }
 
-    @Inject lateinit var musicPrefsUseCase: MusicPreferencesUseCase
+    @Inject lateinit var musicPrefsUseCase: MusicPreferencesGateway
     @Inject lateinit var widgetClasses: WidgetClasses
 
     override fun onReceive(context: Context, intent: Intent) {

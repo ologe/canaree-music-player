@@ -8,7 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.api.HoverMenu
 import dev.olog.msc.floating.window.service.api.view.TabView
 import dev.olog.msc.floating.window.service.music.service.MusicServiceBinder
@@ -23,7 +23,7 @@ class CustomHoverMenu @Inject constructor(
         @ServiceContext private val context: Context,
         @ServiceLifecycle lifecycle: Lifecycle,
         musicServiceBinder: MusicServiceBinder,
-        private val musicPreferencesUseCase: MusicPreferencesUseCase,
+        private val musicPreferencesUseCase: MusicPreferencesGateway,
         offlineLyricsContentPresenter: OfflineLyricsContentPresenter
 
 ) : HoverMenu(), DefaultLifecycleObserver {

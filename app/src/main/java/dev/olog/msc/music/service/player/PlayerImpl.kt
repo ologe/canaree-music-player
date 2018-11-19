@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dagger.Lazy
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
-import dev.olog.msc.domain.interactor.prefs.MusicPreferencesUseCase
+import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.Noisy
 import dev.olog.msc.music.service.PlayerState
 import dev.olog.msc.music.service.focus.AudioFocusBehavior
@@ -27,7 +27,7 @@ class PlayerImpl @Inject constructor(
         private val serviceLifecycle: ServiceLifecycleController,
         private val audioFocus : AudioFocusBehavior,
         private val player: CustomExoPlayer<PlayerMediaEntity>,
-        musicPrefsUseCase: MusicPreferencesUseCase
+        musicPrefsUseCase: MusicPreferencesGateway
 
 ) : Player,
         DefaultLifecycleObserver,
