@@ -14,6 +14,7 @@ import dev.olog.msc.utils.k.extension.asFlowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.Flowables
 import io.reactivex.rxkotlin.addTo
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,6 +47,7 @@ class ImagesCreator @Inject constructor(
                 getAllFoldersUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
                 appPreferencesUseCase.observeAutoCreateImages().asFlowable(),
                 { folders, create -> if (create) folders else listOf() })
+                .debounce(5, TimeUnit.SECONDS)
                 .switchMap { folderImagesCreator.execute() }
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
@@ -54,6 +56,7 @@ class ImagesCreator @Inject constructor(
                 getAllPlaylistsUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
                 appPreferencesUseCase.observeAutoCreateImages().asFlowable(),
                 { playlists, create -> if (create) playlists else listOf() })
+                .debounce(5, TimeUnit.SECONDS)
                 .switchMap { playlistImagesCreator.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
@@ -62,6 +65,7 @@ class ImagesCreator @Inject constructor(
                 getAllGenresUseCase.execute().onErrorReturnItem(listOf()).asFlowable(),
                 appPreferencesUseCase.observeAutoCreateImages().asFlowable(),
                 { genres, create -> if (create) genres else listOf() })
+                .debounce(5, TimeUnit.SECONDS)
                 .switchMap { genreImagesCreator.execute(it) }
                 .subscribe({}, Throwable::printStackTrace)
                 .addTo(subscriptions)
