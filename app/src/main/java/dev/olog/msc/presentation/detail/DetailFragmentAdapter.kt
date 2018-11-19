@@ -8,8 +8,6 @@ import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
@@ -27,11 +25,9 @@ import dev.olog.msc.utils.k.extension.setOnLongClickListener
 import dev.olog.msc.utils.k.extension.setOnMoveListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
-import javax.inject.Inject
 
-@PerFragment
-class DetailFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
+class DetailFragmentAdapter (
+        lifecycle: Lifecycle,
         private val mediaId: MediaId,
         private val recentlyAddedAdapter: DetailRecentlyAddedAdapter,
         private val mostPlayedAdapter: DetailMostPlayedAdapter,

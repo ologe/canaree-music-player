@@ -7,11 +7,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
+import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
@@ -38,18 +40,29 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    @Inject lateinit var navigator: Navigator
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private val viewModel by lazyFast { viewModelProvider<DetailFragmentViewModel>(viewModelFactory) }
 
-    @Inject lateinit var mediaId: MediaId
-    @Inject lateinit var adapter: DetailFragmentAdapter
-    @Inject lateinit var recentlyAddedAdapter : DetailRecentlyAddedAdapter
-    @Inject lateinit var mostPlayedAdapter: DetailMostPlayedAdapter
-    @Inject lateinit var relatedArtistAdapter: DetailRelatedArtistsAdapter
-    @Inject lateinit var albumsAdapter: DetailAlbumsAdapter
-    @Inject lateinit var recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
-    @Inject lateinit var navigator: Navigator
     private val recyclerOnScrollListener by lazyFast { HeaderVisibilityScrollListener(this) }
+
+    private val recycledViewPool by lazyFast { RecyclerView.RecycledViewPool() }
+
+    private val mediaId by lazyFast {
+        val mediaId = arguments!!.getString(DetailFragment.ARGUMENTS_MEDIA_ID)!!
+        MediaId.fromString(mediaId)
+    }
+
+    private val mostPlayedAdapter by lazyFast { DetailMostPlayedAdapter(lifecycle, navigator, act as MediaProvider) }
+    private val recentlyAddedAdapter by lazyFast { DetailRecentlyAddedAdapter(lifecycle, navigator, act as MediaProvider) }
+    private val relatedArtistAdapter by lazyFast { DetailRelatedArtistsAdapter(lifecycle, navigator) }
+    private val albumsAdapter by lazyFast { DetailAlbumsAdapter(lifecycle, navigator) }
+
+    private val adapter by lazyFast { DetailFragmentAdapter(
+            lifecycle, mediaId, recentlyAddedAdapter, mostPlayedAdapter, relatedArtistAdapter,
+            albumsAdapter, navigator, act as MediaProvider, viewModel, recycledViewPool
+    ) }
 
     internal var hasLightStatusBarColor by Delegates.observable(false) { _, _, new ->
         adjustStatusBarColor(new)
