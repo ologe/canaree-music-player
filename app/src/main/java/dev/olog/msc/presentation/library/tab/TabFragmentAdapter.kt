@@ -4,12 +4,9 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import dagger.Lazy
 import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
@@ -21,17 +18,15 @@ import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
-import javax.inject.Inject
 
-@PerFragment
-class TabFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
+class TabFragmentAdapter (
+        lifecycle: Lifecycle,
         private val navigator: Navigator,
         private val mediaProvider: MediaProvider,
-        private val lastPlayedArtistsAdapter: Lazy<TabFragmentLastPlayedArtistsAdapter>,
-        private val lastPlayedAlbumsAdapter: Lazy<TabFragmentLastPlayedAlbumsAdapter>,
-        private val newAlbumsAdapter : Lazy<TabFragmentNewAlbumsAdapter>,
-        private val newArtistsAdapter : Lazy<TabFragmentNewArtistsAdapter>,
+        private val lastPlayedArtistsAdapter: TabFragmentLastPlayedArtistsAdapter?,
+        private val lastPlayedAlbumsAdapter: TabFragmentLastPlayedAlbumsAdapter?,
+        private val newAlbumsAdapter : TabFragmentNewAlbumsAdapter?,
+        private val newArtistsAdapter : TabFragmentNewArtistsAdapter?,
         private val viewModel: TabFragmentViewModel
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
@@ -67,19 +62,19 @@ class TabFragmentAdapter @Inject constructor(
             }
             R.layout.item_tab_last_played_album_horizontal_list -> {
                 val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
-                setupHorizontalList(view, lastPlayedAlbumsAdapter.get())
+                setupHorizontalList(view, lastPlayedAlbumsAdapter!!)
             }
             R.layout.item_tab_last_played_artist_horizontal_list -> {
                 val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
-                setupHorizontalList(view, lastPlayedArtistsAdapter.get())
+                setupHorizontalList(view, lastPlayedArtistsAdapter!!)
             }
             R.layout.item_tab_new_album_horizontal_list-> {
                 val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
-                setupHorizontalList(view, newAlbumsAdapter.get())
+                setupHorizontalList(view, newAlbumsAdapter!!)
             }
             R.layout.item_tab_new_artist_horizontal_list-> {
                 val view = viewHolder.itemView as androidx.recyclerview.widget.RecyclerView
-                setupHorizontalList(view, newArtistsAdapter.get())
+                setupHorizontalList(view, newArtistsAdapter!!)
             }
         }
 

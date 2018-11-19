@@ -14,13 +14,6 @@ import dev.olog.msc.presentation.library.tab.TabFragment
 interface TabFragmentSubComponent : AndroidInjector<TabFragment> {
 
     @Subcomponent.Builder
-    abstract class Builder : AndroidInjector.Builder<TabFragment>() {
-
-        abstract fun module(module: TabFragmentModule): Builder
-
-        override fun seedInstance(instance: TabFragment) {
-            module(TabFragmentModule(instance))
-        }
-    }
+    abstract class Builder : AndroidInjector.Builder<TabFragment>()
 
 }
