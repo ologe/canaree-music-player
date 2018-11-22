@@ -2,15 +2,9 @@ package dev.olog.msc.presentation.licenses
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.utils.MediaId
-import javax.inject.Inject
 
-@Suppress("PrivatePropertyName")
-class LicensesFragmentPresenter @Inject constructor(
-        @ApplicationContext private val context: Context
-
-) {
+class LicensesFragmentPresenter (private val context: Context) {
 
     private val cachedLicenses = mutableMapOf<String, String>()
 

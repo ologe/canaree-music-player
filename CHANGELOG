@@ -1,6 +1,7 @@
 2.0.12
 - removed disabling day night from base activity
 - removed unused dagger injection in splash
+- fixed dark theme in library categories
 
 2.0.11
 - removed unused code

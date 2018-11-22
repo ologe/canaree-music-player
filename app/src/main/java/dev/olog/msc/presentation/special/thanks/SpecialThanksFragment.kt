@@ -1,29 +1,35 @@
 package dev.olog.msc.presentation.special.thanks
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.subscribe
 import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_about.*
 import kotlinx.android.synthetic.main.fragment_special_thanks.view.*
-import javax.inject.Inject
 
-class SpecialThanksFragment : BaseFragment() {
+class SpecialThanksFragment : Fragment() {
 
     companion object {
         const val TAG = "SpecialThanksFragment"
     }
 
-    @Inject lateinit var presenter: SpecialThanksPresenter
-    @Inject lateinit var adapter: SpecialThanksFragmentAdapter
-    private lateinit var layoutManager : androidx.recyclerview.widget.LinearLayoutManager
+    private val presenter by lazyFast { SpecialThanksPresenter(act.applicationContext) }
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
-        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_special_thanks, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val layoutManager = LinearLayoutManager(context)
+        val adapter = SpecialThanksFragmentAdapter(lifecycle)
         view.list.adapter = adapter
         view.list.layoutManager = layoutManager
         view.list.setHasFixedSize(true)
@@ -36,8 +42,6 @@ class SpecialThanksFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        act.switcher.setText(getString(R.string.about_special_thanks_to))
+        act.switcher?.setText(getString(R.string.about_special_thanks_to))
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_special_thanks
 }

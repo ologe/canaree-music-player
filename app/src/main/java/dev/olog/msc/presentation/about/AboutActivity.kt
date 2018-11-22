@@ -7,22 +7,29 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.ViewSwitcher
 import androidx.core.widget.TextViewCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
+import dev.olog.msc.presentation.navigator.NavigatorAbout
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.subscribe
 import kotlinx.android.synthetic.main.activity_about.*
 import javax.inject.Inject
 
 class AboutActivity : BaseActivity() {
 
-    @Inject lateinit var adapter: AboutActivityAdapter
-    @Inject lateinit var presenter: AboutActivityPresenter
+    @Inject lateinit var navigator: NavigatorAbout
+    @Inject lateinit var billing: IBilling
+    private val presenter by lazyFast { AboutActivityPresenter(applicationContext, billing) }
+    private val adapter by lazyFast { AboutActivityAdapter(lifecycle, navigator, presenter) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
 
         switcher?.setFactory(factory)
@@ -34,7 +41,7 @@ class AboutActivity : BaseActivity() {
 
     }
 
-    override fun onAttachFragment(fragment: androidx.fragment.app.Fragment?) {
+    override fun onAttachFragment(fragment: Fragment?) {
         super.onAttachFragment(fragment)
         setInAnimation()
     }

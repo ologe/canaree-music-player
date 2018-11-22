@@ -4,18 +4,14 @@ import android.text.method.LinkMovementMethod
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.databinding.ItemLicenseBinding
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import kotlinx.android.synthetic.main.item_license.view.*
-import javax.inject.Inject
 
-class LicensesFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle
-
-) : AbsAdapter<LicenseModel>(lifecycle){
+class LicensesFragmentAdapter (lifecycle: Lifecycle)
+    : AbsAdapter<LicenseModel>(lifecycle){
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
         (viewHolder.binding as ItemLicenseBinding)

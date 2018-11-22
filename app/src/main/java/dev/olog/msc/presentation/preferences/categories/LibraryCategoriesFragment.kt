@@ -11,6 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.theme.ThemedDialog
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.MediaIdCategory
 import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.withArguments
@@ -33,14 +34,17 @@ class LibraryCategoriesFragment : BaseDialogFragment() {
     @Inject lateinit var presenter: LibraryCategoriesFragmentPresenter
     private lateinit var adapter: LibraryCategoriesFragmentAdapter
 
+    private val category by lazyFast { MediaIdCategory.values()[arguments!!.getInt(TYPE)] }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(activity!!)
         val view : View = inflater.inflate(R.layout.dialog_list, null, false)
 
-        val category: MediaIdCategory = MediaIdCategory.values()[arguments!!.getInt(TYPE)]
+        val title = if (category == MediaIdCategory.SONGS) R.string.prefs_library_categories_title
+                    else R.string.prefs_library_categories_title_podcasts
 
         val builder = ThemedDialog.builder(ctx)
-                .setTitle(R.string.prefs_library_categories_title)
+                .setTitle(title)
                 .setView(view)
                 .setNeutralButton(R.string.popup_neutral_reset, null)
                 .setNegativeButton(R.string.popup_negative_cancel, null)

@@ -71,6 +71,7 @@
     <!--library categories-->
     <string name="prefs_library_categories_key" translatable="false">key_library_categories</string>
     <string name="prefs_library_categories_title">Library categories</string>
+    <string name="prefs_library_categories_title_podcasts">Podcast categories</string>
     <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
 
     <!--podcast categories-->

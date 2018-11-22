@@ -2,13 +2,9 @@ package dev.olog.msc.presentation.special.thanks
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.utils.MediaId
-import javax.inject.Inject
 
-class SpecialThanksPresenter @Inject constructor(
-        @ApplicationContext context: Context
-) {
+class SpecialThanksPresenter (context: Context) {
 
     val data = listOf(
             SpecialThanksModel(R.layout.item_special_thanks,

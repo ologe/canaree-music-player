@@ -17,6 +17,8 @@ import dev.olog.msc.dagger.scope.PerActivity
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.edit.EditItemViewModel
 import dev.olog.msc.presentation.main.MainActivity
+import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.msc.presentation.navigator.NavigatorImpl
 import dev.olog.msc.pro.BillingImpl
 import dev.olog.msc.pro.IBilling
 
@@ -51,10 +53,6 @@ class MainActivityModule(
     @Provides
     internal fun provideMusicGlue(): MediaProvider = activity
 
-    @Provides
-    @PerActivity
-    internal fun provideBilling(impl: BillingImpl): IBilling = impl
-
     @Module
     interface Binding {
 
@@ -62,6 +60,14 @@ class MainActivityModule(
         @IntoMap
         @ViewModelKey(EditItemViewModel::class)
         fun provideViewModel(viewModel: EditItemViewModel): ViewModel
+
+        @Binds
+        @PerActivity
+        fun provideNavigator(navigatorImpl: NavigatorImpl): Navigator
+
+        @Binds
+        @PerActivity
+        fun provideBilling(impl: BillingImpl): IBilling
 
     }
 

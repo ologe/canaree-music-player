@@ -3,15 +3,11 @@ package dev.olog.msc.presentation.special.thanks
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
-import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import javax.inject.Inject
 
-class SpecialThanksFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle
-
-) : AbsAdapter<SpecialThanksModel>(lifecycle) {
+class SpecialThanksFragmentAdapter(lifecycle: Lifecycle)
+    : AbsAdapter<SpecialThanksModel>(lifecycle) {
 
     override fun initViewHolderListeners(viewHolder: DataBoundViewHolder, viewType: Int) {
     }
