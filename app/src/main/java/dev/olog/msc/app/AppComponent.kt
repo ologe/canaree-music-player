@@ -16,7 +16,6 @@ import dev.olog.msc.presentation.app.widget.WidgetBindingModule
 import dev.olog.msc.presentation.main.di.MainActivityInjector
 import dev.olog.msc.presentation.preferences.di.PreferencesActivityInjector
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.di.PlaylistChooserActivityInjector
-import dev.olog.msc.presentation.splash.di.SplashActivityInjector
 import javax.inject.Singleton
 
 @Component(modules = arrayOf(
@@ -32,8 +31,8 @@ import javax.inject.Singleton
         PreferenceModule::class,
 //
 //        // presentation
+        ActivityBindingsModule::class,
         WidgetBindingModule::class,
-        SplashActivityInjector::class,
         MainActivityInjector::class,
         AboutActivityInjector::class,
         PreferencesActivityInjector::class,

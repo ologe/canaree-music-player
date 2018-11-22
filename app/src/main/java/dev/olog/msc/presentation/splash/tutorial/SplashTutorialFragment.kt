@@ -3,15 +3,17 @@ package dev.olog.msc.presentation.splash.tutorial
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.widget.StoppingViewPager
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.msc.utils.img.CoverUtils
@@ -19,7 +21,7 @@ import dev.olog.msc.utils.k.extension.ctx
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 
-class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
+class SplashTutorialFragment : Fragment(), SwipeableView.SwipeListener {
 
     private var progressive = 0
 
@@ -31,7 +33,11 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
 
     private var touchDisposable : Disposable? = null
 
-    override fun onViewBound(view: View, savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_splash_tutorial, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         nowPlaying = view.findViewById(R.id.nowPlaying)
         viewPager = activity!!.findViewById(R.id.viewPager)
         cover = view.findViewById(R.id.cover)
@@ -118,6 +124,4 @@ class SplashTutorialFragment : BaseFragment(), SwipeableView.SwipeListener {
                 .override(400)
                 .into(view)
     }
-
-    override fun provideLayoutId(): Int = R.layout.fragment_splash_tutorial
 }

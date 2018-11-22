@@ -1,13 +1,14 @@
 package dev.olog.msc.presentation.splash
 
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import dev.olog.msc.presentation.splash.presentation.SplashPresentationFragment
 import dev.olog.msc.presentation.splash.tutorial.SplashTutorialFragment
-import javax.inject.Inject
 
-class SplashActivityViewPagerAdapter @Inject constructor(
-        fragmentManager : androidx.fragment.app.FragmentManager
+class SplashActivityViewPagerAdapter(
+        fragmentManager : FragmentManager
 
-) : androidx.fragment.app.FragmentPagerAdapter(fragmentManager) {
+) : FragmentPagerAdapter(fragmentManager) {
 
     override fun getItem(position: Int): androidx.fragment.app.Fragment {
         return when(position){

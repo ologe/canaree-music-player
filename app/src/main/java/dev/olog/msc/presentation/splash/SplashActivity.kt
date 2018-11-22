@@ -10,14 +10,14 @@ import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.dialog.explain.trial.ExplainTrialDialog
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.updatePermissionValve
 import dev.olog.msc.utils.k.extension.simpleDialog
 import kotlinx.android.synthetic.main.activity_splash.*
-import javax.inject.Inject
 
 class SplashActivity : BaseActivity(), View.OnClickListener {
 
-    @Inject lateinit var adapter : SplashActivityViewPagerAdapter
+    private val adapter by lazyFast { SplashActivityViewPagerAdapter(supportFragmentManager) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

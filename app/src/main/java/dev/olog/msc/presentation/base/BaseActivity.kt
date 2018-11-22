@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.StyleRes
-import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import dagger.android.support.DaggerAppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
@@ -14,17 +14,10 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        disableDayNight()
         setTheme(getActivityTheme())
         themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
-    }
-
-    private fun disableDayNight(){
-        if (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO){
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
     }
 
     @StyleRes
@@ -37,7 +30,7 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
     }
 
     @Suppress("UNCHECKED_CAST")
-    internal fun <T : androidx.fragment.app.Fragment> findFragmentByTag(tag: String): T? {
+    internal fun <T : Fragment> findFragmentByTag(tag: String): T? {
         return supportFragmentManager.findFragmentByTag(tag) as T?
     }
 

@@ -1,3 +1,11 @@
+2.0.12
+- removed disabling day night from base activity
+- removed unused dagger injection in splash
+
+2.0.11
+- removed unused code
+
+
 2.0.10
 - try to fix foregroundimageview crash
 - spanish typo fix
