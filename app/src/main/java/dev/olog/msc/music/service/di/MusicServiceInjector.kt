@@ -4,7 +4,7 @@ import android.app.Service
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
-import dagger.android.ServiceKey
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.msc.music.service.MusicService
 
@@ -14,8 +14,8 @@ abstract class MusicServiceInjector {
 
     @Binds
     @IntoMap
-    @ServiceKey(MusicService::class)
+    @ClassKey(MusicService::class)
     internal abstract fun injectorFactory(builder: MusicServiceSubComponent.Builder)
-            : AndroidInjector.Factory<out Service>
+            : AndroidInjector.Factory<*>
 
 }

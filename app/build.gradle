@@ -113,7 +113,7 @@ dependencies {
     implementation "androidx.core:core-ktx:1.0.1"
     implementation "androidx.legacy:legacy-support-v4:$rootProject.androidX"
     implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.media:media:$rootProject.androidX"
+    implementation "androidx.media:media:1.0.1"
     implementation "androidx.mediarouter:mediarouter:$rootProject.androidX"
     implementation "androidx.recyclerview:recyclerview:$rootProject.androidX"
     implementation "androidx.cardview:cardview:$rootProject.androidX"
@@ -186,7 +186,7 @@ dependencies {
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
         transitive = true
     }
-    implementation 'com.google.firebase:firebase-invites:16.0.5'
+    implementation 'com.google.firebase:firebase-invites:16.1.0'
 
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"

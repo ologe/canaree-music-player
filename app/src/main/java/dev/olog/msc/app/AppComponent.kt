@@ -1,8 +1,8 @@
 package dev.olog.msc.app
 
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
 import dev.olog.msc.api.last.fm.LastFmModule
 import dev.olog.msc.app.shortcuts.AppShortcutsModule
 import dev.olog.msc.data.RepositoryHelperModule
@@ -23,7 +23,7 @@ import javax.inject.Singleton
         SchedulersModule::class,
         AppShortcutsModule::class,
         LastFmModule::class,
-        AndroidSupportInjectionModule::class,
+        AndroidInjectionModule::class,
 
 //        // data
         RepositoryModule::class,

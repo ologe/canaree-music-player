@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.edit.artist.di
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
-import dagger.android.support.FragmentKey
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 
@@ -12,8 +12,8 @@ abstract class EditArtistFragmentInjector {
 
     @Binds
     @IntoMap
-    @FragmentKey(EditArtistFragment::class)
+    @ClassKey(EditArtistFragment::class)
     internal abstract fun injectorFactory(builder: EditArtistFragmentSubComponent.Builder)
-            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
+            : AndroidInjector.Factory<*>
 
 }

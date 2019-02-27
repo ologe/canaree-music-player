@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.playing.queue.di
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
-import dagger.android.support.FragmentKey
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 
@@ -13,8 +13,8 @@ abstract class PlayingQueueFragmentInjector {
 
     @Binds
     @IntoMap
-    @FragmentKey(PlayingQueueFragment::class)
+    @ClassKey(PlayingQueueFragment::class)
     internal abstract fun injectorFactory(builder: PlayingQueueFragmentSubComponent.Builder)
-            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
+            : AndroidInjector.Factory<*>
 
 }

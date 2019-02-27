@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.dialog.clear.playlist.di
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
-import dagger.android.support.FragmentKey
+import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
 
@@ -12,8 +12,8 @@ abstract class ClearPlaylistDialogInjector {
 
     @Binds
     @IntoMap
-    @FragmentKey(ClearPlaylistDialog::class)
+    @ClassKey(ClearPlaylistDialog::class)
     internal abstract fun injectorFactory(builder: ClearPlaylistDialogSubComponent.Builder)
-            : AndroidInjector.Factory<out androidx.fragment.app.Fragment>
+            : AndroidInjector.Factory<*>
 
 }
