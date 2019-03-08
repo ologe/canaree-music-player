@@ -11,6 +11,9 @@ Is a complete music player available in the [Play Store](https://play.google.com
 In order to compile you need to do the following things 
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
 * Set the path 'gradle.ext.exoplayerRoot' to your local ExoPlayer in 'settings.gradle'
+* One of the following:
+1) Copy https://github.com/ologe/canaree-music-player/blob/master/exoplayer-gradle/core_settings_min.gradle to your local ExoPlayer root folder
+2) In the 'settings.gradle' change **apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')** to **apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')**
 
 To support FLAC, FFMPEG and OPUS formats to you need to compile manually the corresponding ExoPlayer extensions using NDK-r15c or older, newer version of NDK are not supported.
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg
