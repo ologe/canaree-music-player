@@ -55,8 +55,8 @@ ext {
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_28_2_0_12
-    versionName = '2.0.12'
+    versionCode = 999_28_2_1_00
+    versionName = '2.1.0'
 
     // App dependencies
     androidX = '1.0.0'
