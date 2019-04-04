@@ -337,7 +337,7 @@ private fun getAscendingComparator(sortType: SortType, collator: Collator): Comp
         SortType.ALBUM_ARTIST -> Comparator { o1, o2 -> collator.safeCompare(o1.albumArtist, o2.albumArtist) }
         SortType.ALBUM -> Comparator { o1, o2 -> collator.safeCompare(o1.album, o2.album) }
         SortType.DURATION -> compareBy { it.duration }
-        SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
+        SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
         SortType.TRACK_NUMBER -> ComparatorUtils.getMediaEntityAscendingTrackNumberComparator()
         SortType.CUSTOM -> compareBy { 0 }
     }
@@ -350,7 +350,7 @@ private fun getDescendingComparator(sortType: SortType, collator: Collator): Com
         SortType.ALBUM_ARTIST -> Comparator { o1, o2 -> collator.safeCompare(o2.albumArtist, o1.albumArtist) }
         SortType.ALBUM -> Comparator { o1, o2 -> collator.safeCompare(o2.album, o1.album) }
         SortType.DURATION -> compareByDescending { it.duration }
-        SortType.RECENTLY_ADDED -> compareBy { it.dateAdded }
+        SortType.RECENTLY_ADDED -> compareByDescending { it.dateAdded }
         SortType.TRACK_NUMBER -> ComparatorUtils.getMediaEntityDescendingTrackNumberComparator()
         SortType.CUSTOM -> compareByDescending { 0 }
     }
