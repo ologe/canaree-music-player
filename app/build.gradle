@@ -186,7 +186,7 @@ dependencies {
     implementation("com.crashlytics.sdk.android:crashlytics:$rootProject.crashlytics") {
         transitive = true
     }
-    implementation 'com.google.firebase:firebase-invites:16.1.0'
+    implementation 'com.google.firebase:firebase-invites:16.1.1'
 
     testImplementation "junit:junit:$rootProject.junit"
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
