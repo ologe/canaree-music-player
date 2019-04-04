@@ -38,11 +38,18 @@ class LastFmScrobbling @Inject constructor(
     private var userCredentials : UserCredentials? = null
 
     private val credendialsDisposable = observeLastFmUserCredentials.execute()
+            .observeOn(Schedulers.io())
             .filter { it.username.isNotBlank() }
-            .subscribe({
-                session = Authenticator.getMobileSession(it.username, it.password, LAST_FM_API_KEY, LAST_FM_API_SECRET)
-                userCredentials = it
-            }, Throwable::printStackTrace)
+            .subscribe(this::tryAutenticate, Throwable::printStackTrace)
+
+    private fun tryAutenticate(credentials: UserCredentials){
+        try {
+            session = Authenticator.getMobileSession(credentials.username, credentials.password, LAST_FM_API_KEY, LAST_FM_API_SECRET)
+            userCredentials = credentials
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
+    }
 
     private var scrobbleSubscriptions = CompositeDisposable()
 
