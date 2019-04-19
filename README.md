@@ -20,6 +20,13 @@ Canaree (Music Player)
 
 Complete music player published in the Play Store (see badge above)
 
+## Screenshots
+<div style="dispaly:flex">
+    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-28-235818.png" width="32%">
+    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-001417.png" width="32%">
+    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-002256.png" width="32%">
+</div>
+
 ## Build
 In order to compile you need to do the following things 
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
@@ -31,10 +38,3 @@ To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manu
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus
-
-## Screenshots
-<div style="dispaly:flex">
-    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-28-235818.png" width="32%">
-    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-001417.png" width="32%">
-    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-002256.png" width="32%">
-</div>
