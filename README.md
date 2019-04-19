@@ -18,7 +18,7 @@ Canaree (Music Player)
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
 
-Complete music player published in the Play Store
+Complete music player published in the Play Store. 
 
 ## Screenshots
 <div style="dispaly:flex">
@@ -32,7 +32,14 @@ In order to compile you need to do the following things
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
 * In `settings.gradle`:
   - Update `gradle.ext.exoplayerRoot` to match your ExoPlayer repo path
-  - Change <br> ```apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')``` </br>with</br> ```apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')```
+  - Change <br> 
+      ```gradle 
+      apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')
+      ``` 
+      with</br>
+      ```gradle 
+      apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
+      ```
 
 To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported.
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg
