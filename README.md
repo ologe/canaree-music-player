@@ -18,7 +18,7 @@ Canaree (Music Player)
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
 
-Complete music player published in the Play Store (see badge above)
+Complete music player published in the Play Store
 
 ## Screenshots
 <div style="dispaly:flex">
@@ -38,3 +38,6 @@ To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manu
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus
+
+## Download
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=dev.olog.msc)
