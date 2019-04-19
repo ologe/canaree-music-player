@@ -1,21 +1,40 @@
-# Canaree
-### Android music player
+[github]:            https://github.com/ologe/canaree-music-player
+[paypal-url]:        https://paypal.me/nextmusicplayer
+[googleplay-url]:    https://play.google.com/store/apps/details?id=dev.olog.msc
 
-Is a complete music player available in the [Play Store](https://play.google.com/store/apps/details?id=dev.olog.msc) 
+[platform-badge]:   https://img.shields.io/badge/Platform-Android-F3745F.svg
+[paypal-badge]:     https://img.shields.io/badge/Donate-Paypal-F3745F.svg
+[googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
+[minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
-|               |               |               | 
-| ------------- | ------------- | ------------- |
-| ![image1](https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-28-235818.png)  | ![image2](https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-001417.png) | ![image3](https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-002256.png) | 
+<!------------------------------------------------------------------------------------------------------->
 
 
+Canaree (Music Player)
+=
+
+[![platform-badge]][github]
+[![minsdk-badge]][github]
+[![paypal-badge]][paypal-url]
+[![googleplay-badge]][googleplay-url]
+
+Complete music player published in the Play Store (see badge above)
+
+## Build
 In order to compile you need to do the following things 
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
-* Set the path 'gradle.ext.exoplayerRoot' to your local ExoPlayer in 'settings.gradle'
-* One of the following options:
-1) Copy https://github.com/ologe/canaree-music-player/blob/master/exoplayer-gradle/core_settings_min.gradle to your local ExoPlayer root folder
-2) In the 'settings.gradle' change **apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')** to **apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')**
+* In <b>`settings.gradle`</b>:
+  - Update <b>`gradle.ext.exoplayerRoot`</b> to match your ExoPlayer repo clone
+  - Change <br> ```apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')``` </br>with</br> ```apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')```
 
-To support FLAC, FFMPEG and OPUS formats to you need to compile manually the corresponding ExoPlayer extensions using NDK-r15c or older, newer version of NDK are not supported.
+To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported.
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac
 * https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus
+
+## Screenshots
+<div style="dispaly:flex">
+    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-28-235818.png" width="32%">
+    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-001417.png" width="32%">
+    <img src="https://github.com/ologe/canaree-music-player/blob/master/images/device-2018-10-29-002256.png" width="32%">
+</div>
