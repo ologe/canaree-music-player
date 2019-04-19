@@ -30,8 +30,8 @@ Complete music player published in the Play Store (see badge above)
 ## Build
 In order to compile you need to do the following things 
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
-* In <b>`settings.gradle`</b>:
-  - Update <b>`gradle.ext.exoplayerRoot`</b> to match your ExoPlayer repo clone
+* In `settings.gradle`:
+  - Update `gradle.ext.exoplayerRoot` to match your ExoPlayer repo clone
   - Change <br> ```apply from: new File(gradle.ext.exoplayerRoot, 'core_settings_min.gradle')``` </br>with</br> ```apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')```
 
 To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported.
