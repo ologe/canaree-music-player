@@ -18,7 +18,7 @@ Canaree (Music Player)
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
 
-Complete music player published in the Play Store. Relies heavily on Dagger, RxJava and Clean architecture.
+Complete music player published in the Play Store. Heavily relies on Dagger, RxJava and Clean architecture.
 
 ## Screenshots
 <div style="dispaly:flex">
@@ -28,7 +28,23 @@ Complete music player published in the Play Store. Relies heavily on Dagger, RxJ
 </div>
 
 ## Build
-In order to compile you need to do the following things 
+Compilation can be done in 2 ways. Using the first method will prevent you from supporting FFMPEG, FLAC and OPUS formats.  
+#### Method 1 (Fast)
+In `build.gradle` app module.
+* Uncomment
+```gradle
+implementation 'com.google.android.exoplayer:exoplayer-core:$latest_exoplayer_version
+```
+* Comment 
+```gradle
+implementation project(':exoplayer-library-core')
+implementation project(':exoplayer-extension-flac')
+implementation project(':exoplayer-extension-opus')
+implementation project(':exoplayer-extension-ffmpeg')
+```
+
+
+#### Method 2
 * Clone [ExoPlayer](https://github.com/google/ExoPlayer)
 * In `settings.gradle`:
   - Update `gradle.ext.exoplayerRoot` to match your ExoPlayer repo path
@@ -41,8 +57,9 @@ In order to compile you need to do the following things
       apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
       ```
 
-## Extensions
-To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported.
+## Extensions (Linux or macOS recommended)
+To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding 
+ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported. 
 * [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
 * [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
 * [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
