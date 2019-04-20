@@ -18,7 +18,7 @@ Canaree (Music Player)
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
 
-Complete music player published in the Play Store. 
+Complete music player published in the Play Store. Relies heavily on Dagger, RxJava and Clean architecture.
 
 ## Screenshots
 <div style="dispaly:flex">
@@ -46,6 +46,9 @@ To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manu
 * [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
 * [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
 * [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
+
+## Issues
+If you find any problems, please feel free to file an [issue](https://github.com/ologe/canaree-music-player/issues).
 
 ## Open-source libraries
 * [**ExoPlayer**](https://github.com/google/ExoPlayer)
