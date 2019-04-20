@@ -41,10 +41,11 @@ In order to compile you need to do the following things
       apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
       ```
 
+## Extensions
 To support **FLAC**, **FFMPEG** and **OPUS** formats to you need to compile manually the corresponding ExoPlayer extensions using <b>NDK-r15c</b> or older, newer version of NDK are not supported.
-* https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg
-* https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac
-* https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus
+* [**FFMPEG**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/ffmpeg)
+* [**FLAC**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/flac)
+* [**OPUS**](https://github.com/google/ExoPlayer/tree/release-v2/extensions/opus)
 
 ## Open-source libraries
 * [**ExoPlayer**](https://github.com/google/ExoPlayer)
