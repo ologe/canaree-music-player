@@ -1,31 +1,30 @@
-2.1.1
+# Release notes
+## 2.1.1
 - fixed all tracks sort order by date
 
-# missing
-
-2.0.12
+## 2.0.12
 - removed disabling day night from base activity
 - removed unused dagger injection in splash
 - fixed dark theme in library categories
 
-2.0.11
+## 2.0.11
 - removed unused code
 
 
-2.0.10
+## 2.0.10
 - try to fix foregroundimageview crash
 - spanish typo fix
 
-2.0.9
+## 2.0.9
 - added firebase invites analytics
 
-2.0.8
+## 2.0.8
 - song cursor mapper folder crash fix
 
-2.0.7
+## 2.0.7
 - added spanish language
 
-2.0.6
+## 2.0.6
 - improved analytics:
     - tracks current screen
 - added perf monitoring
@@ -34,12 +33,12 @@
 - added small implementation for google personal search indexing
 - added invite friends
 
-2.0.5
+## 2.0.5
 - Fix adaptive color Image presenter crash
 - fixed null string crash cursor mapper
 - added keep rule to TextInputEditText in proguard
 
-2.0.4
+## 2.0.4
 - fixed color accent crash
 - fixed crash on repeat mode changed
 - added message when starting updating album/artist
@@ -52,7 +51,7 @@
 - fixed download track image automatically
 - fixed edit track not showing properly
 
-2.0.3
+## 2.0.3
 
 - migration to AndroidX
 - added black theme to intro
@@ -66,8 +65,6 @@
 - added immersive mode
 - added search podcast
 - added FAB to show keyboard
-
-BUG FIXES
 - fixed notch
 - create playlist not adding tracks on creation
 - buggy swipe and drag in playing queue
@@ -76,13 +73,13 @@ BUG FIXES
 - playing queue not handling correctly duplicated songs
 
 
-2.0.2
+## 2.0.2
 - added mini player player theme
 - added support to do not download album image that has same app as folder (finish to implement)
 - removed preset chooser popup
 
 
-2.0.1
+## 2.0.1
 - tap tutorial draw out of screen border
 - fixed rounded search theme colors
 - added show/hide podcast preference
@@ -91,7 +88,7 @@ BUG FIXES
 - set jaudiotagger encoding to UTF-8
 
 
-2.0.0
+## 2.0.0
 - Changed app name to Canaree (like Canary)
 - Overall redesign
 - Clean theme redesign
