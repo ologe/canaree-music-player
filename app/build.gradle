@@ -171,6 +171,7 @@ dependencies {
     implementation "com.github.tozny:java-aes-crypto:$rootProject.aes_crypto"
     implementation "de.u-mass:lastfm-java:$rootProject.last_fm_binding"
     implementation "saschpe.android:customtabs:$rootProject.custom_tabs"
+    implementation "com.afollestad.material-dialogs:core:$rootProject.material_dialogs"
     implementation "com.afollestad.material-dialogs:color:$rootProject.material_dialogs"
     implementation 'io.alterac.blurkit:blurkit:1.0.0'
 
