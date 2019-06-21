@@ -11,7 +11,6 @@ import dev.olog.msc.domain.entity.PodcastAlbum
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.safeCompare
@@ -38,7 +37,7 @@ class PodcastAlbumRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, arrayOf("count(*) as size"), null,
                 null, " size ASC LIMIT 1", true
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne { 0 })
                 .switchMap { podcastGateway.getAll() }

@@ -4,26 +4,8 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import dev.olog.msc.presentation.utils.lazyFast
-import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
-
-private val hasPermissionPublisher by lazyFast { BehaviorSubject.createDefault<Boolean>(false) }
-
-fun updatePermissionValve(context: Context, enable: Boolean){
-    hasPermissionPublisher.onNext(enable)
-    context.contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-    context.contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-    context.contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
-}
-
-fun <T> Observable<T>.onlyWithStoragePermission(): Observable<T> {
-    return hasPermissionPublisher.filter { it }
-            .switchMap { this }
-}
 
 object Permissions {
 

@@ -18,7 +18,6 @@ import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
@@ -65,7 +64,7 @@ class PodcastRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 null, SORT_ORDER, true
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { mapToPodcast(it) })
                 .map { adjustImages(it) }
@@ -121,7 +120,7 @@ class PodcastRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",
                 arrayOf("$podcastId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne {
                     val id = it.getLong(BaseColumns._ID)
@@ -141,7 +140,7 @@ class PodcastRepository @Inject constructor(
                 null,
                 SORT_ORDER,
                 false
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { it.toPodcast() })
                 .doOnError { it.printStackTrace() }

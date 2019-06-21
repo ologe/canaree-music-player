@@ -23,7 +23,6 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.onlyWithStoragePermission
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString
 import dev.olog.msc.utils.img.ImagesFolderUtils
@@ -70,7 +69,7 @@ class SongRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 null, SORT_ORDER, true
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { mapToSong(it) })
                 .map { removeBlacklisted(it) }
@@ -216,7 +215,7 @@ class SongRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, "${MediaStore.Audio.Media._ID} = ?",
                 arrayOf("$songId"), " ${MediaStore.Audio.Media._ID} ASC LIMIT 1", false
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne {
                     val id = it.getLong(BaseColumns._ID)
@@ -236,7 +235,7 @@ class SongRepository @Inject constructor(
                 null,
                 SORT_ORDER,
                 false
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { it.toSong() })
                 .doOnError { it.printStackTrace() }

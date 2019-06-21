@@ -4,6 +4,7 @@ import android.content.Context
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
@@ -19,8 +20,6 @@ import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.onlyWithStoragePermission
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -73,7 +72,7 @@ class PlaylistRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 MEDIA_STORE_URI, PROJECTION, SELECTION,
                 SELECTION_ARGS, SORT_ORDER, false
-        ).onlyWithStoragePermission()
+        )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList {
                     val id = it.extractId()
@@ -179,7 +178,7 @@ class PlaylistRepository @Inject constructor(
         return rxContentResolver.createQuery(
                 uri, SONG_PROJECTION, SONG_SELECTION,
                 SONG_SELECTION_ARGS, SONG_SORT_ORDER, false
-        ).onlyWithStoragePermission()
+        )
                 .lift(SqlBrite.Query.mapToList { it.toPlaylistSong() })
                 .switchMapSingle { playlistSongs -> songGateway.getAll().firstOrError().map { songs ->
                     playlistSongs.asSequence()

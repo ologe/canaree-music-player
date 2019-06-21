@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.content.Context
 import android.os.Looper
-import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.constants.AppConstants
@@ -20,7 +18,6 @@ import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
 import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.traceur.Traceur
-import dev.olog.msc.updatePermissionValve
 import dev.olog.msc.utils.PendingIntents
 import io.alterac.blurkit.BlurKit
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -51,14 +48,6 @@ class App : BaseApp() {
         resetSleepTimer()
 
         registerActivityLifecycleCallbacks(CustomTabsActivityLifecycleCallback())
-    }
-
-    override fun onStart(owner: LifecycleOwner) {
-        updatePermissionValve(this, Permissions.canReadStorage(this))
-    }
-
-    override fun onStop(owner: LifecycleOwner) {
-        updatePermissionValve(this, false)
     }
 
     private fun initRxMainScheduler() {
