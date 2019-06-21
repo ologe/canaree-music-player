@@ -20,7 +20,7 @@ import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
-import dev.olog.presentation.WaveSideBarView
+import dev.olog.presentation.widgets.WaveSideBarView
 import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.toggleSelected

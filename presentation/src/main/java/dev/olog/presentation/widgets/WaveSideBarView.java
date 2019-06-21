@@ -1,4 +1,4 @@
-package dev.olog.presentation;
+package dev.olog.presentation.widgets;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -19,6 +19,7 @@ import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import dev.olog.presentation.R;
 import dev.olog.shared.TextUtils;
 import dev.olog.shared.ViewExtensionKt;
 

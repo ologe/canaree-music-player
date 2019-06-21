@@ -162,7 +162,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_choose_track" />
 
-    <dev.olog.presentation.RxWaveSideBarView
+    <dev.olog.presentation.widgets.RxWaveSideBarView
         android:id="@+id/sidebar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

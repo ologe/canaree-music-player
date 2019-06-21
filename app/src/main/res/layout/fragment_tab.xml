@@ -20,7 +20,7 @@
         android:clipToPadding="false"
         tools:listitem="@layout/item_tab_song" />
 
-    <dev.olog.presentation.SideBarFade
+    <dev.olog.presentation.widgets.SideBarFade
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +28,7 @@
         android:layout_height="0dp"
         android:background="@drawable/side_bar_background" />
 
-    <dev.olog.presentation.RxWaveSideBarView
+    <dev.olog.presentation.widgets.RxWaveSideBarView
         android:id="@+id/sidebar"
         android:layout_width="wrap_content"
         android:layout_height="0dp"

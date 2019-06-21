@@ -14,7 +14,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.parentViewModelProvider
 import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.presentation.WaveSideBarView
+import dev.olog.presentation.widgets.WaveSideBarView
 import dev.olog.core.MediaIdCategory
 import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.*
