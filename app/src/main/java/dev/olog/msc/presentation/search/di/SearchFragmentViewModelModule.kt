@@ -12,7 +12,7 @@ import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
 import dev.olog.core.MediaId
@@ -233,7 +233,13 @@ class SearchFragmentViewModelModule {
                 .map { it.toMutableList() }
                 .map {
                     if (it.isNotEmpty()){
-                        it.add(DisplayableItem(R.layout.item_search_clear_recent, MediaId.headerId("clear recent"), ""))
+                        it.add(
+                            DisplayableItem(
+                                R.layout.item_search_clear_recent,
+                                MediaId.headerId("clear recent"),
+                                ""
+                            )
+                        )
                         it.addAll(0, searchHeaders.recents)
                     }
                     it
@@ -242,109 +248,109 @@ class SearchFragmentViewModelModule {
 
 }
 
-private fun Song.toSearchDisplayableItem(): DisplayableItem{
+private fun Song.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_song,
-            MediaId.songId(this.id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image,
-            true
+        R.layout.item_search_song,
+        MediaId.songId(this.id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image,
+        true
     )
 }
 
-private fun Podcast.toSearchDisplayableItem(): DisplayableItem{
+private fun Podcast.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_song,
-            MediaId.podcastId(this.id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image,
-            true
+        R.layout.item_search_song,
+        MediaId.podcastId(this.id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image,
+        true
     )
 }
 
 private fun Album.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
-            MediaId.albumId(id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image
+        R.layout.item_search_album,
+        MediaId.albumId(id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image
     )
 }
 
 private fun PodcastAlbum.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
-            MediaId.podcastAlbumId(id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image
+        R.layout.item_search_album,
+        MediaId.podcastAlbumId(id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image
     )
 }
 
 private fun Artist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_artist,
-            MediaId.artistId(id),
-            name,
-            null,
-            image
+        R.layout.item_search_artist,
+        MediaId.artistId(id),
+        name,
+        null,
+        image
     )
 }
 
 private fun PodcastArtist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_artist,
-            MediaId.podcastArtistId(id),
-            name,
-            null,
-            image
+        R.layout.item_search_artist,
+        MediaId.podcastArtistId(id),
+        name,
+        null,
+        image
     )
 }
 
 private fun Playlist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
-            MediaId.playlistId(id),
-            title,
-            null,
-            image
+        R.layout.item_search_album,
+        MediaId.playlistId(id),
+        title,
+        null,
+        image
     )
 }
 
 private fun PodcastPlaylist.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
-            MediaId.podcastPlaylistId(id),
-            title,
-            null,
-            image
+        R.layout.item_search_album,
+        MediaId.podcastPlaylistId(id),
+        title,
+        null,
+        image
     )
 }
 
 private fun Genre.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
-            MediaId.genreId(id),
-            name,
-            null,
-            image
+        R.layout.item_search_album,
+        MediaId.genreId(id),
+        name,
+        null,
+        image
     )
 }
 
 private fun Folder.toSearchDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_search_album,
-            MediaId.folderId(path),
-            title,
-            null,
-            image
+        R.layout.item_search_album,
+        MediaId.folderId(path),
+        title,
+        null,
+        image
     )
 }
 
-private fun SearchResult.toSearchDisplayableItem(context: Context) : DisplayableItem{
+private fun SearchResult.toSearchDisplayableItem(context: Context) : DisplayableItem {
     val subtitle = when (this.itemType) {
         RecentSearchesTypes.SONG -> context.getString(R.string.search_type_track)
         RecentSearchesTypes.ALBUM -> context.getString(R.string.search_type_album)
@@ -370,11 +376,11 @@ private fun SearchResult.toSearchDisplayableItem(context: Context) : Displayable
     }
 
     return DisplayableItem(
-            layout,
-            this.mediaId,
-            this.title,
-            subtitle,
-            this.image,
-            isPlayable
+        layout,
+        this.mediaId,
+        this.title,
+        subtitle,
+        this.image,
+        isPlayable
     )
 }

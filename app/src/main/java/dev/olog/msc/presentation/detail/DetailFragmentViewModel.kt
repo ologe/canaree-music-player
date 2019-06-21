@@ -7,7 +7,7 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.*
 import dev.olog.msc.presentation.detail.sort.DetailSort
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData

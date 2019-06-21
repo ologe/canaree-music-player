@@ -8,8 +8,8 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.utils.k.extension.setVisible
-import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.shared.setVisible
+import dev.olog.shared.toggleVisibility
 import kotlin.math.hypot
 
 class TouchHelperAnimationController {

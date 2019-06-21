@@ -11,6 +11,9 @@ import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.colorAccent
+import dev.olog.shared.textColorSecondary
+import dev.olog.shared.textColorTertiary
 
 class ShuffleButton @JvmOverloads constructor(
         context: Context,

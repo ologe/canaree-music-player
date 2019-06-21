@@ -15,6 +15,9 @@ import dev.olog.msc.presentation.equalizer.EqHelper
 import dev.olog.msc.presentation.equalizer.ResizeAnimation
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.clamp
+import dev.olog.shared.colorAccent
+import dev.olog.shared.setPaddingBottom
+import dev.olog.shared.textColorPrimary
 
 class BandView (
         context: Context,

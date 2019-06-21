@@ -8,7 +8,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.FloatRange;
 import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
-import dev.olog.msc.utils.k.extension.ViewExtensionKt;
+import dev.olog.shared.ViewExtensionKt;
 
 public class ColorUtil {
 

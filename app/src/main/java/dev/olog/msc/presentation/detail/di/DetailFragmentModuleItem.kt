@@ -8,10 +8,10 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.item.*
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
 import io.reactivex.Flowable
 
@@ -87,13 +87,15 @@ class DetailFragmentModuleItem {
 
 private fun Folder.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.folderId(path),
             title,
             subtitle = resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             image = image
-    ))
+        )
+    )
 }
 
 private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
@@ -101,25 +103,29 @@ private fun Playlist.toHeaderItem(resources: Resources): List<DisplayableItem> {
         resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.playlistId(this.id),
             title,
             listSize,
             image = image
-    ))
+        )
+    )
 
 }
 
 private fun Album.toHeaderItem(): List<DisplayableItem> {
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.albumId(this.id),
             title,
             DisplayableItem.adjustArtist(this.artist),
             image = image
-    ))
+        )
+    )
 }
 
 private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
@@ -128,22 +134,26 @@ private fun Artist.toHeaderItem(resources: Resources): List<DisplayableItem> {
         "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.artistId(this.id),
             name,
             "$albums$songs".toLowerCase(),
             image = image
-    ))
+        )
+    )
 }
 
 private fun Genre.toHeaderItem(resources: Resources): List<DisplayableItem> {
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.genreId(this.id),
             name,
             resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
             image = image
-    ))
+        )
+    )
 }

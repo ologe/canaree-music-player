@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.image.creation.impl
 
 import android.content.Context
 import android.graphics.Bitmap
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.shared.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils

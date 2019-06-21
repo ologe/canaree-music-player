@@ -6,7 +6,7 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
@@ -31,12 +31,12 @@ class RecentlyAddedFragmentViewModel @Inject constructor(
 
 private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_recently_added,
-            MediaId.playableItem(parentId, id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image,
-            true
+        R.layout.item_recently_added,
+        MediaId.playableItem(parentId, id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image,
+        true
     )
 }
 

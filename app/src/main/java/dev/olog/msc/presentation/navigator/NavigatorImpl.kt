@@ -31,7 +31,7 @@ import dev.olog.msc.presentation.edit.track.EditTrackFragment
 import dev.olog.msc.presentation.library.categories.podcast.CategoriesPodcastFragment
 import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment

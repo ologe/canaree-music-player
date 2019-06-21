@@ -1,4 +1,4 @@
-package dev.olog.msc.utils
+package dev.olog.shared
 
 import kotlin.math.abs
 

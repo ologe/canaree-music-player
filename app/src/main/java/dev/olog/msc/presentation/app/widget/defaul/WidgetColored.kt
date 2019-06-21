@@ -7,7 +7,7 @@ import android.widget.RemoteViews
 import dev.olog.msc.R
 import dev.olog.msc.presentation.app.widget.BaseWidget
 import dev.olog.msc.presentation.app.widget.WidgetMetadata
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.images.ImageProcessor
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getBitmap
@@ -44,7 +44,7 @@ open class WidgetColored : BaseWidget() {
 
     private fun WidgetMetadata.toDisplayableItem(): DisplayableItem {
         return DisplayableItem(
-                0, MediaId.songId(this.id), "", image = this.image
+            0, MediaId.songId(this.id), "", image = this.image
         )
     }
 

@@ -14,7 +14,7 @@ import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.presentation.app.widget.WidgetClasses
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.utils.k.extension.getAppWidgetsIdsFor
 import dev.olog.msc.utils.k.extension.getBitmap
 import javax.inject.Inject

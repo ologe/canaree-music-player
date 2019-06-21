@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.playlist.track.chooser.model
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import java.io.File
 
@@ -31,12 +31,12 @@ data class PlaylistTrack (
 
 internal fun PlaylistTrack.toDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_choose_track,
-            if (this.isPodcast) MediaId.podcastId(this.id) else MediaId.songId(this.id),
-            this.title,
-            DisplayableItem.adjustArtist(this.artist),
-            this.image,
-            true
+        R.layout.item_choose_track,
+        if (this.isPodcast) MediaId.podcastId(this.id) else MediaId.songId(this.id),
+        this.title,
+        DisplayableItem.adjustArtist(this.artist),
+        this.image,
+        true
     )
 }
 

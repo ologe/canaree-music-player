@@ -6,7 +6,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
     </data>
 
     <FrameLayout

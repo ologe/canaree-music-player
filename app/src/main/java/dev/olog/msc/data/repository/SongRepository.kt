@@ -13,9 +13,7 @@ import android.provider.MediaStore.Audio.Media.DURATION
 import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.data.mapper.toFakeSong
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.data.mapper.toUneditedSong
 import dev.olog.msc.data.repository.util.CommonQuery
@@ -74,25 +72,16 @@ class SongRepository @Inject constructor(
                 .lift(SqlBrite.Query.mapToList { mapToSong(it) })
                 .map { removeBlacklisted(it) }
                 .map { adjustImages(it) }
-                .map { mockDataIfNeeded(it) }
                 .map { updateImages(it) }
                 .doOnError { it.printStackTrace() }
                 .onErrorReturn { listOf() }
     }
 
     private fun mapToSong(cursor: Cursor): Song {
-        return if (AppConstants.useFakeData){
-            cursor.toFakeSong()
-        } else {
-            cursor.toSong()
-        }
+        return cursor.toSong()
     }
 
     private fun updateImages(list: List<Song>): List<Song>{
-        if (AppConstants.useFakeData){
-            return list
-        }
-
         val allForTracks = usedImageGateway.getAllForTracks()
         val allForAlbums = usedImageGateway.getAllForAlbums()
         if (allForTracks.isEmpty() && allForAlbums.isEmpty()){
@@ -106,22 +95,7 @@ class SongRepository @Inject constructor(
         }
     }
 
-    private fun mockDataIfNeeded(original: List<Song>): List<Song> {
-        if (AppConstants.useFakeData && original.isEmpty()){
-            return (0 until 50)
-                    .map { Song(it.toLong(), it.toLong(), it.toLong(),
-                            "An awesome title", "An awesome artist",
-                            "An awesome album artist", "An awesome album",
-                            "", (it * 1000000).toLong(), System.currentTimeMillis(),
-                            "storage/emulated/folder", "folder", -1, -1) }
-        }
-        return original
-    }
-
     private fun adjustImages(original: List<Song>): List<Song> {
-        if (AppConstants.useFakeData){
-            return original.map { it.copy(image = ImagesFolderUtils.getAssetImage(it.albumId, it.id)) }
-        }
         val images = CommonQuery.searchForImages(context)
         return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
     }

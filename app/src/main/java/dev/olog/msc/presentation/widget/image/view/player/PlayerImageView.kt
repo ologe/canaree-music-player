@@ -10,15 +10,14 @@ import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.RippleUtils
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.shared.isMarshmallow
 import dev.olog.msc.utils.k.extension.getBitmap
 import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId
+import dev.olog.shared.isMarshmallow
 
 open class PlayerImageView @JvmOverloads constructor(
         context: Context,
@@ -39,7 +38,7 @@ open class PlayerImageView @JvmOverloads constructor(
                 .placeholder(CoverUtils.getGradient(context, mediaId))
                 .priority(Priority.IMMEDIATE)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .override(if (AppConstants.useFakeData) 800 else Target.SIZE_ORIGINAL)
+                .override(Target.SIZE_ORIGINAL)
                 .into(Ripple(this))
     }
 

@@ -12,7 +12,7 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import dev.olog.msc.utils.k.extension.toast

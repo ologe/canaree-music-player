@@ -11,6 +11,8 @@ import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.playing.queue.model.DisplayableQueueSong
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.textColorPrimary
+import dev.olog.shared.textColorSecondary
 import kotlinx.android.synthetic.main.item_playing_queue.view.*
 import javax.inject.Inject
 

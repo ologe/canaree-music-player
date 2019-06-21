@@ -21,14 +21,14 @@ import dev.olog.msc.floating.window.service.music.service.MusicServiceMetadata
 import dev.olog.msc.offline.lyrics.EditLyricsDialog
 import dev.olog.msc.offline.lyrics.NoScrollTouchListener
 import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.image.view.BlurImageView
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.k.extension.isPlaying
-import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.shared.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

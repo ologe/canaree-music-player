@@ -21,9 +21,9 @@ import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCa
 import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
@@ -104,8 +104,10 @@ private fun createDurationFooter(context: Context, songCount: Int, duration: Int
     val songs = DisplayableItem.handleSongListSize(context.resources, songCount)
     val time = TimeUtils.formatMillis(context, duration)
 
-    return DisplayableItem(R.layout.item_detail_footer, MediaId.headerId("duration footer"),
-            songs + TextUtils.MIDDLE_DOT_SPACED + time)
+    return DisplayableItem(
+        R.layout.item_detail_footer, MediaId.headerId("duration footer"),
+        songs + TextUtils.MIDDLE_DOT_SPACED + time
+    )
 }
 
 private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
@@ -114,11 +116,11 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
     if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
     return DisplayableItem(
-            R.layout.item_detail_related_artist,
-            MediaId.artistId(this.id),
-            this.name,
-            albums + songs,
-            this.image
+        R.layout.item_detail_related_artist,
+        MediaId.artistId(this.id),
+        this.name,
+        albums + songs,
+        this.image
     )
 }
 
@@ -128,11 +130,11 @@ private fun PodcastArtist.toRelatedArtist(resources: Resources): DisplayableItem
     if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
     return DisplayableItem(
-            R.layout.item_detail_related_artist,
-            MediaId.podcastArtistId(this.id),
-            this.name,
-            albums + songs,
-            this.image
+        R.layout.item_detail_related_artist,
+        MediaId.podcastArtistId(this.id),
+        this.name,
+        albums + songs,
+        this.image
     )
 }
 
@@ -161,34 +163,34 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
     }
 
     return DisplayableItem(
-            viewType,
-            MediaId.playableItem(parentId, id),
-            this.title,
-            subtitle,
-            this.image,
-            true,
-            track
+        viewType,
+        MediaId.playableItem(parentId, id),
+        this.title,
+        subtitle,
+        this.image,
+        true,
+        track
     )
 }
 
 private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_song_most_played,
-            MediaId.playableItem(parentId, id),
-            this.title,
-            DisplayableItem.adjustArtist(this.artist),
-            this.image,
-            true
+        R.layout.item_detail_song_most_played,
+        MediaId.playableItem(parentId, id),
+        this.title,
+        DisplayableItem.adjustArtist(this.artist),
+        this.image,
+        true
     )
 }
 
 private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_song_recent,
-            MediaId.playableItem(parentId, id),
-            this.title,
-            DisplayableItem.adjustArtist(this.artist),
-            this.image,
-            true
+        R.layout.item_detail_song_recent,
+        MediaId.playableItem(parentId, id),
+        this.title,
+        DisplayableItem.adjustArtist(this.artist),
+        this.image,
+        true
     )
 }

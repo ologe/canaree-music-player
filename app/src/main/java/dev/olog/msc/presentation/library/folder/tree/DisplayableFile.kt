@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.library.folder.tree
 
-import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.presentation.model.BaseModel
 import dev.olog.core.MediaId
 import java.io.File
 
@@ -10,7 +10,7 @@ data class DisplayableFile(
     val title: String,
     val subtitle: String?,
     val path: String?
-) :BaseModel {
+) : BaseModel {
 
     fun isFile(): Boolean = path != null
     fun asFile(): File = File(path)

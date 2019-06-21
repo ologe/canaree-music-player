@@ -8,8 +8,8 @@ import dev.olog.msc.R
 import dev.olog.msc.taptargetview.TapTarget
 import dev.olog.msc.taptargetview.TapTargetSequence
 import dev.olog.msc.taptargetview.TapTargetView
-import dev.olog.msc.utils.k.extension.colorAccent
-import dev.olog.msc.utils.k.extension.windowBackground
+import dev.olog.shared.colorAccent
+import dev.olog.shared.windowBackground
 
 object TutorialTapTarget {
 

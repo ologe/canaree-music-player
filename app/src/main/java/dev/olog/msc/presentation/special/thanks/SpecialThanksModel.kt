@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.special.thanks
 
-import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.presentation.model.BaseModel
 import dev.olog.core.MediaId
 
 data class SpecialThanksModel(

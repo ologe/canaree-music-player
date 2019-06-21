@@ -2,7 +2,6 @@ package dev.olog.msc.utils.img
 
 import android.content.Context
 import android.net.Uri
-import dev.olog.msc.constants.AppConstants
 import dev.olog.shared.clamp
 import java.io.File
 
@@ -11,12 +10,8 @@ object ImagesFolderUtils {
     const val FOLDER = "folder"
     const val PLAYLIST = "playlist"
     const val GENRE = "genre"
-    private const val DEBUG = "_debug"
 
     fun getFolderName(folderName: String): String {
-        if (AppConstants.useFakeData){
-            return "$folderName$DEBUG"
-        }
         return folderName
     }
 
@@ -26,16 +21,10 @@ object ImagesFolderUtils {
 
     fun forFolder(context: Context, folderPath: String): String{
         val normalizedPath = folderPath.replace(File.separator, "")
-        if (AppConstants.useFakeData){
-            return getImageImpl(context, "$FOLDER$DEBUG", normalizedPath)
-        }
         return getImageImpl(context, FOLDER, normalizedPath)
     }
 
     fun forPlaylist(context: Context, playlistId: Long): String{
-        if (AppConstants.useFakeData){
-            return getImageImpl(context, "$PLAYLIST$DEBUG", playlistId.toString())
-        }
         return getImageImpl(context, PLAYLIST, playlistId.toString())
     }
 
@@ -71,9 +60,6 @@ object ImagesFolderUtils {
     }
 
     fun forGenre(context: Context, genreId: Long): String {
-        if (AppConstants.useFakeData){
-            return getImageImpl(context, "$GENRE$DEBUG", genreId.toString())
-        }
         return getImageImpl(context, GENRE, genreId.toString())
     }
 

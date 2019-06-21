@@ -1,5 +1,6 @@
 package dev.olog.msc.utils
 
+import dev.olog.shared.TextUtils
 import org.junit.Assert
 import org.junit.Test
 

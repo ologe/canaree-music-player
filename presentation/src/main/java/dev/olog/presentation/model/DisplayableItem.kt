@@ -1,11 +1,9 @@
-package dev.olog.msc.presentation.model
+package dev.olog.presentation.model
 
 import android.content.res.Resources
 import android.os.Bundle
-import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.presentation.base.BaseModel
 import dev.olog.core.MediaId
+import dev.olog.presentation.R
 
 data class DisplayableItem (
     override val type: Int,
@@ -36,16 +34,16 @@ data class DisplayableItem (
         }
 
         fun adjustArtist(data: String): String{
-            if (data == AppConstants.UNKNOWN){
-                return AppConstants.UNKNOWN_ARTIST
-            }
+//            if (data == AppConstants.UNKNOWN){ TODO maybe remove
+//                return AppConstants.UNKNOWN_ARTIST
+//            }
             return data
         }
 
         fun adjustAlbum(data: String): String{
-            if (data == AppConstants.UNKNOWN){
-                return AppConstants.UNKNOWN_ALBUM
-            }
+//            if (data == AppConstants.UNKNOWN){ TODO maybe remove
+//                return AppConstants.UNKNOWN_ALBUM
+//            }
             return data
         }
 

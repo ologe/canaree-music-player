@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.msc.utils.k.extension
+package dev.olog.shared
 
 import android.content.Context
 import android.graphics.Color
@@ -9,14 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
-import dev.olog.msc.R
+import com.google.android.material.R
 
 
-fun View.toggleVisibility(visible: Boolean, gone: Boolean){
-    if (visible){
+fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
+    if (visible) {
         this.visibility = View.VISIBLE
     } else {
-        if (gone){
+        if (gone) {
             this.visibility = View.GONE
         } else {
             this.visibility = View.INVISIBLE
@@ -24,15 +24,15 @@ fun View.toggleVisibility(visible: Boolean, gone: Boolean){
     }
 }
 
-inline fun View.setGone(){
+inline fun View.setGone() {
     this.visibility = View.GONE
 }
 
-inline fun View.setVisible(){
+inline fun View.setVisible() {
     this.visibility = View.VISIBLE
 }
 
-inline fun View.setInvisible(){
+inline fun View.setInvisible() {
     this.visibility = View.INVISIBLE
 }
 
@@ -44,13 +44,18 @@ inline fun View.setPaddingBottom(padding: Int) {
     setPadding(paddingLeft, paddingTop, paddingRight, padding)
 }
 
-inline fun View.toggleSelected(){
+inline fun View.toggleSelected() {
     this.isSelected = !this.isSelected
 }
 
 fun View.windowBackground(): Int {
     return context.themeAttributeToColor(android.R.attr.windowBackground)
 }
+
+fun Context.colorSurface(): Int {
+    return themeAttributeToColor(R.attr.colorSurface)
+}
+
 // Used to tint buttons
 fun Context.textColorTertiary(): Int {
     return this.themeAttributeToColor(android.R.attr.textColorTertiary)
@@ -76,15 +81,15 @@ fun Context.windowBackground(): Int {
     return themeAttributeToColor(android.R.attr.windowBackground)
 }
 
-fun Context.scrimColor(): Int {
-    return themeAttributeToColor(R.attr.scrimColor)
-}
+//fun Context.scrimColor(): Int {
+//    return themeAttributeToColor(R.attr.scrimColor)
+//}
 
 private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
     val outValue = TypedValue()
     val theme = this.theme
     val resolved = theme.resolveAttribute(themeAttributeId, outValue, true)
-    if (resolved){
+    if (resolved) {
         return ContextCompat.getColor(this, outValue.resourceId)
     }
     return fallbackColor
@@ -100,9 +105,9 @@ private fun Context.themeAttributeToResId(themeAttributeId: Int): Int {
     return -1
 }
 
-inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit){
+inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
     forEach {
-        if (it is ViewGroup){
+        if (it is ViewGroup) {
             it.forEach(action)
         } else {
             action(it)

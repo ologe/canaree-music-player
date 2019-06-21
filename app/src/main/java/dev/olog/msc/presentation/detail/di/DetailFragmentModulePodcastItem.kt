@@ -12,10 +12,10 @@ import dev.olog.msc.domain.entity.PodcastPlaylist
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastPlaylistUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
 import io.reactivex.Flowable
 
@@ -67,25 +67,29 @@ private fun PodcastPlaylist.toHeaderItem(resources: Resources): List<Displayable
         resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase()
     }
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.podcastPlaylistId(this.id),
             title,
             listSize,
             image = image
-    ))
+        )
+    )
 
 }
 
 private fun PodcastAlbum.toHeaderItem(): List<DisplayableItem> {
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.podcastAlbumId(this.id),
             title,
             DisplayableItem.adjustArtist(this.artist),
             image = image
-    ))
+        )
+    )
 }
 
 private fun PodcastArtist.toHeaderItem(resources: Resources): List<DisplayableItem> {
@@ -94,11 +98,13 @@ private fun PodcastArtist.toHeaderItem(resources: Resources): List<DisplayableIt
         "${resources.getQuantityString(R.plurals.common_plurals_album, this.albums, this.albums)}${TextUtils.MIDDLE_DOT_SPACED}"
     }
 
-    return listOf(DisplayableItem(
+    return listOf(
+        DisplayableItem(
             R.layout.item_detail_item_image,
             MediaId.podcastArtistId(this.id),
             name,
             "$albums$songs".toLowerCase(),
             image = image
-    ))
+        )
+    )
 }

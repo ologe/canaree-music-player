@@ -10,9 +10,10 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.toggleVisibility
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

@@ -7,7 +7,7 @@ import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener

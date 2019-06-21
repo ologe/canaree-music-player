@@ -10,7 +10,7 @@ import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.shared.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_library_categories.*
 import kotlinx.android.synthetic.main.fragment_library_categories.view.*
 import javax.inject.Inject

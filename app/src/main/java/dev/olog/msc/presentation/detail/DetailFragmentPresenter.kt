@@ -5,7 +5,7 @@ import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.msc.domain.interactor.playlist.RemoveFromPlaylistUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -43,13 +43,13 @@ class DetailFragmentPresenter @Inject constructor(
     }
 
     fun createDataMap(
-            item: List<DisplayableItem>,
-            mostPlayed: List<DisplayableItem>,
-            recent: List<DisplayableItem>,
-            albums: List<DisplayableItem>,
-            artists: List<DisplayableItem>,
-            songs: List<DisplayableItem>,
-            visibility: BooleanArray
+        item: List<DisplayableItem>,
+        mostPlayed: List<DisplayableItem>,
+        recent: List<DisplayableItem>,
+        albums: List<DisplayableItem>,
+        artists: List<DisplayableItem>,
+        songs: List<DisplayableItem>,
+        visibility: BooleanArray
 
     ): MutableMap<DetailFragmentDataType, MutableList<DisplayableItem>> {
 

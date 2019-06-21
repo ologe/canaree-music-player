@@ -9,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ItemTouchHelper
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.presentation.model.BaseModel
 import dev.olog.msc.presentation.base.adapter.drag.TouchableAdapter
 import dev.olog.msc.utils.k.extension.logStackStace
 import dev.olog.msc.utils.k.extension.toast

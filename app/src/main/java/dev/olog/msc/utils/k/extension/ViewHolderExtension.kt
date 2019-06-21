@@ -6,7 +6,7 @@ import androidx.annotation.IdRes
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import dev.olog.msc.R
-import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.presentation.model.BaseModel
 import dev.olog.msc.presentation.base.adapter.AdapterDataController
 import dev.olog.msc.presentation.utils.animation.ScaleInOnTouch
 import dev.olog.msc.presentation.utils.animation.ScaleMoreInOnTouch

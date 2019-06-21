@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="item" type="dev.olog.msc.presentation.model.DisplayableItem"/>
+        <variable name="item" type="dev.olog.presentation.model.DisplayableItem"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

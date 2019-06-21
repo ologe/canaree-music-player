@@ -14,6 +14,7 @@ import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_playing_queue.*
 import kotlinx.android.synthetic.main.fragment_playing_queue.view.*
 import javax.inject.Inject

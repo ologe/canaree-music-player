@@ -36,6 +36,7 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.core_ktx
     implementation lib_x.constraint_layout
+    implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
 
     implementation lib_x.lifecycle_runtime
     implementation lib_x.lifecycle_extensions

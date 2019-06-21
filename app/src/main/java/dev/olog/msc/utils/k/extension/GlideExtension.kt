@@ -9,16 +9,16 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.app.GlideRequest
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.assertBackgroundThread
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImageUtils
 
 fun Context.getBitmapAsync(
-        model: DisplayableItem,
-        size: Int,
-        extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
-        withError: Boolean = true): Bitmap {
+    model: DisplayableItem,
+    size: Int,
+    extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
+    withError: Boolean = true): Bitmap {
 
     assertBackgroundThread()
 
@@ -55,9 +55,9 @@ fun Context.getBitmapAsync(
 
 @Suppress("DEPRECATION")
 fun Context.getBitmap(
-        model: DisplayableItem,
-        size: Int,
-        action: (Bitmap) -> Unit
+    model: DisplayableItem,
+    size: Int,
+    action: (Bitmap) -> Unit
 ){
 
     val placeholder = CoverUtils.getGradient(this, model.mediaId)

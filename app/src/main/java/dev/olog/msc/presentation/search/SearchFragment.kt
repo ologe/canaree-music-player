@@ -18,6 +18,8 @@ import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.setGone
+import dev.olog.shared.toggleVisibility
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*

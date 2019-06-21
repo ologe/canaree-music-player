@@ -20,9 +20,11 @@ import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
-import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
-import dev.olog.msc.utils.TextUtils
+import dev.olog.presentation.WaveSideBarView
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.toggleSelected
+import dev.olog.shared.toggleVisibility
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

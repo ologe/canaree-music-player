@@ -4,14 +4,14 @@ import android.content.Context
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.msc.domain.gateway.LastFmGateway
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Single
 import java.io.InputStream
 
 class GlideAlbumFetcher(
-        context: Context,
-        model: DisplayableItem,
-        private val lastFmGateway: LastFmGateway
+    context: Context,
+    model: DisplayableItem,
+    private val lastFmGateway: LastFmGateway
 
 ) : BaseRxDataFetcher(context) {
 

@@ -1,26 +1,20 @@
-package dev.olog.msc.presentation.widget.fast.scroller
+package dev.olog.presentation
 
 import android.content.Context
 import android.util.AttributeSet
-import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.TextUtils
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.TextUtils
 import dev.olog.shared.runOnMainThread
 
-class RxWaveSideBarView @JvmOverloads constructor(
+class RxWaveSideBarView(
         context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-) : WaveSideBarView(context, attrs, defStyleAttr) {
+        attrs: AttributeSet
+) : WaveSideBarView(context, attrs) {
 
     var scrollableLayoutId : Int = 0
 
     fun onDataChanged(list: List<DisplayableItem>){
-        if (AppConstants.useFakeData){
-            updateLetters(LETTERS)
-        } else {
-            updateLetters(generateLetters(list))
-        }
+        updateLetters(generateLetters(list))
     }
 
     fun setListener(listener: OnTouchLetterChangeListener?){

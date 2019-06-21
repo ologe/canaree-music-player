@@ -19,10 +19,10 @@ import dev.olog.msc.domain.interactor.all.sorted.GetAllAlbumsSortedUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllArtistsSortedUseCase
 import dev.olog.msc.domain.interactor.all.sorted.GetAllSongsSortedUseCase
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.doIf
 import dev.olog.shared.startWith
@@ -206,22 +206,22 @@ class TabFragmentViewModelModule {
 
 private fun Folder.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_tab_album,
-            MediaId.folderId(path),
-            title,
-            DisplayableItem.handleSongListSize(resources, size),
-            this.image
+        R.layout.item_tab_album,
+        MediaId.folderId(path),
+        title,
+        DisplayableItem.handleSongListSize(resources, size),
+        this.image
     )
 }
 
 private fun Playlist.toAutoPlaylist(): DisplayableItem {
 
     return DisplayableItem(
-            R.layout.item_tab_auto_playlist,
-            MediaId.playlistId(id),
-            title,
-            "",
-            this.image
+        R.layout.item_tab_auto_playlist,
+        MediaId.playlistId(id),
+        title,
+        "",
+        this.image
     )
 }
 
@@ -230,11 +230,11 @@ private fun Playlist.toTabDisplayableItem(resources: Resources): DisplayableItem
     val size = DisplayableItem.handleSongListSize(resources, size)
 
     return DisplayableItem(
-            R.layout.item_tab_album,
-            MediaId.playlistId(id),
-            title,
-            size,
-            this.image
+        R.layout.item_tab_album,
+        MediaId.playlistId(id),
+        title,
+        size,
+        this.image
     )
 }
 
@@ -243,59 +243,59 @@ private fun Song.toTabDisplayableItem(): DisplayableItem {
     val album = DisplayableItem.adjustAlbum(this.album)
 
     return DisplayableItem(
-            R.layout.item_tab_song,
-            MediaId.songId(this.id),
-            title,
-            "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
-            image,
-            true
+        R.layout.item_tab_song,
+        MediaId.songId(this.id),
+        title,
+        "$artist${TextUtils.MIDDLE_DOT_SPACED}$album",
+        image,
+        true
     )
 }
 
 
 
-private fun Album.toTabDisplayableItem(): DisplayableItem{
+private fun Album.toTabDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_tab_album,
-            MediaId.albumId(id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image
+        R.layout.item_tab_album,
+        MediaId.albumId(id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image
     )
 }
 
-private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Artist.toTabDisplayableItem(resources: Resources): DisplayableItem {
     val songs = DisplayableItem.handleSongListSize(resources, songs)
     var albums = DisplayableItem.handleAlbumListSize(resources, albums)
     if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
     return DisplayableItem(
-            R.layout.item_tab_artist,
-            MediaId.artistId(id),
-            name,
-            albums + songs,
-            this.image
+        R.layout.item_tab_artist,
+        MediaId.artistId(id),
+        name,
+        albums + songs,
+        this.image
     )
 }
 
 
-private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem{
+private fun Genre.toTabDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_tab_album,
-            MediaId.genreId(id),
-            name,
-            DisplayableItem.handleSongListSize(resources, size),
-            this.image
+        R.layout.item_tab_album,
+        MediaId.genreId(id),
+        name,
+        DisplayableItem.handleSongListSize(resources, size),
+        this.image
     )
 }
 
 private fun Album.toTabLastPlayedDisplayableItem(): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_tab_album_last_played,
-            MediaId.albumId(id),
-            title,
-            DisplayableItem.adjustArtist(artist),
-            image
+        R.layout.item_tab_album_last_played,
+        MediaId.albumId(id),
+        title,
+        DisplayableItem.adjustArtist(artist),
+        image
     )
 }
 
@@ -305,10 +305,10 @@ private fun Artist.toTabLastPlayedDisplayableItem(resources: Resources): Display
     if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
 
     return DisplayableItem(
-            R.layout.item_tab_artist_last_played,
-            MediaId.artistId(id),
-            name,
-            albums + songs,
-            this.image
+        R.layout.item_tab_artist_last_played,
+        MediaId.artistId(id),
+        name,
+        albums + songs,
+        this.image
     )
 }

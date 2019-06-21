@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="item"
-            type="dev.olog.msc.presentation.model.DisplayableItem"/>
+            type="dev.olog.presentation.model.DisplayableItem"/>
         <variable name="isBlacklisted" type="boolean"/>
 
     </data>

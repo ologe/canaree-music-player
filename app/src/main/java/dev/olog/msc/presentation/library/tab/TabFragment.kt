@@ -10,14 +10,15 @@ import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.parentViewModelProvider
 import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.presentation.widget.fast.scroller.WaveSideBarView
+import dev.olog.presentation.WaveSideBarView
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_tab.*
 import kotlinx.android.synthetic.main.fragment_tab.view.*
 import javax.inject.Inject
@@ -209,7 +210,7 @@ class TabFragment : BaseFragment() {
                 val sortOrder = viewModel.getAllTracksSortOrder()
                 when (sortOrder.type){
                     SortType.ARTIST -> item.subtitle!!
-                    SortType.ALBUM -> item.subtitle!!.substring(item.subtitle.indexOf(TextUtils.MIDDLE_DOT) + 1).trim()
+                    SortType.ALBUM -> item.subtitle!!.substring(item.subtitle!!.indexOf(TextUtils.MIDDLE_DOT) + 1).trim()
                     else -> item.title
                 }
             }

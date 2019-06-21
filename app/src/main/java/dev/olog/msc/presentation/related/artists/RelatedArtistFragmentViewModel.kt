@@ -7,9 +7,9 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.msc.utils.safeCompare
@@ -41,11 +41,11 @@ class RelatedArtistFragmentViewModel @Inject constructor(
         }
 
         return DisplayableItem(
-                R.layout.item_related_artist,
-                MediaId.artistId(id),
-                this.name,
-                "$albums$songs",
-                this.image
+            R.layout.item_related_artist,
+            MediaId.artistId(id),
+            this.name,
+            "$albums$songs",
+            this.image
         )
     }
 

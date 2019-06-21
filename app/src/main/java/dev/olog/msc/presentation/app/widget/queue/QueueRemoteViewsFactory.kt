@@ -10,7 +10,7 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.interactor.playing.queue.GetMiniQueueUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import javax.inject.Inject
@@ -55,7 +55,13 @@ class QueueRemoteViewsFactory @Inject constructor(
         val extras = bundleOf(MusicConstants.EXTRA_SKIP_TO_ITEM_ID to item.idInPlaylist)
         val fillIntent = Intent().also { it.putExtras(extras) }
         removeViews.setOnClickFillInIntent(R.id.root, fillIntent)
-        val bitmap = context.getBitmapAsync(DisplayableItem(0, item.mediaId, "", image = item.image), 100)
+        val bitmap = context.getBitmapAsync(
+            DisplayableItem(
+                0,
+                item.mediaId,
+                "",
+                image = item.image
+            ), 100)
         removeViews.setImageViewBitmap(R.id.cover, bitmap)
 
         return removeViews

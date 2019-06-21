@@ -23,6 +23,8 @@ import dev.olog.msc.presentation.widget.image.view.ShapeImageView
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.deepCopy
+import dev.olog.shared.setVisible
+import dev.olog.shared.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject

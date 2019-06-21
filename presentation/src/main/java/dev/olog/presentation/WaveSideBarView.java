@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.widget.fast.scroller;
+package dev.olog.presentation;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -19,9 +19,8 @@ import java.util.ListIterator;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import dev.olog.msc.R;
-import dev.olog.msc.utils.TextUtils;
-import dev.olog.msc.utils.k.extension.ViewExtensionKt;
+import dev.olog.shared.TextUtils;
+import dev.olog.shared.ViewExtensionKt;
 
 public class WaveSideBarView extends View {
 

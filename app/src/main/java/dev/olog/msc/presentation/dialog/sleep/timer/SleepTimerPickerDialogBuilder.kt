@@ -5,7 +5,7 @@ import android.content.DialogInterface
 import androidx.annotation.ColorRes
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.colorAccentId
+import dev.olog.shared.colorAccentId
 
 class SleepTimerPickerDialogBuilder(
         context: Context,

@@ -11,7 +11,7 @@ import dev.olog.msc.domain.entity.PodcastPlaylist
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByAlbumUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByArtistUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastPlaylistsSiblingsUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
@@ -60,20 +60,20 @@ class DetailFragmentModulePodcastAlbum {
 
 private fun PodcastPlaylist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaId.podcastPlaylistId(id),
-            title,
-            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
-            this.image
+        R.layout.item_detail_album,
+        MediaId.podcastPlaylistId(id),
+        title,
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
+        this.image
     )
 }
 
 private fun PodcastAlbum.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaId.podcastAlbumId(id),
-            title,
-            resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase(),
-            image
+        R.layout.item_detail_album,
+        MediaId.podcastAlbumId(id),
+        title,
+        resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase(),
+        image
     )
 }

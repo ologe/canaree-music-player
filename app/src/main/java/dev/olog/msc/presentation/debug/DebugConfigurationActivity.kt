@@ -1,10 +1,8 @@
 package dev.olog.msc.presentation.debug
 
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.utils.k.extension.configuration
 import kotlinx.android.synthetic.main.activity_debug_configuration.*
 
@@ -27,7 +25,6 @@ class DebugConfigurationActivity: AppCompatActivity() {
         screenHeight.append(configuration.screenHeightDp.toString())
         screenWidth.append(configuration.screenWidthDp.toString())
         smallestWidth.append(configuration.smallestScreenWidthDp.toString())
-        activateFakeData.isChecked = AppConstants.useFakeData
 
 //        seekBarClipStart.progress = clipStart.toInt()
 //        seekBarClipEnd.progress = clipEnd.toInt()
@@ -35,14 +32,6 @@ class DebugConfigurationActivity: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        activateFakeData.setOnCheckedChangeListener { _, isChecked ->
-            AppConstants.useFakeData = isChecked
-            contentResolver.notifyChange(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null)
-            contentResolver.notifyChange(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, null)
-            contentResolver.notifyChange(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, null)
-            contentResolver.notifyChange(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, null)
-            contentResolver.notifyChange(MediaStore.Audio.Genres.EXTERNAL_CONTENT_URI, null)
-        }
 
 //        seekBarClipStart.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
 //            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}

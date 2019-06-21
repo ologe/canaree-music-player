@@ -14,7 +14,6 @@ object AppConstants {
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
-    var useFakeData = false
     var IGNORE_MEDIA_STORE_COVERS = false
 
 

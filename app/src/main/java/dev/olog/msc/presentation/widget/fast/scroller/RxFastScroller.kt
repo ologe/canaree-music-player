@@ -18,10 +18,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.RecyclerView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.colorAccent
+import dev.olog.shared.colorAccent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

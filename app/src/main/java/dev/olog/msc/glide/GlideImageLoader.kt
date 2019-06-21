@@ -12,7 +12,7 @@ import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import java.io.File

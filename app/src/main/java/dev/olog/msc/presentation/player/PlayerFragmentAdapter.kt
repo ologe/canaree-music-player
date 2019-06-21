@@ -19,7 +19,7 @@ import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.AnimatedImageView
@@ -29,8 +29,9 @@ import dev.olog.msc.presentation.widget.animateTextColor
 import dev.olog.msc.presentation.widget.audiowave.AudioWaveViewWrapper
 import dev.olog.msc.presentation.widget.playpause.AnimatedPlayPauseImageView
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.TextUtils
+import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.toggleVisibility
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_player_controls.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*

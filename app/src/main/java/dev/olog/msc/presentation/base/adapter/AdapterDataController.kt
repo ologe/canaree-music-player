@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.base.adapter
 
-import dev.olog.msc.presentation.base.BaseModel
+import dev.olog.presentation.model.BaseModel
 import io.reactivex.Observable
 
 interface AdapterDataController<Model: BaseModel>{

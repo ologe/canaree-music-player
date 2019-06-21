@@ -11,7 +11,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 import dev.olog.msc.utils.k.extension.isPortrait
-import dev.olog.msc.utils.k.extension.textColorTertiary
+import dev.olog.shared.textColorTertiary
 
 @Keep
 class AnimatedImageView @JvmOverloads constructor(

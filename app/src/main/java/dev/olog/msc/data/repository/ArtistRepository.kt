@@ -6,7 +6,6 @@ import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
-import dev.olog.msc.data.mapper.toFakeArtist
 import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
@@ -70,11 +69,7 @@ class ArtistRepository @Inject constructor(
     }
 
     private fun mapSongToArtist(song: Song, songCount: Int, albumCount: Int): Artist {
-        return if (AppConstants.useFakeData){
-            song.toFakeArtist(songCount, albumCount)
-        } else {
-            song.toArtist(songCount, albumCount)
-        }
+        return song.toArtist(songCount, albumCount)
     }
 
     private fun countAlbums(artistId: Long, songList: List<Song>): Int {

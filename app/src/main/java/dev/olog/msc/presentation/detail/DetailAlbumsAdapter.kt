@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateAlbumOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener

@@ -8,16 +8,15 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
+import dev.olog.core.MediaId
 import dev.olog.msc.app.GlideApp
-import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.presentation.library.folder.tree.DisplayableFile
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.playing.queue.model.DisplayableQueueSong
 import dev.olog.msc.presentation.special.thanks.SpecialThanksModel
 import dev.olog.msc.presentation.utils.images.RippleTarget
 import dev.olog.msc.presentation.widget.QuickActionView
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils
 
@@ -44,18 +43,20 @@ object BindingsAdapter {
     @BindingAdapter("fileDirLoader")
     fun loadDirImage(view: ImageView, item: DisplayableFile){
         val path = item.path ?: ""
-        val displayableItem = DisplayableItem(0, MediaId.folderId(path),
-                "", "", ImagesFolderUtils.forFolder(view.context, path))
+        val displayableItem = DisplayableItem(
+            0, MediaId.folderId(path),
+            "", "", ImagesFolderUtils.forFolder(view.context, path)
+        )
         loadImageImpl(view, displayableItem, OVERRIDE_SMALL)
     }
 
     @JvmStatic
     private fun loadImageImpl(
-            view: ImageView,
-            item: DisplayableItem,
-            override: Int,
-            priority: Priority = Priority.HIGH,
-            crossfade: Boolean = true){
+        view: ImageView,
+        item: DisplayableItem,
+        override: Int,
+        priority: Priority = Priority.HIGH,
+        crossfade: Boolean = true){
 
         val mediaId = item.mediaId
         val context = view.context
@@ -87,7 +88,7 @@ object BindingsAdapter {
     @JvmStatic
     fun loadSongImage(view: ImageView, item: DisplayableQueueSong) {
         loadImageImpl(view,
-                DisplayableItem(item.type, item.mediaId, "", "", item.image), OVERRIDE_SMALL)
+            DisplayableItem(item.type, item.mediaId, "", "", item.image), OVERRIDE_SMALL)
     }
 
     @BindingAdapter("imageAlbum")
@@ -99,7 +100,7 @@ object BindingsAdapter {
     @BindingAdapter("imageBigAlbum")
     @JvmStatic
     fun loadBigAlbumImage(view: ImageView, item: DisplayableItem) {
-        loadImageImpl(view, item, if (AppConstants.useFakeData) 1000 else Target.SIZE_ORIGINAL, Priority.IMMEDIATE, crossfade = false)
+        loadImageImpl(view, item, Target.SIZE_ORIGINAL, Priority.IMMEDIATE, crossfade = false)
     }
 
     @BindingAdapter("imageSpecialThanks")

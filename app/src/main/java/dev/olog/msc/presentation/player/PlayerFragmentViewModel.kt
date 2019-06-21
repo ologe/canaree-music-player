@@ -9,7 +9,7 @@ import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.image.view.player.*
 import dev.olog.core.MediaId
@@ -84,7 +84,11 @@ class PlayerFragmentViewModel @Inject constructor(
         progressPublisher.onNext(progress)
     }
 
-    val footerLoadMore = DisplayableItem(R.layout.item_playing_queue_load_more, MediaId.headerId("load more"), "")
+    val footerLoadMore = DisplayableItem(
+        R.layout.item_playing_queue_load_more,
+        MediaId.headerId("load more"),
+        ""
+    )
 
     fun playerControls(): DisplayableItem {
         val id = when {

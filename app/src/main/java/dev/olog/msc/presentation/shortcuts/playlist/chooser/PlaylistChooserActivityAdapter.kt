@@ -9,7 +9,7 @@ import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
 import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import javax.inject.Inject

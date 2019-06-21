@@ -15,7 +15,7 @@ import dev.olog.shared.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImagesFolderUtils

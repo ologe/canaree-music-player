@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import dev.olog.msc.glide.AudioFileCover
 import dev.olog.msc.glide.AudioFileCoverLoader
 import dev.olog.msc.glide.GlideImageLoader
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import java.io.InputStream
 
 @GlideModule

@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import dev.olog.core.MediaId
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.pro.BillingState
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.asLiveData
@@ -31,7 +31,12 @@ class AboutActivityPresenter(
 
 
     private val data = listOf(
-        DisplayableItem(R.layout.item_about, AUTHOR_ID, context.getString(R.string.about_author), "Eugeniu Olog"),
+        DisplayableItem(
+            R.layout.item_about,
+            AUTHOR_ID,
+            context.getString(R.string.about_author),
+            "Eugeniu Olog"
+        ),
         DisplayableItem(
             R.layout.item_about,
             MediaId.headerId("version id"),

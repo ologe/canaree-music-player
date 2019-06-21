@@ -11,7 +11,7 @@ import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.interactor.all.sibling.*
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
@@ -88,40 +88,40 @@ class DetailFragmentModuleAlbum {
 
 private fun Folder.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaId.folderId(path),
-            title,
-            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
-            this.image
+        R.layout.item_detail_album,
+        MediaId.folderId(path),
+        title,
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
+        this.image
     )
 }
 
 private fun Playlist.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaId.playlistId(id),
-            title,
-            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
-            this.image
+        R.layout.item_detail_album,
+        MediaId.playlistId(id),
+        title,
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
+        this.image
     )
 }
 
 private fun Album.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaId.albumId(id),
-            title,
-            resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase(),
-            image
+        R.layout.item_detail_album,
+        MediaId.albumId(id),
+        title,
+        resources.getQuantityString(R.plurals.common_plurals_song, this.songs, this.songs).toLowerCase(),
+        image
     )
 }
 
 private fun Genre.toDetailDisplayableItem(resources: Resources): DisplayableItem {
     return DisplayableItem(
-            R.layout.item_detail_album,
-            MediaId.genreId(id),
-            name,
-            resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
-            this.image
+        R.layout.item_detail_album,
+        MediaId.genreId(id),
+        name,
+        resources.getQuantityString(R.plurals.common_plurals_song, this.size, this.size).toLowerCase(),
+        this.image
     )
 }

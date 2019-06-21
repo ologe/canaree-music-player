@@ -11,7 +11,7 @@ import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.act
-import dev.olog.msc.utils.k.extension.toggleVisibility
+import dev.olog.shared.toggleVisibility
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

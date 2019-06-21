@@ -19,7 +19,7 @@ import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.model.DisplayableItem
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
@@ -29,6 +29,7 @@ import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.core.MediaId
 import dev.olog.shared.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.toggleVisibility
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -310,13 +311,13 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         val description = this.description
 
         return DisplayableItem(
-                R.layout.item_mini_queue,
-                MediaId.fromString(description.mediaId!!),
-                description.title!!.toString(),
-                DisplayableItem.adjustArtist(description.subtitle!!.toString()),
-                description.mediaUri!!.toString(),
-                isPlayable = true,
-                trackNumber = "${this.queueId}"
+            R.layout.item_mini_queue,
+            MediaId.fromString(description.mediaId!!),
+            description.title!!.toString(),
+            DisplayableItem.adjustArtist(description.subtitle!!.toString()),
+            description.mediaUri!!.toString(),
+            isPlayable = true,
+            trackNumber = "${this.queueId}"
         )
     }
 
