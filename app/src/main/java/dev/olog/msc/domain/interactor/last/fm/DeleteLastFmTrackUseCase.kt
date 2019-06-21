@@ -15,11 +15,7 @@ class DeleteLastFmTrackUseCase @Inject constructor(
     override fun buildUseCaseObservable(param: Pair<Long, Boolean>): Completable {
         val (artistId, isPodcast) = param
         return Completable.fromCallable {
-            if (isPodcast){
-                gateway.deletePodcast(artistId)
-            } else {
-                gateway.deleteTrack(artistId)
-            }
+            gateway.deleteTrack(artistId)
 
         }
     }

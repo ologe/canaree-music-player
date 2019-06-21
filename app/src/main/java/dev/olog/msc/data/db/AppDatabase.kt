@@ -28,9 +28,9 @@ import dev.olog.msc.data.entity.*
         LastFmTrackEntity::class,
         LastFmAlbumEntity::class,
         LastFmArtistEntity::class,
-        LastFmPodcastEntity::class,
-        LastFmPodcastArtistEntity::class,
-        LastFmPodcastAlbumEntity::class,
+        LastFmPodcastEntity::class, // TODO remove
+        LastFmPodcastArtistEntity::class, // TODO remove
+        LastFmPodcastAlbumEntity::class,// TODO remove
 
         OfflineLyricsEntity::class,
 
