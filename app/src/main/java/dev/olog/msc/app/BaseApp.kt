@@ -20,7 +20,6 @@ abstract class BaseApp: DaggerApplication(),
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }
-        app = this
         initializeApp()
     }
 

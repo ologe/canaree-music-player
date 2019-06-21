@@ -1,8 +1,6 @@
 package dev.olog.msc.app
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.content.Context
 import android.os.Looper
 import androidx.preference.PreferenceManager
 import dagger.android.AndroidInjector
@@ -22,11 +20,6 @@ import io.alterac.blurkit.BlurKit
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
-
-
-@SuppressLint("StaticFieldLeak")
-lateinit var app: Context
-
 
 class App : BaseApp() {
 

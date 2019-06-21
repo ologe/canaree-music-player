@@ -1,11 +1,12 @@
 package dev.olog.msc.presentation.edit.track
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.NetworkUtils
-import dev.olog.msc.app.app
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
@@ -13,6 +14,7 @@ import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
+        @ApplicationContext private val context: Context,
         private val presenter: EditTrackFragmentPresenter
 
 ) : ViewModel() {
@@ -60,7 +62,7 @@ class EditTrackFragmentViewModel @Inject constructor(
     fun getSong(): DisplayableSong = presenter.getSong()
 
     fun fetchSongInfo(): Boolean {
-        if (!NetworkUtils.isConnected(app)){
+        if (!NetworkUtils.isConnected(context)){
             return false
         }
 

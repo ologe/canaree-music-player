@@ -10,8 +10,9 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.appinvite.AppInviteInvitation
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
-import dev.olog.msc.app.app
 import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
@@ -40,8 +41,6 @@ import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.splash.SplashActivity
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.hideFragmentsIfExists
@@ -333,8 +332,8 @@ class NavigatorImpl @Inject internal constructor(
     }
 
     override fun toShareApp() {
-        val intent = AppInviteInvitation.IntentBuilder(app.getString(R.string.share_app_title))
-                .setMessage(app.getString(R.string.share_app_message))
+        val intent = AppInviteInvitation.IntentBuilder(activity.getString(R.string.share_app_title))
+                .setMessage(activity.getString(R.string.share_app_message))
                 .setDeepLink(Uri.parse("https://deveugeniuolog.wixsite.com/next"))
                 .setAndroidMinimumVersionCode(Build.VERSION_CODES.LOLLIPOP)
                 .build()

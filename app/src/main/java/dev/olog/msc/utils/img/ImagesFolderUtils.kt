@@ -1,12 +1,8 @@
 package dev.olog.msc.utils.img
 
-import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
-import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.utils.getStringOrNull
 import dev.olog.shared.clamp
 import java.io.File
 
@@ -49,23 +45,24 @@ object ImagesFolderUtils {
 
     fun forAlbum(albumId: Long): String {
 
-        val uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId)
-        val cursor = app.contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM_ART), null,
-                null, null)
-
-        var result : String? = null
-
-        cursor?.use {
-            if (it.moveToFirst()){
-                result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART)
-            }
-        }
-
-        if (result == null){
-            result = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId).toString()
-        }
-
-        return result!!
+//        val uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId)
+//        val cursor = app.contentResolver.query(uri, arrayOf(MediaStore.Audio.Albums.ALBUM_ART), null,
+//                null, null)
+//
+//        var result : String? = null
+//
+//        cursor?.use {
+//            if (it.moveToFirst()){
+//                result = it.getStringOrNull(MediaStore.Audio.Albums.ALBUM_ART)
+//            }
+//        }
+//
+//        if (result == null){
+//            result = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, albumId).toString()
+//        }
+//
+//        return result!! TODO
+        return ""
     }
     private fun getFakeImage(albumId: Long, songId: Long): String {
         val size = 10L

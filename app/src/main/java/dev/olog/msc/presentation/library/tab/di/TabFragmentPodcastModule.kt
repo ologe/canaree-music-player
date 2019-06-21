@@ -1,11 +1,14 @@
 package dev.olog.msc.presentation.library.tab.di
 
+import android.content.Context
 import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
-import dev.olog.msc.app.app
+import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.PodcastAlbum
@@ -18,10 +21,9 @@ import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedPodcast
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedPodcastsArtistsUseCase
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.utils.k.extension.defer
+import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.shared.doIf
 import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
@@ -62,11 +64,11 @@ class TabFragmentPodcastModule {
     @Provides
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS)
-    internal fun providePodcastData(useCase: GetAllPodcastUseCase)
+    internal fun providePodcastData(@ApplicationContext context: Context, useCase: GetAllPodcastUseCase)
             : Observable<List<DisplayableItem>> {
 
         return useCase.execute()
-                .mapToList { it.toTabDisplayableItem() }
+                .mapToList { it.toTabDisplayableItem(context) }
                 .defer()
     }
 
@@ -202,10 +204,10 @@ private fun PodcastPlaylist.toAutoPlaylist(): DisplayableItem {
     )
 }
 
-private fun Podcast.toTabDisplayableItem(): DisplayableItem {
+private fun Podcast.toTabDisplayableItem(context: Context): DisplayableItem {
     val artist = DisplayableItem.adjustArtist(this.artist)
 
-    val duration = app.getString(R.string.tab_podcast_duration, TimeUnit.MILLISECONDS.toMinutes(this.duration))
+    val duration = context.getString(R.string.tab_podcast_duration, TimeUnit.MILLISECONDS.toMinutes(this.duration))
 
     return DisplayableItem(
             R.layout.item_tab_podcast,
