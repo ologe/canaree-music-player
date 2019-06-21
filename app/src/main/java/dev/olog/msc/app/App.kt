@@ -15,7 +15,6 @@ import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.prefs.SleepTimerUseCase
-import dev.olog.msc.presentation.image.creation.ImagesCreator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.traceur.Traceur
 import dev.olog.msc.utils.PendingIntents
@@ -32,8 +31,6 @@ lateinit var app: Context
 class App : BaseApp() {
 
     @Suppress("unused") @Inject lateinit var appShortcuts: AppShortcuts
-    @Suppress("unused") @Inject lateinit var imagesCreator: ImagesCreator
-    @Suppress("unused") @Inject lateinit var keepDataAlive: KeepDataAlive
 
     @Inject lateinit var lastFmGateway: LastFmGateway
     @Inject lateinit var songGateway: SongGateway
