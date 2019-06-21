@@ -13,7 +13,7 @@ import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.floating.window.service.FloatingWindowService
-import dev.olog.msc.utils.isOreo
+import dev.olog.shared.isOreo
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable

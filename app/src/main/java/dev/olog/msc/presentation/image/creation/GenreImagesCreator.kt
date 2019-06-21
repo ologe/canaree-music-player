@@ -6,7 +6,7 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.repository.util.CommonQuery
 import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.presentation.image.creation.impl.MergedImagesCreator
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import io.reactivex.Flowable
 import javax.inject.Inject

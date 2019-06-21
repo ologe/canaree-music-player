@@ -11,7 +11,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import com.bumptech.glide.Priority
-import dev.olog.msc.Permissions
+import dev.olog.shared.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment

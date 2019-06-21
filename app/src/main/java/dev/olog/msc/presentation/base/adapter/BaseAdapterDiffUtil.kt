@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import dev.olog.msc.presentation.base.BaseModel
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 
 class BaseAdapterDiffUtil<Model : BaseModel>(
         private val oldList: List<Model>,

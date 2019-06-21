@@ -22,6 +22,7 @@ import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.image.view.ShapeImageView
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.deepCopy
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject

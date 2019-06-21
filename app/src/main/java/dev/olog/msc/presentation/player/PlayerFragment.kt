@@ -27,7 +27,7 @@ import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.SwipeableView
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.isMarshmallow
+import dev.olog.shared.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Completable
 import io.reactivex.Observable

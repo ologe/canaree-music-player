@@ -14,6 +14,7 @@ import dev.olog.msc.R
 import dev.olog.msc.presentation.equalizer.EqHelper
 import dev.olog.msc.presentation.equalizer.ResizeAnimation
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.clamp
 
 class BandView (
         context: Context,

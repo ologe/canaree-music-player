@@ -16,9 +16,9 @@ import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.music.service.model.toMediaEntity
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.assertMainThread
-import dev.olog.msc.utils.k.extension.clamp
-import dev.olog.msc.utils.k.extension.swap
+import dev.olog.shared.assertMainThread
+import dev.olog.shared.clamp
+import dev.olog.shared.swap
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

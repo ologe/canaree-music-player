@@ -13,7 +13,7 @@ import dev.olog.msc.domain.entity.LastFmTrack
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

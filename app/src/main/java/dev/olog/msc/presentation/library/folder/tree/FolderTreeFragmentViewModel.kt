@@ -18,6 +18,8 @@ import dev.olog.core.MediaId
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.msc.utils.safeCompare
+import dev.olog.shared.startWith
+import dev.olog.shared.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables

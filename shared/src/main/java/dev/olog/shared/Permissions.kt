@@ -1,4 +1,4 @@
-package dev.olog.msc
+package dev.olog.shared
 
 import android.Manifest
 import android.app.Activity
@@ -22,7 +22,11 @@ object Permissions {
     }
 
     fun requestReadStorage(activity: Activity){
-        requestPermissions(activity, READ_STORAGE, READ_CODE)
+        requestPermissions(
+            activity,
+            READ_STORAGE,
+            READ_CODE
+        )
     }
 
     fun hasUserDisabledReadStorage(activity: Activity): Boolean {

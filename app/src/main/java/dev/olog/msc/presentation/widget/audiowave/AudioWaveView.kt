@@ -11,7 +11,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import dev.olog.msc.R
-import dev.olog.msc.utils.k.extension.clamp
 
 class AudioWaveView : View {
 

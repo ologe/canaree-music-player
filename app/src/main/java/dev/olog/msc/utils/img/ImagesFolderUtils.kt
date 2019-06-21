@@ -7,7 +7,7 @@ import android.provider.MediaStore
 import dev.olog.msc.app.app
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.utils.getStringOrNull
-import dev.olog.msc.utils.k.extension.clamp
+import dev.olog.shared.clamp
 import java.io.File
 
 object ImagesFolderUtils {

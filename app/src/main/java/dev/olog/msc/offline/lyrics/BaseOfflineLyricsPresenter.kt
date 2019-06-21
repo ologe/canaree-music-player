@@ -12,9 +12,9 @@ import dev.olog.msc.domain.entity.OfflineLyrics
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.offline.lyrics.InsertOfflineLyricsUseCase
 import dev.olog.msc.domain.interactor.offline.lyrics.ObserveOfflineLyricsUseCase
-import dev.olog.msc.utils.k.extension.clamp
+import dev.olog.shared.clamp
 import dev.olog.msc.utils.k.extension.dpToPx
-import dev.olog.msc.utils.k.extension.indexOfClosest
+import dev.olog.shared.indexOfClosest
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

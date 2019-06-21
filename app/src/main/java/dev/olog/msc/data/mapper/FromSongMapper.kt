@@ -7,7 +7,7 @@ import dev.olog.msc.domain.entity.Artist
 import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.utils.img.ImagesFolderUtils
-import dev.olog.msc.utils.k.extension.clamp
+import dev.olog.shared.clamp
 
 fun Song.toFolder(context: Context, songCount: Int) : Folder {
     val folderImage = ImagesFolderUtils.forFolder(context, this.folderPath)

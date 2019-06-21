@@ -22,6 +22,9 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.doIf
+import dev.olog.shared.startWith
+import dev.olog.shared.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
 import java.util.concurrent.TimeUnit

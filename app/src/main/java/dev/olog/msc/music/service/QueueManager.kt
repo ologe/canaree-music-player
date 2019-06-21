@@ -19,8 +19,8 @@ import dev.olog.msc.music.service.voice.VoiceSearch
 import dev.olog.msc.music.service.voice.VoiceSearchParams
 import dev.olog.msc.utils.ComparatorUtils
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.k.extension.clamp
-import dev.olog.msc.utils.k.extension.swap
+import dev.olog.shared.clamp
+import dev.olog.shared.swap
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Single
 import io.reactivex.functions.Function
@@ -259,7 +259,8 @@ class QueueManager @Inject constructor(
 
     private val lastSessionSong = Function<List<MediaEntity>, Pair<List<MediaEntity>, Int>> { list ->
         val idInPlaylist = musicPreferencesUseCase.getLastIdInPlaylist()
-        val currentPosition = clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
+        val currentPosition =
+            clamp(list.indexOfFirst { it.idInPlaylist == idInPlaylist }, 0, list.lastIndex)
         Pair(list, currentPosition)
     }
 

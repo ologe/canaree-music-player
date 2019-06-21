@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package dev.olog.msc.utils.k.extension
+package dev.olog.shared
 
 import java.util.*
 

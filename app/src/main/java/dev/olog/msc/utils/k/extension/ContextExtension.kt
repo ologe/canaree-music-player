@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
-import dev.olog.msc.utils.isOreo
+import dev.olog.shared.isOreo
 
 val Context.isPortrait: Boolean
     get() = configuration.orientation == Configuration.ORIENTATION_PORTRAIT

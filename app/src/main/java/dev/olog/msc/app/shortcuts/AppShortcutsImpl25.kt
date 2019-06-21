@@ -16,7 +16,7 @@ import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.shortcuts.ShortcutsActivity
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.PlaylistChooserActivity
-import dev.olog.msc.utils.isNougat_MR1
+import dev.olog.shared.isNougat_MR1
 
 @RequiresApi(Build.VERSION_CODES.N_MR1)
 open class AppShortcutsImpl25(

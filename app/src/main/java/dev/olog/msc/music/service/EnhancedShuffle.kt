@@ -3,7 +3,6 @@ package dev.olog.msc.music.service
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.removeFirst
 import javax.inject.Inject
 

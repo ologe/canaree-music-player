@@ -2,7 +2,7 @@ package dev.olog.msc.music.service.player.crossfade
 
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.player.CustomExoPlayer
-import dev.olog.msc.utils.assertMainThread
+import dev.olog.shared.assertMainThread
 import javax.inject.Inject
 
 private enum class CurrentPlayer {

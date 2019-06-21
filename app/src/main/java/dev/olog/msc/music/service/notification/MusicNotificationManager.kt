@@ -15,7 +15,7 @@ import dev.olog.msc.domain.entity.FavoriteEnum
 import dev.olog.msc.domain.interactor.favorite.ObserveFavoriteAnimationUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.utils.isOreo
+import dev.olog.shared.isOreo
 import dev.olog.msc.utils.k.extension.dispatchEvent
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Single

@@ -12,7 +12,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.android.gms.appinvite.AppInviteInvitation
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dev.olog.msc.Permissions
+import dev.olog.shared.Permissions
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
@@ -34,6 +34,7 @@ import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.pro.IBilling
 import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.clamp
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.img.extractImageName
 import dev.olog.msc.utils.k.extension.getBitmapAsync

@@ -18,7 +18,7 @@ import dev.olog.msc.music.service.interfaces.ExoPlayerListenerWrapper
 import dev.olog.msc.music.service.player.crossfade.CrossFadePlayerImpl
 import dev.olog.msc.music.service.player.media.source.SourceFactory
 import dev.olog.msc.music.service.volume.IPlayerVolume
-import dev.olog.msc.utils.k.extension.clamp
+import dev.olog.shared.clamp
 import dev.olog.msc.utils.k.extension.toast
 
 abstract class DefaultPlayer<T>(

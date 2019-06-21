@@ -15,7 +15,7 @@ import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.RippleUtils
 import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.isMarshmallow
+import dev.olog.shared.isMarshmallow
 import dev.olog.msc.utils.k.extension.getBitmap
 import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId

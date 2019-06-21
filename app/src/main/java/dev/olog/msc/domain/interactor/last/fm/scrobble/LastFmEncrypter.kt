@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.last.fm.scrobble
 
 import com.tozny.crypto.android.AesCbcWithIntegrity
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import javax.inject.Inject
 import javax.inject.Singleton
 

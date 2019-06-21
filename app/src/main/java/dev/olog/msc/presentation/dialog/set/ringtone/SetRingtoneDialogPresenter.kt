@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.isMarshmallow
+import dev.olog.shared.isMarshmallow
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

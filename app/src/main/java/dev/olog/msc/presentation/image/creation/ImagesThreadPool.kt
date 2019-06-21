@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.image.creation
 
-import dev.olog.msc.utils.k.extension.clamp
+import dev.olog.shared.clamp
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
 import javax.inject.Inject

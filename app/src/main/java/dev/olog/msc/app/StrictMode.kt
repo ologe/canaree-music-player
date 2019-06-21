@@ -5,7 +5,7 @@ import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.mini.player.MiniPlayerFragment
 import dev.olog.msc.presentation.player.PlayerFragment
 import dev.olog.msc.presentation.search.SearchFragment
-import dev.olog.msc.utils.isOreo
+import dev.olog.shared.isOreo
 
 object StrictMode {
 

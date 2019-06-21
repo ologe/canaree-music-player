@@ -5,7 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import dev.olog.msc.utils.assertMainThread
+import dev.olog.shared.assertMainThread
 import java.io.File
 
 fun catchNothing(func:() -> Unit){

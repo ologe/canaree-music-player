@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.utils.TextUtils
-import dev.olog.msc.utils.runOnMainThread
+import dev.olog.shared.runOnMainThread
 
 class RxWaveSideBarView @JvmOverloads constructor(
         context: Context,

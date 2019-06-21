@@ -2,7 +2,7 @@ package dev.olog.msc.utils.k.extension
 
 import android.app.AlertDialog
 import android.view.WindowManager
-import dev.olog.msc.utils.isOreo
+import dev.olog.shared.isOreo
 
 @Suppress("DEPRECATION")
 fun AlertDialog.enableForService(){

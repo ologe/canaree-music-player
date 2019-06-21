@@ -4,8 +4,8 @@ import android.graphics.Color
 import android.view.View
 import android.view.Window
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.isMarshmallow
-import dev.olog.msc.utils.isOreo
+import dev.olog.shared.isMarshmallow
+import dev.olog.shared.isOreo
 
 fun Window.setLightStatusBar(){
     decorView.systemUiVisibility = 0

@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.image.creation.impl
 
 import android.graphics.*
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 
 
 object MergedImageUtils {

@@ -10,7 +10,7 @@ import com.bumptech.glide.request.transition.Transition
 import dev.olog.msc.app.GlideApp
 import dev.olog.msc.app.GlideRequest
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.assertBackgroundThread
+import dev.olog.shared.assertBackgroundThread
 import dev.olog.msc.utils.img.CoverUtils
 import dev.olog.msc.utils.img.ImageUtils
 
