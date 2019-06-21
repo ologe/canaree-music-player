@@ -9,7 +9,7 @@ import dev.olog.msc.data.entity.LastFmTrackEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
-import dev.olog.msc.domain.entity.LastFmTrack
+import dev.olog.core.entity.LastFmTrack
 import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.shared.TextUtils

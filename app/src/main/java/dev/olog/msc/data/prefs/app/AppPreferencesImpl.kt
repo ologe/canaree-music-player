@@ -5,13 +5,13 @@ import android.content.SharedPreferences
 import android.os.Environment
 import androidx.core.content.edit
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.entity.UserCredentials
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.Sorting
-import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.safeGetCanonicalPath
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -21,9 +21,9 @@ import java.io.File
 import javax.inject.Inject
 
 class AppPreferencesImpl @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val preferences: SharedPreferences,
-        private val rxPreferences: RxSharedPreferences
+    @ApplicationContext private val context: Context,
+    private val preferences: SharedPreferences,
+    private val rxPreferences: RxSharedPreferences
 
 ) : AppPreferencesGateway,
         Sorting by AppSortingImpl(preferences, rxPreferences) {
@@ -303,7 +303,6 @@ class AppPreferencesImpl @Inject constructor(
     private fun setDefaultLockscreenArtwork(){
         preferences.edit {
             putBoolean(context.getString(R.string.prefs_lockscreen_artwork_key), false)
-            putBoolean(context.getString(R.string.prefs_ignore_media_store_cover_key), false)
         }
     }
 
@@ -328,8 +327,7 @@ class AppPreferencesImpl @Inject constructor(
 
     private fun setDefaultAccentColor(){
         preferences.edit {
-            putInt(context.getString(R.string.prefs_accent_light_key), R.color.accent)
-            putInt(context.getString(R.string.prefs_accent_dark_key), R.color.accent_secondary)
+            putInt(context.getString(R.string.prefs_color_accent_key), R.color.accent)
         }
     }
 

@@ -13,7 +13,9 @@ apply from: '../kapt.gradle'
 dependencies {
     implementation project(':jaudiotagger')
     implementation project(':core')
+    implementation project(':shared')
     implementation project(':injection')
+    implementation project(':prefs-keys')
 
     implementation lib_core.kotlin
     implementation lib_core.coroutines
@@ -24,6 +26,7 @@ dependencies {
     kapt lib_ui.glide_processor
     // mandatory for glide 4.9.0 or below compatibility
     kapt lib_ui.androidSupportAnnotation
+    implementation lib_x.core_ktx
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

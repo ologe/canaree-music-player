@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.AppConstants.PROGRESS_BAR_INTERVAL
@@ -19,16 +20,15 @@ import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.SwipeableView
-import dev.olog.core.MediaId
-import dev.olog.shared.isMarshmallow
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.isMarshmallow
 import dev.olog.shared.toggleVisibility
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -315,7 +315,6 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
             MediaId.fromString(description.mediaId!!),
             description.title!!.toString(),
             DisplayableItem.adjustArtist(description.subtitle!!.toString()),
-            description.mediaUri!!.toString(),
             isPlayable = true,
             trackNumber = "${this.queueId}"
         )

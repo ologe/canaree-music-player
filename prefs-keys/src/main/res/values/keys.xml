@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="prefs_detail_sections_key" translatable="false">key_detail_items</string>
+    <string name="prefs_library_categories_key" translatable="false">key_library_categories</string>
+    <string name="prefs_podcast_library_categories_key" translatable="false">key_podcast_library_categories</string>
+    <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
+    <string name="prefs_folder_tree_view_key" translatable="false">key_folder_tree_view</string>
+    <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts</string>
+    <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
+    <string name="prefs_midnight_mode_key" translatable="false">key_lower_volume</string>
+    <string name="prefs_cross_fade_key" translatable="false">key_cross_fade</string>
+    <string name="prefs_gapless_key" translatable="false">key_gapless</string>
+    <string name="prefs_player_controls_visibility_key" translatable="false">key_player_controls_visibility</string>
+    <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
+    <string name="prefs_show_new_albums_artists_key" translatable="false">key_show_new</string>
+    <string name="prefs_show_recent_albums_artists_key" translatable="false">key_show_recent</string>
+    <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images_2</string>
+    <string name="prefs_auto_create_images_key" translatable="false">key_auto_create_image</string>
+    <string name="prefs_delete_cached_images_key" translatable="false">key_delete_cached_images</string>
+    <string name="prefs_reset_tutorial_key" translatable="false">key_reset_tutorial</string>
+    <string name="prefs_last_fm_credentials_key" translatable="false">key_last_fm_credentials</string>
+    <string name="prefs_lockscreen_artwork_key" translatable="false">key_lockscreen_artwork</string>
+    <string name="prefs_day_night_key" translatable="false">key_day_night</string>
+    <string name="prefs_color_accent_key" translatable="false">color_accent_2</string>
+    <string name="prefs_immersive_key" translatable="false">key_immersive</string>
+    <string name="prefs_appearance_key" translatable="false">key_appearance</string>
+    <string name="prefs_dark_mode_key" translatable="false">key_dark_mode_2</string>
+    <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
+    <string name="prefs_icon_shape_key" translatable="false">key_icon_shape</string>
+
+</resources>

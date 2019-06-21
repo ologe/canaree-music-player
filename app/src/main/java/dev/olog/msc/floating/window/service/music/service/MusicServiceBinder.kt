@@ -11,7 +11,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.music.service.MusicService
@@ -26,8 +26,8 @@ import javax.inject.Inject
 
 @PerService
 class MusicServiceBinder @Inject constructor(
-        @ApplicationContext private val context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle
+    @ApplicationContext private val context: Context,
+    @ServiceLifecycle lifecycle: Lifecycle
 
 ) : DefaultLifecycleObserver {
 

@@ -72,8 +72,7 @@ private fun PodcastPlaylist.toHeaderItem(resources: Resources): List<Displayable
             R.layout.item_detail_item_image,
             MediaId.podcastPlaylistId(this.id),
             title,
-            listSize,
-            image = image
+            listSize
         )
     )
 
@@ -86,8 +85,7 @@ private fun PodcastAlbum.toHeaderItem(): List<DisplayableItem> {
             R.layout.item_detail_item_image,
             MediaId.podcastAlbumId(this.id),
             title,
-            DisplayableItem.adjustArtist(this.artist),
-            image = image
+            DisplayableItem.adjustArtist(this.artist)
         )
     )
 }
@@ -103,8 +101,7 @@ private fun PodcastArtist.toHeaderItem(resources: Resources): List<DisplayableIt
             R.layout.item_detail_item_image,
             MediaId.podcastArtistId(this.id),
             name,
-            "$albums$songs".toLowerCase(),
-            image = image
+            "$albums$songs".toLowerCase()
         )
     )
 }

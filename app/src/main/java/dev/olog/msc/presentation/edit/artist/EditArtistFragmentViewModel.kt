@@ -36,13 +36,14 @@ class EditArtistFragmentViewModel @Inject constructor(
     }
 
     fun updateImage(image: String?){
-        val oldValue = displayedArtist.value!!
-        val newValue = oldValue.copy(image = image)
-        displayedArtist.postValue(newValue)
+//        val oldValue = displayedArtist.value!!
+//        val newValue = oldValue.copy(image = image)
+//        displayedArtist.postValue(newValue) TODO
     }
 
     fun getNewImage(): String? {
-        return displayedArtist.value!!.image
+//        return displayedArtist.value!!.image
+        return "" // TODO
 
     }
 

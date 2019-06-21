@@ -63,7 +63,7 @@ class PreferencesActivity : DaggerAppCompatActivity(),
 
     override fun invoke(dialog: MaterialDialog, color: Int) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val key = getString(if (AppTheme.isWhiteTheme()) R.string.prefs_accent_light_key else R.string.prefs_accent_dark_key)
+        val key = getString(R.string.prefs_color_accent_key)
         prefs.edit {
             putInt(key, color)
         }

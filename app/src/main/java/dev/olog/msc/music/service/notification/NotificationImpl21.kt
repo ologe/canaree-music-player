@@ -14,17 +14,17 @@ import android.text.style.StyleSpan
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dagger.Lazy
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
-import dev.olog.shared.assertBackgroundThread
 import dev.olog.msc.utils.k.extension.asActivityPendingIntent
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
-import dev.olog.msc.utils.k.extension.getBitmapAsync
+import dev.olog.msc.utils.k.extension.getCachedBitmap
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.assertBackgroundThread
 import javax.inject.Inject
 
 open class NotificationImpl21 @Inject constructor(
@@ -85,7 +85,7 @@ open class NotificationImpl21 @Inject constructor(
 
         val spannableTitle = SpannableString(title)
         spannableTitle.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, 0)
-        updateMetadataImpl(state.id, spannableTitle, artist, album, state.image)
+        updateMetadataImpl(state.id, spannableTitle, artist, album)
         updateState(state.isPlaying, state.bookmark - state.duration)
         updateFavorite(state.isFavorite)
 
@@ -117,11 +117,9 @@ open class NotificationImpl21 @Inject constructor(
             id: Long,
             title: SpannableString,
             artist: String,
-            album: String,
-            image: String){
+            album: String){
 
-        val model = DisplayableItem(0, MediaId.songId(id), "", image = image)
-        val bitmap = service.getBitmapAsync(model, INotification.IMAGE_SIZE)
+        val bitmap = service.getCachedBitmap(MediaId.songId(id), INotification.IMAGE_SIZE)
         builder.setLargeIcon(bitmap)
                 .setContentTitle(title)
                 .setContentText(artist)

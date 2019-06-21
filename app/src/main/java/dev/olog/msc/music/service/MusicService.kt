@@ -24,7 +24,7 @@ import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
-import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.asServicePendingIntent
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers

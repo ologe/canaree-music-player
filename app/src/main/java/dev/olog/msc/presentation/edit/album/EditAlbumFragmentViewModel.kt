@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.olog.core.entity.Song
-import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
@@ -37,20 +37,21 @@ class EditAlbumFragmentViewModel @Inject constructor(
     }
 
     fun updateImage(image: String){
-        val oldValue = displayedAlbum.value!!
-        val newValue = oldValue.copy(image = image)
-        displayedAlbum.postValue(newValue)
+//        val oldValue = displayedAlbum.value!!
+//        val newValue = oldValue.copy(image = image)
+//        displayedAlbum.postValue(newValue) TODO
     }
 
     fun getNewImage(): String? {
-        val albumId = getAlbum().id
-        val original = ImagesFolderUtils.forAlbum(albumId)
-        val current = displayedAlbum.value!!.image
-        if (original == current){
-            return null
-        } else {
-            return current
-        }
+//        val albumId = getAlbum().id
+//        val original = ImagesFolderUtils.forAlbum(albumId)
+//        val current = displayedAlbum.value!!.image
+//        if (original == current){
+//            return null
+//        } else {
+//            return current
+//        }
+        return "" // TODO
     }
 
     fun getAlbum(): DisplayableAlbum = presenter.getAlbum()

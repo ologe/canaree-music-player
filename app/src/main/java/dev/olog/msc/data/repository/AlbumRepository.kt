@@ -3,15 +3,13 @@ package dev.olog.msc.data.repository
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.core.entity.Album
+import dev.olog.core.entity.Song
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
-import dev.olog.core.entity.Album
-import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
@@ -26,8 +24,7 @@ class AlbumRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase,
-        private val collator: Collator,
-        private val usedImageGateway: UsedImageGateway
+        private val collator: Collator
 
 ) : AlbumGateway {
 
@@ -49,21 +46,8 @@ class AlbumRepository @Inject constructor(
                                 song.toAlbum(songList.count { it.albumId == song.albumId })
                             }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                             .toList()
-                }.map { updateImages(it) }
+                }
     }
-
-    private fun updateImages(list: List<Album>): List<Album>{
-        val allForAlbum = usedImageGateway.getAllForAlbums()
-        if (allForAlbum.isEmpty()){
-            return list
-        }
-
-        return list.map { album ->
-            val image = allForAlbum.firstOrNull { it.id == album.id }?.image ?: ImagesFolderUtils.forAlbum(album.id)
-            album.copy(image = image)
-        }
-    }
-
 
     private val cachedData = queryAllData()
             .replay(1)
@@ -71,10 +55,6 @@ class AlbumRepository @Inject constructor(
 
     override fun getAll(): Observable<List<Album>> {
         return cachedData
-    }
-
-    override fun getAllNewRequest(): Observable<List<Album>> {
-        return queryAllData()
     }
 
     override fun getByParam(param: Long): Observable<Album> {

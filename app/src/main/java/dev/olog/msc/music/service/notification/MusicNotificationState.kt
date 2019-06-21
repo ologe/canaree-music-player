@@ -9,7 +9,6 @@ data class MusicNotificationState (
         var title: String = "",
         var artist: String = "",
         var album: String = "",
-        var image: String = "",
         var isPlaying: Boolean = false,
         var bookmark: Long = -1,
         var duration: Long = -1,
@@ -31,7 +30,6 @@ data class MusicNotificationState (
         this.title = metadata.title
         this.artist = metadata.artist
         this.album = metadata.album
-        this.image = metadata.image
         this.duration = metadata.duration
         return isValidState()
     }
@@ -51,8 +49,7 @@ data class MusicNotificationState (
         return this.id != metadata.id ||
                 this.title != metadata.title ||
                 this.artist != metadata.artist ||
-                this.album != metadata.album ||
-                this.image != metadata.image
+                this.album != metadata.album
     }
 
     fun isDifferentState(state: PlaybackStateCompat): Boolean{

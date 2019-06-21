@@ -2,14 +2,14 @@ package dev.olog.msc.presentation.recently.added
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.msc.R
+import dev.olog.core.MediaId
 import dev.olog.core.entity.Song
+import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.presentation.model.DisplayableItem
 import javax.inject.Inject
 
 class RecentlyAddedFragmentViewModel @Inject constructor(
@@ -35,7 +35,6 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
         MediaId.playableItem(parentId, id),
         title,
         DisplayableItem.adjustArtist(artist),
-        image,
         true
     )
 }

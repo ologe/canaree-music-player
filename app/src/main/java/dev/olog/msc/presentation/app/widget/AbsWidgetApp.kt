@@ -31,8 +31,7 @@ abstract class AbsWidgetApp : AppWidgetProvider() {
                     val id = intent.getLongExtra(WidgetConstants.ARGUMENT_SONG_ID, 0)
                     val title = intent.getStringExtra(WidgetConstants.ARGUMENT_TITLE)
                     val subtitle = intent.getStringExtra(WidgetConstants.ARGUMENT_SUBTITLE)
-                    val image = intent.getStringExtra(WidgetConstants.ARGUMENT_IMAGE)
-                    metadata = WidgetMetadata(id, title, subtitle, image)
+                    metadata = WidgetMetadata(id, title, subtitle)
                     onMetadataChanged(context, metadata!!, appWidgetIds)
                 }
             }

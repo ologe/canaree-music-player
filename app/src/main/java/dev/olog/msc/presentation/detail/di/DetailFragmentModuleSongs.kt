@@ -8,7 +8,7 @@ import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.Artist
 import dev.olog.core.entity.PodcastArtist
 import dev.olog.core.entity.Song
@@ -119,8 +119,7 @@ private fun Artist.toRelatedArtist(resources: Resources): DisplayableItem {
         R.layout.item_detail_related_artist,
         MediaId.artistId(this.id),
         this.name,
-        albums + songs,
-        this.image
+        albums + songs
     )
 }
 
@@ -133,8 +132,7 @@ private fun PodcastArtist.toRelatedArtist(resources: Resources): DisplayableItem
         R.layout.item_detail_related_artist,
         MediaId.podcastArtistId(this.id),
         this.name,
-        albums + songs,
-        this.image
+        albums + songs
     )
 }
 
@@ -167,7 +165,6 @@ private fun Song.toDetailDisplayableItem(parentId: MediaId, sortType: SortType):
         MediaId.playableItem(parentId, id),
         this.title,
         subtitle,
-        this.image,
         true,
         track
     )
@@ -179,7 +176,6 @@ private fun Song.toMostPlayedDetailDisplayableItem(parentId: MediaId): Displayab
         MediaId.playableItem(parentId, id),
         this.title,
         DisplayableItem.adjustArtist(this.artist),
-        this.image,
         true
     )
 }
@@ -190,7 +186,6 @@ private fun Song.toRecentDetailDisplayableItem(parentId: MediaId): DisplayableIt
         MediaId.playableItem(parentId, id),
         this.title,
         DisplayableItem.adjustArtist(this.artist),
-        this.image,
         true
     )
 }

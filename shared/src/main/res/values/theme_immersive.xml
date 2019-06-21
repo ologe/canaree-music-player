@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeImmersive">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>

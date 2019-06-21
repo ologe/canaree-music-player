@@ -16,7 +16,7 @@ import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.core.MediaId
-import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.fragment_edit_track.*
 import kotlinx.android.synthetic.main.fragment_edit_track.view.*
@@ -58,8 +58,7 @@ class EditTrackFragment : BaseEditItemFragment() {
                 bitrate.text = it.bitrate
                 format.text = it.format
                 sampling.text = it.sampling
-                val model = DisplayableItem(0, MediaId.songId(it.id), "", image = it.image)
-                setImage(model)
+                setImage(MediaId.songId(it.id))
             }
             hideLoader()
         })
@@ -121,9 +120,9 @@ class EditTrackFragment : BaseEditItemFragment() {
     }
 
     override fun restoreImage() {
-        val albumId = viewModel.getSong().albumId
-        val uri = ImagesFolderUtils.forAlbum(albumId)
-        viewModel.updateImage(uri)
+//        val albumId = viewModel.getSong().albumId
+//        val uri = ImagesFolderUtils.forAlbum(albumId)
+//        viewModel.updateImage(uri) TODO
     }
 
     override fun noImage() {

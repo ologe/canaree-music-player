@@ -5,17 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.crashlytics.android.Crashlytics
-import dev.olog.msc.NetworkUtils
-import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.shared.NetworkUtils
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.disposables.Disposable
 import org.jaudiotagger.tag.TagOptionSingleton
 import javax.inject.Inject
 
 class EditTrackFragmentViewModel @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val presenter: EditTrackFragmentPresenter
+    @ApplicationContext private val context: Context,
+    private val presenter: EditTrackFragmentPresenter
 
 ) : ViewModel() {
 
@@ -37,25 +36,25 @@ class EditTrackFragmentViewModel @Inject constructor(
     }
 
     fun updateImage(image: String){
-        val oldValue = displayedSong.value
-        val newValue = oldValue?.copy(image = image)
-        displayedSong.postValue(newValue)
+//        val oldValue = displayedSong.value
+//        val newValue = oldValue?.copy(image = image)
+//        displayedSong.postValue(newValue) TODO
     }
 
     fun getNewImage(): String? {
-        try {
-            val albumId = getSong().albumId
-            val original = ImagesFolderUtils.forAlbum(albumId)
-            val current = displayedSong.value!!.image
-            if (original == current){
-                return null
-            } else {
-                return current
-            }
-        } catch (ex: KotlinNullPointerException){
-            return null
-        }
-
+//        try {
+//            val albumId = getSong().albumId
+//            val original = ImagesFolderUtils.forAlbum(albumId)
+//            val current = displayedSong.value!!.image
+//            if (original == current){
+//                return null
+//            } else {
+//                return current
+//            }
+//        } catch (ex: KotlinNullPointerException){
+//            return null
+//        }
+        return "" // TODO
     }
 
     fun observeData(): LiveData<DisplayableSong> = displayedSong

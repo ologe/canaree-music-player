@@ -7,7 +7,7 @@ import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.data.prefs.app.AppPreferencesImpl
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway

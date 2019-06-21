@@ -3,15 +3,13 @@ package dev.olog.msc.data.repository.podcast
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.PodcastAlbum
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toAlbum
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastAlbum
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
@@ -26,8 +24,7 @@ class PodcastAlbumRepository @Inject constructor(
         appDatabase: AppDatabase,
         private val rxContentResolver: BriteContentResolver,
         private val podcastGateway: PodcastGateway,
-        private val collator: Collator,
-        private val usedImageGateway: UsedImageGateway
+        private val collator: Collator
 
 ) : PodcastAlbumGateway {
 
@@ -49,21 +46,8 @@ class PodcastAlbumRepository @Inject constructor(
                                 song.toAlbum(songList.count { it.albumId == song.albumId })
                             }.sortedWith(Comparator { o1, o2 -> collator.safeCompare(o1.title, o2.title) })
                             .toList()
-                }.map { updateImages(it) }
+                }
     }
-
-    private fun updateImages(list: List<PodcastAlbum>): List<PodcastAlbum>{
-        val allForAlbum = usedImageGateway.getAllForAlbums()
-        if (allForAlbum.isEmpty()){
-            return list
-        }
-
-        return list.map { album ->
-            val image = allForAlbum.firstOrNull { it.id == album.id }?.image ?: ImagesFolderUtils.forAlbum(album.id)
-            album.copy(image = image)
-        }
-    }
-
 
     private val cachedData = queryAllData()
             .replay(1)
@@ -71,10 +55,6 @@ class PodcastAlbumRepository @Inject constructor(
 
     override fun getAll(): Observable<List<PodcastAlbum>> {
         return cachedData
-    }
-
-    override fun getAllNewRequest(): Observable<List<PodcastAlbum>> {
-        return queryAllData()
     }
 
     override fun getByParam(param: Long): Observable<PodcastAlbum> {

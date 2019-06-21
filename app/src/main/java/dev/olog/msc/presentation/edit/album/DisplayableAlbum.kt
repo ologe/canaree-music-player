@@ -6,6 +6,5 @@ data class DisplayableAlbum(
         val artist: String,
         val albumArtist: String,
         val genre: String,
-        val year: String,
-        val image: String
+        val year: String
 )

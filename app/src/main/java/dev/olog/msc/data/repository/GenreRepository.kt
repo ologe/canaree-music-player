@@ -6,17 +6,16 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.core.MediaId
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.Genre
+import dev.olog.core.entity.Song
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.GenreMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toGenre
 import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.core.entity.Genre
-import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -38,11 +37,10 @@ private val SONG_SELECTION_ARGS: Array<String>? = null
 private const val SONG_SORT_ORDER = "lower(${MediaStore.Audio.Genres.Members.TITLE})"
 
 class GenreRepository @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val rxContentResolver: BriteContentResolver,
-        private val songGateway: SongGateway,
-        private val appPrefsUseCase: AppPreferencesGateway,
-        appDatabase: AppDatabase
+    @ApplicationContext private val context: Context,
+    private val rxContentResolver: BriteContentResolver,
+    private val songGateway: SongGateway,
+    appDatabase: AppDatabase
 
 ) : GenreGateway {
 
@@ -59,7 +57,7 @@ class GenreRepository @Inject constructor(
                     val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
                     val size = CommonQuery.getSize(context.contentResolver, uri)
                     it.toGenre(context, size)
-                }).map { removeBlacklisted(it) }
+                })
                 .doOnError { it.printStackTrace() }
                 .onErrorReturnItem(listOf())
 
@@ -68,20 +66,6 @@ class GenreRepository @Inject constructor(
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
-
-    private fun removeBlacklisted(list: MutableList<Genre>): List<Genre>{
-        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(context.contentResolver, appPrefsUseCase)
-        for (genre in list.toList()) {
-            val newSize = calculateNewGenreSize(genre.id, songsIds)
-            if (newSize == 0){
-                list.remove(genre)
-            } else {
-                list[list.indexOf(genre)] = genre.copy(size = newSize)
-            }
-
-        }
-        return list
-    }
 
     private fun calculateNewGenreSize(id: Long, songIds: List<Long>): Int {
         val uri = MediaStore.Audio.Genres.Members.getContentUri("external", id)
@@ -100,10 +84,6 @@ class GenreRepository @Inject constructor(
     }
 
     override fun getAll(): Observable<List<Genre>> = cachedData
-
-    override fun getAllNewRequest(): Observable<List<Genre>> {
-        return queryAllData()
-    }
 
     override fun getByParam(param: Long): Observable<Genre> {
         return cachedData.map { list -> list.first { it.id == param } }

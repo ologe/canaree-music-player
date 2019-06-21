@@ -2,17 +2,17 @@ package dev.olog.msc.presentation.popup.folder
 
 import android.app.Activity
 import android.view.MenuItem
-import dev.olog.msc.R
-import dev.olog.msc.app.shortcuts.AppShortcuts
+import dev.olog.core.MediaId
 import dev.olog.core.entity.Folder
 import dev.olog.core.entity.Song
+import dev.olog.msc.R
+import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
-import dev.olog.core.MediaId
 import javax.inject.Inject
 
 class FolderPopupListener @Inject constructor(
@@ -60,7 +60,7 @@ class FolderPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), folder.title, folder.image)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), folder.title)
         }
 
 

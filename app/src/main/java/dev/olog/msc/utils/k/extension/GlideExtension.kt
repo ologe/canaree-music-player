@@ -7,25 +7,24 @@ import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.msc.app.GlideApp
-import dev.olog.msc.app.GlideRequest
+import dev.olog.core.MediaId
+import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.GlideRequest
+import dev.olog.msc.utils.img.ImageUtils
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.assertBackgroundThread
-import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.img.ImageUtils
 
-fun Context.getBitmapAsync(
-    model: DisplayableItem,
+//TODO remove after migrating to coroutines
+fun Context.getCachedBitmap(
+    mediaId: MediaId,
     size: Int,
     extension: (GlideRequest<Bitmap>.() -> GlideRequest<Bitmap>)? = null,
     withError: Boolean = true): Bitmap {
 
     assertBackgroundThread()
 
-    val placeholder = CoverUtils.getGradient(this, model.mediaId)
-
-    val onlyFromCache = !ImageUtils.isRealImage(model.image)
-    val load : Any = if (!onlyFromCache) model.image else model
+    val placeholder = CoverUtils.getGradient(this, mediaId)
 
     val error = GlideApp.with(this)
             .asBitmap()
@@ -35,10 +34,10 @@ fun Context.getBitmapAsync(
 
     val builder = GlideApp.with(this)
             .asBitmap()
-            .load(load)
+            .load(mediaId)
             .override(size)
             .priority(Priority.IMMEDIATE)
-            .onlyRetrieveFromCache(onlyFromCache)
+            .onlyRetrieveFromCache(true)
             .extend(extension)
 
     return try {
@@ -54,30 +53,24 @@ fun Context.getBitmapAsync(
 }
 
 @Suppress("DEPRECATION")
-fun Context.getBitmap(
-    model: DisplayableItem,
+fun Context.getBitmapAsync(
+    mediaId: MediaId,
     size: Int,
     action: (Bitmap) -> Unit
 ){
 
-    val placeholder = CoverUtils.getGradient(this, model.mediaId)
-
-    val onlyFromCache = !ImageUtils.isRealImage(model.image)
-    val load : Any = if (!onlyFromCache) model.image else model
-
+    val placeholder = CoverUtils.getGradient(this, mediaId)
     val error = GlideApp.with(this)
             .asBitmap()
             .load(placeholder.toBitmap())
             .override(size)
 
-
     GlideApp.with(this)
             .asBitmap()
-            .load(load)
+            .load(mediaId)
             .error(error)
             .override(size)
             .priority(Priority.IMMEDIATE)
-            .onlyRetrieveFromCache(onlyFromCache)
             .into(object : SimpleTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     action(resource)

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.Lifecycle
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.shared.isNougat_MR1
 import javax.inject.Singleton

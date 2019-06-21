@@ -8,13 +8,12 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
-import dev.olog.msc.utils.k.extension.getBitmapAsync
+import dev.olog.msc.utils.k.extension.getCachedBitmap
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Completable
@@ -34,7 +33,7 @@ abstract class BaseAppShortcuts(
         lifecycle.addObserver(this)
     }
 
-    override fun addDetailShortcut(mediaId: MediaId, title: String, image: String) {
+    override fun addDetailShortcut(mediaId: MediaId, title: String) {
         if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
 
             disposable.unsubscribe()
@@ -44,8 +43,7 @@ abstract class BaseAppShortcuts(
                 intent.action = AppConstants.SHORTCUT_DETAIL
                 intent.putExtra(AppConstants.SHORTCUT_DETAIL_MEDIA_ID, mediaId.toString())
 
-                val model = DisplayableItem(0, mediaId, "", image = image)
-                val bitmap = context.getBitmapAsync(model, 128, { circleCrop() })
+                val bitmap = context.getCachedBitmap(mediaId, 128, { circleCrop() })
                 val shortcut = ShortcutInfoCompat.Builder(context, title)
                         .setShortLabel(title)
                         .setIcon(IconCompat.createWithBitmap(bitmap))

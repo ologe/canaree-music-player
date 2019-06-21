@@ -15,7 +15,6 @@ data class PlaylistTrack (
         val artist: String,
         val albumArtist: String,
         val album: String,
-        val image: String,
         val duration: Long,
         val dateAdded: Long,
         val path: String,
@@ -35,7 +34,6 @@ internal fun PlaylistTrack.toDisplayableItem(): DisplayableItem {
         if (this.isPodcast) MediaId.podcastId(this.id) else MediaId.songId(this.id),
         this.title,
         DisplayableItem.adjustArtist(this.artist),
-        this.image,
         true
     )
 }
@@ -49,7 +47,6 @@ internal fun Podcast.toPlaylistTrack(): PlaylistTrack {
             this.artist,
             this.albumArtist,
             this.album,
-            this.image,
             this.duration,
             this.dateAdded,
             this.path,
@@ -69,7 +66,6 @@ internal fun Song.toPlaylistTrack(): PlaylistTrack {
             this.artist,
             this.albumArtist,
             this.album,
-            this.image,
             this.duration,
             this.dateAdded,
             this.path,

@@ -3,16 +3,16 @@ package dev.olog.msc.presentation.related.artists
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.msc.R
+import dev.olog.core.MediaId
 import dev.olog.core.entity.Artist
+import dev.olog.msc.R
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
-import dev.olog.presentation.model.DisplayableItem
-import dev.olog.core.MediaId
-import dev.olog.shared.TextUtils
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.msc.utils.safeCompare
+import dev.olog.presentation.model.DisplayableItem
+import dev.olog.shared.TextUtils
 import java.text.Collator
 import javax.inject.Inject
 
@@ -44,8 +44,7 @@ class RelatedArtistFragmentViewModel @Inject constructor(
             R.layout.item_related_artist,
             MediaId.artistId(id),
             this.name,
-            "$albums$songs",
-            this.image
+            "$albums$songs"
         )
     }
 

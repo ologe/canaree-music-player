@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import dagger.Lazy
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.music.service.equalizer.OnAudioSessionIdChangeListener
@@ -29,13 +29,13 @@ import javax.inject.Inject
 
 
 class CrossFadePlayerImpl @Inject internal constructor(
-        @ApplicationContext context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        mediaSourceFactory: ClippedSourceFactory,
-        musicPreferencesUseCase: MusicPreferencesGateway,
-        private val audioManager: Lazy<AudioManager>,
-        private val volume: IPlayerVolume,
-        private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
+    @ApplicationContext context: Context,
+    @ServiceLifecycle lifecycle: Lifecycle,
+    mediaSourceFactory: ClippedSourceFactory,
+    musicPreferencesUseCase: MusicPreferencesGateway,
+    private val audioManager: Lazy<AudioManager>,
+    private val volume: IPlayerVolume,
+    private val onAudioSessionIdChangeListener: OnAudioSessionIdChangeListener
 
 ): DefaultPlayer<CrossFadePlayerImpl.Model>(context, lifecycle, mediaSourceFactory, volume), ExoPlayerListenerWrapper {
 

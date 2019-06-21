@@ -64,13 +64,7 @@ class EditArtistFragment : BaseEditItemFragment() {
                 .subscribe(viewLifecycleOwner) {
                     artist.setText(it.title)
                     albumArtist.setText(it.albumArtist)
-                    val model = DisplayableItem(
-                        0,
-                        MediaId.artistId(it.id),
-                        "",
-                        image = it.image ?: ""
-                    )
-                    setImage(model)
+                    setImage(MediaId.artistId(it.id))
                 }
     }
 

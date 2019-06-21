@@ -54,8 +54,7 @@ class EditArtistFragmentPresenter @Inject constructor(
         return DisplayableArtist(
                 this.id,
                 this.name,
-                this.albumArtist,
-                this.image
+                this.albumArtist
         )
     }
 
@@ -63,8 +62,7 @@ class EditArtistFragmentPresenter @Inject constructor(
         return DisplayableArtist(
                 this.id,
                 this.name,
-                this.albumArtist,
-                this.image
+                this.albumArtist
         )
     }
 

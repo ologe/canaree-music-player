@@ -11,14 +11,15 @@ import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import com.bumptech.glide.Priority
+import dev.olog.core.MediaId
 import dev.olog.shared.Permissions
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
+import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.base.BaseBottomSheetFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.ThemedDialog
-import dev.olog.msc.utils.img.CoverUtils
-import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.image.provider.CoverUtils
+import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.ctx
 
@@ -39,19 +40,19 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
         hideLoader()
     }
 
-    protected fun setImage(model: DisplayableItem){
+    protected fun setImage(mediaId: MediaId){
         val image = view!!.findViewById<ImageView>(R.id.cover)
 
         GlideApp.with(ctx).clear(image)
 
-        val img = model.image
-        val load: Any = if (ImagesFolderUtils.isChoosedImage(img)){
-            img.toUri()
-        } else model
+//        val img = model.image
+//        val load: Any = if (ImagesFolderUtils.isChoosedImage(img)){
+//            img.toUri()
+//        } else model TODO
 
         GlideApp.with(ctx)
-                .load(load)
-                .placeholder(CoverUtils.getGradient(ctx, model.mediaId))
+                .load(mediaId)
+                .placeholder(CoverUtils.getGradient(ctx, mediaId))
                 .override(500)
                 .priority(Priority.IMMEDIATE)
                 .into(image)

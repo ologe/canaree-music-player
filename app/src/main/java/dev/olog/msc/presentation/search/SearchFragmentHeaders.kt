@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.search
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.scope.PerFragment
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId

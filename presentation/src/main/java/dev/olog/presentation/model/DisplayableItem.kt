@@ -10,7 +10,6 @@ data class DisplayableItem (
     override val mediaId: MediaId,
     val title: String,
     val subtitle: String? = null,
-    val image: String = "",
     val isPlayable: Boolean = false,
     val trackNumber: String = "",
     val extra: Bundle? = null

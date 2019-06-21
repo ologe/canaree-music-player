@@ -4,13 +4,12 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import dev.olog.msc.data.entity.PlaylistSongEntity
 import dev.olog.core.entity.Genre
 import dev.olog.core.entity.Playlist
+import dev.olog.msc.data.entity.PlaylistSongEntity
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getLongOrNull
 import dev.olog.msc.utils.getStringOrNull
-import dev.olog.msc.utils.img.ImagesFolderUtils
 
 fun Cursor.toGenre(context: Context, genreSize: Int) : Genre {
     val id = this.getLongOrNull(BaseColumns._ID) ?: -1
@@ -18,8 +17,7 @@ fun Cursor.toGenre(context: Context, genreSize: Int) : Genre {
     return Genre(
         id,
         name,
-        genreSize,
-        ImagesFolderUtils.forGenre(context, id)
+        genreSize
     )
 }
 
@@ -30,8 +28,7 @@ fun Cursor.toPlaylist(context: Context, playlistSize: Int) : Playlist {
     return Playlist(
         id,
         name,
-        playlistSize,
-        ImagesFolderUtils.forPlaylist(context, id)
+        playlistSize
     )
 }
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import dagger.Module
 import dagger.Provides
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ProcessLifecycle
 import dev.olog.msc.presentation.app.widget.WidgetClasses
 import dev.olog.msc.presentation.app.widget.defaul.WidgetColored

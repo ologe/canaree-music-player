@@ -10,7 +10,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.constants.WidgetConstants
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.domain.interactor.playing.queue.UpdateMiniQueueUseCase
 import dev.olog.msc.music.service.model.MediaEntity
@@ -26,12 +26,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MediaSessionQueue @Inject constructor(
-        @ApplicationContext private val context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        mediaSession: MediaSessionCompat,
-        private val playerState: PlayerState,
-        private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
-        private val widgetClasses: WidgetClasses
+    @ApplicationContext private val context: Context,
+    @ServiceLifecycle lifecycle: Lifecycle,
+    mediaSession: MediaSessionCompat,
+    private val playerState: PlayerState,
+    private val updateMiniQueueUseCase: UpdateMiniQueueUseCase,
+    private val widgetClasses: WidgetClasses
 
 ) : DefaultLifecycleObserver {
 
@@ -104,7 +104,7 @@ class MediaSessionQueue @Inject constructor(
                 .setMediaId(MediaId.songId(this.id).toString())
                 .setTitle(this.title)
                 .setSubtitle(DisplayableItem.adjustArtist(this.artist))
-                .setMediaUri(Uri.parse(this.image))
+//                .setMediaUri(Uri.parse(this.image)) TODO ??
                 .build()
 
         return MediaSessionCompat.QueueItem(description, this.idInPlaylist.toLong())

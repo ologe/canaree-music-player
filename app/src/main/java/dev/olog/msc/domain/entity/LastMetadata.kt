@@ -5,7 +5,6 @@ import dev.olog.msc.constants.AppConstants
 data class LastMetadata(
         val title: String,
         val subtitle: String,
-        val image: String,
         val id: Long
 ) {
 

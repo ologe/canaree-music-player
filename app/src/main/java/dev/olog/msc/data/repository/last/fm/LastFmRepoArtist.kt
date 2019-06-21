@@ -10,7 +10,7 @@ import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.core.entity.Artist
-import dev.olog.msc.domain.entity.LastFmArtist
+import dev.olog.core.entity.LastFmArtist
 import dev.olog.msc.domain.gateway.ArtistGateway
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

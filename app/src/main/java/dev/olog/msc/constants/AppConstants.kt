@@ -14,9 +14,6 @@ object AppConstants {
     private const val TAG = "AppConstants"
     const val ACTION_CONTENT_VIEW = "$TAG.action.content.view"
 
-    var IGNORE_MEDIA_STORE_COVERS = false
-
-
     const val SHORTCUT_SEARCH = "$TAG.shortcut.search"
     const val SHORTCUT_DETAIL = "$TAG.shortcut.detail"
     const val SHORTCUT_DETAIL_MEDIA_ID = "$TAG.shortcut.detail.media.id"
@@ -41,7 +38,6 @@ object AppConstants {
         updateQuickAction(context)
         updateIconShape(context)
         updateLockscreenArtworkEnabled(context)
-        updateIgnoreMediaStoreCovers(context)
     }
 
     fun updateQuickAction(context: Context){
@@ -54,10 +50,6 @@ object AppConstants {
 
     fun updateLockscreenArtworkEnabled(context: Context) {
         SHOW_LOCKSCREEN_IMAGE = getLockscreenArtworkEnabled(context)
-    }
-
-    fun updateIgnoreMediaStoreCovers(context: Context) {
-        IGNORE_MEDIA_STORE_COVERS = getIgnoreMediaStoreCovers(context)
     }
 
     private fun getLockscreenArtworkEnabled(context: Context): Boolean {
@@ -83,11 +75,6 @@ object AppConstants {
             context.getString(R.string.prefs_icon_shape_square) -> ImageShape.RECTANGLE
             else -> throw IllegalArgumentException("image shape not valid=$shape")
         }
-    }
-
-    private fun getIgnoreMediaStoreCovers(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        return prefs.getBoolean(context.getString(R.string.prefs_ignore_media_store_cover_key), false)
     }
 
 }

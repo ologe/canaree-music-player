@@ -17,7 +17,7 @@ import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
+import dev.olog.image.provider.GlideApp
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.isLowMemoryDevice
@@ -28,7 +28,7 @@ import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ColorPalette
 import dev.olog.core.MediaIdCategory
-import dev.olog.msc.utils.img.ImagesFolderUtils
+import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -63,7 +63,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         deleteCache = preferenceScreen.findPreference(getString(R.string.prefs_delete_cached_images_key))
         lastFmCredentials = preferenceScreen.findPreference(getString(R.string.prefs_last_fm_credentials_key))
         autoCreateImages = preferenceScreen.findPreference(getString(R.string.prefs_auto_create_images_key)) as SwitchPreference
-        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_accent_color_key))
+        accentColorChooser = preferenceScreen.findPreference(getString(R.string.prefs_color_accent_key))
         resetTutorial = preferenceScreen.findPreference(getString(R.string.prefs_reset_tutorial_key))
     }
 
@@ -131,8 +131,8 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
         }
         accentColorChooser.setOnPreferenceClickListener {
             val prefs = PreferenceManager.getDefaultSharedPreferences(act.applicationContext)
-            val key = getString(if (AppTheme.isWhiteTheme()) R.string.prefs_accent_light_key else R.string.prefs_accent_dark_key)
-            val defaultColor = ContextCompat.getColor(act, (if (AppTheme.isWhiteTheme()) R.color.accent else R.color.accent_secondary))
+            val key = getString(R.string.prefs_color_accent_key)
+            val defaultColor = ContextCompat.getColor(act, R.color.accent)
 
             MaterialDialog(act)
                     .colorChooser(
@@ -187,13 +187,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                 AppTheme.updateTheme(act)
                 requestMainActivityToRecreate()
             }
-            getString(R.string.prefs_ignore_media_store_cover_key) -> {
-                AppConstants.updateIgnoreMediaStoreCovers(ctx)
-                requestMainActivityToRecreate()
-                GlideApp.get(ctx.applicationContext).clearMemory()
-            }
             getString(R.string.prefs_lockscreen_artwork_key) -> AppConstants.updateLockscreenArtworkEnabled(ctx)
-            getString(R.string.prefs_notch_support_key),
             getString(R.string.prefs_folder_tree_view_key),
             getString(R.string.prefs_blacklist_key),
             getString(R.string.prefs_show_podcasts_key),
@@ -215,9 +209,9 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
                     @Suppress("UNUSED_VARIABLE")
                     val disp = Completable.fromCallable {
                         GlideApp.get(ctx.applicationContext).clearDiskCache()
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.FOLDER)).listFiles().forEach { it.delete() }
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.PLAYLIST)).listFiles().forEach { it.delete() }
-                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.getFolderName(ImagesFolderUtils.GENRE)).listFiles().forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.FOLDER).listFiles().forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.PLAYLIST).listFiles().forEach { it.delete() }
+                        ImagesFolderUtils.getImageFolderFor(ctx, ImagesFolderUtils.GENRE).listFiles().forEach { it.delete() }
                     }.observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe({

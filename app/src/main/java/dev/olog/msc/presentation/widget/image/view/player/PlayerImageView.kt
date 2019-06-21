@@ -9,13 +9,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.DrawableImageViewTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import dev.olog.msc.app.GlideApp
+import dev.olog.image.provider.GlideApp
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.RippleUtils
-import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.image.provider.CoverUtils
 import dev.olog.msc.utils.k.extension.getBitmap
-import dev.olog.msc.utils.k.extension.getImage
 import dev.olog.msc.utils.k.extension.getMediaId
 import dev.olog.shared.isMarshmallow
 
@@ -68,6 +67,6 @@ open class PlayerImageView @JvmOverloads constructor(
 
 fun MediaMetadataCompat.toPlayerImage(): DisplayableItem {
     // only mediaId and image is needed
-    return DisplayableItem(0, this.getMediaId(), "", image = this.getImage())
+    return DisplayableItem(0, this.getMediaId(), "")
 }
 

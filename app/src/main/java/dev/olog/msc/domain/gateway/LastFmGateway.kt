@@ -1,9 +1,9 @@
 package dev.olog.msc.domain.gateway
 
 import com.github.dmstocking.optional.java.util.Optional
-import dev.olog.msc.domain.entity.LastFmAlbum
-import dev.olog.msc.domain.entity.LastFmArtist
-import dev.olog.msc.domain.entity.LastFmTrack
+import dev.olog.core.entity.LastFmAlbum
+import dev.olog.core.entity.LastFmArtist
+import dev.olog.core.entity.LastFmTrack
 import io.reactivex.Single
 
 interface LastFmGateway {

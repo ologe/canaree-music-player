@@ -6,7 +6,7 @@ import dagger.Provides
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.api.last.fm.annotation.Impl
 import dev.olog.msc.api.last.fm.annotation.Proxy
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

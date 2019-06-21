@@ -2,18 +2,18 @@ package dev.olog.msc.presentation.popup.podcastplaylist
 
 import android.app.Activity
 import android.view.MenuItem
-import dev.olog.msc.R
-import dev.olog.msc.app.shortcuts.AppShortcuts
+import dev.olog.core.MediaId
 import dev.olog.core.entity.Podcast
 import dev.olog.core.entity.PodcastPlaylist
 import dev.olog.core.entity.toSong
+import dev.olog.msc.R
+import dev.olog.msc.app.shortcuts.AppShortcuts
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.toast
 import javax.inject.Inject
 
@@ -63,7 +63,7 @@ class PodcastPlaylistPopupListener @Inject constructor(
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast!!.albumId))
             R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast!!.artistId))
             R.id.share -> share(activity, podcast!!.toSong())
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title, playlist.image)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), playlist.title)
             R.id.removeDuplicates -> removeDuplicates()
         }
 

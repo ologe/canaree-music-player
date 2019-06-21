@@ -2,7 +2,7 @@ package dev.olog.msc.domain.interactor.last.fm
 
 import com.github.dmstocking.optional.java.util.Optional
 import dev.olog.msc.app.IoSchedulers
-import dev.olog.msc.domain.entity.LastFmTrack
+import dev.olog.core.entity.LastFmTrack
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.base.SingleUseCaseWithParam
 import io.reactivex.Single

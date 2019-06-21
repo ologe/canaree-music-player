@@ -19,11 +19,7 @@ interface ThemedActivity {
 
     private fun getAccentStyle(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val color = if (AppTheme.isWhiteTheme()){
-            prefs.getInt(context.getString(R.string.prefs_accent_light_key), ContextCompat.getColor(context, R.color.accent))
-        } else {
-            prefs.getInt(context.getString(R.string.prefs_accent_dark_key), ContextCompat.getColor(context, R.color.accent_secondary))
-        }
+        val color = prefs.getInt(context.getString(R.string.prefs_color_accent_key), ContextCompat.getColor(context, R.color.accent))
         Crashlytics.log("color accent choosed=$color")
         return when (color){
             getColorResource(context, R.color.md_red_A100) -> R.style.ThemeAccentRed100

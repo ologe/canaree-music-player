@@ -6,7 +6,6 @@ data class PodcastAlbum (
         val title: String,
         val artist: String,
         val albumArtist: String,
-        val image: String,
         val songs: Int,
         val hasSameNameAsFolder: Boolean
 )

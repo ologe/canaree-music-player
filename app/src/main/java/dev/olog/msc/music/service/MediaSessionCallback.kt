@@ -14,7 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import dev.olog.msc.R
 import dev.olog.msc.constants.MusicConstants
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.dagger.qualifier.ServiceLifecycle
 import dev.olog.msc.dagger.scope.PerService
 import dev.olog.msc.domain.interactor.favorite.ToggleFavoriteUseCase
@@ -33,15 +33,15 @@ import javax.inject.Inject
 
 @PerService
 class MediaSessionCallback @Inject constructor(
-        @ApplicationContext private val context: Context,
-        @ServiceLifecycle lifecycle: Lifecycle,
-        private val queue: Queue,
-        private val player: Player,
-        private val repeatMode: RepeatMode,
-        private val shuffleMode: ShuffleMode,
-        private val mediaButton: MediaButton,
-        private val playerState: PlayerState,
-        private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    @ApplicationContext private val context: Context,
+    @ServiceLifecycle lifecycle: Lifecycle,
+    private val queue: Queue,
+    private val player: Player,
+    private val repeatMode: RepeatMode,
+    private val shuffleMode: ShuffleMode,
+    private val mediaButton: MediaButton,
+    private val playerState: PlayerState,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 
 ): MediaSessionCompat.Callback(), DefaultLifecycleObserver {
 

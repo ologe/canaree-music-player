@@ -4,20 +4,16 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.BaseColumns
 import android.provider.MediaStore
-import androidx.core.util.getOrDefault
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.Podcast
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PodcastPositionEntity
 import dev.olog.msc.data.mapper.toPodcast
 import dev.olog.msc.data.mapper.toUneditedPodcast
-import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.core.entity.Podcast
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
-import dev.olog.msc.utils.getLong
-import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -49,10 +45,10 @@ private const val SELECTION = "${MediaStore.Audio.Media.DURATION} > 20000 AND ${
 private const val SORT_ORDER = "lower(${MediaStore.Audio.Media.TITLE})"
 
 class PodcastRepository @Inject constructor(
-        appDatabase: AppDatabase,
-        @ApplicationContext private val context: Context,
-        private  val rxContentResolver: BriteContentResolver,
-        private  val usedImageGateway: UsedImageGateway
+    appDatabase: AppDatabase,
+    @ApplicationContext private val context: Context,
+    private  val rxContentResolver: BriteContentResolver,
+    private  val usedImageGateway: UsedImageGateway
 
 ): PodcastGateway {
 
@@ -65,7 +61,6 @@ class PodcastRepository @Inject constructor(
         )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToList { mapToPodcast(it) })
-                .map { adjustImages(it) }
                 .doOnError { it.printStackTrace() }
                 .onErrorReturn { listOf() }
     }
@@ -74,20 +69,11 @@ class PodcastRepository @Inject constructor(
         return cursor.toPodcast()
     }
 
-    private fun adjustImages(original: List<Podcast>): List<Podcast> {
-        val images = CommonQuery.searchForImages(context)
-        return original.map { it.copy(image = images.getOrDefault(it.albumId.toInt(), it.image)) }
-    }
-
     private val cachedData = queryAllData()
             .replay(1)
             .refCount()
 
     override fun getAll(): Observable<List<Podcast>> = cachedData
-
-    override fun getAllNewRequest(): Observable<List<Podcast>> {
-        return queryAllData()
-    }
 
     override fun getByParam(param: Long): Observable<Podcast> {
         return cachedData.map { list -> list.first { it.id == param } }
@@ -104,12 +90,7 @@ class PodcastRepository @Inject constructor(
         )
                 .debounceFirst()
                 .lift(SqlBrite.Query.mapToOne {
-                    val id = it.getLong(BaseColumns._ID)
-                    val albumId = it.getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
-                    val trackImage = usedImageGateway.getForTrack(id)
-                    val albumImage = usedImageGateway.getForAlbum(albumId)
-                    val image = trackImage ?: albumImage ?: ImagesFolderUtils.forAlbum(albumId)
-                    it.toUneditedPodcast(image)
+                    it.toUneditedPodcast()
                 }).distinctUntilChanged()
     }
 

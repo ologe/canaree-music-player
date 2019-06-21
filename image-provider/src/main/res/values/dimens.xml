@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="placeholder_song_padding">120dp</dimen>
+    <dimen name="placeholder_folder_padding">90dp</dimen>
+    <dimen name="placeholder_playlist_padding">75dp</dimen>
+    <dimen name="placeholder_album_padding">90dp</dimen>
+    <dimen name="placeholder_artist_padding">90dp</dimen>
+    <dimen name="placeholder_genre_padding">80dp</dimen>
+    <dimen name="placeholder_podcast_padding">17dp</dimen>
+</resources>

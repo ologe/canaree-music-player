@@ -6,20 +6,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import dagger.Module
 import dagger.Provides
+import dev.olog.core.MediaId
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.*
 import dev.olog.msc.R
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.scope.PerFragment
-import dev.olog.msc.domain.entity.*
+import dev.olog.msc.domain.entity.SearchResult
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.search.GetAllRecentSearchesUseCase
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.search.SearchFragmentHeaders
 import dev.olog.msc.presentation.search.SearchFragmentType
-import dev.olog.core.MediaId
-import dev.olog.core.entity.*
 import dev.olog.msc.utils.RecentSearchesTypes
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.mapToList
+import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
@@ -35,23 +35,23 @@ class SearchFragmentViewModelModule {
 
     @Provides
     internal fun provideSearchData(
-            @ApplicationContext context: Context,
+        @ApplicationContext context: Context,
             // tracks
-            getAllArtistsUseCase: GetAllArtistsUseCase,
-            getAllAlbumsUseCase: GetAllAlbumsUseCase,
-            getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
-            getAllGenresUseCase: GetAllGenresUseCase,
-            getAllFoldersUseCase: GetAllFoldersUseCase,
-            getAllSongsUseCase: GetAllSongsUseCase,
+        getAllArtistsUseCase: GetAllArtistsUseCase,
+        getAllAlbumsUseCase: GetAllAlbumsUseCase,
+        getAllPlaylistsUseCase: GetAllPlaylistsUseCase,
+        getAllGenresUseCase: GetAllGenresUseCase,
+        getAllFoldersUseCase: GetAllFoldersUseCase,
+        getAllSongsUseCase: GetAllSongsUseCase,
             // podcasts
-            getAllPodcastUseCase: GetAllPodcastUseCase,
-            getAllPodcastAlbumsUseCase: GetAllPodcastAlbumsUseCase,
-            getAllPodcastArtistUseCase: GetAllPodcastArtistsUseCase,
-            getAllPodcastPlaylistUseCase: GetAllPodcastPlaylistUseCase,
+        getAllPodcastUseCase: GetAllPodcastUseCase,
+        getAllPodcastAlbumsUseCase: GetAllPodcastAlbumsUseCase,
+        getAllPodcastArtistUseCase: GetAllPodcastArtistsUseCase,
+        getAllPodcastPlaylistUseCase: GetAllPodcastPlaylistUseCase,
             //recent
-            getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
-            searchHeaders: SearchFragmentHeaders,
-            queryLiveData: MutableLiveData<String>)
+        getAllRecentSearchesUseCase: GetAllRecentSearchesUseCase,
+        searchHeaders: SearchFragmentHeaders,
+        queryLiveData: MutableLiveData<String>)
             : LiveData<Pair<MutableMap<SearchFragmentType, MutableList<DisplayableItem>>, String>> {
 
         return Transformations.switchMap(queryLiveData) { input ->
@@ -255,7 +255,6 @@ private fun Song.toSearchDisplayableItem(): DisplayableItem {
         MediaId.songId(this.id),
         title,
         DisplayableItem.adjustArtist(artist),
-        image,
         true
     )
 }
@@ -266,7 +265,6 @@ private fun Podcast.toSearchDisplayableItem(): DisplayableItem {
         MediaId.podcastId(this.id),
         title,
         DisplayableItem.adjustArtist(artist),
-        image,
         true
     )
 }
@@ -276,8 +274,7 @@ private fun Album.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         MediaId.albumId(id),
         title,
-        DisplayableItem.adjustArtist(artist),
-        image
+        DisplayableItem.adjustArtist(artist)
     )
 }
 
@@ -286,8 +283,7 @@ private fun PodcastAlbum.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         MediaId.podcastAlbumId(id),
         title,
-        DisplayableItem.adjustArtist(artist),
-        image
+        DisplayableItem.adjustArtist(artist)
     )
 }
 
@@ -296,8 +292,7 @@ private fun Artist.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_artist,
         MediaId.artistId(id),
         name,
-        null,
-        image
+        null
     )
 }
 
@@ -306,8 +301,7 @@ private fun PodcastArtist.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_artist,
         MediaId.podcastArtistId(id),
         name,
-        null,
-        image
+        null
     )
 }
 
@@ -316,8 +310,7 @@ private fun Playlist.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         MediaId.playlistId(id),
         title,
-        null,
-        image
+        null
     )
 }
 
@@ -326,8 +319,7 @@ private fun PodcastPlaylist.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         MediaId.podcastPlaylistId(id),
         title,
-        null,
-        image
+        null
     )
 }
 
@@ -336,8 +328,7 @@ private fun Genre.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         MediaId.genreId(id),
         name,
-        null,
-        image
+        null
     )
 }
 
@@ -346,8 +337,7 @@ private fun Folder.toSearchDisplayableItem(): DisplayableItem {
         R.layout.item_search_album,
         MediaId.folderId(path),
         title,
-        null,
-        image
+        null
     )
 }
 
@@ -381,7 +371,6 @@ private fun SearchResult.toSearchDisplayableItem(context: Context) : Displayable
         this.mediaId,
         this.title,
         subtitle,
-        this.image,
         isPlayable
     )
 }

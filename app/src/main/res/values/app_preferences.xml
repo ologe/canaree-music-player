@@ -17,13 +17,8 @@
 
 
     <!--quick action-->
-    <string name="prefs_quick_action_key" translatable="false">key_quick_action</string>
     <string name="prefs_quick_action_title">Quick action</string>
     <string name="prefs_quick_action_summary">Change the action of the small icon next to images</string>
-
-    <string name="prefs_quick_action_entry_value_hide" translatable="false">hide</string>
-    <string name="prefs_quick_action_entry_value_play" translatable="false">play</string>
-    <string name="prefs_quick_action_entry_value_shuffle" translatable="false">shuffle</string>
 
     <string-array name="prefs_quick_action_entry_values">
         <item>@string/prefs_quick_action_entry_value_hide</item>
@@ -40,13 +35,8 @@
 
 
     <!--detail visible sections-->
-    <string name="prefs_detail_sections_key" translatable="false">key_detail_items</string>
     <string name="prefs_detail_sections_title">Visible sections</string>
     <string name="prefs_detail_sections_summary">Configure the visible sections in the detail view</string>
-
-    <string name="prefs_detail_section_entry_value_most_played" translatable="false">most played</string>
-    <string name="prefs_detail_section_entry_value_recently_added" translatable="false">recently added</string>
-    <string name="prefs_detail_section_entry_value_related_artists" translatable="false">related artist</string>
 
     <string-array name="prefs_detail_sections_entry_values">
         <item>@string/prefs_detail_section_entry_value_most_played</item>
@@ -69,62 +59,49 @@
 
 
     <!--library categories-->
-    <string name="prefs_library_categories_key" translatable="false">key_library_categories</string>
     <string name="prefs_library_categories_title">Library categories</string>
     <string name="prefs_library_categories_title_podcasts">Podcast categories</string>
     <string name="prefs_library_categories_summary">Configure visibility and order of library categories</string>
 
     <!--podcast categories-->
-    <string name="prefs_podcast_library_categories_key" translatable="false">key_podcast_library_categories</string>
     <string name="prefs_podcast_library_categories_title">Podcast categories</string>
     <string name="prefs_podcast_library_categories_summary">Configure visibility and order of podcast categories</string>
 
     <!--blacklist-->
-    <string name="prefs_blacklist_key" translatable="false">key_blacklist</string>
     <string name="prefs_blacklist_title">Blacklist</string>
     <string name="prefs_blacklist_summary">Hide folders from the library</string>
     <string name="prefs_blacklist_description">Click to show/hide</string>
     <string name="prefs_blacklist_error">Can not blacklist all folders</string>
 
     <!--folder tree-->
-    <string name="prefs_folder_tree_view_key" translatable="false">key_folder_tree_view</string>
     <string name="prefs_folder_tree_view_title">Folder hierarchy view</string>
     <string name="prefs_folder_tree_view_summary_off">@string/common_disabled</string>
     <string name="prefs_folder_tree_view_summary_on">@string/common_enabled</string>
 
-    <string name="prefs_show_podcasts_key" translatable="false">key_show_podcasts</string>
     <string name="prefs_show_podcasts_title">Show podcasts</string>
     <string name="prefs_show_podcasts_summary">Show podcasts tab in library</string>
 
     <!--used equalizer-->
-    <string name="prefs_used_equalizer_key" translatable="false">key_used_equalizer</string>
     <string name="prefs_used_equalizer_title">Equalizer</string>
     <string name="prefs_used_equalizer_summary_on">Use app equalizer</string>
     <string name="prefs_used_equalizer_summary_off">Use system equalizer (if any)</string>
 
 
     <!--midnight mode-->
-    <string name="prefs_midnight_mode_key" translatable="false">key_lower_volume</string>
     <string name="prefs_lower_volume_on_night_title">Midnight mode</string>
     <string name="prefs_lower_volume_on_night_summary">Lowers the max volume the night</string>
 
 
     <!--crossfade-->
-    <string name="prefs_cross_fade_key" translatable="false">key_cross_fade</string>
     <string name="prefs_cross_fade_title">Crossfade</string>
     <string name="prefs_cross_fade_summary">Allows crossfade between songs</string>
 
     <!--gapless-->
-    <string name="prefs_gapless_key" translatable="false">key_gapless</string>
     <string name="prefs_gapless_title">Gapless</string>
     <string name="prefs_gapless_summary">Allows gapless playback when crossfade is on</string>
 
     <!--icon shape-->
-    <string name="prefs_icon_shape_key" translatable="false">key_icon_shape</string>
     <string name="prefs_icon_shape_title">Icon shape</string>
-
-    <string name="prefs_icon_shape_square" translatable="false">square</string>
-    <string name="prefs_icon_shape_rounded" translatable="false">round</string>
 
     <string-array name="prefs_icon_shape_entry_values">
         <item>@string/prefs_icon_shape_square</item>
@@ -137,38 +114,29 @@
     </string-array>
 
     <!--show player controls-->
-    <string name="prefs_player_controls_visibility_key" translatable="false">key_player_controls_visibility</string>
     <string name="prefs_player_controls_visibility_title">Classic player controls</string>
     <string name="prefs_player_controls_visibility_summary_on">@string/common_visible</string>
     <string name="prefs_player_controls_visibility_summary_off">@string/common_hidden</string>
 
 
     <!--adaptive colors-->
-    <string name="prefs_adaptive_colors_key" translatable="false">key_adaptive_colors</string>
     <string name="prefs_adaptive_colors_title">Adaptive colors</string>
     <string name="prefs_adaptive_colors_summary_on">@string/common_enabled</string>
     <string name="prefs_adaptive_colors_summary_off">@string/common_disabled</string>
 
     <!--show new albums/artists-->
-    <string name="prefs_show_new_albums_artists_key" translatable="false">key_show_new</string>
     <string name="prefs_show_new_albums_artists_title">Show new albums and artists</string>
     <string name="prefs_show_new_albums_artists_summary">Show all new albums and artists added recently</string>
 
     <!--show recently played albums/artists-->
-    <string name="prefs_show_recent_albums_artists_key" translatable="false">key_show_recent</string>
     <string name="prefs_show_recent_albums_artists_title">Show recently played</string>
     <string name="prefs_show_recent_albums_artists_summary">Show all albums and artists played recently</string>
 
     <!--auto download images-->
-    <string name="prefs_auto_download_images_key" translatable="false">key_auto_download_images_2</string>
     <string name="prefs_auto_download_images_title">Auto download images</string>
     <string name="prefs_auto_download_images_summary_mobile">Always</string>
     <string name="prefs_auto_download_images_summary_wifi">Only on Wi-Fi</string>
     <string name="prefs_auto_download_images_summary_never">Never</string>
-
-    <string name="prefs_auto_download_images_entry_value_always">always</string>
-    <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
-    <string name="prefs_auto_download_images_entry_value_never">never</string>
 
     <string-array name="prefs_auto_download_images_entry_values">
         <item>@string/prefs_auto_download_images_entry_value_never</item>
@@ -184,14 +152,12 @@
 
 
     <!--auto create images-->
-    <string name="prefs_auto_create_images_key" translatable="false">key_auto_create_image</string>
     <string name="prefs_auto_create_images_title">Auto create folder, playlist and genre images</string>
     <string name="prefs_auto_create_images_summary_on">@string/common_enabled</string>
     <string name="prefs_auto_create_images_summary_off">@string/common_disabled</string>
     <string name="prefs_auto_create_images_summary_low_memory">Disabled on low memory devices</string>
 
     <!--appearance-->
-    <string name="prefs_appearance_key" translatable="false">key_appearance</string>
     <string name="prefs_appearance_title">Now playing screen appearance</string>
     <string name="prefs_appearance_default">Default</string>
     <string name="prefs_appearance_flat">Flat</string>
@@ -200,14 +166,6 @@
     <string name="prefs_appearance_big_image">Big image</string>
     <string name="prefs_appearance_clean">Clean</string>
     <string name="prefs_appearance_mini">Mini</string>
-
-    <string name="prefs_appearance_entry_value_default" translatable="false">default</string>
-    <string name="prefs_appearance_entry_value_flat" translatable="false">flat</string>
-    <string name="prefs_appearance_entry_value_spotify" translatable="false">spotify</string>
-    <string name="prefs_appearance_entry_value_fullscreen" translatable="false">fullscreen</string>
-    <string name="prefs_appearance_entry_value_big_image" translatable="false">big_image</string>
-    <string name="prefs_appearance_entry_value_clean" translatable="false">clean</string>
-    <string name="prefs_appearance_entry_value_mini" translatable="false">mini</string>
 
     <string-array name="prefs_appearance_entry_values">
         <item>@string/prefs_appearance_entry_value_default</item>
@@ -230,7 +188,6 @@
     </string-array>
 
     <!--dark mode-->
-    <string name="prefs_dark_mode_key" translatable="false">key_dark_mode_2</string>
     <string name="prefs_dark_mode_title">Theme</string>
     <string name="prefs_dark_mode_light">Light theme</string>
     <string name="prefs_dark_mode_dark">Dark theme</string>
@@ -249,55 +206,39 @@
     </string-array>
 
     <!--notch support-->
-    <string name="prefs_notch_support_key" translatable="false">key_notch_support</string>
     <string name="prefs_notch_support_title">Notch support</string>
     <string name="prefs_notch_support_summary">Increase status bar height</string>
 
     <!--delete cached images-->
-    <string name="prefs_delete_cached_images_key" translatable="false">key_delete_cached_images</string>
     <string name="prefs_delete_cached_images_title">Delete cache</string>
     <string name="prefs_delete_cached_images_summary">Delete all cached images</string>
     <string name="prefs_delete_cached_images_success">Cache deleted</string>
 
     <!--reset tutorial-->
-    <string name="prefs_reset_tutorial_key" translatable="false">key_reset_tutorial</string>
     <string name="prefs_reset_tutorial_title">Reset tutorial</string>
 
     <!--last fm credentials-->
-    <string name="prefs_last_fm_credentials_key" translatable="false">key_last_fm_credentials</string>
     <string name="prefs_last_fm_credentials_title">Last.fm credentials</string>
     <string name="prefs_last_fm_credentials_message">Credentials will be encrypted</string>
     <string name="prefs_last_fm_credentials_summary">Set username and password for your Last.fm account</string>
 
     <!--lockscreen artwork-->
-    <string name="prefs_lockscreen_artwork_key" translatable="false">key_lockscreen_artwork</string>
     <string name="prefs_lockscreen_artwork_title">Lockscreen artwork</string>
     <string name="prefs_lockscreen_artwork_summary_off">@string/common_disabled</string>
     <string name="prefs_lockscreen_artwork_summary_on">@string/common_enabled</string>
 
     <!--daynight-->
-    <string name="prefs_day_night_key" translatable="false">key_day_night</string>
     <string name="prefs_day_night_title">Day-Night mode</string>
     <string name="prefs_day_night_summary_on">@string/common_enabled</string>
     <string name="prefs_day_night_summary_off">@string/common_disabled</string>
 
     <!--accent color chooser-->
-    <string name="prefs_accent_color_key" translatable="false">key_accent_color</string>
     <string name="prefs_accent_color_title">Accent color</string>
     <string name="prefs_accent_color_summary">Change the accent theme color</string>
 
-    <string name="prefs_accent_light_key" translatable="false">color_accent_light</string>
-    <string name="prefs_accent_dark_key" translatable="false">color_accent_dark</string>
-
     <!--fullscreen-->
-    <string name="prefs_immersive_key" translatable="false">key_immersive</string>
     <string name="prefs_immersive_title">Immersive mode</string>
     <string name="prefs_immersive_summary_on">@string/common_enabled</string>
     <string name="prefs_immersive_summary_off">@string/common_disabled</string>
-
-    <string name="prefs_ignore_media_store_cover_key" translatable="false">key_ignore_cover</string>
-    <string name="prefs_ignored_media_store_cover_title">Ignore media store cover</string>
-    <string name="prefs_ignored_media_store_cover_summary_on">@string/common_enabled</string>
-    <string name="prefs_ignored_media_store_cover_summary_off">@string/common_disabled</string>
 
 </resources>

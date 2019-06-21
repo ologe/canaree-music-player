@@ -77,25 +77,25 @@
         android:title="@string/prefs_category_ui">
 
         <ListPreference
-            android:title="@string/prefs_dark_mode_title"
-            android:summary="%s"
-            android:key="@string/prefs_dark_mode_key"
-            android:defaultValue="@string/prefs_dark_mode_entry_value_light"
-            android:entryValues="@array/prefs_dark_mode_entry_values"
-            android:entries="@array/prefs_dark_mode_entries" />
+                app:defaultValue="@string/prefs_dark_mode_2_value_follow_system"
+                app:entries="@array/prefs_dark_mode_entries"
+                app:entryValues="@array/prefs_dark_mode_entry_values"
+                app:key="@string/prefs_dark_mode_key"
+                app:summary="%s"
+                app:title="@string/prefs_dark_mode_title" />
 
         <ListPreference
-            android:title="@string/prefs_appearance_title"
-            android:summary="%s"
-            android:entries="@array/prefs_appearance_entries"
-            android:entryValues="@array/prefs_appearance_entry_values"
-            android:defaultValue="@string/prefs_appearance_entry_value_default"
-            android:key="@string/prefs_appearance_key" />
+                app:defaultValue="@string/prefs_appearance_entry_value_default"
+                app:entries="@array/prefs_appearance_entries"
+                app:entryValues="@array/prefs_appearance_entry_values"
+                app:key="@string/prefs_appearance_key"
+                app:summary="%s"
+                app:title="@string/prefs_appearance_title" />
 
         <Preference
-            android:key="@string/prefs_accent_color_key"
-            android:summary="@string/prefs_accent_color_summary"
-            android:title="@string/prefs_accent_color_title" />
+                app:key="@string/prefs_color_accent_key"
+                app:summary="@string/prefs_accent_color_summary"
+                app:title="@string/prefs_accent_color_title" />
 
         <SwitchPreference
             android:title="@string/prefs_adaptive_colors_title"
@@ -186,13 +186,6 @@
             android:summaryOff="@string/prefs_auto_create_images_summary_off"
             android:key="@string/prefs_auto_create_images_key"
             android:defaultValue="true" />
-
-        <SwitchPreference
-            android:title="@string/prefs_ignored_media_store_cover_title"
-            android:summaryOn="@string/prefs_ignored_media_store_cover_summary_on"
-            android:summaryOff="@string/prefs_ignored_media_store_cover_summary_off"
-            android:key="@string/prefs_ignore_media_store_cover_key"
-            android:defaultValue="false" />
 
         <Preference
             android:key="@string/prefs_reset_tutorial_key"

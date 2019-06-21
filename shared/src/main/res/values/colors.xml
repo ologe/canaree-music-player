@@ -8,7 +8,6 @@
 
     <!--<item name="accent">#FF1744</item>-->
     <color name="accent">@color/md_indigo_A400</color>
-    <color name="accent_secondary">@color/md_yellow_A700</color>
 
     <color name="colorPrimary">@color/dark_grey</color>
     <color name="colorPrimaryDark">@color/status_bar</color>

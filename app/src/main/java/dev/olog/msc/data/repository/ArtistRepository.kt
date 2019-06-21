@@ -3,14 +3,13 @@ package dev.olog.msc.data.repository
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.core.entity.Artist
+import dev.olog.core.entity.Song
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
-import dev.olog.core.entity.Artist
-import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
@@ -25,8 +24,7 @@ class ArtistRepository @Inject constructor(
         private val rxContentResolver: BriteContentResolver,
         private val songGateway: SongGateway,
         appDatabase: AppDatabase,
-        private val collator: Collator,
-        private val usedImageGateway: UsedImageGateway
+        private val collator: Collator
 
 ) : ArtistGateway {
 
@@ -41,19 +39,7 @@ class ArtistRepository @Inject constructor(
                 .lift(SqlBrite.Query.mapToOne { 0 })
                 .switchMap { songGateway.getAll() }
                 .map { mapToArtists(it) }
-                .map { updateImages(it) }
 
-    }
-
-    private fun updateImages(list: List<Artist>): List<Artist>{
-        val allForArtists = usedImageGateway.getAllForArtists()
-        if (allForArtists.isEmpty()){
-            return list
-        }
-        return list.map { artist ->
-            val image = allForArtists.firstOrNull { it.id == artist.id }?.image ?: artist.image
-            artist.copy(image = image)
-        }
     }
 
     private fun mapToArtists(songList: List<Song>): List<Artist> {
@@ -89,10 +75,6 @@ class ArtistRepository @Inject constructor(
 
     override fun getAll(): Observable<List<Artist>> {
         return cachedData
-    }
-
-    override fun getAllNewRequest(): Observable<List<Artist>> {
-        return queryAllData()
     }
 
     override fun getByParam(param: Long): Observable<Artist> {

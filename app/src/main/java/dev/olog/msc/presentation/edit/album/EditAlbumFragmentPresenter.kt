@@ -71,8 +71,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
                 tag.get(FieldKey.ARTIST),
                 tag.get(FieldKey.ALBUM_ARTIST),
                 tag.get(FieldKey.GENRE),
-                tag.get(FieldKey.YEAR),
-                this.image
+                tag.get(FieldKey.YEAR)
         )
     }
 
@@ -87,8 +86,7 @@ class EditAlbumFragmentPresenter @Inject constructor(
                 tag.get(FieldKey.ARTIST),
                 tag.get(FieldKey.ALBUM_ARTIST),
                 tag.get(FieldKey.GENRE),
-                tag.get(FieldKey.YEAR),
-                this.image
+                tag.get(FieldKey.YEAR)
         )
     }
 

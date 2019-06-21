@@ -7,7 +7,7 @@ import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Singleton

@@ -16,11 +16,11 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.target.Target
 import dev.olog.msc.R
-import dev.olog.msc.app.GlideApp
+import dev.olog.image.provider.GlideApp
 import dev.olog.msc.presentation.widget.image.view.PlayerShadowImageView.Companion.DOWNSCALE_FACTOR
 import dev.olog.msc.presentation.widget.image.view.player.PlayerImageView
 import dev.olog.msc.presentation.widget.image.view.player.toPlayerImage
-import dev.olog.msc.utils.img.CoverUtils
+import dev.olog.image.provider.CoverUtils
 import dev.olog.msc.utils.k.extension.dpToPx
 import dev.olog.msc.utils.k.extension.getMediaId
 import kotlin.properties.Delegates

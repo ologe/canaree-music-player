@@ -5,21 +5,20 @@ import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.core.MediaId
+import dev.olog.core.dagger.ApplicationContext
+import dev.olog.core.entity.Playlist
+import dev.olog.core.entity.Song
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PlaylistMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toPlaylist
 import dev.olog.msc.data.mapper.toPlaylistSong
 import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.core.entity.Playlist
-import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
 import io.reactivex.CompletableSource
@@ -47,13 +46,12 @@ private val SONG_SELECTION_ARGS: Array<String>? = null
 private const val SONG_SORT_ORDER = MediaStore.Audio.Playlists.Members.DEFAULT_SORT_ORDER
 
 class PlaylistRepository @Inject constructor(
-        @ApplicationContext private val context: Context,
-        private val rxContentResolver: BriteContentResolver,
-        private val songGateway: SongGateway,
-        private val favoriteGateway: FavoriteGateway,
-        appDatabase: AppDatabase,
-        private val helper: PlaylistRepositoryHelper,
-        private val appPrefsUseCase: AppPreferencesGateway
+    @ApplicationContext private val context: Context,
+    private val rxContentResolver: BriteContentResolver,
+    private val songGateway: SongGateway,
+    private val favoriteGateway: FavoriteGateway,
+    appDatabase: AppDatabase,
+    private val helper: PlaylistRepositoryHelper
 
 ) : PlaylistGateway {
 
@@ -65,7 +63,7 @@ class PlaylistRepository @Inject constructor(
     private val autoPlaylistTitles = resources.getStringArray(R.array.common_auto_playlists)
 
     private fun createAutoPlaylist(id: Long, title: String, listSize: Int) : Playlist {
-        return Playlist(id, title, listSize, "")
+        return Playlist(id, title, listSize)
     }
 
     private fun queryAllData(): Observable<List<Playlist>> {
@@ -80,7 +78,6 @@ class PlaylistRepository @Inject constructor(
                     val size = CommonQuery.getSize(context.contentResolver, uri)
                     it.toPlaylist(context, size)
                 })
-                .map { removeBlacklisted(it) }
                 .doOnError { it.printStackTrace() }
                 .onErrorReturnItem(listOf())
     }
@@ -89,34 +86,8 @@ class PlaylistRepository @Inject constructor(
             .replay(1)
             .refCount()
 
-    private fun removeBlacklisted(list: MutableList<Playlist>): List<Playlist>{
-        val songsIds = CommonQuery.getAllSongsIdNotBlackListd(context.contentResolver, appPrefsUseCase)
-        for (playlist in list.toList()) {
-            val newSize = calculateNewPlaylistSize(playlist.id, songsIds)
-            list[list.indexOf(playlist)] = playlist.copy(size = newSize)
-        }
-        return list
-    }
-
-    private fun calculateNewPlaylistSize(id: Long, songIds: List<Long>): Int {
-        val uri = MediaStore.Audio.Playlists.Members.getContentUri("external", id)
-        val cursor = context.contentResolver.query(uri, arrayOf(MediaStore.Audio.Playlists.Members.AUDIO_ID), null, null, null)
-        val list = mutableListOf<Long>()
-        while (cursor != null && cursor.moveToNext()){
-            list.add(cursor.getLong(0))
-        }
-        cursor?.close()
-        list.retainAll(songIds)
-
-        return list.size
-    }
-
     override fun getAll(): Observable<List<Playlist>> {
         return cachedData
-    }
-
-    override fun getAllNewRequest(): Observable<List<Playlist>> {
-        return queryAllData()
     }
 
     override fun getByParam(param: Long): Observable<Playlist> {

@@ -145,7 +145,6 @@ abstract class BaseWidget : AbsWidgetApp() {
         return LastMetadata(
                 title,
                 subtitle,
-                this.image,
                 this.id
         )
     }
@@ -154,8 +153,7 @@ abstract class BaseWidget : AbsWidgetApp() {
         return WidgetMetadata(
                 this.id,
                 this.title,
-                this.subtitle,
-                this.image
+                this.subtitle
         )
     }
 

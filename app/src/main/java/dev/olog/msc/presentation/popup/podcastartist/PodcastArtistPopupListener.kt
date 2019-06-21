@@ -60,7 +60,7 @@ class PodcastArtistPopupListener @Inject constructor(
             R.id.viewAlbum -> viewAlbum(navigator, MediaId.podcastAlbumId(podcast!!.albumId))
             R.id.viewArtist -> viewArtist(navigator, MediaId.podcastArtistId(podcast!!.artistId))
             R.id.share -> share(activity, podcast!!.toSong())
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name, artist.image)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name)
         }
 
 

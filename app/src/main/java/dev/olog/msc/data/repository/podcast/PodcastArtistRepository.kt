@@ -3,14 +3,13 @@ package dev.olog.msc.data.repository.podcast
 import android.provider.MediaStore
 import com.squareup.sqlbrite3.BriteContentResolver
 import com.squareup.sqlbrite3.SqlBrite
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.PodcastArtist
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastArtist
 import dev.olog.msc.domain.gateway.PodcastArtistGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
-import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.utils.k.extension.debounceFirst
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
@@ -25,8 +24,7 @@ class PodcastArtistRepository @Inject constructor(
         appDatabase: AppDatabase,
         private val rxContentResolver: BriteContentResolver,
         private val podcastGateway: PodcastGateway,
-        private val collator: Collator,
-        private val usedImageGateway: UsedImageGateway
+        private val collator: Collator
 
 ) : PodcastArtistGateway {
 
@@ -41,19 +39,7 @@ class PodcastArtistRepository @Inject constructor(
                 .lift(SqlBrite.Query.mapToOne { 0 })
                 .switchMap { podcastGateway.getAll() }
                 .map { mapToArtists(it) }
-                .map { updateImages(it) }
 
-    }
-
-    private fun updateImages(list: List<PodcastArtist>): List<PodcastArtist>{
-        val allForArtists = usedImageGateway.getAllForArtists()
-        if (allForArtists.isEmpty()){
-            return list
-        }
-        return list.map { artist ->
-            val image = allForArtists.firstOrNull { it.id == artist.id }?.image ?: artist.image
-            artist.copy(image = image)
-        }
     }
 
     private fun mapToArtists(songList: List<Podcast>): List<PodcastArtist> {
@@ -89,10 +75,6 @@ class PodcastArtistRepository @Inject constructor(
 
     override fun getAll(): Observable<List<PodcastArtist>> {
         return cachedData
-    }
-
-    override fun getAllNewRequest(): Observable<List<PodcastArtist>> {
-        return queryAllData()
     }
 
     override fun getByParam(param: Long): Observable<PodcastArtist> {

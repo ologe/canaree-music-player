@@ -31,11 +31,11 @@ class PlaylistChooserActivityAdapter @Inject constructor(
         ThemedDialog.builder(activity)
                 .setTitle(R.string.playlist_chooser_dialog_title)
                 .setMessage(activity.getString(R.string.playlist_chooser_dialog_message, item.title))
-                .setPositiveButton(R.string.popup_positive_ok, { _, _ ->
-                    appShortcuts.addDetailShortcut(item.mediaId, item.title, item.image)
+                .setPositiveButton(R.string.popup_positive_ok) { _, _ ->
+                    appShortcuts.addDetailShortcut(item.mediaId, item.title)
                     activity.finish()
-                })
-                .setNegativeButton(R.string.popup_negative_no, null)
+                }
+            .setNegativeButton(R.string.popup_negative_no, null)
                 .show()
     }
 

@@ -4,7 +4,7 @@ import android.content.Context
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.catchNothing
-import dev.olog.msc.dagger.qualifier.ApplicationContext
+import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.msc.notifyItemChanged
@@ -15,9 +15,9 @@ import java.io.File
 import javax.inject.Inject
 
 class UpdateTrackUseCase @Inject constructor(
-        @ApplicationContext private val context: Context,
-        schedulers: IoSchedulers,
-        private val gateway: UsedImageGateway
+    @ApplicationContext private val context: Context,
+    schedulers: IoSchedulers,
+    private val gateway: UsedImageGateway
 
 ): CompletableUseCaseWithParam<UpdateTrackUseCase.Data>(schedulers){
 

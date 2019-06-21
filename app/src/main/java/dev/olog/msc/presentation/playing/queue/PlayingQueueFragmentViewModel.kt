@@ -43,7 +43,6 @@ class PlayingQueueFragmentViewModel @Inject constructor(
                 MediaId.songId(this.idInPlaylist.toLong()),
                 title,
                 DisplayableItem.adjustArtist(artist),
-                image,
                 positionInList,
                 position == currentItemIndex
         )

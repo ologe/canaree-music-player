@@ -60,7 +60,7 @@ class ArtistPopupListener @Inject constructor(
             R.id.viewArtist -> viewArtist(navigator, MediaId.artistId(song!!.artistId))
             R.id.share -> share(activity, song!!)
             R.id.setRingtone -> setRingtone(navigator, getMediaId(), song!!)
-            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name, artist.image)
+            R.id.addHomeScreen -> appShortcuts.addDetailShortcut(getMediaId(), artist.name)
         }
 
 

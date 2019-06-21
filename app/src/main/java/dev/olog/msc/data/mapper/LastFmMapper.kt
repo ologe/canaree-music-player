@@ -1,12 +1,12 @@
 package dev.olog.msc.data.mapper
 
+import dev.olog.core.entity.*
 import dev.olog.msc.api.last.fm.album.info.AlbumInfo
 import dev.olog.msc.api.last.fm.album.search.AlbumSearch
 import dev.olog.msc.api.last.fm.artist.info.ArtistInfo
 import dev.olog.msc.api.last.fm.track.info.TrackInfo
 import dev.olog.msc.api.last.fm.track.search.TrackSearch
 import dev.olog.msc.data.entity.*
-import dev.olog.msc.domain.entity.*
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,39 +20,39 @@ private fun millisToFormattedDate(value: Long): String {
 
 fun LastFmTrackEntity.toDomain(): LastFmTrack {
     return LastFmTrack(
-            this.id,
-            this.title,
-            this.artist,
-            this.album,
-            this.image
+        this.id,
+        this.title,
+        this.artist,
+        this.album,
+        this.image
     )
 }
 
 fun LastFmPodcastEntity.toDomain(): LastFmPodcast {
     return LastFmPodcast(
-            this.id,
-            this.title,
-            this.artist,
-            this.album,
-            this.image
+        this.id,
+        this.title,
+        this.artist,
+        this.album,
+        this.image
     )
 }
 
 fun LastFmAlbumEntity.toDomain(): LastFmAlbum {
     return LastFmAlbum(
-            this.id,
-            this.title,
-            this.artist,
-            this.image
+        this.id,
+        this.title,
+        this.artist,
+        this.image
     )
 }
 
 fun LastFmPodcastAlbumEntity.toDomain(): LastFmPodcastAlbum {
     return LastFmPodcastAlbum(
-            this.id,
-            this.title,
-            this.artist,
-            this.image
+        this.id,
+        this.title,
+        this.artist,
+        this.image
     )
 }
 
@@ -64,11 +64,11 @@ fun TrackInfo.toDomain(id: Long): LastFmTrack {
     val image = track.album.image.reversed().first { it.text.isNotBlank() }.text
 
     return LastFmTrack(
-            id,
-            title ?: "",
-            artist ?: "",
-            album ?: "",
-            image
+        id,
+        title ?: "",
+        artist ?: "",
+        album ?: "",
+        image
     )
 }
 
@@ -80,11 +80,11 @@ fun TrackInfo.toDomainPodcast(id: Long): LastFmPodcast {
     val image = track.album.image.reversed().first { it.text.isNotBlank() }.text
 
     return LastFmPodcast(
-            id,
-            title ?: "",
-            artist ?: "",
-            album ?: "",
-            image
+        id,
+        title ?: "",
+        artist ?: "",
+        album ?: "",
+        image
     )
 }
 
@@ -116,11 +116,11 @@ fun TrackSearch.toDomain(id: Long): LastFmTrack {
     val track = this.results.trackmatches.track[0]
 
     return LastFmTrack(
-            id,
-            track.name ?: "",
-            track.artist ?: "",
-            "",
-            ""
+        id,
+        track.name ?: "",
+        track.artist ?: "",
+        "",
+        ""
     )
 }
 
@@ -128,31 +128,31 @@ fun TrackSearch.toDomainPodcast(id: Long): LastFmPodcast {
     val track = this.results.trackmatches.track[0]
 
     return LastFmPodcast(
-            id,
-            track.name ?: "",
-            track.artist ?: "",
-            "",
-            ""
+        id,
+        track.name ?: "",
+        track.artist ?: "",
+        "",
+        ""
     )
 }
 
 fun AlbumInfo.toDomain(id: Long): LastFmAlbum {
     val album = this.album
     return LastFmAlbum(
-            id,
-            album.name,
-            album.artist,
-            album.image.reversed().first { it.text.isNotBlank() }.text
+        id,
+        album.name,
+        album.artist,
+        album.image.reversed().first { it.text.isNotBlank() }.text
     )
 }
 
 fun AlbumInfo.toPodcastDomain(id: Long): LastFmPodcastAlbum {
     val album = this.album
     return LastFmPodcastAlbum(
-            id,
-            album.name,
-            album.artist,
-            album.image.reversed().first { it.text.isNotBlank() }.text
+        id,
+        album.name,
+        album.artist,
+        album.image.reversed().first { it.text.isNotBlank() }.text
     )
 }
 
@@ -183,10 +183,10 @@ fun AlbumSearch.toDomain(id: Long, originalArtist: String): LastFmAlbum {
     val best = results.first { it.artist == bestArtist }
 
     return LastFmAlbum(
-            id,
-            best.name,
-            best.artist,
-            best.image.reversed().first { it.text.isNotBlank() }.text
+        id,
+        best.name,
+        best.artist,
+        best.image.reversed().first { it.text.isNotBlank() }.text
     )
 }
 
@@ -196,18 +196,18 @@ fun AlbumSearch.toPodcastDomain(id: Long, originalArtist: String): LastFmPodcast
     val best = results.first { it.artist == bestArtist }
 
     return LastFmPodcastAlbum(
-            id,
-            best.name,
-            best.artist,
-            best.image.reversed().first { it.text.isNotBlank() }.text
+        id,
+        best.name,
+        best.artist,
+        best.image.reversed().first { it.text.isNotBlank() }.text
     )
 }
 
 fun ArtistInfo.toDomain(id: Long): LastFmArtist {
     val artist = this.artist
     return LastFmArtist(
-            id,
-            artist.image.reversed().first { it.text.isNotBlank() }.text
+        id,
+        artist.image.reversed().first { it.text.isNotBlank() }.text
     )
 }
 
@@ -215,8 +215,8 @@ fun ArtistInfo.toDomain(id: Long): LastFmArtist {
 fun ArtistInfo.toPodcastDomain(id: Long): LastFmPodcastArtist {
     val artist = this.artist
     return LastFmPodcastArtist(
-            id,
-            artist.image.reversed().first { it.text.isNotBlank() }.text
+        id,
+        artist.image.reversed().first { it.text.isNotBlank() }.text
     )
 }
 
@@ -240,15 +240,15 @@ fun ArtistInfo.toPodcastModel(id: Long): LastFmPodcastArtistEntity {
 
 fun LastFmArtistEntity.toDomain(): LastFmArtist {
     return LastFmArtist(
-            this.id,
-            this.image
+        this.id,
+        this.image
     )
 }
 
 fun LastFmPodcastArtistEntity.toDomain(): LastFmPodcastArtist {
     return LastFmPodcastArtist(
-            this.id,
-            this.image
+        this.id,
+        this.image
     )
 }
 

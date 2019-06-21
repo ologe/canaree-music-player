@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--player-->
+    <string name="prefs_appearance_entry_value_default" translatable="false">default</string>
+    <string name="prefs_appearance_entry_value_flat" translatable="false">flat</string>
+    <string name="prefs_appearance_entry_value_spotify" translatable="false">spotify</string>
+    <string name="prefs_appearance_entry_value_fullscreen" translatable="false">fullscreen</string>
+    <string name="prefs_appearance_entry_value_big_image" translatable="false">big_image</string>
+    <string name="prefs_appearance_entry_value_clean" translatable="false">clean</string>
+    <string name="prefs_appearance_entry_value_mini" translatable="false">mini</string>
+
+    <!--    dark mode Q-->
+    <string name="prefs_dark_mode_2_value_light" translatable="false">Light</string>
+    <string name="prefs_dark_mode_2_value_dark" translatable="false">Dark</string>
+    <string name="prefs_dark_mode_2_value_follow_system" translatable="false">Follow system</string>
+
+    <!--icon shape-->
+    <string name="prefs_icon_shape_square" translatable="false">square</string>
+    <string name="prefs_icon_shape_rounded" translatable="false">round</string>
+
+    <!--quick action-->
+    <string name="prefs_quick_action_entry_value_hide" translatable="false">hide</string>
+    <string name="prefs_quick_action_entry_value_play" translatable="false">play</string>
+    <string name="prefs_quick_action_entry_value_shuffle" translatable="false">shuffle</string>
+
+    <string name="prefs_detail_section_entry_value_most_played" translatable="false">most played</string>
+    <string name="prefs_detail_section_entry_value_recently_added" translatable="false">recently added</string>
+    <string name="prefs_detail_section_entry_value_related_artists" translatable="false">related artist</string>
+
+    <string name="prefs_auto_download_images_entry_value_always">always</string>
+    <string name="prefs_auto_download_images_entry_value_wifi">wifi</string>
+    <string name="prefs_auto_download_images_entry_value_never">never</string>
+
+    <string-array name="prefs_detail_sections_entry_values_default">
+        <item>@string/prefs_detail_section_entry_value_most_played</item>
+        <item>@string/prefs_detail_section_entry_value_recently_added</item>
+        <item>@string/prefs_detail_section_entry_value_related_artists</item>
+    </string-array>
+
+</resources>

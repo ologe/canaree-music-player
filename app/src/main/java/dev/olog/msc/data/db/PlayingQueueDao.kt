@@ -4,14 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.msc.data.entity.MiniQueueEntity
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.Song
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
-import dev.olog.core.MediaId
-import dev.olog.core.MediaIdCategory
 import io.reactivex.*
 import io.reactivex.rxkotlin.Singles
 import io.reactivex.schedulers.Schedulers
@@ -142,7 +142,6 @@ abstract class PlayingQueueDao {
                 this.artist,
                 this.albumArtist,
                 this.album,
-                this.image,
                 this.duration,
                 this.dateAdded,
                 this.path,
@@ -166,7 +165,6 @@ abstract class PlayingQueueDao {
                 this.artist,
                 this.albumArtist,
                 this.album,
-                this.image,
                 this.duration,
                 this.dateAdded,
                 this.path,
