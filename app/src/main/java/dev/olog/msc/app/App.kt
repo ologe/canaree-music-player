@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import android.app.AlarmManager
 import android.os.Looper
 import androidx.preference.PreferenceManager
+import com.squareup.leakcanary.LeakCanary
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import dev.olog.msc.BuildConfig
@@ -21,7 +22,7 @@ import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class App : BaseApp() {
+class App : DaggerApplication() {
 
     @Suppress("unused") @Inject lateinit var appShortcuts: AppShortcuts
 
@@ -31,7 +32,11 @@ class App : BaseApp() {
     @Inject lateinit var alarmManager: AlarmManager
     @Inject lateinit var sleepTimerUseCase: SleepTimerUseCase
 
-    override fun initializeApp() {
+    override fun onCreate() {
+        super.onCreate()
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return
+        }
         initializeComponents()
         initRxMainScheduler()
         initializeConstants()
