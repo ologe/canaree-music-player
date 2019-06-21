@@ -57,9 +57,7 @@ class PreferencesActivity : DaggerAppCompatActivity(),
     @StyleRes
     private fun getActivityTheme() = when {
         AppTheme.isWhiteMode() -> R.style.AppThemeWhite
-        AppTheme.isGrayMode() -> R.style.AppThemeGray
         AppTheme.isDarkMode() -> R.style.AppThemeDark
-        AppTheme.isBlackMode() -> R.style.AppThemeBlack
         else -> throw IllegalStateException("invalid theme")
     }
 

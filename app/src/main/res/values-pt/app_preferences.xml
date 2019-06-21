@@ -82,10 +82,8 @@
 
     <!-- dark mode -->
     <string name="prefs_dark_mode_title">Tema</string>
-    <string name="prefs_dark_mode_white">Tema branco</string>
-    <string name="prefs_dark_mode_gray">Tema quase branco</string>
+    <string name="prefs_dark_mode_light">Tema claro</string>
     <string name="prefs_dark_mode_dark">Tema escuro</string>
-    <string name="prefs_dark_mode_black">Tema preto</string>
 
     <!-- notch support -->
     <!-- Fuzzy -->

@@ -43,9 +43,9 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
         if (AppTheme.isDarkTheme()){
             view.bread_crumbs.setBackgroundColor(ctx.windowBackground())
         }
-        if (AppTheme.isGrayMode()){
-            view.bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
-        }
+//        if (AppTheme.isGrayMode()){
+//            view.bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
+//        }
 
         viewModel.observeFileName()
                 .subscribe(viewLifecycleOwner) {

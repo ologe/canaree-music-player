@@ -65,10 +65,8 @@
   <string name="prefs_appearance_clean">Čisté</string>
   <!--dark mode-->
   <string name="prefs_dark_mode_title">Motiv</string>
-  <string name="prefs_dark_mode_white">Bílý motiv</string>
-  <string name="prefs_dark_mode_gray">Téměř bílý motiv</string>
+  <string name="prefs_dark_mode_light">Světlo motiv</string>
   <string name="prefs_dark_mode_dark">Tmavý motiv</string>
-  <string name="prefs_dark_mode_black">Černý motiv</string>
   <!--notch support-->
   <!--delete cached images-->
   <!--last fm credentials-->

@@ -12,7 +12,7 @@ object AppTheme {
     }
 
     enum class DarkMode {
-        NONE, LIGHT, DARK, BLACK
+        LIGHT, DARK
     }
 
     enum class Immersive {
@@ -20,7 +20,7 @@ object AppTheme {
     }
 
     private var THEME = Theme.DEFAULT
-    private var DARK_MODE = DarkMode.NONE
+    private var DARK_MODE = DarkMode.LIGHT
     private var IMMERSIVE_MDOE = Immersive.DISABLED
 
     fun initialize(app: Application){
@@ -39,13 +39,11 @@ object AppTheme {
     fun isCleanTheme(): Boolean = THEME == Theme.CLEAN
     fun isMiniTheme(): Boolean = THEME == Theme.MINI
 
-    fun isWhiteMode(): Boolean = DARK_MODE == DarkMode.NONE
-    fun isGrayMode(): Boolean = DARK_MODE == DarkMode.LIGHT
+    fun isWhiteMode(): Boolean = DARK_MODE == DarkMode.LIGHT
     fun isDarkMode(): Boolean = DARK_MODE == DarkMode.DARK
-    fun isBlackMode(): Boolean = DARK_MODE == DarkMode.BLACK
 
-    fun isWhiteTheme(): Boolean = DARK_MODE == DarkMode.NONE || DARK_MODE == DarkMode.LIGHT
-    fun isDarkTheme(): Boolean = DARK_MODE == DarkMode.DARK || DARK_MODE == DarkMode.BLACK
+    fun isWhiteTheme(): Boolean = DARK_MODE == DarkMode.LIGHT
+    fun isDarkTheme(): Boolean = DARK_MODE == DarkMode.DARK
 
     fun updateTheme(context: Context){
         THEME = getTheme(context)
@@ -85,12 +83,10 @@ object AppTheme {
 
     private fun getDarkMode(context: Context): DarkMode {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        val theme = prefs.getString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_white))
+        val theme = prefs.getString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_light))
         return when (theme) {
-            context.getString(R.string.prefs_dark_mode_entry_value_white) -> DarkMode.NONE
-            context.getString(R.string.prefs_dark_mode_entry_value_gray) -> DarkMode.LIGHT
+            context.getString(R.string.prefs_dark_mode_entry_value_light) -> DarkMode.LIGHT
             context.getString(R.string.prefs_dark_mode_entry_value_dark) -> DarkMode.DARK
-            context.getString(R.string.prefs_dark_mode_entry_value_black) -> DarkMode.BLACK
             else -> throw IllegalStateException("invalid theme=$theme")
         }
     }

@@ -16,11 +16,6 @@
         <item name="seekBarStyle">@style/SeekBarLight</item>
     </style>
 
-    <!--gray theme-->
-    <style name="AppThemeGray" parent="AppThemeWhite">
-        <item name="android:windowBackground">@color/theme_gray_background</item>
-    </style>
-
     <style name="ImageButtonLight" parent="Widget.AppCompat.ImageButton">
         <item name="android:tint">@color/dark_grey</item>
     </style>

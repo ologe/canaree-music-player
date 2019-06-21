@@ -8,7 +8,7 @@
     <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
 
     <!-- Base application theme. -->
-    <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
         <item name="tabStyle">@style/AppTabLayout</item>
         <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>

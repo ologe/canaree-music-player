@@ -17,14 +17,6 @@
         <item name="seekBarStyle">@style/SeekBar</item>
     </style>
 
-    <!--black theme-->
-    <style name="AppThemeBlack" parent="AppThemeDark">
-        <item name="android:windowBackground">@color/theme_black_background</item>
-        <item name="android:colorPrimary">@color/theme_black_background</item>
-        <item name="android:colorPrimaryDark">@color/theme_black_background</item>
-        <item name="miniPlayerColor">@color/theme_black_background</item>
-    </style>
-
     <style name="ImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:tint">#F5F5F5</item>
     </style>

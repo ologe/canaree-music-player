@@ -375,7 +375,7 @@ class AppPreferencesImpl @Inject constructor(
     private fun setDefaultTheme(){
         preferences.edit {
             putString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
-            putString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_white))
+            putString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_light))
         }
     }
 

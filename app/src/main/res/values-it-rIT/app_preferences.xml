@@ -62,10 +62,8 @@
   <string name="prefs_appearance_big_image">Immagine grande</string>
   <!--dark mode-->
   <string name="prefs_dark_mode_title">Tema</string>
-  <string name="prefs_dark_mode_white">Tema bianco</string>
-  <string name="prefs_dark_mode_gray">Tema un po\' meno bianco</string>
+  <string name="prefs_dark_mode_light">Tema chiaro</string>
   <string name="prefs_dark_mode_dark">Tema scuro</string>
-  <string name="prefs_dark_mode_black">Tema nero</string>
   <!--notch support-->
   <!--delete cached images-->
   <string name="prefs_delete_cached_images_title">Emimina cache</string>
