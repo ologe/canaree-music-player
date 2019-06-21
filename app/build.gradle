@@ -73,7 +73,14 @@ android {
 }
 
 dependencies {
-    implementation files('libs/jaudiotagger-android-2.2.3.jar')
+    implementation project(':core')
+    implementation project(':data')
+    implementation project(':image-provider')
+    implementation project(':injection')
+    implementation project(':jaudiotagger')
+    implementation project(':prefs-keys')
+    implementation project(':presentation')
+    implementation project(':shared')
 
     // data binding
     kapt "androidx.databinding:databinding-compiler:$gradle_plugin"

@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':injection', ':core', ':presentation', ':shared', ':data', ':image-provider', ':prefs-keys', ':jaudiotagger'
 
 //gradle.ext.exoplayerRoot = '/Users/eugeniuolog/AndroidStudioProjects/ExoPlayer'
 //gradle.ext.exoplayerModulePrefix = 'exoplayer-'
