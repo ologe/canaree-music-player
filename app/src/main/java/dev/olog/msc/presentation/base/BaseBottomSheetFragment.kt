@@ -13,7 +13,7 @@ import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 
 abstract class BaseBottomSheetFragment : DimBottomSheetDialogFragment() {
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

@@ -49,7 +49,7 @@ class PreferencesFragment : PreferenceFragmentCompat(), SharedPreferences.OnShar
     private lateinit var accentColorChooser: Preference
     private lateinit var resetTutorial: Preference
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

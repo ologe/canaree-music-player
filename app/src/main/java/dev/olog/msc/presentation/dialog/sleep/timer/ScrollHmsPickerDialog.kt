@@ -62,7 +62,7 @@ open class ScrollHmsPickerDialog : BaseDialogFragment() {
         return view
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         dismissListener?.onDismiss(dialog)
     }

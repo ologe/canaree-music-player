@@ -1,0 +1,13 @@
+kapt {
+    useBuildCache = true
+    correctErrorTypes = true
+
+    javacOptions {
+        option("-Xmaxerrs", 500)
+        // dagger compiler options
+        option("-Adagger.gradle.incremental")
+        option("-Adagger.fastInit=enabled")
+//        option("-Adagger.fullBindingGraphValidation=ERROR")
+//        option("-Adagger.formatGeneratedSource=enabled")
+    }
+}

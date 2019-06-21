@@ -41,7 +41,7 @@ class AboutActivity : BaseActivity() {
 
     }
 
-    override fun onAttachFragment(fragment: Fragment?) {
+    override fun onAttachFragment(fragment: Fragment) {
         super.onAttachFragment(fragment)
         setInAnimation()
     }

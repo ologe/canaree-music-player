@@ -1,36 +1,39 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+apply from: '../base_module.gradle'
+apply plugin: 'kotlin-kapt'
 
+android {
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
 }
 
+apply from: '../kapt.gradle'
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation project(':core')
+    implementation project(':shared')
+
+    implementation lib_core.coroutines
+    implementation lib_core.dagger
+    kapt lib_core.dagger_processor
+    implementation lib_x.core_ktx
+
+    implementation lib_data.sql_content_resolver
+    implementation lib_data.room
+    implementation lib_data.room_ktx
+    kapt lib_data.room_processor
 }

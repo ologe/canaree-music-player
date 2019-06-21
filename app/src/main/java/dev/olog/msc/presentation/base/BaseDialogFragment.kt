@@ -9,7 +9,7 @@ import dev.olog.msc.analytics.AppAnalytics
 abstract class BaseDialogFragment : DialogFragment(), LoggableFragment {
 
     @CallSuper
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

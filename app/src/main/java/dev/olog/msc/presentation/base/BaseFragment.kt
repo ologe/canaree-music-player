@@ -8,10 +8,9 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.android.support.DaggerFragment
-import dev.olog.msc.analytics.AppAnalytics
 import dev.olog.msc.utils.k.extension.isPortrait
 
-abstract class BaseFragment : DaggerFragment(), LoggableFragment {
+abstract class BaseFragment : DaggerFragment() {
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -21,11 +20,6 @@ abstract class BaseFragment : DaggerFragment(), LoggableFragment {
     }
 
     protected open fun onViewBound(view: View, savedInstanceState: Bundle?) {}
-
-    override fun onResume() {
-        super.onResume()
-        AppAnalytics.logScreen(activity, this)
-    }
 
     @LayoutRes
     protected abstract fun provideLayoutId(): Int

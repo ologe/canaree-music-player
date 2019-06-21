@@ -1,24 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+apply from: '../base_module.gradle'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 
 android {
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
-
     defaultConfig {
         applicationId "dev.olog.msc"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        vectorDrawables.useSupportLibrary = true
     }
 
     bundle {
@@ -33,44 +22,21 @@ android {
         }
     }
 
-    buildTypes {
-
-        release {
-            minifyEnabled true
-            useProguard true
-            multiDexEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
-        }
-
-        debug {
-            minifyEnabled false
-            useProguard false
-            multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".debug"
-//            debuggable false
-        }
+    buildTypes.debug {
+        applicationIdSuffix ".debug"
     }
 
     dataBinding.enabled = true
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    dexOptions {
-        preDexLibraries true
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        disable 'MissingTranslation'
-    }
+//    lintOptions {
+//        checkReleaseBuilds false
+//        disable 'MissingTranslation'
+//    }
 
 }
+
+apply from: '../kapt.gradle'
+
 
 dependencies {
     implementation project(':core')
@@ -84,9 +50,6 @@ dependencies {
 
     // data binding
     kapt "androidx.databinding:databinding-compiler:$gradle_plugin"
-
-    // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // google architecture components
     implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.lifecycle"
@@ -174,11 +137,6 @@ dependencies {
         transitive = true
     }
     implementation 'com.google.firebase:firebase-invites:16.1.1'
-
-    testImplementation "junit:junit:$rootProject.junit"
-    testImplementation "org.mockito:mockito-core:$rootProject.mockito"
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
 
 // leave at bottom

@@ -18,24 +18,16 @@ class CategoriesViewPager(
 
 ) : FragmentStatePagerAdapter(fragmentManager) {
 
-    fun getCategoryAtPosition(position: Int): MediaIdCategory? {
-        try {
-            return categories[position].category
-        } catch (ex: Exception){
-            return null
-        }
+    fun getCategoryAtPosition(position: Int): MediaIdCategory {
+        return categories[position].category
     }
 
-    override fun getItem(position: Int): Fragment? {
-        try {
-            val category = categories[position].category
+    override fun getItem(position: Int): Fragment {
+        val category = categories[position].category
 
-            return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()){
-                FolderTreeFragment.newInstance()
-            } else TabFragment.newInstance(category)
-        } catch (ex: Exception){
-            return null
-        }
+        return if (category == MediaIdCategory.FOLDERS && showFolderAsHierarchy()){
+            FolderTreeFragment.newInstance()
+        } else TabFragment.newInstance(category)
     }
 
     private fun showFolderAsHierarchy(): Boolean {

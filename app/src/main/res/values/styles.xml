@@ -88,8 +88,9 @@
 
     <style name="AppTabLayout" parent="DefaultTabLayout"/>
 
-    <style name="DefaultTabLayoutTextAppearance" parent="TextAppearance.MaterialComponents.Tab">
+    <style name="DefaultTabLayoutTextAppearance" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="DefaultMaterialCard" parent="Widget.MaterialComponents.CardView">

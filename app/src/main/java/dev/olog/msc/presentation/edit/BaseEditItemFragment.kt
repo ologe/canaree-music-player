@@ -28,7 +28,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     private var progressDialog: ProgressDialog? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         Permissions.requestReadStorage(act)
     }
@@ -93,8 +93,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        this.startActivityForResult(Intent.createChooser(intent, getString(R.string.edit_song_change_album_art)),
-                dev.olog.msc.presentation.edit.PICK_IMAGE_CODE)
+        this.startActivityForResult(Intent.createChooser(intent, getString(R.string.edit_song_change_album_art)), PICK_IMAGE_CODE)
     }
 
     protected abstract fun restoreImage()

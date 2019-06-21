@@ -101,10 +101,6 @@ ext {
     // debug
     leak_canary = '1.6.3'
     crashlytics = '2.9.9'
-
-    // test
-    junit = '4.12'
-    mockito = '2.10.0'
-    runner = '1.0.1'
-    espresso = '3.0.1'
 }
+
+apply from: 'dependencies.gradle'
