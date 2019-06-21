@@ -10,10 +10,10 @@ import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.PodcastAlbum
-import dev.olog.msc.domain.entity.PodcastArtist
-import dev.olog.msc.domain.entity.PodcastPlaylist
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.PodcastAlbum
+import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.PodcastPlaylist
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedPodcastAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedPodcastArtistsUseCase

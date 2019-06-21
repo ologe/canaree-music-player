@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.edit.artist
 
-import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.entity.PodcastArtist
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Artist
+import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase

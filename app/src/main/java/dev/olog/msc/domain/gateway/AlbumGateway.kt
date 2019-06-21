@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.Album
+import dev.olog.core.entity.Album
 import io.reactivex.Observable
 
 interface AlbumGateway :

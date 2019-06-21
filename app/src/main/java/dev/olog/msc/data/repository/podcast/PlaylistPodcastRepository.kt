@@ -7,9 +7,9 @@ import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.PodcastPlaylistEntity
 import dev.olog.msc.data.entity.PodcastPlaylistTrackEntity
 import dev.olog.msc.domain.entity.FavoriteType
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.PodcastPlaylist
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.PodcastPlaylist
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.PodcastPlaylistGateway
@@ -35,10 +35,10 @@ class PlaylistPodcastRepository @Inject constructor(
 
     private fun PodcastPlaylistEntity.toDomain(): PodcastPlaylist {
         return PodcastPlaylist(
-                this.id,
-                this.name,
-                this.size,
-                ""
+            this.id,
+            this.name,
+            this.size,
+            ""
         )
     }
 

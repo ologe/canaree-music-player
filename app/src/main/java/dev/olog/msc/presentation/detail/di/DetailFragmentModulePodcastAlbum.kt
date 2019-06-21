@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
-import dev.olog.msc.domain.entity.PodcastAlbum
-import dev.olog.msc.domain.entity.PodcastPlaylist
+import dev.olog.core.entity.PodcastAlbum
+import dev.olog.core.entity.PodcastPlaylist
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByAlbumUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByArtistUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastPlaylistsSiblingsUseCase

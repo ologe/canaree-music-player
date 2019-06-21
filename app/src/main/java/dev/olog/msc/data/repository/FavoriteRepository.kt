@@ -1,6 +1,8 @@
 package dev.olog.msc.data.repository
 
 import android.annotation.SuppressLint
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.gateway.FavoriteGateway

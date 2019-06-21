@@ -6,10 +6,10 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
-import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.domain.entity.Folder
-import dev.olog.msc.domain.entity.Genre
-import dev.olog.msc.domain.entity.Playlist
+import dev.olog.core.entity.Album
+import dev.olog.core.entity.Folder
+import dev.olog.core.entity.Genre
+import dev.olog.core.entity.Playlist
 import dev.olog.msc.domain.interactor.all.sibling.*
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId

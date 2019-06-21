@@ -4,6 +4,7 @@ import androidx.room.*
 import dev.olog.msc.data.entity.RecentSearchesEntity
 import dev.olog.msc.domain.entity.*
 import dev.olog.core.MediaId
+import dev.olog.core.entity.*
 import dev.olog.msc.utils.RecentSearchesTypes.ALBUM
 import dev.olog.msc.utils.RecentSearchesTypes.ARTIST
 import dev.olog.msc.utils.RecentSearchesTypes.FOLDER

@@ -4,16 +4,16 @@ import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.domain.entity.Playlist
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Playlist
+import dev.olog.core.entity.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 
 class PlaylistPopup(
-        view: View,
-        playlist: Playlist,
-        song: Song?,
-        listener: AbsPopupListener
+    view: View,
+    playlist: Playlist,
+    song: Song?,
+    listener: AbsPopupListener
 
 ) : AbsPopup(view) {
 

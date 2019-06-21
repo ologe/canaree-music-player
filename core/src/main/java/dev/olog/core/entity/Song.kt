@@ -1,8 +1,8 @@
-package dev.olog.msc.domain.entity
+package dev.olog.core.entity
 
 import java.io.File
 
-data class Podcast (
+data class Song (
         val id: Long,
         val artistId: Long,
         val albumId: Long,
@@ -24,23 +24,4 @@ data class Podcast (
     val hasAlbumNameAsFolder: Boolean
         get() = album == folder
 
-}
-
-fun Podcast.toSong(): Song {
-    return Song(
-            this.id,
-            this.artistId,
-            this.albumId,
-            this.title,
-            this.artist,
-            this.albumArtist,
-            this.album,
-            this.image,
-            this.duration,
-            this.dateAdded,
-            this.path,
-            this.folder,
-            this.discNumber,
-            this.trackNumber
-    )
 }

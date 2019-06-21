@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.sorted
 
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.entity.SortArranging
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler

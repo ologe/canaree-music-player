@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.Genre
+import dev.olog.core.entity.Genre
 
 interface GenreGateway  :
         BaseGateway<Genre, Long>,

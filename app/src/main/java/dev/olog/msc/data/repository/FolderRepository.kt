@@ -5,8 +5,8 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.FolderMostPlayedEntity
 import dev.olog.msc.data.mapper.toFolder
-import dev.olog.msc.domain.entity.Folder
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Folder
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.core.MediaId

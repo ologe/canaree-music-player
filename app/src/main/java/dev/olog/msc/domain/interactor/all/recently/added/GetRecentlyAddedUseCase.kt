@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all.recently.added
 
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase

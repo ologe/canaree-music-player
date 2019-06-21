@@ -8,7 +8,7 @@ import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.entity.LastFmPodcastArtistEntity
 import dev.olog.msc.data.mapper.*
 import dev.olog.msc.domain.entity.LastFmPodcastArtist
-import dev.olog.msc.domain.entity.PodcastArtist
+import dev.olog.core.entity.PodcastArtist
 import dev.olog.msc.domain.gateway.PodcastArtistGateway
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

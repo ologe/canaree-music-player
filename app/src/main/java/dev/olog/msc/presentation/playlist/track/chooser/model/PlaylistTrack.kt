@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.playlist.track.chooser.model
 
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import java.io.File

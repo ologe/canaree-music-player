@@ -1,8 +1,8 @@
 package dev.olog.msc.music.service.model
 
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.core.MediaId
 
 data class MediaEntity(

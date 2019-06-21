@@ -17,7 +17,7 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.data.mapper.toSong
 import dev.olog.msc.data.mapper.toUneditedSong
 import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway

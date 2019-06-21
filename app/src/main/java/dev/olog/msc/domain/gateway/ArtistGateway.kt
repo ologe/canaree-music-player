@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.Artist
+import dev.olog.core.entity.Artist
 
 interface ArtistGateway :
         BaseGateway<Artist, Long>,

@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.newrequest
 
-import dev.olog.msc.domain.entity.Folder
+import dev.olog.core.entity.Folder
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCase

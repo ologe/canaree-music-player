@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.crashlytics.android.Crashlytics
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import java.io.File
 
 object FileProvider {

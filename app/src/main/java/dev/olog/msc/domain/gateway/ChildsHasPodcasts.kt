@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.gateway
 
-import dev.olog.msc.domain.entity.Podcast
+import dev.olog.core.entity.Podcast
 import io.reactivex.Observable
 
 interface ChildsHasPodcasts<in Param> {

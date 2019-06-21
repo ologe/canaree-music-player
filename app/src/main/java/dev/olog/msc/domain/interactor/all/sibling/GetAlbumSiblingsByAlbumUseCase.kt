@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.sibling
 
-import dev.olog.msc.domain.entity.Album
+import dev.olog.core.entity.Album
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

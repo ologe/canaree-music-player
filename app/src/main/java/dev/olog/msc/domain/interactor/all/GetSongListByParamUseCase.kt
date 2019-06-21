@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all
 
-import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.domain.entity.toSong
+import dev.olog.core.entity.Song
+import dev.olog.core.entity.toSong
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.*
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

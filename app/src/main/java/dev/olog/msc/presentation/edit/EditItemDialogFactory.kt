@@ -8,8 +8,8 @@ import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ActivityLifecycle
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetSongUseCase

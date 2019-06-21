@@ -9,9 +9,9 @@ import dagger.multibindings.StringKey
 import dev.olog.msc.R
 import dev.olog.msc.constants.PlaylistConstants
 import dev.olog.msc.dagger.qualifier.ApplicationContext
-import dev.olog.msc.domain.entity.Artist
-import dev.olog.msc.domain.entity.PodcastArtist
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Artist
+import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase

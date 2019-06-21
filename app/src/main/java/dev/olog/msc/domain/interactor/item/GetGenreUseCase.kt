@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.item
 
-import dev.olog.msc.domain.entity.Genre
+import dev.olog.core.entity.Genre
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

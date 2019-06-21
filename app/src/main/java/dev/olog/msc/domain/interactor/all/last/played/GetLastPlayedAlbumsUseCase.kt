@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.last.played
 
-import dev.olog.msc.domain.entity.Album
+import dev.olog.core.entity.Album
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway

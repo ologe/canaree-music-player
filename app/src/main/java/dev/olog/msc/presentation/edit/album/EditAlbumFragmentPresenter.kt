@@ -1,8 +1,8 @@
 package dev.olog.msc.presentation.edit.album
 
-import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.domain.entity.PodcastAlbum
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Album
+import dev.olog.core.entity.PodcastAlbum
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase

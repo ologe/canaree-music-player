@@ -11,7 +11,7 @@ import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toDomainPodcast
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.msc.domain.entity.LastFmPodcast
-import dev.olog.msc.domain.entity.Podcast
+import dev.olog.core.entity.Podcast
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.shared.TextUtils
 import dev.olog.shared.assertBackgroundThread

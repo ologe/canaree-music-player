@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.most.played
 
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.GenreGateway

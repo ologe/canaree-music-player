@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.item
 
-import dev.olog.msc.domain.entity.Podcast
+import dev.olog.core.entity.Podcast
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

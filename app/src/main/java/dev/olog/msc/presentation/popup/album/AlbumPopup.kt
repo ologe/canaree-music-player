@@ -3,16 +3,16 @@ package dev.olog.msc.presentation.popup.album
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.Album
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Album
+import dev.olog.core.entity.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 
 class AlbumPopup(
-        view: View,
-        album: Album,
-        song: Song?,
-        listener: AbsPopupListener
+    view: View,
+    album: Album,
+    song: Song?,
+    listener: AbsPopupListener
 
 ) : AbsPopup(view)  {
 

@@ -6,8 +6,8 @@ import com.squareup.sqlbrite3.SqlBrite
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.data.mapper.toArtist
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.PodcastArtist
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.PodcastArtist
 import dev.olog.msc.domain.gateway.PodcastArtistGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway

@@ -7,8 +7,8 @@ import androidx.room.Transaction
 import dev.olog.msc.data.entity.MiniQueueEntity
 import dev.olog.msc.data.entity.PlayingQueueEntity
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory

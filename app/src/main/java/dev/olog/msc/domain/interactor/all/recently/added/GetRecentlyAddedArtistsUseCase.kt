@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.recently.added
 
-import dev.olog.msc.domain.entity.Artist
+import dev.olog.core.entity.Artist
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.all.GetAllArtistsUseCase

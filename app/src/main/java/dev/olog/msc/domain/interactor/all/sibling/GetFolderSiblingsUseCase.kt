@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.sibling
 
-import dev.olog.msc.domain.entity.Folder
+import dev.olog.core.entity.Folder
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

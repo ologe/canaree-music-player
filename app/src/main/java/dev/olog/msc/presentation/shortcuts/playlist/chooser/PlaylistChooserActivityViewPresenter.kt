@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.shortcuts.playlist.chooser
 
 import android.content.res.Resources
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.Playlist
+import dev.olog.core.entity.Playlist
 import dev.olog.msc.domain.interactor.all.GetAllPlaylistsUseCase
 import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId

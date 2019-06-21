@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.all.related.artists
 
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.Artist
+import dev.olog.core.entity.Artist
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

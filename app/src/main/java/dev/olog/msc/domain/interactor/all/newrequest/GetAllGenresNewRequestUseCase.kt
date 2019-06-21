@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.newrequest
 
-import dev.olog.msc.domain.entity.Genre
+import dev.olog.core.entity.Genre
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCase

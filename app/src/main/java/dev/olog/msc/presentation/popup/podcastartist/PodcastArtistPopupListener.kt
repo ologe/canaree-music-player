@@ -4,9 +4,9 @@ import android.app.Activity
 import android.view.MenuItem
 import dev.olog.msc.R
 import dev.olog.msc.app.shortcuts.AppShortcuts
-import dev.olog.msc.domain.entity.Podcast
-import dev.olog.msc.domain.entity.PodcastArtist
-import dev.olog.msc.domain.entity.toSong
+import dev.olog.core.entity.Podcast
+import dev.olog.core.entity.PodcastArtist
+import dev.olog.core.entity.toSong
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.base.music.service.MediaProvider

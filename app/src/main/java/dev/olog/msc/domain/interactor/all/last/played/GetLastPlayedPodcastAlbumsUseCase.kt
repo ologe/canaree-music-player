@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.all.last.played
 
-import dev.olog.msc.domain.entity.PodcastAlbum
+import dev.olog.core.entity.PodcastAlbum
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway

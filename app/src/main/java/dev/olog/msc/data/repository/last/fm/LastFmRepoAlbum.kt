@@ -8,7 +8,7 @@ import dev.olog.msc.data.entity.LastFmAlbumEntity
 import dev.olog.msc.data.mapper.LastFmNulls
 import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
-import dev.olog.msc.domain.entity.Album
+import dev.olog.core.entity.Album
 import dev.olog.msc.domain.entity.LastFmAlbum
 import dev.olog.msc.domain.gateway.AlbumGateway
 import io.reactivex.Single

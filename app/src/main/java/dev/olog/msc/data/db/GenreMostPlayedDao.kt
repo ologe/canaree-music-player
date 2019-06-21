@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import dev.olog.msc.data.entity.GenreMostPlayedEntity
 import dev.olog.msc.data.entity.SongMostTimesPlayedEntity
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Flowable
 import io.reactivex.Observable

@@ -1,4 +1,4 @@
-package dev.olog.msc.domain.entity
+package dev.olog.core.entity
 
 data class PodcastPlaylist (
         val id: Long,

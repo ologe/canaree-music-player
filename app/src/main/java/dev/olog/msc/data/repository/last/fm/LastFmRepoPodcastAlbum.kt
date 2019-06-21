@@ -10,7 +10,7 @@ import dev.olog.msc.data.mapper.toDomain
 import dev.olog.msc.data.mapper.toModel
 import dev.olog.msc.data.mapper.toPodcastDomain
 import dev.olog.msc.domain.entity.LastFmPodcastAlbum
-import dev.olog.msc.domain.entity.PodcastAlbum
+import dev.olog.core.entity.PodcastAlbum
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

@@ -1,6 +1,6 @@
 package dev.olog.msc.domain.interactor.item
 
-import dev.olog.msc.domain.entity.Artist
+import dev.olog.core.entity.Artist
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.ArtistGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam

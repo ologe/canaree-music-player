@@ -6,7 +6,7 @@ import android.provider.BaseColumns
 import android.provider.MediaStore
 import androidx.core.database.getStringOrNull
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.Podcast
+import dev.olog.core.entity.Podcast
 import dev.olog.msc.utils.getInt
 import dev.olog.msc.utils.getLong
 import dev.olog.msc.utils.getString
@@ -41,10 +41,11 @@ fun Cursor.toPodcast(): Podcast {
     val disc = extractDiscNumber(trackNumber)
 
     return Podcast(
-            id, artistId, albumId, title, artist, albumArtist, album,
-            "",
-            duration, dateAdded, path,
-            folder.capitalize(), disc, track)
+        id, artistId, albumId, title, artist, albumArtist, album,
+        "",
+        duration, dateAdded, path,
+        folder.capitalize(), disc, track
+    )
 }
 
 fun Cursor.toUneditedPodcast(image: String): Podcast {
@@ -76,9 +77,10 @@ fun Cursor.toUneditedPodcast(image: String): Podcast {
     }
 
     return Podcast(
-            id, artistId, albumId, title, artist, albumArtist, album,
-            image, duration, dateAdded, path,
-            folder.capitalize(), disc, track)
+        id, artistId, albumId, title, artist, albumArtist, album,
+        image, duration, dateAdded, path,
+        folder.capitalize(), disc, track
+    )
 }
 
 private fun adjustAlbum(album: String?): String {

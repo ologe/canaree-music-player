@@ -12,8 +12,8 @@ import dev.olog.msc.data.entity.GenreMostPlayedEntity
 import dev.olog.msc.data.mapper.extractId
 import dev.olog.msc.data.mapper.toGenre
 import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.msc.domain.entity.Genre
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Genre
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway

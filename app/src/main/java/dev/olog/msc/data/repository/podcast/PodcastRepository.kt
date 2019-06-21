@@ -13,7 +13,7 @@ import dev.olog.msc.data.entity.PodcastPositionEntity
 import dev.olog.msc.data.mapper.toPodcast
 import dev.olog.msc.data.mapper.toUneditedPodcast
 import dev.olog.msc.data.repository.util.CommonQuery
-import dev.olog.msc.domain.entity.Podcast
+import dev.olog.core.entity.Podcast
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.UsedImageGateway
 import dev.olog.msc.utils.getLong

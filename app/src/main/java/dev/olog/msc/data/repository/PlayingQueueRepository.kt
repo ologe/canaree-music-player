@@ -2,7 +2,7 @@ package dev.olog.msc.data.repository
 
 import dev.olog.msc.data.db.AppDatabase
 import dev.olog.msc.domain.entity.PlayingQueueSong
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.gateway.PlayingQueueGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway

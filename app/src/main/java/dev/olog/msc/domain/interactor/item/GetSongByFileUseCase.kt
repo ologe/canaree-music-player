@@ -1,7 +1,7 @@
 package dev.olog.msc.domain.interactor.item
 
 import android.net.Uri
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Song
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.base.SingleUseCaseWithParam

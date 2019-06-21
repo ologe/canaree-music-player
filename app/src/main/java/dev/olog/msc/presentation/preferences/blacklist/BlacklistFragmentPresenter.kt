@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.preferences.blacklist
 
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.Folder
+import dev.olog.core.entity.Folder
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.all.GetAllFoldersUnfiltered
 import dev.olog.presentation.model.DisplayableItem

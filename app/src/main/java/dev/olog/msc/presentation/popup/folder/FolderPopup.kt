@@ -3,17 +3,17 @@ package dev.olog.msc.presentation.popup.folder
 import android.view.View
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
-import dev.olog.msc.domain.entity.Folder
-import dev.olog.msc.domain.entity.Song
+import dev.olog.core.entity.Folder
+import dev.olog.core.entity.Song
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
 
 @Suppress("UNUSED_PARAMETER")
 class FolderPopup (
-        view: View,
-        folder: Folder,
-        song: Song?,
-        listener: AbsPopupListener
+    view: View,
+    folder: Folder,
+    song: Song?,
+    listener: AbsPopupListener
 
 ) : AbsPopup(view) {
 
