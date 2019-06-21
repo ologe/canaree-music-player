@@ -5,7 +5,7 @@ import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmArtistUseCase
 import dev.olog.msc.domain.interactor.last.fm.DeleteLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.update.UpdateMultipleTracksUseCase
 import dev.olog.msc.domain.interactor.update.UpdateTrackUseCase
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import org.jaudiotagger.tag.FieldKey
 import javax.inject.Inject

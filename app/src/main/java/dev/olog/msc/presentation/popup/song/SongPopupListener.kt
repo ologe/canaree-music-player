@@ -9,7 +9,7 @@ import dev.olog.msc.domain.interactor.dialog.AddToPlaylistUseCase
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.popup.AbsPopup
 import dev.olog.msc.presentation.popup.AbsPopupListener
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import javax.inject.Inject
 
 class SongPopupListener @Inject constructor(

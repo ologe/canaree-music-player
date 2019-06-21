@@ -4,7 +4,7 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.toMediaEntity
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Observable
 import io.reactivex.Single
 

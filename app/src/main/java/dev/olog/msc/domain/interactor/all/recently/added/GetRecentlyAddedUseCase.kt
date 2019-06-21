@@ -7,7 +7,7 @@ import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

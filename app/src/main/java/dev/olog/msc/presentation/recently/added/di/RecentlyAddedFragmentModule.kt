@@ -10,7 +10,7 @@ import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragmentViewModel
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 @Module(includes = [RecentlyAddedFragmentModule.Binding::class])
 class RecentlyAddedFragmentModule(

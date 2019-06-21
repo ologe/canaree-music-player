@@ -8,7 +8,7 @@ import android.text.SpannableString
 import androidx.annotation.RequiresApi
 import dagger.Lazy
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import javax.inject.Inject

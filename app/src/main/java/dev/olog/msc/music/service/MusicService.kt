@@ -21,8 +21,8 @@ import dev.olog.msc.music.service.helper.MediaItemGenerator
 import dev.olog.msc.music.service.helper.WearHelper
 import dev.olog.msc.music.service.notification.MusicNotificationManager
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.PendingIntents
 import dev.olog.msc.utils.img.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.asServicePendingIntent

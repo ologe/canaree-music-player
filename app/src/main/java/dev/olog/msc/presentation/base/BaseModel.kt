@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.base
 
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 interface BaseModel {
     val type: Int

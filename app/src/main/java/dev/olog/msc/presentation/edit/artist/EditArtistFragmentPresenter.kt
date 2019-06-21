@@ -6,15 +6,15 @@ import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Single
 import javax.inject.Inject
 
 class EditArtistFragmentPresenter @Inject constructor(
-        private val mediaId: MediaId,
-        private val getArtistUseCase: GetArtistUseCase,
-        private val getPodcastArtistUseCase: GetPodcastArtistUseCase,
-        private val getSongListByParamUseCase: GetSongListByParamUseCase
+    private val mediaId: MediaId,
+    private val getArtistUseCase: GetArtistUseCase,
+    private val getPodcastArtistUseCase: GetPodcastArtistUseCase,
+    private val getSongListByParamUseCase: GetSongListByParamUseCase
 
 ) {
 

@@ -6,7 +6,7 @@ import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.OfflineLyricsGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.msc.domain.interactor.item.GetSongUseCase
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey

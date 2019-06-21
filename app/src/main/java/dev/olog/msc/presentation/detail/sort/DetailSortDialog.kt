@@ -8,8 +8,8 @@ import android.widget.PopupMenu
 import androidx.annotation.MenuRes
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 
 class DetailSortDialog {
 

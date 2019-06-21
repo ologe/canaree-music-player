@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.last.fm
 import dev.olog.msc.app.IoSchedulers
 import dev.olog.msc.domain.gateway.LastFmGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 

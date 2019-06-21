@@ -18,7 +18,7 @@ import dev.olog.msc.domain.interactor.favorite.UpdateFavoriteStateUseCase
 import dev.olog.msc.domain.interactor.playing.queue.InsertHistorySongUseCase
 import dev.olog.msc.music.service.interfaces.PlayerLifecycle
 import dev.olog.msc.music.service.model.MediaEntity
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable

@@ -12,8 +12,8 @@ import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByAlbum
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastAlbumSiblingsByArtistUseCase
 import dev.olog.msc.domain.interactor.all.sibling.GetPodcastPlaylistsSiblingsUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
 
@@ -24,9 +24,9 @@ class DetailFragmentModulePodcastAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_PLAYLIST)
     internal fun providePodcastPlaylist(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPodcastPlaylistsSiblingsUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPodcastPlaylistsSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -36,9 +36,9 @@ class DetailFragmentModulePodcastAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ALBUMS)
     internal fun providePodcastAlbum(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPodcastAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPodcastAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -48,9 +48,9 @@ class DetailFragmentModulePodcastAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ARTISTS)
     internal fun providePodcastArtist(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPodcastAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPodcastAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }

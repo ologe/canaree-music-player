@@ -11,7 +11,7 @@ import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.interactor.playing.queue.GetMiniQueueUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getBitmapAsync
 import javax.inject.Inject
 
@@ -68,12 +68,12 @@ class QueueRemoteViewsFactory @Inject constructor(
     }
 
     private class WidgetItem(
-            val id: Long,
-            val idInPlaylist: Int,
-            val mediaId: MediaId,
-            val title: String,
-            val subtitle: String,
-            val image: String
+        val id: Long,
+        val idInPlaylist: Int,
+        val mediaId: MediaId,
+        val title: String,
+        val subtitle: String,
+        val image: String
     )
 
     private fun PlayingQueueSong.toWidgetItem(): WidgetItem {

@@ -3,7 +3,7 @@ package dev.olog.msc.data.db
 import androidx.room.*
 import dev.olog.msc.data.entity.RecentSearchesEntity
 import dev.olog.msc.domain.entity.*
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.RecentSearchesTypes.ALBUM
 import dev.olog.msc.utils.RecentSearchesTypes.ARTIST
 import dev.olog.msc.utils.RecentSearchesTypes.FOLDER
@@ -198,52 +198,62 @@ abstract class RecentSearchesDao {
     }
 
     private fun searchSongMapper(recentSearch: RecentSearchesEntity, song: Song) : SearchResult {
-        return SearchResult(MediaId.songId(song.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.songId(song.id), recentSearch.dataType,
                 song.title, song.image)
     }
 
     private fun searchAlbumMapper(recentSearch: RecentSearchesEntity, album: Album) : SearchResult {
-        return SearchResult(MediaId.albumId(album.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.albumId(album.id), recentSearch.dataType,
                 album.title, album.image)
     }
 
     private fun searchArtistMapper(recentSearch: RecentSearchesEntity, artist: Artist) : SearchResult {
-        return SearchResult(MediaId.artistId(artist.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.artistId(artist.id), recentSearch.dataType,
                 artist.name, artist.image)
     }
 
     private fun searchPlaylistMapper(recentSearch: RecentSearchesEntity, playlist: Playlist) : SearchResult {
-        return SearchResult(MediaId.playlistId(playlist.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.playlistId(playlist.id), recentSearch.dataType,
                 playlist.title, playlist.image)
     }
 
     private fun searchGenreMapper(recentSearch: RecentSearchesEntity, genre: Genre) : SearchResult {
-        return SearchResult(MediaId.genreId(genre.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.genreId(genre.id), recentSearch.dataType,
                 genre.name, genre.image)
     }
 
     private fun searchFolderMapper(recentSearch: RecentSearchesEntity, folder: Folder) : SearchResult {
-        return SearchResult(MediaId.folderId(folder.path), recentSearch.dataType,
+        return SearchResult(
+            MediaId.folderId(folder.path), recentSearch.dataType,
                 folder.title, folder.image)
     }
 
     private fun searchPodcastMapper(recentSearch: RecentSearchesEntity, podcast: Podcast) : SearchResult {
-        return SearchResult(MediaId.podcastId(podcast.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.podcastId(podcast.id), recentSearch.dataType,
                 podcast.title, podcast.image)
     }
 
     private fun searchPodcastPlaylistMapper(recentSearch: RecentSearchesEntity, playlist: PodcastPlaylist) : SearchResult {
-        return SearchResult(MediaId.podcastPlaylistId(playlist.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.podcastPlaylistId(playlist.id), recentSearch.dataType,
                 playlist.title, playlist.image)
     }
 
     private fun searchPodcastAlbumMapper(recentSearch: RecentSearchesEntity, album: PodcastAlbum) : SearchResult {
-        return SearchResult(MediaId.podcastAlbumId(album.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.podcastAlbumId(album.id), recentSearch.dataType,
                 album.title, album.image)
     }
 
     private fun searchPodcastArtistMapper(recentSearch: RecentSearchesEntity, artist: PodcastArtist) : SearchResult {
-        return SearchResult(MediaId.podcastArtistId(artist.id), recentSearch.dataType,
+        return SearchResult(
+            MediaId.podcastArtistId(artist.id), recentSearch.dataType,
                 artist.name, artist.image)
     }
 

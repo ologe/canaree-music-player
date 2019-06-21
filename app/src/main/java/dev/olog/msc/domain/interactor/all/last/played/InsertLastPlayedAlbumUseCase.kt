@@ -4,7 +4,7 @@ import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.AlbumGateway
 import dev.olog.msc.domain.gateway.PodcastAlbumGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 

@@ -4,8 +4,8 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import io.reactivex.Observable
 import javax.inject.Inject
 

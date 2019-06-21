@@ -13,8 +13,8 @@ import dev.olog.msc.domain.interactor.item.GetPodcastAlbumUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastArtistUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastPlaylistUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
 import io.reactivex.Flowable
@@ -26,9 +26,9 @@ class DetailFragmentModulePodcastItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_PLAYLIST)
     internal fun providePlaylistItem(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPodcastPlaylistUseCase) : Flowable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPodcastPlaylistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem(resources) }
@@ -39,8 +39,8 @@ class DetailFragmentModulePodcastItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ALBUMS)
     internal fun provideAlbumItem(
-            mediaId: MediaId,
-            useCase: GetPodcastAlbumUseCase) : Flowable<List<DisplayableItem>> {
+        mediaId: MediaId,
+        useCase: GetPodcastAlbumUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem() }
@@ -51,9 +51,9 @@ class DetailFragmentModulePodcastItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PODCASTS_ARTISTS)
     internal fun provideArtistItem(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPodcastArtistUseCase) : Flowable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPodcastArtistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem(resources) }

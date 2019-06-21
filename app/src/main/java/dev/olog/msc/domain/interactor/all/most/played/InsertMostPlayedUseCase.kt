@@ -5,8 +5,8 @@ import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.PlaylistGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import io.reactivex.Completable
 import javax.inject.Inject
 

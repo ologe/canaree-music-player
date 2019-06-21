@@ -2,12 +2,12 @@ package dev.olog.msc.domain.entity
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 
 data class LibraryCategoryBehavior(
-        val category: MediaIdCategory,
-        var visible: Boolean,
-        var order: Int
+    val category: MediaIdCategory,
+    var visible: Boolean,
+    var order: Int
 ) {
 
     fun asString(context: Context): String {

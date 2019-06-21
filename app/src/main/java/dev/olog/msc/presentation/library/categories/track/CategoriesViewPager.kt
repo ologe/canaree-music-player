@@ -9,7 +9,7 @@ import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.library.tab.TabFragment
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 
 class CategoriesViewPager(
         private val context: Context,

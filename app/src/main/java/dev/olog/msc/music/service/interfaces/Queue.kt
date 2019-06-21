@@ -4,7 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import dev.olog.msc.music.service.model.PlayerMediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Single
 
 interface Queue {

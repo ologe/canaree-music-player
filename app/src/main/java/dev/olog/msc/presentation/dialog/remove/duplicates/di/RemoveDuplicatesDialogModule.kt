@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.dialog.remove.duplicates.di
 import dagger.Module
 import dagger.Provides
 import dev.olog.msc.presentation.dialog.remove.duplicates.RemoveDuplicatesDialog
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 @Module
 class RemoveDuplicatesDialogModule(private val fragment: RemoveDuplicatesDialog) {

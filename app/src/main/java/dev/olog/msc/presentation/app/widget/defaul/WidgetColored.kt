@@ -9,7 +9,7 @@ import dev.olog.msc.presentation.app.widget.BaseWidget
 import dev.olog.msc.presentation.app.widget.WidgetMetadata
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.utils.images.ImageProcessor
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.getBitmap
 
 private const val IMAGE_SIZE = 300

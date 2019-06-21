@@ -8,8 +8,8 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.tint
 
 object CoverUtils {

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.presentation.edit.track.DisplayableSong
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.toast
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -101,18 +101,18 @@ data class UpdateSongInfo(
 )
 
 data class UpdateAlbumInfo(
-        val mediaId: MediaId,
-        val title: String,
-        val artist: String,
-        val albumArtist: String,
-        val genre: String,
-        val year: String,
-        val image: String?
+    val mediaId: MediaId,
+    val title: String,
+    val artist: String,
+    val albumArtist: String,
+    val genre: String,
+    val year: String,
+    val image: String?
 )
 
 data class UpdateArtistInfo(
-        val mediaId: MediaId,
-        val name: String,
-        val albumArtist: String,
-        val image: String?
+    val mediaId: MediaId,
+    val name: String,
+    val albumArtist: String,
+    val image: String?
 )

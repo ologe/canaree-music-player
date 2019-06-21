@@ -20,7 +20,7 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.main.MainActivity
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.assertBackgroundThread
 import dev.olog.msc.utils.k.extension.asActivityPendingIntent
 import dev.olog.msc.utils.k.extension.asServicePendingIntent

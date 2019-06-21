@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.search.insert
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.RecentSearchesGateway
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 

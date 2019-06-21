@@ -8,7 +8,7 @@ import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_library_categories.*

@@ -5,7 +5,7 @@ import androidx.core.os.bundleOf
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.ApplicationContext
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import javax.inject.Inject
 
 class DetailFragmentHeaders @Inject constructor(

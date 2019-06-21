@@ -9,7 +9,7 @@ import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.entity.Song
 import dev.olog.msc.domain.gateway.FolderGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Completable
 import io.reactivex.CompletableSource

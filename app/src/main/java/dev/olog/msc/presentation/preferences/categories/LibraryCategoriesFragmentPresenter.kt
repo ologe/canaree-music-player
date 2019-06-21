@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.preferences.categories
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 import javax.inject.Inject
 
 class LibraryCategoriesFragmentPresenter @Inject constructor(

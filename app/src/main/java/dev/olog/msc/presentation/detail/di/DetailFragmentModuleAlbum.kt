@@ -12,8 +12,8 @@ import dev.olog.msc.domain.entity.Genre
 import dev.olog.msc.domain.entity.Playlist
 import dev.olog.msc.domain.interactor.all.sibling.*
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
 
@@ -24,9 +24,9 @@ class DetailFragmentModuleAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
     internal fun provideFolderData(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetFolderSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -36,9 +36,9 @@ class DetailFragmentModuleAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PLAYLISTS)
     internal fun providePlaylistData(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPlaylistSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -49,9 +49,9 @@ class DetailFragmentModuleAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumData(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetAlbumSiblingsByAlbumUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -62,9 +62,9 @@ class DetailFragmentModuleAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.ARTISTS)
     internal fun provideArtistData(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetAlbumSiblingsByArtistUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }
@@ -74,9 +74,9 @@ class DetailFragmentModuleAlbum {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.GENRES)
     internal fun provideGenreData(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetGenreSiblingsUseCase): Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toDetailDisplayableItem(resources) }

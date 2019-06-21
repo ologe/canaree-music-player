@@ -6,7 +6,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.data.DataFetcher
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -20,9 +20,9 @@ private val FALLBACKS = arrayOf("cover.jpg", "album.jpg", "folder.jpg", "cover.p
 
 
 class GlideOriginalImageFetcher(
-        private val mediaId: MediaId,
-        private val songGateway: SongGateway,
-        private val podcastGateway: PodcastGateway
+    private val mediaId: MediaId,
+    private val songGateway: SongGateway,
+    private val podcastGateway: PodcastGateway
 
 ) : DataFetcher<InputStream> {
 

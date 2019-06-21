@@ -15,7 +15,7 @@ import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.base.BaseActivity
 import dev.olog.msc.presentation.detail.sort.DetailSort
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable

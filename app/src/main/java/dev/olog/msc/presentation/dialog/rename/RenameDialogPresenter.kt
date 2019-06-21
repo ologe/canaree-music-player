@@ -3,14 +3,14 @@ package dev.olog.msc.presentation.dialog.rename
 import dev.olog.msc.domain.entity.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.dialog.RenameUseCase
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class RenameDialogPresenter @Inject constructor(
-        private val mediaId: MediaId,
-        getPlaylistSiblingsUseCase: GetPlaylistsBlockingUseCase,
-        private val renameUseCase: RenameUseCase
+    private val mediaId: MediaId,
+    getPlaylistSiblingsUseCase: GetPlaylistsBlockingUseCase,
+    private val renameUseCase: RenameUseCase
 
 ) {
 

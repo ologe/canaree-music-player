@@ -5,7 +5,7 @@ import dev.olog.msc.domain.entity.Folder
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.domain.interactor.all.GetAllFoldersUnfiltered
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Observable
 import javax.inject.Inject

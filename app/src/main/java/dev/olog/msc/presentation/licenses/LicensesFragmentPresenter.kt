@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.licenses
 
 import android.content.Context
 import dev.olog.msc.R
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 class LicensesFragmentPresenter (private val context: Context) {
 

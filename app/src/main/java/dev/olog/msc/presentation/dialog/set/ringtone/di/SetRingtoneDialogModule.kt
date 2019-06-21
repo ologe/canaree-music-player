@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.dialog.set.ringtone.SetRingtoneDialog
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 @Module
 class SetRingtoneDialogModule(

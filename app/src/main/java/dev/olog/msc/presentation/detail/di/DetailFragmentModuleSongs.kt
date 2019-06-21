@@ -22,7 +22,7 @@ import dev.olog.msc.domain.interactor.all.sorted.GetSortedSongListByParamUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.TimeUtils
 import dev.olog.msc.utils.k.extension.mapToList
@@ -35,8 +35,8 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.RECENTLY_ADDED)
     internal fun provideRecentlyAdded(
-            mediaId: MediaId,
-            useCase: GetRecentlyAddedUseCase) : Observable<List<DisplayableItem>> {
+        mediaId: MediaId,
+        useCase: GetRecentlyAddedUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toRecentDetailDisplayableItem(mediaId) }
@@ -46,8 +46,8 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.MOST_PLAYED)
     internal fun provideMostPlayed(
-            mediaId: MediaId,
-            useCase: GetMostPlayedSongsUseCase) : Observable<List<DisplayableItem>> {
+        mediaId: MediaId,
+        useCase: GetMostPlayedSongsUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .mapToList { it.toMostPlayedDetailDisplayableItem(mediaId) }
@@ -57,11 +57,11 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.SONGS)
     internal fun provideSongList(
-            @ApplicationContext context: Context,
-            mediaId: MediaId,
-            useCase: GetSortedSongListByParamUseCase,
-            sortOrderUseCase: GetSortOrderUseCase,
-            songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
+        @ApplicationContext context: Context,
+        mediaId: MediaId,
+        useCase: GetSortedSongListByParamUseCase,
+        sortOrderUseCase: GetSortOrderUseCase,
+        songDurationUseCase: GetTotalSongDurationUseCase) : Observable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .flatMapSingle { songList ->
@@ -85,10 +85,10 @@ class DetailFragmentModuleSongs {
     @IntoMap
     @StringKey(DetailFragmentViewModel.RELATED_ARTISTS)
     internal fun provideRelatedArtists(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetRelatedArtistsUseCase,
-            podcastUseCase: GetPodcastRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetRelatedArtistsUseCase,
+        podcastUseCase: GetPodcastRelatedArtistsUseCase): Observable<List<DisplayableItem>> {
 
         if (mediaId.isPodcastPlaylist){
             return podcastUseCase.execute(mediaId).mapToList { it.toRelatedArtist(resources) }

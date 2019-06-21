@@ -5,16 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dev.olog.msc.domain.interactor.GetItemTitleUseCase
 import dev.olog.msc.domain.interactor.all.related.artists.GetRelatedArtistsUseCase
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import java.text.Collator
 import javax.inject.Inject
 
 class RelatedArtistFragmentViewModelFactory @Inject constructor(
-        private val resources: Resources,
-        private val mediaId: MediaId,
-        private val getRelatedArtistsUseCase: GetRelatedArtistsUseCase,
-        private val getItemTitleUseCase: GetItemTitleUseCase,
-        private val collator: Collator
+    private val resources: Resources,
+    private val mediaId: MediaId,
+    private val getRelatedArtistsUseCase: GetRelatedArtistsUseCase,
+    private val getItemTitleUseCase: GetItemTitleUseCase,
+    private val collator: Collator
 
 ) : ViewModelProvider.Factory {
 

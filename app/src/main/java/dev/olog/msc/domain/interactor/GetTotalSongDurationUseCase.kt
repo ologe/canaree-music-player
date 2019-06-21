@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor
 import dev.olog.msc.domain.executors.ComputationScheduler
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.SingleUseCaseWithParam
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Single
 import javax.inject.Inject
 

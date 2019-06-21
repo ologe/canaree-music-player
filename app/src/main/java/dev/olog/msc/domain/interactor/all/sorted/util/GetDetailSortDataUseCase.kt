@@ -3,7 +3,7 @@ package dev.olog.msc.domain.interactor.all.sorted.util
 import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.interactor.base.SingleUseCaseWithParam
 import dev.olog.msc.presentation.detail.sort.DetailSort
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Single
 import io.reactivex.rxkotlin.Singles
 import javax.inject.Inject

@@ -13,8 +13,8 @@ import dev.olog.msc.presentation.popup.podcastalbum.PodcastAlbumPopup
 import dev.olog.msc.presentation.popup.podcastartist.PodcastArtistPopup
 import dev.olog.msc.presentation.popup.podcastplaylist.PodcastPlaylistPopup
 import dev.olog.msc.presentation.popup.song.SongPopup
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject

@@ -15,8 +15,8 @@ import dev.olog.msc.domain.entity.SortType
 import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.pro.IBilling
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import javax.inject.Inject
 
 

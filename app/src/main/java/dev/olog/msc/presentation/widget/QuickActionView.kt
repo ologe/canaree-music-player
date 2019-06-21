@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.toggleVisibility
 import kotlin.properties.Delegates
 

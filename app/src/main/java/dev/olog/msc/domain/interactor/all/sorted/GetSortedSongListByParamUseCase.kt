@@ -9,7 +9,7 @@ import dev.olog.msc.domain.interactor.all.sorted.util.GetSortArrangingUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.GetSortOrderUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCaseWithParam
 import dev.olog.msc.utils.ComparatorUtils
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.safeCompare
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables

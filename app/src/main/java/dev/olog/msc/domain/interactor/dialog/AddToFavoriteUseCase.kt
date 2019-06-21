@@ -5,7 +5,7 @@ import dev.olog.msc.domain.executors.IoScheduler
 import dev.olog.msc.domain.gateway.FavoriteGateway
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Completable
 import javax.inject.Inject
@@ -32,8 +32,8 @@ class AddToFavoriteUseCase @Inject constructor(
     }
 
     class Input(
-            val mediaId: MediaId,
-            val type: FavoriteType
+        val mediaId: MediaId,
+        val type: FavoriteType
     )
 
 }

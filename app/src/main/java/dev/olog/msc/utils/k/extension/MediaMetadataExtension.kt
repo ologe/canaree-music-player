@@ -3,7 +3,7 @@ package dev.olog.msc.utils.k.extension
 import android.support.v4.media.MediaMetadataCompat
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.TextUtils
 
 fun MediaMetadataCompat.getTitle(): CharSequence {

@@ -32,7 +32,7 @@ import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.pro.IBilling
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject

@@ -3,7 +3,7 @@ package dev.olog.msc.presentation.library.tab
 import android.content.Context
 import androidx.recyclerview.widget.GridLayoutManager
 import dev.olog.msc.presentation.library.tab.span.size.lookup.*
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.isPortrait
 
 object LayoutManagerFactory {

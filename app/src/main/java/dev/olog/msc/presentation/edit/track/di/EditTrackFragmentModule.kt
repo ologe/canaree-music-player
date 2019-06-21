@@ -9,7 +9,7 @@ import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragmentViewModel
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 @Module(includes = [EditTrackFragmentModule.Binding::class])
 class EditTrackFragmentModule(

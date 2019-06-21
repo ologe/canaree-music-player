@@ -8,7 +8,7 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.detail.DetailFragmentViewModel
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 @Module(includes = [DetailFragmentModule.Bindings::class] )
 class DetailFragmentModule(private val fragment: DetailFragment) {

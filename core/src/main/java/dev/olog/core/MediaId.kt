@@ -1,4 +1,4 @@
-package dev.olog.msc.utils
+package dev.olog.core
 
 enum class MediaIdCategory {
     FOLDERS,
@@ -28,9 +28,9 @@ enum class MediaIdCategory {
 }
 
 class MediaId private constructor(
-        val category: MediaIdCategory,
-        val categoryValue: String,
-        val leaf: Long? = null
+    val category: MediaIdCategory,
+    val categoryValue: String,
+    val leaf: Long? = null
 ) {
 
     val source : Int = category.ordinal
@@ -43,7 +43,8 @@ class MediaId private constructor(
             return MediaId(MediaIdCategory.HEADER, value)
         }
 
-        val playingQueueId: MediaId = MediaId(MediaIdCategory.PLAYING_QUEUE, "")
+        val playingQueueId: MediaId =
+            MediaId(MediaIdCategory.PLAYING_QUEUE, "")
 
         fun createCategoryValue(category: MediaIdCategory, categoryValue: String): MediaId {
             return MediaId(category, categoryValue)
@@ -115,9 +116,9 @@ class MediaId private constructor(
             }
 
             return MediaId(
-                    MediaIdCategory.valueOf(category),
-                    categoryValue,
-                    leaf
+                MediaIdCategory.valueOf(category),
+                categoryValue,
+                leaf
             )
         }
     }

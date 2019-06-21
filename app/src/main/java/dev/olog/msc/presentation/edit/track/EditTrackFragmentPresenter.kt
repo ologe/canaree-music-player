@@ -10,7 +10,7 @@ import dev.olog.msc.domain.interactor.item.GetPodcastUseCase
 import dev.olog.msc.domain.interactor.item.GetUneditedSongUseCase
 import dev.olog.msc.domain.interactor.last.fm.GetLastFmTrackUseCase
 import dev.olog.msc.domain.interactor.last.fm.LastFmTrackRequest
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.get
 import io.reactivex.Single
 import org.jaudiotagger.audio.AudioFileIO
@@ -19,11 +19,11 @@ import java.io.File
 import javax.inject.Inject
 
 class EditTrackFragmentPresenter @Inject constructor(
-        private val mediaId: MediaId,
-        private val getSongUseCase: GetUneditedSongUseCase,
-        private val getPodcastUseCase: GetPodcastUseCase,
-        private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
-        private val usedImageGateway: UsedImageGateway
+    private val mediaId: MediaId,
+    private val getSongUseCase: GetUneditedSongUseCase,
+    private val getPodcastUseCase: GetPodcastUseCase,
+    private val getLastFmTrackUseCase: GetLastFmTrackUseCase,
+    private val usedImageGateway: UsedImageGateway
 
 ) {
 

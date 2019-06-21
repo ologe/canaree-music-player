@@ -5,17 +5,17 @@ import android.os.Bundle
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.presentation.base.BaseModel
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 data class DisplayableItem (
-        override val type: Int,
-        override val mediaId: MediaId,
-        val title: String,
-        val subtitle: String? = null,
-        val image: String = "",
-        val isPlayable: Boolean = false,
-        val trackNumber: String = "",
-        val extra: Bundle? = null
+    override val type: Int,
+    override val mediaId: MediaId,
+    val title: String,
+    val subtitle: String? = null,
+    val image: String = "",
+    val isPlayable: Boolean = false,
+    val trackNumber: String = "",
+    val extra: Bundle? = null
 
 ) : BaseModel {
 

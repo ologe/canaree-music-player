@@ -8,7 +8,7 @@ import dagger.multibindings.IntoMap
 import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragmentViewModel
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 @Module(includes = [EditArtistFragmentModule.Binding::class])
 class EditArtistFragmentModule(private val fragment: EditArtistFragment) {

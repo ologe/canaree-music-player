@@ -9,8 +9,8 @@ import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.item.*
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.TextUtils
 import dev.olog.msc.utils.k.extension.asFlowable
 import io.reactivex.Flowable
@@ -22,9 +22,9 @@ class DetailFragmentModuleItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.FOLDERS)
     internal fun provideFolderItem(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetFolderUseCase) : Flowable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetFolderUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem(resources) }
@@ -35,9 +35,9 @@ class DetailFragmentModuleItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.PLAYLISTS)
     internal fun providePlaylistItem(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetPlaylistUseCase) : Flowable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetPlaylistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem(resources) }
@@ -48,8 +48,8 @@ class DetailFragmentModuleItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.ALBUMS)
     internal fun provideAlbumItem(
-            mediaId: MediaId,
-            useCase: GetAlbumUseCase) : Flowable<List<DisplayableItem>> {
+        mediaId: MediaId,
+        useCase: GetAlbumUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem() }
@@ -60,9 +60,9 @@ class DetailFragmentModuleItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.ARTISTS)
     internal fun provideArtistItem(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetArtistUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem(resources) }
@@ -73,9 +73,9 @@ class DetailFragmentModuleItem {
     @IntoMap
     @MediaIdCategoryKey(MediaIdCategory.GENRES)
     internal fun provideGenreItem(
-            resources: Resources,
-            mediaId: MediaId,
-            useCase: GetGenreUseCase) : Flowable<List<DisplayableItem>> {
+        resources: Resources,
+        mediaId: MediaId,
+        useCase: GetGenreUseCase) : Flowable<List<DisplayableItem>> {
 
         return useCase.execute(mediaId)
                 .map { it.toHeaderItem(resources) }

@@ -8,8 +8,8 @@ import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.*
 import dev.olog.msc.presentation.detail.sort.DetailSort
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.msc.utils.k.extension.debounceFirst
 import io.reactivex.Completable
@@ -24,17 +24,17 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DetailFragmentViewModel @Inject constructor(
-        val mediaId: MediaId,
-        item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
-        albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
-        data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
-        private val presenter: DetailFragmentPresenter,
-        private val setSortOrderUseCase: SetSortOrderUseCase,
-        private val observeSortOrderUseCase: GetSortOrderUseCase,
-        private val setSortArrangingUseCase: SetSortArrangingUseCase,
-        private val getSortArrangingUseCase: GetSortArrangingUseCase,
-        getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
-        private val getDetailSortDataUseCase: GetDetailSortDataUseCase
+    val mediaId: MediaId,
+    item: Map<MediaIdCategory, @JvmSuppressWildcards Flowable<List<DisplayableItem>>>,
+    albums: Map<MediaIdCategory, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
+    data: Map<String, @JvmSuppressWildcards Observable<List<DisplayableItem>>>,
+    private val presenter: DetailFragmentPresenter,
+    private val setSortOrderUseCase: SetSortOrderUseCase,
+    private val observeSortOrderUseCase: GetSortOrderUseCase,
+    private val setSortArrangingUseCase: SetSortArrangingUseCase,
+    private val getSortArrangingUseCase: GetSortArrangingUseCase,
+    getVisibleTabsUseCase : GetDetailTabsVisibilityUseCase,
+    private val getDetailSortDataUseCase: GetDetailSortDataUseCase
 
 ) : ViewModel() {
 

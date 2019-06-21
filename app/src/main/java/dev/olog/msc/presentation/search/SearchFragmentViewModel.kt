@@ -9,7 +9,7 @@ import dev.olog.msc.domain.interactor.search.delete.ClearRecentSearchesUseCase
 import dev.olog.msc.domain.interactor.search.delete.DeleteRecentSearchUseCase
 import dev.olog.msc.domain.interactor.search.insert.InsertRecentSearchUseCase
 import dev.olog.msc.presentation.model.DisplayableItem
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

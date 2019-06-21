@@ -4,8 +4,8 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import dev.olog.msc.domain.entity.*
 import dev.olog.msc.domain.interactor.all.*
-import dev.olog.msc.utils.MediaId
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaId
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.mapToList
 import io.reactivex.Single
 import javax.inject.Inject

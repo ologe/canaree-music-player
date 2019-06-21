@@ -7,7 +7,7 @@ import dev.olog.msc.domain.gateway.PlayingQueueGateway
 import dev.olog.msc.domain.gateway.PodcastGateway
 import dev.olog.msc.domain.gateway.SongGateway
 import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseRequest
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single

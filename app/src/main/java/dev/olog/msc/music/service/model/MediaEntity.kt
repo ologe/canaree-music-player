@@ -3,26 +3,26 @@ package dev.olog.msc.music.service.model
 import dev.olog.msc.domain.entity.PlayingQueueSong
 import dev.olog.msc.domain.entity.Podcast
 import dev.olog.msc.domain.entity.Song
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 
 data class MediaEntity(
-        val id: Long,
-        val idInPlaylist: Int,
-        val mediaId: MediaId,
-        val artistId: Long,
-        val albumId: Long,
-        val title: String,
-        val artist: String,
-        val albumArtist: String,
-        val album: String,
-        val image: String,
-        val duration: Long,
-        val dateAdded: Long,
-        val path: String,
-        val folder: String,
-        val discNumber: Int,
-        val trackNumber: Int,
-        val isPodcast: Boolean
+    val id: Long,
+    val idInPlaylist: Int,
+    val mediaId: MediaId,
+    val artistId: Long,
+    val albumId: Long,
+    val title: String,
+    val artist: String,
+    val albumArtist: String,
+    val album: String,
+    val image: String,
+    val duration: Long,
+    val dateAdded: Long,
+    val path: String,
+    val folder: String,
+    val discNumber: Int,
+    val trackNumber: Int,
+    val isPodcast: Boolean
 )
 
 fun Song.toMediaEntity(progressive: Int, mediaId: MediaId) : MediaEntity {

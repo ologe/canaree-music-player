@@ -2,8 +2,6 @@ package dev.olog.msc.presentation.detail
 
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding2.view.RxView
 import dev.olog.msc.BR
 import dev.olog.msc.R
@@ -18,7 +16,7 @@ import dev.olog.msc.presentation.detail.sort.DetailSortDialog
 import dev.olog.msc.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
@@ -27,16 +25,16 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.item_detail_header_all_song.view.*
 
 class DetailFragmentAdapter (
-        lifecycle: Lifecycle,
-        private val mediaId: MediaId,
-        private val recentlyAddedAdapter: DetailRecentlyAddedAdapter,
-        private val mostPlayedAdapter: DetailMostPlayedAdapter,
-        private val relatedArtistsAdapter: DetailRelatedArtistsAdapter,
-        private val albumsAdapter: DetailAlbumsAdapter,
-        private val navigator: Navigator,
-        private val mediaProvider: MediaProvider,
-        private val viewModel: DetailFragmentViewModel,
-        private val recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+    lifecycle: Lifecycle,
+    private val mediaId: MediaId,
+    private val recentlyAddedAdapter: DetailRecentlyAddedAdapter,
+    private val mostPlayedAdapter: DetailMostPlayedAdapter,
+    private val relatedArtistsAdapter: DetailRelatedArtistsAdapter,
+    private val albumsAdapter: DetailAlbumsAdapter,
+    private val navigator: Navigator,
+    private val mediaProvider: MediaProvider,
+    private val viewModel: DetailFragmentViewModel,
+    private val recycledViewPool : androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 

@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.library.tab
 
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 
 object TabHorizontalAdapters {
 

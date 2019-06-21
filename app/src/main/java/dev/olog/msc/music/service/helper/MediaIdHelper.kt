@@ -5,7 +5,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import androidx.annotation.StringRes
 import dev.olog.msc.R
-import dev.olog.msc.utils.MediaIdCategory
+import dev.olog.core.MediaIdCategory
 
 object MediaIdHelper {
 

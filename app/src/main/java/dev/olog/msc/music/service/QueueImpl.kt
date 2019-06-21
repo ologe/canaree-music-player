@@ -15,7 +15,7 @@ import dev.olog.msc.domain.interactor.playing.queue.UpdatePlayingQueueUseCaseReq
 import dev.olog.msc.music.service.model.MediaEntity
 import dev.olog.msc.music.service.model.PositionInQueue
 import dev.olog.msc.music.service.model.toMediaEntity
-import dev.olog.msc.utils.MediaId
+import dev.olog.core.MediaId
 import dev.olog.msc.utils.assertMainThread
 import dev.olog.msc.utils.k.extension.clamp
 import dev.olog.msc.utils.k.extension.swap
