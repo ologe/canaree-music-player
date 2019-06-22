@@ -11,7 +11,7 @@
 
     <dimen name="main_toolbar_text_size">24dp</dimen>
 
-    <string name="category_header">Library</string>
+    <string name="category_header">@string/common_library</string>
 
     <string-array name="categories">
         <item>@string/category_folders</item>

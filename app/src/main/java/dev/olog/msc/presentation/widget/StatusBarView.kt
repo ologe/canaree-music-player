@@ -15,16 +15,28 @@ class StatusBarView(
     attrs: AttributeSet
 ) : View(context, attrs) {
 
+    companion object {
+        // for some reason (bug maybe), setOnApplyWindowInsetsListener is called only once for all views
+        // TODO can be a bug of current SDK
+        var viewHeight = -1
+    }
+
     init {
         setBackgroundColor(context.colorSurface())
     }
 
-    private var viewHeight = 0
-
-    override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets {
-        viewHeight = insets?.systemWindowInsetTop ?: 0
-        setHeight(viewHeight)
-        return super.onApplyWindowInsets(insets)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        if (viewHeight == -1){
+            setOnApplyWindowInsetsListener { v, insets ->
+                val height = insets?.systemWindowInsetTop ?: 0
+                setHeight(height)
+                viewHeight = height
+                insets
+            }
+        } else {
+            setHeight(viewHeight)
+        }
     }
 
 }

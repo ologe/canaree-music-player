@@ -4,7 +4,7 @@ import android.content.Context
 import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
-import dev.olog.msc.presentation.main.widget.CustomBottomNavigator
+import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.shared.Permissions
 import javax.inject.Inject
 
@@ -20,9 +20,9 @@ class MainActivityPresenter @Inject constructor(
         return !canReadStorage || isFirstAccess
     }
 
-    fun getLastBottomViewPage(): CustomBottomNavigator.Page = presentationPrefs.getLastBottomViewPage()
+    fun getLastBottomViewPage(): BottomNavigationPage = presentationPrefs.getLastBottomViewPage()
 
-    fun setLastBottomViewPage(page: CustomBottomNavigator.Page) {
+    fun setLastBottomViewPage(page: BottomNavigationPage) {
         presentationPrefs.setLastBottomViewPage(page)
     }
 

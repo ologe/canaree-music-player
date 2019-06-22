@@ -3,23 +3,23 @@ package dev.olog.msc.presentation.main.widget
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
-import dev.olog.msc.presentation.library.categories.podcast.CategoriesPodcastFragment
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.R
+import dev.olog.presentation.main.BottomNavigationPage
 
 internal class BottomNavigator {
 
     private val tags = listOf(
-            CategoriesFragment.TAG,
-            CategoriesPodcastFragment.TAG,
+            CategoriesFragment.TAG_TRACK,
+            CategoriesFragment.TAG_PODCAST,
             SearchFragment.TAG,
             PlayingQueueFragment.TAG
     )
 
-    fun navigate(activity: FragmentActivity, page: CustomBottomNavigator.Page){
+    fun navigate(activity: FragmentActivity, page: BottomNavigationPage){
         val fragmentTag = page.toFragmentTag()
 
         if (!tags.contains(fragmentTag)) {
@@ -55,16 +55,16 @@ internal class BottomNavigator {
                 .forEach { hide(it) }
     }
 
-    private fun CustomBottomNavigator.Page.toFragmentTag(): String = when(this){
-        CustomBottomNavigator.Page.SONGS -> CategoriesFragment.TAG
-        CustomBottomNavigator.Page.PODCASTS -> CategoriesPodcastFragment.TAG
-        CustomBottomNavigator.Page.SEARCH -> SearchFragment.TAG
-        CustomBottomNavigator.Page.QUEUE -> PlayingQueueFragment.TAG
+    private fun BottomNavigationPage.toFragmentTag(): String = when(this){
+        BottomNavigationPage.SONGS -> CategoriesFragment.TAG_TRACK
+        BottomNavigationPage.PODCASTS -> CategoriesFragment.TAG_PODCAST
+        BottomNavigationPage.SEARCH -> SearchFragment.TAG
+        BottomNavigationPage.QUEUE -> PlayingQueueFragment.TAG
     }
 
     private fun tagToInstance(tag: String): Fragment = when (tag) {
-        CategoriesFragment.TAG -> CategoriesFragment()
-        CategoriesPodcastFragment.TAG -> CategoriesPodcastFragment()
+        CategoriesFragment.TAG_TRACK -> CategoriesFragment.newInstance(false)
+        CategoriesFragment.TAG_PODCAST -> CategoriesFragment.newInstance(true)
         SearchFragment.TAG -> SearchFragment()
         PlayingQueueFragment.TAG -> PlayingQueueFragment()
         else -> throw IllegalArgumentException("invalid fragment tag $tag")

@@ -9,7 +9,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
-import dev.olog.msc.presentation.main.widget.CustomBottomNavigator
+import dev.olog.presentation.main.BottomNavigationPage
 import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -80,12 +80,12 @@ internal class PresentationPreferenes @Inject constructor(
         preferences.edit { putInt(VIEW_PAGER_PODCAST_LAST_PAGE, lastPage) }
     }
 
-    override fun getLastBottomViewPage(): CustomBottomNavigator.Page {
-        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, CustomBottomNavigator.Page.SONGS.toString())
-        return CustomBottomNavigator.Page.valueOf(page)
+    override fun getLastBottomViewPage(): BottomNavigationPage {
+        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, BottomNavigationPage.SONGS.toString())!!
+        return BottomNavigationPage.valueOf(page)
     }
 
-    override fun setLastBottomViewPage(page: CustomBottomNavigator.Page) {
+    override fun setLastBottomViewPage(page: BottomNavigationPage) {
         preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
     }
 

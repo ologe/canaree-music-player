@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="common_spacing">·</string>
+    <string name="common_spacing" translatable="false">·</string>
+
+    <string name="common_library">Library</string>
 
     <string name="common_folders">Folders</string>
     <string name="common_playlists">Playlists</string>

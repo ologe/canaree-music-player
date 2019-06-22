@@ -112,105 +112,6 @@ class PlayerFragment : BaseFragment() {
                     handleSeekBar(bookmark, it.isPlaying(), it.playbackSpeed)
                 }
 
-        if (AppConstants.IMAGE_SHAPE == AppConstants.ImageShape.RECTANGLE){
-            view.coverWrapper?.radius = 0f
-        }
-
-        if (act.isLandscape && !AppTheme.isFullscreenTheme() && !AppTheme.isMiniTheme()){
-
-            mediaProvider.onMetadataChanged()
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { bigCover?.loadImage(it) }
-
-            mediaProvider.onStateChanged()
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { state ->
-                        if (state.isPlaying() || state.isPaused()){
-                            if (AppTheme.isCleanTheme()){
-                                bigCover?.isActivated = state.isPlaying()
-                            } else {
-                                coverWrapper?.isActivated = state.isPlaying()
-                            }
-
-                        }
-                    }
-
-            mediaProvider.onRepeatModeChanged()
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { repeat?.cycle(it) }
-
-            mediaProvider.onShuffleModeChanged()
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { shuffle?.cycle(it)  }
-
-            mediaProvider.onStateChanged()
-                    .map { it.state }
-                    .filter { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT ||
-                            state == PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS }
-                    .map { state -> state == PlaybackStateCompat.STATE_SKIPPING_TO_NEXT }
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner, this::animateSkipTo)
-
-            mediaProvider.onStateChanged()
-                    .map { it.state }
-                    .filter { it == PlaybackStateCompat.STATE_PLAYING ||
-                            it == PlaybackStateCompat.STATE_PAUSED
-                    }.distinctUntilChanged()
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { state ->
-
-                        if (state == PlaybackStateCompat.STATE_PLAYING){
-                            playAnimation(true)
-                        } else {
-                            pauseAnimation(true)
-                        }
-                    }
-
-            view.findViewById<View>(R.id.next)?.apply {
-                RxView.clicks(this)
-                        .asLiveData()
-                        .subscribe(viewLifecycleOwner) { mediaProvider.skipToNext() }
-            }
-            view.findViewById<View>(R.id.playPause)?.apply {
-                RxView.clicks(this)
-                        .asLiveData()
-                        .subscribe(viewLifecycleOwner) { mediaProvider.playPause() }
-            }
-            view.findViewById<View>(R.id.previous)?.apply {
-                RxView.clicks(this)
-                        .asLiveData()
-                        .subscribe(viewLifecycleOwner) { mediaProvider.skipToPrevious() }
-            }
-
-            presenter.observePlayerControlsVisibility()
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) {
-                        previous.toggleVisibility(it, true)
-                        playPause.toggleVisibility(it, true)
-                        next.toggleVisibility(it, true)
-                    }
-
-            viewModel.skipToNextVisibility.asLiveData()
-                    .subscribe(viewLifecycleOwner) { next?.updateVisibility(it) }
-
-            viewModel.skipToPreviousVisibility.asLiveData()
-                    .subscribe(viewLifecycleOwner) { previous?.updateVisibility(it) }
-
-            view.bigCover?.observeProcessorColors()
-                    ?.asLiveData()
-                    ?.subscribe(viewLifecycleOwner, viewModel::updateProcessorColors)
-            view.bigCover?.observePaletteColors()
-                    ?.asLiveData()
-                    ?.subscribe(viewLifecycleOwner, viewModel::updatePaletteColors)
-
-            viewModel.observePaletteColors()
-                    .map { it.accent }
-                    .asLiveData()
-                    .subscribe(viewLifecycleOwner) { accent ->
-                        shuffle.updateSelectedColor(accent)
-                        repeat.updateSelectedColor(accent)
-                    }
-        }
     }
 
     private fun animateSkipTo(toNext: Boolean) {
@@ -221,14 +122,6 @@ class PlayerFragment : BaseFragment() {
         } else {
             previous.playAnimation()
         }
-    }
-
-    private fun playAnimation(animate: Boolean) {
-        playPause.animationPlay(getSlidingPanel().isExpanded() && animate)
-    }
-
-    private fun pauseAnimation(animate: Boolean) {
-        playPause.animationPause(getSlidingPanel().isExpanded() && animate)
     }
 
     private fun handleSeekBar(bookmark: Int, isPlaying: Boolean, speed: Float){
@@ -244,7 +137,6 @@ class PlayerFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        swipeableView?.setOnSwipeListener(onSwipeListener)
         shuffle?.setOnClickListener { mediaProvider.toggleShuffleMode() }
         repeat?.setOnClickListener { mediaProvider.toggleRepeatMode() }
         getSlidingPanel()?.addPanelSlideListener(slidingPanelListener)
@@ -252,7 +144,6 @@ class PlayerFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        swipeableView?.setOnSwipeListener(null)
         shuffle?.setOnClickListener(null)
         repeat?.setOnClickListener(null)
         getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)

@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.msc.presentation.library.categories.podcast.CategoriesPodcastFragment
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.ScrollHelper
 import dev.olog.shared.findViewByIdNotRecursive
@@ -62,7 +61,7 @@ class SuperCerealScrollHelper(
 
     override fun searchForViewPager(fragment: Fragment): ViewPager? {
         val tag = fragment.tag
-        if (tag == CategoriesFragment.TAG || tag == CategoriesPodcastFragment.TAG){
+        if (tag == CategoriesFragment.TAG_TRACK || tag == CategoriesFragment.TAG_PODCAST){
             return fragment.view?.findViewByIdNotRecursive(R.id.viewPager)
         }
         return null

@@ -90,8 +90,6 @@ class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        view.cover?.setVisible()
-
         viewModel.mostPlayedLiveData
                 .subscribe(viewLifecycleOwner, mostPlayedAdapter::updateDataSet)
 

@@ -12,17 +12,16 @@ import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
-import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
+import dev.olog.msc.utils.k.extension.*
+import dev.olog.presentation.model.PlaylistType
 import dev.olog.presentation.widgets.WaveSideBarView
 import dev.olog.shared.TextUtils
-import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.toggleSelected
 import dev.olog.shared.toggleVisibility
 import io.reactivex.Observable
@@ -55,15 +54,6 @@ class PlaylistTracksChooserFragment : BaseFragment(), DrawsOnTop {
     private var toast: Toast? = null
 
     private var errorDisposable : Disposable? = null
-
-    override fun onDetach() {
-        val fragmentManager = activity?.supportFragmentManager
-        act.fragmentTransaction {
-            fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }
-            setReorderingAllowed(true)
-        }
-        super.onDetach()
-    }
 
     override fun onViewBound(view: View, savedInstanceState: Bundle?) {
         view.list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)

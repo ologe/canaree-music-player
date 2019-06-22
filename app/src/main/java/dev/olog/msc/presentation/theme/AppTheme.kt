@@ -43,7 +43,7 @@ object AppTheme {
     fun updateDarkMode(context: Context){
         val darkMode = getDarkMode(context)
         AppCompatDelegate.setDefaultNightMode(darkMode)
-        // TODO needs to recraete ??
+        // TODO needs to recraete
     }
 
     fun updateImmersive(context: Context){

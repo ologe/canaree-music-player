@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="common_library">Biblioteca</string>
+
     <string name="common_folders">Carpetas</string>
     <string name="common_playlists">Listas de reproducción</string>
     <string name="common_tracks">Pistas</string>

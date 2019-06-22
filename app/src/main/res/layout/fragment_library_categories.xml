@@ -16,15 +16,28 @@
         app:layout_constraintTop_toBottomOf="@+id/statusBar">
 
         <TextView
-            android:id="@+id/header"
+            android:id="@+id/tracks"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/player_toolbar_now_playing_padding_start"
+            android:layout_marginStart="16dp"
             android:gravity="center"
-            android:text="@string/category_header"
+            android:text="@string/common_tracks"
             android:textAppearance="@style/Headline5"
             app:layout_constraintBottom_toBottomOf="@+id/more"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/more" />
+
+        <TextView
+            android:id="@+id/podcasts"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:gravity="center"
+            android:text="@string/common_podcasts"
+            android:textColor="?android:textColorSecondary"
+            android:textAppearance="@style/Headline5"
+            app:layout_constraintBottom_toBottomOf="@+id/more"
+            app:layout_constraintStart_toEndOf="@+id/tracks"
             app:layout_constraintTop_toTopOf="@+id/more" />
 
         <ImageButton
@@ -96,7 +109,7 @@
     <dev.olog.msc.presentation.widget.StatusBarView
         android:id="@+id/statusBar"
         android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_height="0dp"
         android:elevation="@dimen/toolbar_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

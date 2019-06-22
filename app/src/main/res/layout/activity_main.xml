@@ -68,7 +68,7 @@
             android:layout_gravity="bottom"
             app:elevation="0dp"
             app:itemIconSize="22dp"
-            app:menu="@menu/drawer" />
+            app:menu="@menu/bottom_navigation" />
 
     </LinearLayout>
 

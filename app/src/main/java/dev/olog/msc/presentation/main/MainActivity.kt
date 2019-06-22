@@ -24,21 +24,21 @@ import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
-import dev.olog.msc.presentation.main.widget.CustomBottomNavigator
+import dev.olog.presentation.main.BottomNavigationPage
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.*
-import dev.olog.scrollhelper.InitialHeight
+import dev.olog.presentation.interfaces.HasBottomNavigation
 import dev.olog.scrollhelper.Input
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
+class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling, HasBottomNavigation {
 
     companion object {
         const val INVITE_FRIEND_CODE = 12198
@@ -123,7 +123,7 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             }
             AppConstants.SHORTCUT_SEARCH -> {
                 bottomNavigation.selectedItemId = R.id.navigation_search
-                bottomNavigation.navigate(CustomBottomNavigator.Page.SEARCH)
+                bottomNavigation.navigate(BottomNavigationPage.SEARCH)
             }
             AppConstants.ACTION_CONTENT_VIEW -> getSlidingPanel().expand()
             MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH -> {
@@ -206,17 +206,22 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
     }
 
     private fun tryPopFolderBack(): Boolean {
-        val categories = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
-        categories?.view?.findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)?.let { pager ->
-            val currentItem = pager.adapter?.instantiateItem(pager, pager.currentItem) as androidx.fragment.app.Fragment
-            return if (currentItem is FolderTreeFragment){
-                currentItem.pop()
-            } else false
-
-        } ?: return false
+        TODO()
+//        val categories = findFragmentByTag<CategoriesFragment>(CategoriesFragment.TAG)
+//        categories?.view?.findViewById<androidx.viewpager.widget.ViewPager>(R.id.viewPager)?.let { pager ->
+//            val currentItem = pager.adapter?.instantiateItem(pager, pager.currentItem) as androidx.fragment.app.Fragment
+//            return if (currentItem is FolderTreeFragment){
+//                currentItem.pop()
+//            } else false
+//
+//        } ?: return false
     }
 
     override fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*> {
         return BottomSheetBehavior.from(slidingPanel) as MultiListenerBottomSheetBehavior<*>
+    }
+
+    override fun navigate(page: BottomNavigationPage) {
+        bottomNavigation.navigate(page)
     }
 }

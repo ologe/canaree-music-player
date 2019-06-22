@@ -74,10 +74,11 @@
         <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
         <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
         <item name="itemTextAppearanceActive">@style/MaterialBottomNavigationBar.Action</item>
+        <item name="labelVisibilityMode">selected</item>
     </style>
 
     <style name="MaterialBottomNavigationBar.Action" parent="@style/TextAppearance.MaterialComponents.Caption">
-        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">sans-serif-black</item>
     </style>
 
 <!--    image button-->

@@ -41,7 +41,8 @@
             android:name=".presentation.main.MainActivity"
             android:launchMode="singleTop"
             android:colorMode="wideColorGamut"
-            tools:ignore="UnusedAttribute">
+            tools:ignore="UnusedAttribute"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

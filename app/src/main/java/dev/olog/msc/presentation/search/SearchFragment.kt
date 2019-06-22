@@ -12,7 +12,7 @@ import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.DetailFragment
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
+import dev.olog.msc.presentation.library.categories.CategoriesFragment
 import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
@@ -51,16 +51,6 @@ class SearchFragment : BaseFragment() {
     private var bestMatchDisposable : Disposable? = null
 
     private var queryDisposable : Disposable? = null
-
-    override fun onDetach() {
-        val fragmentManager = activity?.supportFragmentManager
-        act.fragmentTransaction {
-            fragmentManager?.findFragmentByTag(DetailFragment.TAG)?.let { show(it) }
-                    ?: fragmentManager!!.findFragmentByTag(CategoriesFragment.TAG)?.let { show(it) }
-            setReorderingAllowed(true)
-        }
-        super.onDetach()
-    }
 
     private fun searchForBestMatch(query: String){
         bestMatchDisposable.unsubscribe()
