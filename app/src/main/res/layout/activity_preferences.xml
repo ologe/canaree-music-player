@@ -40,7 +40,7 @@
 
     <fragment
         android:name="dev.olog.msc.presentation.preferences.PreferencesFragment"
-        android:tag="prefs"
+        android:tag="dev.olog.msc.PreferencesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -1,21 +1,20 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.olog.msc.utils.k.extension
 
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
+inline fun BottomSheetBehavior<*>?.isCollapsed() = this != null && state == BottomSheetBehavior.STATE_COLLAPSED
+inline fun BottomSheetBehavior<*>?.isExpanded() = this != null && state != BottomSheetBehavior.STATE_COLLAPSED
 
-fun SlidingUpPanelLayout?.isCollapsed() = this != null &&
-        panelState == SlidingUpPanelLayout.PanelState.COLLAPSED
-fun SlidingUpPanelLayout?.isExpanded() = this != null &&
-        panelState != SlidingUpPanelLayout.PanelState.COLLAPSED
-
-fun SlidingUpPanelLayout?.collapse() {
+inline fun BottomSheetBehavior<*>?.collapse() {
     if (this != null){
-        panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }
 
-fun SlidingUpPanelLayout?.expand() {
+inline fun BottomSheetBehavior<*>?.expand() {
     if (this != null){
-        panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+        state = BottomSheetBehavior.STATE_EXPANDED
     }
 }

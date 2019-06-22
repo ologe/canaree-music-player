@@ -5,14 +5,14 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import androidx.core.math.MathUtils
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding2.view.RxView
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.presentation.model.DisplayableItem
 import dev.olog.shared.toggleVisibility
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.item_tab_shuffle.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener{
+class MiniPlayerFragment : BaseFragment(){
 
     companion object {
         private const val TAG = "MiniPlayerFragment"
@@ -126,14 +126,14 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
 
     override fun onResume() {
         super.onResume()
-        getSlidingPanel()!!.addPanelSlideListener(this)
+        getSlidingPanel()!!.addPanelSlideListener(slidingPanelListener)
         view?.setOnClickListener { getSlidingPanel()?.expand() }
         view?.toggleVisibility(!getSlidingPanel().isExpanded(), true)
     }
 
     override fun onPause() {
         super.onPause()
-        getSlidingPanel()!!.removePanelSlideListener(this)
+        getSlidingPanel()!!.removePanelSlideListener(slidingPanelListener)
         view?.setOnClickListener(null)
     }
 
@@ -197,12 +197,15 @@ class MiniPlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListen
     }
 
 
-    override fun onPanelSlide(panel: View?, slideOffset: Float) {
-        view?.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
-        view?.toggleVisibility(slideOffset <= .8f, true)
-    }
+    private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            view?.alpha = MathUtils.clamp(1 - slideOffset * 3f, 0f, 1f)
+            view?.toggleVisibility(slideOffset <= .8f, true)
+        }
 
-    override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState?) {
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+        }
     }
 
     override fun provideLayoutId(): Int = R.layout.fragment_mini_player

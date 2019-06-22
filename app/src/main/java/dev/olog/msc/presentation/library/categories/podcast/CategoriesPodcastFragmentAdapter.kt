@@ -2,17 +2,18 @@ package dev.olog.msc.presentation.library.categories.podcast
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.presentation.library.tab.TabFragment
 import dev.olog.core.MediaIdCategory
 
-class CategoriesPodcastFragmentViewPager (
+class CategoriesPodcastFragmentAdapter (
         private val context: Context,
         fragmentManager: androidx.fragment.app.FragmentManager,
         private val categories : List<LibraryCategoryBehavior>
 
-) : FragmentStatePagerAdapter(fragmentManager) {
+) : FragmentPagerAdapter(fragmentManager) {
 
     fun getCategoryAtPosition(position: Int): MediaIdCategory {
         return categories[position].category

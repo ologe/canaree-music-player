@@ -28,7 +28,7 @@ import javax.inject.Inject
 class SearchFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "SearchFragment"
+        val TAG = SearchFragment::class.java.name
 
         @JvmStatic
         fun newInstance(): SearchFragment {

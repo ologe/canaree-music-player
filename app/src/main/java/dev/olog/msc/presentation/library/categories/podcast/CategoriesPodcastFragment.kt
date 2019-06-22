@@ -2,13 +2,13 @@ package dev.olog.msc.presentation.library.categories.podcast
 
 import android.os.Bundle
 import android.view.View
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
-import dev.olog.core.MediaIdCategory
 import dev.olog.msc.utils.k.extension.act
 import dev.olog.shared.toggleVisibility
 import kotlinx.android.synthetic.main.fragment_library_categories.*
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class CategoriesPodcastFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "CategoriesPodcastFragment"
+        val TAG = CategoriesPodcastFragment::class.java.name
 
         @JvmStatic
         fun newInstance(): CategoriesPodcastFragment {
@@ -29,7 +29,7 @@ class CategoriesPodcastFragment : BaseFragment() {
     @Inject lateinit var navigator: Navigator
     @Inject lateinit var presenter : CategoriesPodcastFragmentPresenter
 
-    private val pagerAdapter by lazyFast { CategoriesPodcastFragmentViewPager(
+    private val pagerAdapter by lazyFast { CategoriesPodcastFragmentAdapter(
         act.applicationContext, childFragmentManager, presenter.getCategories()
     ) }
 
@@ -37,7 +37,6 @@ class CategoriesPodcastFragment : BaseFragment() {
         view.viewPager.adapter = pagerAdapter
         view.tabLayout.setupWithViewPager(view.viewPager)
         view.header.text = getString(R.string.common_podcasts)
-        view.viewPager.offscreenPageLimit = 3
         view.viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count)
 
         view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)

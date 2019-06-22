@@ -16,8 +16,10 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.colorChooser
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.AndroidSupportInjection
-import dev.olog.msc.R
+import dev.olog.core.MediaIdCategory
 import dev.olog.image.provider.GlideApp
+import dev.olog.image.provider.creator.ImagesFolderUtils
+import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.isLowMemoryDevice
@@ -27,8 +29,6 @@ import dev.olog.msc.presentation.preferences.last.fm.credentials.LastFmCredentia
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.theme.ThemedDialog
 import dev.olog.msc.presentation.utils.ColorPalette
-import dev.olog.core.MediaIdCategory
-import dev.olog.image.provider.creator.ImagesFolderUtils
 import dev.olog.msc.utils.k.extension.*
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers

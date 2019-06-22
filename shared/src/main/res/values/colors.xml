@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="colorBackground">@android:color/white</color>
+    <color name="colorPrimary">@color/defaultColorAccent</color>
+    <color name="colorSurface">@android:color/white</color>
+    <color name="colorControlNormal">#606367</color>
+    <color name="colorPrimaryTransparent">@color/transparent_white</color>
+    <color name="defaultColorAccent">@color/md_indigo_A400</color>
+
     <color name="light_grey">#AAA</color>
     <color name="dark_grey">#262626</color>
     <color name="grey400">#BDBDBD</color>
@@ -9,16 +16,12 @@
     <!--<item name="accent">#FF1744</item>-->
     <color name="accent">@color/md_indigo_A400</color>
 
-    <color name="colorPrimary">@color/dark_grey</color>
-    <color name="colorPrimaryDark">@color/status_bar</color>
     <color name="colorAccent">@color/accent</color>
 
     <color name="background">@android:color/white</color>
     <color name="background_accent">@color/dark_grey</color>
 
     <color name="toolbar">#FAFAFA</color>
-    <color name="status_bar">#c6c6c6</color>
-    <color name="status_bar_secondary">#c6c6c6</color>
 
     <color name="text_color_primary">@color/dark_grey</color>
     <color name="text_color_secondary">@color/grey600</color>

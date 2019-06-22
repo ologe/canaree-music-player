@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@style/AppThemeWhite">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -189,8 +188,7 @@
                             app:layout_constraintVertical_bias="1"
                             tools:max="100"
                             tools:progress="40"
-                            tools:progressTint="@color/dark_grey"
-                            style="@style/SeekBarLight"/>
+                            tools:progressTint="@color/dark_grey" />
 
                     </LinearLayout>
 

@@ -13,6 +13,7 @@ import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
+import dev.olog.msc.presentation.base.CanChangeStatusBarColor
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
@@ -30,11 +31,11 @@ import kotlinx.android.synthetic.main.fragment_detail.view.*
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class DetailFragment : BaseFragment() {
+class DetailFragment : BaseFragment(), CanChangeStatusBarColor {
 
     companion object {
-        const val TAG = "DetailFragment"
-        const val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
+        val TAG = DetailFragment::class.java.name
+        val ARGUMENTS_MEDIA_ID = "$TAG.arguments.media_id"
 
         @JvmStatic
         fun newInstance(mediaId: MediaId): DetailFragment {
@@ -164,8 +165,12 @@ class DetailFragment : BaseFragment() {
         clear.setOnClickListener(null)
     }
 
-    internal fun adjustStatusBarColor(lightStatusBar: Boolean = hasLightStatusBarColor){
-        if (lightStatusBar){
+    override fun adjustStatusBarColor() {
+        adjustStatusBarColor(hasLightStatusBarColor)
+    }
+
+    override fun adjustStatusBarColor(lightStatusBar: Boolean) {
+        if (lightStatusBar) {
             setLightStatusBar()
         } else {
             removeLightStatusBar()

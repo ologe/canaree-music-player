@@ -22,7 +22,7 @@ import javax.inject.Inject
 class PlayingQueueFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "PlayingQueueFragment"
+        val TAG = PlayingQueueFragment::class.java.name
 
         @JvmStatic
         fun newInstance(): PlayingQueueFragment {

@@ -1,12 +1,13 @@
 package dev.olog.msc.domain.gateway.prefs
 
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
+import dev.olog.msc.presentation.main.widget.CustomBottomNavigator
 import io.reactivex.Completable
 import io.reactivex.Observable
 
 interface PresentationPreferences {
-    fun getLastBottomViewPage(): Int
-    fun setLastBottomViewPage(page: Int)
+    fun getLastBottomViewPage(): CustomBottomNavigator.Page
+    fun setLastBottomViewPage(page: CustomBottomNavigator.Page)
     fun isFirstAccess(): Boolean
     fun observeVisibleTabs(): Observable<BooleanArray>
     fun getViewPagerLibraryLastPage(): Int

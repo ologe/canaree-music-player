@@ -1,23 +1,29 @@
 package dev.olog.msc.presentation.widget
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.k.extension.dip
+import dev.olog.shared.findChild
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 private const val DEFAULT_SWIPED_THRESHOLD = 100
 
-class SwipeableView @JvmOverloads constructor(
+class SwipeableView(
         context: Context,
-        attrs: AttributeSet? = null
+        attrs: AttributeSet
+) : View(context, attrs) {
 
-) : View(context, attrs), SlidingUpPanelLayout.PanelSlideListener {
+    private val cover by lazyFast { findCover() }
 
     private val swipedThreshold = DEFAULT_SWIPED_THRESHOLD
     private var xDown = 0f
@@ -31,6 +37,13 @@ class SwipeableView @JvmOverloads constructor(
 
     private val sixtyFourDip by lazy(LazyThreadSafetyMode.NONE) { context.dip(64) }
 
+    private fun findCover() : ForegroundImageView? {
+        if (parent is ViewGroup){
+            return (parent as ViewGroup).findChild { it is ForegroundImageView } as ForegroundImageView?
+        }
+        return null
+    }
+
     fun setOnSwipeListener(swipeListener: SwipeListener?) {
         this.swipeListener = swipeListener
     }
@@ -38,7 +51,7 @@ class SwipeableView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         if (!isInEditMode && context is HasSlidingPanel){
-            ((context as Activity) as HasSlidingPanel).addPanelSlideListener(this)
+            ((context as Activity) as HasSlidingPanel).getSlidingPanel().addPanelSlideListener(slidingPanelListener)
         }
     }
 
@@ -46,8 +59,7 @@ class SwipeableView @JvmOverloads constructor(
         super.onDetachedFromWindow()
         this.swipeListener = null
         if (context is HasSlidingPanel){
-            ((context as Activity) as HasSlidingPanel).removePanelSlideListener(this)
-
+            ((context as Activity) as HasSlidingPanel).getSlidingPanel().removePanelSlideListener(slidingPanelListener)
         }
     }
 
@@ -114,6 +126,7 @@ class SwipeableView @JvmOverloads constructor(
                 ((width - xDown) < sixtyFourDip) && isTouchEnabled-> swipeListener?.onRightEdgeClick()
                 else -> {
                     if (isTouchEnabled){
+                        requestRipple(event)
                         swipeListener?.onClick()
                     }
                 }
@@ -123,12 +136,22 @@ class SwipeableView @JvmOverloads constructor(
         return false
     }
 
-    override fun onPanelSlide(panel: View?, slideOffset: Float) {
-
+    @SuppressLint("Recycle")
+    private fun requestRipple(event: MotionEvent){
+        val downEvent = MotionEvent.obtain(event).apply { this.action = MotionEvent.ACTION_DOWN }
+        cover?.dispatchTouchEvent(downEvent)
+        downEvent.recycle()
+        cover?.dispatchTouchEvent(event)
     }
 
-    override fun onPanelStateChanged(panel: View?, previousState: SlidingUpPanelLayout.PanelState?, newState: SlidingUpPanelLayout.PanelState) {
-        isTouchEnabled = newState == SlidingUpPanelLayout.PanelState.EXPANDED
+    private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback(){
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            isTouchEnabled = newState == BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     interface SwipeListener {

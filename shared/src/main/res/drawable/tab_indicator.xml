@@ -7,6 +7,6 @@
         <corners
             android:topRightRadius="160dp"
             android:topLeftRadius="160dp"/>
-        <solid android:color="?colorAccent" />
+        <solid android:color="?colorPrimary" />
     </shape>
 </inset>

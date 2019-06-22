@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.android.support.DaggerFragment
 import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 
 abstract class BaseFragment : DaggerFragment() {
 
@@ -24,7 +24,7 @@ abstract class BaseFragment : DaggerFragment() {
     @LayoutRes
     protected abstract fun provideLayoutId(): Int
 
-    fun getSlidingPanel(): SlidingUpPanelLayout? {
+    fun getSlidingPanel(): MultiListenerBottomSheetBehavior<*>? {
         return (activity as HasSlidingPanel).getSlidingPanel()
     }
 

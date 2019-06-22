@@ -6,12 +6,12 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.math.MathUtils
+import androidx.core.math.MathUtils.clamp
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding2.view.RxView
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
@@ -35,7 +35,6 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.fragment_player.view.*
 import kotlinx.android.synthetic.main.fragment_player_toolbar.*
@@ -44,7 +43,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
 
-class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
+class PlayerFragment : BaseFragment() {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by lazyFast { viewModelProvider<PlayerFragmentViewModel>(viewModelFactory) }
@@ -245,11 +244,10 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
 
     override fun onResume() {
         super.onResume()
-        activity!!.slidingPanel.setScrollableView(list)
         swipeableView?.setOnSwipeListener(onSwipeListener)
         shuffle?.setOnClickListener { mediaProvider.toggleShuffleMode() }
         repeat?.setOnClickListener { mediaProvider.toggleRepeatMode() }
-        getSlidingPanel()!!.addPanelSlideListener(this)
+        getSlidingPanel()?.addPanelSlideListener(slidingPanelListener)
     }
 
     override fun onPause() {
@@ -257,7 +255,7 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         swipeableView?.setOnSwipeListener(null)
         shuffle?.setOnClickListener(null)
         repeat?.setOnClickListener(null)
-        getSlidingPanel()!!.removePanelSlideListener(this)
+        getSlidingPanel()?.removePanelSlideListener(slidingPanelListener)
     }
 
     override fun onStop() {
@@ -288,25 +286,6 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
         }
     }
 
-    override fun onPanelSlide(panel: View?, slideOffset: Float) {
-        if (!isMarshmallow() && slideOffset in .9f..1f){
-            val alpha = (1 - slideOffset) * 10
-            statusBar?.alpha = MathUtils.clamp(abs(1 - alpha), 0f, 1f)
-        }
-    }
-
-    override fun onPanelStateChanged(panel: View, previousState: SlidingUpPanelLayout.PanelState, newState: SlidingUpPanelLayout.PanelState) {
-        if (newState == SlidingUpPanelLayout.PanelState.EXPANDED){
-            lyricsDisposable.unsubscribe()
-            lyricsDisposable = Completable.timer(50, TimeUnit.MILLISECONDS, Schedulers.io())
-                    .andThen(viewModel.showLyricsTutorialIfNeverShown())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ lyrics?.let { TutorialTapTarget.lyrics(it) } }, {})
-        } else {
-            lyricsDisposable.unsubscribe()
-        }
-    }
-
     private fun MediaSessionCompat.QueueItem.toDisplayableItem(): DisplayableItem {
         val description = this.description
 
@@ -326,6 +305,29 @@ class PlayerFragment : BaseFragment(), SlidingUpPanelLayout.PanelSlideListener {
             AppTheme.isCleanTheme() -> R.layout.fragment_player_clean
             AppTheme.isMiniTheme() -> R.layout.fragment_player_mini
             else -> R.layout.fragment_player
+        }
+    }
+
+    private val slidingPanelListener = object : BottomSheetBehavior.BottomSheetCallback() {
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            if (!isMarshmallow() && slideOffset in .9f..1f) {
+                val alpha = (1 - slideOffset) * 10
+                statusBar?.alpha = clamp(abs(1 - alpha), 0f, 1f)
+            }
+            val alpha = clamp(slideOffset * 5f, 0f, 1f)
+            view?.alpha = alpha
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) {
+            if (newState == BottomSheetBehavior.STATE_EXPANDED){
+                lyricsDisposable.unsubscribe()
+                lyricsDisposable = Completable.timer(50, TimeUnit.MILLISECONDS, Schedulers.io())
+                    .andThen(viewModel.showLyricsTutorialIfNeverShown())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ lyrics?.let { TutorialTapTarget.lyrics(it) } }, {})
+            } else {
+                lyricsDisposable.unsubscribe()
+            }
         }
     }
 }

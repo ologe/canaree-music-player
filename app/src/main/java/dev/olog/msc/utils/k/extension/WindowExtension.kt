@@ -11,8 +11,6 @@ import dev.olog.shared.isOreo
 fun Window.setLightStatusBar(){
     decorView.systemUiVisibility = 0
 
-    statusBarColor = Color.TRANSPARENT
-
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 
     if (AppTheme.isImmersiveMode()){
@@ -35,8 +33,6 @@ fun Window.setLightStatusBar(){
 fun Window.removeLightStatusBar(){
 
     decorView.systemUiVisibility = 0
-
-    statusBarColor = Color.TRANSPARENT
 
     var flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
 

@@ -9,6 +9,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
+import dev.olog.msc.presentation.main.widget.CustomBottomNavigator
 import io.reactivex.Completable
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -26,7 +27,7 @@ internal class PresentationPreferenes @Inject constructor(
 
         private const val VIEW_PAGER_LAST_PAGE = "$TAG.VIEW_PAGER_LAST_PAGE"
         private const val VIEW_PAGER_PODCAST_LAST_PAGE = "$TAG.VIEW_PAGER_PODCAST_LAST_PAGE"
-        private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW"
+        private const val BOTTOM_VIEW_LAST_PAGE = "$TAG.BOTTOM_VIEW_2"
 
         private const val CATEGORY_FOLDER_ORDER = "$TAG.CATEGORY_FOLDER_ORDER"
         private const val CATEGORY_PLAYLIST_ORDER = "$TAG.CATEGORY_PLAYLIST_ORDER"
@@ -79,12 +80,13 @@ internal class PresentationPreferenes @Inject constructor(
         preferences.edit { putInt(VIEW_PAGER_PODCAST_LAST_PAGE, lastPage) }
     }
 
-    override fun getLastBottomViewPage(): Int {
-        return preferences.getInt(BOTTOM_VIEW_LAST_PAGE, R.id.navigation_songs)
+    override fun getLastBottomViewPage(): CustomBottomNavigator.Page {
+        val page = preferences.getString(BOTTOM_VIEW_LAST_PAGE, CustomBottomNavigator.Page.SONGS.toString())
+        return CustomBottomNavigator.Page.valueOf(page)
     }
 
-    override fun setLastBottomViewPage(page: Int) {
-        preferences.edit { putInt(BOTTOM_VIEW_LAST_PAGE, page) }
+    override fun setLastBottomViewPage(page: CustomBottomNavigator.Page) {
+        preferences.edit { putString(BOTTOM_VIEW_LAST_PAGE, page.toString()) }
     }
 
     override fun observeVisibleTabs(): Observable<BooleanArray> {

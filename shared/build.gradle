@@ -13,6 +13,7 @@ dependencies {
     implementation lib_x.material
     implementation lib_x.core_ktx
     implementation lib_x.constraint_layout
+    implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
 
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
 }

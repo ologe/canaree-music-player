@@ -157,8 +157,7 @@
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:backgroundTint="?attr/miniPlayerColor">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"

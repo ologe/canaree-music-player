@@ -51,6 +51,9 @@ dependencies {
     // data binding
     kapt "androidx.databinding:databinding-compiler:$gradle_plugin"
 
+    implementation lib_core.coroutines
+    implementation lib_ui.scroll_helper
+
     // google architecture components
     implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.lifecycle"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle"
@@ -97,7 +100,6 @@ dependencies {
     debugImplementation "nl.littlerobots.rxlint:rxlint:$rootProject.rx_lint"
 
     // other
-    implementation "com.sothree.slidinguppanel:library:$rootProject.sliding_panel"
     implementation 'com.google.android.exoplayer:exoplayer-core:2.9.0'
 //    implementation project(':exoplayer-library-core')
 //    implementation project(':exoplayer-extension-flac')

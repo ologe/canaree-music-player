@@ -24,7 +24,7 @@ import javax.inject.Inject
 class CategoriesFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "CategoriesFragment"
+        val TAG = CategoriesFragment::class.java.name
 
         @JvmStatic
         fun newInstance(): CategoriesFragment {
@@ -35,7 +35,7 @@ class CategoriesFragment : BaseFragment() {
     @Inject lateinit var presenter : CategoriesFragmentPresenter
     @Inject lateinit var navigator: Navigator
 
-    private val pagerAdapter by lazyFast { CategoriesViewPager(
+    private val pagerAdapter by lazyFast { CategoriesAdapter(
         act.applicationContext, childFragmentManager, presenter.getCategories()
     ) }
 
@@ -45,7 +45,6 @@ class CategoriesFragment : BaseFragment() {
         view.viewPager.adapter = pagerAdapter
         view.tabLayout.setupWithViewPager(view.viewPager)
         view.viewPager.currentItem = presenter.getViewPagerLastPage(pagerAdapter.count)
-        view.viewPager.offscreenPageLimit = 3
 
         view.pagerEmptyState.toggleVisibility(pagerAdapter.isEmpty(), true)
     }

@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.appinvite.AppInviteInvitation
-import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.msc.presentation.base.HasSlidingPanel
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
@@ -28,23 +28,18 @@ import dev.olog.msc.presentation.edit.EditItemDialogFactory
 import dev.olog.msc.presentation.edit.album.EditAlbumFragment
 import dev.olog.msc.presentation.edit.artist.EditArtistFragment
 import dev.olog.msc.presentation.edit.track.EditTrackFragment
-import dev.olog.msc.presentation.library.categories.podcast.CategoriesPodcastFragment
-import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.main.MainActivity
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.msc.presentation.offline.lyrics.OfflineLyricsFragment
-import dev.olog.msc.presentation.playing.queue.PlayingQueueFragment
 import dev.olog.msc.presentation.playlist.track.chooser.PlaylistTracksChooserFragment
 import dev.olog.msc.presentation.popup.PopupMenuFactory
 import dev.olog.msc.presentation.popup.main.MainPopupDialog
 import dev.olog.msc.presentation.recently.added.RecentlyAddedFragment
 import dev.olog.msc.presentation.related.artists.RelatedArtistFragment
-import dev.olog.msc.presentation.search.SearchFragment
 import dev.olog.msc.presentation.splash.SplashActivity
 import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
-import dev.olog.msc.utils.k.extension.hideFragmentsIfExists
 import dev.olog.msc.utils.k.extension.unsubscribe
+import dev.olog.presentation.model.DisplayableItem
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
@@ -70,14 +65,9 @@ class NavigatorImpl @Inject internal constructor(
         popupDisposable.unsubscribe()
     }
 
-    override fun toFirstAccess(requestCode: Int) {
+    override fun toFirstAccess() {
         val intent = Intent(activity, SplashActivity::class.java)
-        activity.startActivityForResult(intent, requestCode)
-    }
-
-    private fun anyFragmentOnUpperFragmentContainer(): Boolean {
-        return activity.supportFragmentManager.fragments
-                .any { (it.view?.parent as View?)?.id == R.id.upperFragmentContainer  }
+        activity.startActivity(intent)
     }
 
     private fun getFragmentOnFragmentContainer(): androidx.fragment.app.Fragment? {
@@ -85,100 +75,10 @@ class NavigatorImpl @Inject internal constructor(
                 .firstOrNull { (it.view?.parent as View?)?.id == R.id.fragmentContainer  }
     }
 
-    override fun toLibraryCategories(forceRecreate: Boolean) {
-        if (anyFragmentOnUpperFragmentContainer()){
-            activity.onBackPressed()
-        }
-
-        activity.fragmentTransaction {
-            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmentsIfExists(activity, listOf(
-                    SearchFragment.TAG,
-                    PlayingQueueFragment.TAG,
-                    CategoriesPodcastFragment.TAG
-            ))
-            if (forceRecreate){
-                return@fragmentTransaction replace(R.id.fragmentContainer, CategoriesFragment.newInstance(), CategoriesFragment.TAG)
-            }
-            val fragment = activity.supportFragmentManager.findFragmentByTag(CategoriesFragment.TAG)
-            if (fragment == null){
-               replace(R.id.fragmentContainer, CategoriesFragment.newInstance(), CategoriesFragment.TAG)
-            } else {
-                show(fragment)
-            }
-        }
-    }
-
-    override fun toPodcastCategories(forceRecreate: Boolean) {
-        if (anyFragmentOnUpperFragmentContainer()){
-            activity.onBackPressed()
-        }
-
-        activity.fragmentTransaction {
-            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmentsIfExists(activity, listOf(
-                    SearchFragment.TAG,
-                    PlayingQueueFragment.TAG,
-                    CategoriesFragment.TAG
-            ))
-            if (forceRecreate){
-                return@fragmentTransaction replace(R.id.fragmentContainer, CategoriesPodcastFragment.newInstance(), CategoriesPodcastFragment.TAG)
-            }
-            val fragment = activity.supportFragmentManager.findFragmentByTag(CategoriesPodcastFragment.TAG)
-            if (fragment == null){
-                replace(R.id.fragmentContainer, CategoriesPodcastFragment.newInstance(), CategoriesPodcastFragment.TAG)
-            } else {
-                show(fragment)
-            }
-        }
-    }
-
-    override fun toSearchFragment() {
-        if (anyFragmentOnUpperFragmentContainer()){
-            activity.onBackPressed()
-        }
-
-        activity.fragmentTransaction {
-            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmentsIfExists(activity, listOf(
-                    CategoriesPodcastFragment.TAG,
-                    PlayingQueueFragment.TAG,
-                    CategoriesFragment.TAG
-            ))
-            val fragment = activity.supportFragmentManager.findFragmentByTag(SearchFragment.TAG)
-            if (fragment == null){
-                replace(R.id.fragmentContainer, SearchFragment.newInstance(), SearchFragment.TAG)
-            } else {
-                show(fragment)
-            }
-        }
-    }
-
-    override fun toPlayingQueueFragment() {
-        if (anyFragmentOnUpperFragmentContainer()){
-            activity.onBackPressed()
-        }
-
-        activity.fragmentTransaction {
-            setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            hideFragmentsIfExists(activity, listOf(
-                    CategoriesPodcastFragment.TAG,
-                    SearchFragment.TAG,
-                    CategoriesFragment.TAG
-            ))
-            val fragment = activity.supportFragmentManager.findFragmentByTag(PlayingQueueFragment.TAG)
-            if (fragment == null){
-                replace(R.id.fragmentContainer, PlayingQueueFragment.newInstance(), PlayingQueueFragment.TAG)
-            } else {
-                show(fragment)
-            }
-        }
-    }
-
     override fun toDetailFragment(mediaId: MediaId) {
 
         if (allowed()){
-            activity.findViewById<SlidingUpPanelLayout>(R.id.slidingPanel).collapse()
+            (activity as HasSlidingPanel?)?.getSlidingPanel().collapse()
 
             activity.fragmentTransaction {
                 setReorderingAllowed(true)

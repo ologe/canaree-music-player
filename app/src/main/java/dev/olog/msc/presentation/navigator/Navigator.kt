@@ -1,27 +1,20 @@
 package dev.olog.msc.presentation.navigator
 
 import android.view.View
-import dev.olog.msc.domain.entity.PlaylistType
-import dev.olog.presentation.model.DisplayableItem
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.presentation.model.DisplayableItem
 
 interface Navigator {
 
-    fun toFirstAccess(requestCode: Int)
-
-    fun toLibraryCategories(forceRecreate: Boolean)
-    fun toPodcastCategories(forceRecreate: Boolean)
+    fun toFirstAccess()
 
     fun toDetailFragment(mediaId: MediaId)
-
-    fun toSearchFragment()
 
     fun toRelatedArtists(mediaId: MediaId)
 
     fun toRecentlyAdded(mediaId: MediaId)
-
-    fun toPlayingQueueFragment()
 
     fun toChooseTracksForPlaylistFragment(type: PlaylistType)
 

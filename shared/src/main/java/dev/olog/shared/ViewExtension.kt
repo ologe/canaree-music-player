@@ -149,3 +149,27 @@ fun View.setWidth(@Px heightPx: Int){
     }
     layoutParams = params
 }
+
+fun ViewGroup.findChild(filter: (View) -> Boolean): View?{
+    var child : View? = null
+
+    forEachRecursively {
+        if (filter(it)){
+            child = it
+            return@forEachRecursively
+        }
+    }
+
+    return child
+}
+
+fun <T : View> View.findViewByIdNotRecursive(id: Int): T? {
+    if (this is ViewGroup) {
+        forEach { child ->
+            if (child.id == id) {
+                return child as T
+            }
+        }
+    }
+    return null
+}

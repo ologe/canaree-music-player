@@ -1,6 +1,4 @@
-<resources>
-
-    <attr name="textColorPrimaryTransparent" format="reference"/>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <attr name="cleanButtonColor" format="reference|color"/>
     <attr name="cleanTitleColor" format="reference|color"/>
@@ -8,98 +6,111 @@
     <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
 
     <attr name="colorScrim" format="reference|color"/>
+    <attr name="colorPrimaryTransparent" format="reference" />
 
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
-        <item name="tabStyle">@style/AppTabLayout</item>
-        <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
-        <item name="textInputStyle">@style/DefaultTextBox</item>
-        <item name="floatingActionButtonStyle">@style/DefaultFab</item>
-        <item name="seekBarStyle">@style/SeekBarLight</item>
-        <item name="imageButtonStyle">@style/ImageButtonLight</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
+        <item name="colorPrimaryTransparent">@color/colorPrimaryTransparent</item>
+        <item name="colorScrim">@color/colorScrim</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
 
-        <!--for design time-->
-        <item name="colorPrimary">@color/toolbar</item>
-        <item name="colorPrimaryDark">@color/status_bar</item>
-        <item name="colorAccent">@color/accent</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
+
+
+        <item name="bottomNavigationStyle">@style/MaterialBottomNavigationBar</item>
+        <item name="tabStyle">@style/MaterialTabLayout</item>
+        <item name="imageButtonStyle">@style/MaterialImageButton</item>
+        <item name="seekBarStyle">@style/MaterialSeekBar</item>
+        <item name="floatingActionButtonStyle">@style/MaterialFab</item>
+
+
+
+        <item name="textInputStyle">@style/DefaultTextBox</item>
 
         <item name="buttonStyle">@style/DefaultButton</item>
         <item name="materialButtonStyle">@style/DefaultButton</item>
         <item name="chipStyle">@style/DefaultChip</item>
-        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
-        <item name="bottomNavigationStyle">@style/AppBottomNavigationBar</item>
+<!--        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>-->
 
-        <item name="colorScrim">@color/colorScrim</item>
-        <item name="miniPlayerColor">?android:attr/windowBackground</item>
 
-        <item name="dialogCornerRadius">@dimen/default_corner_radius</item>
-        <item name="android:colorEdgeEffect">@color/dark_grey</item>
-        <item name="textColorPrimaryTransparent">@color/transparent_white</item>
-
+<!--        for clean theme-->
         <item name="cleanButtonColor">#8d91a6</item>
         <item name="cleanTitleColor">#585858</item>
         <item name="cleanSeekBarColor">#8d91a6</item>
         <item name="cleanSeekBarBackgroundColor">#dbdee5</item>
     </style>
 
-    <!-- Base dark application theme. -->
-    <style name="BaseDarkTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="android:windowFullscreen">true</item>
-
-        <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
-        <item name="tabStyle">@style/AppTabLayout</item>
-        <item name="materialCardViewStyle">@style/DefaultMaterialCard</item>
-        <item name="textInputStyle">@style/DefaultTextBox</item>
-        <item name="floatingActionButtonStyle">@style/DefaultFab</item>
-
-        <item name="buttonStyle">@style/DefaultButton</item>
-        <item name="materialButtonStyle">@style/DefaultButton</item>
-        <item name="chipStyle">@style/DefaultChip</item>
-        <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
-        <item name="bottomNavigationStyle">@style/AppBottomNavigationBar</item>
-
-        <item name="scrimColor">#AA232323</item>
-        <item name="miniPlayerColor">@color/theme_dark_toolbar</item>
-
-        <item name="dialogCornerRadius">@dimen/default_corner_radius</item>
-        <item name="android:colorEdgeEffect">@android:color/white</item>
-        <item name="textColorPrimaryTransparent">@color/transparent_black</item>
-
-        <item name="cleanButtonColor">@android:color/white</item>
-        <item name="cleanTitleColor">?android:textColorPrimary</item>
-        <item name="cleanSeekBarColor">#F5F5F5</item>
-        <item name="cleanSeekBarBackgroundColor">#757575</item>
-    </style>
-
     <style name="AppTheme" parent="BaseTheme"/>
 
-    <style name="DefaultTabLayout" parent="Widget.MaterialComponents.TabLayout">
+<!--    tab layout-->
+    <style name="MaterialTabLayout" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabIndicatorFullWidth">true</item>
         <item name="tabMode">scrollable</item>
         <item name="tabGravity">center</item>
-        <item name="tabSelectedTextColor">?attr/colorAccent</item>
-        <item name="tabTextColor">?android:attr/textColorSecondary</item>
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabSelectedTextColor">?colorPrimary</item>
+        <item name="tabTextColor">?colorControlNormal</item>
+        <item name="tabIndicatorColor">?colorPrimary</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabUnboundedRipple">true</item>
-        <item name="tabTextAppearance">@style/DefaultTabLayoutTextAppearance</item>
+        <item name="tabTextAppearance">@style/MaterialTabLayout.TextAppearance</item>
+        <item name="tabBackground">?colorSurface</item>
     </style>
 
-    <style name="AppTabLayout" parent="DefaultTabLayout"/>
-
-    <style name="DefaultTabLayoutTextAppearance" parent="TextAppearance.MaterialComponents.Button">
+    <style name="MaterialTabLayout.TextAppearance" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:letterSpacing">0</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="DefaultMaterialCard" parent="Widget.MaterialComponents.CardView">
-        <item name="cardCornerRadius">@dimen/default_corner_radius</item>
-        <item name="cardBackgroundColor">?android:attr/windowBackground</item>
-        <item name="cardElevation">0dp</item>
+
+<!--    bottom navigation-->
+    <style name="MaterialBottomNavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
+        <item name="itemTextAppearanceActive">@style/MaterialBottomNavigationBar.Action</item>
     </style>
+
+    <style name="MaterialBottomNavigationBar.Action" parent="@style/TextAppearance.MaterialComponents.Caption">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+<!--    image button-->
+    <style name="MaterialImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:tint">?colorControlNormal</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+<!--    seekbar-->
+    <style name="MaterialSeekBar" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressTint">?colorPrimary</item>
+        <item name="android:thumbTint">?colorPrimary</item>
+        <item name="android:progressBackgroundTint">@color/grey400</item>
+        <item name="android:thumb">@drawable/seekbar_thumb</item>
+        <item name="android:progressDrawable">@drawable/seek_bar_progress</item>
+    </style>
+
+<!--    fab-->
+    <style name="MaterialFab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="fabSize">normal</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorPrimaryTransparent</item>
+    </style>
+
+
+
+
+
+
+
+
 
     <style name="DefaultTextBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
         <item name="boxBackgroundColor">@android:color/transparent</item>
@@ -123,14 +134,9 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
-        <item name="android:textColor">?attr/textColorPrimaryTransparent</item>
+        <item name="android:textColor">?attr/colorPrimaryTransparent</item>
     </style>
 
-    <style name="DefaultFab" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="fabSize">normal</item>
-        <item name="backgroundTint">?attr/colorAccent</item>
-        <item name="android:tint">?attr/textColorPrimaryTransparent</item>
-    </style>
 
     <style name="DefaultHorizontalProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressTint">?attr/colorAccent</item>
@@ -153,30 +159,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="EditItemCardView" parent="DefaultMaterialCard">
-        <item name="cardCornerRadius">@dimen/big_default_corner_radius</item>
-        <item name="cardElevation">0dp</item>
-        <item name="android:translationY">12dp</item>
-    </style>
-
-    <style name="DefaultBottomBar" parent="Widget.MaterialComponents.BottomAppBar">
-        <item name="fabCradleRoundedCornerRadius">20dp</item>
-        <item name="fabAlignmentMode">end</item>
-        <item name="backgroundTint">@color/toolbar</item>
-    </style>
-
-    <style name="DefaultBottomNavigationBar" parent="@style/Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemIconTint">@drawable/bottom_navigation_colors</item>
-        <item name="itemTextColor">@drawable/bottom_navigation_colors</item>
-        <item name="android:background">?attr/miniPlayerColor</item>
-    </style>
-
-    <style name="AppBottomNavigationBar" parent="DefaultBottomNavigationBar">
-        <item name="labelVisibilityMode">unlabeled</item>
-    </style>
-
+<!--    TODO update to material extend flaoting button-->
     <style name="ExtendedFloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="android:textColor">?attr/textColorPrimaryTransparent</item>
+        <item name="android:textColor">?attr/colorPrimaryTransparent</item>
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingLeft">24dp</item>
