@@ -78,17 +78,17 @@ object AppTheme {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
         val theme = prefs.getString(
             context.getString(R.string.prefs_dark_mode_key),
-            context.getString(R.string.prefs_dark_mode_2_value_follow_system))
+            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system))
         return when (theme) {
-            context.getString(R.string.prefs_dark_mode_2_value_follow_system) -> {
+            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system) -> {
                 if (isP()) {
                     AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 } else {
                     AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
                 }
             }
-            context.getString(R.string.prefs_dark_mode_2_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
-            context.getString(R.string.prefs_dark_mode_2_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
+            context.getString(R.string.prefs_dark_mode_2_entry_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
+            context.getString(R.string.prefs_dark_mode_2_entry_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
             else -> throw IllegalStateException("invalid theme=$theme")
         }
     }

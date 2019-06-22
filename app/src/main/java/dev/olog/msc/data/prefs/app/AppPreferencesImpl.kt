@@ -159,7 +159,7 @@ class AppPreferencesImpl @Inject constructor(
     private fun setDefaultTheme(){
         preferences.edit {
             putString(context.getString(R.string.prefs_appearance_key), context.getString(R.string.prefs_appearance_entry_value_default))
-            putString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_2_value_follow_system))
+            putString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system))
         }
     }
 

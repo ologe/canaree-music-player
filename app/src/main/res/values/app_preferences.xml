@@ -194,9 +194,9 @@
     <string name="prefs_dark_mode_dark">Dark theme</string>
 
     <string-array name="prefs_dark_mode_entry_values">
-        <item>@string/prefs_dark_mode_2_value_follow_system</item>
-        <item>@string/prefs_dark_mode_2_value_light</item>
-        <item>@string/prefs_dark_mode_2_value_dark</item>
+        <item>@string/prefs_dark_mode_2_entry_value_follow_system</item>
+        <item>@string/prefs_dark_mode_2_entry_value_light</item>
+        <item>@string/prefs_dark_mode_2_entry_value_dark</item>
     </string-array>
 
     <string-array name="prefs_dark_mode_entries">

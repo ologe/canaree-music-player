@@ -77,7 +77,7 @@
         android:title="@string/prefs_category_ui">
 
         <ListPreference
-                app:defaultValue="@string/prefs_dark_mode_2_value_follow_system"
+                app:defaultValue="@string/prefs_dark_mode_2_entry_value_follow_system"
                 app:entries="@array/prefs_dark_mode_entries"
                 app:entryValues="@array/prefs_dark_mode_entry_values"
                 app:key="@string/prefs_dark_mode_key"
