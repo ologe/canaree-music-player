@@ -15,4 +15,6 @@ dependencies {
     implementation lib_core.dagger
     implementation lib_core.coroutines
 
+    // TODO rmeove
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
 }

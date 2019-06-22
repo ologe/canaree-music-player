@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.android.billingclient.api.*
+import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.msc.BuildConfig
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.domain.gateway.prefs.EqualizerPreferencesGateway
-import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.*
 import dev.olog.msc.utils.k.extension.toast
 import dev.olog.msc.utils.k.extension.unsubscribe
 import io.reactivex.Observable
@@ -20,10 +19,12 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class BillingImpl @Inject constructor(
-        private val activity: AppCompatActivity,
-        private val appPrefsUseCase: AppPreferencesGateway,
-        private val musicPreferencesUseCase: MusicPreferencesGateway,
-        private val equalizerPrefsUseCase: EqualizerPreferencesGateway
+    private val activity: AppCompatActivity,
+    private val appPrefsUseCase: AppPreferencesGateway,
+    private val musicPreferencesUseCase: MusicPreferencesGateway,
+    private val equalizerPrefsUseCase: EqualizerPreferencesGateway,
+    private val presentationPreferences: PresentationPreferences,
+    private val blacklistPreferences: BlacklistPreferences
 
 ) : IBilling, PurchasesUpdatedListener, DefaultLifecycleObserver {
 
@@ -46,36 +47,36 @@ class BillingImpl @Inject constructor(
 
     private var isTrialState by Delegates.observable(DEFAULT_TRIAL) { _, _, new ->
         trialPublisher.onNext(new)
-        if (!isPremium()){
+        if (!isPremium()) {
             setDefault()
         }
     }
 
     private var isPremiumState by Delegates.observable(DEFAULT_PREMIUM) { _, _, new ->
         premiumPublisher.onNext(new)
-        if (!isPremium()){
+        if (!isPremium()) {
             setDefault()
         }
     }
 
 
     private val billingClient = BillingClient.newBuilder(activity)
-            .setListener(this)
-            .build()
+        .setListener(this)
+        .build()
 
-    private var countDownDisposable : Disposable? = null
+    private var countDownDisposable: Disposable? = null
 
     init {
         activity.lifecycle.addObserver(this)
         startConnection { checkPurchases() }
 
-        if (isStillTrial()){
+        if (isStillTrial()) {
             isTrialState = true
             countDownDisposable = Observable.interval(5, TimeUnit.MINUTES, Schedulers.computation())
-                    .map { isStillTrial() }
-                    .doOnNext { isTrialState = it }
-                    .takeWhile { it }
-                    .subscribe({}, Throwable::printStackTrace)
+                .map { isStillTrial() }
+                .doOnNext { isTrialState = it }
+                .takeWhile { it }
+                .subscribe({}, Throwable::printStackTrace)
         }
     }
 
@@ -86,15 +87,15 @@ class BillingImpl @Inject constructor(
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
-        if (billingClient.isReady){
+        if (billingClient.isReady) {
             billingClient.endConnection()
         }
         countDownDisposable.unsubscribe()
         setDefaultDisposable.unsubscribe()
     }
 
-    private fun startConnection(func: (() -> Unit)?){
-        if (isConnected){
+    private fun startConnection(func: (() -> Unit)?) {
+        if (isConnected) {
             func?.invoke()
             return
         }
@@ -103,27 +104,28 @@ class BillingImpl @Inject constructor(
             override fun onBillingSetupFinished(responseCode: Int) {
 //                println("onBillingSetupFinished with response code:$responseCode")
 
-                when (responseCode){
+                when (responseCode) {
                     BillingClient.BillingResponse.OK -> isConnected = true
                     BillingClient.BillingResponse.BILLING_UNAVAILABLE -> activity.toast("Play store not found")
                 }
                 func?.invoke()
             }
+
             override fun onBillingServiceDisconnected() {
                 isConnected = false
             }
         })
     }
 
-    private fun checkPurchases(){
+    private fun checkPurchases() {
         val purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
-        if (purchases.responseCode == BillingClient.BillingResponse.OK){
+        if (purchases.responseCode == BillingClient.BillingResponse.OK) {
             isPremiumState = isProBought(purchases.purchasesList)
         }
     }
 
     override fun onPurchasesUpdated(responseCode: Int, purchases: MutableList<Purchase>?) {
-        when (responseCode){
+        when (responseCode) {
             BillingClient.BillingResponse.OK -> {
                 isPremiumState = isProBought(purchases)
             }
@@ -155,20 +157,22 @@ class BillingImpl @Inject constructor(
     override fun purchasePremium() {
         startConnection {
             val params = BillingFlowParams.newBuilder()
-                    .setSku(PRO_VERSION_ID)
-                    .setType(BillingClient.SkuType.INAPP)
-                    .build()
+                .setSku(PRO_VERSION_ID)
+                .setType(BillingClient.SkuType.INAPP)
+                .build()
 
             billingClient.launchBillingFlow(activity, params)
         }
     }
 
-    private fun setDefault(){
+    private fun setDefault() {
         setDefaultDisposable.unsubscribe()
         setDefaultDisposable = appPrefsUseCase.setDefault()
-                .andThen(musicPreferencesUseCase.setDefault())
-                .andThen(equalizerPrefsUseCase.setDefault())
-                .subscribeOn(Schedulers.io())
-                .subscribe({}, Throwable::printStackTrace)
+            .andThen(musicPreferencesUseCase.setDefault())
+            .andThen(equalizerPrefsUseCase.setDefault())
+            .andThen(presentationPreferences.setDefault())
+            .andThen(blacklistPreferences.setDefault())
+            .subscribeOn(Schedulers.io())
+            .subscribe({}, Throwable::printStackTrace)
     }
 }

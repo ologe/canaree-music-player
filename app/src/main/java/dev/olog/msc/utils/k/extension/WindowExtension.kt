@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.view.Window
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.shared.isDarkMode
 import dev.olog.shared.isMarshmallow
 import dev.olog.shared.isOreo
 
@@ -20,7 +21,7 @@ fun Window.setLightStatusBar(){
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
 
-    if (isMarshmallow() && !AppTheme.isDarkTheme()){
+    if (isMarshmallow() && !context.isDarkMode()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         if (isOreo()){
@@ -45,7 +46,7 @@ fun Window.removeLightStatusBar(){
                 View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
     }
 
-    if (isOreo() && !AppTheme.isDarkTheme()){
+    if (isOreo() && !context.isDarkMode()){
         flags = flags or View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
         navigationBarColor = Color.WHITE
     }

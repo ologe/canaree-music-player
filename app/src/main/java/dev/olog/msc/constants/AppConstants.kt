@@ -1,7 +1,7 @@
 package dev.olog.msc.constants
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import dev.olog.msc.R
 import dev.olog.msc.presentation.widget.QuickActionView
 

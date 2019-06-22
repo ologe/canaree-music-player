@@ -1,31 +1,31 @@
 package dev.olog.msc.domain.interactor.all.sorted.util
 
-import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
-import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
+import dev.olog.core.entity.SortType
+import dev.olog.msc.domain.executors.IoScheduler
+import dev.olog.core.prefs.SortPreferences
+import dev.olog.msc.domain.interactor.base.CompletableUseCaseWithParam
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class SetSortOrderUseCase @Inject constructor(
         schedulers: IoScheduler,
-        private val gateway: AppPreferencesGateway
+        private val gateway: SortPreferences
 
 ) : CompletableUseCaseWithParam<SetSortOrderRequestModel>(schedulers){
 
     override fun buildUseCaseObservable(param: SetSortOrderRequestModel): Completable {
         val category = param.mediaId.category
         return when (category){
-            MediaIdCategory.FOLDERS -> gateway.setFolderSortOrder(param.sortType)
+            MediaIdCategory.FOLDERS -> gateway.setDetailFolderSortOrder(param.sortType)
             MediaIdCategory.PLAYLISTS,
-            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.setPlaylistSortOrder(param.sortType)
+            MediaIdCategory.PODCASTS_PLAYLIST -> gateway.setDetailPlaylistSortOrder(param.sortType)
             MediaIdCategory.ALBUMS,
-            MediaIdCategory.PODCASTS_ALBUMS -> gateway.setAlbumSortOrder(param.sortType)
+            MediaIdCategory.PODCASTS_ALBUMS -> gateway.setDetailAlbumSortOrder(param.sortType)
             MediaIdCategory.ARTISTS,
-            MediaIdCategory.PODCASTS_ARTISTS -> gateway.setArtistSortOrder(param.sortType)
-            MediaIdCategory.GENRES -> gateway.setGenreSortOrder(param.sortType)
+            MediaIdCategory.PODCASTS_ARTISTS -> gateway.setDetailArtistSortOrder(param.sortType)
+            MediaIdCategory.GENRES -> gateway.setDetailGenreSortOrder(param.sortType)
             else -> throw IllegalArgumentException("invalid param $param")
         }
     }

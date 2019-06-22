@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
@@ -103,7 +104,7 @@ abstract class BaseEditItemFragment : BaseBottomSheetFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGE_CODE){
-            data?.let { onImagePicked(it.data) }
+            data?.data?.let { onImagePicked(it) } ?: Log.w("EditItem", "image not found")
         }
     }
 

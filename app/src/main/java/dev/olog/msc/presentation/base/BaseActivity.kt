@@ -3,10 +3,8 @@ package dev.olog.msc.presentation.base
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.annotation.StyleRes
 import androidx.fragment.app.Fragment
 import dagger.android.support.DaggerAppCompatActivity
-import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.utils.k.extension.setLightStatusBar
 
@@ -14,17 +12,9 @@ abstract class BaseActivity : DaggerAppCompatActivity(), ThemedActivity {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(getActivityTheme())
         themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
-    }
-
-    @StyleRes
-    private fun getActivityTheme() = when {
-        AppTheme.isWhiteMode() -> R.style.AppThemeWhite
-        AppTheme.isDarkMode() -> R.style.AppThemeDark
-        else -> throw IllegalStateException("invalid theme")
     }
 
     @Suppress("UNCHECKED_CAST")

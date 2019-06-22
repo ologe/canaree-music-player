@@ -11,9 +11,9 @@
     <string name="prefs_appearance_entry_value_mini" translatable="false">mini</string>
 
     <!--    dark mode Q-->
-    <string name="prefs_dark_mode_2_value_light" translatable="false">Light</string>
-    <string name="prefs_dark_mode_2_value_dark" translatable="false">Dark</string>
-    <string name="prefs_dark_mode_2_value_follow_system" translatable="false">Follow system</string>
+    <string name="prefs_dark_mode_2_value_light" translatable="false">light</string>
+    <string name="prefs_dark_mode_2_value_dark" translatable="false">dark</string>
+    <string name="prefs_dark_mode_2_value_follow_system" translatable="false">follow_system</string>
 
     <!--icon shape-->
     <string name="prefs_icon_shape_square" translatable="false">square</string>

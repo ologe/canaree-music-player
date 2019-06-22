@@ -1,10 +1,10 @@
 package dev.olog.msc.domain.interactor.all.sorted
 
 import dev.olog.core.entity.Song
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.core.entity.SortArranging
+import dev.olog.core.entity.SortType
 import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.core.prefs.SortPreferences
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
 import dev.olog.msc.utils.safeCompare
@@ -14,10 +14,10 @@ import java.text.Collator
 import javax.inject.Inject
 
 class GetAllSongsSortedUseCase @Inject constructor(
-        schedulers: IoScheduler,
-        private val getAllUseCase: GetAllSongsUseCase,
-        private val appPrefsGateway: AppPreferencesGateway,
-        private val collator: Collator
+    schedulers: IoScheduler,
+    private val getAllUseCase: GetAllSongsUseCase,
+    private val appPrefsGateway: SortPreferences,
+    private val collator: Collator
 
 
 ) : ObservableUseCase<List<Song>>(schedulers){

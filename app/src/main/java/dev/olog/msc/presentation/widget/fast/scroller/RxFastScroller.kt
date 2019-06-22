@@ -49,7 +49,7 @@ class RxFastScroller @JvmOverloads constructor(
     init {
         layout(context, attrs)
         if (attrs == null){
-            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
         } else {
             layoutParams = generateLayoutParams(attrs)
         }
@@ -74,15 +74,13 @@ class RxFastScroller @JvmOverloads constructor(
         if (attrs != null) {
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FastScroller, 0, 0)
 
-            if (typedArray != null) {
-                try {
-                    bubbleColor = context.colorAccent()
-                    handleColor = if (AppTheme.isDarkTheme()) Color.WHITE else ContextCompat.getColor(context, R.color.dark_grey)
-                    textColor = typedArray.getColor(R.styleable.FastScroller_bubbleTextColor, textColor)
-                    hideScrollbar = typedArray.getBoolean(R.styleable.FastScroller_hideScrollbar, true)
-                } finally {
-                    typedArray.recycle()
-                }
+            try {
+                bubbleColor = context.colorAccent()
+                handleColor = ContextCompat.getColor(context, R.color.dark_grey) // TODO check
+                textColor = typedArray.getColor(R.styleable.FastScroller_bubbleTextColor, textColor)
+                hideScrollbar = typedArray.getBoolean(R.styleable.FastScroller_hideScrollbar, true)
+            } finally {
+                typedArray.recycle()
             }
         }
 
@@ -147,7 +145,7 @@ class RxFastScroller @JvmOverloads constructor(
     private var showBubble = false
 
     override fun setLayoutParams(params: ViewGroup.LayoutParams) {
-        params.width = LinearLayout.LayoutParams.WRAP_CONTENT
+        params.width = LayoutParams.WRAP_CONTENT
         super.setLayoutParams(params)
     }
 

@@ -1,9 +1,9 @@
 package dev.olog.msc.presentation.detail.sort
 
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.core.entity.SortArranging
+import dev.olog.core.entity.SortType
 
 data class DetailSort(
-        val sortType: SortType,
-        val sortArranging: SortArranging
+    val sortType: SortType,
+    val sortArranging: SortArranging
 )

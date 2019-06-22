@@ -19,13 +19,13 @@ class RenameDialogModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(RenameDialog.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(RenameDialog.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 
     @Provides
     fun provideTitle() : String {
-        return fragment.arguments!!.getString(RenameDialog.ARGUMENTS_ITEM_TITLE)
+        return fragment.arguments!!.getString(RenameDialog.ARGUMENTS_ITEM_TITLE)!!
     }
 
 }

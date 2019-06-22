@@ -23,7 +23,7 @@ class RecentlyAddedFragmentModule(
 
     @Provides
     internal fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(RecentlyAddedFragment.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 

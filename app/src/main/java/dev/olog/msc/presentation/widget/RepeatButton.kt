@@ -11,8 +11,11 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.utils.k.extension.*
+import dev.olog.msc.presentation.utils.lazyFast
+import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
+import dev.olog.msc.utils.k.extension.isPortrait
 import dev.olog.shared.colorAccent
+import dev.olog.shared.isDarkMode
 import dev.olog.shared.textColorSecondary
 import dev.olog.shared.textColorTertiary
 
@@ -24,6 +27,8 @@ class RepeatButton @JvmOverloads constructor(
 
     private var enabledColor: Int
     private var repeatMode = PlaybackStateCompat.REPEAT_MODE_NONE
+
+    private val isDarkMode by lazyFast { context.isDarkMode() }
 
     init {
         setImageResource(R.drawable.vd_repeat)
@@ -81,9 +86,9 @@ class RepeatButton @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int {
         return when {
-            context.isPortrait && AppTheme.isCleanTheme() && !AppTheme.isDarkTheme() -> 0xFF_8d91a6.toInt()
+            context.isPortrait && AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
             AppTheme.isFullscreenTheme() -> Color.WHITE
-            AppTheme.isDarkTheme() -> {
+            isDarkMode -> {
                 alpha = .7f
                 context.textColorSecondary()
             }

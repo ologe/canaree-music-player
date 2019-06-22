@@ -3,8 +3,8 @@ package dev.olog.msc.music.service
 import android.net.Uri
 import android.os.Bundle
 import dev.olog.msc.constants.MusicConstants
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.core.entity.SortArranging
+import dev.olog.core.entity.SortType
 import dev.olog.msc.domain.gateway.GenreGateway
 import dev.olog.msc.domain.gateway.prefs.MusicPreferencesGateway
 import dev.olog.msc.domain.interactor.PodcastPositionUseCase

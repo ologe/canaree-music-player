@@ -1,6 +1,7 @@
 package dev.olog.shared
 
 import android.os.Build
+import androidx.core.os.BuildCompat
 
 fun isLollipop_MR_1(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1
@@ -28,4 +29,10 @@ fun isOreo_MR1(): Boolean {
 
 fun isP(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+}
+
+fun isQ(): Boolean {
+//    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q TODO
+    return Build.VERSION.SDK_INT >= 29
+            || BuildCompat.isAtLeastQ()
 }

@@ -12,7 +12,7 @@ import dev.olog.core.dagger.ApplicationContext
 import dev.olog.core.entity.Artist
 import dev.olog.core.entity.PodcastArtist
 import dev.olog.core.entity.Song
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.core.entity.SortType
 import dev.olog.msc.domain.interactor.GetTotalSongDurationUseCase
 import dev.olog.msc.domain.interactor.all.most.played.GetMostPlayedSongsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedUseCase

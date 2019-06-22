@@ -9,8 +9,10 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.k.extension.getAnimatedVectorDrawable
 import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.shared.isDarkMode
 import dev.olog.shared.textColorTertiary
 
 @Keep
@@ -23,10 +25,12 @@ class AnimatedImageView @JvmOverloads constructor(
     private val avd: AnimatedVectorDrawableCompat
     private val animator: ViewPropertyAnimator = animate()
 
+    private val isDarkMode by lazyFast { context.isDarkMode() }
+
     init {
-        if (AppTheme.isDarkTheme()){
-            setColorFilter(0xFF_FFFFFF.toInt())
-        }
+//        if (AppTheme.isDarkTheme()){ TODO
+//            setColorFilter(0xFF_FFFFFF.toInt())
+//        }
 
         val a = context.theme.obtainStyledAttributes(
                 attrs, R.styleable.AnimatedImageView, 0, 0)
@@ -63,8 +67,8 @@ class AnimatedImageView @JvmOverloads constructor(
 
     private fun getDefaultColor(): Int{
         return when {
-            context.isPortrait && AppTheme.isCleanTheme() && !AppTheme.isDarkTheme() -> 0xFF_8d91a6.toInt()
-            AppTheme.isFullscreenTheme() || AppTheme.isDarkTheme() -> Color.WHITE
+            context.isPortrait && AppTheme.isCleanTheme() && !isDarkMode -> 0xFF_8d91a6.toInt()
+            AppTheme.isFullscreenTheme() || isDarkMode -> Color.WHITE
             else -> context.textColorTertiary()
         }
     }

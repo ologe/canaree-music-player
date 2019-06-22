@@ -1,11 +1,11 @@
 package dev.olog.msc.presentation.library.categories.podcast
 
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.shared.clamp
 import javax.inject.Inject
 
 class CategoriesPodcastFragmentPresenter @Inject constructor(
-        private val appPrefsUseCase: AppPreferencesGateway
+        private val appPrefsUseCase: PresentationPreferences
 ) {
 
     fun getViewPagerLastPage(totalPages: Int) : Int{

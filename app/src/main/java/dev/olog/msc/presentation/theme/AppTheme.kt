@@ -2,8 +2,10 @@ package dev.olog.msc.presentation.theme
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import dev.olog.msc.R
+import dev.olog.shared.isP
 
 object AppTheme {
 
@@ -11,16 +13,11 @@ object AppTheme {
         DEFAULT, FLAT, SPOTIFY, FULLSCREEN, BIG_IMAGE, CLEAN, MINI;
     }
 
-    enum class DarkMode {
-        LIGHT, DARK
-    }
-
     enum class Immersive {
         DISABLED, ENABLED
     }
 
     private var THEME = Theme.DEFAULT
-    private var DARK_MODE = DarkMode.LIGHT
     private var IMMERSIVE_MDOE = Immersive.DISABLED
 
     fun initialize(app: Application){
@@ -39,18 +36,14 @@ object AppTheme {
     fun isCleanTheme(): Boolean = THEME == Theme.CLEAN
     fun isMiniTheme(): Boolean = THEME == Theme.MINI
 
-    fun isWhiteMode(): Boolean = DARK_MODE == DarkMode.LIGHT
-    fun isDarkMode(): Boolean = DARK_MODE == DarkMode.DARK
-
-    fun isWhiteTheme(): Boolean = DARK_MODE == DarkMode.LIGHT
-    fun isDarkTheme(): Boolean = DARK_MODE == DarkMode.DARK
-
     fun updateTheme(context: Context){
         THEME = getTheme(context)
     }
 
     fun updateDarkMode(context: Context){
-        DARK_MODE = getDarkMode(context)
+        val darkMode = getDarkMode(context)
+        AppCompatDelegate.setDefaultNightMode(darkMode)
+        // TODO needs to recraete ??
     }
 
     fun updateImmersive(context: Context){
@@ -81,12 +74,21 @@ object AppTheme {
         }
     }
 
-    private fun getDarkMode(context: Context): DarkMode {
+    private fun getDarkMode(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        val theme = prefs.getString(context.getString(R.string.prefs_dark_mode_key), context.getString(R.string.prefs_dark_mode_entry_value_light))
+        val theme = prefs.getString(
+            context.getString(R.string.prefs_dark_mode_key),
+            context.getString(R.string.prefs_dark_mode_2_value_follow_system))
         return when (theme) {
-            context.getString(R.string.prefs_dark_mode_entry_value_light) -> DarkMode.LIGHT
-            context.getString(R.string.prefs_dark_mode_entry_value_dark) -> DarkMode.DARK
+            context.getString(R.string.prefs_dark_mode_2_value_follow_system) -> {
+                if (isP()) {
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                } else {
+                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                }
+            }
+            context.getString(R.string.prefs_dark_mode_2_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
+            context.getString(R.string.prefs_dark_mode_2_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
             else -> throw IllegalStateException("invalid theme=$theme")
         }
     }

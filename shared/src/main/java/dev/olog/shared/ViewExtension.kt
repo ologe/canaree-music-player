@@ -7,9 +7,16 @@ import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.annotation.Px
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import com.google.android.material.R
+import dev.olog.shared.R as sharedR
 
 
 fun View.toggleVisibility(visible: Boolean, gone: Boolean) {
@@ -65,6 +72,10 @@ fun Context.colorAccent(): Int {
     return themeAttributeToColor(android.R.attr.colorAccent)
 }
 
+fun Context.colorScrim(): Int {
+    return themeAttributeToColor(sharedR.attr.colorScrim)
+}
+
 fun Context.colorAccentId(): Int {
     return themeAttributeToResId(android.R.attr.colorAccent)
 }
@@ -81,9 +92,9 @@ fun Context.windowBackground(): Int {
     return themeAttributeToColor(android.R.attr.windowBackground)
 }
 
-//fun Context.scrimColor(): Int {
-//    return themeAttributeToColor(R.attr.scrimColor)
-//}
+fun Context.isDarkMode(): Boolean {
+    return resources.getBoolean(sharedR.bool.is_dark_mode)
+}
 
 private fun Context.themeAttributeToColor(themeAttributeId: Int, fallbackColor: Int = Color.WHITE): Int {
     val outValue = TypedValue()
@@ -113,4 +124,28 @@ inline fun ViewGroup.forEachRecursively(action: (view: View) -> Unit) {
             action(it)
         }
     }
+}
+
+fun View.setHeight(@Px heightPx: Int){
+    val params = this.layoutParams
+    when (params){
+        is FrameLayout.LayoutParams -> params.height = heightPx
+        is LinearLayout.LayoutParams -> params.height = heightPx
+        is RelativeLayout.LayoutParams -> params.height = heightPx
+        is CoordinatorLayout.LayoutParams -> params.height = heightPx
+        is ConstraintLayout.LayoutParams -> params.height = heightPx
+    }
+    layoutParams = params
+}
+
+fun View.setWidth(@Px heightPx: Int){
+    val params = this.layoutParams
+    when (params){
+        is FrameLayout.LayoutParams -> params.width = heightPx
+        is LinearLayout.LayoutParams -> params.width = heightPx
+        is RelativeLayout.LayoutParams -> params.width = heightPx
+        is CoordinatorLayout.LayoutParams -> params.width = heightPx
+        is ConstraintLayout.LayoutParams -> params.width = heightPx
+    }
+    layoutParams = params
 }

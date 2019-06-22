@@ -28,6 +28,9 @@ dependencies {
     kapt lib_ui.androidSupportAnnotation
     implementation lib_x.core_ktx
 
+    // TOOD update to android x
+    implementation "androidx.legacy:legacy-preference-v14:$rootProject.androidX"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

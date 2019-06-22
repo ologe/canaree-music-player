@@ -18,13 +18,13 @@ class ClearPlaylistDialogModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 
     @Provides
     fun provideTitle(): String {
-        return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_ITEM_TITLE)
+        return fragment.arguments!!.getString(ClearPlaylistDialog.ARGUMENTS_ITEM_TITLE)!!
     }
 
 }

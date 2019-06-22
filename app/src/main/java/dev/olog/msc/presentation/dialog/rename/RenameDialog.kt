@@ -69,6 +69,6 @@ class RenameDialog : BaseEditTextDialog() {
     override fun isStringValid(string: String): Boolean = presenter.checkData(string)
 
     override fun initialTextFieldValue(): String {
-        return arguments!!.getString(ARGUMENTS_ITEM_TITLE)
+        return arguments!!.getString(ARGUMENTS_ITEM_TITLE)!!
     }
 }

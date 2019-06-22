@@ -12,7 +12,7 @@ import com.crashlytics.android.Crashlytics
 import com.google.android.gms.appinvite.AppInviteInvitation
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
-import dev.olog.shared.Permissions
+import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.FloatingWindowsConstants
@@ -30,10 +30,9 @@ import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.presentation.theme.AppTheme
-import dev.olog.msc.presentation.utils.animation.HasSafeTransition
 import dev.olog.msc.pro.IBilling
-import dev.olog.core.MediaId
 import dev.olog.msc.utils.k.extension.*
+import dev.olog.shared.Permissions
 import dev.olog.shared.clamp
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -257,9 +256,6 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
             val topFragment = getTopFragment()
 
             when {
-                topFragment is HasSafeTransition && topFragment.isAnimating() -> {
-//                  prevents circular reveal crash
-                }
                 topFragment is DrawsOnTop -> super.onBackPressed()
                 topFragment is DimBottomSheetDialogFragment -> supportFragmentManager.popBackStack()
                 slidingPanel.isExpanded() -> slidingPanel.collapse()

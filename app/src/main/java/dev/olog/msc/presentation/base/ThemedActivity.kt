@@ -2,8 +2,8 @@ package dev.olog.msc.presentation.base
 
 import android.content.Context
 import android.content.res.Resources
-import android.preference.PreferenceManager
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 import dev.olog.msc.R
 import dev.olog.msc.presentation.theme.AppTheme
@@ -104,7 +104,7 @@ interface ThemedActivity {
             getColorResource(context, R.color.md_deep_orange_A400) -> R.style.ThemeAccentDeepOrange400
             getColorResource(context, R.color.md_deep_orange_A700) -> R.style.ThemeAccentDeepOrange700
             // prevent strange color crash
-            else -> if (AppTheme.isWhiteTheme()) R.style.ThemeAccentIndigo400 else R.style.ThemeAccentYellow700
+            else -> R.style.ThemeAccentIndigo400
         }
     }
 

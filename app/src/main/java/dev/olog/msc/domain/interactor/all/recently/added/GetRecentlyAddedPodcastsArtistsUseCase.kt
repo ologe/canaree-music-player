@@ -2,7 +2,7 @@ package dev.olog.msc.domain.interactor.all.recently.added
 
 import dev.olog.core.entity.PodcastArtist
 import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.interactor.all.GetAllPodcastArtistsUseCase
 import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
@@ -14,7 +14,7 @@ class GetRecentlyAddedPodcastsArtistsUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val getAllArtistsUseCase: GetAllPodcastArtistsUseCase,
         private val getAllPodcastsUseCase: GetAllPodcastUseCase,
-        private val appPreferencesUseCase: AppPreferencesGateway
+        private val appPreferencesUseCase: PresentationPreferences
 
 ) : ObservableUseCase<List<PodcastArtist>>(scheduler) {
 

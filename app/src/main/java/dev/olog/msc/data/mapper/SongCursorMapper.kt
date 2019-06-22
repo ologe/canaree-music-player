@@ -106,13 +106,3 @@ internal fun extractFolder(path: String): String {
         return ""
     }
 }
-
-
-//internal fun adjustAlbum(album: String, folder: String): String {
-//    val hasUnknownAlbum = album == folder
-//    return if (hasUnknownAlbum) {
-//        AppConstants.UNKNOWN
-//    } else {
-//        album
-//    }
-//}

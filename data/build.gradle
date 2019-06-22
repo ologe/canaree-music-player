@@ -32,6 +32,11 @@ dependencies {
     kapt lib_core.dagger_processor
     implementation lib_x.core_ktx
 
+    // TODO rmeove
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rx_java"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.rx_kotlin"
+    implementation "com.f2prateek.rx.preferences2:rx-preferences:$rootProject.rx_preferences"
+
     implementation lib_data.sql_content_resolver
     implementation lib_data.room
     implementation lib_data.room_ktx

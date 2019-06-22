@@ -1,7 +1,6 @@
 package dev.olog.msc.presentation.dialog.sleep.timer
 
 import android.content.DialogInterface
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,10 +11,8 @@ import android.view.Window
 import android.widget.Button
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
-import com.google.android.material.card.MaterialCardView
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseDialogFragment
-import dev.olog.msc.presentation.theme.AppTheme
 
 open class ScrollHmsPickerDialog : BaseDialogFragment() {
     interface HmsPickHandler {
@@ -29,7 +26,7 @@ open class ScrollHmsPickerDialog : BaseDialogFragment() {
     @ColorRes
     var colorSelected: Int = R.color.accent
     @ColorRes
-    var colorBackground: Int = if (AppTheme.isDarkTheme()) R.color.dark_dialog_background else android.R.color.white
+    var colorBackground: Int = android.R.color.white
     var dismissListener: DialogInterface.OnDismissListener? = null
     var pickListener: ScrollHmsPickerDialog.HmsPickHandler? = null
 
@@ -41,11 +38,6 @@ open class ScrollHmsPickerDialog : BaseDialogFragment() {
             picker.setAutoStep(autoStep)
             picker.setColorNormal(colorNormal)
             picker.setColorSelected(colorSelected)
-        }
-        if (AppTheme.isDarkTheme()){
-            val background = ContextCompat.getColor(view.context, R.color.theme_dark_background)
-            (view as MaterialCardView).backgroundTintList = ColorStateList.valueOf(background)
-            hmsPicker.backgroundTintList = ColorStateList.valueOf(background)
         }
         val textColor = ContextCompat.getColor(view.context, colorSelected)
         view.findViewById<Button>(R.id.button_cancel).apply {

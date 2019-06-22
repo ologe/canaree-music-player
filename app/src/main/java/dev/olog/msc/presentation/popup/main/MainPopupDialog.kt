@@ -10,10 +10,10 @@ import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.BuildConfig
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.LibrarySortType
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.core.entity.LibrarySortType
+import dev.olog.core.entity.SortArranging
+import dev.olog.core.entity.SortType
+import dev.olog.core.prefs.SortPreferences
 import dev.olog.msc.presentation.navigator.Navigator
 import dev.olog.msc.pro.IBilling
 import javax.inject.Inject
@@ -26,7 +26,7 @@ class MainPopupDialog @Inject constructor(
         private val billing: IBilling,
         private val activityNavigator: Navigator,
         private val navigator: MainPopupNavigator,
-        private val gateway: AppPreferencesGateway
+        private val gateway: SortPreferences
 
 ){
 

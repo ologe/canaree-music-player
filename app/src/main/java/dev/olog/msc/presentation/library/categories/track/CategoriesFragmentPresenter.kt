@@ -1,13 +1,13 @@
 package dev.olog.msc.presentation.library.categories.track
 
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.shared.clamp
 import io.reactivex.Completable
 import javax.inject.Inject
 
 class CategoriesFragmentPresenter @Inject constructor(
-        private val appPrefsUseCase: AppPreferencesGateway,
+        private val appPrefsUseCase: PresentationPreferences,
         private val tutorialPreferenceUseCase: TutorialPreferenceGateway
 ) {
 

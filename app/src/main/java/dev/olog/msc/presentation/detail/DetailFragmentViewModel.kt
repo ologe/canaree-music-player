@@ -2,8 +2,8 @@ package dev.olog.msc.presentation.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dev.olog.msc.domain.entity.SortArranging
-import dev.olog.msc.domain.entity.SortType
+import dev.olog.core.entity.SortArranging
+import dev.olog.core.entity.SortType
 import dev.olog.msc.domain.interactor.GetDetailTabsVisibilityUseCase
 import dev.olog.msc.domain.interactor.all.sorted.util.*
 import dev.olog.msc.presentation.detail.sort.DetailSort

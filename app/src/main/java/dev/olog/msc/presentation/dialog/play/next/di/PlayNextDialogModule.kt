@@ -18,7 +18,7 @@ class PlayNextDialogModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(PlayNextDialog.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(PlayNextDialog.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 
@@ -28,6 +28,6 @@ class PlayNextDialogModule(
     }
 
     @Provides
-    fun provideTitle(): String = fragment.arguments!!.getString(PlayNextDialog.ARGUMENTS_ITEM_TITLE)
+    fun provideTitle(): String = fragment.arguments!!.getString(PlayNextDialog.ARGUMENTS_ITEM_TITLE)!!
 
 }

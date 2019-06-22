@@ -1,15 +1,15 @@
 package dev.olog.msc.presentation.library.categories.track
 
 import android.content.Context
-import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.preference.PreferenceManager
+import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
 import dev.olog.msc.domain.entity.LibraryCategoryBehavior
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.library.tab.TabFragment
-import dev.olog.core.MediaIdCategory
 
 class CategoriesViewPager(
         private val context: Context,

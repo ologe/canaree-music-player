@@ -10,5 +10,5 @@ fun AlertDialog.enableForService(){
         WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
     else
         WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-    window.setType(windowType)
+    window?.setType(windowType)
 }

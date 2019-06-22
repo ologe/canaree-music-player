@@ -7,6 +7,8 @@
     <attr name="cleanSeekBarColor" format="reference|color"/>
     <attr name="cleanSeekBarBackgroundColor" format="reference|color"/>
 
+    <attr name="colorScrim" format="reference|color"/>
+
     <!-- Base application theme. -->
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="preferenceTheme">@style/DefaultPreferenceTheme</item>
@@ -29,7 +31,7 @@
         <item name="bottomAppBarStyle">@style/DefaultBottomBar</item>
         <item name="bottomNavigationStyle">@style/AppBottomNavigationBar</item>
 
-        <item name="scrimColor">#88FFFFFF</item>
+        <item name="colorScrim">@color/colorScrim</item>
         <item name="miniPlayerColor">?android:attr/windowBackground</item>
 
         <item name="dialogCornerRadius">@dimen/default_corner_radius</item>

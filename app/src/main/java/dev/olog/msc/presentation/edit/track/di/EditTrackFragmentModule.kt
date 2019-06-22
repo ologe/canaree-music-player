@@ -19,7 +19,7 @@ class EditTrackFragmentModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(EditTrackFragment.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(EditTrackFragment.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 

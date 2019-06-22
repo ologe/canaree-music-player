@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.dialog.rate.request
 
 import android.app.Activity
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.core.content.edit
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle

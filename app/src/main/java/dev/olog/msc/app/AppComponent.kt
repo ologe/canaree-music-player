@@ -3,6 +3,7 @@ package dev.olog.msc.app
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
+import dev.olog.data.DataModule
 import dev.olog.msc.api.last.fm.LastFmModule
 import dev.olog.msc.app.shortcuts.AppShortcutsModule
 import dev.olog.msc.data.RepositoryHelperModule
@@ -18,7 +19,8 @@ import dev.olog.msc.presentation.preferences.di.PreferencesActivityInjector
 import dev.olog.msc.presentation.shortcuts.playlist.chooser.di.PlaylistChooserActivityInjector
 import javax.inject.Singleton
 
-@Component(modules = arrayOf(
+@Component(
+    modules = arrayOf(
         AppModule::class,
         SchedulersModule::class,
         AppShortcutsModule::class,
@@ -29,9 +31,10 @@ import javax.inject.Singleton
         RepositoryModule::class,
         RepositoryHelperModule::class,
         PreferenceModule::class,
+        DataModule::class,
 //
 //        // presentation
-        ActivityBindingsModule::class,
+                ActivityBindingsModule ::class,
         WidgetBindingModule::class,
         MainActivityInjector::class,
         AboutActivityInjector::class,
@@ -45,9 +48,10 @@ import javax.inject.Singleton
 
 //        // floating info service
         FloatingWindowServiceInjector::class
-))
+    )
+)
 @Singleton
-interface AppComponent: AndroidInjector<App> {
+interface AppComponent : AndroidInjector<App> {
 
     @Component.Builder
     abstract class Builder : AndroidInjector.Builder<App>() {

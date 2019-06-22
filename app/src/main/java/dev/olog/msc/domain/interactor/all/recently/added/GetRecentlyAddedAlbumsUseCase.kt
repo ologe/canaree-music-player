@@ -2,7 +2,7 @@ package dev.olog.msc.domain.interactor.all.recently.added
 
 import dev.olog.core.entity.Album
 import dev.olog.msc.domain.executors.IoScheduler
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.interactor.all.GetAllAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.base.ObservableUseCase
@@ -14,7 +14,7 @@ class GetRecentlyAddedAlbumsUseCase @Inject constructor(
         scheduler: IoScheduler,
         private val getAllAlbumsUseCase: GetAllAlbumsUseCase,
         private val getAllSongsUseCase: GetAllSongsUseCase,
-        private val appPreferencesUseCase: AppPreferencesGateway
+        private val appPreferencesUseCase: PresentationPreferences
 
 ) : ObservableUseCase<List<Album>>(scheduler) {
 

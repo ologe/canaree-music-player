@@ -41,9 +41,9 @@ class FolderTreeFragment : BaseFragment(), BreadCrumbLayout.SelectionCallback {
         view.fastScroller.attachRecyclerView(view.list)
         view.fastScroller.showBubble(false)
 
-        if (AppTheme.isDarkTheme()){
-            view.bread_crumbs.setBackgroundColor(ctx.windowBackground())
-        }
+//        if (AppTheme.isDarkTheme()){ TODO
+//            view.bread_crumbs.setBackgroundColor(ctx.windowBackground())
+//        }
 //        if (AppTheme.isGrayMode()){
 //            view.bread_crumbs.setBackgroundColor(ContextCompat.getColor(ctx, R.color.toolbar))
 //        }

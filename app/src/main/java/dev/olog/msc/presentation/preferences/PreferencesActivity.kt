@@ -3,11 +3,10 @@ package dev.olog.msc.presentation.preferences
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
-import androidx.annotation.StyleRes
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
+import androidx.preference.PreferenceManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.ColorCallback
 import dagger.android.AndroidInjection
@@ -33,7 +32,6 @@ class PreferencesActivity : DaggerAppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
-        setTheme(getActivityTheme())
         themeAccentColor(this, theme)
         super.onCreate(savedInstanceState)
         window.setLightStatusBar()
@@ -52,13 +50,6 @@ class PreferencesActivity : DaggerAppCompatActivity(),
     override fun onPause() {
         super.onPause()
         back.setOnClickListener(null)
-    }
-
-    @StyleRes
-    private fun getActivityTheme() = when {
-        AppTheme.isWhiteMode() -> R.style.AppThemeWhite
-        AppTheme.isDarkMode() -> R.style.AppThemeDark
-        else -> throw IllegalStateException("invalid theme")
     }
 
     override fun invoke(dialog: MaterialDialog, color: Int) {

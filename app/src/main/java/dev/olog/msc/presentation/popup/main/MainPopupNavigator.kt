@@ -2,7 +2,7 @@ package dev.olog.msc.presentation.popup.main
 
 import android.content.Intent
 import android.media.audiofx.AudioEffect
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
 import dev.olog.msc.R
 import dev.olog.msc.presentation.about.AboutActivity

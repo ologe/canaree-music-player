@@ -41,6 +41,12 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url "https://dl.bintray.com/drummer-aidan/maven/" }
     }
+    gradle.projectsEvaluated { // TODO remove after coroutines became stable
+        tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
+            kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.FlowPreview"]
+            kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+        }
+    }
 }
 
 task clean(type: Delete) {
@@ -52,15 +58,15 @@ ext {
     minSdkVersion = 21
     targetSdkVersion = 28
     compileSdkVersion = 28
-    buildToolsVersion = '28.0.3'
+    buildToolsVersion = '29.0.0'
 
     /*  version code
         999 - for old compatibility
         27 - android version
         X.xxx - X major version, xxx minor version
      */
-    versionCode = 999_28_2_1_01
-    versionName = '2.1.1'
+    versionCode = 999_28_3_0_0
+    versionName = '3.0.0'
 
     // App dependencies
     androidX = '1.0.0'

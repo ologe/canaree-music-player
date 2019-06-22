@@ -1,11 +1,11 @@
 package dev.olog.msc.presentation.main
 
-import dev.olog.msc.domain.gateway.prefs.AppPreferencesGateway
+import dev.olog.msc.domain.gateway.prefs.PresentationPreferences
 import dev.olog.msc.domain.interactor.IsRepositoryEmptyUseCase
 import javax.inject.Inject
 
 class MainActivityPresenter @Inject constructor(
-        private val appPreferencesUseCase: AppPreferencesGateway,
+        private val appPreferencesUseCase: PresentationPreferences,
         val isRepositoryEmptyUseCase: IsRepositoryEmptyUseCase
 ) {
 

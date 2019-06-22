@@ -18,7 +18,7 @@ class SetRingtoneDialogModule(
 
     @Provides
     fun provideMediaId(): MediaId {
-        val mediaId = fragment.arguments!!.getString(SetRingtoneDialog.ARGUMENTS_MEDIA_ID)
+        val mediaId = fragment.arguments!!.getString(SetRingtoneDialog.ARGUMENTS_MEDIA_ID)!!
         return MediaId.fromString(mediaId)
     }
 

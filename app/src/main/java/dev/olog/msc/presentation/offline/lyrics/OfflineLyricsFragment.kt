@@ -16,7 +16,6 @@ import dev.olog.msc.offline.lyrics.OfflineLyricsSyncAdjustementDialog
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.widget.animateBackgroundColor
 import dev.olog.msc.presentation.widget.animateTextColor
@@ -148,7 +147,7 @@ class OfflineLyricsFragment : BaseFragment(), DrawsOnTop {
     }
 
     private fun searchLyrics(){
-        val toolbarColor = if (AppTheme.isWhiteTheme()) R.color.toolbar else R.color.theme_dark_toolbar
+        val toolbarColor = R.color.toolbar
         val customTabIntent = CustomTabsIntent.Builder()
                 .enableUrlBarHiding()
                 .setToolbarColor(ContextCompat.getColor(ctx, toolbarColor))
