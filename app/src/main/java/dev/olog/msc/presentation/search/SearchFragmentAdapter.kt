@@ -6,26 +6,28 @@ import dev.olog.msc.BR
 import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.utils.k.extension.elevateSongOnTouch
 import dev.olog.msc.utils.k.extension.setOnClickListener
 import dev.olog.msc.utils.k.extension.setOnLongClickListener
+import dev.olog.presentation.base.setOnClickListener
+import dev.olog.presentation.base.setOnLongClickListener
 import javax.inject.Inject
 
 class SearchFragmentAdapter @Inject constructor(
-        @FragmentLifecycle lifecycle: Lifecycle,
-        private val albumAdapter: SearchFragmentAlbumAdapter,
-        private val artistAdapter: SearchFragmentArtistAdapter,
-        private val folderAdapter: SearchFragmentFolderAdapter,
-        private val playlistAdapter: SearchFragmentPlaylistAdapter,
-        private val genreAdapter: SearchFragmentGenreAdapter,
-        private val recycledViewPool: androidx.recyclerview.widget.RecyclerView.RecycledViewPool,
-        private val mediaProvider: MediaProvider,
-        private val navigator: Navigator,
-        private val viewModel: SearchFragmentViewModel
+    @FragmentLifecycle lifecycle: Lifecycle,
+    private val albumAdapter: SearchFragmentAlbumAdapter,
+    private val artistAdapter: SearchFragmentArtistAdapter,
+    private val folderAdapter: SearchFragmentFolderAdapter,
+    private val playlistAdapter: SearchFragmentPlaylistAdapter,
+    private val genreAdapter: SearchFragmentGenreAdapter,
+    private val recycledViewPool: androidx.recyclerview.widget.RecyclerView.RecycledViewPool,
+    private val mediaProvider: MediaProvider,
+    private val navigator: Navigator,
+    private val viewModel: SearchFragmentViewModel
 
 ) : AbsAdapter<DisplayableItem>(lifecycle) {
 

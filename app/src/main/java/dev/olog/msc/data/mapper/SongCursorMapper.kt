@@ -18,7 +18,6 @@ fun Cursor.toSong(): Song {
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
 
     val path = getStringOrNull(MediaStore.MediaColumns.DATA) ?: ""
-    val folder = extractFolder(path)
 
     val title = getStringOrNull(MediaStore.MediaColumns.TITLE) ?: ""
 
@@ -37,13 +36,12 @@ fun Cursor.toSong(): Song {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
-    val track = extractTrackNumber(trackNumber)
-    val disc = extractDiscNumber(trackNumber)
 
     return Song(
         id, artistId, albumId, title, artist, albumArtist, album,
         duration, dateAdded, path,
-        folder.capitalize(), disc, track
+        "", trackNumber,
+        -1
     )
 }
 
@@ -53,7 +51,6 @@ fun Cursor.toUneditedSong(): Song {
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
 
     val path = getString(MediaStore.MediaColumns.DATA)
-    val folder = extractFolder(path)
 
     val title = getString(MediaStore.MediaColumns.TITLE)
 
@@ -64,8 +61,6 @@ fun Cursor.toUneditedSong(): Song {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
-    val track = extractTrackNumber(trackNumber)
-    val disc = extractDiscNumber(trackNumber)
 
     var albumArtist = artist
     val albumArtistIndex = this.getColumnIndex("album_artist")
@@ -78,31 +73,8 @@ fun Cursor.toUneditedSong(): Song {
     return Song(
         id, artistId, albumId, title, artist, albumArtist, album,
         duration, dateAdded, path,
-        folder.capitalize(), disc, track
+        "",
+        trackNumber,
+        -1
     )
-}
-
-internal fun extractTrackNumber(originalTrackNumber: Int) : Int {
-    if (originalTrackNumber >= 1000){
-        return originalTrackNumber % 1000
-    }
-    return originalTrackNumber
-}
-
-internal fun extractDiscNumber(originalTrackNumber: Int): Int {
-    if (originalTrackNumber >= 1000){
-        return originalTrackNumber / 1000
-    }
-    return 0
-}
-
-internal fun extractFolder(path: String): String {
-    try {
-        val lastSep = path.lastIndexOf(File.separator)
-        val prevSep = path.lastIndexOf(File.separator, lastSep - 1)
-        return path.substring(prevSep + 1, lastSep)
-    } catch (ex: Exception){
-        ex.printStackTrace()
-        return ""
-    }
 }

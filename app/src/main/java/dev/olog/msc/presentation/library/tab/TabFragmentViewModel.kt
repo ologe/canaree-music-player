@@ -2,31 +2,31 @@ package dev.olog.msc.presentation.library.tab
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import dagger.Lazy
-import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.LibrarySortType
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.msc.utils.k.extension.asLiveData
 import dev.olog.presentation.model.DisplayableItem
-import io.reactivex.Observable
+import dev.olog.shared.asLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class TabFragmentViewModel @Inject constructor(
-    private val data: Lazy<Map<MediaIdCategory, Observable<List<DisplayableItem>>>>,
+internal class TabFragmentViewModel @Inject constructor(
+    private val tabDataProvider: TabDataProvider,
     private val appPreferencesUseCase: SortPreferences
 
 ) : ViewModel() {
 
-    private val liveDataList: MutableMap<MediaIdCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
+    private val liveDataMap: MutableMap<TabCategory, LiveData<List<DisplayableItem>>> = mutableMapOf()
 
-    fun observeData(category: MediaIdCategory): LiveData<List<DisplayableItem>> {
-        var liveData: LiveData<List<DisplayableItem>>? = liveDataList[category]
-        if (liveData == null) {
-            liveData = data.get()[category]!!.asLiveData()
-            liveDataList[category] = liveData
+    suspend fun observeData(category: TabCategory): LiveData<List<DisplayableItem>> {
+        return withContext(Dispatchers.Default) {
+            var liveData = liveDataMap[category]
+            if (liveData == null) {
+                liveData = tabDataProvider.get(category).asLiveData()
+            }
+            liveData!!
+
         }
-
-        return liveData
     }
 
     fun getAllTracksSortOrder(): LibrarySortType {

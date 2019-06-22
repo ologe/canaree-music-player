@@ -14,7 +14,7 @@ import dev.olog.core.entity.LibrarySortType
 import dev.olog.core.entity.SortArranging
 import dev.olog.core.entity.SortType
 import dev.olog.core.prefs.SortPreferences
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.pro.IBilling
 import javax.inject.Inject
 
@@ -23,10 +23,10 @@ private const val DEBUG_ID = -123
 private const val SAVE_AS_PLAYLIST_ID = -12345
 
 class MainPopupDialog @Inject constructor(
-        private val billing: IBilling,
-        private val activityNavigator: Navigator,
-        private val navigator: MainPopupNavigator,
-        private val gateway: SortPreferences
+    private val billing: IBilling,
+    private val activityNavigator: Navigator,
+    private val navigator: MainPopupNavigator,
+    private val gateway: SortPreferences
 
 ){
 

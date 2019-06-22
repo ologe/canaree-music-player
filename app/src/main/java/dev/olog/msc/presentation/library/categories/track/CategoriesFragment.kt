@@ -6,7 +6,7 @@ import dev.olog.msc.R
 import dev.olog.msc.catchNothing
 import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.tutorial.TutorialTapTarget
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.core.MediaIdCategory

@@ -5,14 +5,8 @@ import android.content.res.Resources
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.dagger.ApplicationContext
-import dev.olog.core.entity.Podcast
-import dev.olog.core.entity.PodcastAlbum
-import dev.olog.core.entity.PodcastArtist
-import dev.olog.core.entity.PodcastPlaylist
-import dev.olog.msc.R
 import dev.olog.msc.dagger.qualifier.MediaIdCategoryKey
 import dev.olog.msc.domain.interactor.all.*
 import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedPodcastAlbumsUseCase
@@ -20,16 +14,17 @@ import dev.olog.msc.domain.interactor.all.last.played.GetLastPlayedPodcastArtist
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedPodcastsAlbumsUseCase
 import dev.olog.msc.domain.interactor.all.recently.added.GetRecentlyAddedPodcastsArtistsUseCase
 import dev.olog.msc.presentation.library.tab.TabFragmentHeaders
+import dev.olog.msc.presentation.library.tab.mapper.toAutoPlaylist
+import dev.olog.msc.presentation.library.tab.mapper.toTabDisplayableItem
+import dev.olog.msc.presentation.library.tab.mapper.toTabLastPlayedDisplayableItem
 import dev.olog.msc.utils.k.extension.defer
 import dev.olog.msc.utils.k.extension.mapToList
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.shared.TextUtils
 import dev.olog.shared.doIf
 import dev.olog.shared.startWith
 import dev.olog.shared.startWithIfNotEmpty
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
-import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 @Module
@@ -177,87 +172,4 @@ class TabFragmentPodcastModule {
                 .defer()
     }
 
-}
-
-private fun PodcastPlaylist.toTabDisplayableItem(resources: Resources): DisplayableItem {
-
-    val size = DisplayableItem.handleSongListSize(resources, size)
-
-    return DisplayableItem(
-        R.layout.item_tab_album,
-        MediaId.podcastPlaylistId(id),
-        title,
-        size
-    )
-}
-
-
-private fun PodcastPlaylist.toAutoPlaylist(): DisplayableItem {
-
-    return DisplayableItem(
-        R.layout.item_tab_auto_playlist,
-        MediaId.podcastPlaylistId(id),
-        title,
-        ""
-    )
-}
-
-private fun Podcast.toTabDisplayableItem(context: Context): DisplayableItem {
-    val artist = DisplayableItem.adjustArtist(this.artist)
-
-    val duration = context.getString(R.string.tab_podcast_duration, TimeUnit.MILLISECONDS.toMinutes(this.duration))
-
-    return DisplayableItem(
-        R.layout.item_tab_podcast,
-        MediaId.podcastId(this.id),
-        title,
-        artist,
-        trackNumber = duration,
-        isPlayable = true
-    )
-}
-
-private fun PodcastArtist.toTabDisplayableItem(resources: Resources): DisplayableItem {
-    val songs = DisplayableItem.handleSongListSize(resources, songs)
-    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
-    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
-
-    return DisplayableItem(
-        R.layout.item_tab_artist,
-        MediaId.podcastArtistId(id),
-        name,
-        albums + songs
-    )
-}
-
-
-private fun PodcastAlbum.toTabDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_tab_album,
-        MediaId.podcastAlbumId(id),
-        title,
-        DisplayableItem.adjustArtist(artist)
-    )
-}
-
-private fun PodcastAlbum.toTabLastPlayedDisplayableItem(): DisplayableItem {
-    return DisplayableItem(
-        R.layout.item_tab_album_last_played,
-        MediaId.podcastAlbumId(id),
-        title,
-        artist
-    )
-}
-
-private fun PodcastArtist.toTabLastPlayedDisplayableItem(resources: Resources): DisplayableItem {
-    val songs = DisplayableItem.handleSongListSize(resources, songs)
-    var albums = DisplayableItem.handleAlbumListSize(resources, albums)
-    if (albums.isNotBlank()) albums+= TextUtils.MIDDLE_DOT_SPACED
-
-    return DisplayableItem(
-        R.layout.item_tab_artist_last_played,
-        MediaId.podcastArtistId(id),
-        name,
-        albums + songs
-    )
 }

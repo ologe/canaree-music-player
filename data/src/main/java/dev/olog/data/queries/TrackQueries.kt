@@ -2,9 +2,11 @@ package dev.olog.data.queries
 
 import android.content.ContentResolver
 import android.database.Cursor
-import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.contentresolversql.querySql
+import dev.olog.core.entity.SortArranging
+import dev.olog.core.entity.SortType
+import dev.olog.core.gateway.Id
 import dev.olog.core.prefs.BlacklistPreferences
 import dev.olog.core.prefs.SortPreferences
 
@@ -35,7 +37,7 @@ internal class TrackQueries(
         return contentResolver.querySql(query)
     }
 
-    fun getByParam(id: Long): Cursor {
+    fun getByParam(id: Id): Cursor {
         val query = """
             SELECT $_ID, $ARTIST_ID, $ALBUM_ID,
                 $TITLE,
@@ -56,46 +58,43 @@ internal class TrackQueries(
     }
 
     private fun defaultSelection(): String {
-        return isPodcast()
-//        if (includeAll) {
-//            return notBlacklisted()
-//        }
-//        return "${isPodcast()} AND ${notBlacklisted()}"
+        return "${isPodcast()} AND ${notBlacklisted()}"
     }
 
     private fun sortOrder(): String {
-        return MediaStore.Audio.AudioColumns.TITLE_KEY
-//        if (isPodcast) {
-//            return "lower($TITLE) COLLATE UNICODE"
-//        }
-//
-//        val (type, arranging) = sortGateway.getAllTracksSortOrder()
-//        var sort = when (type) {
-//            SortType.TITLE -> "lower($TITLE)"
-//            SortType.ARTIST -> "lower(${Columns.ARTIST})"
-//            SortType.ALBUM -> "lower(${Columns.ALBUM})"
-//            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
-//            SortType.DURATION -> DURATION
-//            SortType.RECENTLY_ADDED -> DATE_ADDED
-//            else -> "lower($TITLE)"
-//        }
-//
-//        sort += " COLLATE UNICODE "
-//
-//        if (arranging == SortArranging.ASCENDING && type == SortType.RECENTLY_ADDED) {
-//            // recently added works in reverse
-//            sort += " DESC"
-//        }
-//        if (arranging == SortArranging.DESCENDING) {
-//            if (type == SortType.RECENTLY_ADDED) {
-//                // recently added works in reverse
-//                sort += " ASC"
-//            } else {
-//                sort += " DESC"
-//            }
-//
-//        }
-//        return sort
+        if (isPodcast) {
+            return "lower($TITLE) COLLATE UNICODE"
+        }
+
+        val (type, arranging) = sortPrefs.getAllTracksSortOrder()
+        var sort = when (type) {
+            SortType.TITLE -> "lower($TITLE)"
+            SortType.ARTIST -> "lower($ARTIST)"
+            SortType.ALBUM -> "lower($ALBUM)"
+            SortType.ALBUM_ARTIST -> "lower(${Columns.ALBUM_ARTIST})"
+            SortType.DURATION -> DURATION
+            SortType.RECENTLY_ADDED -> DATE_ADDED
+            else -> "lower($TITLE)"
+        }
+
+        sort += " COLLATE UNICODE "
+
+        if (type == SortType.RECENTLY_ADDED) {
+            // recently added order works in reverse
+            if (arranging == SortArranging.ASCENDING) {
+                sort += " DESC"
+            } else {
+                sort += " ASC"
+            }
+        } else {
+            if (arranging == SortArranging.ASCENDING) {
+                sort += " ASC"
+            } else {
+                sort += " DESC"
+
+            }
+        }
+        return sort
     }
 
 }

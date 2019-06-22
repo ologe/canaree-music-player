@@ -17,3 +17,8 @@ inline val Fragment.ctx : Context
 
 inline val Fragment.act : FragmentActivity
     get() = activity!!
+
+@Suppress("UNCHECKED_CAST")
+internal inline fun <T> Fragment.getArgument(key: String): T {
+    return arguments!!.get(key) as T
+}

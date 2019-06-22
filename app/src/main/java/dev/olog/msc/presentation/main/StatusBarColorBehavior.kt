@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.msc.presentation.base.CanChangeStatusBarColor
-import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.presentation.interfaces.CanChangeStatusBarColor
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.k.extension.isPortrait

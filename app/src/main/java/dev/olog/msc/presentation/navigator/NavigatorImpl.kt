@@ -12,8 +12,8 @@ import dagger.Lazy
 import dev.olog.core.MediaId
 import dev.olog.core.MediaIdCategory
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.PlaylistType
-import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.presentation.model.PlaylistType
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.dialog.add.favorite.AddFavoriteDialog
 import dev.olog.msc.presentation.dialog.clear.playlist.ClearPlaylistDialog
@@ -40,6 +40,7 @@ import dev.olog.msc.utils.k.extension.collapse
 import dev.olog.msc.utils.k.extension.fragmentTransaction
 import dev.olog.msc.utils.k.extension.unsubscribe
 import dev.olog.presentation.model.DisplayableItem
+import dev.olog.presentation.navigator.Navigator
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 

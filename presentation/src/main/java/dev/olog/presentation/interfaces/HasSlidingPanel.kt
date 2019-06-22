@@ -1,4 +1,4 @@
-package dev.olog.msc.presentation.base
+package dev.olog.presentation.interfaces
 
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
 

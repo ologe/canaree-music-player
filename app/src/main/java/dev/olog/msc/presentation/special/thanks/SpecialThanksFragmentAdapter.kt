@@ -4,7 +4,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Lifecycle
 import dev.olog.msc.BR
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.DataBoundViewHolder
 
 class SpecialThanksFragmentAdapter(lifecycle: Lifecycle)
     : AbsAdapter<SpecialThanksModel>(lifecycle) {

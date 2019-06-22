@@ -1,6 +1,6 @@
 package dev.olog.msc.presentation.dialog.create.playlist
 
-import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetPlaylistsBlockingUseCase
 import dev.olog.msc.domain.interactor.all.GetSongListByParamUseCase
 import dev.olog.msc.domain.interactor.item.GetPodcastUseCase

@@ -13,7 +13,7 @@ import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.detail.DetailFragment
 import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.ImeUtils
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider

@@ -56,7 +56,7 @@ abstract class HistoryDao {
                             .asSequence()
                             .mapNotNull { historyEntity ->
                                 val song = songs.firstOrNull { it.id == historyEntity.songId }
-                                song?.copy(trackNumber = historyEntity.id)
+                                song?.copy(idInPlaylist = historyEntity.id)
                             }.toList()
                     Single.just(result)
                 } }
@@ -69,7 +69,7 @@ abstract class HistoryDao {
                             .asSequence()
                             .mapNotNull { historyEntity ->
                                 val song = songs.firstOrNull { it.id == historyEntity.podcastId }
-                                song?.copy(trackNumber = historyEntity.id)
+                                song?.copy(idInPlaylist = historyEntity.id)
                             }.toList()
                     Single.just(result)
                 } }

@@ -8,7 +8,7 @@ import dev.olog.msc.dagger.ViewModelKey
 import dev.olog.msc.presentation.library.tab.TabFragmentViewModel
 
 @Module
-abstract class TabFragmentModule {
+internal abstract class TabFragmentModule {
 
     @Binds
     @IntoMap

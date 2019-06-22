@@ -13,11 +13,11 @@ import dev.olog.core.MediaId
 import dev.olog.msc.R
 import dev.olog.msc.presentation.BindingsAdapter
 import dev.olog.msc.presentation.base.BaseFragment
-import dev.olog.msc.presentation.base.CanChangeStatusBarColor
+import dev.olog.presentation.interfaces.CanChangeStatusBarColor
 import dev.olog.msc.presentation.base.adapter.drag.TouchHelperAdapterCallback
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.msc.presentation.detail.scroll.listener.HeaderVisibilityScrollListener
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.image.view.ShapeImageView

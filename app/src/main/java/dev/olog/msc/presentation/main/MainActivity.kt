@@ -20,14 +20,14 @@ import dev.olog.msc.floating.window.service.FloatingWindowHelper
 import dev.olog.msc.music.service.MusicService
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.HasBilling
-import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.bottom.sheet.DimBottomSheetDialogFragment
 import dev.olog.msc.presentation.base.music.service.MusicGlueActivity
 import dev.olog.msc.presentation.dialog.rate.request.RateAppDialog
 import dev.olog.msc.presentation.library.categories.track.CategoriesFragment
 import dev.olog.msc.presentation.library.folder.tree.FolderTreeFragment
 import dev.olog.msc.presentation.main.widget.CustomBottomNavigator
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.preferences.PreferencesActivity
 import dev.olog.msc.pro.IBilling
 import dev.olog.msc.utils.k.extension.*
@@ -63,10 +63,10 @@ class MainActivity : MusicGlueActivity(), HasSlidingPanel, HasBilling {
         setContentView(R.layout.activity_main)
 
         scrollHelper = SuperCerealScrollHelper(this, Input.Full(
-            slidingPanel = getSlidingPanel() to InitialHeight(dimen(R.dimen.sliding_panel_peek)),
-            bottomNavigation = bottomWrapper to InitialHeight(dimen(R.dimen.bottom_navigation_height)),
-            toolbarHeight = InitialHeight(dimen(R.dimen.toolbar)),
-            tabLayoutHeight = InitialHeight(dimen(R.dimen.tab))
+            slidingPanel = getSlidingPanel() to dimen(R.dimen.sliding_panel_peek),
+            bottomNavigation = bottomWrapper to dimen(R.dimen.bottom_navigation_height),
+            toolbarHeight = dimen(R.dimen.toolbar),
+            tabLayoutHeight = dimen(R.dimen.tab)
         ))
 
         bottomNavigation.presentationPrefs = presentationPrefs

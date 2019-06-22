@@ -155,7 +155,7 @@ class PlaylistRepository @Inject constructor(
                     playlistSongs.asSequence()
                             .mapNotNull { playlistSong ->
                                 val song = songs.firstOrNull { it.id == playlistSong.songId }
-                                song?.copy(trackNumber = playlistSong.idInPlaylist.toInt())
+                                song?.copy(idInPlaylist = playlistSong.idInPlaylist.toInt())
                             }.toList()
                 }}
     }

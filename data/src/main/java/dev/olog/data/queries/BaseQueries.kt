@@ -1,5 +1,6 @@
 package dev.olog.data.queries
 
+import android.provider.MediaStore
 import android.provider.MediaStore.Audio.Media.*
 import dev.olog.core.MediaIdCategory
 import dev.olog.core.entity.SortArranging

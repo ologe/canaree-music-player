@@ -8,9 +8,12 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import dagger.android.support.DaggerFragment
 import dev.olog.msc.utils.k.extension.isPortrait
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.scrollhelper.MultiListenerBottomSheetBehavior
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 
-abstract class BaseFragment : DaggerFragment() {
+abstract class BaseFragment : DaggerFragment(), CoroutineScope by MainScope() {
 
     @CallSuper
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

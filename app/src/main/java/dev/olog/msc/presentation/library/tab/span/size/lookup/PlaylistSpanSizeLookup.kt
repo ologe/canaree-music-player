@@ -5,8 +5,8 @@ import dev.olog.msc.utils.k.extension.configuration
 
 
 class PlaylistSpanSizeLookup(
-        context: Context,
-        private val isPortrait: Boolean
+    context: Context,
+    private val isPortrait: Boolean
 
 ) : AbsSpanSizeLookup() {
 
@@ -14,7 +14,7 @@ class PlaylistSpanSizeLookup(
     private val isTablet = smallestWidthDip >= 600
 
     override fun getSpanSize(position: Int): Int {
-        when (position){
+        when (position) {
             0, 4 -> return spanCount
         }
 

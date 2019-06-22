@@ -8,7 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.widget.image.view.ForegroundImageView
 import dev.olog.msc.utils.k.extension.dip

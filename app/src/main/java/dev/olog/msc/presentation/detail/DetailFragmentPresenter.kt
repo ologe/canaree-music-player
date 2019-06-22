@@ -1,7 +1,7 @@
 package dev.olog.msc.presentation.detail
 
 import dev.olog.msc.constants.PlaylistConstants
-import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.domain.gateway.prefs.TutorialPreferenceGateway
 import dev.olog.msc.domain.interactor.playlist.MoveItemInPlaylistUseCase
 import dev.olog.msc.domain.interactor.playlist.RemoveFromPlaylistUseCase

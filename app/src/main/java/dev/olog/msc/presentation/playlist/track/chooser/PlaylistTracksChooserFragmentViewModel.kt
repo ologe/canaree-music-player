@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.domain.interactor.all.GetAllPodcastUseCase
 import dev.olog.msc.domain.interactor.all.GetAllSongsUseCase
 import dev.olog.msc.domain.interactor.playlist.InsertCustomTrackListRequest
@@ -27,10 +27,10 @@ import io.reactivex.rxkotlin.Observables
 import javax.inject.Inject
 
 class PlaylistTracksChooserFragmentViewModel @Inject constructor(
-        private val playlistType: PlaylistType,
-        private val getAllSongsUseCase: GetAllSongsUseCase,
-        private val getAllPodcastsUseCase: GetAllPodcastUseCase,
-        private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
+    private val playlistType: PlaylistType,
+    private val getAllSongsUseCase: GetAllSongsUseCase,
+    private val getAllPodcastsUseCase: GetAllPodcastUseCase,
+    private val insertCustomTrackListToPlaylist: InsertCustomTrackListToPlaylist
 
 ) : ViewModel() {
 

@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import dev.olog.msc.R
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.base.music.service.MediaProvider
-import dev.olog.msc.presentation.navigator.Navigator
-import dev.olog.msc.presentation.theme.AppTheme
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.presentation.viewModelProvider
 import dev.olog.msc.presentation.widget.BreadCrumbLayout
 import dev.olog.msc.utils.k.extension.*
 import dev.olog.shared.toggleVisibility
-import dev.olog.shared.windowBackground
 import kotlinx.android.synthetic.main.fragment_folder_tree.*
 import kotlinx.android.synthetic.main.fragment_folder_tree.view.*
 import javax.inject.Inject

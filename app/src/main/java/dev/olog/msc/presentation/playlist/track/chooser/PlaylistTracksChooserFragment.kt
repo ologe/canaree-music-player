@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxTextView
 import dev.olog.msc.R
-import dev.olog.msc.domain.entity.PlaylistType
+import dev.olog.presentation.model.PlaylistType
 import dev.olog.msc.presentation.DrawsOnTop
 import dev.olog.msc.presentation.base.BaseFragment
 import dev.olog.msc.presentation.library.categories.track.CategoriesFragment

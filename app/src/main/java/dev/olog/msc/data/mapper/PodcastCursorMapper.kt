@@ -18,12 +18,11 @@ fun Cursor.toPodcast(): Podcast {
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
 
     val path = getStringOrNull(MediaStore.MediaColumns.DATA) ?: ""
-    val folder = extractFolder(path)
 
-    val title = getStringOrNull(MediaStore.MediaColumns.TITLE) ?: ""
+    val title = getString(MediaStore.MediaColumns.TITLE)
 
-    val artist = getStringOrNull(MediaStore.Audio.AudioColumns.ARTIST) ?: ""
-    val album = adjustAlbum(getStringOrNull(MediaStore.Audio.AudioColumns.ALBUM))
+    val artist = getString(MediaStore.Audio.AudioColumns.ARTIST)
+    val album = getString(MediaStore.Audio.AudioColumns.ALBUM)
 
     var albumArtist = artist
     val albumArtistIndex = this.getColumnIndex("album_artist")
@@ -37,13 +36,13 @@ fun Cursor.toPodcast(): Podcast {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
-    val track = extractTrackNumber(trackNumber)
-    val disc = extractDiscNumber(trackNumber)
 
     return Podcast(
-        id, artistId, albumId, title, artist, albumArtist, album,
+        id, artistId, albumId,
+        title, artist, albumArtist,
+        album,
         duration, dateAdded, path,
-        folder.capitalize(), disc, track
+        "", trackNumber, -1
     )
 }
 
@@ -53,7 +52,6 @@ fun Cursor.toUneditedPodcast(): Podcast {
     val albumId = getLong(MediaStore.Audio.AudioColumns.ALBUM_ID)
 
     val path = getString(MediaStore.MediaColumns.DATA)
-    val folder = extractFolder(path)
 
     val title = getString(MediaStore.MediaColumns.TITLE)
 
@@ -64,8 +62,6 @@ fun Cursor.toUneditedPodcast(): Podcast {
     val dateAdded = getLong(MediaStore.MediaColumns.DATE_ADDED)
 
     val trackNumber = getInt(MediaStore.Audio.AudioColumns.TRACK)
-    val track = extractTrackNumber(trackNumber)
-    val disc = extractDiscNumber(trackNumber)
 
     var albumArtist = artist
     val albumArtistIndex = this.getColumnIndex("album_artist")
@@ -78,17 +74,6 @@ fun Cursor.toUneditedPodcast(): Podcast {
     return Podcast(
         id, artistId, albumId, title, artist, albumArtist, album,
         duration, dateAdded, path,
-        folder.capitalize(), disc, track
+        "", trackNumber, -1
     )
-}
-
-private fun adjustAlbum(album: String?): String {
-    if (album == null) {
-        return ""
-    }
-    if (album == Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS).name){
-        return AppConstants.UNKNOWN
-    } else {
-        return album
-    }
 }

@@ -58,7 +58,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/tab"
         android:background="?colorSurface"
         android:elevation="@dimen/toolbar_elevation"
         android:requiresFadingEdge="horizontal"

@@ -15,12 +15,12 @@ import dev.olog.msc.R
 import dev.olog.msc.constants.AppConstants
 import dev.olog.msc.constants.MusicConstants
 import dev.olog.msc.dagger.qualifier.FragmentLifecycle
-import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.base.adapter.AbsAdapter
-import dev.olog.msc.presentation.base.adapter.DataBoundViewHolder
+import dev.olog.presentation.base.DataBoundViewHolder
 import dev.olog.msc.presentation.base.music.service.MediaProvider
 import dev.olog.presentation.model.DisplayableItem
-import dev.olog.msc.presentation.navigator.Navigator
+import dev.olog.presentation.navigator.Navigator
 import dev.olog.msc.presentation.theme.AppTheme
 import dev.olog.msc.presentation.widget.AnimatedImageView
 import dev.olog.msc.presentation.widget.SwipeableView
@@ -38,11 +38,11 @@ import kotlinx.android.synthetic.main.fragment_player_toolbar.view.*
 import kotlinx.android.synthetic.main.player_controls.view.*
 
 class PlayerFragmentAdapter (
-        @FragmentLifecycle lifecycle: Lifecycle,
-        private val mediaProvider: MediaProvider,
-        private val navigator: Navigator,
-        private val viewModel: PlayerFragmentViewModel,
-        private val presenter: PlayerFragmentPresenter
+    @FragmentLifecycle lifecycle: Lifecycle,
+    private val mediaProvider: MediaProvider,
+    private val navigator: Navigator,
+    private val viewModel: PlayerFragmentViewModel,
+    private val presenter: PlayerFragmentPresenter
 
 ): AbsAdapter<DisplayableItem>(lifecycle) {
 

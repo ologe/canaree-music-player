@@ -16,7 +16,7 @@ import dev.olog.shared.findViewByIdNotRecursive
 class SuperCerealScrollHelper(
     activity: MainActivity,
     input: Input.Full
-) : ScrollHelper(activity, input) {
+) : ScrollHelper(activity, input, true) {
 
     override fun applyInsetsToList(fragment: Fragment, list: RecyclerView, toolbar: View?, tabLayout: View?) {
         super.applyInsetsToList(fragment, list, toolbar, tabLayout)

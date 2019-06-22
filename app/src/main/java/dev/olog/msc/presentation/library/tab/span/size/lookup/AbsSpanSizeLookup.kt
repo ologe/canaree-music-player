@@ -1,6 +1,8 @@
 package dev.olog.msc.presentation.library.tab.span.size.lookup
 
-abstract class AbsSpanSizeLookup : androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup() {
+import androidx.recyclerview.widget.GridLayoutManager
+
+abstract class AbsSpanSizeLookup : GridLayoutManager.SpanSizeLookup() {
 
     protected val spanCount = 60
 

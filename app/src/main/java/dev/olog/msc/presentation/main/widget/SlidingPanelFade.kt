@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.math.MathUtils.clamp
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import dev.olog.msc.presentation.base.HasSlidingPanel
+import dev.olog.presentation.interfaces.HasSlidingPanel
 import dev.olog.msc.presentation.utils.lazyFast
 import dev.olog.msc.utils.k.extension.dip
 import dev.olog.msc.R

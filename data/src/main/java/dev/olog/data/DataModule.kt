@@ -2,14 +2,8 @@ package dev.olog.data
 
 import dagger.Binds
 import dagger.Module
-import dev.olog.core.gateway.FolderGateway2
-import dev.olog.core.gateway.GenreGateway2
-import dev.olog.core.gateway.PlaylistGateway2
-import dev.olog.core.gateway.SongGateway2
-import dev.olog.data.repository.FolderRepository2
-import dev.olog.data.repository.GenreRepository2
-import dev.olog.data.repository.PlaylistRepository2
-import dev.olog.data.repository.SongRepository2
+import dev.olog.core.gateway.*
+import dev.olog.data.repository.*
 import javax.inject.Singleton
 
 @Module
@@ -27,13 +21,13 @@ abstract class DataModule {
     @Singleton
     internal abstract fun provideSongRepository(repository: SongRepository2): SongGateway2
 
-//    @Binds
-//    @Singleton
-//    internal abstract fun provideAlbumRepository(repository: AlbumRepository): AlbumGateway
+    @Binds
+    @Singleton
+    internal abstract fun provideAlbumRepository(repository: AlbumRepository2): AlbumGateway2
 
-//    @Binds
-//    @Singleton
-//    internal abstract fun provideArtistRepository(repository: ArtistRepository): ArtistGateway
+    @Binds
+    @Singleton
+    internal abstract fun provideArtistRepository(repository: ArtistRepository2): ArtistGateway2
 
     @Binds
     @Singleton
