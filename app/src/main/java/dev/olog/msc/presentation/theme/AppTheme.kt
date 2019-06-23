@@ -22,7 +22,6 @@ object AppTheme {
 
     fun initialize(app: Application){
         updateTheme(app)
-        updateDarkMode(app)
         updateImmersive(app)
     }
 
@@ -38,12 +37,6 @@ object AppTheme {
 
     fun updateTheme(context: Context){
         THEME = getTheme(context)
-    }
-
-    fun updateDarkMode(context: Context){
-        val darkMode = getDarkMode(context)
-        AppCompatDelegate.setDefaultNightMode(darkMode)
-        // TODO needs to recraete
     }
 
     fun updateImmersive(context: Context){
@@ -70,25 +63,6 @@ object AppTheme {
             context.getString(R.string.prefs_appearance_entry_value_big_image) -> Theme.BIG_IMAGE
             context.getString(R.string.prefs_appearance_entry_value_clean) -> Theme.CLEAN
             context.getString(R.string.prefs_appearance_entry_value_mini) -> Theme.MINI
-            else -> throw IllegalStateException("invalid theme=$theme")
-        }
-    }
-
-    private fun getDarkMode(context: Context): Int {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-        val theme = prefs.getString(
-            context.getString(R.string.prefs_dark_mode_key),
-            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system))
-        return when (theme) {
-            context.getString(R.string.prefs_dark_mode_2_entry_value_follow_system) -> {
-                if (isP()) {
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                } else {
-                    AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
-                }
-            }
-            context.getString(R.string.prefs_dark_mode_2_entry_value_light) -> AppCompatDelegate.MODE_NIGHT_NO
-            context.getString(R.string.prefs_dark_mode_2_entry_value_dark) -> AppCompatDelegate.MODE_NIGHT_YES
             else -> throw IllegalStateException("invalid theme=$theme")
         }
     }
